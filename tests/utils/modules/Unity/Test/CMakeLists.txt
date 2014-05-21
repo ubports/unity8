@@ -1,3 +1,5 @@
+include(QmlPlugins)
+
 add_definitions(-DQT_NO_KEYWORDS)
 
 include_directories(
@@ -14,10 +16,5 @@ add_library(UnityTestQml MODULE ${UnityTestQML_SOURCES})
 
 qt5_use_modules(UnityTestQml Core Quick Test)
 
-# copy qml files into build directory for shadow builds
-file(GLOB QML_JS_FILES *.js *.qml qmldir)
-
-add_custom_target(UnityTestQmlJsFiles ALL
-    COMMAND cp ${QML_JS_FILES} ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${QML_JS_FILES}
-)
+export_qmlfiles(Unity.Test Unity/Test)
+export_qmlplugin(Unity.Test 0.1 Unity/Test TARGETS UnityTestQml)

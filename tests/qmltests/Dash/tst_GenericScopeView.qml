@@ -199,7 +199,7 @@ Item {
                 var header0 = findChild(genericScopeView, "dashSectionHeader0")
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category, "filtered", false);
-                tryCompare(category.item, "delegateCreationEnd", category.item.delegateCreationBegin + genericScopeView.height);
+                tryCompareFunction(function() { return category.item.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category, "filtered", true);
             }

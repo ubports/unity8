@@ -1,2 +1,3 @@
 module QtMultimedia
 plugin QtMultimedia-qml
+typeinfo QtMultimedia.qmltypes

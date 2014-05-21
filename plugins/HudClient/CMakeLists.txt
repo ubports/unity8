@@ -1,6 +1,3 @@
-# export_qmlplugin macro
-include(Plugins)
-
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 pkg_search_module(DEE dee-1.0 REQUIRED)
@@ -38,6 +35,4 @@ target_link_libraries(HudClientQml
 
 qt5_use_modules(HudClientQml Qml)
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(HudClient HudClient)
-export_qmlplugin(HudClient 0.1 HudClient TARGETS HudClientQml)
+add_unity8_plugin(HudClient 0.1 HudClient TARGETS HudClientQml)

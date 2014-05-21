@@ -29,8 +29,8 @@ Rectangle {
 
     property string cardData: '
     {
-      "art": "../../tests/qmltests/Dash/artwork/music-player-design.png",
-      "mascot": "../../tests/qmltests/Dash/artwork/avatar.png",
+      "art": "../../../tests/qmltests/Dash/artwork/music-player-design.png",
+      "mascot": "../../../tests/qmltests/Dash/artwork/avatar.png",
       "title": "foo",
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -98,21 +98,26 @@ Rectangle {
 
     CardTool {
         id: cardTool
-        template: card.template
-        components: card.components
+        template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
+        components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
         viewWidth: units.gu(48)
     }
 
-    Card {
-        id: card
+    readonly property var card: loader.item
+
+    Loader {
+        id: loader
         anchors { top: parent.top; left: parent.left; margins: units.gu(1) }
 
-        width: cardTool.cardWidth || implicitWidth
-        height: cardTool.cardHeight || implicitHeight
-
-        template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
-        components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
-        cardData: Helpers.mapData(dataArea.text, components, dataError)
+        sourceComponent: cardTool.cardComponent
+        onLoaded: {
+            item.template = Qt.binding(function() { return cardTool.template; });
+            item.components = Qt.binding(function() { return cardTool.components; });
+            item.cardData = Qt.binding(function() { return Helpers.mapData(dataArea.text, cardTool.components, dataError); });
+            item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
+            item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
+            item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
+        }
     }
 
     Rectangle {
@@ -181,60 +186,45 @@ Rectangle {
 
         when: windowShown
 
-        property Item header: findChild(card, "cardHeader")
-        property Item headerLoader: findChild(card, "cardHeaderLoader")
-        property Item title: findChild(header, "titleLabel")
-        property Item art: findChild(card, "artShape")
+        property Item title: findChild(card, "titleLabel")
+        property Item subtitle: findChild(card, "subtitleLabel")
+        property var headerRow: findChild(card, "outerRow")
+        property var art: findChild(card, "artShape")
         property Item artImage: findChild(card, "artImage")
         property Item summary: findChild(card, "summaryLabel")
         property Item background: findChild(card, "background")
         property Item backgroundLoader: findChild(card, "backgroundLoader")
         property Item backgroundImage: findChild(card, "backgroundImage")
-
-        function initTestCase() {
-            verify(typeof testCase.header === "object", "Couldn't find header object.");
-            verify(typeof testCase.art === "object", "Couldn't find art object.");
-            verify(typeof testCase.artImage === "object", "Couldn't find artImage object.");
-            verify(typeof testCase.summary === "object", "Couldn't find summary object.");
-            verify(typeof testCase.artImage === "object", "Couldn't find background object.");
-            verify(typeof testCase.summary === "object", "Couldn't find backgroundImage object.");
-        }
+        property Item mascotImage: findChild(card, "mascotImage");
 
         function cleanup() {
             selector.selectedIndex = -1;
         }
 
-
-        function test_header_binding_data() {
-            return [
-                { tag: "Mascot", property: "mascot", value: Qt.resolvedUrl("artwork/avatar.png"), index: 0 },
-                { tag: "Title", property: "title", value: "foo", index: 0 },
-                { tag: "Subtitle", property: "subtitle", value: "bar", index: 0 },
-            ];
-        }
-
-        function test_header_binding(data) {
-            selector.selectedIndex = data.index;
-            tryCompare(testCase.header, data.property, data.value);
-        }
-
         function test_card_binding_data() {
             return [
-                { tag: "Art", object: artImage, property: "source", value: Qt.resolvedUrl("artwork/music-player-design.png"), index: 0 },
-                { tag: "Summary", object: summary, property: "text", field: "summary", index: 0 },
-                { tag: "Fit", object: art, fill: Image.PreserveAspectFit, index: 4 },
+                { tag: "Art", object: "artImage", property: "source", value: Qt.resolvedUrl("artwork/music-player-design.png"), index: 0 },
+                { tag: "Summary", object: "summary", property: "text", field: "summary", index: 0 },
+                { tag: "Fit", object: "art", fill: Image.PreserveAspectFit, index: 4 },
+                { tag: "Mascot", object: "mascotImage", property: "source", value: Qt.resolvedUrl("artwork/avatar.png"), index: 0 },
+                { tag: "Title", object: "title", property: "text", value: "foo", index: 0 },
+                { tag: "Subtitle", object: "subtitle", property: "text", value: "bar", index: 0 },
             ];
         }
 
         function test_card_binding(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(card);
+
+            tryCompareFunction(function() { return testCase[data.object] !== null }, true);
+            var object = testCase[data.object];
 
             if (data.hasOwnProperty('value')) {
-                tryCompare(data.object, data.property, data.value);
+                tryCompare(object, data.property, data.value);
             }
 
             if (data.hasOwnProperty('field')) {
-                tryCompare(data.object, data.property, card.cardData[data.field]);
+                tryCompare(object, data.property, card.cardData[data.field]);
             }
         }
 
@@ -243,31 +233,21 @@ Rectangle {
                 { tag: "Medium", width: units.gu(18.5), index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", width: units.gu(18.5), aspect: 0.5, index: 0 },
+                { tag: "Wide", width: units.gu(18.5), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
-                { tag: "NoSummary", height: function() { return headerLoader.y + headerLoader.height }, index: 6 },
-                { tag: "HorizontalNoSummary", height: function() { return headerLoader.height }, card_layout: "horizontal", index: 6 },
+                { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow");
+                                                         return cardToolRow.y + cardToolRow.height + units.gu(1) }, index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { return headerRow.height + units.gu(2) }, card_layout: "horizontal", index: 6 },
             ]
         }
 
         function test_card_size(data) {
-            waitForRendering(card);
             selector.selectedIndex = data.index;
 
-            if (data.hasOwnProperty("size")) {
-                card.template['card-size'] = data.size;
-                card.templateChanged();
-            }
-
             if (data.hasOwnProperty("card_layout")) {
-                card.template['card-layout'] = data.card_layout;
-                card.templateChanged();
-            }
-
-            if (data.hasOwnProperty("aspect")) {
-                card.components['art']['aspect-ratio'] = data.aspect;
-                card.componentsChanged();
+                cardTool.template['card-layout'] = data.card_layout;
+                cardTool.templateChanged();
             }
 
             if (data.hasOwnProperty("width")) {
@@ -288,24 +268,25 @@ Rectangle {
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
                 { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
-                { tag: "VerticalWidth", width: function() { return header.width }, index: 0 },
-                { tag: "HorizontalHeight", height: function() { return header.height }, index: 5 },
-                { tag: "HorizontalWidth", width: function() { return headerLoader.x }, index: 5 },
+                { tag: "VerticalWidth", width: function() { return headerRow.width + units.gu(1) * 2 }, index: 0 },
+                { tag: "HorizontalHeight", height: function() { return headerRow.height + units.gu(1) * 2 }, index: 5 },
+                { tag: "HorizontalWidth", width: function() { return headerRow.x - units.gu(1) }, index: 5 },
             ]
         }
 
         function test_art_size(data) {
             selector.selectedIndex = data.index;
-
             if (data.hasOwnProperty("size")) {
-                card.template['card-size'] = data.size;
-                card.templateChanged();
+                cardTool.template['card-size'] = data.size;
+                cardTool.templateChanged();
             }
 
             if (data.hasOwnProperty("aspect")) {
-                card.components['art']['aspect-ratio'] = data.aspect;
-                card.componentsChanged();
+                cardTool.components['art']['aspect-ratio'] = data.aspect;
+                cardTool.componentsChanged();
             }
+
+            waitForRendering(card);
 
             if (data.hasOwnProperty("width")) {
                 if (typeof data.width === "function") {
@@ -326,38 +307,40 @@ Rectangle {
 
         function test_art_layout_data() {
             return [
-                { tag: "Vertical", left: function() { return 0 }, index: 0},
-                { tag: "Horizontal", left: function() { return art.width }, index: 5 },
+                { tag: "Vertical", left: function() { return units.gu(1); }, index: 0},
+                { tag: "Horizontal", left: function() { return art.width + units.gu(1); }, index: 5 },
             ];
         }
 
         function test_art_layout(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(card);
 
-            tryCompare(testCase.headerLoader, "x", data.left());
+            tryCompare(headerRow, "x", data.left());
         }
 
         function test_header_layout_data() {
             return [
-                { tag: "Vertical", top: function() { return art.y + art.height },
-                  left: function() { return art.x }, index: 0 },
-                { tag: "Horizontal", top: function() { return art.y },
-                  left: function() { return art.x + art.width }, index: 5 },
-                { tag: "Overlay", top: function() { return art.y + art.height - header.height },
-                  left: function() { return art.x }, index: 9 },
+                { tag: "Vertical", top: function() { return art.y + art.height + units.gu(1) },
+                  left: function() { return art.x + units.gu(1) }, index: 0 },
+                { tag: "Horizontal", top: function() { return art.y + units.gu(1) },
+                  left: function() { return art.x + art.width + units.gu(1) }, index: 5 },
+                { tag: "Overlay", top: function() { return art.y + art.height - headerRow.height - units.gu(1) },
+                  left: function() { return art.x + units.gu(1) }, index: 9 },
             ]
         }
 
         function test_header_layout(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(card);
 
-            tryCompareFunction(function() { return testCase.headerLoader.y === data.top() }, true);
-            tryCompareFunction(function() { return testCase.headerLoader.x === data.left() }, true);
+            tryCompareFunction(function() { return testCase.headerRow.y === data.top() }, true);
+            tryCompareFunction(function() { return testCase.headerRow.x === data.left() }, true);
         }
 
         function test_summary_layout_data() {
             return [
-                { tag: "With header", top: function() { return headerLoader.y + headerLoader.height }, index: 0 },
+                { tag: "With header", top: function() { return headerRow.y + headerRow.height + units.gu(1); }, index: 0 },
                 { tag: "Without header", top: function() { return art.y + art.height }, index: 7 },
             ]
         }
@@ -365,16 +348,16 @@ Rectangle {
         function test_summary_layout(data) {
             selector.selectedIndex = data.index;
 
+            waitForRendering(card);
+
             tryCompareFunction(function() { return testCase.summary.y === data.top() }, true);
         }
 
         function test_art_visibility() {
             selector.selectedIndex = 8;
 
-            tryCompare(testCase.artImage, "source", "");
-            compare(testCase.art.visible, false);
-            compare(testCase.art.height, 0);
-            compare(testCase.art.width, 0);
+            compare(testCase.artImage, null);
+            compare(testCase.art, null);
         }
 
         function test_background_data() {
@@ -402,7 +385,11 @@ Rectangle {
 
             waitForRendering(card);
 
-            tryCompare(backgroundLoader, "active", data.visible);
+            if (data.visible) {
+                tryCompare(backgroundLoader, "active", true);
+            } else {
+                compare(backgroundLoader, null);
+            }
 
             if (data.hasOwnProperty("color")) {
                 tryCompare(background, "color", data.color);
@@ -449,13 +436,15 @@ Rectangle {
 
         function test_fontColor(data) {
             selector.selectedIndex = 10;
+            waitForRendering(card);
 
             background.color = data.tag;
 
             var fontColor = data.dark ? "grey" : "white";
 
             tryCompareFunction(function() { return Qt.colorEqual(summary.color, fontColor); }, true);
-            tryCompareFunction(function() { return Qt.colorEqual(header.fontColor, fontColor); }, true);
+            tryCompareFunction(function() { return Qt.colorEqual(title.color, fontColor); }, true);
+            tryCompareFunction(function() { return Qt.colorEqual(subtitle.color, fontColor); }, true);
         }
 
         function test_mascotShape_data() {
@@ -468,15 +457,12 @@ Rectangle {
 
         function test_mascotShape(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(card);
 
             var shape = findChild(card, "mascotShapeLoader");
-            var image = findChild(card, "mascotImage");
 
-            verify(shape, "Could not find shape.");
-            verify(image, "Could not find image.");
-
-            tryCompare(shape, "active", data.shape);
-            tryCompare(image, "visible", !data.shape);
+            compare(shape !== null, data.shape);
+            tryCompare(mascotImage, "visible", !data.shape);
         }
     }
 }
