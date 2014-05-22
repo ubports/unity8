@@ -54,13 +54,16 @@ Rectangle {
     Repeater {
         id: cardRepeater
         model: 0
-        Card {
-            width: cardTool.cardWidth || implicitWidth
-            height: cardTool.cardHeight || implicitHeight
-
-            template: cardTool.template
-            components: cardTool.components
-            cardData: Helpers.mapData(root.cardData, components)
+        Loader {
+            sourceComponent: cardTool.cardComponent
+            onLoaded: {
+                item.objectName = "delegate" + index;
+                item.width = Qt.binding(function() { return cardTool.cardWidth || implicitWidth; });
+                item.height = Qt.binding(function() { return cardTool.cardHeight || implicitHeight; });
+                item.cardData = Qt.binding(function() { return Helpers.mapData(root.cardData, cardTool.components); });
+                item.template = Qt.binding(function() { return cardTool.template; });
+                item.components = Qt.binding(function() { return cardTool.components; });
+            }
         }
     }
 

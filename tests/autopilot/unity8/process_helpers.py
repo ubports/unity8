@@ -17,12 +17,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from autopilot.introspection import (
-    get_proxy_object_for_existing_process,
-    ProcessSearchError,
-)
 import logging
 import subprocess
+import sys
+
+# This has to work in both python 3 (ap 1.5) and py2 (ap legacy 1.4.1) so we
+# pick the correct location in each case. Remove the py2 branch once we no
+# longer need to support python 2.
+if sys.version >= '3':
+    from autopilot.exceptions import ProcessSearchError
+else:
+    from autopilot.introspection import ProcessSearchError
+from autopilot.introspection import get_proxy_object_for_existing_process
+
 from unity8.shell import emulators
 from unity8.shell.emulators import main_window as main_window_emulator
 

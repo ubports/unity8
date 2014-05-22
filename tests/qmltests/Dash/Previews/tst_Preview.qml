@@ -23,7 +23,7 @@ import Unity 0.2 as Unity
 Rectangle {
     id: root
     width: units.gu(60)
-    height: units.gu(80)
+    height: units.gu(60)
     color: Theme.palette.selected.background
 
     Item {
