@@ -23,6 +23,8 @@
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
+#include <QDebug>
+
 using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
@@ -291,6 +293,10 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
     Q_UNUSED(parent);
 
     ApplicationInfoInterface *app = m_appManager->get(row);
+    if (!app) {
+        qWarning() << "LauncherModel received an applicationAdded signal, but there's no such application!";
+        return;
+    }
 
     bool found = false;
     Q_FOREACH(LauncherItem *item, m_list) {
