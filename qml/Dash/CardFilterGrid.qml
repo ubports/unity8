@@ -28,9 +28,10 @@ DashRenderer {
     verticalSpacing: units.gu(1)
     currentItem: filterGrid.currentItem
     height: filterGrid.height
+    filtered: filterGrid.filtered
 
-    function startFilterAnimation(filter) {
-        filterGrid.startFilterAnimation(filter)
+    function setFilter(filter, animate) {
+        filterGrid.setFilter(filter, animate)
     }
 
     FilterGrid {
@@ -41,35 +42,32 @@ DashRenderer {
         delegateHeight: cardTool.cardHeight
         verticalSpacing: genericFilterGrid.verticalSpacing
         model: genericFilterGrid.model
-        filter: genericFilterGrid.filter
         collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
-        delegateCreationBegin: genericFilterGrid.delegateCreationBegin
-        delegateCreationEnd: genericFilterGrid.delegateCreationEnd
-        delegate: Loader {
-            asynchronous: true
+        displayMarginBeginning: genericFilterGrid.displayMarginBeginning
+        displayMarginEnd: genericFilterGrid.displayMarginEnd
+        delegate: Item {
             width: filterGrid.cellWidth
             height: filterGrid.cellHeight
-            Card {
-                id: card
-                width: cardTool.cardWidth
-                height: cardTool.cardHeight
-                fixedHeaderHeight: cardTool.headerHeight
+            Loader {
+                id: loader
+                sourceComponent: cardTool.cardComponent
                 anchors.horizontalCenter: parent.horizontalCenter
-                objectName: "delegate" + index
-                cardData: model
-                template: cardTool.template
-                components: cardTool.components
-
-                headerAlignment: cardTool.headerAlignment
-
-                onClicked: genericFilterGrid.clicked(index, card.y)
-                onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
+                onLoaded: {
+                    item.objectName = "delegate" + index;
+                    item.width = Qt.binding(function() { return cardTool.cardWidth; });
+                    item.height = Qt.binding(function() { return cardTool.cardHeight; });
+                    item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
+                    item.cardData = Qt.binding(function() { return model; });
+                    item.template = Qt.binding(function() { return cardTool.template; });
+                    item.components = Qt.binding(function() { return cardTool.components; });
+                    item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
+                }
+                Connections {
+                    target: loader.item
+                    onClicked: genericFilterGrid.clicked(index, result)
+                    onPressAndHold: genericFilterGrid.pressAndHold(index)
+                }
             }
-        }
-
-        onFilterChanged: {
-            genericFilterGrid.filter = filter
-            filter = Qt.binding(function() { return genericFilterGrid.filter })
         }
     }
 }

@@ -15,9 +15,9 @@ add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherBackendTest
-set(testBackendCommand ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
-      -o ${CMAKE_BINARY_DIR}/launcherbackendtest.xml,xunitxml
-      -o -,txt)
+set(testBackendCommand dbus-test-runner --task ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
+      --parameter -o --parameter ${CMAKE_BINARY_DIR}/launcherbackendtest.xml,xunitxml
+      --parameter -o --parameter -,txt)
 add_test(NAME launcherbackendtest COMMAND ${testBackendCommand})
 add_custom_target(launcherbackendtest ${testBackendCommand})
 add_executable(launcherbackendtestExec

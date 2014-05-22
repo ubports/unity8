@@ -20,8 +20,8 @@ Item {
     // Can the item be expanded?
     property bool expandable: false
 
-    // In case it can be expanded, should we filter it
-    property bool filter: true
+    // In case it can be expanded, is it filtered
+    property bool filtered: true
 
     property int collapsedHeight: height
 
@@ -29,9 +29,9 @@ Item {
 
     property int uncollapsedHeight: height
 
-    property var delegateCreationBegin: undefined
+    property int displayMarginBeginning: 0
 
-    property var delegateCreationEnd: undefined
+    property int displayMarginEnd: 0
 
     property real originY: 0
 
@@ -50,14 +50,13 @@ Item {
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
-    /// @param itemY is y of the clicked delegate
-    signal clicked(int index, real itemY)
+    /// @param result result model of the cliked item, used for activation
+    signal clicked(int index, var result)
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
-    /// @param itemY is y of the held delegate
-    signal pressAndHold(int index, real itemY)
+    signal pressAndHold(int index)
 
-    function startFilterAnimation(filter) {
+    function setFilter(filter, animate) {
     }
 }

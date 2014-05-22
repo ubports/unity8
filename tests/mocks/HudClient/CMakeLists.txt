@@ -35,7 +35,4 @@ target_link_libraries(FakeHudClientQml
 
 qt5_use_modules(FakeHudClientQml Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
+add_unity8_mock(HudClient 0.1 HudClient TARGETS FakeHudClientQml)

@@ -39,7 +39,7 @@ Item {
         id: scopes
 
         onLoadedChanged: {
-            genericScopeView.scope = scopes.get(2)
+            genericScopeView.scope = scopes.getScope(2)
         }
     }
 
@@ -67,7 +67,7 @@ Item {
             when: scopes.loaded && windowShown
 
             function init() {
-                genericScopeView.scope = scopes.get(2)
+                genericScopeView.scope = scopes.getScope(2)
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 tryCompare(genericScopeView.categoryView, "contentY", 0)
@@ -96,31 +96,31 @@ Item {
 
             function test_showDash() {
                 previewListView.open = true;
-                scopes.get(2).showDash();
+                scopes.getScope(2).showDash();
                 tryCompare(previewListView, "open", false);
             }
 
             function test_hideDash() {
                 previewListView.open = true;
-                scopes.get(2).hideDash();
+                scopes.getScope(2).hideDash();
                 tryCompare(previewListView, "open", false);
             }
 
             function test_searchQuery() {
-                genericScopeView.scope = scopes.get(0);
+                genericScopeView.scope = scopes.getScope(0);
                 genericScopeView.scope.searchQuery = "test";
-                genericScopeView.scope = scopes.get(1);
+                genericScopeView.scope = scopes.getScope(1);
                 genericScopeView.scope.searchQuery = "test2";
-                genericScopeView.scope = scopes.get(0);
+                genericScopeView.scope = scopes.getScope(0);
                 tryCompare(genericScopeView.scope, "searchQuery", "test");
-                genericScopeView.scope = scopes.get(1);
+                genericScopeView.scope = scopes.getScope(1);
                 tryCompare(genericScopeView.scope, "searchQuery", "test2");
             }
 
             function test_changeScope() {
                 genericScopeView.scope.searchQuery = "test"
-                genericScopeView.scope = scopes.get(1)
-                genericScopeView.scope = scopes.get(2)
+                genericScopeView.scope = scopes.getScope(1)
+                genericScopeView.scope = scopes.getScope(2)
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
@@ -140,7 +140,7 @@ Item {
                 mouseClick(header, header.width / 2, header.height / 2);
                 tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
                 tryCompare(category, "filtered", false);
-                verify(category.height > middleHeight);
+                tryCompareFunction(function() { return category.height > middleHeight; }, true);
 
                 mouseClick(header, header.width / 2, header.height / 2);
                 verify(category.expandable);
@@ -165,7 +165,7 @@ Item {
 
                 mouseClick(header2, header2.width / 2, header2.height / 2);
                 tryCompare(category2, "filtered", false);
-                tryCompare(category2FilterGrid, "filter", false);
+                tryCompare(category2FilterGrid, "filtered", false);
 
                 categoryListView.positionAtBeginning();
 
@@ -182,7 +182,7 @@ Item {
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category0, "filtered", false);
                 tryCompare(category2, "filtered", true);
-                tryCompare(category2FilterGrid, "filter", true);
+                tryCompare(category2FilterGrid, "filtered", true);
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category0, "filtered", true);
                 tryCompare(category2, "filtered", true);
@@ -199,7 +199,7 @@ Item {
                 var header0 = findChild(genericScopeView, "dashSectionHeader0")
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category, "filtered", false);
-                tryCompare(category.item, "delegateCreationEnd", category.item.delegateCreationBegin + genericScopeView.height);
+                tryCompareFunction(function() { return category.item.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category, "filtered", true);
             }

@@ -18,6 +18,7 @@
  */
 
 // Qt
+#include <QCommandLineParser>
 #include <QtQuick/QQuickView>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
@@ -43,6 +44,32 @@ int startShell(int argc, const char** argv, void* server)
 
     QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication *application;
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Description: Unity 8 Shell");
+    parser.addHelpOption();
+
+    QCommandLineOption fullscreenOption("fullscreen",
+        "Run in fullscreen");
+    parser.addOption(fullscreenOption);
+
+    QCommandLineOption framelessOption("frameless",
+        "Run without window borders");
+    parser.addOption(framelessOption);
+
+    QCommandLineOption mousetouchOption("mousetouch",
+        "Allow the mouse to provide touch input");
+    parser.addOption(mousetouchOption);
+
+    QCommandLineOption windowGeometryOption(QStringList() << "windowgeometry",
+            "Specify the window geometry as [<width>x<height>]", "windowgeometry", "1");
+    parser.addOption(windowGeometryOption);
+
+    QCommandLineOption testabilityOption("testability",
+        "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead. \n \
+Load the testability driver");
+    parser.addOption(testabilityOption);
+
     if (isUbuntuMirServer) {
         QLibrary unityMir("unity-mir", 1);
         unityMir.load();
@@ -59,17 +86,27 @@ int startShell(int argc, const char** argv, void* server)
         application = new QGuiApplication(argc, (char**)argv);
     }
 
+    // Treat args with single dashes the same as arguments with two dashes
+    // Ex: -fullscreen == --fullscreen
+    parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
+    parser.process(*application);
+
     QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
     if (indicatorProfile.isEmpty()) {
         indicatorProfile = "phone";
     }
 
-    QStringList args = application->arguments();
-    ApplicationArguments qmlArgs(args);
+    ApplicationArguments qmlArgs;
+    if (parser.isSet(windowGeometryOption) &&
+        parser.value(windowGeometryOption).split('x').size() == 2)
+    {
+      QStringList geom = parser.value(windowGeometryOption).split('x');
+      qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
+    }
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
-    if (args.contains(QLatin1String("-testability")) || getenv("QT_LOAD_TESTABILITY")) {
+    if (parser.isSet(testabilityOption) || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
@@ -92,14 +129,14 @@ int startShell(int argc, const char** argv, void* server)
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
-    if (args.contains(QLatin1String("-frameless"))) {
+    if (parser.isSet(framelessOption)) {
         view->setFlags(Qt::FramelessWindowHint);
     }
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
-    if (args.contains(QLatin1String("-mousetouch"))) {
+    if (parser.isSet(mousetouchOption)) {
         mouseTouchAdaptor = new MouseTouchAdaptor;
         application->installNativeEventFilter(mouseTouchAdaptor);
     }
@@ -123,7 +160,7 @@ int startShell(int argc, const char** argv, void* server)
     view->setSource(source);
     view->setColor("transparent");
 
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || args.contains(QLatin1String("-fullscreen"))) {
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();
     } else {
         view->show();

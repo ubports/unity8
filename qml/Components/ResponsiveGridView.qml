@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
 import Ubuntu.Components 0.1
 
 /*
@@ -41,8 +41,8 @@ Item {
     readonly property alias moving: gridView.moving
     readonly property alias pressDelay: gridView.pressDelay
     readonly property alias originY: gridView.originY
-    property alias delegateCreationBegin: gridView.delegateCreationBegin
-    property alias delegateCreationEnd: gridView.delegateCreationEnd
+    property alias displayMarginBeginning: gridView.displayMarginBeginning
+    property alias displayMarginEnd: gridView.displayMarginEnd
     property alias highlightIndex: gridView.highlightIndex
     readonly property alias currentItem: gridView.currentItem
 

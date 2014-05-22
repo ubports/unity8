@@ -43,15 +43,8 @@ target_link_libraries(MockLightDM-qml
 
 qt5_use_modules(MockLightDM-qml DBus Gui Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-install(TARGETS MockLightDM-qml
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM
-    )
+add_unity8_mock(LightDM 0.1 LightDM
+    PREFIX mocks
+    TARGETS MockLightDM-qml
+    ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}/full"
+)
