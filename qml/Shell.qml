@@ -37,6 +37,18 @@ FocusScope {
     id: shell
 
     property int orientationAngle
+
+    property int supportedScreenOrientations: {
+        if (stages.shown && SurfaceManager.topmostSurface) {
+            return SurfaceManager.topmostSurface.application.supportedOrientations;
+        } else {
+            return Qt.PortraitOrientation
+                | Qt.InvertedPortraitOrientation
+                | Qt.LandscapeOrientation
+                | Qt.InvertedLandscapeOrientation;
+        }
+    }
+
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background
@@ -177,9 +189,8 @@ FocusScope {
         property bool shown: false
         onShownChanged: {
             if (shown) {
-                if (SurfaceManager.count > 0) {
-                    var topmostSurface = SurfaceManager.getSurface(0);
-                    ApplicaitonManager.focusApplication(topmostSurface.application.appId);
+                if (SurfaceManager.topmostSurface) {
+                    ApplicationManager.focusApplication(SurfaceManager.topmostSurface.application.appId);
                 }
             } else {
                 if (ApplicationManager.focusedApplicationId) {

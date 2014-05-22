@@ -26,9 +26,58 @@ Item {
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
-    property int orientationAngle: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
+    property int acceptedOrientationAngle: {
+        var screenOrientation = Screen.orientation;
+        var acceptedOrientation;
 
-    state: orientationAngle.toString()
+        if (screenOrientation & shell.supportedScreenOrientations) {
+            acceptedOrientation = screenOrientation;
+        } else {
+            // try orientations at -90, 90 and 180
+            switch (screenOrientation) {
+            case Qt.PortraitOrientation:
+                if (Qt.LandscapeOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.LandscapeOrientation;
+                } else if (Qt.InvertedLandscapeOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.InvertedLandscapeOrientation;
+                } else {
+                    acceptedOrientation = Qt.InvertedPortraitOrientation;
+                }
+                break;
+            case Qt.InvertedPortraitOrientation:
+                if (Qt.LandscapeOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.LandscapeOrientation;
+                } else if (Qt.InvertedLandscapeOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.InvertedLandscapeOrientation;
+                } else {
+                    acceptedOrientation = Qt.PortraitOrientation;
+                }
+                break;
+            case Qt.LandscapeOrientation:
+                if (Qt.PortraitOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.PortraitOrientation;
+                } else if (Qt.InvertedPortraitOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.InvertedPortraitOrientation;
+                } else {
+                    acceptedOrientation = Qt.InvertedLandscapeOrientation;
+                }
+                break;
+            default: // Qt.InvertedLandscapeOrientation
+                if (Qt.PortraitOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.PortraitOrientation;
+                } else if (Qt.InvertedPortraitOrientation & shell.supportedScreenOrientations) {
+                    acceptedOrientation = Qt.InvertedPortraitOrientation;
+                } else {
+                    acceptedOrientation = Qt.LandscapeOrientation;
+                }
+                break;
+            }
+        }
+
+        return Screen.angleBetween(Screen.primaryOrientation, acceptedOrientation);
+    }
+
+    state: acceptedOrientationAngle.toString()
     states: [
         State {
             name: "0"
@@ -79,6 +128,6 @@ Item {
     Shell {
         id: shell
         transformOrigin: Item.TopLeft
-        orientationAngle: orientedShell.orientationAngle
+        orientationAngle: orientedShell.acceptedOrientationAngle
     }
 }
