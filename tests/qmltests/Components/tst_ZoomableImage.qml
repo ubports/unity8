@@ -169,7 +169,7 @@ Rectangle {
                 wait(3000); // have to delay between two consequent pinch event.
                 // pinch zoom-in
                 touchPinch(zoomableImage, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End);
-		waitForRendering(image);
+                waitForRendering(image);
 
                 if (newScale == -1) {
                     newScale = image.scale;
