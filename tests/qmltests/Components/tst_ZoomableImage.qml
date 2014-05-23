@@ -124,16 +124,12 @@ Rectangle {
                        zoomable:false,
                        answer1: true,
                        answer2: false,
-                       answer3: true,
-                       answer4: 0.5,
-                       answer5: 0.5 },
+                       answer3: true },
                      { source:widgetData2["source"],
                        zoomable:true,
                        answer1: false,
                        answer2: true,
-                       answer3: false,
-                       answer4: 0.8870230941024013,
-                       answer5: 0.5 }
+                       answer3: false }
                    ]
         }
 
@@ -164,7 +160,7 @@ Rectangle {
             var y2End = zoomableImage.height * 5 / 6;
 
             var oldScale = image.scale;
-
+            var newScale = -1;
             // move mouse to center
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
 
@@ -173,20 +169,23 @@ Rectangle {
                 wait(3000); // have to delay between two consequent pinch event.
                 // pinch zoom-in
                 touchPinch(zoomableImage, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End);
+		waitForRendering(image);
 
-                tryCompare(image, "scale", data.answer4);
-                var newScale = image.scale;
+                if (newScale == -1) {
+                    newScale = image.scale;
+                }
+                tryCompare(image, "scale", newScale);
                 compare(newScale == oldScale, data.answer1, "scale factor not equal: "+ oldScale + "=?" + newScale);
                 compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
                 compare(signalSpy.count == 0, data.answer3, "scale signal count error");
-                compare(newScale, data.answer4, "scale factor error");
+                compare(image.scale, newScale, "scale factor error");
                 compare(flickable.contentWidth, Math.max(lazyImage.width * image.scale, flickable.width));
                 compare(flickable.contentHeight, Math.max(lazyImage.height * image.scale, flickable.height));
 
                 wait(3000); // have to delay between two consequent pinch event.
                 // pinch zoom-out
                 touchPinch(zoomableImage, x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
-                tryCompare(image, "scale", data.answer5);
+                tryCompare(image, "scale", oldScale);
                 compare(flickable.contentWidth, Math.max(lazyImage.width * image.scale, flickable.width));
                 compare(flickable.contentHeight, Math.max(lazyImage.height * image.scale, flickable.height));
             }
