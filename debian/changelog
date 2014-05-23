@@ -4,6 +4,24 @@ unity8 (7.87+14.10.20140505-0ubuntu1) UNRELEASED; urgency=medium
 
  -- Michael Terry <mterry@ubuntu.com>  Wed, 02 Apr 2014 14:39:45 -0400
 
+unity8 (7.86+14.10.20140522-0ubuntu1) utopic; urgency=low
+
+  [ Albert Astals ]
+  * Use Interface classes from unity-api
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 22 May 2014 17:59:23 +0000
+
+unity8 (7.86+14.10.20140519-0ubuntu1) utopic; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Use the new displayMargin feature Also port our DashViews to use
+    same naming and behaviour + update tests
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 19 May 2014 07:35:51 +0000
+
 unity8 (7.86+14.10.20140516.5-0ubuntu1) utopic; urgency=low
 
   [ Michal Hruby ]

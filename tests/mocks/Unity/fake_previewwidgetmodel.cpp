@@ -35,12 +35,9 @@ struct PreviewData
     }
 };
 
-PreviewWidgetModel::PreviewWidgetModel(QObject* parent) : QAbstractListModel(parent)
+PreviewWidgetModel::PreviewWidgetModel(QObject* parent)
+ : unity::shell::scopes::PreviewWidgetModelInterface(parent)
 {
-    m_roles[Roles::RoleWidgetId] = "widgetId";
-    m_roles[Roles::RoleType] = "type";
-    m_roles[Roles::RoleProperties] = "properties";
-
     populateWidgets();
 }
 
@@ -58,11 +55,6 @@ void PreviewWidgetModel::populateWidgets()
     }
     endResetModel();
 
-}
-
-QHash<int, QByteArray> PreviewWidgetModel::roleNames() const
-{
-    return m_roles;
 }
 
 int PreviewWidgetModel::rowCount(const QModelIndex&) const

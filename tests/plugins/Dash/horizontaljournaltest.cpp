@@ -258,8 +258,8 @@ private Q_SLOTS:
 
     void testDelegateCreationRanges()
     {
-        hj->setDelegateCreationBegin(300);
-        hj->setDelegateCreationEnd(view->height());
+        hj->setDisplayMarginBeginning(-300);
+        hj->setDisplayMarginEnd(-(hj->height() - view->height()));
 
         QTRY_COMPARE(hj->m_firstVisibleIndex, 6);
         QTRY_COMPARE(hj->m_visibleItems.count(), 7);
@@ -274,8 +274,8 @@ private Q_SLOTS:
         QTRY_COMPARE(hj->m_lastInRowIndexPosition[ 7], 210.);
         QTRY_COMPARE(hj->m_lastInRowIndexPosition[12], 305.);
 
-        hj->resetDelegateCreationBegin();
-        hj->resetDelegateCreationEnd();
+        hj->setDisplayMarginBeginning(0);
+        hj->setDisplayMarginEnd(0);
 
         // This is exactly the same block as the first again
         checkInitialPositions();
@@ -469,8 +469,8 @@ private Q_SLOTS:
 
     void testNegativeDelegateCreationRange()
     {
-        hj->setDelegateCreationBegin(0);
-        hj->setDelegateCreationEnd(-100);
+        hj->setDisplayMarginBeginning(0);
+        hj->setDisplayMarginEnd(-(hj->height() + 100));
 
         QStringList widthList;
         widthList << "100" << "50" << "50" << "30";

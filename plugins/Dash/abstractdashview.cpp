@@ -23,10 +23,8 @@ AbstractDashView::AbstractDashView()
  , m_asyncRequestedIndex(-1)
  , m_columnSpacing(0)
  , m_rowSpacing(0)
- , m_delegateCreationBegin(0)
- , m_delegateCreationEnd(0)
- , m_delegateCreationBeginValid(false)
- , m_delegateCreationEndValid(false)
+ , m_displayMarginBeginning(0)
+ , m_displayMarginEnd(0)
  , m_needsRelayout(false)
  , m_delegateValidated(false)
  , m_implicitHeightDirty(false)
@@ -114,62 +112,36 @@ void AbstractDashView::setRowSpacing(qreal rowSpacing)
     }
 }
 
-qreal AbstractDashView::delegateCreationBegin() const
+qreal AbstractDashView::displayMarginBeginning() const
 {
-    return m_delegateCreationBegin;
+    return m_displayMarginBeginning;
 }
 
-void AbstractDashView::setDelegateCreationBegin(qreal begin)
+void AbstractDashView::setDisplayMarginBeginning(qreal begin)
 {
-    m_delegateCreationBeginValid = true;
-    if (m_delegateCreationBegin == begin)
+    if (m_displayMarginBeginning == begin)
         return;
-    m_delegateCreationBegin = begin;
+    m_displayMarginBeginning = begin;
     if (isComponentComplete()) {
         polish();
     }
-    emit delegateCreationBeginChanged();
+    emit displayMarginBeginningChanged();
 }
 
-void AbstractDashView::resetDelegateCreationBegin()
+qreal AbstractDashView::displayMarginEnd() const
 {
-    m_delegateCreationBeginValid = false;
-    if (m_delegateCreationBegin == 0)
+    return m_displayMarginEnd;
+}
+
+void AbstractDashView::setDisplayMarginEnd(qreal end)
+{
+    if (m_displayMarginEnd == end)
         return;
-    m_delegateCreationBegin = 0;
+    m_displayMarginEnd = end;
     if (isComponentComplete()) {
         polish();
     }
-    emit delegateCreationBeginChanged();
-}
-
-qreal AbstractDashView::delegateCreationEnd() const
-{
-    return m_delegateCreationEnd;
-}
-
-void AbstractDashView::setDelegateCreationEnd(qreal end)
-{
-    m_delegateCreationEndValid = true;
-    if (m_delegateCreationEnd == end)
-        return;
-    m_delegateCreationEnd = end;
-    if (isComponentComplete()) {
-        polish();
-    }
-    emit delegateCreationEndChanged();
-}
-
-void AbstractDashView::resetDelegateCreationEnd()
-{
-    m_delegateCreationEndValid = false;
-    if (m_delegateCreationEnd == 0)
-        return;
-    m_delegateCreationEnd = 0;
-    if (isComponentComplete()) {
-        polish();
-    }
-    emit delegateCreationEndChanged();
+    emit displayMarginEndChanged();
 }
 
 void AbstractDashView::createDelegateModel()
@@ -186,9 +158,8 @@ void AbstractDashView::refill()
         return;
     }
 
-    const bool delegateRangesValid = m_delegateCreationBeginValid && m_delegateCreationEndValid;
-    const qreal from = delegateRangesValid ? m_delegateCreationBegin : 0;
-    const qreal to = delegateRangesValid ? m_delegateCreationEnd : from + height();
+    const qreal from = -m_displayMarginBeginning;
+    const qreal to = height() + m_displayMarginEnd;
     const qreal buffer = (to - from) * bufferRatio;
     const qreal bufferFrom = from - buffer;
     const qreal bufferTo = to + buffer;
@@ -330,9 +301,8 @@ void AbstractDashView::updatePolish()
 
     refill();
 
-    const bool delegateRangesValid = m_delegateCreationBeginValid && m_delegateCreationEndValid;
-    const qreal from = delegateRangesValid ? m_delegateCreationBegin : 0;
-    const qreal to = delegateRangesValid ? m_delegateCreationEnd : from + height();
+    const qreal from = -m_displayMarginBeginning;
+    const qreal to = height() + m_displayMarginEnd;
     updateItemCulling(from, to);
 
     if (m_implicitHeightDirty) {

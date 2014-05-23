@@ -35,14 +35,12 @@ class AbstractDashView : public QQuickItem
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
     Q_PROPERTY(qreal rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
-    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin
-                                           WRITE setDelegateCreationBegin
-                                           NOTIFY delegateCreationBeginChanged
-                                           RESET resetDelegateCreationBegin)
-    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd
-                                         WRITE setDelegateCreationEnd
-                                         NOTIFY delegateCreationEndChanged
-                                         RESET resetDelegateCreationEnd)
+    Q_PROPERTY(qreal displayMarginBeginning READ displayMarginBeginning
+                                            WRITE setDisplayMarginBeginning
+                                            NOTIFY displayMarginBeginningChanged)
+    Q_PROPERTY(qreal displayMarginEnd READ displayMarginEnd
+                                      WRITE setDisplayMarginEnd
+                                      NOTIFY displayMarginEndChanged)
 
 friend class VerticalJournalTest;
 friend class HorizontalJournalTest;
@@ -63,21 +61,19 @@ public:
     qreal rowSpacing() const;
     void setRowSpacing(qreal rowSpacing);
 
-    qreal delegateCreationBegin() const;
-    void setDelegateCreationBegin(qreal);
-    void resetDelegateCreationBegin();
+    qreal displayMarginBeginning() const;
+    void setDisplayMarginBeginning(qreal);
 
-    qreal delegateCreationEnd() const;
-    void setDelegateCreationEnd(qreal);
-    void resetDelegateCreationEnd();
+    qreal displayMarginEnd() const;
+    void setDisplayMarginEnd(qreal);
 
 Q_SIGNALS:
     void modelChanged();
     void delegateChanged();
     void columnSpacingChanged();
     void rowSpacingChanged();
-    void delegateCreationBeginChanged();
-    void delegateCreationEndChanged();
+    void displayMarginBeginningChanged();
+    void displayMarginEndChanged();
 
 protected Q_SLOTS:
     void relayout();
@@ -117,10 +113,8 @@ private:
 
     int m_columnSpacing;
     int m_rowSpacing;
-    qreal m_delegateCreationBegin;
-    qreal m_delegateCreationEnd;
-    bool m_delegateCreationBeginValid;
-    bool m_delegateCreationEndValid;
+    qreal m_displayMarginBeginning;
+    qreal m_displayMarginEnd;
     bool m_needsRelayout;
     bool m_delegateValidated;
     bool m_implicitHeightDirty;

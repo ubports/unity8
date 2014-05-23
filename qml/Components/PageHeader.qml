@@ -26,7 +26,7 @@ Item {
     property bool searchEntryEnabled: false
     property alias searchQuery: searchField.text
     property ListModel searchHistory
-    property Scope scope
+    property var scope: null
     property alias childItem: itemContainer.children
     property alias showBackButton: backButton.visible
 
