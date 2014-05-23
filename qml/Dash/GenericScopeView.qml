@@ -26,7 +26,7 @@ FocusScope {
     id: scopeView
 
     property int orientationAngle
-    property Scope scope: null
+    property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
@@ -193,8 +193,7 @@ FocusScope {
                             // TODO Technically it is possible that calling activate() will make the scope emit
                             // previewRequested so that we show a preview but there's no scope that does that yet
                             // so it's not implemented
-                            var item = target.model.get(index);
-                            scopeView.scope.activate(item.result)
+                            scopeView.scope.activate(result)
                         } else {
                             previewListView.model = target.model;
                             previewListView.currentIndex = -1

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2014-02-21 11:19+0000\n"
+"PO-Revision-Date: 2014-05-22 08:22+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:43+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-23 09:13+0000\n"
+"X-Generator: Launchpad (build 17017)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -89,7 +89,7 @@ msgstr "شاهد أقل"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "استُخدمت مؤخرًا"
 
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
@@ -118,7 +118,7 @@ msgstr "أرسل"
 
 #: qml/Greeter/Greeter.qml:151
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "اسحب لفتح القفل"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
