@@ -1,3 +1,9 @@
+unity8 (7.87-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Adapt to suru theme.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 23 May 2014 10:32:08 +0200
+
 unity8 (7.86+14.10.20140522-0ubuntu1) utopic; urgency=low
 
   [ Albert Astals ]
