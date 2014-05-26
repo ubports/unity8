@@ -242,8 +242,8 @@ FocusScope {
             }
             Binding {
                 target: applicationsDisplayLoader.item
-                property: "orientationAngleOfSurfaces"
-                value: shell.orientationAngle
+                property: "maximizedAppTopMargin"
+                value: panel.panelHeight
             }
         }
     }
@@ -445,15 +445,9 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
 
-            property bool topmostSurfaceIsFullscreen: {
-                if (SurfaceManager.empty) {
-                    return false;
-                } else {
-                    // TODO check the actual surface size to see if it fills the screen
-                    // For now they're all fullscreen anyway, so this assumption will hold.
-                    return true;
-                }
-            }
+            property bool topmostSurfaceIsFullscreen: 
+                SurfaceManager.topmostSurface &&
+                    SurfaceManager.topmostSurface.state === MirSurfaceItem.Fullscreen
 
             fullscreenMode: stages.roughlyFullyShown && topmostSurfaceIsFullscreen
                     && !greeter.shown && !lockscreen.shown

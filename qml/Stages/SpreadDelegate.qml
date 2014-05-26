@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import Mir.Application 0.1
 
 Item {
     id: root
@@ -24,7 +25,7 @@ Item {
     signal clicked()
     property real topMarginProgress
     property bool interactive: true
-    property int orientationAngle
+    property real maximizedAppTopMargin
 
     // FIXME: This really should be invisible to QML code.
     // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
@@ -34,22 +35,25 @@ Item {
             surface.parent = root;
             surface.enabled = root.interactive;
             surface.z = 1;
-
-            // for the counter-rotation
-            surface.transformOrigin = Item.TopLeft;
         }
     }
 
-    // Applications already rotate automatically. And so does the shell
-    // Therefore we have to counter-rotate the app item to undo the rotation applied to
-    // it by the shell
-    state: orientationAngle.toString()
+    state: {
+        if (surface) {
+            if (surface.state === MirSurfaceItem.Fullscreen) {
+                "fullscreen";
+            } else {
+                "maximized";
+            }
+        } else {
+            return "empty"
+        }
+    }
     states: [
         State {
-            name: "0"
+            name: "fullscreen"
             PropertyChanges {
                 target: surface
-                rotation: 0
                 x: 0
                 y: 0
                 width: root.width
@@ -57,37 +61,17 @@ Item {
             }
         },
         State {
-            name: "90"
+            name: "maximized"
             PropertyChanges {
                 target: surface
-                rotation: -90
                 x: 0
-                y: root.height
-                width: root.height
-                height: root.width
-            }
-        },
-        State {
-            name: "180"
-            PropertyChanges {
-                target: surface
-                rotation: -180
-                x: root.width
-                y: root.height
+                y: maximizedAppTopMargin
                 width: root.width
-                height: root.height
+                height: root.height - y
             }
         },
         State {
-            name: "270"
-            PropertyChanges {
-                target: surface
-                rotation: -270
-                x: root.width
-                y: 0
-                width: root.height
-                height: root.width
-            }
+            name: "empty"
         }
     ]
 
@@ -99,7 +83,7 @@ Item {
 
     BorderImage {
         id: dropShadow
-        anchors.fill: root
+        anchors.fill: surface
         anchors.margins: -units.gu(2)
         source: "graphics/dropshadow.png"
         opacity: .4

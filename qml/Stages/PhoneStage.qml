@@ -25,10 +25,9 @@ Rectangle {
     id: root
     color: "green"
 
-    property int orientationAngleOfSurfaces
-
     // Controls to be set from outside
     property int dragAreaWidth
+    property real maximizedAppTopMargin
 
     // FIXME: Should be registerd singleton type QAbstractItemModel.
     property var surfaces
@@ -240,7 +239,6 @@ Rectangle {
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
                     objectName: "appDelegate" + index
-                    orientationAngle: root.orientationAngleOfSurfaces
                     startAngle: 45
                     endAngle: 5
                     startScale: 1.1
@@ -253,6 +251,7 @@ Rectangle {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     surface: model.surface
                     interactive: !spreadView.interactive
+                    maximizedAppTopMargin: root.maximizedAppTopMargin
 
                     z: index
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
