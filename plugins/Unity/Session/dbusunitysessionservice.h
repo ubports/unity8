@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DBUSUNITYSESSIONSERVICE_H_1397562297
-#define DBUSUNITYSESSIONSERVICE_H_1397562297
+#ifndef DBUSUNITYSESSIONSERVICE_H
+#define DBUSUNITYSESSIONSERVICE_H
 
 #include <QObject>
 
@@ -79,4 +79,4 @@ public Q_SLOTS:
 
 };
 
-#endif // DBUSUNITYSESSIONSERVICE_H_1397562297
+#endif // DBUSUNITYSESSIONSERVICE_H
