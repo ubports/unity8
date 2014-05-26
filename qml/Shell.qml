@@ -371,7 +371,7 @@ FocusScope {
         height: parent.height - panel.panelHeight
 
         Behavior on x {
-            enabled: launcher.progress === 0
+            enabled: !launcher.dashSwipe
             StandardAnimation {}
         }
 
