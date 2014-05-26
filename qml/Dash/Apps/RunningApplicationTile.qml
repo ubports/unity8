@@ -53,91 +53,40 @@ AbstractButton {
     Item {
         id: thumbnail
 
-        width: thumbnailHelper.flippedDimensions ? shapedApplicationImage.height : shapedApplicationImage.width
-        height: thumbnailHelper.flippedDimensions ? shapedApplicationImage.width : shapedApplicationImage.height
+        width: shapedApplicationImage.width
+        height: shapedApplicationImage.height
 
-        onWidthChanged: {console.log("thumbnail.width = " + width);}
-        onHeightChanged: {console.log("thumbnail.height = " + height);}
+        UbuntuShape {
+            id: shapedApplicationImage
+            x: 0
+            y: 0
+            height: applicationImage.height
+            width: applicationImage.width
+            radius: "medium"
 
+            image: Image {
+                id: applicationImage
+                source: application.screenshot
+                // height : width = ss.height : ss.width
 
-        Item {
-            id: thumbnailHelper
+                property bool isLandscape: sourceSize.width > sourceSize.height
+                property real maxDimension: units.gu(17)
 
-            property bool flippedDimensions: root.orientationAngle == 90 || root.orientationAngle == 270
-
-            // Compensate for the UI rotation that is done by the application itself
-            // TODO: Only counter-rotate if the application UI is rotated in the first place
-            //       Currently we don't have this info, so we just assume every single app rotate
-            //       its UI
-            transformOrigin: Item.TopLeft
-            state: orientationAngle.toString()
-            states: [
-                State {
-                    name: "0"
-                    PropertyChanges {
-                        target: thumbnailHelper
-                        rotation: 0
-                        x: 0
-                        y: 0
-                    }
-                },
-                State {
-                    name: "90"
-                    PropertyChanges {
-                        target: thumbnailHelper
-                        rotation: -90
-                        x: 0
-                        y: shapedApplicationImage.width
-                    }
-                },
-                State {
-                    name: "180"
-                    PropertyChanges {
-                        target: thumbnailHelper
-                        rotation: -180
-                        x: shapedApplicationImage.width
-                        y: shapedApplicationImage.height
-                    }
-                },
-                State {
-                    name: "270"
-                    PropertyChanges {
-                        target: thumbnailHelper
-                        rotation: -270
-                        x: shapedApplicationImage.height
-                        y: 0
-                    }
-                }
-            ]
-
-            UbuntuShape {
-                id: shapedApplicationImage
-                x: 0
-                y: 0
-                height: applicationImage.height
-                width: applicationImage.width
-                radius: "medium"
-
-                image: Image {
-                    id: applicationImage
-                    source: application.screenshot
-                    // height : width = ss.height : ss.width
-                    height: units.gu(17)
-                    fillMode: Image.PreserveAspectCrop
-                    width: Math.min(height, height * sourceSize.width / sourceSize.height)
-                }
-
+                width: isLandscape ? Math.min(sourceSize.width, maxDimension) : height * (sourceSize.width / sourceSize.height)
+                height: isLandscape ? width * (sourceSize.height / sourceSize.width) : Math.min(sourceSize.height, maxDimension)
+                fillMode: Image.PreserveAspectCrop
             }
 
-            UbuntuShape {
-                id: borderPressed
+        }
 
-                anchors.fill: shapedApplicationImage
-                radius: "medium"
-                borderSource: "radius_pressed.sci"
-                opacity: root.pressed ? 1.0 : 0.0
-                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
-            }
+        UbuntuShape {
+            id: borderPressed
+
+            anchors.fill: shapedApplicationImage
+            radius: "medium"
+            borderSource: "radius_pressed.sci"
+            opacity: root.pressed ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
         }
     }
 
