@@ -74,7 +74,7 @@ AbstractButton {
 
                 width: isLandscape ? Math.min(sourceSize.width, maxDimension) : height * (sourceSize.width / sourceSize.height)
                 height: isLandscape ? width * (sourceSize.height / sourceSize.width) : Math.min(sourceSize.height, maxDimension)
-                fillMode: Image.PreserveAspectCrop
+                fillMode: Image.Stretch
             }
 
         }
