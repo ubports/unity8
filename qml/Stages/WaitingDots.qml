@@ -34,7 +34,7 @@ Item {
         var n = vertices.length;
         shift = (shift + 1) % n;
 
-        for (var i=0; i<n; i++) {
+        for (var i = 0; i < n; i++) {
             dots[i].x = vertices[(i+shift) % n][0];
             dots[i].y = vertices[(i+shift) % n][1];
         }
