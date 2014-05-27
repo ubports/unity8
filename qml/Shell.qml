@@ -39,8 +39,8 @@ FocusScope {
     property int orientationAngle
 
     property int supportedScreenOrientations: {
-        if (stages.shown && SurfaceManager.topmostSurface) {
-            return SurfaceManager.topmostSurface.application.supportedOrientations;
+        if (stages.shown && ApplicationManager.topmostApplication) {
+            return ApplicationManager.topmostApplication.supportedOrientations;
         } else {
             return Qt.PortraitOrientation
                 | Qt.InvertedPortraitOrientation
