@@ -94,6 +94,10 @@ AbstractButton {
         interactive: false
         model: ListModel {
             id: departmentModel
+            // We have two roles
+            // departmentId: the department id of the department the list represents
+            // nullifyDepartment: overrides departmentId to be null
+            //                    This is used to "clear" the delegate when going "right" on the tree
         }
         width: root.width
         readonly property int maxHeight: units.gu(60)
@@ -105,14 +109,14 @@ AbstractButton {
             visible: height != 0
             width: departmentListView.width
             height: !root.showList ? 0 : department && department.loaded ? Math.min(implicitHeight, departmentListView.maxHeight) : departmentListView.prevHeight
-            department: scope.getDepartment(departmentId)
+            department: nullifyDepartment ? null : scope.getDepartment(departmentId)
             onEnterDepartment: {
-                scope.loadDepartment(departmentId);
+                scope.loadDepartment(newDepartmentId);
                 // We only need to add a new item to the model
                 // if we have children, otherwise just load it
                 if (hasChildren) {
                     isGoingBack = false;
-                    departmentModel.append({"departmentId": departmentId});
+                    departmentModel.append({"departmentId": newDepartmentId, "nullifyDepartment": false});
                     departmentListView.currentIndex++;
                 } else {
                     showList = false;
@@ -121,7 +125,7 @@ AbstractButton {
             onGoBackToParentClicked: {
                 scope.loadDepartment(department.parentId);
                 isGoingBack = true;
-                departmentModel.setProperty(departmentListView.currentIndex - 1, "departmentId", department.parentId);
+                departmentModel.setProperty(departmentListView.currentIndex - 1, "nullifyDepartment", false);
                 departmentListView.currentIndex--;
             }
             onAllDepartmentClicked: {
@@ -137,7 +141,7 @@ AbstractButton {
                 if (isGoingBack) {
                     departmentModel.remove(departmentListView.currentIndex + 1);
                 } else {
-                    departmentModel.setProperty(departmentListView.currentIndex - 1, "departmentId", "");
+                    departmentModel.setProperty(departmentListView.currentIndex - 1, "nullifyDepartment", true);
                 }
             }
         }
@@ -152,7 +156,18 @@ AbstractButton {
     onScopeChanged: {
         departmentModel.clear();
         if (scope && scope.hasDepartments) {
-            departmentModel.append({"departmentId": scope.currentDepartment});
+            departmentModel.append({"departmentId": scope.currentDepartment, "nullifyDepartment": false});
+        }
+    }
+
+    Connections {
+        target: scope
+        onHasDepartmentsChanged: {
+            if (scope.hasDepartments) {
+                departmentModel.append({"departmentId": scope.currentDepartment, "nullifyDepartment": false});
+            } else {
+                departmentModel.clear();
+            }
         }
     }
 }

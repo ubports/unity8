@@ -20,11 +20,12 @@ import Ubuntu.Components 0.1
 Item {
     id: root
     property var department: null
-    signal enterDepartment(var departmentId, bool hasChildren)
+    signal enterDepartment(var newDepartmentId, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
 
     readonly property int itemHeight: units.gu(5)
+    readonly property bool isRoot: department && department.departmentId == ""
     implicitHeight: flickable.contentHeight
 
     Rectangle {
@@ -51,14 +52,14 @@ Item {
 
         anchors.fill: parent
 
-        readonly property int nItems: department && department.loaded ? (department.count + (department.parentId != "" ? 2 : 0)) : 0
+        readonly property int nItems: department && department.loaded ? (department.count + (isRoot ? 0 : 2)) : 0
         contentHeight: nItems * root.itemHeight
         contentWidth: width
 
         AbstractButton {
             id: backButton
             width: parent.width
-            visible: department && department.parentId != ""
+            visible: department && !isRoot
             height: itemHeight
 
             onClicked: root.goBackToParentClicked();
@@ -103,7 +104,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: units.gu(2)
-                text: department ? department.allLabel : ""
+                text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
                 font.bold: true
             }
 
@@ -121,7 +122,6 @@ Item {
 
             onClicked: root.allDepartmentClicked();
         }
-        // TODO Add line separator
 
         Repeater {
             model: department && department.loaded ? department : null
@@ -129,7 +129,7 @@ Item {
             delegate: AbstractButton {
                 height: root.itemHeight
                 width: root.width
-                y: ((department.parentId != "" ? 2 : 0) + index) * root.itemHeight
+                y: ((isRoot ? 0 : 2) + index) * root.itemHeight
 
                 onClicked: root.enterDepartment(departmentId, hasChildren)
 
