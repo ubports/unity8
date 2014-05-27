@@ -333,7 +333,7 @@ Item {
                 gradient: darkgreyGradient
                 onClicked: print ("Clicked on " + text)
                 expanded: false
-                expandedHeight: (actionRepeater.count - 2) * units.gu(4) + units.gu(4.5)
+                expandedHeight: (actionRepeater.count) * units.gu(4)
                 comboList: ListView {
                     id: myView
 
@@ -351,42 +351,40 @@ Item {
                         }
 
                         MouseArea {
-                            x: delegateRow.x
-                            y: delegateRow.y
-                            width: delegateRow.width
-                            height: delegateRow.height
+                            id: localInputArea
+
+                            x: localIcon.x
+                            y: localIcon.y
+                            width: parent.width
+                            height: localIcon.height + units.gu(1)
 
                             onClicked: {
-                                print ("Clicked on: " + label)
+                                notification.notification.invokeAction(id)
                             }
 
-                            Row {
-                                id: delegateRow
-                                /*Rectangle {
-                                    id: frame
+                            Icon {
+                                id: localIcon
 
-                                    color: Qt.rgba(0.0, 0.0, 0.0, 0.0)
-                                    width: myDelegate.height
-                                    height: width
+                                anchors.left: parent.left
+                                anchors.leftMargin: units.gu(.5)
+                                anchors.top: parent.top
+                                anchors.topMargin: units.gu(.5)
+                                width: units.gu(2)
+                                height: units.gu(2)
+                                name: "messages"
+                                color: "white"
+                            }
 
-                                    Icon {
-                                        anchors.fill: parent
-                                        anchors.margins: units.gu(1)
-                                        width: units.gu(3)
-                                        height: units.gu(3)
-                                        name: icon
-                                        color: "white"
-                                    }
-                                }*/
+                            Label {
+                                id: localLabel
 
-                                Label {
-                                    //height: frame.height
-                                    height: units.gu(3)
-                                    verticalAlignment: Text.AlignVCenter
-                                    fontSize: "small"
-                                    color: "white"
-                                    text: label
-                                }
+                                anchors.left: localIcon.right
+                                anchors.leftMargin: units.gu(.5)
+                                height: localIcon.height
+                                verticalAlignment: Text.AlignVCenter
+                                fontSize: "small"
+                                color: "white"
+                                text: label
                             }
                         }
                     }
