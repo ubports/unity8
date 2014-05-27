@@ -24,7 +24,7 @@ DBusUnitySessionService::DBusUnitySessionService() : QObject()
 {
     QDBusConnection connection = QDBusConnection::sessionBus();
 
-    connection.registerService("com.canonical.Unity.Session");
+    connection.registerService("com.canonical.Unity");
     connection.registerObject("/com/canonical/Unity/Session", this,
                               QDBusConnection::ExportScriptableSignals
                               | QDBusConnection::ExportScriptableSlots
