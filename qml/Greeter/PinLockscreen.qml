@@ -25,9 +25,11 @@ Column {
     spacing: units.gu(3.5)
 
     property alias placeholderText: pinentryField.placeholderText
+    property alias wrongPlaceholderText: pinentryField.wrongPlaceholderText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
-    property int pinLength: -1
+    property int minPinLength: -1
+    property int maxPinLength: -1
 
     signal entered(string passphrase)
     signal cancel()
@@ -41,6 +43,10 @@ Column {
         }
     }
 
+    QtObject {
+        id: priv
+        property bool autoConfirm: root.minPinLength == root.maxPinLength && root.minPinLength != -1
+    }
 
     UbuntuShape {
         id: pinentryField
@@ -52,12 +58,20 @@ Column {
         radius: "medium"
         property string text: ""
         property string placeholderText: ""
+        property string wrongPlaceholderText: ""
+
+        function appendChar(character) {
+            if (root.maxPinLength == -1 || pinentryField.text.length < root.maxPinLength) {
+                pinentryField.text = pinentryField.text + character;
+            }
+        }
+
         onTextChanged: {
             pinentryFieldLabel.text = "";
             for (var i = 0; i < text.length; ++i) {
                 pinentryFieldLabel.text += "•";
             }
-            if (text.length === root.pinLength) {
+            if (priv.autoConfirm && text.length === root.maxPinLength) {
                 root.entered(text);
             }
         }
@@ -74,9 +88,11 @@ Column {
         }
         Label {
             id: pinentryFieldPlaceHolder
+            objectName: "pinentryFieldPlaceHolder"
             anchors.centerIn: parent
-            color: "grey"
-            text: parent.placeholderText
+            color: "#f3f3e7"
+            opacity: 0.6
+            text: wrongPasswordAnimation.running ? parent.wrongPlaceholderText : parent.placeholderText
             visible: pinentryFieldLabel.text.length == 0
         }
 
@@ -91,9 +107,11 @@ Column {
                 bottom: parent.bottom
                 bottomMargin: units.gu(1)
             }
-            visible: root.pinLength == -1
+            visible: !priv.autoConfirm
             width: height
             name: "erase"
+            color: "#f3f3e7"
+            opacity: 0.6
             MouseArea {
                 anchors.fill: parent
                 onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
@@ -168,7 +186,7 @@ Column {
                     enabled: entryEnabled
 
                     onClicked: {
-                        pinentryField.text = pinentryField.text + text;
+                        pinentryField.appendChar(text);
                     }
                 }
             }
@@ -186,7 +204,7 @@ Column {
                 width: root.padWidth / 3
                 height: root.padHeight / 4
                 text: "0"
-                onClicked: pinentryField.text = pinentryField.text + text
+                onClicked: pinentryField.appendChar(text);
                 enabled: entryEnabled
             }
 
@@ -194,16 +212,16 @@ Column {
                 objectName: "pinPadButtonErase"
                 width: root.padWidth / 3
                 height: root.padHeight / 4
-                iconName: root.pinLength == -1 ? "" : "erase"
-                subText: root.pinLength == -1 ? "DONE" : ""
+                iconName: priv.autoConfirm ? "erase" : ""
+                subText: priv.autoConfirm ? "" : "DONE"
                 onClicked: {
-                    if (root.pinLength !== -1) {
+                    if (priv.autoConfirm) {
                         pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
                     } else {
                         root.entered(pinentryField.text);
                     }
                 }
-                enabled: entryEnabled
+                enabled: priv.autoConfirm ? entryEnabled : pinentryField.text.length >= root.minPinLength
             }
         }
     }
