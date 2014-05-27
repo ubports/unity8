@@ -228,7 +228,7 @@ FocusScope {
             id: applicationsDisplayLoader
             anchors.fill: parent
 
-            source: shell.sideStageEnabled ? "Stages/StageWithSideStage.qml" : "Stages/PhoneStage.qml"
+            source: shell.sideStageEnabled ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
