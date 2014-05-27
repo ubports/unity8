@@ -15,10 +15,12 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
+
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Item {
     id: notification
@@ -36,6 +38,14 @@ Item {
     property bool fullscreen
     property int maxHeight
     property int margins
+    property Gradient greenGradient : Gradient {
+        GradientStop { position: 0.0; color: "#39b44a" }
+        GradientStop { position: 1.0; color: "#50be61" }
+    }
+    property Gradient darkgreyGradient: Gradient {
+        GradientStop { position: 0.0; color: "#534e4b" }
+        GradientStop { position: 1.0; color: "#5d5856" }
+    }
 
     fullscreen: false
     objectName: "background"
@@ -278,7 +288,7 @@ Item {
                 }
             }
 
-            Item {
+            Row {
                 id: buttonRow
 
                 objectName: "buttonRow"
@@ -287,70 +297,8 @@ Item {
                     right: parent.right
                 }
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
-                height: units.gu(5)
-
-                property real buttonWidth: (width - contentColumn.spacing) / 2
-                property bool expanded
-
-                Button {
-                    id: leftButton
-
-                    objectName: "button1"
-                    width: parent.expanded ? parent.width : parent.buttonWidth
-                    anchors {
-                        top: parent.top
-                        bottom: parent.bottom
-                    }
-                    text: notification.type == Notification.SnapDecision && actionRepeater.count >= 2 ? actionRepeater.itemAt(1).actionLabel : ""
-                    gradient: UbuntuColors.greyGradient
-                    onClicked: {
-                        if (actionRepeater.count > 2) {
-                            buttonRow.expanded = !buttonRow.expanded
-                        } else {
-                            notification.notification.invokeAction(actionRepeater.itemAt(1).actionId)
-                        }
-                    }
-
-                    Behavior on width {
-                        UbuntuNumberAnimation {
-                            duration: UbuntuAnimation.SnapDuration
-                        }
-                    }
-                }
-
-                Button {
-                    id: rightButton
-
-                    objectName: "button0"
-                    anchors {
-                        left: leftButton.right
-                        leftMargin: contentColumn.spacing
-                        right: parent.right
-                    }
-                    text: notification.type == Notification.SnapDecision && actionRepeater.count >= 1 ? actionRepeater.itemAt(0).actionLabel : ""
-                    anchors {
-                        top: parent.top
-                        bottom: parent.bottom
-                    }
-                    gradient: notification.hints["x-canonical-private-button-tint"] == "true" ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
-                    visible: width > 0
-                    onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-                }
-            }
-
-            Column {
-                objectName: "buttonColumn"
-                spacing: contentColumn.spacing
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-
-                // calculate initial position before Column takes over
-                y: buttonRow.y + buttonRow.height + contentColumn.spacing
-
-                visible: notification.type == Notification.SnapDecision && buttonRow.expanded
-                height: buttonRow.expanded ? implicitHeight : 0
+                spacing: units.gu(1)
+                layoutDirection: Qt.RightToLeft
 
                 Repeater {
                     id: actionRepeater
@@ -362,28 +310,85 @@ Item {
                         property string actionId: id
                         property string actionLabel: label
 
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
-
                         Component {
                             id: actionButton
 
                             Button {
                                 objectName: "button" + index
-                                anchors {
-                                    left: parent.left
-                                    right: parent.right
-                                }
-
+                                width: buttonRow.width / 2 - spacing
                                 text: loader.actionLabel
-                                height: units.gu(5)
-                                gradient: UbuntuColors.greyGradient
+                                gradient: notification.hints["x-canonical-private-button-tint"] == "true" && index == 0 ? greenGradient : darkgreyGradient
                                 onClicked: notification.notification.invokeAction(loader.actionId)
                             }
                         }
-                        sourceComponent: (index == 0 || index == 1) ? undefined : actionButton
+                        sourceComponent: (index == 0 || index == 1) ? actionButton : undefined
+                    }
+                }
+            }
+
+            ComboButton {
+                width: parent.width
+                text: "Decline"
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 2
+                gradient: darkgreyGradient
+                onClicked: print ("Clicked on " + text)
+                expanded: false
+                expandedHeight: (actionRepeater.count - 2) * units.gu(4) + units.gu(4.5)
+                comboList: ListView {
+                    id: myView
+
+                    width: parent.width
+                    interactive: false
+
+                    model: notification.actions
+                    delegate: Column {
+                        id: myDelegate
+
+                        width: parent.width
+
+                        ListItem.ThinDivider {
+                            visible: index != 0
+                        }
+
+                        MouseArea {
+                            x: delegateRow.x
+                            y: delegateRow.y
+                            width: delegateRow.width
+                            height: delegateRow.height
+
+                            onClicked: {
+                                print ("Clicked on: " + label)
+                            }
+
+                            Row {
+                                id: delegateRow
+                                /*Rectangle {
+                                    id: frame
+
+                                    color: Qt.rgba(0.0, 0.0, 0.0, 0.0)
+                                    width: myDelegate.height
+                                    height: width
+
+                                    Icon {
+                                        anchors.fill: parent
+                                        anchors.margins: units.gu(1)
+                                        width: units.gu(3)
+                                        height: units.gu(3)
+                                        name: icon
+                                        color: "white"
+                                    }
+                                }*/
+
+                                Label {
+                                    //height: frame.height
+                                    height: units.gu(3)
+                                    verticalAlignment: Text.AlignVCenter
+                                    fontSize: "small"
+                                    color: "white"
+                                    text: label
+                                }
+                            }
+                        }
                     }
                 }
             }
