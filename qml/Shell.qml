@@ -117,15 +117,6 @@ FocusScope {
             // through the translucent parts of the shell surface.
             visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-            CrossFadeImage {
-                id: backgroundImage
-                objectName: "backgroundImage"
-
-                anchors.fill: parent
-                source: shell.background
-                fillMode: Image.PreserveAspectCrop
-            }
-
             Rectangle {
                 anchors.fill: parent
                 color: "black"
