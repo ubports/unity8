@@ -177,7 +177,7 @@ Column {
                 objectName: "pinPadButtonBack"
                 width: root.padWidth / 3
                 height: root.padHeight / 4
-                subText: "CANCEL"
+                subText: i18n.tr("CANCEL")
                 onClicked: root.cancel();
             }
 
@@ -195,7 +195,7 @@ Column {
                 width: root.padWidth / 3
                 height: root.padHeight / 4
                 iconName: root.pinLength == -1 ? "" : "erase"
-                subText: root.pinLength == -1 ? "DONE" : ""
+                subText: root.pinLength == -1 ? i18n.tr("DONE") : ""
                 onClicked: {
                     if (root.pinLength !== -1) {
                         pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
