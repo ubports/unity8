@@ -333,7 +333,7 @@ Item {
                 gradient: darkgreyGradient
                 onClicked: print ("Clicked on " + text)
                 expanded: false
-                expandedHeight: (actionRepeater.count) * units.gu(4)
+                expandedHeight: (actionRepeater.count) * units.gu(5) + units.gu(.5)
                 comboList: ListView {
                     id: myView
 
@@ -356,7 +356,7 @@ Item {
                             x: localIcon.x
                             y: localIcon.y
                             width: parent.width
-                            height: localIcon.height + units.gu(1)
+                            height: localIcon.height + units.gu(2)
 
                             onClicked: {
                                 notification.notification.invokeAction(id)
@@ -369,9 +369,9 @@ Item {
                                     left: parent.left
                                     leftMargin: units.gu(.5)
                                     top: parent.top
-                                    topMargin: units.gu(.5)
+                                    topMargin: units.gu(1)
                                     bottom: parent.bottom
-                                    bottomMargin: units.gu(.5)
+                                    bottomMargin: units.gu(1)
                                 }
                                 width: units.gu(2)
                                 height: units.gu(2)
@@ -383,7 +383,7 @@ Item {
                                 id: localLabel
 
                                 anchors.left: localIcon.right
-                                anchors.leftMargin: units.gu(.5)
+                                anchors.leftMargin: units.gu(1)
                                 anchors.verticalCenter: localIcon.verticalCenter
                                 verticalAlignment: Text.AlignVCenter
                                 height: localIcon.height
