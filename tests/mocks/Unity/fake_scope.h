@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QTimer>
 
+class Department;
 class Preview;
 
 class Scope : public QObject
@@ -44,6 +45,11 @@ class Scope : public QObject
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
     Q_PROPERTY(QString formFactor READ formFactor WRITE setFormFactor NOTIFY formFactorChanged)
     Q_PROPERTY(bool isActive READ isActive WRITE setActive NOTIFY isActiveChanged)
+
+// TODO
+    Q_PROPERTY(QString currentDepartment READ currentDepartment NOTIFY currentDepartmentChanged)
+    Q_PROPERTY(bool hasDepartments READ hasDepartments NOTIFY hasDepartmentsChanged)
+// END TODO
 
 public:
     Scope(QObject* parent = 0);
@@ -78,7 +84,18 @@ public:
     Q_INVOKABLE void cancelActivation();
     Q_INVOKABLE void closeScope(Scope* scope);
 
+    // TODO
+    QString currentDepartment() const;
+    bool hasDepartments() const;
+    Q_INVOKABLE Department *getDepartment(const QString& id); // returns a Department with lazy-loaded children
+    Q_INVOKABLE void loadDepartment(const QString& id); // loads results for the department
+    // END TODO
+
 Q_SIGNALS:
+    // TODO
+    void currentDepartmentChanged(const QString&);
+    void hasDepartmentsChanged(bool);
+    // END TODO
     void idChanged();
     void nameChanged(const QString&);
     void iconHintChanged(const QString&);
@@ -117,6 +134,7 @@ protected:
     bool m_visible;
     bool m_searching;
     bool m_isActive;
+    QString m_currentDeparment;
 
     QString m_previewRendererName;
 

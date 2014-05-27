@@ -251,6 +251,8 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
         if (m_headerItem) {
             m_headerItem->setParentItem(contentItem());
             m_headerItem->setZ(1);
+            m_previousHeaderImplicitHeight = m_headerItem->implicitHeight();
+            QQuickItemPrivate::get(m_headerItem)->addItemChangeListener(this, QQuickItemPrivate::ImplicitHeight);
         }
         qreal newHeaderHeight = m_headerItem ? m_headerItem->height() : 0;
         if (!m_visibleItems.isEmpty() && newHeaderHeight != oldHeaderHeight) {
@@ -489,7 +491,15 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
 
     QQuickFlickable::viewportMoved(orient);
 //     qDebug() << "ListViewWithPageHeader::viewportMoved" << contentY();
-    qreal diff = m_previousContentY - contentY();
+    const qreal diff = m_previousContentY - contentY();
+    adjustHeader(diff);
+    m_previousContentY = contentY();
+    layout();
+    polish();
+}
+
+void ListViewWithPageHeader::adjustHeader(qreal diff)
+{
     const bool showHeaderAnimationRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationShowHeader;
     if (m_headerItem) {
         const auto oldHeaderItemShownHeight = m_headerItemShownHeight;
@@ -551,10 +561,6 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             adjustMinYExtent();
         }
     }
-
-    m_previousContentY = contentY();
-    layout();
-    polish();
 }
 
 void ListViewWithPageHeader::createDelegateModel()
@@ -1057,6 +1063,20 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QR
         adjustMinYExtent();
         polish();
         m_contentHeightDirty = true;
+    }
+}
+
+void ListViewWithPageHeader::itemImplicitHeightChanged(QQuickItem *item)
+{
+    if (item == m_headerItem) {
+        const qreal diff = m_headerItem->implicitHeight() - m_previousHeaderImplicitHeight;
+        if (diff != 0) {
+            adjustHeader(diff);
+            m_previousHeaderImplicitHeight = m_headerItem->implicitHeight();
+            layout();
+            polish();
+            m_contentHeightDirty = true;
+        }
     }
 }
 

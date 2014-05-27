@@ -22,6 +22,7 @@ set(UnityQML_SOURCES
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp
+  fake_department.cpp
   fake_resultsmodel.cpp
   fake_previewmodel.cpp
   fake_previewstack.cpp
