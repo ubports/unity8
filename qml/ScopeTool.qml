@@ -74,7 +74,7 @@ Rectangle {
 
         model: filteredScopes
         searchHistory: SearchHistoryModel { }
-        property Scope scope: scopes.get(currentIndex)
+        property var scope: scopes.getScope(currentIndex)
 
         anchors {
             top: parent.top

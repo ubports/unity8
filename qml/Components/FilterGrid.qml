@@ -52,8 +52,8 @@ Item {
     property alias delegate: iconTileGrid.delegate
     property alias cellWidth: iconTileGrid.cellWidth
     property alias cellHeight: iconTileGrid.cellHeight
-    property alias delegateCreationBegin: iconTileGrid.delegateCreationBegin
-    property alias delegateCreationEnd: iconTileGrid.delegateCreationEnd
+    property alias displayMarginBeginning: iconTileGrid.displayMarginBeginning
+    property alias displayMarginEnd: iconTileGrid.displayMarginEnd
     readonly property alias originY: iconTileGrid.originY
     readonly property alias flicking: iconTileGrid.flicking
     readonly property alias moving: iconTileGrid.moving
