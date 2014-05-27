@@ -380,8 +380,8 @@ Item {
 
                                 anchors.left: localIcon.right
                                 anchors.leftMargin: units.gu(.5)
+                                anchors.verticalCenter: localIcon.verticalCenter
                                 height: localIcon.height
-                                verticalAlignment: Text.AlignVCenter
                                 fontSize: "small"
                                 color: "white"
                                 text: label
