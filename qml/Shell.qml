@@ -370,7 +370,10 @@ FocusScope {
         width: parent.width
         height: parent.height - panel.panelHeight
 
-        Behavior on x {SmoothedAnimation{velocity: 600}}
+        Behavior on x {
+            enabled: !launcher.dashSwipe
+            StandardAnimation {}
+        }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
 
