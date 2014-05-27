@@ -128,7 +128,7 @@ FocusScope {
 
             CardTool {
                 id: cardTool
-
+                objectName: "cardTool"
                 count: results.count
                 template: model.renderer
                 components: model.components

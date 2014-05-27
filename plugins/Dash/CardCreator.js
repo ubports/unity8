@@ -70,10 +70,9 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     radius: "medium"; \n\
                                     readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
                                     readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \n\
-                                    Component.onCompleted: updateWidthHeightBindings(); \n\
+                                    Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } \n\
                                     onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
                                     visible: image.status == Image.Ready; \n\
-                                    borderSource: artShapeBorderSource; \n\
                                     function updateWidthHeightBindings() { \n\
                                         if (aspectSmallerThanImageAspect) { \n\
                                             width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
@@ -281,7 +280,7 @@ function cardString(template, components) {
                 property var template; \n\
                 property var components; \n\
                 property var cardData; \n\
-                property var artShapeBorderSource; \n\
+                property var artShapeBorderSource: undefined; \n\
                 property real fontScale: 1.0; \n\
                 property int headerAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
@@ -307,6 +306,7 @@ function cardString(template, components) {
     }
 
     if (hasArt) {
+        code += 'onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } \n';
         code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
 
         var widthCode, heightCode;

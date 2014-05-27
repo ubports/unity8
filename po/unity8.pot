@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-27 14:52+0200\n"
+"POT-Creation-Date: 2014-05-27 22:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,24 +117,28 @@ msgstr ""
 msgid "Swipe to unlock"
 msgstr ""
 
-#: qml/Greeter/Lockscreen.qml:149
+#: qml/Greeter/Lockscreen.qml:215
 msgid "Emergency Call"
 msgstr ""
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/Lockscreen.qml:232
+msgid "OK"
+msgstr ""
+
+#: qml/Greeter/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
 msgstr ""
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/PassphraseLockscreen.qml:60
 msgid "Hello"
 msgstr ""
 
-#: qml/Greeter/PinLockscreen.qml:180
+#: qml/Greeter/PinLockscreen.qml:198
 msgid "CANCEL"
 msgstr ""
 
-#: qml/Greeter/PinLockscreen.qml:198
+#: qml/Greeter/PinLockscreen.qml:216
 msgid "DONE"
 msgstr ""
 
@@ -170,7 +174,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr ""

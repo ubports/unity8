@@ -26,12 +26,12 @@ Rectangle {
     color: "lightgrey"
 
     property var widgetData0: {
-        "source": ""
+        "source": Qt.resolvedUrl("../artwork/checkers.png"),
+        "zoomable": false
     }
 
     property var widgetData1: {
-        "source": Qt.resolvedUrl("../artwork/checkers.png"),
-        "zoomable": false
+        "source": ""
     }
 
     PreviewZoomableImage {
@@ -49,11 +49,13 @@ Rectangle {
 
             zoomableImage.widgetData = widgetData0;
             waitForRendering(zoomableImage);
-            tryCompare(image, "imageState", "default");
+            waitForRendering(image);
+            tryCompare(image, "imageState", "ready");
 
             zoomableImage.widgetData = widgetData1;
             waitForRendering(zoomableImage);
-            tryCompare(image, "imageState", "ready");
+            waitForRendering(image);
+            tryCompare(image, "imageState", "default");
         }
     }
 }

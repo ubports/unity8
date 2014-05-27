@@ -114,10 +114,6 @@ class QQuickView(emulators.UnityEmulatorBase):
         self.wait_select_single('Indicators', fullyOpened=True)
         return self._get_indicator_page(indicator_name)
 
-    def get_shell_background(self):
-        return self.select_single(
-            "CrossFadeImage", objectName="backgroundImage")
-
     @autopilot_logging.log_action(logger.info)
     def show_dash_swiping(self):
         """Show the dash swiping from the left."""
