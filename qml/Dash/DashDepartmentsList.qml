@@ -39,6 +39,13 @@ Item {
     }
     clip: true
 
+    Behavior on height {
+        UbuntuNumberAnimation {
+            id: heightAnimation
+            duration: UbuntuAnimation.SnapDuration
+        }
+    }
+
     Flickable {
         id: flickable
 

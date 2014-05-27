@@ -45,7 +45,7 @@ AbstractButton {
         width: parent.width
         anchors.top: departmentListView.top
         height: windowHeight
-        visible: showList
+        visible: departmentListView.currentItem && departmentListView.currentItem.visible
     }
 
     Image {
@@ -102,9 +102,9 @@ AbstractButton {
         onHeightChanged: prevHeight = height;
         anchors.top: root.bottom
         delegate: DashDepartmentsList {
-            visible: root.showList
+            visible: height != 0
             width: departmentListView.width
-            height: department && department.loaded ? Math.min(implicitHeight, departmentListView.maxHeight) : departmentListView.prevHeight
+            height: !root.showList ? 0 : department && department.loaded ? Math.min(implicitHeight, departmentListView.maxHeight) : departmentListView.prevHeight
             department: scope.getDepartment(departmentId)
             onEnterDepartment: {
                 scope.loadDepartment(departmentId);
