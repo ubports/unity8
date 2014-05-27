@@ -17,36 +17,21 @@
 #ifndef FAKE_SCOPE_H
 #define FAKE_SCOPE_H
 
+#include <unity/shell/scopes/ScopeInterface.h>
+
 #include "fake_categories.h"
 #include "fake_previewstack.h"
 
-#include <QObject>
 #include <QTimer>
 
 class Department;
 class Preview;
 
-class Scope : public QObject
+class Scope : public unity::shell::scopes::ScopeInterface
 {
+// TODO
     Q_OBJECT
 
-    Q_PROPERTY(QString id READ id NOTIFY idChanged)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
-    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    Q_PROPERTY(QString searchHint READ searchHint NOTIFY searchHintChanged)
-    Q_PROPERTY(bool searchInProgress READ searchInProgress WRITE setSearchInProgress NOTIFY searchInProgressChanged)
-    Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
-    Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
-    Q_PROPERTY(Categories* categories READ categories NOTIFY categoriesChanged)
-    //Q_PROPERTY(Filters* filters READ filters NOTIFY filtersChanged)
-
-    Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
-    Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
-    Q_PROPERTY(QString formFactor READ formFactor WRITE setFormFactor NOTIFY formFactorChanged)
-    Q_PROPERTY(bool isActive READ isActive WRITE setActive NOTIFY isActiveChanged)
-
-// TODO
     Q_PROPERTY(QString currentDepartment READ currentDepartment NOTIFY currentDepartmentChanged)
     Q_PROPERTY(bool hasDepartments READ hasDepartments NOTIFY hasDepartmentsChanged)
 // END TODO
@@ -56,35 +41,33 @@ public:
     Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0);
 
     /* getters */
-    QString id() const;
-    QString name() const;
-    QString iconHint() const;
-    QString description() const;
-    QString searchHint() const;
-    bool visible() const;
-    QString shortcut() const;
-    bool connected() const;
-    bool searchInProgress() const;
-    Categories* categories() const;
-    QString searchQuery() const;
-    QString noResultsHint() const;
-    QString formFactor() const;
-    bool isActive() const;
+    QString id() const override;
+    QString name() const override;
+    QString iconHint() const override;
+    QString description() const override;
+    QString searchHint() const override;
+    bool visible() const override;
+    QString shortcut() const override;
+    bool searchInProgress() const override;
+    unity::shell::scopes::CategoriesInterface* categories() const override;
+    QString searchQuery() const override;
+    QString noResultsHint() const override;
+    QString formFactor() const override;
+    bool isActive() const override;
 
     /* setters */
-    void setName(const QString& name);
-    void setSearchQuery(const QString& search_query);
-    void setNoResultsHint(const QString& hint);
-    void setFormFactor(const QString& form_factor);
-    void setActive(const bool);
-    void setSearchInProgress(const bool inProg);
+    void setSearchQuery(const QString& search_query) override;
+    void setNoResultsHint(const QString& hint) override;
+    void setFormFactor(const QString& form_factor) override;
+    void setActive(const bool) override;
+    Q_INVOKABLE void setSearchInProgress(const bool inProg); // This is not invokable in the Interface, here for testing benefits
 
-    Q_INVOKABLE void activate(QVariant const& result);
-    Q_INVOKABLE PreviewStack* preview(QVariant const& result);
-    Q_INVOKABLE void cancelActivation();
-    Q_INVOKABLE void closeScope(Scope* scope);
+    Q_INVOKABLE void activate(QVariant const& result) override;
+    Q_INVOKABLE PreviewStack* preview(QVariant const& result) override;
+    Q_INVOKABLE void cancelActivation() override;
+    Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope) override;
 
-    // TODO
+    // TODO this will go to unity-api eventually
     QString currentDepartment() const;
     bool hasDepartments() const;
     Q_INVOKABLE Department *getDepartment(const QString& id); // returns a Department with lazy-loaded children
@@ -92,35 +75,10 @@ public:
     // END TODO
 
 Q_SIGNALS:
-    // TODO
+    // TODO this will go to unity-api eventually
     void currentDepartmentChanged(const QString&);
     void hasDepartmentsChanged(bool);
     // END TODO
-    void idChanged();
-    void nameChanged(const QString&);
-    void iconHintChanged(const QString&);
-    void descriptionChanged(const QString&);
-    void searchHintChanged(const QString&);
-    void searchInProgressChanged();
-    void visibleChanged(bool);
-    void shortcutChanged(const QString&);
-    void categoriesChanged();
-    //void filtersChanged();
-    void searchQueryChanged();
-    void noResultsHintChanged();
-    void formFactorChanged();
-    void isActiveChanged(bool);
-
-    // signals triggered by activate(..) or preview(..) requests.
-    void showDash();
-    void hideDash();
-    void gotoUri(const QString &uri);
-    void activated();
-    void previewRequested(QVariant const& result);
-    void gotoScope(QString const& scopeId);
-    void openScope(Scope* scope);
-
-    void activateApplication(const QString &desktop);
 
 protected:
 

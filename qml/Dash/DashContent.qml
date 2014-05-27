@@ -138,7 +138,7 @@ Item {
 
                     readonly property bool moving: item ? item.moving : false
                     readonly property var categoryView: item ? item.categoryView : null
-                    readonly property Scope theScope: scope
+                    readonly property var theScope: scope
 
                     // these are needed for autopilot tests
                     readonly property string scopeId: scope.id

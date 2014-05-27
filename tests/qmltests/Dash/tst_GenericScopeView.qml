@@ -39,7 +39,7 @@ Item {
         id: scopes
 
         onLoadedChanged: {
-            genericScopeView.scope = scopes.get(2)
+            genericScopeView.scope = scopes.getScope(2)
         }
     }
 
@@ -67,7 +67,7 @@ Item {
             when: scopes.loaded && windowShown
 
             function init() {
-                genericScopeView.scope = scopes.get(2)
+                genericScopeView.scope = scopes.getScope(2)
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 tryCompare(genericScopeView.categoryView, "contentY", 0)
@@ -96,31 +96,31 @@ Item {
 
             function test_showDash() {
                 previewListView.open = true;
-                scopes.get(2).showDash();
+                scopes.getScope(2).showDash();
                 tryCompare(previewListView, "open", false);
             }
 
             function test_hideDash() {
                 previewListView.open = true;
-                scopes.get(2).hideDash();
+                scopes.getScope(2).hideDash();
                 tryCompare(previewListView, "open", false);
             }
 
             function test_searchQuery() {
-                genericScopeView.scope = scopes.get(0);
+                genericScopeView.scope = scopes.getScope(0);
                 genericScopeView.scope.searchQuery = "test";
-                genericScopeView.scope = scopes.get(1);
+                genericScopeView.scope = scopes.getScope(1);
                 genericScopeView.scope.searchQuery = "test2";
-                genericScopeView.scope = scopes.get(0);
+                genericScopeView.scope = scopes.getScope(0);
                 tryCompare(genericScopeView.scope, "searchQuery", "test");
-                genericScopeView.scope = scopes.get(1);
+                genericScopeView.scope = scopes.getScope(1);
                 tryCompare(genericScopeView.scope, "searchQuery", "test2");
             }
 
             function test_changeScope() {
                 genericScopeView.scope.searchQuery = "test"
-                genericScopeView.scope = scopes.get(1)
-                genericScopeView.scope = scopes.get(2)
+                genericScopeView.scope = scopes.getScope(1)
+                genericScopeView.scope = scopes.getScope(2)
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 

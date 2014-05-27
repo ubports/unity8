@@ -99,10 +99,7 @@ AbstractButton {
         readonly property int maxHeight: units.gu(60)
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
-        onHeightChanged: {
-            console.log("MOOO", height)
-            prevHeight = height;
-        }
+        onHeightChanged: prevHeight = height;
         anchors.top: root.bottom
         delegate: DashDepartmentsList {
             visible: root.showList
