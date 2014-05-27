@@ -19,6 +19,7 @@
 
 // Qt
 #include <QDBusConnection>
+#include <QDBusInterface>
 
 DBusUnitySessionService::DBusUnitySessionService() : QObject()
 {
@@ -43,4 +44,36 @@ void DBusUnitySessionService::Logout()
 void DBusUnitySessionService::RequestLogout()
 {
   Q_EMIT logoutRequested(false);
+}
+
+void DBusUnitySessionService::Reboot()
+{
+  QDBusConnection connection = QDBusConnection::systemBus();
+  QDBusInterface iface1 ("org.freedesktop.login1",
+			 "/org/freedesktop/login1",
+			 "org.freedesktop.login1.Manager",
+			 connection);
+
+  iface1.call("Reboot", false);
+}
+
+void DBusUnitySessionService::RequestReboot()
+{
+  Q_EMIT rebootRequested(false);
+}
+
+void DBusUnitySessionService::Shutdown()
+{
+  QDBusConnection connection = QDBusConnection::systemBus();
+  QDBusInterface iface1 ("org.freedesktop.login1",
+			 "/org/freedesktop/login1",
+			 "org.freedesktop.login1.Manager",
+			 connection);
+
+  iface1.call("PowerOff", false);
+}
+
+void DBusUnitySessionService::RequestShutdown()
+{
+  Q_EMIT shutdownRequested(false);
 }
