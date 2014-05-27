@@ -27,6 +27,11 @@ Item {
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property int acceptedOrientationAngle: {
+        // check device name and fix orientation if necessary
+        if (applicationArguments.device() === "flo") {
+            return Screen.angleBetween(Screen.primaryOrientation, Qt.InvertedLandscapeOrientation);
+        }
+
         var screenOrientation = Screen.orientation;
         var acceptedOrientation;
 
