@@ -365,10 +365,14 @@ Item {
                             Icon {
                                 id: localIcon
 
-                                anchors.left: parent.left
-                                anchors.leftMargin: units.gu(.5)
-                                anchors.top: parent.top
-                                anchors.topMargin: units.gu(.5)
+                                anchors {
+                                    left: parent.left
+                                    leftMargin: units.gu(.5)
+                                    top: parent.top
+                                    topMargin: units.gu(.5)
+                                    bottom: parent.bottom
+                                    bottomMargin: units.gu(.5)
+                                }
                                 width: units.gu(2)
                                 height: units.gu(2)
                                 name: "messages"
@@ -381,6 +385,7 @@ Item {
                                 anchors.left: localIcon.right
                                 anchors.leftMargin: units.gu(.5)
                                 anchors.verticalCenter: localIcon.verticalCenter
+                                verticalAlignment: Text.AlignVCenter
                                 height: localIcon.height
                                 fontSize: "small"
                                 color: "white"
