@@ -26,10 +26,11 @@ Item {
     property real topMarginProgress
     property bool interactive: true
     property real maximizedAppTopMargin
+    property var application
 
     // FIXME: This really should be invisible to QML code.
     // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
-    property var surface
+    property var surface: application ? application.surface : null
     onSurfaceChanged: {
         if (surface) {
             surface.parent = root;
