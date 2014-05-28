@@ -99,7 +99,7 @@ Item {
             id: allButton
             anchors.top: backButton.bottom
             width: parent.width
-            visible: department && (!department.isRoot || currentDepartment.parentId == department.departmentId)
+            visible: department && (!department.isRoot || (!root.currentDepartment.isRoot && root.currentDepartment.parentId == department.departmentId))
             height: itemHeight
 
             Label {
