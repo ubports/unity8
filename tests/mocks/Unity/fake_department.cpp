@@ -21,8 +21,7 @@
 #include <QTimer>
 
 Department::Department(const QString& departmentId, const QString& label, const QString& allLabel, const QString& parentId, const QString& parentLabel, Scope* scope)
- : QAbstractListModel()
- , m_departmentId(departmentId)
+ : m_departmentId(departmentId)
  , m_label(label)
  , m_allLabel(allLabel)
  , m_parentId(parentId)
@@ -31,7 +30,7 @@ Department::Department(const QString& departmentId, const QString& label, const 
  , m_scope(scope)
 {
     QTimer::singleShot(1500, this, SLOT(slotLoaded()));
-    connect(scope, SIGNAL(currentDepartmentChanged(QString)), this, SLOT(slotCurrentDepartmentChanged()));
+    connect(scope, SIGNAL(currentDepartmentChanged()), this, SLOT(slotCurrentDepartmentChanged()));
 }
 
 QString Department::departmentId() const
@@ -62,7 +61,7 @@ QString Department::parentLabel() const
 void Department::slotLoaded()
 {
     m_loaded = true;
-    Q_EMIT loadedChanged(m_loaded);
+    Q_EMIT loadedChanged();
 }
 
 bool Department::loaded() const

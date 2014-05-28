@@ -104,7 +104,7 @@ void Scope::setFormFactor(const QString &str) {
 void Scope::setActive(const bool active) {
     if (active != m_isActive) {
         m_isActive = active;
-        Q_EMIT isActiveChanged(active);
+        Q_EMIT isActiveChanged();
     }
 }
 
@@ -155,7 +155,7 @@ bool Scope::hasDepartments() const
     return true;
 }
 
-Department *Scope::getDepartment(const QString& id)
+unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& id)
 {
     if (id.isEmpty())
         return nullptr;
@@ -175,5 +175,5 @@ Department *Scope::getDepartment(const QString& id)
 void Scope::loadDepartment(const QString& id)
 {
     m_currentDeparment = id;
-    currentDepartmentChanged(m_currentDeparment);
+    Q_EMIT currentDepartmentChanged();
 }

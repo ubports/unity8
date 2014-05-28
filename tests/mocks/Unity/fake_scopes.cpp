@@ -53,7 +53,7 @@ void Scopes::updateScopes()
 
     if (!m_loaded) {
         m_loaded = true;
-        Q_EMIT loadedChanged(m_loaded);
+        Q_EMIT loadedChanged();
     }
 }
 
@@ -69,7 +69,7 @@ void Scopes::clear()
 
     if (m_loaded) {
         m_loaded = false;
-        Q_EMIT loadedChanged(m_loaded);
+        Q_EMIT loadedChanged();
     }
 }
 

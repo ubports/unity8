@@ -29,13 +29,6 @@ class Preview;
 
 class Scope : public unity::shell::scopes::ScopeInterface
 {
-// TODO
-    Q_OBJECT
-
-    Q_PROPERTY(QString currentDepartment READ currentDepartment NOTIFY currentDepartmentChanged)
-    Q_PROPERTY(bool hasDepartments READ hasDepartments NOTIFY hasDepartmentsChanged)
-// END TODO
-
 public:
     Scope(QObject* parent = 0);
     Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0);
@@ -67,18 +60,10 @@ public:
     Q_INVOKABLE void cancelActivation() override;
     Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope) override;
 
-    // TODO this will go to unity-api eventually
-    QString currentDepartment() const;
-    bool hasDepartments() const;
-    Q_INVOKABLE Department *getDepartment(const QString& id); // returns a Department with lazy-loaded children
-    Q_INVOKABLE void loadDepartment(const QString& id); // loads results for the department
-    // END TODO
-
-Q_SIGNALS:
-    // TODO this will go to unity-api eventually
-    void currentDepartmentChanged(const QString&);
-    void hasDepartmentsChanged(bool);
-    // END TODO
+    QString currentDepartment() const override;
+    bool hasDepartments() const override;
+    Q_INVOKABLE unity::shell::scopes::DepartmentInterface* getDepartment(const QString& id) override;
+    Q_INVOKABLE void loadDepartment(const QString& id) override;
 
 protected:
 

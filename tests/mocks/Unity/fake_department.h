@@ -17,33 +17,16 @@
 #ifndef FAKE_DEPARTMENT_H
 #define FAKE_DEPARTMENT_H
 
-#include <QAbstractListModel>
+#include <unity/shell/scopes/DepartmentInterface.h>
 
 class Scope;
 
-class Department : public QAbstractListModel
+class Department : public unity::shell::scopes::DepartmentInterface
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString departmentId READ departmentId NOTIFY departmentIdChanged)
-    Q_PROPERTY(QString label READ label NOTIFY labelChanged)
-    Q_PROPERTY(QString allLabel READ allLabel NOTIFY allLabelChanged)
-    Q_PROPERTY(QString parentId READ parentId NOTIFY parentIdChanged)
-    Q_PROPERTY(QString parentLabel READ parentLabel NOTIFY parentLabelChanged)
-    Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
-    Q_PROPERTY(bool isRoot READ isRoot NOTIFY isRootChanged)
-    // roles: string departmentId, string label, bool hasChildren, bool isActive
-
 public:
     Department(const QString& departmentId, const QString& label, const QString& allLabel, const QString& parentId, const QString& parentLabel, Scope* scope);
-
-    enum Roles {
-        RoleDepartmentId,
-        RoleLabel,
-        RoleHasChildren,
-        RoleIsActive
-    };
 
     QString departmentId() const;
     QString label() const;
@@ -60,16 +43,6 @@ public:
 
 public Q_SLOTS:
     void slotCurrentDepartmentChanged();
-
-Q_SIGNALS:
-    void departmentIdChanged(const QString&);
-    void labelChanged(const QString&);
-    void allLabelChanged(const QString&);
-    void parentIdChanged(const QString&);
-    void parentLabelChanged(const QString&);
-    void loadedChanged(bool);
-    void countChanged(int);
-    void isRootChanged(bool);
 
 private Q_SLOTS:
     void slotLoaded();
