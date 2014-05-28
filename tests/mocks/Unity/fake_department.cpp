@@ -82,7 +82,7 @@ bool Department::isRoot() const
 
 int Department::rowCount(const QModelIndex & /*parent*/) const
 {
-    if (m_departmentId.startsWith("child"))
+    if (m_departmentId.startsWith("child") || m_departmentId == "middle3")
         return 0;
     else
         return 8;
@@ -111,7 +111,7 @@ QVariant Department::data(const QModelIndex &index, int role) const
             return QString("%1Child%2").arg(m_departmentId).arg(index.row());
             break;
         case RoleHasChildren:
-            return m_departmentId == "root";
+            return m_departmentId == "root" && index.row() != 3;
             break;
         case RoleIsActive:
             return m_scope->currentDepartment() == data(index, RoleDepartmentId);

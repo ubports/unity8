@@ -20,6 +20,7 @@ import Ubuntu.Components 0.1
 Item {
     id: root
     property var department: null
+    property var currentDepartment: null
     signal enterDepartment(var newDepartmentId, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
@@ -51,7 +52,8 @@ Item {
 
         anchors.fill: parent
 
-        readonly property int nItems: department && department.loaded ? (department.count + (department.isRoot ? 0 : 2)) : 0
+        readonly property int nTopButtonsVisible: 0 + (backButton.visible ? 1 : 0) + (allButton.visible ? 1 : 0)
+        readonly property int nItems: department && department.loaded ? (department.count + nTopButtonsVisible) : 0
         contentHeight: nItems * root.itemHeight
         contentWidth: width
 
@@ -59,7 +61,7 @@ Item {
             id: backButton
             width: parent.width
             visible: department && !department.isRoot
-            height: itemHeight
+            height: visible ? itemHeight : 0
 
             onClicked: root.goBackToParentClicked();
 
@@ -97,7 +99,7 @@ Item {
             id: allButton
             anchors.top: backButton.bottom
             width: parent.width
-            visible: backButton.visible
+            visible: department && (!department.isRoot || currentDepartment.parentId == department.departmentId)
             height: itemHeight
 
             Label {
@@ -129,7 +131,7 @@ Item {
             delegate: AbstractButton {
                 height: root.itemHeight
                 width: root.width
-                y: ((department.isRoot ? 0 : 2) + index) * root.itemHeight
+                y: (flickable.nTopButtonsVisible + index) * root.itemHeight
 
                 onClicked: root.enterDepartment(departmentId, hasChildren)
 

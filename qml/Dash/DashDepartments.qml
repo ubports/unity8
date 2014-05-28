@@ -111,6 +111,7 @@ AbstractButton {
             width: departmentListView.width
             height: !root.showList ? 0 : department && department.loaded ? Math.min(implicitHeight, departmentListView.maxHeight) : departmentListView.prevHeight
             department: nullifyDepartment ? null : scope.getDepartment(departmentId)
+            currentDepartment: root.currentDepartment
             onEnterDepartment: {
                 scope.loadDepartment(newDepartmentId);
                 // We only need to add a new item to the model
