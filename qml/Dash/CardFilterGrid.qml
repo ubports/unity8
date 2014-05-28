@@ -43,8 +43,8 @@ DashRenderer {
         verticalSpacing: genericFilterGrid.verticalSpacing
         model: genericFilterGrid.model
         collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
-        delegateCreationBegin: genericFilterGrid.delegateCreationBegin
-        delegateCreationEnd: genericFilterGrid.delegateCreationEnd
+        displayMarginBeginning: genericFilterGrid.displayMarginBeginning
+        displayMarginEnd: genericFilterGrid.displayMarginEnd
         delegate: Item {
             width: filterGrid.cellWidth
             height: filterGrid.cellHeight
@@ -64,8 +64,8 @@ DashRenderer {
                 }
                 Connections {
                     target: loader.item
-                    onClicked: genericFilterGrid.clicked(index, item.y)
-                    onPressAndHold: genericFilterGrid.pressAndHold(index, item.y)
+                    onClicked: genericFilterGrid.clicked(index, result)
+                    onPressAndHold: genericFilterGrid.pressAndHold(index)
                 }
             }
         }

@@ -17,44 +17,31 @@
 #ifndef FAKE_CATEGORIES_H
 #define FAKE_CATEGORIES_H
 
+#include <unity/shell/scopes/CategoriesInterface.h>
+
 // Qt
-#include <QAbstractListModel>
 #include <QList>
 
 class ResultsModel;
 
-class Categories : public QAbstractListModel
+class Categories : public unity::shell::scopes::CategoriesInterface
 {
     Q_OBJECT
 
-    Q_ENUMS(Roles)
-
 public:
     Categories(int category_count, QObject* parent = 0);
-    enum Roles {
-        RoleCategoryId,
-        RoleName,
-        RoleIcon,
-        RoleRawRendererTemplate,
-        RoleRenderer,
-        RoleComponents,
-        RoleProgressSource, // maybe
-        RoleResults,
-        RoleCount
-    };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    Q_INVOKABLE void addSpecialCategory(QString const& categoryId, QString const& name, QString const& icon, QString const& rawTemplate, QObject* countObject);
+    Q_INVOKABLE void addSpecialCategory(QString const& categoryId, QString const& name, QString const& icon, QString const& rawTemplate, QObject* countObject) override;
+    Q_INVOKABLE bool overrideCategoryJson(QString const& categoryId, QString const& json) override;
 
 private Q_SLOTS:
     void countChanged();
 
 private:
     mutable QHash<int, ResultsModel*> m_resultsModels;
-    QHash<int, QByteArray> m_roles;
     int m_category_count;
 
     struct CategoryData {

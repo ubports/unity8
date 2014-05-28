@@ -26,7 +26,7 @@ Item {
     width: units.gu(110)
     height: units.gu(30)
 
-    Scope {
+    MockScope {
         id: scopeMock
     }
 
@@ -148,17 +148,17 @@ Item {
 
             pageHeader.triggerSearch()
 
-            scopeMock.searchInProgress = false
+            scopeMock.setSearchInProgress(false);
             compare(searchIndicator.running, false, "Search indicator is running.")
             tryCompare(primaryImage, "visible", true)
 
-            scopeMock.searchInProgress = true
+            scopeMock.setSearchInProgress(true);
             compare(searchIndicator.running, true, "Search indicator isn't running.")
             tryCompare(primaryImage, "visible", false)
         }
 
         function cleanup() {
-            scopeMock.searchInProgress = false;
+            scopeMock.setSearchInProgress(false);
             pageHeader.resetSearch();
         }
 
