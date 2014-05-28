@@ -330,78 +330,85 @@ Item {
                 id: comboButton
 
                 width: parent.width
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 4
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
                 gradient: darkgreyGradient
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
-                expandedHeight: (comboRepeater.count) * units.gu(5)
-                comboList: Column {
-                    Repeater {
-                        id: comboRepeater
+                expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
+                comboList: Flickable {
+                    // this has to be wrapped inside a flickable
+                    // to work around a feature/bug? of the
+                    // ComboButton SDK-element, making a regular
+                    // unwrapped Column item flickable
+                    interactive: false
+                    Column {
+                        Repeater {
+                            id: comboRepeater
 
-                        Component.onCompleted: {
-                            // an assignment is ok here, since this
-                            // label is static and does not change
-                            comboButton.text = comboRepeater.itemAt(2).actionLabel
-                        }
+                            Component.onCompleted: {
+                                // an assignment is ok here, since this
+                                // label is static and does not change
+                                comboButton.text = comboRepeater.itemAt(2).actionLabel
+                            }
 
-                        model: notification.actions
-                        delegate: Loader {
-                            id: comboLoader
+                            model: notification.actions
+                            delegate: Loader {
+                                id: comboLoader
 
-                            asynchronous: true
-                            visible: status == Loader.Ready
-                            property string actionId: id
-                            property string actionLabel: label
-                            Component {
-                                id: comboEntry
+                                asynchronous: true
+                                visible: status == Loader.Ready
+                                property string actionId: id
+                                property string actionLabel: label
+                                Component {
+                                    id: comboEntry
 
-                                MouseArea {
-                                    id: comboInputArea
+                                    MouseArea {
+                                        id: comboInputArea
 
-                                    width: comboButton.width
-                                    height: comboIcon.height + units.gu(2)
+                                        width: comboButton.width
+                                        height: comboIcon.height + units.gu(2)
 
-                                    onClicked: {
-                                        notification.notification.invokeAction(actionId)
-                                    }
-
-                                    ListItem.ThinDivider {
-                                        visible: index > 3
-                                    }
-
-                                    Icon {
-                                        id: comboIcon
-
-                                        anchors {
-                                            left: parent.left
-                                            leftMargin: units.gu(.5)
-                                            top: parent.top
-                                            topMargin: units.gu(1)
-                                            bottom: parent.bottom
-                                            bottomMargin: units.gu(1)
+                                        onClicked: {
+                                            notification.notification.invokeAction(actionId)
                                         }
-                                        width: units.gu(2)
-                                        height: units.gu(2)
-                                        name: "messages"
-                                        color: "white"
-                                    }
 
-                                    Label {
-                                        id: comboLabel
+                                        ListItem.ThinDivider {
+                                            visible: index > 3
+                                        }
 
-                                        anchors.left: comboIcon.right
-                                        anchors.leftMargin: units.gu(1)
-                                        anchors.verticalCenter: comboIcon.verticalCenter
-                                        verticalAlignment: Text.AlignVCenter
-                                        height: comboIcon.height
-                                        fontSize: "small"
-                                        color: "white"
-                                        text: actionLabel
+                                        Icon {
+                                            id: comboIcon
+
+                                            anchors {
+                                                left: parent.left
+                                                leftMargin: units.gu(.5)
+                                                top: parent.top
+                                                topMargin: units.gu(1)
+                                                bottom: parent.bottom
+                                                bottomMargin: units.gu(1)
+                                            }
+                                            width: units.gu(2)
+                                            height: units.gu(2)
+                                            name: "messages"
+                                            color: "white"
+                                        }
+
+                                        Label {
+                                            id: comboLabel
+
+                                            anchors.left: comboIcon.right
+                                            anchors.leftMargin: units.gu(1)
+                                            anchors.verticalCenter: comboIcon.verticalCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                            height: comboIcon.height
+                                            fontSize: "small"
+                                            color: "white"
+                                            text: actionLabel
+                                        }
                                     }
                                 }
+                                sourceComponent: (index > 2) ? comboEntry : undefined
                             }
-                            sourceComponent: (index > 2) ? comboEntry : undefined
                         }
                     }
                 }
