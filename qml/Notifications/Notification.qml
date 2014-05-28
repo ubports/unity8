@@ -327,38 +327,40 @@ Item {
             }
 
             ComboButton {
-                id: localButton
+                id: comboButton
 
                 width: parent.width
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 4
                 gradient: darkgreyGradient
-                onClicked: notification.notification.invokeAction(localRepeater.itemAt(2).actionId)
+                onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
-                expandedHeight: (localRepeater.count) * units.gu(5) + units.gu(.5)
+                expandedHeight: (comboRepeater.count) * units.gu(5)
                 comboList: Column {
                     Repeater {
-                        id: localRepeater
+                        id: comboRepeater
 
                         Component.onCompleted: {
                             // an assignment is ok here, since this
                             // label is static and does not change
-                            localButton.text = localRepeater.itemAt(2).actionLabel
+                            comboButton.text = comboRepeater.itemAt(2).actionLabel
                         }
 
                         model: notification.actions
                         delegate: Loader {
+                            id: comboLoader
+
+                            asynchronous: true
+                            visible: status == Loader.Ready
                             property string actionId: id
                             property string actionLabel: label
                             Component {
-                                id: myEntry
+                                id: comboEntry
 
                                 MouseArea {
-                                    id: localInputArea
+                                    id: comboInputArea
 
-                                    x: localIcon.x
-                                    y: localIcon.y
-                                    width: localButton.width
-                                    height: localIcon.height + units.gu(2)
+                                    width: comboButton.width
+                                    height: comboIcon.height + units.gu(2)
 
                                     onClicked: {
                                         notification.notification.invokeAction(actionId)
@@ -369,7 +371,7 @@ Item {
                                     }
 
                                     Icon {
-                                        id: localIcon
+                                        id: comboIcon
 
                                         anchors {
                                             left: parent.left
@@ -386,84 +388,23 @@ Item {
                                     }
 
                                     Label {
-                                        id: localLabel
+                                        id: comboLabel
 
-                                        anchors.left: localIcon.right
+                                        anchors.left: comboIcon.right
                                         anchors.leftMargin: units.gu(1)
-                                        anchors.verticalCenter: localIcon.verticalCenter
+                                        anchors.verticalCenter: comboIcon.verticalCenter
                                         verticalAlignment: Text.AlignVCenter
-                                        height: localIcon.height
+                                        height: comboIcon.height
                                         fontSize: "small"
                                         color: "white"
                                         text: actionLabel
                                     }
                                 }
                             }
-                            sourceComponent: (index > 2) ? myEntry : undefined
+                            sourceComponent: (index > 2) ? comboEntry : undefined
                         }
                     }
                 }
-                    /*ListView {
-                    id: myView
-
-                    width: parent.width
-                    interactive: false
-
-                    model: notification.actions
-                    delegate: Column {
-                        id: myDelegate
-
-                        width: parent.width
-
-                        ListItem.ThinDivider {
-                            visible: index != 0
-                        }
-
-                        MouseArea {
-                            id: localInputArea
-
-                            x: localIcon.x
-                            y: localIcon.y
-                            width: parent.width
-                            height: localIcon.height + units.gu(2)
-
-                            onClicked: {
-                                notification.notification.invokeAction(id)
-                            }
-
-                            Icon {
-                                id: localIcon
-
-                                anchors {
-                                    left: parent.left
-                                    leftMargin: units.gu(.5)
-                                    top: parent.top
-                                    topMargin: units.gu(1)
-                                    bottom: parent.bottom
-                                    bottomMargin: units.gu(1)
-                                }
-                                width: units.gu(2)
-                                height: units.gu(2)
-                                name: "messages"
-                                color: "white"
-                            }
-
-                            Label {
-                                id: localLabel
-
-                                anchors.left: localIcon.right
-                                anchors.leftMargin: units.gu(1)
-                                anchors.verticalCenter: localIcon.verticalCenter
-                                verticalAlignment: Text.AlignVCenter
-                                height: localIcon.height
-                                fontSize: "small"
-                                color: "white"
-                                text: label
-                            }
-                        }
-
-                    }
-                }*/
             }
         }
     }
