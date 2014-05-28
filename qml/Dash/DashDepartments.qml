@@ -83,7 +83,8 @@ AbstractButton {
         anchors.rightMargin: units.gu(2)
         rotation: showList ? 180 : 0
         source: "image://theme/dropdown-menu"
-        height: parent.height - units.gu(2)
+        sourceSize.height: parent.height - units.gu(2)
+        sourceSize.width: units.gu(3)
         fillMode: Image.PreserveAspectFit
     }
 

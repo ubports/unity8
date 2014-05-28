@@ -69,7 +69,8 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: units.gu(2)
                 source: "image://theme/back"
-                height: parent.height - units.gu(2)
+                sourceSize.height: parent.height - units.gu(2)
+                sourceSize.width: units.gu(3)
                 fillMode: Image.PreserveAspectFit
             }
 
@@ -144,17 +145,20 @@ Item {
                     anchors.right: parent.right
                     anchors.rightMargin: units.gu(2)
                     source: "image://theme/chevron"
-                    height: parent.height - units.gu(2)
+                    sourceSize.height: parent.height - units.gu(2)
+                    sourceSize.width: units.gu(3)
                     fillMode: Image.PreserveAspectFit
                     visible: hasChildren
                 }
-                Text {
-                    // TODO Be an image
-                    text: "✓"
-                    visible: !hasChildren && isActive
+                Image {
+                    anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: units.gu(2)
-                    anchors.verticalCenter: parent.verticalCenter
+                    source: "graphics/tick.png"
+                    sourceSize.height: parent.height - units.gu(2)
+                    sourceSize.width: units.gu(3)
+                    fillMode: Image.PreserveAspectFit
+                    visible: !hasChildren && isActive
                 }
 
                 Rectangle {
