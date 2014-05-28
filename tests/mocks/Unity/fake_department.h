@@ -28,14 +28,14 @@ class Department : public unity::shell::scopes::DepartmentInterface
 public:
     Department(const QString& departmentId, const QString& label, const QString& allLabel, const QString& parentId, const QString& parentLabel, Scope* scope);
 
-    QString departmentId() const;
-    QString label() const;
-    QString allLabel() const;
-    QString parentId() const;
-    QString parentLabel() const;
-    bool loaded() const;
-    int count() const;
-    bool isRoot() const;
+    QString departmentId() const override;
+    QString label() const override;
+    QString allLabel() const override;
+    QString parentId() const override;
+    QString parentLabel() const override;
+    bool loaded() const override;
+    int count() const override;
+    bool isRoot() const override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const;
