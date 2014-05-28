@@ -4,6 +4,47 @@ unity8 (7.87+14.10.20140505-0ubuntu1) UNRELEASED; urgency=medium
 
  -- Michael Terry <mterry@ubuntu.com>  Wed, 02 Apr 2014 14:39:45 -0400
 
+unity8 (7.86+14.10.20140527-0ubuntu1) utopic; urgency=low
+
+  [ Andrea Cimitan ]
+  * Passes to make tryCommand -qmljsdebugger=port:3768 to enable
+    debug/profiling test apps
+  * Fixes carousel shadow
+
+  [ Michał Sawicz ]
+  * Use dpkg-architecture, not gcc, to determine the machine triplet.
+
+  [ Ying-Chun Liu ]
+  * Fix ZoomableImage test failure. (LP: #1317254)
+
+  [ Albert Astals ]
+  * We don't need iconutils in this mock
+  * Don't reserve space for mascot if no mascot is specified (LP:
+    #1319343)
+  * CardHeader is no more, remove stale line in CMakeLists.txt
+  * GenericScopeViewTest: Wait a bit more Otherwise sometimes we end
+    getting up the wrong delegate (maybe one that will be garbage
+    collected?) (LP: #1322279)
+  * Fix crash in organicgridtest
+
+  [ Daniel d'Andrada ]
+  * Remove Shell's underlay background image as it cannot be seen
+    anymore Now that the Dash has its own, opaque, background, the
+    underlay's background image can no longer be seen. So it's just a
+    waste of resources to have it.
+
+  [ Michael Terry ]
+  * Use the same animation when dismissing a greeter slide from the
+    launcher as from a normal greeter drag. (LP: #1316513)
+
+  [ Michael Zanetti ]
+  * enhance lockscreen add a retry indication label (e.g. 3 attempts
+    left). add an additional label (e.g. phone number for multi sim).
+    add a infoPopup (e.g. to display a warning for last retry). add min
+    and max limit values. add tests for the above (LP: #1302050)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 May 2014 07:47:11 +0000
+
 unity8 (7.86+14.10.20140522-0ubuntu1) utopic; urgency=low
 
   [ Albert Astals ]

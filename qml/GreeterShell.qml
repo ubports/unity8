@@ -58,7 +58,8 @@ BasicShell {
         x: required ? 0 : - width
         width: parent.width
         height: parent.height - panel.panelHeight
-        pinLength: 4
+        minPinLength: 4
+        maxPinLength: 4
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
@@ -116,7 +117,10 @@ BasicShell {
         width: parent.width
         height: parent.height
 
-        Behavior on x {SmoothedAnimation{velocity: 600}}
+        Behavior on x {
+            enabled: !launcher.dashSwipe
+            StandardAnimation {}
+        }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
         onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
@@ -188,6 +192,8 @@ BasicShell {
 
         Launcher {
             id: launcher
+
+            readonly property bool dashSwipe: progress > 0
 
             anchors.top: parent.top
             anchors.bottom: parent.bottom

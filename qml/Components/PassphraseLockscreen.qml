@@ -22,7 +22,8 @@ Item {
     id: root
     height: highlightItem.height
 
-    property alias placeholderText: pinentryField.placeholderText
+    property string placeholderText
+    property string wrongPlaceholderText
     property string username: ""
 
     signal entered(string passphrase)
@@ -73,9 +74,12 @@ Item {
             echoMode: TextInput.Password
             opacity: 0.9
             hasClearButton: false
+            placeholderText: wrongPasswordAnimation.running ? root.wrongPlaceholderText : root.placeholderText
 
             onAccepted: {
-                root.entered(pinentryField.text);
+                if (pinentryField.text) {
+                    root.entered(pinentryField.text);
+                }
             }
         }
     }

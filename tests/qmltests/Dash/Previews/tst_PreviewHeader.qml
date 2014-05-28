@@ -53,12 +53,12 @@ Rectangle {
         name: "PreviewHeaderTest"
         when: windowShown
 
-        property Item mascot: findChild(previewHeader, "mascotShape")
+        property Item mascotShapeLoader: findChild(previewHeader, "mascotShapeLoader")
         property Item outerRow: findChild(previewHeader, "outerRow")
         property Item column: findChild(previewHeader, "column")
 
         function initTestCase() {
-            verify(typeof testCase.mascot === "object", "Couldn't find mascot object.");
+            verify(typeof testCase.mascotShapeLoader === "object", "Couldn't find mascot loader object.");
             verify(typeof testCase.outerRow === "object", "Couldn't find outerRow object.");
             verify(typeof testCase.column === "object", "Couldn't find column object.");
 
@@ -70,9 +70,9 @@ Rectangle {
 
         function test_mascot_data() {
             return [
-                        { tag: "Empty", source: "", visible: false },
-                        { tag: "Invalid", source: "bad_path", visible: false },
-                        { tag: "Valid", source: "../graphics/play_button.png", visible: true },
+                        { tag: "Empty", source: "", loaderVisible: false, visible: false },
+                        { tag: "Invalid", source: "bad_path", loaderVisible: true, visible: false },
+                        { tag: "Valid", source: "../graphics/play_button.png", loaderVisible: true, visible: true },
             ]
         }
 
@@ -80,12 +80,17 @@ Rectangle {
             headerjson.mascot = data.source;
             previewHeader.widgetData = headerjson;
 
-            tryCompare(testCase.mascot, "visible", data.visible);
+            tryCompare(testCase.mascotShapeLoader, "visible", data.loaderVisible);
+            if (data.loaderVisible) {
+                tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
+                var mascot = findChild(previewHeader, "mascotShape")
+                tryCompare(mascot, "visible", data.visible);
+            }
         }
 
         function test_dimensions_data() {
             return [
-                { tag: "Column width with mascot", object: column, width: previewHeader.width - mascot.width - outerRow.margins * 3, mascot: "artwork/avatar.png" },
+                { tag: "Column width with mascot", object: column, width: previewHeader.width - mascotShapeLoader.width - outerRow.margins * 3, mascot: "artwork/avatar.png" },
                 { tag: "Header height", object: previewHeader, height: function() { return outerRow.height + outerRow.margins * 2 } },
             ]
         }

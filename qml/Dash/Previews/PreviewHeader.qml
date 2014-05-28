@@ -56,6 +56,9 @@ PreviewWidget {
 
             Loader {
                 id: mascotShapeLoader
+                objectName: "mascotShapeLoader"
+                active: headerRoot.mascot != ""
+                visible: active
 
                 anchors.verticalCenter: parent.verticalCenter
                 // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
