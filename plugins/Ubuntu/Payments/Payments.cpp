@@ -79,6 +79,10 @@ void Payments::setStoreItemId(const QString &store_item_id)
 }
 
 void observer(PayPackage* package, const char* /*itemid*/, PayPackageItemStatus status, void* user_data) {
+    // This function is called in libpay's thread, so be careful with what you call
+    // Emitting signals should be fine as long as they use Queued or Auto connections (the default)
+    // http://qt-project.org/doc/qt-5/threads-qobject.html#signals-and-slots-across-threads
+
     qDebug() << "observer called";
     Payments *self = static_cast<Payments*>(user_data);
     pay_package_item_observer_uninstall(package, observer, self);
@@ -86,12 +90,12 @@ void observer(PayPackage* package, const char* /*itemid*/, PayPackageItemStatus 
     case PAY_PACKAGE_ITEM_STATUS_VERIFYING:
         break;
     case PAY_PACKAGE_ITEM_STATUS_PURCHASED:
-        self->finished();
+        Q_EMIT self->finished();
         break;
     case PAY_PACKAGE_ITEM_STATUS_PURCHASING:
         break;
     case PAY_PACKAGE_ITEM_STATUS_NOT_PURCHASED:
-        self->error("not purchased");
+        Q_EMIT self->error("not purchased");
         break;
     case PAY_PACKAGE_ITEM_STATUS_UNKNOWN:
         break;
@@ -115,4 +119,7 @@ void Payments::start()
     qDebug() << "after start verify";
     pay_package_item_start_purchase(package, ba.data());
     qDebug() << "after start purchase";
+
+    // FIXME: remove this when the payments service starts working ok
+    finished();
 }
