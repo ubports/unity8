@@ -18,8 +18,11 @@
  * Authored by: Diego Sarmentero <diego.sarmentero@canonical.com>
  */
 
+#include <QDebug>
 #include <QLocale>
 #include <QTimer>
+
+#include <libpay/pay-package.h>
 
 #include "Payments.h"
 
@@ -75,10 +78,41 @@ void Payments::setStoreItemId(const QString &store_item_id)
     }
 }
 
+void observer(PayPackage* package, const char* /*itemid*/, PayPackageItemStatus status, void* user_data) {
+    qDebug() << "observer called";
+    Payments *self = static_cast<Payments*>(user_data);
+    pay_package_item_observer_uninstall(package, observer, self);
+    switch (status) {
+    case PAY_PACKAGE_ITEM_STATUS_VERIFYING:
+        break;
+    case PAY_PACKAGE_ITEM_STATUS_PURCHASED:
+        self->finished();
+        break;
+    case PAY_PACKAGE_ITEM_STATUS_PURCHASING:
+        break;
+    case PAY_PACKAGE_ITEM_STATUS_NOT_PURCHASED:
+        self->error("not purchased");
+        break;
+    case PAY_PACKAGE_ITEM_STATUS_UNKNOWN:
+        break;
+    default:
+        break;
+    }
+
+}
+
 void Payments::start()
 {
     qDebug("starting the purchase");
-    // start the purchase here, raise finished(), error or canceled when done
-    QTimer::singleShot(3000, this, SIGNAL(finished()));
-    // FIXME ^^^^
+
+    auto ba = m_store_item_id.toLocal8Bit();
+    qDebug() << "the item id is" << m_store_item_id;
+    auto package = pay_package_new("clickscope");
+    qDebug() << "after new" << ba.data();
+    pay_package_item_observer_install(package, observer, this);
+    qDebug() << "after observer install";
+    //pay_package_item_start_verification(package, ba.data());
+    qDebug() << "after start verify";
+    pay_package_item_start_purchase(package, ba.data());
+    qDebug() << "after start purchase";
 }

@@ -41,11 +41,14 @@ PreviewWidget {
         iconSource: data && data.icon || ""
         iconPosition: "left"
         onClicked: paymentClient.start()
+        anchors.right: parent.right
+        width: (root.width - units.gu(1)) / 2
 
         Payments {
             id: paymentClient
             price: paymentButton.source["price"]
             currency: paymentButton.source["currency"]
+            storeItemId: paymentButton.source["store_item_id"]
             onFinished: root.triggered(widgetId, "finished", data)
             onCanceled: root.triggered(widgetId, "canceled", data)
             onError: root.triggered(widgetId, "error", data)
