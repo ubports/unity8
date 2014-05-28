@@ -32,6 +32,7 @@ class Department : public QAbstractListModel
     Q_PROPERTY(QString parentLabel READ parentLabel NOTIFY parentLabelChanged)
     Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(bool isRoot READ isRoot NOTIFY isRootChanged)
     // roles: string departmentId, string label, bool hasChildren, bool isActive
 
 public:
@@ -51,6 +52,7 @@ public:
     QString parentLabel() const;
     bool loaded() const;
     int count() const;
+    bool isRoot() const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const;
@@ -67,6 +69,7 @@ Q_SIGNALS:
     void parentLabelChanged(const QString&);
     void loadedChanged(bool);
     void countChanged(int);
+    void isRootChanged(bool);
 
 private Q_SLOTS:
     void slotLoaded();

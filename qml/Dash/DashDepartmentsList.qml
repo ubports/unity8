@@ -25,7 +25,6 @@ Item {
     signal allDepartmentClicked()
 
     readonly property int itemHeight: units.gu(5)
-    readonly property bool isRoot: department && department.departmentId == ""
     implicitHeight: flickable.contentHeight
 
     Rectangle {
@@ -52,14 +51,14 @@ Item {
 
         anchors.fill: parent
 
-        readonly property int nItems: department && department.loaded ? (department.count + (isRoot ? 0 : 2)) : 0
+        readonly property int nItems: department && department.loaded ? (department.count + (department.isRoot ? 0 : 2)) : 0
         contentHeight: nItems * root.itemHeight
         contentWidth: width
 
         AbstractButton {
             id: backButton
             width: parent.width
-            visible: department && !isRoot
+            visible: department && !department.isRoot
             height: itemHeight
 
             onClicked: root.goBackToParentClicked();
@@ -129,7 +128,7 @@ Item {
             delegate: AbstractButton {
                 height: root.itemHeight
                 width: root.width
-                y: ((isRoot ? 0 : 2) + index) * root.itemHeight
+                y: ((department.isRoot ? 0 : 2) + index) * root.itemHeight
 
                 onClicked: root.enterDepartment(departmentId, hasChildren)
 
