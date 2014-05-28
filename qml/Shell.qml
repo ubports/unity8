@@ -278,6 +278,8 @@ FocusScope {
             }
         }
 
+        property bool dialogShown: false
+
         Component {
             id: logoutDialog
             Dialog {
@@ -286,13 +288,17 @@ FocusScope {
                 text: "Are you sure that you want to logout?"
                 Button {
                     text: "Cancel"
-                    onClicked: PopupUtils.close(dialogueLogout)
+                    onClicked: {
+                        PopupUtils.close(dialogueLogout);
+                        stages.dialogShown = false;
+                    }
                 }
                 Button {
                     text: "Yes"
                     onClicked: {
                         DBusUnitySessionService.Logout();
                         PopupUtils.close(dialogueLogout);
+                        stages.dialogShown = false;
                     }
                 }
             }
@@ -306,7 +312,10 @@ FocusScope {
                 text: "Are you sure that you want to shutdown?"
                 Button {
                     text: "Cancel"
-                    onClicked: PopupUtils.close(dialogueShutdown)
+                    onClicked: {
+                        PopupUtils.close(dialogueShutdown);
+                        stages.dialogShown = false;
+                    }
                 }
                 Button {
                     text: "Yes"
@@ -314,6 +323,7 @@ FocusScope {
                         dBusUnitySessionServiceConnection.closeAllApps();
                         DBusUnitySessionService.Shutdown();
                         PopupUtils.close(dialogueShutdown);
+                        stages.dialogShown = false;
                     }
                 }
             }
@@ -327,7 +337,10 @@ FocusScope {
                 text: "Are you sure that you want to reboot?"
                 Button {
                     text: "Cancel"
-                    onClicked: PopupUtils.close(dialogueReboot)
+                    onClicked: {
+                        PopupUtils.close(dialogueReboot)
+                        stages.dialogShown = false;
+                    }
                 }
                 Button {
                     text: "Yes"
@@ -335,6 +348,7 @@ FocusScope {
                         dBusUnitySessionServiceConnection.closeAllApps();
                         DBusUnitySessionService.Reboot();
                         PopupUtils.close(dialogueReboot);
+                        stages.dialogShown = false;
                     }
                 }
             }
@@ -356,17 +370,26 @@ FocusScope {
 
             onLogoutRequested: {
                 // Display a dialog to ask the user to confirm.
-                PopupUtils.open(logoutDialog);
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(logoutDialog);
+                }
             }
 
             onShutdownRequested: {
                 // Display a dialog to ask the user to confirm.
-                PopupUtils.open(shutdownDialog);
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(shutdownDialog);
+                }
             }
 
             onRebootRequested: {
                 // Display a dialog to ask the user to confirm.
-                PopupUtils.open(rebootDialog);
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(rebootDialog);
+                }
             }
 
             onLogoutReady: {
@@ -758,5 +781,32 @@ FocusScope {
     Connections {
         target: SessionBroadcast
         onShowHome: showHome()
+    }
+
+    Keys.onPressed: {
+        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+            if (!powerKeyTimer.running) {
+                powerKeyTimer.start();
+            }
+            event.accepted = true;
+        }
+    }
+
+    Keys.onReleased: {
+        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+            powerKeyTimer.stop();
+        }
+        event.accepted = true;
+    }
+
+    Timer {
+        id: powerKeyTimer
+        interval: 500
+        repeat: false
+        triggeredOnStart: false
+
+        onTriggered: {
+            DBusUnitySessionService.RequestShutdown();
+        }
     }
 }
