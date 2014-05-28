@@ -24,9 +24,6 @@
 
 #include <QTimer>
 
-class Department;
-class Preview;
-
 class Scope : public unity::shell::scopes::ScopeInterface
 {
     Q_OBJECT
