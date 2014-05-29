@@ -3,7 +3,7 @@ AbstractButton {
                 property var template; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource; 
+                property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
                 property int headerAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
@@ -12,6 +12,7 @@ AbstractButton {
                 property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
+onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } 
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
                     id: artShapeHolder; 
@@ -30,10 +31,9 @@ Item  {
                             radius: "medium"; 
                             readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; 
                             readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; 
-                            Component.onCompleted: updateWidthHeightBindings(); 
+                            Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } 
                             onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); 
                             visible: image.status == Image.Ready; 
-                            borderSource: artShapeBorderSource; 
                             function updateWidthHeightBindings() { 
                                 if (aspectSmallerThanImageAspect) { 
                                     width = Qt.binding(function() { return !visible ? 0 : image.width }); 
