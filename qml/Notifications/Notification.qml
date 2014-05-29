@@ -403,7 +403,6 @@ Item {
                                             }
                                             width: units.gu(2)
                                             height: units.gu(2)
-                                            //name: getComboIcon(actionLabel)
                                             color: "white"
                                         }
 
