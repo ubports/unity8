@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 
 AbstractButton {
     id: root
+    objectName: "dashDepartments"
 
     property int windowHeight: 0
 
@@ -91,6 +92,7 @@ AbstractButton {
     //  departmentListView is outside root
     ListView {
         id: departmentListView
+        objectName: "departmentListView"
         orientation: ListView.Horizontal
         interactive: false
         model: ListModel {
@@ -107,6 +109,7 @@ AbstractButton {
         onHeightChanged: prevHeight = height;
         anchors.top: root.bottom
         delegate: DashDepartmentsList {
+            objectName: "department" + index
             visible: height != 0
             width: departmentListView.width
             height: !root.showList ? 0 : department && department.loaded ? Math.min(implicitHeight, departmentListView.maxHeight) : departmentListView.prevHeight

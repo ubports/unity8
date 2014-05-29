@@ -59,6 +59,7 @@ Item {
 
         AbstractButton {
             id: backButton
+            objectName: "backButton"
             width: parent.width
             visible: department && !department.isRoot
             height: visible ? itemHeight : 0
@@ -97,6 +98,7 @@ Item {
 
         AbstractButton {
             id: allButton
+            objectName: "allButton"
             anchors.top: backButton.bottom
             width: parent.width
             visible: department && (!department.isRoot || (root.currentDepartment && !root.currentDepartment.isRoot && root.currentDepartment.parentId == department.departmentId))
@@ -129,6 +131,7 @@ Item {
             model: department && department.loaded ? department : null
             clip: true
             delegate: AbstractButton {
+                objectName: root.objectName + "child" + index
                 height: root.itemHeight
                 width: root.width
                 y: (flickable.nTopButtonsVisible + index) * root.itemHeight
