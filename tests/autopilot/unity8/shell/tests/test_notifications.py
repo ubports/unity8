@@ -178,11 +178,13 @@ class InteractiveNotificationBase(NotificationsBase):
         ]
 
         actions = [
-            ('action_accept', 'Accept'),
-            ('action_decline_1', 'Decline'),
-            ('action_decline_2', '"Can\'t talk now, what\'s up?"'),
-            ('action_decline_3', '"I call you back."'),
-            ('action_decline_4', 'Send custom message...'),
+            ('action_accept', 'Hold + Answer'),
+            ('action_decline_1', 'End + Answer'),
+            ('action_decline_2', 'Decline'),
+            ('action_decline_3', 'messages:I missed your call - can you call me now?'),
+            ('action_decline_4', 'messages:I\'m running late. I\'m on my way.'),
+            ('action_decline_5', 'messages:I\'m busy at the moment. I\'ll call later.'),
+            ('action_decline_6', 'edit:Custom'),
         ]
 
         self._create_interactive_notification(
@@ -200,14 +202,8 @@ class InteractiveNotificationBase(NotificationsBase):
         notification = get_notification()
         self._assert_notification(notification, summary, body, True, True, 1.0)
         initial_height = notification.height
-        self.touch.tap_object(notification.select_single(objectName="button1"))
-        self.assertThat(
-            notification.height,
-            Eventually(Equals(initial_height +
-                              3 * notification.select_single(
-                                  objectName="buttonColumn").spacing +
-                              3 * notification.select_single(
-                                  objectName="button4").height)))
+        self.touch.tap_object(notification.select_single(objectName="combobutton_dropdown"))
+        self.assertThat(notification.select_single(objectName="button2").expanded, Eventually(Equals(True)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
