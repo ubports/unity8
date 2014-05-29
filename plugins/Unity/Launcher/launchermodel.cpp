@@ -200,22 +200,21 @@ QString LauncherModel::getUrlForAppId(const QString &appId) const
 {
     // appId is either an appId or a legacy app name.  Let's find out which
     QString url;
-    gchar *package, *app, *version, *longAppId;
+    gchar *longAppId;
 
     // assume legacy app until proven otherwise
     url = "application:///" + appId + ".desktop";
 
-    if (upstart_app_launch_app_id_parse(appId.toLatin1().constData(),
-                                        &package, &app, &version)) {
-        // Turn it back into an appId to test if it's a click app or not
-        longAppId = upstart_app_launch_triplet_to_app_id(package, app, version);
-        if (longAppId != nullptr) { // it is a click app!
-            url = QString("appid://%1/%2/%3").arg(package, app, version);
-            g_free(longAppId);
-        }
-        g_free(package);
-        g_free(app);
-        g_free(version);
+    // Test if appid is really a click package name
+    QStringList parts = appId.split('_');
+    QString package = parts.value(0);
+    QString app = parts.value(1);
+    longAppId = upstart_app_launch_triplet_to_app_id(package.toLatin1().constData(),
+                                                     app.toLatin1().constData(),
+                                                     nullptr);
+    if (longAppId != nullptr) { // it is a click app!
+        url = "appid://" + parts.join('/') + "/current-user-version";
+        g_free(longAppId);
     }
 
     return url;
