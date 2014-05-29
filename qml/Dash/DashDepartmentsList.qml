@@ -61,7 +61,7 @@ Item {
             id: backButton
             objectName: "backButton"
             width: parent.width
-            visible: department && !department.isRoot
+            visible: department && !department.isRoot || false
             height: visible ? itemHeight : 0
 
             onClicked: root.goBackToParentClicked();
@@ -101,7 +101,7 @@ Item {
             objectName: "allButton"
             anchors.top: backButton.bottom
             width: parent.width
-            visible: department && (!department.isRoot || (root.currentDepartment && !root.currentDepartment.isRoot && root.currentDepartment.parentId == department.departmentId))
+            visible: department && (!department.isRoot || (root.currentDepartment && !root.currentDepartment.isRoot && root.currentDepartment.parentDepartmentId == department.departmentId)) || false
             height: itemHeight
 
             Label {

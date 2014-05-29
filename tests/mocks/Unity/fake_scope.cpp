@@ -145,7 +145,7 @@ void Scope::closeScope(unity::shell::scopes::ScopeInterface* /*scope*/)
     qFatal("Scope::closeScope is not implemented");
 }
 
-QString Scope::currentDepartment() const
+QString Scope::currentDepartmentId() const
 {
     return m_currentDeparment;
 }
@@ -175,5 +175,5 @@ unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& i
 void Scope::loadDepartment(const QString& id)
 {
     m_currentDeparment = id;
-    Q_EMIT currentDepartmentChanged();
+    Q_EMIT currentDepartmentIdChanged();
 }

@@ -59,7 +59,7 @@ public:
     Q_INVOKABLE void cancelActivation() override;
     Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope) override;
 
-    QString currentDepartment() const override;
+    QString currentDepartmentId() const override;
     bool hasDepartments() const override;
     Q_INVOKABLE unity::shell::scopes::DepartmentInterface* getDepartment(const QString& id) override;
     Q_INVOKABLE void loadDepartment(const QString& id) override;

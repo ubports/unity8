@@ -27,7 +27,7 @@ AbstractButton {
 
     property bool showList: false
 
-    readonly property var currentDepartment: scope && scope.hasDepartments ? scope.getDepartment(scope.currentDepartment) : null
+    readonly property var currentDepartment: scope && scope.hasDepartments ? scope.getDepartment(scope.currentDepartmentId) : null
 
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
@@ -128,7 +128,7 @@ AbstractButton {
                 }
             }
             onGoBackToParentClicked: {
-                scope.loadDepartment(department.parentId);
+                scope.loadDepartment(department.parentDepartmentId);
                 isGoingBack = true;
                 departmentModel.setProperty(departmentListView.currentIndex - 1, "nullifyDepartment", false);
                 departmentListView.currentIndex--;
@@ -137,7 +137,7 @@ AbstractButton {
                 showList = false;
                 if (root.currentDepartment.count == 0) {
                     // For leaves we have to go to the parent too
-                    scope.loadDepartment(root.currentDepartment.parentId);
+                    scope.loadDepartment(root.currentDepartment.parentDepartmentId);
                 }
             }
         }
@@ -161,7 +161,7 @@ AbstractButton {
     onScopeChanged: {
         departmentModel.clear();
         if (scope && scope.hasDepartments) {
-            departmentModel.append({"departmentId": scope.currentDepartment, "nullifyDepartment": false});
+            departmentModel.append({"departmentId": scope.currentDepartmentId, "nullifyDepartment": false});
         }
     }
 
@@ -169,7 +169,7 @@ AbstractButton {
         target: scope
         onHasDepartmentsChanged: {
             if (scope.hasDepartments) {
-                departmentModel.append({"departmentId": scope.currentDepartment, "nullifyDepartment": false});
+                departmentModel.append({"departmentId": scope.currentDepartmentId, "nullifyDepartment": false});
             } else {
                 departmentModel.clear();
             }

@@ -48,7 +48,7 @@ QString Department::allLabel() const
     return m_allLabel;
 }
 
-QString Department::parentId() const
+QString Department::parentDepartmentId() const
 {
     return m_parentId;
 }
@@ -113,7 +113,7 @@ QVariant Department::data(const QModelIndex &index, int role) const
             return m_departmentId == "root" && index.row() != 3;
             break;
         case RoleIsActive:
-            return m_scope->currentDepartment() == data(index, RoleDepartmentId);
+            return m_scope->currentDepartmentId() == data(index, RoleDepartmentId);
             break;
     }
     return QVariant();
