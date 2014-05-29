@@ -75,7 +75,6 @@ BasicShell {
         target: LightDM.Greeter
 
         onIdle: {
-            greeter.enabled = true
             greeter.showNow()
         }
 
@@ -143,6 +142,7 @@ BasicShell {
             function login() {
                 enabled = false;
                 LightDM.Greeter.startSessionSync();
+                enabled = true;
             }
 
             onShownChanged: {
