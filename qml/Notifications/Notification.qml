@@ -329,6 +329,7 @@ Item {
             ComboButton {
                 id: comboButton
 
+                objectName: "button2"
                 width: parent.width
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
                 gradient: darkgreyGradient
@@ -365,6 +366,7 @@ Item {
                                     MouseArea {
                                         id: comboInputArea
 
+                                        objectName: "button" + index
                                         width: comboButton.width
                                         height: comboIcon.height + units.gu(2)
 
