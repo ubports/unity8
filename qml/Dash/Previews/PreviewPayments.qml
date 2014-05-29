@@ -38,8 +38,6 @@ PreviewWidget {
         objectName: "paymentButton"
         color: Theme.palette.selected.foreground
         text: paymentClient.formattedPrice
-        iconSource: data && data.icon || ""
-        iconPosition: "left"
         onClicked: paymentClient.start()
         anchors.right: parent.right
         width: (root.width - units.gu(1)) / 2
@@ -49,9 +47,9 @@ PreviewWidget {
             price: paymentButton.source["price"]
             currency: paymentButton.source["currency"]
             storeItemId: paymentButton.source["store_item_id"]
-            onFinished: root.triggered(widgetId, "finished", data)
-            onCanceled: root.triggered(widgetId, "canceled", data)
-            onError: root.triggered(widgetId, "error", data)
+            onPurchaseCompleted: root.triggered(widgetId, "purchaseCompleted", paymentButton.source)
+            onPurchaseCanceled: root.triggered(widgetId, "purchaseCanceled", paymentButton.source)
+            onPurchaseError: root.triggered(widgetId, "purchaseError", paymentButton.source)
         }
     }
 }

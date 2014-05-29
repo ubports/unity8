@@ -90,12 +90,12 @@ void observer(PayPackage* package, const char* /*itemid*/, PayPackageItemStatus 
     case PAY_PACKAGE_ITEM_STATUS_VERIFYING:
         break;
     case PAY_PACKAGE_ITEM_STATUS_PURCHASED:
-        Q_EMIT self->finished();
+        Q_EMIT self->purchaseCompleted();
         break;
     case PAY_PACKAGE_ITEM_STATUS_PURCHASING:
         break;
     case PAY_PACKAGE_ITEM_STATUS_NOT_PURCHASED:
-        Q_EMIT self->error("not purchased");
+        Q_EMIT self->purchaseError("not purchased");
         break;
     case PAY_PACKAGE_ITEM_STATUS_UNKNOWN:
         break;
@@ -115,11 +115,9 @@ void Payments::start()
     qDebug() << "after new" << ba.data();
     pay_package_item_observer_install(package, observer, this);
     qDebug() << "after observer install";
+    // FIXME: Enable once verification is working in pay-service.
     //pay_package_item_start_verification(package, ba.data());
     qDebug() << "after start verify";
     pay_package_item_start_purchase(package, ba.data());
     qDebug() << "after start purchase";
-
-    // FIXME: remove this when the payments service starts working ok
-    finished();
 }
