@@ -368,12 +368,26 @@ Item {
                                         width: comboButton.width
                                         height: comboIcon.height + units.gu(2)
 
+                                        function getComboIcon (str) {
+                                            var result = str.split(":")
+                                            return result[0]
+                                        }
+
+                                        function getComboLabel (str) {
+                                            var result = str.split(":")
+                                            return result[1]
+                                        }
+
                                         onClicked: {
                                             notification.notification.invokeAction(actionId)
                                         }
 
                                         ListItem.ThinDivider {
                                             visible: index > 3
+                                        }
+
+                                        Component.onCompleted: {
+                                            comboIcon.name = getComboIcon(actionLabel)
                                         }
 
                                         Icon {
@@ -389,7 +403,7 @@ Item {
                                             }
                                             width: units.gu(2)
                                             height: units.gu(2)
-                                            name: "messages"
+                                            //name: getComboIcon(actionLabel)
                                             color: "white"
                                         }
 
@@ -403,7 +417,7 @@ Item {
                                             height: comboIcon.height
                                             fontSize: "small"
                                             color: "white"
-                                            text: actionLabel
+                                            text: getComboLabel(actionLabel)
                                         }
                                     }
                                 }
