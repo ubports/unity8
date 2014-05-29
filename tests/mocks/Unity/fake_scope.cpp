@@ -166,8 +166,8 @@ unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& i
         parentId = "root";
         parentLabel = "root";
     } else if (id.startsWith("child")) {
-        parentId = "middle";
-        parentLabel = "middle";
+        parentId = id.mid(5, 7);
+        parentLabel = parentId;
     }
     return new Department(id, id, "all"+id, parentId, parentLabel, this);
 }

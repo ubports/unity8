@@ -124,13 +124,13 @@ Item {
 
             waitForRendering(categoryListView);
 
-            categoryListView.contentY = units.gu(11);
-            console.log("contentY", categoryListView.contentY);
+            categoryListView.contentY = units.gu(15);
+            tryCompare(categoryListView, "contentY", units.gu(15));
 
             var startX = dashContentList.width/2;
             var startY = dashContentList.height/2;
             touchFlick(dashContentList, startX - units.gu(2), startY, startX, startY);
-            tryCompare(categoryListView, "contentY", units.gu(11) - categoryListView.pageHeader.height);
+            tryCompare(categoryListView, "contentY", units.gu(15) - categoryListView.pageHeader.height);
         }
 
         function test_set_current_scope_reset() {
