@@ -22,7 +22,6 @@
 #include "backend/launcherbackend.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
-#include <upstart-app-launch.h>
 
 using namespace unity::shell::application;
 

@@ -75,7 +75,6 @@ BasicShell {
         target: LightDM.Greeter
 
         onIdle: {
-            greeter.enabled = true
             greeter.showNow()
         }
 
@@ -143,6 +142,7 @@ BasicShell {
             function login() {
                 enabled = false;
                 LightDM.Greeter.startSessionSync();
+                enabled = true;
             }
 
             onShownChanged: {
@@ -201,7 +201,7 @@ BasicShell {
             dragAreaWidth: shell.edgeSize
             available: !edgeDemo.active
             onLauncherApplicationSelected: {
-                shell.activateApplication(LauncherModel.getUrlForAppId(appId))
+                shell.activateApplication("application:///" + appId + ".desktop")
             }
             onShownChanged: {
                 if (shown) {
