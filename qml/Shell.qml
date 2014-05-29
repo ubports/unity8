@@ -356,6 +356,7 @@ FocusScope {
 
         Connections {
             id: dBusUnitySessionServiceConnection
+            objectName: "dBusUnitySessionServiceConnection"
             target: DBusUnitySessionService
 
             function closeAllApps() {
@@ -801,7 +802,7 @@ FocusScope {
 
     Timer {
         id: powerKeyTimer
-        interval: 500
+        interval: 2000
         repeat: false
         triggeredOnStart: false
 
