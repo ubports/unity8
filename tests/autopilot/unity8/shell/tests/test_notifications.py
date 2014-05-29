@@ -204,6 +204,7 @@ class InteractiveNotificationBase(NotificationsBase):
         initial_height = notification.height
         self.touch.tap_object(notification.select_single(objectName="combobutton_dropdown"))
         self.assertThat(notification.select_single(objectName="button2").expanded, Eventually(Equals(True)))
+        time.sleep(2)
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
