@@ -354,6 +354,47 @@ FocusScope {
             }
         }
 
+        Component {
+            id: powerDialog
+            Dialog {
+                id: dialoguePower
+                title: "Power"
+                text: "What do you want to do?"
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Shutdown"
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Shutdown();
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Reboot"
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Reboot();
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        function showPowerDialog() {
+            if (!stages.dialogShown) {
+                stages.dialogShown = true;
+                PopupUtils.open(powerDialog);
+            }
+        }
+
         Connections {
             id: dBusUnitySessionServiceConnection
             objectName: "dBusUnitySessionServiceConnection"
@@ -807,7 +848,7 @@ FocusScope {
         triggeredOnStart: false
 
         onTriggered: {
-            DBusUnitySessionService.RequestShutdown();
+            stages.showPowerDialog();
         }
     }
 }
