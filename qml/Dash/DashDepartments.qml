@@ -21,13 +21,14 @@ AbstractButton {
     id: root
     objectName: "dashDepartments"
 
-    property int windowHeight: 0
-
     property var scope: null
 
     property bool showList: false
 
     readonly property var currentDepartment: scope && scope.hasDepartments ? scope.getDepartment(scope.currentDepartmentId) : null
+
+    property alias windowWidth: blackRect.width
+    property alias windowHeight: blackRect.height
 
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
@@ -41,11 +42,11 @@ AbstractButton {
     }
 
     Rectangle {
+        id: blackRect
         color: "black"
         opacity: 0.3
-        width: parent.width
         anchors.top: departmentListView.top
-        height: windowHeight
+        anchors.right: parent.right
         visible: departmentListView.currentItem && departmentListView.currentItem.visible
     }
 
@@ -95,6 +96,7 @@ AbstractButton {
         objectName: "departmentListView"
         orientation: ListView.Horizontal
         interactive: false
+        clip: root.width != windowWidth
         model: ListModel {
             id: departmentModel
             // We have two roles
