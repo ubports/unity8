@@ -30,7 +30,7 @@ Department::Department(const QString& departmentId, const QString& label, const 
  , m_scope(scope)
 {
     QTimer::singleShot(1500, this, SLOT(slotLoaded()));
-    connect(scope, SIGNAL(currentDepartmentChanged()), this, SLOT(slotCurrentDepartmentChanged()));
+    connect(scope, SIGNAL(currentDepartmentIdChanged()), this, SLOT(slotCurrentDepartmentChanged()));
 }
 
 QString Department::departmentId() const
