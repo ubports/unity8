@@ -183,7 +183,7 @@ void MockLauncherModel::setUser(const QString &username)
     // TODO: implement this...
 }
 
-QString LauncherModel::getUrlForAppId(const QString &appId)
+QString MockLauncherModel::getUrlForAppId(const QString &appId) const
 {
     return "application:///" + appId + ".desktop";
 }

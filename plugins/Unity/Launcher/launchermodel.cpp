@@ -196,7 +196,7 @@ void LauncherModel::setUser(const QString &username)
     m_backend->setUser(username);
 }
 
-QString LauncherModel::getUrlForAppId(const QString &appId)
+QString LauncherModel::getUrlForAppId(const QString &appId) const
 {
     // appId is either an appId or a legacy app name.  Let's find out which
     QString url;
@@ -205,12 +205,12 @@ QString LauncherModel::getUrlForAppId(const QString &appId)
     // assume legacy app until proven otherwise
     url = "application:///" + appId + ".desktop";
 
-    if (upstart_app_launch_app_id_parse(appId.first().toLatin1().constData(),
+    if (upstart_app_launch_app_id_parse(appId.toLatin1().constData(),
                                         &package, &app, &version)) {
         // Turn it back into an appId to test if it's a click app or not
         longAppId = upstart_app_launch_triplet_to_app_id(package, app, version);
         if (longAppId != nullptr) { // it is a click app!
-            url = QString("appid://%1/%2/%3").args(package, app, version);
+            url = QString("appid://%1/%2/%3").arg(package, app, version);
             g_free(longAppId);
         }
         g_free(package);
