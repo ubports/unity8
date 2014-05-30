@@ -28,9 +28,7 @@ Rectangle {
     // Controls to be set from outside
     property int dragAreaWidth
     property real maximizedAppTopMargin
-
-    // FIXME: Should be registerd singleton type QAbstractItemModel.
-    property var surfaces
+    property var applications
 
     // State information propagated to the outside
     property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
@@ -95,8 +93,6 @@ Rectangle {
                 applicationSwitchingAnimation.start();
             } else {
                 ApplicationManager.focusApplication(appId);
-                // TODO: Should happen behind the schenes
-                surfaces.move(surfaces.getIndexOfSurfaceWithAppId(appId), 0);
             }
         }
 
@@ -213,9 +209,6 @@ Rectangle {
                     if (spreadView.selectedIndex >= 0) {
                         ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
 
-                        // TODO: Should happen behind the schenes
-                        surfaces.move(spreadView.selectedIndex, 0);
-
                         spreadView.selectedIndex = -1
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
@@ -235,7 +228,7 @@ Rectangle {
 
             Repeater {
                 id: spreadRepeater
-                model: root.surfaces
+                model: root.applications
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
                     objectName: "appDelegate" + index
@@ -249,7 +242,7 @@ Rectangle {
                     height: spreadView.height
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
-                    surface: model.surface
+                    application: root.applications.get(index)
                     interactive: !spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
 
