@@ -35,9 +35,14 @@ Item {
         if (surface) {
             print("########################## surface created!")
             surface.parent = root;
-            surface.enabled = root.interactive;
             surface.z = 1;
         }
+    }
+
+    Binding {
+        target: surface
+        property: "enabled"
+        value: root.interactive
     }
 
     state: {
@@ -76,12 +81,6 @@ Item {
             name: "empty"
         }
     ]
-
-    Component.onDestruction: {
-        if (surface) {
-            surface.release();
-        }
-    }
 
     BorderImage {
         id: dropShadow
