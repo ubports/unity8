@@ -28,9 +28,7 @@ add_library(UnityLauncher-qml MODULE
     ${QMLLAUNCHERPLUGIN_SRC}
     )
 
-target_link_libraries(UnityLauncher-qml
-    ${GSETTINGS_QT_LDFLAGS}
-)
+target_link_libraries(UnityLauncher-qml ${GSETTINGS_QT_LDFLAGS})
 
 qt5_use_modules(UnityLauncher-qml DBus Qml)
 
