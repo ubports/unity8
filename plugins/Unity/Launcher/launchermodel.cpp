@@ -22,7 +22,6 @@
 #include "backend/launcherbackend.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
-#include <upstart-app-launch.h>
 
 using namespace unity::shell::application;
 
@@ -199,28 +198,17 @@ void LauncherModel::setUser(const QString &username)
 QString LauncherModel::getUrlForAppId(const QString &appId) const
 {
     // appId is either an appId or a legacy app name.  Let's find out which
-    QString url;
-    gchar *longAppId;
-
     if (appId.isEmpty())
         return QString();
 
-    // assume legacy app until proven otherwise
-    url = "application:///" + appId + ".desktop";
+    QString df = m_backend->desktopFile(appId + ".desktop");
+    if (!df.isEmpty())
+        return "application:///" + appId + ".desktop";
 
-    // Test if appid is really a click package name
     QStringList parts = appId.split('_');
     QString package = parts.value(0);
-    QString app = parts.value(1);
-    longAppId = upstart_app_launch_triplet_to_app_id(package.toLatin1().constData(),
-                                                     app.isEmpty() ? nullptr : app.toLatin1().constData(),
-                                                     nullptr);
-    if (longAppId != nullptr) { // it is a click app!
-        url = "appid://" + QString(longAppId).replace('_', '/');
-        g_free(longAppId);
-    }
-
-    return url;
+    QString app = parts.value(1, "first-listed-app");
+    return "appid://" + package + "/" + app + "/current-user-version";
 }
 
 void LauncherModel::refreshStoredApplications()

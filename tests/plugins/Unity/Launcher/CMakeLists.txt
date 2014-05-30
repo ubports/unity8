@@ -1,22 +1,17 @@
-pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=1)
-pkg_check_modules(UPSTART_APP_LAUNCH REQUIRED upstart-app-launch-2)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend
-    ${GLIB_INCLUDE_DIRS}
     ${GSETTINGS_QT_INCLUDE_DIRS}
-    ${UPSTART_APP_LAUNCH_INCLUDE_DIRS}
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
-add_definitions(-DCMAKE_BINARY_DIR="${CMAKE_BINARY_DIR}")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherBackendTest
@@ -55,9 +50,7 @@ add_executable(launchermodeltestExec
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec
-    ${GLIB_LDFLAGS}
     ${GSETTINGS_QT_LDFLAGS}
-    ${UPSTART_APP_LAUNCH_LDFLAGS}
 )
 qt5_use_modules(launchermodeltestExec Test Core DBus)
 
