@@ -28,7 +28,6 @@ Rectangle {
     // Controls to be set from outside
     property int dragAreaWidth
     property real maximizedAppTopMargin
-    property var applications
 
     // State information propagated to the outside
     property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
@@ -228,7 +227,7 @@ Rectangle {
 
             Repeater {
                 id: spreadRepeater
-                model: root.applications
+                model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
                     objectName: "appDelegate" + index
@@ -242,7 +241,6 @@ Rectangle {
                     height: spreadView.height
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
-                    application: root.applications.get(index)
                     interactive: !spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
 

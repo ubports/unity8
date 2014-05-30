@@ -232,11 +232,6 @@ FocusScope {
 
             Binding {
                 target: applicationsDisplayLoader.item
-                property: "applications"
-                value: ApplicationManager
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
                 property: "dragAreaWidth"
                 value: shell.edgeSize
             }

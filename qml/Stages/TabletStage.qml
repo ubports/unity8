@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
-import Unity.Application 0.1
+import Mir.Application 0.1
 import Utils 0.1
 import "../Components"
 
@@ -36,9 +36,8 @@ Item {
     property bool fullscreen: true
     property bool overlayMode: false
 
-    readonly property int overlayWidth: priv.overlayOverride ? 0 : priv.sideStageWidth
+    readonly property int overlayWidth: priv.overlayOverride ? 0 : spreadView.sideStageWidth
 
-    property var surfaces
     property real maximizedAppTopMargin
 
     QtObject {
@@ -249,7 +248,7 @@ Item {
 
             Repeater {
                 id: spreadRepeater
-                model: root.surfaces
+                model: ApplicationManager
 
                 delegate: Rectangle {
                     height: spreadView.height
@@ -292,7 +291,6 @@ Item {
                         selected: spreadView.selectedIndex == index
                         otherSelected: spreadView.selectedIndex >= 0 && !selected
                         isInSideStage: priv.sideStageAppId == model.appId
-                        surface: model.surface
                         interactive: !spreadView.interactive
                         maximizedAppTopMargin: root.maximizedAppTopMargin
 
