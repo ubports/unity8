@@ -62,7 +62,7 @@ Item {
         height: __panelMinusSeparatorLineHeight
         y: 0
 
-        Behavior on y { StandardAnimation { duration: UbuntuAnimation.FastDuration } }
+        Behavior on y { StandardAnimation { duration: 500 } }
     }
 
     PanelSeparatorLine {

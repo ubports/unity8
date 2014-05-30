@@ -24,7 +24,6 @@
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     m_service(new AccountsServiceDBusAdaptor(this)),
-    m_user(qgetenv("USER")),
     m_demoEdges(false),
     m_statsWelcomeScreen(false)
 {
@@ -32,6 +31,9 @@ AccountsService::AccountsService(QObject* parent)
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
     connect(m_service, SIGNAL(maybeChanged(const QString &)),
             this, SLOT(maybeChanged(const QString &)));
+
+    setUser(qgetenv("USER"));
+    updateDemoEdgesForCurrentUser();
 }
 
 QString AccountsService::user() const
@@ -57,7 +59,20 @@ bool AccountsService::demoEdges() const
 void AccountsService::setDemoEdges(bool demoEdges)
 {
     m_demoEdges = demoEdges;
+    Q_EMIT demoEdgesChanged();
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+}
+
+bool AccountsService::demoEdgesForCurrentUser() const
+{
+    return m_demoEdgesForCurrentUser;
+}
+
+void AccountsService::setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser)
+{
+    m_demoEdgesForCurrentUser = demoEdgesForCurrentUser;
+    Q_EMIT demoEdgesForCurrentUserChanged();
+    m_service->setUserProperty(qgetenv("USER"), "com.canonical.unity.AccountsService", "demo-edges", demoEdgesForCurrentUser);
 }
 
 QString AccountsService::backgroundFile() const
@@ -76,6 +91,15 @@ void AccountsService::updateDemoEdges()
     if (m_demoEdges != demoEdges) {
         m_demoEdges = demoEdges;
         Q_EMIT demoEdgesChanged();
+    }
+}
+
+void AccountsService::updateDemoEdgesForCurrentUser()
+{
+    auto demoEdgesForCurrentUser = m_service->getUserProperty(qgetenv("USER"), "com.canonical.unity.AccountsService", "demo-edges").toBool();
+    if (m_demoEdgesForCurrentUser != demoEdgesForCurrentUser) {
+        m_demoEdgesForCurrentUser = demoEdgesForCurrentUser;
+        Q_EMIT demoEdgesForCurrentUserChanged();
     }
 }
 
@@ -99,13 +123,14 @@ void AccountsService::updateStatsWelcomeScreen()
 
 void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
-    if (m_user != user) {
-        return;
-    }
-
     if (interface == "com.canonical.unity.AccountsService") {
         if (changed.contains("demo-edges")) {
-            updateDemoEdges();
+            if (qgetenv("USER") == user) {
+                updateDemoEdgesForCurrentUser();
+            }
+            if (m_user == user) {
+                updateDemoEdges();
+            }
         }
     } else if (interface == "com.ubuntu.touch.AccountsService.SecurityPrivacy") {
         if (changed.contains("StatsWelcomeScreen")) {
@@ -116,10 +141,8 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
 
 void AccountsService::maybeChanged(const QString &user)
 {
-    if (m_user != user) {
-        return;
+    if (m_user == user) {
+        // Standard properties might have changed
+        updateBackgroundFile();
     }
-
-    // Standard properties might have changed
-    updateBackgroundFile();
 }

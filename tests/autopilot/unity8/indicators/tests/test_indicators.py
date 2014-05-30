@@ -22,7 +22,6 @@ from testscenarios import multiply_scenarios
 
 from autopilot import platform
 
-from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 
@@ -35,7 +34,6 @@ class IndicatorTestCase(UnityTestCase):
             self.skipTest('Test cannot be run on the desktop.')
         super(IndicatorTestCase, self).setUp()
         self.unity_proxy = self.launch_unity()
-        unlock_unity(self.unity_proxy)
 
 
 class IndicatorExistsTestCase(IndicatorTestCase):

@@ -16,13 +16,14 @@
 
 import QtQuick 2.0
 import Dash 0.1
+import SessionManager 0.1
 
 ListViewWithPageHeader {
     maximumFlickVelocity: height * 10
     flickDeceleration: height * 2
 
     Connections {
-        target: greeter
-        onShownChanged: if (greeter.shown) showHeader()
+        target: SessionManager
+        onActiveChanged: if (!SessionManager.active) showHeader()
     }
 }

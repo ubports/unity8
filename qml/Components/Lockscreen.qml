@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.0
 import Ubuntu.Components.Popups 1.0
-import "../Components"
 
 Showable {
     id: root
@@ -49,8 +48,6 @@ Showable {
     property int minPinLength: -1
     property int maxPinLength: -1
 
-    property url background: ""
-
     signal entered(string passphrase)
     signal cancel()
     signal emergencyCall()
@@ -74,23 +71,6 @@ Showable {
 
     function showInfoPopup(title, text) {
         PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
-    }
-
-    Rectangle {
-        // In case background fails to load or is undefined
-        id: backgroundBackup
-        anchors.fill: parent
-        color: "black"
-    }
-
-    Image {
-        id: backgroundImage
-        objectName: "lockscreenBackground"
-        anchors {
-            fill: parent
-        }
-        source: root.required ? root.background : ""
-        fillMode: Image.PreserveAspectCrop
     }
 
     MouseArea {

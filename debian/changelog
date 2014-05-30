@@ -1,3 +1,9 @@
+unity8 (7.87+14.10.20140505-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Bump version for Breaks due to unity8-greeter
+
+ -- Michael Terry <mterry@ubuntu.com>  Wed, 02 Apr 2014 14:39:45 -0400
+
 unity8 (7.86+14.10.20140527-0ubuntu1) utopic; urgency=low
 
   [ Andrea Cimitan ]
