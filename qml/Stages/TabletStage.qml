@@ -36,7 +36,7 @@ Item {
     property bool fullscreen: true
     property bool overlayMode: false
 
-    readonly property int overlayWidth: priv.overlayOverride ? 0 : priv.sideStageWidth
+    readonly property int overlayWidth: priv.overlayOverride ? 0 : spreadView.sideStageWidth
 
     QtObject {
         id: priv
@@ -76,24 +76,19 @@ Item {
         function evaluateOneWayFlick(gesturePoints) {
             // Need to have at least 3 points to recognize it as a flick
             if (gesturePoints.length < 3) {
-                print("not enough points...")
                 return false;
             }
             // Need to have a movement of at least 2 grid units to recognize it as a flick
             if (Math.abs(gesturePoints[gesturePoints.length - 1] - gesturePoints[0]) < units.gu(2)) {
-                print("not moved far enough")
                 return false;
             }
 
             var oneWayFlick = true;
             var smallestX = gesturePoints[0];
             var leftWards = gesturePoints[1] < gesturePoints[0];
-            print("is leftwards", leftWards)
             for (var i = 1; i < gesturePoints.length; i++) {
-                print("point is", gesturePoints[i])
                 if ((leftWards && gesturePoints[i] >= smallestX)
                         || (!leftWards && gesturePoints[i] <= smallestX)) {
-                    print("found jitter", leftWards, gesturePoints[i], smallestX)
                     oneWayFlick = false;
                     break;
                 }
@@ -319,6 +314,8 @@ Item {
                         height: spreadView.height
                         width: model.stage == ApplicationInfoInterface.MainStage ? spreadView.width : spreadView.sideStageWidth
 //                        opacity: .3
+
+                        onWidthChanged: print("width changed!", width)
 
                         active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
                         zIndex: parent.z
