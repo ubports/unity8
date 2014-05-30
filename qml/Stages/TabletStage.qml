@@ -36,9 +36,7 @@ Item {
     property bool fullscreen: true
     property bool overlayMode: false
 
-    readonly property int overlayWidth: priv.overlayOverride ? 0 : spreadView.sideStageWidth
-
-    property real maximizedAppTopMargin
+    readonly property int overlayWidth: priv.overlayOverride ? 0 : priv.sideStageWidth
 
     QtObject {
         id: priv
@@ -74,17 +72,53 @@ Item {
             }
             return -1;
         }
+
+        function evaluateOneWayFlick(gesturePoints) {
+            // Need to have at least 3 points to recognize it as a flick
+            if (gesturePoints.length < 3) {
+                print("not enough points...")
+                return false;
+            }
+            // Need to have a movement of at least 2 grid units to recognize it as a flick
+            if (Math.abs(gesturePoints[gesturePoints.length - 1] - gesturePoints[0]) < units.gu(2)) {
+                print("not moved far enough")
+                return false;
+            }
+
+            var oneWayFlick = true;
+            var smallestX = gesturePoints[0];
+            var leftWards = gesturePoints[1] < gesturePoints[0];
+            print("is leftwards", leftWards)
+            for (var i = 1; i < gesturePoints.length; i++) {
+                print("point is", gesturePoints[i])
+                if ((leftWards && gesturePoints[i] >= smallestX)
+                        || (!leftWards && gesturePoints[i] <= smallestX)) {
+                    print("found jitter", leftWards, gesturePoints[i], smallestX)
+                    oneWayFlick = false;
+                    break;
+                }
+                smallestX = gesturePoints[i];
+            }
+            return oneWayFlick;
+        }
     }
 
     Connections {
         target: ApplicationManager
         onFocusRequested: {
-            if (spreadView.visible) {
+            printStack()
+            if (spreadView.interactive) {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
-                priv.switchToApp(appId);
+//                priv.switchToApp(appId);
                 ApplicationManager.focusApplication(appId)
             }
+        }
+    }
+
+    function printStack() {
+        for (var i = 0; i < ApplicationManager.count; i++) {
+            print("AppMan item", i, ":", ApplicationManager.get(i).appId)
         }
     }
 
@@ -291,8 +325,6 @@ Item {
                         selected: spreadView.selectedIndex == index
                         otherSelected: spreadView.selectedIndex >= 0 && !selected
                         isInSideStage: priv.sideStageAppId == model.appId
-                        interactive: !spreadView.interactive
-                        maximizedAppTopMargin: root.maximizedAppTopMargin
 
                         progress: {
                             var tileProgress = (spreadView.contentX - zIndex * spreadView.tileDistance) / spreadView.width;
@@ -325,7 +357,6 @@ Item {
 
                         onClicked: {
                             if (spreadView.phase == 2) {
-                                print("selected index", index, "appId", ApplicationManager.get(index))
                                 if (ApplicationManager.focusedApplicationId == ApplicationManager.get(index).appId) {
                                     spreadView.snapTo(index);
                                 } else {
@@ -359,31 +390,52 @@ Item {
 
     Rectangle {
         id: sideStageDragHandle
-        color: "red"
+        color: "transparent"
         anchors { top: parent.top; bottom: parent.bottom; right: parent.right; rightMargin: spreadView.sideStageWidth }
         width: units.gu(2)
-        visible: spreadView.phase <= 0 && spreadView.sideStageVisible
+        opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
         property real progress: 0
         property bool dragging: false
 
-        onProgressChanged: print("prigress is", progress)
+        Behavior on opacity { UbuntuNumberAnimation {} }
+
+        Connections {
+            target: spreadView
+            onSideStageVisibleChanged: {
+                if (spreadView.sideStageVisible) {
+                    sideStageDragHandle.progress = 0;
+                }
+            }
+        }
+
+        Image {
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: parent.progress * spreadView.sideStageWidth - (width - parent.width) / 2
+            width: sideStageDragHandleMouseArea.pressed ? parent.width * 2 : parent.width
+            height: parent.height
+            source: "graphics/sidestage_handle@20.png"
+            Behavior on width { UbuntuNumberAnimation {} }
+        }
 
         MouseArea {
             id: sideStageDragHandleMouseArea
             anchors.fill: parent
             property int startX
+            property var gesturePoints: new Array()
             onPressed: {
+                gesturePoints = [];
                 startX = mouseX;
                 sideStageDragHandle.progress = 0;
                 sideStageDragHandle.dragging = true;
-                print("sideStageDragHandle pressed")
             }
             onMouseXChanged: {
-                sideStageDragHandle.progress = (-startX + mouseX) / spreadView.sideStageWidth
-                print("foooo", -spreadView.sideStageWidth + spreadView.sideStageWidth * spreadView.sideStageDragProgress)
+                sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth)
+                gesturePoints.push(mouseX);
             }
             onReleased: {
-                sideStageDragSnapAnimation.to = sideStageDragHandle.progress < 0.5 ? 0 : 1
+                var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
+                gesturePoints = [];
+                sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0
                 sideStageDragSnapAnimation.start();
             }
         }
@@ -405,9 +457,10 @@ Item {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
 
-        Rectangle { anchors.fill: parent; color: "#4400FF00"}
+//        Rectangle { anchors.fill: parent; color: "#4400FF00"}
 
         property bool attachedToView: false
+        property var gesturePoints: new Array()
 
         onTouchXChanged: {
             if (!dragging) {
@@ -422,18 +475,37 @@ Item {
                     spreadView.snap();
                 }
             }
+            gesturePoints.push(touchX);
+        }
+
+        onStatusChanged: {
+            if (status == DirectionalDragArea.Recognized) {
+                attachedToView = true;
+            }
         }
 
         onDraggingChanged: {
             if (dragging) {
-                attachedToView = true;
-            } else {
-                print("released on contentX", spreadView.contentX)
-                if (spreadView.contentX /spreadView.width < spreadView.positionMarker1) {
-                    print("rleased in phase 1")
+                // Gesture recognized. Start recording this gesture
+                gesturePoints = [];
+                return;
+            }
+
+            // Ok. The user released. Find out if it was a one-way movement.
+            var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
+            gesturePoints = [];
+
+            if (oneWayFlick && spreadView.contentX < spreadView.positionMarker1 * spreadView.width) {
+                // If it was a short one-way movement, do the Alt+Tab switch
+                // no matter if we didn't cross positionMarker1 yet.
+                spreadView.snapTo(spreadView.nextInStack);
+            } else if (!dragging && attachedToView) {
+                if (spreadView.contentX / spreadView.width < spreadView.positionMarker1) {
                     spreadView.snap();
-                } else if (spreadView.contentX / spreadView.width < spreadView.positionMarker3) {
-                    spreadView.snapTo(spreadView.nextInStack)
+                } else {
+                    // otherwise snap to the closest snap position we can find
+                    // (might be back to start, to app 1 or to spread)
+                    spreadView.snapTo(spreadView.nextInStack);
                 }
             }
         }

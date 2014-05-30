@@ -44,9 +44,9 @@ SpreadDelegate {
     property bool isInSideStage: false
 
     onSelectedChanged: {
-        print("selected changed:", selected)
+//        print("selected changed:", selected)
         if (selected) {
-            print("snappsshotting", index)
+//            print("snappsshotting", index)
             priv.snapshot();
         }
         priv.isSelected = selected;
@@ -66,13 +66,10 @@ SpreadDelegate {
             if (spreadView.phase == 1) {
                 var phase2Progress = spreadView.positionMarker4 - (root.zIndex * spreadView.tileDistance / spreadView.width);
                 priv.phase2StartTranslate = priv.easingAnimation(0, 1, 0, -spreadView.width + (root.zIndex * root.endDistance), phase2Progress);
-                print("calculating end value for", root.zIndex, priv.phase2StartTranslate, "startprogress:", phase2Progress)
+//                print("calculating end value for", root.zIndex, priv.phase2StartTranslate, "startprogress:", phase2Progress)
 
                 priv.phase2StartScale = priv.easingAnimation(0, 1, root.startScale, root.endScale, phase2Progress)
                 priv.phase2StartAngle = priv.easingAnimation(0, 1, root.startAngle, root.endAngle, phase2Progress)
-            }
-            if (spreadView.phase == 2) {
-                print("phase 2 entered: progress for index", root.zIndex, "is", root.progress)
             }
         }
     }
@@ -101,8 +98,8 @@ SpreadDelegate {
             selectedAngle = angle;
             selectedScale = priv.scale;
             selectedOpacity = priv.opacityTransform;
-            print("snapshotting at phase", spreadView.phase, negativeProgress);
-            print("snapshotted", root.zIndex, "prog:", selectedProgress, "translate:", selectedXTranslate, "angle", selectedAngle, "scale", selectedScale)
+//            print("snapshotting at phase", spreadView.phase, negativeProgress);
+//            print("snapshotted", root.zIndex, "prog:", selectedProgress, "translate:", selectedXTranslate, "angle", selectedAngle, "scale", selectedScale)
 //            selectedTopMarginProgress = topMarginProgress;
         }
 
@@ -135,7 +132,7 @@ SpreadDelegate {
             }
 
             if (isSelected) {
-                print("progress:", root.progress, negativeProgress)
+//                print("progress:", root.progress, negativeProgress)
                 if (model.stage == ApplicationInfoInterface.MainStage) {
                     return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, -spreadView.width, root.progress)
                 } else {
@@ -184,13 +181,11 @@ SpreadDelegate {
                     var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
                     var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
                     newTranslate = linearAnimation(startProgress, endProgress, 0, priv.phase2StartTranslate, root.progress);
-                    if (root.zIndex == 2) print("********** progress:", root.progress, "startProgress:", startProgress, "newTranslate", newTranslate)
                 }
             }
 
             if (spreadView.phase == 2) {
                 newTranslate = -easingCurve.value * (spreadView.width - root.zIndex * animatedEndDistance)
-                if (root.zIndex == 2) print("index", zIndex, "translate", newTranslate, "progress:", root.progress)
             }
 
             return newTranslate;
@@ -278,17 +273,12 @@ SpreadDelegate {
         }
 
         property real opacityTransform: {
-            if (otherSelected) {
-//                if (active && root.progress == 0) {
-//                    fadeBackInAnimation.start()
-//                }
+            if (otherSelected && spreadView.phase == 2) {
                 return linearAnimation(selectedProgress, negativeProgress, selectedOpacity, 0, root.progress)
             }
 
             return 1;
         }
-
-//        onXTranslateChanged: print("xtrnslate changed", xTranslate)
     }
 
     states: [
@@ -297,7 +287,6 @@ SpreadDelegate {
             PropertyChanges { target: priv; xTranslate: -spreadView.sideStageWidth + spreadView.sideStageWidth * spreadView.sideStageDragProgress }
         }
     ]
-    onStateChanged: print("jfdksjflkdsajfklsdjlfsdaklfjdsalkfjsad", state)
 
     transform: [
         Rotation {
