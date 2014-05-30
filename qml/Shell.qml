@@ -445,7 +445,7 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
 
-            property bool topmostSurfaceIsFullscreen: 
+            property bool topmostSurfaceIsFullscreen:
                 SurfaceManager.topmostSurface &&
                     SurfaceManager.topmostSurface.state === MirSurfaceItem.Fullscreen
 
