@@ -201,7 +201,7 @@ BasicShell {
             dragAreaWidth: shell.edgeSize
             available: !edgeDemo.active
             onLauncherApplicationSelected: {
-                shell.activateApplication("application:///" + appId + ".desktop")
+                shell.activateApplication(LauncherModel.getUrlForAppId(appId))
             }
             onShownChanged: {
                 if (shown) {
