@@ -1,3 +1,5 @@
+configure_file("data/click/db/test.conf.in" "${CMAKE_CURRENT_BINARY_DIR}/data/click/db/test.conf" @ONLY)
+
 # QML tests that do not require graphical capabilities.
 add_custom_target(qmlunittests)
 

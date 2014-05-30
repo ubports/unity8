@@ -127,6 +127,9 @@ private Q_SLOTS:
 
         appManager->addApplication(new MockApp("no-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+
+        qputenv("TEST_CLICK_DB", CMAKE_BINARY_DIR "/tests/data/click/db");
+        qputenv("TEST_CLICK_USER", "test-user");
     }
 
     // Removing apps from appmanager and launcher as pinned ones would stick
@@ -137,6 +140,8 @@ private Q_SLOTS:
         while (launcherModel->rowCount(QModelIndex()) > 0) {
             launcherModel->requestRemove(launcherModel->get(0)->appId());
         }
+        qputenv("TEST_CLICK_DB", "");
+        qputenv("TEST_CLICK_USER", "");
     }
 
     void testMove() {
@@ -273,6 +278,19 @@ private Q_SLOTS:
         // The pinned one needs to stay, the other needs to disappear
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
         QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
+    }
+
+    void testGetUrlForAppId() {
+        QCOMPARE(launcherModel->getUrlForAppId(QString()), QString());
+        QCOMPARE(launcherModel->getUrlForAppId(""), QString());
+        QCOMPARE(launcherModel->getUrlForAppId("not-an-app"), QString("application:///not-an-app.desktop"));
+        QCOMPARE(launcherModel->getUrlForAppId("not_an_app"), QString("application:///not_an_app.desktop"));
+        QCOMPARE(launcherModel->getUrlForAppId("notes-app"), QString("application:///notes-app.desktop"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("appid://com.test.good/application/1.2.3"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application"), QString("appid://com.test.good/application/1.2.3"));
+        // Note that this version change is intentional -- we want to fix old links to use latest current version
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application_0.0.0"), QString("appid://com.test.good/application/1.2.3"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application_1.2.3"), QString("appid://com.test.good/application/1.2.3"));
     }
 };
 

@@ -1,0 +1,2 @@
+[Click Database]
+root = @CMAKE_SOURCE_DIR@/tests/data/click/root
