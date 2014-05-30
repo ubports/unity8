@@ -156,7 +156,7 @@ FocusScope {
 
         onTouchXChanged: {
             if (status == DirectionalDragArea.Recognized) {
-                if (SurfaceManager.empty) {
+                if (ApplicationManager.empty) {
                     progress = Math.max(stages.width - stagesDragArea.width + touchX, stages.width * .3);
                 } else {
                     progress = stages.width - stagesDragArea.width + touchX;
@@ -166,7 +166,7 @@ FocusScope {
 
         onDraggingChanged: {
             if (!dragging) {
-                if (!SurfaceManager.empty && progress < stages.width - units.gu(10)) {
+                if (!ApplicationManager.empty && progress < stages.width - units.gu(10)) {
                     stages.show();
                 }
                 stagesDragArea.progress = Qt.binding(function () { return stages.width; });
@@ -189,8 +189,8 @@ FocusScope {
         property bool shown: false
         onShownChanged: {
             if (shown) {
-                if (SurfaceManager.topmostSurface) {
-                    ApplicationManager.focusApplication(SurfaceManager.topmostSurface.application.appId);
+                if (ApplicationManager.topmostApplication) {
+                    ApplicationManager.focusApplication(ApplicationManager.topmostApplication.appId);
                 }
             } else {
                 if (ApplicationManager.focusedApplicationId) {
@@ -440,11 +440,11 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
 
-            property bool topmostSurfaceIsFullscreen:
-                SurfaceManager.topmostSurface &&
-                    SurfaceManager.topmostSurface.state === MirSurfaceItem.Fullscreen
+            property bool topmostApplicationIsFullscreen:
+                ApplicationManager.topmostApplication &&
+                    ApplicationManager.topmostApplication.fullscreen
 
-            fullscreenMode: stages.roughlyFullyShown && topmostSurfaceIsFullscreen
+            fullscreenMode: stages.roughlyFullyShown && topmostApplicationIsFullscreen
                     && !greeter.shown && !lockscreen.shown
 
             searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
