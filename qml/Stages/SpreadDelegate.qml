@@ -33,7 +33,6 @@ Item {
     property var surface: application ? application.surface : null
     onSurfaceChanged: {
         if (surface) {
-            print("########################## surface created!")
             surface.parent = root;
             surface.z = 1;
         }
