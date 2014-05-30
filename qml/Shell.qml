@@ -837,8 +837,8 @@ FocusScope {
     Keys.onReleased: {
         if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
             powerKeyTimer.stop();
+            event.accepted = true;
         }
-        event.accepted = true;
     }
 
     Timer {
