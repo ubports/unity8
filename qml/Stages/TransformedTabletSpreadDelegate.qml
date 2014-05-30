@@ -74,7 +74,8 @@ SpreadDelegate {
         }
     }
 
-    QtObject {
+    // Required to be an item because we're using states on it.
+    Item {
         id: priv
 
         property bool nextInStack: spreadView.nextInStack == index;
@@ -279,14 +280,14 @@ SpreadDelegate {
 
             return 1;
         }
-    }
 
-    states: [
-        State {
-            name: "sideStageDragging"; when: spreadView.sideStageDragging && root.isInSideStage
-            PropertyChanges { target: priv; xTranslate: -spreadView.sideStageWidth + spreadView.sideStageWidth * spreadView.sideStageDragProgress }
-        }
-    ]
+        states: [
+            State {
+                name: "sideStageDragging"; when: spreadView.sideStageDragging && root.isInSideStage
+                PropertyChanges { target: priv; xTranslate: -spreadView.sideStageWidth + spreadView.sideStageWidth * spreadView.sideStageDragProgress }
+            }
+        ]
+    }
 
     transform: [
         Rotation {
