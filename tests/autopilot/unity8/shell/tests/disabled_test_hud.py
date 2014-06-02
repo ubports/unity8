@@ -19,8 +19,7 @@
 
 from __future__ import absolute_import
 
-from unity8.process_helpers import unlock_unity
-from unity8.shell import with_lightdm_mock, DragMixin
+from unity8.shell import DragMixin
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals
@@ -40,7 +39,6 @@ class TestHud(UnityTestCase, DragMixin):
 
         """
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
         hud_show_button = self.main_window.get_hud_show_button()
         edge_drag_area = self.main_window.get_hud_edge_drag_area()
         hud = self.main_window.get_hud()
@@ -81,7 +79,6 @@ class TestHud(UnityTestCase, DragMixin):
 
         """
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
@@ -117,7 +114,6 @@ class TestHud(UnityTestCase, DragMixin):
     def test_hide_hud_click(self):
         """Tapping the close button of the Hud must dismiss it."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
         hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
@@ -134,7 +130,6 @@ class TestHud(UnityTestCase, DragMixin):
 
         """
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
         hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
@@ -151,7 +146,6 @@ class TestHud(UnityTestCase, DragMixin):
     def test_launcher_hides_hud(self):
         """Opening the Launcher while the Hud is active must close the Hud."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
         hud = self.main_window.get_hud()
         launcher = self.main_window.get_launcher()
 

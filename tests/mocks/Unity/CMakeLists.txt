@@ -19,7 +19,6 @@ include_directories(
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
-  iconutils.cpp
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp

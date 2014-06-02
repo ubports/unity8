@@ -183,6 +183,11 @@ void MockLauncherModel::setUser(const QString &username)
     // TODO: implement this...
 }
 
+QString MockLauncherModel::getUrlForAppId(const QString &appId) const
+{
+    return "application:///" + appId + ".desktop";
+}
+
 void MockLauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager)
 {
     Q_UNUSED(applicationManager)

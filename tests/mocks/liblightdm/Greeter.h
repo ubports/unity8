@@ -88,13 +88,17 @@ public Q_SLOTS:
     void respond(const QString &response);
     void cancelAuthentication();
     void setLanguage (const QString &language);
+    void setResettable (bool resettable);
     bool startSessionSync(const QString &session=QString());
+    QString ensureSharedDataDirSync(const QString &username);
 
 Q_SIGNALS:
     void showMessage(QString text, QLightDM::Greeter::MessageType type);
     void showPrompt(QString text, QLightDM::Greeter::PromptType type);
     void authenticationComplete();
     void autologinTimerExpired();
+    void idle();
+    void reset();
 
 private:
     GreeterPrivate *d_ptr;
