@@ -61,7 +61,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "Tablet"
+        name: "MultiGreeter"
         when: windowShown
 
         function select_index(i) {

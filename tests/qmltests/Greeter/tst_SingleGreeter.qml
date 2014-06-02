@@ -68,7 +68,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "Phone"
+        name: "SingleGreeter"
         when: windowShown
 
         function cleanup() {
