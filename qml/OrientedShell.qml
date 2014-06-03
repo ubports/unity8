@@ -30,6 +30,8 @@ Item {
         // check device name and fix orientation if necessary
         if (applicationArguments.device() === "flo") {
             return Screen.angleBetween(Screen.primaryOrientation, Qt.InvertedLandscapeOrientation);
+        } else if (applicationArguments.device() === "manta") {
+            return Screen.angleBetween(Screen.primaryOrientation, Qt.LandscapeOrientation);
         }
 
         var screenOrientation = Screen.orientation;
