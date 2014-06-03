@@ -129,6 +129,7 @@ SpreadDelegate {
         property real xTranslate: {
             var newTranslate = 0;
 
+            print("zIndex:", zIndex, "index", index)
             if (otherSelected) {
                 return priv.selectedXTranslate
             }
@@ -144,7 +145,7 @@ SpreadDelegate {
 
             // The tile should move a bit to the left if a new one comes on top of it, but not for the Side Stage and not
             // when we're only dragging the side stage in on top of a main stage app
-            var shouldMoveAway = priv.movedActive && model.stage === ApplicationInfoInterface.MainStage &&
+            var shouldMoveAway = spreadView.nextInStack >= 0 && priv.movedActive && model.stage === ApplicationInfoInterface.MainStage &&
                     ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage
 
             if (active) {
@@ -255,7 +256,7 @@ SpreadDelegate {
             }
 
             // The tile should rotate a bit when another one comes on top, but not when only dragging the side stage in
-            var shouldMoveAway = movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage)
+            var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage)
 
             if (spreadView.phase == 0) {
                 if (nextInStack) {

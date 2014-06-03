@@ -60,8 +60,8 @@ Item {
                 priv.mainStageAppId = focusedAppId;
             }
 
-            appId0 = ApplicationManager.get(0).appId;
-            appId1 = ApplicationManager.get(1).appId;
+            appId0 = ApplicationManager.count >= 1 ? ApplicationManager.get(0).appId : "";
+            appId1 = ApplicationManager.count > 1 ? ApplicationManager.get(1).appId : "";
         }
 
         function indexOf(appId) {
@@ -173,16 +173,20 @@ Item {
                     return 1;
                 }
                 return 0;
+            case "overlay":
+                print("foo", priv.appId0, priv.appId1)
+                return 1;
             }
             print("unhandled nextInStack case!!!!!");
             return -1;
+
         }
         property int nextZInStack: indexToZIndex(nextInStack)
         onNextInStackChanged: print("next in stack is", nextInStack)
 
         states: [
             State {
-                name: "invalid" // temporary until Dash is an app and we always have a main stage app
+                name: "invalid"
             },
             State {
                 name: "main"
@@ -246,10 +250,21 @@ Item {
         // We don't want to really reorder them in the model because that allows us to keep track
         // of the last focused order.
         function indexToZIndex(index) {
+            print("zIndex calc for index", index);
             var app = ApplicationManager.get(index);
+            if (!app) {
+                return index;
+            }
+
             var isActive = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
+            print("got app", app.appId, isActive)
             if (isActive && app.stage == ApplicationInfoInterface.MainStage) return 0;
             if (isActive && app.stage == ApplicationInfoInterface.SideStage) {
+                if (!priv.mainStageAppId) {
+                    // only have SS apps running
+                    return 0;
+                }
+
                 if (spreadView.nextInStack >= 0 && ApplicationManager.get(spreadView.nextInStack).stage == ApplicationInfoInterface.MainStage) {
                     return Math.max(index, 2);
                 } else {
@@ -260,7 +275,7 @@ Item {
                 return priv.indexOf(priv.sideStageAppId) < index ? index - 1 : index;
             }
             if (index == spreadView.nextInStack && app.stage == ApplicationInfoInterface.SideStage) {
-                if (priv.sideStageAppId) {
+                if (priv.sideStageAppId && priv.mainStageAppId) {
                     return 2;
                 }
                 return 1;
@@ -406,7 +421,9 @@ Item {
                 sideStageDragHandle.dragging = true;
             }
             onMouseXChanged: {
-                sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth)
+                if (priv.mainStageAppId) {
+                    sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth)
+                }
                 gesturePoints.push(mouseX);
             }
             onReleased: {
