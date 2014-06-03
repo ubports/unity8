@@ -1,3 +1,13 @@
+unity8 (7.87+14.10.20140603.1-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Move env setup past session init in greeter wrapper. (LP: #1325882)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Jun 2014 10:33:11 +0000
+
 unity8 (7.87+14.10.20140530.1-0ubuntu3) utopic; urgency=medium
 
   * no change rebuild
