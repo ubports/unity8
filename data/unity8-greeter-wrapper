@@ -24,6 +24,9 @@ cleanup()
     if [ -n "$INIT_PID" ]; then
         kill "$INIT_PID"
     fi
+    if [ -n "$DBUS_PID" ]; then
+        kill "$DBUS_PID"
+    fi
     if [ -n "$CMD_PID" ]; then
         kill "$CMD_PID"
     fi
@@ -38,6 +41,14 @@ set_greeter_var()
         initctl set-env --global "$1=$2"
     fi
 }
+
+# Start dbus if it hasn't already been started for us (such as on the Desktop
+# images by dbus-launch).  We don't want to use dbus-launch ourselves because
+# we don't want dbus-x11 on the Touch images.
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    export DBUS_SESSION_BUS_ADDRESS=unix:abstract=$(mktemp -u /tmp/dbus-XXXXXXXXXX)
+    DBUS_PID=$(dbus-daemon --fork --session --print-pid --address="$DBUS_SESSION_BUS_ADDRESS")
+fi
 
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
 rm -f $SUB_SOCKET # clear socket in case we were hard shut down
