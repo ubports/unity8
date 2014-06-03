@@ -322,6 +322,7 @@ Item {
                         selected: spreadView.selectedIndex == index
                         otherSelected: spreadView.selectedIndex >= 0 && !selected
                         isInSideStage: priv.sideStageAppId == model.appId
+                        interactive: !spreadView.interactive
 
                         progress: {
                             var tileProgress = (spreadView.contentX - zIndex * spreadView.tileDistance) / spreadView.width;
