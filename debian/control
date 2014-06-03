@@ -98,7 +98,8 @@ Description: Unity 8 shell
 
 Package: unity8-greeter
 Architecture: any
-Depends: libglib2.0-bin,
+Depends: dbus-x11,
+         libglib2.0-bin,
          lightdm,
          unity8 (= ${source:Version}),
          ${misc:Depends},
