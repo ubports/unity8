@@ -64,6 +64,10 @@ INIT_PID=$!
 while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
 export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
 
+/sbin/initctl start dbus
+. /var/lib/lightdm/.cache/upstart/dbus-session
+[ -n "$DBUS_SESSION_BUS_ADDRESS" ] && export DBUS_SESSION_BUS_ADDRESS
+
 # We disable ofono using pulse.  It causes problems with racing with the user's
 # pulse.  We need to come up with a better long-term fix for this, because we
 # eventually need the greeter to play ringtones for users that aren't logged in.
