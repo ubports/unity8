@@ -1,3 +1,16 @@
+unity8 (7.87+14.10.20140530.1-0ubuntu3) utopic; urgency=medium
+
+  * no change rebuild
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 02 Jun 2014 16:19:10 +0200
+
+unity8 (7.87+14.10.20140530.1-0ubuntu2) utopic; urgency=medium
+
+  * drop dbus-x11 dependency of unity8-greeter, it makes us end up with
+    multiple session dbus daemons which breaks many AP tests in the lab
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 02 Jun 2014 14:50:59 +0200
+
 unity8 (7.87+14.10.20140530.1-0ubuntu1) utopic; urgency=medium
 
   [ Michael Terry ]
