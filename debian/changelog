@@ -1,3 +1,9 @@
+unity8 (7.87+14.10.20140522-0ubuntu0) UNRELEASED; urgency=medium
+
+  * bump version to be greater than split greeter stuff
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Tue, 03 Jun 2014 15:28:52 +0200
+
 unity8 (7.86+14.10.20140522-0ubuntu1) utopic; urgency=low
 
   [ Albert Astals ]
