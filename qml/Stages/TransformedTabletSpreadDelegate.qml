@@ -142,10 +142,15 @@ SpreadDelegate {
                 }
             }
 
+            // The tile should move a bit to the left if a new one comes on top of it, but not for the Side Stage and not
+            // when we're only dragging the side stage in on top of a main stage app
+            var shouldMoveAway = priv.movedActive && model.stage === ApplicationInfoInterface.MainStage &&
+                    ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage
+
             if (active) {
                 newTranslate -= root.width
-//                print("nextZ", spreadView.nextZInStack, "this z", root.zIndex, index, root.animatedProgress)
-                if (spreadView.phase == 0 && priv.movedActive) {
+                // Only do the hide animation for active apps in the mainstage, and not if we only drag the ss in
+                if (spreadView.phase == 0 && shouldMoveAway) {
                     newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -units.gu(4), root.animatedProgress)
                 }
             }
@@ -169,7 +174,6 @@ SpreadDelegate {
                 if (nextInStack) {
                     if (model.stage == ApplicationInfoInterface.MainStage) {
                         var startValue = -spreadView.sideStageWidth * spreadView.snapPosition + (spreadView.sideStageVisible ? -spreadView.sideStageWidth : 0)
-//                        var endValue = -spreadView.width + spreadView.width * root.zIndex / 6;
                         newTranslate += linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, startValue, priv.phase2StartTranslate, root.animatedProgress);
                     } else {
                         var endValue = -spreadView.width + spreadView.width * root.zIndex / 6;
@@ -182,7 +186,7 @@ SpreadDelegate {
                 } else if (root.active) {
                     var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
                     var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
-                    var startTranslate = -root.width + (priv.movedActive ? -units.gu(4) : 0)
+                    var startTranslate = -root.width + (shouldMoveAway ? -units.gu(4) : 0)
                     newTranslate = linearAnimation(startProgress, endProgress, startTranslate, priv.phase2StartTranslate, root.progress);
                 } else {
                     var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
@@ -250,14 +254,19 @@ SpreadDelegate {
                 return linearAnimation(selectedProgress, negativeProgress, selectedAngle, 0, root.progress)
             }
 
+            // The tile should rotate a bit when another one comes on top, but not when only dragging the side stage in
+            var shouldMoveAway = movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage)
+
             if (spreadView.phase == 0) {
                 if (nextInStack) {
                     if (model.stage == ApplicationInfoInterface.SideStage && !spreadView.sideStageVisible) {
                         return 0;
                     } else {
-//                        print("return angle for index", root.zIndex, linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress))
                         return linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
                     }
+                }
+                if (shouldMoveAway) {
+                    return linearAnimation(0, spreadView.positionMarker2, 0, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
                 }
             }
             if (spreadView.phase == 1) {
@@ -270,7 +279,8 @@ SpreadDelegate {
                 }
                 var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
                 var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
-                return linearAnimation(startProgress, endProgress, 0, priv.phase2StartAngle, root.progress)
+                var startAngle = shouldMoveAway ? root.startAngle * (1-spreadView.snapPosition) : 0
+                return linearAnimation(startProgress, endProgress, startAngle, priv.phase2StartAngle, root.progress)
             }
             if (spreadView.phase == 2) {
                 return root.startAngle - easingCurve.value * (root.startAngle - root.endAngle);

@@ -226,8 +226,8 @@ Item {
                 snapAnimation.start();
             } else if (contentX < phase1Width) {
                 snapTo(1)
-            } else if (contentX < phase1Width + units.gu(5)) {
-                snapTo(1)
+//            } else if (contentX < phase1Width + units.gu(5)) {
+//                snapTo(1)
             } else {
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = spreadView.width * spreadView.positionMarker4 + 1;
@@ -246,7 +246,6 @@ Item {
         // We don't want to really reorder them in the model because that allows us to keep track
         // of the last focused order.
         function indexToZIndex(index) {
-            print("zindex asked", index)
             var app = ApplicationManager.get(index);
             var isActive = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
             if (isActive && app.stage == ApplicationInfoInterface.MainStage) return 0;
@@ -478,12 +477,14 @@ Item {
                 // no matter if we didn't cross positionMarker1 yet.
                 spreadView.snapTo(spreadView.nextInStack);
             } else if (!dragging && attachedToView) {
-                if (spreadView.contentX / spreadView.width < spreadView.positionMarker1) {
+                if (spreadView.contentX < spreadView.width * spreadView.positionMarker1) {
                     spreadView.snap();
+                } else if (spreadView.contentX < spreadView.width * spreadView.positionMarker2) {
+                    spreadView.snapTo(spreadView.nextInStack)
                 } else {
                     // otherwise snap to the closest snap position we can find
                     // (might be back to start, to app 1 or to spread)
-                    spreadView.snapTo(spreadView.nextInStack);
+                    spreadView.snap();
                 }
             }
         }
