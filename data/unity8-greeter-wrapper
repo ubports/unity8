@@ -24,6 +24,9 @@ cleanup()
     if [ -n "$INIT_PID" ]; then
         kill "$INIT_PID"
     fi
+    if [ -n "$DBUS_PID" ]; then
+        kill "$DBUS_PID"
+    fi
     if [ -n "$CMD_PID" ]; then
         kill "$CMD_PID"
     fi
@@ -32,14 +35,20 @@ cleanup()
 
 set_greeter_var()
 {
-    # Only use this after upstart has been started, otherwise multiple dbus
-    # daemons are spawned.
     export "$1=$2"
     gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.UpdateActivationEnvironment "{'$1': '$2'}"
     if [ -n "$INIT_PID" ]; then
         initctl set-env --global "$1=$2"
     fi
 }
+
+# Start dbus if it hasn't already been started for us (such as on the Desktop
+# images by dbus-launch).  We don't want to use dbus-launch ourselves because
+# we don't want dbus-x11 on the Touch images.
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    export DBUS_SESSION_BUS_ADDRESS=unix:abstract=$(mktemp -u /tmp/dbus-XXXXXXXXXX)
+    DBUS_PID=$(dbus-daemon --fork --session --print-pid --address="$DBUS_SESSION_BUS_ADDRESS")
+fi
 
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
 rm -f $SUB_SOCKET # clear socket in case we were hard shut down
@@ -54,6 +63,11 @@ fi
 # will start.
 export DESKTOP_SESSION=ubuntu-touch
 
+# We disable ofono using pulse.  It causes problems with racing with the user's
+# pulse.  We need to come up with a better long-term fix for this, because we
+# eventually need the greeter to play ringtones for users that aren't logged in.
+set_greeter_var PA_DISABLED 1
+
 # Normal unity8 sessions are entirely driven by Upstart.  But greeters
 # are special.  They need access to the file descriptors that lightdm
 # creates for them and don't want to start all the services that a normal
@@ -63,14 +77,6 @@ USC_SOCKET=$MIR_SOCKET MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/init --user -
 INIT_PID=$!
 while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
 export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
-
-/sbin/initctl start dbus
-export DBUS_SESSION_BUS_ADDRESS="$(/sbin/initctl get-env DBUS_SESSION_BUS_ADDRESS)"
-
-# We disable ofono using pulse.  It causes problems with racing with the user's
-# pulse.  We need to come up with a better long-term fix for this, because we
-# eventually need the greeter to play ringtones for users that aren't logged in.
-set_greeter_var PA_DISABLED 1
 
 # Start any pre-greeter tasks if needed (like wizard)
 /sbin/initctl emit unity8-greeter-starting
