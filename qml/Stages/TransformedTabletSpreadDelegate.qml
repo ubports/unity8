@@ -78,7 +78,8 @@ SpreadDelegate {
     Item {
         id: priv
 
-        property bool nextInStack: spreadView.nextInStack == index;
+        property bool nextInStack: spreadView.nextZInStack == zIndex
+        property bool movedActive: spreadView.nextZInStack == zIndex + 1
         property real animatedEndDistance: linearAnimation(0, 2, root.endDistance, 0, root.progress)
 
         property real phase2StartTranslate
@@ -108,7 +109,7 @@ SpreadDelegate {
         // the progress for each tile starts at 0 when it crosses the right edge, so the later a tile comes in,
         // the bigger its negativeProgress can be.
         property real negativeProgress: {
-            if (index == spreadView.nextInStack && spreadView.phase < 2) {
+            if (nextInStack && spreadView.phase < 2) {
                 return 0;
             }
             return -root.zIndex * spreadView.tileDistance / spreadView.width;
@@ -143,6 +144,10 @@ SpreadDelegate {
 
             if (active) {
                 newTranslate -= root.width
+//                print("nextZ", spreadView.nextZInStack, "this z", root.zIndex, index, root.animatedProgress)
+                if (spreadView.phase == 0 && priv.movedActive) {
+                    newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -units.gu(4), root.animatedProgress)
+                }
             }
             if (nextInStack && spreadView.phase == 0) {
                 if (model.stage == ApplicationInfoInterface.MainStage) {
@@ -177,7 +182,8 @@ SpreadDelegate {
                 } else if (root.active) {
                     var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
                     var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
-                    newTranslate = linearAnimation(startProgress, endProgress, -root.width, priv.phase2StartTranslate, root.progress);
+                    var startTranslate = -root.width + (priv.movedActive ? -units.gu(4) : 0)
+                    newTranslate = linearAnimation(startProgress, endProgress, startTranslate, priv.phase2StartTranslate, root.progress);
                 } else {
                     var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
                     var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
