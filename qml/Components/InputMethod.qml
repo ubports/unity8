@@ -74,15 +74,8 @@ Item {
         }
     }
 
-    function removeSurface() {
-        surface.parent = null;
-        surface.release();
-    }
-
     onSurfaceChanged: {
         if (surface) {
-            root.width = surface.implicitWidth;
-            root.height = surface.implicitHeight;
             surface.parent = root;
             surface.anchors.fill = root;
         }
