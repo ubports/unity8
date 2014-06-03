@@ -245,6 +245,7 @@ FocusScope {
 
     InputMethod {
         id: inputMethod
+        anchors.fill: parent
     }
 
     Connections {
@@ -258,11 +259,11 @@ FocusScope {
         }
 
         onSurfaceDestroyed: {
-            var orphan = !surface.parent;
             if (inputMethod.surface == surface) {
-                inputMethod.removeSurface(surface);
+                inputMethod.surface = null;
+                surface.parent = null;
             }
-            if (orphan) {
+            if (!surface.parent) {
                 // there's no one displaying it. delete it right away
                 surface.release();
             }
