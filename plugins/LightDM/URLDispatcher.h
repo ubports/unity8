@@ -12,18 +12,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *  Michal Hruby <michal.hruby@canonical.com>
  */
 
-#ifndef ICONUTILS_H
-#define ICONUTILS_H
+#ifndef UNITY_URLDISPATCHER_H
+#define UNITY_URLDISPATCHER_H
 
+#include <QObject>
 #include <QString>
-#include <QVariant>
 
-QString gIconToDeclarativeImageProviderString(QString const &giconString);
-QString uriToThumbnailerProviderString(QString const &uri, QString const &mimetype, QVariantHash const &metadata);
+class URLDispatcher : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit URLDispatcher(QObject *parent=0);
+
+Q_SIGNALS:
+    void dispatchURL(const QString &url);
+};
 
 #endif

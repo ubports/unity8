@@ -22,7 +22,6 @@
 from __future__ import absolute_import
 
 from unity8 import shell
-from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals, NotEquals
@@ -125,7 +124,6 @@ class InteractiveNotificationBase(NotificationsBase):
     def test_interactive(self):
         """Interactive notification must react upon click on itself."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -164,7 +162,6 @@ class InteractiveNotificationBase(NotificationsBase):
         """Rejecting a call should make notification expand and
             offer more options."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         summary = "Incoming call"
         body = "Frank Zappa\n+44 (0)7736 027340"
@@ -214,7 +211,6 @@ class InteractiveNotificationBase(NotificationsBase):
     def test_modal_sd_without_greeter (self):
         """A snap-decision on a phone should block input to shell beneath it when there's no greeter."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -255,7 +251,7 @@ class InteractiveNotificationBase(NotificationsBase):
 
     def test_modal_sd_with_greeter (self):
         """A snap-decision on a phone should not block input to the greeter beneath it."""
-        unity_proxy = self.launch_unity()
+        unity_proxy = self.launch_greeter()
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -281,8 +277,8 @@ class InteractiveNotificationBase(NotificationsBase):
 
         # verify that we can swipe away the greeter (interact with the "shell")
         time.sleep(1)
-        self.main_window.show_dash_swiping()
         greeter = self.main_window.get_greeter()
+        greeter.swipe()
         self.assertThat(greeter.shown, Eventually(Equals(False)))
 
         # verify and interact with the triggered snap-decision notification
@@ -424,7 +420,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -464,7 +459,6 @@ class EphemeralNotificationsTests(NotificationsBase):
         """Notification must display the expected summary and secondary
         icon."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -501,7 +495,6 @@ class EphemeralNotificationsTests(NotificationsBase):
         """Notifications must be displayed in order according to their
         urgency."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -588,7 +581,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_summary_and_body(self):
         """Notification must display the expected summary- and body-text."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -613,7 +605,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_summary_only(self):
         """Notification must display only the expected summary-text."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -631,7 +622,6 @@ class EphemeralNotificationsTests(NotificationsBase):
         """Notification must allow updating its contents while being
         displayed."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -669,7 +659,6 @@ class EphemeralNotificationsTests(NotificationsBase):
         """Notification must allow updating its contents and layout while
         being displayed."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -715,7 +704,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_append_hint(self):
         """Notification has to accumulate body-text using append-hint."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 

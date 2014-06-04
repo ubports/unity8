@@ -23,9 +23,9 @@ import "../Components"
 Showable {
     id: greeter
     enabled: shown
-    created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
+    created: greeterContentLoader.status == Loader.Ready
 
-    property url defaultBackground
+    property url background
 
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
@@ -118,6 +118,36 @@ Showable {
         }
     }
 
+    Rectangle {
+        // To hide lockscreen until background finished fading in
+        id: backgroundBackup
+        anchors {
+            fill: parent
+            topMargin: -greeter.y
+        }
+        color: "black"
+    }
+
+    CrossFadeImage {
+        id: backgroundImage
+        objectName: "greeterBackground"
+        anchors {
+            fill: parent
+            topMargin: -greeter.y
+        }
+        source: greeter.background
+        fillMode: Image.PreserveAspectCrop
+
+        StandardAnimation {
+            running: true
+            target: backgroundImage
+            property: "opacity"
+            from: 0.0
+            to: 1.0
+            duration: 800
+        }
+    }
+
     Loader {
         id: greeterContentLoader
         objectName: "greeterContentLoader"
@@ -125,7 +155,6 @@ Showable {
         property var model: LightDM.Users
         property int currentIndex: 0
         property var infographicModel: LightDM.Infographic
-        readonly property int backgroundTopMargin: -greeter.y
 
         source: required ? "GreeterContent.qml" : ""
 
@@ -145,6 +174,10 @@ Showable {
     }
 
     onTease: showLabelAnimation.start()
+    onShownChanged: {
+        showLabelAnimation.stop()
+        swipeHint.opacity = 0
+    }
 
     Label {
         id: swipeHint
