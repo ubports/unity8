@@ -36,7 +36,6 @@ add_qml_test(Dash Dash IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAUL
 add_qml_test(Dash DashContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash Card IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_benchmark(Dash CardBenchmark 1000  IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash CardHeader)
 add_qml_test(Dash CardTool IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash GenericScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash/Apps RunningApplicationsGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}

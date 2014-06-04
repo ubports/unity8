@@ -3,7 +3,7 @@ AbstractButton {
                 property var template; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource; 
+                property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
                 property int headerAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
