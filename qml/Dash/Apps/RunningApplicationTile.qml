@@ -32,9 +32,6 @@ AbstractButton {
     width: thumbnail.width
     height: thumbnail.height + labelContainer.height
 
-    // Orientation angle of the Shell UI, relative to the scene (QQuickView's) root item.
-    property int orientationAngle
-
     property bool terminationModeEnabled: false
 
     onClicked: {

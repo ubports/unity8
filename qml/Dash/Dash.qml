@@ -26,8 +26,6 @@ Showable {
 
     visible: shown
 
-    property int orientationAngle
-
     property ListModel searchHistory: SearchHistoryModel {}
     property bool searchable: !dashContent.previewOpen && !scopeItem.previewOpen
 
@@ -76,7 +74,6 @@ Showable {
         objectName: "dashContent"
         width: parent.width
         height: parent.height
-        orientationAngle: dash.orientationAngle
         model: filteredScopes
         scopes: scopes
         searchHistory: dash.searchHistory

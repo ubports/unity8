@@ -25,7 +25,6 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    property int orientationAngle
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -165,10 +164,6 @@ FocusScope {
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
-                    }
-
-                    if ("orientationAngle" in item) {
-                        item.orientationAngle = Qt.binding(function() { return scopeView.orientationAngle })
                     }
 
                     item.objectName = Qt.binding(function() { return categoryId })

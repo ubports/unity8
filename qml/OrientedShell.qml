@@ -135,6 +135,5 @@ Item {
     Shell {
         id: shell
         transformOrigin: Item.TopLeft
-        orientationAngle: orientedShell.acceptedOrientationAngle
     }
 }

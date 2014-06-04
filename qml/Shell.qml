@@ -36,8 +36,6 @@ import Unity.Notifications 1.0 as NotificationBackend
 FocusScope {
     id: shell
 
-    property int orientationAngle
-
     property int supportedScreenOrientations: {
         if (stages.shown && ApplicationManager.topmostApplication) {
             return ApplicationManager.topmostApplication.supportedOrientations;
@@ -123,8 +121,6 @@ FocusScope {
         Dash {
             id: dash
             objectName: "dash"
-
-            orientationAngle: shell.orientationAngle
 
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
