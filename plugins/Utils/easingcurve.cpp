@@ -18,6 +18,7 @@
 
 #include "easingcurve.h"
 
+#include <QDebug>
 
 EasingCurve::EasingCurve(QObject *parent):
     QObject(parent)
@@ -32,7 +33,11 @@ QEasingCurve::Type EasingCurve::type() const
 
 void EasingCurve::setType(const QEasingCurve::Type &type)
 {
-    m_easingCurve.setType(type);
+    // FIXME: Working around bug https://bugreports.qt-project.org/browse/QTBUG-38686 here
+    QEasingCurve newCurve;
+    newCurve.setType(type);
+    newCurve.setPeriod(m_easingCurve.period());
+    m_easingCurve = newCurve;
     Q_EMIT typeChanged();
 }
 
