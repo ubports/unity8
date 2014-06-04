@@ -109,6 +109,15 @@ Item {
                 ApplicationManager.focusApplication(appId)
             }
         }
+
+        onApplicationRemoved: {
+            if (priv.mainStageAppId == appId) {
+                priv.mainStageAppId = "";
+            }
+            if (priv.sideStageAppId == appId) {
+                priv.sideStageAppId = "";
+            }
+        }
     }
 
     function printStack() {
@@ -310,12 +319,10 @@ Item {
 
         Rectangle {
             id: spreadRow
+            color: "black"
             x: spreadView.contentX
             height: root.height
-//            width: root.width
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
-
-            color: "black"
 
             Repeater {
                 id: spreadRepeater
@@ -427,10 +434,13 @@ Item {
                 gesturePoints.push(mouseX);
             }
             onReleased: {
-                var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
-                gesturePoints = [];
-                sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0
-                sideStageDragSnapAnimation.start();
+                if (priv.mainStageAppId) {
+                    var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
+                    sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0
+                    sideStageDragSnapAnimation.start();
+                } else {
+                    sideStageDragHandle.dragging = false;
+                }
             }
         }
         UbuntuNumberAnimation {
