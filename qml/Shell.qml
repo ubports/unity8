@@ -242,6 +242,7 @@ FocusScope {
     InputMethod {
         id: inputMethod
         anchors.fill: parent
+        z: notifications.useModal ? overlay.z + 1 : overlay.z - 1
     }
 
     Connections {
@@ -428,6 +429,7 @@ FocusScope {
 
     Item {
         id: overlay
+        z: 10
 
         anchors.fill: parent
 
@@ -541,8 +543,10 @@ FocusScope {
     }
 
     Label {
+        id: alphaDisclaimerLabel
         anchors.centerIn: parent
         visible: ApplicationManager.fake ? ApplicationManager.fake : false
+        z: overlay.z + 10
         text: "EARLY ALPHA\nNOT READY FOR USE"
         color: "lightgrey"
         opacity: 0.2
@@ -556,6 +560,7 @@ FocusScope {
 
     EdgeDemo {
         id: edgeDemo
+        z: alphaDisclaimerLabel.z + 10
         greeter: greeter
         launcher: launcher
         dash: dash
