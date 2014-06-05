@@ -20,7 +20,22 @@ import "../Components"
 import Dash 0.1
 
 // A VerticalJournal. Based on defined column width,
-// delegates are spread in the horizontal space.
+// delegates are layouted in columns following
+// a top-left most position rule.
+//
+// Example:
+//
+// +-----+ +-----+ +-----+
+// |     | |  2  | |     |
+// |     | |     | |     |
+// |  1  | +-----+ |  3  |
+// |     | +-----+ |     |
+// |     | |     | +-----+
+// +-----+ |  4  | +-----+
+// +-----+ |     | |  5  |
+// |  6  | +-----+ |     |
+// |     |         +-----+
+// +-----+
 Item {
     property int minimumColumnSpacing: units.gu(1)
 
