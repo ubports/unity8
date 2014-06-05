@@ -36,7 +36,8 @@ Rectangle {
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId))
     }
-
+Component.onCompleted: print("PhoneStage created", root)
+Component.onDestruction: print("PhoneStage destroyed", root)
     onWidthChanged: {
         spreadView.selectedIndex = -1;
         spreadView.phase = 0;
@@ -57,7 +58,7 @@ Rectangle {
         onFocusedApplicationIdChanged: {
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
-                    appSplashTimer.restart();
+                    //appSplashTimer.restart(); REMOVEME
                 } else {
                     var application = priv.focusedApplication;
                     root.fullscreen = application.fullscreen;
@@ -109,7 +110,7 @@ Rectangle {
     Rectangle {
         id: coverFlipBackground
         anchors.fill: parent
-        color: "black"
+        color: "blue"
         visible: spreadView.visible
     }
 

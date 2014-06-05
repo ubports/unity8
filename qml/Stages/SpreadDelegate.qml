@@ -32,9 +32,21 @@ Item {
     // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
     property var surface: application ? application.surface : null
     onSurfaceChanged: {
-        if (surface) {
-            surface.parent = root;
-            surface.z = 1;
+        if (surface && !priv.appHasCreatedASurface) {
+            priv.appHasCreatedASurface = true;
+        }
+    }
+
+    QtObject {
+        id: priv
+        property bool appHasCreatedASurface: false
+
+        function checkFullscreen(surface) {
+            if (surface.state === MirSurfaceItem.Fullscreen) {
+                surface.anchors.topMargin = 0;
+            } else {
+                surface.anchors.topMargin = maximizedAppTopMargin;
+            }
         }
     }
 
@@ -44,42 +56,42 @@ Item {
         value: root.interactive
     }
 
-    state: {
-        if (surface) {
-            if (surface.state === MirSurfaceItem.Fullscreen) {
-                "fullscreen";
-            } else {
-                "maximized";
-            }
-        } else {
-            return "empty"
-        }
+    Connections {
+        target: surface
+        onStateChanged: priv.checkFullScreen(surface);
     }
-    states: [
-        State {
-            name: "fullscreen"
-            PropertyChanges {
-                target: surface
-                x: 0
-                y: 0
-                width: root.width
-                height: root.height
+
+    StateGroup {
+        id: appSurfaceState
+        states: [
+            State {
+                name: "noSurfaceYet"
+                when: !priv.appHasCreatedASurface
+                StateChangeScript {
+                    script: {splashLoader.setSource("Splash.qml", { "name": application.name, "image": application.icon }); print("SPLASH!!")}
+                }
+            },
+            State {
+                name: "hasSurface"
+                when: priv.appHasCreatedASurface && (root.surface !== null)
+                PropertyChanges { target: root.surface; parent: root; anchors.fill: parent; z: 1 }
+                StateChangeScript { script: priv.checkFullscreen(root.surface); }
+                PropertyChanges { target: splashLoader; source: "" }
+            },
+            State {
+                name: "surfaceLostButAppStillAlive"
+                when: priv.appHasCreatedASurface && (root.surface === null)
+                // TODO - use app snapshot
             }
-        },
-        State {
-            name: "maximized"
-            PropertyChanges {
-                target: surface
-                x: 0
-                y: maximizedAppTopMargin
-                width: root.width
-                height: root.height - y
-            }
-        },
-        State {
-            name: "empty"
-        }
-    ]
+        ]
+        state: "noSurfaceYet"
+    }
+
+    Loader {
+        id: splashLoader
+        anchors.fill: parent
+        onLoaded: print("Splash loaded!!")
+    }
 
     BorderImage {
         id: dropShadow
@@ -100,4 +112,7 @@ Item {
             root.clicked()
         }
     }
+
+    Component.onCompleted: print("SpreadDelegate created", root, application)
+    Component.onDestruction: print("SpreadDelegate destroyed", root, application)
 }

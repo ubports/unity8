@@ -180,7 +180,7 @@ FocusScope {
         visible: !fullyHidden
 
         x: shown ? launcher.progress : stagesDragArea.progress
-        //Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
+        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
         onShownChanged: {
@@ -225,17 +225,22 @@ FocusScope {
             anchors.fill: parent
 
             source: shell.sideStageEnabled ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            asynchronous: true
+            visible: status == Loader.Ready
 
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "dragAreaWidth"
                 value: shell.edgeSize
+                when: applicationsDisplayLoader.status === Loader.Ready
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "maximizedAppTopMargin"
                 value: panel.panelHeight
+                when: applicationsDisplayLoader.status === Loader.Ready
             }
+            onLoaded: {print("!!!!!!!!!LOADED", source); gc();}
         }
     }
 
@@ -531,6 +536,11 @@ FocusScope {
                 }
             ]
         }
+    }
+
+    InputMethod {
+        id: inputMethod
+        anchors.fill: parent
     }
 
     focus: true
