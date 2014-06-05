@@ -19,8 +19,8 @@ import Ubuntu.Components 0.1
 import "../Components"
 import Dash 0.1
 
-// A VerticalJournal, which allows setting max number of columns. Based on
-// defined column width, delegates are spread in the horizontal space.
+// A VerticalJournal. Based on defined column width,
+// delegates are spread in the horizontal space.
 Item {
     property int minimumColumnSpacing: units.gu(1)
 
