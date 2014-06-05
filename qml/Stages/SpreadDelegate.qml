@@ -48,6 +48,17 @@ Item {
                 surface.anchors.topMargin = maximizedAppTopMargin;
             }
         }
+
+        function revealSurface() {
+            surface.visible = true;
+            splashLoader.source = "";
+        }
+    }
+
+    Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
+        id: surfaceRevealDelay
+        interval: 100
+        onTriggered: priv.revealSurface()
     }
 
     Binding {
@@ -74,9 +85,8 @@ Item {
             State {
                 name: "hasSurface"
                 when: priv.appHasCreatedASurface && (root.surface !== null)
-                PropertyChanges { target: root.surface; parent: root; anchors.fill: parent; z: 1 }
-                StateChangeScript { script: priv.checkFullscreen(root.surface); }
-                PropertyChanges { target: splashLoader; source: "" }
+                PropertyChanges { target: root.surface; parent: root; anchors.fill: parent; z: 1; visible: false }
+                StateChangeScript { script: { priv.checkFullscreen(root.surface); surfaceRevealDelay.start(); } }
             },
             State {
                 name: "surfaceLostButAppStillAlive"
