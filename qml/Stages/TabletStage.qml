@@ -425,6 +425,7 @@ Item {
             anchors.fill: parent
             property int startX
             property var gesturePoints: new Array()
+            enabled: spreadView.contentX == 0
             onPressed: {
                 gesturePoints = [];
                 startX = mouseX;
