@@ -23,7 +23,6 @@ import Dash 0.1
 // defined column width, delegates are spread in the horizontal space.
 Item {
     property int minimumColumnSpacing: units.gu(1)
-    property int maximumNumberOfColumns: 2
 
     property alias columnWidth: verticalJournalView.columnWidth
     property alias rowSpacing: verticalJournalView.rowSpacing
@@ -60,7 +59,7 @@ Item {
             return units.gu(spacingGU)
         }
 
-        property int expectedColumns: Math.min(columnsForSpacing(minimumColumnSpacing), maximumNumberOfColumns)
+        readonly property int expectedColumns: columnsForSpacing(minimumColumnSpacing)
         columnSpacing: spacingForColumns(expectedColumns)
     }
 }

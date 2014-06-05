@@ -47,12 +47,6 @@ Item {
             selectedIndex: 0
         }
         ListItem.ValueSelector {
-            id: maxColumnsSelector
-            text: "maxColumns"
-            values: [1, 2, 3, 8, 15, fakeModel.count]
-            selectedIndex: 1
-        }
-        ListItem.ValueSelector {
             id: rowSpacingSelector
             text: "rowSpacing"
             values: [units.gu(1), units.gu(2), units.gu(4), units.gu(8)]
@@ -104,8 +98,6 @@ Item {
             model: wrappedFakeModel
             minimumColumnSpacing: minColumnSpacingSelector.
                       values[minColumnSpacingSelector.selectedIndex]
-            maximumNumberOfColumns:
-                      maxColumnsSelector.values[maxColumnsSelector.selectedIndex]
             rowSpacing:
                     rowSpacingSelector.values[rowSpacingSelector.selectedIndex]
             columnWidth: // XXX karni: How do I get that from the delegate?
@@ -155,7 +147,6 @@ Item {
         // Test how minimumColumnSpacing affects column count.
         function test_minimumColumnSpacing(data) {
             cardSizeSelector.selectedIndex = 2 // large card
-            maxColumnsSelector.selectedIndex = 1 // two columns
 
             minColumnSpacingSelector.selectedIndex = data.minColumnSpacingIndex
 
@@ -165,14 +156,10 @@ Item {
         function test_maximumNumberOfColumns_data() {
             var data = new Array()
             // Change maxColumns
-            data.push({maxColumnsIndex: 0, cardSizeIndex: 0, expectedColumns: 1})
-            data.push({maxColumnsIndex: 1, cardSizeIndex: 0, expectedColumns: 2})
-            data.push({maxColumnsIndex: 2, cardSizeIndex: 0, expectedColumns: 3})
-            data.push({maxColumnsIndex: 3, cardSizeIndex: 0, expectedColumns: 6})
-            data.push({maxColumnsIndex: 4, cardSizeIndex: 0, expectedColumns: 6})
+            data.push({cardSizeIndex: 0, expectedColumns: 6})
             // Change card size
-            data.push({maxColumnsIndex: 3, cardSizeIndex: 1, expectedColumns: 4})
-            data.push({maxColumnsIndex: 3, cardSizeIndex: 2, expectedColumns: 2})
+            data.push({cardSizeIndex: 1, expectedColumns: 4})
+            data.push({cardSizeIndex: 2, expectedColumns: 2})
             return data
         }
 
@@ -181,7 +168,6 @@ Item {
             minColumnSpacingSelector.selectedIndex = 0 // no spacing
 
             cardSizeSelector.selectedIndex = data.cardSizeIndex // columnWidth
-            maxColumnsSelector.selectedIndex = data.maxColumnsIndex
 
             tryCompareFunction(countJournalDelegatesOnFirstRow, data.expectedColumns)
         }
