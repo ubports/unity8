@@ -243,6 +243,7 @@ Rectangle {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     interactive: !spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
+                    dropShadow: spreadView.shiftedContentX > 0 || spreadDragArea.status == DirectionalDragArea.Undecided
 
                     z: index
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance

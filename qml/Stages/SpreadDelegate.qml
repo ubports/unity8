@@ -18,6 +18,7 @@
 
 import QtQuick 2.0
 import Mir.Application 0.1
+import Ubuntu.Components 1.0
 
 Item {
     id: root
@@ -27,6 +28,7 @@ Item {
     property bool interactive: true
     property real maximizedAppTopMargin
     property var application: ApplicationManager.get(index)
+    property bool dropShadow: true
 
     // FIXME: This really should be invisible to QML code.
     // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
@@ -82,12 +84,13 @@ Item {
     ]
 
     BorderImage {
-        id: dropShadow
+        id: dropShadowImage
         anchors.fill: surface
         anchors.margins: -units.gu(2)
         source: "graphics/dropshadow.png"
-        opacity: .4
         border { left: 50; right: 50; top: 50; bottom: 50 }
+        opacity: root.dropShadow ? .4 : 0
+        Behavior on opacity { UbuntuNumberAnimation {} }
     }
 
     // This is used to get clicked events on the whole app. e.g. when in spreadView.
