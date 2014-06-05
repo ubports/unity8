@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
-import DashViews 0.1
+import Dash 0.1
 
 // A VerticalJournal, which allows setting max number of columns. Based on
 // defined column width, delegates are spread in the horizontal space.
@@ -29,10 +29,8 @@ Item {
     property alias rowSpacing: verticalJournalView.rowSpacing
     property alias model: verticalJournalView.model
     property alias delegate: verticalJournalView.delegate
-    property alias delegateCreationBegin: verticalJournalView.delegateCreationBegin
-    property alias delegateCreationEnd: verticalJournalView.delegateCreationEnd
-
-    //readonly property alias currentItem // TODO bug #1269024
+    property alias displayMarginBeginning: verticalJournalView.displayMarginBeginning
+    property alias displayMarginEnd: verticalJournalView.displayMarginEnd
 
     VerticalJournal {
         id: verticalJournalView
