@@ -112,12 +112,16 @@ Item {
         }
 
         onApplicationRemoved: {
+            printStack()
             if (priv.mainStageAppId == appId) {
                 priv.mainStageAppId = "";
             }
             if (priv.sideStageAppId == appId) {
                 priv.sideStageAppId = "";
             }
+        }
+        onApplicationAdded: {
+            printStack()
         }
     }
 
@@ -260,14 +264,12 @@ Item {
         // We don't want to really reorder them in the model because that allows us to keep track
         // of the last focused order.
         function indexToZIndex(index) {
-            print("zIndex calc for index", index);
             var app = ApplicationManager.get(index);
             if (!app) {
                 return index;
             }
 
             var isActive = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
-            print("got app", app.appId, isActive)
             if (isActive && app.stage == ApplicationInfoInterface.MainStage) return 0;
             if (isActive && app.stage == ApplicationInfoInterface.SideStage) {
                 if (!priv.mainStageAppId) {
@@ -289,6 +291,9 @@ Item {
                     return 2;
                 }
                 return 1;
+            }
+            if (index == 2 && spreadView.nextInStack == 1 && priv.sideStageAppId) {
+                return 3;
             }
             return index;
         }
@@ -320,12 +325,10 @@ Item {
 
         Rectangle {
             id: spreadRow
-            //color: "black"
+            color: "black"
             x: spreadView.contentX
             height: root.height
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
-
-            color: "transparent"
 
             Repeater {
                 id: spreadRepeater
@@ -337,9 +340,6 @@ Item {
                     width: model.stage == ApplicationInfoInterface.MainStage ? spreadView.width : spreadView.sideStageWidth
                     x: spreadView.width
                     z: spreadView.indexToZIndex(index)
-
-                    onWidthChanged: print("width changed!", width)
-
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
                     zIndex: z
                     selected: spreadView.selectedIndex == index
@@ -425,6 +425,7 @@ Item {
             anchors.fill: parent
             property int startX
             property var gesturePoints: new Array()
+            enabled: spreadView.contentX == 0
             onPressed: {
                 gesturePoints = [];
                 startX = mouseX;
