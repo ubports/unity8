@@ -30,6 +30,7 @@ Item {
     property bool shown: false
     property bool moving: false
     property int dragAreaWidth
+    property real maximizedAppTopMargin
 
     // State information propagated to the outside
     readonly property bool painting: true
@@ -343,6 +344,7 @@ Item {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     isInSideStage: priv.sideStageAppId == model.appId
                     interactive: !spreadView.interactive
+                    maximizedAppTopMargin: root.maximizedAppTopMargin
 
                     progress: {
                         var tileProgress = (spreadView.contentX - zIndex * spreadView.tileDistance) / spreadView.width;
