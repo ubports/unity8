@@ -218,6 +218,12 @@ FocusScope {
         Connections {
             target: ApplicationManager
             onFocusRequested: { stages.show(); }
+
+            onEmptyChanged: {
+                if (ApplicationManager.empty) {
+                    stages.hide();
+                }
+            }
         }
 
         Loader {
@@ -263,12 +269,6 @@ FocusScope {
             if (!surface.parent) {
                 // there's no one displaying it. delete it right away
                 surface.release();
-            }
-        }
-
-        onEmptyChanged: {
-            if (SurfaceManager.empty) {
-                stages.hide();
             }
         }
     }
