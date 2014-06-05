@@ -292,7 +292,7 @@ Item {
                 }
                 return 1;
             }
-            if (index == 2 && spreadView.nextInStack == 1) {
+            if (index == 2 && spreadView.nextInStack == 1 && priv.sideStageAppId) {
                 return 3;
             }
             return index;
@@ -340,10 +340,6 @@ Item {
                     width: model.stage == ApplicationInfoInterface.MainStage ? spreadView.width : spreadView.sideStageWidth
                     x: spreadView.width
                     z: spreadView.indexToZIndex(index)
-
-                    onZChanged: print("z changed for", model.appId, z)
-                    onWidthChanged: print("width changed!", width)
-
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
                     zIndex: z
                     selected: spreadView.selectedIndex == index
