@@ -19,42 +19,63 @@ import Ubuntu.Components 0.1
 import "../Components"
 
 DashRenderer {
-    id: genericVerticalJournal
+    id: root
 
-    property alias minimumColumnSpacing: cardVerticalJournal.minimumColumnSpacing
-    property alias maximumNumberOfColumns: cardVerticalJournal.maximumNumberOfColumns
-    property alias columnWidth: cardVerticalJournal.columnWidth
-    property alias rowSpacing: cardVerticalJournal.rowSpacing
+    readonly property double collapseLimit: units.gu(35)
 
-    anchors.fill: parent
+    uncollapsedHeight: cardVerticalJournal.implicitHeight
+    collapsedHeight: Math.min(collapseLimit, cardVerticalJournal.implicitHeight)
+    expandable: uncollapsedHeight > collapseLimit
+
+    // This minHeight is used as bootstrapper for the height. Vertical Journal
+    // is special by the fact that it doesn't know how to calculate its implicit height unless we give it
+    // enough height that it can start creating it's children so we make sure it has enough height for that
+    // in case the model is non empty
+    readonly property double minHeight: root.model.count > 1 ? cardVerticalJournal.rowSpacing + 1 : 0
+    height: filtered ? Math.max(collapsedHeight, minHeight) : uncollapsedHeight
+
+    Behavior on height {
+        id: heightBehaviour
+        animation: UbuntuNumberAnimation { }
+    }
+
+    function setFilter(filter, animate) {
+        heightBehaviour.enabled = animate;
+        filtered = filter;
+    }
 
     ResponsiveVerticalJournal {
         id: cardVerticalJournal
+
+        model: root.model
+
         anchors.fill: parent
-        maximumNumberOfColumns: 2
-        minimumColumnSpacing: units.gu(1)
-        rowSpacing: units.gu(1)
-        model: genericVerticalJournal.model
+        rowSpacing: minimumColumnSpacing
+        columnWidth: cardTool.cardWidth
 
-        columnWidth: {
-            if (genericVerticalJournal.template !== undefined) {
-                switch (genericVerticalJournal.template['card-size']) {
-                    case "small": return units.gu(12);
-                    case "large": return units.gu(38);
-                }
+        displayMarginBeginning: root.displayMarginBeginning
+        displayMarginEnd: root.displayMarginEnd
+
+        delegate: Loader {
+            id: loader
+            sourceComponent: cardTool.cardComponent
+            width: cardTool.cardWidth
+            anchors.horizontalCenter: parent.horizontalCenter
+            onLoaded: {
+                item.objectName = "delegate" + index;
+                item.width = Qt.binding(function() { return cardTool.cardWidth; });
+                item.height = Qt.binding(function() { return cardTool.cardHeight; });
+                item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
+                item.cardData = Qt.binding(function() { return model; });
+                item.template = Qt.binding(function() { return cardTool.template; });
+                item.components = Qt.binding(function() { return cardTool.components; });
+                item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
             }
-            return units.gu(18.5);
-        }
-
-        delegate: Card {
-            id: card
-            objectName: "delegate" + index
-            cardData: model
-            template: genericVerticalJournal.template
-            components: genericVerticalJournal.components
-
-            //onClicked: cardVerticalJournal.clicked(index, tile.y)
-            //onPressAndHold: cardVerticalJournal.pressAndHold(index, tile.y)
+            Connections {
+                target: loader.item
+                onClicked: root.clicked(index, result)
+                onPressAndHold: root.pressAndHold(index)
+            }
         }
     }
 }

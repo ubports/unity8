@@ -22,7 +22,7 @@ import Dash 0.1
 // A VerticalJournal, which allows setting max number of columns. Based on
 // defined column width, delegates are spread in the horizontal space.
 Item {
-    property int minimumColumnSpacing: units.gu(0.5)
+    property int minimumColumnSpacing: units.gu(1)
     property int maximumNumberOfColumns: 2
 
     property alias columnWidth: verticalJournalView.columnWidth
@@ -31,16 +31,17 @@ Item {
     property alias delegate: verticalJournalView.delegate
     property alias displayMarginBeginning: verticalJournalView.displayMarginBeginning
     property alias displayMarginEnd: verticalJournalView.displayMarginEnd
+    implicitHeight: verticalJournalView.implicitHeight
 
     VerticalJournal {
         id: verticalJournalView
         objectName: "responsiveVerticalJournalView"
         anchors {
             fill: parent
-            leftMargin: columnSpacing/2
-            rightMargin: columnSpacing/2
-            topMargin: rowSpacing/2
-            bottomMargin: rowSpacing/2
+            leftMargin: columnSpacing / 2
+            rightMargin: columnSpacing / 2
+            topMargin: rowSpacing / 2
+            bottomMargin: rowSpacing / 2
         }
         clip: parent.height != implicitHeight
 
@@ -59,8 +60,7 @@ Item {
             return units.gu(spacingGU)
         }
 
-        property int expectedColumns: Math.min(
-                columnsForSpacing(minimumColumnSpacing), maximumNumberOfColumns)
+        property int expectedColumns: Math.min(columnsForSpacing(minimumColumnSpacing), maximumNumberOfColumns)
         columnSpacing: spacingForColumns(expectedColumns)
     }
 }
