@@ -113,7 +113,7 @@ Rectangle {
     }
 
     UT.UnityTestCase {
-        name: "Stage"
+        name: "LazyImage"
         when: windowShown
 
         function cleanup() {
