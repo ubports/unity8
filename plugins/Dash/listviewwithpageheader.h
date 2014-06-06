@@ -128,7 +128,11 @@ private:
             bool culled() const;
             void setCulled(bool culled);
 
+            QQuickItem *sectionItem() const { return m_sectionItem; }
+            void setSectionItem(QQuickItem *sectionItem);
+
             QQuickItem *m_item;
+        private:
             QQuickItem *m_sectionItem;
     };
 
