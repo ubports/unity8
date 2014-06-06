@@ -68,13 +68,18 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     id: artShape; \n\
                                     objectName: "artShape"; \n\
                                     radius: "medium"; \n\
-                                    readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
+                                    visible: image.status == Image.Ready; \n\
+                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) ? root.fixedArtShapeSize.height / root.fixedArtShapeSize.height : -1; \n\
+                                    readonly property real aspect: fixedArtShapeSizeAspect != -1 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
                                     readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } \n\
                                     onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
-                                    visible: image.status == Image.Ready; \n\
+                                    Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } \n\
                                     function updateWidthHeightBindings() { \n\
-                                        if (aspectSmallerThanImageAspect) { \n\
+                                        if (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) { \n\
+                                            width = root.fixedArtShapeSize.width; \n\
+                                            height = root.fixedArtShapeSize.height; \n\
+                                        } else if (aspectSmallerThanImageAspect) { \n\
                                             width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
                                             height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); \n\
                                         } else { \n\
