@@ -151,10 +151,21 @@ void Greeter::setLanguage (const QString &language)
     Q_UNUSED(language)
 }
 
+void Greeter::setResettable (bool resettable)
+{
+    Q_UNUSED(resettable)
+}
+
 bool Greeter::startSessionSync(const QString &session)
 {
     Q_UNUSED(session)
     return true;
+}
+
+QString Greeter::ensureSharedDataDirSync(const QString &username)
+{
+    Q_UNUSED(username)
+    return "";
 }
 
 void Greeter::respond(const QString &response)
