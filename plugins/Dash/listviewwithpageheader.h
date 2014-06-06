@@ -102,11 +102,11 @@ Q_SIGNALS:
     void stickyHeaderHeightChanged();
 
 protected:
-    void componentComplete();
-    void viewportMoved(Qt::Orientations orient);
-    qreal minYExtent() const;
-    void itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry);
-    void updatePolish();
+    void componentComplete() override;
+    void viewportMoved(Qt::Orientations orient) override;
+    qreal minYExtent() const override;
+    void itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry) override;
+    void updatePolish() override;
 
 private Q_SLOTS:
     void itemCreated(int modelIndex, QObject *object);
