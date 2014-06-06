@@ -28,14 +28,19 @@ Item  {
                         sourceComponent: UbuntuShape { 
                             id: artShape; 
                             objectName: "artShape"; 
-                            radius: "medium"; 
-                            readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; 
-                            readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; 
-                            Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } 
-                            onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); 
+                            radius: "medium";
                             visible: image.status == Image.Ready; 
+                            readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) ? root.fixedArtShapeSize.height / root.fixedArtShapeSize.height : -1;
+                            readonly property real aspect: fixedArtShapeSizeAspect != -1 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1;
+                            readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect;
+                            Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
+                            onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings();
+                            Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); }
                             function updateWidthHeightBindings() { 
-                                if (aspectSmallerThanImageAspect) { 
+                                if (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) {
+                                            width = root.fixedArtShapeSize.width;
+                                            height = root.fixedArtShapeSize.height;
+                                } else if (aspectSmallerThanImageAspect) {
                                     width = Qt.binding(function() { return !visible ? 0 : image.width }); 
                                     height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); 
                                 } else { 
