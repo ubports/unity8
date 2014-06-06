@@ -56,4 +56,8 @@ Rectangle {
         anchors.bottomMargin: units.gu(12)
     }
 
+    MouseArea {
+        anchors.fill: parent
+        // absorb all mouse events
+    }
 }
