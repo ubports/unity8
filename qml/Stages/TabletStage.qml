@@ -330,6 +330,87 @@ Item {
             height: root.height
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
 
+            Rectangle {
+                id: sideStageBackground
+                color: "black"
+                anchors.fill: parent
+                anchors.leftMargin: spreadView.width - spreadView.sideStageWidth + spreadView.sideStageWidth * sideStageDragHandle.progress
+                z: spreadView.indexToZIndex(priv.indexOf(priv.sideStageAppId))
+                opacity: spreadView.phase == 0 ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation {} }
+            }
+
+            Item {
+                id: sideStageDragHandle
+                anchors { top: parent.top; bottom: parent.bottom; left: parent.left; leftMargin: spreadView.width - spreadView.sideStageWidth - width }
+                width: units.gu(2)
+                z: sideStageBackground.z
+                opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
+                property real progress: 0
+                property bool dragging: false
+
+                Behavior on opacity { UbuntuNumberAnimation {} }
+
+                Connections {
+                    target: spreadView
+                    onSideStageVisibleChanged: {
+                        if (spreadView.sideStageVisible) {
+                            sideStageDragHandle.progress = 0;
+                        }
+                    }
+                }
+
+                Image {
+                    anchors.centerIn: parent
+                    anchors.horizontalCenterOffset: parent.progress * spreadView.sideStageWidth - (width - parent.width) / 2
+                    width: sideStageDragHandleMouseArea.pressed ? parent.width * 2 : parent.width
+                    height: parent.height
+                    source: "graphics/sidestage_handle@20.png"
+                    Behavior on width { UbuntuNumberAnimation {} }
+                }
+
+                MouseArea {
+                    id: sideStageDragHandleMouseArea
+                    anchors.fill: parent
+                    enabled: spreadView.contentX == 0
+                    property int startX
+                    property var gesturePoints: new Array()
+
+                    onPressed: {
+                        gesturePoints = [];
+                        startX = mouseX;
+                        sideStageDragHandle.progress = 0;
+                        sideStageDragHandle.dragging = true;
+                    }
+                    onMouseXChanged: {
+                        if (priv.mainStageAppId) {
+                            sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth)
+                        }
+                        gesturePoints.push(mouseX);
+                    }
+                    onReleased: {
+                        if (priv.mainStageAppId) {
+                            var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
+                            sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0
+                            sideStageDragSnapAnimation.start();
+                        } else {
+                            sideStageDragHandle.dragging = false;
+                        }
+                    }
+                }
+                UbuntuNumberAnimation {
+                    id: sideStageDragSnapAnimation
+                    target: sideStageDragHandle
+                    property: "progress"
+
+                    onRunningChanged: {
+                        if (!running) {
+                            sideStageDragHandle.dragging = false;
+                        }
+                    }
+                }
+            }
+
             Repeater {
                 id: spreadRepeater
                 model: ApplicationManager
@@ -392,82 +473,11 @@ Item {
         }
     }
 
-    Rectangle {
-        id: sideStageDragHandle
-        color: "transparent"
-        anchors { top: parent.top; bottom: parent.bottom; right: parent.right; rightMargin: spreadView.sideStageWidth }
-        width: units.gu(2)
-        opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
-        property real progress: 0
-        property bool dragging: false
-
-        Behavior on opacity { UbuntuNumberAnimation {} }
-
-        Connections {
-            target: spreadView
-            onSideStageVisibleChanged: {
-                if (spreadView.sideStageVisible) {
-                    sideStageDragHandle.progress = 0;
-                }
-            }
-        }
-
-        Image {
-            anchors.centerIn: parent
-            anchors.horizontalCenterOffset: parent.progress * spreadView.sideStageWidth - (width - parent.width) / 2
-            width: sideStageDragHandleMouseArea.pressed ? parent.width * 2 : parent.width
-            height: parent.height
-            source: "graphics/sidestage_handle@20.png"
-            Behavior on width { UbuntuNumberAnimation {} }
-        }
-
-        MouseArea {
-            id: sideStageDragHandleMouseArea
-            anchors.fill: parent
-            enabled: spreadView.contentX == 0
-            property int startX
-            property var gesturePoints: new Array()
-
-            onPressed: {
-                gesturePoints = [];
-                startX = mouseX;
-                sideStageDragHandle.progress = 0;
-                sideStageDragHandle.dragging = true;
-            }
-            onMouseXChanged: {
-                if (priv.mainStageAppId) {
-                    sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth)
-                }
-                gesturePoints.push(mouseX);
-            }
-            onReleased: {
-                if (priv.mainStageAppId) {
-                    var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
-                    sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0
-                    sideStageDragSnapAnimation.start();
-                } else {
-                    sideStageDragHandle.dragging = false;
-                }
-            }
-        }
-        UbuntuNumberAnimation {
-            id: sideStageDragSnapAnimation
-            target: sideStageDragHandle
-            property: "progress"
-
-            onRunningChanged: {
-                if (!running) {
-                    sideStageDragHandle.dragging = false;
-                }
-            }
-        }
-    }
-
     EdgeDragArea {
         id: spreadDragArea
-        direction: Direction.Leftwards
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
+        direction: Direction.Leftwards
 
 //        Rectangle { anchors.fill: parent; color: "#4400FF00"}
 
