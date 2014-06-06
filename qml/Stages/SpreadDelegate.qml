@@ -26,14 +26,21 @@ Item {
     property real topMarginProgress
     property bool interactive: true
     property real maximizedAppTopMargin
-    property var application: ApplicationManager.get(index)
 
     // FIXME: This really should be invisible to QML code.
     // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
-    property var surface: application ? application.surface : null
-    onSurfaceChanged: {
-        if (surface && !priv.appHasCreatedASurface) {
-            priv.appHasCreatedASurface = true;
+    readonly property var surface: model.surface
+    onSurfaceChanged: { print("SURFACE!!", model.surface)
+        if (surface) {
+            if (!priv.appHasCreatedASurface) {
+                surface.visible = false; // hide until splash screen removed
+                priv.appHasCreatedASurface = true;
+            }
+
+            surface.parent = root;
+            surface.anchors.fill = root;
+            priv.checkFullscreen(surface);
+            surface.z = 1;
         }
     }
 
@@ -69,7 +76,7 @@ Item {
 
     Connections {
         target: surface
-        onStateChanged: priv.checkFullScreen(surface);
+        onStateChanged: priv.checkFullscreen(surface);
     }
 
     StateGroup {
@@ -79,14 +86,13 @@ Item {
                 name: "noSurfaceYet"
                 when: !priv.appHasCreatedASurface
                 StateChangeScript {
-                    script: {splashLoader.setSource("Splash.qml", { "name": application.name, "image": application.icon }); print("SPLASH!!")}
+                    script: {splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
                 }
             },
             State {
                 name: "hasSurface"
                 when: priv.appHasCreatedASurface && (root.surface !== null)
-                PropertyChanges { target: root.surface; parent: root; anchors.fill: parent; z: 1; visible: false }
-                StateChangeScript { script: { priv.checkFullscreen(root.surface); surfaceRevealDelay.start(); } }
+                StateChangeScript { script: { surfaceRevealDelay.start(); } }
             },
             State {
                 name: "surfaceLostButAppStillAlive"
@@ -105,7 +111,7 @@ Item {
 
     BorderImage {
         id: dropShadow
-        anchors.fill: surface
+        anchors.fill: parent
         anchors.margins: -units.gu(2)
         source: "graphics/dropshadow.png"
         opacity: .4
@@ -122,7 +128,4 @@ Item {
             root.clicked()
         }
     }
-
-    Component.onCompleted: print("SpreadDelegate created", root, application)
-    Component.onDestruction: print("SpreadDelegate destroyed", root, application)
 }
