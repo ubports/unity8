@@ -180,7 +180,7 @@ FocusScope {
         visible: !fullyHidden
 
         x: shown ? launcher.progress : stagesDragArea.progress
-        //Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
+        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
         onShownChanged: {

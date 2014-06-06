@@ -27,17 +27,47 @@ Item {
     property real topMarginProgress
     property bool interactive: true
     property real maximizedAppTopMargin
-    property var application: ApplicationManager.get(index)
     property bool dropShadow: true
 
     // FIXME: This really should be invisible to QML code.
     // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
-    property var surface: application ? application.surface : null
-    onSurfaceChanged: {
+    readonly property var surface: model.surface
+    onSurfaceChanged: { print("SURFACE!!", model.surface)
         if (surface) {
+            if (!priv.appHasCreatedASurface) {
+                surface.visible = false; // hide until splash screen removed
+                priv.appHasCreatedASurface = true;
+            }
+
             surface.parent = root;
+            surface.anchors.fill = root;
+            priv.checkFullscreen(surface);
             surface.z = 1;
         }
+    }
+
+    QtObject {
+        id: priv
+        property bool appHasCreatedASurface: false
+
+        function checkFullscreen(surface) {
+            if (surface.state === MirSurfaceItem.Fullscreen) {
+                surface.anchors.topMargin = 0;
+            } else {
+                surface.anchors.topMargin = maximizedAppTopMargin;
+            }
+        }
+
+        function revealSurface() {
+            surface.visible = true;
+            splashLoader.source = "";
+        }
+    }
+
+    Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
+        id: surfaceRevealDelay
+        interval: 100
+        onTriggered: priv.revealSurface()
     }
 
     Binding {
@@ -46,46 +76,43 @@ Item {
         value: root.interactive
     }
 
-    state: {
-        if (surface) {
-            if (surface.state === MirSurfaceItem.Fullscreen) {
-                "fullscreen";
-            } else {
-                "maximized";
-            }
-        } else {
-            return "empty"
-        }
+    Connections {
+        target: surface
+        onStateChanged: priv.checkFullscreen(surface);
     }
-    states: [
-        State {
-            name: "fullscreen"
-            PropertyChanges {
-                target: surface
-                x: 0
-                y: 0
-                width: root.width
-                height: root.height
+
+    StateGroup {
+        id: appSurfaceState
+        states: [
+            State {
+                name: "noSurfaceYet"
+                when: !priv.appHasCreatedASurface
+                StateChangeScript {
+                    script: {splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
+                }
+            },
+            State {
+                name: "hasSurface"
+                when: priv.appHasCreatedASurface && (root.surface !== null)
+                StateChangeScript { script: { surfaceRevealDelay.start(); } }
+            },
+            State {
+                name: "surfaceLostButAppStillAlive"
+                when: priv.appHasCreatedASurface && (root.surface === null)
+                // TODO - use app snapshot
             }
-        },
-        State {
-            name: "maximized"
-            PropertyChanges {
-                target: surface
-                x: 0
-                y: maximizedAppTopMargin
-                width: root.width
-                height: root.height - y
-            }
-        },
-        State {
-            name: "empty"
-        }
-    ]
+        ]
+        state: "noSurfaceYet"
+    }
+
+    Loader {
+        id: splashLoader
+        anchors.fill: parent
+    }
 
     BorderImage {
         id: dropShadowImage
-        anchors.fill: surface
+        anchors.fill: parent
         anchors.margins: -units.gu(2)
         source: "graphics/dropshadow.png"
         border { left: 50; right: 50; top: 50; bottom: 50 }
