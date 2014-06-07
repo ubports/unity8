@@ -37,13 +37,21 @@ FocusScope {
     id: shell
 
     property int supportedScreenOrientations: {
-        if (stages.shown && ApplicationManager.topmostApplication) {
-            return ApplicationManager.topmostApplication.supportedOrientations;
-        } else {
-            return Qt.PortraitOrientation
-                | Qt.InvertedPortraitOrientation
-                | Qt.LandscapeOrientation
+        // check device name and fix orientation if necessary
+        var deviceOrientations;
+        if (applicationArguments.device() === "flo") {
+            deviceOrientations = Qt.InvertedLandscapeOrientation;
+        } else if (applicationArguments.device() === "manta") {
+            deviceOrientations = Qt.LandscapeOrientation;
+        } else if (applicationArguments.device() === "mako") {
+            deviceOrientations = Qt.PortraitOrientation
                 | Qt.InvertedLandscapeOrientation;
+        }
+
+        if (stages.shown && ApplicationManager.topmostApplication) {
+            return deviceOrientations & ApplicationManager.topmostApplication.supportedOrientations;
+        } else {
+            return deviceOrientations;
         }
     }
 
