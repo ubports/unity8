@@ -296,7 +296,7 @@ FocusScope {
         x: required ? 0 : - width
         width: parent.width
         height: parent.height - panel.panelHeight
-        background: shell.background
+        //background: shell.background // FIXME: Commenting out as Qt was complaining about this line
         minPinLength: 4
         maxPinLength: 4
 
