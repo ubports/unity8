@@ -19,7 +19,11 @@ import QtQuick.Window 2.0
 import Ubuntu.Components 0.1
 import "Components"
 
-Item {
+Rectangle {
+    // white background when dash is shown to better match Dashes own background, making for
+    // a nicer rotation animation effect. If gives the illusion that the dash is always taking the entire
+    // screen during the rotation.
+    color: shell.dashShown ? "white" : "black"
     id: orientedShell
 
     // this is only here to select the width / height of the window if not running fullscreen

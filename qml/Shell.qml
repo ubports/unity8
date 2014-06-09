@@ -56,13 +56,12 @@ FocusScope {
             return deviceOrientations;
         }
     }
+    property bool dashShown: dash.shown && dash.available && underlay.visible
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background
     readonly property real panelHeight: panel.panelHeight
-
-    property bool dashShown: dash.shown
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
 
