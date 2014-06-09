@@ -27,6 +27,11 @@ Item {
     //width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     //height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
+    // Hack to avoid animating during startup
+    property bool ready: false
+    Timer { id: readyTimer; interval: 50; onTriggered: ready = true }
+    Component.onCompleted: readyTimer.start()
+
     property int acceptedOrientationAngle: {
         var screenOrientation = Screen.orientation;
         var acceptedOrientation;
