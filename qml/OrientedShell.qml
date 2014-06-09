@@ -360,6 +360,68 @@ Item {
                 PropertyAction { target: windowScreenshot; property: "visible"; value: false }
                 ScriptAction { script: { windowScreenshot.discard(); } }
             }
+        },
+        Transition {
+            from: "0"
+            to: "180"
+            enabled: ready
+            SequentialAnimation {
+                PropertyAction { target: shell; property: "y"; value: 0 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.height / 2 }
+
+                NumberAnimation { target: shell; property: "transformRotationAngle"; from: 0; to: 180; duration: rotationDuration; easing.type: rotationEasing }
+            }
+        },
+        Transition {
+            from: "180"
+            to: "0"
+            enabled: ready
+            SequentialAnimation {
+                PropertyAction { target: shell; property: "y"; value: 0 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.height / 2 }
+
+                NumberAnimation { target: shell; property: "transformRotationAngle"; from: 180; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+            }
+        },
+        Transition {
+            from: "90"
+            to: "270"
+            enabled: ready
+            SequentialAnimation {
+                PropertyAction { target: shell; property: "x"; value: -(orientedShell.height - orientedShell.width) / 2 }
+                PropertyAction { target: shell; property: "y"; value: (orientedShell.height - orientedShell.width) / 2 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.height / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+
+                NumberAnimation { target: shell; property: "transformRotationAngle"; from: 90; to: 270; duration: rotationDuration; easing.type: rotationEasing }
+
+                // Explicitly apply state "270" values as Qt doesn't seem to properly apply them after the transition is done
+                PropertyAction { target: shell; property: "x"; value: 0 }
+                PropertyAction { target: shell; property: "y"; value: 0 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.height / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.height / 2 }
+            }
+        },
+        Transition {
+            from: "270"
+            to: "90"
+            enabled: ready
+            SequentialAnimation {
+                PropertyAction { target: shell; property: "x"; value: -(orientedShell.height - orientedShell.width) / 2 }
+                PropertyAction { target: shell; property: "y"; value: (orientedShell.height - orientedShell.width) / 2 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.height / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+
+                NumberAnimation { target: shell; property: "transformRotationAngle"; from: 270; to: 90; duration: rotationDuration; easing.type: rotationEasing }
+
+                // Explicitly apply state "90" values as Qt doesn't seem to properly apply them after the transition is done
+                PropertyAction { target: shell; property: "x"; value: 0 }
+                PropertyAction { target: shell; property: "y"; value: 0 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+            }
         }
     ]
 
