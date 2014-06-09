@@ -90,6 +90,8 @@ Item {
             PropertyChanges {
                 target: shell
                 transformRotationAngle: 0
+                transformOriginX: orientedShell.width / 2
+                transformOriginY: orientedShell.width / 2
                 x: 0
                 y: 0
                 width: orientedShell.width
@@ -101,20 +103,23 @@ Item {
             PropertyChanges {
                 target: shell
                 transformRotationAngle: 90
+                transformOriginX: orientedShell.width / 2
+                transformOriginY: orientedShell.width / 2
                 x: 0
                 y: 0
                 width: orientedShell.height
                 height: orientedShell.width
             }
         },
-        // FIXME: 180 and 270 need to be updated
         State {
             name: "180"
             PropertyChanges {
                 target: shell
-                rotation: 180
-                x: orientedShell.width
-                y: orientedShell.height
+                transformRotationAngle: 180
+                transformOriginX: orientedShell.width / 2
+                transformOriginY: orientedShell.width / 2
+                x: 0
+                y: orientedShell.height - orientedShell.width
                 width: orientedShell.width
                 height: orientedShell.height
             }
@@ -123,9 +128,11 @@ Item {
             name: "270"
             PropertyChanges {
                 target: shell
-                rotation: 270
+                transformRotationAngle: -90
+                transformOriginX: orientedShell.height / 2
+                transformOriginY: orientedShell.height / 2
                 x: 0
-                y: orientedShell.height
+                y: 0
                 width: orientedShell.height
                 height: orientedShell.width
             }
@@ -150,6 +157,11 @@ Item {
                 PropertyAction { target: shell; property: "width"; value: orientedShell.width }
                 PropertyAction { target: shell; property: "height"; value: orientedShell.height }
                 PropertyAction { target: shell; property: "transformRotationAngle"; value: 90 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
                 ParallelAnimation {
                     NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
                     NumberAnimation { target: shell; property: "transformRotationAngle"; to: 0; duration: rotationDuration; easing.type: rotationEasing }
@@ -158,6 +170,7 @@ Item {
                     NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: -90; duration: rotationDuration; easing.type: rotationEasing }
                 }
                 PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
             }
         },
         Transition {
@@ -170,6 +183,11 @@ Item {
                 PropertyAction { target: shell; property: "width"; value: orientedShell.height }
                 PropertyAction { target: shell; property: "height"; value: orientedShell.width }
                 PropertyAction { target: shell; property: "transformRotationAngle"; value: 0 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
                 ParallelAnimation {
                     NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
                     NumberAnimation { target: shell; property: "transformRotationAngle"; to: 90; duration: rotationDuration; easing.type: rotationEasing }
@@ -178,16 +196,181 @@ Item {
                     NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: 90; duration: rotationDuration; easing.type: rotationEasing }
                 }
                 PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
+            }
+        },
+        Transition {
+            from: "0"
+            to: "270"
+            enabled: ready
+            SequentialAnimation {
+                ScriptAction { script: { windowScreenshot.take(); } }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: true }
+                PropertyAction { target: shell; property: "width"; value: orientedShell.height }
+                PropertyAction { target: shell; property: "height"; value: orientedShell.width }
+                PropertyAction { target: shell; property: "transformRotationAngle"; value: 0 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.height / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.height / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.height / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.height / 2 }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
+                ParallelAnimation {
+                    NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "transformRotationAngle"; to: -90; duration: rotationDuration; easing.type: rotationEasing }
+
+                    NumberAnimation { target: windowScreenshot; property: "opacity"; from: 1; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: -90; duration: rotationDuration; easing.type: rotationEasing }
+                }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
+            }
+        },
+        Transition {
+            from: "270"
+            to: "0"
+            enabled: ready
+            SequentialAnimation {
+                ScriptAction { script: { windowScreenshot.take(); } }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: true }
+                PropertyAction { target: shell; property: "width"; value: orientedShell.width }
+                PropertyAction { target: shell; property: "height"; value: orientedShell.height }
+                PropertyAction { target: shell; property: "transformRotationAngle"; value: -90 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.height / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.height / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.height / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.height / 2 }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
+                ParallelAnimation {
+                    NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "transformRotationAngle"; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+
+                    NumberAnimation { target: windowScreenshot; property: "opacity"; from: 1; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: 90; duration: rotationDuration; easing.type: rotationEasing }
+                }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
+            }
+        },
+        Transition {
+            from: "90"
+            to: "180"
+            enabled: true
+            SequentialAnimation {
+                ScriptAction { script: { windowScreenshot.take(); } }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: true }
+                PropertyAction { target: shell; property: "width"; value: orientedShell.width }
+                PropertyAction { target: shell; property: "height"; value: orientedShell.height }
+                PropertyAction { target: shell; property: "transformRotationAngle"; value: 90 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
+                ParallelAnimation {
+                    NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "transformRotationAngle"; to: 180; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "y"; from: 0; to: orientedShell.height - orientedShell.width; duration: rotationDuration; easing.type: rotationEasing }
+
+                    NumberAnimation { target: windowScreenshot; property: "opacity"; from: 1; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: 90; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "y"; from: 0; to: orientedShell.height - orientedShell.width; duration: rotationDuration; easing.type: rotationEasing }
+                }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
+            }
+        },
+        Transition {
+            from: "180"
+            to: "90"
+            enabled: true
+            SequentialAnimation {
+                ScriptAction { script: { windowScreenshot.take(); } }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: true }
+                PropertyAction { target: shell; property: "width"; value: orientedShell.height }
+                PropertyAction { target: shell; property: "height"; value: orientedShell.width }
+                PropertyAction { target: shell; property: "transformRotationAngle"; value: 180 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.height - (orientedShell.width / 2) }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
+                ParallelAnimation {
+                    NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "transformRotationAngle"; to: 90; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "y"; from: orientedShell.height - orientedShell.width; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+
+                    NumberAnimation { target: windowScreenshot; property: "opacity"; from: 1; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: -90; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "y"; from: 0; to: -orientedShell.height + orientedShell.width; duration: rotationDuration; easing.type: rotationEasing }
+                }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
+            }
+        },
+        Transition {
+            from: "180"
+            to: "270"
+            enabled: true
+            SequentialAnimation {
+                ScriptAction { script: { windowScreenshot.take(); } }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: true }
+                PropertyAction { target: shell; property: "width"; value: orientedShell.height }
+                PropertyAction { target: shell; property: "height"; value: orientedShell.width }
+                PropertyAction { target: shell; property: "y"; value: orientedShell.height - orientedShell.width }
+                PropertyAction { target: shell; property: "transformRotationAngle"; value: 180 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.height - (orientedShell.width / 2) }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
+                ParallelAnimation {
+                    NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "transformRotationAngle"; to: 270; duration: rotationDuration; easing.type: rotationEasing }
+
+                    NumberAnimation { target: windowScreenshot; property: "opacity"; from: 1; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: 90; duration: rotationDuration; easing.type: rotationEasing }
+                }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
+            }
+        },
+        Transition {
+            from: "270"
+            to: "180"
+            enabled: ready
+            SequentialAnimation {
+                ScriptAction { script: { windowScreenshot.take(); } }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: true }
+                PropertyAction { target: shell; property: "width"; value: orientedShell.width }
+                PropertyAction { target: shell; property: "height"; value: orientedShell.height }
+                PropertyAction { target: shell; property: "y"; value: orientedShell.height - orientedShell.width }
+                PropertyAction { target: shell; property: "transformRotationAngle"; value: 270 }
+                PropertyAction { target: shell; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: shell; property: "transformOriginY"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginX"; value: orientedShell.width / 2 }
+                PropertyAction { target: windowScreenshot; property: "transformOriginY"; value: orientedShell.height - (orientedShell.width / 2) }
+                PropertyAction { target: windowScreenshot; property: "y"; value: 0 }
+                ParallelAnimation {
+                    NumberAnimation { target: shell; property: "opacity"; from: 0; to: 1; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: shell; property: "transformRotationAngle"; to: 180; duration: rotationDuration; easing.type: rotationEasing }
+
+                    NumberAnimation { target: windowScreenshot; property: "opacity"; from: 1; to: 0; duration: rotationDuration; easing.type: rotationEasing }
+                    NumberAnimation { target: windowScreenshot; property: "transformRotationAngle"; from: 0; to: -90; duration: rotationDuration; easing.type: rotationEasing }
+                }
+                PropertyAction { target: windowScreenshot; property: "visible"; value: false }
+                ScriptAction { script: { windowScreenshot.discard(); } }
             }
         }
     ]
 
     Shell {
         id: shell
-        property real transformRotationAngle: 0
+        property real transformRotationAngle
+        property real transformOriginX
+        property real transformOriginY
 
         transform: Rotation {
-            origin.x: orientedShell.width / 2; origin.y: orientedShell.width / 2; axis { x: 0; y: 0; z: 1 }
+            origin.x: shell.transformOriginX; origin.y: shell.transformOriginY; axis { x: 0; y: 0; z: 1 }
             angle: shell.transformRotationAngle
         }
     }
@@ -195,11 +378,15 @@ Item {
     WindowScreenshot {
         id: windowScreenshot
         visible: false
+        width: orientedShell.width
+        height: orientedShell.height
 
-        property real transformRotationAngle: 0
+        property real transformRotationAngle
+        property real transformOriginX
+        property real transformOriginY
 
         transform: Rotation {
-            origin.x: orientedShell.width / 2; origin.y: orientedShell.width / 2; axis { x: 0; y: 0; z: 1 }
+            origin.x: windowScreenshot.transformOriginX; origin.y: windowScreenshot.transformOriginY; axis { x: 0; y: 0; z: 1 }
             angle: windowScreenshot.transformRotationAngle
         }
     }

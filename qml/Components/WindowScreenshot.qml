@@ -24,6 +24,11 @@ Item {
         image.source = "image://window/" + timeNow;
     }
 
+    // Unload the image to free up memory
+    function discard() {
+        image.source = "";
+    }
+
     Image {
         id: image
     }

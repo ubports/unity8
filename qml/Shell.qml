@@ -45,6 +45,8 @@ FocusScope {
             deviceOrientations = Qt.LandscapeOrientation;
         } else if (applicationArguments.device() === "mako") {
             deviceOrientations = Qt.PortraitOrientation
+                | Qt.InvertedPortraitOrientation
+                | Qt.LandscapeOrientation
                 | Qt.InvertedLandscapeOrientation;
         }
 
