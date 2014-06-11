@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2013-06-26 22:36+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-05-27 22:48+0200\n"
+"PO-Revision-Date: 2014-06-07 19:14+0000\n"
+"Last-Translator: mikasjoman <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:44+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-08 05:56+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -32,15 +32,15 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
-msgstr ""
+msgstr "Högerkant"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Dra med fingret från höger för att låsa upp telefonen"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
-msgstr ""
+msgstr "Överkant"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
@@ -56,7 +56,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
-msgstr ""
+msgstr "Vänsterkant"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
@@ -101,68 +101,80 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
-msgstr ""
+msgstr "Lägg till en recension"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:151
+#: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
 msgstr ""
 
-#: qml/Greeter/Lockscreen.qml:149
+#: qml/Greeter/Lockscreen.qml:215
 msgid "Emergency Call"
+msgstr "Nödsamtal"
+
+#: qml/Greeter/Lockscreen.qml:232
+msgid "OK"
 msgstr ""
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
 msgstr ""
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/PassphraseLockscreen.qml:60
 msgid "Hello"
+msgstr ""
+
+#: qml/Greeter/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Greeter/PinLockscreen.qml:216
+msgid "DONE"
 msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "Bekräfta"
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "Skriv eller tala in ett kommando"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "Laddar. Var god vänta..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "Tala nu..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "Talar..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:92
 msgid "Show password"
-msgstr ""
+msgstr "Visa lösenord"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:104
 msgid "Please enter SIM PIN"
 msgstr ""
 
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Panel/SearchIndicator.qml:27 test.qml:7
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Vänligen fyll i %1"

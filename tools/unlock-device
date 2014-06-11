@@ -17,24 +17,16 @@ while getopts s:w: opt; do
         esac
 done
 
-UNLOCK_SCRIPT='
-import dbus, logging;
-from unity8 import process_helpers as helpers;
-logging.basicConfig(level=logging.INFO);
-bus = dbus.SystemBus().get_object("com.canonical.powerd", "/com/canonical/powerd");
-cookie = bus.requestSysState("unlock-device-hold", 1, dbus_interface="com.canonical.powerd");
-helpers.restart_unity_with_testability();
-bus.clearSysState(cookie, dbus_interface="com.canonical.powerd");
-helpers.unlock_unity()
-'
+LIGHTDM_CONFIG="
+[SeatDefaults]
+autologin-in-background=false
+"
+LIGHTDM_CONFIG_FILE="/etc/lightdm/lightdm.conf.d/99-unity8-greeter-unlock.conf"
+
+adb shell "echo '$LIGHTDM_CONFIG' > $LIGHTDM_CONFIG_FILE"
 
 eval "$WAIT_COMMAND"
 
-UNLOCK_OUTPUT=$(adb shell "sudo -u phablet -i python3 -c '$UNLOCK_SCRIPT'" 2>&1)
-if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
-    echo "I: Unlock passed"
-    exit 0
-else
-    echo "I: Unlock failed, script output: '$UNLOCK_OUTPUT'"
-    exit 1
-fi
+adb shell "rm -f $LIGHTDM_CONFIG_FILE"
+
+exit 0

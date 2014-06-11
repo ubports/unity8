@@ -23,24 +23,21 @@
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
+#include <QDebug>
+
 using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_backend(new LauncherBackend(this)),
+    m_greeterMode(qgetenv("XDG_SESSION_CLASS") == "greeter"),
+    m_backend(new LauncherBackend(m_greeterMode, this)),
     m_appManager(0)
 {
     connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));
     connect(m_backend, SIGNAL(progressChanged(QString,int)), SLOT(progressChanged(QString,int)));
+    connect(m_backend, SIGNAL(refreshApplications()), SLOT(refreshStoredApplications()));
 
-    Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
-        LauncherItem *item = new LauncherItem(entry,
-                                              m_backend->displayName(entry),
-                                              m_backend->icon(entry),
-                                              this);
-        item->setPinned(true);
-        m_list.append(item);
-    }
+    refreshStoredApplications();
 }
 
 LauncherModel::~LauncherModel()
@@ -139,7 +136,8 @@ void LauncherModel::pin(const QString &appId, int index)
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
                                               m_backend->displayName(appId),
-                                              m_backend->icon(appId));
+                                              m_backend->icon(appId),
+                                              !m_greeterMode);
         item->setPinned(true);
         m_list.insert(index, item);
         endInsertRows();
@@ -197,6 +195,56 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
 void LauncherModel::setUser(const QString &username)
 {
     m_backend->setUser(username);
+}
+
+QString LauncherModel::getUrlForAppId(const QString &appId) const
+{
+    // appId is either an appId or a legacy app name.  Let's find out which
+    if (appId.isEmpty())
+        return QString();
+
+    QString df = m_backend->desktopFile(appId + ".desktop");
+    if (!df.isEmpty())
+        return "application:///" + appId + ".desktop";
+
+    QStringList parts = appId.split('_');
+    QString package = parts.value(0);
+    QString app = parts.value(1, "first-listed-app");
+    return "appid://" + package + "/" + app + "/current-user-version";
+}
+
+void LauncherModel::refreshStoredApplications()
+{
+    // First remove any existing ones
+    QList<int> storedAppIndices;
+    for (int i = 0; i < m_list.count(); ++i) {
+        if (!m_list.at(i)->recent()) {
+            storedAppIndices << i;
+        }
+    }
+    int run = 0;
+    while (storedAppIndices.count() > 0) {
+        beginRemoveRows(QModelIndex(), storedAppIndices.first() - run, storedAppIndices.first() - run);
+        m_list.takeAt(storedAppIndices.first() - run)->deleteLater();
+        endRemoveRows();
+        storedAppIndices.takeFirst();
+        ++run;
+    }
+
+    // Now insert all stored apps at beginning of list
+    QStringList storedApplications = m_backend->storedApplications();
+    beginInsertRows(QModelIndex(), 0, storedApplications.size() - 1);
+    run = 0;
+    Q_FOREACH (const QString &entry, storedApplications) {
+        LauncherItem *item = new LauncherItem(entry,
+                                              m_backend->displayName(entry),
+                                              m_backend->icon(entry),
+                                              !m_greeterMode,
+                                              this);
+        item->setPinned(true);
+        m_list.insert(run++, item);
+    }
+    endInsertRows();
 }
 
 ApplicationManagerInterface *LauncherModel::applicationManager() const
@@ -291,6 +339,10 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
     Q_UNUSED(parent);
 
     ApplicationInfoInterface *app = m_appManager->get(row);
+    if (!app) {
+        qWarning() << "LauncherModel received an applicationAdded signal, but there's no such application!";
+        return;
+    }
 
     bool found = false;
     Q_FOREACH(LauncherItem *item, m_list) {
@@ -302,7 +354,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
     if (found) {
         // Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
-        LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString());
+        LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), !m_greeterMode);
         item->setRecent(true);
         item->setFocused(app->focused());
 

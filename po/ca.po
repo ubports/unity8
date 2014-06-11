@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2014-05-14 08:15+0000\n"
-"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
+"POT-Creation-Date: 2014-05-27 22:48+0200\n"
+"PO-Revision-Date: 2014-06-05 16:58+0000\n"
+"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-16 06:52+0000\n"
-"X-Generator: Launchpad (build 17007)\n"
+"X-Launchpad-Export-Date: 2014-06-07 06:35+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -77,6 +77,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Ja heu après com utilitzar els gestos de les vores per fer servir el "
+"telèfon<br><br>Feu un toc a la pantalla per començar"
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
@@ -92,7 +94,7 @@ msgstr "Mostra'n menys"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "Recents"
 
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
@@ -107,34 +109,46 @@ msgstr "Més..."
 msgid "Less..."
 msgstr "Menys..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
-msgstr ""
+msgstr "Puntueu-ho"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
 msgstr "Afegiu una ressenya"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
 msgstr "Envia"
 
-#: qml/Greeter/Greeter.qml:151
+#: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "Feu lliscar el dit per desbloquejar"
 
-#: qml/Greeter/Lockscreen.qml:149
+#: qml/Greeter/Lockscreen.qml:215
 msgid "Emergency Call"
 msgstr "Trucada d'emergència"
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/Lockscreen.qml:232
+msgid "OK"
+msgstr ""
+
+#: qml/Greeter/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
 msgstr "Hola %1"
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/PassphraseLockscreen.qml:60
 msgid "Hello"
 msgstr "Hola"
+
+#: qml/Greeter/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Greeter/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -156,19 +170,19 @@ msgstr "Parleu..."
 msgid "Speaking..."
 msgstr "S'està parlant..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:92
 msgid "Show password"
 msgstr "Mostra la contrasenya"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:104
 msgid "Please enter SIM PIN"
 msgstr "Introduïu el PIN de la targeta SIM"
 
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Panel/SearchIndicator.qml:27 test.qml:7
 msgid "Search"
 msgstr "Cerca"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduïu %1"

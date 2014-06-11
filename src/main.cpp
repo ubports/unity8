@@ -26,6 +26,7 @@
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <QDebug>
+#include <QProcess>
 #include <libintl.h>
 #include <dlfcn.h>
 #include <csignal>
@@ -42,7 +43,7 @@ int startShell(int argc, const char** argv, void* server)
 {
     const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
 
-    QGuiApplication::setApplicationName("Unity 8");
+    QGuiApplication::setApplicationName(UNITY8_GREETER ? "Unity 8 Greeter" : "Unity 8");
     QGuiApplication *application;
 
     QCommandLineParser parser;
@@ -93,7 +94,7 @@ Load the testability driver");
 
     QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
     if (indicatorProfile.isEmpty()) {
-        indicatorProfile = "phone";
+        indicatorProfile = UNITY8_GREETER ? "phone_greeter" : "phone";
     }
 
     resolveIconTheme();
@@ -152,7 +153,7 @@ Load the testability driver");
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QUrl source(::qmlDirectory()+"Shell.qml");
+    QUrl source(::qmlDirectory() + (UNITY8_GREETER ? "GreeterShell.qml" : "Shell.qml"));
     prependImportPaths(view->engine(), ::overrideImportPaths());
     if (!isUbuntuMirServer) {
         prependImportPaths(view->engine(), ::nonMirImportPaths());
@@ -160,13 +161,26 @@ Load the testability driver");
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
     view->setSource(source);
-    view->setColor("transparent");
+    view->setColor(Qt::transparent);
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();
     } else {
         view->show();
     }
+
+#if UNITY8_GREETER
+    if (isUbuntuMirServer) {
+        // Add alpha to surface, so that the greeter can bleed through
+        QSurfaceFormat format;
+        format.setAlphaBufferSize(8);
+        view->setFormat(format);
+    }
+
+    if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
+        qDebug() << "Unable to send unity8-greeter-started event to Upstart";
+    }
+#endif
 
     int result = application->exec();
 

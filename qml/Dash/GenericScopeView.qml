@@ -128,7 +128,7 @@ FocusScope {
 
             CardTool {
                 id: cardTool
-
+                objectName: "cardTool"
                 count: results.count
                 template: model.renderer
                 components: model.components
@@ -141,6 +141,7 @@ FocusScope {
                     top: parent.top
                     left: parent.left
                     right: parent.right
+                    topMargin: hasSectionHeader ? 0 : units.gu(2)
                 }
 
                 source: {

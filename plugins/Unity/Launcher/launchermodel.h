@@ -51,6 +51,7 @@ public:
     Q_INVOKABLE void requestRemove(const QString &appId);
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
     Q_INVOKABLE void setUser(const QString &username);
+    Q_INVOKABLE QString getUrlForAppId(const QString &appId) const;
 
     unity::shell::application::ApplicationManagerInterface* applicationManager() const;
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager);
@@ -62,6 +63,7 @@ private:
 private Q_SLOTS:
     void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
+    void refreshStoredApplications();
 
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);
@@ -69,6 +71,7 @@ private Q_SLOTS:
 
 private:
     QList<LauncherItem*> m_list;
+    bool m_greeterMode;
     LauncherBackend *m_backend;
     ApplicationManagerInterface *m_appManager;
 };

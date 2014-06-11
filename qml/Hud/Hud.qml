@@ -227,10 +227,7 @@ Item {
         width: parent.width
 
         onYChanged: {
-            if (greeter.shown) {
-                showAnimation.duration = 0
-                hideAnimation.duration = 0
-            } else if (!showAnimation.running && !hideAnimation.running) {
+            if (!showAnimation.running && !hideAnimation.running) {
                 if (parent.height > 0) {
                     showAnimation.duration = Math.min(showableAnimationDuration * (1 - (parent.height - y) / parent.height), showableAnimationDuration)
                     hideAnimation.duration = showableAnimationDuration - showAnimation.duration
