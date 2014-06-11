@@ -1,3 +1,34 @@
+unity8 (7.88+14.10.20140606-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Make lockscreen buttons translatable.
+
+  [ Albert Astals ]
+  * Correctly mark these functions as overrides
+  * Remove connections to non existant signal
+  * Better test name
+  * Improvements for headerless categories LVPWH: No section name -> no
+    header LVPWH: New hasSectionHeader context property for delegates
+    GSV: Add topMargin if no hasSectionHeader (LP: #1326415)
+  * Make tryVerticalJournal, tryHorizontalJournal and tryOrganicGrid
+    work again
+
+  [ Michael Zanetti ]
+  * Don't crash when we get an invalid app from ApplicationManager (LP:
+    #1309162)
+
+  [ Andrea Cimitan ]
+  * Workaround for lp1324159 (LP: #1322233, #1324159)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Florian Boucault ]
+  * Application startup: changed splash rectangle to be black instead of
+    white and added a neat little animation. (LP: #1124265)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 06 Jun 2014 11:38:53 +0000
+
 unity8 (7.88+14.10.20140603.1-0ubuntu1) utopic; urgency=medium
 
   [ Michael Terry ]

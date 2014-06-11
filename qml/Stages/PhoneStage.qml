@@ -214,7 +214,7 @@ Item {
     Rectangle {
         id: appSplash2
         anchors.fill: parent
-        color: "white"
+        color: "black"
         visible: priv.secondApplicationStarting
     }
     Image {
@@ -228,8 +228,11 @@ Item {
     Rectangle {
         id: appSplash
         anchors.fill: parent
-        color: "white"
+        color: "black"
         visible: priv.applicationStarting
+
+        WaitingDots {
+        }
     }
     Image {
         id: mainScreenshotImage
