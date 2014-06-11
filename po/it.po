@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-05-27 22:48+0200\n"
-"PO-Revision-Date: 2014-05-28 15:13+0000\n"
+"PO-Revision-Date: 2014-06-10 12:08+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-07 06:35+0000\n"
+"X-Launchpad-Export-Date: 2014-06-11 06:37+0000\n"
 "X-Generator: Launchpad (build 17031)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -130,7 +130,7 @@ msgstr "Chiamata di emergenza"
 
 #: qml/Greeter/Lockscreen.qml:232
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: qml/Greeter/PassphraseLockscreen.qml:60
 #, qt-format
@@ -143,11 +143,11 @@ msgstr "Ciao"
 
 #: qml/Greeter/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "Annulla"
 
 #: qml/Greeter/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "Fatto"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
