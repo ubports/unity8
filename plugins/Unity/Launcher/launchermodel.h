@@ -63,7 +63,6 @@ private:
 private Q_SLOTS:
     void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
-    void refreshStoredApplications();
 
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);
@@ -71,7 +70,6 @@ private Q_SLOTS:
 
 private:
     QList<LauncherItem*> m_list;
-    bool m_greeterMode;
     LauncherBackend *m_backend;
     ApplicationManagerInterface *m_appManager;
 };

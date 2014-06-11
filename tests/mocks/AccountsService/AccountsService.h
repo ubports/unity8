@@ -35,10 +35,6 @@ class AccountsService: public QObject
                 READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
-    Q_PROPERTY (bool demoEdgesForCurrentUser
-                READ demoEdgesForCurrentUser
-                WRITE setDemoEdgesForCurrentUser
-                NOTIFY demoEdgesForCurrentUserChanged)
     Q_PROPERTY (QString backgroundFile
                 READ backgroundFile
                 WRITE setBackgroundFile // only available in mock
@@ -55,8 +51,6 @@ public:
     void setUser(const QString &user);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
-    bool demoEdgesForCurrentUser() const;
-    void setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser);
     QString backgroundFile() const;
     void setBackgroundFile(const QString &backgroundFile);
     bool statsWelcomeScreen() const;
@@ -65,7 +59,6 @@ public:
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
-    void demoEdgesForCurrentUserChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
 

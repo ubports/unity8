@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Unity 8 Greeter
-Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-greeter-wrapper @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-greeter
-X-LightDM-Session-Type=mir

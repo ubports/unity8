@@ -21,19 +21,28 @@ import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
-import SessionManager 0.1
 import "Dash"
+import "Greeter"
 import "Launcher"
 import "Panel"
 import "Components"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
 
-BasicShell {
+FocusScope {
     id: shell
 
+    // this is only here to select the width / height of the window if not running fullscreen
+    property bool tablet: false
+    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
+    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
+
+    property real edgeSize: units.gu(2)
+    property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
+    property url background
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -69,7 +78,17 @@ BasicShell {
         id: backgroundSettings
         schema.id: "org.gnome.desktop.background"
     }
-    backgroundSource: backgroundSettings.pictureUri
+    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
+    onGSettingsPictureChanged: {
+        shell.background = gSettingsPicture
+    }
+
+    VolumeControl {
+        id: volumeControl
+    }
+
+    Keys.onVolumeUpPressed: volumeControl.volumeUp()
+    Keys.onVolumeDownPressed: volumeControl.volumeDown()
 
     Item {
         id: underlayClipper
@@ -116,9 +135,10 @@ BasicShell {
                 id: dash
                 objectName: "dash"
 
+                available: !greeter.shown && !lockscreen.shown
                 hides: [stages, launcher, panel.indicators]
-                shown: disappearingAnimationProgress !== 1.0
-                enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+                shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
+                enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
 
                 anchors {
                     fill: parent
@@ -206,6 +226,7 @@ BasicShell {
             shown = true;
             panel.indicators.hide();
             edgeDemo.stopDemo();
+            greeter.hide();
             if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
                 ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }
@@ -246,12 +267,6 @@ BasicShell {
             }
         }
 
-        Binding {
-            target: ApplicationManager
-            property: "suspended"
-            value: !SessionManager.active
-        }
-
         Loader {
             id: applicationsDisplayLoader
             anchors.fill: parent
@@ -276,9 +291,132 @@ BasicShell {
         }
     }
 
+    Lockscreen {
+        id: lockscreen
+        objectName: "lockscreen"
+
+        readonly property int backgroundTopMargin: -panel.panelHeight
+
+        hides: [launcher, panel.indicators]
+        shown: false
+        enabled: true
+        showAnimation: StandardAnimation { property: "opacity"; to: 1 }
+        hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
+        y: panel.panelHeight
+        x: required ? 0 : - width
+        width: parent.width
+        height: parent.height - panel.panelHeight
+        background: shell.background
+        minPinLength: 4
+        maxPinLength: 4
+
+        onEntered: LightDM.Greeter.respond(passphrase);
+        onCancel: greeter.show()
+
+        Component.onCompleted: {
+            if (LightDM.Users.count == 1) {
+                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+            }
+        }
+    }
+
+    Connections {
+        target: LightDM.Greeter
+
+        onShowPrompt: {
+            if (LightDM.Users.count == 1) {
+                // TODO: There's no better way for now to determine if its a PIN or a passphrase.
+                if (text == "PIN") {
+                    lockscreen.alphaNumeric = false
+                } else {
+                    lockscreen.alphaNumeric = true
+                }
+                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
+                lockscreen.show();
+            }
+        }
+
+        onAuthenticationComplete: {
+            if (LightDM.Greeter.promptless) {
+                return;
+            }
+            if (LightDM.Greeter.authenticated) {
+                lockscreen.hide();
+            } else {
+                lockscreen.clear(true);
+            }
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: greeterWrapper.showProgress * 0.8
+    }
+
+    Item {
+        // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
+        id: greeterWrapper
+        x: launcher.progress
+        y: panel.panelHeight
+        width: parent.width
+        height: parent.height - panel.panelHeight
+
+        Behavior on x {
+            enabled: !launcher.dashSwipe
+            StandardAnimation {}
+        }
+
+        readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
+
+        Greeter {
+            id: greeter
+            objectName: "greeter"
+
+            available: true
+            hides: [launcher, panel.indicators]
+            shown: true
+
+            defaultBackground: shell.background
+
+            width: parent.width
+            height: parent.height
+
+            dragHandleWidth: shell.edgeSize
+
+            onShownChanged: {
+                if (shown) {
+                    lockscreen.reset();
+                    // If there is only one user, we start authenticating with that one here.
+                    // If there are more users, the Greeter will handle that
+                    if (LightDM.Users.count == 1) {
+                        LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    }
+                    greeter.forceActiveFocus();
+                }
+            }
+
+            onUnlocked: greeter.hide()
+            onSelected: {
+                // Update launcher items for new user
+                var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+                AccountsService.user = user;
+                LauncherModel.setUser(user);
+            }
+
+            onTease: launcher.tease()
+
+            Binding {
+                target: ApplicationManager
+                property: "suspended"
+                value: greeter.shown && greeterWrapper.showProgress == 1
+            }
+        }
+    }
+
     InputFilterArea {
         anchors.fill: parent
-        blockInput: ApplicationManager.focusedApplicationId.length === 0 || launcher.shown
+        blockInput: ApplicationManager.focusedApplicationId.length === 0 || greeter.shown || lockscreen.shown || launcher.shown
                     || panel.indicators.shown
     }
 
@@ -290,7 +428,7 @@ BasicShell {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
-                SessionManager.lock();
+                greeter.showNow();
             }
 
             // No reason to chew demo CPU when user isn't watching
@@ -302,10 +440,15 @@ BasicShell {
         }
     }
 
-    function showHome(fromLauncher) {
-        var animate = fromLauncher && !stages.shown
+    function showHome() {
+        var animate = !greeter.shown && !stages.shown
+        greeter.hide()
         dash.setCurrentScope("clickscope", animate, false)
         stages.hide()
+    }
+
+    function hideIndicatorMenu(delay) {
+        panel.hideIndicatorMenu(delay);
     }
 
     Item {
@@ -324,8 +467,8 @@ BasicShell {
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: focusedApplication && stages.fullscreen
-            searchVisible: dash.shown && dash.searchable
+            fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
+            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {
@@ -363,15 +506,18 @@ BasicShell {
                 if (edgeDemo.running)
                     return;
 
-                showHome(true)
+                showHome()
             }
-
             onDash: {
                 if (stages.shown && !stages.overlayMode) {
                     if (!stages.locked) {
                         stages.hide();
                         launcher.hide();
                     }
+                }
+                if (greeter.shown) {
+                    greeter.hideRight();
+                    launcher.hide();
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
@@ -389,7 +535,7 @@ BasicShell {
         Rectangle {
             id: modalNotificationBackground
 
-            visible: notifications.useModal && (notifications.state == "narrow")
+            visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
             color: "#000000"
             anchors.fill: parent
             opacity: 0.5
@@ -436,17 +582,10 @@ BasicShell {
                 blockInput: height > 0
             }
         }
-
-        Connections {
-            target: SessionManager
-            onActiveChanged: {
-                if (!SessionManager.active) {
-                    launcher.hide()
-                    panel.indicators.hide()
-                }
-            }
-        }
     }
+
+    focus: true
+    onFocusChanged: if (!focus) forceActiveFocus();
 
     InputFilterArea {
         anchors {
@@ -466,6 +605,12 @@ BasicShell {
         }
         width: shell.edgeSize
         blockInput: true
+    }
+
+    Binding {
+        target: i18n
+        property: "domain"
+        value: "unity8"
     }
 
     OSKController {
@@ -499,6 +644,7 @@ BasicShell {
 
     EdgeDemo {
         id: edgeDemo
+        greeter: greeter
         launcher: launcher
         dash: dash
         indicators: panel.indicators
@@ -507,6 +653,6 @@ BasicShell {
 
     Connections {
         target: SessionBroadcast
-        onShowHome: showHome(false)
+        onShowHome: showHome()
     }
 }
