@@ -1,5 +1,3 @@
-include(FindPkgConfig)
-
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Session
@@ -19,5 +17,4 @@ add_executable(sessionbackendtestExec
     sessionbackendtest.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Session/dbusunitysessionservice.cpp
 )
-target_link_libraries(sessionbackendtestExec)
 qt5_use_modules(sessionbackendtestExec Test Core Qml DBus)
