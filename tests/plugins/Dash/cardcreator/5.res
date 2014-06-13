@@ -16,8 +16,8 @@ onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artSh
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
                     id: artShapeHolder; 
-                    height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; 
-                    width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; 
+                    height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height;
+                    width: root.fixedArtShapeSize.width > 0 ? root.fixedArtShapeSize.width : artShapeLoader.width;
                     anchors { horizontalCenter: parent.horizontalCenter; }
                     Loader { 
                         id: artShapeLoader; 
@@ -30,14 +30,14 @@ Item  {
                             objectName: "artShape"; 
                             radius: "medium"; 
                             visible: image.status == Image.Ready; 
-                            readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
-                            readonly property real aspect: fixedArtShapeSizeAspect != -1 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1;
+                            readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
+                            readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1;
                             readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect;
                             Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
                             onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings();
                             Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); }
                             function updateWidthHeightBindings() {
-                                if (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) {
+                                if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) {
                                             width = root.fixedArtShapeSize.width;
                                             height = root.fixedArtShapeSize.height;
                                 } else if (aspectSmallerThanImageAspect) {
@@ -73,7 +73,7 @@ Loader {
             visible: showHeader && status == Loader.Ready; 
             sourceComponent: ShaderEffect { 
                 id: overlay; 
-                height: fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight;
+                height: fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight;
                 opacity: 0.6; 
                 property var source: ShaderEffectSource { 
                     id: shaderSource; 
