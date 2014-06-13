@@ -40,6 +40,62 @@ class CannotAccessUnity(Exception):
     pass
 
 
+def unlock_unity(unity_proxy_obj=None):
+    """Helper function that attempts to unlock the unity greeter.
+
+    If unity_proxy_object is None create a proxy object by querying for the
+    running unity process.
+    Otherwise re-use the passed proxy object.
+
+    :raises RuntimeError: if the greeter attempts and fails to be unlocked.
+
+    :raises RuntimeWarning: when the greeter cannot be found because it is
+      already unlocked.
+    :raises CannotAccessUnity: if unity is not introspectable or cannot be
+      found on dbus.
+    :raises CannotAccessUnity: if unity's upstart status is not "start" or the
+      upstart job cannot be found at all.
+
+    """
+    if unity_proxy_obj is None:
+        try:
+            pid = _get_unity_pid()
+            unity = _get_unity_proxy_object(pid)
+            main_window = unity.select_single(main_window_emulator.QQuickView)
+        except ProcessSearchError as e:
+            raise CannotAccessUnity(
+                "Cannot introspect unity, make sure that it has been started "
+                "with testability. Perhaps use the function "
+                "'restart_unity_with_testability' this module provides."
+                "(%s)"
+                % str(e)
+            )
+    else:
+        main_window = unity_proxy_obj.select_single(
+            main_window_emulator.QQuickView)
+
+    greeter = main_window.get_greeter()
+    if greeter.created == False:
+        raise RuntimeWarning("Greeter appears to be already unlocked.")
+
+    # Because of potential input jerkiness under heavy load,
+    # retry unlocking the greeter two times.
+    # https://bugs.launchpad.net/ubuntu/+bug/1260113
+
+    retries = 3
+    while retries > 0:
+        try:
+            greeter.swipe()
+        except AssertionError:
+            retries -= 1
+            if retries == 0:
+                raise
+            logger.info("Failed to unlock greeter, trying again...")
+        else:
+            logger.info("Greeter unlocked, continuing.")
+            break
+
+
 def lock_unity(unity_proxy_obj=None):
     """Helper function that attempts to lock the unity greeter."""
     import evdev, time

@@ -45,15 +45,6 @@ void AccountsService::setDemoEdges(bool demoEdges)
     Q_UNUSED(demoEdges)
 }
 
-bool AccountsService::demoEdgesForCurrentUser() const
-{
-    return false;
-}
-
-void AccountsService::setDemoEdgesForCurrentUser(bool)
-{
-}
-
 QString AccountsService::backgroundFile() const
 {
     return m_backgroundFile;

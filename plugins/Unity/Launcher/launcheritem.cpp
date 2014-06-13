@@ -22,13 +22,12 @@
 
 #include <libintl.h>
 
-LauncherItem::LauncherItem(const QString &appId, const QString &name, const QString &icon, bool pinnable, QObject *parent) :
+LauncherItem::LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent) :
     LauncherItemInterface(parent),
     m_appId(appId),
     m_name(name),
     m_icon(icon),
     m_pinned(false),
-    m_pinnable(pinnable),
     m_running(false),
     m_recent(false),
     m_progress(-1),
@@ -39,12 +38,10 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     QuickListEntry nameAction;
     nameAction.setText(m_name);
     m_quickList->appendAction(nameAction);
-    if (m_pinnable) {
-        QuickListEntry pinningAction;
-        pinningAction.setActionId("pin_item");
-        pinningAction.setText(gettext("Lock to Launcher"));
-        m_quickList->appendAction(pinningAction);
-    }
+    QuickListEntry pinningAction;
+    pinningAction.setActionId("pin_item");
+    pinningAction.setText(gettext("Lock to Launcher"));
+    m_quickList->appendAction(pinningAction);
 }
 
 QString LauncherItem::appId() const
@@ -71,12 +68,10 @@ void LauncherItem::setPinned(bool pinned)
 {
     if (m_pinned != pinned) {
         m_pinned = pinned;
-        if (m_pinnable) {
-            QuickListEntry entry;
-            entry.setActionId("pin_item");
-            entry.setText(pinned ? gettext("Unlock from Launcher") : gettext("Lock to Launcher"));
-            m_quickList->updateAction(entry);
-        }
+        QuickListEntry entry;
+        entry.setActionId("pin_item");
+        entry.setText(pinned ? gettext("Unlock from Launcher") : gettext("Lock to Launcher"));
+        m_quickList->updateAction(entry);
         Q_EMIT pinnedChanged(pinned);
     }
 }

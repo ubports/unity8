@@ -18,14 +18,13 @@ usage() {
     echo " -p, --pinlock Use a pin protected user." >&2
     echo " -k, --keylock Use a passphrase protected user." >&2
     echo " -g, --gdb Run through gdb." >&2
-    echo " -G, --greeter  Run the greeter instead of the shell." >&2
     echo " -h, --help Show this help." >&2
     echo " -m, --nomousetouch Run without -mousetouch argument." >&2
     echo >&2
     exit 1
 }
 
-ARGS=`getopt -n$0 -u -a --longoptions="fake,pinlock,keylock,gdb,greeter,help,nomousetouch" -o "fpkgGhm" -- "$@"`
+ARGS=`getopt -n$0 -u -a --longoptions="fake,pinlock,keylock,gdb,help,nomousetouch" -o "fpkghm" -- "$@"`
 [ $? -ne 0 ] && usage
 eval set -- "$ARGS"
 
@@ -36,7 +35,6 @@ do
        -p|--pinlock)  PINLOCK=true;;
        -k|--keylock)  KEYLOCK=true;;
        -g|--gdb)   GDB=true;;
-       -G|--greeter)  QML_PHONE_SHELL_PATH=./builddir/src/unity8-greeter;;
        -h|--help)  usage;;
        -m|--nomousetouch)  MOUSE_TOUCH=false;;
        --)         shift;break;;
@@ -46,17 +44,17 @@ done
 
 if $FAKE; then
   export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/liblightdm/single
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single
 fi
 
 if $PINLOCK; then
   export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/liblightdm/single-pin
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-pin
 fi
 
 if $KEYLOCK; then
   export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/liblightdm/single-passphrase
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-passphrase
 fi
 
 # Force icon theme if running on the desktop, otherwise gnome theme (if running
