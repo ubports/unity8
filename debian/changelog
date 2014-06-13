@@ -1,10 +1,14 @@
-unity8 (7.89) UNRELEASED; urgency=medium
+unity8 (7.89+14.10.20140613-0ubuntu1) utopic; urgency=medium
 
+  [ Michael Terry ]
   * Revert split greeter for now.  We will bring it back as an option
     for Desktop, but use a big hammer revert right now to get Touch back
     in shape.
 
- -- Michael Terry <mterry@ubuntu.com>  Wed, 11 Jun 2014 11:39:12 -0400
+  [ CI bot ]
+  * Fix build problems. Reviewed by: Michael Terry (LP: #1328850)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 13 Jun 2014 08:30:48 +0000
 
 unity8 (7.88+14.10.20140606-0ubuntu1) utopic; urgency=low
 
