@@ -307,10 +307,11 @@ Rectangle {
 
         function test_art_shape_fixed_size() {
             selector.selectedIndex = 6;
-            card.fixedArtShapeSize = Qt.size( units.gu(4), units.gu(4) );
+            card.fixedArtShapeSize = Qt.size( units.gu(8), units.gu(4) );
             waitForRendering(card);
-            tryCompare(art, "width", units.gu(4));
+            tryCompare(art, "width", units.gu(8));
             tryCompare(art, "height", units.gu(4));
+            tryCompare(art, "fixedArtShapeSizeAspect", 2);
         }
 
         function test_art_layout_data() {
