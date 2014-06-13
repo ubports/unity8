@@ -30,7 +30,7 @@ Item  {
                             objectName: "artShape"; 
                             radius: "medium"; 
                             visible: image.status == Image.Ready; 
-                            readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) ? root.fixedArtShapeSize.height / root.fixedArtShapeSize.height : -1;
+                            readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                             readonly property real aspect: fixedArtShapeSizeAspect != -1 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1;
                             readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect;
                             Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }

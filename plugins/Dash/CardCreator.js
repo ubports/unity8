@@ -69,7 +69,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     objectName: "artShape"; \n\
                                     radius: "medium"; \n\
                                     visible: image.status == Image.Ready; \n\
-                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) ? root.fixedArtShapeSize.height / root.fixedArtShapeSize.height : -1; \n\
+                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height != -1 && root.fixedArtShapeSize.width != -1) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
                                     readonly property real aspect: fixedArtShapeSizeAspect != -1 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
                                     readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } \n\
