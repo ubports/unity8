@@ -16,28 +16,26 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "SessionManager.h"
+#include "../UsersModelPrivate.h"
 
-SessionManager::SessionManager(QObject* parent)
-  : QObject(parent),
-    m_active(true)
-{
-}
+#include <QDir>
+#include <QSettings>
+#include <QStringList>
 
-bool SessionManager::active() const
+namespace QLightDM
 {
-    return m_active;
-}
 
-void SessionManager::setActive(bool active)
+UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
+  : q_ptr(parent)
 {
-    if (m_active != active) {
-        m_active = active;
-        activeChanged();
+    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
+    QStringList users = settings.value("users", QStringList() << "phablet").toStringList();
+
+    Q_FOREACH(const QString &user, users)
+    {
+        QString name = settings.value(user + "/name", user[0].toUpper() + user.mid(1)).toString();
+        entries.append({user, name, 0, 0, false, false, 0, 0});
     }
 }
 
-void SessionManager::lock()
-{
-    setActive(false);
 }

@@ -56,8 +56,6 @@ Q_SIGNALS:
     void authenticationComplete();
     void authenticationUserChanged(const QString &user);
     void promptlessChanged();
-    void idle();
-    void reset();
 
     // This signal is emitted by external agents like indicators, and the UI
     // should switch to this user if possible.
