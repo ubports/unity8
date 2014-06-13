@@ -39,6 +39,7 @@ Rectangle {
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
         username: "Lola"
+        background: "../../../qml/graphics/phone_background.jpg"
         infoText: infoTextTextField.text
     }
 

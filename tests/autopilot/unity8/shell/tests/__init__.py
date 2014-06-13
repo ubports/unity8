@@ -249,9 +249,9 @@ class UnityTestCase(AutopilotTestCase):
                 "%s=%s" % (key, value)
             ], stderr=subprocess.STDOUT)
 
-    def _launch(self, executable, ready_func, **kwargs):
+    def launch_unity(self, **kwargs):
         """Launch the unity shell, return a proxy object for it."""
-        binary_path = get_binary_path(executable)
+        binary_path = get_binary_path()
         lib_path = get_lib_path()
 
         logger.info(
@@ -293,18 +293,10 @@ class UnityTestCase(AutopilotTestCase):
 
         # Ensure that the dash is visible before we return:
         logger.debug("Unity started, waiting for it to be ready.")
-        ready_func()
+        self.assertUnityReady()
         logger.debug("Unity loaded and ready.")
 
         return app_proxy
-
-    def launch_unity(self, **kwargs):
-        """Launch the unity shell, return a proxy object for it."""
-        return self._launch("unity8", self.assertUnityReady, **kwargs)
-
-    def launch_greeter(self, **kwargs):
-        """Launch the unity shell, return a proxy object for it."""
-        return self._launch("unity8-greeter", self.assertGreeterReady, **kwargs)
 
     def _launch_unity_with_upstart(self, binary_path, args):
         logger.info("Starting unity")
@@ -352,7 +344,7 @@ class UnityTestCase(AutopilotTestCase):
     def _get_lightdm_mock_path(self, mock_type):
         lib_path = get_mocks_library_path()
         lightdm_mock_path = os.path.abspath(
-            os.path.join(lib_path, "liblightdm", mock_type)
+            os.path.join(lib_path, "LightDM", mock_type)
         )
 
         if not os.path.exists(lightdm_mock_path):
@@ -393,10 +385,6 @@ class UnityTestCase(AutopilotTestCase):
             Eventually(Equals(True), timeout=60)
         )
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
-
-    def assertGreeterReady(self):
-        greeter = self.main_window.get_greeter()
-        self.assertThat(greeter.created, Eventually(Equals(True)))
 
     def get_dash(self):
         dash = self._proxy.wait_select_single(Dash)

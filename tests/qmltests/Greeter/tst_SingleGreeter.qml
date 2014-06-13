@@ -33,8 +33,6 @@ Item {
         height: parent.height
         x: 0; y: 0
 
-        background: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
-
         property int minX: 0
 
         onXChanged: {

@@ -15,11 +15,13 @@
  */
 
 import AccountsService 0.1
+import LightDM 0.1 as LightDM
 import QtQuick 2.0
 
 Item {
     id: demo
 
+    property Item greeter
     property Item dash
     property Item launcher
     property Item indicators
@@ -34,6 +36,7 @@ Item {
     property bool paused: false
 
     onPausedChanged: {
+        if (d.rightEdgeDemo)  d.rightEdgeDemo.paused = paused
         if (d.topEdgeDemo)    d.topEdgeDemo.paused = paused
         if (d.bottomEdgeDemo) d.bottomEdgeDemo.paused = paused
         if (d.leftEdgeDemo)   d.leftEdgeDemo.paused = paused
@@ -42,6 +45,16 @@ Item {
 
     function hideEdgeDemoInShell() {
         AccountsService.demoEdges = false;
+        stopDemo();
+    }
+
+    function hideEdgeDemoInGreeter() {
+        // TODO: AccountsService.demoEdges = false as lightdm user
+    }
+
+    function hideEdgeDemos() {
+        hideEdgeDemoInGreeter();
+        hideEdgeDemoInShell();
     }
 
     function stopDemo() {
@@ -49,6 +62,7 @@ Item {
         dashEnabled = true
         panelEnabled = true
         panelContentEnabled = true
+        if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy()
         if (d.topEdgeDemo)    d.topEdgeDemo.destroy()
         if (d.bottomEdgeDemo) d.bottomEdgeDemo.destroy()
         if (d.leftEdgeDemo)   d.leftEdgeDemo.destroy()
@@ -65,17 +79,24 @@ Item {
         panelEnabled = false;
         panelContentEnabled = false;
 
-        startTopEdgeDemo()
+        // Begin with either greeter or dash, depending on which is visible
+        if (greeter && greeter.shown) {
+            startRightEdgeDemo()
+        } else {
+            startTopEdgeDemo()
+        }
     }
 
     QtObject {
         id: d
         property Component overlay
+        property QtObject rightEdgeDemo
         property QtObject topEdgeDemo
         property QtObject bottomEdgeDemo
         property QtObject leftEdgeDemo
         property QtObject finalEdgeDemo
         property bool showEdgeDemo: AccountsService.demoEdges
+        property bool showEdgeDemoInGreeter: AccountsService.demoEdges // TODO: AccountsService.demoEdges as lightdm user
 
         onShowEdgeDemoChanged: {
             stopDemo()
@@ -83,6 +104,37 @@ Item {
                 startDemo()
             }
         }
+    }
+
+    function startRightEdgeDemo() {
+        if (demo.greeter) {
+            d.rightEdgeDemo = d.overlay.createObject(demo.greeter, {
+                "edge": "right",
+                "title": i18n.tr("Right edge"),
+                "text": i18n.tr("Try swiping from the right edge to unlock the phone"),
+                "anchors.fill": demo.greeter,
+            });
+        }
+        if (d.rightEdgeDemo) {
+            d.rightEdgeDemo.onSkip.connect(demo.hideEdgeDemos)
+        } else {
+            stopDemo();
+        }
+    }
+
+    Connections {
+        target: demo.greeter
+
+        function hide() {
+            if (d.rightEdgeDemo && d.rightEdgeDemo.available) {
+                d.rightEdgeDemo.hide()
+                hideEdgeDemoInGreeter()
+                startTopEdgeDemo()
+            }
+        }
+
+        onUnlocked: hide()
+        onShownChanged: if (!greeter.shown) hide()
     }
 
     function startTopEdgeDemo() {

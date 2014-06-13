@@ -1,3 +1,11 @@
+unity8 (7.89) UNRELEASED; urgency=medium
+
+  * Revert split greeter for now.  We will bring it back as an option
+    for Desktop, but use a big hammer revert right now to get Touch back
+    in shape.
+
+ -- Michael Terry <mterry@ubuntu.com>  Wed, 11 Jun 2014 11:39:12 -0400
+
 unity8 (7.88+14.10.20140606-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]

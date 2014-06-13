@@ -1,6 +1,0 @@
-usr/bin/unity8-greeter
-usr/bin/unity8-greeter-wrapper
-usr/share/lightdm
-usr/share/unity8/GreeterShell.qml
-usr/share/unity8/Greeter
-usr/share/upstart/sessions/unity8-greeter-*.conf
