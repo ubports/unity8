@@ -39,10 +39,11 @@ private:
         QTRY_COMPARE(lvwph->m_visibleItems[visibleIndex]->y(), pos);
         QTRY_COMPARE(lvwph->m_visibleItems[visibleIndex]->height(), height);
         QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->m_item)->culled, culled);
-        QCOMPARE(section(lvwph->m_visibleItems[visibleIndex]->m_sectionItem), sectionHeader);
+        QCOMPARE(section(lvwph->m_visibleItems[visibleIndex]->sectionItem()), sectionHeader);
+        QTRY_COMPARE(hasSectionHeaderProperty(lvwph->m_visibleItems[visibleIndex]->m_item), !sectionHeader.isNull());
         if (!sectionHeader.isNull()) {
-            QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->m_sectionItem)->culled, sectionHeaderCulled);
-            QCOMPARE(sectionDelegateIndex(lvwph->m_visibleItems[visibleIndex]->m_sectionItem), lvwph->m_firstVisibleIndex + visibleIndex);
+            QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->sectionItem())->culled, sectionHeaderCulled);
+            QCOMPARE(sectionDelegateIndex(lvwph->m_visibleItems[visibleIndex]->sectionItem()), lvwph->m_firstVisibleIndex + visibleIndex);
         }
     }
 
@@ -109,12 +110,17 @@ private:
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
     }
 
-    QString section(QQuickItem *item)
+    bool hasSectionHeaderProperty(QQuickItem *item) const
+    {
+        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("hasSectionHeader")).toBool() : false;
+    }
+
+    QString section(QQuickItem *item) const
     {
         return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("section")).toString() : QString();
     }
 
-    int sectionDelegateIndex(QQuickItem *item)
+    int sectionDelegateIndex(QQuickItem *item) const
     {
         return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("delegateIndex")).toInt() : -1;
     }

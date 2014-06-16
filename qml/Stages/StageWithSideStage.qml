@@ -282,7 +282,10 @@ Item {
         id: mainStageSplash
         anchors.fill: root
         anchors.rightMargin: root.width - sideStageImage.x
-        color: "white"
+        color: "black"
+
+        WaitingDots {
+        }
     }
 
     SidestageHandle {
@@ -402,6 +405,9 @@ Item {
         id: sideStageSplash
         anchors.fill: parent
         anchors.leftMargin: sideStageImage.x
-        color: "white"
+        color: "black"
+
+        WaitingDots {
+        }
     }
 }

@@ -29,14 +29,35 @@ Item {
         width: parent.width - controls.width
 
         delegate: HorizontalJournal {
+            id: hj
             model: vjModel
             rowHeight: 100
             columnSpacing: 10
             rowSpacing: 10
             width: parent.width
             height: implicitHeight > 100 ? implicitHeight : 100
-            delegateCreationBegin: lvwph.contentY
-            delegateCreationEnd: lvwph.contentY + lvwph.height
+            displayMarginBeginning: {
+                if (hj.y + hj.height <= 0) {
+                    // Not visible (item at top of the list viewport)
+                    return -hj.height;
+                } else if (hj.y >= lvwph.height) {
+                    // Not visible (item at bottom of the list viewport)
+                    return 0;
+                } else {
+                    return -Math.max(-hj.y, 0);
+                }
+            }
+            displayMarginEnd: {
+                if (hj.y + hj.height <= 0) {
+                    // Not visible (item at top of the list viewport)
+                    return 0;
+                } else if (hj.y >= lvwph.height) {
+                    // Not visible (item at bottom of the list viewport)
+                    return -hj.height;
+                } else {
+                    return -Math.max(hj.height - lvwph.height + hj.y, 0)
+                }
+            }
 
             delegate: Rectangle {
                 height: 100

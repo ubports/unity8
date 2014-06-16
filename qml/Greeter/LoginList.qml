@@ -193,6 +193,7 @@ Item {
         }
 
         onAccepted: {
+            if (text == "") return; // Might be useful anyway, but mainly workaround for LP 1324159
             if (!enabled)
                 return;
             root.focus = true; // so that it can handle Escape presses for us
