@@ -70,12 +70,12 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
-        source: hints["sound-file"]
+        source: hints["suppress-sound"] != "" ? hints["sound-file"] : undefined
     }
 
-    Component.onCompleted: {
-        if (hints["suppress-sound"] != "true") {
-            sound.play ()
+    onVisibleChanged:  {
+        if (visible == true && sound.source != undefined) {
+            sound.play()            
         }
     }
 
