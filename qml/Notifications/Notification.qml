@@ -73,9 +73,9 @@ Item {
         source: hints["suppress-sound"] != "" ? hints["sound-file"] : undefined
     }
 
-    onVisibleChanged:  {
+    onVisibleChanged: {
         if (visible == true && sound.source != undefined) {
-            sound.play()            
+            sound.play()
         }
     }
 
