@@ -21,22 +21,14 @@
 #include "fake_previewmodel.h"
 #include "fake_scope.h"
 
-PreviewStack::PreviewStack(QObject* parent) : QAbstractListModel(parent)
+PreviewStack::PreviewStack(QObject* parent)
+ : unity::shell::scopes::PreviewStackInterface(parent)
 {
     m_previews << new PreviewModel(this);
 }
 
 PreviewStack::~PreviewStack()
 {
-}
-
-QHash<int, QByteArray> PreviewStack::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-
-    roles[Roles::RolePreviewModel] = "previewModel";
-
-    return roles;
 }
 
 void PreviewStack::setWidgetColumnCount(int columnCount)
@@ -56,7 +48,7 @@ int PreviewStack::rowCount(const QModelIndex&) const
     return m_previews.size();
 }
 
-PreviewModel* PreviewStack::get(int index) const
+unity::shell::scopes::PreviewModelInterface* PreviewStack::getPreviewModel(int index) const
 {
     if (index >= m_previews.size()) {
         return nullptr;

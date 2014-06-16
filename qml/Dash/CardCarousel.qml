@@ -34,7 +34,7 @@ DashRenderer {
     Carousel {
         id: carousel
         anchors.fill: parent
-        tileAspectRatio: cardCarousel.components && cardCarousel.components["art"]["aspect-ratio"] || 1.0
+        tileAspectRatio: cardTool.components && cardTool.components["art"]["aspect-ratio"] || 1.0
         // FIXME we need to "reverse" the carousel to make the selected item the size
         // and push others back.
         minimumTileWidth: cardTool.cardWidth / selectedItemScaleFactor
@@ -42,8 +42,8 @@ DashRenderer {
         cacheBuffer: 1404 // 18px * 13gu * 6
         model: cardCarousel.model
 
-        onClicked: cardCarousel.clicked(index, itemY)
-        onPressAndHold: cardCarousel.pressAndHold(index, itemY)
+        onClicked: cardCarousel.clicked(index, null)
+        onPressAndHold: cardCarousel.pressAndHold(index)
 
         property real fontScale: 1 / selectedItemScaleFactor
         property real headerHeight: cardTool.headerHeight / selectedItemScaleFactor

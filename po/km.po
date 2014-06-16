@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
+"POT-Creation-Date: 2014-05-27 22:48+0200\n"
 "PO-Revision-Date: 2014-05-19 01:42+0000\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-19 06:25+0000\n"
-"X-Generator: Launchpad (build 17007)\n"
+"X-Launchpad-Export-Date: 2014-06-07 06:35+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -105,34 +105,46 @@ msgstr "ច្រើនជាង​..."
 msgid "Less..."
 msgstr "តិច​ជាង..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "វាយតម្លៃ​វា"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
 msgstr "បន្ថែម​ការ​ពិនិត្យ"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
 msgstr "ផ្ញើ"
 
-#: qml/Greeter/Greeter.qml:151
+#: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
 msgstr "អូស​ដើម្បី​ដោះសោ"
 
-#: qml/Greeter/Lockscreen.qml:149
+#: qml/Greeter/Lockscreen.qml:215
 msgid "Emergency Call"
 msgstr "ការ​ហៅ​ពេល​អាសន្ន"
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/Lockscreen.qml:232
+msgid "OK"
+msgstr ""
+
+#: qml/Greeter/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
 msgstr "សួស្ដី %1"
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Greeter/PassphraseLockscreen.qml:60
 msgid "Hello"
 msgstr "សួស្តី"
+
+#: qml/Greeter/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Greeter/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -154,19 +166,19 @@ msgstr "និយាយ​ឥឡូវ..."
 msgid "Speaking..."
 msgstr "កំពុង​និយាយ..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:92
 msgid "Show password"
 msgstr "បង្ហាញ​ពាក្យ​សម្ងាត់"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:104
 msgid "Please enter SIM PIN"
 msgstr "បញ្ចូល​កូដ PIN របស់​ស៊ីមកាត"
 
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Panel/SearchIndicator.qml:27 test.qml:7
 msgid "Search"
 msgstr "ស្វែង​រក"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr "សូម​បញ្ចូល %1"

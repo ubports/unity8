@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,18 +12,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *  Michal Hruby <michal.hruby@canonical.com>
  */
 
-#ifndef ICONUTILS_H
-#define ICONUTILS_H
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-#include <QString>
-#include <QVariant>
-
-QString gIconToDeclarativeImageProviderString(QString const &giconString);
-QString uriToThumbnailerProviderString(QString const &uri, QString const &mimetype, QVariantHash const &metadata);
-
-#endif
+Rectangle {
+    radius: width
+    width: units.dp(6)
+    height: width
+    color: UbuntuColors.orange
+}
