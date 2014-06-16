@@ -21,9 +21,8 @@ import Mir.Application 0.1
 import Utils 0.1
 import "../Components"
 
-Rectangle {
+Item {
     id: root
-    color: "green"
 
     // Controls to be set from outside
     property int dragAreaWidth

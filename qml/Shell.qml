@@ -179,14 +179,13 @@ FocusScope {
         }
     }
 
-    Rectangle {
+    Item {
         id: stages
         objectName: "stages"
         width: parent.width
         height: parent.height
-        color: "khaki"
 
-        visible: !fullyHidden
+        visible: !fullyHidden && !ApplicationManager.empty
 
         x: shown ? launcher.progress : stagesDragArea.progress
         Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
