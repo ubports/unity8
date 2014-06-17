@@ -31,6 +31,10 @@ Item {
     signal gotoScope(string scopeId)
     signal openScope(var scope)
 
+    // TODO see how much code we can share
+    // between here and other Dash parts, it's starting to have
+    // too much duplicated code with the DashDepartments, etc
+
     Item {
         id: scopeViewHolder
 
