@@ -79,6 +79,14 @@ Item {
                 fontSize: "x-large"
                 elide: Text.ElideRight
             }
+
+            afterLineChildItem: DashDepartments {
+                scope: root.scope
+                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
+                anchors.right: parent.right
+                windowHeight: root.height
+                windowWidth: root.width
+            }
         }
     }
 
