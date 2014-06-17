@@ -32,7 +32,7 @@ class Powerd: public QObject
 
 public:
     enum DisplayStateChangeReason {
-        Normal          = 0,
+        Unknown         = 0,
         Inactivity      = 1, // Display changed state due to inactivity
         PowerKey        = 2, // Display changed state due to user pressing power key
         Proximity       = 3, // Display changed state due to proximity events
@@ -50,7 +50,6 @@ Q_SIGNALS:
     void displayPowerStateChange(int status, int reason);
 
 private:
-    QDBusInterface *powerd;
     QDBusInterface *unityScreen;
     GSettings *systemSettings;
 };

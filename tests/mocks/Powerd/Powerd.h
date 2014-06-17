@@ -29,7 +29,7 @@ class Powerd: public QObject
 
 public:
     enum DisplayStateChangeReason {
-        Normal          = 0,
+        Unknown         = 0,
         Inactivity      = 1, // Display changed state due to inactivity
         PowerKey        = 2, // Display changed state due to user pressing power key
         Proximity       = 3, // Display changed state due to proximity events
