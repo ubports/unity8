@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-05-27 22:48+0200\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
 "PO-Revision-Date: 2014-02-26 09:58+0000\n"
 "Last-Translator: j3lc <x_nikos@yahoo.gr>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-07 06:35+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -76,9 +76,34 @@ msgstr ""
 "Πλέον γνωρίζετε τις χειρονομίες από τα άκρα και μπορείτε να ξεκινήσετε να "
 "χρησιμοποιείτε το τηλέφωνο<br><br>Αγγίξτε την οθόνη για να ξεκινήσετε"
 
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Κλήση έκτακτης ανάγκης"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
+
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Πρόσφατες αναζητήσεις"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "Γεια σας %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "Γεια σας"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -90,11 +115,6 @@ msgstr "Λιγότερα"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
 msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
@@ -121,31 +141,6 @@ msgstr "Αποστολή"
 msgid "Swipe to unlock"
 msgstr ""
 
-#: qml/Greeter/Lockscreen.qml:215
-msgid "Emergency Call"
-msgstr "Κλήση έκτακτης ανάγκης"
-
-#: qml/Greeter/Lockscreen.qml:232
-msgid "OK"
-msgstr ""
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-#, qt-format
-msgid "Hello %1"
-msgstr "Γεια σας %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-msgid "Hello"
-msgstr "Γεια σας"
-
-#: qml/Greeter/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr ""
-
-#: qml/Greeter/PinLockscreen.qml:216
-msgid "DONE"
-msgstr ""
-
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
 msgstr "Επιβεβαίωση"
@@ -166,15 +161,15 @@ msgstr "Μιλήστε τώρα..."
 msgid "Speaking..."
 msgstr "Ομιλία..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:92
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
 msgstr "Εμφάνιση κωδικού"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:104
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "Παρακαλώ εισάγετε το PIN της κάρτας SIM"
 
-#: qml/Panel/SearchIndicator.qml:27 test.qml:7
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Αναζήτηση"
 

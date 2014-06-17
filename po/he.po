@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-05-27 22:48+0200\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
 "PO-Revision-Date: 2014-06-09 07:49+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-10 06:50+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -74,9 +74,34 @@ msgstr ""
 "ברגעים אלו סיימת את התמחותך בשימוש במחוות קצה והטלפון פתוח לשימושך<br><br>נא "
 "לגעת במסך כדי להתחיל"
 
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "שיחת חירום"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr "אישור"
+
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "חיפושים אחרונים"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "שלום %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "שלום"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr "ביטול"
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr "בוצע"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -89,11 +114,6 @@ msgstr "לראות פחות"
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "בשימוש לאחרונה"
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr "תצוגה מקדימה של %1"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -119,31 +139,6 @@ msgstr "שליחה"
 msgid "Swipe to unlock"
 msgstr "יש להחליק לפתיחה"
 
-#: qml/Greeter/Lockscreen.qml:215
-msgid "Emergency Call"
-msgstr "שיחת חירום"
-
-#: qml/Greeter/Lockscreen.qml:232
-msgid "OK"
-msgstr "אישור"
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-#, qt-format
-msgid "Hello %1"
-msgstr "שלום %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-msgid "Hello"
-msgstr "שלום"
-
-#: qml/Greeter/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr "ביטול"
-
-#: qml/Greeter/PinLockscreen.qml:216
-msgid "DONE"
-msgstr "בוצע"
-
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
 msgstr "אישור"
@@ -164,15 +159,15 @@ msgstr "יש לדבר כעת..."
 msgid "Speaking..."
 msgstr "הדיבור מושמע…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:92
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
 msgstr "הצגת הססמה"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:104
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "נא להזין את קוד ה־‏SIM"
 
-#: qml/Panel/SearchIndicator.qml:27 test.qml:7
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "חיפוש"
 
