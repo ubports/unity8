@@ -28,13 +28,13 @@ Item {
     property ListModel searchHistory
     property var scope: null
     property alias childItem: itemContainer.children
-    property alias afterLineChildItem: afterLineContainer.children
+    property alias bottomItem: bottomContainer.children
     property alias showBackButton: backButton.visible
 
     signal backClicked
 
-    height: header.height + units.gu(2) + afterLineContainer.height
-    implicitHeight: header.height + units.gu(2) + afterLineContainer.height
+    height: header.height + units.gu(2) + bottomContainer.height
+    implicitHeight: header.height + units.gu(2) + bottomContainer.height
 
     function triggerSearch() {
         if (searchEntryEnabled) searchField.forceActiveFocus()
@@ -406,14 +406,14 @@ Item {
             top: header.bottom
             left: parent.left
             right: parent.right
-            bottom: afterLineContainer.top
+            bottom: bottomContainer.top
         }
 
         source: "graphics/PageHeaderBaseDivider.sci"
     }
 
     Item {
-        id: afterLineContainer
+        id: bottomContainer
 
         anchors.bottom: parent.bottom
         width: parent.width

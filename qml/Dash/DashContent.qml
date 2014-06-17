@@ -218,7 +218,7 @@ Item {
                 }
             }
 
-            afterLineChildItem: DashDepartments {
+            bottomItem: DashDepartments {
                 scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right

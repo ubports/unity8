@@ -84,7 +84,7 @@ Item {
                 elide: Text.ElideRight
             }
 
-            afterLineChildItem: DashDepartments {
+            bottomItem: DashDepartments {
                 scope: root.scope
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right
