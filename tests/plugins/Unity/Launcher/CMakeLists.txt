@@ -15,9 +15,9 @@ add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherBackendTest
-set(testBackendCommand ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
-      -o ${CMAKE_BINARY_DIR}/launcherbackendtest.xml,xunitxml
-      -o -,txt)
+set(testBackendCommand dbus-test-runner --task ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
+      --parameter -o --parameter ${CMAKE_BINARY_DIR}/launcherbackendtest.xml,xunitxml
+      --parameter -o --parameter -,txt)
 add_test(NAME launcherbackendtest COMMAND ${testBackendCommand})
 add_custom_target(launcherbackendtest ${testBackendCommand})
 add_executable(launcherbackendtestExec
@@ -49,7 +49,7 @@ add_executable(launchermodeltestExec
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
-target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS} )
+target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS})
 qt5_use_modules(launchermodeltestExec Test Core DBus)
 
 # copy .desktop files into build directory for shadow builds

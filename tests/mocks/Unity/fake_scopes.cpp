@@ -25,19 +25,10 @@
 #include <QTimer>
 
 Scopes::Scopes(QObject *parent)
-: QAbstractListModel(parent)
-, m_loaded(false)
-, timer(this)
+ : unity::shell::scopes::ScopesInterface(parent)
+ , m_loaded(false)
+ , timer(this)
 {
-    m_roles[Scopes::RoleScope] = "scope";
-    m_roles[Scopes::RoleId] = "id";
-    m_roles[Scopes::RoleVisible] = "visible";
-    m_roles[Scopes::RoleTitle] = "title";
-
-    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
-
     timer.setSingleShot(true);
     timer.setInterval(100);
     QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(updateScopes()));
@@ -83,11 +74,6 @@ void Scopes::load()
     timer.start();
 }
 
-QHash<int, QByteArray> Scopes::roleNames() const
-{
-    return m_roles;
-}
-
 int Scopes::rowCount(const QModelIndex&) const
 {
     return m_scopes.count();
@@ -114,14 +100,18 @@ QVariant Scopes::data(const QModelIndex& index, int role) const
     }
 }
 
-QVariant Scopes::get(int row) const
+unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
 {
-    return data(QAbstractListModel::index(row), 0);
+    if (row < 0 || row >= m_scopes.size()) {
+        return nullptr;
+    }
+
+    return m_scopes[row];
 }
 
-QVariant Scopes::get(QString const&) const
+unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const&) const
 {
-    return QVariant();
+    return nullptr;
 }
 
 QModelIndex Scopes::parent(const QModelIndex&) const
@@ -132,11 +122,6 @@ QModelIndex Scopes::parent(const QModelIndex&) const
 bool Scopes::loaded() const
 {
     return m_loaded;
-}
-
-int Scopes::count() const
-{
-    return rowCount();
 }
 
 void Scopes::addScope(Scope* scope)

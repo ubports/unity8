@@ -1,5 +1,6 @@
 module QMenuModel
 plugin qmenumodel
+typeinfo QMenuModel.qmltypes
 
 QDBusActionGroup 0.1 QDBusActionGroup.qml
 UnityMenuAction 0.1 UnityMenuAction.qml

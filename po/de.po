@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2014-01-15 11:01+0000\n"
-"Last-Translator: Dennis Baudys <Unknown>\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"PO-Revision-Date: 2014-06-06 19:34+0000\n"
+"Last-Translator: Phillip Sz <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:43+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Im Starter sperren"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Aus dem Starter entsperren"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -32,19 +32,20 @@ msgstr "Einführung überspringen"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
-msgstr "Rechter Rand"
+msgstr "Rechter Bildschirmrand"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Vom rechten Rand her wischen, um das Gerät zu entsperren"
+msgstr "Vom rechten Bildschirmrand her wischen, um das Gerät zu entsperren"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
-msgstr "Oberer Rand"
+msgstr "Oberer Bildschirmrand"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Vom oberen Rand her wischen, um die Statusmeldungen anzuzeigen"
+msgstr ""
+"Vom oberen Bildschirmrand her wischen, um die Statusmeldungen anzuzeigen"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -52,7 +53,7 @@ msgstr "Schließen"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr "Nochmals nach oben wischen, um das Einstellungsmenü zu schließen"
+msgstr "Wischen Sie erneut nach oben, um das Einstellungsmenü zu schließen"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
@@ -61,8 +62,8 @@ msgstr "Linker Rand"
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
-"Von links wischen, um die Seitenleiste für den Anwendungs-Schnellzugriff "
-"aufzurufen"
+"Wischen Sie von links nach rechts, um die Seitenleiste für den Anwendungs-"
+"Schnellzugriff aufzurufen"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
@@ -73,64 +74,73 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Sie haben nun die Kantengesten erfolgreich erlernt und können das Telefon "
+"nun nutzen<br><br>Zum Starten auf den Bildschirm tippen"
 
-#: qml/Components/PageHeader.qml:365
-msgid "Recent searches"
-msgstr "Letzte Suchbegriffe"
-
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr ""
-
-#: qml/Components/SeeMore.qml:58
-msgid "See less"
-msgstr ""
-
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr ""
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr ""
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
-msgid "More..."
-msgstr ""
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
-msgid "Less..."
-msgstr ""
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
-msgid "Rate this"
-msgstr "Bewerten"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
-msgid "Add a review"
-msgstr "Bewertung hinzufügen"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
-msgid "Send"
-msgstr "Senden"
-
-#: qml/Greeter/Greeter.qml:151
-msgid "Swipe to unlock"
-msgstr ""
-
-#: qml/Greeter/Lockscreen.qml:149
+#: qml/Components/Lockscreen.qml:214
 msgid "Emergency Call"
 msgstr "Notruf"
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:365
+msgid "Recent searches"
+msgstr "Zuletzt verwendete Suchbegriffe"
+
+#: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Components/PassphraseLockscreen.qml:60
 msgid "Hello"
 msgstr "Hallo"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr "Mehr ansehen"
+
+#: qml/Components/SeeMore.qml:58
+msgid "See less"
+msgstr "Weniger ansehen"
+
+#: qml/Dash/DashApps.qml:37
+msgid "Recent"
+msgstr "Kürzlich"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "Mehr …"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr "Weniger …"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
+msgid "Rate this"
+msgstr "Bewerten"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
+msgid "Add a review"
+msgstr "Bewertung hinzufügen"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
+msgid "Send"
+msgstr "Senden"
+
+#: qml/Greeter/Greeter.qml:157
+msgid "Swipe to unlock"
+msgstr "Wischen zum Entsperren"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -158,13 +168,13 @@ msgstr "Passwort anzeigen"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Bitte die PIN der SIM eingeben"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Suchen"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr "Bitte geben Sie %1 ein"

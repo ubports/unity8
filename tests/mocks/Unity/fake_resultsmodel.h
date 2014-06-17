@@ -21,58 +21,26 @@
 #ifndef FAKE_RESULTS_MODEL_H
 #define FAKE_RESULTS_MODEL_H
 
-#include <QAbstractListModel>
+#include <unity/shell/scopes/ResultsModelInterface.h>
 
-class ResultsModel : public QAbstractListModel
+class ResultsModel : public unity::shell::scopes::ResultsModelInterface
 {
     Q_OBJECT
-
-    Q_ENUMS(Roles)
-
-    Q_PROPERTY(QString categoryId READ categoryId WRITE setCategoryId NOTIFY categoryIdChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
     explicit ResultsModel(int result_count, int categoryId, QObject* parent = 0);
 
-    enum Roles {
-        RoleUri,
-        RoleCategoryId,
-        RoleDndUri,
-        RoleResult,
-        // card components
-        RoleTitle,
-        RoleArt,
-        RoleSubtitle,
-        RoleMascot,
-        RoleEmblem,
-        RoleOldPrice,
-        RolePrice,
-        RoleAltPrice,
-        RoleRating,
-        RoleAltRating,
-        RoleSummary
-    };
-
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    Q_INVOKABLE QVariant get(int row) const;
-
     /* getters */
-    QString categoryId() const;
-    int count() const;
+    QString categoryId() const override;
+    int count() const override;
 
     /* setters */
-    void setCategoryId(QString const& id);
-
-Q_SIGNALS:
-    void categoryIdChanged();
-    void countChanged();
+    void setCategoryId(QString const& id) override;
 
 private:
-    QHash<int, QByteArray> m_roles;
     int m_result_count;
     int m_categoryId;
 };

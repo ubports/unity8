@@ -51,7 +51,7 @@ macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
 
     set(qmlscene_command
         env ${qmltest_ENVIRONMENT}
-        ${qmlscene_exe} ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+        ${qmlscene_exe} -qmljsdebugger=port:3768 ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmlscene_imports}
     )
     add_custom_target(${qmlscene_TARGET} ${qmlscene_command})
@@ -111,9 +111,9 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
             -o -,txt
             ${function_ARGS}
     )
-    find_program( HAVE_GCC gcc )
-    if (NOT ${HAVE_GCC} STREQUAL "")
-        exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
+    find_program(DPKG dpkg-architecture)
+    if(DPKG)
+        exec_program(${DPKG} ARGS "-qDEB_BUILD_MULTIARCH" OUTPUT_VARIABLE ARCH_TRIPLET )
         set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
     endif()
     set(qmltest_xvfb_command

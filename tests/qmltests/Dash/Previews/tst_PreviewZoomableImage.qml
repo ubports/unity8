@@ -26,17 +26,18 @@ Rectangle {
     color: "lightgrey"
 
     property var widgetData0: {
-        "source": ""
-    }
-
-    property var widgetData1: {
         "source": Qt.resolvedUrl("../artwork/checkers.png"),
         "zoomable": false
     }
 
+    property var widgetData1: {
+        "source": ""
+    }
+
     PreviewZoomableImage {
         id: zoomableImage
-        width: parent.width
+        anchors.fill: parent
+        widgetData: widgetData1
     }
 
     UT.UnityTestCase {
@@ -47,10 +48,14 @@ Rectangle {
             var image = findChild(zoomableImage, "image");
 
             zoomableImage.widgetData = widgetData0;
-            tryCompare(image, "state", "default");
+            waitForRendering(zoomableImage);
+            waitForRendering(image);
+            tryCompare(image, "imageState", "ready");
 
             zoomableImage.widgetData = widgetData1;
-            tryCompare(image, "state", "ready");
+            waitForRendering(zoomableImage);
+            waitForRendering(image);
+            tryCompare(image, "imageState", "default");
         }
     }
 }

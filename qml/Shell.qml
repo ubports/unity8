@@ -28,9 +28,7 @@ import "Dash"
 import "Greeter"
 import "Launcher"
 import "Panel"
-import "Hud"
 import "Components"
-import "Bottombar"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
 
@@ -118,15 +116,6 @@ FocusScope {
             // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
             // through the translucent parts of the shell surface.
             visible: !fullyCovered && !applicationSurfaceShouldBeSeen
-
-            CrossFadeImage {
-                id: backgroundImage
-                objectName: "backgroundImage"
-
-                anchors.fill: parent
-                source: shell.background
-                fillMode: Image.PreserveAspectCrop
-            }
 
             Rectangle {
                 anchors.fill: parent
@@ -308,7 +297,7 @@ FocusScope {
 
         readonly property int backgroundTopMargin: -panel.panelHeight
 
-        hides: [launcher, panel.indicators, hud]
+        hides: [launcher, panel.indicators]
         shown: false
         enabled: true
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
@@ -318,7 +307,8 @@ FocusScope {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
-        pinLength: 4
+        minPinLength: 4
+        maxPinLength: 4
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
@@ -372,7 +362,10 @@ FocusScope {
         width: parent.width
         height: parent.height - panel.panelHeight
 
-        Behavior on x {SmoothedAnimation{velocity: 600}}
+        Behavior on x {
+            enabled: !launcher.dashSwipe
+            StandardAnimation {}
+        }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
 
@@ -381,7 +374,7 @@ FocusScope {
             objectName: "greeter"
 
             available: true
-            hides: [launcher, panel.indicators, hud]
+            hides: [launcher, panel.indicators]
             shown: true
 
             defaultBackground: shell.background
@@ -424,7 +417,7 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: ApplicationManager.focusedApplicationId.length === 0 || greeter.shown || lockscreen.shown || launcher.shown
-                    || panel.indicators.shown || hud.shown
+                    || panel.indicators.shown
     }
 
     Connections {
@@ -488,47 +481,6 @@ FocusScope {
             }
         }
 
-        Hud {
-            id: hud
-
-            width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-            height: parent.height
-
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && edgeDemo.dashEnabled
-            shown: false
-            showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
-            hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
-
-            Connections {
-                target: ApplicationManager
-                onFocusedApplicationIdChanged: hud.hide()
-            }
-        }
-
-        Revealer {
-            id: hudRevealer
-
-            enabled: hud.shown
-            width: hud.width
-            anchors.left: hud.left
-            height: parent.height
-            target: hud.revealerTarget
-            closedValue: height
-            openedValue: 0
-            direction: Qt.RightToLeft
-            orientation: Qt.Vertical
-            handleSize: hud.handleHeight
-            onCloseClicked: target.hide()
-        }
-
-        Bottombar {
-            id: bottombar
-            theHud: hud
-            anchors.fill: parent
-            enabled: hud.available
-            applicationIsOnForeground: ApplicationManager.focusedApplicationId
-        }
-
         InputFilterArea {
             blockInput: launcher.shown
             anchors {
@@ -576,9 +528,25 @@ FocusScope {
             onShownChanged: {
                 if (shown) {
                     panel.indicators.hide()
-                    hud.hide()
-                    bottombar.hide()
                 }
+            }
+        }
+
+        Rectangle {
+            id: modalNotificationBackground
+
+            visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
+            color: "#000000"
+            anchors.fill: parent
+            opacity: 0.5
+
+            MouseArea {
+                anchors.fill: parent
+            }
+
+            InputFilterArea {
+                anchors.fill: parent
+                blockInput: modalNotificationBackground.visible
             }
         }
 

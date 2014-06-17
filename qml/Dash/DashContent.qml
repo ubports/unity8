@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.2
+import Utils 0.1
 import "../Components"
 
 Item {
@@ -137,7 +138,7 @@ Item {
 
                     readonly property bool moving: item ? item.moving : false
                     readonly property var categoryView: item ? item.categoryView : null
-                    readonly property Scope theScope: scope
+                    readonly property var theScope: scope
 
                     // these are needed for autopilot tests
                     readonly property string scopeId: scope.id
@@ -183,23 +184,30 @@ Item {
                 width: parent.width
                 style: DashContentTabBarStyle {}
 
-                model: dashContentList.model
+                SortFilterProxyModel {
+                    id: tabBarModel
 
-                onSelectedIndexChanged: {
-                    if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
-                        // TODO This together with the Timer below
-                        // are a workaround for the first tab sometimes not showing the text.
-                        // But Tabs are going away in the future so not sure if makes
-                        // sense invetigating what's the problem at this stage
-                        selectionModeTimer.restart();
+                    model: dashContentList.model
+
+                    property int selectedIndex: -1
+                    onSelectedIndexChanged: {
+                        if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
+                            // TODO This together with the Timer below
+                            // are a workaround for the first tab sometimes not showing the text.
+                            // But Tabs are going away in the future so not sure if makes
+                            // sense invetigating what's the problem at this stage
+                            selectionModeTimer.restart();
+                        }
+                        dashContentList.currentIndex = selectedIndex;
                     }
-                    dashContentList.currentIndex = selectedIndex;
                 }
+
+                model: tabBarModel.count > 0 ? tabBarModel : null
 
                 Connections {
                     target: dashContentList
                     onCurrentIndexChanged: {
-                        tabBar.selectedIndex = dashContentList.currentIndex
+                        tabBarModel.selectedIndex = dashContentList.currentIndex
                     }
                 }
 

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2014-01-18 23:24+0000\n"
-"Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"PO-Revision-Date: 2014-05-15 14:31+0000\n"
+"Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:44+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -73,64 +73,73 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Agora você já domina os gestos das bordas e pode começar a usar o "
+"telefone<br><br>Toque na tela para iniciar"
+
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Chamada de emergência"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Pesquisas recentes"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr ""
-
-#: qml/Components/SeeMore.qml:58
-msgid "See less"
-msgstr ""
-
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr ""
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr ""
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
-msgid "More..."
-msgstr ""
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
-msgid "Less..."
-msgstr ""
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
-msgid "Rate this"
-msgstr "Avaliar isto"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
-msgid "Add a review"
-msgstr "Adicionar uma análise"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
-msgid "Send"
-msgstr "Enviar"
-
-#: qml/Greeter/Greeter.qml:151
-msgid "Swipe to unlock"
-msgstr ""
-
-#: qml/Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Chamada de emergência"
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
 msgstr "Olá %1"
 
-#: qml/Greeter/PassphraseLockscreen.qml:59
+#: qml/Components/PassphraseLockscreen.qml:60
 msgid "Hello"
 msgstr "Olá"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr "Ver mais"
+
+#: qml/Components/SeeMore.qml:58
+msgid "See less"
+msgstr "Ver menos"
+
+#: qml/Dash/DashApps.qml:37
+msgid "Recent"
+msgstr "Recentes"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "Mais..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr "Menos..."
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
+msgid "Rate this"
+msgstr "Avaliar isto"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
+msgid "Add a review"
+msgstr "Adicionar uma análise"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
+msgid "Send"
+msgstr "Enviar"
+
+#: qml/Greeter/Greeter.qml:157
+msgid "Swipe to unlock"
+msgstr "Deslizar para desbloquear"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -158,13 +167,13 @@ msgstr "Exibir senha"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Por favor, digite o PIN do cartão SIM"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Pesquisar"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr "Por favor, digite %1"
