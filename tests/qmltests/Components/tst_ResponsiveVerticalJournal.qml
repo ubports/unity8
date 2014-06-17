@@ -24,7 +24,7 @@ import Utils 0.1
 import Unity.Test 0.1 as UT
 
 Item {
-    width: journalRect.width + controls.width
+    width: units.gu(80) + controls.width
     height: units.gu(80)
 
     Column {
@@ -86,11 +86,11 @@ Item {
 
     Rectangle {
         id: journalRect
-        width: units.gu(80)
         height: parent.height
         color: "grey"
         anchors.top: parent.top
         anchors.left: parent.left
+        anchors.right: controls.left
 
         ResponsiveVerticalJournal {
             id: journal

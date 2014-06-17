@@ -19,23 +19,26 @@ import Ubuntu.Components 0.1
 import "../Components"
 import Dash 0.1
 
-// A VerticalJournal. Based on defined column width,
-// delegates are layouted in columns following
-// a top-left most position rule.
-//
-// Example:
-//
-// +-----+ +-----+ +-----+
-// |     | |  2  | |     |
-// |     | |     | |     |
-// |  1  | +-----+ |  3  |
-// |     | +-----+ |     |
-// |     | |     | +-----+
-// +-----+ |  4  | +-----+
-// +-----+ |     | |  5  |
-// |  6  | +-----+ |     |
-// |     |         +-----+
-// +-----+
+/*!
+ \brief A responsive wrapper around VerticalJournal.
+
+ Based on defined column width, delegates are laid out in columns following
+ a top-left most position rule.
+
+ Example:
+
+ +-----+ +-----+ +-----+
+ |     | |  2  | |     |
+ |     | |     | |     |
+ |  1  | +-----+ |  3  |
+ |     | +-----+ |     |
+ |     | |     | +-----+
+ +-----+ |  4  | +-----+
+ +-----+ |     | |  5  |
+ |  6  | +-----+ |     |
+ |     |         +-----+
+ +-----+
+*/
 Item {
     property int minimumColumnSpacing: units.gu(1)
 
@@ -63,18 +66,10 @@ Item {
             return Math.floor(pixels / units.gu(1))
         }
 
-        function columnsForSpacing(spacing) {
-            // parent.width = columns * columnWidth +
-            //       (columns-1) * spacing + spacing(margins)
-            return Math.max(1, Math.floor(parent.width / (columnWidth + spacing)))
+        columnSpacing: {
+            // parent.width = columns * columnWidth + (columns-1) * spacing + spacing(margins)
+            var expectedColumns = Math.max(1, Math.floor(parent.width / (columnWidth + minimumColumnSpacing)));
+            Math.floor((parent.width - expectedColumns * columnWidth) / expectedColumns);
         }
-
-        function spacingForColumns(columns) {
-            var spacingGU = px2gu((parent.width - columns * columnWidth) / columns)
-            return units.gu(spacingGU)
-        }
-
-        readonly property int expectedColumns: columnsForSpacing(minimumColumnSpacing)
-        columnSpacing: spacingForColumns(expectedColumns)
     }
 }
