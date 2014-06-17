@@ -77,6 +77,7 @@ AbstractButton {
         anchors.margins: units.gu(2)
         verticalAlignment: Text.AlignVCenter
         text: root.currentDepartment ? root.currentDepartment.label : ""
+        color: "gray" // TODO remove once we're a separate app
     }
 
     Image {

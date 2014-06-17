@@ -81,6 +81,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: backImage.right
                 text: department ? department.parentLabel : ""
+                color: "gray" // TODO remove once we're a separate app
             }
 
             Rectangle {
@@ -110,6 +111,7 @@ Item {
                 anchors.leftMargin: units.gu(2)
                 text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
                 font.bold: true
+                color: "gray" // TODO remove once we're a separate app
             }
 
             Rectangle {
@@ -119,7 +121,7 @@ Item {
                 anchors.leftMargin: units.gu(2)
                 anchors.rightMargin: units.gu(2)
                 width: parent.width
-                color: "grey"
+                color: "gray"
                 opacity: 0.2
                 height: units.dp(1)
             }
@@ -143,6 +145,7 @@ Item {
                     anchors.left: parent.left
                     anchors.leftMargin: units.gu(2)
                     text: label
+                    color: "gray" // TODO remove once we're a separate app
                 }
 
                 Image {
