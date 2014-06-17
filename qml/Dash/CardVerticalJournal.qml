@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ DashRenderer {
 
     // This minHeight is used as bootstrapper for the height. Vertical Journal
     // is special by the fact that it doesn't know how to calculate its implicit height unless we give it
-    // enough height that it can start creating it's children so we make sure it has enough height for that
+    // enough height that it can start creating its children so we make sure it has enough height for that
     // in case the model is non empty
     readonly property double minHeight: root.model.count > 1 ? cardVerticalJournal.rowSpacing + 1 : 0
     height: filtered ? Math.max(collapsedHeight, minHeight) : uncollapsedHeight
