@@ -96,12 +96,9 @@ Item {
             id: journal
             anchors.fill: parent
             model: wrappedFakeModel
-            minimumColumnSpacing: minColumnSpacingSelector.
-                      values[minColumnSpacingSelector.selectedIndex]
-            rowSpacing:
-                    rowSpacingSelector.values[rowSpacingSelector.selectedIndex]
-            columnWidth: // XXX karni: How do I get that from the delegate?
-                    cardSizeSelector.values[cardSizeSelector.selectedIndex]
+            minimumColumnSpacing: minColumnSpacingSelector.values[minColumnSpacingSelector.selectedIndex]
+            rowSpacing: rowSpacingSelector.values[rowSpacingSelector.selectedIndex]
+            columnWidth: cardSizeSelector.values[cardSizeSelector.selectedIndex]
 
             delegate: Rectangle {
                 id: delegateItem
@@ -137,11 +134,9 @@ Item {
         when: windowShown
 
         function test_minimumColumnSpacing_data() {
-            var data = new Array()
-            data.push({minColumnSpacingIndex: 0, expectedColumns: 2})
-            data.push({minColumnSpacingIndex: 1, expectedColumns: 2})
-            data.push({minColumnSpacingIndex: 2, expectedColumns: 1})
-            return data
+            return [{minColumnSpacingIndex: 0, expectedColumns: 2},
+                    {minColumnSpacingIndex: 1, expectedColumns: 2},
+                    {minColumnSpacingIndex: 2, expectedColumns: 1}]
         }
 
         // Test how minimumColumnSpacing affects column count.
@@ -154,13 +149,9 @@ Item {
         }
 
         function test_maximumNumberOfColumns_data() {
-            var data = new Array()
-            // Change maxColumns
-            data.push({cardSizeIndex: 0, expectedColumns: 6})
-            // Change card size
-            data.push({cardSizeIndex: 1, expectedColumns: 4})
-            data.push({cardSizeIndex: 2, expectedColumns: 2})
-            return data
+            return [{cardSizeIndex: 0, expectedColumns: 6},
+                    {cardSizeIndex: 1, expectedColumns: 4},
+                    {cardSizeIndex: 2, expectedColumns: 2}]
         }
 
         // Test how maximumNumberOfColumns and columnWidth affect column count.
