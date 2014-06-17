@@ -73,8 +73,8 @@ Item {
         source: hints["suppress-sound"] != "" ? hints["sound-file"] : undefined
     }
 
-    onVisibleChanged: {
-        if (visible == true && sound.source != undefined) {
+    onOpacityChanged: {
+        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != undefined) {
             sound.play()
         }
     }
