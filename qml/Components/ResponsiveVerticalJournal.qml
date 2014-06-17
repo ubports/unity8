@@ -40,7 +40,7 @@ import Dash 0.1
  +-----+
 */
 Item {
-    property int minimumColumnSpacing: units.gu(1)
+    property real minimumColumnSpacing: units.gu(1)
 
     property alias columnWidth: verticalJournalView.columnWidth
     property alias rowSpacing: verticalJournalView.rowSpacing
