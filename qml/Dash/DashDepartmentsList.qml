@@ -153,7 +153,7 @@ Item {
                     anchors.right: parent.right
                     anchors.rightMargin: units.gu(2)
                     source: "image://theme/chevron"
-                    sourceSize.height: parent.height - units.gu(2)
+                    sourceSize.height: parent.height - units.gu(3)
                     sourceSize.width: units.gu(3)
                     fillMode: Image.PreserveAspectFit
                     visible: hasChildren

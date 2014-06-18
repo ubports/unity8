@@ -88,7 +88,7 @@ AbstractButton {
         rotation: showList ? 180 : 0
         source: "image://theme/dropdown-menu"
         sourceSize.height: parent.height - units.gu(2)
-        sourceSize.width: units.gu(3)
+        sourceSize.width: units.gu(2)
         fillMode: Image.PreserveAspectFit
     }
 
