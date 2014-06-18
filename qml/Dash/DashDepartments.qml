@@ -110,14 +110,31 @@ AbstractButton {
         readonly property int maxHeight: (windowHeight - mapToItem(null, root.x, root.y).y) - units.gu(8)
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
-        onHeightChanged: prevHeight = height;
+        onHeightChanged: {
+            if (root.showList) {
+                prevHeight = currentItem.desiredHeight;
+            }
+        }
         anchors.top: root.bottom
         highlightMoveDuration: UbuntuAnimation.FastDuration
         delegate: DashDepartmentsList {
             objectName: "department" + index
             visible: height != 0
             width: departmentListView.width
-            height: !root.showList ? 0 : department && department.loaded ? Math.min(implicitHeight, departmentListView.maxHeight) : departmentListView.prevHeight
+            property real desiredHeight: {
+                if (root.showList) {
+                    if (department && department.loaded &&
+                        index == departmentListView.currentIndex && index * width == departmentListView.contentX)
+                    {
+                        return Math.min(implicitHeight, departmentListView.maxHeight);
+                    } else {
+                        return departmentListView.prevHeight;
+                    }
+                } else {
+                    return 0;
+                }
+            }
+            height: desiredHeight
             department: (nullifyDepartment || !scope) ? null : scope.getDepartment(departmentId)
             currentDepartment: root.currentDepartment
             onEnterDepartment: {
