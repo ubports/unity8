@@ -44,10 +44,11 @@ AbstractButton {
     Rectangle {
         id: blackRect
         color: "black"
-        opacity: 0.3
+        opacity: departmentListView.currentItem && departmentListView.currentItem.visible ? 0.3 : 0
+        Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
         anchors.top: departmentListView.top
         anchors.right: parent.right
-        visible: departmentListView.currentItem && departmentListView.currentItem.visible
+        visible: opacity != 0
     }
 
     Image {
