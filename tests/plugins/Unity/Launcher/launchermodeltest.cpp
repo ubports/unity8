@@ -274,6 +274,15 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
         QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
     }
+
+    void testGetUrlForAppId() {
+        QCOMPARE(launcherModel->getUrlForAppId(QString()), QString());
+        QCOMPARE(launcherModel->getUrlForAppId(""), QString());
+        QCOMPARE(launcherModel->getUrlForAppId("no-name"), QString("application:///no-name.desktop"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("appid://com.test.good/first-listed-app/current-user-version"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application"), QString("appid://com.test.good/application/current-user-version"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application_1.2.3"), QString("appid://com.test.good/application/current-user-version"));
+    }
 };
 
 QTEST_GUILESS_MAIN(LauncherModelTest)

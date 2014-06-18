@@ -1,3 +1,100 @@
+unity8 (7.89+14.10.20140616.1-0ubuntu1) utopic; urgency=low
+
+  [ Pawel Stolowski ]
+  * Extend the hack for click scope categories with the upcoming 'store'
+    category: single-tap on results from the 'store' category should
+    activate them, instead of requesting a preview. (LP: #1326292)
+
+  [ Albert Astals ]
+  * Drop the " Preview" suffix from Preview title As requested in
+    https://bugs.launchpad.net/unity8/+bug/1316671 (LP: #1316671)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 16 Jun 2014 14:43:01 +0000
+
+unity8 (7.89+14.10.20140613-0ubuntu1) utopic; urgency=medium
+
+  [ Michael Terry ]
+  * Revert split greeter for now.  We will bring it back as an option
+    for Desktop, but use a big hammer revert right now to get Touch back
+    in shape.
+
+  [ CI bot ]
+  * Fix build problems. Reviewed by: Michael Terry (LP: #1328850)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 13 Jun 2014 08:30:48 +0000
+
+unity8 (7.88+14.10.20140606-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Make lockscreen buttons translatable.
+
+  [ Albert Astals ]
+  * Correctly mark these functions as overrides
+  * Remove connections to non existant signal
+  * Better test name
+  * Improvements for headerless categories LVPWH: No section name -> no
+    header LVPWH: New hasSectionHeader context property for delegates
+    GSV: Add topMargin if no hasSectionHeader (LP: #1326415)
+  * Make tryVerticalJournal, tryHorizontalJournal and tryOrganicGrid
+    work again
+
+  [ Michael Zanetti ]
+  * Don't crash when we get an invalid app from ApplicationManager (LP:
+    #1309162)
+
+  [ Andrea Cimitan ]
+  * Workaround for lp1324159 (LP: #1322233, #1324159)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Florian Boucault ]
+  * Application startup: changed splash rectangle to be black instead of
+    white and added a neat little animation. (LP: #1124265)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 06 Jun 2014 11:38:53 +0000
+
+unity8 (7.88+14.10.20140603.1-0ubuntu1) utopic; urgency=medium
+
+  [ Michael Terry ]
+  * Bump version so ubuntu-touch-session can reference this one
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Jun 2014 20:31:00 +0000
+
+unity8 (7.87+14.10.20140603.1-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Move env setup past session init in greeter wrapper. (LP: #1325882)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Jun 2014 10:33:11 +0000
+
+unity8 (7.87+14.10.20140530.1-0ubuntu3) utopic; urgency=medium
+
+  * no change rebuild
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 02 Jun 2014 16:19:10 +0200
+
+unity8 (7.87+14.10.20140530.1-0ubuntu2) utopic; urgency=medium
+
+  * drop dbus-x11 dependency of unity8-greeter, it makes us end up with
+    multiple session dbus daemons which breaks many AP tests in the lab
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 02 Jun 2014 14:50:59 +0200
+
+unity8 (7.87+14.10.20140530.1-0ubuntu1) utopic; urgency=medium
+
+  [ Michael Terry ]
+  * Bump version for Breaks due to unity8-greeter
+  * In split mode, determine whether the application identifiers in
+    AccountsService are click packages or not, so we know the correct
+    url prefix to use.
+  * Start logrotate in the greeter's session.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 30 May 2014 09:29:15 +0000
+
 unity8 (7.86+14.10.20140527-0ubuntu1) utopic; urgency=low
 
   [ Andrea Cimitan ]

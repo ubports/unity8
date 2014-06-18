@@ -23,6 +23,8 @@
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
+#include <QDebug>
+
 using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
@@ -199,6 +201,22 @@ void LauncherModel::setUser(const QString &username)
     m_backend->setUser(username);
 }
 
+QString LauncherModel::getUrlForAppId(const QString &appId) const
+{
+    // appId is either an appId or a legacy app name.  Let's find out which
+    if (appId.isEmpty())
+        return QString();
+
+    QString df = m_backend->desktopFile(appId + ".desktop");
+    if (!df.isEmpty())
+        return "application:///" + appId + ".desktop";
+
+    QStringList parts = appId.split('_');
+    QString package = parts.value(0);
+    QString app = parts.value(1, "first-listed-app");
+    return "appid://" + package + "/" + app + "/current-user-version";
+}
+
 ApplicationManagerInterface *LauncherModel::applicationManager() const
 {
     return m_appManager;
@@ -291,6 +309,10 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
     Q_UNUSED(parent);
 
     ApplicationInfoInterface *app = m_appManager->get(row);
+    if (!app) {
+        qWarning() << "LauncherModel received an applicationAdded signal, but there's no such application!";
+        return;
+    }
 
     bool found = false;
     Q_FOREACH(LauncherItem *item, m_list) {

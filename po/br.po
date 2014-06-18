@@ -7,44 +7,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2014-04-15 18:15+0000\n"
-"Last-Translator: Rouxel <vincent.rouxel@mailoo.org>\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"PO-Revision-Date: 2014-06-16 11:41+0000\n"
+"Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:43+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Stagañ ouzh al lañser"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Distagañ diouzh al lañser"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Tremen hep sellet ouzh an digoradur"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
-msgstr ""
+msgstr "Bord dehoù"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
+"Lakait ho piz da riklañ adalek ar bord dehoù da zibrennañ ar pellgomzer."
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
-msgstr ""
+msgstr "Bord uhelañ"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
+"Lakait ho piz da riklañ adalek ar bord uhelañ da lakaat ar merkerioù war wel."
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -53,116 +55,128 @@ msgstr "Serriñ"
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
 msgstr ""
+"Lakait ho piz da riklañ war-du ar bord uhelañ da serriñ skramm an arventennoù"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
-msgstr ""
+msgstr "Bord kleiz"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Lakait ho piz da riklañ adalek ar bord kleiz da ziskouez al lañser arloadoù "
+"prim."
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
-msgstr ""
+msgstr "Gourc'hemennoù !"
 
 #: qml/Components/EdgeDemo.qml:228
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Mestroniañ a rit ar jestroù ha gallout a rit kregiñ da implijout ar "
+"pellgomzer<br><br>Touchit d'ar skramm evit kregiñ ganti"
+
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Pellgomzadenn vallus"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr "Mat eo"
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
-msgstr ""
+msgstr "Enklaskoù graet nevez zo"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "Demat %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "Demat"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr "NULLAÑ"
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr "ECHU"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Gwelet muioc'h"
 
 #: qml/Components/SeeMore.qml:58
 msgid "See less"
-msgstr ""
+msgstr "Gwelet nebeutoc'h"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr ""
+msgstr "Nevez zo"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Muioc'h..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Nebeutoc'h..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
-msgstr ""
+msgstr "Priziit an dra-mañ"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
-msgstr ""
+msgstr "Ouzhpennañ un ali"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
-msgstr ""
+msgstr "Kas"
 
-#: qml/Greeter/Greeter.qml:151
+#: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
-
-#: qml/Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr ""
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr ""
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr ""
+msgstr "Riklañ evit dibrennañ"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "Kadarnaat"
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "Skrivit pe lavarit un urzhiad"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "O kargañ. Gortozit, mar plij..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "Komzit bremañ..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "O komz..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "Diskouez ar ger-tremen"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Ebarzhit kod PIN ho kartenn SIM, mar plij"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "Klask"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Ebarzhit %1, mar plij"
