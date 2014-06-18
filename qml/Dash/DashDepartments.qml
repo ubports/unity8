@@ -112,6 +112,7 @@ AbstractButton {
         height: currentItem ? currentItem.height : maxHeight
         onHeightChanged: prevHeight = height;
         anchors.top: root.bottom
+        highlightMoveDuration: UbuntuAnimation.FastDuration
         delegate: DashDepartmentsList {
             objectName: "department" + index
             visible: height != 0
