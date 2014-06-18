@@ -81,7 +81,7 @@ bool Department::isRoot() const
 
 int Department::rowCount(const QModelIndex & /*parent*/) const
 {
-    if (m_departmentId.startsWith("child") || m_departmentId == "middle3")
+    if (!m_loaded || m_departmentId.startsWith("child") || m_departmentId == "middle3")
         return 0;
     else
         return 8;

@@ -503,6 +503,20 @@ Item {
             compare(dashDepartments.showList, true);
             mouseClick(dashDepartments, 0, 0);
             compare(dashDepartments.showList, false);
+
+            mouseClick(dashDepartments, 0, 0);
+            compare(dashDepartments.showList, true);
+            tryCompare(departmentListView.currentItem.department, "loaded", true);
+            department = findChild(dashDepartments, "department0child2");
+            mouseClick(department, 0, 0);
+            compare(dashDepartments.showList, true);
+            departmentList1 = findChild(dashDepartments, "department1");
+            compare(departmentList1.department.loaded, false);
+            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
+            allButton = findChild(departmentList1, "allButton");
+            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
+            mouseClick(allButton, 0, 0);
+            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
         }
     }
 }
