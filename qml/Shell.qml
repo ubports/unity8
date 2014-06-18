@@ -323,8 +323,6 @@ FocusScope {
     Connections {
         target: LightDM.Greeter
 
-        isActive: greeterWrapper.showProgress !== 0
-
         onShowPrompt: {
             if (LightDM.Users.count == 1) {
                 // TODO: There's no better way for now to determine if its a PIN or a passphrase.
@@ -348,6 +346,12 @@ FocusScope {
                 lockscreen.clear(true);
             }
         }
+    }
+
+    Binding {
+        target: LightDM.Greeter
+        property: "active"
+        value: greeter.shown || lockscreen.shown
     }
 
     Rectangle {
