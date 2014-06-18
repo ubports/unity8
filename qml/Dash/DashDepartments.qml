@@ -107,7 +107,7 @@ AbstractButton {
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
         width: root.width
-        readonly property int maxHeight: units.gu(60)
+        readonly property int maxHeight: (windowHeight - mapToItem(null, root.x, root.y).y) - units.gu(8)
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
         onHeightChanged: prevHeight = height;
