@@ -140,7 +140,7 @@ AbstractButton {
             }
             onAllDepartmentClicked: {
                 showList = false;
-                if (root.currentDepartment.count == 0) {
+                if (root.currentDepartment.parentDepartmentId == department.departmentId) {
                     // For leaves we have to go to the parent too
                     scope.loadDepartment(root.currentDepartment.parentDepartmentId);
                 }
