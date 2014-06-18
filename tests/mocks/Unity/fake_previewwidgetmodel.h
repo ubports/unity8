@@ -18,33 +18,24 @@
 #ifndef FAKE_PREVIEWWIDGETMODEL_H
 #define FAKE_PREVIEWWIDGETMODEL_H
 
-#include <QAbstractListModel>
+#include <unity/shell/scopes/PreviewWidgetModelInterface.h>
+
 #include <QSharedPointer>
 #include <QVariantMap>
 
 class PreviewData;
 
-class PreviewWidgetModel : public QAbstractListModel
+class PreviewWidgetModel : public unity::shell::scopes::PreviewWidgetModelInterface
 {
     Q_OBJECT
-
-    Q_ENUMS(Roles)
 
 public:
     explicit PreviewWidgetModel(QObject* parent = 0);
 
-    enum Roles {
-        RoleWidgetId,
-        RoleType,
-        RoleProperties
-    };
-
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
 private:
-    QHash<int, QByteArray> m_roles;
     QList<QSharedPointer<PreviewData>> m_previewWidgets;
 
     void populateWidgets();

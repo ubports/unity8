@@ -6,6 +6,7 @@ add_subdirectory(Notifications)
 pkg_search_module(DEE dee-1.0 REQUIRED)
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
 pkg_search_module(DEEQT libdee-qt5 REQUIRED)
+pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=1)
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -18,7 +19,6 @@ include_directories(
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
-  iconutils.cpp
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp
@@ -27,6 +27,13 @@ set(UnityQML_SOURCES
   fake_previewstack.cpp
   fake_previewwidgetmodel.cpp
   fake_unity_plugin.cpp
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/CategoriesInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewModelInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewStackInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewWidgetModelInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ResultsModelInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopeInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopesInterface.h
 )
 
 add_library(FakeUnityQml MODULE ${UnityQML_SOURCES})
@@ -39,15 +46,4 @@ target_link_libraries(FakeUnityQml
 
 qt5_use_modules(FakeUnityQml Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-install(TARGETS FakeUnityQml
-    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
-    )
+add_unity8_mock(Unity 0.2 Unity PREFIX scopefakes TARGETS FakeUnityQml)

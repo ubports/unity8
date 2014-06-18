@@ -67,11 +67,15 @@ Item {
         name: "DashContent"
         when: scopesModel.loaded && windowShown
 
-        function init() {
-            scopesModel.clear();
+        function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
             tryCompare(scopeLoadedSpy, "count", 4);
+        }
+
+        function init() {
+            scopesModel.clear();
+            loadScopes();
         }
 
         function cleanup() {
@@ -93,9 +97,7 @@ Item {
             compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
             tryCompare(dashContentList, "currentIndex", -1);
 
-            scopeLoadedSpy.clear();
-            scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 4);
+            loadScopes();
 
             verify(dashContentList.currentIndex >= 0);
         }
@@ -109,9 +111,7 @@ Item {
             // pretend we're running after a model reset
             dashContentList.currentIndex = 27;
 
-            scopeLoadedSpy.clear();
-            scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 4);
+            loadScopes();
 
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
         }
@@ -166,7 +166,7 @@ Item {
 
             // test greater than scope count.
             var currentScopeIndex = dashContent.currentIndex;
-            dashContent.setCurrentScopeAtIndex(scopesModel.count, true, false);
+            dashContent.setCurrentScopeAtIndex(8, true, false);
             compare(dashContent.currentIndex, currentScopeIndex, "Scope should not change if changing to greater index than count");
         }
 
@@ -195,7 +195,7 @@ Item {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
             var pageHeader = findChild(dashContent, "pageHeader");
-            compare(pageHeader.scope, scopesModel.get(data.index));
+            compare(pageHeader.scope, scopesModel.getScope(data.index));
         }
 
         function test_is_active_data() {
@@ -212,9 +212,9 @@ Item {
             dashContent.setCurrentScopeAtIndex(data.select, true, false);
             dashContent.visible = data.visible;
 
-            tryCompare(scopesModel.get(0), "isActive", data.active0);
-            tryCompare(scopesModel.get(1), "isActive", data.active1);
-            tryCompare(scopesModel.get(2), "isActive", data.active2);
+            tryCompare(scopesModel.getScope(0), "isActive", data.active0);
+            tryCompare(scopesModel.getScope(1), "isActive", data.active1);
+            tryCompare(scopesModel.getScope(2), "isActive", data.active2);
         }
 
         function doFindMusicButton(parent) {
@@ -326,8 +326,6 @@ Item {
         }
 
         function test_previewOpenClose() {
-            tryCompare(scopeLoadedSpy, "count", 4);
-
             var previewListView = findChild(dashContent, "dashContentPreviewList");
             tryCompare(previewListView, "open", false);
 
@@ -352,8 +350,6 @@ Item {
                                 },
                                 true);
 
-            tryCompare(scopeLoadedSpy, "count", 4);
-
             var previewListView = findChild(dashContent, "dashContentPreviewList");
             tryCompare(previewListView, "open", false);
 
@@ -368,8 +364,6 @@ Item {
         }
 
         function test_previewCycle() {
-            tryCompare(scopeLoadedSpy, "count", 4);
-
             var categoryListView = findChild(dashContent, "categoryListView");
             categoryListView.positionAtBeginning();
 
@@ -391,6 +385,27 @@ Item {
 
             }
             closePreview();
+        }
+
+        function test_carouselAspectRatio() {
+            tryCompareFunction(function() {
+                                    var scope = findChild(dashContent, "MockScope1 loader");
+                                    if (scope != null) {
+                                        var dashCategory1 = findChild(scope, "dashCategory1");
+                                        if (dashCategory1 != null) {
+                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            return tile != null;
+                                        }
+                                    }
+                                    return false;
+                                },
+                                true);
+
+            var scope = findChild(dashContent, "MockScope1 loader");
+            var dashCategory1 = findChild(scope, "dashCategory1");
+            var cardTool = findChild(dashCategory1, "cardTool");
+            var carouselLV = findChild(dashCategory1, "listView");
+            verify(carouselLV.tileWidth / carouselLV.tileHeight == cardTool.components["art"]["aspect-ratio"]);
         }
     }
 }

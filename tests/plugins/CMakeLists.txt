@@ -1,6 +1,6 @@
 add_subdirectory(AccountsService)
 add_subdirectory(LightDM)
-add_subdirectory(DashViews)
+add_subdirectory(Dash)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
 add_subdirectory(Utils)

@@ -1,2 +1,3 @@
 module Ubuntu.DownloadDaemonListener
 plugin FakeUbuntuDownloadDaemonListenerQml
+typeinfo DownloadDaemonListener.qmltypes

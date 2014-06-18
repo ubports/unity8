@@ -475,15 +475,6 @@ Item {
             } while (!isStill);
         }
 
-        function test_background_data() {
-            return [
-                {tag: "red", url: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), expectedUrl: "tests/data/unity/backgrounds/red.png"},
-                {tag: "blue", url: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), expectedUrl: "tests/data/unity/backgrounds/blue.png"},
-                {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
-                {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
-            ]
-        }
-
         function test_DashShown_data() {
             return [
                 {tag: "in focus", greeter: false, app: false, launcher: false, indicators: false, expectedShown: true},
