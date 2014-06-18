@@ -74,8 +74,8 @@ Item {
     }
 
     onOpacityChanged: {
-        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != undefined) {
-            sound.play()
+        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source) {
+            sound.play();
         }
     }
 
