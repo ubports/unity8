@@ -23,7 +23,6 @@ import GSettings 1.0
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
-import SessionManager 0.1
 
 import "../../qml"
 
@@ -49,7 +48,6 @@ Item {
 
     Shell {
         id: shell
-        defaultBackground: Qt.resolvedUrl("../../qml/graphics/phone_background.jpg")
     }
 
     UT.UnityTestCase {
@@ -74,6 +72,9 @@ Item {
                 ok = homeLoader !== null
                     && homeLoader.item !== undefined;
 
+                var greeter = findChild(shell, "greeter");
+                ok &= greeter !== null;
+
                 var launcherPanel = findChild(shell, "launcherPanel");
                 ok &= launcherPanel !== null;
 
@@ -88,9 +89,17 @@ Item {
             } while (!ok && attempts <= maxAttempts);
 
             verify(ok);
+
+            swipeAwayGreeter();
         }
 
         function cleanup() {
+            // If a test invoked the greeter, make sure we swipe it away again
+            var greeter = findChild(shell, "greeter");
+            if (greeter.shown) {
+                swipeAwayGreeter();
+            }
+
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
@@ -172,6 +181,8 @@ Item {
         }
 
         function test_suspend() {
+            var greeter = findChild(shell, "greeter");
+
             // Launch an app from the launcher
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
@@ -185,25 +196,38 @@ Item {
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
-            tryCompare(SessionManager, "active", true);
+            tryCompare(greeter, "showProgress", 0);
 
             // Now really suspend
             print("suspending")
             Powerd.displayPowerStateChange(Powerd.Off, 0);
             print("done suspending")
-            tryCompare(SessionManager, "active", false);
+            tryCompare(greeter, "showProgress", 1);
 
             tryCompare(ApplicationManager, "suspended", true);
             compare(mainApp.state, ApplicationInfo.Suspended);
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
+            tryCompare(greeter, "showProgress", 1);
 
-            // Activate session to focus app
-            SessionManager.active = true;
+            // Swipe away greeter to focus app
+            swipeAwayGreeter();
             tryCompare(ApplicationManager, "suspended", false);
             compare(mainApp.state, ApplicationInfo.Running);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
+        }
+
+        function swipeAwayGreeter() {
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "showProgress", 1);
+
+            var touchX = shell.width - (shell.edgeSize / 2);
+            var touchY = shell.height / 2;
+            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
+
+            // wait until the animation has finished
+            tryCompare(greeter, "showProgress", 0);
         }
 
         /*
@@ -453,14 +477,22 @@ Item {
 
         function test_DashShown_data() {
             return [
-                {tag: "in focus", app: false, launcher: false, indicators: false, expectedShown: true},
-                {tag: "under app", app: true, launcher: false, indicators: false, expectedShown: false},
-                {tag: "under launcher", app: false, launcher: true, indicators: false, expectedShown: true},
-                {tag: "under indicators", app: false, launcher: false, indicators: true, expectedShown: true},
+                {tag: "in focus", greeter: false, app: false, launcher: false, indicators: false, expectedShown: true},
+                {tag: "under greeter", greeter: true, app: false, launcher: false, indicators: false, expectedShown: false},
+                {tag: "under app", greeter: false, app: true, launcher: false, indicators: false, expectedShown: false},
+                {tag: "under launcher", greeter: false, app: false, launcher: true, indicators: false, expectedShown: true},
+                {tag: "under indicators", greeter: false, app: false, launcher: false, indicators: true, expectedShown: true},
             ]
         }
 
         function test_DashShown(data) {
+            if (data.greeter) {
+                // Swipe the greeter in
+                var greeter = findChild(shell, "greeter");
+                Powerd.displayPowerStateChange(Powerd.Off, 0);
+                tryCompare(greeter, "showProgress", 1);
+            }
+
             if (data.app) {
                 dragLauncherIntoView();
                 tapOnAppIconInLauncher();
@@ -490,6 +522,17 @@ Item {
             tryCompare(searchIndicator, "opacity", 0);
         }
 
+        function test_searchIndicatorHidesOnGreeterShown() {
+            var searchIndicator = findChild(shell, "container")
+            var greeter = findChild(shell, "greeter");
+
+            tryCompare(searchIndicator, "opacity", 1)
+
+            greeter.show()
+            tryCompare(greeter, "shown", true)
+            tryCompare(searchIndicator, "opacity", 0)
+        }
+
         function test_searchIndicatorHideOnPreviewShown() {
             var searchIndicator = findChild(shell, "container");
             var dashContent = findChild(shell, "dashContent");
@@ -501,6 +544,17 @@ Item {
             dashContent.previewOpen = true;
 
             tryCompare(searchIndicator, "opacity", 0);
+        }
+
+        function test_focusRequestedHidesGreeter() {
+            var greeter = findChild(shell, "greeter")
+
+            greeter.show()
+            tryCompare(greeter, "showProgress", 1)
+
+            ApplicationManager.focusRequested("notes-app")
+            tryCompare(greeter, "showProgress", 0)
+            waitUntilApplicationWindowIsFullyVisible()
         }
     }
 }

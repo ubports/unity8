@@ -31,6 +31,8 @@ class ApplicationLifeCycleTestCase(tests.UnityTestCase):
         super(ApplicationLifeCycleTestCase, self).setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
+        unity_proxy = self.launch_unity()
+        process_helpers.unlock_unity(unity_proxy)
 
     def create_test_application(self):
         desktop_file_dict = fixture_setup.DEFAULT_DESKTOP_FILE_DICT

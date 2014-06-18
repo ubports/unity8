@@ -1,6 +1,7 @@
 data/unity8.conf usr/share/upstart/sessions/
 usr/bin/unity8
 usr/share/applications/unity8.desktop
+usr/share/unity8/Greeter
 usr/share/unity8/Hud
 usr/share/unity8/Launcher
 usr/share/unity8/Panel

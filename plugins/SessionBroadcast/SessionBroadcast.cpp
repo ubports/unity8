@@ -18,26 +18,11 @@
 
 #include "SessionBroadcast.h"
 #include <QDBusConnection>
-#include <QDBusConnectionInterface>
-#include <QDBusInterface>
 
 SessionBroadcast::SessionBroadcast(QObject* parent)
   : QObject(parent)
 {
     auto connection = QDBusConnection::SM_BUSNAME();
-    auto interface = connection.interface();
-    interface->startService("com.canonical.Unity.Greeter.Broadcast");
-    m_broadcaster = new QDBusInterface("com.canonical.Unity.Greeter.Broadcast",
-                                       "/com/canonical/Unity/Greeter/Broadcast",
-                                       "com.canonical.Unity.Greeter.Broadcast",
-                                       connection, this);
-
-    connection.connect("com.canonical.Unity.Greeter.Broadcast",
-                       "/com/canonical/Unity/Greeter/Broadcast",
-                       "com.canonical.Unity.Greeter.Broadcast",
-                       "StartUrl",
-                       this,
-                       SLOT(onStartUrl(const QString &, const QString &)));
 
     connection.connect("com.canonical.Unity.Greeter.Broadcast",
                        "/com/canonical/Unity/Greeter/Broadcast",
@@ -45,26 +30,6 @@ SessionBroadcast::SessionBroadcast(QObject* parent)
                        "ShowHome",
                        this,
                        SLOT(onShowHome(const QString &)));
-}
-
-void SessionBroadcast::requestUrlStart(const QString &username, const QString &url)
-{
-    m_broadcaster->asyncCall("RequestUrlStart", username, url);
-}
-
-void SessionBroadcast::requestHomeShown(const QString &username)
-{
-    m_broadcaster->asyncCall("RequestHomeShown", username);
-}
-
-void SessionBroadcast::onStartUrl(const QString &username, const QString &url)
-{
-    // Since this signal is just used for testing, we don't *really* care if
-    // username matches, but just in case we do eventually use the signal, we
-    // should only listen to our own requests.
-    if (username == qgetenv("USER")) {
-        Q_EMIT startUrl(url);
-    }
 }
 
 void SessionBroadcast::onShowHome(const QString &username)

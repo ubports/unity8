@@ -97,36 +97,19 @@ Loader {
     Component {
         id: pinLock
 
-        Item {
+        Lockscreen {
+            anchors.left: parent.left; anchors.right: parent.right
             height: menuFactory.maxHeight
-            anchors.left: parent.left
-            anchors.right: parent.right
+            placeholderText: i18n.tr("Please enter SIM PIN")
+            background: shell.background
 
-            Rectangle {
-                // In case background fails to load or is undefined
-                anchors.fill: parent
-                color: "black"
+            onEntered: {
+                menuModel.changeState(menuIndex, passphrase);
+                entryEnabled = false;
             }
 
-            Image {
-                objectName: "lockscreenBackground"
-                anchors.fill: parent
-                source: shell.background
-                fillMode: Image.PreserveAspectCrop
-            }
-
-            Lockscreen {
-                anchors.fill: parent
-                placeholderText: i18n.tr("Please enter SIM PIN")
-
-                onEntered: {
-                    menuModel.changeState(menuIndex, passphrase);
-                    entryEnabled = false;
-                }
-
-                onCancel: {
-                    menuModel.activate(menuIndex, false);
-                }
+            onCancel: {
+                menuModel.activate(menuIndex, false);
             }
         }
     }
