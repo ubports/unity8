@@ -23,19 +23,24 @@ import subprocess
 import unittest
 
 from autopilot import platform
-from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
-from testtools.matchers._basic import Equals
 
 class SystemIntegrationTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    @unittest.skipIf(platform.model() == "Desktop", "Test is broken on otto, see bug 1281634.")
+    @unittest.skipIf(
+        platform.model() == "Desktop",
+        "Test is broken on otto, see bug 1281634.")
     def test_networkmanager_integration(self):
         self.launch_unity()
 
         # invoke policykit to check permissions
-        pid = subprocess.check_output(["pidof", "-s", "unity8"], universal_newlines=True)
-        subprocess.check_call("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process " + pid, shell=True)
+        pid = subprocess.check_output(
+            ["pidof", "-s", "unity8"], universal_newlines=True)
+        subprocess.check_call(
+            "pkcheck --action-id "
+            "org.freedesktop.NetworkManager.enable-disable-network "
+            "--process " + pid,
+            shell=True)

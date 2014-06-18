@@ -75,7 +75,7 @@ def unlock_unity(unity_proxy_obj=None):
             main_window_emulator.QQuickView)
 
     greeter = main_window.get_greeter()
-    if greeter.created == False:
+    if greeter.created is False:
         raise RuntimeWarning("Greeter appears to be already unlocked.")
 
     # Because of potential input jerkiness under heavy load,
@@ -98,7 +98,8 @@ def unlock_unity(unity_proxy_obj=None):
 
 def lock_unity(unity_proxy_obj=None):
     """Helper function that attempts to lock the unity greeter."""
-    import evdev, time
+    import evdev
+    import time
     uinput = evdev.UInput(name='unity8-autopilot-power-button',
                           devnode='/dev/autopilot-uinput')
     # One press and release to turn screen off (locking unity)
