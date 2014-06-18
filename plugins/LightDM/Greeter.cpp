@@ -25,6 +25,7 @@ public:
     explicit GreeterPrivate(Greeter *parent);
 
     QLightDM::Greeter *m_greeter;
+    bool m_active;
     bool wasPrompted;
     bool promptless;
 
@@ -58,6 +59,21 @@ Greeter::Greeter(QObject* parent)
             this, SLOT(authenticationCompleteFilter()));
 
     d->m_greeter->connectSync();
+}
+
+bool Greeter::isActive() const
+{
+    Q_D(const Greeter);
+    return d->m_active;
+}
+
+void Greeter::setIsActive(bool active)
+{
+    Q_D(Greeter);
+    if (d->m_active != active) {
+        d->m_active = active;
+        Q_EMIT isActiveChanged();
+    }
 }
 
 bool Greeter::isAuthenticated() const

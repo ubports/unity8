@@ -34,6 +34,7 @@ class Greeter : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool active READ isActive WRITE setIsActive NOTIFY isActiveChanged)
     Q_PROPERTY(bool authenticated READ isAuthenticated)
     Q_PROPERTY(QString authenticationUser READ authenticationUser NOTIFY authenticationUserChanged)
     Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
@@ -41,6 +42,7 @@ class Greeter : public QObject
 public:
     explicit Greeter(QObject* parent=0);
 
+    bool isActive() const;
     bool isAuthenticated() const;
     QString authenticationUser() const;
     bool promptless() const;
@@ -49,12 +51,14 @@ public Q_SLOTS:
     void authenticate(const QString &username=QString());
     void respond(const QString &response);
     bool startSessionSync(const QString &session=QString());
+    void setIsActive(bool isActive);
 
 Q_SIGNALS:
     void showMessage(const QString &text, bool isError);
     void showPrompt(const QString &text, bool isSecret);
     void authenticationComplete();
     void authenticationUserChanged(const QString &user);
+    void isActiveChanged();
     void promptlessChanged();
 
     // This signal is emitted by external agents like indicators, and the UI
