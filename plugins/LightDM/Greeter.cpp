@@ -39,6 +39,7 @@ private:
 
 GreeterPrivate::GreeterPrivate(Greeter* parent)
   : m_greeter(new QLightDM::Greeter(parent)),
+    m_active(false),
     wasPrompted(false),
     promptless(false),
     q_ptr(parent)
