@@ -415,8 +415,11 @@ Item {
     Item {
         id: bottomContainer
 
-        anchors.bottom: parent.bottom
-        width: parent.width
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
         height: childrenRect.height
     }
 }
