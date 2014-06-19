@@ -59,6 +59,9 @@ Item {
             id: column
             width: parent.width
 
+            // TODO: check if SDK ListItems could be used here
+            // and if not make them be useful since this is a quite common pattern
+
             AbstractButton {
                 id: backButton
                 objectName: "backButton"
