@@ -23,7 +23,7 @@ import "Previews" as Previews
 Item {
     id: root
 
-    property Scope scope: null
+    property var scope: null
     property var pageHeader: null
 
     property alias open: previewListView.open
@@ -49,7 +49,7 @@ Item {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            text: scope ? i18n.tr("%1 Preview").arg(scope.name) : ""
+            text: scope ? scope.name : ""
             // TODO Saviq: These should come from updated Ubuntu Palette.
             color: "#888888"
             font.family: "Ubuntu"
@@ -116,7 +116,7 @@ Item {
 
                 previewModel: {
                     var previewStack = root.scope.preview(result);
-                    return previewStack.get(0);
+                    return previewStack.getPreviewModel(0);
                 }
             }
 

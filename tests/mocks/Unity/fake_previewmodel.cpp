@@ -27,20 +27,12 @@
 // Qt
 #include <QDebug>
 
-PreviewModel::PreviewModel(QObject* parent) : QAbstractListModel(parent)
+PreviewModel::PreviewModel(QObject* parent)
+ : unity::shell::scopes::PreviewModelInterface(parent)
 {
     // we have one column by default
     PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
     m_previewWidgetModels.append(columnModel);
-}
-
-QHash<int, QByteArray> PreviewModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-
-    roles[Roles::RoleColumnModel] = "columnModel";
-
-    return roles;
 }
 
 void PreviewModel::setWidgetColumnCount(int count)
@@ -63,11 +55,6 @@ bool PreviewModel::loaded() const
 bool PreviewModel::processingAction() const
 {
     return false;
-}
-
-void PreviewModel::setProcessingAction(bool /*processing*/)
-{
-    qFatal("PreviewModel::setProcessingAction not implemented");
 }
 
 int PreviewModel::rowCount(const QModelIndex&) const

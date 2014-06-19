@@ -90,7 +90,9 @@ Recommends: unity-scope-click,
             unity-scope-scopes,
 Breaks: indicator-network (<< 0.5.1),
         ubuntu-touch-session (<< 0.107),
+        unity8-greeter (<< 7.89),
 Replaces: ubuntu-touch-session (<< 0.82~),
+          unity8-greeter (<< 7.89),
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
 

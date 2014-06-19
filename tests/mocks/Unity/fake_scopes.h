@@ -19,36 +19,27 @@
 #ifndef FAKE_SCOPES_H
 #define FAKE_SCOPES_H
 
+#include <unity/shell/scopes/ScopesInterface.h>
+
 // Local
 #include "fake_scope.h"
 
 // Qt
-#include <QAbstractListModel>
 #include <QList>
 #include <QTimer>
 
-class Scopes : public QAbstractListModel
+class Scopes : public unity::shell::scopes::ScopesInterface
 {
     Q_OBJECT
-    Q_ENUMS(Roles)
-    Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
     explicit Scopes(QObject *parent = 0);
     ~Scopes();
 
-    enum Roles {
-        RoleScope,
-        RoleId,
-        RoleVisible,
-        RoleTitle
-    };
+    Q_INVOKABLE int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    Q_INVOKABLE int rowCount(const QModelIndex& parent = QModelIndex()) const;
-
-    Q_INVOKABLE QVariant get(int row) const;
-    Q_INVOKABLE QVariant get(const QString& scope_id) const;
+    Q_INVOKABLE unity::shell::scopes::ScopeInterface* getScope(int row) const override;
+    Q_INVOKABLE unity::shell::scopes::ScopeInterface* getScope(const QString& scope_id) const override;
 
     Q_INVOKABLE void addScope(Scope* scope);
 
@@ -56,23 +47,15 @@ public:
     Q_INVOKABLE void load();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    QHash<int, QByteArray> roleNames() const;
     QModelIndex parent ( const QModelIndex & index ) const;
 
-    bool loaded() const;
-    int count() const;
-
-Q_SIGNALS:
-    void activateScopeRequested(const QString& scope_id);
-    void loadedChanged(bool);
-    void countChanged();
+    bool loaded() const override;
 
 private Q_SLOTS:
     void updateScopes();
 
 private:
     QList<Scope*> m_scopes;
-    QHash<int, QByteArray> m_roles;
     bool m_loaded;
     QTimer timer;
 };

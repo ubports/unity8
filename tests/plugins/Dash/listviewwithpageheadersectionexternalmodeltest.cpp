@@ -82,10 +82,10 @@ private:
         QTRY_COMPARE(lvwph->m_visibleItems[visibleIndex]->y(), pos);
         QTRY_COMPARE(lvwph->m_visibleItems[visibleIndex]->height(), height);
         QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->m_item)->culled, culled);
-        QCOMPARE(section(lvwph->m_visibleItems[visibleIndex]->m_sectionItem), sectionHeader);
+        QCOMPARE(section(lvwph->m_visibleItems[visibleIndex]->sectionItem()), sectionHeader);
         if (!sectionHeader.isNull()) {
-            QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->m_sectionItem)->culled, sectionHeaderCulled);
-            QCOMPARE(sectionDelegateIndex(lvwph->m_visibleItems[visibleIndex]->m_sectionItem), lvwph->m_firstVisibleIndex + visibleIndex);
+            QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->sectionItem())->culled, sectionHeaderCulled);
+            QCOMPARE(sectionDelegateIndex(lvwph->m_visibleItems[visibleIndex]->sectionItem()), lvwph->m_firstVisibleIndex + visibleIndex);
         }
     }
 

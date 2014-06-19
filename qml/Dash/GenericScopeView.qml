@@ -25,7 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    property Scope scope: null
+    property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
@@ -128,7 +128,7 @@ FocusScope {
 
             CardTool {
                 id: cardTool
-
+                objectName: "cardTool"
                 count: results.count
                 template: model.renderer
                 components: model.components
@@ -141,6 +141,7 @@ FocusScope {
                     top: parent.top
                     left: parent.left
                     right: parent.right
+                    topMargin: hasSectionHeader ? 0 : units.gu(2)
                 }
 
                 source: {
@@ -183,12 +184,11 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        if (scopeView.scope.id === "scopes" || (scopeView.scope.id == "clickscope" && categoryId == "local")) {
+                        if (scopeView.scope.id === "scopes" || (scopeView.scope.id == "clickscope" && (categoryId == "local" || categoryId == "store"))) {
                             // TODO Technically it is possible that calling activate() will make the scope emit
                             // previewRequested so that we show a preview but there's no scope that does that yet
                             // so it's not implemented
-                            var item = target.model.get(index);
-                            scopeView.scope.activate(item.result)
+                            scopeView.scope.activate(result)
                         } else {
                             previewListView.model = target.model;
                             previewListView.currentIndex = -1
