@@ -165,23 +165,11 @@ Item {
                             right: parent.right
                             rightMargin: units.gu(2)
                         }
-                        source: "image://theme/chevron"
+                        source: hasChildren ? "image://theme/chevron" : "graphics/tick.png"
                         sourceSize.height: parent.height - units.gu(3)
                         sourceSize.width: units.gu(3)
                         fillMode: Image.PreserveAspectFit
-                        visible: hasChildren
-                    }
-                    Image {
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            right: parent.right
-                            rightMargin: units.gu(2)
-                        }
-                        source: "graphics/tick.png"
-                        sourceSize.height: parent.height - units.gu(2)
-                        sourceSize.width: units.gu(3)
-                        fillMode: Image.PreserveAspectFit
-                        visible: !hasChildren && isActive
+                        visible: hasChildren || isActive
                     }
 
                     Rectangle {
