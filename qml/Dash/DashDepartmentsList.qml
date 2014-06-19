@@ -80,6 +80,7 @@ Item {
             Label {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: backImage.right
+                anchors.leftMargin: units.gu(0.5)
                 text: department ? department.parentLabel : ""
                 color: "gray" // TODO remove once we're a separate app
             }
