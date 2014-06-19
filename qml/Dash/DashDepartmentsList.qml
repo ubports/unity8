@@ -70,9 +70,11 @@ Item {
 
                 Image {
                     id: backImage
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: units.gu(2)
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                        leftMargin: units.gu(2)
+                    }
                     source: "image://theme/back"
                     sourceSize.height: parent.height - units.gu(3)
                     sourceSize.width: units.gu(3)
@@ -80,20 +82,23 @@ Item {
                 }
 
                 Label {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: backImage.right
-                    anchors.leftMargin: units.gu(0.5)
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: backImage.right
+                        leftMargin: units.gu(0.5)
+                    }
                     text: department ? department.parentLabel : ""
                     color: "gray" // TODO remove once we're a separate app
                 }
 
                 Rectangle {
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.leftMargin: units.gu(2)
-                    anchors.rightMargin: units.gu(2)
-                    width: parent.width
+                    anchors {
+                        bottom: parent.bottom
+                        left: parent.left
+                        right: parent.right
+                        leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
+                    }
                     color: "gray"
                     opacity: 0.2
                     height: units.dp(1)
@@ -108,21 +113,24 @@ Item {
                 height: itemHeight
 
                 Label {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: units.gu(2)
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                        leftMargin: units.gu(2)
+                    }
                     text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
                     font.bold: true
                     color: "gray" // TODO remove once we're a separate app
                 }
 
                 Rectangle {
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.leftMargin: units.gu(2)
-                    anchors.rightMargin: units.gu(2)
-                    width: parent.width
+                    anchors {
+                        bottom: parent.bottom
+                        left: parent.left
+                        right: parent.right
+                        leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
+                    }
                     color: "gray"
                     opacity: 0.2
                     height: units.dp(1)
@@ -142,17 +150,21 @@ Item {
                     onClicked: root.enterDepartment(departmentId, hasChildren)
 
                     Label {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: units.gu(2)
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            left: parent.left
+                            leftMargin: units.gu(2)
+                        }
                         text: label
                         color: "gray" // TODO remove once we're a separate app
                     }
 
                     Image {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: units.gu(2)
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            right: parent.right
+                            rightMargin: units.gu(2)
+                        }
                         source: "image://theme/chevron"
                         sourceSize.height: parent.height - units.gu(3)
                         sourceSize.width: units.gu(3)
@@ -160,9 +172,11 @@ Item {
                         visible: hasChildren
                     }
                     Image {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: units.gu(2)
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            right: parent.right
+                            rightMargin: units.gu(2)
+                        }
                         source: "graphics/tick.png"
                         sourceSize.height: parent.height - units.gu(2)
                         sourceSize.width: units.gu(3)
@@ -171,12 +185,13 @@ Item {
                     }
 
                     Rectangle {
-                        anchors.bottom: parent.bottom
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.leftMargin: units.gu(2)
-                        anchors.rightMargin: units.gu(2)
-                        width: parent.width
+                        anchors {
+                            bottom: parent.bottom
+                            left: parent.left
+                            right: parent.right
+                            leftMargin: units.gu(2)
+                            rightMargin: units.gu(2)
+                        }
                         color: "gray"
                         opacity: 0.1
                         height: units.dp(1)
