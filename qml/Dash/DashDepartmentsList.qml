@@ -72,7 +72,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: units.gu(2)
                 source: "image://theme/back"
-                sourceSize.height: parent.height - units.gu(2)
+                sourceSize.height: parent.height - units.gu(3)
                 sourceSize.width: units.gu(3)
                 fillMode: Image.PreserveAspectFit
             }
