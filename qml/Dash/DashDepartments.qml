@@ -126,8 +126,7 @@ AbstractButton {
             width: departmentListView.width
             property real desiredHeight: {
                 if (root.showList) {
-                    if (department && department.loaded &&
-                        index == departmentListView.currentIndex && x == departmentListView.contentX)
+                    if (department && department.loaded && x == departmentListView.contentX)
                     {
                         return Math.min(implicitHeight, departmentListView.maxHeight);
                     } else {
