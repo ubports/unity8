@@ -437,6 +437,9 @@ function cardString(template, components) {
                 titleAnchors = "right: parent.right;";
                 titleAnchors += headerLeftAnchor;
                 titleAnchors += headerVerticalAnchors;
+                if (!headerLeftAnchorHasMagin) {
+                    titleAnchors += 'leftMargin: units.gu(1);\n'
+                }
             }
             subtitleAnchors = 'left: titleLabel.left; \n\
                                leftMargin: titleLabel.leftMargin; \n\
