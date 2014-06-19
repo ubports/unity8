@@ -288,7 +288,8 @@ Rectangle {
 
             waitForRendering(card);
 
-            if (art === null) {
+            if (!("art" in card.cardData)) {
+                compare(art, null);
                 return;
             }
 
@@ -320,7 +321,8 @@ Rectangle {
             selector.selectedIndex = data.index;
             waitForRendering(card);
 
-            if (art === null) {
+            if (!("art" in card.cardData)) {
+                compare(art, null);
                 return;
             }
 
