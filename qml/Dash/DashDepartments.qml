@@ -106,7 +106,11 @@ AbstractButton {
             // nullifyDepartment: overrides departmentId to be null
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
-        width: root.width
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: root.bottom
+        }
         readonly property int maxHeight: (windowHeight - mapToItem(null, root.x, root.y).y) - units.gu(8)
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
@@ -115,7 +119,6 @@ AbstractButton {
                 prevHeight = currentItem.desiredHeight;
             }
         }
-        anchors.top: root.bottom
         highlightMoveDuration: UbuntuAnimation.FastDuration
         delegate: DashDepartmentsList {
             objectName: "department" + index
