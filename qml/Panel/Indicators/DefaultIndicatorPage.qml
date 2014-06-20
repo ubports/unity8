@@ -174,7 +174,7 @@ Indicators.IndicatorBase {
         }
     }
 
-    Indicators.MenuItemFactory {
+    MenuItemFactory {
         id: factory
         menuModel: mainMenu.model ? mainMenu.model : null
     }
