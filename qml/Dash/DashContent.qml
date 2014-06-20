@@ -201,7 +201,7 @@ Item {
                         item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                        item.tabBarHeight = dashPageHeader.implicitHeight;
+                        item.tabBarHeight = Qt.binding(function() { return dashPageHeader.implicitHeight; })
                         dashContent.scopeLoaded(item.scope.id)
                     }
                     Connections {
@@ -266,6 +266,14 @@ Item {
                     interval: 1
                     onTriggered: tabBar.selectionMode = false
                 }
+            }
+
+            bottomItem: DashDepartments {
+                scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
+                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
+                anchors.right: parent.right
+                windowHeight: dashContent.height
+                windowWidth: dashContent.width
             }
         }
     }

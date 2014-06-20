@@ -31,6 +31,10 @@ Item {
     signal gotoScope(string scopeId)
     signal openScope(var scope)
 
+    // TODO see how much code we can share
+    // between here and other Dash parts, it's starting to have
+    // too much duplicated code with the DashDepartments, etc
+
     Item {
         id: scopeViewHolder
 
@@ -78,6 +82,14 @@ Item {
                 font.weight: Font.Light
                 fontSize: "x-large"
                 elide: Text.ElideRight
+            }
+
+            bottomItem: DashDepartments {
+                scope: root.scope
+                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
+                anchors.right: parent.right
+                windowHeight: root.height
+                windowWidth: root.width
             }
         }
     }

@@ -1,3 +1,29 @@
+unity8 (7.89+14.10.20140619.3-0ubuntu1) utopic; urgency=low
+
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Jun 2014 16:02:41 +0000
+
+unity8 (7.89+14.10.20140619.2-0ubuntu1) utopic; urgency=low
+
+  [ Albert Astals ]
+  * Departments support (LP: #1320847)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Jun 2014 11:17:40 +0000
+
+unity8 (7.89+14.10.20140616.1-0ubuntu1) utopic; urgency=low
+
+  [ Pawel Stolowski ]
+  * Extend the hack for click scope categories with the upcoming 'store'
+    category: single-tap on results from the 'store' category should
+    activate them, instead of requesting a preview. (LP: #1326292)
+
+  [ Albert Astals ]
+  * Drop the " Preview" suffix from Preview title As requested in
+    https://bugs.launchpad.net/unity8/+bug/1316671 (LP: #1316671)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 16 Jun 2014 14:43:01 +0000
+
 unity8 (7.89+14.10.20140613-0ubuntu1) utopic; urgency=medium
 
   [ Michael Terry ]
