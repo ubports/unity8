@@ -387,10 +387,6 @@ Item {
                                             visible: index > 3
                                         }
 
-                                        Component.onCompleted: {
-                                            comboIcon.name = getComboIcon(actionLabel)
-                                        }
-
                                         Icon {
                                             id: comboIcon
 
@@ -405,16 +401,17 @@ Item {
                                             width: units.gu(2)
                                             height: units.gu(2)
                                             color: "white"
+                                            name: getComboIcon(actionLabel)
                                         }
 
                                         Label {
                                             id: comboLabel
 
-                                            anchors.left: comboIcon.right
-                                            anchors.leftMargin: units.gu(1)
-                                            anchors.verticalCenter: comboIcon.verticalCenter
-                                            verticalAlignment: Text.AlignVCenter
-                                            height: comboIcon.height
+                                            anchors {
+                                                left: comboIcon.right
+                                                leftMargin: units.gu(1)
+                                                verticalCenter: comboIcon.verticalCenter
+                                            }
                                             fontSize: "small"
                                             color: "white"
                                             text: getComboLabel(actionLabel)
