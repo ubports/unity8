@@ -55,6 +55,10 @@ Item {
         switchToNextState("")
     }
 
+    function fadeOut() {
+        fadeOutAnimation.start();
+    }
+
     function switchToNextState(state) {
         animateTimer.nextState = state
         animateTimer.start();
@@ -96,6 +100,31 @@ Item {
             // values are restored, even if we were already in the target state
             root.state = "tmp"
             root.state = nextState
+        }
+    }
+
+    SequentialAnimation {
+        id: fadeOutAnimation
+        ScriptAction {
+            script: {
+                panel.layer.enabled = true
+            }
+        }
+        UbuntuNumberAnimation {
+            target: panel
+            property: "opacity"
+            easing.type: Easing.InQuad
+            to: 0
+        }
+        ScriptAction {
+            script: {
+                panel.layer.enabled = false
+                panel.animate = false;
+                root.state = "";
+                panel.x = -panel.width
+                panel.opacity = 1;
+                panel.animate = true;
+            }
         }
     }
 
@@ -175,7 +204,7 @@ Item {
         Behavior on x {
             NumberAnimation {
                 // Disabling animation when dragging
-                duration: dragArea.dragging || launcherDragArea.drag.active ?  0 : 300;
+                duration: dragArea.dragging || launcherDragArea.drag.active || !panel.animate ?  0 : 300;
                 easing.type: Easing.OutCubic
             }
         }
@@ -215,9 +244,10 @@ Item {
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
-                    root.switchToNextState("visible")
                     if (distance > minimizeDistance) {
                         root.dash()
+                    } else {
+                        root.switchToNextState("visible")
                     }
                 } else {
                     root.switchToNextState("")
