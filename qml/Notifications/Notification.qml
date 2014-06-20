@@ -39,12 +39,12 @@ Item {
     property int maxHeight
     property int margins
     property Gradient greenGradient : Gradient {
-        GradientStop { position: 0.0; color: "#39b44a" }
-        GradientStop { position: 1.0; color: "#50be61" }
+        GradientStop { position: 0.0; color: "#3fb24f" }
+        GradientStop { position: 1.0; color: "#3fb24f" }
     }
     property Gradient darkgreyGradient: Gradient {
-        GradientStop { position: 0.0; color: "#534e4b" }
-        GradientStop { position: 1.0; color: "#5d5856" }
+        GradientStop { position: 0.0; color: "#4d4745" }
+        GradientStop { position: 1.0; color: "#4d4745" }
     }
 
     fullscreen: false
