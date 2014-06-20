@@ -6,5 +6,3 @@ CachedUnityMenuModel 0.1 CachedUnityMenuModel.qml
 IndicatorBase 0.1 IndicatorBase.qml
 MenuItemFactory 0.1 MenuItemFactory.qml
 MessageMenuItemFactory 0.1 MessageMenuItemFactory.qml
-
-internal RemoveBackground RemoveBackground.qml

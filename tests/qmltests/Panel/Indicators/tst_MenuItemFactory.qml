@@ -97,6 +97,7 @@ Item {
                 { tag: 'switch2', type: "com.canonical.indicator.switch", objectName: "switchMenu" },
                 { tag: 'alarm', type: "com.canonical.indicator.alarm", objectName: "alarmMenu" },
                 { tag: 'appointment', type: "com.canonical.indicator.appointment", objectName: "appointmentMenu" },
+                { tag: 'transfer', type: "com.canonical.indicator.transfer", objectName: "transferMenu" },
 
                 { tag: 'messageItem', type: "com.canonical.indicator.messages.messageitem", objectName: "messageItem" },
                 { tag: 'sourceItem', type: "com.canonical.indicator.messages.sourceitem", objectName: "groupedMessage" },
@@ -424,6 +425,36 @@ Item {
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
             compare(loader.item.eventColor, data.color, "Colour does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_transferMenu_data() {
+            return [
+                {label: "testLabel1", enabled: true, active: true, icon: "file:///testIcon1", progress: 0.1 },
+                {label: "testLabel2", enabled: false, active: false, icon: "file:///testIcon2", progress: 0.5 },
+            ];
+        }
+
+        function test_create_transferMenu(data) {
+            menuData.type = "com.canonical.indicator.transfer";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.icon = data.icon;
+            menuData.ext = {
+                'xCanonicalActive': data.active,
+                'maxValue': 1.0
+            };
+            menuData.actionState = data.progress;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "transferMenu", "Should have created a transfer menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.iconSource, data.icon, "Icon does not match data");
+            compare(loader.item.progress, data.progress, "Icon does not match data");
+            compare(loader.item.active, data.active, "Active does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 

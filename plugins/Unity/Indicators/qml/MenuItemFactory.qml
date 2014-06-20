@@ -19,7 +19,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Settings.Menus 0.1 as Menus
-import QMenuModel 0.1 as QMenuModel
+import Ubuntu.Settings.Components 0.1 as SettingsComponents
+import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Ubuntu.Components 0.1
@@ -27,6 +28,7 @@ import Ubuntu.Components 0.1
 Item {
     id: menuFactory
 
+    property var rootModel: null
     property var menuModel: null
 
     property var _map:  {
@@ -41,6 +43,7 @@ Item {
         "com.canonical.indicator.switch"        : switchMenu,
         "com.canonical.indicator.alarm"         : alarmMenu,
         "com.canonical.indicator.appointment"   : appointmentMenu,
+        "com.canonical.indicator.transfer"      : transferMenu,
 
         "com.canonical.indicator.messages.messageitem"  : messageItem,
         "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
@@ -330,7 +333,7 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var strengthAction: QMenuModel.UnityMenuAction {
+            property var strengthAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
@@ -442,17 +445,17 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var playAction: QMenuModel.UnityMenuAction {
+            property var playAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPlayAction", "")
             }
-            property var nextAction: QMenuModel.UnityMenuAction {
+            property var nextAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalNextAction", "")
             }
-            property var previousAction: QMenuModel.UnityMenuAction {
+            property var previousAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPreviousAction", "")
@@ -485,6 +488,121 @@ Item {
                 menuModel.loadExtendedAttributes(modelIndex, {'x-canonical-play-action': 'string',
                                                               'x-canonical-next-action': 'string',
                                                               'x-canonical-previous-action': 'string'});
+            }
+        }
+    }
+
+    Component {
+        id: transferMenu
+        Menus.TransferMenu {
+            objectName: "transferMenu"
+            id: transfer
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
+            property var uid: getExtendedProperty(extendedData, "xCanonicalUid", undefined)
+
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || "image://theme/save"
+            maximum: 1.0
+            enabled: menuData && menuData.sensitive || false
+            removable: true
+            confirmRemoval: true
+
+            QDBusActionGroup {
+                id: actionGroup
+                busType: 1
+                busName: rootModel.busName
+                objectPath: rootModel.actions["indicator"]
+
+                property QtObject activateAction: action("activate-transfer")
+                property QtObject cancelAction: action("cancel-transfer")
+                property QtObject pauseAction: action("pause-transfer")
+                property QtObject resumeAction: action("resume-transfer")
+                property QtObject transferStates: action("transfer-states")
+
+                Component.onCompleted: actionGroup.start()
+            }
+
+            property var transferStateProperties: uid !== undefined && actionGroup.transferStates.valid && actionGroup.transferStates.state[uid] || undefined
+
+            property var transferState : transferStateProperties !== undefined && transferStateProperties["state"] || undefined
+            property var secondsLeft : transferStateProperties !== undefined && transferStateProperties["seconds-left"]
+
+            active: transferStateProperties !== undefined && transferState !== Menus.TransferState.FINISHED
+            progress : transferStateProperties !== undefined && transferStateProperties["percent"] || 0.0
+
+            property var timeRemaining: {
+                if (secondsLeft === undefined) return undefined;
+
+                var remaining = "";
+                var hours = Math.floor(secondsLeft / (60 * 60));
+                var minutes = Math.floor(secondsLeft / 60) % 60;
+                var seconds = secondsLeft % 60;
+                if (hours > 0) {
+                    remaining += hours + (hours == 1 ? " hour" : " hours");
+                }
+                if (minutes > 0) {
+                    if (remaining != "") remaining += ", ";
+                    remaining += minutes + (minutes == 1 ? " minute" : " minutes");
+                }
+                // don't include seconds if hours > 0
+                if (hours == 0 && minutes < 5 && seconds > 0) {
+                    if (remaining != "") remaining += ", ";
+                    remaining += seconds + (seconds == 1 ? " second" : " seconds");
+                }
+                if (remaining == "")
+                    remaining = "0 seconds";
+                return remaining + " remaining";
+            }
+
+            stateText: {
+                switch (transferState) {
+                    case Menus.TransferState.QUEUED:
+                        return i18n.tr("In queue...");
+                    case Menus.TransferState.HASHING:
+                    case Menus.TransferState.PROCESSING:
+                    case Menus.TransferState.RUNNING:
+                        return timeRemaining === undefined ? "Downloading" : timeRemaining;
+                    case Menus.TransferState.PAUSED:
+                        return i18n.tr("Paused, tap to resume");
+                    case Menus.TransferState.CANCELED:
+                        return i18n.tr("Canceled");
+                    case Menus.TransferState.FINISHED:
+                        return i18n.tr("Finished");
+                    case Menus.TransferState.ERROR:
+                        return i18n.tr("Failed, tap to retry");
+                }
+                return "";
+            }
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+            onTriggered: {
+                actionGroup.activateAction.activate(uid);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-uid': 'string'});
+            }
+
+            function cancel() {
+                actionGroup.cancelAction.activate(uid);
+            }
+
+            function pause() {
+                actionGroup.pauseAction.activate(uid);
+            }
+
+            function resume() {
+                actionGroup.resumeAction.activate(uid);
             }
         }
     }

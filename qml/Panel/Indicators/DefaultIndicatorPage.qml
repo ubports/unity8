@@ -135,6 +135,9 @@ Indicators.IndicatorBase {
                 right: parent.right
             }
 
+            Component.onCompleted: console.log("created")
+            Component.onDestruction: console.log("destroyed")
+
             sourceComponent: factory.load(model)
 
             onLoaded: {
@@ -176,6 +179,7 @@ Indicators.IndicatorBase {
 
     Indicators.MenuItemFactory {
         id: factory
+        rootModel: main.menuModel ? main.menuModel : null
         menuModel: mainMenu.model ? mainMenu.model : null
     }
 
