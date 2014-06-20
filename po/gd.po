@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-05-27 22:48+0200\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
 "PO-Revision-Date: 2014-05-17 21:08+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Gaelic; Scottish <gd@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-07 06:35+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -80,9 +80,34 @@ msgstr ""
 "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
 "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
 
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Gairm èiginn"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
+
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Na lorg thu o chionn goirid"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "Shin thu, %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "Shin thu"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -95,11 +120,6 @@ msgstr "Seall nas lugha"
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "O chionn goirid"
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr "Ro-shealladh %1"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -125,31 +145,6 @@ msgstr "Cuir"
 msgid "Swipe to unlock"
 msgstr "Dèan grad-shlaighdeadh gus a' ghlas a thoirt dheth"
 
-#: qml/Greeter/Lockscreen.qml:215
-msgid "Emergency Call"
-msgstr "Gairm èiginn"
-
-#: qml/Greeter/Lockscreen.qml:232
-msgid "OK"
-msgstr ""
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-#, qt-format
-msgid "Hello %1"
-msgstr "Shin thu, %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-msgid "Hello"
-msgstr "Shin thu"
-
-#: qml/Greeter/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr ""
-
-#: qml/Greeter/PinLockscreen.qml:216
-msgid "DONE"
-msgstr ""
-
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
 msgstr "Dearbhaich"
@@ -170,15 +165,15 @@ msgstr "Can rud a-nis..."
 msgid "Speaking..."
 msgstr "A' bruidhinn..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:92
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
 msgstr "Seall am facal-faire"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:104
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "Cuir a-steach SIM PIN"
 
-#: qml/Panel/SearchIndicator.qml:27 test.qml:7
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Lorg"
 

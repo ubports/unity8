@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-05-27 22:48+0200\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
 "PO-Revision-Date: 2014-03-30 12:44+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-07 06:35+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -76,9 +76,34 @@ msgstr ""
 "Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
 "zaitezke<br><br>Ukitu pantaila hasteko"
 
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Larrialdi-deia"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
+
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Azken bilaketak"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "Kaixo %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "Kaixo"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -91,11 +116,6 @@ msgstr "Ikusi gutxiago"
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "Azkenak"
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr "%1 aurrebista"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -121,31 +141,6 @@ msgstr "Bidali"
 msgid "Swipe to unlock"
 msgstr ""
 
-#: qml/Greeter/Lockscreen.qml:215
-msgid "Emergency Call"
-msgstr "Larrialdi-deia"
-
-#: qml/Greeter/Lockscreen.qml:232
-msgid "OK"
-msgstr ""
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-#, qt-format
-msgid "Hello %1"
-msgstr "Kaixo %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-msgid "Hello"
-msgstr "Kaixo"
-
-#: qml/Greeter/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr ""
-
-#: qml/Greeter/PinLockscreen.qml:216
-msgid "DONE"
-msgstr ""
-
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
 msgstr "Baieztatu"
@@ -166,15 +161,15 @@ msgstr "Hitz egin orain..."
 msgid "Speaking..."
 msgstr "Hitz egiten..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:92
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
 msgstr "Erakutsi pasahitza"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:104
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "Sartu SIMaren PINa"
 
-#: qml/Panel/SearchIndicator.qml:27 test.qml:7
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Bilatu"
 

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-05-27 22:48+0200\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
 "PO-Revision-Date: 2014-03-07 13:27+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-07 06:35+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -74,9 +74,34 @@ msgstr ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Emergency Call"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
+
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Recent searches"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "Hello %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "Hello"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -88,11 +113,6 @@ msgstr "See less"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
-
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
 msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
@@ -119,31 +139,6 @@ msgstr "Send"
 msgid "Swipe to unlock"
 msgstr ""
 
-#: qml/Greeter/Lockscreen.qml:215
-msgid "Emergency Call"
-msgstr "Emergency Call"
-
-#: qml/Greeter/Lockscreen.qml:232
-msgid "OK"
-msgstr ""
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-#, qt-format
-msgid "Hello %1"
-msgstr "Hello %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:60
-msgid "Hello"
-msgstr "Hello"
-
-#: qml/Greeter/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr ""
-
-#: qml/Greeter/PinLockscreen.qml:216
-msgid "DONE"
-msgstr ""
-
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
 msgstr "Confirm"
@@ -164,15 +159,15 @@ msgstr "Speak Now..."
 msgid "Speaking..."
 msgstr "Speaking..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:92
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
 msgstr "Show password"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:104
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "Please enter SIM PIN"
 
-#: qml/Panel/SearchIndicator.qml:27 test.qml:7
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Search"
 
