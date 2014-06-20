@@ -36,7 +36,14 @@ DashRenderer {
 
     Behavior on height {
         id: heightBehaviour
-        animation: UbuntuNumberAnimation { }
+        enabled: false
+        animation: UbuntuNumberAnimation {
+            onRunningChanged: {
+                if (!running) {
+                    heightBehaviour.enabled = false
+                }
+            }
+        }
     }
 
     function setFilter(filter, animate) {
