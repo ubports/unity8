@@ -356,11 +356,11 @@ function cardString(template, components) {
         }
     }
     var headerLeftAnchor;
-    var headerLeftAnchorHasMagin = false;
+    var headerLeftAnchorHasMargin = false;
     if (isHorizontal && hasArt) {
         headerLeftAnchor = 'left: artShapeHolder.right; \n\
                             leftMargin: units.gu(1);\n';
-        headerLeftAnchorHasMagin = true;
+        headerLeftAnchorHasMargin = true;
     } else {
         headerLeftAnchor = 'left: parent.left;\n';
     }
@@ -385,7 +385,7 @@ function cardString(template, components) {
         if (!hasHeaderRow) {
             anchors += headerLeftAnchor;
             anchors += headerVerticalAnchors;
-            if (!headerLeftAnchorHasMagin) {
+            if (!headerLeftAnchorHasMargin) {
                 anchors += 'leftMargin: units.gu(1);\n'
             }
         } else {
@@ -437,7 +437,7 @@ function cardString(template, components) {
                 titleAnchors = "right: parent.right;";
                 titleAnchors += headerLeftAnchor;
                 titleAnchors += headerVerticalAnchors;
-                if (!headerLeftAnchorHasMagin) {
+                if (!headerLeftAnchorHasMargin) {
                     titleAnchors += 'leftMargin: units.gu(1);\n'
                 }
             }
