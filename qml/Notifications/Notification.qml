@@ -341,14 +341,13 @@ Item {
                     // to work around a feature/bug? of the
                     // ComboButton SDK-element, making a regular
                     // unwrapped Column item flickable
+                    // see LP: #1332590
                     interactive: false
                     Column {
                         Repeater {
                             id: comboRepeater
 
-                            Component.onCompleted: {
-                                // an assignment is ok here, since this
-                                // label is static and does not change
+                            onVisibleChanged: {
                                 comboButton.text = comboRepeater.itemAt(2).actionLabel
                             }
 
@@ -370,12 +369,12 @@ Item {
                                         width: comboButton.width
                                         height: comboIcon.height + units.gu(2)
 
-                                        function getComboIcon (str) {
+                                        function getComboIcon(str) {
                                             var result = str.split(":")
                                             return result[0]
                                         }
 
-                                        function getComboLabel (str) {
+                                        function getComboLabel(str) {
                                             var result = str.split(":")
                                             return result[1]
                                         }
