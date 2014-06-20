@@ -22,6 +22,7 @@ MockCallManager::MockCallManager(QObject *parent)
     : QObject(parent)
     , m_foregroundCall(nullptr)
     , m_backgroundCall(nullptr)
+    , m_callIndicatorVisible(false)
 {
 }
 
@@ -62,4 +63,18 @@ void MockCallManager::setBackgroundCall(QObject* backgroundCall)
 bool MockCallManager::hasCalls() const
 {
     return m_foregroundCall || m_backgroundCall;
+}
+
+
+bool MockCallManager::callIndicatorVisible() const
+{
+    return m_callIndicatorVisible;
+}
+
+void MockCallManager::setCallIndicatorVisible(bool callIndicatorVisible)
+{
+    if(m_callIndicatorVisible != callIndicatorVisible){
+        m_callIndicatorVisible = callIndicatorVisible;
+        Q_EMIT callIndicatorVisibleChanged();
+    }
 }

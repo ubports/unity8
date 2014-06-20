@@ -29,6 +29,7 @@ class MockCallManager : public QObject
     Q_PROPERTY(QObject *foregroundCall READ foregroundCall WRITE setForegroundCall NOTIFY foregroundCallChanged)
     Q_PROPERTY(QObject *backgroundCall READ backgroundCall WRITE setBackgroundCall NOTIFY backgroundCallChanged)
     Q_PROPERTY(bool hasCalls READ hasCalls NOTIFY hasCallsChanged)
+    Q_PROPERTY(bool callIndicatorVisible READ callIndicatorVisible WRITE setCallIndicatorVisible NOTIFY callIndicatorVisibleChanged)
 
 public:
     explicit MockCallManager(QObject *parent = 0);
@@ -38,18 +39,22 @@ public:
     QObject* foregroundCall() const;
     QObject* backgroundCall() const;
     bool hasCalls() const;
+    bool callIndicatorVisible() const;
 
     void setForegroundCall(QObject* foregroundCall);
     void setBackgroundCall(QObject* backgroundCall);
+    void setCallIndicatorVisible(bool callIndicatorVisible);
 
 Q_SIGNALS:
     void foregroundCallChanged();
     void backgroundCallChanged();
     void hasCallsChanged();
+    void callIndicatorVisibleChanged();
 
 private:
     QObject* m_foregroundCall;
     QObject* m_backgroundCall;
+    bool m_callIndicatorVisible;
 };
 
 #endif // MOCKCALLMANAGER_H

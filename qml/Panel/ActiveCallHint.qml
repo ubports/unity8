@@ -23,7 +23,7 @@ import "../Components"
 Item {
     id: callHint
 
-    property bool active: callManager.hasCalls && ApplicationManager.focusedApplicationId !== "dialer-app"
+    property bool active: callManager.callIndicatorVisible
     readonly property QtObject contactWatcher: _contactWatcher
     property int alternateLabelInterval: 4000
     property color color: Qt.rgba(0.1, 0.6, 0.1, 1.0)

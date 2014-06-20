@@ -70,7 +70,20 @@ Item {
             callHint.alternateLabelInterval = 300;
         }
 
-        function test_activeCall_data() {
+        function test_activeHint_data() {
+            return [
+                { tag: "empty", callIndicatorVisible: false },
+                { tag: "empty", callIndicatorVisible: true }
+            ];
+        }
+
+        function test_activeHint(data) {
+            callManager.callIndicatorVisible = data.callIndicatorVisible;
+
+            compare(callHint.active, data.callIndicatorVisible, "Call hint should be active when callIndicatorVisible=true");
+        }
+
+        function test_currentCall_data() {
             return [
                 { tag: "empty", foreground: null, background: null, active: false, label: "" },
                 { tag: "foreground", foreground: call1, background: null, active: true, label: "+447812221111" },
@@ -79,11 +92,9 @@ Item {
             ];
         }
 
-        function test_activeCall(data) {
+        function test_currentCall(data) {
             callManager.foregroundCall = data.foreground;
             callManager.backgroundCall = data.background;
-
-            compare(callHint.active, data.active, "Call hint active enabled does not match");
 
             var contactLabel = findChild(callHint, "contactLabel");
             verify(contactLabel !== null);
