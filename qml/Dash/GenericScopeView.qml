@@ -203,6 +203,14 @@ FocusScope {
                         previewListView.currentIndex = index;
                         previewListView.open = true
                     }
+                    onExpandableChanged: {
+                        // This can happen with the VJ that doesn't know how height it will be on creation
+                        // so doesn't set expandable until a bit too late for onLoaded
+                        if (rendererLoader.item.expandable) {
+                            var shouldFilter = baseItem.category != categoryView.expandedCategoryId;
+                            rendererLoader.item.setFilter(shouldFilter, false /*animate*/);
+                        }
+                    }
                 }
                 Connections {
                     target: categoryView
