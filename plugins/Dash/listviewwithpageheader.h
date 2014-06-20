@@ -106,6 +106,7 @@ protected:
     void viewportMoved(Qt::Orientations orient) override;
     qreal minYExtent() const override;
     void itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry) override;
+    void itemImplicitHeightChanged(QQuickItem *item) override;
     void updatePolish() override;
 
 private Q_SLOTS:
@@ -146,6 +147,7 @@ private:
     bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
     ListItem *createItem(int modelIndex, bool asynchronous);
 
+    void adjustHeader(qreal diff);
     void adjustMinYExtent();
     void updateClipItem();
     void headerHeightChanged(qreal newHeaderHeight, qreal oldHeaderHeight, qreal oldHeaderY);
@@ -178,6 +180,7 @@ private:
 
     QQuickItem *m_headerItem;
     qreal m_previousContentY;
+    qreal m_previousHeaderImplicitHeight;
     qreal m_headerItemShownHeight; // The height of header shown when the header is shown outside its topmost position
                                    // i.e. it's being shown after dragging down in the middle of the list
     enum ContentYAnimationType { ContentYAnimationShowHeader, ContentYAnimationMaximizeVisibleArea };
