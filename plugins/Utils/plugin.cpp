@@ -26,11 +26,18 @@
 #include "plugin.h"
 
 // local
+#include "easingcurve.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
-#include "easingcurve.h"
+#include "urldispatcher.h"
+
+static QObject* urlDispatcherSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+  Q_UNUSED(engine);
+  Q_UNUSED(scriptEngine);
+  return new URLDispatcher;
+}
 
 void UtilsPlugin::registerTypes(const char *uri)
 {
@@ -42,6 +49,8 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
     qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
+
+    qmlRegisterSingletonType<URLDispatcher>(uri, 0, 1, "URLDispatcher", urlDispatcherSingleton);
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
