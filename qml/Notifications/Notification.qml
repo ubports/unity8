@@ -359,6 +359,7 @@ Item {
                                 visible: status == Loader.Ready
                                 property string actionId: id
                                 property string actionLabel: label
+                                readonly property var splitLabel: actionLabel.match(/(^([a-z]+):)?(.*)$/)
                                 Component {
                                     id: comboEntry
 
@@ -368,16 +369,6 @@ Item {
                                         objectName: "button" + index
                                         width: comboButton.width
                                         height: comboIcon.height + units.gu(2)
-
-                                        function getComboIcon(str) {
-                                            var result = str.split(":")
-                                            return result[0]
-                                        }
-
-                                        function getComboLabel(str) {
-                                            var result = str.split(":")
-                                            return result[1]
-                                        }
 
                                         onClicked: {
                                             notification.notification.invokeAction(actionId)
@@ -401,7 +392,7 @@ Item {
                                             width: units.gu(2)
                                             height: units.gu(2)
                                             color: "white"
-                                            name: getComboIcon(actionLabel)
+                                            name: splitLabel[2]
                                         }
 
                                         Label {
@@ -414,7 +405,7 @@ Item {
                                             }
                                             fontSize: "small"
                                             color: "white"
-                                            text: getComboLabel(actionLabel)
+                                            text: splitLabel[3]
                                         }
                                     }
                                 }
