@@ -2,23 +2,20 @@
 include(FindPkgConfig)
 
 pkg_search_module(GIO REQUIRED gio-2.0)
-pkg_search_module(URLDISPATCHER REQUIRED url-dispatcher-1)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${GIO_INCLUDE_DIRS}
-    ${URLDISPATCHER_INCLUDE_DIRS}
 )
 
 set(QMLPLUGIN_SRC
-    easingcurve.cpp
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
     timeformatter.cpp
     unitymenumodelpaths.cpp
-    urldispatcher.cpp
+    easingcurve.cpp
     plugin.cpp
     )
 
@@ -26,10 +23,7 @@ add_library(Utils-qml SHARED
     ${QMLPLUGIN_SRC}
     )
 
-target_link_libraries(Utils-qml
-    ${GIO_LDFLAGS}
-    ${URLDISPATCHER_LDFLAGS}
-)
+target_link_libraries(Utils-qml ${GIO_LDFLAGS})
 
 # Because this is an internal support library, we want
 # to expose all symbols in it. Consider changing this

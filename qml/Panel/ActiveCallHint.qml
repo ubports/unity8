@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Telephony 0.1 as Telephony
 import Ubuntu.Components 0.1
 import Unity.Application 0.1
-import Utils 0.1
 import "../Components"
 
 Item {
@@ -34,7 +33,7 @@ Item {
     }
 
     function activate() {
-        URLDispatcher.send("dialer:///?view=liveCall");
+        ApplicationManager.requestFocusApplication("dialer-app");
     }
 
     MouseArea {
