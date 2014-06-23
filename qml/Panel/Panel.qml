@@ -196,8 +196,6 @@ Item {
             }
             height: indicators.panelHeight
             visible: active && indicators.state == "initial"
-
-            Component.onCompleted: console.log("callHint " + width)
         }
 
         PanelSeparatorLine {

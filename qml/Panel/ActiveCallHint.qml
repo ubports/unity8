@@ -37,6 +37,11 @@ Item {
         URLDispatcher.send("dialer:///?view=liveCall");
     }
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: activate()
+    }
+
     Component {
         id: contactColumn
 
