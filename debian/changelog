@@ -1,3 +1,18 @@
+unity8 (7.89+14.10.20140623.1-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Make so that fixedArtShapeSize actually fixes artShapeSize.
+
+  [ Albert Astals ]
+  * Add VerticalJournal integration to Dash/scopes/QML (LP: #1326467)
+  * Make so that fixedArtShapeSize actually fixes artShapeSize.
+
+  [ Mirco Müller ]
+  * Added the frontend-part of sound-hint support for notifications with
+    updated QML-tests.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 23 Jun 2014 11:17:12 +0000
+
 unity8 (7.89+14.10.20140619.3-0ubuntu1) utopic; urgency=low
 
   * New rebuild forced
