@@ -56,8 +56,6 @@ Item {
             height: units.gu(4)
         }
 
-        onSearchClicked: console.log("Search Clicked")
-
         property real panelAndSeparatorHeight: panel.indicators.panelHeight + units.dp(2)
 
         Component.onCompleted: {
@@ -172,8 +170,8 @@ Item {
 
             // hint animation should be run, meaning that indicators will move downwards
             // by hintValue pixels without any drag taking place
-            tryCompareFunction2(function() { return panel.indicators.height },
-                                function() { return panel.indicators.panelHeight + panel.indicators.hintValue });
+            tryCompareFunction(function() { return panel.indicators.height },
+                                panel.indicators.panelHeight + panel.indicators.hintValue);
             tryCompare(panel.indicators, "partiallyOpened", true);
             tryCompare(panel.indicators, "fullyOpened", false);
 
@@ -231,17 +229,17 @@ Item {
         function test_drag_show_data() {
             return [
                 { tag: "pinned", fullscreenFlag: false, alreadyOpen: false, call: false,
-                            indicatorY: function() { return 0 } },
+                            indicatorY: 0 },
                 { tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false, call: false,
-                            indicatorY: function() {return -panel.panelAndSeparatorHeight } },
+                            indicatorY: -panel.panelAndSeparatorHeight },
                 { tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true, call: false,
-                            indicatorY: function() { return 0 } },
+                            indicatorY: 0 },
                 { tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true, call: false,
-                            indicatorY: function() {return 0 } },
+                            indicatorY: 0 },
                 { tag: "pinned-callActive", fullscreenFlag: false, alreadyOpen: false, call: true,
-                            indicatorY: function() { return 0 } },
+                            indicatorY: 0},
                 { tag: "fullscreen-callActive", fullscreenFlag: true, alreadyOpen: false, call: true,
-                            indicatorY: function() { return -panel.panelAndSeparatorHeight } }
+                            indicatorY: -panel.panelAndSeparatorHeight }
             ];
         }
 
@@ -268,7 +266,7 @@ Item {
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
-            tryCompareFunction2(function() { return indicatorArea.y } , data.indicatorY);
+            tryCompareFunction(function() { return indicatorArea.y }, data.indicatorY);
 
             // do this for each indicator item
             for (var i = 0; i < indicatorRow.row.count; i++) {

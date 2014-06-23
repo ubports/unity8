@@ -202,35 +202,6 @@ TestCase {
         }
     }
 
-    // Keeps executing a given parameter-less function until it returns the given
-    // expected result or the timemout is reached (in which case a test failure
-    // is generated)
-    function tryCompareFunction2(func, expectedResultFunc) {
-        var timeSpent = 0
-        var timeout = 5000
-        var success = false
-        var actualResult
-        var expectedResult
-        while (timeSpent < timeout && !success) {
-            actualResult = func()
-            expectedResult = expectedResultFunc()
-            success = qtest_compareInternal(actualResult, expectedResult)
-            if (success === false) {
-                wait(50)
-                timeSpent += 50
-            }
-        }
-
-        var act = qtest_results.stringify(actualResult)
-        var exp = qtest_results.stringify(expectedResult)
-        if (!qtest_results.compare(success,
-                                   "function returned unexpected result",
-                                   act, exp,
-                                   util.callerFile(), util.callerLine())) {
-            throw new Error("QtQuickTest::fail")
-        }
-    }
-
     function touchEvent() {
         return UT.Util.touchEvent()
     }
