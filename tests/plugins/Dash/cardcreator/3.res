@@ -61,7 +61,7 @@ Item  {
                         } 
                     } 
                 }
-readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2 + subtitleLabel.height + subtitleLabel.anchors.topMargin;
+readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Label { 
                     id: titleLabel; 
                     objectName: "titleLabel"; 

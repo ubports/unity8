@@ -113,7 +113,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             visible: showHeader && status == Loader.Ready; \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
-                                height: fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight; \n\
+                                height: fixedHeaderHeight > 0 ? fixedHeaderHeight + units.gu(1) * 2 : headerHeight; \n\
                                 opacity: 0.6; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
@@ -150,6 +150,7 @@ var kHeaderRow2Code = 'Row { \n\
                         objectName: "outerRow"; \n\
                         property real margins: units.gu(1); \n\
                         spacing: margins; \n\
+                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n\
                         anchors { %1 } \n\
                         anchors.right: parent.right; \n\
                         anchors.margins: margins;\n\
@@ -168,6 +169,7 @@ var kHeaderRow3Code = 'Row { \n\
                         objectName: "outerRow"; \n\
                         property real margins: units.gu(1); \n\
                         spacing: margins; \n\
+                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n\
                         anchors { %1 } \n\
                         anchors.right: parent.right; \n\
                         anchors.margins: margins;\n\
@@ -320,7 +322,7 @@ function cardString(template, components) {
             anchors = 'left: parent.left';
             if (hasMascot || hasTitle) {
                 widthCode = 'height * artShape.aspect'
-                heightCode = 'headerHeight';
+                heightCode = 'headerHeight + 2 * units.gu(1)';
             } else {
                 // This side of the else is a bit silly, who wants an horizontal layout without mascot and title?
                 // So we define a "random" height of the image height + 2 gu for the margins
@@ -371,13 +373,13 @@ function cardString(template, components) {
     }
 
     if (hasHeaderRow) {
-        code += 'readonly property int headerHeight: row.height + row.margins * 2;\n'
+        code += 'readonly property int headerHeight: row.height;\n'
     } else if (hasMascot) {
-        code += 'readonly property int headerHeight: mascotImage.height + units.gu(1) * 2;\n'
+        code += 'readonly property int headerHeight: mascotImage.height;\n'
     } else if (hasSubtitle) {
-        code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2 + subtitleLabel.height + subtitleLabel.anchors.topMargin;\n'
+        code += 'readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;\n'
     } else if (hasTitle) {
-        code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2;\n'
+        code += 'readonly property int headerHeight: titleLabel.height;\n'
     } else {
         code += 'readonly property int headerHeight: 0;\n'
     }

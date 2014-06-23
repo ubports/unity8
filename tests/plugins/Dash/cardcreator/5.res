@@ -73,7 +73,7 @@ Loader {
             visible: showHeader && status == Loader.Ready; 
             sourceComponent: ShaderEffect { 
                 id: overlay; 
-                height: fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight;
+                height: fixedHeaderHeight > 0 ? fixedHeaderHeight + units.gu(1) * 2 : headerHeight;
                 opacity: 0.6; 
                 property var source: ShaderEffectSource { 
                     id: shaderSource; 
@@ -101,7 +101,7 @@ Loader {
                     }"; 
             } 
         }
-readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2 + subtitleLabel.height + subtitleLabel.anchors.topMargin;
+readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Label { 
                     id: titleLabel; 
                     objectName: "titleLabel"; 
