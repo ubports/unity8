@@ -55,8 +55,8 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %3 is used as image height
 var kArtShapeHolderCode = 'Item  { \n\
                             id: artShapeHolder; \n\
-                            height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
-                            width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; \n\
+                            height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
+                            width: root.fixedArtShapeSize.width > 0 ? root.fixedArtShapeSize.width : artShapeLoader.width; \n\
                             anchors { %1 } \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
@@ -68,13 +68,18 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     id: artShape; \n\
                                     objectName: "artShape"; \n\
                                     radius: "medium"; \n\
-                                    readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
+                                    visible: image.status == Image.Ready; \n\
+                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
+                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
                                     readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } \n\
                                     onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
-                                    visible: image.status == Image.Ready; \n\
+                                    Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } \n\
                                     function updateWidthHeightBindings() { \n\
-                                        if (aspectSmallerThanImageAspect) { \n\
+                                        if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { \n\
+                                            width = root.fixedArtShapeSize.width; \n\
+                                            height = root.fixedArtShapeSize.height; \n\
+                                        } else if (aspectSmallerThanImageAspect) { \n\
                                             width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
                                             height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); \n\
                                         } else { \n\
@@ -108,7 +113,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             visible: showHeader && status == Loader.Ready; \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
-                                height: fixedHeaderHeight != -1 ? fixedHeaderHeight + units.gu(1) * 2 : headerHeight; \n\
+                                height: fixedHeaderHeight > 0 ? fixedHeaderHeight + units.gu(1) * 2 : headerHeight; \n\
                                 opacity: 0.6; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
