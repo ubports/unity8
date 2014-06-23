@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2014-05-23 14:26+0000\n"
-"Last-Translator: igosoft <igosoft@gmail.com>\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"PO-Revision-Date: 2014-05-27 15:20+0000\n"
+"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-24 06:52+0000\n"
-"X-Generator: Launchpad (build 17017)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -73,10 +73,37 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Wydawanie poleceń krawędzi zostało opanowane. Urządzenie gotowe do "
+"pracy.<br><br>Dotknij ekranu by rozpocząć"
+
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Telefon ratunkowy"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Ostatnie wyszukiwania"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "Witaj %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "Witaj"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -90,11 +117,6 @@ msgstr "Zobacz mniej"
 msgid "Recent"
 msgstr "Ostatnio używane"
 
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr ""
-
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Więcej..."
@@ -103,34 +125,21 @@ msgstr "Więcej..."
 msgid "Less..."
 msgstr "Mniej..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "Oceń to"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
 msgstr "Dodaj recenzję"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
 msgstr "Wyślij"
 
-#: qml/Greeter/Greeter.qml:151
+#: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
 msgstr "Przeciągnij aby odblokować"
-
-#: qml/Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Telefon ratunkowy"
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Witaj %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Witaj"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -164,7 +173,7 @@ msgstr "Wprowadź kod PIN karty SIM"
 msgid "Search"
 msgstr "Szukaj"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr "Wprowadź %1"

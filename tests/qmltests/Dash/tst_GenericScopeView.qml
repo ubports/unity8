@@ -126,6 +126,7 @@ Item {
 
             function test_filter_expand_collapse() {
                 // wait for the item to be there
+                waitForRendering(genericScopeView);
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != null; }, true);
 
                 var header = findChild(genericScopeView, "dashSectionHeader0")

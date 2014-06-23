@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2014-05-19 15:25+0000\n"
-"Last-Translator: Thor Fjalestad <silvereyerocker@gmail.com>\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"PO-Revision-Date: 2014-06-11 06:36+0000\n"
+"Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-22 06:49+0000\n"
-"X-Generator: Launchpad (build 17017)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -74,9 +74,34 @@ msgstr ""
 "Du har nå mestret kantbevegelsene, og er klar til å bruke "
 "telefonen<br><br>Trykk på skjermen for å begynne"
 
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "Nødanrop"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr "OK"
+
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Nylige søk"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "Hei, %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "Hei"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr "AVBRYT"
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr "FERDIG"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -90,11 +115,6 @@ msgstr "Vis mindre"
 msgid "Recent"
 msgstr "Nylig"
 
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr "%1-forhåndsvisning"
-
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Mer …"
@@ -103,34 +123,21 @@ msgstr "Mer …"
 msgid "Less..."
 msgstr "Mindre …"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "Vurder dette"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
 msgstr "Skriv en anmeldelse"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
 msgstr "Send"
 
-#: qml/Greeter/Greeter.qml:151
+#: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
 msgstr "Sveip for å låse opp"
-
-#: qml/Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Nødanrop"
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Hei, %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Hei"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -164,7 +171,7 @@ msgstr "Skriv inn PIN-koden til SIM-kortet"
 msgid "Search"
 msgstr "Søk"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr "Skriv inn %1"

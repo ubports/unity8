@@ -33,8 +33,6 @@ Item {
         height: parent.height
         x: 0; y: 0
 
-        defaultBackground: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
-
         property int minX: 0
 
         onXChanged: {
@@ -68,7 +66,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "Greeter"
+        name: "SingleGreeter"
         when: windowShown
 
         function cleanup() {
@@ -102,22 +100,6 @@ Item {
             tryCompare(LightDM.Infographic, "username", "")
             AccountsService.statsWelcomeScreen = true
             tryCompare(LightDM.Infographic, "username", "single")
-        }
-
-        function test_background_data() {
-            return [
-                {tag: "set", accounts: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"), expected: "blue.png"},
-                {tag: "unset", accounts: "", expected: "background.jpg"},
-                {tag: "invalid", accounts: "invalid", expected: "background.jpg"},
-            ]
-        }
-
-        function test_background(data) {
-            var loader = findChild(greeter, "greeterContentLoader")
-            var background = findChild(loader.item, "greeterBackground")
-            AccountsService.backgroundFile = data.accounts
-            tryCompareFunction(function() { return background.source.toString().indexOf(data.expected) !== -1; }, true)
-            tryCompare(background, "status", Image.Ready)
         }
 
         function test_initial_selected_signal() {
