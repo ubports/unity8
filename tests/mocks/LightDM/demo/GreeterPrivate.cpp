@@ -19,6 +19,7 @@
 #include "../Greeter.h"
 #include "../GreeterPrivate.h"
 #include <QtCore/QDir>
+#include <QtCore/QProcess>
 #include <QtCore/QSettings>
 
 namespace QLightDM
@@ -55,15 +56,25 @@ void GreeterPrivate::handleRespond(const QString &response)
 
     QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
     settings.beginGroup(authenticationUser);
-    QVariant password = settings.value("password", "none");
+    QVariant passwordValue(settings.value("passwordValue", QString()));
+    QStringList passwordParts = passwordValue.toString().split('$', QString::SkipEmptyParts);
 
-    QString passwordValue;
-    if (password == "pin") {
-        passwordValue = settings.value("passwordValue", "1234").toString();
+    // We only support passwd type 6 (sha512) for now
+    if (passwordParts.length() == 3 && passwordParts[0] == "6") {
+        QString command = "mkpasswd --method=sha-512 --stdin --salt=" + passwordParts[1];
+
+        QProcess process;
+        process.start(command);
+        process.write(response.toLatin1());
+        process.closeWriteChannel();
+        process.waitForFinished();
+
+        QString result = QString(process.readAllStandardOutput()).trimmed();
+        authenticated = result == passwordValue;
     } else {
-        passwordValue = settings.value("passwordValue", "password").toString();
+        authenticated = false;
     }
-    authenticated = (response == passwordValue);
+
     Q_EMIT q->authenticationComplete();
 }
 

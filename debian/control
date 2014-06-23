@@ -40,6 +40,7 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-settings-components,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                ttf-ubuntu-font-family,
+               whois,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
@@ -83,6 +84,7 @@ Depends: gsettings-desktop-schemas,
          unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
+         whois,
          ${misc:Depends},
          ${shlibs:Depends},
 Recommends: unity-scope-click,
