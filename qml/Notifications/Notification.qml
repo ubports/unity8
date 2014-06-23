@@ -384,10 +384,7 @@ Item {
                                             anchors {
                                                 left: parent.left
                                                 leftMargin: units.gu(.5)
-                                                top: parent.top
-                                                topMargin: units.gu(1)
-                                                bottom: parent.bottom
-                                                bottomMargin: units.gu(1)
+                                                verticalCenter: parent.verticalCenter
                                             }
                                             width: units.gu(2)
                                             height: units.gu(2)
