@@ -36,8 +36,29 @@ Item {
             rowSpacing: 10
             width: parent.width
             height: implicitHeight > 100 ? implicitHeight : 100
-            delegateCreationBegin: lvwph.contentY
-            delegateCreationEnd: lvwph.contentY + lvwph.height
+
+            displayMarginBeginning: {
+                if (vj.y + vj.height <= 0) {
+                    // Not visible (item at top of the list viewport)
+                    return -vj.height;
+                } else if (vj.y >= lvwph.height) {
+                    // Not visible (item at bottom of the list viewport)
+                    return 0;
+                } else {
+                    return -Math.max(-vj.y, 0);
+                }
+            }
+            displayMarginEnd: {
+                if (vj.y + vj.height <= 0) {
+                    // Not visible (item at top of the list viewport)
+                    return 0;
+                } else if (vj.y >= lvwph.height) {
+                    // Not visible (item at bottom of the list viewport)
+                    return -vj.height;
+                } else {
+                    return -Math.max(vj.height - lvwph.height + vj.y, 0)
+                }
+            }
 
             delegate: Rectangle {
                 width: 100

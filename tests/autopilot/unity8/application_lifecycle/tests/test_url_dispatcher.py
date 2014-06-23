@@ -33,7 +33,6 @@ class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
         if platform.model() == 'Desktop':
             self.skipTest("URL dispatcher doesn't work on the desktop.")
         super(URLDispatcherTestCase, self).setUp()
-        self.launch_unity()
 
     def test_swipe_out_application_started_by_url_dispatcher(self):
         _, desktop_file_path = self.create_test_application()

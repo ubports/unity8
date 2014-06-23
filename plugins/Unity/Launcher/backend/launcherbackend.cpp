@@ -37,15 +37,12 @@ public:
     bool    countVisible;
 };
 
-LauncherBackend::LauncherBackend(bool greeterMode, QObject *parent):
+LauncherBackend::LauncherBackend(QObject *parent):
     QDBusVirtualObject(parent),
-    m_greeterMode(greeterMode),
     m_accounts(nullptr)
 {
 #ifndef LAUNCHER_TESTING
     m_accounts = new AccountsServiceDBusAdaptor(this);
-    connect(m_accounts, SIGNAL(propertiesChanged(QString, QString, QStringList)),
-            this, SLOT(accountsListChanged(QString, QString, QStringList)));
 #endif
     m_user = qgetenv("USER");
     syncFromAccounts();
@@ -228,7 +225,7 @@ void LauncherBackend::setCountVisible(const QString &appId, bool visible) const
 
 void LauncherBackend::setUser(const QString &username)
 {
-    if (m_greeterMode && m_user != username) {
+    if (qgetenv("USER") == "lightdm" && m_user != username) {
         m_user = username;
         syncFromAccounts();
     }
@@ -239,15 +236,6 @@ void LauncherBackend::triggerQuickListAction(const QString &appId, const QString
     // TODO: execute the given quicklist action
     Q_UNUSED(appId)
     Q_UNUSED(quickListId)
-}
-
-void LauncherBackend::accountsListChanged(const QString &user, const QString &interface, const QStringList &changed)
-{
-    if (m_greeterMode && user == m_user &&
-        interface == "com.canonical.unity.AccountsService" &&
-        changed.contains("launcher-items")) {
-        syncFromAccounts();
-    }
 }
 
 void LauncherBackend::syncFromAccounts()
@@ -311,8 +299,6 @@ void LauncherBackend::syncFromAccounts()
             loadFromVariant(app.toMap());
         }
     }
-
-    Q_EMIT refreshApplications();
 }
 
 void LauncherBackend::syncToAccounts()

@@ -29,10 +29,6 @@ Scopes::Scopes(QObject *parent)
  , m_loaded(false)
  , timer(this)
 {
-    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
-
     timer.setSingleShot(true);
     timer.setInterval(100);
     QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(updateScopes()));
@@ -53,7 +49,7 @@ void Scopes::updateScopes()
 
     if (!m_loaded) {
         m_loaded = true;
-        Q_EMIT loadedChanged(m_loaded);
+        Q_EMIT loadedChanged();
     }
 }
 
@@ -69,7 +65,7 @@ void Scopes::clear()
 
     if (m_loaded) {
         m_loaded = false;
-        Q_EMIT loadedChanged(m_loaded);
+        Q_EMIT loadedChanged();
     }
 }
 

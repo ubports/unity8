@@ -24,8 +24,45 @@ Item {
     id: root
     anchors.fill: parent
 
+    property bool ready: background.source == "" || background.status == Image.Ready || background.status == Image.Error
+
     signal selected(int uid)
     signal unlocked(int uid)
+
+    Rectangle {
+        // In case background fails to load
+        id: backgroundBackup
+        anchors.fill: parent
+        color: "black"
+    }
+
+    property url backgroundValue: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : greeter.defaultBackground
+    onBackgroundValueChanged: background.source = backgroundValue
+
+    CrossFadeImage {
+        id: background
+        objectName: "greeterBackground"
+        anchors {
+            fill: parent
+            topMargin: backgroundTopMargin
+        }
+        fillMode: Image.PreserveAspectCrop
+    }
+
+    // See Shell.qml's backgroundSettings treatment for why we need a separate
+    // Image, but it boils down to avoiding binding loop detection.
+    Image {
+        source: background.source
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+        onStatusChanged: {
+            if (status == Image.Error && source != greeter.defaultBackground) {
+                background.source = greeter.defaultBackground
+            }
+        }
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -108,6 +145,7 @@ Item {
 
     Clock {
         id: clock
+        visible: narrowMode
 
         anchors {
             top: parent.top

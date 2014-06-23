@@ -1,0 +1,3 @@
+module LightDM
+plugin MockLightDM-qml
+typeinfo LightDM.qmltypes

@@ -22,6 +22,7 @@
 // local
 #include "fake_scopes.h"
 #include "fake_categories.h"
+#include "fake_department.h"
 #include "fake_previewmodel.h"
 #include "fake_previewwidgetmodel.h"
 #include "fake_resultsmodel.h"
@@ -42,6 +43,7 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scopes>(uri, 0, 2, "Scopes");
     qmlRegisterType<Scope>(uri, 0, 2, "MockScope");
     qmlRegisterUncreatableType<unity::shell::scopes::ScopeInterface>(uri, 0, 2, "Scope", "Can't create Scope object in QML.");
+    qmlRegisterUncreatableType<unity::shell::scopes::DepartmentInterface>(uri, 0, 2, "Department", "Can't create Department object in QML.");
     qmlRegisterUncreatableType<unity::shell::scopes::CategoriesInterface>(uri, 0, 2, "Categories", "Can't create Categories object in QML.");
     qmlRegisterUncreatableType<ResultsModel>(uri, 0, 2, "ResultsModel", "Can't create ResultsModel object in QML.");
     qmlRegisterType<PreviewModel>(uri, 0, 2, "FakePreviewModel");

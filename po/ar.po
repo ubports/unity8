@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-04-10 11:13-0400\n"
+"POT-Creation-Date: 2014-06-13 09:55+0200\n"
 "PO-Revision-Date: 2014-05-22 08:22+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-23 09:13+0000\n"
-"X-Generator: Launchpad (build 17017)\n"
+"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -75,9 +75,34 @@ msgstr ""
 "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
 "الشاشة للبدء"
 
+#: qml/Components/Lockscreen.qml:214
+msgid "Emergency Call"
+msgstr "مكالمة طوارئ"
+
+#: qml/Components/Lockscreen.qml:231
+msgid "OK"
+msgstr ""
+
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "عمليات البحث الأخيرة"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+#, qt-format
+msgid "Hello %1"
+msgstr "مرحبا %1"
+
+#: qml/Components/PassphraseLockscreen.qml:60
+msgid "Hello"
+msgstr "مرحبًا"
+
+#: qml/Components/PinLockscreen.qml:198
+msgid "CANCEL"
+msgstr ""
+
+#: qml/Components/PinLockscreen.qml:216
+msgid "DONE"
+msgstr ""
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -91,11 +116,6 @@ msgstr "شاهد أقل"
 msgid "Recent"
 msgstr "استُخدمت مؤخرًا"
 
-#: qml/Dash/PreviewListView.qml:52
-#, qt-format
-msgid "%1 Preview"
-msgstr ""
-
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "المزيد..."
@@ -104,34 +124,21 @@ msgstr "المزيد..."
 msgid "Less..."
 msgstr "أقل..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "قيّم ذلك"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
 msgstr "أضف تعليق"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
 msgstr "أرسل"
 
-#: qml/Greeter/Greeter.qml:151
+#: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
 msgstr "اسحب لفتح القفل"
-
-#: qml/Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "مكالمة طوارئ"
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "مرحبا %1"
-
-#: qml/Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "مرحبًا"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -165,7 +172,7 @@ msgstr "من فضلك أدخِل رقم التعريف الشخصي لبطاقة
 msgid "Search"
 msgstr "ابحث"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:334
 #, qt-format
 msgid "Please enter %1"
 msgstr "من فضلك أدخِل %1"

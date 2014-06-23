@@ -59,6 +59,8 @@ Item {
 
     visible: model.label !== ""
 
+    Component.onCompleted: startShowAnimation()
+
     Item {
         id: dataCircle
         objectName: "dataCircle"

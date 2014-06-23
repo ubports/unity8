@@ -14,11 +14,10 @@ Build-Depends: cmake,
                libglib2.0-dev,
                libgsettings-qt-dev,
                libhud-client2-dev,
-               liblightdm-qt5-3-dev (>= 1.11.1),
                libpulse-dev,
                libqmenumodel-dev (>= 0.2.7),
                libqt5xmlpatterns5-dev,
-               libunity-api-dev (>= 7.80.6),
+               libunity-api-dev (>= 7.82),
                libunity-mir-dev,
                libusermetricsoutput1-dev,
                libxcb1-dev,
@@ -80,7 +79,6 @@ Depends: gsettings-desktop-schemas,
          qml-module-qtquick-xmllistmodel,
          qtdeclarative5-gsettings1.0,
          qtdeclarative5-ubuntu-settings-components,
-         unity-greeter-session-broadcast,
          unity-launcher-impl-3,
          unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
@@ -92,21 +90,11 @@ Recommends: unity-scope-click,
             unity-scope-scopes,
 Breaks: indicator-network (<< 0.5.1),
         ubuntu-touch-session (<< 0.107),
+        unity8-greeter (<< 7.89),
 Replaces: ubuntu-touch-session (<< 0.82~),
+          unity8-greeter (<< 7.89),
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
-
-Package: unity8-greeter
-Architecture: any
-Depends: libglib2.0-bin,
-         lightdm,
-         unity8 (= ${source:Version}),
-         ${misc:Depends},
-         ${shlibs:Depends},
-Breaks: unity8 (<< 7.87),
-Replaces: unity8 (<< 7.87),
-Description: Ubuntu QML greeter
- The Ubuntu QML greeter is the primary greeter for Ubuntu devices.
 
 Package: unity8-common
 Architecture: all
@@ -146,7 +134,6 @@ Depends: gir1.2-glib-2.0,
          ubuntu-ui-toolkit-autopilot,
          unity8 (= ${source:Version}),
          unity8-fake-env (= ${source:Version}),
-         unity8-greeter (= ${source:Version}),
          url-dispatcher-tools,
          ${misc:Depends},
          ${python3:Depends},

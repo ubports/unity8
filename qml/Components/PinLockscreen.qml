@@ -195,7 +195,7 @@ Column {
                 objectName: "pinPadButtonBack"
                 width: root.padWidth / 3
                 height: root.padHeight / 4
-                subText: "CANCEL"
+                subText: i18n.tr("CANCEL")
                 onClicked: root.cancel();
             }
 
@@ -213,7 +213,7 @@ Column {
                 width: root.padWidth / 3
                 height: root.padHeight / 4
                 iconName: priv.autoConfirm ? "erase" : ""
-                subText: priv.autoConfirm ? "" : "DONE"
+                subText: priv.autoConfirm ? "" : i18n.tr("DONE")
                 onClicked: {
                     if (priv.autoConfirm) {
                         pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
