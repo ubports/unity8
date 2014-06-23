@@ -25,9 +25,7 @@ Item {
 
     property bool active: callManager.callIndicatorVisible
     readonly property QtObject contactWatcher: _contactWatcher
-    property int alternateLabelInterval: 6000
-    property color color: Qt.rgba(0.1, 0.6, 0.1, 1.0)
-    property color colorFlash: Qt.lighter(color)
+    property int labelSwitchInterval: 6000
     implicitWidth: row.x + row.width
 
     Component.onCompleted: {
@@ -154,7 +152,7 @@ Item {
     Timer {
         id: alternateLabelTimer
         running: callHint.active
-        interval: labelPathView.offset % 1.0 !== 0 ? alternateLabelInterval : alternateLabelInterval/4
+        interval: labelPathView.offset % 1.0 !== 0 ? labelSwitchInterval : labelSwitchInterval/4
         repeat: true
 
         onRunningChanged: {
