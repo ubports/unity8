@@ -22,7 +22,7 @@ import "../Components/ListItems"
 
 Item {
     id: root
-    readonly property real panelHeight: nonIndicatorArea.y + nonIndicatorArea.height
+    readonly property real panelHeight: indicatorArea.y + d.indicatorHeight
     property alias indicators: __indicators
     property alias callHint: __callHint
     property bool fullscreenMode: false
@@ -56,9 +56,10 @@ Item {
         id: darkenedArea
         property real darkenedOpacity: 0.6
         anchors {
+            top: parent.top
+            topMargin: panelHeight
             left: parent.left
             right: parent.right
-            top: nonIndicatorArea.bottom
             bottom: parent.bottom
         }
         color: "black"
@@ -71,60 +72,11 @@ Item {
         }
     }
 
-    PanelBackground {
-        anchors.fill: nonIndicatorArea
-    }
-
-    Item {
-        id: nonIndicatorArea
-        objectName: "indicatorArea"
-
-        anchors {
-            top: callHint.bottom
-            left: parent.left
-            right: parent.right
-        }
-        height: d.indicatorHeight
-
-        PanelSeparatorLine {
-            id: leftSeparatorLine
-            anchors {
-                bottom: parent.bottom
-                left: parent.left
-                right: parent.right
-            }
-            saturation: 1 - indicators.unitProgress
-        }
-
-        MouseArea {
-            id: nonIndicatorMouseArea
-            enabled: callHint.active
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-            }
-            height: indicators.panelHeight/2
-            onClicked: callHint.activate();
-        }
-    }
-
-    // eater
-    MouseArea {
-        anchors.fill: callHint
-        onClicked: callHint.activate()
-    }
-
     Item {
         id: indicatorArea
         objectName: "indicatorArea"
 
-        anchors {
-            top: callHint.bottom
-            right: parent.right
-            bottom: parent.bottom
-        }
-        width: indicators.width
+        anchors.fill: parent
 
         Behavior on anchors.topMargin { StandardAnimation {} }
 
@@ -146,15 +98,34 @@ Item {
                 bottom: indicators.bottom
                 right: indicators.left
 
-                topMargin: nonIndicatorArea.anchors.topMargin + indicators.panelHeight
+                topMargin: indicatorArea.anchors.topMargin + indicators.panelHeight
             }
 
             width: units.dp(2)
             source: "graphics/VerticalDivider.png"
         }
 
-        PanelBackground {
-            anchors.fill: indicators
+        Rectangle {
+            id: indicatorAreaBackground
+            color: callHint.visible ? "green" : "black"
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            height: indicators.panelHeight
+
+            Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
+        }
+
+        PanelSeparatorLine {
+            id: nonIndicatorAreaSeparatorLine
+            anchors {
+                top: indicatorAreaBackground.bottom
+                left: parent.left
+                right: indicators.left
+            }
+            saturation: 1 - indicators.unitProgress
         }
 
         Indicators {
@@ -169,27 +140,64 @@ Item {
             width: (root.width > units.gu(60)) ? units.gu(40) : root.width
             shown: false
             panelHeight: units.gu(3)
-            openedHeight: root.height - (callHint.y + callHint.height)
-            overFlowWidth: search.state=="hidden" ? root.width : root.width - search.width
+            openedHeight: root.height
+            overFlowWidth: {
+                if (callHint.visible) {
+                    return Math.max(root.width - (callHint.width + units.gu(2)), 0)
+                }
+                return search.state=="hidden" ? root.width : root.width - search.width
+            }
 
             enableHint: !callHint.active && !fullscreenMode
             showHintBottomMargin: fullscreenMode ? -panelHeight : 0
-            showHintHeightOffset: callHint.active ? callHint.height : 0
 
             onShowTapped: {
                 if (callHint.active) {
-                    var callHintScenePosition = callHint.mapToItem(null, callHint.x, callHint.y);
-                    var indicatorScenePosition = mapToItem(null, x, y);
-
-                    // tapped on callHint
-                    if (position.y > callHintScenePosition.y && position.y <= callHintScenePosition.y + callHint.height) {
-                        callHint.activate();
-                    // tapped on top half of indicator
-                    } else  if (!fullscreenMode && position.y > indicatorScenePosition.y && position.y < indicatorScenePosition.y + panelHeight/2) {
-                        callHint.activate();
-                    }
+                    callHint.activate();
                 }
             }
+        }
+
+        SearchIndicator {
+            id: search
+            objectName: "search"
+            enabled: root.searchVisible
+
+            state: {
+                if (callHint.visible) {
+                    return "hidden"
+                }
+                if (parent.width < indicators.width + width) {
+                    if (indicators.state != "initial") {
+                        return "hidden";
+                    }
+                }
+                if (root.searchVisible && !indicators.showAll) {
+                    return "visible";
+                }
+                return "hidden";
+            }
+            anchors {
+                top: parent.top
+                left: parent.left
+            }
+            height: indicators.panelHeight
+
+            mouseArea {
+                onClicked: root.searchClicked()
+            }
+        }
+
+        ActiveCallHint {
+            id: __callHint
+            anchors {
+                top: parent.top
+                left: parent.left
+            }
+            height: indicators.panelHeight
+            visible: active && indicators.state == "initial"
+
+            Component.onCompleted: console.log("callHint " + width)
         }
 
         PanelSeparatorLine {
@@ -203,57 +211,9 @@ Item {
         }
     }
 
-    SearchIndicator {
-        id: search
-        objectName: "search"
-        enabled: root.searchVisible
-
-        state: {
-            if (parent.width < indicators.width + width) {
-                if (indicators.state != "initial") {
-                    return "hidden";
-                }
-            }
-            if (root.searchVisible && !indicators.showAll) {
-                return "visible";
-            }
-            return "hidden";
-        }
-
-        anchors {
-            top: nonIndicatorArea.top
-            bottom: nonIndicatorArea.bottom
-            left: nonIndicatorArea.left
-        }
-
-        mouseArea {
-            onClicked: root.searchClicked()
-        }
-    }
-
-    ActiveCallHint {
-        id: __callHint
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-        height: units.gu(3)
-        y: -height
-
-        states: [
-            State {
-                name: "active"
-                when: callHint.active
-                PropertyChanges { target: callHint; y: 0 }
-                PropertyChanges { target: search.mouseArea; anchors.topMargin: -callHint.height/3 }
-            }
-        ]
-        Behavior on y { StandardAnimation {} }
-    }
-
     QtObject {
         id: d
-        readonly property real indicatorHeight: indicators.panelHeight + leftSeparatorLine.height
+        readonly property real indicatorHeight: indicators.panelHeight + indicatorsSeparatorLine.height
     }
 
     states: [
@@ -264,33 +224,7 @@ Item {
         State {
             name: "offscreen" //pushed off screen
             when: fullscreenMode
-            PropertyChanges { target: nonIndicatorArea;  anchors.topMargin: -d.indicatorHeight }
             PropertyChanges { target: indicatorArea;  anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0 }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            to: "onscreen"
-            SequentialAnimation {
-                ParallelAnimation {
-                    StandardAnimation { target: nonIndicatorArea; property: "anchors.topMargin" }
-                    StandardAnimation { target: indicatorArea;  property: "anchors.topMargin" }
-                }
-                PropertyAction { target: search; property: "z"; value: 2 }
-                PropertyAction { target: indicatorArea; property: "z"; value: 2 }
-            }
-        },
-        Transition {
-            to: "offscreen"
-            SequentialAnimation {
-                PropertyAction { target: search; property: "z"; value: 0 }
-                PropertyAction { target: indicatorArea; property: "z"; value: 0 }
-                ParallelAnimation {
-                    StandardAnimation { target: nonIndicatorArea; property: "anchors.topMargin" }
-                    StandardAnimation { target: indicatorArea;  property: "anchors.topMargin" }
-                }
-            }
         }
     ]
 }

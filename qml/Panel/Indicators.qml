@@ -43,7 +43,6 @@ Showable {
     property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
     property bool enableHint: true
     property real showHintBottomMargin: 0
-    property real showHintHeightOffset: 0
 
     signal showTapped(point position)
 
@@ -346,7 +345,7 @@ Showable {
         anchors.bottomMargin: showHintBottomMargin
         anchors.left: parent.left
         anchors.right: parent.right
-        height: panelHeight + showHintHeightOffset
+        height: panelHeight
         direction: Direction.Downwards
         enabled: !indicators.shown && indicators.available
         hintDisplacement: enableHint ? indicators.hintValue : 0

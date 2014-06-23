@@ -25,9 +25,10 @@ Item {
 
     property bool active: callManager.callIndicatorVisible
     readonly property QtObject contactWatcher: _contactWatcher
-    property int alternateLabelInterval: 4000
+    property int alternateLabelInterval: 6000
     property color color: Qt.rgba(0.1, 0.6, 0.1, 1.0)
     property color colorFlash: Qt.lighter(color)
+    implicitWidth: row.x + row.width
 
     Component.onCompleted: {
         telepathyHelper.registerChannelObserver("unity8");
@@ -37,59 +38,14 @@ Item {
         ApplicationManager.requestFocusApplication("dialer-app");
     }
 
-    Rectangle {
-        id: background
-        anchors.fill: parent
-        color: callHint.color
-
-        states: [
-            State {
-                name: "fade-down"
-            },
-            State {
-                name: "fade-up"
-                PropertyChanges { target: background; color: callHint.colorFlash }
-            }
-        ]
-        state: "fade-down"
-
-        transitions: [
-            Transition {
-                to: "fade-up";
-                ColorAnimation { duration: 260; easing.type: Easing.InQuart }
-            },
-            Transition {
-                to: "fade-down";
-                ColorAnimation { duration: 150; easing.type: Easing.OutQuad }
-            }
-        ]
-
-        Timer {
-            running: callHint.active && color != colorFlash
-            interval: background.state == "fade-down" ? 3000 : 400
-            repeat: true
-            onTriggered: {
-                if (background.state == "fade-down") {
-                    background.state = "fade-up";
-                } else {
-                    background.state = "fade-down";
-                }
-            }
-        }
-    }
-
     Component {
-        id: contactColumnRow
+        id: contactColumn
 
         Column {
             id: column
             objectName: "contactColumn"
 
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            height: childrenRect.height
+            anchors.left: parent.left
 
             Component.onCompleted: {
                 if (index === 0) {
@@ -100,15 +56,16 @@ Item {
             }
 
             Label {
-                id: contactLabel
-                objectName: "contactLabel"
-
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
                 height: callHint.height
                 verticalAlignment: Text.AlignVCenter
+                text: i18n.tr("Tap to return to call...");
+            }
+
+            Label {
+                objectName: "contactLabel"
+                height: callHint.height
+                verticalAlignment: Text.AlignVCenter
+                width: Math.max(contentWidth, 1)
 
                 text: {
                     if (!d.activeCall) {
@@ -120,76 +77,84 @@ Item {
                     }
                 }
             }
-
-            Label {
-                id: returnLabel
-
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-                height: callHint.height
-                verticalAlignment: Text.AlignVCenter
-                text: i18n.tr("Tap to return to call...");
-            }
         }
     }
 
-    PathView {
-        id: labelPathView
-        objectName: "labelPathView"
-
+    Row {
+        id: row
         anchors {
             top: parent.top
+            bottom: parent.bottom
             left: parent.left
-            leftMargin:units.gu(1)
-            right: time.left
+            leftMargin: units.gu(1)
         }
-        height: columnHeight > callHint.height ? callHint.height : columnHeight
-        clip: true
+        spacing: units.gu(1)
 
-        property Column column1
-        property Column column2
-        property int columnHeight: column1 ? column1.height : 0
+        Label {
+            id: time
+            objectName: "timeLabel"
 
-        delegate: contactColumnRow
-        model: 2
-        offset: 0
-        interactive: false
-
-        path: Path {
-            startY: -labelPathView.columnHeight / 2
-            PathLine {
-                y: labelPathView.columnHeight * 1.5
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignRight
+            text: {
+                var m = Math.round(d.callTime/60);
+                var ss = d.callTime % 60;
+                if (ss >= 10) {
+                    return m + ":" + ss;
+                } else {
+                    return m + ":0" + ss;
+                }
             }
         }
 
-        Behavior on offset {
-            id: offsetBehaviour
-            SmoothedAnimation {
-                id: offsetAnimation
-                // ensure we go faster than the label switch
-                duration: alternateLabelInterval / 2
-                velocity: 0.75
-                easing.type: Easing.InOutQuad
-            }
-        }
-    }
+        PathView {
+            id: labelPathView
+            objectName: "labelPathView"
 
-    // Fade in text
-    Rectangle {
-        anchors.fill: parent
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: background.color }
-            GradientStop { position: 0.25; color: Qt.rgba(background.color.r, background.color.g, background.color.b, 0.0) }
-            GradientStop { position: 0.75; color: Qt.rgba(background.color.r, background.color.g, background.color.b, 0.0) }
-            GradientStop { position: 1.0; color: background.color }
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: column1 && column2 ? Math.max(column1.width, column1.width) : 0
+            clip: true
+
+            property Column column1
+            property Column column2
+            property int columnHeight: column1 ? column1.height : 0
+
+            delegate: contactColumn
+            model: 2
+            offset: 0
+            interactive: false
+
+            path: Path {
+                startY: -labelPathView.columnHeight / 2
+                PathLine {
+                    y: labelPathView.columnHeight * 1.5
+                }
+            }
+
+            Behavior on offset {
+                id: offsetBehaviour
+                SmoothedAnimation {
+                    id: offsetAnimation
+                    // ensure we go faster than the label switch
+                    duration: alternateLabelTimer.interval / 2
+                    velocity: 0.75
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
     }
 
     Timer {
+        id: alternateLabelTimer
         running: callHint.active
-        interval: alternateLabelInterval
+        interval: labelPathView.offset % 1.0 !== 0 ? alternateLabelInterval : alternateLabelInterval/4
         repeat: true
 
         onRunningChanged: {
@@ -202,31 +167,6 @@ Item {
 
         onTriggered: {
             labelPathView.offset = labelPathView.offset + 0.5;
-        }
-    }
-
-    Label {
-        id: time
-        objectName: "timeLabel"
-
-        anchors {
-            right: parent.right
-            rightMargin:units.gu(1)
-            top: parent.top
-        }
-        height: parent.height
-        verticalAlignment: Text.AlignVCenter
-        text: {
-            if (!d.activeCall) {
-                return "0:00";
-            }
-            var m = Math.round(d.activeCall.elapsedTime/60);
-            var ss = d.activeCall.elapsedTime % 60;
-            if (ss >= 10) {
-                return m + ":" + ss;
-            } else {
-                return m + ":0" + ss;
-            }
         }
     }
 
@@ -245,5 +185,6 @@ Item {
             }
             return callManager.backgroundCall;
         }
+        property int callTime: activeCall ? activeCall.elapsedTime : 0
     }
 }
