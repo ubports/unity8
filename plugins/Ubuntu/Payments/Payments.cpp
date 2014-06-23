@@ -28,13 +28,18 @@
 
 
 // The observer callback for the package we are watching.
-static void observer(PayPackage* /* package */, const char* /*itemid*/, PayPackageItemStatus status, void* user_data) {
+static void observer(PayPackage* /* package */, const char* itemid, PayPackageItemStatus status, void* user_data) {
     // This function is called in libpay's thread, so be careful what you call
     // Emitting signals should be fine as long as they use Queued or Auto
     // connections (the default)
     // http://qt-project.org/doc/qt-5/threads-qobject.html#signals-and-slots-across-threads
 
     Payments *self = static_cast<Payments*>(user_data);
+
+    // If the item ID is different, ignore it.
+    if (itemid != self->storeItemId()) {
+        return;
+    }
 
     // FIXME: No error reporting from libpay, but we need to show some
     // types of errors to the user. https://launchpad.net/bugs/1333403
@@ -51,11 +56,13 @@ Payments::Payments(QObject *parent)
     : QObject(parent)
 {
     m_package = pay_package_new("click-scope");
+    pay_package_item_observer_install(m_package, observer, this);
 }
 
 Payments::~Payments()
 {
     pay_package_item_observer_uninstall(m_package, observer, this);
+    pay_package_delete(m_package);
 }
 
 QString Payments::currency() const
@@ -108,8 +115,6 @@ void Payments::setStoreItemId(const QString &store_item_id)
         return;
     }
 
-    pay_package_item_observer_uninstall(m_package, observer, this);
-    pay_package_item_observer_install(m_package, observer, this);
     pay_package_item_start_verification(m_package,
                                         m_store_item_id.toLocal8Bit().data());
 }
