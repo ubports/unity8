@@ -33,12 +33,7 @@ Item {
     }
 
     function activate() {
-        ApplicationManager.requestFocusApplication("dialer-app");
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: activate()
+        Qt.openUrlExternally("dialer:///?view=liveCall");
     }
 
     Component {

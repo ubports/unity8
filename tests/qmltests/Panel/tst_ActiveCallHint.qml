@@ -48,7 +48,7 @@ Item {
             right:parent.right
         }
         height: units.gu(3)
-        alternateLabelInterval: 2000
+        labelSwitchInterval: 2000
     }
 
     Component.onCompleted: {
@@ -67,7 +67,7 @@ Item {
         function init() {
             callManager.foregroundCall = null;
             callManager.backgroundCall = null;
-            callHint.alternateLabelInterval = 300;
+            callHint.labelSwitchInterval = 300;
         }
 
         function test_activeHint_data() {

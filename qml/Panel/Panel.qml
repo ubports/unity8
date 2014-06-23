@@ -128,6 +128,17 @@ Item {
             saturation: 1 - indicators.unitProgress
         }
 
+        MouseArea {
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: indicators.left
+            }
+            height: indicators.panelHeight
+            enabled: callHint.visible
+            onClicked: callHint.activate()
+        }
+
         Indicators {
             id: __indicators
             objectName: "indicators"

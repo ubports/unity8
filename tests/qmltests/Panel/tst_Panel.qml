@@ -59,6 +59,10 @@ Item {
         onSearchClicked: console.log("Search Clicked")
 
         property real panelAndSeparatorHeight: panel.indicators.panelHeight + units.dp(2)
+
+        Component.onCompleted: {
+            callManager.foregroundCall = phoneCall;
+        }
     }
 
 
@@ -108,11 +112,10 @@ Item {
             width: parent.width/3
 
             onClicked: {
-                if (callManager.hasCalls) {
-                    callManager.foregroundCall = null;
-                    callManager.backgroundCall = null;
+                if (callManager.callIndicatorVisible) {
+                    callManager.callIndicatorVisible = false;
                 } else {
-                    callManager.foregroundCall = phoneCall;
+                    callManager.callIndicatorVisible = true;
                 }
             }
         }
@@ -135,7 +138,7 @@ Item {
             panel.indicators.hide();
             // Wait for animation to complete
             tryCompare(panel.indicators.hideAnimation, "running", false);
-            callManager.foregroundCall = null;
+            callManager.callIndicatorVisible = false;
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -206,11 +209,7 @@ Item {
         // Pressing on the top edge of the indicator should have no effect if the panel
         // has an active call
         function test_noHintOnActiveCall() {
-            callManager.foregroundCall = phoneCall;
-            // Wait for the indicators to get into position.
-            // (switches between normal and fullscreen modes are animated)
-            var indicatorArea = findChild(panel, "indicatorArea");
-            tryCompare(indicatorArea, "y", panel.callHint.height);
+            callManager.callIndicatorVisible = true;
 
             var indicatorItemCoord = get_indicator_item_position(0);
 
@@ -231,18 +230,18 @@ Item {
 
         function test_drag_show_data() {
             return [
-                { tag: "pinned", fullscreenFlag: false, alreadyOpen: false, call: null,
+                { tag: "pinned", fullscreenFlag: false, alreadyOpen: false, call: false,
                             indicatorY: function() { return 0 } },
-                { tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false, call: null,
+                { tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false, call: false,
                             indicatorY: function() {return -panel.panelAndSeparatorHeight } },
-                { tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true, call: null,
+                { tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true, call: false,
                             indicatorY: function() { return 0 } },
-                { tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true, call: null,
-                            indicatorY: function() {return -panel.panelAndSeparatorHeight } },
-                { tag: "pinned-callActive", fullscreenFlag: false, alreadyOpen: false, call: phoneCall,
-                            indicatorY: function() { return panel.callHint.height } },
-                { tag: "fullscreen-callActive", fullscreenFlag: true, alreadyOpen: false, call: phoneCall,
-                            indicatorY: function() { return panel.callHint.height - panel.panelAndSeparatorHeight } }
+                { tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true, call: false,
+                            indicatorY: function() {return 0 } },
+                { tag: "pinned-callActive", fullscreenFlag: false, alreadyOpen: false, call: true,
+                            indicatorY: function() { return 0 } },
+                { tag: "fullscreen-callActive", fullscreenFlag: true, alreadyOpen: false, call: true,
+                            indicatorY: function() { return -panel.panelAndSeparatorHeight } }
             ];
         }
 
@@ -251,7 +250,7 @@ Item {
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         function test_drag_show(data) {
             panel.fullscreenMode = data.fullscreenFlag;
-            callManager.foregroundCall = data.call;
+            callManager.callIndicatorVisible = data.call;
 
             if (data.alreadyOpen) {
                 panel.indicators.show();
