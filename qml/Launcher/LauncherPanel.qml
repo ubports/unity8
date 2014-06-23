@@ -52,12 +52,10 @@ Item {
             fill: parent
         }
 
-        MouseArea {
-            id: dashItem
+        Rectangle {
             width: parent.width
             height: units.gu(7)
-            onClicked: root.showDashHome()
-            z: 1
+            color: "#de4814"
             Image {
                 objectName: "dashItem"
                 width: units.gu(5)
@@ -66,7 +64,14 @@ Item {
                 source: "graphics/home.png"
                 rotation: root.rotation
             }
+            MouseArea {
+                id: dashItem
+                anchors.fill: parent
+                onClicked: root.showDashHome()
+                z: 1
+            }
         }
+
         ThinDivider {
             anchors {
                 left: parent.left
