@@ -26,9 +26,36 @@
 
 #include "Payments.h"
 
+
+// The observer callback for the package we are watching.
+static void observer(PayPackage* /* package */, const char* /*itemid*/, PayPackageItemStatus status, void* user_data) {
+    // This function is called in libpay's thread, so be careful what you call
+    // Emitting signals should be fine as long as they use Queued or Auto
+    // connections (the default)
+    // http://qt-project.org/doc/qt-5/threads-qobject.html#signals-and-slots-across-threads
+
+    Payments *self = static_cast<Payments*>(user_data);
+
+    // FIXME: No error reporting from libpay, but we need to show some
+    // types of errors to the user. https://launchpad.net/bugs/1333403
+    switch (status) {
+    case PAY_PACKAGE_ITEM_STATUS_PURCHASED:
+        Q_EMIT self->purchaseCompleted();
+        break;
+    default:
+        break;
+    }
+}
+
 Payments::Payments(QObject *parent)
     : QObject(parent)
 {
+    m_package = pay_package_new("click-scope");
+}
+
+Payments::~Payments()
+{
+    pay_package_item_observer_uninstall(m_package, observer, this);
 }
 
 QString Payments::currency() const
@@ -72,52 +99,23 @@ void Payments::setPrice(const double price)
 
 void Payments::setStoreItemId(const QString &store_item_id)
 {
-    if(m_store_item_id != store_item_id){
+    if (m_store_item_id != store_item_id){
         m_store_item_id = store_item_id;
-        Q_EMIT storeItemIdChanged(store_item_id);
-    }
-}
-
-void observer(PayPackage* package, const char* /*itemid*/, PayPackageItemStatus status, void* user_data) {
-    // This function is called in libpay's thread, so be careful with what you call
-    // Emitting signals should be fine as long as they use Queued or Auto connections (the default)
-    // http://qt-project.org/doc/qt-5/threads-qobject.html#signals-and-slots-across-threads
-
-    qDebug() << "observer called";
-    Payments *self = static_cast<Payments*>(user_data);
-    pay_package_item_observer_uninstall(package, observer, self);
-    switch (status) {
-    case PAY_PACKAGE_ITEM_STATUS_VERIFYING:
-        break;
-    case PAY_PACKAGE_ITEM_STATUS_PURCHASED:
-        Q_EMIT self->purchaseCompleted();
-        break;
-    case PAY_PACKAGE_ITEM_STATUS_PURCHASING:
-        break;
-    case PAY_PACKAGE_ITEM_STATUS_NOT_PURCHASED:
-        Q_EMIT self->purchaseError("not purchased");
-        break;
-    case PAY_PACKAGE_ITEM_STATUS_UNKNOWN:
-        break;
-    default:
-        break;
+        Q_EMIT storeItemIdChanged(m_store_item_id);
     }
 
+    if (m_store_item_id.isEmpty()) {
+        return;
+    }
+
+    pay_package_item_observer_uninstall(m_package, observer, this);
+    pay_package_item_observer_install(m_package, observer, this);
+    pay_package_item_start_verification(m_package,
+                                        m_store_item_id.toLocal8Bit().data());
 }
 
 void Payments::start()
 {
-    qDebug("starting the purchase");
-
-    auto ba = m_store_item_id.toLocal8Bit();
-    qDebug() << "the item id is" << m_store_item_id;
-    auto package = pay_package_new("clickscope");
-    qDebug() << "after new" << ba.data();
-    pay_package_item_observer_install(package, observer, this);
-    qDebug() << "after observer install";
-    // FIXME: Enable once verification is working in pay-service.
-    //pay_package_item_start_verification(package, ba.data());
-    qDebug() << "after start verify";
-    pay_package_item_start_purchase(package, ba.data());
-    qDebug() << "after start purchase";
+    pay_package_item_start_purchase(m_package,
+                                    m_store_item_id.toLocal8Bit().data());
 }

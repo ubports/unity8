@@ -25,6 +25,9 @@
 #include <QObject>
 #include <QDBusObjectPath>
 
+#include <libpay/pay-package.h>
+
+
 class Payments : public QObject
 {
     Q_OBJECT
@@ -36,6 +39,7 @@ class Payments : public QObject
 
 public:
     explicit Payments(QObject *parent = 0);
+    virtual ~Payments();
 
     QString currency() const;
     double price() const;
@@ -61,6 +65,8 @@ private:
     QString m_currency;
     double m_price;
     QString m_store_item_id;
+
+    PayPackage *m_package;
 
     void startService();
 };
