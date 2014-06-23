@@ -1,3 +1,16 @@
+unity8 (7.89+14.10.20140619.3-0ubuntu1) utopic; urgency=low
+
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Jun 2014 16:02:41 +0000
+
+unity8 (7.89+14.10.20140619.2-0ubuntu1) utopic; urgency=low
+
+  [ Albert Astals ]
+  * Departments support (LP: #1320847)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Jun 2014 11:17:40 +0000
+
 unity8 (7.89+14.10.20140616.1-0ubuntu1) utopic; urgency=low
 
   [ Pawel Stolowski ]
