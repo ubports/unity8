@@ -135,7 +135,7 @@ Load the testability driver");
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QUrl source(::qmlDirectory()+"OrientedShell.qml");
+    QUrl source(::qmlDirectory()+"Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     if (!isMirServer) {
         prependImportPaths(view->engine(), ::nonMirImportPaths());
