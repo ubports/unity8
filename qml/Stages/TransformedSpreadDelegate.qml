@@ -290,6 +290,7 @@ SpreadDelegate {
 
             return easingCurve.value;
         }
+
     }
 
     transform: [
@@ -303,12 +304,16 @@ SpreadDelegate {
             xScale: priv.scale
             yScale: xScale
         },
+        Scale {
+            origin { x: 0; y: (spreadView.height * priv.scale) + maximizedAppTopMargin * 3 }
+            xScale: 1
+            yScale: isFullscreen? 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height : 1
+        },
         Translate {
             x: priv.xTranslate
         }
     ]
     opacity: priv.opacity
-    topMarginProgress: priv.topMarginProgress
 
     EasingCurve {
         id: easingCurve

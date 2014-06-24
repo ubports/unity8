@@ -19,14 +19,15 @@
 import QtQuick 2.0
 import Mir.Application 0.1
 import Ubuntu.Components 1.0
+import "../Components"
 
 Item {
     id: root
 
     signal clicked()
-    property real topMarginProgress
     property bool interactive: true
     property real maximizedAppTopMargin
+    property bool isFullscreen: surface !== null && surface.anchors.topMargin == 0
     property bool dropShadow: true
 
     // FIXME: This really should be invisible to QML code.
@@ -112,7 +113,7 @@ Item {
 
     BorderImage {
         id: dropShadowImage
-        anchors.fill: parent
+        anchors.fill: surface
         anchors.margins: -units.gu(2)
         source: "graphics/dropshadow.png"
         border { left: 50; right: 50; top: 50; bottom: 50 }
@@ -120,8 +121,6 @@ Item {
         Behavior on opacity { UbuntuNumberAnimation {} }
     }
 
-    // This is used to get clicked events on the whole app. e.g. when in spreadView.
-    // It's only enabled when the surface is !interactive
     MouseArea {
         anchors.fill: parent
         z: 2
