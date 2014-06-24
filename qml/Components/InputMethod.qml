@@ -26,7 +26,7 @@ Item {
     property int transitionDuration: UbuntuAnimation.FastDuration
 
     state: {
-        if (surface && surface.state == MirSurfaceItem.Maximized) {
+        if (surface && surface.state != MirSurfaceItem.Minimized) {
             return "shown";
         } else {
             return "hidden";
