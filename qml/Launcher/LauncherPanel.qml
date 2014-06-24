@@ -562,7 +562,6 @@ Item {
                     __foregroundColor: Theme.palette.selected.backgroundText
 
                     onClicked: {
-                        print("clicked on quicklist!")
                         if (!model.clickable) {
                             return;
                         }
