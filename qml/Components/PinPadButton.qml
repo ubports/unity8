@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
+    opacity: enabled ? 1 : 0.6
 
     property alias text: label.text
     property alias subText: subTextLabel.text
@@ -62,7 +63,7 @@ Item {
         Label {
             id: subTextLabel
             fontSize: "small"
-            color: "grey"
+            color: "#f3f3e7"
             anchors.horizontalCenter: parent.horizontalCenter
             visible: text.length > 0
         }

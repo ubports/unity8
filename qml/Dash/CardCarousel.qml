@@ -27,14 +27,12 @@ DashRenderer {
     property alias selectedItemScaleFactor: carousel.selectedItemScaleFactor
     property alias tileAspectRatio: carousel.tileAspectRatio
 
-    currentItem: carousel.currentItem
     height: carousel.implicitHeight + units.gu(6)
-    verticalSpacing: units.gu(3)
 
     Carousel {
         id: carousel
         anchors.fill: parent
-        tileAspectRatio: cardCarousel.components && cardCarousel.components["art"]["aspect-ratio"] || 1.0
+        tileAspectRatio: cardTool.components && cardTool.components["art"]["aspect-ratio"] || 1.0
         // FIXME we need to "reverse" the carousel to make the selected item the size
         // and push others back.
         minimumTileWidth: cardTool.cardWidth / selectedItemScaleFactor

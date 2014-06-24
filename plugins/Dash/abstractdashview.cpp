@@ -176,6 +176,9 @@ void AbstractDashView::refill()
 
 bool AbstractDashView::addVisibleItems(qreal fillFromY, qreal fillToY, bool asynchronous)
 {
+    if (fillToY <= fillFromY)
+        return false;
+
     if (!delegate())
         return false;
 

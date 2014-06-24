@@ -514,6 +514,11 @@ private Q_SLOTS:
 
         model->setCount(21);
 
+        QTRY_COMPARE(grid->m_visibleItems.count(), 0);
+
+        grid->setDisplayMarginBeginning(0);
+        grid->setDisplayMarginEnd(0);
+
         // This is exactly the same block as the first again
         checkInitialPositions();
     }

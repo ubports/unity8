@@ -21,6 +21,7 @@ import "../../../qml/Notifications"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1
 import Unity.Notifications 1.0
+import QtMultimedia 5.0
 
 Row {
     id: rootRow
@@ -245,7 +246,8 @@ Row {
                 nonShapedIcon: false,
                 secondaryIconVisible: true,
                 buttonRowVisible: true,
-                buttonTinted: true
+                buttonTinted: true,
+                hasSound: false
             },
             {
                 tag: "Ephemeral notification - icon-summary layout",
@@ -263,12 +265,15 @@ Row {
                 nonShapedIcon: false,
                 secondaryIconVisible: true,
                 buttonRowVisible: false,
-                buttonTinted: false
+                buttonTinted: false,
+                hasSound: false
             },
             {
                 tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
                 type: Notification.Ephemeral,
-                hints: {"x-canonical-private-button-tint": "false"},
+                hints: {"x-canonical-private-button-tint": "false",
+                        "sound-file": "dummy.ogg",
+                        "suppress-sound": "true"},
                 summary: "New comment successfully published",
                 body: "",
                 icon: "",
@@ -282,12 +287,14 @@ Row {
                 nonShapedIcon: false,
                 secondaryIconVisible: true,
                 buttonRowVisible: false,
-                buttonTinted: false
+                buttonTinted: false,
+                hasSound: false
             },
             {
                 tag: "Interactive notification",
                 type: Notification.Interactive,
-                hints: {"x-canonical-private-button-tint": "false"},
+                hints: {"x-canonical-private-button-tint": "false",
+                        "sound-file": "dummy.ogg"},
                 summary: "Interactive notification",
                 body: "This is a notification that can be clicked",
                 icon: "../graphics/avatars/amanda.png",
@@ -300,12 +307,14 @@ Row {
                 nonShapedIcon: false,
                 secondaryIconVisible: false,
                 buttonRowVisible: false,
-                buttonTinted: false
+                buttonTinted: false,
+                hasSound: true
             },
             {
                 tag: "Snap Decision without secondary icon and no button-tint",
                 type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "false"},
+                hints: {"x-canonical-private-button-tint": "false",
+                        "sound-file": "dummy.ogg"},
                 summary: "Bro Coly",
                 body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                 icon: "../graphics/avatars/anna_olsson.png",
@@ -319,12 +328,14 @@ Row {
                 nonShapedIcon: false,
                 secondaryIconVisible: false,
                 buttonRowVisible: true,
-                buttonTinted: false
+                buttonTinted: false,
+                hasSound: true
             },
             {
                 tag: "Ephemeral notification",
                 type: Notification.Ephemeral,
-                hints: {"x-canonical-private-button-tint": "false"},
+                hints: {"x-canonical-private-button-tint": "false",
+                        "sound-file": "dummy.ogg"},
                 summary: "Cole Raby",
                 body: "I did not expect it to be that late.",
                 icon: "../graphics/avatars/funky.png",
@@ -337,13 +348,15 @@ Row {
                 nonShapedIcon: false,
                 secondaryIconVisible: true,
                 buttonRowVisible: false,
-                buttonTinted: false
+                buttonTinted: false,
+                hasSound: true
             },
             {
                 tag: "Ephemeral notification with non-shaped icon",
                 type: Notification.Ephemeral,
                 hints: {"x-canonical-private-button-tint": "false",
-                        "x-canonical-non-shaped-icon": "true"},
+                        "x-canonical-non-shaped-icon": "true",
+                        "sound-file": "dummy.ogg"},
                 summary: "Contacts",
                 body: "Synchronised contacts-database with cloud-storage.",
                 icon: "../graphics/applicationIcons/contacts-app.png",
@@ -356,7 +369,8 @@ Row {
                 nonShapedIcon: true,
                 secondaryIconVisible: false,
                 buttonRowVisible: false,
-                buttonTinted: false
+                buttonTinted: false,
+                hasSound: true
             }
             ]
         }
@@ -418,6 +432,9 @@ Row {
             compare(summaryLabel.visible, data.summaryVisible, "summary-text visibility is incorrect")
             compare(bodyLabel.visible, data.bodyVisible, "body-text visibility is incorrect")
             compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
+
+            var audioItem = findInvisibleChild(notification, "sound")
+            tryCompare(audioItem, "playbackState", data.hasSound ? Audio.PlayingState : Audio.StoppedState)
 
             if(data.buttonRowVisible) {
                 var buttonCancel = findChild(buttonRow, "button1")

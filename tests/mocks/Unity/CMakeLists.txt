@@ -19,16 +19,17 @@ include_directories(
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
-  iconutils.cpp
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp
+  fake_department.cpp
   fake_resultsmodel.cpp
   fake_previewmodel.cpp
   fake_previewstack.cpp
   fake_previewwidgetmodel.cpp
   fake_unity_plugin.cpp
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/CategoriesInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/DepartmentInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewStackInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewWidgetModelInterface.h
