@@ -523,6 +523,7 @@ Item {
         color: "#221e1c"
         width: units.gu(30)
         height: quickListColumn.height
+        visible: quickListShape.visible
         anchors {
             left: root.inverted ? undefined : parent.right
             right: root.inverted ? parent.left : undefined
@@ -561,6 +562,7 @@ Item {
                     __foregroundColor: Theme.palette.selected.backgroundText
 
                     onClicked: {
+                        print("clicked on quicklist!")
                         if (!model.clickable) {
                             return;
                         }

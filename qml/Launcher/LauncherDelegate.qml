@@ -23,7 +23,6 @@ Item {
     property string iconName
     property int count: -1
     property int progress: -1
-    property bool highlighted: false
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
@@ -43,7 +42,6 @@ Item {
     onIconNameChanged: shaderEffectSource.scheduleUpdate();
     onCountChanged: shaderEffectSource.scheduleUpdate();
     onProgressChanged: shaderEffectSource.scheduleUpdate();
-    onHighlightedChanged: shaderEffectSource.scheduleUpdate();
     onItemFocusedChanged: shaderEffectSource.scheduleUpdate();
 
     Item {
@@ -68,12 +66,11 @@ Item {
         }
 
         BorderImage {
-            id: overlayHighlight
+            id: itemGlow
             anchors.centerIn: iconItem
-            rotation: inverted ? 180 : 0
-            source: root.highlighted ? "graphics/selected.sci" : "graphics/non-selected.sci"
-            width: root.itemWidth + units.gu(0.5)
-            height: root.itemHeight + units.gu(0.5)
+            source: "graphics/icon-top-highlight.png"
+            width: root.itemWidth - units.gu(1)
+            height: root.itemHeight - units.gu(1)
         }
 
         BorderImage {
