@@ -50,6 +50,11 @@ Item {
         id: shell
     }
 
+    SignalSpy {
+        id: sessionSpy
+        signalName: "sessionStarted"
+    }
+
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown
@@ -91,6 +96,9 @@ Item {
             verify(ok);
 
             swipeAwayGreeter();
+
+            sessionSpy.target = findChild(shell, "greeter")
+            sessionSpy.clear()
         }
 
         function cleanup() {
@@ -555,6 +563,16 @@ Item {
             ApplicationManager.focusRequested("notes-app")
             tryCompare(greeter, "showProgress", 0)
             waitUntilApplicationWindowIsFullyVisible()
+        }
+
+        function test_login() {
+            var greeter = findChild(shell, "greeter")
+            greeter.show()
+            tryCompare(greeter, "showProgress", 1)
+
+            tryCompare(sessionSpy, "count", 0)
+            swipeAwayGreeter()
+            tryCompare(sessionSpy, "count", 1)
         }
     }
 }

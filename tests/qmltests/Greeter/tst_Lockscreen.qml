@@ -57,10 +57,10 @@ Rectangle {
         target: LightDM.Greeter
 
         onShowPrompt: {
-            if (text.indexOf("PIN") >= 0) {
-                pinPadCheckBox.checked = false
-            } else {
+            if (text == "PIN") {
                 pinPadCheckBox.checked = true
+            } else {
+                pinPadCheckBox.checked = false
             }
             lockscreen.placeholderText = text;
         }
