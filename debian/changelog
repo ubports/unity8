@@ -1,3 +1,9 @@
+unity8 (7.90-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Adapt to suru theme.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 23 May 2014 10:32:08 +0200
+
 unity8 (7.89+14.10.20140624-0ubuntu1) utopic; urgency=low
 
   [ Ying-Chun Liu ]
@@ -129,12 +135,6 @@ unity8 (7.87+14.10.20140530.1-0ubuntu1) utopic; urgency=medium
   * Start logrotate in the greeter's session.
 
  -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 30 May 2014 09:29:15 +0000
-
-unity8 (7.87-0ubuntu1) UNRELEASED; urgency=medium
-
-  * Adapt to suru theme.
-
- -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 23 May 2014 10:32:08 +0200
 
 unity8 (7.86+14.10.20140527-0ubuntu1) utopic; urgency=low
 
