@@ -39,11 +39,6 @@ Item {
     property real itemOpacity: 1
     property real brightness: 0
 
-    onIconNameChanged: shaderEffectSource.scheduleUpdate();
-    onCountChanged: shaderEffectSource.scheduleUpdate();
-    onProgressChanged: shaderEffectSource.scheduleUpdate();
-    onItemFocusedChanged: shaderEffectSource.scheduleUpdate();
-
     Item {
         id: iconItem
         width: parent.itemWidth + units.gu(1)
@@ -162,7 +157,6 @@ Item {
             id: shaderEffectSource
             sourceItem: iconItem
             hideSource: true
-            live: false
         }
 
         transform: [
