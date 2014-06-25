@@ -141,7 +141,7 @@ Item {
                 SmoothedAnimation {
                     id: offsetAnimation
                     // ensure we go faster than the label switch
-                    duration: alternateLabelTimer.interval / 2
+                    duration: labelSwitchInterval/8
                     velocity: 0.75
                     easing.type: Easing.InOutQuad
                 }
