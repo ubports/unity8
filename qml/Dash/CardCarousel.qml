@@ -27,9 +27,7 @@ DashRenderer {
     property alias selectedItemScaleFactor: carousel.selectedItemScaleFactor
     property alias tileAspectRatio: carousel.tileAspectRatio
 
-    currentItem: carousel.currentItem
     height: carousel.implicitHeight + units.gu(6)
-    verticalSpacing: units.gu(3)
 
     Carousel {
         id: carousel
