@@ -18,38 +18,40 @@
 
 import QtQuick 2.0
 import Mir.Application 0.1
-import Ubuntu.Components 1.0
+import Ubuntu.Components 1.1
 import "../Components"
 
 Item {
     id: root
 
-    signal clicked()
     property bool interactive: true
-    property real maximizedAppTopMargin
-    property bool isFullscreen: surface !== null && surface.anchors.topMargin == 0
     property bool dropShadow: true
+    property real maximizedAppTopMargin
 
-    // FIXME: This really should be invisible to QML code.
-    // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
-    readonly property var surface: model.surface
-    onSurfaceChanged: { print("SURFACE!!", model.surface)
-        if (surface) {
-            if (!priv.appHasCreatedASurface) {
-                surface.visible = false; // hide until splash screen removed
-                priv.appHasCreatedASurface = true;
-            }
+    readonly property bool isFullscreen: surface !== null && surfaceContainer.surface.anchors.topMargin == 0
 
-            surface.parent = root;
-            surface.anchors.fill = root;
-            priv.checkFullscreen(surface);
-            surface.z = 1;
-        }
-    }
+    signal clicked()
+    signal closed()
 
-    QtObject {
-        id: priv
+    Item {
+        id: surfaceContainer
+        anchors.fill: parent
+        readonly property var surface: model.surface
         property bool appHasCreatedASurface: false
+
+        onSurfaceChanged: { print("SURFACE!!", model.surface)
+            if (surface) {
+                if (!appHasCreatedASurface) {
+                    surface.visible = false; // hide until splash screen removed
+                    appHasCreatedASurface = true;
+                }
+
+                surface.parent = surfaceContainer;
+                surface.anchors.fill = surfaceContainer;
+                checkFullscreen(surface);
+                surface.z = 1;
+            }
+        }
 
         function checkFullscreen(surface) {
             if (surface.state === MirSurfaceItem.Fullscreen) {
@@ -63,43 +65,58 @@ Item {
             surface.visible = true;
             splashLoader.source = "";
         }
+
+        Binding {
+            target: surface
+            property: "enabled"
+            value: root.interactive
+        }
+
+        Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
+            id: surfaceRevealDelay
+            interval: 100
+            onTriggered: surfaceContainer.revealSurface()
+        }
+
+        Connections {
+            target: surface
+            onStateChanged: checkFullscreen(surface);
+        }
+
+        BorderImage {
+            id: dropShadowImage
+            anchors.fill: parent
+            anchors.margins: -units.gu(2)
+            source: "graphics/dropshadow.png"
+            border { left: 50; right: 50; top: 50; bottom: 50 }
+            opacity: root.dropShadow ? .4 : 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
+        }
+
+        transform: Translate {
+            y: dragArea.distance
+        }
     }
 
-    Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
-        id: surfaceRevealDelay
-        interval: 100
-        onTriggered: priv.revealSurface()
-    }
-
-    Binding {
-        target: surface
-        property: "enabled"
-        value: root.interactive
-    }
-
-    Connections {
-        target: surface
-        onStateChanged: priv.checkFullscreen(surface);
-    }
 
     StateGroup {
         id: appSurfaceState
         states: [
             State {
                 name: "noSurfaceYet"
-                when: !priv.appHasCreatedASurface
+                when: !surfaceContainer.appHasCreatedASurface
                 StateChangeScript {
-                    script: {splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
+                    script: { splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
                 }
             },
             State {
                 name: "hasSurface"
-                when: priv.appHasCreatedASurface && (root.surface !== null)
+                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface !== null)
                 StateChangeScript { script: { surfaceRevealDelay.start(); } }
             },
             State {
                 name: "surfaceLostButAppStillAlive"
-                when: priv.appHasCreatedASurface && (root.surface === null)
+                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface === null)
                 // TODO - use app snapshot
             }
         ]
@@ -108,25 +125,76 @@ Item {
 
     Loader {
         id: splashLoader
-        anchors.fill: parent
+        anchors.fill: surfaceContainer
     }
 
-    BorderImage {
-        id: dropShadowImage
-        anchors.fill: surface
-        anchors.margins: -units.gu(2)
-        source: "graphics/dropshadow.png"
-        border { left: 50; right: 50; top: 50; bottom: 50 }
-        opacity: root.dropShadow ? .4 : 0
-        Behavior on opacity { UbuntuNumberAnimation {} }
-    }
-
-    MouseArea {
+    DraggingArea {
+        id: dragArea
         anchors.fill: parent
-        z: 2
         enabled: !root.interactive
-        onClicked: {
-            root.clicked()
+
+        property bool moving: false
+        property real distance: 0
+
+        onMovingChanged: {
+            spreadView.draggedIndex = moving ? index : -1
+        }
+
+        onDragValueChanged: {
+            moving = moving || Math.abs(dragValue) > units.gu(1)
+            if (moving && dragging) {
+                distance = dragValue;
+            }
+        }
+
+        onDragEnd: {
+            if (!moving) {
+                root.clicked();
+                return;
+            }
+
+            if ((dragVelocity < -600 && distance < -units.gu(4)) || distance < -root.height / 2) {
+                animation.animate("up")
+            } else if ((dragVelocity > 600 && distance > units.gu(4)) || distance > root.height / 2) {
+                animation.animate("down")
+            } else {
+                animation.animate("center")
+            }
+        }
+
+        UbuntuNumberAnimation {
+            id: animation
+            target: dragArea
+            property: "distance"
+            property bool requestClose: false
+
+            function animate(direction) {
+                animation.from = dragArea.distance
+                switch (direction) {
+                case "up":
+                    animation.to = -root.height
+                    requestClose = true;
+                    break;
+                case "down":
+                    animation.to = root.height
+                    requestClose = true;
+                    break;
+                default:
+                    animation.to = 0
+                }
+                animation.start();
+            }
+
+            onRunningChanged: {
+                if (!running) {
+                    dragArea.moving = false;
+                    dragArea.distance = 0;
+                    if (requestClose) {
+                        root.closed()
+                    }
+                }
+            }
         }
     }
+
 }

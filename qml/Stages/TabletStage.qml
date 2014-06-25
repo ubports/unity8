@@ -135,7 +135,7 @@ Item {
         id: spreadView
         anchors.fill: parent
         contentWidth: spreadRow.width
-        interactive: phase == 2
+        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1) && draggedIndex == -1
 
         property int tileDistance: units.gu(20)
         property int sideStageWidth: units.gu(40)
@@ -157,6 +157,8 @@ Item {
 
         property int selectedIndex: -1
         onSelectedIndexChanged: print("selected index changed", selectedIndex)
+        property int draggedIndex: -1
+        property int closingIndex: -1
 
         property bool sideStageDragging: sideStageDragHandle.dragging
         property real sideStageDragProgress: sideStageDragHandle.progress
@@ -430,11 +432,17 @@ Item {
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.contentX > 0 || spreadDragArea.status == DirectionalDragArea.Undecided
 
+                    property real behavioredZIndex: zIndex
+                    Behavior on behavioredZIndex {
+                        enabled: spreadView.closingIndex >= 0
+                        UbuntuNumberAnimation {}
+                    }
+
                     progress: {
-                        var tileProgress = (spreadView.contentX - zIndex * spreadView.tileDistance) / spreadView.width;
+                        var tileProgress = (spreadView.contentX - behavioredZIndex * spreadView.tileDistance) / spreadView.width;
                         // Some tiles (nextInStack, active) need to move directly from the beginning, normalize progress to immediately start at 0
                         if ((index == spreadView.nextInStack && spreadView.phase < 2) || (active && spreadView.phase < 1)) {
-                            tileProgress += zIndex * spreadView.tileDistance / spreadView.width;
+                            tileProgress += behavioredZIndex * spreadView.tileDistance / spreadView.width;
                         }
                         return tileProgress;
                     }
@@ -460,6 +468,12 @@ Item {
                                 ApplicationManager.requestFocusApplication(ApplicationManager.get(index).appId);
                             }
                         }
+                    }
+
+                    onClosed: {
+                        spreadView.draggedIndex = -1
+                        spreadView.closingIndex = index
+                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId)
                     }
 
                     EasingCurve {

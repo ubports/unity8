@@ -117,8 +117,7 @@ Item {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
-//        visible: spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1 || snapAnimation.running
-        interactive: spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1 || snapAnimation.running
+        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1) && draggedIndex == -1
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -127,8 +126,8 @@ Item {
         // that, the beginning of the gesture starts with a negative value for contentX
         // so the flickable wants to pull it into the view already. "shift" tunes the
         // distance where to "lock" the content.
-        property real shift: width / 2
-        property real shiftedContentX: contentX + shift
+        readonly property real shift: width / 2
+        readonly property real shiftedContentX: contentX + shift
 
         property int tileDistance: width / 4
 
@@ -152,6 +151,8 @@ Item {
         property int phase: 0
 
         property int selectedIndex: -1
+        property int draggedIndex: -1
+        property int closingIndex: -1
 
         onShiftedContentXChanged: {
             switch (phase) {
@@ -221,6 +222,15 @@ Item {
             //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
             //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
             width: Math.max(3, ApplicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
+            Behavior on width {
+                enabled: spreadView.closingIndex >= 0
+                UbuntuNumberAnimation {}
+            }
+            onWidthChanged: {
+                if (spreadView.closingIndex >= 0) {
+                    spreadView.contentX = Math.min(spreadView.contentX, width - spreadView.width - spreadView.shift)
+                }
+            }
 
             x: spreadView.contentX
 
@@ -244,15 +254,26 @@ Item {
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.shiftedContentX > 0 || spreadDragArea.status == DirectionalDragArea.Undecided
 
-                    z: index
+                    z: behavioredIndex
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
+                    property real behavioredIndex: index
+                    Behavior on behavioredIndex {
+                        enabled: spreadView.closingIndex >= 0
+                        UbuntuNumberAnimation {
+                            onRunningChanged: {
+                                if (!running) {
+                                    spreadView.closingIndex = -1
+                                }
+                            }
+                        }
+                    }
 
                     // Each tile has a different progress value running from 0 to 1.
                     // A progress value of 0 means the tile is at the right edge. 1 means the tile has reched the left edge.
                     progress: {
-                        var tileProgress = (spreadView.shiftedContentX - index * spreadView.tileDistance) / spreadView.width;
+                        var tileProgress = (spreadView.shiftedContentX - behavioredIndex * spreadView.tileDistance) / spreadView.width;
                         // Tile 1 needs to move directly from the beginning...
-                        if (index == 1 && spreadView.phase < 2) {
+                        if (behavioredIndex == 1 && spreadView.phase < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width;
                         }
                         return tileProgress;
@@ -287,6 +308,12 @@ Item {
                                 ApplicationManager.requestFocusApplication(ApplicationManager.get(index).appId);
                             }
                         }
+                    }
+
+                    onClosed: {
+                        spreadView.draggedIndex = -1
+                        spreadView.closingIndex = index
+                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId)
                     }
                 }
             }
