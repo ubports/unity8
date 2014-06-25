@@ -14,8 +14,6 @@
  *
  * You should have received a copy of both the GNU Lesser General Public
  * License along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- * Authored by: Diego Sarmentero <diego.sarmentero@canonical.com>
  */
 
 #include <QDebug>
