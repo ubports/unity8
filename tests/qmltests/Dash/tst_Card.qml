@@ -288,11 +288,6 @@ Rectangle {
 
             waitForRendering(card);
 
-            if (!("art" in card.cardData)) {
-                compare(art, null);
-                return;
-            }
-
             if (data.hasOwnProperty("width")) {
                 if (typeof data.width === "function") {
                     tryCompareFunction(function() { return art.width === data.width() }, true);
@@ -320,11 +315,6 @@ Rectangle {
         function test_art_layout(data) {
             selector.selectedIndex = data.index;
             waitForRendering(card);
-
-            if (!("art" in card.cardData)) {
-                compare(art, null);
-                return;
-            }
 
             tryCompare(headerRow, "x", data.left());
         }
@@ -448,9 +438,7 @@ Rectangle {
             selector.selectedIndex = 10;
             waitForRendering(card);
 
-            if (background !== null) {
-                background.color = data.tag;
-            }
+            background.color = data.tag;
 
             var fontColor = data.dark ? "grey" : "white";
 
