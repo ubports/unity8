@@ -59,6 +59,11 @@ public:
     Q_INVOKABLE void cancelActivation() override;
     Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope) override;
 
+    QString currentDepartmentId() const override;
+    bool hasDepartments() const override;
+    Q_INVOKABLE unity::shell::scopes::DepartmentInterface* getDepartment(const QString& id) override;
+    Q_INVOKABLE void loadDepartment(const QString& id) override;
+
 protected:
 
     QString m_id;
@@ -71,6 +76,7 @@ protected:
     bool m_visible;
     bool m_searching;
     bool m_isActive;
+    QString m_currentDeparment;
 
     QString m_previewRendererName;
 

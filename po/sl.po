@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-13 09:55+0200\n"
-"PO-Revision-Date: 2014-05-22 14:07+0000\n"
+"PO-Revision-Date: 2014-06-23 09:29+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-06-24 06:33+0000\n"
+"X-Generator: Launchpad (build 17065)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -82,7 +82,7 @@ msgstr "Klic v sili"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "V REDU"
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
@@ -99,11 +99,11 @@ msgstr "Pozdravljeni"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "PREKLIČI"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "KONČANO"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"

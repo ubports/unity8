@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,6 +147,7 @@ FocusScope {
                 source: {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
+                        case "vertical-journal": return "CardVerticalJournal.qml";
                         case "running-apps": return "Apps/RunningApplicationsGrid.qml";
                         case "grid":
                         default: return "CardFilterGrid.qml";
@@ -201,6 +202,14 @@ FocusScope {
                         previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
                         previewListView.open = true
+                    }
+                    onExpandableChanged: {
+                        // This can happen with the VJ that doesn't know how height it will be on creation
+                        // so doesn't set expandable until a bit too late for onLoaded
+                        if (rendererLoader.item.expandable) {
+                            var shouldFilter = baseItem.category != categoryView.expandedCategoryId;
+                            rendererLoader.item.setFilter(shouldFilter, false /*animate*/);
+                        }
                     }
                 }
                 Connections {
