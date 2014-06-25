@@ -572,6 +572,8 @@ FocusScope {
             onDash: showDash()
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected: {
+                if (greeter.fakeActiveForApp !== "")
+                    lockscreen.show()
                 if (!edgeDemo.running)
                     shell.activateApplication(appId)
             }
