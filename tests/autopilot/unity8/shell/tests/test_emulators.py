@@ -56,7 +56,7 @@ class MainWindowTestCase(tests.UnityTestCase):
         self.assertEqual(text_field.state, 'idle')
 
     def test_open_launcher_must_return_launcher_custom_proxy_object(self):
-        launcher_instance = self.main_window.open_launcher
+        launcher_instance = self.main_window.open_launcher()
         self.assertIsInstance(launcher_instance, launcher.Launcher)
 
 
