@@ -238,7 +238,8 @@ class LauncherTestCase(tests.UnityTestCase):
         self.assertFalse(mock_drag.called)
 
     def test_hide_launcher_with_launcher_closed_must_do_nothing(self):
-        launcher = self.main_window.close_launcher()
+        launcher = self.main_window.open_launcher()
+        launcher.hide()
         with mock.patch.object(launcher.pointing_device, 'drag') as mock_drag:
             launcher.hide()
 
