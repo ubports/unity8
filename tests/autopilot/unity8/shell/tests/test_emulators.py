@@ -59,13 +59,6 @@ class MainWindowTestCase(tests.UnityTestCase):
         launcher = self.main_window.open_launcher()
         self.assertIsInstance(launcher, launcher_emulator.Launcher)
 
-    def test_open_launcher_with_launcher_opened_must_do_nothing(self):
-        launcher = self.main_window.open_launcher()
-        with mock.patch.object(launcher, 'pointing_device') as mock_pointer:
-            launcher.show()
-
-        self.assertFalse(mock_pointer.called)
-
 
 class DashBaseTestCase(tests.UnityTestCase):
 
@@ -212,3 +205,20 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             return filtergrid.collapsedRowCount * filtergrid.columns
         else:
             return filtergrid.uncollapsedRowCount * filtergrid.columns
+
+
+class LauncherTestCase(tests.UnityTestCase):
+
+    scenarios = tests._get_device_emulation_scenarios()
+
+    def setUp(self):
+        super(LauncherTestCase, self).setUp()
+        unity_proxy = self.launch_unity()
+        process_helpers.unlock_unity(unity_proxy)
+
+    def test_show_launcher_with_launcher_opened_must_do_nothing(self):
+        launcher = self.main_window.open_launcher()
+        with mock.patch.object(launcher.pointing_device, 'drag') as mock_drag:
+            launcher.show()
+
+        self.assertFalse(mock_drag.called)
