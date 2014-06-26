@@ -44,6 +44,7 @@ Item {
         "com.canonical.indicator.alarm"         : alarmMenu,
         "com.canonical.indicator.appointment"   : appointmentMenu,
         "com.canonical.indicator.transfer"      : transferMenu,
+        "com.canonical.indicator.transfer-bulk-action" : bulkTransferMenu,
 
         "com.canonical.indicator.messages.messageitem"  : messageItem,
         "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
@@ -520,18 +521,18 @@ Item {
                 property QtObject cancelAction: action("cancel-transfer")
                 property QtObject pauseAction: action("pause-transfer")
                 property QtObject resumeAction: action("resume-transfer")
-                property QtObject transferStates: action("transfer-states")
+                property QtObject transferStateAction: uid !== undefined ? action("transfer-state."+uid) : null
 
                 Component.onCompleted: actionGroup.start()
             }
 
-            property var transferStateProperties: uid !== undefined && actionGroup.transferStates.valid && actionGroup.transferStates.state[uid] || undefined
+            property var transferState: actionGroup.transferStateAction !== null && actionGroup.transferStateAction.valid && actionGroup.transferStateAction.state || undefined
 
-            property var transferState : transferStateProperties !== undefined && transferStateProperties["state"] || undefined
-            property var secondsLeft : transferStateProperties !== undefined && transferStateProperties["seconds-left"]
+            property var runningState : transferState !== undefined ? transferState["state"] : undefined
+            property var secondsLeft : transferState !== undefined ? transferState["seconds-left"] : undefined
 
-            active: transferStateProperties !== undefined && transferState !== Menus.TransferState.FINISHED
-            progress : transferStateProperties !== undefined && transferStateProperties["percent"] || 0.0
+            active: runningState !== undefined && runningState !== Menus.TransferState.FINISHED
+            progress : transferState !== undefined ? transferState["percent"] : 0.0
 
             property var timeRemaining: {
                 if (secondsLeft === undefined) return undefined;
@@ -558,7 +559,7 @@ Item {
             }
 
             stateText: {
-                switch (transferState) {
+                switch (runningState) {
                     case Menus.TransferState.QUEUED:
                         return i18n.tr("In queue...");
                     case Menus.TransferState.HASHING:
@@ -587,22 +588,35 @@ Item {
                 actionGroup.activateAction.activate(uid);
                 shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
+            onItemRemoved: {
+                actionGroup.cancelAction.activate(uid);
+            }
 
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-uid': 'string'});
             }
+        }
+    }
 
-            function cancel() {
-                actionGroup.cancelAction.activate(uid);
-            }
+    Component {
+        id: bulkTransferMenu;
+        ListItems.Standard {
+            objectName: "bulkTransferMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+            showDivider: false
 
-            function pause() {
-                actionGroup.pauseAction.activate(uid);
-            }
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
 
-            function resume() {
-                actionGroup.resumeAction.activate(uid);
+            control: Button {
+                text: menuData && menuData.label || ""
+
+                onClicked: {
+                    menuModel.activate(menuIndex);
+                    shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
+                }
             }
         }
     }

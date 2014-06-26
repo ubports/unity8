@@ -135,9 +135,6 @@ IndicatorBase {
                 right: parent.right
             }
 
-            Component.onCompleted: console.log("created")
-            Component.onDestruction: console.log("destroyed")
-
             sourceComponent: factory.load(model)
 
             onLoaded: {
