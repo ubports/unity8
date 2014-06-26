@@ -178,7 +178,7 @@ Item {
             searchHistory: dashContent.searchHistory
             scope: dashContentList.currentItem && dashContentList.currentItem.theScope
 
-            childItem: NewHeaderStyle {
+            childItem: PageHeadStyle {
                 id: tabBar
                 objectName: "tabbar"
                 width: parent.width
