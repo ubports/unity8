@@ -50,7 +50,7 @@ class Launcher(UnityEmulatorBase):
         if direction == 'right':
             start_x = left
             stop_x = right
-        elif direction == 'right':
+        elif direction == 'left':
             start_x = right
             stop_x = left
 
