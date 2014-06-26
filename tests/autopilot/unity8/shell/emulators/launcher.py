@@ -19,6 +19,8 @@
 
 import logging
 
+import autopilot.logging
+
 from unity8.shell.emulators import UnityEmulatorBase
 
 
@@ -29,15 +31,36 @@ class Launcher(UnityEmulatorBase):
 
     """An emulator that understands the Launcher."""
 
+    @autopilot.logging.log_action(logger.debug)
     def show(self):
-        """Swipes open the launcher."""
+        """Show the launcher swiping it to the right."""
         if not self.shown:
-            view = self.get_root_instance().select_single('QQuickView')
-            start_x = view.x + 1
-            start_y = view.y + view.height / 2
-            stop_x = start_x + self.panelWidth + 1
-            stop_y = start_y
-            self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+            self._swipe_launcher('right')
             self.shown.wait_for(True)
         else:
             logger.debug('The launcher is already opened.')
+
+    def _swipe_launcher(self, direction):
+        view = self.get_root_instance().select_single('QQuickView')
+        start_y = stop_y = view.y + view.height // 2
+
+        left = view.x + 1
+        right = left + self.panelWidth - 1
+
+        if direction == 'right':
+            start_x = left
+            stop_x = right
+        elif direction == 'right':
+            start_x = right
+            stop_x = left
+
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+
+    @autopilot.logging.log_action(logger.debug)
+    def hide(self):
+        """Hide the launcher swiping it to the left."""
+        if self.shown:
+            self._swipe_launcher('left')
+            self.shown.wait_for(False)
+        else:
+            logger.debug('The launcher is already closed.')

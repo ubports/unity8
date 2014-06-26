@@ -145,3 +145,11 @@ class QQuickView(emulators.UnityEmulatorBase):
         launcher = self.get_launcher()
         launcher.show()
         return launcher
+
+    @autopilot_logging.log_action(logger.info)
+    def close_launcher(self):
+        launcher = self.get_launcher()
+        launcher.hide()
+
+    def is_launcher_open(self):
+        return self.get_launcher().shown
