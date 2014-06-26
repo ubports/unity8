@@ -12,6 +12,12 @@ if(NOT TARGET qmlplugindump)
     set_target_properties(qmlplugindump PROPERTIES IMPORTED_LOCATION ${qmlplugindump_exe})
 endif()
 
+#
+# A custom target for building the qmltypes files manually.
+#
+if (NOT TARGET qmltypes)
+    add_custom_target(qmltypes)
+endif()
 
 # Creates a target for copying resource files into build dir and optionally installing them.
 #
@@ -51,6 +57,7 @@ macro(export_qmlfiles PLUGIN PATH)
         ${QMLFILES_SEARCH_PATH}/*.png
         ${QMLFILES_SEARCH_PATH}/*.sci
         ${QMLFILES_SEARCH_PATH}/*.svg
+        ${QMLFILES_SEARCH_PATH}/*.qmltypes
         ${QMLFILES_SEARCH_PATH}/qmldir
     )
 
@@ -69,14 +76,14 @@ macro(export_qmlfiles PLUGIN PATH)
             DESTINATION ${QMLFILES_DESTINATION}/${PATH}
         )
     endif()
-endmacro(export_qmlfiles)
+endmacro()
 
 
-# Creates a target for generating the typeinfo file for a QML plugin and optionally installs it
-# and additional targets.
+# Creates a target for generating the typeinfo file for a QML plugin and optionally installs
+# additional targets.
 #
 # Files will be copied into ${BINARY_DIR}/${path} or ${CMAKE_CURRENT_BINARY_DIR} and installed
-# into ${DESTINATION}/${path}. If you don't pass BINARY_DIR, it's  assumed that current source
+# into ${DESTINATION}/${path}. If you don't pass BINARY_DIR, it's assumed that current source
 # path ends with ${path}.
 #
 # The generated file will be named after the last segment of the plugin name, e.g. Foo.qmltypes.
@@ -90,7 +97,8 @@ endmacro(export_qmlfiles)
 # )
 #
 # Created target:
-#   - ${TARGET_PREFIX}${plugin}-qmltypes - Generates the qmltypes file in the binary dir.
+#   - ${TARGET_PREFIX}${plugin}-qmltypes - Generates the qmltypes file in the source dir.
+#     It will be made a dependency of the "qmltypes" target.
 
 macro(export_qmlplugin PLUGIN VERSION PATH)
     set(single BINARY_DIR DESTINATION TARGET_PREFIX ENVIRONMENT)
@@ -110,23 +118,14 @@ macro(export_qmlplugin PLUGIN VERSION PATH)
     # Find the last segment of the plugin name to use as qmltypes basename
     string(REGEX MATCH "[^.]+$" plugin_suffix ${PLUGIN})
     set(target_prefix ${QMLPLUGIN_TARGET_PREFIX}${PLUGIN})
-    set(qmltypes_path ${qmlplugin_dir}/${plugin_suffix}.qmltypes)
+    set(qmltypes_path ${CMAKE_CURRENT_SOURCE_DIR}/${plugin_suffix}.qmltypes)
 
-    # Only generate typeinfo if not cross compiling
-    if(NOT CMAKE_CROSSCOMPILING)
-        add_custom_target(${target_prefix}-qmltypes ALL
-            COMMAND env ${QMLPLUGIN_ENVIRONMENT} ${qmlplugindump_executable} -notrelocatable
-                    ${PLUGIN} ${VERSION} ${QMLPLUGIN_BINARY_DIR} > ${qmltypes_path}
-        )
-        add_dependencies(${target_prefix}-qmltypes ${target_prefix}-qmlfiles ${QMLPLUGIN_TARGETS})
-
-        if (QMLPLUGIN_DESTINATION)
-            # Install the typeinfo file
-            install(FILES ${qmltypes_path}
-                    DESTINATION ${QMLPLUGIN_DESTINATION}/${PATH}
-            )
-        endif()
-    endif()
+    add_custom_target(${target_prefix}-qmltypes
+        COMMAND env ${QMLPLUGIN_ENVIRONMENT} ${qmlplugindump_executable} -notrelocatable
+                ${PLUGIN} ${VERSION} ${QMLPLUGIN_BINARY_DIR} > ${qmltypes_path}
+    )
+    add_dependencies(${target_prefix}-qmltypes ${target_prefix}-qmlfiles ${QMLPLUGIN_TARGETS})
+    add_dependencies(qmltypes ${target_prefix}-qmltypes)
 
     set_target_properties(${QMLPLUGIN_TARGETS} PROPERTIES
                           ARCHIVE_OUTPUT_DIRECTORY ${qmlplugin_dir}
