@@ -79,8 +79,8 @@ macro(export_qmlfiles PLUGIN PATH)
 endmacro()
 
 
-# Creates a target for generating the typeinfo file for a QML plugin and optionally installs
-# additional targets.
+# Creates a target for generating the typeinfo file for a QML plugin and/or installs the plugin
+# targets.
 #
 # Files will be copied into ${BINARY_DIR}/${path} or ${CMAKE_CURRENT_BINARY_DIR} and installed
 # into ${DESTINATION}/${path}. If you don't pass BINARY_DIR, it's assumed that current source
@@ -94,6 +94,7 @@ endmacro()
 #     [TARGET_PREFIX string]  # Will be prefixed to the target name
 #     [ENVIRONMENT string]    # Will be added to qmlplugindump's env
 #     [TARGETS target1 [target2 ...]] # Targets to depend on and install (e.g. the plugin shared object)
+#     [NO_TYPES] # Do not create the qmltypes target
 # )
 #
 # Created target:
@@ -101,9 +102,10 @@ endmacro()
 #     It will be made a dependency of the "qmltypes" target.
 
 macro(export_qmlplugin PLUGIN VERSION PATH)
+    set(options NO_TYPES)
     set(single BINARY_DIR DESTINATION TARGET_PREFIX ENVIRONMENT)
     set(multi TARGETS)
-    cmake_parse_arguments(QMLPLUGIN "" "${single}" "${multi}" ${ARGN})
+    cmake_parse_arguments(QMLPLUGIN "${options}" "${single}" "${multi}" ${ARGN})
 
     get_target_property(qmlplugindump_executable qmlplugindump LOCATION)
 
@@ -115,21 +117,23 @@ macro(export_qmlplugin PLUGIN VERSION PATH)
         set(qmlplugin_dir ${CMAKE_CURRENT_BINARY_DIR})
     endif()
 
-    # Relative path for the module
-    string(REPLACE "${CMAKE_BINARY_DIR}/" "" QMLPLUGIN_MODULE_DIR "${QMLPLUGIN_BINARY_DIR}")
+    if(NOT QMLPLUGIN_NO_TYPES)
+        # Relative path for the module
+        string(REPLACE "${CMAKE_BINARY_DIR}/" "" QMLPLUGIN_MODULE_DIR "${QMLPLUGIN_BINARY_DIR}")
 
-    # Find the last segment of the plugin name to use as qmltypes basename
-    string(REGEX MATCH "[^.]+$" plugin_suffix ${PLUGIN})
-    set(target_prefix ${QMLPLUGIN_TARGET_PREFIX}${PLUGIN})
-    set(qmltypes_path ${CMAKE_CURRENT_SOURCE_DIR}/${plugin_suffix}.qmltypes)
+        # Find the last segment of the plugin name to use as qmltypes basename
+        string(REGEX MATCH "[^.]+$" plugin_suffix ${PLUGIN})
+        set(target_prefix ${QMLPLUGIN_TARGET_PREFIX}${PLUGIN})
+        set(qmltypes_path ${CMAKE_CURRENT_SOURCE_DIR}/${plugin_suffix}.qmltypes)
 
-    add_custom_target(${target_prefix}-qmltypes
-        COMMAND env ${QMLPLUGIN_ENVIRONMENT} ${qmlplugindump_executable} -notrelocatable
-                ${PLUGIN} ${VERSION} ${QMLPLUGIN_MODULE_DIR} > ${qmltypes_path}
-                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-    add_dependencies(${target_prefix}-qmltypes ${target_prefix}-qmlfiles ${QMLPLUGIN_TARGETS})
-    add_dependencies(qmltypes ${target_prefix}-qmltypes)
+        add_custom_target(${target_prefix}-qmltypes
+            COMMAND env ${QMLPLUGIN_ENVIRONMENT} ${qmlplugindump_executable} -notrelocatable
+                    ${PLUGIN} ${VERSION} ${QMLPLUGIN_MODULE_DIR} > ${qmltypes_path}
+                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        )
+        add_dependencies(${target_prefix}-qmltypes ${target_prefix}-qmlfiles ${QMLPLUGIN_TARGETS})
+        add_dependencies(qmltypes ${target_prefix}-qmltypes)
+    endif()
 
     set_target_properties(${QMLPLUGIN_TARGETS} PROPERTIES
                           ARCHIVE_OUTPUT_DIRECTORY ${qmlplugin_dir}
