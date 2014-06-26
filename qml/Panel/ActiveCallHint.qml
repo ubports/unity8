@@ -23,7 +23,22 @@ import "../Components"
 Item {
     id: callHint
 
-    property bool active: callManager.callIndicatorVisible
+    readonly property bool active: {
+        var application = ApplicationManager.findApplication("dialer-app");
+
+        if (callManager.callIndicatorVisible) {
+            if (application && ApplicationManager.focusedApplicationId === "dialer-app") {
+                return application.state !== ApplicationInfoInterface.Starting;
+            }
+        }
+        if (ApplicationManager.focusedApplicationId !== "dialer-app") {
+            if (application) {
+                return application.state !== ApplicationInfoInterface.Starting && callManager.hasCalls;
+            }
+            return callManager.hasCalls;
+        }
+        return false;
+    }
     readonly property QtObject contactWatcher: _contactWatcher
     property int labelSwitchInterval: 6000
     implicitWidth: row.x + row.width
