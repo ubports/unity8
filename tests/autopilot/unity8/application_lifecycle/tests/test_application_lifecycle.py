@@ -120,5 +120,6 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         application_name = self.launch_fake_app()
         self.assert_current_focused_application(application_name)
 
-        launcher = self.main_window.open_launcher()
-        import pdb; pdb.set_trace()
+        self.main_window.show_dash_from_launcher()
+
+        self.assert_current_focused_application('')

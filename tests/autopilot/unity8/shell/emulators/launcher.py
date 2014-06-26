@@ -21,13 +21,13 @@ import logging
 
 import autopilot.logging
 
-from unity8.shell.emulators import UnityEmulatorBase
+from unity8.shell import emulators
 
 
 logger = logging.getLogger(__name__)
 
 
-class Launcher(UnityEmulatorBase):
+class Launcher(emulators.UnityEmulatorBase):
 
     """An emulator that understands the Launcher."""
 
@@ -64,3 +64,12 @@ class Launcher(UnityEmulatorBase):
             self.shown.wait_for(False)
         else:
             logger.debug('The launcher is already closed.')
+
+    @autopilot.logging.log_action(logger.debug)
+    def click_dash_icon(self):
+        if self.shown:
+            dash_icon = self.select_single(
+                'QQuickImage', objectName='dashItem')
+            self.pointing_device.click_object(dash_icon)
+        else:
+            raise emulators.UnityEmulatorException('The launcher is closed.')

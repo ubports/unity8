@@ -244,3 +244,14 @@ class LauncherTestCase(tests.UnityTestCase):
             launcher.hide()
 
         self.assertFalse(mock_drag.called)
+
+    def test_click_dash_icon_with_launcher_closed_must_raise_exception(self):
+        launcher = self.main_window.open_launcher()
+        launcher.hide()
+
+        exception = self.assertRaises(
+            emulators.UnityEmulatorException,
+            launcher.click_dash_icon)
+
+        self.assertEqual(
+            'The launcher is closed.', str(exception))

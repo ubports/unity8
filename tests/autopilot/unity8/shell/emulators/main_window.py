@@ -138,6 +138,13 @@ class QQuickView(emulators.UnityEmulatorBase):
         return self.select_single('SearchIndicator', objectName='search')
 
     @autopilot_logging.log_action(logger.info)
+    def show_dash_from_launcher(self):
+        """Open the dash clicking the dash icon on the launcher."""
+        launcher = self.open_launcher()
+        launcher.click_dash_icon()
+        return self.get_dash()
+
+    @autopilot_logging.log_action(logger.info)
     def open_launcher(self):
         launcher = self._get_launcher()
         launcher.show()
