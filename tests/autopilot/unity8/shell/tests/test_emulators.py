@@ -34,7 +34,10 @@ except ImportError:
 
 from unity8 import process_helpers
 from unity8.shell import emulators, fixture_setup, tests
-from unity8.shell.emulators import dash as dash_emulators
+from unity8.shell.emulators import (
+    dash as dash_emulators,
+    launcher
+)
 
 
 class MainWindowTestCase(tests.UnityTestCase):
@@ -51,6 +54,10 @@ class MainWindowTestCase(tests.UnityTestCase):
         text_field = self.main_window.get_dash()._get_search_text_field()
         self.assertEqual(text_field.text, 'Test')
         self.assertEqual(text_field.state, 'idle')
+
+    def test_open_launcher_must_return_launcher_custom_proxy_object(self):
+        launcher_instance = self.main_window.open_launcher
+        self.assertIsInstance(launcher_instance, launcher.Launcher)
 
 
 class DashBaseTestCase(tests.UnityTestCase):

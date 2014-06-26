@@ -139,3 +139,9 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def _get_search_indicator(self):
         return self.select_single('SearchIndicator', objectName='search')
+
+    @autopilot_logging.log_action(logger.info)
+    def open_launcher(self):
+        launcher = self.get_launcher()
+        launcher.show()
+        return launcher
