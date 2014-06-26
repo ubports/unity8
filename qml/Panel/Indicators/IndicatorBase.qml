@@ -36,7 +36,7 @@ Item {
 
     property alias menuModel: cachedModel.model
 
-    CachedUnityMenuModel {
+    Indicators.CachedUnityMenuModel {
         id: cachedModel
         busName: indicatorItem.busName
         actionsObjectPath: indicatorItem.actionsObjectPath
