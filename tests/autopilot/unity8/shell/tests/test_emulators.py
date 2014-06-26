@@ -62,7 +62,7 @@ class MainWindowTestCase(tests.UnityTestCase):
     def test_open_launcher_with_launcher_opened_must_do_nothing(self):
         launcher = self.main_window.open_launcher()
         with mock.patch.object(launcher, 'pointing_device') as mock_pointer:
-            self.main_window.open_launcher()
+            launcher.show()
 
         self.assertFalse(mock_pointer.called)
 
