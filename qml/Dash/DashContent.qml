@@ -188,7 +188,7 @@ Item {
                 textColor: "grey"
                 property var styledItem: tabBar
                 property var title: dashContentList.model.get(dashContentList.currentIndex).title
-                property var config: HeaderConfiguration {
+                property var config: PageHeadConfiguration {
                     actions: [
                         Action {
                             iconName: "search"
