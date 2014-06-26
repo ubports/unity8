@@ -15,7 +15,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes.Ambiance 1.1
 import Unity 0.2
 import Utils 0.1
 import "../Components"
@@ -177,44 +178,23 @@ Item {
             searchHistory: dashContent.searchHistory
             scope: dashContentList.currentItem && dashContentList.currentItem.theScope
 
-            childItem: TabBar {
+            childItem: NewHeaderStyle {
                 id: tabBar
                 objectName: "tabbar"
-                height: units.gu(6.5)
                 width: parent.width
-                style: DashContentTabBarStyle {}
-
-                SortFilterProxyModel {
-                    id: tabBarModel
-
-                    model: dashContentList.model
-
-                    property int selectedIndex: -1
-                    onSelectedIndexChanged: {
-                        if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
-                            // TODO This together with the Timer below
-                            // are a workaround for the first tab sometimes not showing the text.
-                            // But Tabs are going away in the future so not sure if makes
-                            // sense invetigating what's the problem at this stage
-                            selectionModeTimer.restart();
+                height: units.gu(6.5)
+                contentHeight: height
+                separatorSource: ""
+                textColor: "grey"
+                property var styledItem: tabBar
+                property var title: dashContentList.model.get(dashContentList.currentIndex).title
+                property var config: HeaderConfiguration {
+                    actions: [
+                        Action {
+                            iconName: "search"
+                            onTriggered: dashPageHeader.triggerSearch()
                         }
-                        dashContentList.currentIndex = selectedIndex;
-                    }
-                }
-
-                model: tabBarModel.count > 0 ? tabBarModel : null
-
-                Connections {
-                    target: dashContentList
-                    onCurrentIndexChanged: {
-                        tabBarModel.selectedIndex = dashContentList.currentIndex
-                    }
-                }
-
-                Timer {
-                    id: selectionModeTimer
-                    interval: 1
-                    onTriggered: tabBar.selectionMode = false
+                    ]
                 }
             }
 

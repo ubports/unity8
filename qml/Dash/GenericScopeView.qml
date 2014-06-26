@@ -89,14 +89,6 @@ FocusScope {
     }
 
     Connections {
-        target: panel
-        onSearchClicked: if (isCurrent) {
-            pageHeader.triggerSearch()
-            categoryView.showHeader()
-        }
-    }
-
-    Connections {
         target: scopeView.scope
         onShowDash: previewListView.open = false;
         onHideDash: previewListView.open = false;

@@ -24,12 +24,9 @@ Item {
     property real indicatorsMenuWidth: (shell.width > units.gu(60)) ? units.gu(40) : shell.width
     property alias indicators: indicatorsMenu
     property bool fullscreenMode: false
-    property bool searchVisible: true
 
     readonly property real separatorLineHeight: leftSeparatorLine.height
     readonly property real __panelMinusSeparatorLineHeight: panelHeight - separatorLineHeight
-
-    signal searchClicked
 
     function hideIndicatorMenu(delay) {
         if (delay !== undefined) {
@@ -104,7 +101,7 @@ Item {
         panelHeight: __panelMinusSeparatorLineHeight
         openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
         pinnedMode: !fullscreenMode
-        overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
+        overFlowWidth: parent.width
     }
 
     PanelSeparatorLine {
@@ -128,33 +125,6 @@ Item {
         }
         visible: indicatorsMenu.height > indicatorsMenu.panelHeight
         source: "graphics/rectangular_dropshadow.sci"
-    }
-
-    SearchIndicator {
-        id: search
-        objectName: "search"
-        enabled: root.searchVisible
-
-        state: {
-            if (parent.width < indicatorsMenu.width + width) {
-                if (indicatorsMenu.state != "initial") {
-                    return "hidden";
-                }
-            }
-            if (root.searchVisible && !indicatorsMenu.showAll) {
-                return "visible";
-            }
-
-            return "hidden";
-        }
-
-        height: __panelMinusSeparatorLineHeight
-        anchors {
-            top: panelBackground.top
-            left: panelBackground.left
-        }
-
-        onClicked: root.searchClicked()
     }
 
     states: [
