@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-13 09:55+0200\n"
-"PO-Revision-Date: 2014-06-02 06:28+0000\n"
-"Last-Translator: benjisp94 <benjisp94@gmail.com>\n"
+"PO-Revision-Date: 2014-06-26 03:08+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-06-26 07:12+0000\n"
+"X-Generator: Launchpad (build 17065)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -83,7 +83,7 @@ msgstr "Llamada de emergencia"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "Aceptar"
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
@@ -100,11 +100,11 @@ msgstr "Hola"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "CANCELAR"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "HECHO"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
