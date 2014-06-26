@@ -64,14 +64,14 @@ class MainWindowTestCase(tests.UnityTestCase):
         self.main_window.close_launcher()
         self.main_window.open_launcher()
 
-        self.assertTrue(self.main_window.is_launcher_opened())
+        self.assertTrue(self.main_window.is_launcher_open())
 
     def test_close_launcher_must_close_it(self):
         # Make sure that the launcher is open.
         self.main_window.open_launcher()
         self.main_window.close_launcher()
 
-        self.assertFalse(self.main_window.is_launcher_opened())
+        self.assertFalse(self.main_window.is_launcher_open())
 
 
 class DashBaseTestCase(tests.UnityTestCase):
