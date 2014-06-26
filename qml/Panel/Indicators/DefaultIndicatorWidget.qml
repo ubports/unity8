@@ -19,9 +19,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.Indicators 0.1 as Indicators
 
-Indicators.IndicatorBase {
+IndicatorBase {
     id: indicatorWidget
 
     property int iconSize: height
