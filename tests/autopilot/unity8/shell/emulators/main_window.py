@@ -67,9 +67,6 @@ class QQuickView(emulators.UnityEmulatorBase):
     def get_bottombar(self):
         return self.select_single("Bottombar")
 
-    def get_launcher(self):
-        return self.select_single(Launcher)
-
     def get_pinPadLoader(self):
         return self.select_single(
             "QQuickLoader",
@@ -142,14 +139,17 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     @autopilot_logging.log_action(logger.info)
     def open_launcher(self):
-        launcher = self.get_launcher()
+        launcher = self._get_launcher()
         launcher.show()
         return launcher
 
+    def _get_launcher(self):
+        return self.select_single(Launcher)
+
     @autopilot_logging.log_action(logger.info)
     def close_launcher(self):
-        launcher = self.get_launcher()
+        launcher = self._get_launcher()
         launcher.hide()
 
     def is_launcher_open(self):
-        return self.get_launcher().shown
+        return self._get_launcher().shown
