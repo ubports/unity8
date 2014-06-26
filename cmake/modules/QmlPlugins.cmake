@@ -111,9 +111,12 @@ macro(export_qmlplugin PLUGIN VERSION PATH)
         set(qmlplugin_dir ${QMLPLUGIN_BINARY_DIR}/${PATH})
     else()
         # Find import path to point qmlplugindump at
-        string(REGEX REPLACE "${PATH}$" "" QMLPLUGIN_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+        string(REGEX REPLACE "/${PATH}$" "" QMLPLUGIN_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}")
         set(qmlplugin_dir ${CMAKE_CURRENT_BINARY_DIR})
     endif()
+
+    # Relative path for the module
+    string(REPLACE "${CMAKE_BINARY_DIR}/" "" QMLPLUGIN_MODULE_DIR "${QMLPLUGIN_BINARY_DIR}")
 
     # Find the last segment of the plugin name to use as qmltypes basename
     string(REGEX MATCH "[^.]+$" plugin_suffix ${PLUGIN})
@@ -122,7 +125,8 @@ macro(export_qmlplugin PLUGIN VERSION PATH)
 
     add_custom_target(${target_prefix}-qmltypes
         COMMAND env ${QMLPLUGIN_ENVIRONMENT} ${qmlplugindump_executable} -notrelocatable
-                ${PLUGIN} ${VERSION} ${QMLPLUGIN_BINARY_DIR} > ${qmltypes_path}
+                ${PLUGIN} ${VERSION} ${QMLPLUGIN_MODULE_DIR} > ${qmltypes_path}
+                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
     add_dependencies(${target_prefix}-qmltypes ${target_prefix}-qmlfiles ${QMLPLUGIN_TARGETS})
     add_dependencies(qmltypes ${target_prefix}-qmltypes)
