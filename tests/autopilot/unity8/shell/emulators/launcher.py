@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 #
 
 from unity8.shell.emulators import UnityEmulatorBase
-from autopilot.input import Touch
 
 
 class Launcher(UnityEmulatorBase):
@@ -27,12 +26,10 @@ class Launcher(UnityEmulatorBase):
 
     def show(self):
         """Swipes open the launcher."""
-        touch = Touch.create()
-
         view = self.get_root_instance().select_single('QQuickView')
         start_x = view.x + 1
         start_y = view.y + view.height / 2
         stop_x = start_x + self.panelWidth + 1
         stop_y = start_y
-        touch.drag(start_x, start_y, stop_x, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.shown.wait_for(True)
