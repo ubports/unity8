@@ -526,7 +526,11 @@ Item {
                 Component.onCompleted: actionGroup.start()
             }
 
-            property var transferState: actionGroup.transferStateAction !== null && actionGroup.transferStateAction.valid && actionGroup.transferStateAction.state || undefined
+            property var transferState: {
+                if (actionGroup.transferStateAction !== null)
+                    return undefined;
+                return actionGroup.transferStateAction.valid ? actionGroup.transferStateAction.state : undefined
+            }
 
             property var runningState : transferState !== undefined ? transferState["state"] : undefined
             property var secondsLeft : transferState !== undefined ? transferState["seconds-left"] : undefined
