@@ -32,6 +32,7 @@ import "Components"
 import "Notifications"
 import "Stages"
 import Unity.Notifications 1.0 as NotificationBackend
+import Unity.Session 0.1
 
 FocusScope {
     id: shell
@@ -234,6 +235,30 @@ FocusScope {
             }
         }
 
+        Connections {
+            target: DBusUnitySessionService
+
+            function closeAllApps() {
+                while (true) {
+                    var app = ApplicationManager.get(0);
+                    if (app === null) {
+                        break;
+                    }
+                    ApplicationManager.stopApplication(app.appId);
+                }
+            }
+
+            onLogoutRequested: {
+                // TODO: Display a dialog to ask the user to confirm.
+                DBusUnitySessionService.Logout();
+            }
+
+            onLogoutReady: {
+                closeAllApps();
+                Qt.quit();
+            }
+        }
+
         Loader {
             id: applicationsDisplayLoader
             anchors.fill: parent
@@ -411,7 +436,7 @@ FocusScope {
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
+            if (status == Powerd.Off && reason != Powerd.Proximity) {
                 greeter.showNow();
             }
 

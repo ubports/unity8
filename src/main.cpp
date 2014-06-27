@@ -143,6 +143,7 @@ Load the testability driver");
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
     view->setSource(source);
+    QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
     if (isMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();

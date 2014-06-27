@@ -257,13 +257,13 @@ Item {
 
         onShowMessage: {
             // inefficient, but we only rarely deal with messages
-            text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+            var html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>")
             if (isError)
-                text = "<font color=\"#df382c\">" + text + "</font>"
+                html = "<font color=\"#df382c\">" + html + "</font>"
             if (infoLabel.text == "")
-                infoLabel.text = text;
+                infoLabel.text = html
             else
-                infoLabel.text = infoLabel.text + "<br>" + text;
+                infoLabel.text = infoLabel.text + "<br>" + html
         }
 
         onShowPrompt: {
