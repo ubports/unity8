@@ -31,6 +31,8 @@
 # See the file_pat definition below for a list of files that are checked.
 #
 
+from __future__ import print_function
+
 import argparse
 import os
 import re

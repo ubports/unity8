@@ -173,7 +173,7 @@ def _get_unity_status():
 
 def _get_unity_pid():
     status = _get_unity_status()
-    if not "start/" in status:
+    if "start/" not in status:
         raise CannotAccessUnity("Unity is not in the running state.")
     return int(status.split()[-1])
 
