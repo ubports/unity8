@@ -48,7 +48,7 @@ Item {
         signal mainStageFocusedApplicationChanged()
     }
 
-    PageHeaderLabel {
+    PageHeader {
         id: testPageHeader
         searchHistory: SearchHistoryModel {}
         text: genericScopeView.scope ? genericScopeView.scope.name : ""

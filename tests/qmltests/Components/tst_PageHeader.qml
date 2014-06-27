@@ -26,10 +26,6 @@ Item {
     width: units.gu(110)
     height: units.gu(30)
 
-    MockScope {
-        id: scopeMock
-    }
-
     UT.UnityTestCase {
         name: "PageHeaderLabelTest"
         when: windowShown
@@ -82,33 +78,6 @@ Item {
             compare(searchQuery, "", "Reset search did not reset searchQuery correctly.")
         }
 
-        function test_move_search_by_width()
-        {
-            searchEnabled = true
-            pageHeader.resetSearch()
-
-            var searchContainer = findChild(pageHeader, "searchContainer")
-
-            parent.width = units.gu(40)
-
-            verify(searchContainer !== undefined)
-            verify(searchContainer.y <= 0)
-
-            pageHeader.triggerSearch()
-            verify(searchContainer.y >= 0)
-
-            pageHeader.resetSearch()
-            verify(searchContainer.y <= 0)
-
-            parent.width = units.gu(110)
-            verify(searchContainer.y >= 0)
-
-            pageHeader.triggerSearch()
-            tryCompare(searchContainer, "narrowMode", false)
-            tryCompare(searchContainer, "state", "active")
-            tryCompare(searchContainer, "width", units.gu(40))
-        }
-
         function test_history() {
             pageHeader.searchHistory.clear()
             compare(pageHeader.searchHistory.count, 0)
@@ -144,21 +113,41 @@ Item {
 
         function test_search_indicator() {
             var searchIndicator = findChild(pageHeader, "searchIndicator")
-            var primaryImage = findChild(pageHeader, "primaryImage")
+            var clearIcon = findChild(pageHeader, "clearIcon")
 
             pageHeader.triggerSearch()
 
-            scopeMock.setSearchInProgress(false);
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(primaryImage, "visible", true)
+            tryCompare(clearIcon, "visible", false)
+            pageHeader.searchQuery = "ubuntu"
+            tryCompare(clearIcon, "visible", true)
 
-            scopeMock.setSearchInProgress(true);
+            pageHeader.searchInProgress = false
+            compare(searchIndicator.running, false, "Search indicator is running.")
+            tryCompare(clearIcon, "visible", true)
+
+            pageHeader.searchInProgress = true
             compare(searchIndicator.running, true, "Search indicator isn't running.")
-            tryCompare(primaryImage, "visible", false)
+            tryCompare(clearIcon, "visible", false)
+
+            pageHeader.searchInProgress = false;
+            compare(searchIndicator.running, false, "Search indicator is running.")
+            tryCompare(clearIcon, "visible", true)
+        }
+
+        function test_titleImage() {
+
+            var titleImage = findChild(pageHeader, "titleImage");
+            verify(titleImage == null);
+
+            showImageCheckBox.checked = true;
+
+            titleImage = findChild(pageHeader, "titleImage");
+            verify(titleImage !== null);
+            compare(titleImage.source, pageHeader.titleImageSource);
+
         }
 
         function cleanup() {
-            scopeMock.setSearchInProgress(false);
             pageHeader.resetSearch();
         }
 
@@ -171,14 +160,14 @@ Item {
 
             pageHeader.triggerSearch();
 
-            var searchContainer = findChild(pageHeader, "searchContainer");
-            verify(searchContainer !== undefined, "searchContainer != undefined");
-            tryCompareFunction(function() { return searchContainer.popover !== null; }, true);
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            verify(headerContainer !== null, "headerContainer != null");
+            tryCompareFunction(function() { return headerContainer.popover !== null; }, true);
 
-            tryCompare(searchContainer.popover, "visible", true);
+            tryCompare(headerContainer.popover, "visible", true);
         }
 
-        function test_resetSearch_onPopupClose() {
+        function test_resetSearch_closes_popup() {
             searchEnabled = true;
             pageHeader.searchHistory.clear();
 
@@ -187,16 +176,16 @@ Item {
 
             pageHeader.triggerSearch();
 
-            var searchContainer = findChild(pageHeader, "searchContainer");
-            verify(searchContainer !== undefined, "searchContainer != undefined");
-            tryCompareFunction(function() { return searchContainer.popover !== null; }, true);
-            compare(searchContainer.popover.visible, true);
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            verify(headerContainer !== null, "headerContainer != null");
+            tryCompareFunction(function() { return headerContainer.popover !== null; }, true);
+            compare(headerContainer.popover.visible, true);
 
             pageHeader.searchQuery = "test";
-            tryCompareFunction( function() { return (searchContainer.popover===null || !searchContainer.popover.visible) }, true);
+            tryCompareFunction( function() { return (headerContainer.popover===null || !headerContainer.popover.visible) }, true);
 
             pageHeader.resetSearch();
-            compare((searchContainer.popover===null || !searchContainer.popover.visible), true);
+            compare((headerContainer.popover===null || !headerContainer.popover.visible), true);
         }
     }
 
@@ -204,18 +193,22 @@ Item {
         anchors.fill: parent
         spacing: units.gu(1)
 
-        PageHeaderLabel {
+        PageHeader {
             id: pageHeader
             anchors {
                 left: parent.left
                 right: parent.right
             }
 
-            scope: scopeMock
-
             searchEntryEnabled: true
             searchHistory: SearchHistoryModel {}
-            text: "%^$%^%^&%^&%^$%GHR%"
+            title: "%^$%^%^&%^&%^$%GHR%"
+            imageSource: showImageCheckBox.checked ? titleImageSource : ""
+            showBackButton: showBackButtonCheckBox.checked
+
+            property string titleImageSource: Qt.resolvedUrl("tst_PageHeader/logo-ubuntu-orange.svg")
+            property date lastBackClicked
+            onBackClicked: lastBackClicked = new Date()
         }
 
         Row {
@@ -248,6 +241,35 @@ Item {
             }
             Label {
                 text: "History count: " + pageHeader.searchHistory.count
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+        Row {
+            spacing: units.gu(1)
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            CheckBox {
+                id: showBackButtonCheckBox
+            }
+            Label {
+                text: "Back button enabled (Last clicked: " + Qt.formatTime(pageHeader.lastBackClicked, "hh:mm:ss") + ")"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+        Row {
+            spacing: units.gu(1)
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            CheckBox {
+                id: showImageCheckBox
+            }
+            Label {
+                text: "Show image instead of title"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }

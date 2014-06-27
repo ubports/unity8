@@ -315,10 +315,10 @@ FocusScope {
             id: pageHeader
             width: parent.width
             title: scopeView.title
-            scope: scopeView.scope
             searchHistory: scopeView.searchHistory
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
+            searchInProgress: root.scope.searchInProgress
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope

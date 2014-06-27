@@ -38,7 +38,6 @@ Item {
         title: scope.name
         showBackButton: true
         searchEntryEnabled: false
-        scope: root.scope
 
         onBackClicked: root.open = false
     }

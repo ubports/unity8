@@ -27,11 +27,12 @@ Item {
 
     property bool showBackButton: false
     property string title
-    property var scope: null
+    property string imageSource
 
     property bool searchEntryEnabled: false
     property ListModel searchHistory
     property alias searchQuery: searchTextField.text
+    property bool searchInProgress: false
 
     property alias bottomItem: bottomContainer.children
 
@@ -53,20 +54,20 @@ Item {
             unfocus();
         }
         searchTextField.text = "";
+        if (headerContainer.popover != null) {
+            PopupUtils.close(headerContainer.popover);
+        }
     }
 
     function unfocus() {
-        print("unfocusing field")
         searchTextField.focus = false;
     }
 
     function openSearchHistory() {
-        print("should open search history")
         if (openSearchAnimation.running) {
-            print("huh! animation is running")
             openSearchAnimation.openSearchHistory = true
-        } else if (root.searchHistory.count > 0) {
-            PopupUtils.open(popoverComponent, searchTextField,
+        } else if (root.searchHistory.count > 0 && headerContainer.popover == null) {
+            headerContainer.popover = PopupUtils.open(popoverComponent, searchTextField,
                             {
                                 "contentWidth": searchTextField.width,
                                 "edgeMargins": units.gu(1)
@@ -75,8 +76,18 @@ Item {
         }
     }
 
+    onImageSourceChanged: {
+        if (imageSource.length > 0) {
+            header.contents = imageComponent.createObject();
+        } else {
+            header.contents.destroy();
+            header.contents = null
+        }
+    }
+
     Flickable {
         id: headerContainer
+        objectName: "headerContainer"
         clip: true
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(6.5)
@@ -85,6 +96,7 @@ Item {
         contentY: showSearch ? 0 : height
 
         property bool showSearch: false
+        property var popover: null
 
         Behavior on contentY {
             UbuntuNumberAnimation {
@@ -138,17 +150,20 @@ Item {
                         width: height
 
                         Image {
+                            objectName: "clearIcon"
                             anchors.fill: parent
                             anchors.margins: units.gu(.75)
                             source: "image://theme/clear"
                             opacity: searchTextField.text.length > 0 && !searchActivityIndicator.running
+                            visible: opacity > 0
                         }
 
                         ActivityIndicator {
                             id: searchActivityIndicator
+                            objectName: "searchIndicator"
                             anchors.fill: parent
                             anchors.margins: units.gu(.75)
-                            running: root.scope && root.scope.searchInProgress
+                            running: root.searchInProgress
                             opacity: running ? 1 : 0
                             Behavior on opacity {
                                 UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
@@ -199,6 +214,28 @@ Item {
                         }
                     ]
                 }
+
+                property var contents: null
+                Component.onCompleted: {
+                    if (root.imageSource.length > 0) {
+                        header.contents = imageComponent.createObject();
+                    }
+                }
+                Component {
+                    id: imageComponent
+
+                    Item {
+                        anchors { fill: parent; topMargin: units.gu(1); bottomMargin: units.gu(1) }
+                        clip: true
+                        Image {
+                            objectName: "titleImage"
+                            anchors.fill: parent
+                            source: root.imageSource
+                            fillMode: Image.PreserveAspectFit
+                            horizontalAlignment: Image.AlignLeft
+                        }
+                    }
+                }
             }
         }
     }
@@ -207,6 +244,10 @@ Item {
         id: popoverComponent
         Popover {
             id: popover
+
+            Component.onDestruction: {
+                headerContainer.popover = null
+            }
 
             // FIXME: this should go into the first item below, but enable: false
             // prevents mouse events propagation
