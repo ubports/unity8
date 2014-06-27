@@ -113,7 +113,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             visible: showHeader && status == Loader.Ready; \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
-                                height: fixedHeaderHeight > 0 ? fixedHeaderHeight + units.gu(1) * 2 : headerHeight; \n\
+                                height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
                                 opacity: 0.6; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
