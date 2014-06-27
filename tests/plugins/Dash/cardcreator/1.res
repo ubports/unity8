@@ -68,6 +68,7 @@ Label {
                     anchors { right: parent.right;left: parent.left;
 top: artShapeHolder.bottom; 
                                          topMargin: units.gu(1);
+leftMargin: units.gu(1);
  }
                     elide: Text.ElideRight; 
                     fontSize: "small"; 
