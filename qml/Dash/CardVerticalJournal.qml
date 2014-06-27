@@ -67,11 +67,8 @@ DashRenderer {
             id: loader
             sourceComponent: cardTool.cardComponent
             width: cardTool.cardWidth
-            anchors.horizontalCenter: parent.horizontalCenter
             onLoaded: {
                 item.objectName = "delegate" + index;
-                item.width = Qt.binding(function() { return cardTool.cardWidth; });
-                item.height = Qt.binding(function() { return cardTool.cardHeight; });
                 item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
                 item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
                 item.cardData = Qt.binding(function() { return model; });
