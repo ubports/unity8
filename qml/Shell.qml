@@ -452,7 +452,7 @@ FocusScope {
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
+            if (status == Powerd.Off && reason != Powerd.Proximity) {
                 greeter.showNow();
             }
 
