@@ -198,7 +198,6 @@ Item {
                         iconName: "back"
                         visible: root.showBackButton
                         onTriggered: {
-                            print("Back clicked")
                             root.backClicked()
                         }
                     }
