@@ -195,7 +195,7 @@ Item {
             tryCompare(mainApp, "state", ApplicationInfo.Running);
 
             // Try to suspend while proximity is engaged...
-            Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
+            Powerd.displayPowerStateChange(Powerd.Off, Powerd.Proximity);
             tryCompare(greeter, "showProgress", 0);
 
             // Now really suspend

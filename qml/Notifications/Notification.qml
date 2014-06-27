@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtMultimedia 5.0
 import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
@@ -74,6 +75,18 @@ Item {
         }
 
         return result;
+    }
+
+    Audio {
+        id: sound
+        objectName: "sound"
+        source: hints["suppress-sound"] != "" ? hints["sound-file"] : undefined
+    }
+
+    onOpacityChanged: {
+        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source) {
+            sound.play();
+        }
     }
 
     Behavior on height {
