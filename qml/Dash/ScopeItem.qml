@@ -48,9 +48,12 @@ Item {
             width: parent.width
             height: parent.height
             isCurrent: scope != null
-            tabBarHeight: scopeItemPageHeader.implicitHeight
-            pageHeader: scopeItemPageHeader
+            title: scope ? scope.name : ""
+            hasBackAction: true
+            searchHistory: root.searchHistory
             previewListView: previewListView
+
+            onBackClicked: root.back();
 
             Connections {
                 target: scopeView.isCurrent ? scope : null
@@ -58,46 +61,11 @@ Item {
                 onOpenScope: root.openScope(scope);
             }
         }
-
-        PageHeader {
-            id: scopeItemPageHeader
-            width: parent.width
-            searchEntryEnabled: true
-            searchHistory: root.searchHistory
-            scope: root.scope
-            height: units.gu(8.5)
-            showBackButton: true
-            onBackClicked: root.back();
-
-            childItem: Label {
-                id: label
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    verticalCenter: parent.verticalCenter
-                }
-                text: scope ? scope.name : ""
-                color: "#888888"
-                font.family: "Ubuntu"
-                font.weight: Font.Light
-                fontSize: "x-large"
-                elide: Text.ElideRight
-            }
-
-            bottomItem: DashDepartments {
-                scope: root.scope
-                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                anchors.right: parent.right
-                windowHeight: root.height
-                windowWidth: root.width
-            }
-        }
     }
 
     PreviewListView {
         id: previewListView
         visible: x != width
-        pageHeader: scopeItemPageHeader
         scope: root.scope
         width: parent.width
         height: parent.height

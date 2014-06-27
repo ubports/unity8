@@ -15,7 +15,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes.Ambiance 1.1
 import Utils 0.1
 import Unity 0.2
 import Unity.Application 0.1
@@ -29,12 +30,14 @@ FocusScope {
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
-    property int tabBarHeight: 0
-    property PageHeader pageHeader: null
     property Item previewListView: null
-
+    property string title
+    property bool hasBackAction: false
+    property ListModel searchHistory
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+
+    signal backClicked()
 
     onScopeChanged: {
         if (scope) {
@@ -102,10 +105,6 @@ FocusScope {
         forceNoClip: previewListView.open
 
         property string expandedCategoryId: ""
-
-        onContentYChanged: pageHeader.positionRealHeader();
-        onOriginYChanged: pageHeader.positionRealHeader();
-        onContentHeightChanged: pageHeader.positionRealHeader();
 
         delegate: ListItems.Base {
             id: baseItem
@@ -311,20 +310,25 @@ FocusScope {
                     categoryView.expandedCategoryId = "";
             }
         }
-        pageHeader: Item {
-            implicitHeight: scopeView.tabBarHeight
-            onHeightChanged: {
-                if (scopeView.pageHeader && scopeView.isCurrent) {
-                    scopeView.pageHeader.height = height;
-                }
-            }
-            onYChanged: positionRealHeader();
 
-            function positionRealHeader() {
-                if (scopeView.pageHeader && scopeView.isCurrent) {
-                    scopeView.pageHeader.y = y + parent.y;
-                }
+        pageHeader: PageHeader {
+            id: pageHeader
+            width: parent.width
+            title: scopeView.title
+            scope: scopeView.scope
+            searchHistory: scopeView.searchHistory
+            showBackButton: scopeView.hasBackAction
+            searchEntryEnabled: true
+
+            bottomItem: DashDepartments {
+                scope: scopeView.scope
+                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
+                anchors.right: parent.right
+                windowHeight: scopeView.height
+                windowWidth: scopeView.width
             }
+
+            onBackClicked: scopeView.backClicked()
         }
     }
 }

@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.1
-import Ubuntu.Components.Themes.Ambiance 1.1
 import Unity 0.2
 import Utils 0.1
 import "../Components"
@@ -148,11 +147,11 @@ Item {
 
                     onLoaded: {
                         item.objectName = scope.id
-                        item.pageHeader = dashPageHeader;
+                        item.searchHistory = dashContent.searchHistory;
                         item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                        item.tabBarHeight = Qt.binding(function() { return dashPageHeader.implicitHeight; })
+                        item.title = Qt.binding(function() { return dashContentList.model.get(index).title; })
                         dashContent.scopeLoaded(item.scope.id)
                     }
                     Connections {
@@ -169,43 +168,6 @@ Item {
                     Component.onDestruction: active = false
                 }
         }
-
-        PageHeader {
-            id: dashPageHeader
-            objectName: "pageHeader"
-            width: parent.width
-            searchEntryEnabled: true
-            searchHistory: dashContent.searchHistory
-            scope: dashContentList.currentItem && dashContentList.currentItem.theScope
-
-            childItem: PageHeadStyle {
-                id: tabBar
-                objectName: "tabbar"
-                width: parent.width
-                height: units.gu(6.5)
-                contentHeight: height
-                separatorSource: ""
-                textColor: "grey"
-                property var styledItem: tabBar
-                property var title: dashContentList.model.get(dashContentList.currentIndex).title
-                property var config: PageHeadConfiguration {
-                    actions: [
-                        Action {
-                            iconName: "search"
-                            onTriggered: dashPageHeader.triggerSearch()
-                        }
-                    ]
-                }
-            }
-
-            bottomItem: DashDepartments {
-                scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                anchors.right: parent.right
-                windowHeight: dashContent.height
-                windowWidth: dashContent.width
-            }
-        }
     }
 
     PreviewListView {
@@ -213,7 +175,7 @@ Item {
         objectName: "dashContentPreviewList"
         visible: x != width
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-        pageHeader: dashPageHeader
+//        pageHeader: dashPageHeader
         width: parent.width
         height: parent.height
         anchors.left: dashContentListHolder.right
