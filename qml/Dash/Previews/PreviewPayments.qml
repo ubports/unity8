@@ -22,20 +22,16 @@ import Ubuntu.Payments 0.1
  *
  *  When clicked, this button starts the payments service.
  *  Then it waits until the purchase finishes or fails.
- *  Those events trigger the corresponding signals.
+ *  Those events trigger the corresponding actions.
  */
 
 PreviewWidget {
     id: root
 
-    implicitHeight: paymentButton.implicitHeight
-    implicitWidth: paymentButton.implicitWidth
-
     Button {
         id: paymentButton
-
-        property var source: widgetData["source"]
         objectName: "paymentButton"
+
         color: Theme.palette.selected.foreground
         text: paymentClient.formattedPrice
         onClicked: paymentClient.start()
@@ -44,12 +40,14 @@ PreviewWidget {
 
         Payments {
             id: paymentClient
-            price: paymentButton.source["price"]
-            currency: paymentButton.source["currency"]
-            storeItemId: paymentButton.source["store_item_id"]
-            onPurchaseCompleted: root.triggered(widgetId, "purchaseCompleted", paymentButton.source)
-            onPurchaseCanceled: root.triggered(widgetId, "purchaseCanceled", paymentButton.source)
-            onPurchaseError: root.triggered(widgetId, "purchaseError", paymentButton.source)
+
+            property var source: widgetData["source"]
+
+            price: source["price"]
+            currency: source["currency"]
+            storeItemId: source["store_item_id"]
+            onPurchaseCompleted: root.triggered(widgetId, "purchaseCompleted", source)
+            onPurchaseError: root.triggered(widgetId, "purchaseError", source)
         }
     }
 }

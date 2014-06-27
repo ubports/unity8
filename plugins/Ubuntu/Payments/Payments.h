@@ -54,7 +54,6 @@ Q_SIGNALS:
     void storeItemIdChanged(const QString &store_item_id);
     void formattedPriceChanged(const QString &formatted_price);
 
-    void purchaseCanceled();
     void purchaseError(const QString &error);
     void purchaseCompleted();
 
