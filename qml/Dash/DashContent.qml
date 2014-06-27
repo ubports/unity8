@@ -175,7 +175,6 @@ Item {
         objectName: "dashContentPreviewList"
         visible: x != width
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-//        pageHeader: dashPageHeader
         width: parent.width
         height: parent.height
         anchors.left: dashContentListHolder.right
