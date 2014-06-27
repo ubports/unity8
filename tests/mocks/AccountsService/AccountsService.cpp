@@ -18,9 +18,11 @@
 
 #include "AccountsService.h"
 
+#include <paths.h>
+
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
-    m_backgroundFile(TOP_SRCDIR "/qml/graphics/phone_background.jpg"),
+    m_backgroundFile(qmlDirectory() + "graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true)
 {
 }
