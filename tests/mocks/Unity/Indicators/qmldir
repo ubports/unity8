@@ -3,7 +3,6 @@ plugin IndicatorsFakeQml
 typeinfo Indicators.qmltypes
 
 CachedUnityMenuModel 0.1 CachedUnityMenuModel.qml
-IndicatorBase 0.1 IndicatorBase.qml
 IndicatorsModel 0.1 IndicatorsModel.qml
 FakeMenuPage 0.1 FakeMenuPage.qml
 RootActionState 0.1 RootActionState.qml

@@ -18,8 +18,7 @@
  */
 
 import QtQuick 2.0
-import QMenuModel 0.1 as QMenuModel
-import Unity.Indicators 0.1 as Indicators
+import Unity.Indicators 0.1
 
 Item {
     id: indicatorItem
@@ -36,14 +35,14 @@ Item {
 
     property alias menuModel: cachedModel.model
 
-    Indicators.CachedUnityMenuModel {
+    CachedUnityMenuModel {
         id: cachedModel
         busName: indicatorItem.busName
         actionsObjectPath: indicatorItem.actionsObjectPath
         menuObjectPath: indicatorItem.deviceMenuObjectPath
     }
 
-    property var rootActionState: Indicators.RootActionState {
+    property RootActionState rootActionState: RootActionState {
         menu: menuModel
         onUpdated: indicatorItem.rootActionStateChanged()
     }
