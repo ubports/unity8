@@ -32,6 +32,14 @@ Indicators.IndicatorBase {
     width: itemRow.width
     enabled: false
 
+    // WORKAROUND: For now we will enable led indicator support only for messaging indicator
+    // in the future we should export a led API insted of doing that,
+    Loader {
+        id: indicatorLed
+        // only load source Component if the icons contains the new message icon
+        source: (indicatorWidget.icons && (String(indicatorWidget.icons).indexOf("indicator-messages-new") != -1)) ? Qt.resolvedUrl("IndicatorsLight.qml") : ""
+    }
+
     Row {
         id: itemRow
         width: childrenRect.width
