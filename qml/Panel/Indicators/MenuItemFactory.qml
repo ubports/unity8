@@ -527,7 +527,7 @@ Item {
             }
 
             property var transferState: {
-                if (actionGroup.transferStateAction !== null)
+                if (actionGroup.transferStateAction === null)
                     return undefined;
                 return actionGroup.transferStateAction.valid ? actionGroup.transferStateAction.state : undefined
             }
@@ -608,14 +608,28 @@ Item {
         ListItems.Standard {
             objectName: "bulkTransferMenu"
             property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
-            showDivider: false
+            property var extendedData: menuData && menuData.ext || undefined
 
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            text: menuData && menuData.label || ""
+            showDivider: false
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
+            }
 
             control: Button {
-                text: menuData && menuData.label || ""
+                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
                 onClicked: {
                     menuModel.activate(menuIndex);
