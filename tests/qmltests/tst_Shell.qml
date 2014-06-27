@@ -556,5 +556,12 @@ Item {
             tryCompare(greeter, "showProgress", 0)
             waitUntilApplicationWindowIsFullyVisible()
         }
+
+        function test_showGreeterDBusCall() {
+            var greeter = findChild(shell, "greeter")
+            tryCompare(greeter, "showProgress", 0)
+            LightDM.Greeter.showGreeter()
+            tryCompare(greeter, "showProgress", 1)
+        }
     }
 }

@@ -34,6 +34,11 @@ bool DBusGreeter::isActive() const
     return m_greeter->isActive();
 }
 
+void DBusGreeter::ShowGreeter()
+{
+    return Q_EMIT m_greeter->showGreeter();
+}
+
 void DBusGreeter::isActiveChangedHandler()
 {
     notifyPropertyChanged("IsActive", isActive());
