@@ -57,4 +57,4 @@ private:
     QString m_store_item_id;
 };
 
-#endif // PAYMENTS_H
+#endif // MOCK_PAYMENTS_H
