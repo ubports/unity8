@@ -16,9 +16,7 @@
  * License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-#include <QDebug>
 #include <QLocale>
-#include <QTimer>
 
 #include <libpay/pay-package.h>
 
@@ -86,7 +84,7 @@ QString Payments::formattedPrice() const
 
 void Payments::setCurrency(const QString &currency)
 {
-    if(m_currency != currency){
+    if(m_currency != currency) {
         m_currency = currency;
         Q_EMIT currencyChanged(currency);
         Q_EMIT formattedPriceChanged(formattedPrice());
@@ -95,7 +93,7 @@ void Payments::setCurrency(const QString &currency)
 
 void Payments::setPrice(const double price)
 {
-    if(m_price != price){
+    if(m_price != price) {
         m_price = price;
         Q_EMIT priceChanged(price);
         Q_EMIT formattedPriceChanged(formattedPrice());
@@ -104,7 +102,7 @@ void Payments::setPrice(const double price)
 
 void Payments::setStoreItemId(const QString &store_item_id)
 {
-    if (m_store_item_id != store_item_id){
+    if (m_store_item_id != store_item_id) {
         m_store_item_id = store_item_id;
         Q_EMIT storeItemIdChanged(m_store_item_id);
     }
@@ -113,12 +111,10 @@ void Payments::setStoreItemId(const QString &store_item_id)
         return;
     }
 
-    pay_package_item_start_verification(m_package,
-                                        m_store_item_id.toLocal8Bit().data());
+    pay_package_item_start_verification(m_package, m_store_item_id.toLocal8Bit().data());
 }
 
 void Payments::start()
 {
-    pay_package_item_start_purchase(m_package,
-                                    m_store_item_id.toLocal8Bit().data());
+    pay_package_item_start_purchase(m_package, m_store_item_id.toLocal8Bit().data());
 }

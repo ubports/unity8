@@ -16,12 +16,10 @@
  * License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
+#include <QtQml>
 
 #include "plugin.h"
 #include "Payments.h"
-
-#include <QtQml/qqml.h>
-#include <QtQml/QQmlContext>
 
 
 void BackendPlugin::registerTypes(const char *uri)
@@ -29,9 +27,4 @@ void BackendPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("Ubuntu.Payments"));
 
     qmlRegisterType<Payments>(uri, 0, 1, "Payments");
-}
-
-void BackendPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QQmlExtensionPlugin::initializeEngine(engine, uri);
 }

@@ -16,11 +16,9 @@
  * License along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
+#ifndef PAYMENTS_PLUGIN_H
+#define PAYMENTS_PLUGIN_H
 
-#ifndef BACKEND_PLUGIN_H
-#define BACKEND_PLUGIN_H
-
-#include <QQmlEngine>
 #include <QQmlExtensionPlugin>
 
 class BackendPlugin : public QQmlExtensionPlugin
@@ -30,6 +28,6 @@ class BackendPlugin : public QQmlExtensionPlugin
 
 public:
     void registerTypes(const char *uri);
-    void initializeEngine(QQmlEngine *engine, const char *uri);
 };
-#endif // BACKEND_PLUGIN_H
+
+#endif // PAYMENTS_PLUGIN_H

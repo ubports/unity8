@@ -21,7 +21,6 @@
 #define PAYMENTS_H
 
 #include <QObject>
-#include <QDBusObjectPath>
 
 #include <libpay/pay-package.h>
 
@@ -65,8 +64,6 @@ private:
     QString m_store_item_id;
 
     PayPackage *m_package;
-
-    void startService();
 };
 
 #endif // PAYMENTS_H
