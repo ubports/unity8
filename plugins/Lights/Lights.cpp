@@ -136,6 +136,3 @@ void Lights::turnOff()
         Q_EMIT stateChanged(m_state);
     }
 }
-
-
-
