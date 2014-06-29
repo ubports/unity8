@@ -156,21 +156,31 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         """Open the preview of an application.
 
         :parameter category: The name of the category where the application is.
-        :app_name: The name of the application.
+        :parameter app_name: The name of the application.
         :return: The opened preview.
 
         """
-        category_element = self._get_category_element(category)
-        icon = category_element.select_single('AbstractButton', title=app_name)
         # FIXME some categories need a long press in order to see the preview.
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
-        self.pointing_device.click_object(icon)
+        self.click_scope_item(category, app_name)
         preview_list = self.get_root_instance().wait_select_single(
             'PreviewListView', objectName='dashContentPreviewList')
         preview_list.x.wait_for(0)
         return preview_list.select_single(
             Preview, objectName='preview{}'.format(preview_list.currentIndex))
+
+    @autopilot_logging.log_action(logger.debug)
+    def click_scope_item(self, category, title):
+        """Click an item from the scope.
+
+        :parameter category: The name of the category where the item is.
+        :parameter title: The title of the item.
+
+        """
+        category_element = self._get_category_element(category)
+        icon = category_element.select_single('AbstractButton', title=title)
+        self.pointing_device.click_object(icon)
 
     def _get_category_element(self, category):
         try:
