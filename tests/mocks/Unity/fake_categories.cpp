@@ -50,7 +50,7 @@ void Categories::addSpecialCategory(QString const& categoryId, QString const& na
     }
 }
 
-bool Categories::overrideCategoryJson(QString const& categoryId, QString const& json)
+bool Categories::overrideCategoryJson(QString const& /* categoryId */, QString const& /* json */)
 {
     qFatal("Using un-implemented Categories::overrideCategoryJson");
 }
