@@ -49,7 +49,6 @@ install_dependencies() {
                          qtdeclarative5-ubuntu-settings-components \
                          qtdeclarative5-ubuntu-thumbnailer0.1 \
                          unity-notifications-impl \
-                         qtdeclarative5-xmllistmodel-plugin \
                          ubuntu-mobile-icons \
                          unity-scope-home \
                          unity-lens-applications \
