@@ -20,7 +20,9 @@
 
 
 EasingCurve::EasingCurve(QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    m_progress(-1),
+    m_value(-1)
 {
 
 }
