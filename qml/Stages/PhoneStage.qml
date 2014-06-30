@@ -57,10 +57,6 @@ Item {
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 var application = priv.focusedApplication;
                 root.fullscreen = application.fullscreen;
-            } else {
-                spreadView.selectedIndex = -1;
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
             }
         }
 
