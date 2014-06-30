@@ -62,11 +62,9 @@ Item {
 
         onApplicationAdded: {
             if (spreadView.phase > 0) {
-                spreadView.snapTo(0);
-
-// TODO: Enable this once a newly added app is not directly focused any more.
-//            } else {
-//                priv.switchToApp(appId)
+                spreadView.snapTo(ApplicationManager.count - 1);
+            } else {
+                priv.switchToApp(appId)
             }
         }
     }
