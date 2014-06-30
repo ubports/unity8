@@ -22,7 +22,7 @@
 
 MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(parent)
 {
-    MockLauncherItem *item = new MockLauncherItem("phone-app", "/usr/share/applications/phone-app.desktop", "Phone", "phone-app", this);
+    MockLauncherItem *item = new MockLauncherItem("dialer-app", "/usr/share/applications/dialer-app.desktop", "Dialer", "dialer-app", this);
     item->setProgress(0);
     m_list.append(item);
     item->setFocused(true);
