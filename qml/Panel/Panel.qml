@@ -194,9 +194,7 @@ Item {
             }
             height: indicators.panelHeight
 
-            mouseArea {
-                onClicked: root.searchClicked()
-            }
+            onClicked: root.searchClicked()
         }
 
         ActiveCallHint {

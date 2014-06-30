@@ -57,10 +57,6 @@ Item {
         }
 
         property real panelAndSeparatorHeight: panel.indicators.panelHeight + units.dp(2)
-
-        Component.onCompleted: {
-            callManager.foregroundCall = phoneCall;
-        }
     }
 
 
@@ -110,10 +106,10 @@ Item {
             width: parent.width/3
 
             onClicked: {
-                if (callManager.callIndicatorVisible) {
-                    callManager.callIndicatorVisible = false;
+                if (callManager.foregroundCall) {
+                    callManager.foregroundCall = null;
                 } else {
-                    callManager.callIndicatorVisible = true;
+                    callManager.foregroundCall = phoneCall;
                 }
             }
         }
@@ -136,7 +132,7 @@ Item {
             panel.indicators.hide();
             // Wait for animation to complete
             tryCompare(panel.indicators.hideAnimation, "running", false);
-            callManager.callIndicatorVisible = false;
+            callManager.foregroundCall = null;
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -207,7 +203,7 @@ Item {
         // Pressing on the top edge of the indicator should have no effect if the panel
         // has an active call
         function test_noHintOnActiveCall() {
-            callManager.callIndicatorVisible = true;
+            callManager.foregroundCall = phoneCall;
 
             var indicatorItemCoord = get_indicator_item_position(0);
 
@@ -228,17 +224,17 @@ Item {
 
         function test_drag_show_data() {
             return [
-                { tag: "pinned", fullscreenFlag: false, alreadyOpen: false, call: false,
+                { tag: "pinned", fullscreenFlag: false, alreadyOpen: false, call: null,
                             indicatorY: 0 },
-                { tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false, call: false,
+                { tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false, call: null,
                             indicatorY: -panel.panelAndSeparatorHeight },
-                { tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true, call: false,
+                { tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true, call: null,
                             indicatorY: 0 },
-                { tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true, call: false,
+                { tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true, call: null,
                             indicatorY: 0 },
-                { tag: "pinned-callActive", fullscreenFlag: false, alreadyOpen: false, call: true,
+                { tag: "pinned-callActive", fullscreenFlag: false, alreadyOpen: false, call: phoneCall,
                             indicatorY: 0},
-                { tag: "fullscreen-callActive", fullscreenFlag: true, alreadyOpen: false, call: true,
+                { tag: "fullscreen-callActive", fullscreenFlag: true, alreadyOpen: false, call: phoneCall,
                             indicatorY: -panel.panelAndSeparatorHeight }
             ];
         }
@@ -248,7 +244,7 @@ Item {
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         function test_drag_show(data) {
             panel.fullscreenMode = data.fullscreenFlag;
-            callManager.callIndicatorVisible = data.call;
+            callManager.foregroundCall = data.call;
 
             if (data.alreadyOpen) {
                 panel.indicators.show();
