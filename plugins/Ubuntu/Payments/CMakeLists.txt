@@ -6,7 +6,7 @@ include_directories(
 set(PAYMENTS_SOURCES
     plugin.cpp
     Payments.cpp
-    )
+)
 
 add_library(Payments MODULE ${PAYMENTS_SOURCES})
 

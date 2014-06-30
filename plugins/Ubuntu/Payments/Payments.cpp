@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "Payments.h"
+
 #include <QLocale>
 
 #include <libpay/pay-package.h>
-
-#include "Payments.h"
 
 
 // The observer callback for the package we are watching.

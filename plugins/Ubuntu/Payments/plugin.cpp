@@ -14,10 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQml>
-
 #include "plugin.h"
 #include "Payments.h"
+
+#include <QtQml>
 
 
 void BackendPlugin::registerTypes(const char *uri)
