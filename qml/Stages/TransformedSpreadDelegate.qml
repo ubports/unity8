@@ -189,6 +189,10 @@ SpreadDelegate {
         }
 
         property real angle: {
+            if (spreadView.focusChanging) {
+                return 0;
+            }
+
             if (priv.otherSelected) {
                 return priv.selectedAngle;
             }
@@ -218,6 +222,9 @@ SpreadDelegate {
         }
 
         property real scale: {
+            if (spreadView.focusChanging) {
+                return 1;
+            }
             if (priv.otherSelected) {
                 return priv.selectedScale;
             }

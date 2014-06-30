@@ -46,7 +46,7 @@ Item {
         target: ApplicationManager
 
         onFocusRequested: {
-            if (spreadView.visible) {
+            if (spreadView.phase > 0) {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
                 priv.switchToApp(appId);
@@ -55,12 +55,8 @@ Item {
 
         onFocusedApplicationIdChanged: {
             if (ApplicationManager.focusedApplicationId.length > 0) {
-                if (priv.secondApplicationStarting || priv.applicationStarting) {
-                    appSplashTimer.restart();
-                } else {
-                    var application = priv.focusedApplication;
-                    root.fullscreen = application.fullscreen;
-                }
+                var application = priv.focusedApplication;
+                root.fullscreen = application.fullscreen;
             } else {
                 spreadView.selectedIndex = -1;
                 spreadView.phase = 0;
@@ -69,7 +65,13 @@ Item {
         }
 
         onApplicationAdded: {
-            spreadView.snapTo(0);
+            if (spreadView.phase > 0) {
+                spreadView.snapTo(0);
+
+// TODO: Enable this once a newly added app is not directly focused any more.
+//            } else {
+//                priv.switchToApp(appId)
+            }
         }
     }
 
@@ -79,16 +81,11 @@ Item {
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
 
-        property bool applicationStarting: false
-        property bool secondApplicationStarting: false
-
-        property string newFocusedAppId
-
         function switchToApp(appId) {
             if (priv.focusedAppId) {
-                priv.newFocusedAppId = appId;
                 root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
-                applicationSwitchingAnimation.start();
+                spreadView.focusChanging = true
+                ApplicationManager.focusApplication(appId);
             } else {
                 ApplicationManager.focusApplication(appId);
             }
@@ -153,6 +150,8 @@ Item {
         property int selectedIndex: -1
         property int draggedIndex: -1
         property int closingIndex: -1
+
+        property bool focusChanging: false
 
         onShiftedContentXChanged: {
             switch (phase) {
@@ -263,6 +262,18 @@ Item {
                             onRunningChanged: {
                                 if (!running) {
                                     spreadView.closingIndex = -1
+                                }
+                            }
+                        }
+                    }
+
+                    Behavior on x {
+                        enabled: spreadView.focusChanging && index == 0
+                        UbuntuNumberAnimation {
+                            duration: UbuntuAnimation.FastDuration
+                            onRunningChanged: {
+                                if (!running) {
+                                    spreadView.focusChanging = false
                                 }
                             }
                         }
