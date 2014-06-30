@@ -78,7 +78,9 @@ SpreadDelegate {
     Item {
         id: priv
 
+        // true if this is the next tile on the stack that comes in when dragging from the right
         property bool nextInStack: spreadView.nextZInStack == zIndex
+        // true if the next tile in the stack is the nextInStack one. This one will be moved a bit to the left
         property bool movedActive: spreadView.nextZInStack == zIndex + 1
         property real animatedEndDistance: linearAnimation(0, 2, root.endDistance, 0, root.progress)
 

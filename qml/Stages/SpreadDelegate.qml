@@ -48,7 +48,7 @@ Item {
 
                 surface.parent = surfaceContainer;
                 surface.anchors.fill = surfaceContainer;
-                checkFullscreen(surface);
+                surfaceContainer.checkFullscreen(surface);
                 surface.z = 1;
             }
         }
@@ -80,7 +80,7 @@ Item {
 
         Connections {
             target: surface
-            onStateChanged: checkFullscreen(surface);
+            onStateChanged: surfaceContainer.checkFullscreen(surface);
         }
 
         BorderImage {
@@ -147,12 +147,13 @@ Item {
             }
         }
 
-        onDragEnd: {
+        onClicked: {
             if (!moving) {
                 root.clicked();
-                return;
             }
+        }
 
+        onDragEnd: {
             if ((dragVelocity < -600 && distance < -units.gu(4)) || distance < -root.height / 2) {
                 animation.animate("up")
             } else if ((dragVelocity > 600 && distance > units.gu(4)) || distance > root.height / 2) {

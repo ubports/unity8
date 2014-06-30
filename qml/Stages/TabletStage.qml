@@ -54,11 +54,13 @@ Item {
 
         onFocusedAppIdChanged: {
             print("focused appid changed", priv.focusedAppId)
-            var focusedApp = ApplicationManager.findApplication(focusedAppId);
-            if (focusedApp.stage == ApplicationInfoInterface.SideStage) {
-                priv.sideStageAppId = focusedAppId;
-            } else {
-                priv.mainStageAppId = focusedAppId;
+            if (priv.focusedAppId.length > 0) {
+                var focusedApp = ApplicationManager.findApplication(focusedAppId);
+                if (focusedApp.stage == ApplicationInfoInterface.SideStage) {
+                    priv.sideStageAppId = focusedAppId;
+                } else {
+                    priv.mainStageAppId = focusedAppId;
+                }
             }
 
             appId0 = ApplicationManager.count >= 1 ? ApplicationManager.get(0).appId : "";
@@ -156,7 +158,6 @@ Item {
         property real snapPosition: 0.75
 
         property int selectedIndex: -1
-        onSelectedIndexChanged: print("selected index changed", selectedIndex)
         property int draggedIndex: -1
         property int closingIndex: -1
 
@@ -198,7 +199,6 @@ Item {
 
         }
         property int nextZInStack: indexToZIndex(nextInStack)
-        onNextInStackChanged: print("next in stack is", nextInStack)
 
         states: [
             State {
@@ -272,7 +272,9 @@ Item {
             }
 
             var isActive = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
-            if (isActive && app.stage == ApplicationInfoInterface.MainStage) return 0;
+            if (isActive && app.stage == ApplicationInfoInterface.MainStage) {
+                return 0;
+            }
             if (isActive && app.stage == ApplicationInfoInterface.SideStage) {
                 if (!priv.mainStageAppId) {
                     // only have SS apps running
@@ -436,6 +438,18 @@ Item {
                     Behavior on behavioredZIndex {
                         enabled: spreadView.closingIndex >= 0
                         UbuntuNumberAnimation {}
+                    }
+
+                    // This is required because none of the bindings are triggered in some cases:
+                    // When an app is closed, it might happen that ApplicationManager.get(nextInStack)
+                    // returns a different app even though the nextInStackIndex and all the related
+                    // bindings (index, mainStageApp, sideStageApp, etc) don't change. Let's force a
+                    // binding update in that case.
+                    Connections {
+                        target: ApplicationManager
+                        onApplicationRemoved: spreadTile.z = Qt.binding(function() {
+                            return spreadView.indexToZIndex(index)
+                        })
                     }
 
                     progress: {
