@@ -19,9 +19,25 @@
 #define CACHINGNETWORKMANAGERFACTORY_H
 
 #include <QQmlNetworkAccessManagerFactory>
+#include <QNetworkAccessManager>
 
-class QNetworkDiskCache;
-class QNetworkAccessManager;
+class QNetworkConfigurationManager;
+
+class CachingNetworkAccessManager : public QNetworkAccessManager
+{
+public:
+    CachingNetworkAccessManager(QObject *parent = 0);
+
+protected:
+    QNetworkReply* createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData = 0) override;
+
+private Q_SLOTS:
+    void onlineStateChanged(bool isOnline);
+
+private:
+    QNetworkConfigurationManager* m_networkManager;
+    bool m_isOnline;
+};
 
 class CachingNetworkManagerFactory : public QQmlNetworkAccessManagerFactory
 {
@@ -29,9 +45,6 @@ public:
     CachingNetworkManagerFactory();
 
     QNetworkAccessManager *create(QObject *parent) override;
-
-private:
-    QNetworkDiskCache *m_cache;
 };
 
 #endif // CACHINGNETWORKMANAGERFACTORY_H

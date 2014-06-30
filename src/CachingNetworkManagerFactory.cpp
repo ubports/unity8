@@ -20,15 +20,44 @@
 #include <QNetworkDiskCache>
 #include <QNetworkAccessManager>
 #include <QStandardPaths>
+#include <QThread>
+#include <QNetworkConfigurationManager>
+
+CachingNetworkAccessManager::CachingNetworkAccessManager(QObject *parent)
+    : QNetworkAccessManager(parent)
+{
+    m_networkManager = new QNetworkConfigurationManager(this);
+
+    QObject::connect(m_networkManager, &QNetworkConfigurationManager::onlineStateChanged, this, &CachingNetworkAccessManager::onlineStateChanged);
+    m_isOnline = m_networkManager->isOnline();
+}
+
+void CachingNetworkAccessManager::onlineStateChanged(bool isOnline)
+{
+    m_isOnline = isOnline;
+}
+
+QNetworkReply* CachingNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData)
+{
+    if (!m_isOnline) {
+        QNetworkRequest req(request);
+        req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysCache);
+        return QNetworkAccessManager::createRequest(op, req, outgoingData);
+    }
+
+    return QNetworkAccessManager::createRequest(op, request, outgoingData);
+}
 
 CachingNetworkManagerFactory::CachingNetworkManagerFactory()
-    : m_cache(new QNetworkDiskCache())
 {
-    m_cache->setCacheDirectory(QString("%1/network").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 }
 
 QNetworkAccessManager *CachingNetworkManagerFactory::create(QObject *parent) {
-    QNetworkAccessManager *manager = new QNetworkAccessManager(parent);
-    manager->setCache(m_cache);
+    QNetworkAccessManager *manager = new CachingNetworkAccessManager(parent);
+
+    QNetworkDiskCache* cache = new QNetworkDiskCache(manager);
+    cache->setCacheDirectory(QString("%1/network").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+
+    manager->setCache(cache);
     return manager;
 }
