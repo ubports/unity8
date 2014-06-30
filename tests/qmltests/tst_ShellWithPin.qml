@@ -93,10 +93,27 @@ Item {
 
             verify(ok);
 
-            swipeAwayGreeter();
-
             sessionSpy.target = findChild(shell, "greeter")
-            sessionSpy.clear()
+        }
+
+        function init() {
+            swipeAwayGreeter()
+        }
+
+        function cleanup() {
+            LightDM.Greeter.showGreeter()
+            var greeter = findChild(shell, "greeter")
+            tryCompare(greeter, "showProgress", 1)
+
+            // kill all (fake) running apps
+            killApps()
+        }
+
+        function killApps() {
+            while (ApplicationManager.count > 0) {
+                ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+            }
+            compare(ApplicationManager.count, 0)
         }
 
         function swipeAwayGreeter() {
@@ -126,34 +143,6 @@ Item {
             }
         }
 
-        function dragLauncherIntoView() {
-            var launcherPanel = findChild(shell, "launcherPanel");
-            verify(launcherPanel.x = - launcherPanel.width);
-
-            var touchStartX = 2;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, launcherPanel.width + units.gu(1), touchStartY);
-
-            tryCompare(launcherPanel, "x", 0);
-        }
-
-        function tapOnAppIconInLauncher() {
-            var launcherPanel = findChild(shell, "launcherPanel");
-
-            // pick the first icon, the one at the bottom.
-            var appIcon = findChild(launcherPanel, "launcherDelegate0")
-
-            // Swipe upwards over the launcher to ensure that this icon
-            // at the bottom is not folded and faded away.
-            var touchStartX = launcherPanel.width / 2;
-            var touchStartY = launcherPanel.height / 2;
-            touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
-            tryCompare(launcherPanel, "moving", false);
-
-            // NB tapping (i.e., using touch events) doesn't activate the icon... go figure...
-            mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
-        }
-
         function test_login() {
             tryCompare(sessionSpy, "count", 0)
             enterPin("1234")
@@ -161,10 +150,52 @@ Item {
         }
 
         function test_emergencyCall() {
-            dragLauncherIntoView()
-            tapOnAppIconInLauncher()
-
+            var greeter = findChild(shell, "greeter")
             var lockscreen = findChild(shell, "lockscreen")
+            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            var panel = findChild(shell, "panel")
+            var indicators = findChild(shell, "indicators")
+            var launcher = findChild(shell, "launcher")
+            var stage = findChild(shell, "stage")
+
+            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+
+            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "fakeActiveForApp", "dialer-app")
+            tryCompare(panel, "fullscreenMode", true)
+            tryCompare(indicators, "available", false)
+            tryCompare(launcher, "available", false)
+            tryCompare(stage, "spreadEnabled", false)
+
+            // Cancel emergency mode, and go back to normal
+            LightDM.Greeter.showGreeter()
+
+            tryCompare(lockscreen, "shown", true)
+            tryCompare(greeter, "shown", true)
+            tryCompare(greeter, "fakeActiveForApp", "")
+            tryCompare(panel, "fullscreenMode", false)
+            tryCompare(indicators, "available", true)
+            tryCompare(launcher, "available", true)
+            tryCompare(stage, "spreadEnabled", true)
+        }
+
+        function test_emergencyCallCrash() {
+            var lockscreen = findChild(shell, "lockscreen")
+            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+
+            tryCompare(lockscreen, "shown", false)
+            killApps() // kill dialer-app, as if it crashed
+            tryCompare(lockscreen, "shown", true)
+        }
+
+        function test_emergencyCallAppLaunch() {
+            var lockscreen = findChild(shell, "lockscreen")
+            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+
+            tryCompare(lockscreen, "shown", false)
+            ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
             tryCompare(lockscreen, "shown", true)
         }
     }

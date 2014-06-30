@@ -307,6 +307,11 @@ FocusScope {
 
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "objectName"
+                value: "stage"
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "moving"
                 value: !stages.fullyShown
             }
@@ -554,6 +559,7 @@ FocusScope {
 
         Panel {
             id: panel
+            objectName: "panel"
             anchors.fill: parent //because this draws indicator menus
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
@@ -589,6 +595,7 @@ FocusScope {
 
         Launcher {
             id: launcher
+            objectName: "launcher"
 
             readonly property bool dashSwipe: progress > 0
 

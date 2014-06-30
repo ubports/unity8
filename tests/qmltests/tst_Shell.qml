@@ -99,7 +99,6 @@ Item {
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
-            sessionSpy.clear()
         }
 
         function cleanup() {
