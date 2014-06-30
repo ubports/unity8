@@ -85,8 +85,13 @@ Item {
 
         BorderImage {
             id: dropShadowImage
-            anchors.fill: parent
-            anchors.margins: -units.gu(2)
+            anchors {
+                fill: parent
+                leftMargin: -units.gu(2)
+                rightMargin: -units.gu(2)
+                bottomMargin: -units.gu(2)
+                topMargin: -units.gu(2) + (root.isFullscreen ? 0 : maximizedAppTopMargin)
+            }
             source: "graphics/dropshadow.png"
             border { left: 50; right: 50; top: 50; bottom: 50 }
             opacity: root.dropShadow ? .4 : 0
