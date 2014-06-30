@@ -528,12 +528,12 @@ FocusScope {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled
+                available: edgeDemo.panelEnabled && greeter.fakeActiveForApp === ""
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: focusedApplication && stages.fullscreen && !LightDM.Greeter.active
+            fullscreenMode: (focusedApplication && stages.fullscreen && !LightDM.Greeter.active) || greeter.fakeActiveForApp !== ""
             searchVisible: !LightDM.Greeter.active && dash.shown && dash.searchable
 
             InputFilterArea {
@@ -566,7 +566,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled
+            available: edgeDemo.launcherEnabled && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
             onDash: showDash()
