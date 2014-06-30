@@ -330,7 +330,7 @@ Item {
     EdgeDragArea {
         id: spreadDragArea
         direction: Direction.Leftwards
-        enabled: ApplicationManager.count > 1 && spreadView.phase != 2
+        enabled: spreadView.phase != 2
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
