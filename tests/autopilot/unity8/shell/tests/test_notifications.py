@@ -137,7 +137,7 @@ class InteractiveNotificationBase(NotificationsBase):
             ("x-canonical-switch-to-application", "true"),
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app.png')
+                self._get_icon_path('applicationIcons/dialer-app.png')
             )
         ]
 
@@ -172,7 +172,7 @@ class InteractiveNotificationBase(NotificationsBase):
         hints = [
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app.png')
+                self._get_icon_path('applicationIcons/dialer-app.png')
             ),
             ("x-canonical-snap-decisions", "true"),
         ]
@@ -435,7 +435,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         hints = [
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app.png')
+                self._get_icon_path('applicationIcons/dialer-app.png')
             )
         ]
 
@@ -677,7 +677,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         body = 'This bubble uses the icon-title-body layout with a ' \
             'secondary icon.'
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
-        hint_icon = self._get_icon_path('applicationIcons/phone-app.png')
+        hint_icon = self._get_icon_path('applicationIcons/dialer-app.png')
 
         notification = shell.create_ephemeral_notification(
             summary,
