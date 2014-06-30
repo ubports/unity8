@@ -22,11 +22,8 @@ DashRenderer {
 
     expandable: filterGrid.expandable
     collapsedHeight: filterGrid.collapsedHeight
-    margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
     originY: filterGrid.originY
-    verticalSpacing: units.gu(1)
-    currentItem: filterGrid.currentItem
     height: filterGrid.height
     filtered: filterGrid.filtered
 
@@ -40,7 +37,7 @@ DashRenderer {
         minimumHorizontalSpacing: units.gu(1)
         delegateWidth: cardTool.cardWidth
         delegateHeight: cardTool.cardHeight
-        verticalSpacing: genericFilterGrid.verticalSpacing
+        verticalSpacing: units.gu(1)
         model: genericFilterGrid.model
         collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
         displayMarginBeginning: genericFilterGrid.displayMarginBeginning

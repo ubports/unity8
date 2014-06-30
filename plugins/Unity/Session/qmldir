@@ -1,0 +1,3 @@
+module Unity.Session
+plugin UnitySession-qml
+typeinfo UnitySession.qmltypes
