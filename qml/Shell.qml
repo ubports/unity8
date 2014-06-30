@@ -367,6 +367,8 @@ FocusScope {
     Connections {
         target: LightDM.Greeter
 
+        onShowGreeter: greeter.show()
+
         onShowPrompt: {
             if (LightDM.Users.count == 1) {
                 // TODO: There's no better way for now to determine if its a PIN or a passphrase.
@@ -453,6 +455,9 @@ FocusScope {
             onShownChanged: {
                 if (shown) {
                     lockscreen.reset();
+                    if (!LightDM.Greeter.promptless) {
+                       lockscreen.show();
+                    }
                     // If there is only one user, we start authenticating with that one here.
                     // If there are more users, the Greeter will handle that
                     if (LightDM.Users.count == 1) {

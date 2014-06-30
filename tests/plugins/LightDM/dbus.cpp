@@ -187,6 +187,13 @@ private Q_SLOTS:
         QVERIFY(arguments.at(1).toMap()["IsActive"].toBool());
     }
 
+    void testShowGreeter()
+    {
+        // Just confirm the call exists and doesn't fail
+        QDBusReply<void> reply = dbusMain->call("ShowGreeter");
+        QVERIFY(reply.isValid());
+    }
+
 private:
     QQuickView *view;
     Greeter *greeter;
