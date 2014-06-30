@@ -121,6 +121,10 @@ Item {
             if (priv.sideStageAppId == appId) {
                 priv.sideStageAppId = "";
             }
+            if (ApplicationManager.count == 0) {
+                spreadView.phase = 0;
+                spreadView.contentX = 0;
+            }
         }
         onApplicationAdded: {
             printStack()
