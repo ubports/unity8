@@ -28,6 +28,9 @@ import Ubuntu.Payments 0.1
 PreviewWidget {
     id: root
 
+    implicitHeight: paymentButton.implicitHeight
+    implicitWidth: paymentButton.implicitWidth
+
     Button {
         id: paymentButton
         objectName: "paymentButton"

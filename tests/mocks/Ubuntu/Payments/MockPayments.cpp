@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QLocale>
-
 #include "MockPayments.h"
+
+#include <QLocale>
 
 
 MockPayments::MockPayments(QObject *parent)
@@ -83,5 +83,7 @@ void MockPayments::start()
         } else {
             Q_EMIT purchaseCompleted();
         }
+    } else {
+        Q_EMIT purchaseError("No item ID supplied.");
     }
 }

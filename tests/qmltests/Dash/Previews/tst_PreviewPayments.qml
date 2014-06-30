@@ -35,20 +35,14 @@ Rectangle {
 
     SignalSpy {
         id: spy
+        target: previewPayments
         signalName: "triggered"
     }
 
     PreviewPayments {
         id: previewPayments
         widgetId: "previewPayments"
-        widgetData: jsonPurchase
         width: units.gu(30)
-
-        Rectangle {
-            anchors.fill: parent
-            color: "red"
-            opacity: 0.1
-        }
     }
 
     UT.UnityTestCase {
@@ -60,16 +54,25 @@ Rectangle {
             spy.clear();
         }
 
-        function test_purchase_completed() {
-            var button = findChild(root, "previewPayments");
-            verify(button != null);
-            spy.target = previewPayments;
+        function test_purchase_text_display() {
+            previewPayments.widgetData = jsonPurchase;
 
+            var button = findChild(root, "paymentButton");
+            verify(button != null, "Button not found.");
+            compare(button.text, "USD0.99");
+        }
+
+        function test_purchase_completed() {
             // Exercise the purchaseCompleted signal here.
             previewPayments.widgetData = jsonPurchase;
+
+            var button = findChild(root, "paymentButton");
+            verify(button != null, "Button not found.");
+
             mouseClick(button, button.width / 2, button.height / 2);
 
-            compare(spy.count, 1);
+            spy.wait();
+
             var args = spy.signalArguments[0];
             compare(args[0], "previewPayments");
             compare(args[1], "purchaseCompleted");
@@ -77,16 +80,17 @@ Rectangle {
         }
 
         function test_purchase_error() {
-            var button = findChild(root, "previewPayments");
-            verify(button != null);
-            spy.target = previewPayments;
-
             // The mock Payments triggers an error when com.example.invalid is
             // passed to it as store_item_id. Exercise it here
             previewPayments.widgetData = jsonPurchaseError;
+
+            var button = findChild(root, "paymentButton");
+            verify(button != null, "Button not found.");
+
             mouseClick(button, button.width / 2, button.height / 2);
 
-            compare(spy.count, 1);
+            spy.wait();
+
             var args = spy.signalArguments[0];
             compare(args[0], "previewPayments");
             compare(args[1], "purchaseError");
