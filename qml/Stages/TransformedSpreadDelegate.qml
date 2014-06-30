@@ -314,7 +314,7 @@ SpreadDelegate {
         Scale {
             origin { x: 0; y: (spreadView.height * priv.scale) + maximizedAppTopMargin * 3 }
             xScale: 1
-            yScale: isFullscreen? 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height : 1
+            yScale: isFullscreen ? 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height : 1
         },
         Translate {
             x: priv.xTranslate

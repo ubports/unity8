@@ -70,6 +70,7 @@ SpreadDelegate {
 
                 priv.phase2StartScale = priv.easingAnimation(0, 1, root.startScale, root.endScale, phase2Progress)
                 priv.phase2StartAngle = priv.easingAnimation(0, 1, root.startAngle, root.endAngle, phase2Progress)
+                priv.phase2StartTopMarginProgress = priv.easingAnimation(0, 1, 0, 1, phase2Progress)
             }
         }
     }
@@ -87,6 +88,7 @@ SpreadDelegate {
         property real phase2StartTranslate
         property real phase2StartScale
         property real phase2StartAngle
+        property real phase2StartTopMarginProgress
 
         property bool isSelected: false
         property bool otherSelected: false
@@ -95,6 +97,7 @@ SpreadDelegate {
         property real selectedAngle
         property real selectedScale
         property real selectedOpacity
+        property real selectedTopMarginProgress
 
         function snapshot() {
             selectedProgress = root.progress;
@@ -102,9 +105,9 @@ SpreadDelegate {
             selectedAngle = angle;
             selectedScale = priv.scale;
             selectedOpacity = priv.opacityTransform;
+            selectedTopMarginProgress = topMarginProgress;
 //            print("snapshotting at phase", spreadView.phase, negativeProgress);
 //            print("snapshotted", root.zIndex, "prog:", selectedProgress, "translate:", selectedXTranslate, "angle", selectedAngle, "scale", selectedScale)
-//            selectedTopMarginProgress = topMarginProgress;
         }
 
         // This calculates how much negative progress there can be if unwinding the spread completely
@@ -300,6 +303,20 @@ SpreadDelegate {
             return 1;
         }
 
+        property real topMarginProgress: {
+            if (priv.isSelected) {
+                return linearAnimation(selectedProgress, negativeProgress, selectedTopMarginProgress, 0, root.progress);
+            }
+            switch (spreadView.phase) {
+            case 0:
+                return 0;
+            case 1:
+                return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
+                                       0, priv.phase2StartTopMarginProgress, root.progress);
+            }
+            return 1;
+        }
+
         states: [
             State {
                 name: "sideStageDragging"; when: spreadView.sideStageDragging && root.isInSideStage
@@ -318,6 +335,11 @@ SpreadDelegate {
             origin { x: 0; y: spreadView.height / 2 }
             xScale: priv.scale
             yScale: xScale
+        },
+        Scale {
+            origin { x: 0; y: (spreadView.height * priv.scale) + maximizedAppTopMargin * 3 }
+            xScale: 1
+            yScale: isFullscreen ? 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height : 1
         },
         Translate {
             x: priv.xTranslate
