@@ -73,7 +73,7 @@ Indicators.IndicatorBase {
                         height: indicatorWidget.iconSize
                         anchors.centerIn: parent
                         source: modelData
-                        sets: ["status"]
+                        sets: ["status", "actions"]
                         color: "#CCCCCC"
                     }
                 }
