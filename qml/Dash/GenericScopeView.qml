@@ -321,6 +321,7 @@ FocusScope {
             searchInProgress: root.scope.searchInProgress
             backgroundColor: scopeView.scope && scopeView.scope.customizations["background-color"] || "transparent"
             foregroundColor: scopeView.scope && scopeView.scope.customizations["foreground-color"] || "grey"
+            imageSource: scopeView.scope && scopeView.scope.customizations["page-header"] && scopeView.scope.customizations["page-header"]["logo"] || ""
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope

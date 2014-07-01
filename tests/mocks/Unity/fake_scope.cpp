@@ -161,6 +161,10 @@ QVariantMap Scope::customizations() const
     if (m_id == "clickscope") {
         m["background-color"] = "red";
         m["foreground-color"] = "blue";
+    } else if (m_id == "MockScope5") {
+        QVariantMap pageHeader;
+        pageHeader["logo"] = "../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg";
+        m["page-header"] = pageHeader;
     }
     return m;
 }
