@@ -160,3 +160,14 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def is_launcher_open(self):
         return self._get_launcher().shown
+
+    @autopilot_logging.log_action(logger.info)
+    def launch_application(self, application_name):
+        """Launch an application.
+
+        :parameter application_name: The name of the application to launch.
+
+        """
+        launcher = self.open_launcher()
+        launcher.click_application_launcher_icon(application_name)
+        self.get_current_focused_app_id().wait_for(application_name)
