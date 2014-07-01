@@ -44,7 +44,7 @@ Indicators.IndicatorBase {
 
         Label {
             id: itemLeftLabel
-            width: paintedWidth + units.gu(1)
+            width: contentWidth + units.gu(1)
             objectName: "leftLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
@@ -82,7 +82,7 @@ Indicators.IndicatorBase {
 
         Label {
             id: itemRightLabel
-            width: paintedWidth + units.gu(1)
+            width: contentWidth + units.gu(1)
             objectName: "rightLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
