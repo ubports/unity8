@@ -20,6 +20,8 @@
 #include "MockLauncherItem.h"
 #include "MockQuickListModel.h"
 
+#include <paths.h>
+
 using namespace unity::shell::launcher;
 
 MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopFile, const QString& name, const QString& icon, QObject* parent):
@@ -27,7 +29,7 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_appId(appId),
     m_desktopFile(desktopFile),
     m_name(name),
-    m_icon(TOP_SRCDIR "/graphics/applicationIcons/" + icon + ".png"),
+    m_icon(qmlDirectory() + "graphics/applicationIcons/" + icon + ".png"),
     m_pinned(false),
     m_running(false),
     m_recent(false),
