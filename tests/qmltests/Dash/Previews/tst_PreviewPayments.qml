@@ -59,7 +59,7 @@ Rectangle {
 
             var button = findChild(root, "paymentButton");
             verify(button != null, "Button not found.");
-            compare(button.text, "USD0.99");
+            compare(button.text, "0.99USD");
         }
 
         function test_purchase_completed() {
