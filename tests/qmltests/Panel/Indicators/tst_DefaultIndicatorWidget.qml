@@ -54,18 +54,6 @@ Item {
             waitForRendering(widget)
         }
 
-        function test_icon() {
-            widget.rootActionState.icons = [ "image://theme/gps,bar,baz" ];
-
-            var image = findInvisibleChild(widget, "itemImage");
-            tryCompare(image, "source", "file://" + image.iconPath.arg("gps"));
-        }
-
-        function test_iconFallback() {
-            widget.rootActionState.icons = [ "image://theme/foo,bar,baz" ];
-
-            var image = findInvisibleChild(widget, "itemImage");
-            tryCompare(image, "source", "file://" + image.iconPath.arg("baz"));
-        }
+        // FIXME: add tests
     }
 }
