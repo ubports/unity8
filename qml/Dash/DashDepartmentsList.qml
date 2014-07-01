@@ -21,12 +21,14 @@ Item {
     id: root
     property var department: null
     property var currentDepartment: null
+    property color foregroundColor: "gray"
     signal enterDepartment(var newDepartmentId, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
 
     readonly property int itemHeight: units.gu(5)
     implicitHeight: flickable.contentHeight
+
 
     Rectangle {
         color: "white"
@@ -72,6 +74,7 @@ Item {
                 onClicked: root.goBackToParentClicked();
 
                 Image {
+                    // TODO Use Icon here and use root.foregroundColor as keyColor
                     id: backImage
                     anchors {
                         verticalCenter: parent.verticalCenter
@@ -91,7 +94,7 @@ Item {
                         leftMargin: units.gu(0.5)
                     }
                     text: department ? department.parentLabel : ""
-                    color: "gray" // TODO remove once we're a separate app
+                    color: root.foregroundColor
                 }
 
                 Rectangle {
@@ -102,7 +105,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: "gray"
+                    color: "gray" // TODO Should this be root.foregroundColor ?
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -123,7 +126,7 @@ Item {
                     }
                     text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
                     font.bold: true
-                    color: "gray" // TODO remove once we're a separate app
+                    color: root.foregroundColor
                 }
 
                 Rectangle {
@@ -134,7 +137,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: "gray"
+                    color: "gray" // TODO Should this be root.foregroundColor ?
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -159,10 +162,11 @@ Item {
                             leftMargin: units.gu(2)
                         }
                         text: label
-                        color: "gray" // TODO remove once we're a separate app
+                        color: root.foregroundColor
                     }
 
                     Image {
+                        // TODO Use Icon here and use root.foregroundColor as keyColor
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
@@ -183,7 +187,7 @@ Item {
                             leftMargin: units.gu(2)
                             rightMargin: units.gu(2)
                         }
-                        color: "gray"
+                        color: "gray" // TODO Should this be root.foregroundColor ?
                         opacity: 0.1
                         height: units.dp(1)
                         visible: index != department.count - 1

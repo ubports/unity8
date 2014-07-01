@@ -75,6 +75,7 @@ DashRenderer {
                 item.template = Qt.binding(function() { return cardTool.template; });
                 item.components = Qt.binding(function() { return cardTool.components; });
                 item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
+                item.foregroundColor = Qt.binding(function() { return root.foregroundColor; });
             }
             Connections {
                 target: loader.item

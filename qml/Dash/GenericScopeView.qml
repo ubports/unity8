@@ -36,6 +36,7 @@ FocusScope {
     property ListModel searchHistory
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    property color foregroundColor: scope && scope.customizations["foreground-color"] || "grey"
 
     signal backClicked()
 
@@ -95,6 +96,13 @@ FocusScope {
         target: scopeView.scope
         onShowDash: previewListView.open = false;
         onHideDash: previewListView.open = false;
+    }
+
+    Rectangle {
+        id: headerBackground
+        anchors.fill: parent
+        color: scopeView.scope && scopeView.scope.customizations["background-color"] || "transparent"
+        visible: color != "transparent"
     }
 
     ScopeListView {
@@ -159,6 +167,7 @@ FocusScope {
                         item.model = Qt.binding(function() { return results })
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
+                    item.foregroundColor = Qt.binding(function() { return scopeView.foregroundColor })
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         item.setFilter(shouldFilter, false /*animate*/);
@@ -298,6 +307,7 @@ FocusScope {
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
+            textColor: foregroundColor
             image: {
                 if (delegate && delegate.expandable)
                     return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
@@ -319,8 +329,7 @@ FocusScope {
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: root.scope.searchInProgress
-            backgroundColor: scopeView.scope && scopeView.scope.customizations["background-color"] || "transparent"
-            foregroundColor: scopeView.scope && scopeView.scope.customizations["foreground-color"] || "grey"
+            foregroundColor: scopeView.foregroundColor
             imageSource: scopeView.scope && scopeView.scope.customizations["page-header"] && scopeView.scope.customizations["page-header"]["logo"] || ""
 
             bottomItem: DashDepartments {
@@ -329,6 +338,8 @@ FocusScope {
                 anchors.right: parent.right
                 windowHeight: scopeView.height
                 windowWidth: scopeView.width
+                foregroundColor: scopeView.foregroundColor
+                // TODO Should we move the background color over the deparments combo too?
             }
 
             onBackClicked: scopeView.backClicked()

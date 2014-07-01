@@ -35,8 +35,6 @@ Item {
     property bool searchInProgress: false
 
     property alias bottomItem: bottomContainer.children
-
-    property alias backgroundColor: headerBackground.color
     // TODO We should use foregroundColor for the icons
     // of the toolbar but unfortunately Action does not have
     // the keyColor property as Icon does :-/
@@ -116,13 +114,6 @@ Item {
                     }
                 }
             }
-        }
-
-        Rectangle {
-            id: headerBackground
-            anchors.fill: headersColumn
-            color: "transparent"
-            visible: color != "transparent"
         }
 
         Column {

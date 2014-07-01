@@ -33,6 +33,8 @@ Item {
 
     property real originY: 0
 
+    property color foregroundColor: "gray"
+
     // The model to renderer
     property var model
 

@@ -29,6 +29,7 @@ AbstractButton {
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
+    property color foregroundColor: "gray"
 
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
@@ -78,10 +79,11 @@ AbstractButton {
         anchors.margins: units.gu(2)
         verticalAlignment: Text.AlignVCenter
         text: root.currentDepartment ? root.currentDepartment.label : ""
-        color: "gray" // TODO remove once we're a separate app
+        color: root.foregroundColor
     }
 
     Image {
+        // TODO Use Icon here and use root.foregroundColor as keyColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: units.gu(2)
@@ -124,6 +126,7 @@ AbstractButton {
             objectName: "department" + index
             visible: height != 0
             width: departmentListView.width
+            foregroundColor: root.foregroundColor
             property real desiredHeight: {
                 if (root.showList) {
                     if (department && department.loaded && x == departmentListView.contentX)
