@@ -64,6 +64,8 @@ public:
     Q_INVOKABLE unity::shell::scopes::DepartmentInterface* getDepartment(const QString& id) override;
     Q_INVOKABLE void loadDepartment(const QString& id) override;
 
+    QVariantMap customizations() const override;
+
 protected:
 
     QString m_id;
