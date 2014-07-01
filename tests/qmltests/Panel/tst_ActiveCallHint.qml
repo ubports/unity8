@@ -18,6 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import Ubuntu.Telephony 0.1 as Telephony
+import Unity.Application 0.1
 import ".."
 import "../../../qml/Panel"
 
@@ -68,19 +69,41 @@ Item {
             callManager.foregroundCall = null;
             callManager.backgroundCall = null;
             callHint.labelSwitchInterval = 300;
+
+            ApplicationManager.stopApplication("dialer-app");
         }
 
         function test_activeHint_data() {
             return [
-                { tag: "empty", callIndicatorVisible: false },
-                { tag: "empty", callIndicatorVisible: true }
+                { tag: "noCall-callNotVisible",  dialer: false, call: null,  visible: false, expected: false },
+                { tag: "noCall-callVisible",     dialer: false, call: null,  visible: true,  expected: false },
+                { tag: "hasCall-callNotVisible", dialer: false, call: call1, visible: false, expected: true },
+                { tag: "hasCall-callVisible",    dialer: false, call: call1, visible: true,  expected: true },
+
+                { tag: "dialerNotFocused-noCall-callNotVisible",  dialer: true, focused: false, call: null,  visible: false, expected: false },
+                { tag: "dialerNotFocused-noCall-callVisible",     dialer: true, focused: false, call: null,  visible: true,  expected: false },
+                { tag: "dialerNotFocused-hasCall-callNotVisible", dialer: true, focused: false, call: call1, visible: false, expected: true },
+                { tag: "dialerNotFocused-hasCall-callVisible",    dialer: true, focused: false, call: call1, visible: true,  expected: true },
+
+                { tag: "dialerFocused-noCall-callNotVisible",  dialer: true, focused: true, call: null,  visible: false, expected: false },
+                { tag: "dialerFocused-noCall-callVisible",     dialer: true, focused: true, call: null,  visible: true,  expected: true },
+                { tag: "dialerFocused-hasCall-callNotVisible", dialer: true, focused: true, call: call1, visible: false, expected: false },
+                { tag: "dialerFocused-hasCall-callVisible",    dialer: true, focused: true, call: call1, visible: true,  expected: true },
             ];
         }
 
         function test_activeHint(data) {
-            callManager.callIndicatorVisible = data.callIndicatorVisible;
+            if (data.dialer) {
+                var application = ApplicationManager.startApplication("dialer-app");
+                tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+                tryCompare(application, "state", ApplicationInfo.Running);
 
-            compare(callHint.active, data.callIndicatorVisible, "Call hint should be active when callIndicatorVisible=true");
+                if (!data.focused) { ApplicationManager.unfocusCurrentApplication(); }
+            }
+            callManager.foregroundCall = data.call;
+            callManager.callIndicatorVisible = data.visible;
+
+            compare(callHint.active, data.expected, "Call hint should be active when callIndicatorVisible=true");
         }
 
         function test_currentCall_data() {
