@@ -76,4 +76,6 @@ class Launcher(emulators.UnityEmulatorBase):
 
     @autopilot.logging.log_action(logger.debug)
     def click_application_launcher_icon(self, application_name):
-        import pdb; pdb.set_trace()
+        launcher_delegate = self.select_single(
+            'LauncherDelegate', appId=application_name)
+        self.pointing_device.click_object(launcher_delegate)

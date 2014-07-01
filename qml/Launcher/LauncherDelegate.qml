@@ -20,6 +20,7 @@ import Ubuntu.Components 0.1
 Item {
     id: root
 
+    property string appId
     property string iconName
     property int count: -1
     property int progress: -1

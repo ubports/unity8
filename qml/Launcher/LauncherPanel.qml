@@ -149,6 +149,7 @@ Item {
                     delegate: FoldingLauncherDelegate {
                         id: launcherDelegate
                         objectName: "launcherDelegate" + index
+                        appId: model.appId
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
                         width: itemWidth
