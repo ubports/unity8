@@ -37,6 +37,10 @@ Item {
     property alias bottomItem: bottomContainer.children
 
     property alias backgroundColor: headerBackground.color
+    // TODO We should use foregroundColor for the icons
+    // of the toolbar but unfortunately Action does not have
+    // the keyColor property as Icon does :-/
+    property color foregroundColor: "gray"
 
     signal backClicked()
 
@@ -199,7 +203,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
-                textColor: "grey"
+                textColor: root.foregroundColor
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {

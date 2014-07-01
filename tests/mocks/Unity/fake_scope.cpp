@@ -160,6 +160,7 @@ QVariantMap Scope::customizations() const
     QVariantMap m;
     if (m_id == "clickscope") {
         m["background-color"] = "red";
+        m["foreground-color"] = "blue";
     }
     return m;
 }

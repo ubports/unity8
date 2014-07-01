@@ -320,6 +320,7 @@ FocusScope {
             searchEntryEnabled: true
             searchInProgress: root.scope.searchInProgress
             backgroundColor: scopeView.scope && scopeView.scope.customizations["background-color"] || "transparent"
+            foregroundColor: scopeView.scope && scopeView.scope.customizations["foreground-color"] || "grey"
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope
