@@ -36,6 +36,8 @@ Item {
 
     property alias bottomItem: bottomContainer.children
 
+    property alias backgroundColor: headerBackground.color
+
     signal backClicked()
 
     function triggerSearch() {
@@ -110,6 +112,13 @@ Item {
                     }
                 }
             }
+        }
+
+        Rectangle {
+            id: headerBackground
+            anchors.fill: headersColumn
+            color: "transparent"
+            visible: color != "transparent"
         }
 
         Column {

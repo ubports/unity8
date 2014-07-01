@@ -157,7 +157,11 @@ bool Scope::hasDepartments() const
 
 QVariantMap Scope::customizations() const
 {
-    return QVariantMap();
+    QVariantMap m;
+    if (m_id == "clickscope") {
+        m["background-color"] = "red";
+    }
+    return m;
 }
 
 unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& id)

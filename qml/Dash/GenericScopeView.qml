@@ -319,6 +319,7 @@ FocusScope {
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: root.scope.searchInProgress
+            backgroundColor: scopeView.scope && scopeView.scope.customizations["background-color"] || "transparent"
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope
