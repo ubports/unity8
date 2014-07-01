@@ -8,3 +8,5 @@ MenuItemFactory 0.1 MenuItemFactory.qml
 MessageMenuItemFactory 0.1 MessageMenuItemFactory.qml
 
 internal RemoveBackground RemoveBackground.qml
+
+ModemInfoItem 0.1 ModemInfoItem.qml
