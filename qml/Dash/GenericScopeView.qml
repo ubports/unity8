@@ -318,7 +318,7 @@ FocusScope {
             searchHistory: scopeView.searchHistory
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
-            searchInProgress: root.scope.searchInProgress
+            searchInProgress: scopeView.scope.searchInProgress
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope
