@@ -1,8 +1,9 @@
-unity8 (7.90-0ubuntu1) UNRELEASED; urgency=medium
+unity8 (7.90+14.10.20140701.2-0ubuntu1) utopic; urgency=medium
 
+  [ Michał Sawicz ]
   * Adapt to suru theme.
 
- -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 23 May 2014 10:32:08 +0200
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 15:10:35 +0000
 
 unity8 (7.89+14.10.20140627-0ubuntu1) utopic; urgency=low
 
