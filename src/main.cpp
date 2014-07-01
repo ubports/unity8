@@ -161,6 +161,7 @@ Load the testability driver");
 
     view->setSource(source);
     view->setColor("transparent");
+    QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();

@@ -25,15 +25,15 @@ class Powerd: public QObject
 {
     Q_OBJECT
     Q_ENUMS(Status)
-    Q_FLAGS(DisplayFlag DisplayFlags)
+    Q_ENUMS(DisplayStateChangeReason)
 
 public:
-    enum DisplayFlag {
-        UseProximity          = 1, // Use proximity sensor to override screen state
-        DisableAutoBrightness = 2, // Force autobrightness to be disabled
-        Bright                = 4, // Request the screen to stay bright
+    enum DisplayStateChangeReason {
+        Unknown         = 0,
+        Inactivity      = 1, // Display changed state due to inactivity
+        PowerKey        = 2, // Display changed state due to user pressing power key
+        Proximity       = 3, // Display changed state due to proximity events
     };
-    Q_DECLARE_FLAGS(DisplayFlags, DisplayFlag)
 
     enum Status {
         Off,
@@ -43,7 +43,7 @@ public:
     explicit Powerd(QObject *parent = 0);
 
 Q_SIGNALS:
-    void displayPowerStateChange(int status, unsigned int flags);
+    void displayPowerStateChange(int status, int reason);
 };
 
 #endif
