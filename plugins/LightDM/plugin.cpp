@@ -18,6 +18,7 @@
  */
 
 #include "plugin.h"
+#include "DBusGreeter.h"
 #include "DBusGreeterList.h"
 #include "Greeter.h"
 #include "UsersModel.h"
@@ -39,6 +40,8 @@ static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 
     Greeter *greeter = new Greeter();
     QDBusConnection connection = QDBusConnection::sessionBus();
+    DBusGreeter *root = new DBusGreeter(greeter, connection, "/");
+    connection.registerObject("/", root, QDBusConnection::ExportScriptableContents);
     DBusGreeterList *list = new DBusGreeterList(greeter, connection, GREETER_LIST_DBUS_PATH);
     connection.registerObject(GREETER_LIST_DBUS_PATH, list, QDBusConnection::ExportScriptableContents);
     connection.registerService(GREETER_DBUS_SERVICE);

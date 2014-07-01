@@ -136,7 +136,7 @@ FocusScope {
                 id: dash
                 objectName: "dash"
 
-                available: !greeter.shown && !lockscreen.shown
+                available: !LightDM.Greeter.active
                 hides: [stages, launcher, panel.indicators]
                 shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
                 enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
@@ -199,7 +199,7 @@ FocusScope {
 
         x: {
             if (shown) {
-                if (overlayMode || locked) {
+                if (overlayMode || locked || greeter.fakeActiveForApp !== "") {
                     return 0;
                 }
                 return launcher.progress
@@ -244,10 +244,17 @@ FocusScope {
             target: ApplicationManager
 
             onFocusRequested: {
+                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
+                    lockscreen.show();
+                }
+                greeter.hide();
                 stages.show(true);
             }
 
             onFocusedApplicationIdChanged: {
+                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
+                    lockscreen.show();
+                }
                 if (ApplicationManager.focusedApplicationId.length > 0) {
                     stages.show(false);
                 } else {
@@ -300,6 +307,11 @@ FocusScope {
 
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "objectName"
+                value: "stage"
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "moving"
                 value: !stages.fullyShown
             }
@@ -312,6 +324,11 @@ FocusScope {
                 target: applicationsDisplayLoader.item
                 property: "dragAreaWidth"
                 value: shell.edgeSize
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "spreadEnabled"
+                value: greeter.fakeActiveForApp === "" // to support emergency dialer hack
             }
         }
     }
@@ -337,6 +354,13 @@ FocusScope {
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
+        onEmergencyCall: {
+            greeter.fakeActiveForApp = "dialer-app"
+            shell.activateApplication("dialer-app")
+            lockscreen.hide()
+        }
+
+        onShownChanged: if (shown) greeter.fakeActiveForApp = ""
 
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
@@ -347,6 +371,8 @@ FocusScope {
 
     Connections {
         target: LightDM.Greeter
+
+        onShowGreeter: greeter.show()
 
         onShowPrompt: {
             if (LightDM.Users.count == 1) {
@@ -367,10 +393,17 @@ FocusScope {
             }
             if (LightDM.Greeter.authenticated) {
                 lockscreen.hide();
+                greeter.login();
             } else {
                 lockscreen.clear(true);
             }
         }
+    }
+
+    Binding {
+        target: LightDM.Greeter
+        property: "active"
+        value: greeter.shown || lockscreen.shown || greeter.fakeActiveForApp != ""
     }
 
     Rectangle {
@@ -393,10 +426,15 @@ FocusScope {
         }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
+        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter
             objectName: "greeter"
+
+            signal sessionStarted() // helpful for tests
+
+            property string fakeActiveForApp: ""
 
             available: true
             hides: [launcher, panel.indicators]
@@ -409,14 +447,28 @@ FocusScope {
 
             dragHandleWidth: shell.edgeSize
 
+            function login() {
+                enabled = false;
+                LightDM.Greeter.startSessionSync();
+                sessionStarted();
+                greeter.hide();
+                lockscreen.hide();
+                launcher.hide();
+                enabled = true;
+            }
+
             onShownChanged: {
                 if (shown) {
                     lockscreen.reset();
+                    if (!LightDM.Greeter.promptless) {
+                       lockscreen.show();
+                    }
                     // If there is only one user, we start authenticating with that one here.
                     // If there are more users, the Greeter will handle that
                     if (LightDM.Users.count == 1) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     }
+                    greeter.fakeActiveForApp = "";
                     greeter.forceActiveFocus();
                 }
             }
@@ -452,7 +504,7 @@ FocusScope {
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
+            if (status == Powerd.Off && reason != Powerd.Proximity) {
                 greeter.showNow();
             }
 
@@ -466,10 +518,34 @@ FocusScope {
     }
 
     function showHome() {
-        var animate = !greeter.shown && !stages.shown
-        greeter.hide()
+        if (edgeDemo.running)
+            return
+
+        if (LightDM.Greeter.active) {
+            if (!LightDM.Greeter.promptless)
+                lockscreen.show()
+            greeter.hide()
+        }
+
+        var animate = !LightDM.Greeter.active && !stages.shown
         dash.setCurrentScope("clickscope", animate, false)
         stages.hide()
+    }
+
+    function showDash() {
+        if (LightDM.Greeter.active && !LightDM.Greeter.promptless)
+            return;
+
+        if (stages.shown && !stages.overlayMode) {
+            if (!stages.locked) {
+                stages.hide();
+                launcher.hide();
+            }
+        }
+        if (greeter.shown) {
+            greeter.hideRight();
+            launcher.hide();
+        }
     }
 
     function hideIndicatorMenu(delay) {
@@ -483,17 +559,18 @@ FocusScope {
 
         Panel {
             id: panel
+            objectName: "panel"
             anchors.fill: parent //because this draws indicator menus
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled
+                available: edgeDemo.panelEnabled && greeter.fakeActiveForApp === ""
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
-            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
+            fullscreenMode: (focusedApplication && stages.fullscreen && !LightDM.Greeter.active) || greeter.fakeActiveForApp !== ""
+            searchVisible: !LightDM.Greeter.active && dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {
@@ -518,6 +595,7 @@ FocusScope {
 
         Launcher {
             id: launcher
+            objectName: "launcher"
 
             readonly property bool dashSwipe: progress > 0
 
@@ -525,28 +603,14 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled
+            available: edgeDemo.launcherEnabled && greeter.fakeActiveForApp === ""
 
-            onShowDashHome: {
-                if (edgeDemo.running)
-                    return;
-
-                showHome()
-            }
-            onDash: {
-                if (stages.shown && !stages.overlayMode) {
-                    if (!stages.locked) {
-                        stages.hide();
-                        launcher.hide();
-                    }
-                }
-                if (greeter.shown) {
-                    greeter.hideRight();
-                    launcher.hide();
-                }
-            }
+            onShowDashHome: showHome()
+            onDash: showDash()
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected: {
+                if (greeter.fakeActiveForApp !== "")
+                    lockscreen.show()
                 if (!edgeDemo.running)
                     shell.activateApplication(appId)
             }

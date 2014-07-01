@@ -73,7 +73,7 @@ Loader {
             visible: showHeader && status == Loader.Ready; 
             sourceComponent: ShaderEffect { 
                 id: overlay; 
-                height: fixedHeaderHeight > 0 ? fixedHeaderHeight + units.gu(1) * 2 : headerHeight;
+                height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2);
                 opacity: 0.6; 
                 property var source: ShaderEffectSource { 
                     id: shaderSource; 
