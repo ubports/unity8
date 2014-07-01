@@ -17,7 +17,7 @@
 import Powerd 0.1
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import Mir.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Components 0.1
 
 Showable {

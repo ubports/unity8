@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
-import Mir.Application 0.1
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
