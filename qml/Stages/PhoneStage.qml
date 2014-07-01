@@ -179,7 +179,7 @@ Item {
             }
         }
         function snapTo(index) {
-            if (ApplicationManager.count >= index) {
+            if (ApplicationManager.count <= index) {
                 // In case we're trying to snap to some non existing app, lets snap back to the first one
                 index = 0;
             }
