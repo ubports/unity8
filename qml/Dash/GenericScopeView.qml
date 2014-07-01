@@ -328,7 +328,7 @@ FocusScope {
             searchHistory: scopeView.searchHistory
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
-            searchInProgress: root.scope.searchInProgress
+            searchInProgress: scopeView.scope.searchInProgress
             foregroundColor: scopeView.foregroundColor
             imageSource: scopeView.scope && scopeView.scope.customizations["page-header"] && scopeView.scope.customizations["page-header"]["logo"] || ""
 
