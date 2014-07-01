@@ -25,8 +25,6 @@ Item {
 
     property int collapsedHeight: height
 
-    property int margins: 0
-
     property int uncollapsedHeight: height
 
     property int displayMarginBeginning: 0
@@ -34,11 +32,6 @@ Item {
     property int displayMarginEnd: 0
 
     property real originY: 0
-
-    property real verticalSpacing: 0
-
-    // The current item of the renderer
-    property var currentItem
 
     // The model to renderer
     property var model

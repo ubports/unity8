@@ -19,35 +19,35 @@
 #include "Powerd.h"
 #include <QDBusPendingCall>
 
-void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface *powerd)
+void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
 {
     bool value = g_settings_get_boolean(settings, key);
-    powerd->asyncCall("userAutobrightnessEnable", QVariant(value));
+    unityScreen->asyncCall("userAutobrightnessEnable", QVariant(value));
 }
 
 Powerd::Powerd(QObject* parent)
   : QObject(parent),
-    powerd(NULL)
+    unityScreen(NULL)
 {
-    powerd = new QDBusInterface("com.canonical.powerd",
-                                "/com/canonical/powerd",
-                                "com.canonical.powerd",
-                                QDBusConnection::SM_BUSNAME(), this);
+    unityScreen = new QDBusInterface("com.canonical.Unity.Screen",
+                                     "/com/canonical/Unity/Screen",
+                                     "com.canonical.Unity.Screen",
+                                     QDBusConnection::SM_BUSNAME(), this);
 
-    powerd->connection().connect("com.canonical.powerd",
-                                 "/com/canonical/powerd",
-                                 "com.canonical.powerd",
-                                 "DisplayPowerStateChange",
-                                 this,
-                                 SIGNAL(displayPowerStateChange(int, unsigned int)));
+    unityScreen->connection().connect("com.canonical.Unity.Screen",
+                                      "/com/canonical/Unity/Screen",
+                                      "com.canonical.Unity.Screen",
+                                      "DisplayPowerStateChange",
+                                      this,
+                                      SIGNAL(displayPowerStateChange(int, int)));
 
     systemSettings = g_settings_new("com.ubuntu.touch.system");
-    g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), powerd);
-    autoBrightnessChanged(systemSettings, "auto-brightness", powerd);
+    g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), unityScreen);
+    autoBrightnessChanged(systemSettings, "auto-brightness", unityScreen);
 }
 
 Powerd::~Powerd()
 {
-    g_signal_handlers_disconnect_by_data(systemSettings, powerd);
+    g_signal_handlers_disconnect_by_data(systemSettings, unityScreen);
     g_object_unref(systemSettings);
 }
