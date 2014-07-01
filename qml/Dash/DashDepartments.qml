@@ -82,16 +82,15 @@ AbstractButton {
         color: root.foregroundColor
     }
 
-    Image {
-        // TODO Use Icon here and use root.foregroundColor as keyColor
+    Icon {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: units.gu(2)
         rotation: showList ? 180 : 0
-        source: "image://theme/dropdown-menu"
-        sourceSize.height: parent.height - units.gu(2)
-        sourceSize.width: units.gu(2)
-        fillMode: Image.PreserveAspectFit
+        name: "dropdown-menu"
+        height: parent.height - units.gu(3)
+        width: units.gu(2)
+        color: root.foregroundColor
     }
 
     //  departmentListView is outside root
