@@ -73,18 +73,17 @@ Item {
 
                 onClicked: root.goBackToParentClicked();
 
-                Image {
-                    // TODO Use Icon here and use root.foregroundColor as keyColor
+                Icon {
                     id: backImage
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
                         leftMargin: units.gu(2)
                     }
-                    source: "image://theme/back"
-                    sourceSize.height: parent.height - units.gu(3)
-                    sourceSize.width: units.gu(3)
-                    fillMode: Image.PreserveAspectFit
+                    name: "back"
+                    height: parent.height - units.gu(3)
+                    width: units.gu(2)
+                    color: root.foregroundColor
                 }
 
                 Label {
