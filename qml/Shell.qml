@@ -275,6 +275,11 @@ FocusScope {
                 property: "maximizedAppTopMargin"
                 value: panel.panelHeight
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "interactive"
+                value: stages.roughlyFullyShown
+            }
         }
     }
 

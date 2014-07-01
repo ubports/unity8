@@ -24,9 +24,11 @@ import "../Components"
 Item {
     id: root
 
+    // to be set from outside
     property bool interactive: true
     property bool dropShadow: true
     property real maximizedAppTopMargin
+    property alias swipeToCloseEnabled: dragArea.enabled
 
     readonly property bool isFullscreen: surface !== null && surfaceContainer.surface.anchors.topMargin == 0
 
@@ -69,6 +71,11 @@ Item {
         Binding {
             target: surface
             property: "enabled"
+            value: root.interactive
+        }
+        Binding {
+            target: surface
+            property: "focus"
             value: root.interactive
         }
 
@@ -136,7 +143,6 @@ Item {
     DraggingArea {
         id: dragArea
         anchors.fill: parent
-        enabled: !root.interactive
 
         property bool moving: false
         property real distance: 0

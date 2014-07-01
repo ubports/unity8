@@ -27,6 +27,7 @@ Item {
     // Controls to be set from outside
     property int dragAreaWidth
     property real maximizedAppTopMargin
+    property bool interactive
 
     // State information propagated to the outside
     property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
@@ -247,7 +248,9 @@ Item {
                     height: spreadView.height
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
-                    interactive: !spreadView.interactive
+                    interactive: !spreadView.interactive && spreadView.phase === 0
+                            && spreadView.shiftedContentX === 0 && root.interactive && index === 0
+                    swipeToCloseEnabled: spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.shiftedContentX > 0 || spreadDragArea.status == DirectionalDragArea.Undecided
 
