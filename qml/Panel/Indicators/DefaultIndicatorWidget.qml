@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Settings.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.IndicatorBase {
@@ -67,64 +68,13 @@ Indicators.IndicatorBase {
                     width: itemImage.width + units.gu(1)
                     anchors { top: parent.top; bottom: parent.bottom }
 
-                    /*
-                      FIXME: should use Icon and the theme system
-                      There is an Icon component in the SDK that the colorization is copied from.
-                      We can't use it here unfortunately due to lack of support for image source
-                      URIs and keeping aspect ratio.
-
-                      Related bugs:
-                       http://launchpad.net/bugs/1284235
-                       http://launchpad.net/bugs/1284233
-                     */
-
-                    Image {
+                    StatusIcon {
                         id: itemImage
-                        objectName: "itemImage"
                         height: indicatorWidget.iconSize
-                        sourceSize.height: height
                         anchors.centerIn: parent
-
-                        onSourceChanged: console.debug(source)
-                        visible: false
-
-                        property string iconPath: "/usr/share/icons/suru/status/scalable/%1.svg"
-                        property var icons: modelData.replace("image://theme/", "").split(",")
-                        property int fallback: 0
-
-                        onStatusChanged: if (status == Image.Error && fallback < icons.length - 1) fallback += 1;
-
-                        // Needed to not introduce a binding loop on source
-                        onFallbackChanged: updateSource()
-                        Component.onCompleted: updateSource()
-                        onIconsChanged: updateSource()
-
-                        function updateSource() {
-                            source = icons.length > 0 ? iconPath.arg(icons[fallback]) : "";
-                        }
-                    }
-
-                    ShaderEffect {
-                        id: colorizedImage
-
-                        anchors.fill: itemImage
-
-                        property Image source: itemImage.status == Image.Ready ? itemImage : null
-                        property color keyColorOut: "#CCCCCC"
-                        property color keyColorIn: "#808080"
-                        property real threshold: 0.1
-
-                        fragmentShader: "
-                            varying highp vec2 qt_TexCoord0;
-                            uniform sampler2D source;
-                            uniform highp vec4 keyColorOut;
-                            uniform highp vec4 keyColorIn;
-                            uniform lowp float threshold;
-                            uniform lowp float qt_Opacity;
-                            void main() {
-                                lowp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                                gl_FragColor = mix(vec4(keyColorOut.rgb, 1.0) * sourceColor.a, sourceColor, step(threshold, distance(sourceColor.rgb / sourceColor.a, keyColorIn.rgb))) * qt_Opacity;
-                            }"
+                        source: modelData
+                        sets: ["status"]
+                        color: "#CCCCCC"
                     }
                 }
             }
