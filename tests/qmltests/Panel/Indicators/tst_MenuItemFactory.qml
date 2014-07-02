@@ -109,6 +109,7 @@ Item {
 
                 { tag: 'wifisection', type: "unity.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
                 { tag: 'accesspoint', type: "unity.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
+                { tag: 'modeminfoitem', type: "com.canonical.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
 
                 { tag: 'unknown', type: "", objectName: "standardMenu"}
             ];
@@ -476,6 +477,50 @@ Item {
             compare(loader.item.secure, data.secure, "Secure does not match data");
             compare(loader.item.adHoc, data.adHoc, "AdHoc does not match data");
             compare(loader.item.checked, data.checked, "Checked does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_modemInfoItem_data() {
+            // ModemInfoItem gets all it's data through the actions.
+            return [
+                {label: "",
+                 enabled: true,
+                 checked: false,
+                 statusLabelAction: "action::statusLabel",
+                 statusIconAction: "action::statusIcon",
+                 connectivityIconAction: "action::connectivityIcon",
+                 simIdentifierLabelAction: "action::simIdentifierLabel",
+                 roamingAction: "action::roaming",
+                 unlockAction: "action::unlock"}
+            ];
+        }
+
+        function test_create_modemInfoItem(data) {
+            menuData.type = "com.canonical.indicator.network.modeminfoitem";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.isToggled = data.checked;
+            menuData.ext = {
+                'xCanonicalModemStatusLabelAction': "action::statusLabel",
+                'xCanonicalModemStatusIconAction': "action::statusIcon",
+                'xCanonicalModemConnectivityIconAction': "action::connectivityIcon",
+                'xCanonicalModemSimIdentifierLabelAction': "action::simIdentifierLabel",
+                'xCanonicalModemRoamingAction': "action::roaming",
+                'xCanonicalModemLockedAction': 'action::unlock',
+            };
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "modemInfoItem", "Should have created a modem info item.");
+            compare(loader.item.text, data.label, "Label does not match data");
+
+            compare(loader.item.statusLabelAction.name, "action::statusLabel", "StatusLabel action incorrect");
+            compare(loader.item.statusIconAction.name, "action::statusIcon", "StatusIcon action incorrect");
+            compare(loader.item.connectivityIconAction.name, "action::connectivityIcon", "ConnectivityIcon action incorrect");
+            compare(loader.item.simIdentifierLabelAction.name, "action::simIdentifierLabel", " action incorrect");
+            compare(loader.item.roamingAction.name, "action::roaming", "Roaming action incorrect");
+            compare(loader.item.unlockAction.name, "action::unlock", "Unlock action incorrect");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
