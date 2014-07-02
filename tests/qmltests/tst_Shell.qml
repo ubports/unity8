@@ -573,6 +573,8 @@ Item {
         }
 
         function test_login() {
+            sessionSpy.clear()
+
             var greeter = findChild(shell, "greeter")
             greeter.show()
             tryCompare(greeter, "showProgress", 1)
