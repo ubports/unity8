@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Mir.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Components 0.1
 
 Item {
