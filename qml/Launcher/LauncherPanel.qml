@@ -156,6 +156,7 @@ Item {
                         iconName: model.icon
                         count: model.count
                         progress: model.progress
+                        clipCorner: model.pinned
                         itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
