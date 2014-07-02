@@ -472,10 +472,6 @@ FocusScope {
         stages.hide()
     }
 
-    function hideIndicatorMenu(delay) {
-        panel.hideIndicatorMenu(delay);
-    }
-
     Item {
         id: overlay
 

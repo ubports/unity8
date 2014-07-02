@@ -94,7 +94,6 @@ Item {
 
                 onAppActivated: {
                     menuModel.activate(menuIndex, true);
-                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismissed: {
                     menuModel.activate(menuIndex, false);
@@ -142,7 +141,6 @@ Item {
 
                 onAppActivated: {
                     menuModel.activate(menuIndex, true);
-                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismissed: {
                     menuModel.activate(menuIndex, false);
@@ -201,7 +199,6 @@ Item {
 
                 onAppActivated: {
                     menuModel.activate(menuIndex, true);
-                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismissed: {
                     menuModel.activate(menuIndex, false);

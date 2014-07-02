@@ -31,28 +31,6 @@ Item {
 
     signal searchClicked
 
-    function hideIndicatorMenu(delay) {
-        if (delay !== undefined) {
-            hideTimer.interval = delay;
-            hideTimer.start();
-        } else {
-            indicatorsMenu.hide();
-        }
-    }
-
-    Timer {
-        id: hideTimer
-        running: false
-        onTriggered: {
-            indicatorsMenu.hide();
-        }
-    }
-
-    Connections {
-        target: indicatorsMenu
-        onShownChanged: hideTimer.stop()
-    }
-
     PanelBackground {
         id: panelBackground
         anchors {

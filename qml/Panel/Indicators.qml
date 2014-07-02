@@ -276,6 +276,7 @@ Showable {
                     indicators.calculateCurrentItem(touchX, false);
                 } else {
                     indicators.state = "commit";
+                    indicatorRow.currentItemOffset = 0;
                 }
             }
 
