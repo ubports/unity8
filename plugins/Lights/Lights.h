@@ -20,6 +20,7 @@
 #define UNITY_LIGHTS_H
 
 #include <QtCore/QObject>
+#include <QtGui/QColor>
 
 struct light_device_t;
 
@@ -28,6 +29,9 @@ class Lights: public QObject
     Q_OBJECT
     Q_ENUMS(State)
     Q_PROPERTY(State state READ state  WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(int onMillisec READ onMillisec WRITE setOnMillisec NOTIFY onMillisecChanged)
+    Q_PROPERTY(int offMillisec READ offMillisec WRITE setOffMillisec NOTIFY offMillisecChanged)
 
 public:
     enum State {
@@ -41,12 +45,27 @@ public:
     void setState(State newState);
     State state() const;
 
+    void setColor(const QColor &color);
+    QColor color() const;
+
+    int onMillisec() const;
+    void setOnMillisec(int onMs);
+
+    int offMillisec() const;
+    void setOffMillisec(int offMs);
+
 Q_SIGNALS:
     void stateChanged(State newState);
+    void colorChanged(const QColor &color);
+    void onMillisecChanged(int onMs);
+    void offMillisecChanged(int offMs);
 
 private:
-    State m_state;
     light_device_t* m_lightDevice;
+    QColor m_color;
+    State m_state;
+    int m_onMs;
+    int m_offMs;
 
     bool init();
     void turnOff();

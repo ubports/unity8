@@ -27,11 +27,13 @@ extern "C" {
 
 Lights::Lights(QObject* parent)
   : QObject(parent),
+    m_lightDevice(0),
+    m_color("blue"),
     m_state(Lights::Off),
-    m_lightDevice(0)
+    m_onMs(1000),
+    m_offMs(3000)
 {
 }
-
 
 Lights::~Lights()
 {
@@ -55,6 +57,48 @@ void Lights::setState(Lights::State newState)
 Lights::State Lights::state() const
 {
     return m_state;
+}
+
+void Lights::setColor(const QColor &color)
+{
+    if (m_color != color) {
+        m_color = color;
+        Q_EMIT colorChanged(m_color);
+        // FIXME: update the collor if the light is already on
+    }
+}
+
+QColor Lights::color() const
+{
+    return m_color;
+}
+
+int Lights::onMillisec() const
+{
+    return m_onMs;
+}
+
+void Lights::setOnMillisec(int onMs)
+{
+    if (m_onMs != onMs) {
+        m_onMs = onMs;
+        Q_EMIT onMillisecChanged(m_onMs);
+        // FIXME: update the property if the light is already on
+    }
+}
+
+int Lights::offMillisec() const
+{
+    return m_offMs;
+}
+
+void Lights::setOffMillisec(int offMs)
+{
+    if (m_offMs != offMs) {
+        m_offMs = offMs;
+        Q_EMIT offMillisecChanged(m_offMs);
+        // FIXME: update the property if the light is already on
+    }
 }
 
 bool Lights::init()
@@ -96,10 +140,10 @@ void Lights::turnOn()
     // pulse
     light_state_t state;
     memset(&state, 0, sizeof(light_state_t));
-    state.color = 0xff0000ff; // blue
+    state.color = m_color.rgba();
     state.flashMode = LIGHT_FLASH_TIMED;
-    state.flashOnMS = 1000;
-    state.flashOffMS = 1000;
+    state.flashOnMS = m_onMs;
+    state.flashOffMS = m_offMs;
     state.brightnessMode = BRIGHTNESS_MODE_USER;
 
     if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
