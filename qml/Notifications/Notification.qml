@@ -34,11 +34,10 @@ Item {
     property var hints
     property var notification
     property color color
-    property bool fullscreen
+    property bool fullscreen: false
     property int maxHeight
     property int margins
 
-    fullscreen: false
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
@@ -262,6 +261,7 @@ Item {
             }
 
             Column {
+                id: dialogColumn
                 objectName: "dialogListView"
                 spacing: units.gu(2)
 
@@ -277,7 +277,7 @@ Item {
                     NotificationMenuItemFactory {
                         id: menuItemFactory
 
-                        anchors.left: parent.left; anchors.right: parent.right
+                        anchors.left: dialogColumn.left; anchors.right: dialogColumn.right
 
                         menuModel: unityMenuModel
                         menuData: model
