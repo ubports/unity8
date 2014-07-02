@@ -74,10 +74,10 @@ bool Lights::init()
             m_lightDevice = (light_device_t*)device;
             return true;
         } else {
-            qWarning() << "Failt to access notification lights";
+            qWarning() << "Failed to access notification lights";
         }
     } else {
-        qWarning() << "Failt to initialize lights hardware.";
+        qWarning() << "Failed to initialize lights hardware.";
     }
     return false;
 }
@@ -103,7 +103,7 @@ void Lights::turnOn()
     state.brightnessMode = BRIGHTNESS_MODE_USER;
 
     if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
-         qWarning() << "Fail to turn the light off";
+         qWarning() << "Failed to turn the light off";
     } else {
         m_state = Lights::On;
         Q_EMIT stateChanged(m_state);
@@ -130,7 +130,7 @@ void Lights::turnOff()
     state.brightnessMode = 0;
 
     if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
-        qWarning() << "Fail to turn the light off";
+        qWarning() << "Failed to turn the light off";
     } else {
         m_state = Lights::Off;
         Q_EMIT stateChanged(m_state);
