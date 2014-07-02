@@ -364,7 +364,7 @@ FocusScope {
         onShownChanged: if (shown) greeter.fakeActiveForApp = ""
 
         Component.onCompleted: {
-            if (LightDM.Users.count == 1) {
+            if (greeter.narrowMode) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
             }
         }
@@ -376,8 +376,8 @@ FocusScope {
         onShowGreeter: greeter.show()
 
         onShowPrompt: {
-            if (LightDM.Users.count == 1) {
-                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
+            if (greeter.narrowMode) {
+                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text.toLowerCase());
                 lockscreen.show();
             }
         }
@@ -391,6 +391,9 @@ FocusScope {
                 greeter.login();
             } else {
                 lockscreen.clear(true);
+                if (greeter.narrowMode) {
+                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+                }
             }
         }
     }
@@ -459,9 +462,7 @@ FocusScope {
                     if (!LightDM.Greeter.promptless) {
                        lockscreen.show();
                     }
-                    // If there is only one user, we start authenticating with that one here.
-                    // If there are more users, the Greeter will handle that
-                    if (LightDM.Users.count == 1) {
+                    if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     }
                     greeter.fakeActiveForApp = "";

@@ -54,6 +54,16 @@ public:
 
     void start(QString username)
     {
+        // Clear out any existing PAM interactions first (we can't simply
+        // cancel our QFuture because QtConcurrent::run doesn't support cancel)
+        if (pamHandle != NULL) {
+            pam_handle *handle = pamHandle;
+            pamHandle = NULL; // to disable normal finishPam() handling
+            while (respond(QString())); // clear our local queue of QFutures
+            pam_end(handle, PAM_CONV_ERR);
+        }
+
+        // Now actually start a new conversation with PAM
         pam_conv conversation;
         conversation.conv = converseWithPam;
         conversation.appdata_ptr = static_cast<void*>(this);
@@ -158,10 +168,13 @@ public:
     }
 
 public Q_SLOTS:
-    void respond(QString response)
+    bool respond(QString response)
     {
         if (!futures.isEmpty()) {
             futures.dequeue().reportFinished(&response);
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -172,6 +185,10 @@ Q_SIGNALS:
 private Q_SLOTS:
     void finishPam()
     {
+        if (pamHandle == NULL) {
+            return;
+        }
+
         int pamStatus = futureWatcher.result();
 
         pam_end(pamHandle, pamStatus);
