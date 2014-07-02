@@ -20,7 +20,6 @@
 #include <QNetworkDiskCache>
 #include <QNetworkAccessManager>
 #include <QStandardPaths>
-#include <QThread>
 #include <QNetworkConfigurationManager>
 
 CachingNetworkAccessManager::CachingNetworkAccessManager(QObject *parent)
