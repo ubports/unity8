@@ -349,6 +349,7 @@ FocusScope {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
+        alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         minPinLength: 4
         maxPinLength: 4
 
@@ -376,12 +377,6 @@ FocusScope {
 
         onShowPrompt: {
             if (LightDM.Users.count == 1) {
-                // TODO: There's no better way for now to determine if its a PIN or a passphrase.
-                if (text == "PIN") {
-                    lockscreen.alphaNumeric = false
-                } else {
-                    lockscreen.alphaNumeric = true
-                }
                 lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
                 lockscreen.show();
             }
@@ -449,11 +444,12 @@ FocusScope {
 
             function login() {
                 enabled = false;
-                LightDM.Greeter.startSessionSync();
-                sessionStarted();
-                greeter.hide();
-                lockscreen.hide();
-                launcher.hide();
+                if (LightDM.Greeter.startSessionSync()) {
+                    sessionStarted();
+                    greeter.hide();
+                    lockscreen.hide();
+                    launcher.hide();
+                }
                 enabled = true;
             }
 
