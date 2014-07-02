@@ -32,7 +32,7 @@ Indicators.IndicatorBase {
     width: itemRow.width
     enabled: false
 
-    // WORKAROUND: For now we will enable led indicator support only for messaging indicator
+    // FIXME: For now we will enable led indicator support only for messaging indicator
     // in the future we should export a led API insted of doing that,
     Loader {
         id: indicatorLed
