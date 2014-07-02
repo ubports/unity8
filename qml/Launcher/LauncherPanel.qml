@@ -22,8 +22,9 @@ import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
 import "../Components/"
 
-Item {
+Rectangle {
     id: root
+    color: "#99000000"
 
     rotation: inverted ? 180 : 0
 
@@ -36,15 +37,6 @@ Item {
 
     signal applicationSelected(string appId)
     signal showDashHome()
-
-    BorderImage {
-        id: background
-        source: "graphics/launcher_bg.sci"
-        anchors.fill: parent
-        anchors.rightMargin: root.inverted ? 0 : -units.gu(1)
-        anchors.leftMargin: root.inverted ? -units.gu(1) : 0
-        rotation: root.rotation
-    }
 
     Column {
         id: mainColumn
