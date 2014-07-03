@@ -152,6 +152,9 @@ Item {
                             source: "image://theme/clear"
                             opacity: searchTextField.text.length > 0 && !searchActivityIndicator.running
                             visible: opacity > 0
+                            Behavior on opacity {
+                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                            }
                         }
 
                         ActivityIndicator {
