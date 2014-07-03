@@ -33,7 +33,6 @@ Item {
     PhoneStage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
-        shown: true
         dragAreaWidth: units.gu(2)
     }
 
@@ -74,11 +73,8 @@ Item {
             for (var i = 0; i < count; i++) {
                 var app = ApplicationManager.startApplication(ApplicationManager.availableApplications()[ApplicationManager.count])
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
-                // Fixme: Right now there is a timeout in the PhoneStage that displays a white splash
-                // screen rectangle when an app starts. This is because we don't yet have a way of
-                // knowing when an app has finished launching. That workaround and this wait() should
-                // go away at some point and the app's state only changing to Running when ready for real.
-//                wait(1000)
+                var spreadView = findChild(phoneStage, "spreadView");
+                tryCompare(spreadView, "contentX", -spreadView.shift);
                 waitForRendering(phoneStage)
             }
         }
@@ -114,8 +110,6 @@ Item {
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
 
             tryCompare(ApplicationManager, "focusedApplicationId", activeApp.appId)
-
-            tryCompare(phoneStage, "painting", false);
         }
 
         function test_enterSpread_data() {
@@ -165,7 +159,6 @@ Item {
                 mouseClick(app2, units.gu(1), units.gu(1));
             }
 
-            tryCompare(phoneStage, "painting", false);
             tryCompare(ApplicationManager, "focusedApplicationId", newFocusedApp.appId);
         }
 
@@ -212,16 +205,6 @@ Item {
             tryCompare(spreadView, "phase", 0);
         }
 
-        function test_animateAppStartup() {
-            compare(phoneStage.painting, false);
-            addApps(2);
-            tryCompare(phoneStage, "painting", true);
-            tryCompare(phoneStage, "painting", false);
-            addApps(1);
-            tryCompare(phoneStage, "painting", true);
-            tryCompare(phoneStage, "painting", false);
-        }
-
         function test_select_data() {
             return [
                 { tag: "0", index: 0 },
@@ -238,9 +221,11 @@ Item {
 
             goToSpread();
 
+
             phoneStage.select(selectedApp.appId);
 
-            tryCompare(phoneStage, "painting", false);
+            tryCompare(spreadView, "contentX", -spreadView.shift);
+
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
         }
 

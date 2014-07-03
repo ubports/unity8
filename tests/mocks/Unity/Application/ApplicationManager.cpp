@@ -181,8 +181,6 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     }
     add(application);
 
-    QMetaObject::invokeMethod(this, "focusApplication", Qt::QueuedConnection, Q_ARG(QString, appId));
-
     return application;
 }
 

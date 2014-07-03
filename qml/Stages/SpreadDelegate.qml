@@ -41,7 +41,7 @@ Item {
         readonly property var surface: model.surface
         property bool appHasCreatedASurface: false
 
-        onSurfaceChanged: { print("SURFACE!!", model.surface)
+        onSurfaceChanged: {
             if (surface) {
                 if (!appHasCreatedASurface) {
                     surface.visible = false; // hide until splash screen removed
