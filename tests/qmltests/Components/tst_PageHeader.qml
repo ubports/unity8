@@ -243,6 +243,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
+
         Row {
             spacing: units.gu(1)
             anchors {
