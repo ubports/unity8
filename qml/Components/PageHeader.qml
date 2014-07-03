@@ -64,11 +64,11 @@ Item {
             openSearchAnimation.openSearchHistory = true
         } else if (root.searchHistory.count > 0 && headerContainer.popover == null) {
             headerContainer.popover = PopupUtils.open(popoverComponent, searchTextField,
-                            {
-                                "contentWidth": searchTextField.width,
-                                "edgeMargins": units.gu(1)
-                            }
-                           )
+                                                      {
+                                                          "contentWidth": searchTextField.width,
+                                                          "edgeMargins": units.gu(1)
+                                                      }
+                                                     )
         }
     }
 
