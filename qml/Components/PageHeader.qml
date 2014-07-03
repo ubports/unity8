@@ -73,7 +73,7 @@ Item {
     }
 
     onImageSourceChanged: {
-        if (imageSource.length > 0) {
+        if (imageSource) {
             header.contents = imageComponent.createObject();
         } else {
             header.contents.destroy();
