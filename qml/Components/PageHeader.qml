@@ -189,6 +189,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
+                // FIXME: Use the theme's color once we're split from the shell
                 textColor: "grey"
                 property var styledItem: header
                 property string title: root.title
