@@ -148,7 +148,7 @@ Item {
                 right: parent.right
             }
 
-            width: (root.width > units.gu(60)) ? units.gu(40) : root.width
+            width: root.width
             shown: false
             panelHeight: units.gu(3)
             openedHeight: root.height
