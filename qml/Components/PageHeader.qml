@@ -39,7 +39,7 @@ Item {
     signal backClicked()
 
     function triggerSearch() {
-        if (searchEntryEnabled) searchTextField.forceActiveFocus()
+        if (searchEntryEnabled) searchTextField.forceActiveFocus();
     }
 
     function resetSearch(keepFocus) {
@@ -61,14 +61,14 @@ Item {
 
     function openSearchHistory() {
         if (openSearchAnimation.running) {
-            openSearchAnimation.openSearchHistory = true
+            openSearchAnimation.openSearchHistory = true;
         } else if (root.searchHistory.count > 0 && headerContainer.popover == null) {
             headerContainer.popover = PopupUtils.open(popoverComponent, searchTextField,
                                                       {
                                                           "contentWidth": searchTextField.width,
                                                           "edgeMargins": units.gu(1)
                                                       }
-                                                     )
+                                                     );
         }
     }
 
@@ -77,7 +77,7 @@ Item {
             header.contents = imageComponent.createObject();
         } else {
             header.contents.destroy();
-            header.contents = null
+            header.contents = null;
         }
     }
 
@@ -85,7 +85,7 @@ Item {
         anchors.fill: parent
         visible: headerContainer.popover !== null
         onPressed: {
-            PopupUtils.close(headerContainer.popover)
+            PopupUtils.close(headerContainer.popover);
         }
     }
 
@@ -110,7 +110,7 @@ Item {
                 onRunningChanged: {
                     if (!running && openSearchAnimation.openSearchHistory) {
                         openSearchAnimation.openSearchHistory = false;
-                        root.openSearchHistory()
+                        root.openSearchHistory();
                     }
                 }
             }
@@ -133,8 +133,8 @@ Item {
                     backAction: Action {
                         iconName: "back"
                         onTriggered: {
-                            root.resetSearch()
-                            headerContainer.showSearch = false
+                            root.resetSearch();
+                            headerContainer.showSearch = false;
                         }
                     }
                 }
@@ -142,7 +142,7 @@ Item {
                     id: searchTextField
                     hasClearButton: false
                     anchors {
-                        fill: parent;
+                        fill: parent
                         leftMargin: units.gu(1)
                         topMargin: units.gu(1)
                         bottomMargin: units.gu(1)
@@ -178,14 +178,14 @@ Item {
                         }
 
                         onClicked: {
-                            root.resetSearch(true)
-                            root.openSearchHistory()
+                            root.resetSearch(true);
+                            root.openSearchHistory();
                         }
                     }
 
                     onActiveFocusChanged: {
                         if (activeFocus) {
-                            root.openSearchHistory()
+                            root.openSearchHistory();
                         }
                     }
                 }
@@ -206,7 +206,7 @@ Item {
                         iconName: "back"
                         visible: root.showBackButton
                         onTriggered: {
-                            root.backClicked()
+                            root.backClicked();
                         }
                     }
 
@@ -215,8 +215,8 @@ Item {
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
-                                headerContainer.showSearch = true
-                                searchTextField.forceActiveFocus()
+                                headerContainer.showSearch = true;
+                                searchTextField.forceActiveFocus();
                             }
                         }
                     ]
@@ -255,7 +255,7 @@ Item {
             autoClose: false
 
             Component.onDestruction: {
-                headerContainer.popover = null
+                headerContainer.popover = null;
             }
 
             Column {
@@ -275,9 +275,9 @@ Item {
                         showDivider: index < recentSearches.count - 1
                         text: query
                         onClicked: {
-                            searchHistory.addQuery(text)
-                            searchTextField.text = text
-                            PopupUtils.close(popover)
+                            searchHistory.addQuery(text);
+                            searchTextField.text = text;
+                            PopupUtils.close(popover);
                         }
                     }
                 }
