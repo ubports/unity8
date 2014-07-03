@@ -21,7 +21,9 @@
 #include <QDebug>
 
 EasingCurve::EasingCurve(QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    m_progress(0),
+    m_value(0)
 {
 
 }

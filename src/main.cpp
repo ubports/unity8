@@ -34,12 +34,13 @@
 #include <paths.h>
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
+#include "CachingNetworkManagerFactory.h"
 
 int startShell(int argc, const char** argv)
 {
     const bool isMirServer = qgetenv("QT_QPA_PLATFORM") == "mirserver";
 
-    QGuiApplication::setApplicationName("Unity 8");
+    QGuiApplication::setApplicationName("unity8");
     QGuiApplication *application;
 
     QCommandLineParser parser;
@@ -139,6 +140,9 @@ Load the testability driver");
         prependImportPaths(view->engine(), ::nonMirImportPaths());
     }
     appendImportPaths(view->engine(), ::fallbackImportPaths());
+
+    CachingNetworkManagerFactory *managerFactory = new CachingNetworkManagerFactory();
+    view->engine()->setNetworkAccessManagerFactory(managerFactory);
 
     view->setSource(source);
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
