@@ -25,8 +25,6 @@ Item {
     property alias scope: scopeView.scope
     property alias previewOpen: previewListView.open
 
-    property ListModel searchHistory
-
     signal back
     signal gotoScope(string scopeId)
     signal openScope(var scope)
@@ -50,7 +48,6 @@ Item {
             isCurrent: scope != null
             title: scope ? scope.name : ""
             hasBackAction: true
-            searchHistory: root.searchHistory
             previewListView: previewListView
 
             onBackClicked: root.back();

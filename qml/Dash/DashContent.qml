@@ -28,8 +28,6 @@ Item {
     readonly property alias currentIndex: dashContentList.currentIndex
     property alias previewOpen: previewListView.open
 
-    property ListModel searchHistory
-
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
     signal openScope(var scope)
@@ -147,7 +145,6 @@ Item {
 
                     onLoaded: {
                         item.objectName = scope.id
-                        item.searchHistory = dashContent.searchHistory;
                         item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })

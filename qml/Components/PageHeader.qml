@@ -20,17 +20,18 @@ import Ubuntu.Components.Themes.Ambiance 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 
+import "SearchHistoryModel"
+
 Item {
     id: root
     implicitHeight: headerContainer.height + units.gu(2) + bottomContainer.height
-    height: implicitHeight
 
     property bool showBackButton: false
     property string title
     property string imageSource
 
     property bool searchEntryEnabled: false
-    property ListModel searchHistory
+    property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property bool searchInProgress: false
 

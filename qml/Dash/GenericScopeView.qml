@@ -33,7 +33,6 @@ FocusScope {
     property Item previewListView: null
     property string title
     property bool hasBackAction: false
-    property ListModel searchHistory
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
@@ -315,7 +314,6 @@ FocusScope {
             id: pageHeader
             width: parent.width
             title: scopeView.title
-            searchHistory: scopeView.searchHistory
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope.searchInProgress

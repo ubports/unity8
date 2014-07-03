@@ -155,6 +155,11 @@ bool Scope::hasDepartments() const
     return true;
 }
 
+QVariantMap Scope::customizations() const
+{
+    return QVariantMap();
+}
+
 unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& id)
 {
     if (id.isEmpty())

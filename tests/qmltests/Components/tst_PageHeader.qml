@@ -201,7 +201,6 @@ Item {
             }
 
             searchEntryEnabled: true
-            searchHistory: SearchHistoryModel {}
             title: "%^$%^%^&%^&%^$%GHR%"
             imageSource: showImageCheckBox.checked ? titleImageSource : ""
             showBackButton: showBackButtonCheckBox.checked

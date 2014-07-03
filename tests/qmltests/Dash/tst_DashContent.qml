@@ -47,8 +47,6 @@ Item {
             model: scopesModel
         }
         scopes : scopesModel
-
-        searchHistory: SearchHistoryModel {}
     }
 
     SignalSpy {
