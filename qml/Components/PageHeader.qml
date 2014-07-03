@@ -110,8 +110,7 @@ Item {
 
         Column {
             id: headersColumn
-            anchors.fill: parent
-            height: searchHeader.height + header.height
+            anchors { left: parent.left; right: parent.right }
 
             PageHeadStyle {
                 id: searchHeader
