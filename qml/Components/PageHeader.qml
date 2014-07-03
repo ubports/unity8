@@ -57,6 +57,9 @@ Item {
 
     function unfocus() {
         searchTextField.focus = false;
+        if (!searchTextField.text) {
+            headerContainer.showSearch = false;
+        }
     }
 
     function openSearchHistory() {
