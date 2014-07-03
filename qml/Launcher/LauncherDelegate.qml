@@ -153,14 +153,16 @@ Item {
 
     Item {
         id: clipper
-        anchors.fill: parent
+        anchors.centerIn: parent
+        width: iconItem.width
+        height: iconItem.height
         Rectangle {
             anchors {
                 fill: parent
                 topMargin: -units.gu(2)
                 leftMargin: -units.gu(2)
                 rightMargin: -units.gu(2)
-                bottomMargin: units.gu(1)
+                bottomMargin: units.gu(1.2)
             }
             color: "red"
             rotation: root.rotation + 45
