@@ -1,3 +1,65 @@
+unity8 (7.90+14.10.20140701.2-0ubuntu1) utopic; urgency=medium
+
+  [ Michał Sawicz ]
+  * Adapt to suru theme.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 15:10:35 +0000
+
+unity8 (7.89+14.10.20140627-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Fix path in launcher mock after moving our mock icons, to avoid a
+    lot of "icon not found" warnings during qmluitests.
+  * Fix the testMultiGreeter qmluitest. Incoming method variables are
+    apparently read-only in Qt5.3. (LP: #1332488)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Adapt scope mock to new api and quiet unused variable warnings.
+  * Fix dynamic overlay height. (LP: #1334879)
+  * Don't center items in CardVerticalJournal, kind of beats the
+    purpose... Also don't bind unnecessarily.
+
+  [ Ying-Chun Liu ]
+  * Fix LP:1330957 Fix some failed test cases. (LP: #1330957)
+
+  [ Albert Astals ]
+  * Don't seem to need this waitForRendering And makes test fail in 5.3
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 27 Jun 2014 08:47:58 +0000
+
+unity8 (7.89+14.10.20140624.1-0ubuntu1) utopic; urgency=low
+
+  [ Alberto Aguirre ]
+  * Update Powerd plugin and Shell.qml to accommodate changes in the
+    display power state notification.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Jun 2014 17:11:08 +0000
+
+unity8 (7.89+14.10.20140624-0ubuntu1) utopic; urgency=low
+
+  [ Ying-Chun Liu ]
+  * Add logout support. Reviewed by: Daniel d'Andrada (LP: #1302213)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Jun 2014 08:17:09 +0000
+
+unity8 (7.89+14.10.20140623.1-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Make so that fixedArtShapeSize actually fixes artShapeSize.
+
+  [ Albert Astals ]
+  * Add VerticalJournal integration to Dash/scopes/QML (LP: #1326467)
+  * Make so that fixedArtShapeSize actually fixes artShapeSize.
+
+  [ Mirco Müller ]
+  * Added the frontend-part of sound-hint support for notifications with
+    updated QML-tests.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 23 Jun 2014 11:17:12 +0000
+
 unity8 (7.89+14.10.20140619.3-0ubuntu1) utopic; urgency=low
 
   * New rebuild forced

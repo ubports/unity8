@@ -19,11 +19,12 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Settings.Components 0.1
 
 IndicatorBase {
     id: indicatorWidget
 
-    property int iconSize: height
+    property int iconSize: units.gu(2)
     property alias leftLabel: itemLeftLabel.text
     property alias rightLabel: itemRightLabel.text
     property var icons: undefined
@@ -33,7 +34,6 @@ IndicatorBase {
 
     Row {
         id: itemRow
-        width: childrenRect.width
         objectName: "itemRow"
         anchors {
             top: parent.top
@@ -43,7 +43,7 @@ IndicatorBase {
 
         Label {
             id: itemLeftLabel
-            width: guRoundUp(implicitWidth)
+            width: contentWidth + units.gu(1)
             objectName: "leftLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
@@ -51,10 +51,10 @@ IndicatorBase {
             fontSize: "medium"
             anchors.verticalCenter: parent.verticalCenter
             visible: text != ""
+            horizontalAlignment: Text.AlignHCenter
         }
 
         Row {
-            width: childrenRect.width
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -64,22 +64,16 @@ IndicatorBase {
                 model: indicatorWidget.icons
 
                 Item {
-                    width: guRoundUp(itemImage.width)
-                    height: indicatorWidget.iconSize
+                    width: itemImage.width + units.gu(1)
+                    anchors { top: parent.top; bottom: parent.bottom }
 
-                    Image {
+                    StatusIcon {
                         id: itemImage
-                        objectName: "itemImage"
-                        visible: source != ""
+                        height: indicatorWidget.iconSize
+                        anchors.centerIn: parent
                         source: modelData
-                        height: parent.height
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        fillMode: Image.PreserveAspectFit
-
-                        sourceSize {
-                            width: indicatorWidget.iconSize
-                            height: indicatorWidget.iconSize
-                        }
+                        sets: ["status", "actions"]
+                        color: "#CCCCCC"
                     }
                 }
             }
@@ -87,7 +81,7 @@ IndicatorBase {
 
         Label {
             id: itemRightLabel
-            width: guRoundUp(implicitWidth)
+            width: contentWidth + units.gu(1)
             objectName: "rightLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
@@ -95,18 +89,8 @@ IndicatorBase {
             fontSize: "medium"
             anchors.verticalCenter: parent.verticalCenter
             visible: text != ""
+            horizontalAlignment: Text.AlignHCenter
         }
-    }
-
-    // TODO: Use toolkit function https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1242575
-    function guRoundUp(width) {
-        if (width == 0) {
-            return 0;
-        }
-        var gu1 = units.gu(1.0);
-        var mod = (width % gu1);
-
-        return mod == 0 ? width : width + (gu1 - mod);
     }
 
     onRootActionStateChanged: {

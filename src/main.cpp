@@ -96,8 +96,6 @@ Load the testability driver");
         indicatorProfile = "phone";
     }
 
-    resolveIconTheme();
-
     ApplicationArguments qmlArgs;
     if (parser.isSet(windowGeometryOption) &&
         parser.value(windowGeometryOption).split('x').size() == 2)
@@ -161,6 +159,7 @@ Load the testability driver");
 
     view->setSource(source);
     view->setColor("transparent");
+    QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();
