@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2012-2014 Canonical, Ltd.
  *
  * Authors:
  *  Gerry Boland <gerry.boland@canonical.com>
@@ -23,12 +23,9 @@
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
-#include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <QDebug>
 #include <libintl.h>
-#include <dlfcn.h>
-#include <csignal>
 
 // local
 #include <paths.h>
@@ -36,9 +33,13 @@
 #include "ApplicationArguments.h"
 #include "CachingNetworkManagerFactory.h"
 
-int startShell(int argc, const char** argv)
+int main(int argc, const char *argv[])
 {
-    const bool isMirServer = qgetenv("QT_QPA_PLATFORM") == "mirserver";
+    bool isMirServer = false;
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
+        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
+        isMirServer = true;
+    }
 
     QGuiApplication::setApplicationName("unity8");
     QGuiApplication *application;
@@ -84,8 +85,8 @@ Load the testability driver");
     if (parser.isSet(windowGeometryOption) &&
         parser.value(windowGeometryOption).split('x').size() == 2)
     {
-      QStringList geom = parser.value(windowGeometryOption).split('x');
-      qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
+        QStringList geom = parser.value(windowGeometryOption).split('x');
+        qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
     }
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
@@ -109,7 +110,7 @@ Load the testability driver");
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Qml Phone Shell");
+    view->setTitle("Unity8 Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
@@ -124,15 +125,6 @@ Load the testability driver");
         mouseTouchAdaptor = new MouseTouchAdaptor;
         application->installNativeEventFilter(mouseTouchAdaptor);
     }
-
-    QPlatformNativeInterface* nativeInterface = QGuiApplication::platformNativeInterface();
-    /* Shell is declared as a system session so that it always receives all
-       input events.
-       FIXME: use the enum value corresponding to SYSTEM_SESSION_TYPE (= 1)
-       when it becomes available.
-    */
-    nativeInterface->setProperty("ubuntuSessionType", 1);
-    view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
     QUrl source(::qmlDirectory()+"Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
@@ -160,22 +152,4 @@ Load the testability driver");
     delete application;
 
     return result;
-}
-
-int main(int argc, const char *argv[])
-{
-    /* Workaround Qt platform integration plugin not advertising itself
-       as having the following capabilities:
-        - QPlatformIntegration::ThreadedOpenGL
-        - QPlatformIntegration::BufferQueueingOpenGL
-    */
-    setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
-    setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
-
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntuclient"
-            || qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
-        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
-    }
-
-    return startShell(argc, argv);
 }
