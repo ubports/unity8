@@ -61,6 +61,7 @@ PreviewWidget {
                     size: 5
                     value: modelData["rating"] || -1
                     visible: value >= 0
+                    interactive: false
 
                     property var urlIconEmpty: widgetData["rating-icon-empty"]
                     property var urlIconFull: widgetData["rating-icon-full"]

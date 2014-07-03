@@ -108,5 +108,18 @@ Rectangle {
                 }
             }
         }
+
+        function test_non_interactive() {
+            previewRatingDisplay.widgetData = reviewsModel1;
+
+            var reviewItem = findChild(previewRatingDisplay, "reviewItem1");
+            var rating = findChild(reviewItem, "rating");
+
+            compare(rating.value, reviewsModel1["reviews"][1]["rating"]);
+
+            // Tap on first star
+            mouseClick(rating, rating.height / 2, rating.height / 2);
+            compare(rating.value, reviewsModel1["reviews"][1]["rating"]);
+        }
     }
 }
