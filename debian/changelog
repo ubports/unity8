@@ -1,3 +1,19 @@
+unity8 (7.90+14.10.20140701.2-0ubuntu2) utopic; urgency=medium
+
+  * debian/control: 
+    list qtdeclarative5-ubuntu-ui-toolkit-plugin-gles as an alternative 
+    choice, since provides are not versionned, should restore installability
+    on amd64 and i386
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 03 Jul 2014 13:26:38 +0200
+
+unity8 (7.90+14.10.20140701.2-0ubuntu1) utopic; urgency=medium
+
+  [ Michał Sawicz ]
+  * Adapt to suru theme.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 15:10:35 +0000
+
 unity8 (7.89+14.10.20140627-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
