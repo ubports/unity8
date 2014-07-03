@@ -216,7 +216,7 @@ Item {
 
                 property var contents: null
                 Component.onCompleted: {
-                    if (root.imageSource.length > 0) {
+                    if (root.imageSource) {
                         header.contents = imageComponent.createObject();
                     }
                 }
