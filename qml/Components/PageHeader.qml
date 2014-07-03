@@ -118,8 +118,9 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
+                // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
-                property string title: "searchHeader"
+                property string title
                 property var config: PageHeadConfiguration {
                     backAction: Action {
                         iconName: "back"
