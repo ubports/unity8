@@ -42,15 +42,11 @@ Item {
         if (searchEntryEnabled) searchTextField.forceActiveFocus()
     }
 
-    function resetSearch(unfocusField) {
-        if (unfocusField == undefined) {
-            unfocusField = true;
-        }
-
+    function resetSearch(keepFocus) {
         if (searchHistory) {
             searchHistory.addQuery(searchTextField.text);
         }
-        if (unfocusField) {
+        if (!keepFocus) {
             unfocus();
         }
         searchTextField.text = "";
@@ -129,7 +125,7 @@ Item {
                     backAction: Action {
                         iconName: "back"
                         onTriggered: {
-                            root.resetSearch(true)
+                            root.resetSearch()
                             headerContainer.showSearch = false
                         }
                     }
@@ -171,7 +167,7 @@ Item {
                         }
 
                         onClicked: {
-                            root.resetSearch(false)
+                            root.resetSearch(true)
                             root.openSearchHistory()
                         }
                     }
