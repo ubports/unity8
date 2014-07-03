@@ -36,6 +36,7 @@ Item {
     readonly property bool painting: true
     property bool fullscreen: true
     property bool overlayMode: false
+    property bool interactive
 
     readonly property int overlayWidth: priv.overlayOverride ? 0 : spreadView.sideStageWidth
 
@@ -434,7 +435,8 @@ Item {
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     isInSideStage: priv.sideStageAppId == model.appId
-                    interactive: !spreadView.interactive
+                    interactive: !spreadView.interactive && spreadView.phase === 0 && root.interactive
+                    swipeToCloseEnabled: spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.contentX > 0 || spreadDragArea.status == DirectionalDragArea.Undecided
 
