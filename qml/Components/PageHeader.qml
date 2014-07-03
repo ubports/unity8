@@ -19,7 +19,6 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.Themes.Ambiance 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
-
 import "SearchHistoryModel"
 
 Item {
@@ -247,26 +246,6 @@ Item {
 
             Component.onDestruction: {
                 headerContainer.popover = null
-            }
-
-            // FIXME: this should go into the first item below, but enable: false
-            // prevents mouse events propagation
-            AbstractButton {
-                anchors {
-                    top: parent.top
-                    right: parent.right
-                }
-                height: units.gu(6)
-                width: height
-
-                onClicked: PopupUtils.close(popover)
-
-                Image {
-                    anchors.centerIn: parent
-                    width: units.gu(2)
-                    height: units.gu(2)
-                    source: "../Dash/graphics/icon_listview_clear.png"
-                }
             }
 
             Column {
