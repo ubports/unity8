@@ -27,12 +27,15 @@ Item {
         var application = ApplicationManager.findApplication("dialer-app");
 
         if (callManager.callIndicatorVisible) {
+            // at the moment, callIndicatorVisible is only "valid" if dialer is in focus.
             if (application && ApplicationManager.focusedApplicationId === "dialer-app") {
+                // Don't show if application is still starting; might get a fleeting true/false.
                 return application.state !== ApplicationInfoInterface.Starting;
             }
         }
         if (ApplicationManager.focusedApplicationId !== "dialer-app") {
             if (application) {
+                // Don't show if application is still starting; might get a fleeting true/false.
                 return application.state !== ApplicationInfoInterface.Starting && callManager.hasCalls;
             }
             return callManager.hasCalls;
