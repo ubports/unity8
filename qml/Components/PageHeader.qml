@@ -81,6 +81,14 @@ Item {
         }
     }
 
+    InverseMouseArea {
+        anchors.fill: parent
+        visible: headerContainer.popover !== null
+        onPressed: {
+            PopupUtils.close(headerContainer.popover)
+        }
+    }
+
     Flickable {
         id: headerContainer
         objectName: "headerContainer"
@@ -244,6 +252,7 @@ Item {
         id: popoverComponent
         Popover {
             id: popover
+            autoClose: false
 
             Component.onDestruction: {
                 headerContainer.popover = null
