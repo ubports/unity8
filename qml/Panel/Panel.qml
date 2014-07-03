@@ -172,7 +172,7 @@ Item {
         SearchIndicator {
             id: search
             objectName: "search"
-            enabled: root.searchVisible
+            enabled: root.searchVisible && state == "visible"
 
             state: {
                 if (callHint.visible) {
