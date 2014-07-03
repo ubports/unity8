@@ -232,6 +232,7 @@ Item {
                             source: root.imageSource
                             fillMode: Image.PreserveAspectFit
                             horizontalAlignment: Image.AlignLeft
+                            sourceSize.height: height
                         }
                     }
                 }
