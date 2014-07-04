@@ -69,7 +69,7 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
-        source: hints["suppress-sound"] != "" ? hints["sound-file"] : undefined
+        source: hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
     onOpacityChanged: {
