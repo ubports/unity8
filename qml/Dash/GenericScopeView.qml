@@ -34,7 +34,9 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    // TODO Should be taken from the theme
     property color foregroundColor: scope && scope.customizations["foreground-color"] || "grey"
+    property color backgroundColor: scope && scope.customizations["background-color"] || "transparent"
 
     signal backClicked()
 
@@ -99,7 +101,7 @@ FocusScope {
     Rectangle {
         id: headerBackground
         anchors.fill: parent
-        color: scopeView.scope && scopeView.scope.customizations["background-color"] || "transparent"
+        color: scopeView.backgroundColor
         visible: color != "transparent"
     }
 
@@ -336,7 +338,7 @@ FocusScope {
                 windowHeight: scopeView.height
                 windowWidth: scopeView.width
                 foregroundColor: scopeView.foregroundColor
-                // TODO Should we move the background color over the deparments combo too?
+                backgroundColor: scopeView.backgroundColor === Qt.rgba(0, 0, 0, 0) ? "white" : scopeView.backgroundColor
             }
 
             onBackClicked: scopeView.backClicked()

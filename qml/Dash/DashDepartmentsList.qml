@@ -22,6 +22,7 @@ Item {
     property var department: null
     property var currentDepartment: null
     property color foregroundColor: "gray"
+    property color backgroundColor: "white"
     signal enterDepartment(var newDepartmentId, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
@@ -31,7 +32,7 @@ Item {
 
 
     Rectangle {
-        color: "white"
+        color: root.backgroundColor
         anchors.fill: parent
     }
 
@@ -81,8 +82,8 @@ Item {
                         leftMargin: units.gu(2)
                     }
                     name: "back"
-                    height: parent.height - units.gu(3)
-                    width: units.gu(2)
+                    height: units.gu(2)
+                    width: height
                     color: root.foregroundColor
                 }
 
@@ -104,7 +105,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: "gray" // TODO Should this be root.foregroundColor ?
+                    color: root.foregroundColor
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -136,7 +137,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: "gray" // TODO Should this be root.foregroundColor ?
+                    color: root.foregroundColor
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -164,17 +165,16 @@ Item {
                         color: root.foregroundColor
                     }
 
-                    Image {
-                        // TODO Use Icon here and use root.foregroundColor as keyColor
+                    Icon {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
                             rightMargin: units.gu(2)
                         }
-                        source: hasChildren ? "image://theme/chevron" : "graphics/tick.png"
-                        sourceSize.height: parent.height - units.gu(3)
-                        sourceSize.width: units.gu(3)
-                        fillMode: Image.PreserveAspectFit
+                        height: units.gu(2)
+                        width: height
+                        name: hasChildren ? "go-next" : "tick"
+                        color: root.foregroundColor
                         visible: hasChildren || isActive
                     }
 
@@ -186,7 +186,7 @@ Item {
                             leftMargin: units.gu(2)
                             rightMargin: units.gu(2)
                         }
-                        color: "gray" // TODO Should this be root.foregroundColor ?
+                        color: root.foregroundColor
                         opacity: 0.1
                         height: units.dp(1)
                         visible: index != department.count - 1

@@ -29,6 +29,7 @@ AbstractButton {
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
+    property color backgroundColor: "white"
     property color foregroundColor: "gray"
 
     // Are we drilling down the tree or up?
@@ -86,10 +87,9 @@ AbstractButton {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: units.gu(2)
-        rotation: showList ? 180 : 0
-        name: "dropdown-menu"
-        height: parent.height - units.gu(3)
-        width: units.gu(2)
+        name: showList ? "up" : "down"
+        height: units.gu(2)
+        width: height
         color: root.foregroundColor
     }
 
@@ -125,6 +125,7 @@ AbstractButton {
             objectName: "department" + index
             visible: height != 0
             width: departmentListView.width
+            backgroundColor: root.backgroundColor
             foregroundColor: root.foregroundColor
             property real desiredHeight: {
                 if (root.showList) {
