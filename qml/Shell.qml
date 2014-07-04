@@ -286,7 +286,7 @@ FocusScope {
     InputMethod {
         id: inputMethod
         anchors.fill: parent
-        z: notifications.useModal ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown ? overlay.z + 1 : overlay.z - 1
     }
 
     Connections {
