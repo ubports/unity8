@@ -30,7 +30,6 @@ Item {
     readonly property int itemHeight: units.gu(5)
     implicitHeight: flickable.contentHeight
 
-
     Rectangle {
         color: root.backgroundColor
         anchors.fill: parent
