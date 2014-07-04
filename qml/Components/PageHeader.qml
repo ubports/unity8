@@ -39,7 +39,10 @@ Item {
     signal backClicked()
 
     function triggerSearch() {
-        if (searchEntryEnabled) searchTextField.forceActiveFocus();
+        if (searchEntryEnabled) {
+            headerContainer.showSearch = true;
+            searchTextField.forceActiveFocus();
+        }
     }
 
     function resetSearch(keepFocus) {
