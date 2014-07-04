@@ -99,7 +99,6 @@ FocusScope {
     }
 
     Rectangle {
-        id: headerBackground
         anchors.fill: parent
         color: scopeView.backgroundColor
         visible: color != "transparent"
