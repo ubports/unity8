@@ -159,6 +159,7 @@ Item {
                     secondaryItem: AbstractButton {
                         height: searchTextField.height
                         width: height
+                        enabled: searchTextField.text.length > 0
 
                         Image {
                             objectName: "clearIcon"
