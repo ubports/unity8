@@ -549,7 +549,7 @@ Item {
             property var runningState : transferState !== undefined ? transferState["state"] : undefined
             property var secondsLeft : transferState !== undefined ? transferState["seconds-left"] : undefined
 
-            active: runningState !== undefined && runningState !== Menus.TransferState.FINISHED
+            active: runningState !== undefined && runningState !== Menus.TransferState.Finished
             progress: transferState !== undefined ? transferState["percent"] : 0.0
 
             // TODO - Should be in the SDK
@@ -579,19 +579,19 @@ Item {
 
             stateText: {
                 switch (runningState) {
-                    case Menus.TransferState.QUEUED:
+                    case Menus.TransferState.Queued:
                         return i18n.tr("In queue…");
-                    case Menus.TransferState.HASHING:
-                    case Menus.TransferState.PROCESSING:
-                    case Menus.TransferState.RUNNING:
+                    case Menus.TransferState.Hashing:
+                    case Menus.TransferState.Processing:
+                    case Menus.TransferState.Running:
                         return timeRemaining === undefined ? i18n.tr("Downloading") : timeRemaining;
-                    case Menus.TransferState.PAUSED:
+                    case Menus.TransferState.Paused:
                         return i18n.tr("Paused, tap to resume");
-                    case Menus.TransferState.CANCELED:
+                    case Menus.TransferState.Canceled:
                         return i18n.tr("Canceled");
-                    case Menus.TransferState.FINISHED:
+                    case Menus.TransferState.Finished:
                         return i18n.tr("Finished");
-                    case Menus.TransferState.ERROR:
+                    case Menus.TransferState.Error:
                         return i18n.tr("Failed, tap to retry");
                 }
                 return "";

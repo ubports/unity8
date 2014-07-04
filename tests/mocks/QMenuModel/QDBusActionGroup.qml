@@ -31,7 +31,7 @@ QtObject {
                 return {
                     'valid': true,
                     'state': {
-                        'state': Menus.TransferState.QUEUED,
+                        'state': Menus.TransferState.Queued,
                         'percent': 0.0
                     }
             }
@@ -39,7 +39,7 @@ QtObject {
                 return {
                     'valid': true,
                     'state': {
-                        'state': Menus.TransferState.RUNNING,
+                        'state': Menus.TransferState.Running,
                         'seconds-left': 100,
                         'percent': 0.1
                     }
@@ -48,7 +48,7 @@ QtObject {
                 return {
                     'valid': true,
                     'state': {
-                        'state': Menus.TransferState.PAUSED,
+                        'state': Menus.TransferState.Paused,
                         'seconds-left': 100,
                         'percent': 0.5
                     }
@@ -57,14 +57,14 @@ QtObject {
                 return {
                     'valid': true,
                     'state': {
-                        'state': Menus.TransferState.CANCELED,
+                        'state': Menus.TransferState.Canceled,
                         'percent': 0.4
                     }
             }
             case "transfer-state.finished": return {
                     'valid': true,
                     'state': {
-                        'state': Menus.TransferState.FINISHED,
+                        'state': Menus.TransferState.Finished,
                         'seconds-left': 0,
                         'percent': 1.0
                     }
@@ -73,7 +73,7 @@ QtObject {
                 return {
                     'valid': true,
                     'state': {
-                        'state': Menus.TransferState.ERROR,
+                        'state': Menus.TransferState.Error,
                         'seconds-left': 100,
                         'percent': 0.0
                     }

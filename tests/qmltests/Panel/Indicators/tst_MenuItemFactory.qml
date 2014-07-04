@@ -432,7 +432,7 @@ Item {
 
         function test_create_transferMenu_data() {
             return [
-                {tag: "queued", label: "testLabel1", enabled: true, active: true, icon: "file:///testIcon1", progress: 0, stateText: i18n.tr("In queue...") },
+                {tag: "queued", label: "testLabel1", enabled: true, active: true, icon: "file:///testIcon1", progress: 0, stateText: i18n.tr("In queue…") },
                 {tag: "running", label: "testLabel2", enabled: true, active: true, icon: "file:///testIcon2", progress: 0.1, stateText: "1 minute, 40 seconds remaining" },
                 {tag: "paused", label: "testLabel3", enabled: true, active: true, icon: "file:///testIcon3", progress: 0.5, stateText: i18n.tr("Paused, tap to resume") },
                 {tag: "cancelled", label: "testLabel4", enabled: true, active: true, icon: "file:///testIcon4", progress: 0.4, stateText: i18n.tr("Canceled") },
