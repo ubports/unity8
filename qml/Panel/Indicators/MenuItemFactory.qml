@@ -68,6 +68,7 @@ Item {
 
     Component {
         id: separatorMenu;
+
         Menus.SeparatorMenu {
             objectName: "separatorMenu"
         }
@@ -75,6 +76,7 @@ Item {
 
     Component {
         id: sliderMenu;
+
         Menus.SliderMenu {
             objectName: "sliderMenu"
             property QtObject menuData: null
@@ -126,6 +128,7 @@ Item {
 
     Component {
         id: buttonMenu;
+
         Menus.ButtonMenu {
             objectName: "buttonMenu"
             property QtObject menuData: null
@@ -143,6 +146,7 @@ Item {
     }
     Component {
         id: sectionMenu;
+
         Menus.SectionMenu {
             objectName: "sectionMenu"
             property QtObject menuData: null
@@ -155,6 +159,7 @@ Item {
 
     Component {
         id: progressMenu;
+
         Menus.ProgressValueMenu {
             objectName: "progressMenu"
             property QtObject menuData: null
@@ -169,6 +174,7 @@ Item {
 
     Component {
         id: standardMenu;
+
         Menus.StandardMenu {
             objectName: "standardMenu"
             property QtObject menuData: null
@@ -187,6 +193,7 @@ Item {
 
     Component {
         id: checkableMenu;
+
         Menus.CheckableMenu {
             objectName: "checkableMenu"
             property QtObject menuData: null
@@ -206,6 +213,7 @@ Item {
 
     Component {
         id: switchMenu;
+
         Menus.SwitchMenu {
             objectName: "switchMenu"
             property QtObject menuData: null
@@ -225,6 +233,7 @@ Item {
 
     Component {
         id: alarmMenu;
+
         Menus.EventMenu {
             objectName: "alarmMenu"
             property QtObject menuData: null
@@ -262,6 +271,7 @@ Item {
 
     Component {
         id: appointmentMenu;
+
         Menus.EventMenu {
             objectName: "appointmentMenu"
             property QtObject menuData: null
@@ -301,6 +311,7 @@ Item {
 
     Component {
         id: wifiSection;
+
         Menus.SectionMenu {
             objectName: "wifiSection"
             property QtObject menuData: null
@@ -327,6 +338,7 @@ Item {
 
     Component {
         id: accessPoint;
+
         Menus.AccessPointMenu {
             objectName: "accessPoint"
             property QtObject menuData: null
@@ -369,6 +381,7 @@ Item {
 
     Component {
         id: messageItem
+
         MessageMenuItemFactory {
             objectName: "messageItem"
             menuModel: menuFactory.menuModel
@@ -377,6 +390,7 @@ Item {
 
     Component {
         id: groupedMessage
+
         Menus.GroupedMessageMenu {
             objectName: "groupedMessage"
             property QtObject menuData: null
@@ -413,6 +427,7 @@ Item {
 
     Component {
         id: mediaPayerMenu;
+
         Menus.MediaPlayerMenu {
             objectName: "mediaPayerMenu"
             property QtObject menuData: null
@@ -439,6 +454,7 @@ Item {
 
     Component {
         id: playbackItemMenu;
+
         Menus.PlaybackItemMenu {
             objectName: "playbackItemMenu"
             property QtObject menuData: null
@@ -495,6 +511,7 @@ Item {
 
     Component {
         id: transferMenu
+
         Menus.TransferMenu {
             objectName: "transferMenu"
             id: transfer
@@ -605,6 +622,7 @@ Item {
 
     Component {
         id: buttonSectionMenu;
+
         ListItems.Standard {
             objectName: "buttonSectionMenu"
             property QtObject menuData: null
