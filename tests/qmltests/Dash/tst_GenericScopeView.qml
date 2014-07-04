@@ -37,10 +37,6 @@ Item {
 
     Scopes {
         id: scopes
-
-        onLoadedChanged: {
-            genericScopeView.scope = scopes.getScope(2)
-        }
     }
 
     property Item applicationManager: Item {
@@ -178,6 +174,14 @@ Item {
                 tryCompareFunction(function() { return category.item.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category, "filtered", true);
+            }
+
+            function test_haeder_logo() {
+                genericScopeView.scope = scopes.getScope(3);
+
+                var image = findChild(genericScopeView, "titleImage");
+                verify(image, "Could not find the title image");
+                compare(image.source, Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg"), "Title image has the wrong source");
             }
         }
     }
