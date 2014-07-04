@@ -35,16 +35,16 @@ Item {
         "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
         "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
 
-        "com.canonical.indicator.button"        : buttonMenu,
-        "com.canonical.indicator.div"           : separatorMenu,
-        "com.canonical.indicator.section"       : sectionMenu,
-        "com.canonical.indicator.progress"      : progressMenu,
-        "com.canonical.indicator.slider"        : sliderMenu,
-        "com.canonical.indicator.switch"        : switchMenu,
-        "com.canonical.indicator.alarm"         : alarmMenu,
-        "com.canonical.indicator.appointment"   : appointmentMenu,
-        "com.canonical.indicator.transfer"      : transferMenu,
-        "com.canonical.indicator.transfer-bulk-action" : bulkTransferMenu,
+        "com.canonical.indicator.button"         : buttonMenu,
+        "com.canonical.indicator.div"            : separatorMenu,
+        "com.canonical.indicator.section"        : sectionMenu,
+        "com.canonical.indicator.progress"       : progressMenu,
+        "com.canonical.indicator.slider"         : sliderMenu,
+        "com.canonical.indicator.switch"         : switchMenu,
+        "com.canonical.indicator.alarm"          : alarmMenu,
+        "com.canonical.indicator.appointment"    : appointmentMenu,
+        "com.canonical.indicator.transfer"       : transferMenu,
+        "com.canonical.indicator.button-section" : buttonSectionMenu,
 
         "com.canonical.indicator.messages.messageitem"  : messageItem,
         "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
@@ -604,9 +604,9 @@ Item {
     }
 
     Component {
-        id: bulkTransferMenu;
+        id: buttonSectionMenu;
         ListItems.Standard {
-            objectName: "bulkTransferMenu"
+            objectName: "buttonSectionMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
