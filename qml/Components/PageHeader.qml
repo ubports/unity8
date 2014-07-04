@@ -204,6 +204,7 @@ Item {
 
             PageHeadStyle {
                 id: header
+                objectName: "pageHeader"
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
