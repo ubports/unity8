@@ -267,9 +267,12 @@ Item {
 
                 visible: count > 0
 
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.top: fullscreen ? parent.top : undefined
-                anchors.bottom: fullscreen ? parent.bottom : undefined
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: fullscreen ? parent.top : undefined
+                    bottom: fullscreen ? parent.bottom : undefined
+                }
 
                 Repeater {
                     model: unityMenuModel
@@ -277,7 +280,10 @@ Item {
                     NotificationMenuItemFactory {
                         id: menuItemFactory
 
-                        anchors.left: dialogColumn.left; anchors.right: dialogColumn.right
+                        anchors {
+                            left: dialogColumn.left
+                            right: dialogColumn.right
+                        }
 
                         menuModel: unityMenuModel
                         menuData: model
