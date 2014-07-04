@@ -44,9 +44,7 @@ SpreadDelegate {
     property bool isInSideStage: false
 
     onSelectedChanged: {
-//        print("selected changed:", selected)
         if (selected) {
-//            print("snappsshotting", index)
             priv.snapshot();
         }
         priv.isSelected = selected;
@@ -66,8 +64,6 @@ SpreadDelegate {
             if (spreadView.phase == 1) {
                 var phase2Progress = spreadView.positionMarker4 - (root.zIndex * spreadView.tileDistance / spreadView.width);
                 priv.phase2StartTranslate = priv.easingAnimation(0, 1, 0, -spreadView.width + (root.zIndex * root.endDistance), phase2Progress);
-//                print("calculating end value for", root.zIndex, priv.phase2StartTranslate, "startprogress:", phase2Progress)
-
                 priv.phase2StartScale = priv.easingAnimation(0, 1, root.startScale, root.endScale, phase2Progress)
                 priv.phase2StartAngle = priv.easingAnimation(0, 1, root.startAngle, root.endAngle, phase2Progress)
                 priv.phase2StartTopMarginProgress = priv.easingAnimation(0, 1, 0, 1, phase2Progress)
@@ -106,8 +102,6 @@ SpreadDelegate {
             selectedScale = priv.scale;
             selectedOpacity = priv.opacityTransform;
             selectedTopMarginProgress = topMarginProgress;
-//            print("snapshotting at phase", spreadView.phase, negativeProgress);
-//            print("snapshotted", root.zIndex, "prog:", selectedProgress, "translate:", selectedXTranslate, "angle", selectedAngle, "scale", selectedScale)
         }
 
         // This calculates how much negative progress there can be if unwinding the spread completely
@@ -139,7 +133,6 @@ SpreadDelegate {
             }
 
             if (isSelected) {
-//                print("progress:", root.progress, negativeProgress)
                 if (model.stage == ApplicationInfoInterface.MainStage) {
                     return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, -spreadView.width, root.progress)
                 } else {
@@ -260,7 +253,6 @@ SpreadDelegate {
             }
 
             // The tile should rotate a bit when another one comes on top, but not when only dragging the side stage in
-//            print("nextinstack", spreadView.nextInStack, ApplicationManager.count)
             var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage)
 
             if (spreadView.phase == 0) {

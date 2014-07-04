@@ -54,7 +54,6 @@ Item {
         property string appId1
 
         onFocusedAppIdChanged: {
-            print("focused appid changed", priv.focusedAppId)
             if (priv.focusedAppId.length > 0) {
                 var focusedApp = ApplicationManager.findApplication(focusedAppId);
                 if (focusedApp.stage == ApplicationInfoInterface.SideStage) {
@@ -105,17 +104,14 @@ Item {
     Connections {
         target: ApplicationManager
         onFocusRequested: {
-            printStack()
             if (spreadView.interactive) {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
-//                priv.switchToApp(appId);
                 ApplicationManager.focusApplication(appId)
             }
         }
 
         onApplicationRemoved: {
-            printStack()
             if (priv.mainStageAppId == appId) {
                 priv.mainStageAppId = "";
             }
@@ -126,15 +122,6 @@ Item {
                 spreadView.phase = 0;
                 spreadView.contentX = 0;
             }
-        }
-        onApplicationAdded: {
-            printStack()
-        }
-    }
-
-    function printStack() {
-        for (var i = 0; i < ApplicationManager.count; i++) {
-            print("AppMan item", i, ":", ApplicationManager.get(i).appId)
         }
     }
 
@@ -187,7 +174,6 @@ Item {
                 if (ApplicationManager.count <= 2) {
                     return -1;
                 }
-                print("nextinstack calculation! appId0", priv.appId0, "appid1", priv.appId1, "MS", priv.mainStageAppId, "SS", priv.sideStageAppId)
                 if (priv.appId0 == priv.mainStageAppId || priv.appId0 == priv.sideStageAppId) {
                     if (priv.appId1 == priv.mainStageAppId || priv.appId1 == priv.sideStageAppId) {
                         return 2;
@@ -196,12 +182,10 @@ Item {
                 }
                 return 0;
             case "overlay":
-                print("foo", priv.appId0, priv.appId1)
                 return 1;
             }
-            print("unhandled nextInStack case!!!!!");
+            print("Unhandled nextInStack case! This shouldn't happen any more when the Dash is an app!");
             return -1;
-
         }
         property int nextZInStack: indexToZIndex(nextInStack)
 
@@ -251,8 +235,6 @@ Item {
                 snapAnimation.start();
             } else if (contentX < phase1Width) {
                 snapTo(1)
-//            } else if (contentX < phase1Width + units.gu(5)) {
-//                snapTo(1)
             } else {
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = spreadView.width * spreadView.positionMarker4 + 1;
@@ -260,9 +242,7 @@ Item {
             }
         }
         function snapTo(index) {
-            print("snapping to index", index)
             spreadView.selectedIndex = index;
-//            root.fullscreen = ApplicationManager.get(index).fullscreen;
             snapAnimation.targetContentX = 0;
             snapAnimation.start();
         }
@@ -315,7 +295,6 @@ Item {
                 target: spreadView
                 property: "contentX"
                 to: snapAnimation.targetContentX
-//                duration: UbuntuAnimation.SlowDuration
                 duration: UbuntuAnimation.FastDuration
             }
 
@@ -400,7 +379,7 @@ Item {
                     onReleased: {
                         if (priv.mainStageAppId) {
                             var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
-                            sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0
+                            sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0;
                             sideStageDragSnapAnimation.start();
                         } else {
                             sideStageDragHandle.dragging = false;
@@ -512,8 +491,6 @@ Item {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
         direction: Direction.Leftwards
-
-//        Rectangle { anchors.fill: parent; color: "#4400FF00"}
 
         property bool attachedToView: false
         property var gesturePoints: new Array()
