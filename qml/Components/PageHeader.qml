@@ -90,7 +90,7 @@ Item {
         onPressed: {
             if (headerContainer.popover) {
                 PopupUtils.close(headerContainer.popover);
-            } else {
+            } else if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
         }
