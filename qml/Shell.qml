@@ -226,7 +226,18 @@ FocusScope {
 
         Connections {
             target: ApplicationManager
-            onFocusRequested: { stages.show(); }
+            onFocusRequested: {
+                if (greeter.shown) {
+                    greeter.hide();
+                }
+                stages.show();
+            }
+
+            onApplicationAdded: {
+                if (greeter.shown) {
+                    greeter.hide();
+                }
+            }
 
             onEmptyChanged: {
                 if (ApplicationManager.empty) {
