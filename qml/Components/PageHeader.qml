@@ -19,18 +19,18 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.Themes.Ambiance 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
+import "SearchHistoryModel"
 
 Item {
     id: root
     implicitHeight: headerContainer.height + units.gu(2) + bottomContainer.height
-    height: implicitHeight
 
     property bool showBackButton: false
     property string title
     property string imageSource
 
     property bool searchEntryEnabled: false
-    property ListModel searchHistory
+    property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property bool searchInProgress: false
 
@@ -43,18 +43,14 @@ Item {
     signal backClicked()
 
     function triggerSearch() {
-        if (searchEntryEnabled) searchTextField.forceActiveFocus()
+        if (searchEntryEnabled) searchTextField.forceActiveFocus();
     }
 
-    function resetSearch(unfocusField) {
-        if (unfocusField == undefined) {
-            unfocusField = true;
-        }
-
+    function resetSearch(keepFocus) {
         if (searchHistory) {
             searchHistory.addQuery(searchTextField.text);
         }
-        if (unfocusField) {
+        if (!keepFocus) {
             unfocus();
         }
         searchTextField.text = "";
@@ -65,27 +61,38 @@ Item {
 
     function unfocus() {
         searchTextField.focus = false;
+        if (!searchTextField.text) {
+            headerContainer.showSearch = false;
+        }
     }
 
     function openSearchHistory() {
         if (openSearchAnimation.running) {
-            openSearchAnimation.openSearchHistory = true
+            openSearchAnimation.openSearchHistory = true;
         } else if (root.searchHistory.count > 0 && headerContainer.popover == null) {
             headerContainer.popover = PopupUtils.open(popoverComponent, searchTextField,
-                            {
-                                "contentWidth": searchTextField.width,
-                                "edgeMargins": units.gu(1)
-                            }
-                           )
+                                                      {
+                                                          "contentWidth": searchTextField.width,
+                                                          "edgeMargins": units.gu(1)
+                                                      }
+                                                     );
         }
     }
 
     onImageSourceChanged: {
-        if (imageSource.length > 0) {
+        if (imageSource) {
             header.contents = imageComponent.createObject();
         } else {
             header.contents.destroy();
-            header.contents = null
+            header.contents = null;
+        }
+    }
+
+    InverseMouseArea {
+        anchors.fill: parent
+        visible: headerContainer.popover !== null
+        onPressed: {
+            PopupUtils.close(headerContainer.popover);
         }
     }
 
@@ -110,7 +117,7 @@ Item {
                 onRunningChanged: {
                     if (!running && openSearchAnimation.openSearchHistory) {
                         openSearchAnimation.openSearchHistory = false;
-                        root.openSearchHistory()
+                        root.openSearchHistory();
                     }
                 }
             }
@@ -118,8 +125,7 @@ Item {
 
         Column {
             id: headersColumn
-            anchors.fill: parent
-            height: searchHeader.height + header.height
+            anchors { left: parent.left; right: parent.right }
 
             PageHeadStyle {
                 id: searchHeader
@@ -127,14 +133,15 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
+                // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
-                property string title: "searchHeader"
+                property string title
                 property var config: PageHeadConfiguration {
                     backAction: Action {
                         iconName: "back"
                         onTriggered: {
-                            root.resetSearch(true)
-                            headerContainer.showSearch = false
+                            root.resetSearch();
+                            headerContainer.showSearch = false;
                         }
                     }
                 }
@@ -142,7 +149,7 @@ Item {
                     id: searchTextField
                     hasClearButton: false
                     anchors {
-                        fill: parent;
+                        fill: parent
                         leftMargin: units.gu(1)
                         topMargin: units.gu(1)
                         bottomMargin: units.gu(1)
@@ -160,6 +167,9 @@ Item {
                             source: "image://theme/clear"
                             opacity: searchTextField.text.length > 0 && !searchActivityIndicator.running
                             visible: opacity > 0
+                            Behavior on opacity {
+                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                            }
                         }
 
                         ActivityIndicator {
@@ -175,14 +185,14 @@ Item {
                         }
 
                         onClicked: {
-                            root.resetSearch(false)
-                            root.openSearchHistory()
+                            root.resetSearch(true);
+                            root.openSearchHistory();
                         }
                     }
 
                     onActiveFocusChanged: {
                         if (activeFocus) {
-                            root.openSearchHistory()
+                            root.openSearchHistory();
                         }
                     }
                 }
@@ -202,7 +212,7 @@ Item {
                         iconName: "back"
                         visible: root.showBackButton
                         onTriggered: {
-                            root.backClicked()
+                            root.backClicked();
                         }
                     }
 
@@ -211,8 +221,8 @@ Item {
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
-                                headerContainer.showSearch = true
-                                searchTextField.forceActiveFocus()
+                                headerContainer.showSearch = true;
+                                searchTextField.forceActiveFocus();
                             }
                         }
                     ]
@@ -220,7 +230,7 @@ Item {
 
                 property var contents: null
                 Component.onCompleted: {
-                    if (root.imageSource.length > 0) {
+                    if (root.imageSource) {
                         header.contents = imageComponent.createObject();
                     }
                 }
@@ -236,6 +246,7 @@ Item {
                             source: root.imageSource
                             fillMode: Image.PreserveAspectFit
                             horizontalAlignment: Image.AlignLeft
+                            sourceSize.height: height
                         }
                     }
                 }
@@ -247,29 +258,10 @@ Item {
         id: popoverComponent
         Popover {
             id: popover
+            autoClose: false
 
             Component.onDestruction: {
-                headerContainer.popover = null
-            }
-
-            // FIXME: this should go into the first item below, but enable: false
-            // prevents mouse events propagation
-            AbstractButton {
-                anchors {
-                    top: parent.top
-                    right: parent.right
-                }
-                height: units.gu(6)
-                width: height
-
-                onClicked: PopupUtils.close(popover)
-
-                Image {
-                    anchors.centerIn: parent
-                    width: units.gu(2)
-                    height: units.gu(2)
-                    source: "../Dash/graphics/icon_listview_clear.png"
-                }
+                headerContainer.popover = null;
             }
 
             Column {
@@ -289,9 +281,9 @@ Item {
                         showDivider: index < recentSearches.count - 1
                         text: query
                         onClicked: {
-                            searchHistory.addQuery(text)
-                            searchTextField.text = text
-                            PopupUtils.close(popover)
+                            searchHistory.addQuery(text);
+                            searchTextField.text = text;
+                            PopupUtils.close(popover);
                         }
                     }
                 }

@@ -201,7 +201,6 @@ Item {
             }
 
             searchEntryEnabled: true
-            searchHistory: SearchHistoryModel {}
             title: "%^$%^%^&%^&%^$%GHR%"
             imageSource: showImageCheckBox.checked ? titleImageSource : ""
             showBackButton: showBackButtonCheckBox.checked
@@ -244,6 +243,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
+
         Row {
             spacing: units.gu(1)
             anchors {

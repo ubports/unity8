@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 1.1
+import Ubuntu.Components 0.1
 import Unity 0.2
 import Utils 0.1
 import "../Components"
@@ -27,8 +27,6 @@ Item {
     property var scopes: null
     readonly property alias currentIndex: dashContentList.currentIndex
     property alias previewOpen: previewListView.open
-
-    property ListModel searchHistory
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
@@ -147,7 +145,6 @@ Item {
 
                     onLoaded: {
                         item.objectName = scope.id
-                        item.searchHistory = dashContent.searchHistory;
                         item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })

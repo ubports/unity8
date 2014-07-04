@@ -15,8 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.Themes.Ambiance 1.1
+import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
 import Unity.Application 0.1
@@ -33,7 +32,6 @@ FocusScope {
     property Item previewListView: null
     property string title
     property bool hasBackAction: false
-    property ListModel searchHistory
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     property color foregroundColor: scope && scope.customizations["foreground-color"] || "grey"
@@ -325,7 +323,6 @@ FocusScope {
             id: pageHeader
             width: parent.width
             title: scopeView.title
-            searchHistory: scopeView.searchHistory
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope.searchInProgress

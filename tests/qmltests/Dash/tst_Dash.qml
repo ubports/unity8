@@ -70,27 +70,6 @@ Item {
             ]
         }
 
-        function test_set_current_scope_data() {
-            return get_scope_data()
-        }
-
-        function test_set_current_scope(data) {
-            // wait for scopes to load
-            tryCompare(scopes, "loaded", true);
-
-            var tabbar = findChild(dash, "tabbar");
-            verify(tabbar != undefined)
-            var dashContent = findChild(dash, "dashContent");
-            var current_index = dashContent.currentIndex;
-
-            dash.setCurrentScope(data.tag, true /* animate */, false /* reset */);
-            compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
-
-            var dashContentList = findChild(dash, "dashContentList");
-            var expectedTitle = dashContentList.model.get(data.shouldBeVisible ? data.visualIndex : current_index).title
-            compare(tabbar.title, expectedTitle);
-        }
-
         function test_show_scope_on_load_data() {
             return get_scope_data()
         }
