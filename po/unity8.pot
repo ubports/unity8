@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"POT-Creation-Date: 2014-07-04 16:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,7 +80,7 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:365
+#: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
 msgstr ""
 
@@ -163,6 +163,26 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:568
+msgid "In queue..."
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:574
+msgid "Paused, tap to resume"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:576
+msgid "Canceled"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:578
+msgid "Finished"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:580
+msgid "Failed, tap to retry"
 msgstr ""
 
 #: qml/Panel/SearchIndicator.qml:27
