@@ -64,9 +64,9 @@ SpreadDelegate {
             if (spreadView.phase == 1) {
                 var phase2Progress = spreadView.positionMarker4 - (root.zIndex * spreadView.tileDistance / spreadView.width);
                 priv.phase2StartTranslate = priv.easingAnimation(0, 1, 0, -spreadView.width + (root.zIndex * root.endDistance), phase2Progress);
-                priv.phase2StartScale = priv.easingAnimation(0, 1, root.startScale, root.endScale, phase2Progress)
-                priv.phase2StartAngle = priv.easingAnimation(0, 1, root.startAngle, root.endAngle, phase2Progress)
-                priv.phase2StartTopMarginProgress = priv.easingAnimation(0, 1, 0, 1, phase2Progress)
+                priv.phase2StartScale = priv.easingAnimation(0, 1, root.startScale, root.endScale, phase2Progress);
+                priv.phase2StartAngle = priv.easingAnimation(0, 1, root.startAngle, root.endAngle, phase2Progress);
+                priv.phase2StartTopMarginProgress = priv.easingAnimation(0, 1, 0, 1, phase2Progress);
             }
         }
     }
@@ -129,27 +129,27 @@ SpreadDelegate {
             var newTranslate = 0;
 
             if (otherSelected) {
-                return priv.selectedXTranslate
+                return priv.selectedXTranslate;
             }
 
             if (isSelected) {
                 if (model.stage == ApplicationInfoInterface.MainStage) {
-                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, -spreadView.width, root.progress)
+                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, -spreadView.width, root.progress);
                 } else {
-                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, -spreadView.sideStageWidth, root.progress)
+                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, -spreadView.sideStageWidth, root.progress);
                 }
             }
 
             // The tile should move a bit to the left if a new one comes on top of it, but not for the Side Stage and not
             // when we're only dragging the side stage in on top of a main stage app
             var shouldMoveAway = spreadView.nextInStack >= 0 && priv.movedActive && model.stage === ApplicationInfoInterface.MainStage &&
-                    ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage
+                    ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage;
 
             if (active) {
                 newTranslate -= root.width
                 // Only do the hide animation for active apps in the mainstage, and not if we only drag the ss in
                 if (spreadView.phase == 0 && shouldMoveAway) {
-                    newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -units.gu(4), root.animatedProgress)
+                    newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -units.gu(4), root.animatedProgress);
                 }
             }
             if (nextInStack && spreadView.phase == 0) {
@@ -162,16 +162,16 @@ SpreadDelegate {
 
                 if (model.stage == ApplicationInfoInterface.SideStage && !spreadView.sideStageVisible) {
                     // This is when we only drag the side stage in, without rotation or snapping
-                    newTranslate = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.sideStageWidth, root.progress)
+                    newTranslate = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.sideStageWidth, root.progress);
                 } else {
-                    newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.sideStageWidth * spreadView.snapPosition, root.animatedProgress)
+                    newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.sideStageWidth * spreadView.snapPosition, root.animatedProgress);
                 }
             }
 
             if (spreadView.phase == 1) {
                 if (nextInStack) {
                     if (model.stage == ApplicationInfoInterface.MainStage) {
-                        var startValue = -spreadView.sideStageWidth * spreadView.snapPosition + (spreadView.sideStageVisible ? -spreadView.sideStageWidth : 0)
+                        var startValue = -spreadView.sideStageWidth * spreadView.snapPosition + (spreadView.sideStageVisible ? -spreadView.sideStageWidth : 0);
                         newTranslate += linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, startValue, priv.phase2StartTranslate, root.animatedProgress);
                     } else {
                         var endValue = -spreadView.width + spreadView.width * root.zIndex / 6;
@@ -182,19 +182,19 @@ SpreadDelegate {
                         }
                     }
                 } else if (root.active) {
-                    var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
-                    var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
-                    var startTranslate = -root.width + (shouldMoveAway ? -units.gu(4) : 0)
+                    var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2);
+                    var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width);
+                    var startTranslate = -root.width + (shouldMoveAway ? -units.gu(4) : 0);
                     newTranslate = linearAnimation(startProgress, endProgress, startTranslate, priv.phase2StartTranslate, root.progress);
                 } else {
-                    var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
-                    var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
+                    var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2);
+                    var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width);
                     newTranslate = linearAnimation(startProgress, endProgress, 0, priv.phase2StartTranslate, root.progress);
                 }
             }
 
             if (spreadView.phase == 2) {
-                newTranslate = -easingCurve.value * (spreadView.width - root.zIndex * animatedEndDistance)
+                newTranslate = -easingCurve.value * (spreadView.width - root.zIndex * animatedEndDistance);
             }
 
             return newTranslate;
@@ -206,7 +206,7 @@ SpreadDelegate {
             }
 
             if (isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedScale, 1, root.progress)
+                return linearAnimation(selectedProgress, negativeProgress, selectedScale, 1, root.progress);
             }
 
             if (spreadView.phase == 0) {
@@ -220,7 +220,7 @@ SpreadDelegate {
                 } else if (active) {
                     return 1;
                 } else {
-                    return linearAnimation(0, spreadView.positionMarker2, root.startScale, root.endScale, root.progress)
+                    return linearAnimation(0, spreadView.positionMarker2, root.startScale, root.endScale, root.progress);
                 }
             }
 
@@ -230,15 +230,15 @@ SpreadDelegate {
                     if (model.stage !== ApplicationInfoInterface.SideStage || spreadView.sideStageVisible) {
                         startScale = root.dragStartScale - ((root.dragStartScale - 1) * spreadView.snapPosition);
                     }
-                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, startScale, priv.phase2StartScale, root.animatedProgress)
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, startScale, priv.phase2StartScale, root.animatedProgress);
                 }
-                var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
-                var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
-                return linearAnimation(startProgress, endProgress, 1, priv.phase2StartScale, root.animatedProgress)
+                var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2);
+                var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width);
+                return linearAnimation(startProgress, endProgress, 1, priv.phase2StartScale, root.animatedProgress);
             }
 
             if (spreadView.phase == 2) {
-                return root.startScale - easingCurve.value * (root.startScale - root.endScale)
+                return root.startScale - easingCurve.value * (root.startScale - root.endScale);
             }
 
             return 1;
@@ -249,36 +249,36 @@ SpreadDelegate {
                 return selectedAngle;
             }
             if (isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedAngle, 0, root.progress)
+                return linearAnimation(selectedProgress, negativeProgress, selectedAngle, 0, root.progress);
             }
 
             // The tile should rotate a bit when another one comes on top, but not when only dragging the side stage in
-            var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage)
+            var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage);
 
             if (spreadView.phase == 0) {
                 if (nextInStack) {
                     if (model.stage == ApplicationInfoInterface.SideStage && !spreadView.sideStageVisible) {
                         return 0;
                     } else {
-                        return linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
+                        return linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress);
                     }
                 }
                 if (shouldMoveAway) {
-                    return linearAnimation(0, spreadView.positionMarker2, 0, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
+                    return linearAnimation(0, spreadView.positionMarker2, 0, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress);
                 }
             }
             if (spreadView.phase == 1) {
                 if (nextInStack) {
                     if (model.stage == ApplicationInfoInterface.SideStage && !spreadView.sideStageVisible) {
-                        return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 0, priv.phase2StartAngle, root.animatedProgress)
+                        return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 0, priv.phase2StartAngle, root.animatedProgress);
                     } else {
-                        return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.startAngle * (1-spreadView.snapPosition), priv.phase2StartAngle, root.animatedProgress)
+                        return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.startAngle * (1-spreadView.snapPosition), priv.phase2StartAngle, root.animatedProgress);
                     }
                 }
-                var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2)
-                var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width)
-                var startAngle = shouldMoveAway ? root.startAngle * (1-spreadView.snapPosition) : 0
-                return linearAnimation(startProgress, endProgress, startAngle, priv.phase2StartAngle, root.progress)
+                var startProgress = spreadView.positionMarker2 - (zIndex * spreadView.positionMarker2 / 2);
+                var endProgress = spreadView.positionMarker4 - (zIndex * spreadView.tileDistance / spreadView.width);
+                var startAngle = shouldMoveAway ? root.startAngle * (1-spreadView.snapPosition) : 0;
+                return linearAnimation(startProgress, endProgress, startAngle, priv.phase2StartAngle, root.progress);
             }
             if (spreadView.phase == 2) {
                 return root.startAngle - easingCurve.value * (root.startAngle - root.endAngle);
@@ -289,7 +289,7 @@ SpreadDelegate {
 
         property real opacityTransform: {
             if (otherSelected && spreadView.phase == 2) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedOpacity, 0, root.progress)
+                return linearAnimation(selectedProgress, negativeProgress, selectedOpacity, 0, root.progress);
             }
 
             return 1;

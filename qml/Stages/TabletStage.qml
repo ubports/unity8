@@ -107,7 +107,7 @@ Item {
             if (spreadView.interactive) {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
-                ApplicationManager.focusApplication(appId)
+                ApplicationManager.focusApplication(appId);
             }
         }
 
@@ -158,8 +158,8 @@ Item {
 
         onSideStageDragProgressChanged: {
             if (sideStageDragProgress == 1) {
-                ApplicationManager.focusApplication(priv.mainStageAppId)
-                priv.sideStageAppId = ""
+                ApplicationManager.focusApplication(priv.mainStageAppId);
+                priv.sideStageAppId = "";
             }
         }
 
@@ -234,7 +234,7 @@ Item {
                 snapAnimation.targetContentX = 0;
                 snapAnimation.start();
             } else if (contentX < phase1Width) {
-                snapTo(1)
+                snapTo(1);
             } else {
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = spreadView.width * spreadView.positionMarker4 + 1;
@@ -302,7 +302,7 @@ Item {
                 script: {
                     if (spreadView.selectedIndex >= 0) {
                         var newIndex = spreadView.selectedIndex;
-                        spreadView.selectedIndex = -1
+                        spreadView.selectedIndex = -1;
                         ApplicationManager.focusApplication(ApplicationManager.get(newIndex).appId);
                         spreadView.phase = 0;
                         spreadView.contentX = 0;
@@ -372,7 +372,7 @@ Item {
                     }
                     onMouseXChanged: {
                         if (priv.mainStageAppId) {
-                            sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth)
+                            sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth);
                         }
                         gesturePoints.push(mouseX);
                     }
@@ -393,7 +393,7 @@ Item {
 
                     onRunningChanged: {
                         if (!running) {
-                            sideStageDragHandle.dragging = false;
+                            sideStageDragHandle.dragging = false;;
                         }
                     }
                 }
@@ -433,7 +433,7 @@ Item {
                     Connections {
                         target: ApplicationManager
                         onApplicationRemoved: spreadTile.z = Qt.binding(function() {
-                            return spreadView.indexToZIndex(index)
+                            return spreadView.indexToZIndex(index);
                         })
                     }
 
@@ -470,9 +470,9 @@ Item {
                     }
 
                     onClosed: {
-                        spreadView.draggedIndex = -1
-                        spreadView.closingIndex = index
-                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId)
+                        spreadView.draggedIndex = -1;
+                        spreadView.closingIndex = index;
+                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
                     }
 
                     EasingCurve {
@@ -502,7 +502,7 @@ Item {
             }
 
             if (attachedToView) {
-                spreadView.contentX = -touchX + spreadDragArea.width
+                spreadView.contentX = -touchX + spreadDragArea.width;
                 if (spreadView.contentX > spreadView.phase0Width + spreadView.phase1Width / 2) {
                     attachedToView = false;
                     spreadView.snap();
@@ -536,7 +536,7 @@ Item {
                 if (spreadView.contentX < spreadView.width * spreadView.positionMarker1) {
                     spreadView.snap();
                 } else if (spreadView.contentX < spreadView.width * spreadView.positionMarker2) {
-                    spreadView.snapTo(spreadView.nextInStack)
+                    spreadView.snapTo(spreadView.nextInStack);
                 } else {
                     // otherwise snap to the closest snap position we can find
                     // (might be back to start, to app 1 or to spread)
