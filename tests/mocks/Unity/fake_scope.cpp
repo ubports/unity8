@@ -15,6 +15,7 @@
  */
 
 #include "fake_scope.h"
+#include "fake_department.h"
 #include "fake_resultsmodel.h"
 
 Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
@@ -28,6 +29,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_visible(visible)
     , m_searching(false)
     , m_isActive(false)
+    , m_currentDeparment("root")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(20, this))
 {
@@ -102,7 +104,7 @@ void Scope::setFormFactor(const QString &str) {
 void Scope::setActive(const bool active) {
     if (active != m_isActive) {
         m_isActive = active;
-        Q_EMIT isActiveChanged(active);
+        Q_EMIT isActiveChanged();
     }
 }
 
@@ -141,4 +143,42 @@ void Scope::cancelActivation()
 void Scope::closeScope(unity::shell::scopes::ScopeInterface* /*scope*/)
 {
     qFatal("Scope::closeScope is not implemented");
+}
+
+QString Scope::currentDepartmentId() const
+{
+    return m_currentDeparment;
+}
+
+bool Scope::hasDepartments() const
+{
+    return true;
+}
+
+QVariantMap Scope::customizations() const
+{
+    return QVariantMap();
+}
+
+unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& id)
+{
+    if (id.isEmpty())
+        return nullptr;
+
+    QString parentId;
+    QString parentLabel;
+    if (id.startsWith("middle")) {
+        parentId = "root";
+        parentLabel = "root";
+    } else if (id.startsWith("child")) {
+        parentId = id.mid(5, 7);
+        parentLabel = parentId;
+    }
+    return new Department(id, id, "all"+id, parentId, parentLabel, this);
+}
+
+void Scope::loadDepartment(const QString& id)
+{
+    m_currentDeparment = id;
+    Q_EMIT currentDepartmentIdChanged();
 }

@@ -3,7 +3,7 @@ AbstractButton {
                 property var template; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource; 
+                property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
                 property int headerAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
@@ -46,12 +46,13 @@ Loader {
                     } 
                 }
 readonly property size artShapeSize: Qt.size(-1, -1);
-readonly property int headerHeight: row.height + row.margins * 2;
+readonly property int headerHeight: row.height;
 Row { 
                     id: row; 
                     objectName: "outerRow"; 
                     property real margins: units.gu(1); 
                     spacing: margins; 
+                    height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; 
                     anchors { top: parent.top; 
                                      topMargin: units.gu(1);
                     left: parent.left;

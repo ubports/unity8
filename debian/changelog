@@ -1,3 +1,225 @@
+unity8 (7.90+14.10.20140701.2-0ubuntu2) utopic; urgency=medium
+
+  * debian/control: 
+    list qtdeclarative5-ubuntu-ui-toolkit-plugin-gles as an alternative 
+    choice, since provides are not versionned, should restore installability
+    on amd64 and i386
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 03 Jul 2014 13:26:38 +0200
+
+unity8 (7.90+14.10.20140701.2-0ubuntu1) utopic; urgency=medium
+
+  [ Michał Sawicz ]
+  * Adapt to suru theme.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 15:10:35 +0000
+
+unity8 (7.89+14.10.20140627-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Fix path in launcher mock after moving our mock icons, to avoid a
+    lot of "icon not found" warnings during qmluitests.
+  * Fix the testMultiGreeter qmluitest. Incoming method variables are
+    apparently read-only in Qt5.3. (LP: #1332488)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Adapt scope mock to new api and quiet unused variable warnings.
+  * Fix dynamic overlay height. (LP: #1334879)
+  * Don't center items in CardVerticalJournal, kind of beats the
+    purpose... Also don't bind unnecessarily.
+
+  [ Ying-Chun Liu ]
+  * Fix LP:1330957 Fix some failed test cases. (LP: #1330957)
+
+  [ Albert Astals ]
+  * Don't seem to need this waitForRendering And makes test fail in 5.3
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 27 Jun 2014 08:47:58 +0000
+
+unity8 (7.89+14.10.20140624.1-0ubuntu1) utopic; urgency=low
+
+  [ Alberto Aguirre ]
+  * Update Powerd plugin and Shell.qml to accommodate changes in the
+    display power state notification.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Jun 2014 17:11:08 +0000
+
+unity8 (7.89+14.10.20140624-0ubuntu1) utopic; urgency=low
+
+  [ Ying-Chun Liu ]
+  * Add logout support. Reviewed by: Daniel d'Andrada (LP: #1302213)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Jun 2014 08:17:09 +0000
+
+unity8 (7.89+14.10.20140623.1-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Make so that fixedArtShapeSize actually fixes artShapeSize.
+
+  [ Albert Astals ]
+  * Add VerticalJournal integration to Dash/scopes/QML (LP: #1326467)
+  * Make so that fixedArtShapeSize actually fixes artShapeSize.
+
+  [ Mirco Müller ]
+  * Added the frontend-part of sound-hint support for notifications with
+    updated QML-tests.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 23 Jun 2014 11:17:12 +0000
+
+unity8 (7.89+14.10.20140619.3-0ubuntu1) utopic; urgency=low
+
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Jun 2014 16:02:41 +0000
+
+unity8 (7.89+14.10.20140619.2-0ubuntu1) utopic; urgency=low
+
+  [ Albert Astals ]
+  * Departments support (LP: #1320847)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Jun 2014 11:17:40 +0000
+
+unity8 (7.89+14.10.20140616.1-0ubuntu1) utopic; urgency=low
+
+  [ Pawel Stolowski ]
+  * Extend the hack for click scope categories with the upcoming 'store'
+    category: single-tap on results from the 'store' category should
+    activate them, instead of requesting a preview. (LP: #1326292)
+
+  [ Albert Astals ]
+  * Drop the " Preview" suffix from Preview title As requested in
+    https://bugs.launchpad.net/unity8/+bug/1316671 (LP: #1316671)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 16 Jun 2014 14:43:01 +0000
+
+unity8 (7.89+14.10.20140613-0ubuntu1) utopic; urgency=medium
+
+  [ Michael Terry ]
+  * Revert split greeter for now.  We will bring it back as an option
+    for Desktop, but use a big hammer revert right now to get Touch back
+    in shape.
+
+  [ CI bot ]
+  * Fix build problems. Reviewed by: Michael Terry (LP: #1328850)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 13 Jun 2014 08:30:48 +0000
+
+unity8 (7.88+14.10.20140606-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Make lockscreen buttons translatable.
+
+  [ Albert Astals ]
+  * Correctly mark these functions as overrides
+  * Remove connections to non existant signal
+  * Better test name
+  * Improvements for headerless categories LVPWH: No section name -> no
+    header LVPWH: New hasSectionHeader context property for delegates
+    GSV: Add topMargin if no hasSectionHeader (LP: #1326415)
+  * Make tryVerticalJournal, tryHorizontalJournal and tryOrganicGrid
+    work again
+
+  [ Michael Zanetti ]
+  * Don't crash when we get an invalid app from ApplicationManager (LP:
+    #1309162)
+
+  [ Andrea Cimitan ]
+  * Workaround for lp1324159 (LP: #1322233, #1324159)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Florian Boucault ]
+  * Application startup: changed splash rectangle to be black instead of
+    white and added a neat little animation. (LP: #1124265)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 06 Jun 2014 11:38:53 +0000
+
+unity8 (7.88+14.10.20140603.1-0ubuntu1) utopic; urgency=medium
+
+  [ Michael Terry ]
+  * Bump version so ubuntu-touch-session can reference this one
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Jun 2014 20:31:00 +0000
+
+unity8 (7.87+14.10.20140603.1-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Move env setup past session init in greeter wrapper. (LP: #1325882)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Jun 2014 10:33:11 +0000
+
+unity8 (7.87+14.10.20140530.1-0ubuntu3) utopic; urgency=medium
+
+  * no change rebuild
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 02 Jun 2014 16:19:10 +0200
+
+unity8 (7.87+14.10.20140530.1-0ubuntu2) utopic; urgency=medium
+
+  * drop dbus-x11 dependency of unity8-greeter, it makes us end up with
+    multiple session dbus daemons which breaks many AP tests in the lab
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 02 Jun 2014 14:50:59 +0200
+
+unity8 (7.87+14.10.20140530.1-0ubuntu1) utopic; urgency=medium
+
+  [ Michael Terry ]
+  * Bump version for Breaks due to unity8-greeter
+  * In split mode, determine whether the application identifiers in
+    AccountsService are click packages or not, so we know the correct
+    url prefix to use.
+  * Start logrotate in the greeter's session.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 30 May 2014 09:29:15 +0000
+
+unity8 (7.86+14.10.20140527-0ubuntu1) utopic; urgency=low
+
+  [ Andrea Cimitan ]
+  * Passes to make tryCommand -qmljsdebugger=port:3768 to enable
+    debug/profiling test apps
+  * Fixes carousel shadow
+
+  [ Michał Sawicz ]
+  * Use dpkg-architecture, not gcc, to determine the machine triplet.
+
+  [ Ying-Chun Liu ]
+  * Fix ZoomableImage test failure. (LP: #1317254)
+
+  [ Albert Astals ]
+  * We don't need iconutils in this mock
+  * Don't reserve space for mascot if no mascot is specified (LP:
+    #1319343)
+  * CardHeader is no more, remove stale line in CMakeLists.txt
+  * GenericScopeViewTest: Wait a bit more Otherwise sometimes we end
+    getting up the wrong delegate (maybe one that will be garbage
+    collected?) (LP: #1322279)
+  * Fix crash in organicgridtest
+
+  [ Daniel d'Andrada ]
+  * Remove Shell's underlay background image as it cannot be seen
+    anymore Now that the Dash has its own, opaque, background, the
+    underlay's background image can no longer be seen. So it's just a
+    waste of resources to have it.
+
+  [ Michael Terry ]
+  * Use the same animation when dismissing a greeter slide from the
+    launcher as from a normal greeter drag. (LP: #1316513)
+
+  [ Michael Zanetti ]
+  * enhance lockscreen add a retry indication label (e.g. 3 attempts
+    left). add an additional label (e.g. phone number for multi sim).
+    add a infoPopup (e.g. to display a warning for last retry). add min
+    and max limit values. add tests for the above (LP: #1302050)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 May 2014 07:47:11 +0000
+
 unity8 (7.86+14.10.20140522-0ubuntu1) utopic; urgency=low
 
   [ Albert Astals ]

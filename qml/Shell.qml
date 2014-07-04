@@ -119,15 +119,6 @@ FocusScope {
             // through the translucent parts of the shell surface.
             visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-            CrossFadeImage {
-                id: backgroundImage
-                objectName: "backgroundImage"
-
-                anchors.fill: parent
-                source: shell.background
-                fillMode: Image.PreserveAspectCrop
-            }
-
             Rectangle {
                 anchors.fill: parent
                 color: "black"
@@ -480,7 +471,8 @@ FocusScope {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
-        pinLength: 4
+        minPinLength: 4
+        maxPinLength: 4
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
@@ -534,7 +526,10 @@ FocusScope {
         width: parent.width
         height: parent.height - panel.panelHeight
 
-        Behavior on x {SmoothedAnimation{velocity: 600}}
+        Behavior on x {
+            enabled: !launcher.dashSwipe
+            StandardAnimation {}
+        }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
 
@@ -596,7 +591,7 @@ FocusScope {
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
+            if (status == Powerd.Off && reason != Powerd.Proximity) {
                 greeter.showNow();
             }
 

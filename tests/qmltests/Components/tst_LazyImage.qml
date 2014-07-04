@@ -113,7 +113,7 @@ Rectangle {
     }
 
     UT.UnityTestCase {
-        name: "Stage"
+        name: "LazyImage"
         when: windowShown
 
         function cleanup() {
@@ -152,7 +152,6 @@ Rectangle {
 
         function test_lazyimage(data) {
             data.func();
-            waitForRendering(baseRect);
 
             if (data.transition) {
                 // wait for the transition to complete

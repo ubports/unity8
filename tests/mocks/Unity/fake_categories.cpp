@@ -50,7 +50,7 @@ void Categories::addSpecialCategory(QString const& categoryId, QString const& na
     }
 }
 
-bool Categories::overrideCategoryJson(QString const& categoryId, QString const& json)
+bool Categories::overrideCategoryJson(QString const& /* categoryId */, QString const& /* json */)
 {
     qFatal("Using un-implemented Categories::overrideCategoryJson");
 }
@@ -152,7 +152,11 @@ Categories::data(const QModelIndex& index, int role) const
             case RoleComponents:
             {
                 QVariantMap map, artMap;
-                artMap["aspect-ratio"] = "1.0";
+                if (index.row() % 2 != 0) {
+                    artMap["aspect-ratio"] = QString("1.%1").arg(index.row());
+                } else {
+                    artMap["aspect-ratio"] = "1.0";
+                }
                 artMap["field"] = "art";
                 map["art"] = artMap;
                 map["title"] = "HOLA";

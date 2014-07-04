@@ -96,8 +96,6 @@ Load the testability driver");
         indicatorProfile = "phone";
     }
 
-    resolveIconTheme();
-
     ApplicationArguments qmlArgs;
     if (parser.isSet(windowGeometryOption) &&
         parser.value(windowGeometryOption).split('x').size() == 2)

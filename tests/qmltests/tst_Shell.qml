@@ -195,7 +195,7 @@ Item {
             tryCompare(mainApp, "state", ApplicationInfo.Running);
 
             // Try to suspend while proximity is engaged...
-            Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
+            Powerd.displayPowerStateChange(Powerd.Off, Powerd.Proximity);
             tryCompare(greeter, "showProgress", 0);
 
             // Now really suspend
@@ -473,15 +473,6 @@ Item {
                     previousY = itemRectInShell.y;
                 }
             } while (!isStill);
-        }
-
-        function test_background_data() {
-            return [
-                {tag: "red", url: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), expectedUrl: "tests/data/unity/backgrounds/red.png"},
-                {tag: "blue", url: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), expectedUrl: "tests/data/unity/backgrounds/blue.png"},
-                {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
-                {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
-            ]
         }
 
         function test_DashShown_data() {
