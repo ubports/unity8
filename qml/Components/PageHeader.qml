@@ -85,7 +85,7 @@ Item {
     }
 
     InverseMouseArea {
-        anchors.fill: parent
+        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: searchTextField.activeFocus
         onPressed: {
             if (headerContainer.popover) {
