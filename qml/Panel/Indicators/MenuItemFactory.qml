@@ -522,7 +522,7 @@ Item {
             property var uid: getExtendedProperty(extendedData, "xCanonicalUid", undefined)
 
             text: menuData && menuData.label || ""
-            iconSource: menuData && menuData.icon || "image://theme/save"
+            iconSource: menuData && menuData.icon || ""
             maximum: 1.0
             enabled: menuData && menuData.sensitive || false
             removable: true
@@ -536,16 +536,13 @@ Item {
 
                 property var activateAction: action("activate-transfer")
                 property var cancelAction: action("cancel-transfer")
-                property var pauseAction: action("pause-transfer")
-                property var resumeAction: action("resume-transfer")
                 property var transferStateAction: uid !== undefined ? action("transfer-state."+uid) : null
 
                 Component.onCompleted: actionGroup.start()
             }
 
             property var transferState: {
-                if (actionGroup.transferStateAction === null)
-                    return undefined;
+                if (actionGroup.transferStateAction === null) return undefined;
                 return actionGroup.transferStateAction.valid ? actionGroup.transferStateAction.state : undefined
             }
 
@@ -553,8 +550,9 @@ Item {
             property var secondsLeft : transferState !== undefined ? transferState["seconds-left"] : undefined
 
             active: runningState !== undefined && runningState !== Menus.TransferState.FINISHED
-            progress : transferState !== undefined ? transferState["percent"] : 0.0
+            progress: transferState !== undefined ? transferState["percent"] : 0.0
 
+            // TODO - Should be in the SDK
             property var timeRemaining: {
                 if (secondsLeft === undefined) return undefined;
 
@@ -582,11 +580,11 @@ Item {
             stateText: {
                 switch (runningState) {
                     case Menus.TransferState.QUEUED:
-                        return i18n.tr("In queue...");
+                        return i18n.tr("In queue…");
                     case Menus.TransferState.HASHING:
                     case Menus.TransferState.PROCESSING:
                     case Menus.TransferState.RUNNING:
-                        return timeRemaining === undefined ? "Downloading" : timeRemaining;
+                        return timeRemaining === undefined ? i18n.tr("Downloading") : timeRemaining;
                     case Menus.TransferState.PAUSED:
                         return i18n.tr("Paused, tap to resume");
                     case Menus.TransferState.CANCELED:
@@ -607,7 +605,6 @@ Item {
             }
             onTriggered: {
                 actionGroup.activateAction.activate(uid);
-                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
             onItemRemoved: {
                 actionGroup.cancelAction.activate(uid);
@@ -651,7 +648,6 @@ Item {
 
                 onClicked: {
                     menuModel.activate(menuIndex);
-                    shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
                 }
             }
         }
