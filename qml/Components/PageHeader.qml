@@ -272,8 +272,6 @@ Item {
                     right: parent.right
                 }
 
-                Standard { enabled: false; text: i18n.tr("Recent searches") }
-
                 Repeater {
                     id: recentSearches
                     model: searchHistory
