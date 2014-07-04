@@ -517,11 +517,11 @@ Item {
                 busName: rootModel.busName
                 objectPath: rootModel.actions["indicator"]
 
-                property QtObject activateAction: action("activate-transfer")
-                property QtObject cancelAction: action("cancel-transfer")
-                property QtObject pauseAction: action("pause-transfer")
-                property QtObject resumeAction: action("resume-transfer")
-                property QtObject transferStateAction: uid !== undefined ? action("transfer-state."+uid) : null
+                property var activateAction: action("activate-transfer")
+                property var cancelAction: action("cancel-transfer")
+                property var pauseAction: action("pause-transfer")
+                property var resumeAction: action("resume-transfer")
+                property var transferStateAction: uid !== undefined ? action("transfer-state."+uid) : null
 
                 Component.onCompleted: actionGroup.start()
             }

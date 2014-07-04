@@ -18,10 +18,70 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Settings.Menus 0.1 as Menus
 
 QtObject {
     property int busType
     property string busName
     property string objectPath
     function start() {}
+    function action(actionName) {
+        switch (actionName) {
+            case "transfer-state.queued":
+                return {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.QUEUED,
+                        'percent': 0.0
+                    }
+            }
+            case "transfer-state.running":
+                return {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.RUNNING,
+                        'seconds-left': 100,
+                        'percent': 0.1
+                    }
+            }
+            case "transfer-state.paused":
+                return {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.PAUSED,
+                        'seconds-left': 100,
+                        'percent': 0.5
+                    }
+            }
+            case "transfer-state.cancelled":
+                return {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.CANCELED,
+                        'percent': 0.4
+                    }
+            }
+            case "transfer-state.finished": return {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.FINISHED,
+                        'seconds-left': 0,
+                        'percent': 1.0
+                    }
+            }
+            case "transfer-state.error":
+                return {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.ERROR,
+                        'seconds-left': 100,
+                        'percent': 0.0
+                    }
+            }
+            default:
+                break;
+        }
+
+        return null;
+    }
 }
