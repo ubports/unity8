@@ -86,9 +86,13 @@ Item {
 
     InverseMouseArea {
         anchors.fill: parent
-        visible: headerContainer.popover !== null
+        visible: searchTextField.activeFocus
         onPressed: {
-            PopupUtils.close(headerContainer.popover);
+            if (headerContainer.popover) {
+                PopupUtils.close(headerContainer.popover);
+            } else {
+                headerContainer.showSearch = false;
+            }
         }
     }
 
