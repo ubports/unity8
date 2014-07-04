@@ -86,13 +86,16 @@ Item {
 
     InverseMouseArea {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
-        visible: searchTextField.activeFocus
+        visible: headerContainer.showSearch
         onPressed: {
             if (headerContainer.popover) {
                 PopupUtils.close(headerContainer.popover);
-            } else if (!searchTextField.text) {
+            }
+            if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
+            searchTextField.focus = false;
+            mouse.accepted = false;
         }
     }
 
