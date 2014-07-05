@@ -31,7 +31,7 @@ FakeIndicatorsModel::FakeIndicatorsModel(QObject *parent)
 /*! \internal */
 FakeIndicatorsModel::~FakeIndicatorsModel()
 {
-    unload();
+    qDeleteAll(m_indicators);
 }
 
 int FakeIndicatorsModel::count() const
