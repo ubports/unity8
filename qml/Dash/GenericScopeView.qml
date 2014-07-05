@@ -29,7 +29,6 @@ FocusScope {
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
-    property Item previewListView: null
     property string title
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
@@ -56,6 +55,10 @@ FocusScope {
 
     function showHeader() {
         categoryView.showHeader()
+    }
+
+    function closePreview() {
+        previewListView.open = false;
     }
 
     Binding {
@@ -107,7 +110,12 @@ FocusScope {
     ScopeListView {
         id: categoryView
         objectName: "categoryListView"
-        anchors.fill: parent
+
+        x: previewListView.open ? -width : 0
+        Behavior on x { UbuntuNumberAnimation { } }
+        width: parent.width
+        height: parent.height
+
         model: scopeView.categories
         forceNoClip: previewListView.open
 
@@ -326,7 +334,7 @@ FocusScope {
             title: scopeView.title
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
-            searchInProgress: scopeView.scope.searchInProgress
+            searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
             foregroundColor: scopeView.foregroundColor
             imageSource: scopeView.scope && scopeView.scope.customizations["page-header"] && scopeView.scope.customizations["page-header"]["logo"] || ""
 
@@ -343,4 +351,15 @@ FocusScope {
             onBackClicked: scopeView.backClicked()
         }
     }
+
+    PreviewListView {
+        id: previewListView
+        objectName: "previewListView"
+        visible: x != width
+        scope: scopeView.scope
+        width: parent.width
+        height: parent.height
+        anchors.left: categoryView.right
+    }
+
 }

@@ -192,7 +192,8 @@ Item {
         function test_scope_mapping(data) {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
-            var pageHeader = findChild(dashContent, "pageHeader");
+            var scopeView = findChild(dashContent, data.objectName);
+            var pageHeader = findChild(scopeView, "pageHeader");
             compare(pageHeader.title, scopesModel.getScope(data.index).name);
         }
 
@@ -235,93 +236,6 @@ Item {
             tryCompare(dashContentList, "interactive", true);
 
             tryCompareFunction(checkFlickMovingAndNotInteractive, true);
-        }
-
-        function openPreview() {
-            tryCompareFunction(function() {
-                                    var filterGrid = findChild(dashContent, "0");
-                                    if (filterGrid != null) {
-                                        var tile = findChild(filterGrid, "delegate0");
-                                        return tile != null;
-                                    }
-                                    return false;
-                                },
-                                true);
-            var tile = findChild(findChild(dashContent, "0"), "delegate0");
-            mouseClick(tile, tile.width / 2, tile.height / 2);
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", true);
-            tryCompare(previewListView, "x", 0);
-        }
-
-        function closePreview() {
-            var closePreviewMouseArea = findChild(dashContent, "pageHeader");
-            mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
-
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-        }
-
-        function test_previewOpenClose() {
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-
-            var categoryListView = findChild(dashContent, "categoryListView");
-            categoryListView.positionAtBeginning();
-
-            openPreview();
-            closePreview();
-        }
-
-        function test_showPreviewCarousel() {
-            tryCompareFunction(function() {
-                                    var scope = findChild(dashContent, "MockScope1 loader");
-                                    if (scope != null) {
-                                        var dashCategory1 = findChild(scope, "dashCategory1");
-                                        if (dashCategory1 != null) {
-                                            var tile = findChild(dashCategory1, "carouselDelegate1");
-                                            return tile != null;
-                                        }
-                                    }
-                                    return false;
-                                },
-                                true);
-
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-
-            var scope = findChild(dashContent, "MockScope1 loader");
-            var dashCategory1 = findChild(scope, "dashCategory1");
-            var tile = findChild(dashCategory1, "carouselDelegate1");
-            mouseClick(tile, tile.width / 2, tile.height / 2);
-            tryCompare(previewListView, "open", true);
-            tryCompare(previewListView, "x", 0);
-
-            closePreview();
-        }
-
-        function test_previewCycle() {
-            var categoryListView = findChild(dashContent, "categoryListView");
-            categoryListView.positionAtBeginning();
-
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-            var previewListViewList = findChild(dashContent, "dashContentPreviewList_listView");
-
-            openPreview();
-
-            // flick to the next previews
-            tryCompare(previewListView, "count", 15);
-            for (var i = 1; i < previewListView.count; ++i) {
-                mouseFlick(previewListView, previewListView.width - units.gu(1),
-                                            previewListView.height / 2,
-                                            units.gu(2),
-                                            previewListView.height / 2);
-                tryCompare(previewListViewList, "moving", false);
-                tryCompare(previewListView.currentItem, "objectName", "previewItem" + i);
-
-            }
-            closePreview();
         }
 
         function test_carouselAspectRatio() {

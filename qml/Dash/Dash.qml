@@ -26,8 +26,6 @@ Showable {
 
     visible: shown
 
-    property bool searchable: !dashContent.previewOpen && !scopeItem.previewOpen
-
     property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 
@@ -103,7 +101,7 @@ Showable {
         }
     }
 
-    ScopeItem {
+    GenericScopeView {
         id: scopeItem
         anchors.left: dashContent.right
         width: parent.width
@@ -111,17 +109,22 @@ Showable {
         scale: dash.contentScale
         clip: scale != 1.0
         visible: scope != null
-        onBack: {
+        hasBackAction: true
+        isCurrent: visible
+        onBackClicked: {
             closeOverlayScope();
-        }
-        onGotoScope: {
-            // TODO
-            console.log("gotoScope from an openScope scope is not implemented");
-        }
-        onOpenScope: {
-            // TODO
-            console.log("openScope from an openScope scope is not implemented");
+            closePreview();
         }
 
+        Connections {
+            target: scopeItem.scope
+            onGotoScope: {
+                // Note here scopeId is the signal parameter and not the loader property
+                dashContent.gotoScope(scopeId);
+            }
+            onOpenScope: {
+                dashContent.openScope(scope);
+            }
+        }
     }
 }

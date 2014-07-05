@@ -33,9 +33,9 @@ Item {
 
     PageHeader {
         id: header
-        objectName: root.objectName + "_pageHeader"
+        objectName: "pageHeader"
         width: parent.width
-        title: scope.name
+        title: scope ? scope.name : ""
         showBackButton: true
         searchEntryEnabled: false
 
@@ -44,7 +44,7 @@ Item {
 
     ListView  {
         id: previewListView
-        objectName: root.objectName + "_listView"
+        objectName: "listView"
         anchors {
             top: header.bottom
             bottom: parent.bottom
