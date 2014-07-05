@@ -23,6 +23,7 @@ import Unity 0.2
 import Unity.Test 0.1 as UT
 
 Item {
+    id: root
     width: units.gu(110)
     height: units.gu(30)
 
@@ -167,7 +168,14 @@ Item {
             tryCompare(headerContainer.popover, "visible", true);
         }
 
-        function test_resetSearch_closes_popup() {
+        function test_tap_outside_closes_popup_data() {
+            return [
+                        { tag: "with search text", searchText: "foobar", hideSearch: false },
+                        { tag: "without search text", searchText: "", hideSearch: true }
+                    ];
+        }
+
+        function test_tap_outside_closes_popup(data) {
             searchEnabled = true;
             pageHeader.searchHistory.clear();
 
@@ -181,11 +189,14 @@ Item {
             tryCompareFunction(function() { return headerContainer.popover !== null; }, true);
             compare(headerContainer.popover.visible, true);
 
-            pageHeader.searchQuery = "test";
-            tryCompareFunction( function() { return (headerContainer.popover===null || !headerContainer.popover.visible) }, true);
+            pageHeader.searchQuery = data.searchText;
+
+            mouseClick(root, root.width / 2, root.height - 1);
+
+            tryCompare(headerContainer, "showSearch", !data.hideSearch);
+            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
 
             pageHeader.resetSearch();
-            compare((headerContainer.popover===null || !headerContainer.popover.visible), true);
         }
     }
 

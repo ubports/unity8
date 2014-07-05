@@ -43,7 +43,10 @@ Item {
     signal backClicked()
 
     function triggerSearch() {
-        if (searchEntryEnabled) searchTextField.forceActiveFocus();
+        if (searchEntryEnabled) {
+            headerContainer.showSearch = true;
+            searchTextField.forceActiveFocus();
+        }
     }
 
     function resetSearch(keepFocus) {
@@ -89,10 +92,17 @@ Item {
     }
 
     InverseMouseArea {
-        anchors.fill: parent
-        visible: headerContainer.popover !== null
+        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
+        visible: headerContainer.showSearch
         onPressed: {
-            PopupUtils.close(headerContainer.popover);
+            if (headerContainer.popover) {
+                PopupUtils.close(headerContainer.popover);
+            }
+            if (!searchTextField.text) {
+                headerContainer.showSearch = false;
+            }
+            searchTextField.focus = false;
+            mouse.accepted = false;
         }
     }
 
@@ -159,6 +169,7 @@ Item {
                     secondaryItem: AbstractButton {
                         height: searchTextField.height
                         width: height
+                        enabled: searchTextField.text.length > 0
 
                         Image {
                             objectName: "clearIcon"
@@ -200,6 +211,7 @@ Item {
 
             PageHeadStyle {
                 id: header
+                objectName: "pageHeader"
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
@@ -270,8 +282,6 @@ Item {
                     left: parent.left
                     right: parent.right
                 }
-
-                Standard { enabled: false; text: i18n.tr("Recent searches") }
 
                 Repeater {
                     id: recentSearches
