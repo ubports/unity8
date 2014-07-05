@@ -104,7 +104,7 @@ Item {
             killApps(ApplicationManager);
 
             var dashContent = findChild(shell, "dashContent");
-            dashContent.previewOpen = false;
+            dashContent.closePreview();
 
             var dashHome = findChild(shell, "clickscope loader");
             swipeUntilScopeViewIsReached(dashHome);

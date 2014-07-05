@@ -48,15 +48,16 @@ Item {
         signal mainStageFocusedApplicationChanged()
     }
 
-
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
-        previewListView: previewListView
 
         UT.UnityTestCase {
+            id: testCase
             name: "GenericScopeView"
             when: scopes.loaded && windowShown
+
+            property Item previewListView: findChild(genericScopeView, "previewListView")
 
             function init() {
                 genericScopeView.scope = scopes.getScope(2)
@@ -69,24 +70,24 @@ Item {
                 tryCompare(genericScopeView.scope, "isActive", false)
                 genericScopeView.isCurrent = true
                 tryCompare(genericScopeView.scope, "isActive", true)
-                previewListView.open = true
+                testCase.previewListView.open = true
                 tryCompare(genericScopeView.scope, "isActive", false)
-                previewListView.open = false
+                testCase.previewListView.open = false
                 tryCompare(genericScopeView.scope, "isActive", true)
                 genericScopeView.isCurrent = false
                 tryCompare(genericScopeView.scope, "isActive", false)
             }
 
             function test_showDash() {
-                previewListView.open = true;
+                testCase.previewListView.open = true;
                 scopes.getScope(2).showDash();
-                tryCompare(previewListView, "open", false);
+                tryCompare(testCase.previewListView, "open", false);
             }
 
             function test_hideDash() {
-                previewListView.open = true;
+                testCase.previewListView.open = true;
                 scopes.getScope(2).hideDash();
-                tryCompare(previewListView, "open", false);
+                tryCompare(testCase.previewListView, "open", false);
             }
 
             function test_searchQuery() {
@@ -179,13 +180,86 @@ Item {
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category, "filtered", true);
             }
-        }
-    }
 
-    PreviewListView {
-        id: previewListView
-        anchors.fill: parent
-        visible: false
-        scope: genericScopeView.scope
+            function openPreview() {
+                tryCompareFunction(function() {
+                                        var filterGrid = findChild(genericScopeView, "0");
+                                        if (filterGrid != null) {
+                                            var tile = findChild(filterGrid, "delegate0");
+                                            return tile != null;
+                                        }
+                                        return false;
+                                    },
+                                    true);
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.previewListView, "open", true);
+                tryCompare(testCase.previewListView, "x", 0);
+            }
+
+            function closePreview() {
+                var closePreviewMouseArea = findChild(genericScopeView, "pageHeader");
+                mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
+
+                tryCompare(testCase.previewListView, "open", false);
+            }
+
+            function test_previewOpenClose() {
+                tryCompare(testCase.previewListView, "open", false);
+
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.positionAtBeginning();
+
+                openPreview();
+                closePreview();
+            }
+
+            function test_showPreviewCarousel() {
+                tryCompareFunction(function() {
+                                        var dashCategory1 = findChild(genericScopeView, "dashCategory1");
+                                        if (dashCategory1 != null) {
+                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            return tile != null;
+                                        }
+                                        return false;
+                                    },
+                                    true);
+
+                tryCompare(testCase.previewListView, "open", false);
+
+                var dashCategory1 = findChild(genericScopeView, "dashCategory1");
+                var tile = findChild(dashCategory1, "carouselDelegate1");
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+                tryCompare(tile, "explicitlyScaled", true);
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.previewListView, "open", true);
+                tryCompare(testCase.previewListView, "x", 0);
+
+                closePreview();
+            }
+
+            function test_previewCycle() {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.positionAtBeginning();
+
+                tryCompare(testCase.previewListView, "open", false);
+                var previewListViewList = findChild(previewListView, "listView");
+
+                openPreview();
+
+                // flick to the next previews
+                tryCompare(testCase.previewListView, "count", 15);
+                for (var i = 1; i < testCase.previewListView.count; ++i) {
+                    mouseFlick(testCase.previewListView, testCase.previewListView.width - units.gu(1),
+                                                testCase.previewListView.height / 2,
+                                                units.gu(2),
+                                                testCase.previewListView.height / 2);
+                    tryCompare(previewListViewList, "moving", false);
+                    tryCompare(testCase.previewListView.currentItem, "objectName", "previewItem" + i);
+
+                }
+                closePreview();
+            }
+        }
     }
 }
