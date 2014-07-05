@@ -40,9 +40,6 @@ DashRenderer {
         cacheBuffer: 1404 // 18px * 13gu * 6
         model: cardCarousel.model
 
-        onClicked: cardCarousel.clicked(index, null)
-        onPressAndHold: cardCarousel.pressAndHold(index)
-
         property real fontScale: 1 / selectedItemScaleFactor
         property real headerHeight: cardTool.headerHeight / selectedItemScaleFactor
 
@@ -52,6 +49,9 @@ DashRenderer {
             property bool explicitlyScaled
             property var model
             enabled: false
+
+            function clicked() { cardCarousel.clicked(index, model.result) }
+            function pressAndHold() { cardCarousel.pressAndHold(index, model.result) }
 
             sourceComponent: cardTool.cardComponent
             onLoaded: {
