@@ -4,8 +4,9 @@ AbstractButton {
                 property var components; 
                 property var cardData; 
                 property var artShapeBorderSource: undefined; 
-                property real fontScale: 1.0; 
-                property int headerAlignment: Text.AlignLeft; 
+                property real fontScale: 1.0;
+                property color foregroundColor: "grey";
+                property int headerAlignment: Text.AlignLeft;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
