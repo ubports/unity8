@@ -35,7 +35,7 @@ Rectangle {
         property color color
         property var styles: [
             {},
-            { "foreground-color": "red", "background-color": "black" },
+            { "foreground-color": "red", "background-color": "black", "page-header": { "logo": "/foo/bar" } },
             { "foreground-color": "green", "background-color": "white" },
             { "foreground-color": "blue", "background-color": "darkgrey" },
         ]
@@ -136,5 +136,16 @@ Rectangle {
                    "Dark color not equal: %1 != %2".arg(tool.dark).arg(data.dark));
         }
 
+        function test_headerLogo_data() {
+            return [
+                { tag: "default", index: 0, headerLogo: "" },
+                { tag: "with logo", index: 1, headerLogo: "file:///foo/bar" },
+            ];
+        }
+
+        function test_headerLogo(data) {
+            tool.style = testCase.styles[data.index];
+            compare(tool.headerLogo, data.headerLogo, "Header logo was incorrect.");
+        }
     }
 }

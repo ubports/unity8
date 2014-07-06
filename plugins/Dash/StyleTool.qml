@@ -67,6 +67,9 @@ QtObject {
         return d.foregroundLuminance < d.backgroundLuminance ? foreground : background;
     }
 
+    /// Source of the logo image for the header
+    readonly property url headerLogo: "logo" in d.headerStyle ? d.headerStyle["logo"] : ""
+
     //! @cond
     property var d: QtObject {
         readonly property real foregroundLuminance: luminance(foreground)
@@ -77,6 +80,8 @@ QtObject {
         readonly property color defaultDark: "grey"
         readonly property real defaultLightLuminance: luminance(defaultLight)
         readonly property real defaultDarkLuminance: luminance(defaultDark)
+
+        readonly property var headerStyle: "page-header" in style ? style["page-header"] : { }
     }
     //! @endcond
 }
