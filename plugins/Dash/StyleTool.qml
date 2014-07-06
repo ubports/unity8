@@ -25,7 +25,7 @@ import QtQuick 2.2
 
 QtObject {
     /// Style object passed from the scope
-    property var style: {}
+    property var style: Object()
 
     /*! \brief Calculate luminance of the passed color
 
