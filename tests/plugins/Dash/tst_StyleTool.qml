@@ -103,7 +103,21 @@ Rectangle {
 
         function test_threshold(data) {
             tool.style = testCase.styles[data.index];
-            compare(tool.threshold.toFixed(4), data.threshold.toFixed(4), "Luminance threshold was incorrect.")
+            compare(tool.threshold.toFixed(4), data.threshold.toFixed(4), "Luminance threshold was incorrect.");
+        }
+
+        function test_inverse_data() {
+            return [
+                { tag: "default", index: 0, inverse: false },
+                { tag: "red on black", index: 1, inverse: false },
+                { tag: "green on white", index: 2, inverse: true },
+                { tag: "blue on darkgrey", index: 3, inverse: true },
+            ];
+        }
+
+        function test_inverse(data) {
+            tool.style = testCase.styles[data.index];
+            compare(tool.inverse, data.inverse, "Inversion was incorrect.");
         }
     }
 }

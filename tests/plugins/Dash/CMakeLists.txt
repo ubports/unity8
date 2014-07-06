@@ -73,8 +73,11 @@ qt5_use_modules(CardCreatorTestExec Test Core Qml)
 target_link_libraries(CardCreatorTestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_binary_qml_test(CardCreator "" "Dash-qml")
 
+# qml unit test
+set(qmltest_DEFAULT_TARGETS qmltests)
+add_qml_test(. StyleTool IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+
 # plain qml test
 set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 add_qml_test(. ListViewWithPageHeaderQML IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
-add_qml_test(. StyleTool IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)

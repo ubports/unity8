@@ -48,6 +48,9 @@ QtObject {
      */
     readonly property real threshold: background.a !== 1.0 ? d.foregroundLuminance : (d.foregroundLuminance + d.backgroundLuminance) / 2
 
+    /// Whether back- and foreground colors are inversed (light on dark instead of dark on light)
+    readonly property bool inverse: d.foregroundLuminance < (background.a !== 1.0 ? 0.5 : d.backgroundLuminance)
+
     property var d: QtObject {
         readonly property real foregroundLuminance: luminance(foreground)
         readonly property real backgroundLuminance: luminance(background)
