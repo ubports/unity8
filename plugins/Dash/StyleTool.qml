@@ -27,7 +27,10 @@ QtObject {
     /// Style object passed from the scope
     property var style: {}
 
-    /// Calculate luminance of the passed color
+    /*! \brief Calculate luminance of the passed color
+
+        \note If not fully opaque, luminance is dependant on blending.
+     */
     function luminance(color) {
         return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
     }
@@ -36,6 +39,17 @@ QtObject {
     // FIXME: should be taken from the theme
     readonly property color foreground: style && "foreground-color" in style ? style["foreground-color"] : "grey"
 
-    /// Color used for text and symbolic icons
+    /// Color used for the overall background
     readonly property color background: style && "background-color" in style ? style["background-color"] : "transparent"
+
+    /*! \brief Luminance threshold for switching between fore and background color
+
+        \note If background colour is not fully opaque, it's not taken into account.
+     */
+    readonly property real threshold: background.a !== 1.0 ? d.foregroundLuminance : (d.foregroundLuminance + d.backgroundLuminance) / 2
+
+    property var d: QtObject {
+        readonly property real foregroundLuminance: luminance(foreground)
+        readonly property real backgroundLuminance: luminance(background)
+    }
 }
