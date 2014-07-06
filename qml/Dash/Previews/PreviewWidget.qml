@@ -28,6 +28,9 @@ Item {
     //! Variable used to contain widget's data
     property var widgetData
 
+    //! The StyleTool component.
+    property var styleTool: { foreground: "grey" }
+
     /*! \brief This signal should be emitted when a preview action was triggered.
      *
      *  \param widgetId, actionId Respective identifiers from widgetData.

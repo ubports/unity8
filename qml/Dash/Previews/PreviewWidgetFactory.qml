@@ -65,6 +65,7 @@ Loader {
         item.widgetId = Qt.binding(function() { return root.widgetId } )
         item.widgetData = Qt.binding(function() { return root.widgetData } )
         item.isCurrentPreview = Qt.binding(function() { return root.isCurrentPreview } )
+        if (item.hasOwnProperty("styleTool")) item.styleTool = root.styleTool;
     }
 
     Connections {
