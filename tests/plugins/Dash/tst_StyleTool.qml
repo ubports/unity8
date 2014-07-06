@@ -65,9 +65,9 @@ Rectangle {
         function test_foreground_data() {
             return [
                 { tag: "default", index: 0, foreground: "grey" },
-                { tag: "red", index: 1, foreground: "red" },
-                { tag: "green", index: 2, foreground: "green" },
-                { tag: "blue", index: 3, foreground: "blue" },
+                { tag: "red on black", index: 1, foreground: "red" },
+                { tag: "green on white", index: 2, foreground: "green" },
+                { tag: "blue on darkgrey", index: 3, foreground: "blue" },
             ];
         }
 
@@ -80,9 +80,9 @@ Rectangle {
         function test_background_data() {
             return [
                 { tag: "default", index: 0, background: "transparent" },
-                { tag: "black", index: 1, background: "black" },
-                { tag: "white", index: 2, background: "white" },
-                { tag: "darkgrey", index: 3, background: "darkgrey" },
+                { tag: "red on black", index: 1, background: "black" },
+                { tag: "green on white", index: 2, background: "white" },
+                { tag: "blue on darkgrey", index: 3, background: "darkgrey" },
             ];
         }
 
