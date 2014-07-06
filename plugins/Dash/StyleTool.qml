@@ -36,10 +36,10 @@ QtObject {
     }
 
     /// Color used for text and symbolic icons
-    readonly property color foreground: style && "foreground-color" in style ? style["foreground-color"] : d.defaultDark
+    readonly property color foreground: "foreground-color" in style ? style["foreground-color"] : d.defaultDark
 
     /// Color used for the overall background
-    readonly property color background: style && "background-color" in style ? style["background-color"] : "transparent"
+    readonly property color background: "background-color" in style ? style["background-color"] : "transparent"
 
     /*! \brief Luminance threshold for switching between fore and background color
 
