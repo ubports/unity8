@@ -33,6 +33,12 @@ Rectangle {
         when: windowShown
 
         property color color
+        property var styles: [
+            {},
+            { "foreground-color": "red" },
+            { "foreground-color": "green" },
+            { "foreground-color": "blue" },
+        ]
 
         function cleanup() {
             testCase.color = "transparent";
@@ -54,6 +60,21 @@ Rectangle {
         function test_luminance(data) {
             testCase.color = data.tag;
             compare(tool.luminance(testCase.color).toFixed(4), data.luminance.toFixed(4));
+        }
+
+        function test_foreground_data() {
+            return [
+                { tag: "default", index: 0, foreground: "grey" },
+                { tag: "red", index: 1, foreground: "red" },
+                { tag: "green", index: 2, foreground: "green" },
+                { tag: "blue", index: 3, foreground: "blue" },
+            ];
+        }
+
+        function test_foreground(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.foreground, data.foreground),
+                   "Foreground color not equal: %1 != %2".arg(tool.foreground).arg(data.foreground));
         }
     }
 }

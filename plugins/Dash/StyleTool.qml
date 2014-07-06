@@ -24,8 +24,15 @@ import QtQuick 2.2
  */
 
 QtObject {
+    /// Style object passed from the scope
+    property var style: {}
+
     /// Calculate luminance of the passed color
     function luminance(color) {
         return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
     }
+
+    /// Color used for text and symbolic icons
+    // FIXME: should be taken from the theme
+    readonly property color foreground: style && "foreground-color" in style ? style["foreground-color"] : "grey"
 }
