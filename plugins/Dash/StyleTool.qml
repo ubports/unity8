@@ -36,8 +36,7 @@ QtObject {
     }
 
     /// Color used for text and symbolic icons
-    // FIXME: should be taken from the theme
-    readonly property color foreground: style && "foreground-color" in style ? style["foreground-color"] : "grey"
+    readonly property color foreground: style && "foreground-color" in style ? style["foreground-color"] : d.defaultDark
 
     /// Color used for the overall background
     readonly property color background: style && "background-color" in style ? style["background-color"] : "transparent"
@@ -48,11 +47,36 @@ QtObject {
      */
     readonly property real threshold: background.a !== 1.0 ? d.foregroundLuminance : (d.foregroundLuminance + d.backgroundLuminance) / 2
 
-    /// Whether back- and foreground colors are inversed (light on dark instead of dark on light)
-    readonly property bool inverse: d.foregroundLuminance < (background.a !== 1.0 ? 0.5 : d.backgroundLuminance)
+    /*! \brief The lighter of foreground and background colors
 
+        \note If background color is not fully opaque, it's not taken into account
+              and defaults to the theme-provided light color.
+     */
+    readonly property color light: {
+        if (background.a !== 1.0) return d.foregroundLuminance > d.defaultLightLuminance ? foreground : d.defaultLight;
+        return d.foregroundLuminance > d.backgroundLuminance ? foreground : background;
+    }
+
+    /*! \brief The darker of foreground and background colors
+
+        \note If background color is not fully opaque, it's not taken into account
+              and defaults to the theme-provided dark color.
+     */
+    readonly property color dark: {
+        if (background.a !== 1.0) return d.foregroundLuminance < d.defaultDarkLuminance ? foreground : d.defaultDark;
+        return d.foregroundLuminance < d.backgroundLuminance ? foreground : background;
+    }
+
+    //! @cond
     property var d: QtObject {
         readonly property real foregroundLuminance: luminance(foreground)
         readonly property real backgroundLuminance: luminance(background)
+
+        // FIXME: should be taken from the theme
+        readonly property color defaultLight: "white"
+        readonly property color defaultDark: "grey"
+        readonly property real defaultLightLuminance: luminance(defaultLight)
+        readonly property real defaultDarkLuminance: luminance(defaultDark)
     }
+    //! @endcond
 }

@@ -106,18 +106,35 @@ Rectangle {
             compare(tool.threshold.toFixed(4), data.threshold.toFixed(4), "Luminance threshold was incorrect.");
         }
 
-        function test_inverse_data() {
+        function test_light_data() {
             return [
-                { tag: "default", index: 0, inverse: false },
-                { tag: "red on black", index: 1, inverse: false },
-                { tag: "green on white", index: 2, inverse: true },
-                { tag: "blue on darkgrey", index: 3, inverse: true },
+                { tag: "default", index: 0, light: "white" },
+                { tag: "red on black", index: 1, light: "red" },
+                { tag: "green on white", index: 2, light: "white" },
+                { tag: "blue on darkgrey", index: 3, light: "darkgrey" },
             ];
         }
 
-        function test_inverse(data) {
+        function test_light(data) {
             tool.style = testCase.styles[data.index];
-            compare(tool.inverse, data.inverse, "Inversion was incorrect.");
+            verify(Qt.colorEqual(tool.light, data.light),
+                   "Light color not equal: %1 != %2".arg(tool.light).arg(data.light));
         }
+
+        function test_dark_data() {
+            return [
+                { tag: "default", index: 0, dark: "grey" },
+                { tag: "red on black", index: 1, dark: "black" },
+                { tag: "green on white", index: 2, dark: "green" },
+                { tag: "blue on darkgrey", index: 3, dark: "blue" },
+            ];
+        }
+
+        function test_dark(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.dark, data.dark),
+                   "Dark color not equal: %1 != %2".arg(tool.dark).arg(data.dark));
+        }
+
     }
 }
