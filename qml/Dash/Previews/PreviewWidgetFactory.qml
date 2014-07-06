@@ -31,6 +31,9 @@ Loader {
     //! Widget data, forwarded to the widget as is.
     property var widgetData: null
 
+    //! The StyleTool component.
+    property var styleTool: null
+
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false
 

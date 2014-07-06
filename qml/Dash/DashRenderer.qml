@@ -33,15 +33,14 @@ Item {
 
     property real originY: 0
 
-    property color foregroundColor: "gray"
-
     // The model to renderer
     property var model
 
-    /*!
-     \brief CardTool component.
-     */
-    property var cardTool: undefined
+    /// CardTool component.
+    property var cardTool: null
+
+    /// StyleTool component.
+    property var styleTool: null
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item

@@ -289,7 +289,7 @@ function cardString(template, components) {
                 property var cardData; \n\
                 property var artShapeBorderSource: undefined; \n\
                 property real fontScale: 1.0; \n\
-                property color foregroundColor: "grey"; \n\
+                property var styleTool: Object({ foreground: "grey" }) \n\
                 property int headerAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
@@ -408,7 +408,7 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(anchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : root.foregroundColor';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : root.styleTool.foreground';
 
     var titleSubtitleCode = "";
     if (hasTitle) {
@@ -420,7 +420,7 @@ function cardString(template, components) {
         } else if (hasBackground) {
             color = summaryColorWithBackground;
         } else {
-            color = 'root.foregroundColor';
+            color = 'root.styleTool.foreground';
         }
 
         var titleAnchors;
@@ -496,7 +496,7 @@ function cardString(template, components) {
         if (hasBackground) {
             color = summaryColorWithBackground;
         } else {
-            color = 'root.foregroundColor';
+            color = 'root.styleTool.foreground';
         }
 
         var summaryTopMargin = (hasMascot || hasSubtitle ? 'anchors.margins' : '0');

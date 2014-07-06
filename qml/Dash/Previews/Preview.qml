@@ -36,6 +36,9 @@ Item {
     //! \brief Should be set to true if this preview is currently displayed.
     property bool isCurrent: false
 
+    //! \brief The StyleTool component.
+    property var styleTool: null
+
     clip: true
 
     Binding {

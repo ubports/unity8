@@ -213,7 +213,10 @@ Item {
 
             searchEntryEnabled: true
             title: "%^$%^%^&%^&%^$%GHR%"
-            imageSource: showImageCheckBox.checked ? titleImageSource : ""
+            styleTool: QtObject {
+                readonly property color foreground: "grey"
+                readonly property url headerLogo: showImageCheckBox.checked ? pageHeader.titleImageSource : ""
+            }
             showBackButton: showBackButtonCheckBox.checked
 
             property string titleImageSource: Qt.resolvedUrl("tst_PageHeader/logo-ubuntu-orange.svg")

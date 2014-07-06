@@ -27,7 +27,6 @@ Item {
 
     property bool showBackButton: false
     property string title
-    property string imageSource
 
     property bool searchEntryEnabled: false
     property ListModel searchHistory: SearchHistoryModel
@@ -35,12 +34,18 @@ Item {
     property bool searchInProgress: false
 
     property alias bottomItem: bottomContainer.children
-    // TODO We should use foregroundColor for the icons
+
+    // TODO We should use foreground for the icons
     // of the toolbar but unfortunately Action does not have
     // the keyColor property as Icon does :-/
-    property color foregroundColor: "gray"
+    property var styleTool: QtObject {
+        readonly property color foreground: "grey"
+        readonly property url headerLogo: ""
+    }
 
     signal backClicked()
+
+    onStyleToolChanged: refreshLogo()
 
     function triggerSearch() {
         if (searchEntryEnabled) {
@@ -82,13 +87,18 @@ Item {
         }
     }
 
-    onImageSourceChanged: {
-        if (imageSource) {
+    function refreshLogo() {
+        if (styleTool.headerLogo != "") {
             header.contents = imageComponent.createObject();
-        } else {
+        } else if (header.contents) {
             header.contents.destroy();
             header.contents = null;
         }
+    }
+
+    Connections {
+        target: styleTool
+        onHeaderLogoChanged: root.refreshLogo()
     }
 
     InverseMouseArea {
@@ -216,7 +226,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
-                textColor: root.foregroundColor
+                textColor: root.styleTool.foreground
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
@@ -241,11 +251,8 @@ Item {
                 }
 
                 property var contents: null
-                Component.onCompleted: {
-                    if (root.imageSource) {
-                        header.contents = imageComponent.createObject();
-                    }
-                }
+                Component.onCompleted: root.refreshLogo()
+
                 Component {
                     id: imageComponent
 
@@ -255,7 +262,7 @@ Item {
                         Image {
                             objectName: "titleImage"
                             anchors.fill: parent
-                            source: root.imageSource
+                            source: root.styleTool.headerLogo
                             fillMode: Image.PreserveAspectFit
                             horizontalAlignment: Image.AlignLeft
                             sourceSize.height: height

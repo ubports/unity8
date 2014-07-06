@@ -5,7 +5,7 @@ AbstractButton {
                 property var cardData; 
                 property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
-                property color foregroundColor: "grey";
+                property var styleTool: Object({ foreground: "grey" })
                 property int headerAlignment: Text.AlignLeft;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
@@ -69,7 +69,7 @@ data: [ Label {
                     wrapMode: Text.Wrap; 
                     maximumLineCount: 2; 
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                    color: root.foregroundColor;
+                    color: root.styleTool.foreground;
                     visible: showHeader ; 
                     text: root.title; 
                     font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -84,7 +84,7 @@ Label {
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.foregroundColor;
+                        color: root.styleTool.foreground;
                         visible: titleLabel.visible && titleLabel.text; 
                         text: cardData && cardData["subtitle"] || ""; 
                         font.weight: Font.Light; 

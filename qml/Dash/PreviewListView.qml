@@ -24,6 +24,7 @@ Item {
     id: root
 
     property var scope: null
+    property var styleTool: null
 
     property alias open: previewListView.open
     property alias model: previewListView.model
@@ -38,6 +39,7 @@ Item {
         title: scope ? scope.name : ""
         showBackButton: true
         searchEntryEnabled: false
+        styleTool: root.styleTool
 
         onBackClicked: root.open = false
     }
@@ -101,6 +103,7 @@ Item {
                     var previewStack = root.scope.preview(result);
                     return previewStack.getPreviewModel(0);
                 }
+                styleTool: root.styleTool
             }
 
             MouseArea {

@@ -14,6 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QUrl>
+
 #include "fake_scope.h"
 #include "fake_department.h"
 #include "fake_resultsmodel.h"
@@ -163,7 +165,7 @@ QVariantMap Scope::customizations() const
         m["foreground-color"] = "blue";
     } else if (m_id == "MockScope5") {
         QVariantMap pageHeader;
-        pageHeader["logo"] = "../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg";
+        pageHeader["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
         m["page-header"] = pageHeader;
     }
     return m;

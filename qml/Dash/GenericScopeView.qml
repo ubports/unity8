@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
 import Unity.Application 0.1
+import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
@@ -33,9 +34,10 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
-    // TODO Should be taken from the theme
-    property color foregroundColor: scope && scope.customizations["foreground-color"] || "grey"
-    property color backgroundColor: scope && scope.customizations["background-color"] || "transparent"
+
+    property var styleTool: StyleTool {
+        style: scope ? scope.customizations : {}
+    }
 
     signal backClicked()
 
@@ -103,7 +105,7 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
-        color: scopeView.backgroundColor
+        color: scopeView.styleTool.background
         visible: color != "transparent"
     }
 
@@ -174,7 +176,7 @@ FocusScope {
                         item.model = Qt.binding(function() { return results })
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
-                    item.foregroundColor = Qt.binding(function() { return scopeView.foregroundColor })
+                    item.styleTool = scopeView.styleTool;
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         item.setFilter(shouldFilter, false /*animate*/);
@@ -314,7 +316,7 @@ FocusScope {
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
-            textColor: foregroundColor
+            textColor: styleTool.foreground
             image: {
                 if (delegate && delegate.expandable)
                     return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
@@ -335,8 +337,7 @@ FocusScope {
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
-            foregroundColor: scopeView.foregroundColor
-            imageSource: scopeView.scope && scopeView.scope.customizations["page-header"] && scopeView.scope.customizations["page-header"]["logo"] || ""
+            styleTool: scopeView.styleTool
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope
@@ -344,8 +345,7 @@ FocusScope {
                 anchors.right: parent.right
                 windowHeight: scopeView.height
                 windowWidth: scopeView.width
-                foregroundColor: scopeView.foregroundColor
-                backgroundColor: scopeView.backgroundColor === Qt.rgba(0, 0, 0, 0) ? "white" : scopeView.backgroundColor
+                styleTool: scopeView.styleTool
             }
 
             onBackClicked: scopeView.backClicked()
@@ -357,6 +357,7 @@ FocusScope {
         objectName: "previewListView"
         visible: x != width
         scope: scopeView.scope
+        styleTool: scopeView.styleTool
         width: parent.width
         height: parent.height
         anchors.left: categoryView.right
