@@ -35,9 +35,9 @@ Rectangle {
         property color color
         property var styles: [
             {},
-            { "foreground-color": "red" },
-            { "foreground-color": "green" },
-            { "foreground-color": "blue" },
+            { "foreground-color": "red", "background-color": "black" },
+            { "foreground-color": "green", "background-color": "white" },
+            { "foreground-color": "blue", "background-color": "darkgrey" },
         ]
 
         function cleanup() {
@@ -76,5 +76,21 @@ Rectangle {
             verify(Qt.colorEqual(tool.foreground, data.foreground),
                    "Foreground color not equal: %1 != %2".arg(tool.foreground).arg(data.foreground));
         }
+
+        function test_background_data() {
+            return [
+                { tag: "default", index: 0, background: "transparent" },
+                { tag: "black", index: 1, background: "black" },
+                { tag: "white", index: 2, background: "white" },
+                { tag: "darkgrey", index: 3, background: "darkgrey" },
+            ];
+        }
+
+        function test_background(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.background, data.background),
+                   "Background color not equal: %1 != %2".arg(tool.background).arg(data.background));
+        }
+
     }
 }

@@ -35,4 +35,7 @@ QtObject {
     /// Color used for text and symbolic icons
     // FIXME: should be taken from the theme
     readonly property color foreground: style && "foreground-color" in style ? style["foreground-color"] : "grey"
+
+    /// Color used for text and symbolic icons
+    readonly property color background: style && "background-color" in style ? style["background-color"] : "transparent"
 }
