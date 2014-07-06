@@ -15,6 +15,8 @@ else()
         ${CMAKE_SOURCE_DIR}/src/*.cpp
         ${CMAKE_SOURCE_DIR}/plugins/*.h
         ${CMAKE_SOURCE_DIR}/plugins/*.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/*.qml
+        ${CMAKE_SOURCE_DIR}/plugins/*.js
         ${CMAKE_SOURCE_DIR}/qml/*.qml
         ${CMAKE_SOURCE_DIR}/qml/*.js
         ${CMAKE_SOURCE_DIR}/tests/autopilot/*.py
