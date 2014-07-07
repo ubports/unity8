@@ -150,7 +150,7 @@ Item {
             tryCompareFunction(function() { return timeLabel.text !== currentLabel }, true);
         }
 
-        function test_tapToReturn() {
+        function test_displayedLabelChangesOverTime() {
             callManager.backgroundCall = call3;
 
             var labelPathView = findChild(callHint, "labelPathView");

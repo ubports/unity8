@@ -312,6 +312,8 @@ Item {
             var searchIndicator = findChild(panel, "search");
             verify(searchIndicator !== null);
 
+            tryCompare(searchIndicator, "enabled", true);
+
             tap(searchIndicator, 1, 1);
 
             compare(searchClicked, true,

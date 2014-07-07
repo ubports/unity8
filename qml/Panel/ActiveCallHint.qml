@@ -50,7 +50,7 @@ Item {
         telepathyHelper.registerChannelObserver("unity8");
     }
 
-    function activate() {
+    function showLiveCall() {
         Qt.openUrlExternally("dialer:///?view=liveCall");
     }
 

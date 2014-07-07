@@ -136,7 +136,7 @@ Item {
             }
             height: indicators.panelHeight
             enabled: callHint.visible
-            onClicked: callHint.activate()
+            onClicked: callHint.showLiveCall()
         }
 
         Indicators {
@@ -164,7 +164,7 @@ Item {
 
             onShowTapped: {
                 if (callHint.active) {
-                    callHint.activate();
+                    callHint.showLiveCall();
                 }
             }
         }
@@ -172,7 +172,7 @@ Item {
         SearchIndicator {
             id: search
             objectName: "search"
-            enabled: root.searchVisible && state == "visible"
+            enabled: state == "visible"
 
             state: {
                 if (callHint.visible) {
@@ -227,11 +227,18 @@ Item {
         State {
             name: "onscreen" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
+            PropertyChanges {
+                target: indicatorArea;
+                anchors.topMargin: 0
+            }
         },
         State {
             name: "offscreen" //pushed off screen
             when: fullscreenMode
-            PropertyChanges { target: indicatorArea;  anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0 }
+            PropertyChanges {
+                target: indicatorArea;
+                anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0
+            }
         }
     ]
 }
