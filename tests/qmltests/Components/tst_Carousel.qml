@@ -264,11 +264,12 @@ Item {
             verify(Math.abs(x - carouselList.contentX) < 1);
         }
 
-        function test_click() {
+        function test_activate() {
             var carouselList = findChild(carousel, "listView");
             tryCompareFunction(function() { return findChild(carouselList, "carouselDelegate3") ? true : false; }, true);
             var carouselItem = findChild(carousel, "carouselDelegate3")
             verify(carouselItem, "Could not find delegate");
+
             spy.signalName = "clicked";
             spy.target = carouselItem;
             mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
@@ -276,13 +277,7 @@ Item {
             tryCompare(carouselItem, "explicitlyScaled", true);
             mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
             spy.wait();
-        }
 
-        function test_pressAndHold() {
-            var carouselList = findChild(carousel, "listView");
-            tryCompareFunction(function() { return findChild(carouselList, "carouselDelegate3") ? true : false; }, true);
-            var carouselItem = findChild(carousel, "carouselDelegate3")
-            verify(carouselItem, "Could not find delegate");
             spy.signalName = "pressAndHold";
             spy.target = carouselItem;
             mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
@@ -292,6 +287,5 @@ Item {
             spy.wait();
             mouseRelease(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
         }
-
     }
 }
