@@ -64,6 +64,11 @@ FocusScope {
     property url background
     readonly property real panelHeight: panel.panelHeight
 
+    // this is only here to select the width / height of the window if not running fullscreen
+    property bool tablet: false
+    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
+    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
+
     property bool sideStageEnabled: shell.width >= units.gu(100)
 
     function activateApplication(appId) {
