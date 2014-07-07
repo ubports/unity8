@@ -40,7 +40,6 @@ Build-Depends: cmake,
                qtdeclarative5-private-dev (>= 5.2.1),
                qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-ubuntu-settings-components (>= 0.2),
-               qtdeclarative5-ubuntu-telephony0.1,
                qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.48) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.48),
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
