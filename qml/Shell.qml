@@ -327,13 +327,10 @@ FocusScope {
         enabled: true
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
-
-        anchors {
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
-            topMargin: panel.panelHeight
-        }
+        y: panel.panelHeight
+        x: required ? 0 : - width
+        width: parent.width
+        height: parent.height - panel.panelHeight
         background: shell.background
         minPinLength: 4
         maxPinLength: 4
