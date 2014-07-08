@@ -21,16 +21,17 @@ Item {
     id: root
     property var department: null
     property var currentDepartment: null
-    property var scopeStyle: Object({ foreground: "grey", background: "transparent" })
+    property var scopeStyle: null
     signal enterDepartment(var newDepartmentId, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
 
     readonly property int itemHeight: units.gu(5)
+    readonly property color foregroundColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     implicitHeight: flickable.contentHeight
 
     Rectangle {
-        color: Qt.colorEqual(root.scopeStyle.background, "transparent") ? "white" : root.scopeStyle.background
+        color: !root.scopeStyle || Qt.colorEqual(root.scopeStyle.background, "transparent") ? "white" : root.scopeStyle.background
         anchors.fill: parent
     }
 
@@ -82,7 +83,7 @@ Item {
                     name: "back"
                     height: units.gu(2)
                     width: height
-                    color: root.scopeStyle.foreground
+                    color: root.foregroundColor
                 }
 
                 Label {
@@ -92,7 +93,7 @@ Item {
                         leftMargin: units.gu(0.5)
                     }
                     text: department ? department.parentLabel : ""
-                    color: root.scopeStyle.foreground
+                    color: root.foregroundColor
                 }
 
                 Rectangle {
@@ -103,7 +104,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: root.scopeStyle.foreground
+                    color: root.foregroundColor
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -124,7 +125,7 @@ Item {
                     }
                     text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
                     font.bold: true
-                    color: root.scopeStyle.foreground
+                    color: root.foregroundColor
                 }
 
                 Rectangle {
@@ -135,7 +136,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: root.scopeStyle.foreground
+                    color: root.foregroundColor
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -160,7 +161,7 @@ Item {
                             leftMargin: units.gu(2)
                         }
                         text: label
-                        color: root.scopeStyle.foreground
+                        color: root.foregroundColor
                     }
 
                     Icon {
@@ -172,7 +173,7 @@ Item {
                         height: units.gu(2)
                         width: height
                         name: hasChildren ? "go-next" : "tick"
-                        color: root.scopeStyle.foreground
+                        color: root.foregroundColor
                         visible: hasChildren || isActive
                     }
 
@@ -184,7 +185,7 @@ Item {
                             leftMargin: units.gu(2)
                             rightMargin: units.gu(2)
                         }
-                        color: root.scopeStyle.foreground
+                        color: root.foregroundColor
                         opacity: 0.1
                         height: units.dp(1)
                         visible: index != department.count - 1

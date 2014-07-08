@@ -38,10 +38,7 @@ Item {
     // TODO We should use foreground for the icons
     // of the toolbar but unfortunately Action does not have
     // the keyColor property as Icon does :-/
-    property var scopeStyle: QtObject {
-        readonly property color foreground: "grey"
-        readonly property url headerLogo: ""
-    }
+    property var scopeStyle: null
 
     signal backClicked()
 
@@ -88,7 +85,7 @@ Item {
     }
 
     function refreshLogo() {
-        if (scopeStyle.headerLogo != "") {
+        if (scopeStyle ? scopeStyle.headerLogo != "" : false) {
             header.contents = imageComponent.createObject();
         } else if (header.contents) {
             header.contents.destroy();
@@ -97,7 +94,7 @@ Item {
     }
 
     Connections {
-        target: scopeStyle
+        target: root.scopeStyle
         onHeaderLogoChanged: root.refreshLogo()
     }
 
@@ -226,7 +223,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
-                textColor: root.scopeStyle.foreground
+                textColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
@@ -262,7 +259,7 @@ Item {
                         Image {
                             objectName: "titleImage"
                             anchors.fill: parent
-                            source: root.scopeStyle.headerLogo
+                            source: root.scopeStyle ? root.scopeStyle.headerLogo : ""
                             fillMode: Image.PreserveAspectFit
                             horizontalAlignment: Image.AlignLeft
                             sourceSize.height: height

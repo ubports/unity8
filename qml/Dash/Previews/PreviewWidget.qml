@@ -29,7 +29,7 @@ Item {
     property var widgetData
 
     //! The ScopeStyle component.
-    property var scopeStyle: { foreground: "grey" }
+    property var scopeStyle: null
 
     /*! \brief This signal should be emitted when a preview action was triggered.
      *

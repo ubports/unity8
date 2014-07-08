@@ -105,7 +105,7 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
-        color: scopeView.scopeStyle.background
+        color: scopeView.scopeStyle ? scopeView.scopeStyle.background : "transparent"
         visible: color != "transparent"
     }
 
@@ -316,7 +316,7 @@ FocusScope {
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
-            textColor: scopeStyle.foreground
+            textColor: scopeStyle ? scopeStyle.foreground : "grey"
             image: {
                 if (delegate && delegate.expandable)
                     return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"

@@ -29,7 +29,7 @@ AbstractButton {
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
-    property var scopeStyle: { foreground: "grey" }
+    property var scopeStyle: null
 
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
@@ -79,7 +79,7 @@ AbstractButton {
         anchors.margins: units.gu(2)
         verticalAlignment: Text.AlignVCenter
         text: root.currentDepartment ? root.currentDepartment.label : ""
-        color: root.scopeStyle.foreground
+        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     }
 
     Icon {
@@ -89,7 +89,7 @@ AbstractButton {
         name: showList ? "up" : "down"
         height: units.gu(2)
         width: height
-        color: root.scopeStyle.foreground
+        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     }
 
     //  departmentListView is outside root
