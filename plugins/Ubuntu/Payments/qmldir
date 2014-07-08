@@ -1,0 +1,3 @@
+module Ubuntu.Payments
+plugin Payments
+typeinfo Payments.qmltypes

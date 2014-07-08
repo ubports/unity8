@@ -32,8 +32,6 @@ try:
 except ImportError:
     import mock
 
-from testtools.matchers import Contains, HasLength
-
 from unity8 import process_helpers
 from unity8.shell import emulators, fixture_setup, tests
 from unity8.shell.emulators import dash as dash_emulators
