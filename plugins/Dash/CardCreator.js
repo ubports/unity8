@@ -305,7 +305,7 @@ function cardString(template, components) {
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
-    var hasSubtitle = components["subtitle"] || false;
+    var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
 
     if (hasBackground) {
@@ -513,6 +513,8 @@ function cardString(template, components) {
         code += 'implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
     } else if (hasTitle) {
         code += 'implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);\n';
+    } else if (hasArt) {
+        code += 'implicitHeight: artShapeHolder.height;\n';
     }
     // Close the AbstractButton
     code += '}\n';
