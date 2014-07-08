@@ -350,16 +350,9 @@ FocusScope {
             Dialog {
                 id: dialoguePower
                 title: "Power"
-                text: "What do you want to do?"
+                text: i18n.tr("Are you sure you would like to turn power off?")
                 Button {
-                    text: "Cancel"
-                    onClicked: {
-                        PopupUtils.close(dialoguePower);
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: "Shutdown"
+                    text: i18n.tr("Power off")
                     onClicked: {
                         dBusUnitySessionServiceConnection.closeAllApps();
                         DBusUnitySessionService.Shutdown();
@@ -368,10 +361,17 @@ FocusScope {
                     }
                 }
                 Button {
-                    text: "Reboot"
+                    text: i18n.tr("Restart")
                     onClicked: {
                         dBusUnitySessionServiceConnection.closeAllApps();
                         DBusUnitySessionService.Reboot();
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: i18n.tr("Cancel")
+                    onClicked: {
                         PopupUtils.close(dialoguePower);
                         stages.dialogShown = false;
                     }
