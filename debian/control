@@ -38,7 +38,7 @@ Build-Depends: cmake,
                qtdeclarative5-private-dev (>= 5.2.1),
                qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-ubuntu-settings-components,
-               qtdeclarative5-ubuntu-ui-toolkit-plugin,
+               qtdeclarative5-ubuntu-ui-toolkit-plugin (=> 0.1.49),
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
