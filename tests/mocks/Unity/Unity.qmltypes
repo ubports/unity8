@@ -272,6 +272,7 @@ Module {
         Property { name: "isActive"; type: "bool" }
         Property { name: "currentDepartmentId"; type: "string"; isReadonly: true }
         Property { name: "hasDepartments"; type: "bool"; isReadonly: true }
+        Property { name: "customizations"; type: "QVariantMap"; isReadonly: true }
         Signal { name: "showDash" }
         Signal { name: "hideDash" }
         Signal {
