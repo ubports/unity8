@@ -1,3 +1,0 @@
-module Unity.Shell
-plugin UnityShell-qml
-typeinfo Shell.qmltypes

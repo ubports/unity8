@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import Ubuntu.Components 0.1
-import Unity.Shell 0.1
 import "Components"
 
 Rectangle {
@@ -86,10 +85,6 @@ Rectangle {
         }
 
         return Screen.angleBetween(Screen.primaryOrientation, acceptedOrientation);
-    }
-
-    DBusUnityShellService {
-        rotationAngle: acceptedOrientationAngle
     }
 
     state: acceptedOrientationAngle.toString()
