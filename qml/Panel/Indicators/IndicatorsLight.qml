@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,25 +14,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
+ *      Renato Araujo Oliveira Filho <renato@canonical.com>
  */
 
 import QtQuick 2.0
-import QMenuModel 0.1
+import Powerd 0.1
+import Lights 0.1
 
-Item {
-    id: indicatorBase
+QtObject {
+    id: root
 
-    //const
-    property string busName
-    property string actionsObjectPath
-    property string menuObjectPath
-    property string rootMenuType: "com.canonical.indicator.root"
-    property string deviceMenuObjectPath: menuObjectPath
+    Component.onDestruction: Lights.state = Lights.Off
 
-    property var menuModel: UnityMenuModel {}
+    // QtObject does not have children
+    property var _connections: Connections {
+        id: powerConnection
 
-    property RootActionState rootActionState: RootActionState {
-        onUpdated: indicatorBase.rootActionStateChanged()
+        target: Powerd
+        onDisplayPowerStateChange: {
+            Lights.state = (status === Powerd.Off) ? Lights.On : Lights.Off
+        }
     }
 }

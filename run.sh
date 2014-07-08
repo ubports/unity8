@@ -57,12 +57,6 @@ if $KEYLOCK; then
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-passphrase
 fi
 
-# Force icon theme if running on the desktop, otherwise gnome theme (if running
-# on Ubuntu Desktop) will be used and icons won't be found
-if [ -n "$DESKTOP_SESSION" ]; then
-  export UBUNTU_ICON_THEME=ubuntu-mobile
-fi
-
 QML_PHONE_SHELL_ARGS=""
 if $MOUSE_TOUCH; then
   QML_PHONE_SHELL_ARGS="$QML_PHONE_SHELL_ARGS -mousetouch"
