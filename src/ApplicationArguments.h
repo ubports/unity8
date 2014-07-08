@@ -21,7 +21,6 @@
 #define APPLICATION_ARGUMENTS_H
 
 #include <QObject>
-#include <QProcess>
 #include <QSize>
 #include <QStringList>
 
@@ -38,16 +37,6 @@ public:
     Q_INVOKABLE bool hasGeometry() const { return m_size.isValid(); }
     Q_INVOKABLE int width() const { return m_size.width(); }
     Q_INVOKABLE int height() const { return m_size.height(); }
-    Q_INVOKABLE QString device() const {
-        // fetch product name
-        QProcess process;
-        process.start("/usr/bin/getprop", QStringList() << "ro.build.product");
-        if (!process.waitForFinished(100))
-            return QString();
-
-        QString productName(process.readAllStandardOutput());
-        return productName.trimmed();
-    }
 
 private:
   QSize m_size;
