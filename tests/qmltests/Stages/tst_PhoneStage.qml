@@ -221,7 +221,6 @@ Item {
 
             goToSpread();
 
-
             phoneStage.select(selectedApp.appId);
 
             tryCompare(spreadView, "contentX", -spreadView.shift);
