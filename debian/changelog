@@ -1,3 +1,10 @@
+unity8 (7.90+14.10.20140707-0ubuntu1) utopic; urgency=low
+
+  [ Nick Dedekind ]
+  * Added support for TransferMenu
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 07 Jul 2014 11:40:59 +0000
+
 unity8 (7.90+14.10.20140703.1-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]
