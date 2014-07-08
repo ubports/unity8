@@ -32,6 +32,8 @@ Item {
         property int destroyedDelegates: 0
 
         itemComponent: BaseCarouselDelegate {
+            objectName: "carouselDelegate" + index
+
             Rectangle {
                 anchors.fill: parent
                 border.color: "black"

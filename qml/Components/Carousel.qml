@@ -306,8 +306,8 @@ Item {
                 }
 
                 onLoaded: {
-                    item.objectName = Qt.binding(function() { return "carouselDelegate" + index; });
                     item.explicitlyScaled = Qt.binding(function() { return explicitlyScaled; });
+                    item.index = Qt.binding(function() { return index; });
                     item.model = Qt.binding(function() { return model; });
                 }
 
