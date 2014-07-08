@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2013 Canonical
+# Copyright (C) 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,19 +42,24 @@ import sys
 if sys.version_info < (3,):
     range = xrange
 
+
 class UpstartIntegrationTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
     def _get_status(self):
-        pid, status = os.waitpid(self.process.pid, os.WUNTRACED | os.WCONTINUED | os.WNOHANG)
-        logger.debug("Got status: {0}; stopped: {1}; continued: {2}"\
-                     .format(status, os.WIFSTOPPED(status), os.WIFCONTINUED(status)))
+        pid, status = os.waitpid(
+            self.process.pid, os.WUNTRACED | os.WCONTINUED | os.WNOHANG)
+        logger.debug(
+            "Got status: {0}; stopped: {1}; continued: {2}".format(
+                status, os.WIFSTOPPED(status), os.WIFCONTINUED(status)))
         return status
 
     def _launch_unity(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
-        self.process = subprocess.Popen([get_binary_path()] + self.unity_geometry_args)
+        self.process = subprocess.Popen(
+            [get_binary_path()] + self.unity_geometry_args)
+
         def ensure_stopped():
             self.process.terminate()
             for i in range(10):
@@ -76,10 +81,10 @@ class UpstartIntegrationTests(UnityTestCase):
         self.addCleanup(ensure_stopped)
 
     def _set_proxy(self):
-        super(UpstartIntegrationTests, self)._set_proxy(get_proxy_object_for_existing_process(
-            pid=self.process.pid,
-            emulator_base=UnityEmulatorBase,
-        ))
+        super(UpstartIntegrationTests, self)._set_proxy(
+            get_proxy_object_for_existing_process(
+                pid=self.process.pid,
+                emulator_base=UnityEmulatorBase,))
 
     def test_no_sigstop(self):
         self.patch_environment("UNITY_MIR_EMITS_SIGSTOP", "")
@@ -93,10 +98,14 @@ class UpstartIntegrationTests(UnityTestCase):
     def test_expect_sigstop(self):
         self.patch_environment("UNITY_MIR_EMITS_SIGSTOP", "1")
         self._launch_unity()
-        self.assertThat(lambda: os.WIFSTOPPED(self._get_status()), Eventually(Equals(True)), "Unity8 should raise SIGSTOP when ready")
+        self.assertThat(
+            lambda: os.WIFSTOPPED(self._get_status()),
+            Eventually(Equals(True)), "Unity8 should raise SIGSTOP when ready")
 
         self.process.send_signal(signal.SIGCONT)
-        self.assertThat(lambda: os.WIFCONTINUED(self._get_status()), Eventually(Equals(True)), "Unity8 should have resumed")
+        self.assertThat(
+            lambda: os.WIFCONTINUED(self._get_status()),
+            Eventually(Equals(True)), "Unity8 should have resumed")
 
         logger.debug("Unity started, waiting for it to be ready.")
         self._set_proxy()

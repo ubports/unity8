@@ -104,7 +104,6 @@ Item {
                     highlightRangeMode: ListView.ApplyRange
                     preferredHighlightBegin: (height - itemHeight) / 2
                     preferredHighlightEnd: (height + itemHeight) / 2
-                    spacing: units.gu(0.5)
 
                     // The size of the area the ListView is extended to make sure items are not
                     // destroyed when dragging them outside the list. This needs to be at least

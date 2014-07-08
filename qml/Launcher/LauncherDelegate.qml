@@ -56,6 +56,7 @@ Item {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
+                fillMode: Image.PreserveAspectCrop
                 source: root.iconName
             }
         }
