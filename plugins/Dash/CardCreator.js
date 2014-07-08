@@ -289,7 +289,7 @@ function cardString(template, components) {
                 property var cardData; \n\
                 property var artShapeBorderSource: undefined; \n\
                 property real fontScale: 1.0; \n\
-                property var scopeStyle: null \n\
+                property var scopeStyle: null; \n\
                 property int headerAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
