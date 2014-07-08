@@ -71,6 +71,10 @@ unity::shell::scopes::CategoriesInterface* Scope::categories() const {
     return m_categories;
 }
 
+unity::shell::scopes::SettingsModelInterface* Scope::settings() const {
+    return nullptr;
+}
+
 QString Scope::noResultsHint() const {
     return m_noResultsHint;
 }
@@ -181,4 +185,9 @@ void Scope::loadDepartment(const QString& id)
 {
     m_currentDeparment = id;
     Q_EMIT currentDepartmentIdChanged();
+}
+
+void Scope::performQuery(const QString& query)
+{
+    Q_UNUSED(query);
 }
