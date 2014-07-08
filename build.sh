@@ -42,6 +42,7 @@ install_dependencies() {
                          equivs \
                          gsettings-desktop-schemas \
                          gsettings-ubuntu-schemas \
+                         pay-service \
                          qmenumodel-qml \
                          qml-module-qtquick-xmllistmodel \
                          qtdeclarative5-gsettings1.0 \
