@@ -28,6 +28,9 @@ Item {
     /// True if this item is currently "focused" in the carousel.
     property bool explicitlyScaled
 
+    /// Model index for this delegate.
+    property int index
+
     /// Model data for this delegate.
     property var model
 
