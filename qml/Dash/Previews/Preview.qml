@@ -80,6 +80,7 @@ Item {
                     widgetType: model.type
                     widgetData: model.properties
                     isCurrentPreview: root.isCurrent
+                    scopeStyle: root.scopeStyle
                     anchors {
                         left: parent.left
                         right: parent.right
