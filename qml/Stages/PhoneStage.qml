@@ -58,6 +58,8 @@ Item {
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 var application = priv.focusedApplication;
                 root.fullscreen = application.fullscreen;
+                var appIndex = priv.indexOf(application.appId);
+                spreadRepeater.itemAt(appIndex).forceActiveFocus();
             }
         }
 

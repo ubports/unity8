@@ -35,7 +35,12 @@ Item {
     signal clicked()
     signal closed()
 
-    Item {
+    onActiveFocusChanged: {
+        if (activeFocus)
+            surfaceContainer.forceActiveFocus();
+    }
+
+    FocusScope {
         id: surfaceContainer
         anchors.fill: parent
         readonly property var surface: model.surface
