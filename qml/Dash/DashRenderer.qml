@@ -39,8 +39,8 @@ Item {
     /// CardTool component.
     property var cardTool: null
 
-    /// StyleTool component.
-    property var styleTool: null
+    /// ScopeStyle component.
+    property var scopeStyle: null
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item

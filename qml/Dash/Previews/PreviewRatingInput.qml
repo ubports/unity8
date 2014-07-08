@@ -76,7 +76,7 @@ PreviewWidget {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
             }
-            color: root.styleTool.foreground
+            color: root.scopeStyle.foreground
             opacity: .8
             text: widgetData["rating-label"] || i18n.tr("Rate this")
         }
@@ -121,7 +121,7 @@ PreviewWidget {
                 left: parent.left
                 right: parent.right
             }
-            color: root.styleTool.foreground
+            color: root.scopeStyle.foreground
             opacity: .8
             text: widgetData["review-label"] || i18n.tr("Add a review")
         }

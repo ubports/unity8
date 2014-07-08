@@ -21,7 +21,7 @@ Item {
     id: root
     property var department: null
     property var currentDepartment: null
-    property var styleTool: Object({ foreground: "grey", background: "transparent" })
+    property var scopeStyle: Object({ foreground: "grey", background: "transparent" })
     signal enterDepartment(var newDepartmentId, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
@@ -30,7 +30,7 @@ Item {
     implicitHeight: flickable.contentHeight
 
     Rectangle {
-        color: Qt.colorEqual(root.styleTool.background, "transparent") ? "white" : root.styleTool.background
+        color: Qt.colorEqual(root.scopeStyle.background, "transparent") ? "white" : root.scopeStyle.background
         anchors.fill: parent
     }
 
@@ -82,7 +82,7 @@ Item {
                     name: "back"
                     height: units.gu(2)
                     width: height
-                    color: root.styleTool.foreground
+                    color: root.scopeStyle.foreground
                 }
 
                 Label {
@@ -92,7 +92,7 @@ Item {
                         leftMargin: units.gu(0.5)
                     }
                     text: department ? department.parentLabel : ""
-                    color: root.styleTool.foreground
+                    color: root.scopeStyle.foreground
                 }
 
                 Rectangle {
@@ -103,7 +103,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: root.styleTool.foreground
+                    color: root.scopeStyle.foreground
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -124,7 +124,7 @@ Item {
                     }
                     text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
                     font.bold: true
-                    color: root.styleTool.foreground
+                    color: root.scopeStyle.foreground
                 }
 
                 Rectangle {
@@ -135,7 +135,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: root.styleTool.foreground
+                    color: root.scopeStyle.foreground
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -160,7 +160,7 @@ Item {
                             leftMargin: units.gu(2)
                         }
                         text: label
-                        color: root.styleTool.foreground
+                        color: root.scopeStyle.foreground
                     }
 
                     Icon {
@@ -172,7 +172,7 @@ Item {
                         height: units.gu(2)
                         width: height
                         name: hasChildren ? "go-next" : "tick"
-                        color: root.styleTool.foreground
+                        color: root.scopeStyle.foreground
                         visible: hasChildren || isActive
                     }
 
@@ -184,7 +184,7 @@ Item {
                             leftMargin: units.gu(2)
                             rightMargin: units.gu(2)
                         }
-                        color: root.styleTool.foreground
+                        color: root.scopeStyle.foreground
                         opacity: 0.1
                         height: units.dp(1)
                         visible: index != department.count - 1

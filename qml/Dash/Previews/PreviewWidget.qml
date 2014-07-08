@@ -28,8 +28,8 @@ Item {
     //! Variable used to contain widget's data
     property var widgetData
 
-    //! The StyleTool component.
-    property var styleTool: { foreground: "grey" }
+    //! The ScopeStyle component.
+    property var scopeStyle: { foreground: "grey" }
 
     /*! \brief This signal should be emitted when a preview action was triggered.
      *

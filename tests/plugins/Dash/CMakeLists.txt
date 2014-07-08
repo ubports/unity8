@@ -75,7 +75,7 @@ add_binary_qml_test(CardCreator "" "Dash-qml")
 
 # qml unit test
 set(qmltest_DEFAULT_TARGETS qmltests)
-add_qml_test(. StyleTool IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+add_qml_test(. ScopeStyle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 
 # plain qml test
 set(qmltest_DEFAULT_TARGETS qmluitests)

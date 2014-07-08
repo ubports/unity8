@@ -213,7 +213,7 @@ Item {
 
             searchEntryEnabled: true
             title: "%^$%^%^&%^&%^$%GHR%"
-            styleTool: QtObject {
+            scopeStyle: QtObject {
                 readonly property color foreground: "grey"
                 readonly property url headerLogo: showImageCheckBox.checked ? pageHeader.titleImageSource : ""
             }

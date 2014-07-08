@@ -75,7 +75,7 @@ DashRenderer {
                 item.template = Qt.binding(function() { return cardTool.template; });
                 item.components = Qt.binding(function() { return cardTool.components; });
                 item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
-                item.styleTool = root.styleTool;
+                item.scopeStyle = root.scopeStyle;
             }
             Connections {
                 target: loader.item

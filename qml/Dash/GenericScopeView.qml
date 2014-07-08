@@ -35,7 +35,7 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
-    property var styleTool: StyleTool {
+    property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
     }
 
@@ -105,7 +105,7 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
-        color: scopeView.styleTool.background
+        color: scopeView.scopeStyle.background
         visible: color != "transparent"
     }
 
@@ -176,7 +176,7 @@ FocusScope {
                         item.model = Qt.binding(function() { return results })
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
-                    item.styleTool = scopeView.styleTool;
+                    item.scopeStyle = scopeView.scopeStyle;
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         item.setFilter(shouldFilter, false /*animate*/);
@@ -316,7 +316,7 @@ FocusScope {
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
-            textColor: styleTool.foreground
+            textColor: scopeStyle.foreground
             image: {
                 if (delegate && delegate.expandable)
                     return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
@@ -337,7 +337,7 @@ FocusScope {
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
-            styleTool: scopeView.styleTool
+            scopeStyle: scopeView.scopeStyle
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope
@@ -345,7 +345,7 @@ FocusScope {
                 anchors.right: parent.right
                 windowHeight: scopeView.height
                 windowWidth: scopeView.width
-                styleTool: scopeView.styleTool
+                scopeStyle: scopeView.scopeStyle
             }
 
             onBackClicked: scopeView.backClicked()
@@ -357,7 +357,7 @@ FocusScope {
         objectName: "previewListView"
         visible: x != width
         scope: scopeView.scope
-        styleTool: scopeView.styleTool
+        scopeStyle: scopeView.scopeStyle
         width: parent.width
         height: parent.height
         anchors.left: categoryView.right

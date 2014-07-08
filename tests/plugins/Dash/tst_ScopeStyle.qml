@@ -23,13 +23,13 @@ Rectangle {
     width: units.gu(40)
     height: units.gu(71)
 
-    StyleTool {
+    ScopeStyle {
         id: tool
     }
 
     TestCase {
         id: testCase
-        name: "StyleTool"
+        name: "ScopeStyle"
         when: windowShown
 
         property color color

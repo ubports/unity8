@@ -31,8 +31,8 @@ Loader {
     //! Widget data, forwarded to the widget as is.
     property var widgetData: null
 
-    //! The StyleTool component.
-    property var styleTool: null
+    //! The ScopeStyle component.
+    property var scopeStyle: null
 
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false
@@ -65,7 +65,7 @@ Loader {
         item.widgetId = Qt.binding(function() { return root.widgetId } )
         item.widgetData = Qt.binding(function() { return root.widgetData } )
         item.isCurrentPreview = Qt.binding(function() { return root.isCurrentPreview } )
-        if (item.hasOwnProperty("styleTool")) item.styleTool = root.styleTool;
+        if (item.hasOwnProperty("scopeStyle")) item.scopeStyle = root.scopeStyle;
     }
 
     Connections {
