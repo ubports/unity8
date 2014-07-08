@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,9 +25,7 @@ from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from autopilot.matchers import Eventually
-from autopilot.platform import model
 import sys
-from testtools import skipUnless
 from testtools.matchers import Equals
 import logging
 
@@ -133,7 +131,7 @@ class TestLockscreen(UnityTestCase):
         if not isinstance(code, basestring):
             raise TypeError(
                 "'code' parameter must be a string, not %r."
-                % type(passphrase)
+                % type(code)
             )
         for num in code:
             if not num.isdigit():
@@ -190,7 +188,8 @@ class TestLockscreen(UnityTestCase):
         current_text = prompt.text
         self.keyboard.type(character)
         try:
-            self.assertThat(prompt.text, Eventually(Equals(current_text + character)))
+            self.assertThat(
+                prompt.text, Eventually(Equals(current_text + character)))
         except AssertionError:
             if retries > 0:
                 self._type_character(character, prompt, retries-1)

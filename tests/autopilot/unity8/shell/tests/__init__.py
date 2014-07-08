@@ -142,12 +142,11 @@ class UnityTestCase(AutopilotTestCase):
         self._data_dirs_mock_enabled = True
         self._environment = {}
 
-        #### FIXME: This is a work around re: lp:1238417 ####
+        # FIXME: This is a work around re: lp:1238417
         if model() != "Desktop":
             from autopilot.input import _uinput
             _uinput._touch_device = _uinput.create_touch_device()
             self.addCleanup(_uinput._touch_device.close)
-        ####
 
         self.touch = Touch.create()
         self._setup_display_details()
