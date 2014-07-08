@@ -1,3 +1,97 @@
+unity8 (7.90+14.10.20140703.1-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Initial code for a payment button widget, to handle purchasing apps
+    from the click scope.
+
+  [ Nick Dedekind ]
+  * Moved [Message]MenuItemFacotory from Unity.Indicators plugin to qml
+    folder.
+
+  [ Albert Astals ]
+  * EasingCurve: Initialize members
+  * Fix valgrind warning by not emitting reset on model destructor That
+    won't be supported until Qt 5.4 More info at https://bugreports.qt-
+    project.org/browse/QTBUG-39780 Warning was ==16693== Invalid read of
+    size 8 ==16693== at 0x72B19A0: QQmlContext::isValid() const
+    (qqmlcontext.cpp:231) ==16693== by 0x736C82B:
+    QQmlDelegateModelPrivate::emitChanges() (qqmldelegatemodel.cpp:1412)
+    ==16693== by 0x7372AE6: QQmlDelegateModel::_q_modelReset()
+    (qqmldelegatemodel.cpp:1463) ==16693== by 0x7397224:
+    QQmlDelegateModel::qt_static_metacall(QObject*, QMetaObject::Call,
+    int, void**) (moc_qqmldelegatemodel_p.cpp:196) ==16693== by
+    0x739769E: QQmlDelegateModel::qt_metacall(QMetaObject::Call, int,
+    void**) (moc_qqmldelegatemodel_p.cpp:292) ==16693== by 0x66379CC:
+    QMetaObject::activate(QObject*, int, int, void**) (in
+    /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.3.0) ==16693== by
+    0x65AEEFD: QAbstractItemModel::endResetModel() (in /usr/lib/x86_64-
+    linux-gnu/libQt5Core.so.5.3.0) ==16693== by 0x23461EFD:
+    FakeIndicatorsModel::unload() (fakeindicatorsmodel.cpp:53) ==16693==
+    by 0x23461E13: FakeIndicatorsModel::~FakeIndicatorsModel()
+    (fakeindicatorsmodel.cpp:34) ==16693== by 0x2345C073:
+    QQmlPrivate::QQmlElement<FakeIndicatorsModel>::~QQmlElement() (in
+    /home/tsdgeos_work/phablet/unity8/investigate_test_shell_crash/build
+    dir/tests/mocks/Unity/Indicators/libIndicatorsFakeQml.so) ==16693==
+    by 0x2345C0A3:
+    QQmlPrivate::QQmlElement<FakeIndicatorsModel>::~QQmlElement()
+    (qqmlprivate.h:106) ==16693== by 0x663636B:
+    QObjectPrivate::deleteChildren() (in /usr/lib/x86_64-linux-
+    gnu/libQt5Core.so.5.3.0) ==16693== Address 0x1862d448 is 8 bytes
+    inside a block of size 16 free'd ==16693== at 0x4C2C2BC: operator
+    delete(void*) (vg_replace_malloc.c:503) ==16693== by 0x72B21B8:
+    QQmlContextData::destroy() (qqmlcontext.cpp:647) ==16693== by
+    0x7293458: QQmlPrivate::qdeclarativeelement_destructor(QObject*)
+    (qqmlengine.cpp:612) ==16693== by 0x6C0CADD:
+    QQmlPrivate::QQmlElement<QQuickItem>::~QQmlElement()
+    (qqmlprivate.h:105) ==16693== by 0x663636B:
+    QObjectPrivate::deleteChildren() (in /usr/lib/x86_64-linux-
+    gnu/libQt5Core.so.5.3.0) ==16693== by 0x663F0EB: QObject::~QObject()
+    (in /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.3.0) ==16693== by
+    0x6BF64B5: QQuickItem::~QQuickItem() (qquickitem.cpp:2064) ==16693==
+    by 0x6C0CAE5: QQmlPrivate::QQmlElement<QQuickItem>::~QQmlElement()
+    (qqmlprivate.h:106) ==16693== by 0x663636B:
+    QObjectPrivate::deleteChildren() (in /usr/lib/x86_64-linux-
+    gnu/libQt5Core.so.5.3.0) ==16693== by 0x663F0EB: QObject::~QObject()
+    (in /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.3.0) ==16693== by
+    0x6BF64B5: QQuickItem::~QQuickItem() (qquickitem.cpp:2064) ==16693==
+    by 0x6C0CAE5: QQmlPrivate::QQmlElement<QQuickItem>::~QQmlElement()
+    (qqmlprivate.h:106) (LP: #1332598)
+
+  [ Michael Zanetti ]
+  * drop launcher item spacing (LP: #1332022)
+  * change wording in launcher quicklist (LP: #1332035)
+
+  [ Alejandro J. Cura ]
+  * Initial code for a payment button widget, to handle purchasing apps
+    from the click scope.
+
+  [ Rodney Dawes ]
+  * Initial code for a payment button widget, to handle purchasing apps
+    from the click scope.
+
+  [ Renato Araujo Oliveira Filho ]
+  * Create IndicatorsLight.qml component used to control indicator led.
+    A blue led will pulse if the message indicator is blue and screen is
+    off.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 03 Jul 2014 14:47:46 +0000
+
+unity8 (7.90+14.10.20140701.2-0ubuntu2) utopic; urgency=medium
+
+  * debian/control: 
+    list qtdeclarative5-ubuntu-ui-toolkit-plugin-gles as an alternative 
+    choice, since provides are not versionned, should restore installability
+    on amd64 and i386
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 03 Jul 2014 13:26:38 +0200
+
+unity8 (7.90+14.10.20140701.2-0ubuntu1) utopic; urgency=medium
+
+  [ Michał Sawicz ]
+  * Adapt to suru theme.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 15:10:35 +0000
+
 unity8 (7.89+14.10.20140627-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
