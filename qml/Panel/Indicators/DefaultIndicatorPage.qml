@@ -176,6 +176,7 @@ IndicatorBase {
 
     MenuItemFactory {
         id: factory
+        rootModel: main.menuModel ? main.menuModel : null
         menuModel: mainMenu.model ? mainMenu.model : null
     }
 
