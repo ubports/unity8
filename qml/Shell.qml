@@ -50,6 +50,7 @@ FocusScope {
     property bool dashShown: dash.shown && dash.available && underlay.visible
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
+    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
