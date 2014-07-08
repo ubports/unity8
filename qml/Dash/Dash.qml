@@ -26,7 +26,6 @@ Showable {
 
     visible: shown
 
-    property ListModel searchHistory: SearchHistoryModel {}
     property bool searchable: !dashContent.previewOpen && !scopeItem.previewOpen
 
     property string showScopeOnLoaded: "clickscope"
@@ -76,7 +75,6 @@ Showable {
         height: parent.height
         model: filteredScopes
         scopes: scopes
-        searchHistory: dash.searchHistory
         visible: x != -width
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
@@ -110,7 +108,6 @@ Showable {
         anchors.left: dashContent.right
         width: parent.width
         height: parent.height
-        searchHistory: dash.searchHistory
         scale: dash.contentScale
         clip: scale != 1.0
         visible: scope != null

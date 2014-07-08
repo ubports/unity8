@@ -32,13 +32,6 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property bool searchClicked: false
-
-    Connections {
-        target: panel
-        onSearchClicked: searchClicked = true
-    }
-
     Panel {
         id: panel
         anchors {
@@ -128,7 +121,6 @@ Item {
             panel.indicators.initialise();
             panel.fullscreenMode = false;
 
-            searchClicked = false;
             panel.indicators.hide();
             // Wait for animation to complete
             tryCompare(panel.indicators.hideAnimation, "running", false);
@@ -305,40 +297,11 @@ Item {
             }
         }
 
-        function test_search_click_when_visible() {
-            panel.fullscreenMode = false;
-            panel.searchVisible = true;
-
-            var searchIndicator = findChild(panel, "search");
-            verify(searchIndicator !== null);
-
-            tryCompare(searchIndicator, "enabled", true);
-
-            tap(searchIndicator, 1, 1);
-
-            compare(searchClicked, true,
-                    "Tapping search indicator while it was enabled did not emit searchClicked signal");
-        }
-
-        function test_search_click_when_not_visible() {
-            panel.fullscreenMode = false;
-            panel.searchVisible = false;
-
-            var searchIndicator = findChild(panel, "search");
-            verify(searchIndicator !== null);
-
-            tap(searchIndicator, 1, 1);
-
-            compare(searchClicked, false,
-                    "Tapping search indicator while it was not visible emitted searchClicked signal");
-        }
-
         // Test the vertical velocity check when flicking the indicators open at an angle.
         // If the vertical velocity is above a specific point, we shouldnt change active indicators
         // if the x position changes
         function test_vertical_velocity_detector() {
             panel.fullscreenMode = false;
-            panel.searchVisible = false;
 
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
             verify(indicatorRow !== null);

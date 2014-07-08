@@ -26,9 +26,6 @@ Item {
     property alias indicators: __indicators
     property alias callHint: __callHint
     property bool fullscreenMode: false
-    property bool searchVisible: true
-
-    signal searchClicked
 
     function hideIndicatorMenu(delay) {
         if (delay !== undefined) {
@@ -156,7 +153,7 @@ Item {
                 if (callHint.visible) {
                     return Math.max(root.width - (callHint.width + units.gu(2)), 0)
                 }
-                return search.state=="hidden" ? root.width : root.width - search.width
+                return root.width
             }
 
             enableHint: !callHint.active && !fullscreenMode
@@ -167,34 +164,6 @@ Item {
                     callHint.showLiveCall();
                 }
             }
-        }
-
-        SearchIndicator {
-            id: search
-            objectName: "search"
-            enabled: state == "visible"
-
-            state: {
-                if (callHint.visible) {
-                    return "hidden"
-                }
-                if (parent.width < indicators.width + width) {
-                    if (indicators.state != "initial") {
-                        return "hidden";
-                    }
-                }
-                if (root.searchVisible && !indicators.showAll) {
-                    return "visible";
-                }
-                return "hidden";
-            }
-            anchors {
-                top: parent.top
-                left: parent.left
-            }
-            height: indicators.panelHeight
-
-            onClicked: root.searchClicked()
         }
 
         ActiveCallHint {
