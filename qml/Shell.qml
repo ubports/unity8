@@ -37,37 +37,17 @@ import Unity.Session 0.1
 FocusScope {
     id: shell
 
-    property int supportedScreenOrientations: {
-        // check device name and fix orientation if necessary
-        var deviceOrientations;
-        if (applicationArguments.device() === "flo") {
-            deviceOrientations = Qt.InvertedLandscapeOrientation;
-        } else if (applicationArguments.device() === "manta") {
-            deviceOrientations = Qt.LandscapeOrientation;
-        } else if (applicationArguments.device() === "mako") {
-            deviceOrientations = Qt.PortraitOrientation
-                | Qt.InvertedPortraitOrientation
-                | Qt.LandscapeOrientation
-                | Qt.InvertedLandscapeOrientation;
-        }
-
-        if (stages.shown && ApplicationManager.topmostApplication) {
-            return deviceOrientations & ApplicationManager.topmostApplication.supportedOrientations;
-        } else {
-            return deviceOrientations;
-        }
-    }
-    property bool dashShown: dash.shown && dash.available && underlay.visible
+    // this is only here to select the width / height of the window if not running fullscreen
+    property bool tablet: false
+    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
+    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background
     readonly property real panelHeight: panel.panelHeight
 
-    // this is only here to select the width / height of the window if not running fullscreen
-    property bool tablet: false
-    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
-    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
+    property bool dashShown: dash.shown && dash.available && underlay.visible
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
 
