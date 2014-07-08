@@ -77,8 +77,6 @@ int main(int argc, char *argv[])
         tracker.reset(new RegistryTracker(extraScopes, systemScopes, serverScopes));
     }
 
-    resolveIconTheme();
-
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
 
     QQuickView* view = new QQuickView();
