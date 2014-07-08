@@ -18,7 +18,6 @@
 
 #include "easingcurve.h"
 
-#include <QDebug>
 
 EasingCurve::EasingCurve(QObject *parent):
     QObject(parent),
