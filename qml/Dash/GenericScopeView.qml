@@ -167,7 +167,6 @@ FocusScope {
                     } else {
                         item.model = Qt.binding(function() { return results })
                     }
-
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
