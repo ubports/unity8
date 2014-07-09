@@ -22,7 +22,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1 as Components
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.IndicatorBase {
+IndicatorBase {
     id: main
 
     //const
@@ -174,8 +174,9 @@ Indicators.IndicatorBase {
         }
     }
 
-    Indicators.MenuItemFactory {
+    MenuItemFactory {
         id: factory
+        rootModel: main.menuModel ? main.menuModel : null
         menuModel: mainMenu.model ? mainMenu.model : null
     }
 

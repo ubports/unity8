@@ -51,7 +51,4 @@ target_link_libraries(IndicatorsQml
 
 qt5_use_modules(IndicatorsQml Core Qml Quick)
 
-add_unity8_plugin(Unity.Indicators 0.1 Unity/Indicators
-    SEARCH_PATH qml
-    TARGETS IndicatorsQml
-)
+add_unity8_plugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)

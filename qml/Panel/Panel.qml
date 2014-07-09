@@ -21,7 +21,7 @@ import "../Components"
 Item {
     id: root
     readonly property real panelHeight: units.gu(3) + units.dp(2)
-    property real indicatorsMenuWidth: (shell.width > units.gu(60)) ? units.gu(40) : shell.width
+    property real indicatorsMenuWidth: width
     property alias indicators: indicatorsMenu
     property bool fullscreenMode: false
     property bool searchVisible: true
