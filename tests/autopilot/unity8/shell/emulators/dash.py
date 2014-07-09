@@ -147,7 +147,7 @@ class Dash(emulators.UnityEmulatorBase):
         all_headers = dashContentList.select_many("QQuickLoader")
         for i in all_headers:
             if i.isCurrent:
-                return i.select_single(objectName="pageHeader")
+                return i.select_single(objectName="scopePageHeader")
         return None
 
 

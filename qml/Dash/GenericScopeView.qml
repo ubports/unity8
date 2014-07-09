@@ -318,6 +318,7 @@ FocusScope {
 
         pageHeader: PageHeader {
             id: pageHeader
+            objectName: "scopePageHeader"
             width: parent.width
             title: scopeView.scope ? scopeView.scope.name : ""
             showBackButton: scopeView.hasBackAction
