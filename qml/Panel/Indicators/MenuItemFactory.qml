@@ -165,7 +165,7 @@ Item {
 
     Component {
         id: standardMenu;
-        ListItems.Standard {
+        Menus.StandardMenu {
             objectName: "standardMenu"
             property QtObject menuData: null
             property int menuIndex: -1

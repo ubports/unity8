@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Copyright 2013 Canonical Ltd.
+# Copyright 2013, 2014 Canonical Ltd.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -13,11 +13,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os, subprocess
-from bzrlib import branch, errors
-from bzrlib.urlutils import dirname, local_path_from_url
+import os
+import subprocess
+from bzrlib import branch
+from bzrlib.urlutils import local_path_from_url
 
-def execute_makecheck(local_branch, master_branch, old_revision_number, old_revision_id, future_revision_number, future_revision_id, tree_delta, future_tree):
+
+def execute_makecheck(
+        local_branch, master_branch, old_revision_number, old_revision_id,
+        future_revision_number, future_revision_id, tree_delta, future_tree):
     if not master_branch.basis_tree().has_filename("qml/Shell.qml"):
         return
 
@@ -27,7 +31,9 @@ def execute_makecheck(local_branch, master_branch, old_revision_number, old_revi
     os.environ['CTEST_OUTPUT_ON_FAILURE'] = "1"
     if (subprocess.call("make -C builddir test", shell=True) != 0):
 
-        print("\n\n*** Warning ***\n\nBasic tests failed. This commit will not pass continuous integration.")
+        print("\n\n*** Warning ***\n\n"
+              "Basic tests failed. This commit will not pass continuous "
+              "integration.")
 
         branch = local_branch or master_branch
         revision = branch.repository.get_revision(future_revision_id)
@@ -36,8 +42,10 @@ def execute_makecheck(local_branch, master_branch, old_revision_number, old_revi
         msg_file.close()
 
         print("\n\nSaved commit message to $SRC_DIR/message.txt.")
-        print("You can uncommit this revision, fix the tests and reuse your message running:\n\nbzr commit -F message.txt\n\n")
+        print("You can uncommit this revision, fix the tests and reuse your "
+              "message running:\n\nbzr commit -F message.txt\n\n")
     elif os.path.isfile("message.txt"):
         os.remove("message.txt")
 
-branch.Branch.hooks.install_named_hook('pre_commit', execute_makecheck, 'make check pre-commit')
+branch.Branch.hooks.install_named_hook(
+    'pre_commit', execute_makecheck, 'make check pre-commit')
