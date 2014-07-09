@@ -193,7 +193,7 @@ Item {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
             var scopeView = findChild(dashContent, data.objectName);
-            var pageHeader = findChild(scopeView, "pageHeader");
+            var pageHeader = findChild(scopeView, "innerPageHeader");
             compare(pageHeader.title, scopesModel.getScope(data.index).name);
         }
 
