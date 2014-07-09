@@ -154,6 +154,7 @@ Item {
                 }
                 property var contents: TextField {
                     id: searchTextField
+                    objectName: "searchTextField"
                     hasClearButton: false
                     anchors {
                         fill: parent
