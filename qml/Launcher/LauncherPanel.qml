@@ -167,6 +167,7 @@ Item {
                             anchors.centerIn: parent
                             width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
                             opacity: 0
+                            source: "graphics/divider-line.png"
                         }
 
                         states: [
@@ -246,7 +247,7 @@ Item {
                             Transition {
                                 from: "dragging"
                                 to: "*"
-                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
+                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.SnapDuration }
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
                                 SequentialAnimation {
                                     ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
