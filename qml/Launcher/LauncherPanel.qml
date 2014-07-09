@@ -148,7 +148,10 @@ Item {
                     delegate: FoldingLauncherDelegate {
                         id: launcherDelegate
                         objectName: "launcherDelegate" + index
-                        appId: model.appId
+                        // We need the appId in the delegate in order to find
+                        // the right app when running autopilot tests for
+                        // multiple apps.
+                        property string appId: model.appId
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
                         width: itemWidth
