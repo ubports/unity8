@@ -543,7 +543,7 @@ FocusScope {
 
                 if (greeter.shown) {
                     greeter.hideRight();
-                    launcher.hide();
+                    launcher.fadeOut();
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)

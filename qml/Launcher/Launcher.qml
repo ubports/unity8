@@ -202,9 +202,8 @@ Item {
         }
 
         Behavior on x {
+            enabled: dragArea.dragging || launcherDragArea.drag.active || !panel.animate ?  0 : 300;
             NumberAnimation {
-                // Disabling animation when dragging
-                duration: dragArea.dragging || launcherDragArea.drag.active || !panel.animate ?  0 : 300;
                 easing.type: Easing.OutCubic
             }
         }
