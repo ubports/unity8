@@ -35,24 +35,17 @@ class Launcher(emulators.UnityEmulatorBase):
     def show(self):
         """Show the launcher swiping it to the right."""
         if not self.shown:
-            self._swipe_launcher('right')
+            self._swipe_to_show_launcher()
             self.shown.wait_for(True)
         else:
             logger.debug('The launcher is already opened.')
 
-    def _swipe_launcher(self, direction):
+    def _swipe_to_show_launcher(self):
         view = self.get_root_instance().select_single('QQuickView')
         start_y = stop_y = view.y + view.height // 2
 
-        left = view.x + 1
-        right = left + self.panelWidth - 1
-
-        if direction == 'right':
-            start_x = left
-            stop_x = right
-        elif direction == 'left':
-            start_x = right
-            stop_x = left
+        start_x = view.x + 1
+        stop_x = start_x + self.panelWidth - 1
 
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
 
