@@ -534,15 +534,16 @@ FocusScope {
                 showHome()
             }
             onDash: {
-                if (stages.shown && !stages.overlayMode) {
-                    if (!stages.locked) {
-                        stages.hide();
-                        launcher.hide();
-                    }
+                if (stages.shown && !stages.overlayMode && !stages.locked) {
+                    stages.hide();
+                    launcher.fadeOut();
+                } else {
+                    launcher.switchToNextState("visible");
                 }
+
                 if (greeter.shown) {
                     greeter.hideRight();
-                    launcher.hide();
+                    launcher.fadeOut();
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
