@@ -57,15 +57,6 @@ class Launcher(emulators.UnityEmulatorBase):
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
 
     @autopilot.logging.log_action(logger.debug)
-    def hide(self):
-        """Hide the launcher swiping it to the left."""
-        if self.shown:
-            self._swipe_launcher('left')
-            self.shown.wait_for(False)
-        else:
-            logger.debug('The launcher is already closed.')
-
-    @autopilot.logging.log_action(logger.debug)
     def click_dash_icon(self):
         if self.shown:
             dash_icon = self.select_single(

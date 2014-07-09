@@ -55,24 +55,6 @@ class MainWindowTestCase(tests.UnityTestCase):
         self.assertEqual(text_field.text, 'Test')
         self.assertEqual(text_field.state, 'idle')
 
-    def test_open_launcher_must_return_launcher_custom_proxy_object(self):
-        launcher = self.main_window.open_launcher()
-        self.assertIsInstance(launcher, launcher_emulator.Launcher)
-
-    def test_open_launcher_must_open_it(self):
-        # Make sure that the launcher is closed.
-        self.main_window.close_launcher()
-        self.main_window.open_launcher()
-
-        self.assertTrue(self.main_window.is_launcher_open())
-
-    def test_close_launcher_must_close_it(self):
-        # Make sure that the launcher is open.
-        self.main_window.open_launcher()
-        self.main_window.close_launcher()
-
-        self.assertFalse(self.main_window.is_launcher_open())
-
 
 class DashBaseTestCase(tests.UnityTestCase):
 
@@ -219,39 +201,3 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             return filtergrid.collapsedRowCount * filtergrid.columns
         else:
             return filtergrid.uncollapsedRowCount * filtergrid.columns
-
-
-class LauncherTestCase(tests.UnityTestCase):
-
-    scenarios = tests._get_device_emulation_scenarios()
-
-    def setUp(self):
-        super(LauncherTestCase, self).setUp()
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
-
-    def test_show_launcher_with_launcher_open_must_do_nothing(self):
-        launcher = self.main_window.open_launcher()
-        with mock.patch.object(launcher.pointing_device, 'drag') as mock_drag:
-            launcher.show()
-
-        self.assertFalse(mock_drag.called)
-
-    def test_hide_launcher_with_launcher_closed_must_do_nothing(self):
-        launcher = self.main_window.open_launcher()
-        launcher.hide()
-        with mock.patch.object(launcher.pointing_device, 'drag') as mock_drag:
-            launcher.hide()
-
-        self.assertFalse(mock_drag.called)
-
-    def test_click_dash_icon_with_launcher_closed_must_raise_exception(self):
-        launcher = self.main_window.open_launcher()
-        launcher.hide()
-
-        exception = self.assertRaises(
-            emulators.UnityEmulatorException,
-            launcher.click_dash_icon)
-
-        self.assertEqual(
-            'The launcher is closed.', str(exception))
