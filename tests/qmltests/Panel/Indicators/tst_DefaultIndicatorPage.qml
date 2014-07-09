@@ -31,6 +31,7 @@ Item {
         anchors.fill: parent
         contentActive: true
 
+        menuModel: UnityMenuModel {}
         busName: "test"
         actionsObjectPath: "test"
         menuObjectPath: "test"
