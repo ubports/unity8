@@ -192,7 +192,7 @@ Item {
         function test_scope_mapping(data) {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
-            var pageHeader = findChild(dashContent, "pageHeader");
+            var pageHeader = findChild(dashContent, "innerPageHeader");
             compare(pageHeader.title, scopesModel.getScope(data.index).name);
         }
 
@@ -255,7 +255,7 @@ Item {
         }
 
         function closePreview() {
-            var closePreviewMouseArea = findChild(dashContent, "pageHeader");
+            var closePreviewMouseArea = findChild(dashContent, "innerPageHeader");
             mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
 
             var previewListView = findChild(dashContent, "dashContentPreviewList");
