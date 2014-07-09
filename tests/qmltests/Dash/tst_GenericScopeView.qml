@@ -48,19 +48,11 @@ Item {
         signal mainStageFocusedApplicationChanged()
     }
 
-    PageHeaderLabel {
-        id: testPageHeader
-        searchHistory: SearchHistoryModel {}
-        text: genericScopeView.scope ? genericScopeView.scope.name : ""
-        width: parent.width
-    }
 
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
         previewListView: previewListView
-        pageHeader: testPageHeader
-        tabBarHeight: testPageHeader.implicitHeight
 
         UT.UnityTestCase {
             name: "GenericScopeView"
@@ -71,15 +63,6 @@ Item {
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 tryCompare(genericScopeView.categoryView, "contentY", 0)
-            }
-
-            function test_isCurrent() {
-                genericScopeView.isCurrent = true
-                testPageHeader.searchQuery = "test"
-                previewListView.open = true
-                genericScopeView.isCurrent = false
-                tryCompare(testPageHeader, "searchQuery", "")
-                tryCompare(previewListView, "open", false);
             }
 
             function test_isActive() {
@@ -170,14 +153,6 @@ Item {
 
                 categoryListView.positionAtBeginning();
 
-                // wait for the header0 to be on its position
-                tryCompareFunction(
-                    function() {
-                        var header0 = findChild(genericScopeView, "dashSectionHeader0")
-                        return header0.y == testPageHeader.height;
-                    },
-                    true);
-
                 var header0 = findChild(genericScopeView, "dashSectionHeader0")
                 var category0 = findChild(genericScopeView, "dashCategory0")
                 mouseClick(header0, header0.width / 2, header0.height / 2);
@@ -211,7 +186,6 @@ Item {
         id: previewListView
         anchors.fill: parent
         visible: false
-        pageHeader: testPageHeader
         scope: genericScopeView.scope
     }
 }

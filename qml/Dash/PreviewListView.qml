@@ -24,7 +24,6 @@ Item {
     id: root
 
     property var scope: null
-    property var pageHeader: null
 
     property alias open: previewListView.open
     property alias model: previewListView.model
@@ -36,27 +35,11 @@ Item {
         id: header
         objectName: root.objectName + "_pageHeader"
         width: parent.width
-        searchEntryEnabled: false
-        scope: root.scope
-        height: units.gu(8.5)
+        title: scope.name
         showBackButton: true
-        onBackClicked: root.open = false
+        searchEntryEnabled: false
 
-        childItem: Label {
-            id: label
-            anchors {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
-            text: scope ? scope.name : ""
-            // TODO Saviq: These should come from updated Ubuntu Palette.
-            color: "#888888"
-            font.family: "Ubuntu"
-            font.weight: Font.Light
-            fontSize: "x-large"
-            elide: Text.ElideRight
-        }
+        onBackClicked: root.open = false
     }
 
     ListView  {

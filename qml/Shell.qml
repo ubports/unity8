@@ -493,7 +493,6 @@ FocusScope {
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
             fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
-            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {

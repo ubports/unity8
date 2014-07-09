@@ -73,7 +73,6 @@ Rectangle {
         id: dashContent
 
         model: filteredScopes
-        searchHistory: SearchHistoryModel { }
         property var scope: scopes.getScope(currentIndex)
 
         anchors {

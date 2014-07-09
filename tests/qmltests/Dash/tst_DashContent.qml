@@ -47,8 +47,6 @@ Item {
             model: scopesModel
         }
         scopes : scopesModel
-
-        searchHistory: SearchHistoryModel {}
     }
 
     SignalSpy {
@@ -194,8 +192,8 @@ Item {
         function test_scope_mapping(data) {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
-            var pageHeader = findChild(dashContent, "pageHeader");
-            compare(pageHeader.scope, scopesModel.getScope(data.index));
+            var pageHeader = findChild(dashContent, "innerPageHeader");
+            compare(pageHeader.title, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
@@ -215,67 +213,6 @@ Item {
             tryCompare(scopesModel.getScope(0), "isActive", data.active0);
             tryCompare(scopesModel.getScope(1), "isActive", data.active1);
             tryCompare(scopesModel.getScope(2), "isActive", data.active2);
-        }
-
-        function doFindMusicButton(parent) {
-            for (var i = 0; i < parent.children.length; i++) {
-                var c = parent.children[i];
-                if (UT.Util.isInstanceOf(c, "AbstractButton") && parent.x >= 0) {
-                    for (var ii = 0; ii < c.children.length; ii++) {
-                        var cc = c.children[ii];
-                        if (UT.Util.isInstanceOf(cc, "Label") && cc.text == "Music") {
-                            return c;
-                        }
-                    }
-                }
-                var r = doFindMusicButton(c);
-                if (r !== undefined) {
-                    return r;
-                }
-            }
-            return undefined;
-        }
-
-        function findMusicButton() {
-            // We need to find a AbstractButton that has a Label child
-            // with text Music and it's parent x is >= 0
-            var tabbar = findChild(dashContent, "tabbar");
-            return doFindMusicButton(tabbar);
-        }
-
-        function test_tabBar_index_change() {
-            tryCompare(scopesModel, "loaded", true);
-            var tabbar = findChild(dashContent, "tabbar");
-
-            tryCompare(dashContent, "currentIndex", 0);
-            tryCompare(tabbar, "selectedIndex", 0);
-            tryCompare(tabbar, "selectionMode", false);
-
-            mouseClick(tabbar, units.gu(5), units.gu(5))
-
-            tryCompare(tabbar, "selectionMode", true);
-            tryCompare(tabbar, "selectedIndex", 0);
-            tryCompare(dashContent, "currentIndex", 0);
-
-            var button;
-            tryCompareFunction(function() { button = findMusicButton(); return button != undefined; }, true);
-            waitForRendering(button);
-
-            tryCompareFunction(function() { return button.opacity > 0; }, true);
-            mouseClick(button, button.width / 2, button.height / 2)
-
-            tryCompare(tabbar, "selectionMode", false);
-            tryCompare(tabbar, "selectedIndex", 1);
-            tryCompare(dashContent, "currentIndex", 1);
-        }
-
-        function test_tabBar_listens_to_index_change() {
-            var tabbar = findChild(dashContent, "tabbar");
-            tryCompare(dashContent, "currentIndex", 0);
-            compare(tabbar.selectedIndex, 0);
-            var dashContentList = findChild(dashContent, "dashContentList");
-            dashContentList.currentIndex = 1;
-            compare(tabbar.selectedIndex, 1);
         }
 
         function checkFlickMovingAndNotInteractive()
@@ -318,8 +255,8 @@ Item {
         }
 
         function closePreview() {
-            var closePreviewMouseArea = findChild(dashContent, "dashContentPreviewList_pageHeader_backButton");
-            mouseClick(closePreviewMouseArea, closePreviewMouseArea.width / 2, closePreviewMouseArea.height / 2);
+            var closePreviewMouseArea = findChild(dashContent, "innerPageHeader");
+            mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
 
             var previewListView = findChild(dashContent, "dashContentPreviewList");
             tryCompare(previewListView, "open", false);
@@ -461,6 +398,7 @@ Item {
             compare(allButton.visible, true);
             compare(backButton.visible, true);
 
+            waitForRendering(departmentListView);
             mouseClick(allButton, 0, 0);
             compare(dashDepartments.showList, false);
             tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
