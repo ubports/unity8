@@ -465,6 +465,10 @@ Item {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
+                clipCorner: dndArea.draggedIndex > -1 &&
+                            LauncherModel.get(dndArea.draggedIndex).pinned &&
+                            !dndArea.preDragging &&
+                            !dndArea.dragging
 
                 function flatten() {
                     fakeDragItemAnimation.start();
@@ -527,7 +531,6 @@ Item {
             left: root.inverted ? undefined : parent.right
             right: root.inverted ? parent.left : undefined
             margins: units.gu(1)
-
         }
         y: itemCenter - (height / 2) + offset
         rotation: root.rotation
