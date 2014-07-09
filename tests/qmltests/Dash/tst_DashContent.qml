@@ -279,7 +279,7 @@ Item {
                                     if (scope != null) {
                                         var dashCategory1 = findChild(scope, "dashCategory1");
                                         if (dashCategory1 != null) {
-                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            var tile = findChild(dashCategory1, "carouselDelegate3");
                                             return tile != null;
                                         }
                                     }
@@ -292,7 +292,9 @@ Item {
 
             var scope = findChild(dashContent, "MockScope1 loader");
             var dashCategory1 = findChild(scope, "dashCategory1");
-            var tile = findChild(dashCategory1, "carouselDelegate1");
+            var tile = findChild(dashCategory1, "carouselDelegate3");
+            mouseClick(tile, tile.width / 2, tile.height / 2);
+            tryCompare(tile, "explicitlyScaled", true);
             mouseClick(tile, tile.width / 2, tile.height / 2);
             tryCompare(previewListView, "open", true);
             tryCompare(previewListView, "x", 0);
