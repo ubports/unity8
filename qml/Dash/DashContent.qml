@@ -26,11 +26,11 @@ Item {
     property var model: null
     property var scopes: null
     readonly property alias currentIndex: dashContentList.currentIndex
-    property alias previewOpen: previewListView.open
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
     signal openScope(var scope)
+    signal closePreview()
 
     // If we set the current scope index before the scopes have been added,
     // then we need to wait until the loaded signals gets emitted from the scopes
@@ -80,23 +80,16 @@ Item {
         dashContentList.currentItem.theScope.closeScope(scope)
     }
 
-    function closePreview() {
-        previewListView.open = false;
-    }
-
     Item {
         id: dashContentListHolder
 
-        x: previewListView.open ? -width : 0
-        Behavior on x { UbuntuNumberAnimation { } }
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
 
         ListView {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && !previewListView.open && currentItem && !currentItem.moving
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
 
             anchors.fill: parent
             model: dashContent.model
@@ -145,10 +138,8 @@ Item {
 
                     onLoaded: {
                         item.objectName = scope.id
-                        item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                        item.title = Qt.binding(function() { return dashContentList.model.get(index).title; })
                         dashContent.scopeLoaded(item.scope.id)
                     }
                     Connections {
@@ -161,19 +152,13 @@ Item {
                             dashContent.openScope(scope);
                         }
                     }
+                    Connections {
+                        target: dashContent
+                        onClosePreview: if (item) item.closePreview()
+                    }
 
                     Component.onDestruction: active = false
                 }
         }
-    }
-
-    PreviewListView {
-        id: previewListView
-        objectName: "dashContentPreviewList"
-        visible: x != width
-        scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-        width: parent.width
-        height: parent.height
-        anchors.left: dashContentListHolder.right
     }
 }
