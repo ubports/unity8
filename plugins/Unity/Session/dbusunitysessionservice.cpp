@@ -19,6 +19,7 @@
 
 // Qt
 #include <QDBusConnection>
+#include <QDBusInterface>
 
 DBusUnitySessionService::DBusUnitySessionService() : QObject()
 {
