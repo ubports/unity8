@@ -47,7 +47,9 @@ Rectangle {
         Rectangle {
             width: parent.width
             height: units.gu(7)
-            color: "#de4814"
+            color: UbuntuColors.orange
+            z: 1
+
             Image {
                 objectName: "dashItem"
                 width: units.gu(5)
@@ -60,7 +62,6 @@ Rectangle {
                 id: dashItem
                 anchors.fill: parent
                 onClicked: root.showDashHome()
-                z: 1
             }
         }
 
