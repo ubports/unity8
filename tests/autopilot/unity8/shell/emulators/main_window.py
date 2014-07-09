@@ -152,3 +152,6 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def _get_launcher(self):
         return self.select_single(Launcher)
+
+    def is_launcher_open(self):
+        return self._get_launcher().shown

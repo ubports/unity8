@@ -34,10 +34,7 @@ except ImportError:
 
 from unity8 import process_helpers
 from unity8.shell import emulators, fixture_setup, tests
-from unity8.shell.emulators import (
-    dash as dash_emulators,
-    launcher as launcher_emulator
-)
+from unity8.shell.emulators import dash as dash_emulators
 
 
 class MainWindowTestCase(tests.UnityTestCase):
