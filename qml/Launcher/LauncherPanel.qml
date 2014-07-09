@@ -55,7 +55,7 @@ Item {
         Rectangle {
             width: parent.width
             height: units.gu(7)
-            color: "#de4814"
+            color: UbuntuColors.orange
             z: 1
 
             Image {
