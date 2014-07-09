@@ -169,8 +169,8 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
-        preview_list = self.get_root_instance().wait_select_single(
-            'PreviewListView', objectName='dashContentPreviewList')
+        preview_list = self.wait_select_single(
+            'PreviewListView', objectName='previewListView')
         preview_list.x.wait_for(0)
         return preview_list.select_single(
             Preview, objectName='preview{}'.format(preview_list.currentIndex))
