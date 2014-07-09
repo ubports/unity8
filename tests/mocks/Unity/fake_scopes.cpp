@@ -18,6 +18,7 @@
 
 // Self
 #include "fake_scopes.h"
+#include "fake_scopesoverview.h"
 
 // TODO: Implement remaining pieces, like Categories (i.e. LensView now gives warnings)
 
@@ -46,7 +47,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
-    addScope(new Scope("scopesOverview", "Scopes Overview", false, this, 2));
+    addScope(new ScopesOverview());
 
     if (!m_loaded) {
         m_loaded = true;

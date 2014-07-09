@@ -30,7 +30,7 @@ class Scope : public unity::shell::scopes::ScopeInterface
 
 public:
     Scope(QObject* parent = 0);
-    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0, int nCategories = 20);
+    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0);
 
     /* getters */
     QString id() const override;
@@ -82,7 +82,7 @@ protected:
 
     QString m_previewRendererName;
 
-    Categories* m_categories;
+    unity::shell::scopes::CategoriesInterface* m_categories;
 };
 
 #endif // FAKE_SCOPE_H
