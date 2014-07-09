@@ -16,24 +16,23 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Application 0.1
 import "../Components"
+import "../Components/ListItems"
 
 Item {
     id: root
-    readonly property real panelHeight: units.gu(3) + units.dp(2)
-    property real indicatorsMenuWidth: width
-    property alias indicators: indicatorsMenu
+    readonly property real panelHeight: indicatorArea.y + d.indicatorHeight
+    property alias indicators: __indicators
+    property alias callHint: __callHint
     property bool fullscreenMode: false
-
-    readonly property real separatorLineHeight: leftSeparatorLine.height
-    readonly property real __panelMinusSeparatorLineHeight: panelHeight - separatorLineHeight
 
     function hideIndicatorMenu(delay) {
         if (delay !== undefined) {
             hideTimer.interval = delay;
             hideTimer.start();
         } else {
-            indicatorsMenu.hide();
+            indicators.hide();
         }
     }
 
@@ -41,102 +40,174 @@ Item {
         id: hideTimer
         running: false
         onTriggered: {
-            indicatorsMenu.hide();
+            indicators.hide();
         }
     }
 
     Connections {
-        target: indicatorsMenu
+        target: indicators
         onShownChanged: hideTimer.stop()
-    }
-
-    PanelBackground {
-        id: panelBackground
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-        height: __panelMinusSeparatorLineHeight
-        y: 0
-
-        Behavior on y { StandardAnimation { duration: 500 } }
-    }
-
-    PanelSeparatorLine {
-        id: leftSeparatorLine
-        anchors {
-            top: panelBackground.bottom
-            left: parent.left
-            right: indicatorsMenu.left
-        }
-        saturation: 1 - indicatorsMenu.unitProgress
     }
 
     Rectangle {
         id: darkenedArea
         property real darkenedOpacity: 0.6
         anchors {
+            top: parent.top
+            topMargin: panelHeight
             left: parent.left
             right: parent.right
-            top: panelBackground.bottom
             bottom: parent.bottom
         }
         color: "black"
-        opacity: indicatorsMenu.unitProgress * darkenedOpacity
+        opacity: indicators.unitProgress * darkenedOpacity
+
         MouseArea {
             anchors.fill: parent
-            enabled: indicatorsMenu.shown
-            onClicked: if (indicatorsMenu.fullyOpened) indicatorsMenu.hide();
+            enabled: indicators.shown
+            onClicked: if (indicators.fullyOpened) indicators.hide();
         }
     }
 
-    Indicators {
-        id: indicatorsMenu
-        objectName: "indicators"
+    Item {
+        id: indicatorArea
+        objectName: "indicatorArea"
 
-        anchors.right: parent.right
-        y: panelBackground.y
-        width: root.indicatorsMenuWidth
-        shown: false
-        panelHeight: __panelMinusSeparatorLineHeight
-        openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
-        pinnedMode: !fullscreenMode
-        overFlowWidth: parent.width
+        anchors.fill: parent
+
+        Behavior on anchors.topMargin { StandardAnimation {} }
+
+        BorderImage {
+            id: dropShadow
+            anchors {
+                fill: indicators
+                leftMargin: -units.gu(1)
+                bottomMargin: -units.gu(1)
+            }
+            visible: indicators.height > indicators.panelHeight
+            source: "graphics/rectangular_dropshadow.sci"
+        }
+
+        VerticalThinDivider {
+            id: indicatorDividor
+            anchors {
+                top: indicators.top
+                bottom: indicators.bottom
+                right: indicators.left
+
+                topMargin: indicatorArea.anchors.topMargin + indicators.panelHeight
+            }
+
+            width: units.dp(2)
+            source: "graphics/VerticalDivider.png"
+        }
+
+        Rectangle {
+            id: indicatorAreaBackground
+            color: callHint.visible ? "green" : "black"
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            height: indicators.panelHeight
+
+            Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
+        }
+
+        PanelSeparatorLine {
+            id: nonIndicatorAreaSeparatorLine
+            anchors {
+                top: indicatorAreaBackground.bottom
+                left: parent.left
+                right: indicators.left
+            }
+            saturation: 1 - indicators.unitProgress
+        }
+
+        MouseArea {
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: indicators.left
+            }
+            height: indicators.panelHeight
+            enabled: callHint.visible
+            onClicked: callHint.showLiveCall()
+        }
+
+        Indicators {
+            id: __indicators
+            objectName: "indicators"
+
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
+
+            width: root.width
+            shown: false
+            panelHeight: units.gu(3)
+            openedHeight: root.height
+            overFlowWidth: {
+                if (callHint.visible) {
+                    return Math.max(root.width - (callHint.width + units.gu(2)), 0)
+                }
+                return root.width
+            }
+
+            enableHint: !callHint.active && !fullscreenMode
+            showHintBottomMargin: fullscreenMode ? -panelHeight : 0
+
+            onShowTapped: {
+                if (callHint.active) {
+                    callHint.showLiveCall();
+                }
+            }
+        }
+
+        ActiveCallHint {
+            id: __callHint
+            anchors {
+                top: parent.top
+                left: parent.left
+            }
+            height: indicators.panelHeight
+            visible: active && indicators.state == "initial"
+        }
+
+        PanelSeparatorLine {
+            id: indicatorsSeparatorLine
+            visible: true
+            anchors {
+                top: indicators.bottom
+                left: indicatorDividor.left
+                right: indicators.right
+            }
+        }
     }
 
-    PanelSeparatorLine {
-        id: indicatorsSeparatorLine
-        visible: true
-        anchors {
-            left: indicatorsMenu.left
-            right: indicatorsMenu.right
-        }
-        y: indicatorsMenu.visualBottom
-    }
-
-    BorderImage {
-        id: dropShadow
-        anchors {
-            top: indicators.top
-            bottom: indicatorsSeparatorLine.bottom
-            left: indicators.left
-            right: indicators.right
-            margins: -units.gu(1)
-        }
-        visible: indicatorsMenu.height > indicatorsMenu.panelHeight
-        source: "graphics/rectangular_dropshadow.sci"
+    QtObject {
+        id: d
+        readonly property real indicatorHeight: indicators.panelHeight + indicatorsSeparatorLine.height
     }
 
     states: [
         State {
-            name: "in" //fully opaque and visible at top edge of screen
+            name: "onscreen" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
-            PropertyChanges { target: panelBackground; y: 0 }
+            PropertyChanges {
+                target: indicatorArea;
+                anchors.topMargin: 0
+            }
         },
         State {
-            name: "out" //pushed off screen
+            name: "offscreen" //pushed off screen
             when: fullscreenMode
-            PropertyChanges { target: panelBackground; y: -panelHeight }
+            PropertyChanges {
+                target: indicatorArea;
+                anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0
+            }
         }
     ]
 }
