@@ -37,10 +37,6 @@ Item {
 
     Scopes {
         id: scopes
-
-        onLoadedChanged: {
-            genericScopeView.scope = scopes.getScope(2)
-        }
     }
 
     property Item applicationManager: Item {
@@ -259,6 +255,15 @@ Item {
 
                 }
                 closePreview();
+            }
+
+            function test_haeder_logo() {
+                genericScopeView.scope = scopes.getScope(3);
+
+                var image = findChild(genericScopeView, "titleImage");
+                verify(image, "Could not find the title image");
+                compare(image.source, Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg"), "Title image has the wrong source");
+
             }
         }
     }

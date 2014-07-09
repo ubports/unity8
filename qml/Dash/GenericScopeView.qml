@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
 import Unity.Application 0.1
+import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
@@ -32,6 +33,10 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+
+    property var scopeStyle: ScopeStyle {
+        style: scope ? scope.customizations : {}
+    }
 
     signal backClicked()
 
@@ -95,6 +100,12 @@ FocusScope {
         target: scopeView.scope
         onShowDash: previewListView.open = false;
         onHideDash: previewListView.open = false;
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: scopeView.scopeStyle ? scopeView.scopeStyle.background : "transparent"
+        visible: color != "transparent"
     }
 
     ScopeListView {
@@ -164,6 +175,7 @@ FocusScope {
                         item.model = Qt.binding(function() { return results })
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
+                    item.scopeStyle = scopeView.scopeStyle;
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         item.setFilter(shouldFilter, false /*animate*/);
@@ -303,6 +315,7 @@ FocusScope {
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
+            textColor: scopeStyle ? scopeStyle.foreground : "grey"
             image: {
                 if (delegate && delegate.expandable)
                     return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
@@ -324,6 +337,7 @@ FocusScope {
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
+            scopeStyle: scopeView.scopeStyle
 
             bottomItem: DashDepartments {
                 scope: scopeView.scope
@@ -331,6 +345,7 @@ FocusScope {
                 anchors.right: parent.right
                 windowHeight: scopeView.height
                 windowWidth: scopeView.width
+                scopeStyle: scopeView.scopeStyle
             }
 
             onBackClicked: scopeView.backClicked()
@@ -342,6 +357,7 @@ FocusScope {
         objectName: "previewListView"
         visible: x != width
         scope: scopeView.scope
+        scopeStyle: scopeView.scopeStyle
         width: parent.width
         height: parent.height
         anchors.left: categoryView.right

@@ -28,7 +28,6 @@ Item {
 
     property bool showBackButton: false
     property string title
-    property string imageSource
 
     property bool searchEntryEnabled: false
     property ListModel searchHistory: SearchHistoryModel
@@ -37,7 +36,14 @@ Item {
 
     property alias bottomItem: bottomContainer.children
 
+    // TODO We should use foreground for the icons
+    // of the toolbar but unfortunately Action does not have
+    // the keyColor property as Icon does :-/
+    property var scopeStyle: null
+
     signal backClicked()
+
+    onScopeStyleChanged: refreshLogo()
 
     function triggerSearch() {
         if (searchEntryEnabled) {
@@ -79,13 +85,18 @@ Item {
         }
     }
 
-    onImageSourceChanged: {
-        if (imageSource) {
+    function refreshLogo() {
+        if (scopeStyle ? scopeStyle.headerLogo != "" : false) {
             header.contents = imageComponent.createObject();
-        } else {
+        } else if (header.contents) {
             header.contents.destroy();
             header.contents = null;
         }
+    }
+
+    Connections {
+        target: root.scopeStyle
+        onHeaderLogoChanged: root.refreshLogo()
     }
 
     InverseMouseArea {
@@ -214,8 +225,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
-                // FIXME: Use the theme's color once we're split from the shell
-                textColor: "grey"
+                textColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
@@ -240,11 +250,8 @@ Item {
                 }
 
                 property var contents: null
-                Component.onCompleted: {
-                    if (root.imageSource) {
-                        header.contents = imageComponent.createObject();
-                    }
-                }
+                Component.onCompleted: root.refreshLogo()
+
                 Component {
                     id: imageComponent
 
@@ -254,7 +261,7 @@ Item {
                         Image {
                             objectName: "titleImage"
                             anchors.fill: parent
-                            source: root.imageSource
+                            source: root.scopeStyle ? root.scopeStyle.headerLogo : ""
                             fillMode: Image.PreserveAspectFit
                             horizontalAlignment: Image.AlignLeft
                             sourceSize.height: height

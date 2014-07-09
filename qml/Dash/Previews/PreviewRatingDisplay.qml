@@ -71,8 +71,7 @@ PreviewWidget {
                     id: authorLabel
                     objectName: "authorLabel"
                     anchors { left: parent.left; right: parent.right }
-                    // TODO cimi: Yet another fix requiring Palette update.
-                    color: "grey" //Theme.palette.selected.backgroundText
+                    color: scopeStyle ? scopeStyle.foreground : "grey"
                     opacity: .8
                     text: modelData["author"] || ""
                     visible: text !== ""
@@ -83,8 +82,7 @@ PreviewWidget {
                     id: reviewLabel
                     objectName: "reviewLabel"
                     anchors { left: parent.left; right: parent.right }
-                    // TODO cimi: Yet another fix requiring Palette update.
-                    color: "grey" //Theme.palette.selected.backgroundText
+                    color: scopeStyle ? scopeStyle.foreground : "grey"
                     opacity: .8
                     text: modelData["review"] || ""
                     visible: text !== ""
