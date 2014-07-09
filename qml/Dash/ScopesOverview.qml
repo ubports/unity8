@@ -1,0 +1,186 @@
+/*
+ * Copyright (C) 2014 Canonical, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import QtQuick 2.0
+import Ubuntu.Components 0.1
+import "../Components"
+
+Item {
+    id: root
+
+    property real progress: 0
+    property var scope: null
+
+    signal done
+
+    Image {
+        anchors.fill: parent
+        source: parent.width > parent.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignRight
+        verticalAlignment: Image.AlignTop
+    }
+
+    Rectangle {
+        color: "black"
+        anchors.fill: parent
+        opacity: 0.6
+    }
+
+    Item {
+        id: topBar
+        width: parent.width
+        height: childrenRect.height
+
+        y: {
+            if (root.progress < 0.5) {
+                return -height;
+            } else {
+                return -height + (root.progress - 0.5) * height * 2;
+            }
+        }
+
+        PageHeader {
+            id: pageHeader
+            width: parent.width
+            clip: true
+            title: i18n.tr("Manage Dash")
+            scopeStyle: QtObject {
+                property string headerLogo: ""
+                property color foreground: "white"
+            }
+            showSignatureLine: false
+            searchEntryEnabled: true
+//             searchInProgress: scope ? scope.searchInProgress : false
+        }
+
+        Item {
+            id: tabBarHolder
+
+            property int currentTab: 0
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: pageHeader.bottom
+                margins: units.gu(2)
+            }
+            height: units.gu(4)
+
+            AbstractButton {
+                id: tab1
+                height: parent.height
+                width: parent.width / 2
+                Rectangle {
+                    anchors.fill: parent
+                    color: tabBarHolder.currentTab == 0 ? "white" : "transparent"
+                    radius: units.dp(10)
+                }
+                Label {
+                    anchors.centerIn: parent
+                    text: i18n.tr("Favourites")
+                    color: tabBarHolder.currentTab == 0 ? "black" : "white"
+                }
+                onClicked: tabBarHolder.currentTab = 0
+            }
+            AbstractButton {
+                id: tab2
+                x: width
+                height: parent.height
+                width: parent.width / 2
+                Rectangle {
+                    anchors.fill: parent
+                    color: tabBarHolder.currentTab == 1 ? "white" : "transparent"
+                    radius: units.dp(10)
+                }
+                Label {
+                    anchors.centerIn: parent
+                    text: i18n.tr("All")
+                    color: tabBarHolder.currentTab == 1 ? "black" : "white"
+                }
+                onClicked: tabBarHolder.currentTab = 1
+            }
+            Rectangle {
+                id: centerPiece
+                width: units.dp(10)
+                height: parent.height
+                color: "white"
+                x: tabBarHolder.currentTab == 1 ? tab2.x : tab2.x - width
+            }
+            Rectangle {
+                id: border
+                anchors.fill: parent
+                radius: units.dp(10)
+                color: "transparent"
+                border.color: centerPiece.color
+                border.width: units.dp(1)
+            }
+        }
+    }
+
+    Repeater {
+        id: middleItems
+        model: scope ? scope.categories : null
+        delegate: Loader {
+            source: {
+                if (index == 0) return "ScopesOverviewFavourites.qml";
+                else if (index == 1) return "ScopesOverviewAll.qml";
+                else {
+                    console.log("WARNING: ScopesOverview scope is not supposed to have more than 2 categories");
+                    return "";
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        id: bottomBar
+        color: "black"
+        height: units.gu(6)
+        width: parent.width
+        y: {
+            if (root.progress < 0.5) {
+                return parent.height;
+            } else {
+                return parent.height - (root.progress - 0.5) * height * 2;
+            }
+        }
+
+        AbstractButton {
+            width: Math.max(label.width + units.gu(2), units.gu(10))
+            height: units.gu(4)
+            anchors {
+                left: parent.left
+                leftMargin: units.gu(2)
+                verticalCenter: parent.verticalCenter
+            }
+            Rectangle {
+                anchors.fill: parent
+                border.color: "white"
+                border.width: units.dp(1)
+                radius: units.dp(10)
+                color: parent.pressed ? "gray" : "transparent"
+            }
+            Label {
+                id: label
+                anchors.centerIn: parent
+                text: i18n.tr("Done")
+                color: parent.pressed ? "black" : "white"
+            }
+            onClicked: root.done()
+        }
+    }
+}

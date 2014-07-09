@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 import Unity 0.2
 import Utils 0.1
 import "../Components"
@@ -26,6 +27,7 @@ Item {
     property var model: null
     property var scopes: null
     readonly property alias currentIndex: dashContentList.currentIndex
+    property alias overviewHandleHeight: overviewDragHandle.height
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
@@ -38,9 +40,12 @@ Item {
     Connections {
         target: scopes
         onLoadedChanged: {
-            if (scopes.loaded && set_current_index != undefined) {
-                setCurrentScopeAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
-                set_current_index = undefined;
+            if (scopes.loaded) {
+                if (set_current_index != undefined) {
+                    setCurrentScopeAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
+                    set_current_index = undefined;
+                }
+                scopesOverview.scope = scopes.getScope("scopesOverview");
             }
         }
     }
@@ -80,10 +85,40 @@ Item {
         dashContentList.currentItem.theScope.closeScope(scope)
     }
 
+    QtObject {
+        id: overviewController
+
+        property bool accepted: false
+        property bool enableAnimation: false
+        property real progress: 0
+    }
+
+    ScopesOverview {
+        id: scopesOverview
+        anchors.fill: parent
+        scope: scopes ? scopes.getScope("scopesOverview") : null
+        progress: overviewController.progress
+        onDone: {
+            overviewController.enableAnimation = true;
+            overviewController.progress = 0;
+            overviewController.accepted = false;
+        }
+    }
+
     Item {
         id: dashContentListHolder
 
         anchors.fill: parent
+
+        enabled: scale == 1
+
+        Image {
+            anchors.fill: parent
+            source: parent.width > parent.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignRight
+            verticalAlignment: Image.AlignTop
+        }
 
         ListView {
             id: dashContentList
@@ -103,7 +138,7 @@ Item {
             // TODO Investigate if we can switch to a smaller cache buffer when/if UbuntuShape gets more performant
             cacheBuffer: 1073741823
             onMovementStarted: currentItem.item.showHeader();
-            clip: parent.x != 0
+            clip: parent.x != 0 || parent.scale != 1
 
             // If the number of items is less than the current index, then need to reset to another item.
             onCountChanged: {
@@ -160,6 +195,39 @@ Item {
 
                     Component.onDestruction: active = false
                 }
+        }
+
+        scale: 1 - overviewController.progress * 0.6
+        Behavior on scale {
+            id: dashContentScaleAnimation
+            enabled: overviewController.enableAnimation
+            UbuntuNumberAnimation { }
+        }
+    }
+
+    EdgeDragArea {
+        id: overviewDragHandle
+        direction: Direction.Upwards
+        distanceThreshold: units.gu(20)
+        enabled: !overviewController.accepted || dragging
+
+        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+        height: units.gu(2)
+
+        onSceneDistanceChanged: {
+            overviewController.enableAnimation = false;
+            overviewController.progress = Math.min(1, sceneDistance / distanceThreshold);
+        }
+
+        onStatusChanged: {
+            if (status == DirectionalDragArea.Recognized) {
+                overviewController.accepted = true;
+            }
+        }
+
+        onDraggingChanged: {
+            overviewController.enableAnimation = true;
+            overviewController.progress = overviewController.accepted ? 1 : 0;
         }
     }
 }

@@ -46,6 +46,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
+    addScope(new Scope("scopesOverview", "Scopes Overview", false, this, 2));
 
     if (!m_loaded) {
         m_loaded = true;
@@ -109,8 +110,12 @@ unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
     return m_scopes[row];
 }
 
-unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const&) const
+unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const &scope_id) const
 {
+    for (Scope *scope : m_scopes) {
+        if (scope->id() == scope_id)
+            return scope;
+    }
     return nullptr;
 }
 

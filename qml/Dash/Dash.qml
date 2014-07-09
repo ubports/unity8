@@ -29,6 +29,8 @@ Showable {
     property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 
+    property alias overviewHandleHeight: dashContent.overviewHandleHeight
+
     function setCurrentScope(scopeId, animate, reset) {
         var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
 
