@@ -355,9 +355,11 @@ FocusScope {
                     text: i18n.tr("Power off")
                     onClicked: {
                         dBusUnitySessionServiceConnection.closeAllApps();
-                        DBusUnitySessionService.Shutdown();
                         PopupUtils.close(dialoguePower);
                         stages.dialogShown = false;
+                        shutdownFadeOutRectangle.enabled = true;
+                        shutdownFadeOutRectangle.visible = true;
+                        shutdownFadeOut.start();
                     }
                 }
                 Button {
@@ -821,7 +823,7 @@ FocusScope {
     }
 
     Keys.onPressed: {
-        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown || event.key == Qt.Key_A) {
             if (!powerKeyTimer.running) {
                 powerKeyTimer.start();
             }
@@ -844,6 +846,25 @@ FocusScope {
 
         onTriggered: {
             stages.showPowerDialog();
+        }
+    }
+
+    Rectangle {
+        id: shutdownFadeOutRectangle
+        enabled: false
+        visible: false
+        color: "black"
+        anchors.fill: parent
+        opacity: 0.0
+        NumberAnimation on opacity {
+            id: shutdownFadeOut
+            from: 0.0
+            to: 1.0
+            onStopped: {
+                if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
+                    DBusUnitySessionService.Shutdown();
+                }
+            }
         }
     }
 }
