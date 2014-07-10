@@ -20,7 +20,10 @@ import "../Components"
 DashRenderer {
     id: root
 
-    readonly property int collapsedRows: cardTool && cardTool.template && cardTool.template["collapsed-rows"]
+    readonly property int collapsedRows: {
+        if (!cardTool || !cardTool.template || typeof cardTool.template["collapsed-rows"] != "number") return 2;
+        return cardTool.template["collapsed-rows"];
+    }
 
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows), expandedHeight)
