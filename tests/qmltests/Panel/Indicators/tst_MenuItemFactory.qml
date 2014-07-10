@@ -98,6 +98,8 @@ Item {
                 { tag: 'switch2', type: "com.canonical.indicator.switch", objectName: "switchMenu" },
                 { tag: 'alarm', type: "com.canonical.indicator.alarm", objectName: "alarmMenu" },
                 { tag: 'appointment', type: "com.canonical.indicator.appointment", objectName: "appointmentMenu" },
+                { tag: 'transfer', type: "com.canonical.indicator.transfer", objectName: "transferMenu" },
+                { tag: 'buttonSection', type: "com.canonical.indicator.button-section", objectName: "buttonSectionMenu" },
 
                 { tag: 'messageItem', type: "com.canonical.indicator.messages.messageitem", objectName: "messageItem" },
                 { tag: 'sourceItem', type: "com.canonical.indicator.messages.sourceitem", objectName: "groupedMessage" },
@@ -426,6 +428,66 @@ Item {
             compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
             compare(loader.item.eventColor, data.color, "Colour does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_transferMenu_data() {
+            return [
+                {tag: "queued", label: "testLabel1", enabled: true, active: true, icon: "file:///testIcon1", progress: 0, stateText: "In queue…" },
+                {tag: "running", label: "testLabel2", enabled: true, active: true, icon: "file:///testIcon2", progress: 0.1, stateText: "1 minute, 40 seconds remaining" },
+                {tag: "paused", label: "testLabel3", enabled: true, active: true, icon: "file:///testIcon3", progress: 0.5, stateText: "Paused, tap to resume" },
+                {tag: "cancelled", label: "testLabel4", enabled: true, active: true, icon: "file:///testIcon4", progress: 0.4, stateText: "Canceled" },
+                {tag: "finished", label: "testLabel5", enabled: false, active: false, icon: "file:///testIcon5", progress: 1.0, stateText: "Finished" },
+                {tag: "error", label: "testLabel6", enabled: false, active: true, icon: "file:///testIcon6", progress: 0, stateText: "Failed, tap to retry" },
+            ];
+        }
+
+        function test_create_transferMenu(data) {
+            menuData.type = "com.canonical.indicator.transfer";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.icon = data.icon;
+            menuData.ext = {
+                'xCanonicalUid': data.tag
+            };
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "transferMenu", "Should have created a transfer menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.iconSource, data.icon, "Icon does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            compare(loader.item.progress, data.progress, "Icon does not match data");
+            compare(loader.item.active, data.active, "Active does not match data");
+            compare(loader.item.stateText, data.stateText, "State text does not match data");
+        }
+
+        function test_create_buttonSectionMenu_data() {
+            return [
+                {label: "testLabel1", enabled: true, buttonText: "buttonLabel1", icon: "file:///testIcon1" },
+                {label: "testLabel2", enabled: false, buttonText: "buttonLabel1", icon: "file:///testIcon2" },
+            ];
+        }
+
+        function test_create_buttonSectionMenu(data) {
+            menuData.type = "com.canonical.indicator.button-section";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.icon = data.icon;
+            menuData.ext = {
+                'xCanonicalExtraLabel': data.buttonText
+            };
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "buttonSectionMenu", "Should have created a transfer menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.iconSource, data.icon, "Icon does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            compare(loader.item.control.text, data.buttonText, "Button text does not match data");
         }
 
         function test_create_wifiSection_data() {

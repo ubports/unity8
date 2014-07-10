@@ -77,6 +77,7 @@ Item {
 
         Component {
             id: simpleTextMessage
+
             Menus.SimpleTextMessageMenu {
                 id: message
                 objectName: "simpleTextMessage"
@@ -114,6 +115,7 @@ Item {
 
         Component {
             id: textMessage
+
             Menus.TextMessageMenu {
                 id: message
                 objectName: "textMessage"
@@ -163,6 +165,7 @@ Item {
         }
         Component {
             id: snapDecision
+
             Menus.SnapDecisionMenu {
                 id: message
                 objectName: "snapDecision"

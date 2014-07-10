@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
 import Unity.Application 0.1
+import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
@@ -29,12 +30,15 @@ FocusScope {
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
-    property int tabBarHeight: 0
-    property PageHeader pageHeader: null
-    property Item previewListView: null
-
+    property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+
+    property var scopeStyle: ScopeStyle {
+        style: scope ? scope.customizations : {}
+    }
+
+    signal backClicked()
 
     onScopeChanged: {
         if (scope) {
@@ -52,6 +56,10 @@ FocusScope {
 
     function showHeader() {
         categoryView.showHeader()
+    }
+
+    function closePreview() {
+        previewListView.open = false;
     }
 
     Binding {
@@ -89,31 +97,30 @@ FocusScope {
     }
 
     Connections {
-        target: panel
-        onSearchClicked: if (isCurrent) {
-            pageHeader.triggerSearch()
-            categoryView.showHeader()
-        }
-    }
-
-    Connections {
         target: scopeView.scope
         onShowDash: previewListView.open = false;
         onHideDash: previewListView.open = false;
     }
 
+    Rectangle {
+        anchors.fill: parent
+        color: scopeView.scopeStyle ? scopeView.scopeStyle.background : "transparent"
+        visible: color != "transparent"
+    }
+
     ScopeListView {
         id: categoryView
         objectName: "categoryListView"
-        anchors.fill: parent
+
+        x: previewListView.open ? -width : 0
+        Behavior on x { UbuntuNumberAnimation { } }
+        width: parent.width
+        height: parent.height
+
         model: scopeView.categories
         forceNoClip: previewListView.open
 
         property string expandedCategoryId: ""
-
-        onContentYChanged: pageHeader.positionRealHeader();
-        onOriginYChanged: pageHeader.positionRealHeader();
-        onContentHeightChanged: pageHeader.positionRealHeader();
 
         delegate: ListItems.Base {
             id: baseItem
@@ -168,6 +175,7 @@ FocusScope {
                         item.model = Qt.binding(function() { return results })
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
+                    item.scopeStyle = scopeView.scopeStyle;
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         item.setFilter(shouldFilter, false /*animate*/);
@@ -307,6 +315,7 @@ FocusScope {
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
+            textColor: scopeStyle ? scopeStyle.foreground : "grey"
             image: {
                 if (delegate && delegate.expandable)
                     return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
@@ -319,20 +328,39 @@ FocusScope {
                     categoryView.expandedCategoryId = "";
             }
         }
-        pageHeader: Item {
-            implicitHeight: scopeView.tabBarHeight
-            onHeightChanged: {
-                if (scopeView.pageHeader && scopeView.isCurrent) {
-                    scopeView.pageHeader.height = height;
-                }
-            }
-            onYChanged: positionRealHeader();
 
-            function positionRealHeader() {
-                if (scopeView.pageHeader && scopeView.isCurrent) {
-                    scopeView.pageHeader.y = y + parent.y;
-                }
+        pageHeader: PageHeader {
+            id: pageHeader
+            objectName: "scopePageHeader"
+            width: parent.width
+            title: scopeView.scope ? scopeView.scope.name : ""
+            showBackButton: scopeView.hasBackAction
+            searchEntryEnabled: true
+            searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
+            scopeStyle: scopeView.scopeStyle
+
+            bottomItem: DashDepartments {
+                scope: scopeView.scope
+                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
+                anchors.right: parent.right
+                windowHeight: scopeView.height
+                windowWidth: scopeView.width
+                scopeStyle: scopeView.scopeStyle
             }
+
+            onBackClicked: scopeView.backClicked()
         }
     }
+
+    PreviewListView {
+        id: previewListView
+        objectName: "previewListView"
+        visible: x != width
+        scope: scopeView.scope
+        scopeStyle: scopeView.scopeStyle
+        width: parent.width
+        height: parent.height
+        anchors.left: categoryView.right
+    }
+
 }

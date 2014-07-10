@@ -19,7 +19,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Settings.Menus 0.1 as Menus
-import QMenuModel 0.1 as QMenuModel
+import Ubuntu.Settings.Components 0.1 as SettingsComponents
+import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Ubuntu.Components 0.1
@@ -27,20 +28,23 @@ import Ubuntu.Components 0.1
 Item {
     id: menuFactory
 
+    property var rootModel: null
     property var menuModel: null
 
     property var _map:  {
         "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
         "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
 
-        "com.canonical.indicator.button"        : buttonMenu,
-        "com.canonical.indicator.div"           : separatorMenu,
-        "com.canonical.indicator.section"       : sectionMenu,
-        "com.canonical.indicator.progress"      : progressMenu,
-        "com.canonical.indicator.slider"        : sliderMenu,
-        "com.canonical.indicator.switch"        : switchMenu,
-        "com.canonical.indicator.alarm"         : alarmMenu,
-        "com.canonical.indicator.appointment"   : appointmentMenu,
+        "com.canonical.indicator.button"         : buttonMenu,
+        "com.canonical.indicator.div"            : separatorMenu,
+        "com.canonical.indicator.section"        : sectionMenu,
+        "com.canonical.indicator.progress"       : progressMenu,
+        "com.canonical.indicator.slider"         : sliderMenu,
+        "com.canonical.indicator.switch"         : switchMenu,
+        "com.canonical.indicator.alarm"          : alarmMenu,
+        "com.canonical.indicator.appointment"    : appointmentMenu,
+        "com.canonical.indicator.transfer"       : transferMenu,
+        "com.canonical.indicator.button-section" : buttonSectionMenu,
 
         "com.canonical.indicator.messages.messageitem"  : messageItem,
         "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
@@ -64,6 +68,7 @@ Item {
 
     Component {
         id: separatorMenu;
+
         Menus.SeparatorMenu {
             objectName: "separatorMenu"
         }
@@ -71,6 +76,7 @@ Item {
 
     Component {
         id: sliderMenu;
+
         Menus.SliderMenu {
             objectName: "sliderMenu"
             property QtObject menuData: null
@@ -122,6 +128,7 @@ Item {
 
     Component {
         id: buttonMenu;
+
         Menus.ButtonMenu {
             objectName: "buttonMenu"
             property QtObject menuData: null
@@ -138,6 +145,7 @@ Item {
     }
     Component {
         id: sectionMenu;
+
         Menus.SectionMenu {
             objectName: "sectionMenu"
             property QtObject menuData: null
@@ -150,6 +158,7 @@ Item {
 
     Component {
         id: progressMenu;
+
         Menus.ProgressValueMenu {
             objectName: "progressMenu"
             property QtObject menuData: null
@@ -164,7 +173,8 @@ Item {
 
     Component {
         id: standardMenu;
-        ListItems.Standard {
+
+        Menus.StandardMenu {
             objectName: "standardMenu"
             property QtObject menuData: null
             property int menuIndex: -1
@@ -181,6 +191,7 @@ Item {
 
     Component {
         id: checkableMenu;
+
         Menus.CheckableMenu {
             objectName: "checkableMenu"
             property QtObject menuData: null
@@ -199,6 +210,7 @@ Item {
 
     Component {
         id: switchMenu;
+
         Menus.SwitchMenu {
             objectName: "switchMenu"
             property QtObject menuData: null
@@ -217,6 +229,7 @@ Item {
 
     Component {
         id: alarmMenu;
+
         Menus.EventMenu {
             objectName: "alarmMenu"
             property QtObject menuData: null
@@ -254,6 +267,7 @@ Item {
 
     Component {
         id: appointmentMenu;
+
         Menus.EventMenu {
             objectName: "appointmentMenu"
             property QtObject menuData: null
@@ -293,6 +307,7 @@ Item {
 
     Component {
         id: wifiSection;
+
         Menus.SectionMenu {
             objectName: "wifiSection"
             property QtObject menuData: null
@@ -319,6 +334,7 @@ Item {
 
     Component {
         id: accessPoint;
+
         Menus.AccessPointMenu {
             objectName: "accessPoint"
             property QtObject menuData: null
@@ -326,7 +342,7 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var strengthAction: QMenuModel.UnityMenuAction {
+            property var strengthAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
@@ -360,6 +376,7 @@ Item {
 
     Component {
         id: messageItem
+
         MessageMenuItemFactory {
             objectName: "messageItem"
             menuModel: menuFactory.menuModel
@@ -368,6 +385,7 @@ Item {
 
     Component {
         id: groupedMessage
+
         Menus.GroupedMessageMenu {
             objectName: "groupedMessage"
             property QtObject menuData: null
@@ -403,6 +421,7 @@ Item {
 
     Component {
         id: mediaPayerMenu;
+
         Menus.MediaPlayerMenu {
             objectName: "mediaPayerMenu"
             property QtObject menuData: null
@@ -429,6 +448,7 @@ Item {
 
     Component {
         id: playbackItemMenu;
+
         Menus.PlaybackItemMenu {
             objectName: "playbackItemMenu"
             property QtObject menuData: null
@@ -436,17 +456,17 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var playAction: QMenuModel.UnityMenuAction {
+            property var playAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPlayAction", "")
             }
-            property var nextAction: QMenuModel.UnityMenuAction {
+            property var nextAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalNextAction", "")
             }
-            property var previousAction: QMenuModel.UnityMenuAction {
+            property var previousAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalPreviousAction", "")
@@ -479,6 +499,150 @@ Item {
                 menuModel.loadExtendedAttributes(modelIndex, {'x-canonical-play-action': 'string',
                                                               'x-canonical-next-action': 'string',
                                                               'x-canonical-previous-action': 'string'});
+            }
+        }
+    }
+
+    Component {
+        id: transferMenu
+
+        Menus.TransferMenu {
+            objectName: "transferMenu"
+            id: transfer
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
+            property var uid: getExtendedProperty(extendedData, "xCanonicalUid", undefined)
+
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            maximum: 1.0
+            enabled: menuData && menuData.sensitive || false
+            removable: true
+            confirmRemoval: true
+
+            QDBusActionGroup {
+                id: actionGroup
+                busType: 1
+                busName: rootModel.busName
+                objectPath: rootModel.actions["indicator"]
+
+                property var activateAction: action("activate-transfer")
+                property var cancelAction: action("cancel-transfer")
+                property var transferStateAction: uid !== undefined ? action("transfer-state."+uid) : null
+
+                Component.onCompleted: actionGroup.start()
+            }
+
+            property var transferState: {
+                if (actionGroup.transferStateAction === null) return undefined;
+                return actionGroup.transferStateAction.valid ? actionGroup.transferStateAction.state : undefined
+            }
+
+            property var runningState : transferState !== undefined ? transferState["state"] : undefined
+            property var secondsLeft : transferState !== undefined ? transferState["seconds-left"] : undefined
+
+            active: runningState !== undefined && runningState !== Menus.TransferState.Finished
+            progress: transferState !== undefined ? transferState["percent"] : 0.0
+
+            // TODO - Should be in the SDK
+            property var timeRemaining: {
+                if (secondsLeft === undefined) return undefined;
+
+                var remaining = "";
+                var hours = Math.floor(secondsLeft / (60 * 60));
+                var minutes = Math.floor(secondsLeft / 60) % 60;
+                var seconds = secondsLeft % 60;
+                if (hours > 0) {
+                    remaining += hours + (hours == 1 ? " hour" : " hours");
+                }
+                if (minutes > 0) {
+                    if (remaining != "") remaining += ", ";
+                    remaining += minutes + (minutes == 1 ? " minute" : " minutes");
+                }
+                // don't include seconds if hours > 0
+                if (hours == 0 && minutes < 5 && seconds > 0) {
+                    if (remaining != "") remaining += ", ";
+                    remaining += seconds + (seconds == 1 ? " second" : " seconds");
+                }
+                if (remaining == "")
+                    remaining = "0 seconds";
+                return remaining + " remaining";
+            }
+
+            stateText: {
+                switch (runningState) {
+                    case Menus.TransferState.Queued:
+                        return i18n.tr("In queue…");
+                    case Menus.TransferState.Hashing:
+                    case Menus.TransferState.Processing:
+                    case Menus.TransferState.Running:
+                        return timeRemaining === undefined ? i18n.tr("Downloading") : timeRemaining;
+                    case Menus.TransferState.Paused:
+                        return i18n.tr("Paused, tap to resume");
+                    case Menus.TransferState.Canceled:
+                        return i18n.tr("Canceled");
+                    case Menus.TransferState.Finished:
+                        return i18n.tr("Finished");
+                    case Menus.TransferState.Error:
+                        return i18n.tr("Failed, tap to retry");
+                }
+                return "";
+            }
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+            onTriggered: {
+                actionGroup.activateAction.activate(uid);
+            }
+            onItemRemoved: {
+                actionGroup.cancelAction.activate(uid);
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-uid': 'string'});
+            }
+        }
+    }
+
+    Component {
+        id: buttonSectionMenu;
+
+        ListItems.Standard {
+            objectName: "buttonSectionMenu"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
+
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
+            text: menuData && menuData.label || ""
+            showDivider: false
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
+            }
+
+            control: Button {
+                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
+
+                onClicked: {
+                    menuModel.activate(menuIndex);
+                }
             }
         }
     }

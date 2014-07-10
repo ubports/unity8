@@ -128,7 +128,7 @@ void LauncherModel::pin(const QString &appId, int index)
         if (index == -1 || index == currentIndex) {
             m_list.at(currentIndex)->setPinned(true);
             QModelIndex modelIndex = this->index(currentIndex);
-            Q_EMIT dataChanged(modelIndex, modelIndex);
+            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
         } else {
             move(currentIndex, index);
             // move() will store the list to the backend itself, so just exit at this point.
@@ -159,6 +159,8 @@ void LauncherModel::requestRemove(const QString &appId)
 
     if (m_appManager->findApplication(appId)) {
         m_list.at(index)->setPinned(false);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
         return;
     }
 
