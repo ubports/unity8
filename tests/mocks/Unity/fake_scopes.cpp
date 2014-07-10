@@ -130,6 +130,28 @@ bool Scopes::loaded() const
     return m_loaded;
 }
 
+int Scopes::count(bool onlyVisible) const
+{
+    int count = 0;
+    for (Scope *scope : m_scopes) {
+        if (!onlyVisible || scope->visible())
+            count++;
+    }
+    return count;
+}
+
+Scope *Scopes::scopeAt(int index, bool onlyVisible) const
+{
+    int count = 0;
+    for (Scope *scope : m_scopes) {
+        if (!onlyVisible || scope->visible()) {
+            if (index == count) return scope;
+            count++;
+        }
+    }
+    return nullptr;
+}
+
 void Scopes::addScope(Scope* scope)
 {
     int index = rowCount();
