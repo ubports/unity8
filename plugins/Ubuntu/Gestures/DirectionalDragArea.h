@@ -212,6 +212,7 @@ Q_SIGNALS:
     void touchYChanged(qreal value);
     void touchSceneXChanged(qreal value);
     void touchSceneYChanged(qreal value);
+    void tapped();
 
 protected:
     virtual void touchEvent(QTouchEvent *event);
