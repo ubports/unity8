@@ -89,6 +89,10 @@ Module {
             name: "loadDepartment"
             Parameter { name: "id"; type: "string" }
         }
+        Method {
+            name: "performQuery"
+            Parameter { name: "query"; type: "string" }
+        }
     }
     Component {
         name: "Scopes"
@@ -133,8 +137,8 @@ Module {
                 "RoleRawRendererTemplate": 3,
                 "RoleRenderer": 4,
                 "RoleComponents": 5,
-                "RoleResults": 6,
-                "RoleCount": 7
+                "RoleResults": 7,
+                "RoleCount": 8
             }
         }
         Method {
@@ -179,6 +183,9 @@ Module {
     Component {
         name: "unity::shell::scopes::PreviewModelInterface"
         prototype: "QAbstractListModel"
+        exports: ["Unity/PreviewModel 0.2"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
         Enum {
             name: "Roles"
             values: {
