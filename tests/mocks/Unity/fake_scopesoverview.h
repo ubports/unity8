@@ -35,7 +35,7 @@ class ScopesOverviewCategories : public unity::shell::scopes::CategoriesInterfac
     Q_OBJECT
 
 public:
-    ScopesOverviewCategories(QObject* parent = 0);
+    ScopesOverviewCategories(Scopes *scopes, QObject* parent = 0);
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -45,6 +45,8 @@ public:
 
 private:
     mutable QHash<int, unity::shell::scopes::ResultsModelInterface*> m_resultsModels;
+
+    Scopes *m_scopes;
 };
 
 class ScopesOverviewResultsModel : public unity::shell::scopes::ResultsModelInterface

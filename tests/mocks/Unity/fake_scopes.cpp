@@ -47,7 +47,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
-    addScope(new ScopesOverview());
+    addScope(new ScopesOverview(this));
 
     if (!m_loaded) {
         m_loaded = true;

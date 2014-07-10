@@ -24,11 +24,12 @@ ScopesOverview::ScopesOverview(Scopes* parent)
  : Scope("scopesOverview", "Scopes Overview", false, parent)
 {
     delete m_categories;
-    m_categories = new ScopesOverviewCategories(this);
+    m_categories = new ScopesOverviewCategories(parent, this);
 }
 
-ScopesOverviewCategories::ScopesOverviewCategories(QObject* parent)
+ScopesOverviewCategories::ScopesOverviewCategories(Scopes *scopes, QObject* parent)
     : unity::shell::scopes::CategoriesInterface(parent)
+    , m_scopes(scopes)
 {
 }
 
@@ -54,11 +55,10 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    return QVariant();
     unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewCategories*>(this);
-        resultsModel = new ScopesOverviewResultsModel(static_cast<Scopes*>(parent()), index.row() == 0, that);
+        resultsModel = new ScopesOverviewResultsModel(m_scopes, index.row() == 0, that);
         m_resultsModels[index.row()] = resultsModel;
     }
     switch (role) {
