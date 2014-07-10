@@ -823,7 +823,7 @@ FocusScope {
     }
 
     Keys.onPressed: {
-        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown || event.key == Qt.Key_A) {
+        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
             if (!powerKeyTimer.running) {
                 powerKeyTimer.start();
             }
