@@ -121,7 +121,6 @@ Showable {
         Connections {
             target: scopeItem.scope
             onGotoScope: {
-                // Note here scopeId is the signal parameter and not the loader property
                 dashContent.gotoScope(scopeId);
             }
             onOpenScope: {

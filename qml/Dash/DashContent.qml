@@ -175,7 +175,6 @@ Item {
                         item.objectName = scope.id
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                        item.title = Qt.binding(function() { return dashContentList.model.get(index).title; })
                         dashContent.scopeLoaded(item.scope.id)
                     }
                     Connections {

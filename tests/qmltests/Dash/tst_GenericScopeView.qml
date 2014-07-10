@@ -194,7 +194,7 @@ Item {
             }
 
             function closePreview() {
-                var closePreviewMouseArea = findChild(genericScopeView, "pageHeader");
+                var closePreviewMouseArea = findChild(genericScopeView, "innerPageHeader");
                 mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
 
                 tryCompare(testCase.previewListView, "open", false);

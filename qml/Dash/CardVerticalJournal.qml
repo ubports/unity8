@@ -31,7 +31,7 @@ DashRenderer {
     // is special by the fact that it doesn't know how to calculate its implicit height unless we give it
     // enough height that it can start creating its children so we make sure it has enough height for that
     // in case the model is non empty
-    readonly property double minHeight: root.model.count > 1 ? cardVerticalJournal.rowSpacing + 1 : 0
+    readonly property double minHeight: root.model.count >= 1 ? cardVerticalJournal.rowSpacing + 1 : 0
     height: filtered ? Math.max(collapsedHeight, minHeight) : uncollapsedHeight
 
     Behavior on height {

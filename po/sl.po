@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"POT-Creation-Date: 2014-07-07 12:15+0100\n"
 "PO-Revision-Date: 2014-06-23 09:29+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-24 06:33+0000\n"
-"X-Generator: Launchpad (build 17065)\n"
+"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
+"X-Generator: Launchpad (build 17100)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
-msgstr "Zakleni na zaganjalnik"
+msgid "Pin shortcut"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
-msgstr "Odkleni z zaganjalnika"
+msgid "Unpin shortcut"
+msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -84,7 +84,7 @@ msgstr "Klic v sili"
 msgid "OK"
 msgstr "V REDU"
 
-#: qml/Components/PageHeader.qml:365
+#: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
 msgstr "Nedavna iskanja"
 
@@ -169,11 +169,35 @@ msgstr "Pokaži geslo"
 msgid "Please enter SIM PIN"
 msgstr "Vnesite PIN kartice SIM"
 
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr ""
+
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Iskanje"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
 msgstr "Vnesite %1"

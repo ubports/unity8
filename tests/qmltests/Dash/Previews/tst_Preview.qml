@@ -73,8 +73,8 @@ Rectangle {
 
         function test_containOnFocus() {
             waitForRendering(preview);
-            tryCompareFunction(function () { return findChild(preview, "widget-9") != null }, true);
-            var widget = findChild(preview, "widget-9");
+            tryCompareFunction(function () { return findChild(preview, "widget-10") != null }, true);
+            var widget = findChild(preview, "widget-10");
 
             var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
             verify(bottomLeft.y > preview.height);

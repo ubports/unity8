@@ -48,14 +48,16 @@ DashRenderer {
 
             property bool explicitlyScaled
             property var model
+            property int index
             enabled: false
+
+            objectName: "carouselDelegate" + index
 
             function clicked() { cardCarousel.clicked(index, model.result) }
             function pressAndHold() { cardCarousel.pressAndHold(index, model.result) }
 
             sourceComponent: cardTool.cardComponent
             onLoaded: {
-                item.objectName = "carouselDelegate" + index;
                 item.fixedHeaderHeight = Qt.binding(function() { return carousel.headerHeight; });
                 item.height = Qt.binding(function() { return cardTool.cardHeight; });
                 item.cardData = Qt.binding(function() { return model; });

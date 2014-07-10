@@ -30,7 +30,6 @@ FocusScope {
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
-    property string title
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
@@ -332,8 +331,9 @@ FocusScope {
 
         pageHeader: PageHeader {
             id: pageHeader
+            objectName: "scopePageHeader"
             width: parent.width
-            title: scopeView.title
+            title: scopeView.scope ? scopeView.scope.name : ""
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false

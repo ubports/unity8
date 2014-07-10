@@ -23,6 +23,7 @@ import "SearchHistoryModel"
 
 Item {
     id: root
+    objectName: "pageHeader"
     implicitHeight: headerContainer.height + units.gu(2) + bottomContainer.height
 
     property bool showBackButton: false
@@ -165,6 +166,7 @@ Item {
                 }
                 property var contents: TextField {
                     id: searchTextField
+                    objectName: "searchTextField"
                     hasClearButton: false
                     anchors {
                         fill: parent
@@ -219,7 +221,7 @@ Item {
 
             PageHeadStyle {
                 id: header
-                objectName: "pageHeader"
+                objectName: "innerPageHeader"
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
