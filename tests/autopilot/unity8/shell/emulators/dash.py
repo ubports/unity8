@@ -40,7 +40,7 @@ class Dash(emulators.UnityEmulatorBase):
 
     def get_applications_grid(self):
         get_grid = self.get_scope('clickscope').wait_select_single(
-            'CardFilterGrid', objectName='local')
+            'CardGrid', objectName='local')
         return get_grid
 
     def get_application_icon(self, text):
