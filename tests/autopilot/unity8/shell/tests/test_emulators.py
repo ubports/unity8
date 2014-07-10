@@ -50,7 +50,6 @@ class MainWindowTestCase(tests.UnityTestCase):
         self.main_window.search('Test')
         text_field = self.main_window.get_dash()._get_search_text_field()
         self.assertEqual(text_field.text, 'Test')
-        self.assertEqual(text_field.state, 'idle')
 
 
 class DashBaseTestCase(tests.UnityTestCase):

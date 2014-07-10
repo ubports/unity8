@@ -22,8 +22,9 @@ import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
 import "../Components/"
 
-Item {
+Rectangle {
     id: root
+    color: "#B2000000"
 
     rotation: inverted ? 180 : 0
 
@@ -37,27 +38,18 @@ Item {
     signal applicationSelected(string appId)
     signal showDashHome()
 
-    BorderImage {
-        id: background
-        source: "graphics/launcher_bg.sci"
-        anchors.fill: parent
-        anchors.rightMargin: root.inverted ? 0 : -units.gu(1)
-        anchors.leftMargin: root.inverted ? -units.gu(1) : 0
-        rotation: root.rotation
-    }
-
     Column {
         id: mainColumn
         anchors {
             fill: parent
         }
 
-        MouseArea {
-            id: dashItem
+        Rectangle {
             width: parent.width
             height: units.gu(7)
-            onClicked: root.showDashHome()
+            color: UbuntuColors.orange
             z: 1
+
             Image {
                 objectName: "dashItem"
                 width: units.gu(5)
@@ -66,7 +58,13 @@ Item {
                 source: "graphics/home.png"
                 rotation: root.rotation
             }
+            MouseArea {
+                id: dashItem
+                anchors.fill: parent
+                onClicked: root.showDashHome()
+            }
         }
+
         ThinDivider {
             anchors {
                 left: parent.left
@@ -155,6 +153,7 @@ Item {
                         iconName: model.icon
                         count: model.count
                         progress: model.progress
+                        clipCorner: model.pinned
                         itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
@@ -167,6 +166,7 @@ Item {
                             anchors.centerIn: parent
                             width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
                             opacity: 0
+                            source: "graphics/divider-line.png"
                         }
 
                         states: [
@@ -246,7 +246,7 @@ Item {
                             Transition {
                                 from: "dragging"
                                 to: "*"
-                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
+                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.SnapDuration }
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
                                 SequentialAnimation {
                                     ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
@@ -464,6 +464,10 @@ Item {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
+                clipCorner: dndArea.draggedIndex > -1 &&
+                            LauncherModel.get(dndArea.draggedIndex).pinned &&
+                            !dndArea.preDragging &&
+                            !dndArea.dragging
 
                 function flatten() {
                     fakeDragItemAnimation.start();
@@ -522,11 +526,11 @@ Item {
         color: "#221e1c"
         width: units.gu(30)
         height: quickListColumn.height
+        visible: quickListShape.visible
         anchors {
             left: root.inverted ? undefined : parent.right
             right: root.inverted ? parent.left : undefined
             margins: units.gu(1)
-
         }
         y: itemCenter - (height / 2) + offset
         rotation: root.rotation

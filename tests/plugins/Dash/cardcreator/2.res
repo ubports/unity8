@@ -5,7 +5,8 @@ AbstractButton {
                 property var cardData; 
                 property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
-                property int headerAlignment: Text.AlignLeft; 
+                property var scopeStyle: null;
+                property int headerAlignment: Text.AlignLeft;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
@@ -78,8 +79,7 @@ Column {
                         anchors.verticalCenter: parent.verticalCenter; 
                         spacing: units.dp(2); 
                         width: parent.width - x;
-                        data: [
-Label { 
+                        data: [ Label {
                     id: titleLabel; 
                     objectName: "titleLabel"; 
                     anchors { left: parent.left; right: parent.right }
@@ -88,7 +88,7 @@ Label {
                     wrapMode: Text.Wrap; 
                     maximumLineCount: 2; 
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                    color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : "grey"; 
+                    color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey");
                     visible: showHeader ; 
                     text: root.title; 
                     font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -103,7 +103,7 @@ Label {
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : "grey"; 
+                        color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey");
                         visible: titleLabel.visible && titleLabel.text; 
                         text: cardData && cardData["subtitle"] || ""; 
                         font.weight: Font.Light; 

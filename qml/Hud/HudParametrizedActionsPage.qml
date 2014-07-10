@@ -19,7 +19,7 @@ import Ubuntu.Components 0.1
 import "../Components"
 
 Item {
-    property alias header: header.text
+    property alias header: header.title
     signal backPressed
     signal confirmPressed
     signal valuesUpdated
@@ -89,7 +89,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            PageHeaderLabel {
+            PageHeader {
                 id: header
                 anchors.top: parent.top
                 anchors.left: parent.left

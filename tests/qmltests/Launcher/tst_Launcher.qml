@@ -115,7 +115,7 @@ Item {
         /* If I click on the icon of an application on the launcher
            Launcher::launcherApplicationSelected signal should be emitted with the
            corresponding desktop file. E.g. clicking on phone icon should yield
-           launcherApplicationSelected("[...]phone-app.desktop") */
+           launcherApplicationSelected("[...]dialer-app.desktop") */
         function test_clickingOnAppIconCausesSignalEmission() {
             launcher.lastSelectedApplication = ""
 
@@ -131,7 +131,7 @@ Item {
             mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
 
             tryCompare(launcher, "lastSelectedApplication",
-                       "phone-app")
+                       "dialer-app")
 
             // Tapping on an application icon also dismisses the launcher
             revealer.waitUntilLauncherDisappears()
