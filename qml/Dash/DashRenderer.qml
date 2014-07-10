@@ -17,9 +17,9 @@
 import QtQuick 2.0
 
 Item {
-    property int collapsedHeight: height
+    property int collapsedHeight
 
-    property int expandedHeight: height
+    property int expandedHeight
 
     property int displayMarginBeginning: 0
 
