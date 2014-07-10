@@ -24,32 +24,13 @@ DashRenderer {
     readonly property double collapseLimit: units.gu(35)
 
     uncollapsedHeight: cardVerticalJournal.implicitHeight
-    collapsedHeight: Math.min(collapseLimit, cardVerticalJournal.implicitHeight)
-    expandable: uncollapsedHeight > collapseLimit
+    collapsedHeight: Math.max(Math.min(collapseLimit, cardVerticalJournal.implicitHeight), minHeight)
 
     // This minHeight is used as bootstrapper for the height. Vertical Journal
     // is special by the fact that it doesn't know how to calculate its implicit height unless we give it
     // enough height that it can start creating its children so we make sure it has enough height for that
     // in case the model is non empty
     readonly property double minHeight: root.model.count >= 1 ? cardVerticalJournal.rowSpacing + 1 : 0
-    height: filtered ? Math.max(collapsedHeight, minHeight) : uncollapsedHeight
-
-    Behavior on height {
-        id: heightBehaviour
-        enabled: false
-        animation: UbuntuNumberAnimation {
-            onRunningChanged: {
-                if (!running) {
-                    heightBehaviour.enabled = false
-                }
-            }
-        }
-    }
-
-    function setFilter(filter, animate) {
-        heightBehaviour.enabled = animate;
-        filtered = filter;
-    }
 
     ResponsiveVerticalJournal {
         id: cardVerticalJournal

@@ -17,12 +17,6 @@
 import QtQuick 2.0
 
 Item {
-    // Can the item be expanded?
-    property bool expandable: false
-
-    // In case it can be expanded, is it filtered
-    property bool filtered: true
-
     property int collapsedHeight: height
 
     property int uncollapsedHeight: height
@@ -50,7 +44,4 @@ Item {
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
     signal pressAndHold(int index)
-
-    function setFilter(filter, animate) {
-    }
 }

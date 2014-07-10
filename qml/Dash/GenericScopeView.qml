@@ -128,10 +128,15 @@ FocusScope {
             highlightWhenPressed: false
             showDivider: false
 
-            readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filtered : true
+            readonly property bool expandable: item ? item.uncollapsedHeight > item.collapsedHeight : false
+            property bool filtered: true
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
+
+            function setFilter(filter, animate) {
+                heightBehaviour.enabled = animate;
+                filtered = filter;
+            }
 
             CardTool {
                 id: cardTool
@@ -142,6 +147,18 @@ FocusScope {
                 viewWidth: parent.width
             }
 
+            onExpandableChanged: {
+                // This can happen with the VJ that doesn't know how height it will be on creation
+                // so doesn't set expandable until a bit too late for onLoaded
+                if (expandable) {
+                    var shouldFilter = baseItem.category != categoryView.expandedCategoryId;
+                    baseItem.setFilter(shouldFilter, false /*animate*/);
+                }
+            }
+
+            onHeightChanged: rendererLoader.updateDelegateCreationRange();
+            onYChanged: rendererLoader.updateDelegateCreationRange();
+
             Loader {
                 id: rendererLoader
                 anchors {
@@ -151,13 +168,27 @@ FocusScope {
                     topMargin: hasSectionHeader ? 0 : units.gu(2)
                 }
 
+                Behavior on height {
+                    id: heightBehaviour
+                    enabled: false
+                    animation: UbuntuNumberAnimation {
+                        onRunningChanged: {
+                            if (!running) {
+                                heightBehaviour.enabled = false
+                            }
+                        }
+                    }
+                }
+
+                height: baseItem.filtered ? item.collapsedHeight : item.uncollapsedHeight
+
                 source: {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
                         case "vertical-journal": return "CardVerticalJournal.qml";
                         case "running-apps": return "Apps/RunningApplicationsGrid.qml";
                         case "grid":
-                        default: return "CardFilterGrid.qml";
+                        default: return "CardGrid.qml";
                     }
                 }
 
@@ -176,9 +207,9 @@ FocusScope {
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
-                    if (item.expandable) {
+                    if (baseItem.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                        item.setFilter(shouldFilter, false /*animate*/);
+                        baseItem.setFilter(shouldFilter, false /*animate*/);
                     }
                     updateDelegateCreationRange();
                     item.cardTool = cardTool;
@@ -211,14 +242,6 @@ FocusScope {
                         previewListView.currentIndex = index;
                         previewListView.open = true
                     }
-                    onExpandableChanged: {
-                        // This can happen with the VJ that doesn't know how height it will be on creation
-                        // so doesn't set expandable until a bit too late for onLoaded
-                        if (rendererLoader.item.expandable) {
-                            var shouldFilter = baseItem.category != categoryView.expandedCategoryId;
-                            rendererLoader.item.setFilter(shouldFilter, false /*animate*/);
-                        }
-                    }
                 }
                 Connections {
                     target: categoryView
@@ -227,15 +250,15 @@ FocusScope {
                     }
                     function collapseAllButExpandedCategory() {
                         var item = rendererLoader.item;
-                        if (item.expandable) {
+                        if (baseItem.expandable) {
                             var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                            if (shouldFilter != item.filter) {
+                            if (shouldFilter != baseItem.filtered) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
                                 var growingVisible = !shouldFilter && y + height < categoryView.height;
                                 if (!previewListView.open || !shouldFilter) {
                                     var animate = shrinkingVisible || growingVisible;
-                                    item.setFilter(shouldFilter, animate)
+                                    baseItem.setFilter(shouldFilter, animate)
                                     if (!shouldFilter && !previewListView.open) {
                                         categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
                                     }
@@ -304,9 +327,6 @@ FocusScope {
                     z: -1
                 }
             }
-
-            onHeightChanged: rendererLoader.updateDelegateCreationRange();
-            onYChanged: rendererLoader.updateDelegateCreationRange();
         }
 
         sectionProperty: "name"
