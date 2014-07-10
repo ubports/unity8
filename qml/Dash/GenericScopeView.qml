@@ -128,7 +128,12 @@ FocusScope {
             highlightWhenPressed: false
             showDivider: false
 
-            readonly property bool expandable: item ? item.expandedHeight > item.collapsedHeight : false
+            readonly property bool expandable: {
+                if (categoryView.model.count === 1) return false;
+                if (cardTool.template && cardTool.template["collapsed-rows"] === 0) return false;
+                if (item && item.expandedHeight > item.collapsedHeight) return true;
+                return false;
+            }
             property bool expanded: false
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
@@ -180,7 +185,7 @@ FocusScope {
                     }
                 }
 
-                height: baseItem.expanded ? item.expandedHeight : item.collapsedHeight
+                height: baseItem.expandable && !baseItem.expanded ? item.collapsedHeight : item.expandedHeight
 
                 source: {
                     switch (cardTool.categoryLayout) {
