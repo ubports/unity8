@@ -31,7 +31,7 @@ Rectangle {
             ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
         }
 
-        ApplicationManager.startApplication("phone-app");
+        ApplicationManager.startApplication("dialer-app");
         ApplicationManager.startApplication("webbrowser-app");
     }
 
@@ -91,7 +91,7 @@ Rectangle {
             verify(browserTile != undefined)
             browserTile.onPressAndHold.connect(onBrowserLongPressed)
 
-            phoneTile = findChild(runningApplicationsGrid, "runningAppTile Phone")
+            phoneTile = findChild(runningApplicationsGrid, "runningAppTile Dialer")
             verify(phoneTile != undefined)
             phoneTile.onPressAndHold.connect(onPhoneLongPressed)
 

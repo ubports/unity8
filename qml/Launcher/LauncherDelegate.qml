@@ -23,10 +23,10 @@ Item {
     property string iconName
     property int count: -1
     property int progress: -1
-    property bool highlighted: false
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
+    property bool clipCorner: false
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -39,12 +39,6 @@ Item {
     property real offset: 0
     property real itemOpacity: 1
     property real brightness: 0
-
-    onIconNameChanged: shaderEffectSource.scheduleUpdate();
-    onCountChanged: shaderEffectSource.scheduleUpdate();
-    onProgressChanged: shaderEffectSource.scheduleUpdate();
-    onHighlightedChanged: shaderEffectSource.scheduleUpdate();
-    onItemFocusedChanged: shaderEffectSource.scheduleUpdate();
 
     Item {
         id: iconItem
@@ -69,12 +63,11 @@ Item {
         }
 
         BorderImage {
-            id: overlayHighlight
+            id: itemGlow
             anchors.centerIn: iconItem
-            rotation: inverted ? 180 : 0
-            source: root.highlighted ? "graphics/selected.sci" : "graphics/non-selected.sci"
-            width: root.itemWidth + units.gu(0.5)
-            height: root.itemHeight + units.gu(0.5)
+            source: "graphics/icon-top-highlight.png"
+            width: root.itemWidth - units.gu(1)
+            height: root.itemHeight - units.gu(1)
         }
 
         BorderImage {
@@ -151,6 +144,24 @@ Item {
         }
     }
 
+    Item {
+        id: clipper
+        anchors.centerIn: parent
+        width: iconItem.width
+        height: iconItem.height
+        Rectangle {
+            anchors {
+                fill: parent
+                topMargin: -units.gu(2)
+                leftMargin: -units.gu(2)
+                rightMargin: -units.gu(2)
+                bottomMargin: units.gu(1.2)
+            }
+            color: "red"
+            rotation: root.rotation + 45
+        }
+    }
+
     ShaderEffect {
         id: transformEffect
         anchors.centerIn: parent
@@ -160,13 +171,18 @@ Item {
         property real itemOpacity: root.itemOpacity
         property real brightness: Math.max(-1, root.brightness)
         property real angle: root.angle
+        property bool clipCorner: root.clipCorner
         rotation: root.inverted ? 180 : 0
 
         property variant source: ShaderEffectSource {
             id: shaderEffectSource
             sourceItem: iconItem
             hideSource: true
-            live: false
+        }
+
+        property var mask: ShaderEffectSource {
+            sourceItem: clipper
+            hideSource: true
         }
 
         transform: [
@@ -203,13 +219,19 @@ Item {
         fragmentShader: "
             varying highp vec2 qt_TexCoord0;
             uniform sampler2D source;
+            uniform sampler2D mask;
             uniform lowp float brightness;
             uniform lowp float itemOpacity;
+            uniform bool clipCorner;
             void main(void)
             {
                 highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
+                highp vec4 maskColor = texture2D(mask, qt_TexCoord0);
                 sourceColor.rgb = mix(sourceColor.rgb, vec3(step(0.0, brightness)), abs(brightness));
                 sourceColor *= itemOpacity;
+                if (clipCorner) {
+                    sourceColor *= maskColor.a;
+                }
                 gl_FragColor = sourceColor;
             }"
     }

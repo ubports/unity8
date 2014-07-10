@@ -17,7 +17,26 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
+/*!
+ \brief Base delegate for use with the Carousel component
+
+ Use this as the base of your component in a Carousel, the properties
+ will get updated and signals emitted accordingly.
+*/
+
 Item {
+    /// True if this item is currently "focused" in the carousel.
     property bool explicitlyScaled
+
+    /// Model index for this delegate.
+    property int index
+
+    /// Model data for this delegate.
     property var model
+
+    /// Will be emitted when the item is tapped.
+    signal clicked
+
+    /// Will be emitted when the item is long-pressed.
+    signal pressAndHold
 }

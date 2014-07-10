@@ -1,3 +1,50 @@
+unity8 (7.90+14.10.20140709.2-0ubuntu1) utopic; urgency=low
+
+  [ Michal Hruby ]
+  * Fix FTBFS when using latest unity-api.
+
+  [ Michał Sawicz ]
+  * Refactor carousel item activation.
+  * Refactor ScopeItem into GenericScopeView.
+  * Add initial support for scope customizations.
+  * Make rating stars in PreviewReviewDisplay.qml non-interactive. (LP:
+    #1337508)
+
+  [ Nick Dedekind ]
+  * Added active call hint A hint is displayed in the indicator panel
+    when an call is active on the Telephony Serivce
+
+  [ Albert Astals ]
+  * We need to boostrap height also when we have 1 item ^_^ (LP:
+    #1337408)
+  * Add initial support for scope customizations.
+  * CardCreator: Give a correct implicitHeight if we only have art The
+    hasSubtitle change is really unrelated and not needed here, just
+    sneaking it in to not create yet another review. (LP: #1330899)
+  * Fake Scopes Plugin: Register PreviewModelInterface
+
+  [ Michael Zanetti ]
+  * make the launcher's drag'n'drop indicator more prominent (LP:
+    #1332042)
+  * make launcher items live having them non-live is not really required
+    and reveals an issue in combination with UbuntuShape (LP: #1302761)
+  * Fade out launcher in place instead of moving it to the left on long
+    left edge swipes. (LP: #1332096)
+  * update launcher icon glow as requested by design (LP: #1336725)
+  * update header in dash to use the new header from the SDK (LP:
+    #1335491)
+  * fix testPreview with larger GRID_UNIT_PX values
+  * clip the corner of pinned icons in the launcher as per new design
+  * update launcher background according to latest design (LP: #1336314)
+  * Update Launcher's home button design according to new spec. (LP:
+    #1329331)
+
+  [ CI bot ]
+  * make launcher items live having them non-live is not really required
+    and reveals an issue in combination with UbuntuShape (LP: #1302761)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 09 Jul 2014 19:46:11 +0000
+
 unity8 (7.90+14.10.20140707-0ubuntu1) utopic; urgency=low
 
   [ Nick Dedekind ]

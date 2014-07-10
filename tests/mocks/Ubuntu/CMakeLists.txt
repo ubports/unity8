@@ -1,3 +1,4 @@
 add_subdirectory(DownloadDaemonListener)
 add_subdirectory(Payments)
+add_subdirectory(Telephony)
 add_subdirectory(Thumbnailer)

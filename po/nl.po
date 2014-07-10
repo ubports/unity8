@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"POT-Creation-Date: 2014-07-07 12:15+0100\n"
 "PO-Revision-Date: 2014-01-15 16:42+0000\n"
 "Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-07-09 06:36+0000\n"
+"X-Generator: Launchpad (build 17100)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
-msgstr "In Starter vastzetten"
+msgid "Pin shortcut"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
-msgstr "Uit Starter verwijderen"
+msgid "Unpin shortcut"
+msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -80,7 +80,7 @@ msgstr "Noodoproep"
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:365
+#: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
 msgstr "Recente zoekopdrachten"
 
@@ -165,11 +165,35 @@ msgstr "Wachtwoord tonen"
 msgid "Please enter SIM PIN"
 msgstr ""
 
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr ""
+
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Zoeken"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
 msgstr "Voer %1 in"
