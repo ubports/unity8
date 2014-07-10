@@ -67,7 +67,7 @@ Row {
             summary: "Incoming call",
             body: "Frank Zappa\n+44 (0)7736 027340",
             icon: "../graphics/avatars/funky.png",
-            secondaryIcon: "../graphics/applicationIcons/phone-app.png",
+            secondaryIcon: "../graphics/applicationIcons/dialer-app.png",
             actions: [{ id: "pickup_id", label: "Pick up"},
                       { id: "decline_1_id", label: "Decline"},
                       { id: "decline_2_id", label: "Can't talk now, what's up?"},

@@ -76,4 +76,6 @@ add_binary_qml_test(CardCreator "" "Dash-qml")
 # plain qml test
 set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
+set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LC_ALL=C")
+add_qml_test(. ScopeStyle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(. ListViewWithPageHeaderQML IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)

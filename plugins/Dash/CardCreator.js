@@ -289,6 +289,7 @@ function cardString(template, components) {
                 property var cardData; \n\
                 property var artShapeBorderSource: undefined; \n\
                 property real fontScale: 1.0; \n\
+                property var scopeStyle: null; \n\
                 property int headerAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
@@ -305,7 +306,7 @@ function cardString(template, components) {
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
-    var hasSubtitle = components["subtitle"] || false;
+    var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
 
     if (hasBackground) {
@@ -407,7 +408,7 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(anchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : "grey"';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey")';
 
     var titleSubtitleCode = "";
     if (hasTitle) {
@@ -419,7 +420,7 @@ function cardString(template, components) {
         } else if (hasBackground) {
             color = summaryColorWithBackground;
         } else {
-            color = '"grey"';
+            color = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
         }
 
         var titleAnchors;
@@ -495,7 +496,7 @@ function cardString(template, components) {
         if (hasBackground) {
             color = summaryColorWithBackground;
         } else {
-            color = '"grey"';
+            color = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
         }
 
         var summaryTopMargin = (hasMascot || hasSubtitle ? 'anchors.margins' : '0');
@@ -513,6 +514,8 @@ function cardString(template, components) {
         code += 'implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
     } else if (hasTitle) {
         code += 'implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);\n';
+    } else if (hasArt) {
+        code += 'implicitHeight: artShapeHolder.height;\n';
     }
     // Close the AbstractButton
     code += '}\n';

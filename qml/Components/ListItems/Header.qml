@@ -24,6 +24,7 @@ Item {
      \qmlproperty string text
     */
     property alias text: label.text
+    property alias textColor: label.color
     property alias image: image.source
 
     signal clicked(variant mouse)

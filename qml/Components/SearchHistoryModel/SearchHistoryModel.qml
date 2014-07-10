@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+pragma Singleton
 import QtQuick 2.0
 
 // TODO sanitize input, move to persistent storage
