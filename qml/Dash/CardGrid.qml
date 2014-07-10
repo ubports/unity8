@@ -22,8 +22,8 @@ DashRenderer {
 
     readonly property int collapsedRows: cardTool && cardTool.template && cardTool.template["collapsed-rows"]
 
-    uncollapsedHeight: grid.totalContentHeight
-    collapsedHeight: collapsedRows ? Math.min(grid.contentHeightForRows(collapsedRows), uncollapsedHeight) : uncollapsedHeight
+    expandedHeight: grid.totalContentHeight
+    collapsedHeight: collapsedRows ? Math.min(grid.contentHeightForRows(collapsedRows), expandedHeight) : expandedHeight
     originY: grid.originY
 
     ResponsiveGridView {

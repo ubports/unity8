@@ -23,7 +23,7 @@ DashRenderer {
 
     readonly property double collapseLimit: units.gu(35)
 
-    uncollapsedHeight: cardVerticalJournal.implicitHeight
+    expandedHeight: cardVerticalJournal.implicitHeight
     collapsedHeight: Math.max(Math.min(collapseLimit, cardVerticalJournal.implicitHeight), minHeight)
 
     // This minHeight is used as bootstrapper for the height. Vertical Journal

@@ -128,14 +128,14 @@ FocusScope {
             highlightWhenPressed: false
             showDivider: false
 
-            readonly property bool expandable: item ? item.uncollapsedHeight > item.collapsedHeight : false
-            property bool filtered: true
+            readonly property bool expandable: item ? item.expandedHeight > item.collapsedHeight : false
+            property bool expanded: false
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
-            function setFilter(filter, animate) {
+            function expand(expand, animate) {
                 heightBehaviour.enabled = animate;
-                filtered = filter;
+                expanded = expand;
             }
 
             CardTool {
@@ -151,8 +151,8 @@ FocusScope {
                 // This can happen with the VJ that doesn't know how height it will be on creation
                 // so doesn't set expandable until a bit too late for onLoaded
                 if (expandable) {
-                    var shouldFilter = baseItem.category != categoryView.expandedCategoryId;
-                    baseItem.setFilter(shouldFilter, false /*animate*/);
+                    var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
+                    baseItem.expand(shouldExpand, false /*animate*/);
                 }
             }
 
@@ -180,7 +180,7 @@ FocusScope {
                     }
                 }
 
-                height: baseItem.filtered ? item.collapsedHeight : item.uncollapsedHeight
+                height: baseItem.expanded ? item.expandedHeight : item.collapsedHeight
 
                 source: {
                     switch (cardTool.categoryLayout) {
@@ -208,8 +208,8 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (baseItem.expandable) {
-                        var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                        baseItem.setFilter(shouldFilter, false /*animate*/);
+                        var shouldExpand = categoryId === categoryView.expandedCategoryId;
+                        baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
                     item.cardTool = cardTool;
@@ -251,16 +251,16 @@ FocusScope {
                     function collapseAllButExpandedCategory() {
                         var item = rendererLoader.item;
                         if (baseItem.expandable) {
-                            var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                            if (shouldFilter != baseItem.filtered) {
+                            var shouldExpand = categoryId === categoryView.expandedCategoryId;
+                            if (shouldExpand != baseItem.expanded) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
-                                var growingVisible = !shouldFilter && y + height < categoryView.height;
-                                if (!previewListView.open || !shouldFilter) {
+                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight < categoryView.height;
+                                var growingVisible = shouldExpand && y + height < categoryView.height;
+                                if (!previewListView.open || shouldExpand) {
                                     var animate = shrinkingVisible || growingVisible;
-                                    baseItem.setFilter(shouldFilter, animate)
-                                    if (!shouldFilter && !previewListView.open) {
-                                        categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
+                                    baseItem.expand(shouldExpand, animate)
+                                    if (shouldExpand && !previewListView.open) {
+                                        categoryView.maximizeVisibleArea(index, item.expandedHeight);
                                     }
                                 }
                             }
@@ -338,7 +338,7 @@ FocusScope {
             textColor: scopeStyle ? scopeStyle.foreground : "grey"
             image: {
                 if (delegate && delegate.expandable)
-                    return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
+                    return delegate.expanded ? "graphics/header_handlearrow2.png" : "graphics/header_handlearrow.png"
                 return "";
             }
             onClicked: {
