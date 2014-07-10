@@ -85,70 +85,20 @@ Item {
 
         anchors.fill: parent
 
-        Timer {
-            id: resizeTimer
-            interval: 100
-            repeat: false
-            onTriggered: {
-                dashContentList.currentIndex = dashContentList.currentIndexBeforeResize;
-                resetCurrentIndexTimer.stop();
-                dashContentList.currentIndexBeforeResize = -1;
-            }
-        }
-        Timer {
-            id: resetCurrentIndexTimer
-            interval: 1
-            repeat: false
-            onTriggered: {
-                dashContentList.currentIndex = dashContentList.currentIndexBeforeResize;
-            }
-        }
-
-        function onSizeChanged() {
-            if (!resizeTimer.running) {
-                dashContentList.currentIndexBeforeResize = dashContentList.currentIndex;
-                resizeTimer.start();
-            } else {
-                resizeTimer.restart();
-            }
-        }
-
-        onWidthChanged: {
-            onSizeChanged();
-            dashContentList.width = dashContentListHolder.width;
-        }
-
-        onHeightChanged: {
-            onSizeChanged();
-            dashContentList.height = dashContentListHolder.height;
-        }
-
         ListView {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && !previewListView.open && currentItem && !currentItem.moving
-                && !resizeTimer.running
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
 
-            property int currentIndexBeforeResize: -1
-            onCurrentIndexChanged: {
-                if (resizeTimer.running && currentIndex != currentIndexBeforeResize) {
-                    // Bogus ListView currentIndex change caused by the resize.
-                    // Work around this bug by resetting it to its value before the resize
-                    // took place.
-                    // But we have to do it outside its own onChanged slot, hence the timer.
-                    resetCurrentIndexTimer.start();
-                }
-            }
-
-            //anchors.fill: parent /* working around the "currentIndex change due to resize" bug */
+            anchors.fill: parent
             model: dashContent.model
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
             flickDeceleration: units.gu(625)
             maximumFlickVelocity: width * 5
             snapMode: ListView.SnapOneItem
-            highlightMoveDuration: 0 //250 /* working around the "currentIndex change due to resize" bug */
+            highlightMoveDuration: 250
             highlightRangeMode: ListView.StrictlyEnforceRange
             // TODO Investigate if we can switch to a smaller cache buffer when/if UbuntuShape gets more performant
             cacheBuffer: 1073741823
