@@ -259,13 +259,13 @@ FocusScope {
                             var shouldExpand = categoryId === categoryView.expandedCategoryId;
                             if (shouldExpand != baseItem.expanded) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight < categoryView.height;
+                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
                                 var growingVisible = shouldExpand && y + height < categoryView.height;
                                 if (!previewListView.open || shouldExpand) {
                                     var animate = shrinkingVisible || growingVisible;
                                     baseItem.expand(shouldExpand, animate)
                                     if (shouldExpand && !previewListView.open) {
-                                        categoryView.maximizeVisibleArea(index, item.expandedHeight);
+                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
                                     }
                                 }
                             }
@@ -302,9 +302,40 @@ FocusScope {
                             item.displayMarginEnd = -baseItem.height;
                         } else {
                             item.displayMarginBeginning = -Math.max(-baseItem.y, 0);
-                            item.displayMarginEnd = -Math.max(baseItem.height - categoryView.height + baseItem.y, 0)
+                            item.displayMarginEnd = -Math.max(baseItem.height - seeAll.height
+                                                              - categoryView.height + baseItem.y, 0)
                         }
                     }
+                }
+            }
+
+            AbstractButton {
+                id: seeAll
+                anchors {
+                    top: rendererLoader.bottom
+                    left: parent.left
+                    right: parent.right
+                }
+                height: baseItem.expandable ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+
+                onClicked: {
+                    if (categoryView.expandedCategoryId != baseItem.category)
+                        categoryView.expandedCategoryId = baseItem.category;
+                    else
+                        categoryView.expandedCategoryId = "";
+                }
+
+                Label {
+                    id: seeAllLabel
+                    text: baseItem.expanded ? i18n.tr("See less") : i18n.tr("See all")
+                    anchors {
+                        centerIn: parent
+                        verticalCenterOffset: units.gu(-0.5)
+                    }
+                    fontSize: "small"
+                    font.weight: Font.Bold
+                    color: scopeStyle ? scopeStyle.foreground : "grey"
+                    visible: baseItem.expandable
                 }
 
                 Image {
@@ -341,17 +372,6 @@ FocusScope {
             width: categoryView.width
             text: section
             textColor: scopeStyle ? scopeStyle.foreground : "grey"
-            image: {
-                if (delegate && delegate.expandable)
-                    return delegate.expanded ? "graphics/header_handlearrow2.png" : "graphics/header_handlearrow.png"
-                return "";
-            }
-            onClicked: {
-                if (categoryView.expandedCategoryId != delegate.category)
-                    categoryView.expandedCategoryId = delegate.category;
-                else
-                    categoryView.expandedCategoryId = "";
-            }
         }
 
         pageHeader: PageHeader {
