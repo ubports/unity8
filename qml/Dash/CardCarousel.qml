@@ -21,12 +21,6 @@ import "../Components"
 DashRenderer {
     id: cardCarousel
 
-    property alias cacheBuffer: carousel.cacheBuffer
-    property alias itemComponent: carousel.itemComponent
-    property alias minimumTileWidth: carousel.minimumTileWidth
-    property alias selectedItemScaleFactor: carousel.selectedItemScaleFactor
-    property alias tileAspectRatio: carousel.tileAspectRatio
-
     expandedHeight: carousel.implicitHeight + units.gu(6)
     collapsedHeight: expandedHeight
 
