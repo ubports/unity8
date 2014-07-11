@@ -320,10 +320,11 @@ FocusScope {
                 height: baseItem.expandable ? seeAllLabel.font.pixelSize + units.gu(6) : 0
 
                 onClicked: {
-                    if (categoryView.expandedCategoryId != baseItem.category)
+                    if (categoryView.expandedCategoryId != baseItem.category) {
                         categoryView.expandedCategoryId = baseItem.category;
-                    else
+                    } else {
                         categoryView.expandedCategoryId = "";
+                    }
                 }
 
                 Label {
