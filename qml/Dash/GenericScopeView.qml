@@ -311,6 +311,7 @@ FocusScope {
 
             AbstractButton {
                 id: seeAll
+                objectName: "seeAll"
                 anchors {
                     top: rendererLoader.bottom
                     left: parent.left
