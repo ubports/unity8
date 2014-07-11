@@ -23,6 +23,10 @@ Item {
 
     property real progress: 0
     property var scope: null
+    // TODO This needs to account for when all is the current item
+    // And All needs a currentItem concept
+    // TODO we also need a centered item so when we click done from all the item grows from the middle: think
+    property var dashItemEater: middleItems.count > 1 ? middleItems.itemAt(0).item.currentItem.item : null
     property real scopeScale: 1
     property QtObject scopeStyle: QtObject {
         property string headerLogo: ""

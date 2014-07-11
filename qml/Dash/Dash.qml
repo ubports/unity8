@@ -80,6 +80,10 @@ Showable {
         property bool accepted: false
         property bool enableAnimation: false
         property real progress: 0
+        Behavior on progress {
+            enabled: overviewController.enableAnimation
+            UbuntuNumberAnimation { }
+        }
     }
 
     ScopesOverview {
@@ -87,7 +91,7 @@ Showable {
         anchors.fill: parent
         scope: scopes ? scopes.getScope("scopesOverview") : null
         progress: overviewController.progress
-        scopeScale: dashContent.scale
+        scopeScale: 1 - overviewController.progress * 0.6
         visible: scopeScale != 1
         onDone: hide();
         onFavoriteSelected: {
@@ -112,9 +116,10 @@ Showable {
 
     DashContent {
         id: dashContent
+        parent: overviewController.progress == 0 ? dash : scopesOverview.dashItemEater
         objectName: "dashContent"
-        width: parent.width
-        height: parent.height
+        width: dash.width
+        height: dash.height
         model: filteredScopes
         scopes: scopes
         visible: x != -width
@@ -131,8 +136,8 @@ Showable {
                 dash.showScopeOnLoaded = ""
             }
         }
-        scale: dash.contentScale * (1 - overviewController.progress * 0.6)
-        clip: scale != 1.0 || scopeItem.visible
+        scale: dash.contentScale
+        clip: scale != 1.0 || scopeItem.visible || overviewController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
                 onRunningChanged: {
@@ -145,13 +150,8 @@ Showable {
             }
         }
 
-        enabled: scale == 1
+        enabled: overviewController.progress == 0
         opacity: 1 - overviewController.progress
-        Behavior on scale {
-            id: dashContentScaleAnimation
-            enabled: overviewController.enableAnimation
-            UbuntuNumberAnimation { }
-        }
     }
 
     DashBackground
@@ -188,6 +188,7 @@ Showable {
 
     EdgeDragArea {
         id: overviewDragHandle
+        z: 1
         direction: Direction.Upwards
         distanceThreshold: units.gu(20)
         enabled: !overviewController.accepted || dragging
