@@ -291,8 +291,6 @@ FocusScope {
         onSurfaceCreated: {
             if (surface.type == MirSurfaceItem.InputMethod) {
                 inputMethod.surface = surface;
-            } else {
-                stages.show();
             }
         }
 
