@@ -200,7 +200,7 @@ Showable {
 
         onSceneDistanceChanged: {
             overviewController.enableAnimation = false;
-            overviewController.progress = Math.min(1, sceneDistance / distanceThreshold);
+            overviewController.progress = Math.max(0, Math.min(1, sceneDistance / distanceThreshold));
         }
 
         onStatusChanged: {
