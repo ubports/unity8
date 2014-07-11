@@ -40,7 +40,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_quickList->appendAction(nameAction);
     QuickListEntry pinningAction;
     pinningAction.setActionId("pin_item");
-    pinningAction.setText(gettext("Lock to Launcher"));
+    pinningAction.setText(gettext("Pin shortcut"));
     m_quickList->appendAction(pinningAction);
 }
 
@@ -70,7 +70,7 @@ void LauncherItem::setPinned(bool pinned)
         m_pinned = pinned;
         QuickListEntry entry;
         entry.setActionId("pin_item");
-        entry.setText(pinned ? gettext("Unlock from Launcher") : gettext("Lock to Launcher"));
+        entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
         m_quickList->updateAction(entry);
         Q_EMIT pinnedChanged(pinned);
     }

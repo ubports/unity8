@@ -133,9 +133,4 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     @autopilot_logging.log_action(logger.info)
     def search(self, query):
-        search_indicator = self._get_search_indicator()
-        self.pointing_device.click_object(search_indicator)
         self.get_dash().enter_search_query(query)
-
-    def _get_search_indicator(self):
-        return self.select_single('SearchIndicator', objectName='search')

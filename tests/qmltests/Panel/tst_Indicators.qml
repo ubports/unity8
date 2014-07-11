@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
+import Ubuntu.Components 0.1 as UC
 import ".."
 import "../../../qml/Panel"
 import "../../../qml/Components"
@@ -45,13 +46,12 @@ Item {
         shown: false
         profile: "test1"
 
-        openedHeight: parent.height - click_me.height
+        openedHeight: parent.height - button.height
     }
 
-    // Just a rect for clicking to open the indicators.
-    Rectangle {
-        id: click_me
-        color: "red"
+    UC.Button {
+        id: button
+        text: indicators.shown ? "Hide" : "Show"
         anchors {
             bottom: shell.bottom
             left: parent.left
@@ -59,22 +59,11 @@ Item {
         }
         height: 50
 
-        Text {
-            text: "Click Me"
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            anchors.fill: parent
-
-            MouseArea {
-                anchors.fill: parent
-
-                onClicked: {
-                    if (!indicators.shown) {
-                        indicators.show();
-                    } else {
-                        indicators.hide();
-                    }
-                }
+        onClicked: {
+            if (!indicators.shown) {
+                indicators.show();
+            } else {
+                indicators.hide();
             }
         }
     }

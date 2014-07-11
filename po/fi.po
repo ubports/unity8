@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
-"PO-Revision-Date: 2014-06-14 10:23+0000\n"
+"POT-Creation-Date: 2014-07-07 12:15+0100\n"
+"PO-Revision-Date: 2014-07-09 17:26+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-07-10 07:29+0000\n"
+"X-Generator: Launchpad (build 17100)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
-msgstr "Kiinnitä käynnistimeen"
+msgid "Pin shortcut"
+msgstr "Kiinnitä pikakuvake"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
-msgstr "Poista käynnistimestä"
+msgid "Unpin shortcut"
+msgstr "Poista pikakuvakkeen kiinnitys"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -82,7 +82,7 @@ msgstr "Hätäpuhelu"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PageHeader.qml:365
+#: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
 msgstr "Viimeisimmät haut"
 
@@ -167,11 +167,35 @@ msgstr "Näytä salasana"
 msgid "Please enter SIM PIN"
 msgstr "Anna SIM-kortin PIN-koodi"
 
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr "Jonossa…"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr "Ladataan"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr "Keskeytetty, napauta palauttaaksesi"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr "Peruttu"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr "Valmistunut"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr "Epäonnistunut, napauta yrittääksesi uudelleen"
+
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Hae"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
 msgstr "Kirjoita %1"
