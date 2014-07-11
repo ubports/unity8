@@ -115,15 +115,12 @@ Item {
                 verify(!category.expanded);
 
                 var initialHeight = category.height;
-                var middleHeight;
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
-                tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
-                tryCompare(category, "expanded", true);
-                tryCompareFunction(function() { return category.height > middleHeight; }, true);
+                verify(category.expanded);
+                tryCompareFunction(function() { return category.height > initialHeight; }, true);
 
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
-                verify(category.expandable);
-                tryCompare(category, "expanded", false);
+                verify(!category.expanded);
             }
 
             function test_filter_expand_expand_collapse() {
