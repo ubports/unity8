@@ -53,6 +53,7 @@ DashRenderer {
                     item.objectName = "delegate" + index;
                     item.width = Qt.binding(function() { return cardTool.cardWidth; });
                     item.height = Qt.binding(function() { return cardTool.cardHeight; });
+                    item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
                     item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
                     item.cardData = Qt.binding(function() { return model; });
                     item.template = Qt.binding(function() { return cardTool.template; });

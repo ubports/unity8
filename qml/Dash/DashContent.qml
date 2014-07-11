@@ -103,6 +103,7 @@ Item {
             overviewController.progress = 0;
             overviewController.accepted = false;
         }
+        scopeScale: dashContentListHolder.scale
     }
 
     Item {
@@ -196,6 +197,7 @@ Item {
                 }
         }
 
+        opacity: 1 - overviewController.progress
         scale: 1 - overviewController.progress * 0.6
         Behavior on scale {
             id: dashContentScaleAnimation

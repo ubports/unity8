@@ -27,6 +27,7 @@
 
 Scopes::Scopes(QObject *parent)
  : unity::shell::scopes::ScopesInterface(parent)
+ , m_scopesOverview(nullptr)
  , m_loaded(false)
  , timer(this)
 {
@@ -47,7 +48,10 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
-    addScope(new ScopesOverview(this));
+    addScope(new Scope("MockScope3", "MS3", false, this));
+    addScope(new Scope("MockScope4", "MS4", false, this));
+    addScope(new Scope("MockScope6", "MS6", false, this));
+    m_scopesOverview = new ScopesOverview(this);
 
     if (!m_loaded) {
         m_loaded = true;
@@ -64,6 +68,7 @@ void Scopes::clear()
         m_scopes.clear();
         endRemoveRows();
     }
+    delete m_scopesOverview;
 
     if (m_loaded) {
         m_loaded = false;
@@ -113,6 +118,7 @@ unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
 
 unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const &scope_id) const
 {
+    if (scope_id == "scopesOverview") return m_scopesOverview;
     for (Scope *scope : m_scopes) {
         if (scope->id() == scope_id)
             return scope;

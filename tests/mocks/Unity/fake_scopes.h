@@ -59,6 +59,7 @@ private Q_SLOTS:
 
 private:
     QList<Scope*> m_scopes;
+    Scope *m_scopesOverview;
     bool m_loaded;
     QTimer timer;
 };

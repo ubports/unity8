@@ -75,14 +75,14 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
         {
             QVariantMap map;
             map["category-layout"] = "grid";
-            map["card-size"] = "medium";
+            map["card-size"] = "small";
             map["overlay"] = true;
             return map;
         }
         case RoleComponents:
         {
             QVariantMap map, artMap;
-            artMap["aspect-ratio"] = "1.0";
+            artMap["aspect-ratio"] = "0.5";
             artMap["field"] = "art";
             map["art"] = artMap;
             map["title"] = "HOLA";

@@ -23,6 +23,7 @@ Item {
 
     property real progress: 0
     property var scope: null
+    property real scopeScale: 1
 
     signal done
 
@@ -135,12 +136,65 @@ Item {
         id: middleItems
         model: scope ? scope.categories : null
         delegate: Loader {
+            height: {
+                if (index == 0) {
+                    return parent.height;
+                } else {
+                    return parent.height - topBar.height - units.gu(2)
+                }
+            }
+            width: {
+                if (index == 0) {
+                    return parent.width / scopeScale
+                } else {
+                    return parent.width
+                }
+            }
+            x: {
+                if (index == 0) {
+                    return (root.width - width) / 2;
+                } else {
+                    return 0;
+                }
+            }
+            anchors {
+                bottom: parent.bottom
+            }
+
+            scale: index == 0 ? scopeScale : 1
+
+            opacity: tabBarHolder.currentTab == index ? 1 : 0
+            Behavior on opacity { UbuntuNumberAnimation { } }
+            enabled: opacity == 1
+
+            clip: index == 1
+
+            CardTool {
+                id: cardTool
+                objectName: "cardTool"
+                count: results.count
+                template: model.renderer
+                components: model.components
+                viewWidth: parent.width
+            }
+
             source: {
                 if (index == 0) return "ScopesOverviewFavourites.qml";
                 else if (index == 1) return "ScopesOverviewAll.qml";
                 else {
                     console.log("WARNING: ScopesOverview scope is not supposed to have more than 2 categories");
                     return "";
+                }
+            }
+
+            onLoaded: {
+                item.model = Qt.binding(function() { return results })
+                item.cardTool = cardTool;
+                if (index == 0) {
+                    item.scopeWidth = root.width;
+                    item.scopeHeight = root.height;
+                } else if (index == 1) {
+                    item.extraHeight = bottomBar.height;
                 }
             }
         }
@@ -151,6 +205,7 @@ Item {
         color: "black"
         height: units.gu(6)
         width: parent.width
+        opacity: 0.4
         y: {
             if (root.progress < 0.5) {
                 return parent.height;
@@ -180,7 +235,10 @@ Item {
                 text: i18n.tr("Done")
                 color: parent.pressed ? "black" : "white"
             }
-            onClicked: root.done()
+            onClicked: {
+                root.done();
+                tabBarHolder.currentTab = 0;
+            }
         }
     }
 }
