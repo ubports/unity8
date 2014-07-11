@@ -27,12 +27,13 @@ Item {
     Carousel {
         anchors.fill: parent
         id: carousel
-        model: 40
 
         property int createdDelegates: 0
         property int destroyedDelegates: 0
 
         itemComponent: BaseCarouselDelegate {
+            objectName: "carouselDelegate" + index
+
             Rectangle {
                 anchors.fill: parent
                 border.color: "black"
@@ -42,6 +43,11 @@ Item {
             }
         }
     }
+
+    SignalSpy {
+        id: spy
+    }
+
     UT.UnityTestCase {
         id: root
         name: "Carousel"
@@ -50,6 +56,8 @@ Item {
         property real carouselWidth
         property int itemCount
         property real tileWidth
+
+        property Item listView: findChild(carousel, "listView")
 
         property real contentWidth: itemCount * tileWidth
         // following variables are copied from Carousel.qml
@@ -60,11 +68,25 @@ Item {
         property real kGapEnd: kMiddleIndex * (1 - gapToEndPhase / gapToMiddlePhase)
         property real kXBeginningEnd: 1 / tileWidth + kMiddleIndex / gapToMiddlePhase
 
+        function init() {
+            carousel.model = 40;
+            waitForRendering(carousel)
+            listView.positionViewAtBeginning();
+        }
+
+        function cleanup() {
+            carousel.model = 0;
+            carousel.createdDelegates = 0;
+            carousel.destroyedDelegates = 0;
+            spy.target = null;
+            spy.signalName = "";
+        }
+
         // This test needs to run first since it tests a corner case condition
         // to where the carousel is just being created
         // That is why it has a 1 in the name
         function test_1onlyNeededItemsCreated() {
-            tryCompare(carousel, "createdDelegates", 10);
+            tryCompare(carousel, "createdDelegates", 9);
             compare(carousel.destroyedDelegates, 0);
         }
 
@@ -242,6 +264,30 @@ Item {
             verify(stepDiff < 1);
             var x = carouselList.getXFromContinuousIndex(carousel.model - 1);
             verify(Math.abs(x - carouselList.contentX) < 1);
+        }
+
+        function test_activate() {
+            var carouselList = findChild(carousel, "listView");
+            tryCompareFunction(function() { return findChild(carouselList, "carouselDelegate3") ? true : false; }, true);
+            var carouselItem = findChild(carousel, "carouselDelegate3")
+            verify(carouselItem, "Could not find delegate");
+
+            spy.signalName = "clicked";
+            spy.target = carouselItem;
+            mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            tryCompare(carouselList, "moving", false);
+            tryCompare(carouselItem, "explicitlyScaled", true);
+            mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            spy.wait();
+
+            spy.signalName = "pressAndHold";
+            spy.target = carouselItem;
+            mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            tryCompare(carouselList, "moving", false);
+            tryCompare(carouselItem, "explicitlyScaled", true);
+            mousePress(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            spy.wait();
+            mouseRelease(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
         }
     }
 }

@@ -29,6 +29,7 @@ AbstractButton {
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
+    property var scopeStyle: null
 
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
@@ -78,18 +79,17 @@ AbstractButton {
         anchors.margins: units.gu(2)
         verticalAlignment: Text.AlignVCenter
         text: root.currentDepartment ? root.currentDepartment.label : ""
-        color: "gray" // TODO remove once we're a separate app
+        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     }
 
-    Image {
+    Icon {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: units.gu(2)
-        rotation: showList ? 180 : 0
-        source: "image://theme/dropdown-menu"
-        sourceSize.height: parent.height - units.gu(2)
-        sourceSize.width: units.gu(2)
-        fillMode: Image.PreserveAspectFit
+        name: showList ? "up" : "down"
+        height: units.gu(2)
+        width: height
+        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     }
 
     //  departmentListView is outside root
@@ -124,6 +124,7 @@ AbstractButton {
             objectName: "department" + index
             visible: height != 0
             width: departmentListView.width
+            scopeStyle: root.scopeStyle
             property real desiredHeight: {
                 if (root.showList) {
                     if (department && department.loaded && x == departmentListView.contentX)

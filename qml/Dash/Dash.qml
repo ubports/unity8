@@ -26,9 +26,6 @@ Showable {
 
     visible: shown
 
-    property ListModel searchHistory: SearchHistoryModel {}
-    property bool searchable: !dashContent.previewOpen && !scopeItem.previewOpen
-
     property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 
@@ -76,7 +73,6 @@ Showable {
         height: parent.height
         model: filteredScopes
         scopes: scopes
-        searchHistory: dash.searchHistory
         visible: x != -width
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
@@ -105,26 +101,29 @@ Showable {
         }
     }
 
-    ScopeItem {
+    GenericScopeView {
         id: scopeItem
         anchors.left: dashContent.right
         width: parent.width
         height: parent.height
-        searchHistory: dash.searchHistory
         scale: dash.contentScale
         clip: scale != 1.0
         visible: scope != null
-        onBack: {
+        hasBackAction: true
+        isCurrent: visible
+        onBackClicked: {
             closeOverlayScope();
-        }
-        onGotoScope: {
-            // TODO
-            console.log("gotoScope from an openScope scope is not implemented");
-        }
-        onOpenScope: {
-            // TODO
-            console.log("openScope from an openScope scope is not implemented");
+            closePreview();
         }
 
+        Connections {
+            target: scopeItem.scope
+            onGotoScope: {
+                dashContent.gotoScope(scopeId);
+            }
+            onOpenScope: {
+                dashContent.openScope(scope);
+            }
+        }
     }
 }

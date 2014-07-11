@@ -36,10 +36,11 @@ Item {
     // The model to renderer
     property var model
 
-    /*!
-     \brief CardTool component.
-     */
-    property var cardTool: undefined
+    /// CardTool component.
+    property var cardTool: null
+
+    /// ScopeStyle component.
+    property var scopeStyle: null
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item

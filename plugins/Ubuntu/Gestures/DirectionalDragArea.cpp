@@ -378,6 +378,7 @@ void DirectionalDragArea::touchEvent_undecided(QTouchEvent *event)
         // touch has ended before recognition concluded
         DDA_DEBUG("Touch has ended before recognition concluded");
         setStatus(WaitingForTouch);
+        Q_EMIT tapped();
         return;
     }
 

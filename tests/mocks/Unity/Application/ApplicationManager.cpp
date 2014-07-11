@@ -361,9 +361,9 @@ void ApplicationManager::buildListOfAvailableApplications()
     ApplicationInfo *application;
 
     application = new ApplicationInfo(this);
-    application->setAppId("phone-app");
-    application->setName("Phone");
-    application->setIcon(QUrl("phone"));
+    application->setAppId("dialer-app");
+    application->setName("Dialer");
+    application->setIcon(QUrl("dialer"));
     application->setStage(ApplicationInfo::SideStage);
     application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
