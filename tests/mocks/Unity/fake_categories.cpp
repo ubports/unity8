@@ -169,6 +169,9 @@ Categories::data(const QModelIndex& index, int role) const
                 return map;
             }
             case RoleHeaderLink:
+                if (index.row() == 1) {
+                    return QString("scope://query/1");
+                }
                 return QString();
             case RoleResults:
                 return QVariant::fromValue(resultsModel);
@@ -179,4 +182,10 @@ Categories::data(const QModelIndex& index, int role) const
                 return QVariant();
         }
     }
+}
+
+QVariant
+Categories::data(int row, int role) const
+{
+    return data(index(row, 0), role);
 }

@@ -216,8 +216,3 @@ void Scope::loadDepartment(const QString& id)
     m_currentDeparment = id;
     Q_EMIT currentDepartmentIdChanged();
 }
-
-void Scope::performQuery(const QString& query)
-{
-    Q_UNUSED(query);
-}

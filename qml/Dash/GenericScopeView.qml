@@ -136,6 +136,7 @@ FocusScope {
             }
             property bool expanded: false
             readonly property string category: categoryId
+            readonly property string headerLink: model.headerLink
             readonly property var item: rendererLoader.item
 
             function expand(expand, animate) {
@@ -370,10 +371,14 @@ FocusScope {
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
-            property var delegate: categoryView.item(delegateIndex)
+            readonly property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
-            textColor: scopeStyle ? scopeStyle.foreground : "grey"
+            color: scopeStyle ? scopeStyle.foreground : "grey"
+            iconName: delegate.headerLink ? "go-next" : ""
+            onClicked: {
+                if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
+            }
         }
 
         pageHeader: PageHeader {

@@ -64,7 +64,7 @@ public:
     bool hasDepartments() const override;
     Q_INVOKABLE unity::shell::scopes::DepartmentInterface* getDepartment(const QString& id) override;
     Q_INVOKABLE void loadDepartment(const QString& id) override;
-    Q_INVOKABLE void performQuery(const QString& query) override;
+    Q_SIGNAL void performQuery(const QString& query) override;
 
     QVariantMap customizations() const override;
 

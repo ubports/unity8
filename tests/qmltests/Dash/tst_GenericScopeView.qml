@@ -39,6 +39,10 @@ Item {
         id: scopes
     }
 
+    SignalSpy {
+        id: spy
+    }
+
     property Item applicationManager: Item {
         signal sideStageFocusedApplicationChanged()
         signal mainStageFocusedApplicationChanged()
@@ -60,6 +64,13 @@ Item {
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
+            }
+
+            function cleanup() {
+                genericScopeView.scope = null;
+                spy.clear();
+                spy.target = null;
+                spy.signalName = "";
             }
 
             function test_isActive() {
@@ -150,6 +161,19 @@ Item {
                 mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
                 tryCompare(category0, "expanded", false);
                 tryCompare(category2, "expanded", false);
+            }
+
+            function test_headerLink() {
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader1") != null; }, true);
+                var header = findChild(genericScopeView, "dashSectionHeader1");
+
+                spy.target = genericScopeView.scope;
+                spy.signalName = "performQuery";
+
+                mouseClick(header, header.width / 2, header.height / 2);
+
+                spy.wait();
+                compare(spy.signalArguments[0][0], genericScopeView.scope.categories.data(1, Categories.RoleHeaderLink));
             }
 
             function test_narrow_delegate_ranges_expand() {
