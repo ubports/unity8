@@ -109,7 +109,7 @@ FocusScope {
             anchors.rightMargin: -parent.anchors.rightMargin
 
             // Whether the underlay is fully covered by opaque UI elements.
-            property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
+            property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicators.width
 
             // Whether the user should see the topmost application surface (if there's one at all).
             readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
@@ -495,16 +495,16 @@ FocusScope {
         Panel {
             id: panel
             anchors.fill: parent //because this draws indicator menus
-            indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
                 available: edgeDemo.panelEnabled
                 contentEnabled: edgeDemo.panelContentEnabled
+                width: parent.width > units.gu(60) ? units.gu(40) : parent.width
+                panelHeight: units.gu(3)
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
             fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
-            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {
@@ -545,15 +545,16 @@ FocusScope {
                 showHome()
             }
             onDash: {
-                if (stages.shown && !stages.overlayMode) {
-                    if (!stages.locked) {
-                        stages.hide();
-                        launcher.hide();
-                    }
+                if (stages.shown && !stages.overlayMode && !stages.locked) {
+                    stages.hide();
+                    launcher.fadeOut();
+                } else {
+                    launcher.switchToNextState("visible");
                 }
+
                 if (greeter.shown) {
                     greeter.hideRight();
-                    launcher.hide();
+                    launcher.fadeOut();
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
@@ -592,12 +593,10 @@ FocusScope {
             model: NotificationBackend.Model
             margin: units.gu(1)
 
-            anchors {
-                top: parent.top
-                right: parent.right
-                bottom: parent.bottom
-                topMargin: panel.panelHeight
-            }
+            y: panel.panelHeight
+            width: parent.width
+            height: parent.height - panel.panelHeight
+
             states: [
                 State {
                     name: "narrow"

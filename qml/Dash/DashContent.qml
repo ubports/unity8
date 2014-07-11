@@ -26,13 +26,11 @@ Item {
     property var model: null
     property var scopes: null
     readonly property alias currentIndex: dashContentList.currentIndex
-    property alias previewOpen: previewListView.open
-
-    property ListModel searchHistory
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
     signal openScope(var scope)
+    signal closePreview()
 
     // If we set the current scope index before the scopes have been added,
     // then we need to wait until the loaded signals gets emitted from the scopes
@@ -82,23 +80,16 @@ Item {
         dashContentList.currentItem.theScope.closeScope(scope)
     }
 
-    function closePreview() {
-        previewListView.open = false;
-    }
-
     Item {
         id: dashContentListHolder
 
-        x: previewListView.open ? -width : 0
-        Behavior on x { UbuntuNumberAnimation { } }
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
 
         ListView {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && !previewListView.open && currentItem && !currentItem.moving
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
 
             anchors.fill: parent
             model: dashContent.model
@@ -147,11 +138,8 @@ Item {
 
                     onLoaded: {
                         item.objectName = scope.id
-                        item.pageHeader = dashPageHeader;
-                        item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                        item.tabBarHeight = Qt.binding(function() { return dashPageHeader.implicitHeight; })
                         dashContent.scopeLoaded(item.scope.id)
                     }
                     Connections {
@@ -164,78 +152,13 @@ Item {
                             dashContent.openScope(scope);
                         }
                     }
+                    Connections {
+                        target: dashContent
+                        onClosePreview: if (item) item.closePreview()
+                    }
 
                     Component.onDestruction: active = false
                 }
         }
-
-        PageHeader {
-            id: dashPageHeader
-            objectName: "pageHeader"
-            width: parent.width
-            searchEntryEnabled: true
-            searchHistory: dashContent.searchHistory
-            scope: dashContentList.currentItem && dashContentList.currentItem.theScope
-
-            childItem: TabBar {
-                id: tabBar
-                objectName: "tabbar"
-                height: units.gu(6.5)
-                width: parent.width
-                style: DashContentTabBarStyle {}
-
-                SortFilterProxyModel {
-                    id: tabBarModel
-
-                    model: dashContentList.model
-
-                    property int selectedIndex: -1
-                    onSelectedIndexChanged: {
-                        if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
-                            // TODO This together with the Timer below
-                            // are a workaround for the first tab sometimes not showing the text.
-                            // But Tabs are going away in the future so not sure if makes
-                            // sense invetigating what's the problem at this stage
-                            selectionModeTimer.restart();
-                        }
-                        dashContentList.currentIndex = selectedIndex;
-                    }
-                }
-
-                model: tabBarModel.count > 0 ? tabBarModel : null
-
-                Connections {
-                    target: dashContentList
-                    onCurrentIndexChanged: {
-                        tabBarModel.selectedIndex = dashContentList.currentIndex
-                    }
-                }
-
-                Timer {
-                    id: selectionModeTimer
-                    interval: 1
-                    onTriggered: tabBar.selectionMode = false
-                }
-            }
-
-            bottomItem: DashDepartments {
-                scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                anchors.right: parent.right
-                windowHeight: dashContent.height
-                windowWidth: dashContent.width
-            }
-        }
-    }
-
-    PreviewListView {
-        id: previewListView
-        objectName: "dashContentPreviewList"
-        visible: x != width
-        scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-        pageHeader: dashPageHeader
-        width: parent.width
-        height: parent.height
-        anchors.left: dashContentListHolder.right
     }
 }

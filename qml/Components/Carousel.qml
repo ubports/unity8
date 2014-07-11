@@ -52,16 +52,6 @@ Item {
     /// exposes the distance to the next row (only one row in carousel, so it's the topMargins)
     readonly property alias verticalSpacing: listView.verticalMargin
 
-    /// Emitted when the user clicked on an item
-    /// @param index is the index of the clicked item
-    /// @param itemY is y of the clicked delegate
-    signal clicked(int index, real itemY)
-
-    /// Emitted when the user pressed and held on an item
-    /// @param index is the index of the held item
-    /// @param itemY is y of the held delegate
-    signal pressAndHold(int index, real itemY)
-
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
     opacity: listView.highlightIndex === -1 ? 1 : 0.6
 
@@ -167,7 +157,7 @@ Item {
                 /* We're clicking the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the clicked signal. */
-                carousel.clicked(index, delegateItem.y)
+                delegateItem.clicked()
                 return
             }
 
@@ -185,7 +175,7 @@ Item {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */
-                carousel.pressAndHold(index, delegateItem.y);
+                delegateItem.pressAndHold();
                 return;
             }
 
@@ -316,8 +306,9 @@ Item {
                 }
 
                 onLoaded: {
-                    item.explicitlyScaled = Qt.binding(function() { return explicitlyScaled; })
-                    item.model = Qt.binding(function() { return model; })
+                    item.explicitlyScaled = Qt.binding(function() { return explicitlyScaled; });
+                    item.index = Qt.binding(function() { return index; });
+                    item.model = Qt.binding(function() { return model; });
                 }
 
                 MouseArea {

@@ -116,6 +116,8 @@ Categories::data(const QModelIndex& index, int role) const
                 map["title"] = "HOLA";
                 return map;
             }
+            case RoleHeaderLink:
+                return QString();
             case RoleResults:
                 return QVariant();
             case RoleCount:
@@ -163,6 +165,8 @@ Categories::data(const QModelIndex& index, int role) const
                 map["subtitle"] = "HOLA";
                 return map;
             }
+            case RoleHeaderLink:
+                return QString();
             case RoleResults:
                 return QVariant::fromValue(resultsModel);
             case RoleCount:
