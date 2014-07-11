@@ -104,7 +104,7 @@ Item {
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
-            function test_filter_expand_collapse() {
+            function test_expand_collapse() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != null; }, true);
 
                 var category = findChild(genericScopeView, "dashCategory0")
@@ -123,7 +123,7 @@ Item {
                 verify(!category.expanded);
             }
 
-            function test_filter_expand_expand_collapse() {
+            function test_expand_expand_collapse() {
                 // wait for the item to be there
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2") != null; }, true);
 
