@@ -14,6 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QUrl>
+
 #include "fake_scope.h"
 #include "fake_department.h"
 #include "fake_resultsmodel.h"
@@ -35,87 +37,110 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
 {
 }
 
-QString Scope::id() const {
+QString Scope::id() const
+{
     return m_id;
 }
 
-QString Scope::name() const {
+QString Scope::name() const
+{
     return m_name;
 }
 
-QString Scope::searchQuery() const {
+QString Scope::searchQuery() const
+{
     return m_searchQuery;
 }
 
-QString Scope::iconHint() const {
+QString Scope::iconHint() const
+{
     return m_iconHint;
 }
 
-QString Scope::description() const {
+QString Scope::description() const
+{
     return m_description;
 }
 
-QString Scope::searchHint() const {
+QString Scope::searchHint() const
+{
     return QString("");
 }
 
-QString Scope::shortcut() const {
+QString Scope::shortcut() const
+{
     return QString("");
 }
 
-bool Scope::searchInProgress() const {
+bool Scope::searchInProgress() const
+{
     return m_searching;
 }
 
-unity::shell::scopes::CategoriesInterface* Scope::categories() const {
+unity::shell::scopes::CategoriesInterface* Scope::categories() const
+{
     return m_categories;
 }
 
-QString Scope::noResultsHint() const {
+unity::shell::scopes::SettingsModelInterface* Scope::settings() const
+{
+    return nullptr;
+}
+
+QString Scope::noResultsHint() const
+{
     return m_noResultsHint;
 }
 
-QString Scope::formFactor() const {
+QString Scope::formFactor() const
+{
     return m_formFactor;
 }
 
-bool Scope::visible() const {
+bool Scope::visible() const
+{
     return m_visible;
 }
 
-bool Scope::isActive() const {
+bool Scope::isActive() const
+{
     return m_isActive;
 }
 
-void Scope::setSearchQuery(const QString &str) {
+void Scope::setSearchQuery(const QString &str)
+{
     if (str != m_searchQuery) {
         m_searchQuery = str;
         Q_EMIT searchQueryChanged();
     }
 }
 
-void Scope::setFormFactor(const QString &str) {
+void Scope::setFormFactor(const QString &str)
+{
     if (str != m_formFactor) {
         m_formFactor = str;
         Q_EMIT formFactorChanged();
     }
 }
 
-void Scope::setActive(const bool active) {
+void Scope::setActive(const bool active)
+{
     if (active != m_isActive) {
         m_isActive = active;
         Q_EMIT isActiveChanged();
     }
 }
 
-void Scope::setSearchInProgress(const bool inProg) {
+void Scope::setSearchInProgress(const bool inProg)
+{
     if (inProg != m_searching) {
         m_searching = inProg;
         Q_EMIT searchInProgressChanged();
     }
 }
 
-void Scope::setNoResultsHint(const QString& str) {
+void Scope::setNoResultsHint(const QString& str)
+{
     if (str != m_noResultsHint) {
         m_noResultsHint = str;
         Q_EMIT noResultsHintChanged();
@@ -157,7 +182,16 @@ bool Scope::hasDepartments() const
 
 QVariantMap Scope::customizations() const
 {
-    return QVariantMap();
+    QVariantMap m;
+    if (m_id == "clickscope") {
+        m["background-color"] = "red";
+        m["foreground-color"] = "blue";
+    } else if (m_id == "MockScope5") {
+        QVariantMap pageHeader;
+        pageHeader["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
+        m["page-header"] = pageHeader;
+    }
+    return m;
 }
 
 unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& id)
@@ -181,4 +215,9 @@ void Scope::loadDepartment(const QString& id)
 {
     m_currentDeparment = id;
     Q_EMIT currentDepartmentIdChanged();
+}
+
+void Scope::performQuery(const QString& query)
+{
+    Q_UNUSED(query);
 }

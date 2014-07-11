@@ -127,12 +127,4 @@ inline void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
     engine->setImportPathList(importPathList);
 }
 
-inline void resolveIconTheme() {
-    const char *ubuntuIconTheme = getenv("UBUNTU_ICON_THEME");
-    if (ubuntuIconTheme == NULL) {
-        ubuntuIconTheme = "ubuntu-mobile";
-    }
-    QIcon::setThemeName(ubuntuIconTheme);
-}
-
 #endif

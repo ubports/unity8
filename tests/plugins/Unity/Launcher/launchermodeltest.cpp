@@ -156,11 +156,20 @@ private Q_SLOTS:
     }
 
     void testPinning() {
+        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
         QCOMPARE(launcherModel->get(0)->pinned(), false);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
         launcherModel->pin(launcherModel->get(0)->appId());
         QCOMPARE(launcherModel->get(0)->pinned(), true);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
+        QCOMPARE(spy.count(), 1);
+        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+
+        launcherModel->requestRemove(launcherModel->get(0)->appId());
+        QCOMPARE(launcherModel->get(0)->pinned(), false);
+        QCOMPARE(launcherModel->get(1)->pinned(), false);
+        QCOMPARE(spy.count(), 2);
+        QCOMPARE(spy.at(1).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
     }
 
     void testRemove_data() {
