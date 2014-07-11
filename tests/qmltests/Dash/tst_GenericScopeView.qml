@@ -60,7 +60,6 @@ Item {
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
-                tryCompare(genericScopeView.categoryView, "contentY", 0)
             }
 
             function test_isActive() {
@@ -157,7 +156,7 @@ Item {
             }
 
             function test_narrow_delegate_ranges_expand() {
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") !== null; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
                 tryCompare(category, "expanded", false);
 
@@ -170,6 +169,34 @@ Item {
                 tryCompareFunction(function() { return category.item.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category, "expanded", false);
+            }
+
+            function test_forced_category_expansion() {
+                tryCompareFunction(function() {
+                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
+                               genericScopeView.width/2, genericScopeView.y)
+                    return findChild(genericScopeView, "dashCategory19") !== null;
+                }, true);
+                var category = findChild(genericScopeView, "dashCategory19")
+                compare(category.expandable, false, "Category with collapsed-rows: 0 should not be expandable");
+
+                var grid = findChild(category, "19");
+                verify(grid, "Could not find the category renderer.");
+
+                compare(grid.height, grid.expandedHeight, "Category with collapsed-rows: 0 should always be expanded.");
+            }
+
+            function test_single_category_expansion() {
+                genericScopeView.scope = scopes.getScope(4);
+
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
+                var category = findChild(genericScopeView, "dashCategory0")
+                compare(category.expandable, false, "Only category should not be expandable.");
+
+                var grid = findChild(category, "0");
+                verify(grid, "Could not find the category renderer.");
+
+                compare(grid.height, grid.expandedHeight, "Only category should always be expanded");
             }
 
             function openPreview() {

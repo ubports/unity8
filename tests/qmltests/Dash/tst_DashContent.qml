@@ -115,10 +115,10 @@ Item {
         }
 
         function test_show_header_on_list_movement() {
-            var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined);
-            var categoryListView = findChild(dashContentList, "categoryListView");
-            verify(categoryListView != undefined);
+            var scope = findChild(dashContent, "MockScope1 loader");
+            verify(scope !== null);
+            var categoryListView = findChild(scope, "categoryListView");
+            verify(categoryListView !== null);
 
             waitForRendering(categoryListView);
 

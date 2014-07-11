@@ -30,7 +30,7 @@ class Scope : public unity::shell::scopes::ScopeInterface
 
 public:
     Scope(QObject* parent = 0);
-    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0);
+    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0, int categories = 20);
 
     /* getters */
     QString id() const override;
