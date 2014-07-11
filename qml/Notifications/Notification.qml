@@ -372,7 +372,7 @@ Item {
                                 visible: status == Loader.Ready
                                 property string actionId: id
                                 property string actionLabel: label
-                                readonly property var splitLabel: actionLabel.match(/(^([a-z]+):)?(.*)$/)
+                                readonly property var splitLabel: actionLabel.match(/(^([-a-z0-9]+):)?(.*)$/)
                                 Component {
                                     id: comboEntry
 
