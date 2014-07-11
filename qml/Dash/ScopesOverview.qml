@@ -25,7 +25,9 @@ Item {
     property var scope: null
     property real scopeScale: 1
 
-    signal done
+    signal done()
+    signal favoriteSelected(int index)
+    signal allSelected(var scope)
 
     Image {
         anchors.fill: parent
@@ -136,6 +138,8 @@ Item {
         id: middleItems
         model: scope ? scope.categories : null
         delegate: Loader {
+            id: loader
+
             height: {
                 if (index == 0) {
                     return parent.height;
@@ -196,6 +200,13 @@ Item {
                 } else if (index == 1) {
                     item.extraHeight = bottomBar.height;
                 }
+            }
+
+            Connections {
+                    target: loader.item
+                    onClicked: {
+                        if (tabBarHolder.currentTab == 0) root.favoriteSelected(index)
+                    }
             }
         }
     }

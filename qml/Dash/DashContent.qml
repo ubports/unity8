@@ -98,12 +98,17 @@ Item {
         anchors.fill: parent
         scope: scopes ? scopes.getScope("scopesOverview") : null
         progress: overviewController.progress
-        onDone: {
+        scopeScale: dashContentListHolder.scale
+        onDone: hide();
+        onFavoriteSelected: {
+            dashContentList.currentIndex = index;
+            hide();
+        }
+        function hide() {
             overviewController.enableAnimation = true;
             overviewController.progress = 0;
             overviewController.accepted = false;
         }
-        scopeScale: dashContentListHolder.scale
     }
 
     Item {
