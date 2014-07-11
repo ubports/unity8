@@ -167,7 +167,6 @@ void Scope::cancelActivation()
 
 void Scope::closeScope(unity::shell::scopes::ScopeInterface* /*scope*/)
 {
-    qFatal("Scope::closeScope is not implemented");
 }
 
 QString Scope::currentDepartmentId() const

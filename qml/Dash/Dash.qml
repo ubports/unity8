@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 import Unity 0.2
 import Utils 0.1
 import "../Components"
@@ -29,7 +30,7 @@ Showable {
     property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 
-    property alias overviewHandleHeight: dashContent.overviewHandleHeight
+    property alias overviewHandleHeight: overviewDragHandle.height
 
     function setCurrentScope(scopeId, animate, reset) {
         var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
@@ -68,6 +69,42 @@ Showable {
         filterRegExp: RegExp("^true$")
     }
 
+    QtObject {
+        id: overviewController
+
+        property bool accepted: false
+        property bool enableAnimation: false
+        property real progress: 0
+    }
+
+    ScopesOverview {
+        id: scopesOverview
+        anchors.fill: parent
+        scope: scopes ? scopes.getScope("scopesOverview") : null
+        progress: overviewController.progress
+        scopeScale: dashContent.scale
+        visible: scopeScale != 1
+        onDone: hide();
+        onFavoriteSelected: {
+            dashContent.setCurrentScopeAtIndex(index, false, false);
+            hide();
+        }
+        function hide() {
+            overviewController.enableAnimation = true;
+            overviewController.progress = 0;
+            overviewController.accepted = false;
+        }
+
+        Connections {
+            target: scopesOverview.scope
+            onOpenScope: {
+                scopeItem.scope = scope;
+                scopesOverview.hide();
+                dashContent.x = -dashContent.width; // TODO
+            }
+        }
+    }
+
     DashContent {
         id: dashContent
         objectName: "dashContent"
@@ -89,18 +126,35 @@ Showable {
                 dash.showScopeOnLoaded = ""
             }
         }
-        scale: dash.contentScale
+        scale: dash.contentScale * (1 - overviewController.progress * 0.6)
         clip: scale != 1.0 || scopeItem.visible
         Behavior on x {
             UbuntuNumberAnimation {
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
+                        // TODO If it came from ScopesOverview it has to be ScopesOverview.scope.closeScope()
                         dashContent.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }
                 }
             }
         }
+
+        enabled: scale == 1
+        opacity: 1 - overviewController.progress
+        Behavior on scale {
+            id: dashContentScaleAnimation
+            enabled: overviewController.enableAnimation
+            UbuntuNumberAnimation { }
+        }
+    }
+
+    Image {
+        anchors.fill: scopeItem
+        source: parent.width > parent.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignRight
+        verticalAlignment: Image.AlignTop
     }
 
     GenericScopeView {
@@ -114,6 +168,7 @@ Showable {
         hasBackAction: true
         isCurrent: visible
         onBackClicked: {
+            // TODO if coming from dash overview this needs to go to overview
             closeOverlayScope();
             closePreview();
         }
@@ -128,4 +183,31 @@ Showable {
             }
         }
     }
+
+    EdgeDragArea {
+        id: overviewDragHandle
+        direction: Direction.Upwards
+        distanceThreshold: units.gu(20)
+        enabled: !overviewController.accepted || dragging
+
+        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+        height: units.gu(2)
+
+        onSceneDistanceChanged: {
+            overviewController.enableAnimation = false;
+            overviewController.progress = Math.min(1, sceneDistance / distanceThreshold);
+        }
+
+        onStatusChanged: {
+            if (status == DirectionalDragArea.Recognized) {
+                overviewController.accepted = true;
+            }
+        }
+
+        onDraggingChanged: {
+            overviewController.enableAnimation = true;
+            overviewController.progress = overviewController.accepted ? 1 : 0;
+        }
+    }
+
 }

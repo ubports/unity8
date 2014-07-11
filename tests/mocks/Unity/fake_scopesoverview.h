@@ -28,6 +28,8 @@ class ScopesOverview : public Scope
 
 public:
     ScopesOverview(Scopes* parent = 0);
+
+    Q_INVOKABLE void activate(QVariant const& result) override;
 };
 
 class ScopesOverviewCategories : public unity::shell::scopes::CategoriesInterface

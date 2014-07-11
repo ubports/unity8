@@ -205,7 +205,13 @@ Item {
             Connections {
                     target: loader.item
                     onClicked: {
-                        if (tabBarHolder.currentTab == 0) root.favoriteSelected(index)
+                        if (tabBarHolder.currentTab == 0) {
+                            root.favoriteSelected(index)
+                        } else {
+                            // This will result in an openScope
+                            // that we handle in Dash.qml
+                            scope.activate(result)
+                        }
                     }
             }
         }

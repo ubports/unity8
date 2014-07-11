@@ -27,6 +27,14 @@ ScopesOverview::ScopesOverview(Scopes* parent)
     m_categories = new ScopesOverviewCategories(parent, this);
 }
 
+void ScopesOverview::activate(QVariant const& result)
+{
+    Scopes *scopes = dynamic_cast<Scopes*>(parent());
+    Q_EMIT openScope(scopes->getScope(result.toString()));
+}
+
+
+
 ScopesOverviewCategories::ScopesOverviewCategories(Scopes *scopes, QObject* parent)
     : unity::shell::scopes::CategoriesInterface(parent)
     , m_scopes(scopes)
@@ -98,6 +106,8 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
     }
 }
 
+
+
 ScopesOverviewResultsModel::ScopesOverviewResultsModel(Scopes *scopes, bool isFavoriteCategory, QObject* parent)
     : unity::shell::scopes::ResultsModelInterface(parent)
     , m_scopes(scopes)
@@ -134,8 +144,9 @@ ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
         case RoleUri:
         case RoleCategoryId:
         case RoleDndUri:
-        case RoleResult:
             return QString();
+        case RoleResult:
+            return m_scopes->scopeAt(index.row(), m_isFavoriteCategory)->id();
         case RoleTitle:
             return m_scopes->scopeAt(index.row(), m_isFavoriteCategory)->name();
         case RoleArt:
