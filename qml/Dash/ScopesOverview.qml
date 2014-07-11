@@ -42,6 +42,13 @@ Item {
         }
     }
 
+    Binding {
+        target: root.scope
+        property: "searchQuery"
+        value: pageHeader.searchQuery
+        when: isCurrent
+    }
+
     Item {
         id: scopesOverviewContent
         x: previewListView.open ? -width : 0
@@ -70,7 +77,7 @@ Item {
                 scopeStyle: root.scopeStyle
                 showSignatureLine: false
                 searchEntryEnabled: true
-    //             searchInProgress: scope ? scope.searchInProgress : false
+                searchInProgress: root.scope ? root.scope.searchInProgress : false
             }
 
             Item {
