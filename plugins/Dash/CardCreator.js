@@ -438,6 +438,7 @@ function cardString(template, components) {
                 titleAnchors = 'left: parent.left; \n\
                                 leftMargin: units.gu(1); \n\
                                 right: parent.right; \n\
+                                rightMargin: units.gu(1); \n\
                                 top: overlayLoader.top; \n\
                                 topMargin: units.gu(1);\n';
             } else {
