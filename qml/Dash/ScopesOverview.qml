@@ -46,7 +46,6 @@ Item {
         target: root.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
-        when: isCurrent
     }
 
     Item {
