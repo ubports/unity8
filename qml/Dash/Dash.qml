@@ -62,6 +62,11 @@ Showable {
         id: filteredScopes
         model: Scopes {
             id: scopes
+            onLoadedChanged: {
+                if (loaded) {
+                    scopesOverview.scope = scopes.getScope("scopesOverview");
+                }
+            }
         }
         dynamicSortFilter: true
 

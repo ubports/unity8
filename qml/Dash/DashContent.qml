@@ -38,12 +38,9 @@ Item {
     Connections {
         target: scopes
         onLoadedChanged: {
-            if (scopes.loaded) {
-                if (set_current_index != undefined) {
-                    setCurrentScopeAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
-                    set_current_index = undefined;
-                }
-                scopesOverview.scope = scopes.getScope("scopesOverview");
+            if (scopes.loaded && set_current_index != undefined) {
+                setCurrentScopeAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
+                set_current_index = undefined;
             }
         }
     }
@@ -114,7 +111,7 @@ Item {
             // TODO Investigate if we can switch to a smaller cache buffer when/if UbuntuShape gets more performant
             cacheBuffer: 1073741823
             onMovementStarted: currentItem.item.showHeader();
-            clip: parent.x != 0 || parent.scale != 1
+            clip: parent.x != 0
 
             // If the number of items is less than the current index, then need to reset to another item.
             onCountChanged: {
