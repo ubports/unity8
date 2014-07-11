@@ -20,6 +20,7 @@ ListView {
     id: root
 
     signal clicked(int index, var result)
+    signal pressAndHold(int index)
 
     property var cardTool: null
     property real scopeHeight: 0

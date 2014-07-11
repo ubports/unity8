@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 Flickable {
     id: root
@@ -25,6 +26,7 @@ Flickable {
     property real extraHeight: 0
 
     signal clicked(int index, var result)
+    signal pressAndHold(int index)
 
     contentHeight: cardFilterGrid.height + extraHeight
     contentWidth: cardFilterGrid.width
@@ -41,7 +43,7 @@ Flickable {
             root.clicked(index, result);
         }
         onPressAndHold: {
-            console.log("onPressAndHold TODO");
+            root.pressAndHold(index);
         }
     }
 }

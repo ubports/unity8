@@ -24,6 +24,10 @@ Item {
     property real progress: 0
     property var scope: null
     property real scopeScale: 1
+    property QtObject scopeStyle: QtObject {
+        property string headerLogo: ""
+        property color foreground: "white"
+    }
 
     signal done()
     signal favoriteSelected(int index)
@@ -39,218 +43,240 @@ Item {
     }
 
     Item {
-        id: topBar
+        id: scopesOverviewContent
+        x: previewListView.open ? -width : 0
+        Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
-        height: childrenRect.height
-
-        y: {
-            if (root.progress < 0.5) {
-                return -height;
-            } else {
-                return -height + (root.progress - 0.5) * height * 2;
-            }
-        }
-
-        PageHeader {
-            id: pageHeader
-            width: parent.width
-            clip: true
-            title: i18n.tr("Manage Dash")
-            scopeStyle: QtObject {
-                property string headerLogo: ""
-                property color foreground: "white"
-            }
-            showSignatureLine: false
-            searchEntryEnabled: true
-//             searchInProgress: scope ? scope.searchInProgress : false
-        }
+        height: parent.height
 
         Item {
-            id: tabBarHolder
+            id: topBar
+            width: parent.width
+            height: childrenRect.height
 
-            property int currentTab: 0
-
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: pageHeader.bottom
-                margins: units.gu(2)
+            y: {
+                if (root.progress < 0.5) {
+                    return -height;
+                } else {
+                    return -height + (root.progress - 0.5) * height * 2;
+                }
             }
-            height: units.gu(4)
 
-            AbstractButton {
-                id: tab1
-                height: parent.height
-                width: parent.width / 2
+            PageHeader {
+                id: pageHeader
+                width: parent.width
+                clip: true
+                title: i18n.tr("Manage Dash")
+                scopeStyle: root.scopeStyle
+                showSignatureLine: false
+                searchEntryEnabled: true
+    //             searchInProgress: scope ? scope.searchInProgress : false
+            }
+
+            Item {
+                id: tabBarHolder
+
+                property int currentTab: 0
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: pageHeader.bottom
+                    margins: units.gu(2)
+                }
+                height: units.gu(4)
+
+                AbstractButton {
+                    id: tab1
+                    height: parent.height
+                    width: parent.width / 2
+                    Rectangle {
+                        anchors.fill: parent
+                        color: tabBarHolder.currentTab == 0 ? "white" : "transparent"
+                        radius: units.dp(10)
+                    }
+                    Label {
+                        anchors.centerIn: parent
+                        text: i18n.tr("Favourites")
+                        color: tabBarHolder.currentTab == 0 ? "black" : "white"
+                    }
+                    onClicked: tabBarHolder.currentTab = 0
+                }
+                AbstractButton {
+                    id: tab2
+                    x: width
+                    height: parent.height
+                    width: parent.width / 2
+                    Rectangle {
+                        anchors.fill: parent
+                        color: tabBarHolder.currentTab == 1 ? "white" : "transparent"
+                        radius: units.dp(10)
+                    }
+                    Label {
+                        anchors.centerIn: parent
+                        text: i18n.tr("All")
+                        color: tabBarHolder.currentTab == 1 ? "black" : "white"
+                    }
+                    onClicked: tabBarHolder.currentTab = 1
+                }
                 Rectangle {
-                    anchors.fill: parent
-                    color: tabBarHolder.currentTab == 0 ? "white" : "transparent"
-                    radius: units.dp(10)
+                    id: centerPiece
+                    width: units.dp(10)
+                    height: parent.height
+                    color: "white"
+                    x: tabBarHolder.currentTab == 1 ? tab2.x : tab2.x - width
                 }
-                Label {
-                    anchors.centerIn: parent
-                    text: i18n.tr("Favourites")
-                    color: tabBarHolder.currentTab == 0 ? "black" : "white"
-                }
-                onClicked: tabBarHolder.currentTab = 0
-            }
-            AbstractButton {
-                id: tab2
-                x: width
-                height: parent.height
-                width: parent.width / 2
                 Rectangle {
+                    id: border
                     anchors.fill: parent
-                    color: tabBarHolder.currentTab == 1 ? "white" : "transparent"
                     radius: units.dp(10)
+                    color: "transparent"
+                    border.color: centerPiece.color
+                    border.width: units.dp(1)
                 }
-                Label {
-                    anchors.centerIn: parent
-                    text: i18n.tr("All")
-                    color: tabBarHolder.currentTab == 1 ? "black" : "white"
-                }
-                onClicked: tabBarHolder.currentTab = 1
-            }
-            Rectangle {
-                id: centerPiece
-                width: units.dp(10)
-                height: parent.height
-                color: "white"
-                x: tabBarHolder.currentTab == 1 ? tab2.x : tab2.x - width
-            }
-            Rectangle {
-                id: border
-                anchors.fill: parent
-                radius: units.dp(10)
-                color: "transparent"
-                border.color: centerPiece.color
-                border.width: units.dp(1)
             }
         }
-    }
 
-    Repeater {
-        id: middleItems
-        model: scope ? scope.categories : null
-        delegate: Loader {
-            id: loader
+        Repeater {
+            id: middleItems
+            model: scope ? scope.categories : null
+            delegate: Loader {
+                id: loader
 
-            height: {
-                if (index == 0) {
+                height: {
+                    if (index == 0) {
+                        return parent.height;
+                    } else {
+                        return parent.height - topBar.height - units.gu(2)
+                    }
+                }
+                width: {
+                    if (index == 0) {
+                        return parent.width / scopeScale
+                    } else {
+                        return parent.width
+                    }
+                }
+                x: {
+                    if (index == 0) {
+                        return (root.width - width) / 2;
+                    } else {
+                        return 0;
+                    }
+                }
+                anchors {
+                    bottom: parent.bottom
+                }
+
+                scale: index == 0 ? scopeScale : 1
+
+                opacity: tabBarHolder.currentTab == index ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation { } }
+                enabled: opacity == 1
+
+                clip: index == 1
+
+                CardTool {
+                    id: cardTool
+                    objectName: "cardTool"
+                    count: results.count
+                    template: model.renderer
+                    components: model.components
+                    viewWidth: parent.width
+                }
+
+                source: {
+                    if (index == 0) return "ScopesOverviewFavourites.qml";
+                    else if (index == 1) return "ScopesOverviewAll.qml";
+                    else {
+                        console.log("WARNING: ScopesOverview scope is not supposed to have more than 2 categories");
+                        return "";
+                    }
+                }
+
+                onLoaded: {
+                    item.model = Qt.binding(function() { return results })
+                    item.cardTool = cardTool;
+                    if (index == 0) {
+                        item.scopeWidth = root.width;
+                        item.scopeHeight = root.height;
+                    } else if (index == 1) {
+                        item.extraHeight = bottomBar.height;
+                    }
+                }
+
+                Connections {
+                        target: loader.item
+                        onClicked: {
+                            if (tabBarHolder.currentTab == 0) {
+                                root.favoriteSelected(index)
+                            } else {
+                                // This will result in an openScope
+                                // that we handle in Dash.qml
+                                scope.activate(result)
+                            }
+                        }
+                        onPressAndHold: {
+                            previewListView.model = target.model;
+                            previewListView.currentIndex = -1
+                            previewListView.currentIndex = index;
+                            previewListView.open = true
+                        }
+                }
+            }
+        }
+
+        Rectangle {
+            id: bottomBar
+            color: "black"
+            height: units.gu(6)
+            width: parent.width
+            opacity: 0.4
+            y: {
+                if (root.progress < 0.5) {
                     return parent.height;
                 } else {
-                    return parent.height - topBar.height - units.gu(2)
-                }
-            }
-            width: {
-                if (index == 0) {
-                    return parent.width / scopeScale
-                } else {
-                    return parent.width
-                }
-            }
-            x: {
-                if (index == 0) {
-                    return (root.width - width) / 2;
-                } else {
-                    return 0;
-                }
-            }
-            anchors {
-                bottom: parent.bottom
-            }
-
-            scale: index == 0 ? scopeScale : 1
-
-            opacity: tabBarHolder.currentTab == index ? 1 : 0
-            Behavior on opacity { UbuntuNumberAnimation { } }
-            enabled: opacity == 1
-
-            clip: index == 1
-
-            CardTool {
-                id: cardTool
-                objectName: "cardTool"
-                count: results.count
-                template: model.renderer
-                components: model.components
-                viewWidth: parent.width
-            }
-
-            source: {
-                if (index == 0) return "ScopesOverviewFavourites.qml";
-                else if (index == 1) return "ScopesOverviewAll.qml";
-                else {
-                    console.log("WARNING: ScopesOverview scope is not supposed to have more than 2 categories");
-                    return "";
+                    return parent.height - (root.progress - 0.5) * height * 2;
                 }
             }
 
-            onLoaded: {
-                item.model = Qt.binding(function() { return results })
-                item.cardTool = cardTool;
-                if (index == 0) {
-                    item.scopeWidth = root.width;
-                    item.scopeHeight = root.height;
-                } else if (index == 1) {
-                    item.extraHeight = bottomBar.height;
+            AbstractButton {
+                width: Math.max(label.width + units.gu(2), units.gu(10))
+                height: units.gu(4)
+                anchors {
+                    left: parent.left
+                    leftMargin: units.gu(2)
+                    verticalCenter: parent.verticalCenter
                 }
-            }
-
-            Connections {
-                    target: loader.item
-                    onClicked: {
-                        if (tabBarHolder.currentTab == 0) {
-                            root.favoriteSelected(index)
-                        } else {
-                            // This will result in an openScope
-                            // that we handle in Dash.qml
-                            scope.activate(result)
-                        }
-                    }
+                Rectangle {
+                    anchors.fill: parent
+                    border.color: "white"
+                    border.width: units.dp(1)
+                    radius: units.dp(10)
+                    color: parent.pressed ? "gray" : "transparent"
+                }
+                Label {
+                    id: label
+                    anchors.centerIn: parent
+                    text: i18n.tr("Done")
+                    color: parent.pressed ? "black" : "white"
+                }
+                onClicked: {
+                    root.done();
+                    tabBarHolder.currentTab = 0;
+                }
             }
         }
     }
 
-    Rectangle {
-        id: bottomBar
-        color: "black"
-        height: units.gu(6)
+    PreviewListView {
+        id: previewListView
+        objectName: "scopesOverviewPreviewListView"
+        scope: root.scope
+        scopeStyle: root.scopeStyle
+        visible: x != width
         width: parent.width
-        opacity: 0.4
-        y: {
-            if (root.progress < 0.5) {
-                return parent.height;
-            } else {
-                return parent.height - (root.progress - 0.5) * height * 2;
-            }
-        }
-
-        AbstractButton {
-            width: Math.max(label.width + units.gu(2), units.gu(10))
-            height: units.gu(4)
-            anchors {
-                left: parent.left
-                leftMargin: units.gu(2)
-                verticalCenter: parent.verticalCenter
-            }
-            Rectangle {
-                anchors.fill: parent
-                border.color: "white"
-                border.width: units.dp(1)
-                radius: units.dp(10)
-                color: parent.pressed ? "gray" : "transparent"
-            }
-            Label {
-                id: label
-                anchors.centerIn: parent
-                text: i18n.tr("Done")
-                color: parent.pressed ? "black" : "white"
-            }
-            onClicked: {
-                root.done();
-                tabBarHolder.currentTab = 0;
-            }
-        }
+        height: parent.height
+        anchors.left: scopesOverviewContent.right
     }
 }
