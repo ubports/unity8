@@ -21,15 +21,17 @@ Item {
     id: root
     property var department: null
     property var currentDepartment: null
+    property var scopeStyle: null
     signal enterDepartment(var newDepartmentId, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
 
     readonly property int itemHeight: units.gu(5)
+    readonly property color foregroundColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     implicitHeight: flickable.contentHeight
 
     Rectangle {
-        color: "white"
+        color: !root.scopeStyle || Qt.colorEqual(root.scopeStyle.background, "transparent") ? "white" : root.scopeStyle.background
         anchors.fill: parent
     }
 
@@ -71,17 +73,17 @@ Item {
 
                 onClicked: root.goBackToParentClicked();
 
-                Image {
+                Icon {
                     id: backImage
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
                         leftMargin: units.gu(2)
                     }
-                    source: "image://theme/back"
-                    sourceSize.height: parent.height - units.gu(3)
-                    sourceSize.width: units.gu(3)
-                    fillMode: Image.PreserveAspectFit
+                    name: "back"
+                    height: units.gu(2)
+                    width: height
+                    color: root.foregroundColor
                 }
 
                 Label {
@@ -91,7 +93,7 @@ Item {
                         leftMargin: units.gu(0.5)
                     }
                     text: department ? department.parentLabel : ""
-                    color: "gray" // TODO remove once we're a separate app
+                    color: root.foregroundColor
                 }
 
                 Rectangle {
@@ -102,7 +104,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: "gray"
+                    color: root.foregroundColor
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -123,7 +125,7 @@ Item {
                     }
                     text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
                     font.bold: true
-                    color: "gray" // TODO remove once we're a separate app
+                    color: root.foregroundColor
                 }
 
                 Rectangle {
@@ -134,7 +136,7 @@ Item {
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }
-                    color: "gray"
+                    color: root.foregroundColor
                     opacity: 0.2
                     height: units.dp(1)
                 }
@@ -159,19 +161,19 @@ Item {
                             leftMargin: units.gu(2)
                         }
                         text: label
-                        color: "gray" // TODO remove once we're a separate app
+                        color: root.foregroundColor
                     }
 
-                    Image {
+                    Icon {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
                             rightMargin: units.gu(2)
                         }
-                        source: hasChildren ? "image://theme/chevron" : "graphics/tick.png"
-                        sourceSize.height: parent.height - units.gu(3)
-                        sourceSize.width: units.gu(3)
-                        fillMode: Image.PreserveAspectFit
+                        height: units.gu(2)
+                        width: height
+                        name: hasChildren ? "go-next" : "tick"
+                        color: root.foregroundColor
                         visible: hasChildren || isActive
                     }
 
@@ -183,7 +185,7 @@ Item {
                             leftMargin: units.gu(2)
                             rightMargin: units.gu(2)
                         }
-                        color: "gray"
+                        color: root.foregroundColor
                         opacity: 0.1
                         height: units.dp(1)
                         visible: index != department.count - 1

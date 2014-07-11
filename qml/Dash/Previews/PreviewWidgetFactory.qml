@@ -31,6 +31,9 @@ Loader {
     //! Widget data, forwarded to the widget as is.
     property var widgetData: null
 
+    //! The ScopeStyle component.
+    property var scopeStyle: null
+
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false
 
@@ -48,6 +51,7 @@ Loader {
             case "header": return "PreviewHeader.qml";
             case "image": return "PreviewZoomableImage.qml";
             case "progress": return "PreviewProgress.qml";
+            case "payments": return "PreviewPayments.qml";
             case "rating-input": return "PreviewRatingInput.qml";
             case "reviews": return "PreviewRatingDisplay.qml";
             case "text": return "PreviewTextSummary.qml";
@@ -61,6 +65,7 @@ Loader {
         item.widgetId = Qt.binding(function() { return root.widgetId } )
         item.widgetData = Qt.binding(function() { return root.widgetData } )
         item.isCurrentPreview = Qt.binding(function() { return root.isCurrentPreview } )
+        if (item.hasOwnProperty("scopeStyle")) item.scopeStyle = root.scopeStyle;
     }
 
     Connections {
