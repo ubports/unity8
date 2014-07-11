@@ -196,9 +196,12 @@ class DashApps(GenericScopeView):
         category_element = self._get_category_element(category)
         application_cards = category_element.select_many('AbstractButton')
 
-        # sort by y, x
+        # sort by y, x, filter those out of view
+        categoryBottom = category_element.globalRect.y \
+            + category_element.height
         application_cards = sorted(
-            application_cards,
+            (card for card in application_cards
+                if card.globalRect.y < categoryBottom),
             key=lambda card: (card.globalRect.y, card.globalRect.x))
 
         result = []
