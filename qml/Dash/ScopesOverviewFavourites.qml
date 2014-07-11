@@ -25,12 +25,12 @@ ListView {
     property var cardTool: null
     property real scopeHeight: 0
     property real scopeWidth: 0
+    property real appliedScale: 1
 
     orientation: ListView.Horizontal
-    // TODO root.parent.scale
     // TODO current item
 
-    spacing: units.gu(2) / root.parent.scale
+    spacing: units.gu(2) / appliedScale
 
     delegate: Loader {
         id: loader
@@ -38,8 +38,8 @@ ListView {
 
         sourceComponent: cardTool.cardComponent
         onLoaded: {
-            item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight / root.parent.scale; });
-            item.fontScale = Qt.binding(function() { return 1 / root.parent.scale; });
+            item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight / appliedScale; });
+            item.fontScale = Qt.binding(function() { return 1 / appliedScale; });
             item.height = Qt.binding(function() { return root.scopeHeight; });
             item.width = Qt.binding(function() { return root.scopeWidth; });
             item.cardData = Qt.binding(function() { return model; });

@@ -206,6 +206,7 @@ Item {
                     if (index == 0) {
                         item.scopeWidth = root.width;
                         item.scopeHeight = root.height;
+                        item.appliedScale = Qt.binding(function() { return loader.scale })
                     } else if (index == 1) {
                         item.extraHeight = bottomBar.height;
                     }
