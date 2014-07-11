@@ -39,6 +39,7 @@ DashRenderer {
         model: root.model
         displayMarginBeginning: root.displayMarginBeginning
         displayMarginEnd: root.displayMarginEnd
+        cacheBuffer: 0
         interactive: false
         delegate: Item {
             width: grid.cellWidth

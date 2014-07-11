@@ -44,6 +44,7 @@ Item {
     property alias displayMarginBeginning: gridView.displayMarginBeginning
     property alias displayMarginEnd: gridView.displayMarginEnd
     property alias highlightIndex: gridView.highlightIndex
+    property alias cacheBuffer: gridView.cacheBuffer
     readonly property alias currentItem: gridView.currentItem
 
     function contentHeightForRows(rows) {
