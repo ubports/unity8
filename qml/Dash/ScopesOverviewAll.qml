@@ -38,7 +38,6 @@ Flickable {
         }
 
         onClicked: {
-            console.log(model);
             root.clicked(index, result);
         }
         onPressAndHold: {

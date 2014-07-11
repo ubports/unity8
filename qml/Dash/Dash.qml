@@ -154,12 +154,9 @@ Showable {
         }
     }
 
-    Image {
+    DashBackground
+    {
         anchors.fill: scopeItem
-        source: parent.width > parent.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
-        fillMode: Image.PreserveAspectCrop
-        horizontalAlignment: Image.AlignRight
-        verticalAlignment: Image.AlignTop
     }
 
     GenericScopeView {

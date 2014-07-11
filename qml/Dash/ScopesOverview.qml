@@ -29,18 +29,13 @@ Item {
     signal favoriteSelected(int index)
     signal allSelected(var scope)
 
-    Image {
+    DashBackground {
         anchors.fill: parent
-        source: parent.width > parent.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
-        fillMode: Image.PreserveAspectCrop
-        horizontalAlignment: Image.AlignRight
-        verticalAlignment: Image.AlignTop
-    }
-
-    Rectangle {
-        color: "black"
-        anchors.fill: parent
-        opacity: 0.6
+        Rectangle {
+            color: "black"
+            anchors.fill: parent
+            opacity: 0.6
+        }
     }
 
     Item {
