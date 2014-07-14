@@ -322,7 +322,7 @@ FocusScope {
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
         y: panel.panelHeight
-        x: required ? 0 : - width
+        visible: required
         width: parent.width
         height: parent.height - panel.panelHeight
         //background: shell.background // FIXME: Commenting out as Qt was complaining about this line
