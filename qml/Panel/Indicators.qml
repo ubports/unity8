@@ -187,6 +187,7 @@ Showable {
             bottom: handle.top
         }
         indicatorsModel: visibleIndicators.model
+        visible: indicators.partiallyOpened || indicators.fullyOpened
         clip: !indicators.fullyOpened
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
         enabled: contentEnabled
@@ -219,6 +220,7 @@ Showable {
         }
         height: Math.max(Math.min(handleImage.height, indicators.height - handleImage.height), 0)
         clip: height < handleImage.height
+        visible: menuContent.visible
 
         BorderImage {
             id: handleImage
