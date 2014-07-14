@@ -23,18 +23,16 @@ Item {
 
     property real progress: 0
     property var scope: null
-    // TODO This needs to account for when all is the current item
-    // And All needs a currentItem concept
-    // TODO we also need a centered item so when we click done from all the item grows from the middle: think
     property var dashItemEater: {
-        if (middleItems.count > tabBarHolder.currentTab) {
-            var loader = middleItems.itemAt(tabBarHolder.currentTab).item;
-            return loader && loader.currentItem ? loader.currentItem.item : null;
+        if (tabBarHolder.currentTab == 0 && middleItems.count > 1) {
+            var loader = middleItems.itemAt(0).item;
+            return loader && loader.currentItem ? loader.currentItem : null;
         }
         return null;
     }
     property int currentIndex: 0
     property real scopeScale: 1
+    property bool showingNonFavoriteScope: false
     property QtObject scopeStyle: QtObject {
         property string headerLogo: ""
         property color foreground: "white"
@@ -43,6 +41,8 @@ Item {
     signal done()
     signal favoriteSelected(int index)
     signal allSelected(var scope)
+
+    enabled: !showingNonFavoriteScope
 
     DashBackground {
         anchors.fill: parent
@@ -187,7 +187,7 @@ Item {
 
                 scale: index == 0 ? scopeScale : 1
 
-                opacity: tabBarHolder.currentTab == index ? 1 : 0
+                opacity: root.showingNonFavoriteScope ? 0 : tabBarHolder.currentTab == index ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation { } }
                 enabled: opacity == 1
 
@@ -218,29 +218,29 @@ Item {
                         item.scopeWidth = root.width;
                         item.scopeHeight = root.height;
                         item.appliedScale = Qt.binding(function() { return loader.scale })
-                        item.currentIndex = Qt.binding(function() { return root.currentIndex }) // TODO Move down
+                        item.currentIndex = Qt.binding(function() { return root.currentIndex })
                     } else if (index == 1) {
                         item.extraHeight = bottomBar.height;
                     }
                 }
 
                 Connections {
-                        target: loader.item
-                        onClicked: {
-                            if (tabBarHolder.currentTab == 0) {
-                                root.favoriteSelected(index)
-                            } else {
-                                // This will result in an openScope
-                                // that we handle in Dash.qml
-                                scope.activate(result)
-                            }
+                    target: loader.item
+                    onClicked: {
+                        if (tabBarHolder.currentTab == 0) {
+                            root.favoriteSelected(index)
+                        } else {
+                            // This will result in an openScope
+                            // that we handle in Dash.qml
+                            scope.activate(result)
                         }
-                        onPressAndHold: {
-                            previewListView.model = target.model;
-                            previewListView.currentIndex = -1
-                            previewListView.currentIndex = index;
-                            previewListView.open = true
-                        }
+                    }
+                    onPressAndHold: {
+                        previewListView.model = target.model;
+                        previewListView.currentIndex = -1
+                        previewListView.currentIndex = index;
+                        previewListView.open = true
+                    }
                 }
             }
         }

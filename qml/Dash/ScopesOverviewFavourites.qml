@@ -35,7 +35,6 @@ ListView {
     delegate: Loader {
         id: loader
 
-
         sourceComponent: cardTool.cardComponent
         onLoaded: {
             item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight / appliedScale; });

@@ -78,10 +78,11 @@ Showable {
         id: overviewController
 
         property bool accepted: false
-        property bool enableAnimation: false
+        property alias enableAnimation: progressAnimation.enabled
         property real progress: 0
+        property bool showingNonFavoriteScope: false
         Behavior on progress {
-            enabled: overviewController.enableAnimation
+            id: progressAnimation
             UbuntuNumberAnimation { }
         }
     }
@@ -90,6 +91,7 @@ Showable {
         id: scopesOverview
         anchors.fill: parent
         scope: scopes ? scopes.getScope("scopesOverview") : null
+        showingNonFavoriteScope: overviewController.showingNonFavoriteScope
         progress: overviewController.progress
         scopeScale: 1 - overviewController.progress * 0.6
         visible: scopeScale != 1
@@ -109,8 +111,9 @@ Showable {
             target: scopesOverview.scope
             onOpenScope: {
                 scopeItem.scope = scope;
-                scopesOverview.hide();
-                dashContent.x = -dashContent.width; // TODO
+                scopeItem.overviewScale = 0.4;
+                overviewController.showingNonFavoriteScope = true;
+                scopeItem.overviewScale = 1;
             }
         }
     }
@@ -123,7 +126,7 @@ Showable {
         height: dash.height
         model: filteredScopes
         scopes: scopes
-        visible: x != -width
+        visible: !overviewController.showingNonFavoriteScope && x != -width
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
         }
@@ -143,7 +146,6 @@ Showable {
             UbuntuNumberAnimation {
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        // TODO If it came from ScopesOverview it has to be ScopesOverview.scope.closeScope()
                         dashContent.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }
@@ -151,29 +153,48 @@ Showable {
             }
         }
 
-        enabled: overviewController.progress == 0
+        enabled: opacity == 1
         opacity: 1 - overviewController.progress
     }
 
     DashBackground
     {
         anchors.fill: scopeItem
+        scale: scopeItem.scale
     }
 
     GenericScopeView {
         id: scopeItem
-        anchors.left: dashContent.right
+
+        property real overviewScale: 1
+
+        x: overviewController.showingNonFavoriteScope ? 0 : width + dashContent.x
         width: parent.width
         height: parent.height
-        scale: dash.contentScale
+        scale: dash.contentScale * overviewScale
+        Behavior on overviewScale {
+            enabled: overviewController.showingNonFavoriteScope
+            UbuntuNumberAnimation {
+                onRunningChanged: {
+                    if (!running && scopeItem.overviewScale == 0.4) {
+                        scopesOverview.scope.closeScope(scopeItem.scope);
+                        overviewController.showingNonFavoriteScope = false;
+                        scopeItem.scope = null;
+                    }
+                }
+            }
+        }
         clip: scale != 1.0
-        visible: scope != null
+        visible:  scope != null
         hasBackAction: true
         isCurrent: visible
         onBackClicked: {
-            // TODO if coming from dash overview this needs to go to overview
-            closeOverlayScope();
-            closePreview();
+            if (overviewController.showingNonFavoriteScope) {
+                scopeItem.overviewScale = 0.4;
+            } else {
+                closeOverlayScope();
+                closePreview();
+            }
         }
 
         Connections {
