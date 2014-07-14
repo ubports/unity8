@@ -121,6 +121,10 @@ Item {
                 Loader {
                     width: ListView.view.width
                     height: ListView.view.height
+                    visible: { // hide delegate if offscreen
+                        var xPositionRelativetoView = ListView.view.contentX - x
+                        return xPositionRelativetoView > -width && xPositionRelativetoView < width
+                    }
                     asynchronous: true
                     // TODO This if will eventually go away since we're killing DashApps.qml
                     // once we move app closing to the spread
