@@ -22,4 +22,5 @@ add_unity8_mock(Unity.Application 0.1 Unity/Application PREFIX mocks TARGETS Fak
 add_unity8_mock(Unity.Application 0.1 Unity/Application
                 PREFIX nonmirplugins
                 TARGETS NonMirUnityApplicationQml
-                BINARY_DIR ${CMAKE_BINARY_DIR}/nonmirplugins)
+                BINARY_DIR ${CMAKE_BINARY_DIR}/nonmirplugins
+                NO_TYPES)

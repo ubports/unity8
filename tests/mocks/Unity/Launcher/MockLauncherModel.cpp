@@ -24,10 +24,12 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
 {
     MockLauncherItem *item = new MockLauncherItem("dialer-app", "/usr/share/applications/dialer-app.desktop", "Dialer", "dialer-app", this);
     item->setProgress(0);
-    m_list.append(item);
+    item->setPinned(true);
     item->setFocused(true);
+    m_list.append(item);
     item = new MockLauncherItem("camera-app", "/usr/share/applications/camera-app.desktop", "Camera", "camera", this);
     item->setProgress(10);
+    item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
     item->setProgress(50);
@@ -40,6 +42,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     m_list.append(item);
     item = new MockLauncherItem("twitter-webapp", "/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter", this);
     item->setCount(12);
+    item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("gmail-webapp", "/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail", this);
     item->setCount(123);
@@ -51,8 +54,10 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setProgress(50);
     item->setCount(5);
     item->setFocused(true);
+    item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("calendar-app", "/usr/share/applications/calendar-app.desktop","Calendar", "calendar", this);
+    item->setPinned(true);
     m_list.append(item);
 }
 

@@ -18,9 +18,8 @@
  */
 
 import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
 
-Indicators.IndicatorBase {
+IndicatorBase {
     enabled: false
 
     onRootActionStateChanged: {
