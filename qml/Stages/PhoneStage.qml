@@ -197,7 +197,13 @@ Item {
             }
             spreadView.selectedIndex = index;
             root.fullscreen = ApplicationManager.get(index).fullscreen;
-            snapAnimation.targetContentX = -shift;
+            // If we're not in full spread mode yet, always unwind to start pos
+            // otherwise unwind up to progress 0 of the selected index
+            if (spreadView.phase < 2) {
+                snapAnimation.targetContentX = -shift;
+            } else {
+                snapAnimation.targetContentX = -shift + index * spreadView.tileDistance;
+            }
             snapAnimation.start();
         }
 
@@ -299,6 +305,11 @@ Item {
                         if (behavioredIndex == 1 && spreadView.phase < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width;
                         }
+                        // Limiting progress to ~0 and 1.7 to avoid binding calculations when tiles are either
+                        // outside the screen on the right (progress < 0) or hidden by other tiles on the left
+                        // (> 1.7). Using 0.0001 to differentiate when a tile should still be visible (==0)
+                        // or we can hide it (< 0)
+                        tileProgress = Math.max(-0.0001, Math.min(1.7, tileProgress));
                         return tileProgress;
                     }
 
@@ -366,7 +377,7 @@ Item {
             }
             if (dragging && attachedToView) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                spreadView.contentX = -touchX - spreadView.shift;
+                spreadView.contentX = -touchX + spreadDragArea.width - spreadView.shift;
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 // We passed positionMarker3. Detach from spreadView and snap it.

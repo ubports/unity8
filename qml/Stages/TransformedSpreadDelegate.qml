@@ -44,6 +44,9 @@ SpreadDelegate {
     property real startDistance: units.gu(5)
     property real endDistance: units.gu(.5)
 
+    // Hiding tiles when their progress is negative or reached the maximum
+    visible: progress >= 0 && progress < 1.7
+
     onSelectedChanged: {
         if (selected) {
             priv.snapshot();
@@ -106,16 +109,6 @@ SpreadDelegate {
             selectedTopMarginProgress = topMarginProgress;
         }
 
-        // This calculates how much negative progress there can be if unwinding the spread completely
-        // the progress for each tile starts at 0 when it crosses the right edge, so the later a tile comes in,
-        // the bigger its negativeProgress can be.
-        property real negativeProgress: {
-            if (index == 1 && spreadView.phase < 2) {
-                return 0;
-            }
-            return -index * spreadView.tileDistance / spreadView.width;
-        }
-
         function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
             // progress : progressDiff = value : valueDiff => value = progress * valueDiff / progressDiff
             return (progress - startProgress) * (endValue - startValue) / (endProgress - startProgress) + startValue;
@@ -127,22 +120,20 @@ SpreadDelegate {
             return helperEasingCurve.value * (endValue - startValue) + startValue;
         }
 
-        property real animatedEndDistance: linearAnimation(0, 2, root.endDistance, 0, root.progress)
-
         // The following blocks handle the animation of the tile in the spread.
         // At the beginning, each tile is attached at the right edge, outside the screen.
         // The progress for each tile starts at 0 and it reaches its end position at a progress of 1.
-        // The first phases are handled special for the first 2 tiles. as we do the alt-tab and snapping in there
-        // Once we reached phase 3, the animation is the same for all tiles.
-        // When a tile is selected, the animation state is snapshotted, and the spreadView is unwound (progress animates
-        // back to negativeProgress). All tiles are kept in place and faded out to 0 opacity except
+        // The first phases are handled special for the first 2 tiles. as we do the alt-tab and snapping
+        // in there. Once we reached phase 3, the animation is the same for all tiles.
+        // When a tile is selected, the animation state is snapshotted, and the spreadView is unwound.
+        // All tiles are kept in place and faded out to 0 opacity except
         // the selected tile, which is animated from the snapshotted position to be fullscreen.
 
         property real xTranslate: {
             if (otherSelected) {
                 if (spreadView.phase < 2 && index == 0) {
-                    return linearAnimation(selectedProgress, negativeProgress,
-                                           selectedXTranslate, selectedXTranslate - spreadView.tileDistance, root.progress);
+                    return linearAnimation(selectedProgress, 0, selectedXTranslate,
+                                           selectedXTranslate - spreadView.tileDistance, root.progress);
                 }
 
                 return selectedXTranslate;
@@ -160,7 +151,7 @@ SpreadDelegate {
                     // Apply the same animation as with the rest but add spreadView.width to align it with the others.
                     return -easingCurve.value * spreadView.width + spreadView.width;
                 } else if (priv.isSelected) {
-                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, 0, root.progress);
+                    return linearAnimation(selectedProgress, 0, selectedXTranslate, 0, root.progress);
                 }
 
             case 1:
@@ -177,13 +168,14 @@ SpreadDelegate {
             if (priv.isSelected) {
                 // Distance to left edge
                 var targetTranslate = -spreadView.width - ((index - 1) * root.startDistance);
-                return linearAnimation(selectedProgress, negativeProgress,
+                return linearAnimation(selectedProgress, 0,
                                        selectedXTranslate, targetTranslate, root.progress);
             }
 
             // Fix it at the right edge...
             var rightEdgeOffset =  -((index - 1) * root.startDistance);
             // ...and use our easing to move them to the left. Stop a bit earlier for each tile
+            var animatedEndDistance = linearAnimation(0, 2, root.endDistance, 0, root.progress)
             return -easingCurve.value * spreadView.width + (index * animatedEndDistance) + rightEdgeOffset;
 
         }
@@ -197,7 +189,7 @@ SpreadDelegate {
                 return priv.selectedAngle;
             }
             if (priv.isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedAngle, 0, root.progress);
+                return linearAnimation(selectedProgress, 0, selectedAngle, 0, root.progress);
             }
             switch (index) {
             case 0:
@@ -229,7 +221,7 @@ SpreadDelegate {
                 return priv.selectedScale;
             }
             if (priv.isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedScale, 1, root.progress);
+                return linearAnimation(selectedProgress, 0, selectedScale, 1, root.progress);
             }
 
             switch (index) {
@@ -274,7 +266,7 @@ SpreadDelegate {
 
         property real topMarginProgress: {
             if (priv.isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedTopMarginProgress, 0, root.progress);
+                return linearAnimation(selectedProgress, 0, selectedTopMarginProgress, 0, root.progress);
             }
 
             switch (index) {
@@ -326,7 +318,7 @@ SpreadDelegate {
         id: easingCurve
         type: EasingCurve.OutSine
         period: 1 - spreadView.positionMarker2
-        progress: root.animatedProgress
+        progress: root.progress
     }
 
     // This is used as a calculation helper to figure values for progress other than the current one
