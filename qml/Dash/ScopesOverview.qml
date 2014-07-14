@@ -32,7 +32,7 @@ Item {
     }
     property int currentIndex: 0
     property real scopeScale: 1
-    property bool showingNonFavoriteScope: false
+    property real overrideOpacity: -1
     property QtObject scopeStyle: QtObject {
         property string headerLogo: ""
         property color foreground: "white"
@@ -52,8 +52,6 @@ Item {
     signal done()
     signal favoriteSelected(int index)
     signal allSelected(var scope)
-
-    enabled: !showingNonFavoriteScope
 
     DashBackground {
         anchors.fill: parent
@@ -198,7 +196,7 @@ Item {
 
                 scale: index == 0 ? scopeScale : 1
 
-                opacity: root.showingNonFavoriteScope ? 0 : tabBarHolder.currentTab == index ? 1 : 0
+                opacity: root.overrideOpacity >= 0 ? root.overrideOpacity : tabBarHolder.currentTab == index ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation { } }
                 enabled: opacity == 1
 

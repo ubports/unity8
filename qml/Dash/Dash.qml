@@ -91,7 +91,7 @@ Showable {
         id: scopesOverview
         anchors.fill: parent
         scope: scopes ? scopes.getScope("scopesOverview") : null
-        showingNonFavoriteScope: overviewController.showingNonFavoriteScope
+        enabled: !overviewController.showingNonFavoriteScope
         progress: overviewController.progress
         scopeScale: 1 - overviewController.progress * 0.6
         visible: scopeScale != 1
@@ -115,6 +115,7 @@ Showable {
                 scopeItem.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * scopeItem.overviewScale) / 2;
                 scopeItem.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * scopeItem.overviewScale) / 2;
                 overviewController.showingNonFavoriteScope = true;
+                scopesOverview.overrideOpacity = 0;
                 scopeItem.overviewScale = 1;
                 scopeItem.x = 0;
                 scopeItem.y = 0;
@@ -209,6 +210,7 @@ Showable {
                 scopeItem.overviewScale = v;
                 scopeItem.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * v) / 2;
                 scopeItem.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * v) / 2;
+                scopesOverview.overrideOpacity = -1;
             } else {
                 closeOverlayScope();
                 closePreview();
