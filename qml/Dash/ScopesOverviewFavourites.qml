@@ -28,7 +28,7 @@ ListView {
     property real appliedScale: 1
 
     orientation: ListView.Horizontal
-    // TODO current item
+    highlightMoveDuration: 0
 
     spacing: units.gu(2) / appliedScale
 
