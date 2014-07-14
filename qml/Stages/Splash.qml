@@ -30,6 +30,8 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -units.gu(4)
+        width: units.gu(8)
+        height: units.gu(7.5)
 
         radius: "medium"
         borderSource: "none"
@@ -39,6 +41,7 @@ Rectangle {
             sourceSize.width: iconShape.width
             sourceSize.height: iconShape.height
             source: root.image
+            fillMode: Image.PreserveAspectCrop
         }
     }
 
