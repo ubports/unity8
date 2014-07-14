@@ -270,7 +270,8 @@ FocusScope {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "maximizedAppTopMargin"
-                value: panel.panelHeight
+                // Not just using panel.panelHeight as that changes depending on the focused app.
+                value: panel.indicators.panelHeight
             }
             Binding {
                 target: applicationsDisplayLoader.item
