@@ -64,9 +64,11 @@ Item {
         }
 
         onApplicationAdded: {
-            if (spreadView.phase > 0) {
+            if (spreadView.phase == 2) {
                 spreadView.snapTo(ApplicationManager.count - 1);
             } else {
+                spreadView.phase = 0;
+                spreadView.contentX = -spreadView.shift
                 priv.switchToApp(appId)
             }
         }
