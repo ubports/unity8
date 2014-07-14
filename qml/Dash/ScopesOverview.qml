@@ -99,11 +99,8 @@ Item {
                 searchInProgress: root.scope ? root.scope.searchInProgress : false
             }
 
-            Item {
+            ScopesOverviewTab {
                 id: tabBarHolder
-
-                property int currentTab: 0
-
                 anchors {
                     left: parent.left
                     right: parent.right
@@ -111,55 +108,6 @@ Item {
                     margins: units.gu(2)
                 }
                 height: units.gu(4)
-
-                AbstractButton {
-                    id: tab1
-                    height: parent.height
-                    width: parent.width / 2
-                    Rectangle {
-                        anchors.fill: parent
-                        color: tabBarHolder.currentTab == 0 ? "white" : "transparent"
-                        radius: units.dp(10)
-                    }
-                    Label {
-                        anchors.centerIn: parent
-                        text: i18n.tr("Favourites")
-                        color: tabBarHolder.currentTab == 0 ? "black" : "white"
-                    }
-                    onClicked: tabBarHolder.currentTab = 0
-                }
-                AbstractButton {
-                    id: tab2
-                    x: width
-                    height: parent.height
-                    width: parent.width / 2
-                    Rectangle {
-                        anchors.fill: parent
-                        color: tabBarHolder.currentTab == 1 ? "white" : "transparent"
-                        radius: units.dp(10)
-                    }
-                    Label {
-                        anchors.centerIn: parent
-                        text: i18n.tr("All")
-                        color: tabBarHolder.currentTab == 1 ? "black" : "white"
-                    }
-                    onClicked: tabBarHolder.currentTab = 1
-                }
-                Rectangle {
-                    id: centerPiece
-                    width: units.dp(10)
-                    height: parent.height
-                    color: "white"
-                    x: tabBarHolder.currentTab == 1 ? tab2.x : tab2.x - width
-                }
-                Rectangle {
-                    id: border
-                    anchors.fill: parent
-                    radius: units.dp(10)
-                    color: "transparent"
-                    border.color: centerPiece.color
-                    border.width: units.dp(1)
-                }
             }
         }
 
