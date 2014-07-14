@@ -148,9 +148,17 @@ Item {
         UnityMenuModel {
             id: unityMenuModel
 
+            property string lastNameOwner: ""
+
             busName: paths.busName
             actions: paths.actions
             menuObjectPath: paths.menuObjectPath
+            onNameOwnerChanged: {
+                if (lastNameOwner != "" && nameOwner == "" && notification.notification != undefined) {
+                    notification.notification.close()
+                }
+                lastNameOwner = nameOwner
+            }
         }
 
         Behavior on implicitHeight {
