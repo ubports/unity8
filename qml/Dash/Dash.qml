@@ -93,6 +93,7 @@ Showable {
         progress: overviewController.progress
         scopeScale: 1 - overviewController.progress * 0.6
         visible: scopeScale != 1
+        currentIndex: dashContent.currentIndex
         onDone: hide();
         onFavoriteSelected: {
             dashContent.setCurrentScopeAtIndex(index, false, false);

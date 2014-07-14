@@ -26,7 +26,14 @@ Item {
     // TODO This needs to account for when all is the current item
     // And All needs a currentItem concept
     // TODO we also need a centered item so when we click done from all the item grows from the middle: think
-    property var dashItemEater: middleItems.count > 1 ? middleItems.itemAt(0).item.currentItem.item : null
+    property var dashItemEater: {
+        if (middleItems.count > tabBarHolder.currentTab) {
+            var loader = middleItems.itemAt(tabBarHolder.currentTab).item;
+            return loader && loader.currentItem ? loader.currentItem.item : null;
+        }
+        return null;
+    }
+    property int currentIndex: 0
     property real scopeScale: 1
     property QtObject scopeStyle: QtObject {
         property string headerLogo: ""
@@ -211,6 +218,7 @@ Item {
                         item.scopeWidth = root.width;
                         item.scopeHeight = root.height;
                         item.appliedScale = Qt.binding(function() { return loader.scale })
+                        item.currentIndex = Qt.binding(function() { return root.currentIndex }) // TODO Move down
                     } else if (index == 1) {
                         item.extraHeight = bottomBar.height;
                     }
