@@ -223,6 +223,9 @@ FocusScope {
                 if (greeter.shown) {
                     greeter.hide();
                 }
+                if (!stages.shown) {
+                    stages.show();
+                }
             }
 
             onEmptyChanged: {
