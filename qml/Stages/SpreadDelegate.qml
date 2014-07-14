@@ -157,8 +157,11 @@ Item {
         }
 
         onDragValueChanged: {
+            if (!dragging) {
+                return;
+            }
             moving = moving || Math.abs(dragValue) > units.gu(1)
-            if (moving && dragging) {
+            if (moving) {
                 distance = dragValue;
             }
         }
@@ -213,5 +216,4 @@ Item {
             }
         }
     }
-
 }
