@@ -111,9 +111,13 @@ Showable {
             target: scopesOverview.scope
             onOpenScope: {
                 scopeItem.scope = scope;
-                scopeItem.overviewScale = 0.4;
+                scopeItem.overviewScale = scopesOverview.allCardSize.width / scopeItem.width;
+                scopeItem.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * scopeItem.overviewScale) / 2;
+                scopeItem.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * scopeItem.overviewScale) / 2;
                 overviewController.showingNonFavoriteScope = true;
                 scopeItem.overviewScale = 1;
+                scopeItem.x = 0;
+                scopeItem.y = 0;
             }
         }
     }
@@ -161,6 +165,7 @@ Showable {
     {
         anchors.fill: scopeItem
         scale: scopeItem.scale
+        visible: scopeItem.visible
     }
 
     GenericScopeView {
@@ -168,15 +173,25 @@ Showable {
 
         property real overviewScale: 1
 
+        // TODO test this width + dashContent.x still works
         x: overviewController.showingNonFavoriteScope ? 0 : width + dashContent.x
+        Behavior on x {
+            enabled: overviewController.showingNonFavoriteScope
+            UbuntuNumberAnimation { }
+        }
+        Behavior on y {
+            enabled: overviewController.showingNonFavoriteScope
+            UbuntuNumberAnimation { }
+        }
         width: parent.width
         height: parent.height
         scale: dash.contentScale * overviewScale
+        enabled: scale == 1
         Behavior on overviewScale {
             enabled: overviewController.showingNonFavoriteScope
             UbuntuNumberAnimation {
                 onRunningChanged: {
-                    if (!running && scopeItem.overviewScale == 0.4) {
+                    if (!running && scopeItem.overviewScale != 1) {
                         scopesOverview.scope.closeScope(scopeItem.scope);
                         overviewController.showingNonFavoriteScope = false;
                         scopeItem.scope = null;
@@ -190,7 +205,10 @@ Showable {
         isCurrent: visible
         onBackClicked: {
             if (overviewController.showingNonFavoriteScope) {
-                scopeItem.overviewScale = 0.4;
+                var v = scopesOverview.allCardSize.width / scopeItem.width;
+                scopeItem.overviewScale = v;
+                scopeItem.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * v) / 2;
+                scopeItem.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * v) / 2;
             } else {
                 closeOverlayScope();
                 closePreview();
@@ -213,6 +231,7 @@ Showable {
         z: 1
         direction: Direction.Upwards
         distanceThreshold: units.gu(20)
+        // TODO this needs to be disabled in a few more cases
         enabled: !overviewController.accepted || dragging
 
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }

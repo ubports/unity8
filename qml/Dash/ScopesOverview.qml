@@ -24,9 +24,9 @@ Item {
     property real progress: 0
     property var scope: null
     property var dashItemEater: {
-        if (middleItems.count > 1) {
-            var loader = middleItems.itemAt(0).item;
-            return loader && loader.currentItem ? loader.currentItem : null;
+        if (middleItems.count > 0) {
+            var loaderItem = middleItems.itemAt(0).item;
+            return loaderItem && loaderItem.currentItem ? loaderItem.currentItem : null;
         }
         return null;
     }
@@ -37,6 +37,17 @@ Item {
         property string headerLogo: ""
         property color foreground: "white"
     }
+    property size allCardSize: {
+        if (middleItems.count > 1) {
+            var loaderItem = middleItems.itemAt(1).item;
+            if (loaderItem) {
+                var cardTool = loaderItem.cardTool;
+                return Qt.size(cardTool.cardWidth, cardTool.cardHeight);
+            }
+        }
+        return Qt.size(0, 0);
+    }
+    property var allScopeClickedPos
 
     signal done()
     signal favoriteSelected(int index)
@@ -232,7 +243,8 @@ Item {
                         } else {
                             // This will result in an openScope
                             // that we handle in Dash.qml
-                            scope.activate(result)
+                            root.allScopeClickedPos = item.mapToItem(null, 0, 0);
+                            scope.activate(result);
                         }
                     }
                     onPressAndHold: {

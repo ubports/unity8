@@ -45,7 +45,8 @@ Item {
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
     /// @param result result model of the cliked item, used for activation
-    signal clicked(int index, var result)
+    /// @param item item that has been clicked
+    signal clicked(int index, var result, var item)
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item

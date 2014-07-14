@@ -25,7 +25,7 @@ Flickable {
 
     property real extraHeight: 0
 
-    signal clicked(int index, var result)
+    signal clicked(int index, var result, var item)
     signal pressAndHold(int index)
 
     contentHeight: cardFilterGrid.height + extraHeight
@@ -40,7 +40,7 @@ Flickable {
         }
 
         onClicked: {
-            root.clicked(index, result);
+            root.clicked(index, result, item);
         }
         onPressAndHold: {
             root.pressAndHold(index);
