@@ -24,7 +24,7 @@ Item {
     property real progress: 0
     property var scope: null
     property var dashItemEater: {
-        if (tabBarHolder.currentTab == 0 && middleItems.count > 1) {
+        if (middleItems.count > 1) {
             var loader = middleItems.itemAt(0).item;
             return loader && loader.currentItem ? loader.currentItem : null;
         }
