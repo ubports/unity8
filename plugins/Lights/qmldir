@@ -1,0 +1,3 @@
+module Lights
+plugin Lights-qml
+typeinfo Lights.qmltypes

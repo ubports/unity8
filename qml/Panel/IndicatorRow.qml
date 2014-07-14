@@ -36,7 +36,7 @@ Item {
 
     function setDefaultItem() {
         // The leftmost indicator
-        setCurrentItem(0);
+        setCurrentItemIndex(0);
     }
 
     function setCurrentItemIndex(index) {
