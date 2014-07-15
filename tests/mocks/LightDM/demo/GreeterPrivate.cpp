@@ -48,6 +48,7 @@ public:
                 this, SLOT(finishPam()));
         connect(this, SIGNAL(showMessage(QString, QLightDM::Greeter::MessageType)),
                 greeter, SIGNAL(showMessage(QString, QLightDM::Greeter::MessageType)));
+        // This next connect is how we pass ResponseFutures between threads
         connect(this, SIGNAL(showPrompt(QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)),
                 this, SLOT(handlePrompt(QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)));
     }
@@ -68,11 +69,11 @@ public:
         conversation.conv = converseWithPam;
         conversation.appdata_ptr = static_cast<void*>(this);
 
-        if (pam_start("lightdm", username.toUtf8(),
-                       &conversation, &pamHandle) == PAM_SUCCESS) {
+        if (pam_start("lightdm", username.toUtf8(), &conversation, &pamHandle) == PAM_SUCCESS) {
             futureWatcher.setFuture(QtConcurrent::run(authenticateWithPam, pamHandle));
         } else {
             greeterPrivate->authenticated = false;
+            Q_EMIT greeter->showMessage("Internal error: could not start PAM authentication", QLightDM::Greeter::MessageTypeError);
             Q_EMIT greeter->authenticationComplete();
         }
     }
@@ -80,12 +81,15 @@ public:
     static int authenticateWithPam(pam_handle* pamHandle)
     {
         int pamStatus = pam_authenticate(pamHandle, 0);
-        if (pamStatus == PAM_SUCCESS)
-          pamStatus = pam_acct_mgmt(pamHandle, 0);
-        if (pamStatus == PAM_NEW_AUTHTOK_REQD)
-          pamStatus = pam_chauthtok(pamHandle, PAM_CHANGE_EXPIRED_AUTHTOK);
-        if (pamStatus == PAM_SUCCESS)
-          pam_setcred(pamHandle, PAM_REINITIALIZE_CRED);
+        if (pamStatus == PAM_SUCCESS) {
+            pamStatus = pam_acct_mgmt(pamHandle, 0);
+        }
+        if (pamStatus == PAM_NEW_AUTHTOK_REQD) {
+            pamStatus = pam_chauthtok(pamHandle, PAM_CHANGE_EXPIRED_AUTHTOK);
+        }
+        if (pamStatus == PAM_SUCCESS) {
+            pam_setcred(pamHandle, PAM_REINITIALIZE_CRED);
+        }
         return pamStatus;
     }
 
@@ -101,11 +105,10 @@ public:
 
         GreeterImpl* impl = static_cast<GreeterImpl*>(appdata_ptr);
 
-        bool raise_error = false;
         int count;
         QVector<ResponseFuture> responses;
 
-        for (count = 0; count < num_msg && !raise_error; ++count)
+        for (count = 0; count < num_msg; ++count)
         {
             switch (msg[count]->msg_style)
             {
@@ -123,21 +126,25 @@ public:
                 responses.append(ResponseFuture());
                 responses.last().reportStarted();
                 Q_EMIT impl->showPrompt(message, Greeter::PromptTypeSecret, responses.last());
+                break;
             }
             case PAM_TEXT_INFO:
             {
                 QString message(msg[count]->msg);
                 Q_EMIT impl->showMessage(message, Greeter::MessageTypeInfo);
+                break;
             }
             default:
             {
                 QString message(msg[count]->msg);
                 Q_EMIT impl->showMessage(message, Greeter::MessageTypeError);
+                break;
             }
             }
         }
 
         int i = 0;
+        bool raise_error = false;
 
         for (auto &response : responses)
         {
