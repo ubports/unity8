@@ -215,8 +215,8 @@ Item {
                             root.favoriteSelected(index)
                         } else {
                             var favoriteScopesItem = middleItems.itemAt(0).item;
-                            var index = favoriteScopesItem.model.scopeIndex(itemModel.scopeId);
-                            if (index > 0) {
+                            var scopeIndex = favoriteScopesItem.model.scopeIndex(itemModel.scopeId);
+                            if (scopeIndex > 0) {
                                 root.allFavoriteSelected(itemModel.scopeId);
                             } else {
                                 root.allSelected(itemModel.scopeId, item.mapToItem(null, 0, 0));
