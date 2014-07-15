@@ -47,12 +47,11 @@ Item {
         }
         return Qt.size(0, 0);
     }
-    property var allScopeClickedPos
 
     signal done()
     signal favoriteSelected(int index)
     signal allFavoriteSelected(var scopeId)
-    signal allSelected(var scope)
+    signal allSelected(var scopeId, var pos)
 
     function allScopeCardPosition(scopeId) {
         if (middleItems.count > 1) {
@@ -220,11 +219,7 @@ Item {
                             if (index > 0) {
                                 root.allFavoriteSelected(itemModel.scopeId);
                             } else {
-                                // This will result in an openScope
-                                // that we handle in Dash.qml
-                                // TODO use and not do the openScope thing Q_INVOKABLE unity::shell::scopes::ScopeInterface* getScope(const QString& scope_id) const override;
-                                root.allScopeClickedPos = item.mapToItem(null, 0, 0);
-                                scope.activate(result);
+                                root.allSelected(itemModel.scopeId, item.mapToItem(null, 0, 0));
                             }
                         }
                     }

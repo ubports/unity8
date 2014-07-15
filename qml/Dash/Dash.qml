@@ -82,6 +82,7 @@ Showable {
         property real progress: 0
         property bool showingNonFavoriteScope: false
         property bool growingDashFromAll: false
+        property var allScopePosition: undefined
         Behavior on progress {
             id: progressAnimation
             UbuntuNumberAnimation { }
@@ -112,6 +113,19 @@ Showable {
             animateDashFromAll();
             hide();
         }
+        onAllSelected: {
+            scopeItem.scope = scopes.getScope(scopeId);
+            scopeItem.parent = scopesOverviewXYScaler;
+            scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
+            scopesOverviewXYScaler.x = pos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+            scopesOverviewXYScaler.y = pos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+            overviewController.showingNonFavoriteScope = true;
+            overviewController.allScopePosition = pos;
+            scopesOverview.overrideOpacity = 0;
+            scopesOverviewXYScaler.scale = 1;
+            scopesOverviewXYScaler.x = 0;
+            scopesOverviewXYScaler.y = 0;
+        }
         function hide() {
             overviewController.enableAnimation = true;
             overviewController.progress = 0;
@@ -126,22 +140,6 @@ Showable {
             scopesOverviewXYScaler.scale = 1;
             scopesOverviewXYScaler.x = 0;
             scopesOverviewXYScaler.y = 0;
-        }
-
-        Connections {
-            target: scopesOverview.scope
-            onOpenScope: {
-                scopeItem.scope = scope;
-                scopeItem.parent = scopesOverviewXYScaler;
-                scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
-                scopesOverviewXYScaler.x = scopesOverview.allScopeClickedPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-                scopesOverviewXYScaler.y = scopesOverview.allScopeClickedPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-                overviewController.showingNonFavoriteScope = true;
-                scopesOverview.overrideOpacity = 0;
-                scopesOverviewXYScaler.scale = 1;
-                scopesOverviewXYScaler.x = 0;
-                scopesOverviewXYScaler.y = 0;
-            }
         }
     }
 
@@ -216,8 +214,8 @@ Showable {
             if (overviewController.showingNonFavoriteScope) {
                 var v = scopesOverview.allCardSize.width / scopeItem.width;
                 scopesOverviewXYScaler.scale = v;
-                scopesOverviewXYScaler.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * v) / 2;
-                scopesOverviewXYScaler.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * v) / 2;
+                scopesOverviewXYScaler.x = overviewController.allScopePosition.x -(scopeItem.width - scopeItem.width * v) / 2;
+                scopesOverviewXYScaler.y = overviewController.allScopePosition.y -(scopeItem.height - scopeItem.height * v) / 2;
                 scopesOverview.overrideOpacity = -1;
             } else {
                 closeOverlayScope();
