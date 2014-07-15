@@ -111,14 +111,15 @@ Showable {
             target: scopesOverview.scope
             onOpenScope: {
                 scopeItem.scope = scope;
-                scopeItem.overviewScale = scopesOverview.allCardSize.width / scopeItem.width;
-                scopeItem.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * scopeItem.overviewScale) / 2;
-                scopeItem.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * scopeItem.overviewScale) / 2;
+                scopeItem.parent = scopesOverviewXYScaler;
+                scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
+                scopesOverviewXYScaler.x = scopesOverview.allScopeClickedPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+                scopesOverviewXYScaler.y = scopesOverview.allScopeClickedPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
                 overviewController.showingNonFavoriteScope = true;
                 scopesOverview.overrideOpacity = 0;
-                scopeItem.overviewScale = 1;
-                scopeItem.x = 0;
-                scopeItem.y = 0;
+                scopesOverviewXYScaler.scale = 1;
+                scopesOverviewXYScaler.x = 0;
+                scopesOverviewXYScaler.y = 0;
             }
         }
     }
@@ -165,41 +166,19 @@ Showable {
     DashBackground
     {
         anchors.fill: scopeItem
-        scale: scopeItem.scale
         visible: scopeItem.visible
+        parent: scopeItem.parent
     }
 
     GenericScopeView {
         id: scopeItem
 
-        property real overviewScale: 1
-
         // TODO test this width + dashContent.x still works
         x: overviewController.showingNonFavoriteScope ? 0 : width + dashContent.x
-        Behavior on x {
-            enabled: overviewController.showingNonFavoriteScope
-            UbuntuNumberAnimation { }
-        }
-        Behavior on y {
-            enabled: overviewController.showingNonFavoriteScope
-            UbuntuNumberAnimation { }
-        }
+        z: 1
         width: parent.width
         height: parent.height
-        scale: dash.contentScale * overviewScale
-        enabled: scale == 1
-        Behavior on overviewScale {
-            enabled: overviewController.showingNonFavoriteScope
-            UbuntuNumberAnimation {
-                onRunningChanged: {
-                    if (!running && scopeItem.overviewScale != 1) {
-                        scopesOverview.scope.closeScope(scopeItem.scope);
-                        overviewController.showingNonFavoriteScope = false;
-                        scopeItem.scope = null;
-                    }
-                }
-            }
-        }
+        scale: dash.contentScale
         clip: scale != 1.0
         visible:  scope != null
         hasBackAction: true
@@ -207,9 +186,9 @@ Showable {
         onBackClicked: {
             if (overviewController.showingNonFavoriteScope) {
                 var v = scopesOverview.allCardSize.width / scopeItem.width;
-                scopeItem.overviewScale = v;
-                scopeItem.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * v) / 2;
-                scopeItem.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * v) / 2;
+                scopesOverviewXYScaler.scale = v;
+                scopesOverviewXYScaler.x = scopesOverview.allScopeClickedPos.x -(scopeItem.width - scopeItem.width * v) / 2;
+                scopesOverviewXYScaler.y = scopesOverview.allScopeClickedPos.y -(scopeItem.height - scopeItem.height * v) / 2;
                 scopesOverview.overrideOpacity = -1;
             } else {
                 closeOverlayScope();
@@ -224,6 +203,41 @@ Showable {
             }
             onOpenScope: {
                 dashContent.openScope(scope);
+            }
+        }
+    }
+
+    Item {
+        id: scopesOverviewXYScaler
+        width: parent.width
+        height: parent.height
+
+        clip: scale != 1.0
+        enabled: scale == 1
+        opacity: scale
+
+        Behavior on x {
+            enabled: overviewController.showingNonFavoriteScope
+            UbuntuNumberAnimation { }
+        }
+        Behavior on y {
+            enabled: overviewController.showingNonFavoriteScope
+            UbuntuNumberAnimation { }
+        }
+
+        Behavior on scale {
+            enabled: overviewController.showingNonFavoriteScope
+            UbuntuNumberAnimation {
+                onRunningChanged: {
+                    if (overviewController.showingNonFavoriteScope) {
+                        if (!running && scopesOverviewXYScaler.scale != 1) {
+                            scopesOverview.scope.closeScope(scopeItem.scope);
+                            overviewController.showingNonFavoriteScope = false;
+                            scopeItem.scope = null;
+                            scopeItem.parent = dash;
+                        }
+                    }
+                }
             }
         }
     }
