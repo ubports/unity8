@@ -160,8 +160,8 @@ Item {
 
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
 
-            tryCompare(lockscreen, "shown", false)
             tryCompare(greeter, "fakeActiveForApp", "dialer-app")
+            tryCompare(lockscreen, "shown", false)
             tryCompare(panel, "fullscreenMode", true)
             tryCompare(indicators, "available", false)
             tryCompare(launcher, "available", false)
@@ -170,9 +170,9 @@ Item {
             // Cancel emergency mode, and go back to normal
             LightDM.Greeter.showGreeter()
 
-            tryCompare(lockscreen, "shown", true)
             tryCompare(greeter, "shown", true)
             tryCompare(greeter, "fakeActiveForApp", "")
+            tryCompare(lockscreen, "shown", true)
             tryCompare(panel, "fullscreenMode", false)
             tryCompare(indicators, "available", true)
             tryCompare(launcher, "available", true)
