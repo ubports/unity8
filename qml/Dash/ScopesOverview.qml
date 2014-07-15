@@ -24,7 +24,7 @@ Item {
     property real progress: 0
     property var scope: null
     property var dashItemEater: {
-        if (middleItems.count > 0) {
+        if (tabBarHolder.currentTab == 0 && middleItems.count > 0) {
             var loaderItem = middleItems.itemAt(0).item;
             return loaderItem && loaderItem.currentItem ? loaderItem.currentItem : null;
         }
@@ -52,6 +52,12 @@ Item {
     signal done()
     signal favoriteSelected(int index)
     signal allSelected(var scope)
+
+    onProgressChanged: {
+        if (progress == 0) {
+            tabBarHolder.currentTab = 0;
+        }
+    }
 
     DashBackground {
         anchors.fill: parent
@@ -144,8 +150,19 @@ Item {
 
                 scale: index == 0 ? scopeScale : 1
 
-                opacity: root.overrideOpacity >= 0 ? root.overrideOpacity : tabBarHolder.currentTab == index ? 1 : 0
-                Behavior on opacity { UbuntuNumberAnimation { } }
+                opacity: {
+                    if (root.overrideOpacity >= 0)
+                        return root.overrideOpacity;
+
+                    if (tabBarHolder.currentTab != index)
+                        return 0;
+
+                    return index == 0 ? 1 : root.progress;
+                }
+                Behavior on opacity {
+                    enabled: root.progress == 1
+                    UbuntuNumberAnimation { }
+                }
                 enabled: opacity == 1
 
                 clip: index == 1
@@ -238,10 +255,7 @@ Item {
                     text: i18n.tr("Done")
                     color: parent.pressed ? "black" : "white"
                 }
-                onClicked: {
-                    root.done();
-                    tabBarHolder.currentTab = 0;
-                }
+                onClicked: root.done();
             }
         }
     }

@@ -81,6 +81,7 @@ Showable {
         property alias enableAnimation: progressAnimation.enabled
         property real progress: 0
         property bool showingNonFavoriteScope: false
+        property bool growingDashFromAll: false
         Behavior on progress {
             id: progressAnimation
             UbuntuNumberAnimation { }
@@ -96,7 +97,20 @@ Showable {
         scopeScale: 1 - overviewController.progress * 0.6
         visible: scopeScale != 1
         currentIndex: dashContent.currentIndex
-        onDone: hide();
+        onDone: {
+            if (dashContent.parent == scopesOverviewXYScaler) {
+                // Animate Dash growing from the All screen
+                // TODO find where the thing comes from for that x, y
+                scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
+                scopesOverviewXYScaler.x = /*scopesOverview.allScopeClickedPos.x*/ -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+                scopesOverviewXYScaler.y = /*scopesOverview.allScopeClickedPos.y*/ -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+                overviewController.growingDashFromAll = true;
+                scopesOverviewXYScaler.scale = 1;
+                scopesOverviewXYScaler.x = 0;
+                scopesOverviewXYScaler.y = 0;
+            }
+            hide();
+        }
         onFavoriteSelected: {
             dashContent.setCurrentScopeAtIndex(index, false, false);
             hide();
@@ -126,7 +140,15 @@ Showable {
 
     DashContent {
         id: dashContent
-        parent: overviewController.progress == 0 ? dash : scopesOverview.dashItemEater
+        parent: {
+            if (overviewController.progress == 0) {
+                return dash;
+            } else if (scopesOverview.dashItemEater) {
+                return scopesOverview.dashItemEater;
+            } else {
+                return scopesOverviewXYScaler;
+            }
+        }
         objectName: "dashContent"
         width: dash.width
         height: dash.height
@@ -160,7 +182,7 @@ Showable {
         }
 
         enabled: opacity == 1
-        opacity: 1 - overviewController.progress
+        opacity: overviewController.growingDashFromAll ? 1 : 1 - overviewController.progress
     }
 
     DashBackground
@@ -216,25 +238,29 @@ Showable {
         enabled: scale == 1
         opacity: scale
 
+        property bool animationsEnabled: overviewController.showingNonFavoriteScope || overviewController.growingDashFromAll
+
         Behavior on x {
-            enabled: overviewController.showingNonFavoriteScope
+            enabled: scopesOverviewXYScaler.animationsEnabled
             UbuntuNumberAnimation { }
         }
         Behavior on y {
-            enabled: overviewController.showingNonFavoriteScope
+            enabled: scopesOverviewXYScaler.animationsEnabled
             UbuntuNumberAnimation { }
         }
 
         Behavior on scale {
-            enabled: overviewController.showingNonFavoriteScope
+            enabled: scopesOverviewXYScaler.animationsEnabled
             UbuntuNumberAnimation {
                 onRunningChanged: {
-                    if (overviewController.showingNonFavoriteScope) {
-                        if (!running && scopesOverviewXYScaler.scale != 1) {
+                    if (!running) {
+                        if (overviewController.showingNonFavoriteScope && scopesOverviewXYScaler.scale != 1) {
                             scopesOverview.scope.closeScope(scopeItem.scope);
                             overviewController.showingNonFavoriteScope = false;
                             scopeItem.scope = null;
                             scopeItem.parent = dash;
+                        } else if (overviewController.growingDashFromAll) {
+                            overviewController.growingDashFromAll = false;
                         }
                     }
                 }
