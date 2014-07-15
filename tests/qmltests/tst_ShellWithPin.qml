@@ -168,6 +168,7 @@ Item {
             tryCompare(stage, "spreadEnabled", false)
 
             // Cancel emergency mode, and go back to normal
+            waitForRendering(greeter)
             LightDM.Greeter.showGreeter()
 
             tryCompare(greeter, "shown", true)
