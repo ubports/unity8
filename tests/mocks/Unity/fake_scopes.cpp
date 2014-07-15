@@ -48,9 +48,12 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
-    addScope(new Scope("MockScope3", "MS3", false, this));
-    addScope(new Scope("MockScope4", "MS4", false, this));
-    addScope(new Scope("MockScope6", "MS6", false, this));
+    addScope(new Scope("MockScope3", "MS3", true, this));
+    addScope(new Scope("MockScope4", "MS4", true, this));
+    addScope(new Scope("MockScope6", "MS6", true, this));
+    addScope(new Scope("MockScope7", "MS7", false, this));
+    addScope(new Scope("MockScope8", "MS8", false, this));
+    addScope(new Scope("MockScope9", "MS9", false, this));
     m_scopesOverview = new ScopesOverview(this);
 
     if (!m_loaded) {
