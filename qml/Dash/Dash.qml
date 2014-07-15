@@ -200,7 +200,6 @@ Showable {
     GenericScopeView {
         id: scopeItem
 
-        // TODO test this width + dashContent.x still works
         x: overviewController.showingNonFavoriteScope ? 0 : width + dashContent.x
         z: 1
         width: parent.width
