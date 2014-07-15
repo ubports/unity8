@@ -74,7 +74,7 @@ DashRenderer {
                 }
                 Connections {
                     target: loader.item
-                    onClicked: genericFilterGrid.clicked(index, result, loader.item)
+                    onClicked: genericFilterGrid.clicked(index, result, loader.item, model)
                     onPressAndHold: genericFilterGrid.pressAndHold(index)
                 }
             }

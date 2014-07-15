@@ -135,6 +135,13 @@ int ScopesOverviewResultsModel::scopeIndex(QString const& id) const
     return -1;
 }
 
+QHash<int, QByteArray> ScopesOverviewResultsModel::roleNames() const
+{
+    QHash<int, QByteArray> roles = unity::shell::scopes::ResultsModelInterface::roleNames();
+    roles[RoleBackground + 1] = "scopeId";
+    return roles;
+}
+
 int ScopesOverviewResultsModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
@@ -164,6 +171,9 @@ ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
         case RoleMascot:
         case RoleEmblem:
         case RoleSummary:
+        case RoleBackground + 1: // scopeId
+            return m_scopes->scopeAt(index.row(), m_isFavoriteCategory)->id();
+            break;
         default:
             return QVariant();
     }

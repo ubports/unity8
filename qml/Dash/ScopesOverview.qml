@@ -51,6 +51,7 @@ Item {
 
     signal done()
     signal favoriteSelected(int index)
+    signal allFavoriteSelected(var scopeId)
     signal allSelected(var scope)
 
     function allScopeCardPosition(scopeId) {
@@ -214,10 +215,17 @@ Item {
                         if (tabBarHolder.currentTab == 0) {
                             root.favoriteSelected(index)
                         } else {
-                            // This will result in an openScope
-                            // that we handle in Dash.qml
-                            root.allScopeClickedPos = item.mapToItem(null, 0, 0);
-                            scope.activate(result);
+                            var favoriteScopesItem = middleItems.itemAt(0).item;
+                            var index = favoriteScopesItem.model.scopeIndex(itemModel.scopeId);
+                            if (index > 0) {
+                                root.allFavoriteSelected(itemModel.scopeId);
+                            } else {
+                                // This will result in an openScope
+                                // that we handle in Dash.qml
+                                // TODO use and not do the openScope thing Q_INVOKABLE unity::shell::scopes::ScopeInterface* getScope(const QString& scope_id) const override;
+                                root.allScopeClickedPos = item.mapToItem(null, 0, 0);
+                                scope.activate(result);
+                            }
                         }
                     }
                     onPressAndHold: {

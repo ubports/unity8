@@ -70,6 +70,7 @@ public:
 
     /* Special API */
     Q_INVOKABLE int scopeIndex(QString const& id) const;
+    QHash<int, QByteArray> roleNames() const override;
 
 private:
     Scopes *m_scopes;

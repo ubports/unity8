@@ -99,15 +99,7 @@ Showable {
         currentIndex: dashContent.currentIndex
         onDone: {
             if (dashContent.parent == scopesOverviewXYScaler) {
-                // Animate Dash growing from the All screen
-                var currentScopePos = scopesOverview.allScopeCardPosition(dashContent.currentScopeId);
-                scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
-                scopesOverviewXYScaler.x = currentScopePos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-                scopesOverviewXYScaler.y = currentScopePos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-                overviewController.growingDashFromAll = true;
-                scopesOverviewXYScaler.scale = 1;
-                scopesOverviewXYScaler.x = 0;
-                scopesOverviewXYScaler.y = 0;
+                animateDashFromAll();
             }
             hide();
         }
@@ -115,10 +107,25 @@ Showable {
             dashContent.setCurrentScopeAtIndex(index, false, false);
             hide();
         }
+        onAllFavoriteSelected: {
+            setCurrentScope(scopeId, false, false);
+            animateDashFromAll();
+            hide();
+        }
         function hide() {
             overviewController.enableAnimation = true;
             overviewController.progress = 0;
             overviewController.accepted = false;
+        }
+        function animateDashFromAll() {
+            var currentScopePos = scopesOverview.allScopeCardPosition(dashContent.currentScopeId);
+            scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
+            scopesOverviewXYScaler.x = currentScopePos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+            scopesOverviewXYScaler.y = currentScopePos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+            overviewController.growingDashFromAll = true;
+            scopesOverviewXYScaler.scale = 1;
+            scopesOverviewXYScaler.x = 0;
+            scopesOverviewXYScaler.y = 0;
         }
 
         Connections {
