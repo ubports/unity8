@@ -21,6 +21,8 @@ import "../Components"
 Item {
     id: root
 
+    // TODO Search ?
+
     property real progress: 0
     property var scope: null
     property var dashItemEater: {
