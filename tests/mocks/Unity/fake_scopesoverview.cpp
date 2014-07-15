@@ -125,6 +125,16 @@ void ScopesOverviewResultsModel::setCategoryId(QString const& /*id*/)
     qFatal("Calling un-implemented ScopesOverviewResultsModel::setCategoryId");
 }
 
+int ScopesOverviewResultsModel::scopeIndex(QString const& id) const
+{
+    const int scopeCount = count();
+    for (int i = 0; i < scopeCount; ++i) {
+        if (m_scopes->scopeAt(i, m_isFavoriteCategory)->id() == id)
+            return i;
+    }
+    return -1;
+}
+
 int ScopesOverviewResultsModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);

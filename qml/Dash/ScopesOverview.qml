@@ -53,6 +53,16 @@ Item {
     signal favoriteSelected(int index)
     signal allSelected(var scope)
 
+    function allScopeCardPosition(scopeId) {
+        if (middleItems.count > 1) {
+            var loaderItem = middleItems.itemAt(1).item;
+            if (loaderItem) {
+                var pos = loaderItem.scopeCardPosition(scopeId);
+                return loaderItem.mapToItem(null, pos.x, pos.y);
+            }
+        }
+    }
+
     onProgressChanged: {
         if (progress == 0) {
             tabBarHolder.currentTab = 0;

@@ -31,6 +31,13 @@ Flickable {
     contentHeight: cardFilterGrid.height + extraHeight
     contentWidth: cardFilterGrid.width
 
+    function scopeCardPosition(scopeId) {
+        var index = model.scopeIndex(scopeId);
+        var pos = cardFilterGrid.cardPosition(index);
+        pos.y = pos.y - root.contentY;
+        return pos;
+    }
+
     CardFilterGrid {
         id: cardFilterGrid
         width: parent.width

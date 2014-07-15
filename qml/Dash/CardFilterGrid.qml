@@ -31,6 +31,17 @@ DashRenderer {
         filterGrid.setFilter(filter, animate)
     }
 
+    function cardPosition(index) {
+        var pos = {};
+        var row = Math.floor(index / filterGrid.columns);
+        var column = index % filterGrid.columns;
+        // Bit sad this is not symmetrical
+        pos.x = column * filterGrid.cellWidth + filterGrid.margins;
+        pos.y = row * filterGrid.cellHeight;
+        return pos;
+    }
+
+
     FilterGrid {
         id: filterGrid
         width: genericFilterGrid.width

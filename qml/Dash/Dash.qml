@@ -100,10 +100,10 @@ Showable {
         onDone: {
             if (dashContent.parent == scopesOverviewXYScaler) {
                 // Animate Dash growing from the All screen
-                // TODO find where the thing comes from for that x, y
+                var currentScopePos = scopesOverview.allScopeCardPosition(dashContent.currentScopeId);
                 scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
-                scopesOverviewXYScaler.x = /*scopesOverview.allScopeClickedPos.x*/ -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-                scopesOverviewXYScaler.y = /*scopesOverview.allScopeClickedPos.y*/ -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+                scopesOverviewXYScaler.x = currentScopePos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+                scopesOverviewXYScaler.y = currentScopePos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
                 overviewController.growingDashFromAll = true;
                 scopesOverviewXYScaler.scale = 1;
                 scopesOverviewXYScaler.x = 0;

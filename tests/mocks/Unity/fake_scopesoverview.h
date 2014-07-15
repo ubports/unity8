@@ -68,6 +68,9 @@ public:
     /* setters */
     void setCategoryId(QString const& id) override;
 
+    /* Special API */
+    Q_INVOKABLE int scopeIndex(QString const& id) const;
+
 private:
     Scopes *m_scopes;
     bool m_isFavoriteCategory;
