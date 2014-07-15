@@ -120,7 +120,8 @@ FocusScope {
 
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
-            shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
+            shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0 &&
+                   !(panel.indicators.fullyOpened && !sideStageEnabled)
             enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
 
             anchors {
