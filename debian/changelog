@@ -1,3 +1,14 @@
+unity8 (7.90+14.10.20140714-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Activate all results in click scope by default. (LP: #1341262)
+
+  [ Mirco Müller ]
+  * Added support for utilization of the ComboButton SDK-element for
+    snap-decision notifications with many actions.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 14 Jul 2014 18:20:25 +0000
+
 unity8 (7.90+14.10.20140709.2-0ubuntu1) utopic; urgency=low
 
   [ Michal Hruby ]

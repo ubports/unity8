@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-06-06 19:34+0000\n"
+"PO-Revision-Date: 2014-07-14 13:39+0000\n"
 "Last-Translator: Phillip Sz <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-07-15 05:59+0000\n"
+"X-Generator: Launchpad (build 17111)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -83,7 +83,7 @@ msgstr "Notruf"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
@@ -100,11 +100,11 @@ msgstr "Hallo"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "ABBRECHEN"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "ERLEDIGT"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -176,7 +176,7 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "Wird heruntergeladen"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
@@ -184,11 +184,11 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
-msgstr ""
+msgstr "Abgebrochen"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Erledigt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
