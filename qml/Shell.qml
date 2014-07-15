@@ -382,6 +382,15 @@ FocusScope {
             }
         }
 
+        onPromptlessChanged: {
+            if (LightDM.Greeter.promptless) {
+                lockscreen.hide()
+            } else {
+                lockscreen.reset();
+                lockscreen.show();
+            }
+        }
+
         onAuthenticationComplete: {
             if (LightDM.Greeter.promptless) {
                 return;
@@ -458,12 +467,12 @@ FocusScope {
 
             onShownChanged: {
                 if (shown) {
-                    lockscreen.reset();
-                    if (!LightDM.Greeter.promptless) {
-                       lockscreen.show();
-                    }
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    }
+                    if (!LightDM.Greeter.promptless) {
+                        lockscreen.reset();
+                        lockscreen.show();
                     }
                     greeter.fakeActiveForApp = "";
                     greeter.forceActiveFocus();
