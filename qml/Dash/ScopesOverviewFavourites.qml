@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 
-ListView {
+Flickable {
     id: root
 
     signal clicked(int index, var result)
@@ -26,30 +26,46 @@ ListView {
     property real scopeHeight: 0
     property real scopeWidth: 0
     property real appliedScale: 1
+    property int currentIndex: -1
+    property var currentItem: repeater.itemAt(currentIndex);
 
-    orientation: ListView.Horizontal
-    highlightMoveDuration: 0
+    property alias model: repeater.model
 
-    spacing: units.gu(2) / appliedScale
+    contentHeight: height
+    contentWidth: repeater.count * root.scopeWidth + units.gu(2) / appliedScale * (repeater.count - 1)
 
-    delegate: Loader {
-        id: loader
+    contentX: {
+        var indexX = currentIndex * scopeWidth + units.gu(2) / appliedScale * currentIndex;
+        var newContentX = indexX - (width - scopeWidth) / 2;
+        newContentX = Math.min(Math.max(newContentX, 0), contentWidth - width);
+        return newContentX;
+    }
 
-        sourceComponent: cardTool.cardComponent
-        onLoaded: {
-            item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight / appliedScale; });
-            item.fontScale = Qt.binding(function() { return 1 / appliedScale; });
-            item.height = Qt.binding(function() { return root.scopeHeight; });
-            item.width = Qt.binding(function() { return root.scopeWidth; });
-            item.cardData = Qt.binding(function() { return model; });
-            item.template = Qt.binding(function() { return cardTool.template; });
-            item.components = Qt.binding(function() { return cardTool.components; });
-            item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
-        }
+    Repeater {
+        id: repeater
 
-        Connections {
-            target: loader.item
-            onClicked: root.clicked(index, result)
+        delegate: Loader {
+            id: loader
+
+            x: index * root.scopeWidth + units.gu(2) / appliedScale * index
+            asynchronous: true
+
+            sourceComponent: cardTool.cardComponent
+            onLoaded: {
+                item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight / appliedScale; });
+                item.fontScale = Qt.binding(function() { return 1 / appliedScale; });
+                item.height = Qt.binding(function() { return root.scopeHeight; });
+                item.width = Qt.binding(function() { return root.scopeWidth; });
+                item.cardData = Qt.binding(function() { return model; });
+                item.template = Qt.binding(function() { return cardTool.template; });
+                item.components = Qt.binding(function() { return cardTool.components; });
+                item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
+            }
+
+            Connections {
+                target: loader.item
+                onClicked: root.clicked(index, result)
+            }
         }
     }
 }
