@@ -279,7 +279,7 @@ Showable {
         z: 1
         direction: Direction.Upwards
         // TODO this needs to be disabled in a few more cases
-        enabled: dashContent.currentScope.searchQuery == "" && (overviewController.progress == 0 || dragging)
+        enabled: !dashContent.previewShown && dashContent.currentScope.searchQuery == "" && (overviewController.progress == 0 || dragging)
 
         readonly property real fullMovement: units.gu(20)
 
