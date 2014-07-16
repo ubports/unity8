@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-07 12:15+0100\n"
+"POT-Creation-Date: 2014-07-16 17:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,10 +80,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:366
-msgid "Recent searches"
-msgstr ""
-
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
@@ -121,16 +117,32 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:114
+msgid "Manage Dash"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:291
+msgid "Done"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:53
+msgid "All"
 msgstr ""
 
 #: qml/Greeter/Greeter.qml:157
@@ -165,6 +177,14 @@ msgstr ""
 msgid "Please enter SIM PIN"
 msgstr ""
 
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr ""
+
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
 msgstr ""
@@ -193,7 +213,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:353
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
