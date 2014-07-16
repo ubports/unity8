@@ -826,8 +826,8 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 ListItem *nextItem = itemAtIndex(modelIndex + 1);
                 if (nextItem) {
                     listItem->setY(nextItem->y() - listItem->height());
-                } else if (modelIndex == 0 && m_headerItem) {
-                    listItem->setY(m_headerItem->height());
+                } else if (modelIndex == 0) {
+                    listItem->setY(m_headerItem ? m_headerItem->height() : 0);
                 } else if (!m_visibleItems.isEmpty()) {
                     lostItem = true;
                 }
