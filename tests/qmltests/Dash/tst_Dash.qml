@@ -86,7 +86,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(scopes, "loaded", true);
-            tryCompare(dashContentList, "count", 3);
+            tryCompare(dashContentList, "count", 6);
 
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);

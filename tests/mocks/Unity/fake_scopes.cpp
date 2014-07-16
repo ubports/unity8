@@ -72,6 +72,7 @@ void Scopes::clear()
         endRemoveRows();
     }
     delete m_scopesOverview;
+    m_scopesOverview = nullptr;
 
     if (m_loaded) {
         m_loaded = false;

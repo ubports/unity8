@@ -68,7 +68,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 4);
+            tryCompare(scopeLoadedSpy, "count", 10);
         }
 
         function init() {
@@ -111,7 +111,8 @@ Item {
 
             loadScopes();
 
-            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
+            compare(dashContentList.count, 10);
+            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < dashContentList.count);
         }
 
         function test_show_header_on_list_movement() {
@@ -164,7 +165,7 @@ Item {
 
             // test greater than scope count.
             var currentScopeIndex = dashContent.currentIndex;
-            dashContent.setCurrentScopeAtIndex(8, true, false);
+            dashContent.setCurrentScopeAtIndex(18, true, false);
             compare(dashContent.currentIndex, currentScopeIndex, "Scope should not change if changing to greater index than count");
         }
 
