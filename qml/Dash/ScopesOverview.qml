@@ -130,7 +130,7 @@ Item {
 
                 enabled: opacity == 1
                 opacity: !scope || scope.searchQuery == "" ? 1 : 0
-                Behavior on opacity { }
+                Behavior on opacity { UbuntuNumberAnimation {} }
             }
         }
 
