@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 0.1
 
 Item {
@@ -26,7 +27,7 @@ Item {
 
     height: units.gu(5)
 
-    Row {
+    RowLayout {
         spacing: units.gu(.5)
         anchors {
             left: parent.left
@@ -37,6 +38,7 @@ Item {
 
         Label {
             id: label
+            Layout.fillWidth: true
 
             font.family: "Ubuntu"
             fontSize: "medium"
@@ -49,8 +51,7 @@ Item {
         Icon {
             id: icon
             visible: name != ""
-            anchors.bottom: label.baseline
-            height: units.gu(1)
+            height: units.gu(2)
             width: height
             color: label.color
         }
