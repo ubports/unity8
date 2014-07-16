@@ -218,7 +218,7 @@ Item {
                         } else {
                             var favoriteScopesItem = middleItems.itemAt(0).item;
                             var scopeIndex = favoriteScopesItem.model.scopeIndex(itemModel.scopeId);
-                            if (scopeIndex > 0) {
+                            if (scopeIndex >= 0) {
                                 root.allFavoriteSelected(itemModel.scopeId);
                             } else {
                                 root.allSelected(itemModel.scopeId, item.mapToItem(null, 0, 0));
