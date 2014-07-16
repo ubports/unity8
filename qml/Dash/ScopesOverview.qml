@@ -94,10 +94,8 @@ Item {
         width: parent.width
         height: parent.height
 
-        Item {
-            id: topBar
-            width: parent.width
-            height: pageHeader.height + (tabBar.opacity == 1 ? tabBar.height + tabBar.anchors.margins : 0)
+        PageHeader {
+            id: pageHeader
 
             y: {
                 if (root.progress < 0.5) {
@@ -106,32 +104,28 @@ Item {
                     return -height + (root.progress - 0.5) * height * 2;
                 }
             }
+            width: parent.width
+            clip: true
+            title: i18n.tr("Manage Dash")
+            scopeStyle: root.scopeStyle
+            showSignatureLine: false
+            searchEntryEnabled: true
+            searchInProgress: root.scope ? root.scope.searchInProgress : false
+        }
 
-            PageHeader {
-                id: pageHeader
-                width: parent.width
-                clip: true
-                title: i18n.tr("Manage Dash")
-                scopeStyle: root.scopeStyle
-                showSignatureLine: false
-                searchEntryEnabled: true
-                searchInProgress: root.scope ? root.scope.searchInProgress : false
+        ScopesOverviewTab {
+            id: tabBar
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: pageHeader.bottom
+                margins: units.gu(2)
             }
+            height: units.gu(4)
 
-            ScopesOverviewTab {
-                id: tabBar
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    top: pageHeader.bottom
-                    margins: units.gu(2)
-                }
-                height: units.gu(4)
-
-                enabled: opacity == 1
-                opacity: !scope || scope.searchQuery == "" ? 1 : 0
-                Behavior on opacity { UbuntuNumberAnimation {} }
-            }
+            enabled: opacity == 1
+            opacity: !scope || scope.searchQuery == "" ? 1 : 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
         }
 
         Repeater {
@@ -144,7 +138,7 @@ Item {
                     if (index == 0) {
                         return root.height;
                     } else {
-                        return root.height - topBar.height - units.gu(2)
+                        return root.height - pageHeader.height - tabBar.height - tabBar.anchors.margins - units.gu(2)
                     }
                 }
                 width: {
@@ -240,7 +234,7 @@ Item {
         GenericScopeView {
             id: searchResultsViewer
             anchors {
-                top: topBar.bottom
+                top: pageHeader.bottom
                 right: parent.right
                 left: parent.left
                 bottom: parent.bottom
