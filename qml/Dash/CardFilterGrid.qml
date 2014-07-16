@@ -41,7 +41,6 @@ DashRenderer {
         return pos;
     }
 
-
     FilterGrid {
         id: filterGrid
         width: genericFilterGrid.width
