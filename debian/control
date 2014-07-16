@@ -102,7 +102,7 @@ Package: unity8-common
 Architecture: all
 Depends: qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.49) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.49),
-         qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
+         qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
          ubuntu-thumbnailer-impl-0,
          unity-application-impl-2,
          unity-notifications-impl-3,
