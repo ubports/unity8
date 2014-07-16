@@ -70,16 +70,16 @@ Item {
             height: root.itemHeight - units.gu(1)
         }
 
-        BorderImage {
+        UbuntuShape {
             objectName: "countEmblem"
             anchors {
                 right: parent.right
                 top: parent.top
                 margins: units.dp(3)
             }
-            width: Math.min(root.itemWidth, Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
-            height: units.gu(3)
-            source: "graphics/notification.sci"
+            width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
+            height: units.gu(2)
+            color: UbuntuColors.orange
             visible: root.count > 0
 
             Label {
@@ -90,8 +90,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
-                fontSize: "small"
-                font.bold: true
+                fontSize: "x-small"
             }
         }
 
