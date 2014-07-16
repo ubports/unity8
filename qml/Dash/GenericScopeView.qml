@@ -89,7 +89,7 @@ FocusScope {
     Binding {
         target: scopeView.scope
         property: "searchQuery"
-        value: pageHeaderLoader.item.searchQuery
+        value: pageHeaderLoader.item ? pageHeaderLoader.item.searchQuery : ""
         when: isCurrent && showPageHeader
     }
 
