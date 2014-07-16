@@ -21,8 +21,6 @@ import "../Components"
 Item {
     id: root
 
-    // TODO Search ?
-
     property real progress: 0
     property var scope: null
     property var dashItemEater: {
@@ -246,6 +244,8 @@ Item {
             clip: true
             opacity: searchResultsViewer.scope ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation {} }
+
+            // TODO Do something when people click on search results
         }
 
         Rectangle {

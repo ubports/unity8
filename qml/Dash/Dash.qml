@@ -88,6 +88,7 @@ Showable {
         }
     }
 
+    // TODO showing Dash Overview from temp scope
     ScopesOverview {
         id: scopesOverview
         anchors.fill: parent
@@ -277,7 +278,6 @@ Showable {
         id: overviewDragHandle
         z: 1
         direction: Direction.Upwards
-        // TODO this needs to be disabled in a few more cases
         enabled: !dashContent.previewShown && dashContent.currentScope && dashContent.currentScope.searchQuery == "" && (overviewController.progress == 0 || dragging)
 
         readonly property real fullMovement: units.gu(20)
