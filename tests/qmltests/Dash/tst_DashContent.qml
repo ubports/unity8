@@ -313,6 +313,7 @@ Item {
             compare(allButton.visible, true);
             compare(backButton.visible, true);
 
+            tryCompare(departmentListView, "contentX", departmentList1.x);
             waitForRendering(departmentListView);
             mouseClick(allButton, 0, 0);
             compare(dashDepartments.showList, false);
