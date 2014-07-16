@@ -261,7 +261,6 @@ Showable {
                 onRunningChanged: {
                     if (!running) {
                         if (overviewController.showingNonFavoriteScope && scopesOverviewXYScaler.scale != 1) {
-                            scopesOverview.scope.closeScope(scopeItem.scope);
                             overviewController.showingNonFavoriteScope = false;
                             scopeItem.scope = null;
                             scopeItem.parent = dash;
