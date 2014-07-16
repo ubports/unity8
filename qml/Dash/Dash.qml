@@ -77,7 +77,6 @@ Showable {
     QtObject {
         id: overviewController
 
-        property bool accepted: false
         property alias enableAnimation: progressAnimation.enabled
         property real progress: 0
         property bool showingNonFavoriteScope: false
@@ -129,7 +128,6 @@ Showable {
         function hide() {
             overviewController.enableAnimation = true;
             overviewController.progress = 0;
-            overviewController.accepted = false;
         }
         function animateDashFromAll() {
             var currentScopePos = scopesOverview.allScopeCardPosition(dashContent.currentScopeId);
@@ -276,27 +274,22 @@ Showable {
         id: overviewDragHandle
         z: 1
         direction: Direction.Upwards
-        distanceThreshold: units.gu(20)
         // TODO this needs to be disabled in a few more cases
-        enabled: !overviewController.accepted || dragging
+        enabled: overviewController.progress == 0 || dragging
+
+        readonly property real fullMovement: units.gu(20)
 
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: units.gu(2)
 
         onSceneDistanceChanged: {
             overviewController.enableAnimation = false;
-            overviewController.progress = Math.max(0, Math.min(1, sceneDistance / distanceThreshold));
-        }
-
-        onStatusChanged: {
-            if (status == DirectionalDragArea.Recognized) {
-                overviewController.accepted = true;
-            }
+            overviewController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
         }
 
         onDraggingChanged: {
             overviewController.enableAnimation = true;
-            overviewController.progress = overviewController.accepted ? 1 : 0;
+            overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
         }
     }
 
