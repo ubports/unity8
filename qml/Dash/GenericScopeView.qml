@@ -33,6 +33,7 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    property bool showPageHeader: true
     readonly property alias previewShown: previewListView.open
 
     property var scopeStyle: ScopeStyle {
@@ -79,22 +80,24 @@ FocusScope {
     }
 
     onIsCurrentChanged: {
-        pageHeader.resetSearch();
+        if (showPageHeader) {
+            pageHeaderLoader.item.resetSearch();
+        }
         previewListView.open = false;
     }
 
     Binding {
         target: scopeView.scope
         property: "searchQuery"
-        value: pageHeader.searchQuery
-        when: isCurrent
+        value: pageHeaderLoader.item.searchQuery
+        when: isCurrent && showPageHeader
     }
 
     Binding {
-        target: pageHeader
+        target: pageHeaderLoader.item
         property: "searchQuery"
         value: scopeView.scope ? scopeView.scope.searchQuery : ""
-        when: isCurrent
+        when: isCurrent && showPageHeader
     }
 
     Connections {
@@ -330,26 +333,34 @@ FocusScope {
             }
         }
 
-        pageHeader: PageHeader {
-            id: pageHeader
-            objectName: "scopePageHeader"
+        pageHeader: scopeView.showPageHeader ? pageHeaderLoader : null
+        Loader {
+            id: pageHeaderLoader
             width: parent.width
-            title: scopeView.scope ? scopeView.scope.name : ""
-            showBackButton: scopeView.hasBackAction
-            searchEntryEnabled: true
-            searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
-            scopeStyle: scopeView.scopeStyle
+            sourceComponent: scopeView.showPageHeader ? pageHeaderComponent : undefined
+            Component {
+                id: pageHeaderComponent
+                PageHeader {
+                    objectName: "scopePageHeader"
+                    width: parent.width
+                    title: scopeView.scope ? scopeView.scope.name : ""
+                    showBackButton: scopeView.hasBackAction
+                    searchEntryEnabled: true
+                    searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
+                    scopeStyle: scopeView.scopeStyle
 
-            bottomItem: DashDepartments {
-                scope: scopeView.scope
-                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                anchors.right: parent.right
-                windowHeight: scopeView.height
-                windowWidth: scopeView.width
-                scopeStyle: scopeView.scopeStyle
+                    bottomItem: DashDepartments {
+                        scope: scopeView.scope
+                        width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
+                        anchors.right: parent.right
+                        windowHeight: scopeView.height
+                        windowWidth: scopeView.width
+                        scopeStyle: scopeView.scopeStyle
+                    }
+
+                    onBackClicked: scopeView.backClicked()
+                }
             }
-
-            onBackClicked: scopeView.backClicked()
         }
     }
 

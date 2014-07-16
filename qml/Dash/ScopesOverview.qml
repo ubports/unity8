@@ -26,7 +26,7 @@ Item {
     property real progress: 0
     property var scope: null
     property var dashItemEater: {
-        if (tabBarHolder.currentTab == 0 && middleItems.count > 0) {
+        if (tabBar.currentTab == 0 && middleItems.count > 0) {
             var loaderItem = middleItems.itemAt(0).item;
             return loaderItem && loaderItem.currentItem ? loaderItem.currentItem : null;
         }
@@ -38,6 +38,7 @@ Item {
     property QtObject scopeStyle: QtObject {
         property string headerLogo: ""
         property color foreground: "white"
+        property color background: "transparent"
     }
     property size allCardSize: {
         if (middleItems.count > 1) {
@@ -67,7 +68,7 @@ Item {
 
     onProgressChanged: {
         if (progress == 0) {
-            tabBarHolder.currentTab = 0;
+            tabBar.currentTab = 0;
         }
     }
 
@@ -96,7 +97,7 @@ Item {
         Item {
             id: topBar
             width: parent.width
-            height: childrenRect.height
+            height: pageHeader.height + (tabBar.opacity == 1 ? tabBar.height + tabBar.anchors.margins : 0)
 
             y: {
                 if (root.progress < 0.5) {
@@ -118,7 +119,7 @@ Item {
             }
 
             ScopesOverviewTab {
-                id: tabBarHolder
+                id: tabBar
                 anchors {
                     left: parent.left
                     right: parent.right
@@ -126,27 +127,31 @@ Item {
                     margins: units.gu(2)
                 }
                 height: units.gu(4)
+
+                enabled: opacity == 1
+                opacity: !scope || scope.searchQuery == "" ? 1 : 0
+                Behavior on opacity { }
             }
         }
 
         Repeater {
             id: middleItems
-            model: scope ? scope.categories : null
+            model: scope && scope.searchQuery == "" ? scope.categories : null
             delegate: Loader {
                 id: loader
 
                 height: {
                     if (index == 0) {
-                        return parent.height;
+                        return root.height;
                     } else {
-                        return parent.height - topBar.height - units.gu(2)
+                        return root.height - topBar.height - units.gu(2)
                     }
                 }
                 width: {
                     if (index == 0) {
-                        return parent.width / scopeScale
+                        return root.width / scopeScale
                     } else {
-                        return parent.width
+                        return root.width
                     }
                 }
                 x: {
@@ -157,7 +162,7 @@ Item {
                     }
                 }
                 anchors {
-                    bottom: parent.bottom
+                    bottom: scopesOverviewContent.bottom
                 }
 
                 scale: index == 0 ? scopeScale : 1
@@ -166,7 +171,7 @@ Item {
                     if (root.overrideOpacity >= 0)
                         return root.overrideOpacity;
 
-                    if (tabBarHolder.currentTab != index)
+                    if (tabBar.currentTab != index)
                         return 0;
 
                     return index == 0 ? 1 : root.progress;
@@ -189,12 +194,9 @@ Item {
                 }
 
                 source: {
-                    if (index == 0) return "ScopesOverviewFavourites.qml";
-                    else if (index == 1) return "ScopesOverviewAll.qml";
-                    else {
-                        console.log("WARNING: ScopesOverview scope is not supposed to have more than 2 categories");
-                        return "";
-                    }
+                    if (index == 0 && categoryId == "favorites") return "ScopesOverviewFavorites.qml";
+                    else if (index == 1 && categoryId == "all") return "ScopesOverviewAll.qml";
+                    else return "";
                 }
 
                 onLoaded: {
@@ -213,7 +215,7 @@ Item {
                 Connections {
                     target: loader.item
                     onClicked: {
-                        if (tabBarHolder.currentTab == 0) {
+                        if (tabBar.currentTab == 0) {
                             root.favoriteSelected(index)
                         } else {
                             var favoriteScopesItem = middleItems.itemAt(0).item;
@@ -235,12 +237,31 @@ Item {
             }
         }
 
+        GenericScopeView {
+            id: searchResultsViewer
+            anchors {
+                top: topBar.bottom
+                right: parent.right
+                left: parent.left
+                bottom: parent.bottom
+            }
+            scope: root.scope && root.scope.searchQuery != "" ? root.scope : null
+            scopeStyle: root.scopeStyle
+            enabled: opacity == 1
+            showPageHeader: false
+            clip: true
+            opacity: searchResultsViewer.scope ? 1 : 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
+        }
+
         Rectangle {
             id: bottomBar
             color: "black"
             height: units.gu(6)
             width: parent.width
-            opacity: 0.4
+            enabled: opacity == 0.4
+            opacity: scope && scope.searchQuery == "" ? 0.4 : 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
             y: {
                 if (root.progress < 0.5) {
                     return parent.height;

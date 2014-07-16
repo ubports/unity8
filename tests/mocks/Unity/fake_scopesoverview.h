@@ -29,7 +29,11 @@ class ScopesOverview : public Scope
 public:
     ScopesOverview(Scopes* parent = 0);
 
-    Q_INVOKABLE void activate(QVariant const& result) override;
+    void setSearchQuery(const QString& search_query) override;
+
+private:
+    unity::shell::scopes::CategoriesInterface *m_scopesOverviewCategories;
+    unity::shell::scopes::CategoriesInterface *m_searchCategories;
 };
 
 class ScopesOverviewCategories : public unity::shell::scopes::CategoriesInterface

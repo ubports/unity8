@@ -23,16 +23,22 @@
 ScopesOverview::ScopesOverview(Scopes* parent)
  : Scope("scopesOverview", "Scopes Overview", false, parent)
 {
-    delete m_categories;
-    m_categories = new ScopesOverviewCategories(parent, this);
+    m_searchCategories = m_categories; // save the usual categories as search result
+    m_scopesOverviewCategories = new ScopesOverviewCategories(parent, this);
+    m_categories = m_scopesOverviewCategories;
 }
 
-void ScopesOverview::activate(QVariant const& result)
+void ScopesOverview::setSearchQuery(const QString& search_query)
 {
-    Scopes *scopes = dynamic_cast<Scopes*>(parent());
-    Q_EMIT openScope(scopes->getScope(result.toString()));
-}
+    Scope::setSearchQuery(search_query);
 
+    auto origCategories = m_categories;
+    if (search_query.isEmpty()) m_categories = m_scopesOverviewCategories;
+    else m_categories = m_searchCategories;
+
+    if (m_categories != origCategories)
+        Q_EMIT categoriesChanged();
+}
 
 
 ScopesOverviewCategories::ScopesOverviewCategories(Scopes *scopes, QObject* parent)
@@ -71,9 +77,9 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
     }
     switch (role) {
         case RoleCategoryId:
-            return index.row() == 0 ? "favourites" : "all";
+            return index.row() == 0 ? "favorites" : "all";
         case RoleName:
-            return index.row() == 0 ? "Favourites" : "All";
+            return index.row() == 0 ? "Favorites" : "All";
         case RoleIcon:
             return QVariant();
         case RoleRawRendererTemplate:
@@ -117,7 +123,7 @@ ScopesOverviewResultsModel::ScopesOverviewResultsModel(Scopes *scopes, bool isFa
 
 QString ScopesOverviewResultsModel::categoryId() const
 {
-    return m_isFavoriteCategory ? "favourites" : "all";
+    return m_isFavoriteCategory ? "favorites" : "all";
 }
 
 void ScopesOverviewResultsModel::setCategoryId(QString const& /*id*/)

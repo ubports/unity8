@@ -28,13 +28,13 @@ Item {
         width: parent.width / 2
         Rectangle {
             anchors.fill: parent
-            color: root.currentTab == 0 ? "white" : "transparent"
+            color: root.currentTab == 0 && root.enabled ? "white" : "transparent"
             radius: units.dp(10)
         }
         Label {
             anchors.centerIn: parent
-            text: i18n.tr("Favourites")
-            color: root.currentTab == 0 ? "black" : "white"
+            text: i18n.tr("Favorites")
+            color: root.currentTab == 0 && root.enabled ? "black" : "white"
         }
         onClicked: root.currentTab = 0
     }
@@ -45,19 +45,19 @@ Item {
         width: parent.width / 2
         Rectangle {
             anchors.fill: parent
-            color: root.currentTab == 1 ? "white" : "transparent"
+            color: root.currentTab == 1 && root.enabled ? "white" : "transparent"
             radius: units.dp(10)
         }
         Label {
             anchors.centerIn: parent
             text: i18n.tr("All")
-            color: root.currentTab == 1 ? "black" : "white"
+            color: root.currentTab == 1 && root.enabled ? "black" : "white"
         }
         onClicked: root.currentTab = 1
     }
     Rectangle {
         id: centerPiece
-        width: units.dp(10)
+        width: root.enabled ? units.dp(10) : units.dp(1)
         height: parent.height
         color: "white"
         x: root.currentTab == 1 ? tab2.x : tab2.x - width
