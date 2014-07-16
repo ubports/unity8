@@ -110,6 +110,7 @@ Load the testability driver");
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->setColor("black");
     view->setTitle("Unity8 Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);

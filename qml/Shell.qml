@@ -100,12 +100,6 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered
 
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-            opacity: dash.disappearingAnimationProgress
-        }
-
         Image {
             anchors.fill: dash
             source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
