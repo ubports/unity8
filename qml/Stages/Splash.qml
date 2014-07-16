@@ -54,6 +54,7 @@ Rectangle {
     }
 
     WaitingDots {
+        visible: parent.visible
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: units.gu(12)
@@ -61,6 +62,7 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
+        enabled: parent.visible
         // absorb all mouse events
     }
 }
