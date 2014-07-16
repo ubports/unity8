@@ -131,13 +131,17 @@ Showable {
         }
         function animateDashFromAll() {
             var currentScopePos = scopesOverview.allScopeCardPosition(dashContent.currentScopeId);
-            scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
-            scopesOverviewXYScaler.x = currentScopePos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-            scopesOverviewXYScaler.y = currentScopePos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-            overviewController.growingDashFromAll = true;
-            scopesOverviewXYScaler.scale = 1;
-            scopesOverviewXYScaler.x = 0;
-            scopesOverviewXYScaler.y = 0;
+            if (currentScopePos) {
+                scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
+                scopesOverviewXYScaler.x = currentScopePos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+                scopesOverviewXYScaler.y = currentScopePos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+                overviewController.growingDashFromAll = true;
+                scopesOverviewXYScaler.scale = 1;
+                scopesOverviewXYScaler.x = 0;
+                scopesOverviewXYScaler.y = 0;
+            } else {
+                console.log("Warning: Could not find Dash OverView All card position for scope", dashContent.currentScopeId);
+            }
         }
     }
 
