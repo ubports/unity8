@@ -27,6 +27,7 @@ Item {
     property var scopes: null
     readonly property alias currentIndex: dashContentList.currentIndex
     readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
+    readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
