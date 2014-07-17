@@ -385,6 +385,12 @@ FocusScope {
         width: parent.width
         height: parent.height
         anchors.left: categoryView.right
+
+        onOpenChanged: {
+            if (showPageHeader) {
+                pageHeaderLoader.item.unfocus();
+            }
+        }
     }
 
 }
