@@ -175,8 +175,8 @@ FocusScope {
         property bool shown: false
         onShownChanged: {
             if (shown) {
-                if (ApplicationManager.topmostApplication) {
-                    ApplicationManager.focusApplication(ApplicationManager.topmostApplication.appId);
+                if (ApplicationManager.count > 0) {
+                    ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
                 }
             } else {
                 if (ApplicationManager.focusedApplicationId) {
@@ -477,8 +477,8 @@ FocusScope {
             }
 
             property bool topmostApplicationIsFullscreen:
-                ApplicationManager.topmostApplication &&
-                    ApplicationManager.topmostApplication.fullscreen
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
             fullscreenMode: stages.roughlyFullyShown && topmostApplicationIsFullscreen
                     && !greeter.shown && !lockscreen.shown
