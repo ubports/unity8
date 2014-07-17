@@ -103,8 +103,6 @@ run() {
         ARGS="$ARGS -k"
     fi
 
-    exec_with_ssh "for i in `ubuntu-app-list`; do ubuntu-app-stop $i; done"
-
     exec_with_ssh "stop unity8"
     exec_with_ssh "start maliit-server"
     exec_with_ssh "cd $CODE_DIR/ && ./run.sh $ARGS -- $RUN_OPTIONS"
