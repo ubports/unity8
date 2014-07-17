@@ -18,14 +18,16 @@
 #include <QUrl>
 
 #include "fake_scope.h"
+
 #include "fake_department.h"
 #include "fake_resultsmodel.h"
+#include "fake_scopes.h"
 
-Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
+Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent)
+Scope::Scope(QString const& id, QString const& name, bool visible, Scopes* parent)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
@@ -35,6 +37,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_currentDeparment("root")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(20, this))
+    , m_openScope(nullptr)
 {
 }
 
@@ -150,7 +153,12 @@ void Scope::setNoResultsHint(const QString& str)
 
 void Scope::activate(QVariant const& result)
 {
-    qDebug() << "Called activate on scope" << m_id << "with result" << result;;
+    qDebug() << "Called activate on scope" << m_id << "with result" << result;
+    if (result.toString() == "Result.2.2") {
+        Scopes *scopes = dynamic_cast<Scopes*>(parent());
+        m_openScope = scopes->getScope("MockScope2");
+        Q_EMIT openScope(m_openScope);
+    }
 }
 
 PreviewStack* Scope::preview(QVariant const& result)
@@ -166,9 +174,13 @@ void Scope::cancelActivation()
 {
 }
 
-void Scope::closeScope(unity::shell::scopes::ScopeInterface* /*scope*/)
+void Scope::closeScope(unity::shell::scopes::ScopeInterface* scope)
 {
-    qFatal("Scope::closeScope is not implemented");
+    if (scope != m_openScope) {
+        qDebug() << scope << m_openScope;
+        qFatal("Scope::closeScope got wrong scope in closeScope");
+    }
+    m_openScope = nullptr;
 }
 
 QString Scope::currentDepartmentId() const
