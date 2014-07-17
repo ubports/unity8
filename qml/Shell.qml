@@ -373,6 +373,12 @@ FocusScope {
         }
     }
 
+    Binding {
+        target: LightDM.Greeter
+        property: "active"
+        value: greeter.shown || lockscreen.shown
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "black"
