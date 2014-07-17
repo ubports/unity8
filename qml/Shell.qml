@@ -95,9 +95,6 @@ FocusScope {
 
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
-
-        // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
-        // through the translucent parts of the shell surface.
         visible: !fullyCovered
 
         Image {
