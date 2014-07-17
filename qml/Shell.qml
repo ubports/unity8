@@ -91,6 +91,26 @@ Item {
         // Handle but do not filter out volume keys
         Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
         Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
+
+        Keys.onPressed: {
+            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                if (!powerKeyTimer.running) {
+                    powerKeyTimer.start();
+                }
+                event.accepted = true;
+            } else {
+                event.accepted = false;
+            }
+        }
+
+        Keys.onReleased: {
+            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                powerKeyTimer.stop();
+                event.accepted = true;
+            } else {
+                event.accepted = false;
+            }
+        }
     }
 
     Item {
@@ -764,22 +784,6 @@ Item {
     Connections {
         target: SessionBroadcast
         onShowHome: showHome()
-    }
-
-    Keys.onPressed: {
-        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-            if (!powerKeyTimer.running) {
-                powerKeyTimer.start();
-            }
-            event.accepted = true;
-        }
-    }
-
-    Keys.onReleased: {
-        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-            powerKeyTimer.stop();
-            event.accepted = true;
-        }
     }
 
     Timer {
