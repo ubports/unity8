@@ -21,25 +21,24 @@ import "../Components"
 Item {
     id: root
 
+    // Properties passed by parent
     property real progress: 0
     property var scope: null
-    property bool forceDisableDashEater: false
-    property var dashItemEater: {
-        if (!forceDisableDashEater && tabBar.currentTab == 0 && middleItems.count > 0) {
+    property int currentIndex: 0
+    property real scopeScale: 1
+
+    // Properties used by parent
+    property bool growingDashFromPos: false
+    readonly property bool showingNonFavoriteScope: tempScopeItem.scope != null
+    readonly property alias currentTab: tabBar.currentTab
+    readonly property var dashItemEater: {
+        if (!forceXYScalerEater && tabBar.currentTab == 0 && middleItems.count > 0) {
             var loaderItem = middleItems.itemAt(0).item;
             return loaderItem && loaderItem.currentItem ? loaderItem.currentItem : null;
         }
-        return null;
+        return scopesOverviewXYScaler;
     }
-    property int currentIndex: 0
-    property real scopeScale: 1
-    property real overrideOpacity: -1
-    property QtObject scopeStyle: QtObject {
-        property string headerLogo: ""
-        property color foreground: "white"
-        property color background: "transparent"
-    }
-    property size allCardSize: {
+    readonly property size allCardSize: {
         if (middleItems.count > 1) {
             var loaderItem = middleItems.itemAt(1).item;
             if (loaderItem) {
@@ -50,11 +49,56 @@ Item {
         return Qt.size(0, 0);
     }
 
+    // Internal properties
+    property bool forceXYScalerEater: false
+    property QtObject scopeStyle: QtObject {
+        property string headerLogo: ""
+        property color foreground: "white"
+        property color background: "transparent"
+    }
+
+
     signal done()
     signal favoriteSelected(int index)
     signal allFavoriteSelected(var scopeId)
     signal allSelected(var scopeId, var pos)
     signal searchSelected(var scopeId, var pos, var size)
+
+    function showTemporaryScope(scope, itemPos, itemSize) {
+        scopesOverviewXYScaler.restorePosition = itemPos;
+        scopesOverviewXYScaler.restoreSize = itemSize;
+        scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
+        scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+        scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+        scopesOverviewXYScaler.opacity = 0;
+        tempScopeItem.scope = scope;
+        middleItems.overrideOpacity = 0;
+        scopesOverviewXYScaler.scale = 1;
+        scopesOverviewXYScaler.x = 0;
+        scopesOverviewXYScaler.y = 0;
+        scopesOverviewXYScaler.opacity = 1;
+    }
+
+    function animateDashFromAll(scopeId) {
+        var currentScopePos = allScopeCardPosition(scopeId);
+        if (currentScopePos) {
+            showDashFromPos(currentScopePos, allCardSize);
+        } else {
+            console.log("Warning: Could not find Dash OverView All card position for scope", dashContent.currentScopeId);
+        }
+    }
+
+    function showDashFromPos(itemPos, itemSize) {
+        scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
+        scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+        scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+        scopesOverviewXYScaler.opacity = 0;
+        root.growingDashFromPos = true;
+        scopesOverviewXYScaler.scale = 1;
+        scopesOverviewXYScaler.x = 0;
+        scopesOverviewXYScaler.y = 0;
+        scopesOverviewXYScaler.opacity = 1;
+    }
 
     function allScopeCardPosition(scopeId) {
         if (middleItems.count > 1) {
@@ -89,11 +133,11 @@ Item {
             // Need this in order, otherwise something gets unhappy in rendering
             // of the overlay in carousels because the parent of the dash dies for
             // a moment, this way we make sure it's reparented first
-            // by forceDisableDashEater making dashItemEater return null and
-            // then really kill the parent by updating scope.searchQuery
-            root.forceDisableDashEater = true;
+            // by forceXYScalerEater making dashItemEater return scopesOverviewXYScaler
+            // before we kill the previous parent by scope.searchQuery
+            root.forceXYScalerEater = true;
             root.scope.searchQuery = pageHeader.searchQuery;
-            root.forceDisableDashEater = false;
+            root.forceXYScalerEater = false;
         }
     }
 
@@ -107,11 +151,13 @@ Item {
         PageHeader {
             id: pageHeader
 
+            readonly property real yDisplacement: pageHeader.height + tabBar.height + tabBar.anchors.margins
+
             y: {
                 if (root.progress < 0.5) {
-                    return -height;
+                    return -yDisplacement;
                 } else {
-                    return -height + (root.progress - 0.5) * height * 2;
+                    return -yDisplacement + (root.progress - 0.5) * yDisplacement * 2;
                 }
             }
             width: parent.width
@@ -135,11 +181,12 @@ Item {
 
             enabled: opacity == 1
             opacity: !scope || scope.searchQuery == "" ? 1 : 0
-            Behavior on opacity { UbuntuNumberAnimation {} }
+            Behavior on opacity { UbuntuNumberAnimation { } }
         }
 
         Repeater {
             id: middleItems
+            property real overrideOpacity: -1
             model: scope && scope.searchQuery == "" ? scope.categories : null
             delegate: Loader {
                 id: loader
@@ -172,8 +219,8 @@ Item {
                 scale: index == 0 ? scopeScale : 1
 
                 opacity: {
-                    if (root.overrideOpacity >= 0)
-                        return root.overrideOpacity;
+                    if (middleItems.overrideOpacity >= 0)
+                        return middleItems.overrideOpacity;
 
                     if (tabBar.currentTab != index)
                         return 0;
@@ -255,9 +302,10 @@ Item {
             showPageHeader: false
             clip: true
             opacity: searchResultsViewer.scope ? 1 : 0
-            Behavior on opacity { UbuntuNumberAnimation {} }
+            Behavior on opacity { UbuntuNumberAnimation { } }
 
             clickOverride: function (index, result, item, itemModel) {
+                // TODO Make sure pageheader suggestions popup is hidden
                 if (itemModel.scopeId) {
                     root.searchSelected(itemModel.scopeId, item.mapToItem(null, 0, 0), Qt.size(item.width, item.height));
                 } else {
@@ -278,7 +326,7 @@ Item {
             width: parent.width
             enabled: opacity == 0.4
             opacity: scope && scope.searchQuery == "" ? 0.4 : 0
-            Behavior on opacity { UbuntuNumberAnimation {} }
+            Behavior on opacity { UbuntuNumberAnimation { } }
             y: {
                 if (root.progress < 0.5) {
                     return parent.height;
@@ -322,5 +370,75 @@ Item {
         width: parent.width
         height: parent.height
         anchors.left: scopesOverviewContent.right
+    }
+
+
+
+    Item {
+        id: scopesOverviewXYScaler
+        width: parent.width
+        height: parent.height
+
+        clip: scale != 1.0
+        enabled: scale == 1
+
+        property bool animationsEnabled: root.showingNonFavoriteScope || root.growingDashFromPos
+
+        property var restorePosition
+        property var restoreSize
+
+        Behavior on x {
+            enabled: scopesOverviewXYScaler.animationsEnabled
+            UbuntuNumberAnimation { }
+        }
+        Behavior on y {
+            enabled: scopesOverviewXYScaler.animationsEnabled
+            UbuntuNumberAnimation { }
+        }
+        Behavior on opacity {
+            enabled: scopesOverviewXYScaler.animationsEnabled
+            UbuntuNumberAnimation { }
+        }
+        Behavior on scale {
+            enabled: scopesOverviewXYScaler.animationsEnabled
+            UbuntuNumberAnimation {
+                onRunningChanged: {
+                    if (!running) {
+                        if (root.showingNonFavoriteScope && scopesOverviewXYScaler.scale != 1) {
+                            tempScopeItem.scope = null;
+                        } else if (root.growingDashFromPos) {
+                            root.growingDashFromPos = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        DashBackground
+        {
+            anchors.fill: tempScopeItem
+            visible: tempScopeItem.visible
+            parent: tempScopeItem.parent
+        }
+
+        GenericScopeView {
+            id: tempScopeItem
+
+            width: parent.width
+            height: parent.height
+            scale: dash.contentScale
+            clip: scale != 1.0
+            visible: scope != null
+            hasBackAction: true
+            isCurrent: visible
+            onBackClicked: {
+                var v = scopesOverviewXYScaler.restoreSize.width / tempScopeItem.width;
+                scopesOverviewXYScaler.scale = v;
+                scopesOverviewXYScaler.x = scopesOverviewXYScaler.restorePosition.x -(tempScopeItem.width - tempScopeItem.width * v) / 2;
+                scopesOverviewXYScaler.y = scopesOverviewXYScaler.restorePosition.y -(tempScopeItem.height - tempScopeItem.height * v) / 2;
+                scopesOverviewXYScaler.opacity = 0;
+                scopesOverview.middleItems = -1;
+            }
+        }
     }
 }

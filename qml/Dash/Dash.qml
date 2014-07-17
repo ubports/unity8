@@ -79,10 +79,6 @@ Showable {
 
         property alias enableAnimation: progressAnimation.enabled
         property real progress: 0
-        property bool showingNonFavoriteScope: false
-        property bool growingDashFromPos: false
-        property var allScopePosition
-        property var allScopeSize
         Behavior on progress {
             id: progressAnimation
             UbuntuNumberAnimation { }
@@ -94,14 +90,13 @@ Showable {
         id: scopesOverview
         anchors.fill: parent
         scope: scopes ? scopes.getScope("scopesOverview") : null
-        enabled: !overviewController.showingNonFavoriteScope
         progress: overviewController.progress
         scopeScale: 1 - overviewController.progress * 0.6
         visible: scopeScale != 1
         currentIndex: dashContent.currentIndex
         onDone: {
-            if (dashContent.parent == scopesOverviewXYScaler) {
-                animateDashFromAll();
+            if (currentTab == 1) {
+                animateDashFromAll(dashContent.currentScopeId);
             }
             hide();
         }
@@ -111,11 +106,11 @@ Showable {
         }
         onAllFavoriteSelected: {
             setCurrentScope(scopeId, false, false);
-            animateDashFromAll();
+            animateDashFromAll(dashContent.currentScopeId);
             hide();
         }
         onAllSelected: {
-            showTemporaryScope(scopeId, pos, scopesOverview.allCardSize);
+            showTemporaryScope(scopes.getScope(scopeId), pos, allCardSize);
         }
         onSearchSelected: {
             var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId);
@@ -126,63 +121,24 @@ Showable {
                 hide();
             } else {
                 // Is not a favorite one
-                showTemporaryScope(scopeId, pos, size)
+                showTemporaryScope(scopes.getScope(scopeId), pos, size)
             }
         }
         function hide() {
             overviewController.enableAnimation = true;
             overviewController.progress = 0;
         }
-        function animateDashFromAll() {
-            var currentScopePos = scopesOverview.allScopeCardPosition(dashContent.currentScopeId);
-            if (currentScopePos) {
-                showDashFromPos(currentScopePos, scopesOverview.allCardSize);
-            } else {
-                console.log("Warning: Could not find Dash OverView All card position for scope", dashContent.currentScopeId);
-            }
-        }
-        function showDashFromPos(itemPos, itemSize) {
-            scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
-            scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-            scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-            overviewController.growingDashFromPos = true;
-            scopesOverviewXYScaler.scale = 1;
-            scopesOverviewXYScaler.x = 0;
-            scopesOverviewXYScaler.y = 0;
-        }
-        function showTemporaryScope(scopeId, itemPos, itemSize) {
-            scopeItem.scope = scopes.getScope(scopeId);
-            scopeItem.parent = scopesOverviewXYScaler;
-            scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
-            scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-            scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-            overviewController.showingNonFavoriteScope = true;
-            overviewController.allScopePosition = itemPos;
-            overviewController.allScopeSize = itemSize;
-            scopesOverview.overrideOpacity = 0;
-            scopesOverviewXYScaler.scale = 1;
-            scopesOverviewXYScaler.x = 0;
-            scopesOverviewXYScaler.y = 0;
-        }
     }
 
     DashContent {
         id: dashContent
-        parent: {
-            if (overviewController.progress == 0) {
-                return dash;
-            } else if (scopesOverview.dashItemEater) {
-                return scopesOverview.dashItemEater;
-            } else {
-                return scopesOverviewXYScaler;
-            }
-        }
+        parent: overviewController.progress == 0 ? dash : scopesOverview.dashItemEater
         objectName: "dashContent"
         width: dash.width
         height: dash.height
         model: filteredScopes
         scopes: scopes
-        visible: !overviewController.showingNonFavoriteScope && x != -width
+        visible: !scopesOverview.showingNonFavoriteScope && x != -width
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
         }
@@ -210,7 +166,7 @@ Showable {
         }
 
         enabled: opacity == 1
-        opacity: overviewController.growingDashFromPos ? 1 : 1 - overviewController.progress
+        opacity: scopesOverview.growingDashFromPos ? 1 : 1 - overviewController.progress
     }
 
     DashBackground
@@ -223,8 +179,7 @@ Showable {
     GenericScopeView {
         id: scopeItem
 
-        x: overviewController.showingNonFavoriteScope ? 0 : width + dashContent.x
-        z: 1
+        anchors.left: dashContent.right
         width: parent.width
         height: parent.height
         scale: dash.contentScale
@@ -233,16 +188,8 @@ Showable {
         hasBackAction: true
         isCurrent: visible
         onBackClicked: {
-            if (overviewController.showingNonFavoriteScope) {
-                var v = overviewController.allScopeSize.width / scopeItem.width;
-                scopesOverviewXYScaler.scale = v;
-                scopesOverviewXYScaler.x = overviewController.allScopePosition.x -(scopeItem.width - scopeItem.width * v) / 2;
-                scopesOverviewXYScaler.y = overviewController.allScopePosition.y -(scopeItem.height - scopeItem.height * v) / 2;
-                scopesOverview.overrideOpacity = -1;
-            } else {
-                closeOverlayScope();
-                closePreview();
-            }
+            closeOverlayScope();
+            closePreview();
         }
 
         Connections {
@@ -252,44 +199,6 @@ Showable {
             }
             onOpenScope: {
                 dashContent.openScope(scope);
-            }
-        }
-    }
-
-    Item {
-        id: scopesOverviewXYScaler
-        width: parent.width
-        height: parent.height
-
-        clip: scale != 1.0
-        enabled: scale == 1
-        opacity: scale
-
-        property bool animationsEnabled: overviewController.showingNonFavoriteScope || overviewController.growingDashFromPos
-
-        Behavior on x {
-            enabled: scopesOverviewXYScaler.animationsEnabled
-            UbuntuNumberAnimation { }
-        }
-        Behavior on y {
-            enabled: scopesOverviewXYScaler.animationsEnabled
-            UbuntuNumberAnimation { }
-        }
-
-        Behavior on scale {
-            enabled: scopesOverviewXYScaler.animationsEnabled
-            UbuntuNumberAnimation {
-                onRunningChanged: {
-                    if (!running) {
-                        if (overviewController.showingNonFavoriteScope && scopesOverviewXYScaler.scale != 1) {
-                            overviewController.showingNonFavoriteScope = false;
-                            scopeItem.scope = null;
-                            scopeItem.parent = dash;
-                        } else if (overviewController.growingDashFromPos) {
-                            overviewController.growingDashFromPos = false;
-                        }
-                    }
-                }
             }
         }
     }
