@@ -518,12 +518,14 @@ FocusScope {
     }
 
     function showHome() {
-        if (edgeDemo.running)
+        if (edgeDemo.running) {
             return
+        }
 
         if (LightDM.Greeter.active) {
-            if (!LightDM.Greeter.promptless)
+            if (!LightDM.Greeter.promptless) {
                 lockscreen.show()
+            }
             greeter.hide()
         }
 
@@ -533,8 +535,9 @@ FocusScope {
     }
 
     function showDash() {
-        if (LightDM.Greeter.active && !LightDM.Greeter.promptless)
+        if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
             return;
+        }
 
         if (stages.shown && !stages.overlayMode && !stages.locked) {
             stages.hide();
@@ -610,8 +613,9 @@ FocusScope {
             onDash: showDash()
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected: {
-                if (greeter.fakeActiveForApp !== "")
+                if (greeter.fakeActiveForApp !== "") {
                     lockscreen.show()
+                }
                 if (!edgeDemo.running)
                     shell.activateApplication(appId)
             }
