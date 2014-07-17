@@ -59,7 +59,6 @@ Item {
                 var application = priv.focusedApplication;
                 root.fullscreen = application.fullscreen;
                 var appIndex = priv.indexOf(application.appId);
-                spreadRepeater.itemAt(appIndex).forceActiveFocus();
             }
         }
 
@@ -79,12 +78,6 @@ Item {
             if (spreadView.closingIndex == -1) {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
-            }
-        }
-
-        onSuspendedChanged: {
-            if (root.interactive && !ApplicationManager.suspended && ApplicationManager.count > 0) {
-                spreadRepeater.itemAt(0).forceActiveFocus();
             }
         }
     }

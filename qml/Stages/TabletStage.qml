@@ -120,12 +120,6 @@ Item {
                 spreadView.contentX = 0;
             }
         }
-
-        onSuspendedChanged: {
-            if (root.interactive && !ApplicationManager.suspended && ApplicationManager.count > 0) {
-                spreadRepeater.itemAt(0).forceActiveFocus();
-            }
-        }
     }
 
     Flickable {

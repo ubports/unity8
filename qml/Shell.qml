@@ -21,6 +21,7 @@ import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import Utils 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -34,7 +35,7 @@ import "Stages"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 
-FocusScope {
+Item {
     id: shell
 
     // this is only here to select the width / height of the window if not running fullscreen
@@ -85,8 +86,11 @@ FocusScope {
         id: volumeControl
     }
 
-    Keys.onVolumeUpPressed: volumeControl.volumeUp()
-    Keys.onVolumeDownPressed: volumeControl.volumeDown()
+    WindowKeysFilter {
+        // Handle but do not filter out volume keys
+        Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
+        Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
+    }
 
     Item {
         id: underlay
@@ -282,7 +286,7 @@ FocusScope {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: stages.roughlyFullyShown
+                value: stages.roughlyFullyShown && !greeter.shown && !lockscreen.shown
             }
         }
     }
@@ -572,9 +576,6 @@ FocusScope {
             ]
         }
     }
-
-    focus: true
-    onFocusChanged: if (!focus) forceActiveFocus();
 
     Binding {
         target: i18n
