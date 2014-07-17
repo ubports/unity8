@@ -230,7 +230,7 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        if (scopeView.scope.id === "scopes" || (scopeView.scope.id == "clickscope" && (categoryId == "local" || categoryId == "store"))) {
+                        if (scopeView.scope.id === "scopes" || scopeView.scope.id == "clickscope") {
                             // TODO Technically it is possible that calling activate() will make the scope emit
                             // previewRequested so that we show a preview but there's no scope that does that yet
                             // so it's not implemented
