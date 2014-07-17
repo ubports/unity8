@@ -69,7 +69,8 @@ Item {
     onProgressChanged: {
         if (progress == 0) {
             tabBar.currentTab = 0;
-            pageHeader.searchQuery = "";
+            pageHeader.resetSearch();
+            pageHeader.unfocus(); // Shouldn't the previous call do this too?
         }
     }
 
