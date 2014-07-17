@@ -81,6 +81,12 @@ Item {
                 spreadView.contentX = -spreadView.shift;
             }
         }
+
+        onSuspendedChanged: {
+            if (root.interactive && !ApplicationManager.suspended && ApplicationManager.count > 0) {
+                spreadRepeater.itemAt(0).forceActiveFocus();
+            }
+        }
     }
 
     QtObject {
