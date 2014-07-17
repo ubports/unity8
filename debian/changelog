@@ -1,3 +1,11 @@
+unity8 (7.90+14.10.20140717.3-0ubuntu1) utopic; urgency=low
+
+  [ Nick Dedekind ]
+  * Added environment variable to upstart conf for mir trusted socket
+  * Removed indicator menu dismissal on menu activation (LP: #1337771)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 17 Jul 2014 16:35:52 +0000
+
 unity8 (7.90+14.10.20140717.1-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]
