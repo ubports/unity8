@@ -166,7 +166,16 @@ FocusScope {
 
         visible: !fullyHidden && !ApplicationManager.empty
 
-        x: shown ? launcher.progress : stagesDragArea.progress
+        x: {
+            if (shown) {
+                if (locked) {
+                    return 0;
+                }
+                return launcher.progress;
+            } else {
+                return stagesDragArea.progress
+            }
+        }
         Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
@@ -190,6 +199,8 @@ FocusScope {
 
         property bool fullyShown: x == 0
         property bool fullyHidden: x == width
+
+        property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
 
         // It might technically not be fullyShown but visually it just looks so.
         property bool roughlyFullyShown: x >= 0 && x <= units.gu(1)

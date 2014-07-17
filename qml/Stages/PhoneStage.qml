@@ -31,7 +31,7 @@ Item {
 
     // State information propagated to the outside
     property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
-    property bool locked: spreadView.visible
+    property bool locked: spreadView.phase == 2
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId))
