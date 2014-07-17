@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDebug>
 #include <QUrl>
 
 #include "fake_scope.h"
@@ -149,7 +150,7 @@ void Scope::setNoResultsHint(const QString& str)
 
 void Scope::activate(QVariant const& result)
 {
-    Q_UNUSED(result);
+    qDebug() << "Called activate on scope" << m_id << "with result" << result;;
 }
 
 PreviewStack* Scope::preview(QVariant const& result)
