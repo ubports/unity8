@@ -60,6 +60,7 @@ Q_SIGNALS:
     void authenticationUserChanged(const QString &user);
     void isActiveChanged();
     void promptlessChanged();
+    void showGreeter();
 
     // This signal is emitted by external agents like indicators, and the UI
     // should switch to this user if possible.

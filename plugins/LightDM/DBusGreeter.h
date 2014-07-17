@@ -37,6 +37,7 @@ public:
     explicit DBusGreeter(Greeter *greeter, const QDBusConnection &connection, const QString &path);
 
     bool isActive() const;
+    Q_SCRIPTABLE void ShowGreeter(); // temporary, until we split the greeter again
 
 Q_SIGNALS:
     void isActiveChanged();
