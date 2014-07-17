@@ -74,7 +74,7 @@ Item {
 
         onOpenChanged: {
             if (open) {
-                pageHeader.unfocus();
+                header.unfocus();
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem && previewListView.currentItem.previewData !== undefined) {
