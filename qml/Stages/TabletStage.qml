@@ -34,12 +34,8 @@ Item {
     property bool interactive
 
     // State information propagated to the outside
-    readonly property bool painting: true
     property bool fullscreen: true
-    property bool overlayMode: false
     property bool locked: spreadView.phase == 2
-
-    readonly property int overlayWidth: priv.overlayOverride ? 0 : spreadView.sideStageWidth
 
     QtObject {
         id: priv
