@@ -19,6 +19,7 @@ import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
@@ -268,7 +269,128 @@ FocusScope {
             }
         }
 
+        property bool dialogShown: false
+
+        Component {
+            id: logoutDialog
+            Dialog {
+                id: dialogueLogout
+                title: "Logout"
+                text: "Are you sure that you want to logout?"
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        PopupUtils.close(dialogueLogout);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Yes"
+                    onClicked: {
+                        DBusUnitySessionService.Logout();
+                        PopupUtils.close(dialogueLogout);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: shutdownDialog
+            Dialog {
+                id: dialogueShutdown
+                title: "Shutdown"
+                text: "Are you sure that you want to shutdown?"
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        PopupUtils.close(dialogueShutdown);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Yes"
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Shutdown();
+                        PopupUtils.close(dialogueShutdown);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: rebootDialog
+            Dialog {
+                id: dialogueReboot
+                title: "Reboot"
+                text: "Are you sure that you want to reboot?"
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        PopupUtils.close(dialogueReboot)
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Yes"
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Reboot();
+                        PopupUtils.close(dialogueReboot);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: powerDialog
+            Dialog {
+                id: dialoguePower
+                title: "Power"
+                text: i18n.tr("Are you sure you would like to turn power off?")
+                Button {
+                    text: i18n.tr("Power off")
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                        shutdownFadeOutRectangle.enabled = true;
+                        shutdownFadeOutRectangle.visible = true;
+                        shutdownFadeOut.start();
+                    }
+                }
+                Button {
+                    text: i18n.tr("Restart")
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Reboot();
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: i18n.tr("Cancel")
+                    onClicked: {
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        function showPowerDialog() {
+            if (!stages.dialogShown) {
+                stages.dialogShown = true;
+                PopupUtils.open(powerDialog);
+            }
+        }
+
         Connections {
+            id: dBusUnitySessionServiceConnection
+            objectName: "dBusUnitySessionServiceConnection"
             target: DBusUnitySessionService
 
             function closeAllApps() {
@@ -282,8 +404,27 @@ FocusScope {
             }
 
             onLogoutRequested: {
-                // TODO: Display a dialog to ask the user to confirm.
-                DBusUnitySessionService.Logout();
+                // Display a dialog to ask the user to confirm.
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(logoutDialog);
+                }
+            }
+
+            onShutdownRequested: {
+                // Display a dialog to ask the user to confirm.
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(shutdownDialog);
+                }
+            }
+
+            onRebootRequested: {
+                // Display a dialog to ask the user to confirm.
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(rebootDialog);
+                }
             }
 
             onLogoutReady: {
@@ -689,5 +830,51 @@ FocusScope {
     Connections {
         target: SessionBroadcast
         onShowHome: showHome()
+    }
+
+    Keys.onPressed: {
+        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+            if (!powerKeyTimer.running) {
+                powerKeyTimer.start();
+            }
+            event.accepted = true;
+        }
+    }
+
+    Keys.onReleased: {
+        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+            powerKeyTimer.stop();
+            event.accepted = true;
+        }
+    }
+
+    Timer {
+        id: powerKeyTimer
+        interval: 2000
+        repeat: false
+        triggeredOnStart: false
+
+        onTriggered: {
+            stages.showPowerDialog();
+        }
+    }
+
+    Rectangle {
+        id: shutdownFadeOutRectangle
+        enabled: false
+        visible: false
+        color: "black"
+        anchors.fill: parent
+        opacity: 0.0
+        NumberAnimation on opacity {
+            id: shutdownFadeOut
+            from: 0.0
+            to: 1.0
+            onStopped: {
+                if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
+                    DBusUnitySessionService.Shutdown();
+                }
+            }
+        }
     }
 }
