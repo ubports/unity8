@@ -51,8 +51,7 @@ public:
 
     bool loaded() const override;
 
-    int count(bool onlyVisible) const;
-    Scope *scopeAt(int index, bool onlyVisible) const;
+    QList<unity::shell::scopes::ScopeInterface *> scopes(bool onlyVisible) const;
 
 private Q_SLOTS:
     void updateScopes();

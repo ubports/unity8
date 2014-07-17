@@ -23,8 +23,9 @@
 ScopesOverview::ScopesOverview(Scopes* parent)
  : Scope("scopesOverview", "Scopes Overview", false, parent)
 {
-    m_searchCategories = m_categories; // save the usual categories as search result
+    delete m_categories; // delete the usual categories, we're not going to use it
     m_scopesOverviewCategories = new ScopesOverviewCategories(parent, this);
+    m_searchCategories = new ScopesOverviewSearchCategories(parent, this);
     m_categories = m_scopesOverviewCategories;
 }
 
@@ -69,15 +70,17 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    const QString categoryId = index.row() == 0 ? "favorites" : "all";
+
     unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewCategories*>(this);
-        resultsModel = new ScopesOverviewResultsModel(m_scopes, index.row() == 0, that);
+        resultsModel = new ScopesOverviewResultsModel(m_scopes->scopes(index.row() == 0), categoryId, that);
         m_resultsModels[index.row()] = resultsModel;
     }
     switch (role) {
         case RoleCategoryId:
-            return index.row() == 0 ? "favorites" : "all";
+            return categoryId;
         case RoleName:
             return index.row() == 0 ? "Favorites" : "All";
         case RoleIcon:
@@ -114,16 +117,96 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
 
 
 
-ScopesOverviewResultsModel::ScopesOverviewResultsModel(Scopes *scopes, bool isFavoriteCategory, QObject* parent)
+ScopesOverviewSearchCategories::ScopesOverviewSearchCategories(Scopes *scopes, QObject* parent)
+    : unity::shell::scopes::CategoriesInterface(parent)
+    , m_scopes(scopes)
+{
+}
+
+int ScopesOverviewSearchCategories::rowCount(const QModelIndex& /*parent*/) const
+{
+    return 2;
+}
+
+void ScopesOverviewSearchCategories::addSpecialCategory(QString const&, QString const&, QString const&, QString const&, QObject*)
+{
+    qFatal("Using un-implemented ScopesOverviewSearchCategories::addSpecialCategory");
+}
+
+bool ScopesOverviewSearchCategories::overrideCategoryJson(QString const& /* categoryId */, QString const& /* json */)
+{
+    qFatal("Using un-implemented ScopesOverviewSearchCategories::overrideCategoryJson");
+}
+
+QVariant
+ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
+{
+    if (!index.isValid()) {
+        return QVariant();
+    }
+
+    const QString categoryId = index.row() == 0 ? "searchA" : "searchB";
+
+    unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
+    if (!resultsModel) {
+        QObject *that = const_cast<ScopesOverviewSearchCategories*>(this);
+        QList<unity::shell::scopes::ScopeInterface *> scopes;
+        if (index.row() == 0) {
+            scopes << m_scopes->getScope("clickscope") << nullptr << m_scopes->getScope("MockScope2");
+        } else {
+            scopes << nullptr << m_scopes->getScope("MockScope7") << nullptr << m_scopes->getScope("MockScope1");
+        }
+        resultsModel = new ScopesOverviewResultsModel(scopes, categoryId, that);
+        m_resultsModels[index.row()] = resultsModel;
+    }
+    switch (role) {
+        case RoleCategoryId:
+            return categoryId;
+        case RoleName:
+            return index.row() == 0 ? "SearchA" : "SearchB";
+        case RoleIcon:
+            return QVariant();
+        case RoleRawRendererTemplate:
+            qFatal("Using un-implemented RoleRawRendererTemplate Categories role");
+            return QVariant();
+        case RoleRenderer:
+        {
+            QVariantMap map;
+            map["category-layout"] = "grid";
+            map["card-size"] = "small";
+            map["overlay"] = true;
+            return map;
+        }
+        case RoleComponents:
+        {
+            QVariantMap map, artMap;
+            artMap["aspect-ratio"] = "1";
+            artMap["field"] = "art";
+            map["art"] = artMap;
+            map["title"] = "HOLA";
+            return map;
+        }
+        case RoleResults:
+            return QVariant::fromValue(resultsModel);
+        case RoleCount:
+            return resultsModel->rowCount();
+        default:
+            qFatal("Using un-implemented Categories role");
+            return QVariant();
+    }
+}
+
+
+ScopesOverviewResultsModel::ScopesOverviewResultsModel(const QList<unity::shell::scopes::ScopeInterface *> &scopes, const QString &categoryId, QObject* parent)
     : unity::shell::scopes::ResultsModelInterface(parent)
     , m_scopes(scopes)
-    , m_isFavoriteCategory(isFavoriteCategory)
+    , m_categoryId(categoryId)
 {
 }
 
 QString ScopesOverviewResultsModel::categoryId() const
 {
-    return m_isFavoriteCategory ? "favorites" : "all";
+    return m_categoryId;
 }
 
 void ScopesOverviewResultsModel::setCategoryId(QString const& /*id*/)
@@ -135,7 +218,7 @@ int ScopesOverviewResultsModel::scopeIndex(QString const& id) const
 {
     const int scopeCount = count();
     for (int i = 0; i < scopeCount; ++i) {
-        if (m_scopes->scopeAt(i, m_isFavoriteCategory)->id() == id)
+        if (m_scopes[i]->id() == id)
             return i;
     }
     return -1;
@@ -152,7 +235,7 @@ int ScopesOverviewResultsModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
-    return m_scopes->count(m_isFavoriteCategory);
+    return m_scopes.count();
 }
 
 int ScopesOverviewResultsModel::count() const
@@ -163,22 +246,23 @@ int ScopesOverviewResultsModel::count() const
 QVariant
 ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
 {
+    unity::shell::scopes::ScopeInterface *scope = m_scopes[index.row()];
     switch (role) {
         case RoleUri:
         case RoleCategoryId:
         case RoleDndUri:
             return QString();
         case RoleResult:
-            return m_scopes->scopeAt(index.row(), m_isFavoriteCategory)->id();
+            return scope ? scope->id() : QString("Result.%1.%2").arg(categoryId()).arg(index.row());
         case RoleTitle:
-            return m_scopes->scopeAt(index.row(), m_isFavoriteCategory)->name();
+            return scope ? scope->name() : QString("Title.%1.%2").arg(categoryId()).arg(index.row());
         case RoleArt:
             return qmlDirectory() + "graphics/applicationIcons/dash.png";
         case RoleMascot:
         case RoleEmblem:
         case RoleSummary:
         case RoleBackground + 1: // scopeId
-            return m_scopes->scopeAt(index.row(), m_isFavoriteCategory)->id();
+            return scope ? scope->id() : nullptr;
             break;
         default:
             return QVariant();

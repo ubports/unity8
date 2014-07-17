@@ -55,12 +55,31 @@ private:
     Scopes *m_scopes;
 };
 
+class ScopesOverviewSearchCategories : public unity::shell::scopes::CategoriesInterface
+{
+    Q_OBJECT
+
+public:
+    ScopesOverviewSearchCategories(Scopes *scopes, QObject* parent = 0);
+
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    Q_INVOKABLE void addSpecialCategory(QString const& categoryId, QString const& name, QString const& icon, QString const& rawTemplate, QObject* countObject) override;
+    Q_INVOKABLE bool overrideCategoryJson(QString const& categoryId, QString const& json) override;
+
+private:
+    mutable QHash<int, unity::shell::scopes::ResultsModelInterface*> m_resultsModels;
+
+    Scopes *m_scopes;
+};
+
 class ScopesOverviewResultsModel : public unity::shell::scopes::ResultsModelInterface
 {
     Q_OBJECT
 
 public:
-    explicit ScopesOverviewResultsModel(Scopes *scopes, bool isFavoriteCategory, QObject* parent = 0);
+    explicit ScopesOverviewResultsModel(const QList<unity::shell::scopes::ScopeInterface *> &scopes, const QString &categoryId, QObject* parent = 0);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
@@ -77,8 +96,8 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    Scopes *m_scopes;
-    bool m_isFavoriteCategory;
+    QList<unity::shell::scopes::ScopeInterface *> m_scopes;
+    QString m_categoryId;
 };
 
 #endif // FAKE_SCOPESOVERVIEW_H
