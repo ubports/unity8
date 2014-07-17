@@ -23,8 +23,9 @@ Item {
 
     property real progress: 0
     property var scope: null
+    property bool forceDisableDashEater: false
     property var dashItemEater: {
-        if (tabBar.currentTab == 0 && middleItems.count > 0) {
+        if (!forceDisableDashEater && tabBar.currentTab == 0 && middleItems.count > 0) {
             var loaderItem = middleItems.itemAt(0).item;
             return loaderItem && loaderItem.currentItem ? loaderItem.currentItem : null;
         }
@@ -53,6 +54,7 @@ Item {
     signal favoriteSelected(int index)
     signal allFavoriteSelected(var scopeId)
     signal allSelected(var scopeId, var pos)
+    signal searchSelected(var scopeId, var pos, var size)
 
     function allScopeCardPosition(scopeId) {
         if (middleItems.count > 1) {
@@ -67,6 +69,7 @@ Item {
     onProgressChanged: {
         if (progress == 0) {
             tabBar.currentTab = 0;
+            pageHeader.searchQuery = "";
         }
     }
 
@@ -79,10 +82,18 @@ Item {
         }
     }
 
-    Binding {
-        target: root.scope
-        property: "searchQuery"
-        value: pageHeader.searchQuery
+    Connections {
+        target: pageHeader
+        onSearchQueryChanged: {
+            // Need this in order, otherwise something gets unhappy in rendering
+            // of the overlay in carousels because the parent of the dash dies for
+            // a moment, this way we make sure it's reparented first
+            // by forceDisableDashEater making dashItemEater return null and
+            // then really kill the parent by updating scope.searchQuery
+            root.forceDisableDashEater = true;
+            root.scope.searchQuery = pageHeader.searchQuery;
+            root.forceDisableDashEater = false;
+        }
     }
 
     Item {
@@ -245,7 +256,18 @@ Item {
             opacity: searchResultsViewer.scope ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation {} }
 
-            // TODO Do something when people click on search results
+            clickOverride: function (index, result, item, itemModel) {
+                if (itemModel.scopeId) {
+                    root.searchSelected(itemModel.scopeId, item.mapToItem(null, 0, 0), Qt.size(item.width, item.height));
+                } else {
+                    // Not a scope, just activate it
+                    searchResultsViewer.scope.activate(result);
+                }
+            }
+
+            pressAndHoldOverride: function (index) {
+                // Do nothing
+            }
         }
 
         Rectangle {

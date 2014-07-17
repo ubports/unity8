@@ -80,8 +80,9 @@ Showable {
         property alias enableAnimation: progressAnimation.enabled
         property real progress: 0
         property bool showingNonFavoriteScope: false
-        property bool growingDashFromAll: false
-        property var allScopePosition: undefined
+        property bool growingDashFromPos: false
+        property var allScopePosition
+        property var allScopeSize
         Behavior on progress {
             id: progressAnimation
             UbuntuNumberAnimation { }
@@ -114,17 +115,19 @@ Showable {
             hide();
         }
         onAllSelected: {
-            scopeItem.scope = scopes.getScope(scopeId);
-            scopeItem.parent = scopesOverviewXYScaler;
-            scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
-            scopesOverviewXYScaler.x = pos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-            scopesOverviewXYScaler.y = pos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-            overviewController.showingNonFavoriteScope = true;
-            overviewController.allScopePosition = pos;
-            scopesOverview.overrideOpacity = 0;
-            scopesOverviewXYScaler.scale = 1;
-            scopesOverviewXYScaler.x = 0;
-            scopesOverviewXYScaler.y = 0;
+            showTemporaryScope(scopeId, pos, scopesOverview.allCardSize);
+        }
+        onSearchSelected: {
+            var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId);
+            if (scopeIndex >= 0) {
+                // Is a favorite one
+                setCurrentScope(scopeId, false, false);
+                showDashFromPos(pos, size);
+                hide();
+            } else {
+                // Is not a favorite one
+                showTemporaryScope(scopeId, pos, size)
+            }
         }
         function hide() {
             overviewController.enableAnimation = true;
@@ -133,16 +136,33 @@ Showable {
         function animateDashFromAll() {
             var currentScopePos = scopesOverview.allScopeCardPosition(dashContent.currentScopeId);
             if (currentScopePos) {
-                scopesOverviewXYScaler.scale = scopesOverview.allCardSize.width / scopesOverviewXYScaler.width;
-                scopesOverviewXYScaler.x = currentScopePos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-                scopesOverviewXYScaler.y = currentScopePos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-                overviewController.growingDashFromAll = true;
-                scopesOverviewXYScaler.scale = 1;
-                scopesOverviewXYScaler.x = 0;
-                scopesOverviewXYScaler.y = 0;
+                showDashFromPos(currentScopePos, scopesOverview.allCardSize);
             } else {
                 console.log("Warning: Could not find Dash OverView All card position for scope", dashContent.currentScopeId);
             }
+        }
+        function showDashFromPos(itemPos, itemSize) {
+            scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
+            scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+            scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+            overviewController.growingDashFromPos = true;
+            scopesOverviewXYScaler.scale = 1;
+            scopesOverviewXYScaler.x = 0;
+            scopesOverviewXYScaler.y = 0;
+        }
+        function showTemporaryScope(scopeId, itemPos, itemSize) {
+            scopeItem.scope = scopes.getScope(scopeId);
+            scopeItem.parent = scopesOverviewXYScaler;
+            scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
+            scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+            scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+            overviewController.showingNonFavoriteScope = true;
+            overviewController.allScopePosition = itemPos;
+            overviewController.allScopeSize = itemSize;
+            scopesOverview.overrideOpacity = 0;
+            scopesOverviewXYScaler.scale = 1;
+            scopesOverviewXYScaler.x = 0;
+            scopesOverviewXYScaler.y = 0;
         }
     }
 
@@ -190,7 +210,7 @@ Showable {
         }
 
         enabled: opacity == 1
-        opacity: overviewController.growingDashFromAll ? 1 : 1 - overviewController.progress
+        opacity: overviewController.growingDashFromPos ? 1 : 1 - overviewController.progress
     }
 
     DashBackground
@@ -214,7 +234,7 @@ Showable {
         isCurrent: visible
         onBackClicked: {
             if (overviewController.showingNonFavoriteScope) {
-                var v = scopesOverview.allCardSize.width / scopeItem.width;
+                var v = overviewController.allScopeSize.width / scopeItem.width;
                 scopesOverviewXYScaler.scale = v;
                 scopesOverviewXYScaler.x = overviewController.allScopePosition.x -(scopeItem.width - scopeItem.width * v) / 2;
                 scopesOverviewXYScaler.y = overviewController.allScopePosition.y -(scopeItem.height - scopeItem.height * v) / 2;
@@ -245,7 +265,7 @@ Showable {
         enabled: scale == 1
         opacity: scale
 
-        property bool animationsEnabled: overviewController.showingNonFavoriteScope || overviewController.growingDashFromAll
+        property bool animationsEnabled: overviewController.showingNonFavoriteScope || overviewController.growingDashFromPos
 
         Behavior on x {
             enabled: scopesOverviewXYScaler.animationsEnabled
@@ -265,8 +285,8 @@ Showable {
                             overviewController.showingNonFavoriteScope = false;
                             scopeItem.scope = null;
                             scopeItem.parent = dash;
-                        } else if (overviewController.growingDashFromAll) {
-                            overviewController.growingDashFromAll = false;
+                        } else if (overviewController.growingDashFromPos) {
+                            overviewController.growingDashFromPos = false;
                         }
                     }
                 }

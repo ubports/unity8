@@ -34,6 +34,8 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     property bool showPageHeader: true
+    property var clickOverride: null
+    property var pressAndHoldOverride: null
     readonly property alias previewShown: previewListView.open
 
     property var scopeStyle: ScopeStyle {
@@ -197,6 +199,11 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
+                        if (scopeView.clickOverride) {
+                            scopeView.clickOverride(index, result, item, itemModel);
+                            return;
+                        }
+
                         if (scopeView.scope.id === "scopes" || scopeView.scope.id == "clickscope") {
                             // TODO Technically it is possible that calling activate() will make the scope emit
                             // previewRequested so that we show a preview but there's no scope that does that yet
@@ -210,6 +217,11 @@ FocusScope {
                         }
                     }
                     onPressAndHold: {
+                        if (scopeView.pressAndHoldOverride) {
+                            scopeView.pressAndHoldOverride(index);
+                            return;
+                        }
+
                         previewListView.model = target.model;
                         previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
