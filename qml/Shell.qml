@@ -19,8 +19,10 @@ import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import Utils 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -34,7 +36,7 @@ import "Stages"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 
-FocusScope {
+Item {
     id: shell
 
     // this is only here to select the width / height of the window if not running fullscreen
@@ -85,8 +87,31 @@ FocusScope {
         id: volumeControl
     }
 
-    Keys.onVolumeUpPressed: volumeControl.volumeUp()
-    Keys.onVolumeDownPressed: volumeControl.volumeDown()
+    WindowKeysFilter {
+        // Handle but do not filter out volume keys
+        Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
+        Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
+
+        Keys.onPressed: {
+            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                if (!powerKeyTimer.running) {
+                    powerKeyTimer.start();
+                }
+                event.accepted = true;
+            } else {
+                event.accepted = false;
+            }
+        }
+
+        Keys.onReleased: {
+            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                powerKeyTimer.stop();
+                event.accepted = true;
+            } else {
+                event.accepted = false;
+            }
+        }
+    }
 
     Item {
         id: underlay
@@ -95,9 +120,6 @@ FocusScope {
 
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
-
-        // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
-        // through the translucent parts of the shell surface.
         visible: !fullyCovered
 
         Image {
@@ -169,14 +191,23 @@ FocusScope {
 
         visible: !fullyHidden && !ApplicationManager.empty
 
-        x: shown ? launcher.progress : stagesDragArea.progress
+        x: {
+            if (shown) {
+                if (locked) {
+                    return 0;
+                }
+                return launcher.progress;
+            } else {
+                return stagesDragArea.progress
+            }
+        }
         Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
         onShownChanged: {
             if (shown) {
-                if (ApplicationManager.topmostApplication) {
-                    ApplicationManager.focusApplication(ApplicationManager.topmostApplication.appId);
+                if (ApplicationManager.count > 0) {
+                    ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
                 }
             } else {
                 if (ApplicationManager.focusedApplicationId) {
@@ -193,6 +224,8 @@ FocusScope {
 
         property bool fullyShown: x == 0
         property bool fullyHidden: x == width
+
+        property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
 
         // It might technically not be fullyShown but visually it just looks so.
         property bool roughlyFullyShown: x >= 0 && x <= units.gu(1)
@@ -230,7 +263,128 @@ FocusScope {
             }
         }
 
+        property bool dialogShown: false
+
+        Component {
+            id: logoutDialog
+            Dialog {
+                id: dialogueLogout
+                title: "Logout"
+                text: "Are you sure that you want to logout?"
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        PopupUtils.close(dialogueLogout);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Yes"
+                    onClicked: {
+                        DBusUnitySessionService.Logout();
+                        PopupUtils.close(dialogueLogout);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: shutdownDialog
+            Dialog {
+                id: dialogueShutdown
+                title: "Shutdown"
+                text: "Are you sure that you want to shutdown?"
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        PopupUtils.close(dialogueShutdown);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Yes"
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Shutdown();
+                        PopupUtils.close(dialogueShutdown);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: rebootDialog
+            Dialog {
+                id: dialogueReboot
+                title: "Reboot"
+                text: "Are you sure that you want to reboot?"
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        PopupUtils.close(dialogueReboot)
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: "Yes"
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Reboot();
+                        PopupUtils.close(dialogueReboot);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: powerDialog
+            Dialog {
+                id: dialoguePower
+                title: "Power"
+                text: i18n.tr("Are you sure you would like to turn power off?")
+                Button {
+                    text: i18n.tr("Power off")
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                        shutdownFadeOutRectangle.enabled = true;
+                        shutdownFadeOutRectangle.visible = true;
+                        shutdownFadeOut.start();
+                    }
+                }
+                Button {
+                    text: i18n.tr("Restart")
+                    onClicked: {
+                        dBusUnitySessionServiceConnection.closeAllApps();
+                        DBusUnitySessionService.Reboot();
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+                Button {
+                    text: i18n.tr("Cancel")
+                    onClicked: {
+                        PopupUtils.close(dialoguePower);
+                        stages.dialogShown = false;
+                    }
+                }
+            }
+        }
+
+        function showPowerDialog() {
+            if (!stages.dialogShown) {
+                stages.dialogShown = true;
+                PopupUtils.open(powerDialog);
+            }
+        }
+
         Connections {
+            id: dBusUnitySessionServiceConnection
+            objectName: "dBusUnitySessionServiceConnection"
             target: DBusUnitySessionService
 
             function closeAllApps() {
@@ -244,8 +398,27 @@ FocusScope {
             }
 
             onLogoutRequested: {
-                // TODO: Display a dialog to ask the user to confirm.
-                DBusUnitySessionService.Logout();
+                // Display a dialog to ask the user to confirm.
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(logoutDialog);
+                }
+            }
+
+            onShutdownRequested: {
+                // Display a dialog to ask the user to confirm.
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(shutdownDialog);
+                }
+            }
+
+            onRebootRequested: {
+                // Display a dialog to ask the user to confirm.
+                if (!stages.dialogShown) {
+                    stages.dialogShown = true;
+                    PopupUtils.open(rebootDialog);
+                }
             }
 
             onLogoutReady: {
@@ -274,14 +447,14 @@ FocusScope {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: stages.roughlyFullyShown
+                value: stages.roughlyFullyShown && !greeter.shown && !lockscreen.shown
             }
         }
     }
 
     InputMethod {
         id: inputMethod
-        anchors.fill: parent
+        anchors { fill: parent; topMargin: panel.panelHeight }
         z: notifications.useModal || panel.indicators.shown ? overlay.z + 1 : overlay.z - 1
     }
 
@@ -337,6 +510,8 @@ FocusScope {
     Connections {
         target: LightDM.Greeter
 
+        onShowGreeter: greeter.show()
+
         onShowPrompt: {
             if (LightDM.Users.count == 1) {
                 // TODO: There's no better way for now to determine if its a PIN or a passphrase.
@@ -360,6 +535,12 @@ FocusScope {
                 lockscreen.clear(true);
             }
         }
+    }
+
+    Binding {
+        target: LightDM.Greeter
+        property: "active"
+        value: greeter.shown || lockscreen.shown
     }
 
     Rectangle {
@@ -401,6 +582,9 @@ FocusScope {
             onShownChanged: {
                 if (shown) {
                     lockscreen.reset();
+                    if (!LightDM.Greeter.promptless) {
+                       lockscreen.show();
+                    }
                     // If there is only one user, we start authenticating with that one here.
                     // If there are more users, the Greeter will handle that
                     if (LightDM.Users.count == 1) {
@@ -477,8 +661,8 @@ FocusScope {
             }
 
             property bool topmostApplicationIsFullscreen:
-                ApplicationManager.topmostApplication &&
-                    ApplicationManager.topmostApplication.fullscreen
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
             fullscreenMode: stages.roughlyFullyShown && topmostApplicationIsFullscreen
                     && !greeter.shown && !lockscreen.shown
@@ -565,9 +749,6 @@ FocusScope {
         }
     }
 
-    focus: true
-    onFocusChanged: if (!focus) forceActiveFocus();
-
     Binding {
         target: i18n
         property: "domain"
@@ -603,5 +784,35 @@ FocusScope {
     Connections {
         target: SessionBroadcast
         onShowHome: showHome()
+    }
+
+    Timer {
+        id: powerKeyTimer
+        interval: 2000
+        repeat: false
+        triggeredOnStart: false
+
+        onTriggered: {
+            stages.showPowerDialog();
+        }
+    }
+
+    Rectangle {
+        id: shutdownFadeOutRectangle
+        enabled: false
+        visible: false
+        color: "black"
+        anchors.fill: parent
+        opacity: 0.0
+        NumberAnimation on opacity {
+            id: shutdownFadeOut
+            from: 0.0
+            to: 1.0
+            onStopped: {
+                if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
+                    DBusUnitySessionService.Shutdown();
+                }
+            }
+        }
     }
 }

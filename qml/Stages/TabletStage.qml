@@ -31,14 +31,11 @@ Item {
     property bool moving: false
     property int dragAreaWidth
     property real maximizedAppTopMargin
-
-    // State information propagated to the outside
-    readonly property bool painting: true
-    property bool fullscreen: true
-    property bool overlayMode: false
     property bool interactive
 
-    readonly property int overlayWidth: priv.overlayOverride ? 0 : spreadView.sideStageWidth
+    // State information propagated to the outside
+    property bool fullscreen: true
+    property bool locked: spreadView.phase == 2
 
     QtObject {
         id: priv

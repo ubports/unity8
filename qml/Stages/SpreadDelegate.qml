@@ -35,12 +35,7 @@ Item {
     signal clicked()
     signal closed()
 
-    onActiveFocusChanged: {
-        if (activeFocus)
-            surfaceContainer.forceActiveFocus();
-    }
-
-    FocusScope {
+    Item {
         id: surfaceContainer
         anchors.fill: parent
         readonly property var surface: model.surface
@@ -93,6 +88,16 @@ Item {
         Connections {
             target: surface
             onStateChanged: surfaceContainer.checkFullscreen(surface);
+            // FIXME: I would rather not need to do this, but currently it doesn't get
+            // active focus without it and I don't know why.
+            onFocusChanged: forceSurfaceActiveFocusIfReady();
+            onParentChanged: forceSurfaceActiveFocusIfReady();
+            onEnabledChanged: forceSurfaceActiveFocusIfReady();
+            function forceSurfaceActiveFocusIfReady() {
+                if (surface.focus && surface.parent === surfaceContainer && surface.enabled) {
+                    surface.forceActiveFocus();
+                }
+            }
         }
 
         BorderImage {

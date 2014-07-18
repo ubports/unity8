@@ -7,10 +7,58 @@ unity8 (8.00) UNRELEASED; urgency=medium
     application surfaces are added to the QML scene as items.
     
   [ Michael Zanetti ]
-  * Rewrite phone right-edge spread code to use QtCompositor
+  * Port phone right-edge spread code to use QtCompositor
   * Add right-edge spread animation for tablet
 
  -- Gerry Boland <gerry.boland@canonical.com>  Thu, 10 Jul 2014 10:34:18 +0100
+
+unity8 (7.90+14.10.20140717.1-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Only generate .qmltypes files manually, no need to do it build-time.
+    It didn't work when cross-compiling either, and required builders to
+    have otherwise unnecessary environment.
+  * Fix CardCreator test. It got broken with a merge that got landed
+    along side of it.
+
+  [ Ying-Chun Liu ]
+  * Add reboot/shutdown (LP: #1234062)
+
+  [ Albert Astals ]
+  * Make the departments test more stable
+
+  [ Mirco Müller ]
+  * Fixes gap at top of sim-unlock/fullscreen notification (point 1.),
+    fixes blocking overlay if underlying UnityMenuModel vanishes from
+    DBus (point 2.). The third bullet-point of the bug-report, lockup of
+    shell-UI, could not be reproduced. (LP: #1308011)
+
+  [ Michael Terry ]
+  * Expose a new greeter DBus property, IsActive, which tells apps and
+    indicators when the integrated-greeter screen is active. Useful for
+    switching UI modes when the screen is locked.
+  * Allow the session to bring up the greeter/lockscreen over DBus. The
+    emergency dialer will need this support in order to cancel bringing
+    it up.
+
+  [ Michael Zanetti ]
+  * Fixes gap at top of sim-unlock/fullscreen notification (point 1.),
+    fixes blocking overlay if underlying UnityMenuModel vanishes from
+    DBus (point 2.). The third bullet-point of the bug-report, lockup of
+    shell-UI, could not be reproduced. (LP: #1308011)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 17 Jul 2014 09:38:20 +0000
+
+unity8 (7.90+14.10.20140714-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Activate all results in click scope by default. (LP: #1341262)
+
+  [ Mirco Müller ]
+  * Added support for utilization of the ComboButton SDK-element for
+    snap-decision notifications with many actions.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 14 Jul 2014 18:20:25 +0000
 
 unity8 (7.90+14.10.20140709.2-0ubuntu1) utopic; urgency=low
 

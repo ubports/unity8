@@ -30,6 +30,7 @@
 #include "qsortfilterproxymodelqml.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
+#include "windowkeysfilter.h"
 #include "easingcurve.h"
 
 void UtilsPlugin::registerTypes(const char *uri)
@@ -40,6 +41,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QSortFilterProxyModelQML>(uri, 0, 1, "SortFilterProxyModel");
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
     qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
+    qmlRegisterType<WindowKeysFilter>(uri, 0, 1, "WindowKeysFilter");
     qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
 }
