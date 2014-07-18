@@ -23,7 +23,7 @@
 #include <QPointer>
 
 /*
-   Receives all key events that arrives in the QQuickWindow where this item is placed.
+   Receives all key events that arrive in the QQuickWindow where this item is placed.
 
    Rejected key events will be allowed to be processed normally by the QQuickWindow whereas
    accepted ones will be filtered out. Events are accepted by default, so make sure you reject
