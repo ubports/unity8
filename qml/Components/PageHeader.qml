@@ -61,9 +61,7 @@ Item {
             unfocus();
         }
         searchTextField.text = "";
-        if (headerContainer.popover != null) {
-            PopupUtils.close(headerContainer.popover);
-        }
+        closeSearchHistory();
     }
 
     function unfocus() {
@@ -86,6 +84,12 @@ Item {
         }
     }
 
+    function closeSearchHistory() {
+        if (headerContainer.popover != null) {
+            PopupUtils.close(headerContainer.popover);
+        }
+    }
+
     function refreshLogo() {
         if (scopeStyle ? scopeStyle.headerLogo != "" : false) {
             header.contents = imageComponent.createObject();
@@ -104,9 +108,7 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: headerContainer.showSearch
         onPressed: {
-            if (headerContainer.popover) {
-                PopupUtils.close(headerContainer.popover);
-            }
+            closeSearchHistory();
             if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }

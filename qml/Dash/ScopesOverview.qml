@@ -307,7 +307,7 @@ Item {
             Behavior on opacity { UbuntuNumberAnimation { } }
 
             clickOverride: function (index, result, item, itemModel) {
-                // TODO Make sure pageheader suggestions popup is hidden
+                pageHeader.closeSearchHistory();
                 if (itemModel.scopeId) {
                     root.searchSelected(itemModel.scopeId, item.mapToItem(null, 0, 0), Qt.size(item.width, item.height));
                 } else {
