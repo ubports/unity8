@@ -16,46 +16,25 @@
 
 #include "MirSurfaceItem.h"
 
-#include <QQmlEngine>
-#include <QQmlComponent>
-#include <QQmlContext>
-#include <QTimer>
+#include <QPainter>
 
 MirSurfaceItem::MirSurfaceItem(const QString& name,
                                MirSurfaceItem::Type type,
                                MirSurfaceItem::State state,
-                               const QString& imageQml,
+                               const QUrl& screenshot,
                                QQuickItem *parent)
-    : QQuickItem(parent)
+    : QQuickPaintedItem(parent)
     , m_name(name)
     , m_type(type)
     , m_state(state)
-    , m_imageQml(imageQml)
-    , m_imageComponent(nullptr)
-    , m_imageItem(nullptr)
+    , m_img(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString())
 {
+    setFillColor(Qt::white);
 }
 
-void MirSurfaceItem::itemChange(ItemChange change, const ItemChangeData & value)
+void MirSurfaceItem::paint(QPainter * painter)
 {
-    QQuickItem::itemChange(change, value);
-
-    Q_UNUSED(value)
-    if (change == QQuickItem::ItemParentHasChanged) {
-        createImage();
-    }
-}
-
-void MirSurfaceItem::createImage()
-{
-    if (!m_imageComponent) {
-        QQmlContext* context = QQmlEngine::contextForObject(parentItem());
-        if (!context) return;
-        m_imageComponent = new QQmlComponent(context->engine(), this);
-        m_imageComponent->setData(m_imageQml.toUtf8(), QUrl());
-    }
-    if (!m_imageItem) {
-        m_imageItem = qobject_cast<QQuickItem *>(m_imageComponent->create());
-        if (m_imageItem) m_imageItem->setParentItem(this);
+    if (!m_img.isNull()) {
+        painter->drawImage(contentsBoundingRect(), m_img, QRect(QPoint(0,0), m_img.size()));
     }
 }

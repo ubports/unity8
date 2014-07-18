@@ -84,7 +84,7 @@ void ApplicationInfo::createSurface()
     m_surface = new MirSurfaceItem(name(),
                                    MirSurfaceItem::Normal,
                                    fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   imageQml());
+                                   screenshot());
     Q_EMIT surfaceChanged(m_surface);
     Q_EMIT SurfaceManager::singleton()->surfaceCreated(m_surface);
 }

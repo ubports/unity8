@@ -380,8 +380,8 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
             .arg(application->icon().toString());
     application->setImageQml(imageQml);
 
-    application->setScreenshot(QString("file://%1/Dash/graphics/phone/screenshots/%2.png").arg(qmlDirectory())
-                                                                                          .arg(application->icon().toString()));
+    application->setScreenshot(QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png").arg(qmlDirectory())
+                                                                                             .arg(application->icon().toString()));
 }
 
 void ApplicationManager::buildListOfAvailableApplications()

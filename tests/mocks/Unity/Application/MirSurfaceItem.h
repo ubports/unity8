@@ -17,11 +17,10 @@
 #ifndef MIRSURFACEITEM_H
 #define MIRSURFACEITEM_H
 
-#include <QQuickItem>
+#include <QQuickPaintedItem>
+#include <QImage>
 
-class QQmlComponent;
-
-class MirSurfaceItem : public QQuickItem
+class MirSurfaceItem : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_ENUMS(Type)
@@ -55,7 +54,7 @@ public:
     explicit MirSurfaceItem(const QString& name,
                             Type type,
                             State state,
-                            QString const& imageQml,
+                            const QUrl& screenshot,
                             QQuickItem *parent = 0);
 
     //getters
@@ -65,26 +64,19 @@ public:
 
     Q_INVOKABLE void release() {}
 
+    void paint(QPainter * painter) override;
+
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void nameChanged(QString);
-
-protected:
-    void itemChange(ItemChange change, const ItemChangeData& value) override;
-
-private Q_SLOTS:
-    void createImage();
 
 private:
 
     const QString m_name;
     const Type m_type;
     const State m_state;
-    const QString m_imageQml;
-
-    QQmlComponent *m_imageComponent;
-    QQuickItem* m_imageItem;
+    const QImage m_img;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
