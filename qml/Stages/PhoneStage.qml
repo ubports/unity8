@@ -288,16 +288,20 @@ Item {
                     }
 
                     // Each tile has a different progress value running from 0 to 1.
-                    // A progress value of 0 means the tile is at the right edge. 1 means the tile has reched the left edge.
+                    // 0: means the tile is at the right edge.
+                    // 1: means the tile has finished the main animation towards the left edge.
+                    // >1: after the main animation has finished, tiles will continue to move very slowly to the left
                     progress: {
                         var tileProgress = (spreadView.shiftedContentX - behavioredIndex * spreadView.tileDistance) / spreadView.width;
                         // Tile 1 needs to move directly from the beginning...
                         if (behavioredIndex == 1 && spreadView.phase < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width;
                         }
-                        // Limiting progress to ~0 and 1.7 to avoid binding calculations when tiles are either
-                        // outside the screen on the right (progress < 0) or hidden by other tiles on the left
-                        // (> 1.7). Using 0.0001 to differentiate when a tile should still be visible (==0)
+                        // Limiting progress to ~0 and 1.7 to avoid binding calculations when tiles are not
+                        // visible.
+                        // < 0 :  The tile is outside the screen on the right
+                        // > 1.7: The tile is *very* close to the left edge and covered by other tiles now.
+                        // Using 0.0001 to differentiate when a tile should still be visible (==0)
                         // or we can hide it (< 0)
                         tileProgress = Math.max(-0.0001, Math.min(1.7, tileProgress));
                         return tileProgress;
