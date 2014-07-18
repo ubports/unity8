@@ -43,6 +43,7 @@ Flickable {
 
     Repeater {
         id: repeater
+        objectName: "scopesOverviewFavoritesRepeater"
 
         delegate: Loader {
             id: loader

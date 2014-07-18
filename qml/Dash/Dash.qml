@@ -71,6 +71,7 @@ Showable {
 
     QtObject {
         id: overviewController
+        objectName: "overviewController"
 
         property alias enableAnimation: progressAnimation.enabled
         property real progress: 0
@@ -82,6 +83,7 @@ Showable {
 
     ScopesOverview {
         id: scopesOverview
+        objectName: "scopesOverview"
         anchors.fill: parent
         scope: scopes.overviewScope
         progress: overviewController.progress
