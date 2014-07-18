@@ -639,10 +639,6 @@ Item {
         stages.hide()
     }
 
-    function hideIndicatorMenu(delay) {
-        panel.hideIndicatorMenu(delay);
-    }
-
     Item {
         id: overlay
         z: 10
