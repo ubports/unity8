@@ -15,6 +15,8 @@
  */
 
 #include "ApplicationInfo.h"
+#include "MirSurfaceItem.h"
+#include "SurfaceManager.h"
 
 #include <QGuiApplication>
 #include <QQuickItem>
@@ -22,31 +24,42 @@
 #include <QQmlComponent>
 #include <QTimer>
 
+
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
-    ,m_appId(appId)
-    ,m_stage(MainStage)
-    ,m_state(Starting)
-    ,m_focused(false)
-    ,m_fullscreen(false)
-    ,m_windowItem(0)
-    ,m_windowComponent(0)
-    ,m_parentItem(0)
+    , m_appId(appId)
+    , m_stage(MainStage)
+    , m_state(Starting)
+    , m_focused(false)
+    , m_fullscreen(false)
+    , m_windowItem(0)
+    , m_windowComponent(0)
+    , m_parentItem(0)
+    , m_surface(0)
 {
-    QTimer::singleShot(300, this, SLOT(setRunning()));
+    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
     : ApplicationInfoInterface(QString(), parent)
-     ,m_stage(MainStage)
-     ,m_state(Starting)
-     ,m_focused(false)
-     ,m_fullscreen(false)
-     ,m_windowItem(0)
-     ,m_windowComponent(0)
-     ,m_parentItem(0)
+    , m_stage(MainStage)
+    , m_state(Starting)
+    , m_focused(false)
+    , m_fullscreen(false)
+    , m_windowItem(0)
+    , m_windowComponent(0)
+    , m_parentItem(0)
+    , m_surface(0)
 {
-    QTimer::singleShot(300, this, SLOT(setRunning()));
+    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
+}
+
+ApplicationInfo::~ApplicationInfo()
+{
+    if (m_surface) {
+        Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
+        m_surface->deleteLater();
+    }
 }
 
 void ApplicationInfo::onWindowComponentStatusChanged(QQmlComponent::Status status)
@@ -55,10 +68,36 @@ void ApplicationInfo::onWindowComponentStatusChanged(QQmlComponent::Status statu
         doCreateWindowItem();
 }
 
-void ApplicationInfo::setRunning()
+void ApplicationInfo::onStateChanged(State state)
 {
-    m_state = Running;
-    Q_EMIT stateChanged();
+    if (state == ApplicationInfo::Running) {
+        QTimer::singleShot(1000, this, SLOT(createSurface()));
+    } else if (state == ApplicationInfo::Stopped) {
+        destroySurface();
+    }
+}
+
+void ApplicationInfo::createSurface()
+{
+    if (m_surface || state() == ApplicationInfo::Stopped) return;
+
+    m_surface = new MirSurfaceItem(name(),
+                                   MirSurfaceItem::Normal,
+                                   fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
+                                   imageQml());
+    Q_EMIT surfaceChanged(m_surface);
+    Q_EMIT SurfaceManager::singleton()->surfaceCreated(m_surface);
+}
+
+void ApplicationInfo::destroySurface()
+{
+    if (!m_surface) return;
+    MirSurfaceItem* oldSurface = m_surface;
+    m_surface = nullptr;
+
+    Q_EMIT surfaceChanged(nullptr);
+    Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(oldSurface);
+    oldSurface->deleteLater();
 }
 
 void ApplicationInfo::createWindowComponent()

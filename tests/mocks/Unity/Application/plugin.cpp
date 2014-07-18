@@ -19,6 +19,8 @@
 #include "ApplicationImage.h"
 #include "ApplicationManager.h"
 #include "ApplicationScreenshotProvider.h"
+#include "MirSurfaceItem.h"
+#include "SurfaceManager.h"
 
 #include <qqml.h>
 #include <QQmlEngine>
@@ -34,13 +36,24 @@ static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scrip
     return s_appManager;
 }
 
+static QObject* surfaceManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    return SurfaceManager::singleton();
+}
+
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
+    qRegisterMetaType<MirSurfaceItem*>("MirSurfaceItem*");
+
     qmlRegisterUncreatableType<unity::shell::application::ApplicationManagerInterface>(uri, 0, 1, "ApplicationManagerInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
+    qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
 
     qmlRegisterUncreatableType<unity::shell::application::ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
+
+    qmlRegisterUncreatableType<MirSurfaceItem>(uri, 0, 1, "MirSurfaceItem", "MirSurfaceItem can't be instantiated from QML");
 
     qmlRegisterType<ApplicationImage>(uri, 0, 1, "ApplicationImage");
 }

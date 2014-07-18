@@ -53,6 +53,10 @@ class ApplicationManager : public ApplicationManagerInterface {
     ApplicationManager(QObject *parent = NULL);
     virtual ~ApplicationManager();
 
+    enum MoreRoles {
+        RoleSurface = RoleScreenshot+1,
+        RoleFullscreen,
+    };
     enum Role {
         Dash, Default, Indicators, Notifications, Greeter, Launcher, OnScreenKeyboard,
         ShutdownDialog
@@ -107,6 +111,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE QStringList availableApplications();
     int rightMargin() const;
     void setRightMargin(int rightMargin);
+
+    QModelIndex findIndex(ApplicationInfo* application);
 
  Q_SIGNALS:
     void keyboardHeightChanged();
