@@ -169,7 +169,7 @@ Categories::data(const QModelIndex& index, int role) const
                 return map;
             }
             case RoleHeaderLink:
-                if (index.row() == 1) {
+                if (index.row() == 1 || index.row() == 4) {
                     return QString("scope://query/1");
                 }
                 return QString();

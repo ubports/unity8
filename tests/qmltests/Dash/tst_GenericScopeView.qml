@@ -176,6 +176,28 @@ Item {
                 compare(spy.signalArguments[0][0], genericScopeView.scope.categories.data(1, Categories.RoleHeaderLink));
             }
 
+            function test_headerLink_disable_expansion() {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                waitForRendering(categoryListView);
+
+                categoryListView.contentY = categoryListView.height * 2;
+
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader4") != null; }, true);
+
+                var categoryView = findChild(genericScopeView, "dashCategory4");
+                verify(categoryView, "Can't find the category view.");
+
+                var seeAll = findChild(categoryView, "seeAll");
+                verify(seeAll, "Can't find the seeAll element");
+
+                compare(seeAll.height, 0, "SeeAll should be 0-height.");
+
+                openPreview(4, 0);
+
+                compare(testCase.previewListView.count, 12, "There should only be 12 items in preview.");
+            }
+
             function test_narrow_delegate_ranges_expand() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") !== null; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
@@ -220,17 +242,19 @@ Item {
                 compare(grid.height, grid.expandedHeight, "Only category should always be expanded");
             }
 
-            function openPreview() {
+            function openPreview(category, delegate) {
+                if (category === undefined) category = 0;
+                if (delegate === undefined) delegate = 0;
                 tryCompareFunction(function() {
-                                        var cardGrid = findChild(genericScopeView, "0");
+                                        var cardGrid = findChild(genericScopeView, category);
                                         if (cardGrid != null) {
-                                            var tile = findChild(cardGrid, "delegate0");
+                                            var tile = findChild(cardGrid, "delegate"+delegate);
                                             return tile != null;
                                         }
                                         return false;
                                     },
                                     true);
-                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
+                var tile = findChild(findChild(genericScopeView, category), "delegate"+delegate);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.previewListView, "open", true);
                 tryCompare(testCase.previewListView, "x", 0);
