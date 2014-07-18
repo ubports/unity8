@@ -36,7 +36,7 @@ Item {
     property var hints
     property var notification
     property color color
-    property bool fullscreen
+    property bool fullscreen: false
     property int maxHeight
     property int margins
     property Gradient greenGradient : Gradient {
@@ -48,7 +48,6 @@ Item {
         GradientStop { position: 1.0; color: "#4d4745" }
     }
 
-    fullscreen: false
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
@@ -80,7 +79,7 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
-        source: hints["suppress-sound"] != "" ? hints["sound-file"] : undefined
+        source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
     onOpacityChanged: {
@@ -159,9 +158,17 @@ Item {
         UnityMenuModel {
             id: unityMenuModel
 
+            property string lastNameOwner: ""
+
             busName: paths.busName
             actions: paths.actions
             menuObjectPath: paths.menuObjectPath
+            onNameOwnerChanged: {
+                if (lastNameOwner != "" && nameOwner == "" && notification.notification != undefined) {
+                    notification.notification.close()
+                }
+                lastNameOwner = nameOwner
+            }
         }
 
         Behavior on implicitHeight {
@@ -272,14 +279,18 @@ Item {
             }
 
             Column {
+                id: dialogColumn
                 objectName: "dialogListView"
                 spacing: units.gu(2)
 
                 visible: count > 0
 
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.top: fullscreen ? parent.top : undefined
-                anchors.bottom: fullscreen ? parent.bottom : undefined
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: fullscreen ? parent.top : undefined
+                    bottom: fullscreen ? parent.bottom : undefined
+                }
 
                 Repeater {
                     model: unityMenuModel
@@ -287,7 +298,10 @@ Item {
                     NotificationMenuItemFactory {
                         id: menuItemFactory
 
-                        anchors.left: parent.left; anchors.right: parent.right
+                        anchors {
+                            left: dialogColumn.left
+                            right: dialogColumn.right
+                        }
 
                         menuModel: unityMenuModel
                         menuData: model
