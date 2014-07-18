@@ -137,22 +137,22 @@ Item {
         // 2: The list is dragged further and snaps into the spread view when entering phase 2
         property int phase
 
-        property int phase0Width: sideStageWidth
-        property int phase1Width: sideStageWidth
+        readonly property int phase0Width: sideStageWidth
+        readonly property int phase1Width: sideStageWidth
 
         // Those markers mark the various positions in the spread (ratio to screen width from right to left):
         // 0 - 1: following finger, snap back to the beginning on release
-        property real positionMarker1: 0.2
+        readonly property real positionMarker1: 0.2
         // 1 - 2: curved snapping movement, snap to nextInStack on release
-        property real positionMarker2: sideStageWidth / spreadView.width
+        readonly property real positionMarker2: sideStageWidth / spreadView.width
         // 2 - 3: movement follows finger, snaps to phase 2 (full spread) on release
-        property real positionMarker3: 0.6
+        readonly property real positionMarker3: 0.6
         // passing 3, we detach movement from the finger and snap to phase 2 (full spread)
-        property real positionMarker4: 0.8
+        readonly property real positionMarker4: 0.8
 
-        property int startSnapPosition: phase0Width * 0.5
-        property int endSnapPosition: phase0Width * 0.75
-        property real snapPosition: 0.75
+        readonly property int startSnapPosition: phase0Width * 0.5
+        readonly property int endSnapPosition: phase0Width * 0.75
+        readonly property real snapPosition: 0.75
 
         property int selectedIndex: -1
         property int draggedIndex: -1
