@@ -30,8 +30,7 @@ Item {
     property bool interactive
 
     // State information propagated to the outside
-    property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
-    property bool locked: spreadView.phase == 2
+    readonly property bool locked: spreadView.phase == 2
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId))
@@ -51,14 +50,6 @@ Item {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
                 priv.switchToApp(appId);
-            }
-        }
-
-        onFocusedApplicationIdChanged: {
-            if (ApplicationManager.focusedApplicationId.length > 0) {
-                var application = priv.focusedApplication;
-                root.fullscreen = application.fullscreen;
-                var appIndex = priv.indexOf(application.appId);
             }
         }
 
@@ -90,7 +81,6 @@ Item {
 
         function switchToApp(appId) {
             if (priv.focusedAppId) {
-                root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
                 spreadView.focusChanging = true
                 ApplicationManager.focusApplication(appId);
             } else {
@@ -197,7 +187,6 @@ Item {
                 index = 0;
             }
             spreadView.selectedIndex = index;
-            root.fullscreen = ApplicationManager.get(index).fullscreen;
             // If we're not in full spread mode yet, always unwind to start pos
             // otherwise unwind up to progress 0 of the selected index
             if (spreadView.phase < 2) {

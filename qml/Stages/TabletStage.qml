@@ -34,8 +34,7 @@ Item {
     property bool interactive
 
     // State information propagated to the outside
-    property bool fullscreen: true
-    property bool locked: spreadView.phase == 2
+    readonly property bool locked: spreadView.phase == 2
 
     QtObject {
         id: priv
