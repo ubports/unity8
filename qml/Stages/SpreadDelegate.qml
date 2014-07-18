@@ -178,9 +178,10 @@ Item {
         }
 
         onDragEnd: {
-            if ((dragVelocity < -600 && distance < -units.gu(8)) || distance < -root.height / 2) {
+            // velocity and distance values specified by design prototype
+            if ((dragVelocity < -units.gu(40) && distance < -units.gu(8)) || distance < -root.height / 2) {
                 animation.animate("up")
-            } else if ((dragVelocity > 600 && distance > units.gu(8)) || distance > root.height / 2) {
+            } else if ((dragVelocity > units.gu(40) && distance > units.gu(8)) || distance > root.height / 2) {
                 animation.animate("down")
             } else {
                 animation.animate("center")
