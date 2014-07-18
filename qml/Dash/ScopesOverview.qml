@@ -68,22 +68,20 @@ Item {
 
     Connections {
         target: scope
-        onOpenScope: showTemporaryScope(scope);
-    }
-
-    function showTemporaryScope(scope) {
-        var itemPos = scopesOverviewXYScaler.restorePosition;
-        var itemSize = scopesOverviewXYScaler.restoreSize;
-        scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
-        scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-        scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
-        scopesOverviewXYScaler.opacity = 0;
-        tempScopeItem.scope = scope;
-        middleItems.overrideOpacity = 0;
-        scopesOverviewXYScaler.scale = 1;
-        scopesOverviewXYScaler.x = 0;
-        scopesOverviewXYScaler.y = 0;
-        scopesOverviewXYScaler.opacity = 1;
+        onOpenScope: {
+            var itemPos = scopesOverviewXYScaler.restorePosition;
+            var itemSize = scopesOverviewXYScaler.restoreSize;
+            scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
+            scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+            scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+            scopesOverviewXYScaler.opacity = 0;
+            tempScopeItem.scope = scope;
+            middleItems.overrideOpacity = 0;
+            scopesOverviewXYScaler.scale = 1;
+            scopesOverviewXYScaler.x = 0;
+            scopesOverviewXYScaler.y = 0;
+            scopesOverviewXYScaler.opacity = 1;
+        }
     }
 
     function animateDashFromAll(scopeId) {
