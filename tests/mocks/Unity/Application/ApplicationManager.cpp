@@ -241,7 +241,6 @@ bool ApplicationManager::updateScreenshot(const QString &appId)
         return false;
     }
 
-//    application->setScreenshot(QString("image://application/%1/%2").arg(appId).arg(QDateTime::currentMSecsSinceEpoch()));
     QModelIndex appIndex = index(idx);
     Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << RoleScreenshot);
     return true;
