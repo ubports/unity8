@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
+import LightDM 0.1 as LightDM
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -519,6 +520,13 @@ Item {
             ApplicationManager.focusRequested("notes-app")
             tryCompare(greeter, "showProgress", 0)
             waitUntilApplicationWindowIsFullyVisible()
+        }
+
+        function test_showGreeterDBusCall() {
+            var greeter = findChild(shell, "greeter")
+            tryCompare(greeter, "showProgress", 0)
+            LightDM.Greeter.showGreeter()
+            tryCompare(greeter, "showProgress", 1)
         }
     }
 }

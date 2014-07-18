@@ -50,7 +50,10 @@ Loader {
         Column {
             spacing: units.gu(2)
 
-            anchors.left: parent.left; anchors.right: parent.right
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
 
             Component.onCompleted: {
                 menuModel.loadExtendedAttributes(menuIndex, {"x-echo-mode-password": "bool"});
@@ -67,7 +70,10 @@ Loader {
 
                 // TODO using Qt.ImhNoPredictiveText here until lp #1291575 is fixed for ubuntu-ui-toolkit
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                anchors.left: parent.left; anchors.right: parent.right
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
                 echoMode: checkBox.checked ? TextInput.Normal : TextInput.Password
                 height: units.gu(5)
                 onTextChanged: {
@@ -98,7 +104,10 @@ Loader {
         id: pinLock
 
         Lockscreen {
-            anchors.left: parent.left; anchors.right: parent.right
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
             height: menuFactory.maxHeight
             placeholderText: i18n.tr("Please enter SIM PIN")
             background: shell.background
