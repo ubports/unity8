@@ -35,10 +35,10 @@ Item {
     signal clicked()
     signal closed()
 
-    Item {
+    SurfaceContainer {
         id: surfaceContainer
         anchors.fill: parent
-        readonly property var surface: model.surface
+        surface: model.surface
         property bool appHasCreatedASurface: false
 
         onSurfaceChanged: {
@@ -47,11 +47,7 @@ Item {
                     surface.visible = false; // hide until splash screen removed
                     appHasCreatedASurface = true;
                 }
-
-                surface.parent = surfaceContainer;
-                surface.anchors.fill = surfaceContainer;
                 surfaceContainer.checkFullscreen(surface);
-                surface.z = 1;
             }
         }
 
