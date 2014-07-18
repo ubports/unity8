@@ -195,14 +195,14 @@ Item {
             property bool requestClose: false
 
             function animate(direction) {
-                animation.from = dragArea.distance
+                animation.from = dragArea.distance;
                 switch (direction) {
                 case "up":
-                    animation.to = -root.height * 1.5
+                    animation.to = -root.height * 1.5;
                     requestClose = true;
                     break;
                 case "down":
-                    animation.to = root.height * 1.5
+                    animation.to = root.height * 1.5;
                     requestClose = true;
                     break;
                 default:
@@ -216,7 +216,7 @@ Item {
                     dragArea.moving = false;
                     dragArea.distance = 0;
                     if (requestClose) {
-                        root.closed()
+                        root.closed();
                     }
                 }
             }
