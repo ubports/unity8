@@ -122,5 +122,36 @@ Item {
             tryCompare(overviewController, "progress", 0);
             compare(dashContentList.currentIndex, 0);
         }
+
+        function test_dash_overview_show_select_different_favorite() {
+            // Wait for stuff to be loaded
+            tryCompare(scopes, "loaded", true);
+            var dashContentList = findChild(dash, "dashContentList");
+            tryCompare(dashContentList, "count", 6);
+            var mockScope1Loader = findChild(dash, "MockScope1 loader");
+            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+
+            // Show the overview
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
+            var overviewController = findInvisibleChild(dash, "overviewController");
+            tryCompare(overviewController, "progress", 1);
+
+            // Make sure tab is where it should
+            var scopesOverview = findChild(dash, "scopesOverview");
+            compare(scopesOverview.currentTab, 0);
+
+            // Make sure stuff is loaded
+            var scopesOverviewFavoritesRepeater = findChild(dash, "scopesOverviewFavoritesRepeater");
+            tryCompare(scopesOverviewFavoritesRepeater, "count", 6);
+            tryCompareFunction(function() { return scopesOverviewFavoritesRepeater.itemAt(0).item != null; }, true);
+            waitForRendering(scopesOverviewFavoritesRepeater.itemAt(1).item);
+
+            // Click in first item
+            mouseClick(scopesOverviewFavoritesRepeater.itemAt(1).item, 0, 0);
+
+            // Make sure animation went back
+            tryCompare(overviewController, "progress", 0);
+            compare(dashContentList.currentIndex, 1);
+        }
     }
 }
