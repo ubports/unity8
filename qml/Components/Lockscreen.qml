@@ -48,7 +48,7 @@ Showable {
     property int minPinLength: -1
     property int maxPinLength: -1
 
-    property url background: shell.background
+    property url background: ""
 
     signal entered(string passphrase)
     signal cancel()
