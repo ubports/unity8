@@ -32,9 +32,6 @@ class Scopes : public unity::shell::scopes::ScopesInterface
 {
     Q_OBJECT
 
-    // TODO Remove and depend on lp:~unity-team/unity-api/scopes-v3
-    Q_PROPERTY(unity::shell::scopes::ScopeInterface* overviewScope READ overviewScope NOTIFY overviewScopeChanged)
-
 public:
     explicit Scopes(QObject *parent = 0);
     ~Scopes();
@@ -53,16 +50,11 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
 
     bool loaded() const override;
-    // TODO Add override when dependin on lp:~unity-team/unity-api/scopes-v3
-    unity::shell::scopes::ScopeInterface* overviewScope() const;
+    unity::shell::scopes::ScopeInterface* overviewScope() const override;
 
     // This is used as part of implementation of the other C++ code, not API
     QList<unity::shell::scopes::ScopeInterface *> scopes(bool onlyVisible) const;
     unity::shell::scopes::ScopeInterface* getScopeFromAll(const QString& scope_id) const;
-
-Q_SIGNALS:
-    // TODO Remove and depend on lp:~unity-team/unity-api/scopes-v3
-    void overviewScopeChanged();
 
 private Q_SLOTS:
     void updateScopes();
