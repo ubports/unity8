@@ -19,7 +19,6 @@
 
 #include <QObject>
 #include <QQmlComponent>
-#include <QDebug>
 
 class QQuickItem;
 class MirSurfaceItem;
