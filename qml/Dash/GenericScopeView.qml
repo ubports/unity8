@@ -375,7 +375,7 @@ FocusScope {
             width: categoryView.width
             text: section
             color: scopeStyle ? scopeStyle.foreground : "grey"
-            iconName: delegate.headerLink ? "go-next" : ""
+            iconName: delegate && delegate.headerLink ? "go-next" : ""
             onClicked: {
                 if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
             }
