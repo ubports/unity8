@@ -19,7 +19,7 @@ target_link_libraries(test-lightdm-dbus
 
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_custom_target(testLightDMDBus dbus-launch env QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full ${CMAKE_CURRENT_BINARY_DIR}/test-lightdm-dbus)
+add_custom_target(testLightDMDBus xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum dbus-launch env QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full ${CMAKE_CURRENT_BINARY_DIR}/test-lightdm-dbus)
 add_dependencies(testLightDMDBus test-lightdm-dbus)
 
 add_dependencies(qmluitests testLightDMDBus)

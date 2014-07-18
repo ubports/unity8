@@ -47,6 +47,27 @@ Q_SIGNALS:
     void logoutRequested(bool have_inhibitors);
 
     /**
+     * rebootRequested signal
+     *
+     * This signal is emitted when some applications request the system to
+     * reboot.
+     * @param have_inhibitors if there are any special running applications
+     *        which inhibit the reboot.
+     */
+    void rebootRequested(bool have_inhibitors);
+
+    /**
+     * shutdownRequested signal
+     *
+     * This signal is emitted when some applications request the system to
+     * shutdown.
+     * @param have_inhibitors if there are any special running applications
+     *        which inhibit the shutdown.
+     */
+    void shutdownRequested(bool have_inhibitors);
+
+
+    /**
      * logoutReady signal
      *
      * This signal is emitted when all the apps are closed. And the system
@@ -61,10 +82,26 @@ public Q_SLOTS:
      * This method directly logout the system without user's confirmation.
      * Ordinary applications should avoid calling this method. Please call
      * RequestLogout() to ask the user to decide logout or not.
-     * This method will stop all the running applications and then signal
-     * logoutReady when all the apps stopped.
      */
     Q_SCRIPTABLE void Logout();
+
+    /**
+     * Reboot the system.
+     *
+     * This method directly reboot the system without user's confirmation.
+     * Ordinary applications should avoid calling this method. Please call
+     * RequestReboot() to ask the user to decide reboot or not.
+     */
+    Q_SCRIPTABLE void Reboot();
+
+    /**
+     * Shutdown the system.
+     *
+     * This method directly shutdown the system without user's confirmation.
+     * Ordinary applications should avoid calling this method. Please call
+     * RequestShutdown() to ask the user to decide shutdown or not.
+     */
+    Q_SCRIPTABLE void Shutdown();
 
     /**
      * Issue a logout request.
@@ -72,10 +109,30 @@ public Q_SLOTS:
      * This method emit the logoutRequested signal to the shell with a boolean
      * which indicates if there's any inhibitors. The shell should receive
      * this signal and display a dialog to ask the user to confirm the logout
-     * action. If confirmed, shell can call Logout() method to kill the apps
-     * and then logout
+     * action. If confirmed, shell can call Logout() method to logout.
      */
     Q_SCRIPTABLE void RequestLogout();
+
+    /**
+     * Issue a reboot request.
+     *
+     * This method emit the rebootRequested signal to the shell with a boolean
+     * which indicates if there's any inhibitors. The shell should receive
+     * this signal and display a dialog to ask the user to confirm the reboot
+     * action. If confirmed, shell can call Reboot() method to reboot
+     */
+    Q_SCRIPTABLE void RequestReboot();
+
+    /**
+     * Issue a shutdown request.
+     *
+     * This method emit the shutdownRequested signal to the shell with a
+     * boolean which indicates if there's any inhibitors.
+     * The shell should receive
+     * this signal and display a dialog to ask the user to confirm the reboot
+     * action. If confirmed, shell can call Shutdown() method to reboot
+     */
+    Q_SCRIPTABLE void RequestShutdown();
 
 };
 

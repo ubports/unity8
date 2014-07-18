@@ -40,6 +40,13 @@ private Q_SLOTS:
         // to watch.
         QDBusConnection::sessionBus().connect(
             "com.canonical.UnityGreeter",
+            "/",
+            "org.freedesktop.DBus.Properties",
+            "PropertiesChanged",
+            this,
+            SIGNAL(PropertiesChangedRelay(const QString&, const QVariantMap&, const QStringList&)));
+        QDBusConnection::sessionBus().connect(
+            "com.canonical.UnityGreeter",
             "/list",
             "org.freedesktop.DBus.Properties",
             "PropertiesChanged",
@@ -56,6 +63,12 @@ private Q_SLOTS:
         QVERIFY(greeter->authenticationUser() == "");
         view->show();
         QTest::qWaitForWindowExposed(view);
+
+        dbusMain = new QDBusInterface("com.canonical.UnityGreeter",
+                                      "/",
+                                      "com.canonical.UnityGreeter",
+                                      QDBusConnection::sessionBus(), view);
+        QVERIFY(dbusMain->isValid());
 
         dbusList = new QDBusInterface("com.canonical.UnityGreeter",
                                       "/list",
@@ -155,9 +168,36 @@ private Q_SLOTS:
         QVERIFY(arguments.at(1).toMap()["EntryIsLocked"] == false);
     }
 
+    void testIsActive()
+    {
+        QVERIFY(!greeter->isActive());
+        QVERIFY(!dbusMain->property("IsActive").toBool());
+
+        QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
+        greeter->setIsActive(true);
+        spy.wait();
+
+        QVERIFY(greeter->isActive());
+        QVERIFY(dbusMain->property("IsActive").toBool());
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> arguments = spy.takeFirst();
+        QCOMPARE(arguments.at(0).toString(), QString("com.canonical.UnityGreeter"));
+        QVERIFY(arguments.at(1).toMap().contains("IsActive"));
+        QVERIFY(arguments.at(1).toMap()["IsActive"].toBool());
+    }
+
+    void testShowGreeter()
+    {
+        // Just confirm the call exists and doesn't fail
+        QDBusReply<void> reply = dbusMain->call("ShowGreeter");
+        QVERIFY(reply.isValid());
+    }
+
 private:
     QQuickView *view;
     Greeter *greeter;
+    QDBusInterface *dbusMain;
     QDBusInterface *dbusList;
 };
 

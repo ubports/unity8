@@ -141,6 +141,7 @@ Module {
             name: "touchSceneYChanged"
             Parameter { name: "value"; type: "double" }
         }
+        Signal { name: "tapped" }
     }
     Component {
         name: "PressedOutsideNotifier"

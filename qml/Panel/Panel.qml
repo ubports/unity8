@@ -27,28 +27,6 @@ Item {
     property alias callHint: __callHint
     property bool fullscreenMode: false
 
-    function hideIndicatorMenu(delay) {
-        if (delay !== undefined) {
-            hideTimer.interval = delay;
-            hideTimer.start();
-        } else {
-            indicators.hide();
-        }
-    }
-
-    Timer {
-        id: hideTimer
-        running: false
-        onTriggered: {
-            indicators.hide();
-        }
-    }
-
-    Connections {
-        target: indicators
-        onShownChanged: hideTimer.stop()
-    }
-
     Rectangle {
         id: darkenedArea
         property real darkenedOpacity: 0.6
