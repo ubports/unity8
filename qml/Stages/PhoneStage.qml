@@ -33,7 +33,7 @@ Item {
     readonly property bool locked: spreadView.phase == 2
 
     function select(appId) {
-        spreadView.snapTo(priv.indexOf(appId))
+        spreadView.snapTo(priv.indexOf(appId));
     }
 
     onWidthChanged: {
@@ -58,8 +58,8 @@ Item {
                 spreadView.snapTo(ApplicationManager.count - 1);
             } else {
                 spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift
-                priv.switchToApp(appId)
+                spreadView.contentX = -spreadView.shift;
+                priv.switchToApp(appId);
             }
         }
 
@@ -81,7 +81,7 @@ Item {
 
         function switchToApp(appId) {
             if (priv.focusedAppId) {
-                spreadView.focusChanging = true
+                spreadView.focusChanging = true;
                 ApplicationManager.focusApplication(appId);
             } else {
                 ApplicationManager.focusApplication(appId);
@@ -172,9 +172,9 @@ Item {
                 snapAnimation.targetContentX = -shift;
                 snapAnimation.start();
             } else if (shiftedContentX < positionMarker2 * width) {
-                snapTo(1)
+                snapTo(1);
             } else if (shiftedContentX < positionMarker3 * width) {
-                snapTo(1)
+                snapTo(1);
             } else if (phase < 2){
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
@@ -213,7 +213,7 @@ Item {
                     if (spreadView.selectedIndex >= 0) {
                         ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
 
-                        spreadView.selectedIndex = -1
+                        spreadView.selectedIndex = -1;
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
                     }
@@ -233,7 +233,7 @@ Item {
             }
             onWidthChanged: {
                 if (spreadView.closingIndex >= 0) {
-                    spreadView.contentX = Math.min(spreadView.contentX, width - spreadView.width - spreadView.shift)
+                    spreadView.contentX = Math.min(spreadView.contentX, width - spreadView.width - spreadView.shift);
                 }
             }
 
@@ -269,7 +269,7 @@ Item {
                         UbuntuNumberAnimation {
                             onRunningChanged: {
                                 if (!running) {
-                                    spreadView.closingIndex = -1
+                                    spreadView.closingIndex = -1;
                                 }
                             }
                         }
@@ -281,7 +281,7 @@ Item {
                             duration: UbuntuAnimation.FastDuration
                             onRunningChanged: {
                                 if (!running) {
-                                    spreadView.focusChanging = false
+                                    spreadView.focusChanging = false;
                                 }
                             }
                         }
@@ -335,9 +335,9 @@ Item {
                     }
 
                     onClosed: {
-                        spreadView.draggedIndex = -1
-                        spreadView.closingIndex = index
-                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId)
+                        spreadView.draggedIndex = -1;
+                        spreadView.closingIndex = index;
+                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
                     }
                 }
             }
@@ -414,5 +414,4 @@ Item {
             }
         }
     }
-
 }
