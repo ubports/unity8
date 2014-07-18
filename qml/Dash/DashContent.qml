@@ -79,10 +79,6 @@ Item {
         }
     }
 
-    function closeScope(scope) {
-        dashContentList.currentItem.theScope.closeScope(scope)
-    }
-
     Item {
         id: dashContentListHolder
 

@@ -19,7 +19,7 @@ import QtQuick 2.0
 Flickable {
     id: root
 
-    signal clicked(int index, var result)
+    signal clicked(int index, var result, var itemModel)
     signal pressAndHold(int index)
 
     property var cardTool: null
@@ -64,7 +64,7 @@ Flickable {
 
             Connections {
                 target: loader.item
-                onClicked: root.clicked(index, result)
+                onClicked: root.clicked(index, result, model)
             }
         }
     }

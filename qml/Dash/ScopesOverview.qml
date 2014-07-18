@@ -21,16 +21,19 @@ import "../Components"
 Item {
     id: root
 
-    // Properties passed by parent
+    // Properties set by parent
     property real progress: 0
     property var scope: null
     property int currentIndex: 0
     property real scopeScale: 1
 
+    // Properties set and used by parent
+    property alias currentTab: tabBar.currentTab
+
     // Properties used by parent
     property bool growingDashFromPos: false
+    readonly property bool searching: scope && scope.searchQuery == ""
     readonly property bool showingNonFavoriteScope: tempScopeItem.scope != null
-    readonly property alias currentTab: tabBar.currentTab
     readonly property var dashItemEater: {
         if (!forceXYScalerEater && tabBar.currentTab == 0 && middleItems.count > 0) {
             var loaderItem = middleItems.itemAt(0).item;
@@ -59,7 +62,7 @@ Item {
 
 
     signal done()
-    signal favoriteSelected(int index)
+    signal favoriteSelected(var scopeId)
     signal allFavoriteSelected(var scopeId)
     signal allSelected(var scopeId, var pos)
     signal searchSelected(var scopeId, var pos, var size)
@@ -112,7 +115,6 @@ Item {
 
     onProgressChanged: {
         if (progress == 0) {
-            tabBar.currentTab = 0;
             pageHeader.resetSearch();
             pageHeader.unfocus(); // Shouldn't the previous call do this too?
         }
@@ -267,7 +269,7 @@ Item {
                     target: loader.item
                     onClicked: {
                         if (tabBar.currentTab == 0) {
-                            root.favoriteSelected(index)
+                            root.favoriteSelected(itemModel.scopeId)
                         } else {
                             var favoriteScopesItem = middleItems.itemAt(0).item;
                             var scopeIndex = favoriteScopesItem.model.scopeIndex(itemModel.scopeId);
@@ -437,7 +439,7 @@ Item {
                 scopesOverviewXYScaler.x = scopesOverviewXYScaler.restorePosition.x -(tempScopeItem.width - tempScopeItem.width * v) / 2;
                 scopesOverviewXYScaler.y = scopesOverviewXYScaler.restorePosition.y -(tempScopeItem.height - tempScopeItem.height * v) / 2;
                 scopesOverviewXYScaler.opacity = 0;
-                scopesOverview.middleItems = -1;
+                middleItems.overrideOpacity = -1;
             }
         }
     }

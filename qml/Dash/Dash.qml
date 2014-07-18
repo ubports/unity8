@@ -85,13 +85,12 @@ Showable {
         }
     }
 
-    // TODO showing Dash Overview from temp scope
     ScopesOverview {
         id: scopesOverview
         anchors.fill: parent
         scope: scopes ? scopes.getScope("scopesOverview") : null
         progress: overviewController.progress
-        scopeScale: 1 - overviewController.progress * 0.6
+        scopeScale: scopeItem.scope ? 0.4 : (1 - overviewController.progress * 0.6)
         visible: scopeScale != 1
         currentIndex: dashContent.currentIndex
         onDone: {
@@ -101,7 +100,7 @@ Showable {
             hide();
         }
         onFavoriteSelected: {
-            dashContent.setCurrentScopeAtIndex(index, false, false);
+            setCurrentScope(scopeId, false, false);
             hide();
         }
         onAllFavoriteSelected: {
@@ -128,10 +127,18 @@ Showable {
             overviewController.enableAnimation = true;
             overviewController.progress = 0;
         }
+        onProgressChanged: {
+            if (progress == 0) {
+                currentTab = scopeItem.scope ? 1 : 0;
+            }
+        }
     }
 
     DashContent {
         id: dashContent
+
+        property var scopeThatOpenedScope: null
+
         parent: overviewController.progress == 0 ? dash : scopesOverview.dashItemEater
         objectName: "dashContent"
         width: dash.width
@@ -143,7 +150,9 @@ Showable {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
+            scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
+            scopesOverview.currentTab = 1;
             x = -width;
         }
         onScopeLoaded: {
@@ -156,10 +165,15 @@ Showable {
         clip: scale != 1.0 || scopeItem.visible || overviewController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
+                duration: overviewController.progress != 0 ? 0 : UbuntuAnimation.FastDuration
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        dashContent.closeScope(scopeItem.scope);
+                        dashContent.scopeThatOpenedScope.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
+                        if (overviewController.progress == 0) {
+                            // Set tab to Favorites only if we are not showing the overview
+                            scopesOverview.currentTab = 0;
+                        }
                     }
                 }
             }
@@ -174,15 +188,36 @@ Showable {
         anchors.fill: scopeItem
         visible: scopeItem.visible
         parent: scopeItem.parent
+        scale: scopeItem.scale
+        opacity: scopeItem.opacity
     }
 
     GenericScopeView {
         id: scopeItem
 
-        anchors.left: dashContent.right
+        readonly property real targetOverviewScale: {
+            if (scopesOverview.currentTab == 0) {
+                return 0.4;
+            } else {
+                return scopesOverview.allCardSize.width / scopeItem.width;
+            }
+        }
+        readonly property real overviewProgressScale: (1 - overviewController.progress * (1 - targetOverviewScale))
+        readonly property var targetOverviewPosition: scope ? scopesOverview.allScopeCardPosition(scope.id) : null
+        readonly property real overviewProgressX: scope && scopesOverview.currentTab == 1 && targetOverviewPosition ?
+                                                      overviewController.progress * (targetOverviewPosition.x - (width - scopesOverview.allCardSize.width) / 2)
+                                                      : 0
+        readonly property real overviewProgressY: scope && scopesOverview.currentTab == 1 && targetOverviewPosition ?
+                                                      overviewController.progress * (targetOverviewPosition.y - (height - scopesOverview.allCardSize.height) / 2)
+                                                      : 0
+
+        x: overviewController.progress == 0 ? dashContent.x + width : overviewProgressX
+        y: overviewController.progress == 0 ? dashContent.y : overviewProgressY
         width: parent.width
         height: parent.height
-        scale: dash.contentScale
+        scale: dash.contentScale * overviewProgressScale
+        enabled: opacity == 1
+        opacity: 1 - overviewController.progress
         clip: scale != 1.0
         visible: scope != null
         hasBackAction: true
