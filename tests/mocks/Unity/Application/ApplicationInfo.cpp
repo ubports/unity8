@@ -24,7 +24,6 @@
 #include <QQmlComponent>
 #include <QTimer>
 
-
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
     , m_appId(appId)
