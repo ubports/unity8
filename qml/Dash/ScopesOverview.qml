@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Dash 0.1
 import Ubuntu.Components 0.1
 import "../Components"
 
@@ -54,12 +55,6 @@ Item {
 
     // Internal properties
     property bool forceXYScalerEater: false
-    property QtObject scopeStyle: QtObject {
-        property string headerLogo: ""
-        property color foreground: "white"
-        property color background: "transparent"
-    }
-
 
     signal done()
     signal favoriteSelected(var scopeId)
@@ -122,6 +117,11 @@ Item {
         }
     }
 
+    ScopeStyle {
+        id: overviewScopeStyle
+        style: { "foreground-color" : "white", "background-color" : "transparent" }
+    }
+
     DashBackground {
         anchors.fill: parent
         Rectangle {
@@ -167,7 +167,7 @@ Item {
             width: parent.width
             clip: true
             title: i18n.tr("Manage Dash")
-            scopeStyle: root.scopeStyle
+            scopeStyle: overviewScopeStyle
             showSignatureLine: false
             searchEntryEnabled: true
             searchInProgress: root.scope ? root.scope.searchInProgress : false
@@ -304,7 +304,7 @@ Item {
                 bottom: parent.bottom
             }
             scope: root.scope && root.scope.searchQuery != "" ? root.scope : null
-            scopeStyle: root.scopeStyle
+            scopeStyle: overviewScopeStyle
             enabled: opacity == 1
             showPageHeader: false
             clip: true
@@ -375,7 +375,7 @@ Item {
         id: previewListView
         objectName: "scopesOverviewPreviewListView"
         scope: root.scope
-        scopeStyle: root.scopeStyle
+        scopeStyle: overviewScopeStyle
         visible: x != width
         width: parent.width
         height: parent.height
