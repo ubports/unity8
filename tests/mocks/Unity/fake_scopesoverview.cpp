@@ -41,6 +41,12 @@ void ScopesOverview::setSearchQuery(const QString& search_query)
         Q_EMIT categoriesChanged();
 }
 
+Q_INVOKABLE void ScopesOverview::activate(QVariant const& result)
+{
+    Scopes *scopes = dynamic_cast<Scopes*>(parent());
+    m_openScope = scopes->getScopeFromAll(result.toString());
+    Q_EMIT openScope(m_openScope);
+}
 
 ScopesOverviewCategories::ScopesOverviewCategories(Scopes *scopes, QObject* parent)
     : unity::shell::scopes::CategoriesInterface(parent)
@@ -152,9 +158,9 @@ ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
         QObject *that = const_cast<ScopesOverviewSearchCategories*>(this);
         QList<unity::shell::scopes::ScopeInterface *> scopes;
         if (index.row() == 0) {
-            scopes << m_scopes->getScope("clickscope") << nullptr << m_scopes->getScope("MockScope2");
+            scopes << m_scopes->getScopeFromAll("clickscope") << nullptr << m_scopes->getScopeFromAll("MockScope2");
         } else {
-            scopes << nullptr << m_scopes->getScope("MockScope7") << nullptr << m_scopes->getScope("MockScope1");
+            scopes << nullptr << m_scopes->getScopeFromAll("MockScope7") << nullptr << m_scopes->getScopeFromAll("MockScope1");
         }
         resultsModel = new ScopesOverviewResultsModel(scopes, categoryId, that);
         m_resultsModels[index.row()] = resultsModel;

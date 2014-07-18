@@ -59,6 +59,7 @@ void Scopes::updateScopes()
     if (!m_loaded) {
         m_loaded = true;
         Q_EMIT loadedChanged();
+        Q_EMIT overviewScopeChanged();
     }
 }
 
@@ -122,7 +123,16 @@ unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
 
 unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const &scope_id) const
 {
-    if (scope_id == "scopesOverview") return m_scopesOverview;
+    for (Scope *scope : m_scopes) {
+        // According to mh3 Scopes::getScope should only return non null for visible scopes
+        if (scope->id() == scope_id && scope->visible())
+            return scope;
+    }
+    return nullptr;
+}
+
+unity::shell::scopes::ScopeInterface* Scopes::getScopeFromAll(const QString& scope_id) const
+{
     for (Scope *scope : m_scopes) {
         if (scope->id() == scope_id)
             return scope;
@@ -138,6 +148,11 @@ QModelIndex Scopes::parent(const QModelIndex&) const
 bool Scopes::loaded() const
 {
     return m_loaded;
+}
+
+unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
+{
+    return m_scopesOverview;
 }
 
 QList<unity::shell::scopes::ScopeInterface *> Scopes::scopes(bool onlyVisible) const

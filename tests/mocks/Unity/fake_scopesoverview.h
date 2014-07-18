@@ -30,6 +30,7 @@ public:
     ScopesOverview(Scopes* parent = 0);
 
     void setSearchQuery(const QString& search_query) override;
+    Q_INVOKABLE void activate(QVariant const& result) override;
 
 private:
     unity::shell::scopes::CategoriesInterface *m_scopesOverviewCategories;

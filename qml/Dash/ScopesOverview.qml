@@ -64,12 +64,16 @@ Item {
     signal done()
     signal favoriteSelected(var scopeId)
     signal allFavoriteSelected(var scopeId)
-    signal allSelected(var scopeId, var pos)
-    signal searchSelected(var scopeId, var pos, var size)
+    signal searchSelected(var scopeId, var result, var pos, var size)
 
-    function showTemporaryScope(scope, itemPos, itemSize) {
-        scopesOverviewXYScaler.restorePosition = itemPos;
-        scopesOverviewXYScaler.restoreSize = itemSize;
+    Connections {
+        target: scope
+        onOpenScope: showTemporaryScope(scope);
+    }
+
+    function showTemporaryScope(scope) {
+        var itemPos = scopesOverviewXYScaler.restorePosition;
+        var itemSize = scopesOverviewXYScaler.restoreSize;
         scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
         scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
         scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
@@ -276,7 +280,10 @@ Item {
                             if (scopeIndex >= 0) {
                                 root.allFavoriteSelected(itemModel.scopeId);
                             } else {
-                                root.allSelected(itemModel.scopeId, item.mapToItem(null, 0, 0));
+                                // Will result in an openScope from root.scope
+                                scopesOverviewXYScaler.restorePosition = item.mapToItem(null, 0, 0);
+                                scopesOverviewXYScaler.restoreSize = allCardSize;
+                                root.scope.activate(result);
                             }
                         }
                     }
@@ -309,7 +316,10 @@ Item {
             clickOverride: function (index, result, item, itemModel) {
                 pageHeader.closeSearchHistory();
                 if (itemModel.scopeId) {
-                    root.searchSelected(itemModel.scopeId, item.mapToItem(null, 0, 0), Qt.size(item.width, item.height));
+                    // This can end up in openScope so save restorePosition and restoreSize
+                    scopesOverviewXYScaler.restorePosition = item.mapToItem(null, 0, 0);
+                    scopesOverviewXYScaler.restoreSize = Qt.size(item.width, item.height);
+                    root.searchSelected(itemModel.scopeId, result, item.mapToItem(null, 0, 0), Qt.size(item.width, item.height));
                 } else {
                     // Not a scope, just activate it
                     searchResultsViewer.scope.activate(result);
@@ -407,6 +417,7 @@ Item {
                 onRunningChanged: {
                     if (!running) {
                         if (root.showingNonFavoriteScope && scopesOverviewXYScaler.scale != 1) {
+                            root.scope.closeScope(tempScopeItem.scope);
                             tempScopeItem.scope = null;
                         } else if (root.growingDashFromPos) {
                             root.growingDashFromPos = false;

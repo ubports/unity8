@@ -62,11 +62,6 @@ Showable {
         id: filteredScopes
         model: Scopes {
             id: scopes
-            onLoadedChanged: {
-                if (loaded) {
-                    scopesOverview.scope = scopes.getScope("scopesOverview");
-                }
-            }
         }
         dynamicSortFilter: true
 
@@ -88,7 +83,7 @@ Showable {
     ScopesOverview {
         id: scopesOverview
         anchors.fill: parent
-        scope: scopes ? scopes.getScope("scopesOverview") : null
+        scope: scopes.overviewScope
         progress: overviewController.progress
         scopeScale: scopeItem.scope ? 0.4 : (1 - overviewController.progress * 0.6)
         visible: scopeScale != 1
@@ -108,9 +103,6 @@ Showable {
             animateDashFromAll(dashContent.currentScopeId);
             hide();
         }
-        onAllSelected: {
-            showTemporaryScope(scopes.getScope(scopeId), pos, allCardSize);
-        }
         onSearchSelected: {
             var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId);
             if (scopeIndex >= 0) {
@@ -119,8 +111,8 @@ Showable {
                 showDashFromPos(pos, size);
                 hide();
             } else {
-                // Is not a favorite one
-                showTemporaryScope(scopes.getScope(scopeId), pos, size)
+                // Is not a favorite one, activate and get openScope
+                scope.activate(result);
             }
         }
         function hide() {
