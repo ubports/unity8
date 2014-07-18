@@ -192,13 +192,13 @@ Item {
             State {
                 name: "main"
             },
-            State {
+            State { // Side Stage only in overlay mode
                 name: "overlay"
             },
-            State {
+            State { // Main Stage and Side Stage in overlay mode
                 name: "mainAndOverlay"
             },
-            State {
+            State { // Main Stage and Side Stage in split mode
                 name: "mainAndSplit"
             }
         ]
