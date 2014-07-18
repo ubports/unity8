@@ -333,19 +333,5 @@ Item {
 
             compare(indicatorRow.currentItem, indicatorItemFirst, "First indicator should still be the current item");
         }
-
-        function test_hideIndicatorMenu_data() {
-            return [ {tag: "no-delay", delay: undefined },
-                     {tag: "delayed", delay: 200 }
-            ];
-        }
-
-        function test_hideIndicatorMenu(data) {
-            panel.indicators.show();
-            compare(panel.indicators.shown, true);
-
-            panel.hideIndicatorMenu(data.delay);
-            tryCompare(panel.indicators, "shown", false);
-        }
     }
 }
