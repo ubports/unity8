@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-07-18 00:00+0000\n"
-"Last-Translator: Nuno André <Unknown>\n"
+"PO-Revision-Date: 2014-07-18 22:56+0000\n"
+"Last-Translator: Hugo Cardoso <hugocardoso94@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-18 05:28+0000\n"
+"X-Launchpad-Export-Date: 2014-07-19 06:19+0000\n"
 "X-Generator: Launchpad (build 17114)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -28,39 +28,40 @@ msgstr "Remover atalho"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Saltar introdução"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
-msgstr ""
+msgstr "Limite direito"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Tente deslizar do limite direito para desbloquear o telefone"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
-msgstr ""
+msgstr "Limite superior"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Tente deslizar do topo para aceder aos indicadores"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Deslize de novo para cima para fechar o ecrã de definições"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
-msgstr ""
+msgstr "Limite esquerdo"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Deslize da esquerda para mostrar o lançador para acesso rápido às aplicações"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
@@ -71,6 +72,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Já domina os gestos dos limites e pode começar a usar o "
+"telefone<br><br>Toque no ecrã para começar"
 
 #: qml/Components/Lockscreen.qml:214
 msgid "Emergency Call"
@@ -78,7 +81,7 @@ msgstr "Chamada de emergência"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
@@ -95,11 +98,11 @@ msgstr "Olá"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "CANCELAR"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "FEITO"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -111,7 +114,7 @@ msgstr "Ver menos"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "Recentes"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -123,11 +126,11 @@ msgstr "Menos..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
-msgstr ""
+msgstr "Classifique isto"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:128
 msgid "Add a review"
-msgstr ""
+msgstr "Adicione uma crítica"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:168
 msgid "Send"
@@ -135,7 +138,7 @@ msgstr "Enviar"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "Deslize para desbloquear"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -147,7 +150,7 @@ msgstr "Digite ou diga um comando"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "A carregar. Aguarde por favor..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
@@ -159,7 +162,7 @@ msgstr "A falar..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "Mostrar palavra-passe"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
@@ -167,11 +170,11 @@ msgstr "Por favor insira o PIN"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
-msgstr ""
+msgstr "Em fila..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "A transferir"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
@@ -183,17 +186,17 @@ msgstr "Cancelado"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Concluído"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Falhou, toque para repetir"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "Procurar"
 
 #: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Por favor, introduza %1"
