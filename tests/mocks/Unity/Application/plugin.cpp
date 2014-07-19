@@ -25,15 +25,10 @@
 #include <qqml.h>
 #include <QQmlEngine>
 
-ApplicationManager *s_appManager = 0;
-
 static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
-    if (!s_appManager) {
-        s_appManager = new ApplicationManager();
-    }
-    return s_appManager;
+    return ApplicationManager::singleton();
 }
 
 static QObject* surfaceManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
@@ -62,6 +57,5 @@ void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const c
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    ApplicationManager* appManager = static_cast<ApplicationManager*>(applicationManagerSingleton(engine, NULL));
-    engine->addImageProvider(QLatin1String("application"), new ApplicationScreenshotProvider(appManager));
+    engine->addImageProvider(QLatin1String("application"), new ApplicationScreenshotProvider(ApplicationManager::singleton()));
 }

@@ -15,6 +15,7 @@
  */
 
 #include "ApplicationManager.h"
+#include "ApplicationDBusAdaptor.h"
 #include "ApplicationInfo.h"
 #include "MirSurfaceItem.h"
 
@@ -27,6 +28,22 @@
 #include <QQmlComponent>
 #include <QTimer>
 #include <QDateTime>
+#include <QtDBus/QtDBus>
+
+ApplicationManager *ApplicationManager::the_application_manager = nullptr;
+
+ApplicationManager *ApplicationManager::singleton()
+{
+    if (!the_application_manager) {
+        the_application_manager = new ApplicationManager();
+        new ApplicationDBusAdaptor(the_application_manager);
+
+        QDBusConnection connection = QDBusConnection::sessionBus();
+        connection.registerService("com.canonical.Unity8");
+        connection.registerObject("/com/canonical/Unity8/Mocks", the_application_manager);
+    }
+    return the_application_manager;
+}
 
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)

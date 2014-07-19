@@ -53,6 +53,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     ApplicationManager(QObject *parent = NULL);
     virtual ~ApplicationManager();
 
+    static ApplicationManager *singleton();
+
     enum MoreRoles {
         RoleSurface = RoleScreenshot+1,
         RoleFullscreen,
@@ -141,6 +143,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     QQuickItem *m_sideStage;
 
     int m_rightMargin;
+
+    static ApplicationManager *the_application_manager;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ApplicationManager::ExecFlags)
