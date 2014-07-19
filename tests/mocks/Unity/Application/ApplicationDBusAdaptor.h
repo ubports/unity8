@@ -26,7 +26,7 @@ class MirSurfaceItem;
 class ApplicationDBusAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity8.Mocks")
+    Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity8.Mocks.Application")
 public:
     ApplicationDBusAdaptor(ApplicationManager* applicationManager);
 
