@@ -28,8 +28,19 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_type(type)
     , m_state(state)
     , m_img(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString())
+    , m_parentSurface(nullptr)
 {
     setFillColor(Qt::white);
+}
+
+MirSurfaceItem::~MirSurfaceItem()
+{
+    QList<MirSurfaceItem*> children(m_children);
+    for (MirSurfaceItem* child : children) {
+        child->setParentSurface(nullptr);
+    }
+    if (m_parentSurface)
+        m_parentSurface->removeChildSurface(this);
 }
 
 void MirSurfaceItem::paint(QPainter * painter)
@@ -37,4 +48,44 @@ void MirSurfaceItem::paint(QPainter * painter)
     if (!m_img.isNull()) {
         painter->drawImage(contentsBoundingRect(), m_img, QRect(QPoint(0,0), m_img.size()));
     }
+}
+
+void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
+{
+    if (m_parentSurface == surface || surface == this)
+        return;
+
+    if (m_parentSurface) {
+        m_parentSurface->removeChildSurface(this);
+    }
+
+    m_parentSurface = surface;
+
+    if (m_parentSurface) {
+        m_parentSurface->addChildSurface(this);
+    }
+    Q_EMIT parentSurfaceChanged(surface);
+}
+
+void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
+{
+    if (m_children.contains(surface)) {
+        m_children.removeOne(surface);
+        Q_EMIT childSurfacesChanged();
+    }
+}
+
+void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
+{
+    m_children.append(surface);
+    Q_EMIT childSurfacesChanged();
+}
+
+QList<QObject*> MirSurfaceItem::childSurfaces() const
+{
+    QList<QObject*> children;
+    for(MirSurfaceItem* child : m_children) {
+        children.append(child);
+    }
+    return children;
 }

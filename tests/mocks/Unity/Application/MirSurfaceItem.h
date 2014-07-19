@@ -29,6 +29,8 @@ class MirSurfaceItem : public QQuickPaintedItem
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged)
+    Q_PROPERTY(QList<QObject*> childSurfaces READ childSurfaces NOTIFY childSurfacesChanged)
 
 public:
     enum Type {
@@ -56,27 +58,39 @@ public:
                             State state,
                             const QUrl& screenshot,
                             QQuickItem *parent = 0);
+    ~MirSurfaceItem();
 
     //getters
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
+    MirSurfaceItem* parentSurface() const { return m_parentSurface; }
+    QList<QObject*> childSurfaces() const;
 
     Q_INVOKABLE void release() {}
 
     void paint(QPainter * painter) override;
 
+    void setParentSurface(MirSurfaceItem* item);
+
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void nameChanged(QString);
+    void parentSurfaceChanged(MirSurfaceItem*);
+    void childSurfacesChanged();
 
 private:
+    void addChildSurface(MirSurfaceItem* surface);
+    void removeChildSurface(MirSurfaceItem* surface);
 
     const QString m_name;
     const Type m_type;
     const State m_state;
     const QImage m_img;
+
+    MirSurfaceItem* m_parentSurface;
+    QList<MirSurfaceItem*> m_children;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
