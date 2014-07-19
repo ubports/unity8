@@ -18,7 +18,6 @@
 #define SURFACEMANAGER_H
 
 #include <QObject>
-#include <QDBusAbstractAdaptor>
 
 class MirSurfaceItem;
 
