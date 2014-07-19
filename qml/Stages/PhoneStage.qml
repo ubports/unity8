@@ -30,11 +30,10 @@ Item {
     property bool interactive
 
     // State information propagated to the outside
-    property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
-    property bool locked: spreadView.phase == 2
+    readonly property bool locked: spreadView.phase == 2
 
     function select(appId) {
-        spreadView.snapTo(priv.indexOf(appId))
+        spreadView.snapTo(priv.indexOf(appId));
     }
 
     onWidthChanged: {
@@ -54,21 +53,13 @@ Item {
             }
         }
 
-        onFocusedApplicationIdChanged: {
-            if (ApplicationManager.focusedApplicationId.length > 0) {
-                var application = priv.focusedApplication;
-                root.fullscreen = application.fullscreen;
-                var appIndex = priv.indexOf(application.appId);
-            }
-        }
-
         onApplicationAdded: {
             if (spreadView.phase == 2) {
                 spreadView.snapTo(ApplicationManager.count - 1);
             } else {
                 spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift
-                priv.switchToApp(appId)
+                spreadView.contentX = -spreadView.shift;
+                priv.switchToApp(appId);
             }
         }
 
@@ -90,8 +81,7 @@ Item {
 
         function switchToApp(appId) {
             if (priv.focusedAppId) {
-                root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
-                spreadView.focusChanging = true
+                spreadView.focusChanging = true;
                 ApplicationManager.focusApplication(appId);
             } else {
                 ApplicationManager.focusApplication(appId);
@@ -182,9 +172,9 @@ Item {
                 snapAnimation.targetContentX = -shift;
                 snapAnimation.start();
             } else if (shiftedContentX < positionMarker2 * width) {
-                snapTo(1)
+                snapTo(1);
             } else if (shiftedContentX < positionMarker3 * width) {
-                snapTo(1)
+                snapTo(1);
             } else if (phase < 2){
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
@@ -197,7 +187,6 @@ Item {
                 index = 0;
             }
             spreadView.selectedIndex = index;
-            root.fullscreen = ApplicationManager.get(index).fullscreen;
             // If we're not in full spread mode yet, always unwind to start pos
             // otherwise unwind up to progress 0 of the selected index
             if (spreadView.phase < 2) {
@@ -224,7 +213,7 @@ Item {
                     if (spreadView.selectedIndex >= 0) {
                         ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
 
-                        spreadView.selectedIndex = -1
+                        spreadView.selectedIndex = -1;
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
                     }
@@ -244,7 +233,7 @@ Item {
             }
             onWidthChanged: {
                 if (spreadView.closingIndex >= 0) {
-                    spreadView.contentX = Math.min(spreadView.contentX, width - spreadView.width - spreadView.shift)
+                    spreadView.contentX = Math.min(spreadView.contentX, width - spreadView.width - spreadView.shift);
                 }
             }
 
@@ -280,7 +269,7 @@ Item {
                         UbuntuNumberAnimation {
                             onRunningChanged: {
                                 if (!running) {
-                                    spreadView.closingIndex = -1
+                                    spreadView.closingIndex = -1;
                                 }
                             }
                         }
@@ -292,23 +281,27 @@ Item {
                             duration: UbuntuAnimation.FastDuration
                             onRunningChanged: {
                                 if (!running) {
-                                    spreadView.focusChanging = false
+                                    spreadView.focusChanging = false;
                                 }
                             }
                         }
                     }
 
                     // Each tile has a different progress value running from 0 to 1.
-                    // A progress value of 0 means the tile is at the right edge. 1 means the tile has reched the left edge.
+                    // 0: means the tile is at the right edge.
+                    // 1: means the tile has finished the main animation towards the left edge.
+                    // >1: after the main animation has finished, tiles will continue to move very slowly to the left
                     progress: {
                         var tileProgress = (spreadView.shiftedContentX - behavioredIndex * spreadView.tileDistance) / spreadView.width;
                         // Tile 1 needs to move directly from the beginning...
                         if (behavioredIndex == 1 && spreadView.phase < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width;
                         }
-                        // Limiting progress to ~0 and 1.7 to avoid binding calculations when tiles are either
-                        // outside the screen on the right (progress < 0) or hidden by other tiles on the left
-                        // (> 1.7). Using 0.0001 to differentiate when a tile should still be visible (==0)
+                        // Limiting progress to ~0 and 1.7 to avoid binding calculations when tiles are not
+                        // visible.
+                        // < 0 :  The tile is outside the screen on the right
+                        // > 1.7: The tile is *very* close to the left edge and covered by other tiles now.
+                        // Using 0.0001 to differentiate when a tile should still be visible (==0)
                         // or we can hide it (< 0)
                         tileProgress = Math.max(-0.0001, Math.min(1.7, tileProgress));
                         return tileProgress;
@@ -346,9 +339,9 @@ Item {
                     }
 
                     onClosed: {
-                        spreadView.draggedIndex = -1
-                        spreadView.closingIndex = index
-                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId)
+                        spreadView.draggedIndex = -1;
+                        spreadView.closingIndex = index;
+                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
                     }
                 }
             }
@@ -425,5 +418,4 @@ Item {
             }
         }
     }
-
 }
