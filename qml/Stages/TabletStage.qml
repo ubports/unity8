@@ -131,19 +131,28 @@ Item {
         property int sideStageWidth: units.gu(40)
         property bool sideStageVisible: priv.sideStageAppId
 
+        // Phase of the animation:
+        // 0: Starting from right edge, a new app (index 1) comes in from the right
+        // 1: The app has reached the first snap position.
+        // 2: The list is dragged further and snaps into the spread view when entering phase 2
         property int phase
 
-        property int phase0Width: sideStageWidth
-        property int phase1Width: sideStageWidth
+        readonly property int phase0Width: sideStageWidth
+        readonly property int phase1Width: sideStageWidth
 
-        property real positionMarker1: 0.2
-        property real positionMarker2: sideStageWidth / spreadView.width
-        property real positionMarker3: 0.6
-        property real positionMarker4: 0.8
+        // Those markers mark the various positions in the spread (ratio to screen width from right to left):
+        // 0 - 1: following finger, snap back to the beginning on release
+        readonly property real positionMarker1: 0.2
+        // 1 - 2: curved snapping movement, snap to nextInStack on release
+        readonly property real positionMarker2: sideStageWidth / spreadView.width
+        // 2 - 3: movement follows finger, snaps to phase 2 (full spread) on release
+        readonly property real positionMarker3: 0.6
+        // passing 3, we detach movement from the finger and snap to phase 2 (full spread)
+        readonly property real positionMarker4: 0.8
 
-        property int startSnapPosition: phase0Width * 0.5
-        property int endSnapPosition: phase0Width * 0.75
-        property real snapPosition: 0.75
+        readonly property int startSnapPosition: phase0Width * 0.5
+        readonly property int endSnapPosition: phase0Width * 0.75
+        readonly property real snapPosition: 0.75
 
         property int selectedIndex: -1
         property int draggedIndex: -1
@@ -187,18 +196,18 @@ Item {
 
         states: [
             State {
-                name: "invalid"
+                name: "empty"
             },
             State {
                 name: "main"
             },
-            State {
+            State { // Side Stage only in overlay mode
                 name: "overlay"
             },
-            State {
+            State { // Main Stage and Side Stage in overlay mode
                 name: "mainAndOverlay"
             },
-            State {
+            State { // Main Stage and Side Stage in split mode
                 name: "mainAndSplit"
             }
         ]
@@ -212,7 +221,7 @@ Item {
             if (priv.mainStageAppId && priv.sideStageAppId) {
                 return "mainAndOverlay";
             }
-            return "invalid";
+            return "empty";
         }
 
         onContentXChanged: {
@@ -254,32 +263,47 @@ Item {
 
             var isActive = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
             if (isActive && app.stage == ApplicationInfoInterface.MainStage) {
+                // if this app is active, and its the MainStage, always put it to index 0
                 return 0;
             }
             if (isActive && app.stage == ApplicationInfoInterface.SideStage) {
                 if (!priv.mainStageAppId) {
-                    // only have SS apps running
+                    // Only have SS apps running. Put the active one at 0
                     return 0;
                 }
 
+                // Precondition now: There's an active MS app and this is SS app:
                 if (spreadView.nextInStack >= 0 && ApplicationManager.get(spreadView.nextInStack).stage == ApplicationInfoInterface.MainStage) {
+                    // If the next app coming from the right is a MS app, we need to elevate this SS ap above it.
+                    // Put it to at least level 2, or higher if there's more apps coming in before this one.
                     return Math.max(index, 2);
                 } else {
+                    // if this is no next app to come in from the right, place this one at index 1, just on top the active MS app.
                     return 1;
                 }
             }
             if (index <= 2 && app.stage == ApplicationInfoInterface.MainStage && priv.sideStageAppId) {
+                // Ok, this is an inactive MS app. If there's an active SS app around, we need to place this one
+                // in between the active MS app and the active SS app, so that it comes in from there when dragging from the right.
+                // If there's now active SS app, just leave it where it is.
                 return priv.indexOf(priv.sideStageAppId) < index ? index - 1 : index;
             }
             if (index == spreadView.nextInStack && app.stage == ApplicationInfoInterface.SideStage) {
+                // This is a SS app and the next one to come in from the right:
                 if (priv.sideStageAppId && priv.mainStageAppId) {
+                    // If there's both, an active MS and an active SS app, put this one right on top of that
                     return 2;
                 }
+                // Or if there's only one other active app, put it on top of that.
+                // The case that there isn't any other active app is already handled above.
                 return 1;
             }
             if (index == 2 && spreadView.nextInStack == 1 && priv.sideStageAppId) {
+                // If its index 2 but not the next one to come in, it means
+                // we've pulled another one down to index 2. Move this one up to 2 instead.
                 return 3;
             }
+            // don't touch all others... (mostly index > 3 + simple cases where the above doesn't shuffle much)
             return index;
         }
 

@@ -174,9 +174,10 @@ Item {
         }
 
         onDragEnd: {
-            if ((dragVelocity < -600 && distance < -units.gu(8)) || distance < -root.height / 2) {
+            // velocity and distance values specified by design prototype
+            if ((dragVelocity < -units.gu(40) && distance < -units.gu(8)) || distance < -root.height / 2) {
                 animation.animate("up")
-            } else if ((dragVelocity > 600 && distance > units.gu(8)) || distance > root.height / 2) {
+            } else if ((dragVelocity > units.gu(40) && distance > units.gu(8)) || distance > root.height / 2) {
                 animation.animate("down")
             } else {
                 animation.animate("center")
@@ -190,14 +191,14 @@ Item {
             property bool requestClose: false
 
             function animate(direction) {
-                animation.from = dragArea.distance
+                animation.from = dragArea.distance;
                 switch (direction) {
                 case "up":
-                    animation.to = -root.height * 1.5
+                    animation.to = -root.height * 1.5;
                     requestClose = true;
                     break;
                 case "down":
-                    animation.to = root.height * 1.5
+                    animation.to = root.height * 1.5;
                     requestClose = true;
                     break;
                 default:
@@ -211,7 +212,7 @@ Item {
                     dragArea.moving = false;
                     dragArea.distance = 0;
                     if (requestClose) {
-                        root.closed()
+                        root.closed();
                     }
                 }
             }

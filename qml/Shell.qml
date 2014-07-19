@@ -493,7 +493,7 @@ Item {
         visible: required
         width: parent.width
         height: parent.height - panel.panelHeight
-        //background: shell.background // FIXME: Commenting out as Qt was complaining about this line
+        background: shell.background
         minPinLength: 4
         maxPinLength: 4
 
