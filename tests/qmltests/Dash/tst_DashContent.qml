@@ -61,6 +61,11 @@ Item {
         signalName: "movementStarted"
     }
 
+    SignalSpy {
+        id: loadedSpy
+        signalName: "loaded"
+    }
+
     UT.UnityTestCase {
         name: "DashContent"
         when: scopesModel.loaded && windowShown
@@ -78,6 +83,7 @@ Item {
 
         function cleanup() {
             movementStartedSpy.clear();
+            loadedSpy.clear();
             dashContent.visible = true;
 
             var dashContentList = findChild(dashContent, "dashContentList");
@@ -135,13 +141,12 @@ Item {
 
         function test_set_current_scope_reset() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined);
+            verify(dashContentList, "Couldn't find dashContentList");
             var scope = findChild(dashContent, "MockScope1 loader");
-            waitForRendering(scope);
+
+            tryCompare(scope, "status", Loader.Ready);
 
             var categoryListView = findChild(dashContentList, "categoryListView");
-            waitForRendering(categoryListView);
-
             categoryListView.contentY = units.gu(10);
 
             compare(dashContentList.currentItem.item.objectName,  "MockScope1")
