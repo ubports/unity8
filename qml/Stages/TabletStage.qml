@@ -342,7 +342,7 @@ Item {
                 id: sideStageBackground
                 color: "black"
                 anchors.fill: parent
-                anchors.leftMargin: spreadView.width - spreadView.sideStageWidth + spreadView.sideStageWidth * sideStageDragHandle.progress
+                anchors.leftMargin: spreadView.width - (1 - sideStageDragHandle.progress) * spreadView.sideStageWidth
                 z: spreadView.indexToZIndex(priv.indexOf(priv.sideStageAppId))
                 opacity: spreadView.phase == 0 ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
