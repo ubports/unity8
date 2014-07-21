@@ -140,7 +140,6 @@ Item {
 
             onTriggered: {
                 menuModel.activate(menuIndex);
-                shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
             }
         }
     }
@@ -186,7 +185,6 @@ Item {
 
             onTriggered: {
                 menuModel.activate(menuIndex);
-                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
         }
     }
@@ -205,7 +203,6 @@ Item {
 
             onTriggered: {
                 menuModel.activate(menuIndex);
-                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
         }
     }
@@ -226,7 +223,6 @@ Item {
 
             onTriggered: {
                 menuModel.activate(menuIndex);
-                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
         }
     }
@@ -367,7 +363,6 @@ Item {
             }
             onTriggered: {
                 menuModel.activate(menuIndex);
-                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
 
             function loadAttributes() {
@@ -412,7 +407,6 @@ Item {
             }
             onClicked: {
                 menuModel.activate(menuIndex, true);
-                shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
             }
             onDismissed: {
                 menuModel.activate(menuIndex, false);

@@ -72,8 +72,8 @@ Row {
             actions: [{ id: "ok_id", label: "Ok"},
                       { id: "cancel_id", label: "Cancel"},
                       { id: "notreally_id", label: "Not really"},
-                      { id: "noway_id", label: "No way"},
-                      { id: "nada_id", label: "Nada"}]
+                      { id: "noway_id", label: "messages:No way"},
+                      { id: "nada_id", label: "messages:Nada"}]
         }
 
         mockModel.append(n)
@@ -237,8 +237,8 @@ Row {
                 actions: [{ id: "ok_id", label: "Ok"},
                           { id: "cancel_id", label: "Cancel"},
                           { id: "notreally_id", label: "Not really"},
-                          { id: "noway_id", label: "No way"},
-                          { id: "nada_id", label: "Nada"}],
+                          { id: "noway_id", label: "messages:No way"},
+                          { id: "nada_id", label: "messages:Nada"}],
                 summaryVisible: true,
                 bodyVisible: true,
                 iconVisible: true,
@@ -456,32 +456,27 @@ Row {
                 actionSpy.clear()
                 waitForRendering(notification)
 
-                // check if there's more than one negative choice
+                // check if there's a ComboButton created due to more actions being passed
                 if (data.actions.length > 2) {
-                    var initialHeight = notification.implicitHeight
+                    var comboButton = findChild(notification, "button2")
+                    tryCompareFunction(function() { return comboButton.expanded == false; }, true);
 
                     // click to expand
-                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    var contentColumn = findChild(notification, "contentColumn")
-                    var collapsedContentColumnHeight = contentColumn.height;
-                    // Waiting for the inner column to change height because buttons appear
-                    tryCompareFunction(function() { return collapsedContentColumnHeight != contentColumn.height; }, true);
-                    // Waiting for notification to reach its target size
-                    tryCompare(notification, "height", contentColumn.height + contentColumn.spacing * 2)
+                    tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == true; }, true);
+
+                    // try clicking on choices in expanded comboList
+                    var choiceButton1 = findChild(notification, "button3")
+                    tryCompareFunction(function() { mouseClick(choiceButton1, choiceButton1.width / 2, choiceButton1.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
                     actionSpy.clear()
 
-                    // test the additional buttons
-                    for (var i = 2; i < data.actions.length; i++) {
-                        var buttonColumn = findChild(notification, "buttonColumn")
-                        var button = findChild(buttonColumn, "button" + i)
-                        mouseClick(button, button.width / 2, button.height / 2)
-                        compare(actionSpy.signalArguments[0][0], data.actions[i]["id"], "got wrong id for additional negative action")
-                        actionSpy.clear()
-                    }
+                    var choiceButton2 = findChild(notification, "button4")
+                    tryCompareFunction(function() { mouseClick(choiceButton2, choiceButton2.width / 2, choiceButton2.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
+                    actionSpy.clear()
 
                     // click to collapse
-                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    tryCompare(notification, "height", initialHeight)
+                    //tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
                 } else {
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")

@@ -16,10 +16,12 @@
 
 import QtQuick 2.0
 import QtMultimedia 5.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
+
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Item {
     id: notification
@@ -34,11 +36,18 @@ Item {
     property var hints
     property var notification
     property color color
-    property bool fullscreen
+    property bool fullscreen: false
     property int maxHeight
     property int margins
+    property Gradient greenGradient : Gradient {
+        GradientStop { position: 0.0; color: "#3fb24f" }
+        GradientStop { position: 1.0; color: "#3fb24f" }
+    }
+    property Gradient darkgreyGradient: Gradient {
+        GradientStop { position: 0.0; color: "#4d4745" }
+        GradientStop { position: 1.0; color: "#4d4745" }
+    }
 
-    fullscreen: false
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
@@ -70,7 +79,7 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
-        source: hints["suppress-sound"] != "" ? hints["sound-file"] : undefined
+        source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
     onOpacityChanged: {
@@ -149,9 +158,17 @@ Item {
         UnityMenuModel {
             id: unityMenuModel
 
+            property string lastNameOwner: ""
+
             busName: paths.busName
             actions: paths.actions
             menuObjectPath: paths.menuObjectPath
+            onNameOwnerChanged: {
+                if (lastNameOwner != "" && nameOwner == "" && notification.notification != undefined) {
+                    notification.notification.close()
+                }
+                lastNameOwner = nameOwner
+            }
         }
 
         Behavior on implicitHeight {
@@ -262,14 +279,18 @@ Item {
             }
 
             Column {
+                id: dialogColumn
                 objectName: "dialogListView"
                 spacing: units.gu(2)
 
                 visible: count > 0
 
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.top: fullscreen ? parent.top : undefined
-                anchors.bottom: fullscreen ? parent.bottom : undefined
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: fullscreen ? parent.top : undefined
+                    bottom: fullscreen ? parent.bottom : undefined
+                }
 
                 Repeater {
                     model: unityMenuModel
@@ -277,7 +298,10 @@ Item {
                     NotificationMenuItemFactory {
                         id: menuItemFactory
 
-                        anchors.left: parent.left; anchors.right: parent.right
+                        anchors {
+                            left: dialogColumn.left
+                            right: dialogColumn.right
+                        }
 
                         menuModel: unityMenuModel
                         menuData: model
@@ -291,7 +315,7 @@ Item {
                 }
             }
 
-            Item {
+            Row {
                 id: buttonRow
 
                 objectName: "buttonRow"
@@ -300,70 +324,8 @@ Item {
                     right: parent.right
                 }
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
-                height: units.gu(5)
-
-                property real buttonWidth: (width - contentColumn.spacing) / 2
-                property bool expanded
-
-                Button {
-                    id: leftButton
-
-                    objectName: "button1"
-                    width: parent.expanded ? parent.width : parent.buttonWidth
-                    anchors {
-                        top: parent.top
-                        bottom: parent.bottom
-                    }
-                    text: notification.type == Notification.SnapDecision && actionRepeater.count >= 2 ? actionRepeater.itemAt(1).actionLabel : ""
-                    gradient: UbuntuColors.greyGradient
-                    onClicked: {
-                        if (actionRepeater.count > 2) {
-                            buttonRow.expanded = !buttonRow.expanded
-                        } else {
-                            notification.notification.invokeAction(actionRepeater.itemAt(1).actionId)
-                        }
-                    }
-
-                    Behavior on width {
-                        UbuntuNumberAnimation {
-                            duration: UbuntuAnimation.SnapDuration
-                        }
-                    }
-                }
-
-                Button {
-                    id: rightButton
-
-                    objectName: "button0"
-                    anchors {
-                        left: leftButton.right
-                        leftMargin: contentColumn.spacing
-                        right: parent.right
-                    }
-                    text: notification.type == Notification.SnapDecision && actionRepeater.count >= 1 ? actionRepeater.itemAt(0).actionLabel : ""
-                    anchors {
-                        top: parent.top
-                        bottom: parent.bottom
-                    }
-                    gradient: notification.hints["x-canonical-private-button-tint"] == "true" ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
-                    visible: width > 0
-                    onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-                }
-            }
-
-            Column {
-                objectName: "buttonColumn"
-                spacing: contentColumn.spacing
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-
-                // calculate initial position before Column takes over
-                y: buttonRow.y + buttonRow.height + contentColumn.spacing
-
-                visible: notification.type == Notification.SnapDecision && buttonRow.expanded
-                height: buttonRow.expanded ? implicitHeight : 0
+                spacing: units.gu(1)
+                layoutDirection: Qt.RightToLeft
 
                 Repeater {
                     id: actionRepeater
@@ -375,28 +337,105 @@ Item {
                         property string actionId: id
                         property string actionLabel: label
 
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
-
                         Component {
                             id: actionButton
 
                             Button {
                                 objectName: "button" + index
-                                anchors {
-                                    left: parent.left
-                                    right: parent.right
-                                }
-
+                                width: buttonRow.width / 2 - spacing
                                 text: loader.actionLabel
-                                height: units.gu(5)
-                                gradient: UbuntuColors.greyGradient
+                                gradient: notification.hints["x-canonical-private-button-tint"] == "true" && index == 0 ? greenGradient : darkgreyGradient
                                 onClicked: notification.notification.invokeAction(loader.actionId)
                             }
                         }
-                        sourceComponent: (index == 0 || index == 1) ? undefined : actionButton
+                        sourceComponent: (index == 0 || index == 1) ? actionButton : undefined
+                    }
+                }
+            }
+
+            ComboButton {
+                id: comboButton
+
+                objectName: "button2"
+                width: parent.width
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
+                gradient: darkgreyGradient
+                onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
+                expanded: false
+                expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
+                comboList: Flickable {
+                    // this has to be wrapped inside a flickable
+                    // to work around a feature/bug? of the
+                    // ComboButton SDK-element, making a regular
+                    // unwrapped Column item flickable
+                    // see LP: #1332590
+                    interactive: false
+                    Column {
+                        Repeater {
+                            id: comboRepeater
+
+                            onVisibleChanged: {
+                                comboButton.text = comboRepeater.itemAt(2).actionLabel
+                            }
+
+                            model: notification.actions
+                            delegate: Loader {
+                                id: comboLoader
+
+                                asynchronous: true
+                                visible: status == Loader.Ready
+                                property string actionId: id
+                                property string actionLabel: label
+                                readonly property var splitLabel: actionLabel.match(/(^([-a-z0-9]+):)?(.*)$/)
+                                Component {
+                                    id: comboEntry
+
+                                    MouseArea {
+                                        id: comboInputArea
+
+                                        objectName: "button" + index
+                                        width: comboButton.width
+                                        height: comboIcon.height + units.gu(2)
+
+                                        onClicked: {
+                                            notification.notification.invokeAction(actionId)
+                                        }
+
+                                        ListItem.ThinDivider {
+                                            visible: index > 3
+                                        }
+
+                                        Icon {
+                                            id: comboIcon
+
+                                            anchors {
+                                                left: parent.left
+                                                leftMargin: units.gu(.5)
+                                                verticalCenter: parent.verticalCenter
+                                            }
+                                            width: units.gu(2)
+                                            height: units.gu(2)
+                                            color: "white"
+                                            name: splitLabel[2]
+                                        }
+
+                                        Label {
+                                            id: comboLabel
+
+                                            anchors {
+                                                left: comboIcon.right
+                                                leftMargin: units.gu(1)
+                                                verticalCenter: comboIcon.verticalCenter
+                                            }
+                                            fontSize: "small"
+                                            color: "white"
+                                            text: splitLabel[3]
+                                        }
+                                    }
+                                }
+                                sourceComponent: (index > 2) ? comboEntry : undefined
+                            }
+                        }
                     }
                 }
             }
