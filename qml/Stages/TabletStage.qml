@@ -470,7 +470,7 @@ Item {
                         if (spreadView.phase == 0 && (spreadTile.active || spreadView.nextInStack == index)) {
                             if (progress < spreadView.positionMarker1) {
                                 return progress;
-                            } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
+                            } else if (progress < spreadView.positionMarker1 + snappingCurve.period) {
                                 return spreadView.positionMarker1 + snappingCurve.value * 3;
                             } else {
                                 return spreadView.positionMarker2;
