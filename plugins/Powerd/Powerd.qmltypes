@@ -15,19 +15,12 @@ Module {
         isSingleton: true
         exportMetaObjectRevisions: [0]
         Enum {
-            name: "DisplayFlag"
+            name: "DisplayStateChangeReason"
             values: {
-                "UseProximity": 1,
-                "DisableAutoBrightness": 2,
-                "Bright": 4
-            }
-        }
-        Enum {
-            name: "DisplayFlags"
-            values: {
-                "UseProximity": 1,
-                "DisableAutoBrightness": 2,
-                "Bright": 4
+                "Unknown": 0,
+                "Inactivity": 1,
+                "PowerKey": 2,
+                "Proximity": 3
             }
         }
         Enum {
@@ -40,7 +33,7 @@ Module {
         Signal {
             name: "displayPowerStateChange"
             Parameter { name: "status"; type: "int" }
-            Parameter { name: "flags"; type: "uint" }
+            Parameter { name: "reason"; type: "int" }
         }
     }
 }

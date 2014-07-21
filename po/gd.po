@@ -2,29 +2,30 @@
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
-#
+# GunChleoc <fios@foramnagaidhlig.net>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-05-17 21:08+0000\n"
-"Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
-"Language-Team: Gaelic; Scottish <gd@li.org>\n"
+"PO-Revision-Date: 2014-07-16 14:48+0000\n"
+"Last-Translator: GunChleoc <Unknown>\n"
+"Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-07-17 06:38+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
+"Language: gd\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Prìnich ath-ghoirid"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Neo-phrìnich an ath-ghoirid"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -86,7 +87,7 @@ msgstr "Gairm èiginn"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "Ceart ma-hà"
 
 #: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
@@ -103,11 +104,11 @@ msgstr "Shin thu"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "SGUIR DHETH"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "DÈANTA"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -175,27 +176,27 @@ msgstr "Cuir a-steach SIM PIN"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
-msgstr ""
+msgstr "Air a' chiudha…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "'Ga luchdadh a-nuas"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "'Na stad, thoir gnogag gus leantainn air"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
-msgstr ""
+msgstr "Air a sgur dheth"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Coileanta"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"

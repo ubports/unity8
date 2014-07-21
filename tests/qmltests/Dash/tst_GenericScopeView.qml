@@ -56,7 +56,7 @@ Item {
             property Item previewListView: findChild(genericScopeView, "previewListView")
 
             function init() {
-                genericScopeView.scope = scopes.getScope(2)
+                genericScopeView.scope = scopes.getScope(1)
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 tryCompare(genericScopeView.categoryView, "contentY", 0)
@@ -76,13 +76,13 @@ Item {
 
             function test_showDash() {
                 testCase.previewListView.open = true;
-                scopes.getScope(2).showDash();
+                scopes.getScope(1).showDash();
                 tryCompare(testCase.previewListView, "open", false);
             }
 
             function test_hideDash() {
                 testCase.previewListView.open = true;
-                scopes.getScope(2).hideDash();
+                scopes.getScope(1).hideDash();
                 tryCompare(testCase.previewListView, "open", false);
             }
 
@@ -99,8 +99,8 @@ Item {
 
             function test_changeScope() {
                 genericScopeView.scope.searchQuery = "test"
-                genericScopeView.scope = scopes.getScope(1)
                 genericScopeView.scope = scopes.getScope(2)
+                genericScopeView.scope = scopes.getScope(1)
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 

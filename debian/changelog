@@ -1,3 +1,73 @@
+unity8 (7.90+14.10.20140721.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Allow running the dialer-app in emergency mode when the screen is
+    locked.
+
+  [ Michał Sawicz ]
+  * Add missing nameOwner property to mock UnityMenuModel.
+
+  [ Albert Astals ]
+  * Fix name, There's nothing called pageHeader in this file
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 21 Jul 2014 14:57:08 +0000
+
+unity8 (7.90+14.10.20140717.3-0ubuntu1) utopic; urgency=low
+
+  [ Nick Dedekind ]
+  * Added environment variable to upstart conf for mir trusted socket
+  * Removed indicator menu dismissal on menu activation (LP: #1337771)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 17 Jul 2014 16:35:52 +0000
+
+unity8 (7.90+14.10.20140717.1-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Only generate .qmltypes files manually, no need to do it build-time.
+    It didn't work when cross-compiling either, and required builders to
+    have otherwise unnecessary environment.
+  * Fix CardCreator test. It got broken with a merge that got landed
+    along side of it.
+
+  [ Ying-Chun Liu ]
+  * Add reboot/shutdown (LP: #1234062)
+
+  [ Albert Astals ]
+  * Make the departments test more stable
+
+  [ Mirco Müller ]
+  * Fixes gap at top of sim-unlock/fullscreen notification (point 1.),
+    fixes blocking overlay if underlying UnityMenuModel vanishes from
+    DBus (point 2.). The third bullet-point of the bug-report, lockup of
+    shell-UI, could not be reproduced. (LP: #1308011)
+
+  [ Michael Terry ]
+  * Expose a new greeter DBus property, IsActive, which tells apps and
+    indicators when the integrated-greeter screen is active. Useful for
+    switching UI modes when the screen is locked.
+  * Allow the session to bring up the greeter/lockscreen over DBus. The
+    emergency dialer will need this support in order to cancel bringing
+    it up.
+
+  [ Michael Zanetti ]
+  * Fixes gap at top of sim-unlock/fullscreen notification (point 1.),
+    fixes blocking overlay if underlying UnityMenuModel vanishes from
+    DBus (point 2.). The third bullet-point of the bug-report, lockup of
+    shell-UI, could not be reproduced. (LP: #1308011)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 17 Jul 2014 09:38:20 +0000
+
+unity8 (7.90+14.10.20140714-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Activate all results in click scope by default. (LP: #1341262)
+
+  [ Mirco Müller ]
+  * Added support for utilization of the ComboButton SDK-element for
+    snap-decision notifications with many actions.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 14 Jul 2014 18:20:25 +0000
+
 unity8 (7.90+14.10.20140709.2-0ubuntu1) utopic; urgency=low
 
   [ Michal Hruby ]
