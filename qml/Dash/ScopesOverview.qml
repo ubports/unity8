@@ -470,8 +470,13 @@ Item {
             onBackClicked: {
                 var v = scopesOverviewXYScaler.restoreSize.width / tempScopeItem.width;
                 scopesOverviewXYScaler.scale = v;
-                scopesOverviewXYScaler.x = scopesOverviewXYScaler.restorePosition.x -(tempScopeItem.width - tempScopeItem.width * v) / 2;
-                scopesOverviewXYScaler.y = scopesOverviewXYScaler.restorePosition.y -(tempScopeItem.height - tempScopeItem.height * v) / 2;
+                if (scopesOverviewXYScaler.restorePosition) {
+                    scopesOverviewXYScaler.x = scopesOverviewXYScaler.restorePosition.x -(tempScopeItem.width - tempScopeItem.width * v) / 2;
+                    scopesOverviewXYScaler.y = scopesOverviewXYScaler.restorePosition.y -(tempScopeItem.height - tempScopeItem.height * v) / 2;
+                } else {
+                    scopesOverviewXYScaler.x = 0;
+                    scopesOverviewXYScaler.y = 0;
+                }
                 scopesOverviewXYScaler.opacity = 0;
                 middleItems.overrideOpacity = -1;
             }
