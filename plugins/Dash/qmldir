@@ -3,3 +3,4 @@ plugin Dash-qml
 typeinfo Dash.qmltypes
 singleton CardCreatorCache 0.1 CardCreatorCache.qml
 ScopeStyle 0.1 ScopeStyle.qml
+CardAttributesGrid 0.1 CardAttributesGrid.qml

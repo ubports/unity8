@@ -193,6 +193,21 @@ var kHeaderColumnCode = 'Column { \n\
                                   ] \n\
                         }\n';
 
+// multiple column version of kHeaderColumnCode.
+function kHeaderColumnCodeGenerator() {
+    var headerColumnCodeTemplate = 'Column { \n\
+                    anchors.verticalCenter: parent.verticalCenter; \n\
+                    spacing: units.dp(2); \n\
+                    width: parent.width - x;\n\
+                    data: [ \n\
+                        %1 \n\
+                    ]\n\
+                }\n';
+    var args = Array.prototype.slice.call(arguments);
+    var code = headerColumnCodeTemplate.arg(args.join(',\n'));
+    return code;
+}
+
 // %1 is used as anchors of mascotShapeLoader
 var kMascotShapeLoaderCode = 'Loader { \n\
                                 id: mascotShapeLoader; \n\
@@ -224,7 +239,7 @@ var kMascotImageCode = 'Image { \n\
                         }\n';
 
 // %1 is used as anchors of titleLabel
-// %1 is used as color of titleLabel
+// %2 is used as color of titleLabel
 // %3 is used as extra condition for visible of titleLabel
 var kTitleLabelCode = 'Label { \n\
                         id: titleLabel; \n\
@@ -257,6 +272,15 @@ var kSubtitleLabelCode = 'Label { \n\
                             font.weight: Font.Light; \n\
                             horizontalAlignment: root.headerAlignment; \n\
                         }\n';
+
+// %1 is used as anchors of attributesRow
+var kAttributesRowCode = 'CardAttributesGrid { \n\
+                            id: attributesRow; \n\
+                            objectName: "attributesRow"; \n\
+                            height: units.gu(1.5); \n\
+                            anchors { %1 } \n\
+                            model: cardData["attributes"] \n\
+                          }\n';
 
 // %1 is used as top anchor of summary
 // %2 is used as topMargin anchor of summary
@@ -308,6 +332,7 @@ function cardString(template, components) {
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
+    var hasAttributes = components["attributes"] || false;
 
     if (hasBackground) {
         code += kBackgroundLoaderCode;
@@ -377,6 +402,8 @@ function cardString(template, components) {
         code += 'readonly property int headerHeight: row.height;\n'
     } else if (hasMascot) {
         code += 'readonly property int headerHeight: mascotImage.height;\n'
+    } else if (hasAttributes) {
+        code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + subtitleLabel.height + subtitleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
     } else if (hasSubtitle) {
         code += 'readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;\n'
     } else if (hasTitle) {
@@ -425,10 +452,12 @@ function cardString(template, components) {
 
         var titleAnchors;
         var subtitleAnchors;
+        var attributesAnchors;
         if (hasMascot && hasSubtitle) {
             // Using row + column
             titleAnchors = 'left: parent.left; right: parent.right';
             subtitleAnchors = titleAnchors;
+            attributesAnchors = subtitleAnchors;
         } else if (hasMascot) {
             // Using row + label
             titleAnchors = 'verticalCenter: parent.verticalCenter;\n'
@@ -454,6 +483,11 @@ function cardString(template, components) {
                                right: titleLabel.right; \n\
                                top: titleLabel.bottom; \n\
                                topMargin: units.dp(2);\n';
+            attributesAnchors = 'left: subtitleLabel.left; \n\
+                               leftMargin: subtitleLabel.leftMargin; \n\
+                               right: subtitleLabel.right; \n\
+                               top: subtitleLabel.bottom; \n\
+                               topMargin: units.dp(2);\n';
         }
 
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
@@ -466,8 +500,16 @@ function cardString(template, components) {
         if (hasMascot && hasSubtitle) {
             // If using row + column wrap the code in the column
             titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
+            if (hasAttributes) {
+                var attributesCode = kAttributesRowCode.arg(attributesAnchors);
+                titleSubtitleCode = kHeaderColumnCodeGenerator(titleCode, subtitleCode, attributesCode);
+            }
         } else {
             titleSubtitleCode = titleCode + subtitleCode;
+            if (hasAttributes) {
+                var attributesCode = kAttributesRowCode.arg(attributesAnchors);
+                titleSubtitleCode = titleSubtitleCode + attributesCode;
+            }
         }
     }
 
@@ -526,7 +568,8 @@ function cardString(template, components) {
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 0.1; \n\
-                   import Ubuntu.Thumbnailer 0.1;\n';
+                   import Ubuntu.Thumbnailer 0.1;\n\
+                   import Dash 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
     return Qt.createQmlObject(code, parent, "createCardComponent");
