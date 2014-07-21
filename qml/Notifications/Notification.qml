@@ -344,6 +344,7 @@ Item {
                                 objectName: "button" + index
                                 width: buttonRow.width / 2 - spacing
                                 text: loader.actionLabel
+                                property string actionId: loader.actionId
                                 gradient: notification.hints["x-canonical-private-button-tint"] == "true" && index == 0 ? greenGradient : darkgreyGradient
                                 onClicked: notification.notification.invokeAction(loader.actionId)
                             }

@@ -65,6 +65,21 @@ Loader {
                 text: menuData.label
             }
 
+            function findChild(obj, objectName) {
+                var childs = new Array(0);
+                childs.push(obj)
+                while (childs.length > 0) {
+                    if (childs[0].objectName == objectName) {
+                        return childs[0]
+                    }
+                    for (var i in childs[0]["children"]) {
+                        childs.push(childs[0]["children"][i])
+                    }
+                    childs.splice(0, 1);
+                }
+                return null;
+            }
+
             TextField {
                 id: textfield
 
@@ -78,6 +93,10 @@ Loader {
                 height: units.gu(5)
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
+                }
+                onAccepted: {
+                    var accept = findChild(notification, "button0")
+                    notification.notification.invokeAction(accept.actionId)
                 }
             }
 
