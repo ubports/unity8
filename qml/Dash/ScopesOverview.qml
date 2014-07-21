@@ -67,8 +67,13 @@ Item {
             var itemPos = scopesOverviewXYScaler.restorePosition;
             var itemSize = scopesOverviewXYScaler.restoreSize;
             scopesOverviewXYScaler.scale = itemSize.width / scopesOverviewXYScaler.width;
-            scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
-            scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+            if (itemPos) {
+                scopesOverviewXYScaler.x = itemPos.x -(scopesOverviewXYScaler.width - scopesOverviewXYScaler.width * scopesOverviewXYScaler.scale) / 2;
+                scopesOverviewXYScaler.y = itemPos.y -(scopesOverviewXYScaler.height - scopesOverviewXYScaler.height * scopesOverviewXYScaler.scale) / 2;
+            } else {
+                scopesOverviewXYScaler.x = 0;
+                scopesOverviewXYScaler.y = 0;
+            }
             scopesOverviewXYScaler.opacity = 0;
             tempScopeItem.scope = scope;
             middleItems.overrideOpacity = 0;
@@ -289,6 +294,10 @@ Item {
                         }
                     }
                     onPressAndHold: {
+                        // Preview can call openScope so make sure restorePosition and restoreSize are set
+                        scopesOverviewXYScaler.restorePosition = undefined;
+                        scopesOverviewXYScaler.restoreSize = allCardSize;
+
                         previewListView.model = target.model;
                         previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
