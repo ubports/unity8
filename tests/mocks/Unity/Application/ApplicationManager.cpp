@@ -303,6 +303,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
             if (app->focused() && app->stage() == ApplicationInfo::MainStage) {
                 app->setFocused(false);
                 app->hideWindow();
+                app->setState(ApplicationInfo::Suspended);
             }
         }
 
@@ -310,6 +311,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
         application->setFocused(true);
         if (!m_mainStage)
             createMainStage();
+        application->setState(ApplicationInfo::Running);
         application->showWindow(m_mainStage);
         m_mainStage->setZ(-1000);
         if (m_sideStage)
@@ -320,6 +322,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
             if (app->focused() && app->stage() == ApplicationInfo::SideStage) {
                 app->setFocused(false);
                 app->hideWindow();
+                app->setState(ApplicationInfo::Suspended);
             }
         }
 
@@ -327,6 +330,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
         application->setFocused(true);
         if (!m_sideStage)
             createSideStage();
+        application->setState(ApplicationInfo::Running);
         application->showWindow(m_sideStage);
         m_sideStage->setZ(-1000);
         if (m_mainStage)

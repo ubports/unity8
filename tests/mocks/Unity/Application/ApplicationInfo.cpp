@@ -72,7 +72,7 @@ void ApplicationInfo::onStateChanged(State state)
     if (state == ApplicationInfo::Running) {
         QTimer::singleShot(1000, this, SLOT(createSurface()));
     } else if (state == ApplicationInfo::Stopped) {
-        destroySurface();
+        setSurface(nullptr);
     }
 }
 
@@ -80,23 +80,30 @@ void ApplicationInfo::createSurface()
 {
     if (m_surface || state() == ApplicationInfo::Stopped) return;
 
-    m_surface = new MirSurfaceItem(name(),
+    setSurface(new MirSurfaceItem(name(),
                                    MirSurfaceItem::Normal,
                                    fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   screenshot());
-    Q_EMIT surfaceChanged(m_surface);
-    Q_EMIT SurfaceManager::singleton()->surfaceCreated(m_surface);
+                                   screenshot()));
 }
 
-void ApplicationInfo::destroySurface()
+void ApplicationInfo::setSurface(MirSurfaceItem* surface)
 {
-    if (!m_surface) return;
-    MirSurfaceItem* oldSurface = m_surface;
-    m_surface = nullptr;
+    if (m_surface == surface)
+        return;
 
-    Q_EMIT surfaceChanged(nullptr);
-    Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(oldSurface);
-    oldSurface->deleteLater();
+    if (m_surface) {
+        m_surface->setApplication(nullptr);
+        m_surface->setParent(nullptr);
+    }
+
+    m_surface = surface;
+
+    if (m_surface) {
+        m_surface->setApplication(this);
+        m_surface->setParent(this);
+    }
+
+    Q_EMIT surfaceChanged(m_surface);
 }
 
 void ApplicationInfo::createWindowComponent()

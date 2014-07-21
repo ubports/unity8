@@ -28,11 +28,31 @@ ApplicationDBusAdaptor::ApplicationDBusAdaptor(ApplicationManager* applicationMa
 {
 }
 
+MirSurfaceItem* topSurface(MirSurfaceItem* surface)
+{
+    if (!surface)
+        return nullptr;
+
+    QList<QObject*> children = surface->childSurfaces();
+    if (children.count() > 0) {
+        MirSurfaceItem* child = nullptr;
+        int i = 0;
+        while(!child && i < children.count()) {
+            child = qobject_cast<MirSurfaceItem*>(children[i++]);
+        }
+        if (child)
+            return topSurface(child);
+    }
+    return surface;
+}
+
 quint32 ApplicationDBusAdaptor::addChildSurface(const QString &appId, const QString &surfaceImage)
 {
+    qDebug() << "ApplicationDBusAdaptor::addChildSurface - " << appId;
+
     ApplicationInfo* application = m_applicationManager->findApplication(appId);
     if (!application) {
-        qDebug() << "ApplicationDBusAdaptor::addChildSurface - No application for " << appId;
+        qDebug() << "ApplicationDBusAdaptor::addChildSurface - No application found for " << appId;
         return ~0;
     }
     quint32 surfaceId = ++nextId;
@@ -41,13 +61,18 @@ quint32 ApplicationDBusAdaptor::addChildSurface(const QString &appId, const QStr
                                                  MirSurfaceItem::Maximized,
                                                  QUrl(surfaceImage));
     m_childItems[surfaceId] = surface;
-    surface->setParentSurface(application->surface());
+    surface->setParentSurface(topSurface(application->surface()));
     return surfaceId;
 }
 
 void ApplicationDBusAdaptor::removeChildSurface(int surfaceId)
 {
-    if (!m_childItems.contains(surfaceId)) return;
-    MirSurfaceItem* surface = m_childItems[surfaceId];
-    surface->setParentSurface(nullptr);
+    qDebug() << "ApplicationDBusAdaptor::removeChildSurface - " << surfaceId;
+
+    if (!m_childItems.contains(surfaceId)) {
+        qDebug() << "ApplicationDBusAdaptor::removeChildSurface - No added surface for " << surfaceId;
+        return;
+    }
+    MirSurfaceItem* surface = m_childItems.take(surfaceId);
+    Q_EMIT surface->removed();
 }

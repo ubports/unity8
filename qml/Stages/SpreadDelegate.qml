@@ -30,7 +30,7 @@ Item {
     property real maximizedAppTopMargin
     property alias swipeToCloseEnabled: dragArea.enabled
 
-    readonly property bool isFullscreen: surface !== null && surfaceContainer.surface.anchors.topMargin == 0
+    readonly property bool isFullscreen: surface !== null && surfaceContainer.surfaceArea.anchors.topMargin == 0
 
     signal clicked()
     signal closed()
@@ -47,21 +47,21 @@ Item {
                     surface.visible = false; // hide until splash screen removed
                     appHasCreatedASurface = true;
                 }
-                surfaceContainer.checkFullscreen(surface);
-            }
-        }
-
-        function checkFullscreen(surface) {
-            if (surface.state === MirSurfaceItem.Fullscreen) {
-                surface.anchors.topMargin = 0;
-            } else {
-                surface.anchors.topMargin = maximizedAppTopMargin;
             }
         }
 
         function revealSurface() {
             surface.visible = true;
             splashLoader.source = "";
+        }
+
+        Binding {
+            target: surfaceContainer.surfaceArea
+            property: "anchors.topMargin"
+            value: {
+                if (!surfaceContainer.surface) return 0;
+                return surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
+            }
         }
 
         Binding {
@@ -83,7 +83,6 @@ Item {
 
         Connections {
             target: surface
-            onStateChanged: surfaceContainer.checkFullscreen(surface);
             // FIXME: I would rather not need to do this, but currently it doesn't get
             // active focus without it and I don't know why.
             onFocusChanged: forceSurfaceActiveFocusIfReady();
@@ -103,7 +102,7 @@ Item {
                 leftMargin: -units.gu(2)
                 rightMargin: -units.gu(2)
                 bottomMargin: -units.gu(2)
-                topMargin: -units.gu(2) + (root.isFullscreen ? 0 : maximizedAppTopMargin)
+                topMargin: -units.gu(2)// + (root.isFullscreen ? 0 : maximizedAppTopMargin)
             }
             source: "graphics/dropshadow.png"
             border { left: 50; right: 50; top: 50; bottom: 50 }

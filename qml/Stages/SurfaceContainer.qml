@@ -19,14 +19,30 @@ import QtQuick 2.0
 Item {
     id: container
     property Item surface: null
-    property string animation
-    property bool show: false
+    readonly property alias surfaceArea: _surfaceArea
+    property bool removing: false
 
     onSurfaceChanged: {
         if (surface) {
             surface.parent = container;
-            surface.anchors.fill = container;
             surface.z = 1;
+            state = "initial"
+        }
+    }
+
+    Item {
+        id: _surfaceArea
+        anchors.fill: parent
+    }
+
+    Connections {
+        target: surface
+        onRemoved: {
+            if (surface.parentSurface) {
+                surface.parentSurface.parent.animateOut();
+            }
+            container.removing = true;
+            animateOut();
         }
     }
 
@@ -35,60 +51,126 @@ Item {
 
         delegate: Loader {
             z: 2
-            anchors.fill: surface
+            anchors.fill: surfaceArea
 
             // Only way to do recursive qml items.
             source: Qt.resolvedUrl("SurfaceContainer.qml")
             onLoaded: {
-                item.parent = container.surface;
                 item.surface = modelData;
-                item.animation = "overlaySwipeBottom"
-                item.show = true;
+                item.animateIn("swipeFromBottom");
+                container.animateIn("swipeUp");
             }
         }
     }
 
+    function animateIn(type) {
+        var tmp = d.animations;
+        tmp.push(type);
+        d.animations = tmp;
+
+        container.state = d.currentAnimation + "-prep";
+        container.state = d.currentAnimation + "-in";
+    }
+
+    function animateOut() {
+        if (d.animations.length > 0) {
+            var tmp = d.animations;
+            var popped = tmp.pop();
+            d.animations = tmp;
+            container.state = popped + "-out";
+            if (d.currentAnimation !== "") {
+                container.state = d.currentAnimation + "-in";
+            }
+        } else {
+            container.state = "initial";
+        }
+    }
+
+    QtObject {
+        id: d
+        property variant animations: []
+        property string currentAnimation: animations.length > 0 ? animations[animations.length-1] : ""
+    }
+
     states: [
+        State {
+            name: "initial"
+            PropertyChanges { target: surface; anchors.fill: surfaceArea }
+        },
+
         State {
             name: "baseAnimation"
             PropertyChanges { target: surface; anchors.fill: undefined }
         },
 
         State {
-            name: "overlaySwipeBottom-out"
+            name: "swipeFromBottom-prep"
             extend: "baseAnimation"
-            when: surface && animation === "overlaySwipeBottom" && !show
-            AnchorChanges { target: surface; anchors.top: surface.parent.bottom }
+            AnchorChanges { target: surface; anchors.top: surfaceArea.bottom }
         },
         State {
-            name: "overlaySwipeBottom-in"
+            name: "swipeFromBottom-out"
+            extend: "swipeFromBottom-prep"
+        },
+        State {
+            name: "swipeFromBottom-in"
             extend: "baseAnimation"
-            when: surface && animation === "overlaySwipeBottom" && show
-            AnchorChanges { target: surface; anchors.top: surface.parent.top }
-        }
+            AnchorChanges { target: surface; anchors.top: surfaceArea.top }
+        },
 
+        State {
+            name: "swipeUp-prep"
+            extend: "baseAnimation"
+        },
+        State {
+            name: "swipeUp-out"
+            extend: "swipeUp-prep"
+        },
+        State {
+            name: "swipeUp-in"
+            extend: "baseAnimation"
+            AnchorChanges { target: surface; anchors.bottom: surfaceArea.top }
+        }
         // TODO: more animations!
-        // Surface needs to stick around so that we can dimiss them with animation.
     ]
 
     transitions: [
         Transition {
-            from:  "overlaySwipeBottom-out"
-            to: "overlaySwipeBottom-in"
+            to: "swipeFromBottom-in"
             SequentialAnimation {
-                PropertyAction { target: surface.parent; property: "clip"; value: true}
+                PropertyAction { target: surface.parent; property: "clip"; value: true }
                 AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-                PropertyAction { target: surface.parent; property: "clip"; value: false}
+                PropertyAction { target: surface.parent; property: "clip"; value: false }
             }
         },
         Transition {
-            from: "overlaySwipeBottom-in"
-            to:  "overlaySwipeBottom-out"
+            to:  "swipeFromBottom-out"
             SequentialAnimation {
-                PropertyAction { target: surface.parent; property: "clip"; value: true}
+                PropertyAction { target: surface.parent; property: "clip"; value: true }
+                AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
+                PropertyAction { target: surface; property: "visible"; value: !removing }
+                PropertyAction { target: surface.parent; property: "clip"; value: false }
+                ScriptAction { script: { if (container.removing) surface.release() } }
+            }
+        },
+
+        Transition {
+            to: "swipeUp-in"
+            SequentialAnimation {
+                PropertyAction { target: surface.parent; property: "clip"; value: true }
                 AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
                 PropertyAction { target: surface; property: "visible"; value: false}
-                PropertyAction { target: surface.parent; property: "clip"; value: false}
+                PropertyAction { target: surface.parent; property: "clip"; value: false }
+            }
+        },
+        Transition {
+            to:  "swipeUp-out"
+            SequentialAnimation {
+                PropertyAction { target: surface.parent; property: "clip"; value: true }
+                PropertyAction { target: surface; property: "visible"; value: true }
+                AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
+                PropertyAction { target: surface.parent; property: "clip"; value: false }
+                ScriptAction { script: { if (container.removing) surface.release() } }
             }
         }
     ]

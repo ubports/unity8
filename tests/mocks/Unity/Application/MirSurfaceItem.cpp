@@ -15,8 +15,10 @@
  */
 
 #include "MirSurfaceItem.h"
+#include "ApplicationInfo.h"
 
 #include <QPainter>
+#include <QQmlEngine>
 
 MirSurfaceItem::MirSurfaceItem(const QString& name,
                                MirSurfaceItem::Type type,
@@ -24,12 +26,15 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
                                const QUrl& screenshot,
                                QQuickItem *parent)
     : QQuickPaintedItem(parent)
+    , m_application(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)
     , m_img(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString())
     , m_parentSurface(nullptr)
 {
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
     setFillColor(Qt::white);
 }
 
@@ -41,6 +46,9 @@ MirSurfaceItem::~MirSurfaceItem()
     }
     if (m_parentSurface)
         m_parentSurface->removeChildSurface(this);
+
+    if (m_application)
+        m_application->setSurface(nullptr);
 }
 
 void MirSurfaceItem::paint(QPainter * painter)
@@ -48,6 +56,23 @@ void MirSurfaceItem::paint(QPainter * painter)
     if (!m_img.isNull()) {
         painter->drawImage(contentsBoundingRect(), m_img, QRect(QPoint(0,0), m_img.size()));
     }
+}
+
+void MirSurfaceItem::release()
+{
+    QList<MirSurfaceItem*> children(m_children);
+    for (MirSurfaceItem* child : children) {
+        child->release();
+    }
+
+    if (m_application)
+        m_application->setSurface(nullptr);
+    this->deleteLater();
+}
+
+void MirSurfaceItem::setApplication(ApplicationInfo* application)
+{
+    m_application = application;
 }
 
 void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)

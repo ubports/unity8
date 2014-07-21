@@ -20,6 +20,8 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 
+class ApplicationInfo;
+
 class MirSurfaceItem : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -61,16 +63,18 @@ public:
     ~MirSurfaceItem();
 
     //getters
+    ApplicationInfo* application() const { return m_application; }
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
     QList<QObject*> childSurfaces() const;
 
-    Q_INVOKABLE void release() {}
+    Q_INVOKABLE void release();
 
     void paint(QPainter * painter) override;
 
+    void setApplication(ApplicationInfo* item);
     void setParentSurface(MirSurfaceItem* item);
 
 Q_SIGNALS:
@@ -80,10 +84,13 @@ Q_SIGNALS:
     void parentSurfaceChanged(MirSurfaceItem*);
     void childSurfacesChanged();
 
+    void removed();
+
 private:
     void addChildSurface(MirSurfaceItem* surface);
     void removeChildSurface(MirSurfaceItem* surface);
 
+    ApplicationInfo* m_application;
     const QString m_name;
     const Type m_type;
     const State m_state;
