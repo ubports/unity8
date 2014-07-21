@@ -147,6 +147,7 @@ Showable {
             scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
             scopesOverview.currentTab = 1;
+            scopesOverview.ensureAllScopeVisible(scope.id);
             x = -width;
         }
         onScopeLoaded: {

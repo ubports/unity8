@@ -115,6 +115,16 @@ Item {
         }
     }
 
+    function ensureAllScopeVisible(scopeId) {
+        if (middleItems.count > 1) {
+            var loaderItem = middleItems.itemAt(1).item;
+            if (loaderItem) {
+                var pos = loaderItem.scopeCardPosition(scopeId);
+                loaderItem.contentY = Math.min(pos.y, loaderItem.contentHeight - loaderItem.height);
+            }
+        }
+    }
+
     onProgressChanged: {
         if (progress == 0) {
             pageHeader.resetSearch();

@@ -156,7 +156,7 @@ void Scope::activate(QVariant const& result)
     qDebug() << "Called activate on scope" << m_id << "with result" << result;
     if (result.toString() == "Result.2.2") {
         Scopes *scopes = dynamic_cast<Scopes*>(parent());
-        m_openScope = scopes->getScopeFromAll("MockScope2");
+        m_openScope = scopes->getScopeFromAll("MockScope9");
         Q_EMIT openScope(m_openScope);
     }
 }
