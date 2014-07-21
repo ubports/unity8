@@ -19,8 +19,8 @@ set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LC_ALL=C")
 
-add_qml_test(. Shell IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks
-                     ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
+add_qml_test(. Shell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
+add_qml_test(. ShellWithPin ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single-pin")
 add_qml_test(Components Background)
 add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
@@ -76,4 +76,4 @@ add_qml_test(Panel/Indicators DefaultIndicatorPage ENVIRONMENT "LD_LIBRARY_PATH=
 # These MenuItemFactory tests need the test/mocks/ to come before plugins/
 add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel/Indicators MessageMenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Stages PhoneStage)
+add_qml_test(Stages PhoneStage ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
