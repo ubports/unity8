@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-05-27 15:20+0000\n"
+"PO-Revision-Date: 2014-07-19 14:10+0000\n"
 "Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-07-20 06:18+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Przypnij skrót"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Odepnij skrót"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -82,7 +82,7 @@ msgstr "Telefon ratunkowy"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
@@ -99,11 +99,11 @@ msgstr "Witaj"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "ANULUJ"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "ZROBIONE"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -171,27 +171,27 @@ msgstr "Wprowadź kod PIN karty SIM"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
-msgstr ""
+msgstr "W kolejce..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "Pobieranie"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Wstrzymano, kliknij by wznowić"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
-msgstr ""
+msgstr "Anulowano"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Zakończono"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Błąd, kliknij aby powtórzyć"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"

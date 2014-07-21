@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2013-09-18 16:22+0000\n"
-"Last-Translator: Andri Thorlacius <Unknown>\n"
+"PO-Revision-Date: 2014-07-18 11:20+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <is@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-07-19 06:19+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -45,7 +45,7 @@ msgstr "Efri brún"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Reyndu að renna frá toppi til að fá aðgang að tilkynningum"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -53,7 +53,7 @@ msgstr "Loka"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Renndu upp til að loka stillingum"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
@@ -61,7 +61,7 @@ msgstr "Vinstri brún"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "Renndu frá vinstri til að afhjúpa flýtiræsi forrita"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
@@ -79,7 +79,7 @@ msgstr "Neyðarsímtal"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "Í lagi"
 
 #: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
@@ -96,31 +96,31 @@ msgstr "Hæ"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "HÆTTA VIÐ"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "BÚIÐ"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Sjá meira"
 
 #: qml/Components/SeeMore.qml:58
 msgid "See less"
-msgstr ""
+msgstr "Sjá minna"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "Nýlegt"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Meira..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Minna..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
@@ -136,7 +136,7 @@ msgstr "Senda"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "Strjóka til að aflæsa"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -160,19 +160,19 @@ msgstr "Tala..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "Birta lykilorð"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Settu inn PIN fyrir SIM"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
-msgstr ""
+msgstr "Í biðröð..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "Sæki"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
@@ -180,11 +180,11 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
-msgstr ""
+msgstr "Hætt við"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Lokið"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
@@ -197,4 +197,4 @@ msgstr "Leita"
 #: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Settu inn %1"
