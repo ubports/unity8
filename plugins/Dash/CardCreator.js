@@ -277,7 +277,6 @@ var kSubtitleLabelCode = 'Label { \n\
 var kAttributesRowCode = 'CardAttributesGrid { \n\
                             id: attributesRow; \n\
                             objectName: "attributesRow"; \n\
-                            height: units.gu(1.5); \n\
                             anchors { %1 } \n\
                             model: cardData["attributes"] \n\
                           }\n';

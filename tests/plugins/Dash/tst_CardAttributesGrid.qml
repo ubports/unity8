@@ -23,8 +23,8 @@ Item {
     height: units.gu(30)
 
     property var testData: [
-        [{"value":"text1"},{"value":"text2"}],
-        [{"value":"text1"},{"value":"text2"},{"value":"text3"}]
+        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
+        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3"}]
     ]
 
     CardAttributesGrid {
