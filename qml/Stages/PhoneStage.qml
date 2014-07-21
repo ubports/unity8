@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
+import LightDM 0.1 as LightDM
 import Utils 0.1
 import "../Components"
 
@@ -33,6 +34,7 @@ Item {
     readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible || spreadView.visible
     property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
     property bool locked: spreadView.visible
+    property bool spreadEnabled: true
 
     // Not used for PhoneStage, only useful for SideStage and similar
     property bool overlayMode: false
@@ -131,6 +133,11 @@ Item {
                 mainScreenshotImage.visible = true;
             } else if (priv.secondApplicationStarting && priv.waitingForScreenshot) {
                 applicationSwitchingAnimation.start();
+                if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
+                    // When greeter is up, no fancy animations, since user may
+                    // glimpse an app they shouldn't
+                    applicationSwitchingAnimation.complete();
+                }
             }
             waitingForScreenshot = false;
         }
@@ -145,6 +152,11 @@ Item {
                 priv.newFocusedAppId = appId;
                 root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
                 applicationSwitchingAnimation.start();
+                if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
+                    // When greeter is up, no fancy animations, since user may
+                    // glimpse an app they shouldn't
+                    applicationSwitchingAnimation.complete();
+                }
             } else {
                 ApplicationManager.focusApplication(appId);
             }
@@ -244,7 +256,7 @@ Item {
     EdgeDragArea {
         id: spreadDragArea
         direction: Direction.Leftwards
-        enabled: ApplicationManager.count > 1 && spreadView.phase != 2
+        enabled: ApplicationManager.count > 1 && spreadView.phase != 2 && root.spreadEnabled
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth

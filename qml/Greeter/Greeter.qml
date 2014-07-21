@@ -70,7 +70,7 @@ Showable {
     DraggingArea {
         id: dragHandle
         anchors.fill: parent
-        enabled: greeter.narrowMode || !greeter.locked
+        enabled: (greeter.narrowMode || !greeter.locked) && greeter.enabled
         orientation: Qt.Horizontal
         propagateComposedEvents: true
 
