@@ -30,6 +30,7 @@ Flickable {
 
     contentHeight: cardGrid.expandedHeight + extraHeight
     contentWidth: cardGrid.width
+    flickableDirection: Flickable.VerticalFlick
 
     function scopeCardPosition(scopeId) {
         var index = model.scopeIndex(scopeId);
