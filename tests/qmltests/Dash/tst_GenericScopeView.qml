@@ -54,6 +54,7 @@ Item {
             when: scopes.loaded && windowShown
 
             property Item previewListView: findChild(genericScopeView, "previewListView")
+            property Item header: findChild(genericScopeView, "scopePageHeader")
 
             function init() {
                 genericScopeView.scope = scopes.getScope(1)
@@ -257,13 +258,33 @@ Item {
                 closePreview();
             }
 
-            function test_haeder_logo() {
-                genericScopeView.scope = scopes.getScope(3);
+            function test_header_style_data() {
+                return [
+                    { tag: "Default", index: 0, foreground: "grey", background: "", logo: "" },
+                    { tag: "Foreground", index: 2, foreground: "yellow", background: "", logo: "" },
+                    { tag: "Logo+Background", index: 3, foreground: "grey", background: "gradient:///lightgrey/grey",
+                      logo: Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg") },
+                ];
+            }
+
+            function test_header_style(data) {
+                genericScopeView.scope = scopes.getScope(data.index);
+                waitForRendering(genericScopeView);
+                verify(header, "Could not find the header.");
+
+                var innerHeader = findChild(header, "innerPageHeader");
+                verify(innerHeader, "Could not find the inner header");
+                verify(Qt.colorEqual(innerHeader.textColor, data.foreground),
+                       "Foreground color not equal: %1 != %2".arg(innerHeader.textColor).arg(data.foreground));
+
+                var background = findChild(header, "headerBackground");
+                verify(background, "Could not find the background");
+                compare(background.style, data.background);
 
                 var image = findChild(genericScopeView, "titleImage");
-                verify(image, "Could not find the title image");
-                compare(image.source, Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg"), "Title image has the wrong source");
-
+                if (data.logo == "") expectFail(data.tag, "Title image should not exist.");
+                verify(image, "Could not find the title image.");
+                compare(image.source, data.logo, "Title image has the wrong source");
             }
         }
     }

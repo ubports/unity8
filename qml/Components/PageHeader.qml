@@ -128,6 +128,7 @@ Item {
         property var popover: null
 
         Background {
+            objectName: "headerBackground"
             style: scopeStyle.headerBackground
         }
 
