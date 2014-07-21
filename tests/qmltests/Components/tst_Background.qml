@@ -33,8 +33,15 @@ Rectangle {
         name: "Background"
         when: windowShown
 
+        SignalSpy {
+            id: loadedSpy
+            target: background
+            signalName: "loaded"
+        }
+
         function cleanup() {
             background.style = "";
+            loadedSpy.clear();
         }
 
         function test_style_data() {
@@ -49,8 +56,35 @@ Rectangle {
         function test_style(data) {
             background.style = data.style;
             expectFail("empty", "Empty style should not create a background.");
-            tryCompareFunction(function() { return background.item === null }, false);
+            loadedSpy.wait();
             compare(background.item.objectName, data.tag, "Background should be %1".arg(data.style));
+        }
+
+        function test_solid() {
+            background.style = "color:///black";
+            loadedSpy.wait();
+
+            verify(Qt.colorEqual(background.item.color, "black"),
+                   "Solid color not equal: %1 != black".arg(background.item.color));
+        }
+
+        function test_gradient() {
+            background.style = "gradient:///black/red";
+            loadedSpy.wait();
+
+            var stops = background.item.gradient.stops;
+
+            verify(Qt.colorEqual(stops[0].color, "black"),
+                   "Top gradient color not equal: %1 != black".arg(stops[0].color));
+            verify(Qt.colorEqual(stops[1].color, "red"),
+                   "Bottom gradient color not equal: %1 != black".arg(stops[1].color));
+        }
+
+        function test_image() {
+            background.style = "/some/path";
+            loadedSpy.wait();
+
+            compare(background.item.source, Qt.resolvedUrl("/some/path"), "Image path is incorrect.");
         }
     }
 }
