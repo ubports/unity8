@@ -242,6 +242,7 @@ Item {
 
                     actions: [
                         Action {
+                            objectName: "search"
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {

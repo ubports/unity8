@@ -154,6 +154,7 @@ Item {
 
         PageHeader {
             id: pageHeader
+            objectName: "scopesOverviewPageHeader"
 
             readonly property real yDisplacement: pageHeader.height + tabBar.height + tabBar.anchors.margins
 
@@ -190,10 +191,12 @@ Item {
 
         Repeater {
             id: middleItems
+            objectName: "scopesOverviewRepeater"
             property real overrideOpacity: -1
             model: scope && scope.searchQuery == "" ? scope.categories : null
             delegate: Loader {
                 id: loader
+                objectName: "scopesOverviewRepeaterChild" + index
 
                 height: {
                     if (index == 0) {
@@ -297,6 +300,7 @@ Item {
 
         GenericScopeView {
             id: searchResultsViewer
+            objectName: "searchResultsViewer"
             anchors {
                 top: pageHeader.bottom
                 right: parent.right
@@ -346,6 +350,7 @@ Item {
             }
 
             AbstractButton {
+                objectName: "scopesOverviewDoneButton"
                 width: Math.max(label.width + units.gu(2), units.gu(10))
                 height: units.gu(4)
                 anchors {
@@ -434,6 +439,7 @@ Item {
 
         GenericScopeView {
             id: tempScopeItem
+            objectName: "scopesOverviewTempScopeItem"
 
             width: parent.width
             height: parent.height

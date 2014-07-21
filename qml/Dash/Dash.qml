@@ -188,6 +188,7 @@ Showable {
 
     GenericScopeView {
         id: scopeItem
+        objectName: "dashTempScopeItem"
 
         readonly property real targetOverviewScale: {
             if (scopesOverview.currentTab == 0) {
@@ -234,6 +235,7 @@ Showable {
 
     EdgeDragArea {
         id: overviewDragHandle
+        objectName: "overviewDragHandle"
         z: 1
         direction: Direction.Upwards
         enabled: !dashContent.previewShown && dashContent.currentScope && dashContent.currentScope.searchQuery == "" && (overviewController.progress == 0 || dragging)

@@ -40,6 +40,7 @@ Item {
     }
     AbstractButton {
         id: tab2
+        objectName: "scopesOverviewAllTabButton"
         x: width
         height: parent.height
         width: parent.width / 2
