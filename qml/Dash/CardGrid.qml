@@ -18,43 +18,43 @@ import QtQuick 2.0
 import "../Components"
 
 DashRenderer {
-    id: genericFilterGrid
+    id: root
 
-    expandable: filterGrid.expandable
-    collapsedHeight: filterGrid.collapsedHeight
-    uncollapsedHeight: filterGrid.uncollapsedHeight
-    originY: filterGrid.originY
-    height: filterGrid.height
-    filtered: filterGrid.filtered
-
-    function setFilter(filter, animate) {
-        filterGrid.setFilter(filter, animate)
+    readonly property int collapsedRows: {
+        if (!cardTool || !cardTool.template || typeof cardTool.template["collapsed-rows"] != "number") return 2;
+        return cardTool.template["collapsed-rows"];
     }
+
+    expandedHeight: grid.totalContentHeight
+    collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
+    collapsedItemCount: collapsedRows * grid.columns
+    originY: grid.originY
 
     function cardPosition(index) {
         var pos = {};
-        var row = Math.floor(index / filterGrid.columns);
-        var column = index % filterGrid.columns;
+        var row = Math.floor(index / grid.columns);
+        var column = index % grid.columns;
         // Bit sad this is not symmetrical
-        pos.x = column * filterGrid.cellWidth + filterGrid.margins;
-        pos.y = row * filterGrid.cellHeight;
+        pos.x = column * grid.cellWidth + grid.margins;
+        pos.y = row * grid.cellHeight;
         return pos;
     }
 
-    FilterGrid {
-        id: filterGrid
-        width: genericFilterGrid.width
+    ResponsiveGridView {
+        id: grid
+        anchors.fill: parent
         minimumHorizontalSpacing: units.gu(1)
         delegateWidth: cardTool.cardWidth
         delegateHeight: cardTool.cardHeight
         verticalSpacing: units.gu(1)
-        model: genericFilterGrid.model
-        collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
-        displayMarginBeginning: genericFilterGrid.displayMarginBeginning
-        displayMarginEnd: genericFilterGrid.displayMarginEnd
+        model: root.model
+        displayMarginBeginning: root.displayMarginBeginning
+        displayMarginEnd: root.displayMarginEnd
+        cacheBuffer: 0
+        interactive: false
         delegate: Item {
-            width: filterGrid.cellWidth
-            height: filterGrid.cellHeight
+            width: grid.cellWidth
+            height: grid.cellHeight
             Loader {
                 id: loader
                 sourceComponent: cardTool.cardComponent
@@ -69,12 +69,12 @@ DashRenderer {
                     item.template = Qt.binding(function() { return cardTool.template; });
                     item.components = Qt.binding(function() { return cardTool.components; });
                     item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
-                    item.scopeStyle = genericFilterGrid.scopeStyle;
+                    item.scopeStyle = root.scopeStyle;
                 }
                 Connections {
                     target: loader.item
-                    onClicked: genericFilterGrid.clicked(index, result, loader.item, model)
-                    onPressAndHold: genericFilterGrid.pressAndHold(index)
+                    onClicked: root.clicked(index, result, loader.item, model)
+                    onPressAndHold: root.pressAndHold(index)
                 }
             }
         }

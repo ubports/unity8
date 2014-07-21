@@ -34,7 +34,7 @@ Item {
     readonly property int cellWidth: gridView.cellWidth
     readonly property int cellHeight: gridView.cellHeight
     readonly property int totalContentHeight: {
-        return contentHeightForRows(Math.ceil(gridView.model.count / columns), cellHeight, verticalSpacing)
+        return contentHeightForRows(Math.ceil(gridView.model.count / columns), cellHeight)
     }
     property alias interactive: gridView.interactive
     readonly property alias flicking: gridView.flicking
@@ -44,10 +44,11 @@ Item {
     property alias displayMarginBeginning: gridView.displayMarginBeginning
     property alias displayMarginEnd: gridView.displayMarginEnd
     property alias highlightIndex: gridView.highlightIndex
+    property alias cacheBuffer: gridView.cacheBuffer
     readonly property alias currentItem: gridView.currentItem
 
-    function contentHeightForRows(rows, height, vSpacing) {
-        return rows * height + vSpacing
+    function contentHeightForRows(rows, height) {
+        return rows * height
     }
 
     GridView {

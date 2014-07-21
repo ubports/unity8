@@ -117,10 +117,11 @@ Item {
 
         function test_show_header_on_list_movement() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined);
-            var categoryListView = findChild(dashContentList, "categoryListView");
-            verify(categoryListView != undefined);
+            verify(dashContentList !== null);
+            var scope = findChild(dashContent, "MockScope1 loader");
+            waitForRendering(scope);
 
+            var categoryListView = findChild(scope, "categoryListView");
             waitForRendering(categoryListView);
 
             categoryListView.contentY = units.gu(15);
@@ -135,8 +136,11 @@ Item {
         function test_set_current_scope_reset() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
+            var scope = findChild(dashContent, "MockScope1 loader");
+            waitForRendering(scope);
+
             var categoryListView = findChild(dashContentList, "categoryListView");
-            verify(categoryListView != undefined);
+            waitForRendering(categoryListView);
 
             categoryListView.contentY = units.gu(10);
 

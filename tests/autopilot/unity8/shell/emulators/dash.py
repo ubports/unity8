@@ -41,7 +41,7 @@ class Dash(emulators.UnityEmulatorBase):
 
     def get_applications_grid(self):
         get_grid = self.get_scope('clickscope').wait_select_single(
-            'CardFilterGrid', objectName='local')
+            'CardGrid', objectName='local')
         return get_grid
 
     def get_application_icon(self, text):
@@ -205,9 +205,12 @@ class DashApps(GenericScopeView):
         category_element = self._get_category_element(category)
         application_cards = category_element.select_many('AbstractButton')
 
-        # sort by y, x
+        # sort by y, x, filter those out of view
+        categoryBottom = category_element.globalRect.y \
+            + category_element.height
         application_cards = sorted(
-            application_cards,
+            (card for card in application_cards
+                if card.globalRect.y < categoryBottom),
             key=lambda card: (card.globalRect.y, card.globalRect.x))
 
         result = []

@@ -234,7 +234,7 @@ Item {
             var dashCategory2 = findChild(dashContentList.currentItem, "dashCategory2");
             var card2 = findChild(dashCategory2, "delegate2");
             waitForRendering(card2);
-            mouseClick(card2, 0, 0);
+            mouseClick(card2, card2.width / 2, card2.height / 2);
 
             // Wait for temp scope to be there
             var dashTempScopeItem = findChild(dash, "dashTempScopeItem");

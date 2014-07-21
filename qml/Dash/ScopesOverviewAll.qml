@@ -20,31 +20,28 @@ import Ubuntu.Components 0.1
 Flickable {
     id: root
 
-    property alias model: cardFilterGrid.model
-    property alias cardTool: cardFilterGrid.cardTool
+    property alias model: cardGrid.model
+    property alias cardTool: cardGrid.cardTool
 
     property real extraHeight: 0
 
     signal clicked(int index, var result, var item, var itemModel)
     signal pressAndHold(int index)
 
-    contentHeight: cardFilterGrid.height + extraHeight
-    contentWidth: cardFilterGrid.width
+    contentHeight: cardGrid.expandedHeight + extraHeight
+    contentWidth: cardGrid.width
 
     function scopeCardPosition(scopeId) {
         var index = model.scopeIndex(scopeId);
-        var pos = cardFilterGrid.cardPosition(index);
+        var pos = cardGrid.cardPosition(index);
         pos.y = pos.y - root.contentY;
         return pos;
     }
 
-    CardFilterGrid {
-        id: cardFilterGrid
+    CardGrid {
+        id: cardGrid
         width: parent.width
-
-        Component.onCompleted: {
-            setFilter(false, false);
-        }
+        height: parent.height
 
         onClicked: {
             root.clicked(index, result, item, itemModel);

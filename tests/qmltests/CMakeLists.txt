@@ -24,7 +24,6 @@ add_qml_test(. Shell IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_
 add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
 add_qml_test(Components EdgeDemoOverlay)
-add_qml_test(Components FilterGrid)
 add_qml_test(Components LazyImage)
 add_qml_test(Components Rating)
 add_qml_test(Components ResponsiveFlowView)

@@ -115,6 +115,8 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
             return QVariant::fromValue(resultsModel);
         case RoleCount:
             return resultsModel->rowCount();
+        case RoleHeaderLink:
+            return QString();
         default:
             qFatal("Using un-implemented Categories role");
             return QVariant();
@@ -196,6 +198,8 @@ ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
             return QVariant::fromValue(resultsModel);
         case RoleCount:
             return resultsModel->rowCount();
+        case RoleHeaderLink:
+            return QString();
         default:
             qFatal("Using un-implemented Categories role");
             return QVariant();
