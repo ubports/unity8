@@ -129,7 +129,7 @@ SpreadDelegate {
         // All tiles are kept in place and faded out to 0 opacity except
         // the selected tile, which is animated from the snapshotted position to be fullscreen.
 
-        property real xTranslate: {
+        readonly property real xTranslate: {
             if (otherSelected) {
                 if (spreadView.phase < 2 && index == 0) {
                     return linearAnimation(selectedProgress, 0, selectedXTranslate,
@@ -175,12 +175,12 @@ SpreadDelegate {
             // Fix it at the right edge...
             var rightEdgeOffset =  -((index - 1) * root.startDistance);
             // ...and use our easing to move them to the left. Stop a bit earlier for each tile
-            var animatedEndDistance = linearAnimation(0, 2, root.endDistance, 0, root.progress)
+            var animatedEndDistance = linearAnimation(0, 2, root.endDistance, 0, root.progress);
             return -easingCurve.value * spreadView.width + (index * animatedEndDistance) + rightEdgeOffset;
 
         }
 
-        property real angle: {
+        readonly property real angle: {
             if (spreadView.focusChanging) {
                 return 0;
             }
@@ -213,7 +213,7 @@ SpreadDelegate {
             return root.startAngle - easingCurve.value * (root.startAngle - root.endAngle);
         }
 
-        property real scale: {
+        readonly property real scale: {
             if (spreadView.focusChanging) {
                 return 1;
             }
@@ -246,7 +246,7 @@ SpreadDelegate {
             return root.startScale - easingCurve.value * (root.startScale - root.endScale);
         }
 
-        property real opacity: {
+        readonly property real opacity: {
             if (priv.otherSelected) {
                 return linearAnimation (selectedProgress, Math.max(0, selectedProgress - .5),
                                         selectedOpacity, 0, root.progress);
@@ -264,7 +264,7 @@ SpreadDelegate {
             return 1;
         }
 
-        property real topMarginProgress: {
+        readonly property real topMarginProgress: {
             if (priv.isSelected) {
                 return linearAnimation(selectedProgress, 0, selectedTopMarginProgress, 0, root.progress);
             }
