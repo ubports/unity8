@@ -257,7 +257,9 @@ SpreadDelegate {
             }
 
             // The tile should rotate a bit when another one comes on top, but not when only dragging the side stage in
-            var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage);
+            var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive &&
+                    (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage ||
+                     model.stage == ApplicationInfoInterface.SideStage);
 
             if (spreadView.phase == 0) {
                 if (nextInStack) {
