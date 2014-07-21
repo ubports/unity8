@@ -23,7 +23,9 @@ import Ubuntu.Components 0.1
 SpreadDelegate {
     id: root
 
+    // Set this to true when this tile is selected in the spread. The animation will change to bring the tile to front.
     property bool selected: false
+    // Set this to true when another tile in the spread is selected. The animation will change to fade this tile out.
     property bool otherSelected: false
 
     // The progress animates the tiles. A value > 0 makes it appear from the right edge. At 1 it reaches the end position.
