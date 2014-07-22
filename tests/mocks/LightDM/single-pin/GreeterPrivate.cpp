@@ -19,8 +19,6 @@
 #include "../Greeter.h"
 #include "../GreeterPrivate.h"
 
-#include <QDebug>
-
 namespace QLightDM
 {
 
@@ -34,19 +32,13 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
 void GreeterPrivate::handleAuthenticate()
 {
     Q_Q(Greeter);
-
-    qDebug() << "handleAuthentication called!" << authenticationUser;
-
-    Q_EMIT q->showPrompt("PIN:", Greeter::PromptTypeSecret);
+    Q_EMIT q->showPrompt("PIN", Greeter::PromptTypeSecret);
 }
 
 void GreeterPrivate::handleRespond(const QString &response)
 {
     Q_Q(Greeter);
-
-
     authenticated = (response == "1234");
-    qDebug() << "responding" << response << authenticated;
     Q_EMIT q->authenticationComplete();
 }
 
