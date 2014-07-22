@@ -28,7 +28,7 @@ Item {
     property int dragAreaWidth
     property real maximizedAppTopMargin
     property bool interactive
-    property bool spreadEnabled: true
+    property bool spreadEnabled: true // If false, animations and right edge will be disabled
 
     // State information propagated to the outside
     readonly property bool locked: spreadView.phase == 2
@@ -277,7 +277,7 @@ Item {
                     }
 
                     Behavior on x {
-                        enabled: spreadView.focusChanging && index == 0
+                        enabled: spreadView.focusChanging && index == 0 && root.spreadEnabled
                         UbuntuNumberAnimation {
                             duration: UbuntuAnimation.FastDuration
                             onRunningChanged: {
