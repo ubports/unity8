@@ -58,14 +58,14 @@ class UpstartIntegrationTests(UnityTestCase):
 
     def _launch_unity(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
-        
+
         try:
             host_socket = os.getenv("MIR_SOCKET", "/run/mir_socket")
             if stat.S_ISSOCK(os.stat(host_socket).st_mode):
                 self.patch_environment("MIR_SERVER_HOST_SOCKET",
                                        host_socket)
                 socket = os.path.join(os.getenv("XDG_RUNTIME_DIR", "/tmp"),
-                                      "mir_socket")    
+                                      "mir_socket")
                 self.patch_environment("MIR_SERVER_FILE", socket)
         except OSError:
             pass
