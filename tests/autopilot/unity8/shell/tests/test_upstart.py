@@ -57,6 +57,16 @@ class UpstartIntegrationTests(UnityTestCase):
 
     def _launch_unity(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
+        try:
+            self._patch_environment("MIR_SERVER_HOST_SOCKET",
+                                    os.environ("MIR_SOCKET"))
+        except KeyError:
+            pass
+        else:
+            socket = os.path.join(os.getenv("XDG_RUNTIME_DIR", "/tmp"),
+                                  "mir_socket")
+            self._patch_environment("MIR_SERVER_FILE", socket)
+
         self.process = subprocess.Popen(
             [get_binary_path()] + self.unity_geometry_args)
 
