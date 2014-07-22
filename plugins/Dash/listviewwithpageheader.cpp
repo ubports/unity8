@@ -1184,12 +1184,17 @@ void ListViewWithPageHeader::layout()
                     // viewport is bigger than the start of the position of the first visible item
                     // i.e. the first visible item starts before the viewport, or when the first
                     // visible item starts just at the viewport start and it does not have its own section item
-                    if (topSectionStickPos > pos) {
-                        showStickySectionItem = true;
-                    } else if (topSectionStickPos == pos) {
-                        showStickySectionItem = !item->sectionItem();
-                    } else {
+                    const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
+                    if (section.isEmpty()) {
                         showStickySectionItem = false;
+                    } else {
+                        if (topSectionStickPos > pos) {
+                            showStickySectionItem = true;
+                        } else if (topSectionStickPos == pos) {
+                            showStickySectionItem = !item->sectionItem();
+                        } else {
+                            showStickySectionItem = false;
+                        }
                     }
                     if (!showStickySectionItem) {
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
