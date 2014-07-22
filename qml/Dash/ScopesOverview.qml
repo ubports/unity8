@@ -276,10 +276,10 @@ Item {
                     item.model = Qt.binding(function() { return results })
                     item.cardTool = cardTool;
                     if (index == 0) {
-                        item.scopeWidth = root.width;
-                        item.scopeHeight = root.height;
-                        item.appliedScale = Qt.binding(function() { return loader.scale })
-                        item.currentIndex = Qt.binding(function() { return root.currentIndex })
+                        item.scopeWidth = Qt.binding(function() { return root.width; });
+                        item.scopeHeight = Qt.binding(function() { return root.height; });
+                        item.appliedScale = Qt.binding(function() { return loader.scale });
+                        item.currentIndex = Qt.binding(function() { return root.currentIndex });
                     } else if (index == 1) {
                         item.extraHeight = bottomBar.height;
                     }

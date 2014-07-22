@@ -53,6 +53,7 @@ Flickable {
 
             sourceComponent: cardTool.cardComponent
             onLoaded: {
+                item.fixedArtShapeSize = Qt.binding(function() { return Qt.size(root.scopeWidth, root.scopeHeight); });
                 item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight / appliedScale; });
                 item.fontScale = Qt.binding(function() { return 1 / appliedScale; });
                 item.height = Qt.binding(function() { return root.scopeHeight; });
