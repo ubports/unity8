@@ -20,6 +20,7 @@
 #include <QObject>
 
 class MirSurfaceItem;
+class VirtualKeyboard;
 
 class SurfaceManager : public QObject
 {
@@ -29,14 +30,22 @@ public:
 
     static SurfaceManager *singleton();
 
+    // Internal mock use
+    void registerSurface(MirSurfaceItem *surface);
+    void unregisterSurface(MirSurfaceItem *surface);
+
 Q_SIGNALS:
     void countChanged();
     void surfaceCreated(MirSurfaceItem *surface);
     void surfaceDestroyed(MirSurfaceItem *surface);
 
+private Q_SLOTS:
+    void showInputMethod();
+    void hideInputMethod();
+
 private:
     static SurfaceManager *the_surface_manager;
-
+    VirtualKeyboard *m_virtualKeyboard;
 };
 
 #endif // SURFACEMANAGER_H

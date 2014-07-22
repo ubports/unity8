@@ -85,7 +85,7 @@ void ApplicationInfo::createSurface()
                                    fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
                                    screenshot());
     Q_EMIT surfaceChanged(m_surface);
-    Q_EMIT SurfaceManager::singleton()->surfaceCreated(m_surface);
+    SurfaceManager::singleton()->registerSurface(m_surface);
 }
 
 void ApplicationInfo::destroySurface()
@@ -95,7 +95,7 @@ void ApplicationInfo::destroySurface()
     m_surface = nullptr;
 
     Q_EMIT surfaceChanged(nullptr);
-    Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(oldSurface);
+    SurfaceManager::singleton()->unregisterSurface(m_surface);
     oldSurface->deleteLater();
 }
 
