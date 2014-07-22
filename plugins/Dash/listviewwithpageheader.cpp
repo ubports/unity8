@@ -931,12 +931,17 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                 const int visibleIndex = remove.index + i - m_firstVisibleIndex;
                 if (visibleIndex >= 0 && visibleIndex < m_visibleItems.count()) {
                     ListItem *item = m_visibleItems[visibleIndex];
-                    // Pass the section item down if needed
+                    // Pass the section item down if needed i.e. has no sectionItem because
+                    // had same section string (and not because it has no section at all)
                     if (item->sectionItem() && visibleIndex + 1 < m_visibleItems.count()) {
                         ListItem *nextItem = m_visibleItems[visibleIndex + 1];
                         if (!nextItem->sectionItem()) {
-                            nextItem->setSectionItem(item->sectionItem());
-                            item->setSectionItem(nullptr);
+                            const int modelIndex = remove.index + i;
+                            const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
+                            if (!section.isEmpty()) {
+                                nextItem->setSectionItem(item->sectionItem());
+                                item->setSectionItem(nullptr);
+                            }
                         }
                     }
                     releaseItem(item);
@@ -1250,6 +1255,18 @@ void ListViewWithPageHeader::layout()
                             m_topSectionItem->setY(item->y() - m_topSectionItem->height());
                         }
                         break;
+                    } else {
+                        // Is there no header because it's same section name or because has no section?
+                        // Because it is because we have no section (header) we still have to push it up
+                        const QString section = m_delegateModel->stringValue(firstReallyVisibleItem + 1, m_sectionProperty);
+                        if (section.isEmpty()) {
+                            if (m_topSectionItem->y() + m_topSectionItem->height() > item->y()) {
+                                m_topSectionItem->setY(item->y() - m_topSectionItem->height());
+                                QQmlContext *context = QQmlEngine::contextForObject(item->m_item)->parentContext();
+                                context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
+                            }
+                            break;
+                        }
                     }
                 }
             }
