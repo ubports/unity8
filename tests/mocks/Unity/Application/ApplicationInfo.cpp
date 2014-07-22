@@ -94,6 +94,7 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
     if (m_surface) {
         m_surface->setApplication(nullptr);
         m_surface->setParent(nullptr);
+        SurfaceManager::singleton()->unregisterSurface(m_surface);
     }
 
     m_surface = surface;
@@ -101,6 +102,7 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
     if (m_surface) {
         m_surface->setApplication(this);
         m_surface->setParent(this);
+        SurfaceManager::singleton()->registerSurface(m_surface);
     }
 
     Q_EMIT surfaceChanged(m_surface);

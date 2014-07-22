@@ -32,10 +32,16 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_state(state)
     , m_img(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString())
     , m_parentSurface(nullptr)
+    , m_haveInputMethod(false)
 {
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
-    setFillColor(Qt::white);
+    // The virtual keyboard (input method) has a big transparent area so that
+    // content behind it show through
+    setFillColor(Qt::transparent);
+
+    connect(this, &QQuickItem::focusChanged,
+            this, &MirSurfaceItem::onFocusChanged);
 }
 
 MirSurfaceItem::~MirSurfaceItem()
@@ -119,4 +125,28 @@ QList<QObject*> MirSurfaceItem::childSurfaces() const
         children.append(child);
     }
     return children;
+}
+
+void MirSurfaceItem::touchEvent(QTouchEvent * event)
+{
+    if (event->type() == QEvent::TouchBegin && hasFocus()) {
+        Q_EMIT inputMethodRequested();
+        m_haveInputMethod = true;
+    }
+}
+
+void MirSurfaceItem::onFocusChanged()
+{
+    if (!hasFocus() && m_haveInputMethod) {
+        Q_EMIT inputMethodDismissed();
+        m_haveInputMethod = false;
+    }
+}
+
+void MirSurfaceItem::setState(MirSurfaceItem::State newState)
+{
+    if (newState != m_state) {
+        m_state = newState;
+        Q_EMIT stateChanged(newState);
+    }
 }

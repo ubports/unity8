@@ -24,12 +24,16 @@ import Unity.Application 0.1
 SpreadDelegate {
     id: root
 
+    // Set this to true when this tile is selected in the spread. The animation will change to bring the tile to front.
+    property bool selected: false
+    // Set this to true when another tile in the spread is selected. The animation will change to fade this tile out.
+    property bool otherSelected: false
+    // Set this to true when this tile a currently active on either the MS or the SS.
     property bool active: false
+
     property int zIndex
     property real progress: 0
     property real animatedProgress: 0
-    property bool selected: false
-    property bool otherSelected: false
 
     property real startDistance: units.gu(5)
     property real endDistance: units.gu(.5)
@@ -253,7 +257,9 @@ SpreadDelegate {
             }
 
             // The tile should rotate a bit when another one comes on top, but not when only dragging the side stage in
-            var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive && (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage || model.stage == ApplicationInfoInterface.SideStage);
+            var shouldMoveAway = spreadView.nextInStack >= 0 && movedActive &&
+                    (ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage ||
+                     model.stage == ApplicationInfoInterface.SideStage);
 
             if (spreadView.phase == 0) {
                 if (nextInStack) {

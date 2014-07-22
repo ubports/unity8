@@ -133,7 +133,7 @@ Item {
             var startX = phoneStage.width;
             var startY = phoneStage.height / 2;
             var endY = startY;
-            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset - phoneStage.dragAreaWidth;
+            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset;
 
             var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);

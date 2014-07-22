@@ -16,6 +16,10 @@
 
 #include "SurfaceManager.h"
 
+#include "MirSurfaceItem.h"
+#include "VirtualKeyboard.h"
+
+
 SurfaceManager *SurfaceManager::the_surface_manager = nullptr;
 
 SurfaceManager *SurfaceManager::singleton()
@@ -28,5 +32,37 @@ SurfaceManager *SurfaceManager::singleton()
 
 SurfaceManager::SurfaceManager(QObject *parent) :
     QObject(parent)
+    , m_virtualKeyboard(nullptr)
 {
+}
+
+void SurfaceManager::registerSurface(MirSurfaceItem *surface)
+{
+    connect(surface, &MirSurfaceItem::inputMethodRequested,
+            this, &SurfaceManager::showInputMethod);
+    connect(surface, &MirSurfaceItem::inputMethodDismissed,
+            this, &SurfaceManager::hideInputMethod);
+    Q_EMIT surfaceCreated(surface);
+}
+
+void SurfaceManager::unregisterSurface(MirSurfaceItem *surface)
+{
+    disconnect(surface, 0, this, 0);
+    Q_EMIT surfaceDestroyed(surface);
+}
+
+void SurfaceManager::showInputMethod()
+{
+    if (!m_virtualKeyboard) {
+        m_virtualKeyboard = new VirtualKeyboard(MirSurfaceItem::Minimized);
+        Q_EMIT surfaceCreated(m_virtualKeyboard);
+    }
+    m_virtualKeyboard->setState(MirSurfaceItem::Restored);
+}
+
+void SurfaceManager::hideInputMethod()
+{
+    if (m_virtualKeyboard) {
+        m_virtualKeyboard->setState(MirSurfaceItem::Minimized);
+    }
 }

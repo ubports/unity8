@@ -70,12 +70,14 @@ public:
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
     QList<QObject*> childSurfaces() const;
 
+    void setState(State newState);
+    void setApplication(ApplicationInfo* item);
+    void setParentSurface(MirSurfaceItem* item);
+
     Q_INVOKABLE void release();
 
     void paint(QPainter * painter) override;
-
-    void setApplication(ApplicationInfo* item);
-    void setParentSurface(MirSurfaceItem* item);
+    void touchEvent(QTouchEvent * event) override;
 
 Q_SIGNALS:
     void typeChanged(Type);
@@ -86,6 +88,15 @@ Q_SIGNALS:
 
     void removed();
 
+    void inputMethodRequested();
+    void inputMethodDismissed();
+
+private Q_SLOTS:
+    void onFocusChanged();
+
+protected:
+    const QImage &screenshotImage() { return m_img; }
+
 private:
     void addChildSurface(MirSurfaceItem* surface);
     void removeChildSurface(MirSurfaceItem* surface);
@@ -93,11 +104,12 @@ private:
     ApplicationInfo* m_application;
     const QString m_name;
     const Type m_type;
-    const State m_state;
+    State m_state;
     const QImage m_img;
 
     MirSurfaceItem* m_parentSurface;
     QList<MirSurfaceItem*> m_children;
+    bool m_haveInputMethod;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
