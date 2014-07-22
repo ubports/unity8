@@ -166,14 +166,7 @@ FocusScope {
                         item.enableHeightBehavior = scopeView.enableHeightBehaviorOnNextCreation;
                         scopeView.enableHeightBehaviorOnNextCreation = false;
                     }
-                    if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
-                        // TODO: this is still a kludge :D Ideally add some kind of hook so that we
-                        // can do this from DashApps.qml or think a better way that needs no special casing
-                        item.model = Qt.binding(function() { return runningApps; })
-                        item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
-                    } else {
-                        item.model = Qt.binding(function() { return results })
-                    }
+                    item.model = Qt.binding(function() { return results })
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (item.expandable) {

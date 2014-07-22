@@ -183,10 +183,6 @@ class GenericScopeView(emulators.UnityEmulatorBase):
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))
 
-
-class DashApps(GenericScopeView):
-    """Autopilot emulator for the applications scope."""
-
     def get_applications(self, category):
         """Return the list of applications on a category.
 

@@ -305,9 +305,9 @@ Item {
           - perform long left edge swipe to go minimize the app and go back to the dash.
 
           Expected Results
-          - apps lens shown and Running Apps visible on screen
+          - apps lens shown
          */
-        function test_minimizingAppTakesToRunningApps() {
+        function test_minimizingAppTakesToDashApps() {
             var dashApps = findChild(shell, "clickscope");
             swipeUntilScopeViewIsReached(dashApps);
 
@@ -345,10 +345,6 @@ Item {
             tryCompare(appsCategoryListView, "moving", false);
 
             verify(itemIsOnScreen(dashApps));
-
-            var runningApplicationsGrid = findChild(appsCategoryListView, "running.apps.category");
-            verify(runningApplicationsGrid);
-            verify(itemIsOnScreen(runningApplicationsGrid));
         }
 
         // Wait for the whole UI to settle down
