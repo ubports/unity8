@@ -64,10 +64,16 @@ void MirSurfaceItem::release()
     for (MirSurfaceItem* child : children) {
         child->release();
     }
+    if (m_parentSurface) {
+        m_parentSurface->removeChildSurface(this);
+    }
 
-    if (m_application)
+    if (m_application) {
         m_application->setSurface(nullptr);
-    this->deleteLater();
+    }
+    if (!parent()) {
+        deleteLater();
+    }
 }
 
 void MirSurfaceItem::setApplication(ApplicationInfo* application)

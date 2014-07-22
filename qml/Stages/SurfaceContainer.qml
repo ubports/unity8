@@ -15,6 +15,7 @@
 */
 
 import QtQuick 2.0
+import "Animations"
 
 Item {
     id: container
@@ -38,11 +39,21 @@ Item {
     Connections {
         target: surface
         onRemoved: {
+            container.removing = true;
+
+            var childSurfaces = surface.childSurfaces;
+            for (var i=0; i<childSurfaces.length; i++) {
+                childSurfaces[i].removed();
+            }
+
+            //if we don't have children, nothing will tell us to animate out, so do it.
+            if (childSurfaces.length === 0) {
+                animateOut();
+            }
+            // tell our parent to animate out.
             if (surface.parentSurface) {
                 surface.parentSurface.parent.animateOut();
             }
-            container.removing = true;
-            animateOut();
         }
     }
 
@@ -57,30 +68,27 @@ Item {
             source: Qt.resolvedUrl("SurfaceContainer.qml")
             onLoaded: {
                 item.surface = modelData;
-                item.animateIn("swipeFromBottom");
-                container.animateIn("swipeUp");
+                item.animateIn(swipeFromBottom);
+                container.animateIn(swipeUp);
             }
         }
     }
 
-    function animateIn(type) {
-        var tmp = d.animations;
-        tmp.push(type);
-        d.animations = tmp;
+    function animateIn(component) {
+        var animation = component.createObject(container, { "surface": container.surface, "surfaceArea": container.surfaceArea });
+        animation.start();
 
-        container.state = d.currentAnimation + "-prep";
-        container.state = d.currentAnimation + "-in";
+        var tmp = d.animations;
+        tmp.push(animation);
+        d.animations = tmp;
     }
 
     function animateOut() {
         if (d.animations.length > 0) {
             var tmp = d.animations;
             var popped = tmp.pop();
+            popped.end();
             d.animations = tmp;
-            container.state = popped + "-out";
-            if (d.currentAnimation !== "") {
-                container.state = d.currentAnimation + "-in";
-            }
         } else {
             container.state = "initial";
         }
@@ -88,90 +96,24 @@ Item {
 
     QtObject {
         id: d
-        property variant animations: []
-        property string currentAnimation: animations.length > 0 ? animations[animations.length-1] : ""
+        property var animations: []
+        property var currentAnimation: animations.length > 0 ? animations[animations.length-1] : undefined
+    }
+
+    Component {
+        id: swipeFromBottom
+        SwipeFromBottomAnimation {}
+    }
+    Component {
+        id: swipeUp
+        SwipeUpAnimation {}
     }
 
     states: [
         State {
             name: "initial"
             PropertyChanges { target: surface; anchors.fill: surfaceArea }
-        },
-
-        State {
-            name: "baseAnimation"
-            PropertyChanges { target: surface; anchors.fill: undefined }
-        },
-
-        State {
-            name: "swipeFromBottom-prep"
-            extend: "baseAnimation"
-            AnchorChanges { target: surface; anchors.top: surfaceArea.bottom }
-        },
-        State {
-            name: "swipeFromBottom-out"
-            extend: "swipeFromBottom-prep"
-        },
-        State {
-            name: "swipeFromBottom-in"
-            extend: "baseAnimation"
-            AnchorChanges { target: surface; anchors.top: surfaceArea.top }
-        },
-
-        State {
-            name: "swipeUp-prep"
-            extend: "baseAnimation"
-        },
-        State {
-            name: "swipeUp-out"
-            extend: "swipeUp-prep"
-        },
-        State {
-            name: "swipeUp-in"
-            extend: "baseAnimation"
-            AnchorChanges { target: surface; anchors.bottom: surfaceArea.top }
         }
         // TODO: more animations!
-    ]
-
-    transitions: [
-        Transition {
-            to: "swipeFromBottom-in"
-            SequentialAnimation {
-                PropertyAction { target: surface.parent; property: "clip"; value: true }
-                AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-                PropertyAction { target: surface.parent; property: "clip"; value: false }
-            }
-        },
-        Transition {
-            to:  "swipeFromBottom-out"
-            SequentialAnimation {
-                PropertyAction { target: surface.parent; property: "clip"; value: true }
-                AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-                PropertyAction { target: surface; property: "visible"; value: !removing }
-                PropertyAction { target: surface.parent; property: "clip"; value: false }
-                ScriptAction { script: { if (container.removing) surface.release() } }
-            }
-        },
-
-        Transition {
-            to: "swipeUp-in"
-            SequentialAnimation {
-                PropertyAction { target: surface.parent; property: "clip"; value: true }
-                AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-                PropertyAction { target: surface; property: "visible"; value: false}
-                PropertyAction { target: surface.parent; property: "clip"; value: false }
-            }
-        },
-        Transition {
-            to:  "swipeUp-out"
-            SequentialAnimation {
-                PropertyAction { target: surface.parent; property: "clip"; value: true }
-                PropertyAction { target: surface; property: "visible"; value: true }
-                AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-                PropertyAction { target: surface.parent; property: "clip"; value: false }
-                ScriptAction { script: { if (container.removing) surface.release() } }
-            }
-        }
     ]
 }

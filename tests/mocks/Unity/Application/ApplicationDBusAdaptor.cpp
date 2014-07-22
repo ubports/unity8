@@ -53,7 +53,7 @@ quint32 ApplicationDBusAdaptor::addChildSurface(const QString &appId, const QStr
     ApplicationInfo* application = m_applicationManager->findApplication(appId);
     if (!application) {
         qDebug() << "ApplicationDBusAdaptor::addChildSurface - No application found for " << appId;
-        return ~0;
+        return 0;
     }
     quint32 surfaceId = ++nextId;
     MirSurfaceItem* surface = new MirSurfaceItem(QString("ChildSurface%1").arg(surfaceId),
