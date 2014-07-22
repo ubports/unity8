@@ -1207,7 +1207,6 @@ void ListViewWithPageHeader::layout()
                         }
                     } else {
                         // Update the top sticky section header
-                        const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
                         QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
                         context->setContextProperty(QLatin1String("section"), section);
 
