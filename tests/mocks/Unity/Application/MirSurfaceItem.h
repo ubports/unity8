@@ -62,21 +62,36 @@ public:
     State state() const { return m_state; }
     QString name() const { return m_name; }
 
+    void setState(State newState);
+
     Q_INVOKABLE void release() {}
 
     void paint(QPainter * painter) override;
+
+    void touchEvent(QTouchEvent * event) override;
 
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void nameChanged(QString);
 
+    void inputMethodRequested();
+    void inputMethodDismissed();
+
+private Q_SLOTS:
+    void onFocusChanged();
+
+protected:
+    const QImage &screenshotImage() { return m_img; }
+
 private:
 
     const QString m_name;
     const Type m_type;
-    const State m_state;
+    State m_state;
     const QImage m_img;
+
+    bool m_haveInputMethod;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
