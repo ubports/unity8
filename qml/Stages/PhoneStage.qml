@@ -28,6 +28,7 @@ Item {
     property int dragAreaWidth
     property real maximizedAppTopMargin
     property bool interactive
+    property bool spreadEnabled: true
 
     // State information propagated to the outside
     readonly property bool locked: spreadView.phase == 2
@@ -351,7 +352,7 @@ Item {
     EdgeDragArea {
         id: spreadDragArea
         direction: Direction.Leftwards
-        enabled: spreadView.phase != 2
+        enabled: spreadView.phase != 2 && root.spreadEnabled
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth

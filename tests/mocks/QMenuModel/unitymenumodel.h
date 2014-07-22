@@ -32,6 +32,7 @@ class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
     Q_PROPERTY(QVariantMap actions READ actions WRITE setActions NOTIFY actionsChanged)
     Q_PROPERTY(QByteArray menuObjectPath READ menuObjectPath WRITE setMenuObjectPath NOTIFY menuObjectPathChanged)
     Q_PROPERTY(ActionStateParser* actionStateParser READ actionStateParser WRITE setActionStateParser NOTIFY actionStateParserChanged)
+    Q_PROPERTY(QString nameOwner READ nameOwner NOTIFY nameOwnerChanged)
 
 public:
     UnityMenuModel(QObject *parent = NULL);
@@ -56,6 +57,8 @@ public:
     ActionStateParser* actionStateParser() const;
     void setActionStateParser(ActionStateParser* actionStateParser);
 
+    QString nameOwner() const;
+
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
@@ -79,6 +82,7 @@ Q_SIGNALS:
     void menuObjectPathChanged();
     void actionStateParserChanged();
     void modelDataChanged();
+    void nameOwnerChanged();
 
 private:
     QVariantMap rowData(int row) const;
