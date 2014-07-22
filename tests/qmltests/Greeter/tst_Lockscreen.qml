@@ -57,7 +57,7 @@ Rectangle {
         target: LightDM.Greeter
 
         onShowPrompt: {
-            if (text.indexOf("PIN") >= 0) {
+            if (text === "PIN") {
                 pinPadCheckBox.checked = false
             } else {
                 pinPadCheckBox.checked = true
