@@ -27,13 +27,13 @@ Item {
         [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3"}]
     ]
 
-    CardAttributesGrid {
-        id: cardAttributesGrid
+    CardAttributes {
+        id: cardAttributes
         model: testData[0]
     }
 
     TestCase {
-        name: "CardAttributesGridTest"
+        name: "CardAttributesTest"
         when: windowShown
 
         function init() {
@@ -44,8 +44,8 @@ Item {
         }
 
         function test_columns(data) {
-            cardAttributesGrid.model = data;
-            compare(cardAttributesGrid.columns, data.length);
+            cardAttributes.model = data;
+            compare(cardAttributes.columns, data.length);
         }
     }
 }

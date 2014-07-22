@@ -111,10 +111,9 @@ Label {
                             horizontalAlignment: root.headerAlignment; 
                         }
 ,
-CardAttributesGrid { 
+CardAttributes { 
                             id: attributesRow; 
                             objectName: "attributesRow"; 
-                            height: units.gu(1.5); 
                             anchors { left: parent.left; right: parent.right } 
                             model: cardData["attributes"] 
                           }

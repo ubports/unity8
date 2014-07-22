@@ -274,7 +274,7 @@ var kSubtitleLabelCode = 'Label { \n\
                         }\n';
 
 // %1 is used as anchors of attributesRow
-var kAttributesRowCode = 'CardAttributesGrid { \n\
+var kAttributesRowCode = 'CardAttributes { \n\
                             id: attributesRow; \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
