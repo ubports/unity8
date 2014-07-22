@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
-import Unity.Application 0.1
 import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
@@ -155,7 +154,6 @@ FocusScope {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
                         case "vertical-journal": return "CardVerticalJournal.qml";
-                        case "running-apps": return "Apps/RunningApplicationsGrid.qml";
                         case "grid":
                         default: return "CardFilterGrid.qml";
                     }
