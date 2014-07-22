@@ -67,7 +67,6 @@ class UpstartIntegrationTests(UnityTestCase):
                 socket = os.path.join(os.getenv("XDG_RUNTIME_DIR", "/tmp"),
                                       "mir_socket")    
                 self.patch_environment("MIR_SERVER_FILE", socket)
-
         except OSError:
             pass
 
