@@ -119,6 +119,7 @@ FocusScope {
 
         model: scopeView.categories
         forceNoClip: previewListView.open
+        pixelAligned: true
 
         property string expandedCategoryId: ""
 
