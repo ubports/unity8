@@ -102,7 +102,7 @@ Item {
                 leftMargin: -units.gu(2)
                 rightMargin: -units.gu(2)
                 bottomMargin: -units.gu(2)
-                topMargin: -units.gu(2)// + (root.isFullscreen ? 0 : maximizedAppTopMargin)
+                topMargin: -units.gu(2) + (root.isFullscreen ? 0 : maximizedAppTopMargin)
             }
             source: "graphics/dropshadow.png"
             border { left: 50; right: 50; top: 50; bottom: 50 }
