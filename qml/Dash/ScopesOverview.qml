@@ -160,6 +160,12 @@ Item {
         }
     }
 
+    Binding {
+        target: pageHeader
+        property: "searchQuery"
+        value: scope ? scope.searchQuery : ""
+    }
+
     Item {
         id: scopesOverviewContent
         x: previewListView.open ? -width : 0
