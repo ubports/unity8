@@ -33,17 +33,12 @@ MirSurfaceItem* topSurface(MirSurfaceItem* surface)
     if (!surface)
         return nullptr;
 
-    QList<QObject*> children = surface->childSurfaces();
-    if (children.count() > 0) {
-        MirSurfaceItem* child = nullptr;
-        int i = 0;
-        while(!child && i < children.count()) {
-            child = qobject_cast<MirSurfaceItem*>(children[i++]);
-        }
-        if (child)
-            return topSurface(child);
-    }
-    return surface;
+    MirSurfaceItem* child = NULL;
+    surface->foreachChildSurface([&](MirSurfaceItem* childSurface) {
+        if (!child)
+            child = topSurface(childSurface);
+    });
+    return child ? child : surface;
 }
 
 quint32 ApplicationDBusAdaptor::addChildSurface(const QString &appId, const QString &surfaceImage)

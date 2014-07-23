@@ -118,14 +118,36 @@ void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
     Q_EMIT childSurfacesChanged();
 }
 
-QList<QObject*> MirSurfaceItem::childSurfaces() const
+void MirSurfaceItem::foreachChildSurface(std::function<void(MirSurfaceItem*)> f) const
 {
-    QList<QObject*> children;
     for(MirSurfaceItem* child : m_children) {
-        children.append(child);
+        f(child);
     }
-    return children;
 }
+
+QQmlListProperty<MirSurfaceItem> MirSurfaceItem::childSurfaces()
+{
+    return QQmlListProperty<MirSurfaceItem>(this,
+                                            0,
+                                            MirSurfaceItem::childSurfaceCount,
+                                            MirSurfaceItem::childSurfaceAt);
+}
+
+int MirSurfaceItem::childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
+{
+    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
+    return p->m_children.count();
+}
+
+MirSurfaceItem* MirSurfaceItem::childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
+{
+    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
+
+    if (index < 0 || index >= p->m_children.count())
+        return nullptr;
+    return p->m_children[index];
+}
+
 
 void MirSurfaceItem::touchEvent(QTouchEvent * event)
 {

@@ -32,7 +32,7 @@ class MirSurfaceItem : public QQuickPaintedItem
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged)
-    Q_PROPERTY(QList<QObject*> childSurfaces READ childSurfaces NOTIFY childSurfacesChanged)
+    Q_PROPERTY(QQmlListProperty<MirSurfaceItem> childSurfaces READ childSurfaces NOTIFY childSurfacesChanged DESIGNABLE false)
 
 public:
     enum Type {
@@ -68,7 +68,7 @@ public:
     State state() const { return m_state; }
     QString name() const { return m_name; }
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
-    QList<QObject*> childSurfaces() const;
+    void foreachChildSurface(std::function<void(MirSurfaceItem*)> f) const;
 
     void setState(State newState);
     void setApplication(ApplicationInfo* item);
@@ -100,6 +100,10 @@ protected:
 private:
     void addChildSurface(MirSurfaceItem* surface);
     void removeChildSurface(MirSurfaceItem* surface);
+
+    QQmlListProperty<MirSurfaceItem> childSurfaces();
+    static int childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
+    static MirSurfaceItem* childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
 
     ApplicationInfo* m_application;
     const QString m_name;
