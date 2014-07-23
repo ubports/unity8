@@ -461,6 +461,7 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
                 value: stages.roughlyFullyShown && !greeter.shown && !lockscreen.shown
+                       && panel.indicators.fullyClosed
             }
             Binding {
                 target: applicationsDisplayLoader.item
