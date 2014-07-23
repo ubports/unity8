@@ -398,6 +398,37 @@ Item {
                 }
                 onClicked: root.done();
             }
+
+            AbstractButton {
+                objectName: "scopesOverviewStoreButton"
+                width: Math.max(storeLabel.width, units.gu(10))
+                height: units.gu(4)
+                anchors {
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                }
+                Image {
+                    id: storeImage
+                    source: "graphics/apps-scope.png"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: units.gu(2)
+                    height: units.gu(2)
+                    fillMode: Image.Stretch
+                }
+                Label {
+                    id: storeLabel
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: storeImage.bottom
+                    text: i18n.tr("Store")
+                    color: "white"
+                }
+                onClicked: {
+                    // Just zoom from the middle
+                    scopesOverviewXYScaler.restorePosition = undefined;
+                    scopesOverviewXYScaler.restoreSize = allCardSize;
+                    scope.performQuery("scope://com.canonical.scopes.clickstore");
+                }
+            }
         }
     }
 
