@@ -148,7 +148,7 @@ FocusScope {
                     top: parent.top
                     left: parent.left
                     right: parent.right
-                    topMargin: section != "" ? 0 : units.gu(2)
+                    topMargin: name != "" ? 0 : units.gu(2)
                 }
 
                 source: {
