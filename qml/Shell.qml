@@ -119,7 +119,8 @@ Item {
         anchors.fill: parent
 
         // Whether the underlay is fully covered by opaque UI elements.
-        property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
+        property bool fullyCovered: (panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth)
+                                        || stages.fullyShown || greeterWrapper.fullyShown
         visible: !fullyCovered
 
         Image {
@@ -587,6 +588,7 @@ Item {
             StandardAnimation {}
         }
 
+        property bool fullyShown: showProgress === 1.0
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
         onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
 
