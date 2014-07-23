@@ -606,7 +606,6 @@ Item {
         var animate = !LightDM.Greeter.active && !stages.shown
         // FIXME: IPC to dash-app needed?
         //dash.setCurrentScope("clickscope", animate, false)
-        stages.hide()
     }
 
     function showDash() {
@@ -615,7 +614,6 @@ Item {
         }
 
         if (!stages.locked) {
-            stages.hide();
             launcher.fadeOut();
         } else {
             launcher.switchToNextState("visible");
