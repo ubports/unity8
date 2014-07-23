@@ -31,8 +31,8 @@ QtObject {
         id: powerConnection
 
         target: Powerd
-        onDisplayPowerStateChange: {
-            Lights.state = (status === Powerd.Off) ? Lights.On : Lights.Off
+        onStatusChanged: {
+            Lights.state = (Powerd.status === Powerd.Off) ? Lights.On : Lights.Off
         }
     }
 }

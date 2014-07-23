@@ -21,6 +21,7 @@ import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Gestures 0.1
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
@@ -638,21 +639,29 @@ FocusScope {
                     || panel.indicators.shown
     }
 
+    function showGreeterIfScreenIsOff() {
+        if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+            greeter.showNow()
+        }
+    }
+
+    Connections {
+        id: callConnection
+        target: callManager
+        onHasCallsChanged: showGreeterIfScreenIsOff()
+    }
+
     Connections {
         id: powerConnection
         target: Powerd
 
-        onDisplayPowerStateChange: {
-            // We ignore any display-off signals when the proximity sensor
-            // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
-                greeter.showNow();
-            }
+        onStatusChanged: {
+            showGreeterIfScreenIsOff()
 
             // No reason to chew demo CPU when user isn't watching
-            if (status == Powerd.Off) {
+            if (Powerd.status === Powerd.Off) {
                 edgeDemo.paused = true;
-            } else if (status == Powerd.On) {
+            } else if (Powerd.status === Powerd.On) {
                 edgeDemo.paused = false;
             }
         }
