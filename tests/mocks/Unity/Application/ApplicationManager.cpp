@@ -118,6 +118,7 @@ void ApplicationManager::add(ApplicationInfo *application) {
     endInsertRows();
     Q_EMIT applicationAdded(application->appId());
     Q_EMIT countChanged();
+    if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
     Q_EMIT focusRequested(application->appId());
 
     connect(application, &ApplicationInfo::surfaceChanged, this, [application, this]() {
@@ -135,6 +136,7 @@ void ApplicationManager::remove(ApplicationInfo *application) {
         endRemoveRows();
         Q_EMIT applicationRemoved(application->appId());
         Q_EMIT countChanged();
+        if (isEmpty()) Q_EMIT emptyChanged(isEmpty());
     }
     disconnect(application, &ApplicationInfo::surfaceChanged, this, 0);
 }
@@ -600,4 +602,9 @@ void ApplicationManager::setRightMargin(int rightMargin)
     Q_FOREACH(ApplicationInfo *app, m_availableApplications) {
         generateQmlStrings(app);
     }
+}
+
+bool ApplicationManager::isEmpty() const
+{
+    return m_runningApplications.isEmpty();
 }
