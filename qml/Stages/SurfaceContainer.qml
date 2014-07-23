@@ -20,7 +20,6 @@ import "Animations"
 Item {
     id: container
     property Item surface: null
-    readonly property alias surfaceArea: _surfaceArea
     property bool removing: false
 
     onSurfaceChanged: {
@@ -29,12 +28,6 @@ Item {
             surface.z = 1;
             state = "initial"
         }
-    }
-
-    Rectangle {
-        id: _surfaceArea
-        anchors.fill: parent
-        color: Qt.rgba(0,0,0,0)
     }
 
     Connections {
@@ -63,7 +56,13 @@ Item {
 
         delegate: Loader {
             z: 2
-            anchors.fill: surfaceArea
+            anchors {
+                fill: container
+                topMargin: container.surface.anchors.topMargin
+                rightMargin: container.surface.anchors.rightMargin
+                bottomMargin: container.surface.anchors.bottomMargin
+                leftMargin: container.surface.anchors.leftMargin
+            }
 
             // Only way to do recursive qml items.
             source: Qt.resolvedUrl("SurfaceContainer.qml")
@@ -76,7 +75,7 @@ Item {
     }
 
     function animateIn(component) {
-        var animation = component.createObject(container, { "surface": container.surface, "surfaceArea": container.surfaceArea });
+        var animation = component.createObject(container, { "surface": container.surface, "surfaceArea": container });
         animation.start();
 
         var tmp = d.animations;
@@ -117,7 +116,7 @@ Item {
     states: [
         State {
             name: "initial"
-            PropertyChanges { target: surface; anchors.fill: surfaceArea }
+            PropertyChanges { target: surface; anchors.fill: container }
         }
         // TODO: more animations!
     ]

@@ -30,7 +30,7 @@ Item {
     property real maximizedAppTopMargin
     property alias swipeToCloseEnabled: dragArea.enabled
 
-    readonly property bool isFullscreen: surface !== null && surfaceContainer.surfaceArea.anchors.topMargin == 0
+    readonly property bool isFullscreen: surface !== null && surfaceContainer.surface.anchors.topMargin == 0
 
     signal clicked()
     signal closed()
@@ -56,10 +56,9 @@ Item {
         }
 
         Binding {
-            target: surfaceContainer.surfaceArea
+            target: surfaceContainer.surface
             property: "anchors.topMargin"
             value: {
-                if (!surfaceContainer.surface) return 0;
                 return surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
             }
         }
