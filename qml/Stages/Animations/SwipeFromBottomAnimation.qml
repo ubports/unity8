@@ -19,7 +19,7 @@ import QtQuick 2.0
 BaseSurfaceAnimation {
     id: animation
 
-    outChanges: [ AnchorChanges { target: animation.surface; anchors.top: animation.surfaceArea.bottom } ]
+    outChanges: [ AnchorChanges { target: animation.surface; anchors.top: animation.parent.bottom } ]
     outAnimations: [
         SequentialAnimation {
             PropertyAction { target: animation.parent; property: "clip"; value: true }
@@ -33,7 +33,7 @@ BaseSurfaceAnimation {
     inChanges: [
         AnchorChanges {
             target: animation.surface;
-            anchors.top: animation.surfaceArea.top
+            anchors.top: animation.parent.top
             anchors.right: undefined
             anchors.bottom: undefined
             anchors.left: undefined

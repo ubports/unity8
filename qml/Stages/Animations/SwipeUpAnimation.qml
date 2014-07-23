@@ -34,7 +34,7 @@ BaseSurfaceAnimation {
             target: animation.surface;
             anchors.top: undefined
             anchors.right: undefined
-            anchors.bottom: animation.surfaceArea.top
+            anchors.bottom: animation.parent.top
             anchors.left: undefined
         }
     ]

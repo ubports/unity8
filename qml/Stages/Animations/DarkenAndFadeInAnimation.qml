@@ -24,18 +24,18 @@ BaseSurfaceAnimation {
     outAnimations: [
         SequentialAnimation {
             UbuntuNumberAnimation { target: animation.surface; property: "opacity"; duration: UbuntuAnimation.FastDuration }
-            ColorAnimation { target: animation.surfaceArea; duration: UbuntuAnimation.FastDuration }
+            ColorAnimation { target: animation.parent; duration: UbuntuAnimation.FastDuration }
             ScriptAction { script: { if (animation.parent.removing) animation.surface.release(); } }
         }
     ]
 
     inChanges: [
-        PropertyChanges { target: animation.surfaceArea; color: Qt.rgba(0,0,0,0.7) },
+        PropertyChanges { target: animation.parent; color: Qt.rgba(0,0,0,0.7) },
         PropertyChanges { target: animation.surface; opacity: 1.0 }
     ]
     inAnimations: [
         SequentialAnimation {
-            ColorAnimation { target: animation.surfaceArea; duration: UbuntuAnimation.FastDuration }
+            ColorAnimation { target: animation.parent; duration: UbuntuAnimation.FastDuration }
             UbuntuNumberAnimation { target: animation.surface; property: "opacity"; duration: UbuntuAnimation.FastDuration }
         }
     ]

@@ -75,7 +75,7 @@ Item {
     }
 
     function animateIn(component) {
-        var animation = component.createObject(container, { "surface": container.surface, "surfaceArea": container });
+        var animation = component.createObject(container, { "surface": container.surface });
         animation.start();
 
         var tmp = d.animations;

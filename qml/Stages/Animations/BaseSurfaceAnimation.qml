@@ -38,7 +38,6 @@ import QtQuick 2.0
 Item {
     id: base
     property Item surface: null
-    property Item surfaceArea: null
 
     // changes applied when state changes to "in"
     property list<QtObject> outChanges
