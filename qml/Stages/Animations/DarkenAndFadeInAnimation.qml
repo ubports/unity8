@@ -15,35 +15,28 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 
 BaseSurfaceAnimation {
     id: animation
 
+    outChanges: [ PropertyChanges { target: animation.surface; opacity: 0.0 } ]
     outAnimations: [
         SequentialAnimation {
-            PropertyAction { target: animation.parent; property: "clip"; value: true }
-            PropertyAction { target: animation.surface; property: "visible"; value: true }
-            AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.parent; property: "clip"; value: false }
+            UbuntuNumberAnimation { target: animation.surface; property: "opacity"; duration: UbuntuAnimation.FastDuration }
+            ColorAnimation { target: animation.surfaceArea; duration: UbuntuAnimation.FastDuration }
             ScriptAction { script: { if (animation.parent.removing) animation.surface.release(); } }
         }
     ]
 
     inChanges: [
-        AnchorChanges {
-            target: animation.surface;
-            anchors.top: undefined
-            anchors.right: undefined
-            anchors.bottom: animation.surfaceArea.top
-            anchors.left: undefined
-        }
+        PropertyChanges { target: animation.surfaceArea; color: Qt.rgba(0,0,0,0.7) },
+        PropertyChanges { target: animation.surface; opacity: 1.0 }
     ]
     inAnimations: [
         SequentialAnimation {
-            PropertyAction { target: animation.parent; property: "clip"; value: true }
-            AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.surface; property: "visible"; value: false}
-            PropertyAction { target: animation.parent; property: "clip"; value: false }
+            ColorAnimation { target: animation.surfaceArea; duration: UbuntuAnimation.FastDuration }
+            UbuntuNumberAnimation { target: animation.surface; property: "opacity"; duration: UbuntuAnimation.FastDuration }
         }
     ]
 }

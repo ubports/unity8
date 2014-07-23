@@ -26,7 +26,7 @@ BaseSurfaceAnimation {
             AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
             PropertyAction { target: animation.surface; property: "visible"; value: !animation.parent.removing }
             PropertyAction { target: animation.parent; property: "clip"; value: false }
-            ScriptAction { script: { if (animation.parent.removing) animation.surface.release() } }
+            ScriptAction { script: { if (animation.parent.removing) animation.surface.release(); } }
         }
     ]
 

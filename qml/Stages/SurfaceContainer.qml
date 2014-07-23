@@ -31,9 +31,10 @@ Item {
         }
     }
 
-    Item {
+    Rectangle {
         id: _surfaceArea
         anchors.fill: parent
+        color: Qt.rgba(0,0,0,0)
     }
 
     Connections {
@@ -107,6 +108,10 @@ Item {
     Component {
         id: swipeUp
         SwipeUpAnimation {}
+    }
+    Component {
+        id: darkenFade
+        DarkenAndFadeInAnimation {}
     }
 
     states: [

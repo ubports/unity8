@@ -16,18 +16,42 @@
 
 import QtQuick 2.0
 
+/* This is the base case for surface animations, used when adding/removing * child surfaces.
+ * The class is meant to be overridden and changes/animations provided for state changes.
+ * NB. It is important to release the surface at the end of the "out" animation.
+ *
+ * Example - Simple fade in/out
+ *
+ * BaseSurfaceAnimation {
+ *     outChanges: [ PropertyChanges { target: animation.surface; opacity: 0.0 } ]
+ *     outAnimations: [
+           SequentialAnimation {
+ *             NumberAnimation { target: animation.surface; property: "opacity"; duration: 300 }
+ *             ScriptAction { script: { if (animation.parent.removing) animation.surface.release(); } }
+ *         }
+ *     ]
+ *
+ *     inChanges: [ PropertyChanges { target: animation.surface; opacity: 1.0 } ]
+ *     inAnimations: [ NumberAnimation { target: animation.surface; property: "opacity"; duration: 300 } ]
+ * }
+ */
 Item {
     id: base
     property Item surface: null
     property Item surfaceArea: null
 
+    // changes applied when state changes to "in"
     property list<QtObject> outChanges
+    // transition animations when changing state to "in"
     property list<QtObject> outAnimations
 
+    // changes applied when state changes to "out"
     property list<QtObject> inChanges
+    // transition animations when changing state to "out"
     property list<QtObject> inAnimations
 
     function start() {
+        // "prep" state forces outChanges without transition animations.
         state = "prep"
         state = "in";
     }
