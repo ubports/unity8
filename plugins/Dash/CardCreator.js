@@ -546,6 +546,7 @@ function cardString(template, components) {
         else if (headerAsOverlay && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
         else if (hasHeaderRow) summaryTopAnchor = "row.bottom";
         else if (hasMascot) summaryTopAnchor = "mascotImage.bottom";
+        else if (hasAttributes) summaryTopAnchor = "attributesRow.bottom";
         else if (hasSubtitle) summaryTopAnchor = "subtitleLabel.bottom";
         else if (hasTitle) summaryTopAnchor = "titleLabel.bottom";
         else if (hasArt) summaryTopAnchor = "artShapeHolder.bottom";
