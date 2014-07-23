@@ -1,10 +1,17 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
+include /usr/share/dpkg/default.mk
+
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
+
+# Explicitly selecting a G{CC,++}-version here to avoid accidental
+# ABI breaks introduced by toolchain updates.
+export CC=$(DEB_HOST_GNU_TYPE)-gcc-4.9
+export CXX=$(DEB_HOST_GNU_TYPE)-g++-4.9
 
 %:
 	dh $@ --parallel --fail-missing --with python2,python3
@@ -16,7 +23,7 @@ override_dh_auto_clean:
 override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.
 	# So until Debian bug 719148 is fixed, do it ourselves.
-	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var"
+	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var" -DCMAKE_C_COMPILER=$(CC) -DCMAKE_CXX_COMPILER=$(CXX)
 
 override_dh_auto_build:
 	# doc is not a default target
