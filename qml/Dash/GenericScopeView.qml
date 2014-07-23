@@ -148,7 +148,7 @@ FocusScope {
                     top: parent.top
                     left: parent.left
                     right: parent.right
-                    topMargin: hasSectionHeader ? 0 : units.gu(2)
+                    topMargin: section != "" ? 0 : units.gu(2)
                 }
 
                 source: {
@@ -327,6 +327,7 @@ FocusScope {
                 else
                     categoryView.expandedCategoryId = "";
             }
+            height: section != "" ? units.gu(5) : 0
         }
 
         pageHeader: PageHeader {

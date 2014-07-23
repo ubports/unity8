@@ -38,7 +38,7 @@ Rectangle {
             move(indexFrom, indexTo, count);
         }
 
-        ListElement { type: "Agressive"; size: 150 }
+        ListElement { type: ""; size: 150 }
         ListElement { type: "Regular"; size: 200 }
         ListElement { type: "Mild"; size: 350 }
         ListElement { type: "Bold"; size: 350 }
@@ -82,7 +82,7 @@ Rectangle {
             id: sectionHeaderComponent
             Rectangle {
                 color: "green"
-                height: listView.sectionHeaderHeight
+                height: section != "" ? listView.sectionHeaderHeight : 0
                 Text { text: section; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
             }
