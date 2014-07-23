@@ -38,9 +38,6 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
 
-    Q_PROPERTY(int keyboardHeight READ keyboardHeight NOTIFY keyboardHeightChanged)
-    Q_PROPERTY(bool keyboardVisible READ keyboardVisible NOTIFY keyboardVisibleChanged)
-
     Q_PROPERTY(int sideStageWidth READ sideStageWidth)
     Q_PROPERTY(StageHint stageHint READ stageHint)
     Q_PROPERTY(FormFactorHint formFactorHint READ formFactorHint)
@@ -80,8 +77,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     };
     Q_DECLARE_FLAGS(ExecFlags, Flag)
 
-    int keyboardHeight() const;
-    bool keyboardVisible() const;
     int sideStageWidth() const;
     StageHint stageHint() const;
     FormFactorHint formFactorHint() const;
@@ -119,8 +114,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     bool isEmpty() const;
 
  Q_SIGNALS:
-    void keyboardHeightChanged();
-    void keyboardVisibleChanged();
     void focusRequested(FavoriteApplication favoriteApplication);
     void focusRequested(const QString &appId);
     void emptyChanged(bool empty);
@@ -135,8 +128,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     void createMainStage();
     void createSideStageComponent();
     void createSideStage();
-    int m_keyboardHeight;
-    bool m_keyboardVisible;
     bool m_suspended;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;

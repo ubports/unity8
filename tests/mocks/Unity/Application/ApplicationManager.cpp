@@ -155,16 +155,6 @@ void ApplicationManager::move(int from, int to) {
     }
 }
 
-int ApplicationManager::keyboardHeight() const
-{
-    return 0;
-}
-
-bool ApplicationManager::keyboardVisible() const
-{
-    return false;
-}
-
 int ApplicationManager::sideStageWidth() const
 {
     return 0;
