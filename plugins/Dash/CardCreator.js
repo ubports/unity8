@@ -402,7 +402,13 @@ function cardString(template, components) {
     } else if (hasMascot) {
         code += 'readonly property int headerHeight: mascotImage.height;\n'
     } else if (hasAttributes) {
-        code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + subtitleLabel.height + subtitleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
+        if (hasSubtitle) {
+            code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + subtitleLabel.height + subtitleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
+        } else if (hasTitle) {
+            code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
+        } else {
+            code += 'readonly property int headerHeight: attributesRow.height + attributesRow.anchors.topMargin;\n'
+        }
     } else if (hasSubtitle) {
         code += 'readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;\n'
     } else if (hasTitle) {
@@ -482,11 +488,15 @@ function cardString(template, components) {
                                right: titleLabel.right; \n\
                                top: titleLabel.bottom; \n\
                                topMargin: units.dp(2);\n';
-            attributesAnchors = 'left: subtitleLabel.left; \n\
-                               leftMargin: subtitleLabel.leftMargin; \n\
-                               right: subtitleLabel.right; \n\
-                               top: subtitleLabel.bottom; \n\
-                               topMargin: units.dp(2);\n';
+            if (hasSubtitle) {
+                attributesAnchors = 'left: subtitleLabel.left; \n\
+                                   leftMargin: subtitleLabel.leftMargin; \n\
+                                   right: subtitleLabel.right; \n\
+                                   top: subtitleLabel.bottom; \n\
+                                   topMargin: units.dp(2);\n';
+            } else {
+                attributesAnchors = subtitleAnchors;
+            }
         }
 
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
