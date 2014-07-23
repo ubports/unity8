@@ -100,14 +100,6 @@ Item {
 
     }
 
-    Rectangle {
-        id: coverFlipBackground
-        anchors.fill: parent
-        color: "black"
-        visible: spreadView.visible
-    }
-
-
     Flickable {
         id: spreadView
         objectName: "spreadView"
