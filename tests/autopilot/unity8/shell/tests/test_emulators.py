@@ -191,9 +191,9 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
             category)
-        grid = category_element.select_single('CardFilterGrid')
-        filtergrid = grid.select_single('FilterGrid')
-        if (grid.filtered):
-            return filtergrid.collapsedRowCount * filtergrid.columns
+        cardgrid = category_element.select_single('CardGrid')
+        if (category_element.expanded):
+            return cardgrid.select_single('QQuickGridView').count
         else:
-            return filtergrid.uncollapsedRowCount * filtergrid.columns
+            return cardgrid.collapsedRows \
+                * cardgrid.select_single('ResponsiveGridView').columns

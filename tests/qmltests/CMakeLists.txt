@@ -24,7 +24,6 @@ add_qml_test(. ShellWithPin ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tes
 add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
 add_qml_test(Components EdgeDemoOverlay)
-add_qml_test(Components FilterGrid)
 add_qml_test(Components LazyImage)
 add_qml_test(Components Rating)
 add_qml_test(Components ResponsiveFlowView)

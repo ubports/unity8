@@ -59,7 +59,7 @@ Item {
                 genericScopeView.scope = scopes.getScope(1)
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
-                tryCompare(genericScopeView.categoryView, "contentY", 0)
+                waitForRendering(genericScopeView.categoryView);
             }
 
             function test_isActive() {
@@ -104,84 +104,103 @@ Item {
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
-            function test_filter_expand_collapse() {
-                // wait for the item to be there
-                waitForRendering(genericScopeView);
+            function test_expand_collapse() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != null; }, true);
 
-                var header = findChild(genericScopeView, "dashSectionHeader0")
                 var category = findChild(genericScopeView, "dashCategory0")
+                var seeAll = findChild(category, "seeAll")
 
-                waitForRendering(header);
+                waitForRendering(seeAll);
                 verify(category.expandable);
-                verify(category.filtered);
+                verify(!category.expanded);
 
                 var initialHeight = category.height;
-                var middleHeight;
-                mouseClick(header, header.width / 2, header.height / 2);
-                tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
-                tryCompare(category, "filtered", false);
-                tryCompareFunction(function() { return category.height > middleHeight; }, true);
+                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                verify(category.expanded);
+                tryCompareFunction(function() { return category.height > initialHeight; }, true);
 
-                mouseClick(header, header.width / 2, header.height / 2);
-                verify(category.expandable);
-                tryCompare(category, "filtered", true);
+                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                verify(!category.expanded);
             }
 
-            function test_filter_expand_expand_collapse() {
+            function test_expand_expand_collapse() {
                 // wait for the item to be there
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2") != null; }, true);
 
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.contentY = categoryListView.height;
 
-                var header2 = findChild(genericScopeView, "dashSectionHeader2")
                 var category2 = findChild(genericScopeView, "dashCategory2")
-                var category2FilterGrid = category2.children[1].children[2];
-                verify(UT.Util.isInstanceOf(category2FilterGrid, "CardFilterGrid"));
+                var seeAll2 = findChild(category2, "seeAll")
 
-                waitForRendering(header2);
+                waitForRendering(seeAll2);
                 verify(category2.expandable);
-                verify(category2.filtered);
+                verify(!category2.expanded);
 
-                mouseClick(header2, header2.width / 2, header2.height / 2);
-                tryCompare(category2, "filtered", false);
-                tryCompare(category2FilterGrid, "filtered", false);
+                mouseClick(seeAll2, seeAll2.width / 2, seeAll2.height / 2);
+                tryCompare(category2, "expanded", true);
 
                 categoryListView.positionAtBeginning();
 
-                var header0 = findChild(genericScopeView, "dashSectionHeader0")
                 var category0 = findChild(genericScopeView, "dashCategory0")
-                mouseClick(header0, header0.width / 2, header0.height / 2);
-                tryCompare(category0, "filtered", false);
-                tryCompare(category2, "filtered", true);
-                tryCompare(category2FilterGrid, "filtered", true);
-                mouseClick(header0, header0.width / 2, header0.height / 2);
-                tryCompare(category0, "filtered", true);
-                tryCompare(category2, "filtered", true);
+                var seeAll0 = findChild(category0, "seeAll")
+                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                tryCompare(category0, "expanded", true);
+                tryCompare(category2, "expanded", false);
+                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                tryCompare(category0, "expanded", false);
+                tryCompare(category2, "expanded", false);
             }
 
             function test_narrow_delegate_ranges_expand() {
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") !== null; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
-                tryCompare(category, "filtered", true);
+                tryCompare(category, "expanded", false);
 
                 shell.width = units.gu(20)
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.contentY = units.gu(20);
-                var header0 = findChild(genericScopeView, "dashSectionHeader0")
-                mouseClick(header0, header0.width / 2, header0.height / 2);
-                tryCompare(category, "filtered", false);
+                var seeAll = findChild(category, "seeAll")
+                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                tryCompare(category, "expanded", true);
                 tryCompareFunction(function() { return category.item.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
-                mouseClick(header0, header0.width / 2, header0.height / 2);
-                tryCompare(category, "filtered", true);
+                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                tryCompare(category, "expanded", false);
+            }
+
+            function test_forced_category_expansion() {
+                tryCompareFunction(function() {
+                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
+                               genericScopeView.width/2, genericScopeView.y)
+                    return findChild(genericScopeView, "dashCategory19") !== null;
+                }, true);
+                var category = findChild(genericScopeView, "dashCategory19")
+                compare(category.expandable, false, "Category with collapsed-rows: 0 should not be expandable");
+
+                var grid = findChild(category, "19");
+                verify(grid, "Could not find the category renderer.");
+
+                compare(grid.height, grid.expandedHeight, "Category with collapsed-rows: 0 should always be expanded.");
+            }
+
+            function test_single_category_expansion() {
+                genericScopeView.scope = scopes.getScope(4);
+
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
+                var category = findChild(genericScopeView, "dashCategory0")
+                compare(category.expandable, false, "Only category should not be expandable.");
+
+                var grid = findChild(category, "0");
+                verify(grid, "Could not find the category renderer.");
+
+                compare(grid.height, grid.expandedHeight, "Only category should always be expanded");
             }
 
             function openPreview() {
                 tryCompareFunction(function() {
-                                        var filterGrid = findChild(genericScopeView, "0");
-                                        if (filterGrid != null) {
-                                            var tile = findChild(filterGrid, "delegate0");
+                                        var cardGrid = findChild(genericScopeView, "0");
+                                        if (cardGrid != null) {
+                                            var tile = findChild(cardGrid, "delegate0");
                                             return tile != null;
                                         }
                                         return false;
@@ -257,7 +276,7 @@ Item {
                 closePreview();
             }
 
-            function test_haeder_logo() {
+            function test_header_logo() {
                 genericScopeView.scope = scopes.getScope(3);
 
                 var image = findChild(genericScopeView, "titleImage");
