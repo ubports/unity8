@@ -278,6 +278,7 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             id: attributesRow; \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
+                            color: %2; \n\
                             model: cardData["attributes"] \n\
                           }\n';
 
@@ -472,11 +473,13 @@ function cardString(template, components) {
                 titleAnchors = 'left: parent.left; \n\
                                 leftMargin: units.gu(1); \n\
                                 right: parent.right; \n\
+                                rightMargin: units.gu(1); \n\
                                 top: overlayLoader.top; \n\
                                 topMargin: units.gu(1);\n';
             } else {
                 // Using anchors to the mascot/parent
-                titleAnchors = "right: parent.right;";
+                titleAnchors = "right: parent.right;\n";
+                titleAnchors += "rightMargin: units.gu(1);\n";
                 titleAnchors += headerLeftAnchor;
                 titleAnchors += headerVerticalAnchors;
                 if (!headerLeftAnchorHasMargin) {
@@ -486,12 +489,14 @@ function cardString(template, components) {
             subtitleAnchors = 'left: titleLabel.left; \n\
                                leftMargin: titleLabel.leftMargin; \n\
                                right: titleLabel.right; \n\
+                               rightMargin: titleLabel.rightMargin; \n\
                                top: titleLabel.bottom; \n\
                                topMargin: units.dp(2);\n';
             if (hasSubtitle) {
                 attributesAnchors = 'left: subtitleLabel.left; \n\
                                    leftMargin: subtitleLabel.leftMargin; \n\
                                    right: subtitleLabel.right; \n\
+                                   rightMargin: subtitleLabel.rightMargin; \n\
                                    top: subtitleLabel.bottom; \n\
                                    topMargin: units.dp(2);\n';
             } else {
@@ -510,12 +515,12 @@ function cardString(template, components) {
             // If using row + column wrap the code in the column
             titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
             if (hasSubtitle && hasAttributes) {
-                var attributesCode = kAttributesRowCode.arg(attributesAnchors);
+                var attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(color);
                 titleSubtitleCode = kHeaderColumnCodeGenerator(titleCode, subtitleCode, attributesCode);
             } else if (hasSubtitle) {
                 titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
             } else if (hasAttributes) {
-                var attributesCode = kAttributesRowCode.arg(attributesAnchors);
+                var attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(color);
                 titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(attributesCode);
             }
         } else {
@@ -524,7 +529,7 @@ function cardString(template, components) {
                 titleSubtitleCode = titleSubtitleCode + subtitleCode;
             }
             if (hasAttributes) {
-                var attributesCode = kAttributesRowCode.arg(attributesAnchors);
+                var attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(color);
                 titleSubtitleCode = titleSubtitleCode + attributesCode;
             }
         }

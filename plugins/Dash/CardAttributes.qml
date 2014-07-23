@@ -27,6 +27,8 @@ GridLayout {
     }
     columns: 2 + repeater.count % 2
     property alias model: repeater.model
+    property var color
+
     Repeater {
         id: repeater
         delegate: Row {
@@ -56,6 +58,7 @@ GridLayout {
                 font.weight: "style" in modelData && modelData["style"] == "highlighted" ? Font.DemiBold : Font.Light
                 fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                color: grid.color
             }
         }
     }
