@@ -128,9 +128,9 @@ class Dash(emulators.UnityEmulatorBase):
     def enter_search_query(self, query):
         current_header = self._get_current_page_header()
         self.pointing_device.move(current_header.globalRect.x +
-                                  current_header.width - current_header.height / 2,
+                                  current_header.width - current_header.height / 4,
                                   current_header.globalRect.y +
-                                  current_header.height / 2)
+                                  current_header.height / 4)
         self.pointing_device.click()
         headerContainer = current_header.select_single(objectName="headerContainer")
         headerContainer.contentY.wait_for(0)
