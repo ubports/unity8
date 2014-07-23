@@ -48,8 +48,6 @@ Item {
     property url background
     readonly property real panelHeight: panel.panelHeight
 
-    property bool dashShown: dash.shown && dash.available && underlay.visible
-
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
@@ -59,7 +57,6 @@ Item {
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
-            stages.show();
         }
     }
 
@@ -127,35 +124,6 @@ Item {
             fillMode: Image.PreserveAspectCrop
             horizontalAlignment: Image.AlignRight
             verticalAlignment: Image.AlignTop
-        }
-    }
-
-    EdgeDragArea {
-        id: stagesDragArea
-        direction: Direction.Leftwards
-
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-        width: shell.edgeSize
-
-        property real progress: stages.width
-
-        onTouchXChanged: {
-            if (status == DirectionalDragArea.Recognized) {
-                if (ApplicationManager.empty) {
-                    progress = Math.max(stages.width - stagesDragArea.width + touchX, stages.width * .3);
-                } else {
-                    progress = stages.width - stagesDragArea.width + touchX;
-                }
-            }
-        }
-
-        onDraggingChanged: {
-            if (!dragging) {
-                if (!ApplicationManager.empty && progress < stages.width - units.gu(10)) {
-                    stages.show();
-                }
-                stagesDragArea.progress = Qt.binding(function () { return stages.width; });
-            }
         }
     }
 
@@ -614,6 +582,7 @@ Item {
         }
 
         if (!stages.locked) {
+            ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
         } else {
             launcher.switchToNextState("visible");

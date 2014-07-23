@@ -1,4 +1,5 @@
 data/unity8.conf usr/share/upstart/sessions/
+data/unity8-dash.conf usr/share/upstart/sessions/
 usr/bin/unity8
 usr/bin/unity8-dash
 usr/share/applications/unity8.desktop
