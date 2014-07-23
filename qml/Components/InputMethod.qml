@@ -62,18 +62,6 @@ Item {
         }
     ]
 
-    Connections {
-        target: surface
-        ignoreUnknownSignals: true // don't wanna spam the log when surface is null
-        onStateChanged: {
-            if (state == MirSurfaceItem.Minimized) {
-                root.hide();
-            } else if (state == MirSurfaceItem.Maximized) {
-                root.show();
-            }
-        }
-    }
-
     onSurfaceChanged: {
         if (surface) {
             surface.parent = root;
