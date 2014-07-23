@@ -519,14 +519,24 @@ Item {
         }
 
         function test_focusRequestedHidesGreeter() {
-            var greeter = findChild(shell, "greeter")
+            var greeter = findChild(shell, "greeter");
 
-            greeter.show()
-            tryCompare(greeter, "showProgress", 1)
+            var app = ApplicationManager.startApplication("dialer-app");
+            // wait until the app is fully loaded (ie, real surface replaces splash screen)
+            tryCompareFunction(function() { return app.surface != null }, true);
 
-            ApplicationManager.focusRequested("notes-app")
-            tryCompare(greeter, "showProgress", 0)
-            waitUntilApplicationWindowIsFullyVisible()
+            // Minimize the application we just launched
+            swipeFromLeftEdge(units.gu(27));
+
+            // Wait for the whole UI to settle down
+            waitUntilApplicationWindowIsFullyHidden();
+
+            greeter.show();
+            tryCompare(greeter, "showProgress", 1);
+
+            // The main point of this test
+            ApplicationManager.requestFocusApplication("dialer-app");
+            tryCompare(greeter, "showProgress", 0);
         }
 
         function test_showGreeterDBusCall() {
