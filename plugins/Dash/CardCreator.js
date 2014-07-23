@@ -402,7 +402,7 @@ function cardString(template, components) {
     } else if (hasMascot) {
         code += 'readonly property int headerHeight: mascotImage.height;\n'
     } else if (hasAttributes) {
-        if (hasSubtitle) {
+        if (hasTitle && hasSubtitle) {
             code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + subtitleLabel.height + subtitleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
         } else if (hasTitle) {
             code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
@@ -458,7 +458,7 @@ function cardString(template, components) {
         var titleAnchors;
         var subtitleAnchors;
         var attributesAnchors;
-        if (hasMascot && hasSubtitle) {
+        if (hasMascot && (hasSubtitle || hasAttributes)) {
             // Using row + column
             titleAnchors = 'left: parent.left; right: parent.right';
             subtitleAnchors = titleAnchors;
@@ -506,15 +506,23 @@ function cardString(template, components) {
             subtitleCode += kSubtitleLabelCode.arg(subtitleAnchors).arg(color);
         }
 
-        if (hasMascot && hasSubtitle) {
+        if (hasMascot && (hasSubtitle || hasAttributes)) {
             // If using row + column wrap the code in the column
             titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
-            if (hasAttributes) {
+            if (hasSubtitle && hasAttributes) {
                 var attributesCode = kAttributesRowCode.arg(attributesAnchors);
                 titleSubtitleCode = kHeaderColumnCodeGenerator(titleCode, subtitleCode, attributesCode);
+            } else if (hasSubtitle) {
+                titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
+            } else if (hasAttributes) {
+                var attributesCode = kAttributesRowCode.arg(attributesAnchors);
+                titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(attributesCode);
             }
         } else {
-            titleSubtitleCode = titleCode + subtitleCode;
+            titleSubtitleCode = titleCode;
+            if (hasSubtitle) {
+                titleSubtitleCode = titleSubtitleCode + subtitleCode;
+            }
             if (hasAttributes) {
                 var attributesCode = kAttributesRowCode.arg(attributesAnchors);
                 titleSubtitleCode = titleSubtitleCode + attributesCode;
@@ -581,5 +589,6 @@ function createCardComponent(parent, template, components) {
                    import Dash 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
+
     return Qt.createQmlObject(code, parent, "createCardComponent");
 }
