@@ -489,7 +489,7 @@ Item {
                 {tag: "under greeter", greeter: true, app: false, launcher: false, indicators: false, expectedShown: false},
                 {tag: "under app", greeter: false, app: true, launcher: false, indicators: false, expectedShown: false},
                 {tag: "under launcher", greeter: false, app: false, launcher: true, indicators: false, expectedShown: true},
-                {tag: "under indicators", greeter: false, app: false, launcher: false, indicators: true, expectedShown: true},
+                {tag: "under indicators", greeter: false, app: false, launcher: false, indicators: true, expectedShown: false},
             ]
         }
 
