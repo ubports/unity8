@@ -472,6 +472,7 @@ Item {
 
     InputMethod {
         id: inputMethod
+        objectName: "inputMethod"
         anchors { fill: parent; topMargin: panel.panelHeight }
         z: notifications.useModal || panel.indicators.shown ? overlay.z + 1 : overlay.z - 1
     }

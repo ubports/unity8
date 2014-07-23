@@ -52,11 +52,7 @@ void SurfaceManager::unregisterSurface(MirSurfaceItem *surface)
 
 void SurfaceManager::showInputMethod()
 {
-    if (!m_virtualKeyboard) {
-        m_virtualKeyboard = new VirtualKeyboard(MirSurfaceItem::Minimized);
-        Q_EMIT surfaceCreated(m_virtualKeyboard);
-    }
-    m_virtualKeyboard->setState(MirSurfaceItem::Restored);
+    inputMethodSurface()->setState(MirSurfaceItem::Restored);
 }
 
 void SurfaceManager::hideInputMethod()
@@ -64,4 +60,13 @@ void SurfaceManager::hideInputMethod()
     if (m_virtualKeyboard) {
         m_virtualKeyboard->setState(MirSurfaceItem::Minimized);
     }
+}
+
+MirSurfaceItem *SurfaceManager::inputMethodSurface()
+{
+    if (!m_virtualKeyboard) {
+        m_virtualKeyboard = new VirtualKeyboard(MirSurfaceItem::Minimized);
+        Q_EMIT surfaceCreated(m_virtualKeyboard);
+    }
+    return m_virtualKeyboard;
 }

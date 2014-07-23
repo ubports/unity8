@@ -358,6 +358,26 @@ Item {
             verify(itemIsOnScreen(runningApplicationsGrid));
         }
 
+        function test_showInputMethod() {
+            var item = findChild(shell, "inputMethod");
+            var surface = SurfaceManager.inputMethodSurface();
+
+            surface.setState(MirSurfaceItem.Minimized);
+            tryCompare(item, "visible", false);
+
+            surface.setState(MirSurfaceItem.Restored);
+            tryCompare(item, "visible", true);
+
+            surface.setState(MirSurfaceItem.Minimized);
+            tryCompare(item, "visible", false);
+
+            surface.setState(MirSurfaceItem.Maximized);
+            tryCompare(item, "visible", true);
+
+            surface.setState(MirSurfaceItem.Minimized);
+            tryCompare(item, "visible", false);
+        }
+
         // Wait for the whole UI to settle down
         function waitForUIToSettle() {
             waitUntilApplicationWindowIsFullyHidden();

@@ -34,6 +34,9 @@ public:
     void registerSurface(MirSurfaceItem *surface);
     void unregisterSurface(MirSurfaceItem *surface);
 
+    // To be used in the tests
+    Q_INVOKABLE MirSurfaceItem *inputMethodSurface();
+
 Q_SIGNALS:
     void countChanged();
     void surfaceCreated(MirSurfaceItem *surface);
