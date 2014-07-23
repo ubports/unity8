@@ -139,11 +139,7 @@ Item {
 
     DashBackground {
         anchors.fill: parent
-        Rectangle {
-            color: "black"
-            anchors.fill: parent
-            opacity: 0.6
-        }
+        source: "graphics/dark_background.jpg"
     }
 
     Connections {
