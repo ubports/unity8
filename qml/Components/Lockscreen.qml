@@ -186,6 +186,17 @@ Showable {
     }
 
     Column {
+        id: emergencyCallColumn
+
+        // FIXME: We *should* show emergency dialer if there is a SIM present,
+        // regardless of whether the side stage is enabled.  But right now,
+        // the assumption is that narrow screens are phones which have SIMs
+        // and wider screens are tablets which don't.  When we do allow this
+        // on devices with a side stage and a SIM, work should be done to
+        // ensure that the main stage is disabled while the dialer is present
+        // in the side stage.
+        visible: !shell.sideStageEnabled
+
         anchors {
             left: parent.left
             bottom: parent.bottom
@@ -203,11 +214,6 @@ Showable {
             name: "phone-app-call-symbolic"
             color: "#f3f3e7"
             opacity: 0.6
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: root.emergencyCall()
-            }
         }
 
         Label {
@@ -217,6 +223,12 @@ Showable {
             fontSize: "medium"
             anchors.horizontalCenter: parent.horizontalCenter
         }
+    }
+
+    MouseArea {
+        anchors.fill: emergencyCallColumn
+        onClicked: root.emergencyCall()
+        enabled: emergencyCallColumn.visible
     }
 
     Component {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors: Nick Dedekind <nick.dedekind@canonical.com>
- *          Daniel d'Andrada <daniel.dandrada@canonical.com>
  */
 
 #include "unitymenumodel.h"
@@ -125,6 +124,11 @@ ActionStateParser* UnityMenuModel::actionStateParser() const
 
 void UnityMenuModel::setActionStateParser(ActionStateParser*)
 {
+}
+
+QString UnityMenuModel::nameOwner() const
+{
+    return QString("");
 }
 
 int UnityMenuModel::rowCount(const QModelIndex&) const
@@ -240,9 +244,4 @@ void UnityMenuModel::registerAction(UnityMenuAction*)
 
 void UnityMenuModel::unregisterAction(UnityMenuAction*)
 {
-}
-
-QByteArray UnityMenuModel::nameOwner() const
-{
-    return QByteArray();
 }

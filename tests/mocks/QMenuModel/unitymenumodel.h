@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors: Nick Dedekind <nick.dedekind@canonical.com>
- *          Daniel d'Andrada <daniel.dandrada@canonical.com>
  */
 
 #ifndef MOCK_UNITYMENUMODEL_H
@@ -30,10 +29,10 @@ class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
     Q_PROPERTY(QByteArray busName READ busName WRITE setBusName NOTIFY busNameChanged)
-    Q_PROPERTY(QByteArray nameOwner READ nameOwner NOTIFY nameOwnerChanged)
     Q_PROPERTY(QVariantMap actions READ actions WRITE setActions NOTIFY actionsChanged)
     Q_PROPERTY(QByteArray menuObjectPath READ menuObjectPath WRITE setMenuObjectPath NOTIFY menuObjectPathChanged)
     Q_PROPERTY(ActionStateParser* actionStateParser READ actionStateParser WRITE setActionStateParser NOTIFY actionStateParserChanged)
+    Q_PROPERTY(QString nameOwner READ nameOwner NOTIFY nameOwnerChanged)
 
 public:
     UnityMenuModel(QObject *parent = NULL);
@@ -49,8 +48,6 @@ public:
     QByteArray busName() const;
     void setBusName(const QByteArray &busName);
 
-    QByteArray nameOwner() const;
-
     QVariantMap actions() const;
     void setActions(const QVariantMap &actions);
 
@@ -59,6 +56,8 @@ public:
 
     ActionStateParser* actionStateParser() const;
     void setActionStateParser(ActionStateParser* actionStateParser);
+
+    QString nameOwner() const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -79,11 +78,11 @@ public:
 
 Q_SIGNALS:
     void busNameChanged();
-    void nameOwnerChanged(const QByteArray &owner);
     void actionsChanged();
     void menuObjectPathChanged();
     void actionStateParserChanged();
     void modelDataChanged();
+    void nameOwnerChanged();
 
 private:
     QVariantMap rowData(int row) const;
