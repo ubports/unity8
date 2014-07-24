@@ -564,7 +564,7 @@ function cardString(template, components) {
             color = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
         }
 
-        var summaryTopMargin = (hasMascot || hasSubtitle ? 'anchors.margins' : '0');
+        var summaryTopMargin = (hasMascot || hasSubtitle || hasAttributes ? 'anchors.margins' : '0');
 
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(color);
     }
@@ -576,7 +576,7 @@ function cardString(template, components) {
     } else if (hasMascot) {
         code += 'implicitHeight: mascotImage.y + mascotImage.height;\n';
     } else if (hasAttributes) {
-        code += 'implicitHeight: attributesRow.y + attributesRow.height + units.gu(1);\n';
+        code += 'implicitHeight: attributesRow.y + Math.max(attributesRow.height, attributesRow.childrenRect.height, attributesRow.implicitHeight, units.gu(2)) + units.gu(1);\n';
     } else if (hasSubtitle) {
         code += 'implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
     } else if (hasTitle) {
