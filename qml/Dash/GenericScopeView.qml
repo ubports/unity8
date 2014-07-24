@@ -171,7 +171,7 @@ FocusScope {
                     top: parent.top
                     left: parent.left
                     right: parent.right
-                    topMargin: hasSectionHeader ? 0 : units.gu(2)
+                    topMargin: name != "" ? 0 : units.gu(2)
                 }
 
                 Behavior on height {
@@ -373,6 +373,7 @@ FocusScope {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
+            height: section != "" ? units.gu(5) : 0
             text: section
             textColor: scopeStyle ? scopeStyle.foreground : "grey"
         }
