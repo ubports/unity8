@@ -52,6 +52,12 @@ Item {
         }
     }
 
+    function closePopup() {
+        if (headerContainer.popover != null) {
+            PopupUtils.close(headerContainer.popover);
+        }
+    }
+
     function resetSearch(keepFocus) {
         if (searchHistory) {
             searchHistory.addQuery(searchTextField.text);
@@ -60,9 +66,7 @@ Item {
             unfocus();
         }
         searchTextField.text = "";
-        if (headerContainer.popover != null) {
-            PopupUtils.close(headerContainer.popover);
-        }
+        closePopup();
     }
 
     function unfocus() {
@@ -103,9 +107,7 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: headerContainer.showSearch
         onPressed: {
-            if (headerContainer.popover) {
-                PopupUtils.close(headerContainer.popover);
-            }
+            closePopup();
             if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
@@ -215,6 +217,12 @@ Item {
                             root.openSearchHistory();
                         }
                     }
+
+                    onTextChanged: {
+                        if (text != "") {
+                            closePopup();
+                        }
+                    }
                 }
             }
 
@@ -299,7 +307,7 @@ Item {
                         onClicked: {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
-                            PopupUtils.close(popover);
+                            closePopup();
                         }
                     }
                 }
