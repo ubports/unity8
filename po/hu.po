@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-01-14 23:02+0000\n"
-"Last-Translator: Kristóf Kiszel <Unknown>\n"
+"PO-Revision-Date: 2014-07-23 10:07+0000\n"
+"Last-Translator: Úr Balázs <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-07-24 06:32+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -80,7 +80,7 @@ msgstr "Vészhívás"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
@@ -97,11 +97,11 @@ msgstr "Szia"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "MÉGSE"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "KÉSZ"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
@@ -113,15 +113,15 @@ msgstr ""
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "Legutóbbi"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Több…"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Kevesebb…"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
@@ -165,7 +165,7 @@ msgstr "Jelszó megjelenítése"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Adja meg a SIM PIN kódját"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
@@ -173,23 +173,23 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "Letöltés"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Szüneteltetve, koppintson a folytatáshoz"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
-msgstr ""
+msgstr "Megszakítva"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Befejeződött"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Sikertelen, koppintson az újrapróbáláshoz"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
