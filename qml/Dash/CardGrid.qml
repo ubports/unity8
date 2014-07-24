@@ -27,6 +27,7 @@ DashRenderer {
 
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows), expandedHeight)
+    collapsedItemCount: collapsedRows * grid.columns
     originY: grid.originY
 
     ResponsiveGridView {

@@ -137,6 +137,7 @@ FocusScope {
             }
             property bool expanded: false
             readonly property string category: categoryId
+            readonly property string headerLink: model.headerLink
             readonly property var item: rendererLoader.item
 
             function expand(expand, animate) {
@@ -186,7 +187,8 @@ FocusScope {
                     }
                 }
 
-                height: baseItem.expandable && !baseItem.expanded ? item.collapsedHeight : item.expandedHeight
+                readonly property bool expanded: baseItem.expanded || !baseItem.expandable
+                height: expanded ? item.expandedHeight : item.collapsedHeight
 
                 source: {
                     switch (cardTool.categoryLayout) {
@@ -236,17 +238,22 @@ FocusScope {
                             // so it's not implemented
                             scopeView.scope.activate(result)
                         } else {
-                            previewListView.model = target.model;
-                            previewListView.currentIndex = -1
-                            previewListView.currentIndex = index;
-                            previewListView.open = true
+                            openPreview(index);
                         }
                     }
-                    onPressAndHold: {
-                        previewListView.model = target.model;
-                        previewListView.currentIndex = -1
+                    onPressAndHold: openPreview(index)
+
+                    function openPreview(index) {
+                        if (!rendererLoader.expanded && !seeAllLabel.visible && target.collapsedItemCount > 0) {
+                            previewLimitModel.model = target.model;
+                            previewLimitModel.limit = target.collapsedItemCount;
+                            previewListView.model = previewLimitModel;
+                        } else {
+                            previewListView.model = target.model;
+                        }
+                        previewListView.currentIndex = -1;
                         previewListView.currentIndex = index;
-                        previewListView.open = true
+                        previewListView.open = true;
                     }
                 }
                 Connections {
@@ -318,7 +325,7 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: baseItem.expandable ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(6) : 0
 
                 onClicked: {
                     if (categoryView.expandedCategoryId != baseItem.category) {
@@ -338,7 +345,7 @@ FocusScope {
                     fontSize: "small"
                     font.weight: Font.Bold
                     color: scopeStyle ? scopeStyle.foreground : "grey"
-                    visible: baseItem.expandable
+                    visible: baseItem.expandable && !baseItem.headerLink
                 }
             }
 
@@ -371,11 +378,15 @@ FocusScope {
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
-            property var delegate: categoryView.item(delegateIndex)
+            readonly property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             height: section != "" ? units.gu(5) : 0
             text: section
-            textColor: scopeStyle ? scopeStyle.foreground : "grey"
+            color: scopeStyle ? scopeStyle.foreground : "grey"
+            iconName: delegate && delegate.headerLink ? "go-next" : ""
+            onClicked: {
+                if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
+            }
         }
 
         pageHeader: PageHeader {
@@ -399,6 +410,10 @@ FocusScope {
 
             onBackClicked: scopeView.backClicked()
         }
+    }
+
+    LimitProxyModel {
+        id: previewLimitModel
     }
 
     PreviewListView {
