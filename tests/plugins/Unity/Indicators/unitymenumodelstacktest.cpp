@@ -24,6 +24,9 @@
 #include <QDebug>
 #include <unitymenumodel.h>
 
+#include <functional>
+#include <chrono>
+
 class UnityMenuModelStackTest : public QObject
 {
     Q_OBJECT
