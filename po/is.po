@@ -1,30 +1,33 @@
+# translation of po_unity8-is.po to icelandic
 # Icelandic translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the unity8 package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Sveinn í Felli <sv1@fellsnet.is>, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: unity8\n"
+"Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-07-18 11:20+0000\n"
+"PO-Revision-Date: 2014-07-23 05:57+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
-"Language-Team: Icelandic <is@li.org>\n"
+"Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-19 06:19+0000\n"
+"X-Launchpad-Export-Date: 2014-07-24 06:32+0000\n"
 "X-Generator: Launchpad (build 17114)\n"
+"Language: is\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Pinna flýtilykil"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Losa flýtilykil"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -37,7 +40,7 @@ msgstr "Hægri brún"
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
-"Prufaðu að renna puttanum frá hægri brúninni til að aflæsa símanum þínum."
+"Prófaðu að strjúka fingrinum frá hægri brúninni til að aflæsa símanum þínum."
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
@@ -45,7 +48,7 @@ msgstr "Efri brún"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Reyndu að renna frá toppi til að fá aðgang að tilkynningum"
+msgstr "Reyndu að strjúka frá toppi til að fá aðgang að tilkynningum"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -53,7 +56,7 @@ msgstr "Loka"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr "Renndu upp til að loka stillingum"
+msgstr "Strjúktu upp til að loka stillingum"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
@@ -61,7 +64,7 @@ msgstr "Vinstri brún"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Renndu frá vinstri til að afhjúpa flýtiræsi forrita"
+msgstr "Strjúktu frá vinstri til að afhjúpa flýtiræsi forrita"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
@@ -72,6 +75,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Þú ert núna með æfingu í að nota skjáhreyfingar og getur því farið að nota "
+"símann<br><br>Sláðu létt á skjáinn til að byrja"
 
 #: qml/Components/Lockscreen.qml:214
 msgid "Emergency Call"
@@ -136,7 +141,7 @@ msgstr "Senda"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr "Strjóka til að aflæsa"
+msgstr "Strjúka til að aflæsa"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -144,15 +149,15 @@ msgstr "Staðfesta"
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Skrifaðu eða segðu eitthvað"
+msgstr "Skrifaðu eða segðu skipun"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Hleð. Vinsamlegast Bíðið..."
+msgstr "Hleð. Bíddu aðeins..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Talaðu Núna..."
+msgstr "Tala núna..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
@@ -176,7 +181,7 @@ msgstr "Sæki"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Í bið, sláðu létt til að halda áfram"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
@@ -188,7 +193,7 @@ msgstr "Lokið"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Mistókst, sláðu létt til að reyna aftur"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
