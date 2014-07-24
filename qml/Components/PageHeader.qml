@@ -299,6 +299,7 @@ Item {
 
                 Repeater {
                     id: recentSearches
+                    objectName: "recentSearches"
                     model: searchHistory
 
                     delegate: Standard {

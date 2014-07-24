@@ -173,6 +173,16 @@ Item {
             tryCompareFunction(function() { return headerContainer.popover !== null; }, true);
 
             tryCompare(headerContainer.popover, "visible", true);
+
+            var searchTextField = findChild(pageHeader, "searchTextField");
+            compare(searchTextField.focus, true);
+
+            var recentSearches = findChild(headerContainer.popover, "recentSearches");
+            mouseClick(recentSearches.itemAt(0), 0, 0);
+
+            compare(pageHeader.searchQuery, "Search2");
+            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
+            compare(searchTextField.focus, false);
         }
 
         function test_popup_closing_data() {
