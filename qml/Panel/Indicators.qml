@@ -37,6 +37,7 @@ Showable {
     readonly property int lockThreshold: openedHeight / 2
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
+    property bool fullyClosed: height <= panelHeight
     property bool contentEnabled: true
     property bool initalizeItem: true
     readonly property alias content: menuContent

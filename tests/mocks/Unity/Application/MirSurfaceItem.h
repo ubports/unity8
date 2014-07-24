@@ -62,7 +62,7 @@ public:
     State state() const { return m_state; }
     QString name() const { return m_name; }
 
-    void setState(State newState);
+    Q_INVOKABLE void setState(State newState);
 
     Q_INVOKABLE void release() {}
 
