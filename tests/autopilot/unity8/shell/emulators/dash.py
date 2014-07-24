@@ -18,6 +18,7 @@
 #
 
 import logging
+import ubuntuuitoolkit
 
 from unity8.shell import emulators
 
@@ -151,6 +152,10 @@ class Dash(emulators.UnityEmulatorBase):
         return None
 
 
+class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
+    pass
+
+
 class GenericScopeView(emulators.UnityEmulatorBase):
     """Autopilot emulator for generic scopes."""
 
@@ -196,17 +201,15 @@ class DashApps(GenericScopeView):
         category_element = self._get_category_element(category)
         application_cards = category_element.select_many('AbstractButton')
 
-        # sort by y, x, filter those out of view
-        categoryBottom = category_element.globalRect.y \
-            + category_element.height
         application_cards = sorted(
             (card for card in application_cards
-                if card.globalRect.y < categoryBottom),
+             if card.globalRect.y
+                < category_element.globalRect.y + category_element.height),
             key=lambda card: (card.globalRect.y, card.globalRect.x))
 
         result = []
         for card in application_cards:
-            if card.objectName != 'cardToolCard':
+            if card.objectName not in ('cardToolCard', 'seeAll'):
                 result.append(card.title)
         return result
 
