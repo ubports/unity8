@@ -404,11 +404,11 @@ function cardString(template, components) {
         code += 'readonly property int headerHeight: mascotImage.height;\n'
     } else if (hasAttributes) {
         if (hasTitle && hasSubtitle) {
-            code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + subtitleLabel.height + subtitleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
+            code += 'readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
         } else if (hasTitle) {
-            code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin + attributesRow.height + attributesRow.anchors.topMargin;\n'
+            code += 'readonly property int headerHeight: titleLabel.height + attributesRow.height + attributesRow.anchors.topMargin;\n'
         } else {
-            code += 'readonly property int headerHeight: attributesRow.height + attributesRow.anchors.topMargin;\n'
+            code += 'readonly property int headerHeight: attributesRow.height;\n'
         }
     } else if (hasSubtitle) {
         code += 'readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;\n'
