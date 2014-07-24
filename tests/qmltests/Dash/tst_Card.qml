@@ -111,6 +111,7 @@ Rectangle {
         anchors { top: parent.top; left: parent.left; margins: units.gu(1) }
 
         sourceComponent: cardTool.cardComponent
+        clip: true
         onLoaded: {
             item.template = Qt.binding(function() { return cardTool.template; });
             item.components = Qt.binding(function() { return cardTool.components; });

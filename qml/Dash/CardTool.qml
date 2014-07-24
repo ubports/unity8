@@ -167,13 +167,14 @@ Item {
 
     Loader {
         id: cardLoader
-        property var fields: ["art", "mascot", "title", "subtitle", "summary"]
+        property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
         property var maxData: {
             "art": Qt.resolvedUrl("graphics/checkers.png"),
             "mascot": Qt.resolvedUrl("graphics/checkers.png"),
             "title": "—\n—",
             "subtitle": "—",
-            "summary": "—\n—\n—\n—\n—"
+            "summary": "—\n—\n—\n—\n—",
+            "attributes":  [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3","icon":"image://theme/ok"}]
         }
         sourceComponent: cardTool.cardComponent
         onLoaded: {
