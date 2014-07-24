@@ -82,6 +82,7 @@ public:
     #undef IMPLEMENT_PROPERTY
 
 public:
+    void setSurface(MirSurfaceItem* surface);
     MirSurfaceItem* surface() const { return m_surface; }
 
 Q_SIGNALS:
@@ -96,7 +97,6 @@ private Q_SLOTS:
     void onStateChanged(State state);
 
     void createSurface();
-    void destroySurface();
 
 private:
     void createWindowItem();

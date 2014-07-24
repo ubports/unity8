@@ -20,6 +20,8 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 
+class ApplicationInfo;
+
 class MirSurfaceItem : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -29,6 +31,8 @@ class MirSurfaceItem : public QQuickPaintedItem
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged)
+    Q_PROPERTY(QQmlListProperty<MirSurfaceItem> childSurfaces READ childSurfaces NOTIFY childSurfacesChanged DESIGNABLE false)
 
 public:
     enum Type {
@@ -56,24 +60,33 @@ public:
                             State state,
                             const QUrl& screenshot,
                             QQuickItem *parent = 0);
+    ~MirSurfaceItem();
 
     //getters
+    ApplicationInfo* application() const { return m_application; }
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
+    MirSurfaceItem* parentSurface() const { return m_parentSurface; }
+    void foreachChildSurface(std::function<void(MirSurfaceItem*)> f) const;
+
+    void setApplication(ApplicationInfo* item);
+    void setParentSurface(MirSurfaceItem* item);
 
     Q_INVOKABLE void setState(State newState);
-
-    Q_INVOKABLE void release() {}
+    Q_INVOKABLE void release();
 
     void paint(QPainter * painter) override;
-
     void touchEvent(QTouchEvent * event) override;
 
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void nameChanged(QString);
+    void parentSurfaceChanged(MirSurfaceItem*);
+    void childSurfacesChanged();
+
+    void removed();
 
     void inputMethodRequested();
     void inputMethodDismissed();
@@ -85,12 +98,21 @@ protected:
     const QImage &screenshotImage() { return m_img; }
 
 private:
+    void addChildSurface(MirSurfaceItem* surface);
+    void removeChildSurface(MirSurfaceItem* surface);
 
+    QQmlListProperty<MirSurfaceItem> childSurfaces();
+    static int childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
+    static MirSurfaceItem* childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
+
+    ApplicationInfo* m_application;
     const QString m_name;
     const Type m_type;
     State m_state;
     const QImage m_img;
 
+    MirSurfaceItem* m_parentSurface;
+    QList<MirSurfaceItem*> m_children;
     bool m_haveInputMethod;
 };
 
