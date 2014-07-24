@@ -571,9 +571,10 @@ Item {
             greeter.hide()
         }
 
-        var animate = !LightDM.Greeter.active && !stages.shown
         // FIXME: IPC to dash-app needed?
+        //var animate = !LightDM.Greeter.active && !stages.shown
         //dash.setCurrentScope("clickscope", animate, false)
+        ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
     function showDash() {
