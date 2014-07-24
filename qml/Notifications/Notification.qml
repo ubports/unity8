@@ -39,19 +39,13 @@ Item {
     property bool fullscreen: false
     property int maxHeight
     property int margins
-    property Gradient greenGradient : Gradient {
-        GradientStop { position: 0.0; color: "#3fb24f" }
-        GradientStop { position: 1.0; color: "#3fb24f" }
-    }
-    property Gradient darkgreyGradient: Gradient {
-        GradientStop { position: 0.0; color: "#4d4745" }
-        GradientStop { position: 1.0; color: "#4d4745" }
-    }
+    readonly property color red: "#fc4949"
+    readonly property color green: "#3fb24f"
 
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
-    color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
+    color: type == Notification.SnapDecision ? "#eaeaea" : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
 
     state: {
@@ -227,21 +221,11 @@ Item {
                     height: units.gu(6)
                     shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
                     visible: iconSource !== undefined && iconSource != ""
-               }
-
-               Image {
-                   id: secondaryIcon
-
-                   objectName: "secondaryIcon"
-                   width: units.gu(2)
-                   height: units.gu(2)
-                   visible: source !== undefined && source != ""
-                   fillMode: Image.PreserveAspectCrop
-               }
+                }
 
                 Column {
                     id: labelColumn
-                    width: parent.width - x
+                    width: secondaryIcon.visible ? parent.width - x - units.gu(4.5) : parent.width - x
 
                     anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
 
@@ -255,7 +239,7 @@ Item {
                         }
                         fontSize: "medium"
                         font.bold: true
-                        color: Theme.palette.selected.backgroundText
+                        color: type == Notification.SnapDecision ? "#5d5d5d" :Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                     }
 
@@ -269,13 +253,32 @@ Item {
                         }
                         visible: body != ""
                         fontSize: "small"
-                        color: Theme.palette.selected.backgroundText
-                        opacity: 0.6
+                        color: type == Notification.SnapDecision ? "#5d5d5d" : Theme.palette.selected.backgroundText
+                        opacity: type == Notification.SnapDecision ? 1.0 : 0.6
                         wrapMode: Text.WordWrap
                         maximumLineCount: 10
                         elide: Text.ElideRight
                     }
                 }
+
+                /*Rectangle {
+                    width: units.gu(3)
+                    height: units.gu(3)
+                    color: "#ff0000"
+                }*/
+                Image {
+                    id: secondaryIcon
+
+                    objectName: "secondaryIcon"
+                    width: units.gu(3)
+                    height: units.gu(3)
+                    visible: source !== undefined && source != ""
+                    fillMode: Image.PreserveAspectCrop
+                }
+            }
+
+            ListItem.ThinDivider {
+                visible: type == Notification.SnapDecision 
             }
 
             Column {
@@ -344,7 +347,14 @@ Item {
                                 objectName: "button" + index
                                 width: buttonRow.width / 2 - spacing
                                 text: loader.actionLabel
-                                gradient: notification.hints["x-canonical-private-button-tint"] == "true" && index == 0 ? greenGradient : darkgreyGradient
+                                color: {
+                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
+                                        return green;
+                                    }
+                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
+                                        return red;
+                                    }
+                                }
                                 onClicked: notification.notification.invokeAction(loader.actionId)
                             }
                         }
@@ -359,7 +369,7 @@ Item {
                 objectName: "button2"
                 width: parent.width
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
-                gradient: darkgreyGradient
+                color: "#dddddd"
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
                 expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
@@ -415,7 +425,7 @@ Item {
                                             }
                                             width: units.gu(2)
                                             height: units.gu(2)
-                                            color: "white"
+                                            color: "#5d5d5d"
                                             name: splitLabel[2]
                                         }
 
@@ -428,7 +438,7 @@ Item {
                                                 verticalCenter: comboIcon.verticalCenter
                                             }
                                             fontSize: "small"
-                                            color: "white"
+                                            color: "#5d5d5d"
                                             text: splitLabel[3]
                                         }
                                     }
