@@ -91,11 +91,12 @@ void ApplicationInfo::createSurface()
 void ApplicationInfo::destroySurface()
 {
     if (!m_surface) return;
+
+    SurfaceManager::singleton()->unregisterSurface(m_surface);
+
     MirSurfaceItem* oldSurface = m_surface;
     m_surface = nullptr;
-
     Q_EMIT surfaceChanged(nullptr);
-    SurfaceManager::singleton()->unregisterSurface(m_surface);
     oldSurface->deleteLater();
 }
 
