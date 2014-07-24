@@ -35,11 +35,11 @@ Item {
     signal clicked()
     signal closed()
 
-    Item {
+    SurfaceContainer {
         id: surfaceContainer
         objectName: "surfaceContainer" + index
         anchors.fill: parent
-        readonly property var surface: model.surface
+        surface: model.surface
         property bool appHasCreatedASurface: false
 
         onSurfaceChanged: {
@@ -48,25 +48,20 @@ Item {
                     surface.visible = false; // hide until splash screen removed
                     appHasCreatedASurface = true;
                 }
-
-                surface.parent = surfaceContainer;
-                surface.anchors.fill = surfaceContainer;
-                surfaceContainer.checkFullscreen(surface);
-                surface.z = 1;
-            }
-        }
-
-        function checkFullscreen(surface) {
-            if (surface.state === MirSurfaceItem.Fullscreen) {
-                surface.anchors.topMargin = 0;
-            } else {
-                surface.anchors.topMargin = maximizedAppTopMargin;
             }
         }
 
         function revealSurface() {
             surface.visible = true;
             splashLoader.source = "";
+        }
+
+        Binding {
+            target: surfaceContainer.surface
+            property: "anchors.topMargin"
+            value: {
+                return surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
+            }
         }
 
         Binding {
@@ -88,7 +83,6 @@ Item {
 
         Connections {
             target: surface
-            onStateChanged: surfaceContainer.checkFullscreen(surface);
             // FIXME: I would rather not need to do this, but currently it doesn't get
             // active focus without it and I don't know why.
             onFocusChanged: forceSurfaceActiveFocusIfReady();

@@ -15,6 +15,7 @@
  */
 
 #include "ApplicationManager.h"
+#include "ApplicationDBusAdaptor.h"
 #include "ApplicationInfo.h"
 #include "MirSurfaceItem.h"
 
@@ -27,6 +28,22 @@
 #include <QQmlComponent>
 #include <QTimer>
 #include <QDateTime>
+#include <QtDBus/QtDBus>
+
+ApplicationManager *ApplicationManager::the_application_manager = nullptr;
+
+ApplicationManager *ApplicationManager::singleton()
+{
+    if (!the_application_manager) {
+        the_application_manager = new ApplicationManager();
+        new ApplicationDBusAdaptor(the_application_manager);
+
+        QDBusConnection connection = QDBusConnection::sessionBus();
+        connection.registerService("com.canonical.Unity8");
+        connection.registerObject("/com/canonical/Unity8/Mocks", the_application_manager);
+    }
+    return the_application_manager;
+}
 
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
@@ -284,6 +301,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
             if (app->focused() && app->stage() == ApplicationInfo::MainStage) {
                 app->setFocused(false);
                 app->hideWindow();
+                app->setState(ApplicationInfo::Suspended);
             }
         }
 
@@ -291,6 +309,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
         application->setFocused(true);
         if (!m_mainStage)
             createMainStage();
+        application->setState(ApplicationInfo::Running);
         application->showWindow(m_mainStage);
         m_mainStage->setZ(-1000);
         if (m_sideStage)
@@ -301,6 +320,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
             if (app->focused() && app->stage() == ApplicationInfo::SideStage) {
                 app->setFocused(false);
                 app->hideWindow();
+                app->setState(ApplicationInfo::Suspended);
             }
         }
 
@@ -308,6 +328,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
         application->setFocused(true);
         if (!m_sideStage)
             createSideStage();
+        application->setState(ApplicationInfo::Running);
         application->showWindow(m_sideStage);
         m_sideStage->setZ(-1000);
         if (m_mainStage)

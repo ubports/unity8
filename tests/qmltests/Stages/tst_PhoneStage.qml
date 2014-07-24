@@ -44,7 +44,6 @@ Item {
 
     Rectangle {
         anchors { fill: parent; leftMargin: phoneStage.width }
-//        color: "blue"
 
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
@@ -58,7 +57,10 @@ Item {
             }
             Button {
                 anchors { left: parent.left; right: parent.right }
-                text: "Add App"
+                text: "Remove App"
+                onClicked: {
+                    ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+                }
             }
         }
     }
@@ -226,39 +228,6 @@ Item {
             tryCompare(spreadView, "contentX", -spreadView.shift);
 
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
-        }
-
-        function test_fullscreenMode() {
-            var fullscreenApp = null;
-            var normalApp = null;
-
-            for (var i = 0; i < 5; i++) {
-                addApps(1);
-                var newApp = ApplicationManager.get(0);
-                tryCompare(phoneStage, "fullscreen", newApp.fullscreen);
-                if (newApp.fullscreen && fullscreenApp == null) {
-                    fullscreenApp = newApp;
-                } else if (!newApp.fullscreen && normalApp == null){
-                    normalApp = newApp;
-                }
-            }
-            verify(fullscreenApp != null); // Can't continue the test without having a fullscreen app
-            verify(normalApp != null); // Can't continue the test without having a non-fullscreen app
-
-            // Select a normal app
-            goToSpread();
-            phoneStage.select(normalApp.appId);
-            tryCompare(phoneStage, "fullscreen", false);
-
-            // Select a fullscreen app
-            goToSpread();
-            phoneStage.select(fullscreenApp.appId);
-            tryCompare(phoneStage, "fullscreen", true);
-
-            // Select a normal app
-            goToSpread();
-            phoneStage.select(normalApp.appId);
-            tryCompare(phoneStage, "fullscreen", false);
         }
 
         function cleanup() {

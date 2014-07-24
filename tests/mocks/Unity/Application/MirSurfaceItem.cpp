@@ -15,8 +15,10 @@
  */
 
 #include "MirSurfaceItem.h"
+#include "ApplicationInfo.h"
 
 #include <QPainter>
+#include <QQmlEngine>
 
 MirSurfaceItem::MirSurfaceItem(const QString& name,
                                MirSurfaceItem::Type type,
@@ -24,12 +26,16 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
                                const QUrl& screenshot,
                                QQuickItem *parent)
     : QQuickPaintedItem(parent)
+    , m_application(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)
     , m_img(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString())
+    , m_parentSurface(nullptr)
     , m_haveInputMethod(false)
 {
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
     // The virtual keyboard (input method) has a big transparent area so that
     // content behind it show through
     setFillColor(Qt::transparent);
@@ -38,12 +44,110 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
             this, &MirSurfaceItem::onFocusChanged);
 }
 
+MirSurfaceItem::~MirSurfaceItem()
+{
+    QList<MirSurfaceItem*> children(m_children);
+    for (MirSurfaceItem* child : children) {
+        child->setParentSurface(nullptr);
+    }
+    if (m_parentSurface)
+        m_parentSurface->removeChildSurface(this);
+
+    if (m_application)
+        m_application->setSurface(nullptr);
+}
+
 void MirSurfaceItem::paint(QPainter * painter)
 {
     if (!m_img.isNull()) {
         painter->drawImage(contentsBoundingRect(), m_img, QRect(QPoint(0,0), m_img.size()));
     }
 }
+
+void MirSurfaceItem::release()
+{
+    QList<MirSurfaceItem*> children(m_children);
+    for (MirSurfaceItem* child : children) {
+        child->release();
+    }
+    if (m_parentSurface) {
+        m_parentSurface->removeChildSurface(this);
+    }
+
+    if (m_application) {
+        m_application->setSurface(nullptr);
+    }
+    if (!parent()) {
+        deleteLater();
+    }
+}
+
+void MirSurfaceItem::setApplication(ApplicationInfo* application)
+{
+    m_application = application;
+}
+
+void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
+{
+    if (m_parentSurface == surface || surface == this)
+        return;
+
+    if (m_parentSurface) {
+        m_parentSurface->removeChildSurface(this);
+    }
+
+    m_parentSurface = surface;
+
+    if (m_parentSurface) {
+        m_parentSurface->addChildSurface(this);
+    }
+    Q_EMIT parentSurfaceChanged(surface);
+}
+
+void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
+{
+    if (m_children.contains(surface)) {
+        m_children.removeOne(surface);
+        Q_EMIT childSurfacesChanged();
+    }
+}
+
+void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
+{
+    m_children.append(surface);
+    Q_EMIT childSurfacesChanged();
+}
+
+void MirSurfaceItem::foreachChildSurface(std::function<void(MirSurfaceItem*)> f) const
+{
+    for(MirSurfaceItem* child : m_children) {
+        f(child);
+    }
+}
+
+QQmlListProperty<MirSurfaceItem> MirSurfaceItem::childSurfaces()
+{
+    return QQmlListProperty<MirSurfaceItem>(this,
+                                            0,
+                                            MirSurfaceItem::childSurfaceCount,
+                                            MirSurfaceItem::childSurfaceAt);
+}
+
+int MirSurfaceItem::childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
+{
+    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
+    return p->m_children.count();
+}
+
+MirSurfaceItem* MirSurfaceItem::childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
+{
+    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
+
+    if (index < 0 || index >= p->m_children.count())
+        return nullptr;
+    return p->m_children[index];
+}
+
 
 void MirSurfaceItem::touchEvent(QTouchEvent * event)
 {
