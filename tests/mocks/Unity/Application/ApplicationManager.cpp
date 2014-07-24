@@ -59,7 +59,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
 
     buildListOfAvailableApplications();
 
-    startDash();
+    startApplication("unity8-dash");
 }
 
 ApplicationManager::~ApplicationManager()
@@ -632,9 +632,4 @@ void ApplicationManager::setRightMargin(int rightMargin)
 bool ApplicationManager::isEmpty() const
 {
     return m_runningApplications.isEmpty();
-}
-
-void ApplicationManager::startDash()
-{
-    startApplication("unity8-dash");
 }
