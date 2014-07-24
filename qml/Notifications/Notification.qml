@@ -41,11 +41,13 @@ Item {
     property int margins
     readonly property color red: "#fc4949"
     readonly property color green: "#3fb24f"
+    readonly property color sdLightGrey: "#eaeaea"
+    readonly property color sdDarkGrey: "#dddddd"
 
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
-    color: type == Notification.SnapDecision ? "#eaeaea" : Qt.rgba(0.132, 0.117, 0.109, 0.97)
+    color: type == Notification.SnapDecision ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
 
     state: {
@@ -202,7 +204,7 @@ Item {
                 margins: fullscreen ? 0 : spacing
             }
 
-            spacing: units.gu(1)
+            spacing: units.gu(2)
 
             Row {
                 id: topRow
@@ -261,11 +263,6 @@ Item {
                     }
                 }
 
-                /*Rectangle {
-                    width: units.gu(3)
-                    height: units.gu(3)
-                    color: "#ff0000"
-                }*/
                 Image {
                     id: secondaryIcon
 
@@ -327,7 +324,7 @@ Item {
                     right: parent.right
                 }
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
-                spacing: units.gu(1)
+                spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 
                 Repeater {
@@ -348,12 +345,14 @@ Item {
                                 width: buttonRow.width / 2 - spacing
                                 text: loader.actionLabel
                                 color: {
+                                    var result = sdDarkGrey;
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
-                                        return green;
+                                        result = green;
                                     }
                                     if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
-                                        return red;
+                                        result = red;
                                     }
+                                    return result;
                                 }
                                 onClicked: notification.notification.invokeAction(loader.actionId)
                             }
@@ -369,7 +368,7 @@ Item {
                 objectName: "button2"
                 width: parent.width
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
-                color: "#dddddd"
+                color: sdDarkGrey
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
                 expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
