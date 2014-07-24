@@ -209,7 +209,7 @@ class DashApps(GenericScopeView):
 
         result = []
         for card in application_cards:
-            if card.objectName != 'cardToolCard':
+            if card.objectName not in ('cardToolCard', 'seeAll'):
                 result.append(card.title)
         return result
 

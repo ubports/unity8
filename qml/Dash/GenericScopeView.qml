@@ -260,13 +260,13 @@ FocusScope {
                             var shouldExpand = categoryId === categoryView.expandedCategoryId;
                             if (shouldExpand != baseItem.expanded) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight < categoryView.height;
+                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
                                 var growingVisible = shouldExpand && y + height < categoryView.height;
                                 if (!previewListView.open || shouldExpand) {
                                     var animate = shrinkingVisible || growingVisible;
                                     baseItem.expand(shouldExpand, animate)
                                     if (shouldExpand && !previewListView.open) {
-                                        categoryView.maximizeVisibleArea(index, item.expandedHeight);
+                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
                                     }
                                 }
                             }
@@ -303,35 +303,68 @@ FocusScope {
                             item.displayMarginEnd = -baseItem.height;
                         } else {
                             item.displayMarginBeginning = -Math.max(-baseItem.y, 0);
-                            item.displayMarginEnd = -Math.max(baseItem.height - categoryView.height + baseItem.y, 0)
+                            item.displayMarginEnd = -Math.max(baseItem.height - seeAll.height
+                                                              - categoryView.height + baseItem.y, 0)
                         }
                     }
                 }
+            }
 
-                Image {
-                    visible: index != 0
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        right: parent.right
+            AbstractButton {
+                id: seeAll
+                objectName: "seeAll"
+                anchors {
+                    top: rendererLoader.bottom
+                    left: parent.left
+                    right: parent.right
+                }
+                height: baseItem.expandable ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+
+                onClicked: {
+                    if (categoryView.expandedCategoryId != baseItem.category) {
+                        categoryView.expandedCategoryId = baseItem.category;
+                    } else {
+                        categoryView.expandedCategoryId = "";
                     }
-                    fillMode: Image.Stretch
-                    source: "graphics/dash_divider_top_lightgrad.png"
-                    z: -1
                 }
 
-                Image {
-                    // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
-                    visible: index != categoryView.model.count - 1
+                Label {
+                    id: seeAllLabel
+                    text: baseItem.expanded ? i18n.tr("See less") : i18n.tr("See all")
                     anchors {
-                        bottom: parent.bottom
-                        left: parent.left
-                        right: parent.right
+                        centerIn: parent
+                        verticalCenterOffset: units.gu(-0.5)
                     }
-                    fillMode: Image.Stretch
-                    source: "graphics/dash_divider_top_darkgrad.png"
-                    z: -1
+                    fontSize: "small"
+                    font.weight: Font.Bold
+                    color: scopeStyle ? scopeStyle.foreground : "grey"
+                    visible: baseItem.expandable
                 }
+            }
+
+            Image {
+                visible: index != 0
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                fillMode: Image.Stretch
+                source: "graphics/dash_divider_top_lightgrad.png"
+                z: -1
+            }
+
+            Image {
+                // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
+                visible: index != categoryView.model.count - 1
+                anchors {
+                    bottom: seeAll.bottom
+                    left: parent.left
+                    right: parent.right
+                }
+                fillMode: Image.Stretch
+                source: "graphics/dash_divider_top_darkgrad.png"
+                z: -1
             }
         }
 
@@ -342,17 +375,6 @@ FocusScope {
             width: categoryView.width
             text: section
             textColor: scopeStyle ? scopeStyle.foreground : "grey"
-            image: {
-                if (delegate && delegate.expandable)
-                    return delegate.expanded ? "graphics/header_handlearrow2.png" : "graphics/header_handlearrow.png"
-                return "";
-            }
-            onClicked: {
-                if (categoryView.expandedCategoryId != delegate.category)
-                    categoryView.expandedCategoryId = delegate.category;
-                else
-                    categoryView.expandedCategoryId = "";
-            }
         }
 
         pageHeader: PageHeader {
