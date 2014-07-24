@@ -19,7 +19,6 @@ import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
@@ -94,9 +93,7 @@ Item {
 
         Keys.onPressed: {
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                if (!powerKeyTimer.running) {
-                    powerKeyTimer.start();
-                }
+                dialogs.onPowerKeyPressed();
                 event.accepted = true;
             } else {
                 event.accepted = false;
@@ -105,7 +102,7 @@ Item {
 
         Keys.onReleased: {
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                powerKeyTimer.stop();
+                dialogs.onPowerKeyReleased();
                 event.accepted = true;
             } else {
                 event.accepted = false;
@@ -268,170 +265,6 @@ Item {
                 if (ApplicationManager.empty) {
                     stages.hide();
                 }
-            }
-        }
-
-        property bool dialogShown: false
-
-        Component {
-            id: logoutDialog
-            Dialog {
-                id: dialogueLogout
-                title: "Logout"
-                text: "Are you sure that you want to logout?"
-                Button {
-                    text: "Cancel"
-                    onClicked: {
-                        PopupUtils.close(dialogueLogout);
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: "Yes"
-                    onClicked: {
-                        DBusUnitySessionService.Logout();
-                        PopupUtils.close(dialogueLogout);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        Component {
-            id: shutdownDialog
-            Dialog {
-                id: dialogueShutdown
-                title: "Shutdown"
-                text: "Are you sure that you want to shutdown?"
-                Button {
-                    text: "Cancel"
-                    onClicked: {
-                        PopupUtils.close(dialogueShutdown);
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: "Yes"
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        DBusUnitySessionService.Shutdown();
-                        PopupUtils.close(dialogueShutdown);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        Component {
-            id: rebootDialog
-            Dialog {
-                id: dialogueReboot
-                title: "Reboot"
-                text: "Are you sure that you want to reboot?"
-                Button {
-                    text: "Cancel"
-                    onClicked: {
-                        PopupUtils.close(dialogueReboot)
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: "Yes"
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        DBusUnitySessionService.Reboot();
-                        PopupUtils.close(dialogueReboot);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        Component {
-            id: powerDialog
-            Dialog {
-                id: dialoguePower
-                title: "Power"
-                text: i18n.tr("Are you sure you would like to turn power off?")
-                Button {
-                    text: i18n.tr("Power off")
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        PopupUtils.close(dialoguePower);
-                        stages.dialogShown = false;
-                        shutdownFadeOutRectangle.enabled = true;
-                        shutdownFadeOutRectangle.visible = true;
-                        shutdownFadeOut.start();
-                    }
-                }
-                Button {
-                    text: i18n.tr("Restart")
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        DBusUnitySessionService.Reboot();
-                        PopupUtils.close(dialoguePower);
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: i18n.tr("Cancel")
-                    onClicked: {
-                        PopupUtils.close(dialoguePower);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        function showPowerDialog() {
-            if (!stages.dialogShown) {
-                stages.dialogShown = true;
-                PopupUtils.open(powerDialog);
-            }
-        }
-
-        Connections {
-            id: dBusUnitySessionServiceConnection
-            objectName: "dBusUnitySessionServiceConnection"
-            target: DBusUnitySessionService
-
-            function closeAllApps() {
-                while (true) {
-                    var app = ApplicationManager.get(0);
-                    if (app === null) {
-                        break;
-                    }
-                    ApplicationManager.stopApplication(app.appId);
-                }
-            }
-
-            onLogoutRequested: {
-                // Display a dialog to ask the user to confirm.
-                if (!stages.dialogShown) {
-                    stages.dialogShown = true;
-                    PopupUtils.open(logoutDialog);
-                }
-            }
-
-            onShutdownRequested: {
-                // Display a dialog to ask the user to confirm.
-                if (!stages.dialogShown) {
-                    stages.dialogShown = true;
-                    PopupUtils.open(shutdownDialog);
-                }
-            }
-
-            onRebootRequested: {
-                // Display a dialog to ask the user to confirm.
-                if (!stages.dialogShown) {
-                    stages.dialogShown = true;
-                    PopupUtils.open(rebootDialog);
-                }
-            }
-
-            onLogoutReady: {
-                closeAllApps();
-                Qt.quit();
             }
         }
 
@@ -812,11 +645,22 @@ Item {
         value: "unity8"
     }
 
+    Dialogs {
+        id: dialogs
+        anchors.fill: parent
+        z: overlay.z + 10
+        onPowerOffClicked: {
+            shutdownFadeOutRectangle.enabled = true;
+            shutdownFadeOutRectangle.visible = true;
+            shutdownFadeOut.start();
+        }
+    }
+
     Label {
         id: alphaDisclaimerLabel
         anchors.centerIn: parent
         visible: ApplicationManager.fake ? ApplicationManager.fake : false
-        z: overlay.z + 10
+        z: dialogs.z + 10
         text: "EARLY ALPHA\nNOT READY FOR USE"
         color: "lightgrey"
         opacity: 0.2
@@ -843,19 +687,9 @@ Item {
         onShowHome: showHome()
     }
 
-    Timer {
-        id: powerKeyTimer
-        interval: 2000
-        repeat: false
-        triggeredOnStart: false
-
-        onTriggered: {
-            stages.showPowerDialog();
-        }
-    }
-
     Rectangle {
         id: shutdownFadeOutRectangle
+        z: edgeDemo.z + 10
         enabled: false
         visible: false
         color: "black"
@@ -872,4 +706,5 @@ Item {
             }
         }
     }
+
 }
