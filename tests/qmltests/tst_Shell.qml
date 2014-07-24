@@ -279,7 +279,6 @@ Item {
 
         function dragLauncherIntoView() {
             var launcherPanel = findChild(shell, "launcherPanel");
-            print("launcher is at", launcherPanel.x)
             verify(launcherPanel.x = - launcherPanel.width);
 
             var touchStartX = 2;
@@ -375,6 +374,7 @@ Item {
             sessionSpy.clear()
 
             var greeter = findChild(shell, "greeter")
+            waitForRendering(greeter)
             greeter.show()
             tryCompare(greeter, "showProgress", 1)
 

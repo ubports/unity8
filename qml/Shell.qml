@@ -458,7 +458,7 @@ Item {
                 ApplicationManager.focusedApplicationId &&
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
-            fullscreenMode: (stages.roughlyFullyShown && topmostApplicationIsFullscreen
+            fullscreenMode: (topmostApplicationIsFullscreen
                     && !LightDM.Greeter.active) || greeter.fakeActiveForApp !== ""
         }
 
