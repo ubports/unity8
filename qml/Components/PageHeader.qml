@@ -300,6 +300,7 @@ Item {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
                             PopupUtils.close(popover);
+                            unfocus();
                         }
                     }
                 }
