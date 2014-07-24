@@ -17,26 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Qt
-//#include <QCommandLineParser>
 #include <QtQuick/QQuickView>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
-//#include <qpa/qplatformnativeinterface.h>
-//#include <QLibrary>
 #include <QDebug>
-//#include <libintl.h>
-//#include <dlfcn.h>
-//#include <csignal>
 
-//// local
 #include <paths.h>
-//#include "MouseTouchAdaptor.h"
-//#include "ApplicationArguments.h"
-
-//#include <unity-mir/qmirserver.h>
-
 
 int main(int argc, const char *argv[])
 {
@@ -45,8 +32,6 @@ int main(int argc, const char *argv[])
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Unity Dash");
-//    view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
-//    view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
 
     QUrl source(::qmlDirectory()+"Dash/DashApplication.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
@@ -56,8 +41,6 @@ int main(int argc, const char *argv[])
     view->show();
 
     int result = application->exec();
-
-    qDebug() << "fooooooooooo" << result;
 
     delete view;
     delete application;
