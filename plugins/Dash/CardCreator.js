@@ -114,7 +114,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
-                                opacity: 0.6; \n\
+                                property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
                                     sourceItem: artShapeLoader.item; \n\
@@ -135,9 +135,10 @@ var kOverlayLoaderCode = 'Loader { \n\
                                     varying highp vec2 coord; \n\
                                     uniform sampler2D source; \n\
                                     uniform lowp float qt_Opacity; \n\
+                                    uniform highp vec4 overlayColor; \n\
                                     void main() { \n\
                                         lowp vec4 tex = texture2D(source, coord); \n\
-                                        gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity; \n\
+                                        gl_FragColor = vec4(overlayColor.r, overlayColor.g, overlayColor.b, 1) * qt_Opacity * overlayColor.a * tex.a; \n\
                                     }"; \n\
                             } \n\
                         }\n';
