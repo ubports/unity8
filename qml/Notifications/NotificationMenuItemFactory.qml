@@ -53,6 +53,7 @@ Loader {
             anchors {
                 left: parent.left
                 right: parent.right
+                margins: spacing
             }
 
             Component.onCompleted: {
@@ -63,6 +64,7 @@ Loader {
 
             Label {
                 text: menuData.label
+                color: notification.sdFontColor //"#5d5d5d"
             }
 
             TextField {
@@ -95,6 +97,7 @@ Loader {
                 Label {
                     anchors.verticalCenter: checkBox.verticalCenter
                     text: i18n.tr("Show password")
+                    color: notification.sdFontColor //"#5d5d5d"
                 }
             }
         }

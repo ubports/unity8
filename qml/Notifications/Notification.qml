@@ -43,9 +43,11 @@ Item {
     readonly property color green: "#3fb24f"
     readonly property color sdLightGrey: "#eaeaea"
     readonly property color sdDarkGrey: "#dddddd"
+    readonly property color sdFontColor: "#5d5d5d"
+    readonly property real contentSpacing: units.gu(2)
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + contentSpacing * 2) : 0
 
     color: type == Notification.SnapDecision ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
@@ -194,14 +196,14 @@ Item {
         }
 
         Column {
-            id: contentColumn
-            objectName: "contentColumn"
+            id: outterColumn
 
             anchors {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                margins: fullscreen ? 0 : spacing
+                margins: 0
+                topMargin: units.gu(2)
             }
 
             spacing: units.gu(2)
@@ -209,10 +211,11 @@ Item {
             Row {
                 id: topRow
 
-                spacing: contentColumn.spacing
+                spacing: contentSpacing
                 anchors {
                     left: parent.left
                     right: parent.right
+                    margins: contentSpacing
                 }
 
                 ShapedIcon {
@@ -240,8 +243,7 @@ Item {
                             right: parent.right
                         }
                         fontSize: "medium"
-                        font.bold: true
-                        color: type == Notification.SnapDecision ? "#5d5d5d" :Theme.palette.selected.backgroundText
+                        color: type == Notification.SnapDecision ? sdFontColor :Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                     }
 
@@ -255,7 +257,7 @@ Item {
                         }
                         visible: body != ""
                         fontSize: "small"
-                        color: type == Notification.SnapDecision ? "#5d5d5d" : Theme.palette.selected.backgroundText
+                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
                         opacity: type == Notification.SnapDecision ? 1.0 : 0.6
                         wrapMode: Text.WordWrap
                         maximumLineCount: 10
@@ -275,7 +277,7 @@ Item {
             }
 
             ListItem.ThinDivider {
-                visible: type == Notification.SnapDecision 
+                visible: type == Notification.SnapDecision
             }
 
             Column {
@@ -322,6 +324,7 @@ Item {
                 anchors {
                     left: parent.left
                     right: parent.right
+                    margins: contentSpacing
                 }
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
                 spacing: units.gu(2)
@@ -342,7 +345,7 @@ Item {
 
                             Button {
                                 objectName: "button" + index
-                                width: buttonRow.width / 2 - spacing
+                                width: buttonRow.width / 2 - spacing*2
                                 text: loader.actionLabel
                                 color: {
                                     var result = sdDarkGrey;
@@ -367,6 +370,12 @@ Item {
 
                 objectName: "button2"
                 width: parent.width
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: contentSpacing
+                }
+
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
                 color: sdDarkGrey
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
