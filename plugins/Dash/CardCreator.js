@@ -575,6 +575,8 @@ function cardString(template, components) {
         code += 'implicitHeight: row.y + row.height + units.gu(1);\n';
     } else if (hasMascot) {
         code += 'implicitHeight: mascotImage.y + mascotImage.height;\n';
+    } else if (hasAttributes) {
+        code += 'implicitHeight: attributesRow.y + attributesRow.height + units.gu(1);\n';
     } else if (hasSubtitle) {
         code += 'implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
     } else if (hasTitle) {
