@@ -185,20 +185,8 @@ Item {
                             anchors.fill: parent
                             anchors.margins: units.gu(.75)
                             source: "image://theme/clear"
-                            opacity: searchTextField.text.length > 0 && !searchActivityIndicator.running
+                            opacity: searchTextField.text.length > 0
                             visible: opacity > 0
-                            Behavior on opacity {
-                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
-                            }
-                        }
-
-                        ActivityIndicator {
-                            id: searchActivityIndicator
-                            objectName: "searchIndicator"
-                            anchors.fill: parent
-                            anchors.margins: units.gu(.75)
-                            running: root.searchInProgress
-                            opacity: running ? 1 : 0
                             Behavior on opacity {
                                 UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
                             }
@@ -307,7 +295,7 @@ Item {
         }
     }
 
-    BorderImage {
+    Rectangle {
         id: bottomBorder
         anchors {
             top: headerContainer.bottom
@@ -316,7 +304,7 @@ Item {
             bottom: bottomContainer.top
         }
 
-        source: "graphics/PageHeaderBaseDivider.sci"
+        color: "#d7d7d7"
     }
 
     Item {

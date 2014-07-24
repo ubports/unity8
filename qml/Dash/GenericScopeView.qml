@@ -340,6 +340,7 @@ FocusScope {
             scopeStyle: scopeView.scopeStyle
 
             bottomItem: DashDepartments {
+                id: departments
                 scope: scopeView.scope
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right
@@ -364,6 +365,47 @@ FocusScope {
 
         onOpenChanged: {
             pageHeader.unfocus();
+        }
+    }
+
+    Rectangle {
+        id: indicator
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        clip: true
+        height: units.dp(3)
+        color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"
+        visible: opacity > 0
+        opacity: scope && scope.searchInProgress && !departments.showList ? 1.0 : 0.0
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+        }
+
+        Rectangle {
+            id: orange
+            anchors { top: parent.top;  bottom: parent.bottom }
+            width: parent.width / 4
+            color: Theme.palette.selected.foreground
+
+            SequentialAnimation on x {
+                running: visible
+                loops: Animation.Infinite
+                PropertyAnimation {
+                    from: -orange.width / 2
+                    to: indicator.width - orange.width / 2
+                    duration: UbuntuAnimation.SleepyDuration
+                    easing.type: Easing.InOutSine
+                }
+                PropertyAnimation {
+                    from: indicator.width - orange.width / 2
+                    to: -orange.width / 2
+                    duration: UbuntuAnimation.SleepyDuration
+                    easing.type: Easing.InOutSine
+                }
+            }
         }
     }
 
