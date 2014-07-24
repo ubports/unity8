@@ -118,6 +118,9 @@ class ApplicationManager : public ApplicationManagerInterface {
     void focusRequested(const QString &appId);
     void emptyChanged(bool empty);
 
+ private Q_SLOTS:
+    void startDash();
+
  private:
     void add(ApplicationInfo *application);
     void remove(ApplicationInfo* application);

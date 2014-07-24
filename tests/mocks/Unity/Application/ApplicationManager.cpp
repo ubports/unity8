@@ -41,6 +41,8 @@ ApplicationManager::ApplicationManager(QObject *parent)
     m_roleNames.insert(RoleFullscreen, "fullscreen");
 
     buildListOfAvailableApplications();
+
+    startDash();
 }
 
 ApplicationManager::~ApplicationManager()
@@ -205,6 +207,10 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
 
 bool ApplicationManager::stopApplication(const QString &appId)
 {
+    if (appId == "unity8-dash") {
+        return false;
+    }
+
     ApplicationInfo *application = findApplication(appId);
     if (application == nullptr)
         return false;
@@ -379,6 +385,14 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
 void ApplicationManager::buildListOfAvailableApplications()
 {
     ApplicationInfo *application;
+
+    application = new ApplicationInfo(this);
+    application->setAppId("unity8-dash");
+    application->setName("Unity 8 Mock Dash");
+    application->setIcon(QUrl("unity8-dash"));
+    application->setStage(ApplicationInfo::SideStage);
+    generateQmlStrings(application);
+    m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("dialer-app");
@@ -597,4 +611,9 @@ void ApplicationManager::setRightMargin(int rightMargin)
 bool ApplicationManager::isEmpty() const
 {
     return m_runningApplications.isEmpty();
+}
+
+void ApplicationManager::startDash()
+{
+    startApplication("unity8-dash");
 }

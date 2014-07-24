@@ -85,6 +85,7 @@ Item {
 
     DashCommunicator {
         id: dash
+        objectName: "dashCommunicator"
     }
 
     WindowKeysFilter {
@@ -475,7 +476,7 @@ Item {
 
             onShowDashHome: showHome()
             onDash: showDash()
-            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
+            onDashSwipeChanged: if (dashSwipe) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected: {
                 if (greeter.fakeActiveForApp !== "") {
                     lockscreen.show()

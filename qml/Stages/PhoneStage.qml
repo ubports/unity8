@@ -190,6 +190,12 @@ Item {
             snapAnimation.start();
         }
 
+        // In case the ApplicationManager already holds an app when starting up we're missing animations
+        // Make sure we end up in the same state
+        Component.onCompleted: {
+            spreadView.contentX = -spreadView.shift
+        }
+
         SequentialAnimation {
             id: snapAnimation
             property int targetContentX: -spreadView.shift
