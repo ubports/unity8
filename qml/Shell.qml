@@ -19,7 +19,6 @@ import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
