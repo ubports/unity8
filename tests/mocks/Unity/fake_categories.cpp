@@ -145,8 +145,11 @@ Categories::data(const QModelIndex& index, int role) const
                 } else {
                     map["category-layout"] = "carousel";
                     map["card-size"] = "medium";
-                    map["collapsed-rows"] = 2;
                     map["overlay"] = true;
+                }
+                if (index.row() == 19) {
+                    map["category-layout"] = "grid";
+                    map["collapsed-rows"] = 0;
                 }
                 map["card-size"] = "small";
                 return map;
