@@ -72,7 +72,7 @@ void ApplicationInfo::onStateChanged(State state)
     if (state == ApplicationInfo::Running) {
         QTimer::singleShot(1000, this, SLOT(createSurface()));
     } else if (state == ApplicationInfo::Stopped) {
-        destroySurface();
+        setSurface(nullptr);
     }
 }
 
@@ -80,24 +80,33 @@ void ApplicationInfo::createSurface()
 {
     if (m_surface || state() == ApplicationInfo::Stopped) return;
 
-    m_surface = new MirSurfaceItem(name(),
+    setSurface(new MirSurfaceItem(name(),
                                    MirSurfaceItem::Normal,
                                    fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   screenshot());
-    Q_EMIT surfaceChanged(m_surface);
-    SurfaceManager::singleton()->registerSurface(m_surface);
+                                   screenshot()));
 }
 
-void ApplicationInfo::destroySurface()
+void ApplicationInfo::setSurface(MirSurfaceItem* surface)
 {
-    if (!m_surface) return;
+    if (m_surface == surface)
+        return;
 
-    SurfaceManager::singleton()->unregisterSurface(m_surface);
+    if (m_surface) {
+        m_surface->setApplication(nullptr);
+        m_surface->setParent(nullptr);
+        SurfaceManager::singleton()->unregisterSurface(m_surface);
+    }
 
-    MirSurfaceItem* oldSurface = m_surface;
-    m_surface = nullptr;
-    Q_EMIT surfaceChanged(nullptr);
-    oldSurface->deleteLater();
+    m_surface = surface;
+
+    if (m_surface) {
+        m_surface->setApplication(this);
+        m_surface->setParent(this);
+        SurfaceManager::singleton()->registerSurface(m_surface);
+    }
+
+    Q_EMIT surfaceChanged(m_surface);
+    SurfaceManager::singleton()->registerSurface(m_surface);
 }
 
 void ApplicationInfo::createWindowComponent()

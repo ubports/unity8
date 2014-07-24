@@ -617,5 +617,18 @@ Item {
             swipeAwayGreeter()
             tryCompare(sessionSpy, "count", 1)
         }
+
+        function test_fullscreen() {
+            var panel = findChild(shell, "panel");
+            compare(panel.fullscreenMode, false);
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(panel, "fullscreenMode", true);
+            ApplicationManager.startApplication("gallery-app");
+            tryCompare(panel, "fullscreenMode", false);
+            ApplicationManager.requestFocusApplication("camera-app");
+            tryCompare(panel, "fullscreenMode", true);
+            ApplicationManager.requestFocusApplication("gallery-app");
+            tryCompare(panel, "fullscreenMode", false);
+        }
     }
 }

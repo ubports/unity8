@@ -121,9 +121,9 @@ Item {
                 Loader {
                     width: ListView.view.width
                     height: ListView.view.height
-                    visible: { // hide delegate if offscreen
+                    opacity: { // hide delegate if offscreen
                         var xPositionRelativetoView = ListView.view.contentX - x
-                        return xPositionRelativetoView > -width && xPositionRelativetoView < width
+                        return (xPositionRelativetoView > -width && xPositionRelativetoView < width) ? 1 : 0
                     }
                     asynchronous: true
                     source: "GenericScopeView.qml"
