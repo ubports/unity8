@@ -1,3 +1,10 @@
+unity8 (7.90+14.10.20140723.4-0ubuntu1) utopic; urgency=low
+
+  [ thomas-voss ]
+  * Explicitly select gcc version.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 23 Jul 2014 15:32:41 +0000
+
 unity8 (7.90+14.10.20140721.1-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
