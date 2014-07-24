@@ -34,6 +34,7 @@ import "Notifications"
 import "Stages"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
+import Unity.DashCommunicator 0.1
 
 Item {
     id: shell
@@ -81,6 +82,10 @@ Item {
 
     VolumeControl {
         id: volumeControl
+    }
+
+    DashCommunicator {
+        id: dash
     }
 
     WindowKeysFilter {
@@ -574,9 +579,8 @@ Item {
             greeter.hide()
         }
 
-        // FIXME: IPC to dash-app needed?
-        //var animate = !LightDM.Greeter.active && !stages.shown
-        //dash.setCurrentScope("clickscope", animate, false)
+        var animate = !LightDM.Greeter.active && !stages.shown
+        dash.setCurrentScope("clickscope", animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
@@ -638,8 +642,7 @@ Item {
 
             onShowDashHome: showHome()
             onDash: showDash()
-            // FIXME: IPC to dash-app needed?
-//            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected: {
                 if (greeter.fakeActiveForApp !== "") {
                     lockscreen.show()
