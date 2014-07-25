@@ -223,7 +223,7 @@ Item {
 
                     objectName: "icon"
                     width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
-                    height: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
+                    height: width
                     shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
                     visible: iconSource !== undefined && iconSource != ""
                 }
@@ -433,7 +433,7 @@ Item {
                                             }
                                             width: units.gu(2)
                                             height: units.gu(2)
-                                            color: "#5d5d5d"
+                                            color: sdFontColor
                                             name: splitLabel[2]
                                         }
 
@@ -446,7 +446,7 @@ Item {
                                                 verticalCenter: comboIcon.verticalCenter
                                             }
                                             fontSize: "small"
-                                            color: "#5d5d5d"
+                                            color: sdFontColor
                                             text: splitLabel[3]
                                         }
                                     }
