@@ -127,6 +127,11 @@ Item {
         property bool showSearch: false
         property var popover: null
 
+        Background {
+            objectName: "headerBackground"
+            style: scopeStyle.headerBackground
+        }
+
         Behavior on contentY {
             UbuntuNumberAnimation {
                 id: openSearchAnimation
@@ -225,7 +230,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 separatorSource: ""
-                textColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+                textColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
