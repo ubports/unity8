@@ -125,6 +125,7 @@ FocusScope {
 
         model: scopeView.categories
         forceNoClip: previewListView.open
+        pixelAligned: true
 
         property string expandedCategoryId: ""
 
@@ -177,8 +178,23 @@ FocusScope {
                     top: parent.top
                     left: parent.left
                     right: parent.right
-                    topMargin: hasSectionHeader ? 0 : units.gu(2)
+                    topMargin: name != "" ? 0 : units.gu(2)
                 }
+
+                Behavior on height {
+                    id: heightBehaviour
+                    enabled: false
+                    animation: UbuntuNumberAnimation {
+                        onRunningChanged: {
+                            if (!running) {
+                                heightBehaviour.enabled = false
+                            }
+                        }
+                    }
+                }
+
+                readonly property bool expanded: baseItem.expanded || !baseItem.expandable
+                height: expanded ? item.expandedHeight : item.collapsedHeight
 
                 Behavior on height {
                     id: heightBehaviour
@@ -251,6 +267,7 @@ FocusScope {
                             openPreview(index);
                         }
                     }
+
                     onPressAndHold: {
                         if (scopeView.pressAndHoldOverride) {
                             scopeView.pressAndHoldOverride(index);
@@ -396,6 +413,7 @@ FocusScope {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             readonly property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
+            height: section != "" ? units.gu(5) : 0
             text: section
             color: scopeStyle ? scopeStyle.foreground : "grey"
             iconName: delegate && delegate.headerLink ? "go-next" : ""

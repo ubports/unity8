@@ -19,6 +19,7 @@
 
 import logging
 import time
+import ubuntuuitoolkit
 
 from unity8.shell import emulators
 
@@ -137,9 +138,9 @@ class Dash(emulators.UnityEmulatorBase):
     def enter_search_query(self, query):
         current_header = self._get_current_page_header()
         self.pointing_device.move(current_header.globalRect.x +
-                                  current_header.width - current_header.height / 2,
+                                  current_header.width - current_header.height / 4,
                                   current_header.globalRect.y +
-                                  current_header.height / 2)
+                                  current_header.height / 4)
         self.pointing_device.click()
         headerContainer = current_header.select_single(objectName="headerContainer")
         headerContainer.contentY.wait_for(0)
@@ -158,6 +159,10 @@ class Dash(emulators.UnityEmulatorBase):
             if i.isCurrent:
                 return i.select_single(objectName="scopePageHeader")
         return None
+
+
+class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
+    pass
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
@@ -205,17 +210,15 @@ class DashApps(GenericScopeView):
         category_element = self._get_category_element(category)
         application_cards = category_element.select_many('AbstractButton')
 
-        # sort by y, x, filter those out of view
-        categoryBottom = category_element.globalRect.y \
-            + category_element.height
         application_cards = sorted(
             (card for card in application_cards
-                if card.globalRect.y < categoryBottom),
+             if card.globalRect.y
+                < category_element.globalRect.y + category_element.height),
             key=lambda card: (card.globalRect.y, card.globalRect.x))
 
         result = []
         for card in application_cards:
-            if card.objectName != 'cardToolCard':
+            if card.objectName not in ('cardToolCard', 'seeAll'):
                 result.append(card.title)
         return result
 

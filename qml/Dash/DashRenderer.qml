@@ -21,7 +21,7 @@ Item {
 
     property int expandedHeight
 
-    property int collapsedItemCount: 0
+    property int collapsedItemCount: -1
 
     property int displayMarginBeginning: 0
 

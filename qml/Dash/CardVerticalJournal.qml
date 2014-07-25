@@ -25,6 +25,7 @@ DashRenderer {
 
     expandedHeight: Math.max(cardVerticalJournal.implicitHeight, minHeight)
     collapsedHeight: Math.max(Math.min(collapseLimit, cardVerticalJournal.implicitHeight), minHeight)
+    // TODO: implement collapsedItemCount
 
     // This minHeight is used as bootstrapper for the height. Vertical Journal
     // is special by the fact that it doesn't know how to calculate its implicit height unless we give it

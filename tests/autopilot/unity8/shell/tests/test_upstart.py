@@ -20,6 +20,7 @@
 """Tests for upstart integration."""
 
 import os
+import stat
 import signal
 import subprocess
 import time
@@ -57,6 +58,18 @@ class UpstartIntegrationTests(UnityTestCase):
 
     def _launch_unity(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
+
+        try:
+            host_socket = os.getenv("MIR_SOCKET", "/run/mir_socket")
+            if stat.S_ISSOCK(os.stat(host_socket).st_mode):
+                self.patch_environment("MIR_SERVER_HOST_SOCKET",
+                                       host_socket)
+                socket = os.path.join(os.getenv("XDG_RUNTIME_DIR", "/tmp"),
+                                      "mir_socket")
+                self.patch_environment("MIR_SERVER_FILE", socket)
+        except OSError:
+            pass
+
         self.process = subprocess.Popen(
             [get_binary_path()] + self.unity_geometry_args)
 

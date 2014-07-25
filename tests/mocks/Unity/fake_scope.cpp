@@ -195,14 +195,16 @@ bool Scope::hasDepartments() const
 
 QVariantMap Scope::customizations() const
 {
-    QVariantMap m;
+    QVariantMap m, h;
     if (m_id == "clickscope") {
+        h["foreground-color"] = "yellow";
         m["background-color"] = "red";
         m["foreground-color"] = "blue";
+        m["page-header"] = h;
     } else if (m_id == "MockScope5") {
-        QVariantMap pageHeader;
-        pageHeader["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
-        m["page-header"] = pageHeader;
+        h["background"] = "gradient:///lightgrey/grey";
+        h["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
+        m["page-header"] = h;
     }
     return m;
 }
