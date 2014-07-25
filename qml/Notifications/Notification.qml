@@ -222,8 +222,8 @@ Item {
                     id: icon
 
                     objectName: "icon"
-                    width: units.gu(6)
-                    height: units.gu(6)
+                    width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
+                    height: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
                     shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
                     visible: iconSource !== undefined && iconSource != ""
                 }
