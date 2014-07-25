@@ -104,7 +104,7 @@ Item {
     states:[
         State {
             name: "contracted"
-            PropertyChanges {target: notification; height: units.gu(8)}
+            PropertyChanges {target: notification; height: units.gu(10)}
         },
         State {
             name: "expanded"
