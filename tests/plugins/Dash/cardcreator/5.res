@@ -141,5 +141,13 @@ Label {
                         font.weight: Font.Light; 
                         horizontalAlignment: root.headerAlignment; 
                     }
+UbuntuShape { 
+    id: touchdown; 
+    objectName: "touchdown"; 
+    anchors { fill: artShapeHolder } 
+    visible: root.pressed; 
+    radius: "medium"; 
+    borderSource: "radius_pressed.sci" 
+}
 implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
 }

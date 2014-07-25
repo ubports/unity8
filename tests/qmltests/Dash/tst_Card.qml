@@ -473,5 +473,17 @@ Rectangle {
             compare(shape !== null, data.shape);
             tryCompare(mascotImage, "visible", !data.shape);
         }
+
+        function test_touchdown_visibility() {
+            selector.selectedIndex = 0;
+
+            var touchdown = findChild(card, "touchdown");
+
+            compare(touchdown.visible, false);
+            mousePress(card, card.width/2, card.height/2);
+            compare(touchdown.visible, true);
+            mouseRelease(card, card.width/2, card.height/2);
+            compare(touchdown.visible, false);
+        }
     }
 }

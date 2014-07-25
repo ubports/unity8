@@ -224,7 +224,7 @@ var kMascotImageCode = 'Image { \n\
                         }\n';
 
 // %1 is used as anchors of titleLabel
-// %1 is used as color of titleLabel
+// %2 is used as color of titleLabel
 // %3 is used as extra condition for visible of titleLabel
 var kTitleLabelCode = 'Label { \n\
                         id: titleLabel; \n\
@@ -240,6 +240,16 @@ var kTitleLabelCode = 'Label { \n\
                         text: root.title; \n\
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \n\
                         horizontalAlignment: root.headerAlignment; \n\
+                    }\n';
+
+// %1 is used as anchors of touchdown effect
+var kTouchdownCode = 'UbuntuShape { \n\
+                        id: touchdown; \n\
+                        objectName: "touchdown"; \n\
+                        anchors { %1 } \n\
+                        visible: root.pressed; \n\
+                        radius: "medium"; \n\
+                        borderSource: "radius_pressed.sci" \n\
                     }\n';
 
 // %1 is used as anchors of subtitleLabel
@@ -503,6 +513,16 @@ function cardString(template, components) {
 
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(color);
     }
+
+    var touchdownAnchors;
+    if (hasBackground) {
+        touchdownAnchors = 'fill: backgroundLoader';
+    } else if (hasArt && !hasMascot && !hasSummary) {
+        touchdownAnchors = 'fill: artShapeHolder';
+    } else {
+        touchdownAnchors = 'fill: root'
+    }
+    code += kTouchdownCode.arg(touchdownAnchors);
 
     if (hasSummary) {
         code += 'implicitHeight: summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
