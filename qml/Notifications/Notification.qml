@@ -317,6 +317,74 @@ Item {
                 }
             }
 
+            Column {
+                id: oneOverTwoCase
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: contentSpacing
+                }
+
+                spacing: contentSpacing
+
+                visible: notification.type == Notification.SnapDecision && oneOverTwoRepeaterTop.count == 3
+
+                Repeater {
+                    id: oneOverTwoRepeaterTop
+
+                    model: notification.actions
+                    delegate: Loader {
+                        id: oneOverTwoLoaderTop
+
+                        property string actionId: id
+                        property string actionLabel: label
+
+                        Component {
+                            id: oneOverTwoButtonTop
+
+                            Button {
+                                objectName: "button" + index
+                                width: oneOverTwoCase.width
+                                text: oneOverTwoLoaderTop.actionLabel
+                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : sdDarkGrey
+                                onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
+                            }
+                        }
+                        sourceComponent: index == 0 ? oneOverTwoButtonTop : undefined
+                    }
+                }
+
+                Row {
+                    spacing: contentSpacing
+
+                    Repeater {
+                        id: oneOverTwoRepeaterBottom
+
+                        model: notification.actions
+                        delegate: Loader {
+                            id: oneOverTwoLoaderBottom
+
+                            property string actionId: id
+                            property string actionLabel: label
+
+                            Component {
+                                id: oneOverTwoButtonBottom
+
+                                Button {
+                                    objectName: "button" + index
+                                    width: oneOverTwoCase.width / 2 - spacing * 2
+                                    text: oneOverTwoLoaderBottom.actionLabel
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
+                                    onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
+                                }
+                            }
+                            sourceComponent:  (index == 1 || index == 2) ? oneOverTwoButtonBottom : undefined
+                        }
+                    }
+                }
+            }
+
             Row {
                 id: buttonRow
 
@@ -326,7 +394,7 @@ Item {
                     right: parent.right
                     margins: contentSpacing
                 }
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
                 spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 
@@ -376,7 +444,7 @@ Item {
                     margins: contentSpacing
                 }
 
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
                 color: sdDarkGrey
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
