@@ -165,6 +165,28 @@ Item {
         }
     }
 
+    Item {
+        id: attributesModel
+        property int numOfAttributes: 0
+        property var model: []
+        property bool hasAttributes: {
+            var attributes = components["attributes"];
+            var hasAttributesFlag = attributes != undefined;
+            // TODO: we should get num of attributes from components
+            if (hasAttributesFlag) {
+                numOfAttributes = 3;
+            }
+            return hasAttributesFlag
+        }
+
+        onNumOfAttributesChanged: {
+            model = []
+            for (var i = 0; i < numOfAttributes; i++) {
+                model.push( {"value":"text"+(i+1), "icon":"image://theme/ok" } );
+            }
+        }
+    }
+
     Loader {
         id: cardLoader
         property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
@@ -174,7 +196,7 @@ Item {
             "title": "—\n—",
             "subtitle": "—",
             "summary": "—\n—\n—\n—\n—",
-            "attributes":  [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3","icon":"image://theme/ok"}]
+            "attributes": attributesModel.model
         }
         sourceComponent: cardTool.cardComponent
         onLoaded: {
