@@ -20,16 +20,19 @@ import Dash 0.1
 
 Item {
     width: units.gu(40)
-    height: units.gu(30)
+    height: units.gu(4.5)
 
     property var testData: [
         [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
-        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3"}]
+        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3"}],
+        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3"},{"value":"text4"}],
+        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3","style":"highlighted"},{"value":"text4","icon":"image://theme/close","style":"highlighted"},{"value":"text5"}]
     ]
 
     CardAttributes {
         id: cardAttributes
-        model: testData[0]
+        model: testData[3]
+        clip: true
     }
 
     TestCase {
@@ -45,7 +48,7 @@ Item {
 
         function test_columns(data) {
             cardAttributes.model = data;
-            compare(cardAttributes.columns, data.length);
+            compare(cardAttributes.columns, 2 + data.length % 2);
         }
     }
 }
