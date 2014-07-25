@@ -76,6 +76,12 @@ QtObject {
     /// Source of the logo image for the header
     readonly property url headerLogo: "logo" in d.headerStyle ? d.headerStyle["logo"] : ""
 
+    /// Background style for the header
+    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : ""
+
+    /// Foreground color for the header
+    readonly property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : foreground
+
     //! @cond
     property var d: QtObject {
         // FIXME: should be taken from the theme

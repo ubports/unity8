@@ -36,8 +36,8 @@ Rectangle {
         property var styles: [
             {},
             { "foreground-color": "red", "background-color": "black", "page-header": { "logo": "/foo/bar" } },
-            { "foreground-color": "green", "background-color": "white" },
-            { "foreground-color": "blue", "background-color": "darkgrey" },
+            { "foreground-color": "green", "background-color": "white", "page-header": { "foreground-color": "black" } },
+            { "foreground-color": "blue", "background-color": "darkgrey", "page-header": { "background": "gradient:///white/blue" } },
         ]
 
         function cleanup() {
@@ -153,6 +153,31 @@ Rectangle {
         function test_headerLogo(data) {
             tool.style = testCase.styles[data.index];
             compare(tool.headerLogo, data.headerLogo, "Header logo was incorrect.");
+        }
+
+        function test_headerForeground_data() {
+            return [
+                { tag: "default", index: 0, headerForeground: "grey" },
+                { tag: "black", index: 2, headerForeground: "black" },
+            ];
+        }
+
+        function test_headerForeground(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.headerForeground, data.headerForeground),
+                   "Header foreground not equal: %1 != %2".arg(tool.headerForeground).arg(data.headerForeground));
+        }
+
+        function test_headerBackground_data() {
+            return [
+                { tag: "default", index: 0, headerBackground: "" },
+                { tag: "black", index: 3, headerBackground: "gradient:///white/blue" },
+            ];
+        }
+
+        function test_headerBackground(data) {
+            tool.style = testCase.styles[data.index];
+            compare(tool.headerBackground, data.headerBackground, "Header background was incorrect.");
         }
     }
 }
