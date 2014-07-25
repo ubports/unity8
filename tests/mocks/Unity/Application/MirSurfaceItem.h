@@ -68,7 +68,6 @@ public:
     State state() const { return m_state; }
     QString name() const { return m_name; }
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
-    void foreachChildSurface(std::function<void(MirSurfaceItem*)> f) const;
     QList<MirSurfaceItem*> childSurfaceList();
 
     void setApplication(ApplicationInfo* item);
