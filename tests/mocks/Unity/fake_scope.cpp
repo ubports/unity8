@@ -24,7 +24,7 @@ Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent)
+Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent, int categories)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
@@ -33,7 +33,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_isActive(false)
     , m_currentDeparment("root")
     , m_previewRendererName("preview-generic")
-    , m_categories(new Categories(20, this))
+    , m_categories(new Categories(categories, this))
 {
 }
 
@@ -182,14 +182,16 @@ bool Scope::hasDepartments() const
 
 QVariantMap Scope::customizations() const
 {
-    QVariantMap m;
+    QVariantMap m, h;
     if (m_id == "clickscope") {
+        h["foreground-color"] = "yellow";
         m["background-color"] = "red";
         m["foreground-color"] = "blue";
+        m["page-header"] = h;
     } else if (m_id == "MockScope5") {
-        QVariantMap pageHeader;
-        pageHeader["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
-        m["page-header"] = pageHeader;
+        h["background"] = "gradient:///lightgrey/grey";
+        h["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
+        m["page-header"] = h;
     }
     return m;
 }
@@ -215,9 +217,4 @@ void Scope::loadDepartment(const QString& id)
 {
     m_currentDeparment = id;
     Q_EMIT currentDepartmentIdChanged();
-}
-
-void Scope::performQuery(const QString& query)
-{
-    Q_UNUSED(query);
 }
