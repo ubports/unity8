@@ -77,7 +77,6 @@ private Q_SLOTS:
             const QStringList expectedLines = ts2.readAll().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
             const QStringList cardStringResultLines = cardStringResult.toString().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
             for (int i = 0; i < expectedLines.size(); ++i) {
-                //qDebug() << cardStringResultLines[i].simplified() << expectedLines[i].simplified(); // In case we want to see it all
                 QCOMPARE(cardStringResultLines[i].simplified(), expectedLines[i].simplified());
             }
 
