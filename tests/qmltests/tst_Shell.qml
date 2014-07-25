@@ -51,6 +51,11 @@ Item {
         id: shell
     }
 
+    SignalSpy {
+        id: sessionSpy
+        signalName: "sessionStarted"
+    }
+
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown
@@ -92,6 +97,8 @@ Item {
             verify(ok);
 
             swipeAwayGreeter();
+
+            sessionSpy.target = findChild(shell, "greeter")
         }
 
         function cleanup() {
@@ -527,6 +534,18 @@ Item {
             tryCompare(greeter, "showProgress", 0)
             LightDM.Greeter.showGreeter()
             tryCompare(greeter, "showProgress", 1)
+        }
+
+        function test_login() {
+            sessionSpy.clear()
+
+            var greeter = findChild(shell, "greeter")
+            greeter.show()
+            tryCompare(greeter, "showProgress", 1)
+
+            tryCompare(sessionSpy, "count", 0)
+            swipeAwayGreeter()
+            tryCompare(sessionSpy, "count", 1)
         }
     }
 }

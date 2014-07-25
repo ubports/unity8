@@ -1,3 +1,77 @@
+unity8 (7.90+14.10.20140725-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Fix the ap test for applications.
+
+  [ Albert Astals ]
+  * Use deleteLater instead of a direct delete We are seeing a crash in
+    QQuickWindowPrivate::polishItems because LVWPH is deleting items to
+    polish from it's updatePolish which means the set in
+    QQuickWindowPrivate::polishItems may end up with some yet-to-
+    process-but-now-deleted items. Switching to deleteLater fixes this
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 25 Jul 2014 10:47:34 +0000
+
+unity8 (7.90+14.10.20140724.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * properly parent launcher items (LP: #1347902)
+
+  [ Michał Sawicz ]
+  * Move the PyDev project files to the root, supporting .py scripts
+    outside of tests/autopilot. Add Autopilot Run and List launch
+    configurations to easily support debugging in Eclipse. Use
+    add_unity8_mock macro in the Telephony plugin.
+  * Drop FilterGrid and refactor height animations in GenericScopeView.
+    Also implement forced category expansion. (LP: #1326470)
+  * Move expansion button from section header to category footer. (LP:
+    #1261300)
+  * Fix expect-sigstop enviroment variable name. (LP: #1346819)
+  * Make headerless categories easier Instead of having no header
+    category (which is a bit confusing since the LVWPH code was designed
+    so that when a category has no header it is because it shares the
+    category with the previous one) what we have for headerless
+    categories is a header of height 0, this way everything works as it
+    should and results in cleaner code in the LVWPH and in
+    GenericScopeView
+  * Add support for header links.
+  * Add dash PageHeader styling.
+
+  [ Albert Astals ]
+  * Make headerless categories easier Instead of having no header
+    category (which is a bit confusing since the LVWPH code was designed
+    so that when a category has no header it is because it shares the
+    category with the previous one) what we have for headerless
+    categories is a header of height 0, this way everything works as it
+    should and results in cleaner code in the LVWPH and in
+    GenericScopeView
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 24 Jul 2014 20:41:29 +0000
+
+unity8 (7.90+14.10.20140723.4-0ubuntu1) utopic; urgency=low
+
+  [ thomas-voss ]
+  * Explicitly select gcc version.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 23 Jul 2014 15:32:41 +0000
+
+unity8 (7.90+14.10.20140721.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Allow running the dialer-app in emergency mode when the screen is
+    locked.
+
+  [ Michał Sawicz ]
+  * Add missing nameOwner property to mock UnityMenuModel.
+
+  [ Albert Astals ]
+  * Fix name, There's nothing called pageHeader in this file
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 21 Jul 2014 14:57:08 +0000
+
 unity8 (7.90+14.10.20140717.3-0ubuntu1) utopic; urgency=low
 
   [ Nick Dedekind ]
