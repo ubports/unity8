@@ -15,36 +15,28 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 import "../Components"
+import "Indicators"
 
-// FIXME : We dont want to use MainView.
-// Need a regular Item which can have tabs with local header.
-// https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1211704
-MainView {
+Rectangle {
     id: content
 
     property QtObject indicatorsModel: null
     property bool __contentActive: false
-    readonly property int currentMenuIndex: tabs.selectedTabIndex
-    backgroundColor: "#221e1c" // FIXME not in palette yet
+    readonly property alias currentMenuIndex: listViewHeader.currentIndex
+    color: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
-    property bool activeHeader: false
-    property real headerHeight: tabs.tabBar.height
+    property real headerHeight: listViewHeader
 
     width: units.gu(40)
     height: units.gu(42)
 
     function setCurrentMenuIndex(index, animate) {
-        if (tabs.selectedTabIndex !== index) {
-            if (tabs.selectedTabIndex === -1 || !animate) {
-                tabs.tabBar.animate = false;
-            }
-            tabs.selectedTabIndex = index;
-            tabs.tabBar.animate = true;
-        }
+        listViewHeader.currentIndex = index;
     }
 
     function activateContent() {
@@ -58,82 +50,102 @@ MainView {
         }
     }
 
-    onActiveHeaderChanged: {
-        tabs.tabBar.selectionMode = activeHeader;
-        tabs.tabBar.alwaysSelectionMode = activeHeader;
-    }
+    ListView {
+        id: listViewHeader
+        objectName: "indicatorsListViewHeader"
+        model: content.indicatorsModel
 
-    Tabs {
-        id: tabs
-        objectName: "tabs"
-        anchors.fill: parent
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        height: units.gu(8.5)
 
-        Repeater {
-            id: repeater
-            model: content.indicatorsModel ? content.indicatorsModel : null
-            objectName: "tabsRepeater"
+        highlightFollowsCurrentItem: true
+        highlightMoveDuration: 0
 
-            // FIXME: This is needed because tabs dont handle repeaters well.
-            // Due to the child ordering happening after child insertion.
-            // QTBUG-32438
-            onItemAdded: {
-                parent.childrenChanged();
-            }
+        orientation: ListView.Horizontal
+        snapMode: ListView.SnapOneItem
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        boundsBehavior: Flickable.StopAtBounds
 
-            Tab {
-                id: tab
-                objectName: model.identifier
+        delegate: PageHeader {
+            width: ListView.view.width
+            height: implicitHeight
 
-                page: Page {
-                    Loader {
-                        id: loader
-                        clip: true
-                        anchors.fill: parent
-                        source: pageSource
-                        asynchronous: true
+            title: indicatorDelegate.title !== "" ? indicatorDelegate.title : identifier
 
-                        readonly property bool indexActive: index >= 0 && index < menuActivator.count && menuActivator.content[index].active
-                        readonly property bool contentActive: content.__contentActive && indexActive
+            IndicatorDelegate {
+                id: indicatorDelegate
 
-                        onContentActiveChanged: {
-                            if (contentActive && item) {
-                                item.start()
-                            } else if (!contentActive && item) {
-                                item.stop()
-                            }
-                        }
-
-                        onVisibleChanged: {
-                            // Reset the indicator states
-                            if (!visible && item && item["reset"]) {
-                                item.reset()
-                            }
-                        }
-
-                        onLoaded: {
-                            for(var pName in indicatorProperties) {
-                                if (item.hasOwnProperty(pName)) {
-                                    item[pName] = indicatorProperties[pName]
-                                }
-                            }
-                            if (contentActive && tabs.visible) {
-                                item.start()
-                            }
-                        }
-
-                        Binding {
-                            target: tab
-                            property: "title"
-                            value: loader.item && loader.item.hasOwnProperty("title") && loader.item.title !== "" ? loader.item.title : model.identifier
-                        }
-
-                        Binding {
-                            target: loader.item
-                            property: "objectName"
-                            value: identifier + "-page"
+                Component.onCompleted: {
+                    for(var pName in indicatorProperties) {
+                        if (indicatorDelegate.hasOwnProperty(pName)) {
+                            indicatorDelegate[pName] = indicatorProperties[pName];
                         }
                     }
                 }
+            }
+        }
+    }
+
+    ListView {
+        id: listViewContent
+        objectName: "indicatorsListViewContent"
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: listViewHeader.bottom
+            bottom: parent.bottom
+        }
+        model: content.indicatorsModel
+
+        currentIndex: listViewHeader.currentIndex
+        interactive: false
+        highlightMoveDuration: 0
+        orientation: ListView.Horizontal
+
+        delegate: Loader {
+            id: loader
+            width: ListView.view.width
+            height: ListView.view.height
+
+            source: pageSource
+            asynchronous: true
+
+            readonly property bool indexActive: index >= 0 && index < menuActivator.count && menuActivator.content[index].active
+            readonly property bool contentActive: content.__contentActive && indexActive
+
+            onContentActiveChanged: {
+                if (contentActive && item) {
+                    item.start()
+                } else if (!contentActive && item) {
+                    item.stop()
+                }
+            }
+
+            onVisibleChanged: {
+                // Reset the indicator states
+                if (!visible && item && item["reset"]) {
+                    item.reset()
+                }
+            }
+
+            onLoaded: {
+                for(var pName in indicatorProperties) {
+                    if (item.hasOwnProperty(pName)) {
+                        item[pName] = indicatorProperties[pName]
+                    }
+                }
+                if (contentActive && listViewContent.visible) {
+                    item.start()
+                }
+            }
+
+            Binding {
+                target: loader.item
+                property: "objectName"
+                value: identifier + "-page"
             }
         }
     }

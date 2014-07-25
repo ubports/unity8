@@ -188,7 +188,6 @@ Showable {
         }
         indicatorsModel: visibleIndicators.model
         clip: !indicators.fullyOpened
-        activeHeader: indicators.state == "hint" || indicators.state == "reveal"
         enabled: contentEnabled
 
         //small shadow gradient at bottom of menu
