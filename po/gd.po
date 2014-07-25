@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-07-16 14:48+0000\n"
+"PO-Revision-Date: 2014-07-24 22:26+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-17 06:38+0000\n"
+"X-Launchpad-Export-Date: 2014-07-25 07:54+0000\n"
 "X-Generator: Launchpad (build 17114)\n"
 "Language: gd\n"
 
@@ -87,7 +87,7 @@ msgstr "Gairm èiginn"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr "Ceart ma-hà"
+msgstr "Ceart ma-thà"
 
 #: qml/Components/PageHeader.qml:366
 msgid "Recent searches"
