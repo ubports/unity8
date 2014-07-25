@@ -394,6 +394,7 @@ FocusScope {
             objectName: "scopePageHeader"
             width: parent.width
             title: scopeView.scope ? scopeView.scope.name : ""
+            searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
