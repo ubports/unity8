@@ -39,6 +39,7 @@ AbstractButton {
     height: visible ? units.gu(5) : 0
 
     onClicked: {
+        departmentListView.updateMaxHeight();
         root.showList = !root.showList;
     }
 
@@ -111,7 +112,12 @@ AbstractButton {
             right: parent.right
             top: root.bottom
         }
-        readonly property int maxHeight: (windowHeight - mapToItem(null, root.x, root.y).y) - units.gu(8)
+        property int maxHeight: -1
+        Component.onCompleted: updateMaxHeight();
+        function updateMaxHeight()
+        {
+            maxHeight = (windowHeight - mapToItem(null, 0, 0).y) - units.gu(8);
+        }
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
         onHeightChanged: {
@@ -129,6 +135,7 @@ AbstractButton {
                 if (root.showList) {
                     if (department && department.loaded && x == departmentListView.contentX)
                     {
+                        departmentListView.updateMaxHeight();
                         return Math.min(implicitHeight, departmentListView.maxHeight);
                     } else {
                         return departmentListView.prevHeight;

@@ -26,6 +26,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
+    readonly property alias departmentsShown: dashDepartments.showList
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -120,6 +121,7 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: previewListView.open
         pixelAligned: true
+        interactive: !dashDepartments.showList
 
         property string expandedCategoryId: ""
 
@@ -400,6 +402,7 @@ FocusScope {
             scopeStyle: scopeView.scopeStyle
 
             bottomItem: DashDepartments {
+                id: dashDepartments
                 scope: scopeView.scope
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right
