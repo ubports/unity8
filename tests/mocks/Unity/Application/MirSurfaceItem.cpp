@@ -118,11 +118,9 @@ void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
     Q_EMIT childSurfacesChanged();
 }
 
-void MirSurfaceItem::foreachChildSurface(std::function<void(MirSurfaceItem*)> f) const
+QList<MirSurfaceItem*> MirSurfaceItem::childSurfaceList()
 {
-    for(MirSurfaceItem* child : m_children) {
-        f(child);
-    }
+    return m_children;
 }
 
 QQmlListProperty<MirSurfaceItem> MirSurfaceItem::childSurfaces()

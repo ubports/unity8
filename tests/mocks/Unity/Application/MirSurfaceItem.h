@@ -69,6 +69,7 @@ public:
     QString name() const { return m_name; }
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
     void foreachChildSurface(std::function<void(MirSurfaceItem*)> f) const;
+    QList<MirSurfaceItem*> childSurfaceList();
 
     void setApplication(ApplicationInfo* item);
     void setParentSurface(MirSurfaceItem* item);

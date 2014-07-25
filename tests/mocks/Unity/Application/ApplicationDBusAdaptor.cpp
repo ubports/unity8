@@ -34,10 +34,12 @@ MirSurfaceItem* topSurface(MirSurfaceItem* surface)
         return nullptr;
 
     MirSurfaceItem* child = NULL;
-    surface->foreachChildSurface([&](MirSurfaceItem* childSurface) {
-        if (!child)
-            child = topSurface(childSurface);
-    });
+    Q_FOREACH (MirSurfaceItem *childSurface, surface->childSurfaceList()) {
+        child = topSurface(childSurface);
+        if (child) {
+            break;
+        }
+    }
     return child ? child : surface;
 }
 
