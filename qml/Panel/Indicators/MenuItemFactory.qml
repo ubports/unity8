@@ -32,31 +32,36 @@ Item {
     property var menuModel: null
 
     property var _map:  {
-        "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
-        "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
+        "default": {
+            "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
+            "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
 
-        "com.canonical.indicator.button"         : buttonMenu,
-        "com.canonical.indicator.div"            : separatorMenu,
-        "com.canonical.indicator.section"        : sectionMenu,
-        "com.canonical.indicator.progress"       : progressMenu,
-        "com.canonical.indicator.slider"         : sliderMenu,
-        "com.canonical.indicator.switch"         : switchMenu,
-        "com.canonical.indicator.alarm"          : alarmMenu,
-        "com.canonical.indicator.appointment"    : appointmentMenu,
-        "com.canonical.indicator.transfer"       : transferMenu,
-        "com.canonical.indicator.button-section" : buttonSectionMenu,
+            "com.canonical.indicator.button"         : buttonMenu,
+            "com.canonical.indicator.div"            : separatorMenu,
+            "com.canonical.indicator.section"        : sectionMenu,
+            "com.canonical.indicator.progress"       : progressMenu,
+            "com.canonical.indicator.slider"         : sliderMenu,
+            "com.canonical.indicator.switch"         : switchMenu,
+            "com.canonical.indicator.alarm"          : alarmMenu,
+            "com.canonical.indicator.appointment"    : appointmentMenu,
+            "com.canonical.indicator.transfer"       : transferMenu,
+            "com.canonical.indicator.button-section" : buttonSectionMenu,
 
-        "com.canonical.indicator.messages.messageitem"  : messageItem,
-        "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
+            "com.canonical.indicator.messages.messageitem"  : messageItem,
+            "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
 
-        "com.canonical.unity.slider"    : sliderMenu,
-        "com.canonical.unity.switch"    : switchMenu,
+            "com.canonical.unity.slider"    : sliderMenu,
+            "com.canonical.unity.switch"    : switchMenu,
 
-        "com.canonical.unity.media-player"    : mediaPayerMenu,
-        "com.canonical.unity.playback-item"   : playbackItemMenu,
+            "com.canonical.unity.media-player"    : mediaPayerMenu,
+            "com.canonical.unity.playback-item"   : playbackItemMenu,
 
-        "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
-        "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
+            "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
+            "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
+        },
+        "indicator-messages" : {
+            "com.canonical.indicator.button"         : messagesButtonMenu
+        }
     }
 
     function getExtendedProperty(object, propertyName, defaultValue) {
@@ -126,6 +131,7 @@ Item {
         }
     }
 
+
     Component {
         id: buttonMenu;
 
@@ -143,6 +149,36 @@ Item {
             }
         }
     }
+
+    Component {
+        id: messagesButtonMenu;
+
+        Item {
+            objectName: "messagesButtonMenu"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+
+            implicitHeight: units.gu(5)
+            enabled: menuData && menuData.sensitive || false
+
+            Label {
+                id: buttonMenuLabel
+                text: menuData && menuData.label || ""
+                anchors.centerIn: parent
+                font.bold: true
+            }
+
+            MouseArea {
+                anchors {
+                    fill: buttonMenuLabel
+                    margins: units.gu(-1)
+                }
+                onClicked: menuModel.activate(menuIndex);
+            }
+        }
+    }
+
     Component {
         id: sectionMenu;
 
@@ -186,6 +222,20 @@ Item {
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
+
+            property bool settingsMenu: menuData.action.indexOf("settings") > -1
+            backColor: settingsMenu ? Qt.rgba(1,1,1,0.05) : "transparent"
+
+            component: settingsMenu ? buttonForSettings : undefined
+            Component {
+                id: buttonForSettings
+                Icon {
+                    name: "settings"
+                    height: units.gu(3)
+                    width: height
+                    color: Theme.palette.selected.backgroundText
+                }
+            }
         }
     }
 
@@ -206,7 +256,6 @@ Item {
             }
         }
     }
-
 
     Component {
         id: switchMenu;
@@ -350,7 +399,7 @@ Item {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
-            checked: menuData && menuData.isToggled || false
+            active: menuData && menuData.isToggled || false
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             signalStrength: strengthAction.valid ? strengthAction.state : 0
@@ -439,6 +488,7 @@ Item {
             running: getExtendedProperty(actionState, "running", false)
             state: getExtendedProperty(actionState, "state", "")
             enabled: menuData && menuData.sensitive || false
+            showDivider: false
 
             onTriggered: {
                 model.activate(modelIndex);
@@ -647,9 +697,18 @@ Item {
         }
     }
 
-    function load(modelData) {
+    function load(modelData, context) {
         if (modelData.type !== undefined) {
-            var component = _map[modelData.type];
+            var component = undefined;
+
+            var contextComponents = _map[context];
+            if (contextComponents !== undefined) {
+                component = contextComponents[modelData.type];
+            }
+
+            if (component === undefined) {
+                component = _map["default"][modelData.type];
+            }
             if (component !== undefined) {
                 return component;
             }

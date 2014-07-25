@@ -28,7 +28,6 @@ IndicatorBase {
     //const
     property bool contentActive: false
     property string title: rootActionState.title
-    property alias emptyText: emptyLabel.text
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
 
     Indicators.UnityMenuModelStack {
@@ -135,7 +134,7 @@ IndicatorBase {
                 right: parent.right
             }
 
-            sourceComponent: factory.load(model)
+            sourceComponent: factory.load(model, identifier)
 
             onLoaded: {
                 if (item.hasOwnProperty("selected")) {
@@ -178,26 +177,6 @@ IndicatorBase {
         id: factory
         rootModel: main.menuModel ? main.menuModel : null
         menuModel: mainMenu.model ? mainMenu.model : null
-    }
-
-    Components.Label {
-        id: emptyLabel
-        objectName: "emptyLabel"
-        visible: mainMenu.count == 0
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            topMargin: units.gu(2)
-        }
-        wrapMode: Text.WordWrap
-        horizontalAlignment: Text.AlignHCenter
-
-        //style
-        color: "#e8e1d0"
-        fontSize: "medium"
-
-        text: "Empty!"
     }
 
     function start()

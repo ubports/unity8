@@ -76,18 +76,18 @@ Item {
         sourceComponent: loadMessage(actionsDescription);
 
         Component {
-            id: simpleTextMessage
+            id: simpleMessage
 
-            Menus.SimpleTextMessageMenu {
+            Menus.SimpleMessageMenu {
                 id: message
                 objectName: "simpleTextMessage"
                 // text
                 title: menuData && menuData.label || ""
                 time: timeFormatter.timeString
-                message: getExtendedProperty(extendedData, "xCanonicalText", "")
+                body: getExtendedProperty(extendedData, "xCanonicalText", "")
                 // icons
                 avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 enabled: menuData && menuData.sensitive || false
                 removable: !selected
@@ -105,10 +105,6 @@ Item {
                     } else {
                         menuSelected();
                     }
-                }
-
-                backgroundIndicator: RemoveBackground {
-                    state: message.swipingState
                 }
             }
         }
@@ -130,11 +126,11 @@ Item {
                 // text
                 title: menuData && menuData.label || ""
                 time: timeFormatter.timeString
-                message: getExtendedProperty(extendedData, "xCanonicalText", "")
+                body: getExtendedProperty(extendedData, "xCanonicalText", "")
                 replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
                 // icons
                 avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
                 enabled: menuData && menuData.sensitive || false
@@ -156,10 +152,6 @@ Item {
                     } else {
                         menuSelected();
                     }
-                }
-
-                backgroundIndicator: RemoveBackground {
-                    state: message.swipingState
                 }
             }
         }
@@ -186,13 +178,12 @@ Item {
                 // text
                 title: menuData && menuData.label || ""
                 time: timeFormatter.timeString
-                message: getExtendedProperty(extendedData, "xCanonicalText", "")
+                body: getExtendedProperty(extendedData, "xCanonicalText", "")
                 actionButtonText: getExtendedProperty(activateActionDescription, "label", "Call back")
                 replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
-                replyMessages: getExtendedProperty(replyActionDescription, "parameter-hint", "")
                 // icons
                 avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
@@ -219,10 +210,6 @@ Item {
                         menuSelected();
                     }
                 }
-
-                backgroundIndicator: RemoveBackground {
-                    state: message.swipingState
-                }
             }
         }
     }
@@ -240,7 +227,7 @@ Item {
         }
 
         if (parameterType === "") {
-            return simpleTextMessage;
+            return simpleMessage;
         } else if (parameterType === "s") {
             return textMessage;
         } else if (parameterType === "_s") {
