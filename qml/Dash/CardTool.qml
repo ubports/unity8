@@ -171,10 +171,12 @@ Item {
         property var model: []
         property bool hasAttributes: {
             var attributes = components["attributes"];
-            var hasAttributesFlag = attributes != undefined;
+            var hasAttributesFlag = (attributes != undefined) && attributes["field"];
             // TODO: we should get num of attributes from components
             if (hasAttributesFlag) {
-                numOfAttributes = 3;
+                if (attributes["max-count"]) {
+                    numOfAttributes = attributes["max-count"];
+                }
             }
             return hasAttributesFlag
         }

@@ -49,7 +49,7 @@ var defaultLayout = ' \
     }, \
     "alt-rating": null, \
     "summary": null, \
-    "attributes": null \
+    "attributes": { "max-count": 2 } \
   }, \
   "resources": {} \
 }'
