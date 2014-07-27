@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-11 07:01+0000\n"
+"PO-Revision-Date: 2014-07-26 12:05+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-26 07:17+0000\n"
+"X-Launchpad-Export-Date: 2014-07-27 06:35+0000\n"
 "X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -113,7 +113,7 @@ msgstr "Nylig"
 
 #: qml/Dash/GenericScopeView.qml:330
 msgid "See all"
-msgstr ""
+msgstr "Vis alt"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -169,11 +169,11 @@ msgstr "Skriv inn PIN-koden til SIM-kortet"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Trykk for å gå tilbake til anrop …"
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr ""
+msgstr "Konferanse"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
