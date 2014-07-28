@@ -46,7 +46,9 @@ Item {
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
         // Make sure we are at the search page if the search query changes behind our feet
-        triggerSearch();
+        if (searchQuery) {
+            headerContainer.showSearch = true;
+        }
     }
 
     function triggerSearch() {
