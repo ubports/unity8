@@ -603,7 +603,7 @@ Item {
 
         function test_focusRequestedHidesIndicators() {
             var indicators = findChild(shell, "indicators");
-            
+
             showIndicators();
 
             ApplicationManager.startApplication("camera-app");
