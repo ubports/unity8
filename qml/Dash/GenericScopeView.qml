@@ -220,7 +220,7 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
-                    if ( scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local") ) {
+                    if (scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
                         // Yeah, hackish :/
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
                     }
