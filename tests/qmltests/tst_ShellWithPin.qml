@@ -149,6 +149,14 @@ Item {
             tryCompare(sessionSpy, "count", 1)
         }
 
+        function test_disabledEdges() {
+            var launcher = findChild(shell, "launcher")
+            tryCompare(launcher, "available", false)
+
+            var indicators = findChild(shell, "indicators")
+            tryCompare(indicators, "available", false)
+        }
+
         function test_emergencyCall() {
             var greeter = findChild(shell, "greeter")
             var lockscreen = findChild(shell, "lockscreen")
@@ -163,9 +171,12 @@ Item {
             tryCompare(greeter, "fakeActiveForApp", "dialer-app")
             tryCompare(lockscreen, "shown", false)
             tryCompare(panel, "fullscreenMode", true)
-            tryCompare(indicators, "available", false)
-            tryCompare(launcher, "available", false)
             tryCompare(stage, "spreadEnabled", false)
+
+            // These are normally false anyway, but confirm they remain so in
+            // emergency mode.
+            tryCompare(launcher, "available", false)
+            tryCompare(indicators, "available", false)
 
             // Cancel emergency mode, and go back to normal
             waitForRendering(greeter)
@@ -175,8 +186,6 @@ Item {
             tryCompare(greeter, "fakeActiveForApp", "")
             tryCompare(lockscreen, "shown", true)
             tryCompare(panel, "fullscreenMode", false)
-            tryCompare(indicators, "available", true)
-            tryCompare(launcher, "available", true)
             tryCompare(stage, "spreadEnabled", true)
         }
 

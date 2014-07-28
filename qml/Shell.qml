@@ -48,6 +48,7 @@ FocusScope {
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
+    property bool locked: LightDM.Greeter.active && !LightDM.Greeter.promptless
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
@@ -628,7 +629,7 @@ FocusScope {
                 LauncherModel.setUser(user);
             }
 
-            onTease: launcher.tease()
+            onTease: if (LightDM.Greeter.promptless) launcher.tease()
 
             Binding {
                 target: ApplicationManager
@@ -682,7 +683,7 @@ FocusScope {
     }
 
     function showDash() {
-        if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
+        if (shell.locked) {
             return;
         }
 
@@ -710,7 +711,7 @@ FocusScope {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && greeter.fakeActiveForApp === ""
+                available: edgeDemo.panelEnabled && !shell.locked
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
@@ -750,7 +751,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && greeter.fakeActiveForApp === ""
+            available: edgeDemo.launcherEnabled && !shell.locked
 
             onShowDashHome: showHome()
             onDash: showDash()
