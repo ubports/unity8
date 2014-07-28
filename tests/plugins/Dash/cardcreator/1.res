@@ -33,19 +33,14 @@ Item  {
                             visible: image.status == Image.Ready; 
                             readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                             readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1;
-                            readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect;
                             Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
-                            onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings();
                             Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); }
                             function updateWidthHeightBindings() { 
                                 if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) {
                                             width = root.fixedArtShapeSize.width;
                                             height = root.fixedArtShapeSize.height;
-                                } else if (aspectSmallerThanImageAspect) {
-                                    width = Qt.binding(function() { return !visible ? 0 : image.width }); 
-                                    height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); 
                                 } else { 
-                                    width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect }); 
+                                    width = Qt.binding(function() { return !visible ? 0 : image.width });
                                     height = Qt.binding(function() { return !visible ? 0 : image.height }); 
                                 } 
                             } 
@@ -54,8 +49,7 @@ Item  {
                                 source: cardData && cardData["art"] || ""; 
                                 cache: true; 
                                 asynchronous: root.asynchronous; 
-                                fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop; 
-                                readonly property real aspect: implicitWidth / implicitHeight; 
+                                fillMode: Image.PreserveAspectCrop;
                                 width: root.width; 
                                 height: width / artShape.aspect;
                             } 
