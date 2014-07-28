@@ -219,6 +219,15 @@ Item {
 
             pageHeader.resetSearch();
         }
+
+        function test_search_change_shows_search() {
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            compare(headerContainer.showSearch, false);
+            compare(searchQuery, "");
+
+            searchQuery = "H";
+            compare(headerContainer.showSearch, true);
+        }
     }
 
     Column {
