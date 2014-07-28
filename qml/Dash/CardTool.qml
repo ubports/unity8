@@ -172,7 +172,7 @@ Item {
         property bool hasAttributes: {
             var attributes = components["attributes"];
             var hasAttributesFlag = (attributes != undefined) && attributes["field"];
-            // TODO: we should get num of attributes from components
+
             if (hasAttributesFlag) {
                 if (attributes["max-count"]) {
                     numOfAttributes = attributes["max-count"];
