@@ -332,7 +332,7 @@ function cardString(template, components) {
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
-    var hasAttributes = components["attributes"] || false;
+    var hasAttributes = hasTitle && components["attributes"] || false;
 
     if (hasBackground) {
         code += kBackgroundLoaderCode;
