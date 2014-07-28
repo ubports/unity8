@@ -27,6 +27,7 @@ class AccountsServiceDBusAdaptor;
 class AccountsService: public QObject
 {
     Q_OBJECT
+    Q_ENUMS(PasswordDisplayHint)
     Q_PROPERTY (QString user
                 READ user
                 WRITE setUser
@@ -41,8 +42,16 @@ class AccountsService: public QObject
     Q_PROPERTY (bool statsWelcomeScreen
                 READ statsWelcomeScreen
                 NOTIFY statsWelcomeScreenChanged)
+    Q_PROPERTY (PasswordDisplayHint passwordDisplayHint
+                READ passwordDisplayHint
+                NOTIFY passwordDisplayHintChanged)
 
 public:
+    enum PasswordDisplayHint {
+        Keyboard,
+        Numeric,
+    };
+
     explicit AccountsService(QObject *parent = 0);
 
     QString user() const;
@@ -51,12 +60,14 @@ public:
     void setDemoEdges(bool demoEdges);
     QString backgroundFile() const;
     bool statsWelcomeScreen() const;
+    PasswordDisplayHint passwordDisplayHint() const;
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
+    void passwordDisplayHintChanged();
 
 private Q_SLOTS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -66,12 +77,14 @@ private:
     void updateDemoEdges();
     void updateBackgroundFile();
     void updateStatsWelcomeScreen();
+    void updatePasswordDisplayHint();
 
     AccountsServiceDBusAdaptor *m_service;
     QString m_user;
     bool m_demoEdges;
     QString m_backgroundFile;
     bool m_statsWelcomeScreen;
+    PasswordDisplayHint m_passwordDisplayHint;
 };
 
 #endif
