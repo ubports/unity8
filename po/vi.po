@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-07 12:15+0100\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
 "PO-Revision-Date: 2014-01-15 01:19+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-07-26 07:17+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -80,10 +80,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:366
-msgid "Recent searches"
-msgstr ""
-
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
@@ -105,12 +101,16 @@ msgstr ""
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr ""
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
 msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
@@ -121,15 +121,15 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr ""
 
@@ -163,6 +163,14 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
 msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
