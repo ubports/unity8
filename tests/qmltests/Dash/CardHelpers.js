@@ -31,8 +31,7 @@ var defaultLayout = ' \
   "components": { \
     "title": null, \
     "art": { \
-        "aspect-ratio": 1.0, \
-        "fill-mode": "crop" \
+        "aspect-ratio": 1.0 \
     }, \
     "subtitle": null, \
     "mascot": null, \
