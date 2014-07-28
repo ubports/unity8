@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-07-15 13:20+0000\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-07-25 16:26+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-16 07:27+0000\n"
-"X-Generator: Launchpad (build 17112)\n"
+"X-Launchpad-Export-Date: 2014-07-26 07:16+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -82,10 +82,6 @@ msgstr "שיחת חירום"
 msgid "OK"
 msgstr "אישור"
 
-#: qml/Components/PageHeader.qml:366
-msgid "Recent searches"
-msgstr "חיפושים אחרונים"
-
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
@@ -107,13 +103,17 @@ msgstr "בוצע"
 msgid "See more"
 msgstr "לראות עוד"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr "לראות פחות"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "בשימוש לאחרונה"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr "להציג הכול"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -123,15 +123,15 @@ msgstr "עוד…"
 msgid "Less..."
 msgstr "פחות…"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr "דירוג היישום"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "הוספת סקירה"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "שליחה"
 
@@ -166,6 +166,14 @@ msgstr "הצגת הססמה"
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "נא להזין את קוד ה־‏SIM"
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "יש לגעת כדי להחזיר שיחה…"
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "ועידה"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
