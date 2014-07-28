@@ -44,6 +44,10 @@ Item {
     signal backClicked()
 
     onScopeStyleChanged: refreshLogo()
+    onSearchQueryChanged: {
+        // Make sure we are at the search page if the search query changes behind our feet
+        triggerSearch();
+    }
 
     function triggerSearch() {
         if (searchEntryEnabled) {
