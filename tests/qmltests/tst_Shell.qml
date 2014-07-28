@@ -236,6 +236,7 @@ Item {
 
             // wait until the animation has finished
             tryCompare(greeter, "showProgress", 0);
+            waitForRendering(greeter);
         }
 
         /*
@@ -601,7 +602,20 @@ Item {
             // The main point of this test
             ApplicationManager.requestFocusApplication("dialer-app");
             tryCompare(greeter, "showProgress", 0);
+            waitForRendering(greeter);
         }
+
+        function test_focusRequestedHidesIndicators() {
+            var indicators = findChild(shell, "indicators");
+            
+            showIndicators();
+
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(ApplicationManager, "count", 1);
+
+            tryCompare(indicators, "fullyClosed", true);
+        }
+
 
         function test_showGreeterDBusCall() {
             var greeter = findChild(shell, "greeter")

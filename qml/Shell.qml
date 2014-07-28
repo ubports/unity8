@@ -250,6 +250,7 @@ Item {
                 if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
                     lockscreen.show();
                 }
+                panel.indicators.hide();
             }
 
             onApplicationAdded: {
