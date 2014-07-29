@@ -524,7 +524,7 @@ FocusScope {
         }
 
         onPromptlessChanged: {
-            if (LightDM.Greeter.promptless) {
+            if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
                 lockscreen.hide()
             } else {
                 lockscreen.reset();
@@ -574,7 +574,7 @@ FocusScope {
         }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
+        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter
@@ -611,7 +611,7 @@ FocusScope {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     }
-                    if (!LightDM.Greeter.promptless) {
+                    if (!LightDM.Greeter.authenticated) {
                         lockscreen.reset();
                         lockscreen.show();
                     }
@@ -670,7 +670,7 @@ FocusScope {
         }
 
         if (LightDM.Greeter.active) {
-            if (!LightDM.Greeter.promptless) {
+            if (!LightDM.Greeter.authenticated) {
                 lockscreen.show()
             }
             greeter.hide()
@@ -682,7 +682,7 @@ FocusScope {
     }
 
     function showDash() {
-        if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
+        if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) {
             return;
         }
 
