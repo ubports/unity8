@@ -88,12 +88,13 @@ Showable {
         onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
 
         onDragEnd: {
-            if (rightEvaluator.shouldAutoComplete())
+            if (greeter.x > 0 && rightEvaluator.shouldAutoComplete()) {
                 greeter.hideRight()
-            else if (leftEvaluator.shouldAutoComplete())
+            } else if (greeter.x < 0 && leftEvaluator.shouldAutoComplete()) {
                 greeter.hide();
-            else
+            } else {
                 greeter.show(); // undo drag
+            }
         }
 
         onDragValueChanged: {
