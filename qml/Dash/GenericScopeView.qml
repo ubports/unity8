@@ -196,21 +196,6 @@ FocusScope {
                 readonly property bool expanded: baseItem.expanded || !baseItem.expandable
                 height: expanded ? item.expandedHeight : item.collapsedHeight
 
-                Behavior on height {
-                    id: heightBehaviour
-                    enabled: false
-                    animation: UbuntuNumberAnimation {
-                        onRunningChanged: {
-                            if (!running) {
-                                heightBehaviour.enabled = false
-                            }
-                        }
-                    }
-                }
-
-                readonly property bool expanded: baseItem.expanded || !baseItem.expandable
-                height: expanded ? item.expandedHeight : item.collapsedHeight
-
                 source: {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
