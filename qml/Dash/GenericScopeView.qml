@@ -243,7 +243,7 @@ FocusScope {
                             return;
                         }
 
-                        if (itemModel.uri.indexOf("scope://") === 0) {
+                        if (itemModel.uri.indexOf("scope://") === 0 || scopeView.scope.id === "clickscope") {
                             scopeView.scope.activate(result)
                         } else {
                             openPreview(index);
