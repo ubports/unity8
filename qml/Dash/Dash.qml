@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Ubuntu.Components 0.1
 import Unity 0.2
 import Utils 0.1
@@ -177,20 +177,19 @@ Showable {
             SequentialAnimation {
                 running: indicator.visible
                 loops: Animation.Infinite
-                PropertyAnimation {
+                XAnimator {
                     from: -orange.width / 2
                     to: indicator.width - orange.width / 2
                     duration: UbuntuAnimation.SleepyDuration
                     easing.type: Easing.InOutSine
                     target: orange
-                    property: "x"
                 }
-                PropertyAnimation {
+                XAnimator {
+                    from: indicator.width - orange.width / 2
                     to: -orange.width / 2
                     duration: UbuntuAnimation.SleepyDuration
                     easing.type: Easing.InOutSine
                     target: orange
-                    property: "x"
                 }
             }
         }
