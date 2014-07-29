@@ -81,11 +81,13 @@ Item {
             height: units.gu(2)
             color: UbuntuColors.orange
             visible: root.count > 0
+            borderSource: "none"
 
             Label {
                 id: countLabel
                 text: root.count
                 anchors.centerIn: parent
+                anchors.verticalCenterOffset: -units.dp(.5)
                 width: root.itemWidth - units.gu(1)
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
