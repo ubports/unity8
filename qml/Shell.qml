@@ -588,6 +588,7 @@ FocusScope {
             available: true
             hides: [launcher, panel.indicators]
             shown: true
+            loadContent: required || lockscreen.required // keeps content in memory for quick show()
 
             defaultBackground: shell.background
 

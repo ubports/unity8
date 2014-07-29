@@ -26,11 +26,12 @@ Showable {
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
     property url defaultBackground
+    property bool loadContent: required
 
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
 
-    showAnimation: StandardAnimation { property: "x"; to: 0 }
+    showAnimation: StandardAnimation { property: "x"; to: 0; duration: UbuntuAnimation.FastDuration }
     hideAnimation: __leftHideAnimation
 
     property alias dragHandleWidth: dragHandle.width
@@ -126,7 +127,7 @@ Showable {
         property var infographicModel: LightDM.Infographic
         readonly property int backgroundTopMargin: -greeter.y
 
-        source: required ? "GreeterContent.qml" : ""
+        source: loadContent ? "GreeterContent.qml" : ""
 
         onLoaded: {
             selected(currentIndex);
