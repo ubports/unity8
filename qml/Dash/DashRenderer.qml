@@ -47,5 +47,6 @@ Item {
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
-    signal pressAndHold(int index)
+    /// @param itemModel model of the item
+    signal pressAndHold(int index, var itemModel)
 }

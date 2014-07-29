@@ -243,10 +243,7 @@ FocusScope {
                             return;
                         }
 
-                        if (scopeView.scope.id === "scopes" || scopeView.scope.id == "clickscope") {
-                            // TODO Technically it is possible that calling activate() will make the scope emit
-                            // previewRequested so that we show a preview but there's no scope that does that yet
-                            // so it's not implemented
+                        if (itemModel.uri.indexOf("scope://") === 0) {
                             scopeView.scope.activate(result)
                         } else {
                             openPreview(index);
@@ -257,7 +254,9 @@ FocusScope {
                         if (scopeView.pressAndHoldOverride) {
                             scopeView.pressAndHoldOverride(index);
                         } else {
-                            openPreview(index)
+                            if (itemModel.uri.indexOf("scope://") !== 0) {
+                                openPreview(index)
+                            }
                         }
                     }
 
