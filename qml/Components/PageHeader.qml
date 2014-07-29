@@ -32,7 +32,6 @@ Item {
     property bool searchEntryEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
-    property bool searchInProgress: false
 
     property alias bottomItem: bottomContainer.children
 

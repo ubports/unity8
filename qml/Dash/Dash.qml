@@ -126,4 +126,72 @@ Showable {
             }
         }
     }
+
+    Rectangle {
+        id: indicator
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        clip: true
+        height: units.dp(3)
+        color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"
+        visible: opacity > 0
+
+        readonly property bool processing: dashContent.processing || scopeItem.processing
+
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+        }
+
+        onProcessingChanged: {
+            if (processing) delay.start();
+            else if (!persist.running) indicator.opacity = 0;
+        }
+
+        Timer {
+            id: delay
+            interval: 200
+            onTriggered: if (indicator.processing) {
+                persist.restart();
+                indicator.opacity = 1;
+            }
+        }
+
+
+        Timer {
+            id: persist
+            interval: 2 * UbuntuAnimation.SleepyDuration - UbuntuAnimation.FastDuration
+            onTriggered: if (!indicator.processing) indicator.opacity = 0
+        }
+
+        Rectangle {
+            id: orange
+            anchors { top: parent.top;  bottom: parent.bottom }
+            width: parent.width / 4
+            color: Theme.palette.selected.foreground
+
+            SequentialAnimation {
+                running: indicator.visible
+                loops: Animation.Infinite
+                PropertyAnimation {
+                    from: -orange.width / 2
+                    to: indicator.width - orange.width / 2
+                    duration: UbuntuAnimation.SleepyDuration
+                    easing.type: Easing.InOutSine
+                    target: orange
+                    property: "x"
+                }
+                PropertyAnimation {
+                    to: -orange.width / 2
+                    duration: UbuntuAnimation.SleepyDuration
+                    easing.type: Easing.InOutSine
+                    target: orange
+                    property: "x"
+                }
+            }
+        }
+    }
+
 }
