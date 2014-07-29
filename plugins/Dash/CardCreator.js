@@ -262,12 +262,14 @@ var kTitleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
+// %1 is used as additional anchors of emblem image
 var kEmblemImageCode = 'Image { \n\
                             id: emblemImage; \n\
                             objectName: "emblemImage"; \n\
                             anchors { \n\
                             bottom: titleLabel.baseline; \n\
-                            right: parent.right; \n\ } \n\
+                            right: parent.right; \n\
+                            %1 } \n\
                             source: cardData && cardData["emblem"]; \n\
                             width: height; \n\
                             height: titleLabel.font.pixelSize; \n\
@@ -478,6 +480,9 @@ function cardString(template, components) {
             titleContainerAnchors = 'right: parent.right; ';
             titleContainerAnchors += headerLeftAnchor;
             titleContainerAnchors += headerVerticalAnchors;
+            if (!headerLeftAnchorHasMargin) {
+                titleContainerAnchors += 'leftMargin: units.gu(1);\n';
+            }
         }
         if (hasEmblem) {
             titleRightAnchor = 'right: emblemImage.left;\n';
@@ -532,12 +537,18 @@ function cardString(template, components) {
             subtitleCode += kSubtitleLabelCode.arg(subtitleAnchors).arg(color);
         }
 
+        var emblemCode;
+        if (hasMascot) {
+            emblemCode = kEmblemImageCode.arg('');
+        } else {
+            emblemCode = kEmblemImageCode.arg('rightMargin: units.gu(1);');
+        }
         if (hasEmblem && hasSubtitle) {
             // using container 3
-            titleSubtitleCode = kHeader3ContainerCode.arg(titleContainerAnchors).arg(titleCode).arg(kEmblemImageCode).arg(kSubtitleLabelCode.arg(subtitleAnchors).arg(color));
+            titleSubtitleCode = kHeader3ContainerCode.arg(titleContainerAnchors).arg(titleCode).arg(emblemCode).arg(kSubtitleLabelCode.arg(subtitleAnchors).arg(color));
         } else if (hasEmblem) {
             // container with emblem
-            titleSubtitleCode = kHeader2ContainerCode.arg(titleContainerAnchors).arg('titleLabel.height').arg(titleCode).arg(kEmblemImageCode);
+            titleSubtitleCode = kHeader2ContainerCode.arg(titleContainerAnchors).arg('titleLabel.height').arg(titleCode).arg(emblemCode);
         } else if (hasMascot && hasSubtitle) {
             // container with subtitle
             titleSubtitleCode = kHeader2ContainerCode.arg(titleContainerAnchors).arg('titleLabel.height + subtitleLabel.height').arg(titleCode).arg(subtitleCode);
