@@ -33,6 +33,8 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    property alias dividerDotsCount: pageHeader.dividerDotsCount
+    property alias dividerDotsIndex: pageHeader.dividerDotsIndex
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
