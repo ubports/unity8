@@ -299,7 +299,7 @@ Item {
         }
     }
 
-    Rectangle {
+    BorderImage {
         id: bottomBorder
         anchors {
             top: headerContainer.bottom
@@ -308,7 +308,7 @@ Item {
             bottom: bottomContainer.top
         }
 
-        color: "#d7d7d7"
+        source: "graphics/PageHeaderBaseDivider.sci"
     }
 
     Item {
