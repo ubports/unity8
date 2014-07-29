@@ -103,8 +103,10 @@ Item {
             verify(currentScope, "Can't find the current scope.");
 
             currentScope.setSearchInProgress(true);
-
             tryCompare(processingIndicator, "visible", true);
+
+            currentScope.setSearchInProgress(false);
+            tryCompare(processingIndicator, "visible", false);
         }
     }
 }
