@@ -58,10 +58,8 @@ Showable {
 
     onRequiredChanged: {
         // Reset hide animation to default once we're finished with it
-        if (!required) {
-            // Put back on left for reliable show direction and so that
-            // if normal hide() is called, we don't animate from right.
-            x = -width
+        if (required) {
+            // Reset hide animation so that a hide() call is reliably left
             hideAnimation = __leftHideAnimation
         }
     }
