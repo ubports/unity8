@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 import Unity 0.2
 import Utils 0.1
 import "../Components"
@@ -28,6 +29,8 @@ Showable {
 
     property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
+
+    property alias overviewHandleHeight: overviewDragHandle.height
 
     function setCurrentScope(scopeId, animate, reset) {
         var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
@@ -66,19 +69,85 @@ Showable {
         filterRegExp: RegExp("^true$")
     }
 
+    QtObject {
+        id: overviewController
+        objectName: "overviewController"
+
+        property alias enableAnimation: progressAnimation.enabled
+        property real progress: 0
+        Behavior on progress {
+            id: progressAnimation
+            UbuntuNumberAnimation { }
+        }
+    }
+
+    ScopesOverview {
+        id: scopesOverview
+        objectName: "scopesOverview"
+        anchors.fill: parent
+        scope: scopes.overviewScope
+        progress: overviewController.progress
+        scopeScale: scopeItem.scope ? 0.4 : (1 - overviewController.progress * 0.6)
+        visible: scopeScale != 1
+        currentIndex: dashContent.currentIndex
+        onDone: {
+            if (currentTab == 1) {
+                animateDashFromAll(dashContent.currentScopeId);
+            }
+            hide();
+        }
+        onFavoriteSelected: {
+            setCurrentScope(scopeId, false, false);
+            hide();
+        }
+        onAllFavoriteSelected: {
+            setCurrentScope(scopeId, false, false);
+            animateDashFromAll(dashContent.currentScopeId);
+            hide();
+        }
+        onSearchSelected: {
+            var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId);
+            if (scopeIndex >= 0) {
+                // Is a favorite one
+                setCurrentScope(scopeId, false, false);
+                showDashFromPos(pos, size);
+                hide();
+            } else {
+                // Is not a favorite one, activate and get openScope
+                scope.activate(result);
+            }
+        }
+        function hide() {
+            overviewController.enableAnimation = true;
+            overviewController.progress = 0;
+        }
+        onProgressChanged: {
+            if (progress == 0) {
+                currentTab = scopeItem.scope ? 1 : 0;
+            }
+        }
+    }
+
     DashContent {
         id: dashContent
+
+        property var scopeThatOpenedScope: null
+
+        parent: overviewController.progress == 0 ? dash : scopesOverview.dashItemEater
         objectName: "dashContent"
-        width: parent.width
-        height: parent.height
+        width: dash.width
+        height: dash.height
         model: filteredScopes
         scopes: scopes
-        visible: x != -width
+        visible: !scopesOverview.showingNonFavoriteScope && x != -width
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
+            scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
+            scopesOverview.currentTab = 1;
+            scopesOverview.ensureAllScopeVisible(scope.id);
             x = -width;
         }
         onScopeLoaded: {
@@ -88,25 +157,63 @@ Showable {
             }
         }
         scale: dash.contentScale
-        clip: scale != 1.0 || scopeItem.visible
+        clip: scale != 1.0 || scopeItem.visible || overviewController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
+                duration: overviewController.progress != 0 ? 0 : UbuntuAnimation.FastDuration
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        dashContent.closeScope(scopeItem.scope);
+                        dashContent.scopeThatOpenedScope.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
+                        if (overviewController.progress == 0) {
+                            // Set tab to Favorites only if we are not showing the overview
+                            scopesOverview.currentTab = 0;
+                        }
                     }
                 }
             }
         }
+
+        enabled: opacity == 1
+        opacity: scopesOverview.growingDashFromPos ? 1 : 1 - overviewController.progress
+    }
+
+    DashBackground
+    {
+        anchors.fill: scopeItem
+        visible: scopeItem.visible
+        parent: scopeItem.parent
+        scale: scopeItem.scale
+        opacity: scopeItem.opacity
     }
 
     GenericScopeView {
         id: scopeItem
-        anchors.left: dashContent.right
+        objectName: "dashTempScopeItem"
+
+        readonly property real targetOverviewScale: {
+            if (scopesOverview.currentTab == 0) {
+                return 0.4;
+            } else {
+                return scopesOverview.allCardSize.width / scopeItem.width;
+            }
+        }
+        readonly property real overviewProgressScale: (1 - overviewController.progress * (1 - targetOverviewScale))
+        readonly property var targetOverviewPosition: scope ? scopesOverview.allScopeCardPosition(scope.id) : null
+        readonly property real overviewProgressX: scope && scopesOverview.currentTab == 1 && targetOverviewPosition ?
+                                                      overviewController.progress * (targetOverviewPosition.x - (width - scopesOverview.allCardSize.width) / 2)
+                                                      : 0
+        readonly property real overviewProgressY: scope && scopesOverview.currentTab == 1 && targetOverviewPosition ?
+                                                      overviewController.progress * (targetOverviewPosition.y - (height - scopesOverview.allCardSize.height) / 2)
+                                                      : 0
+
+        x: overviewController.progress == 0 ? dashContent.x + width : overviewProgressX
+        y: overviewController.progress == 0 ? dashContent.y : overviewProgressY
         width: parent.width
         height: parent.height
-        scale: dash.contentScale
+        scale: dash.contentScale * overviewProgressScale
+        enabled: opacity == 1
+        opacity: 1 - overviewController.progress
         clip: scale != 1.0
         visible: scope != null
         hasBackAction: true
@@ -126,4 +233,28 @@ Showable {
             }
         }
     }
+
+    EdgeDragArea {
+        id: overviewDragHandle
+        objectName: "overviewDragHandle"
+        z: 1
+        direction: Direction.Upwards
+        enabled: !dashContent.previewShown && dashContent.currentScope && dashContent.currentScope.searchQuery == "" && (overviewController.progress == 0 || dragging)
+
+        readonly property real fullMovement: units.gu(20)
+
+        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+        height: units.gu(2)
+
+        onSceneDistanceChanged: {
+            overviewController.enableAnimation = false;
+            overviewController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
+        }
+
+        onDraggingChanged: {
+            overviewController.enableAnimation = true;
+            overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
+        }
+    }
+
 }

@@ -18,6 +18,7 @@
 
 // Self
 #include "fake_scopes.h"
+#include "fake_scopesoverview.h"
 
 // TODO: Implement remaining pieces, like Categories (i.e. LensView now gives warnings)
 
@@ -26,6 +27,7 @@
 
 Scopes::Scopes(QObject *parent)
  : unity::shell::scopes::ScopesInterface(parent)
+ , m_scopesOverview(nullptr)
  , m_loaded(false)
  , timer(this)
 {
@@ -47,10 +49,17 @@ void Scopes::updateScopes()
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
     addScope(new Scope("SingleCategoryScope", "Single", true, this, 1));
+    addScope(new Scope("MockScope4", "MS4", true, this));
+    addScope(new Scope("MockScope6", "MS6", true, this));
+    addScope(new Scope("MockScope7", "MS7", false, this));
+    addScope(new Scope("MockScope8", "MS8", false, this));
+    addScope(new Scope("MockScope9", "MS9", false, this));
+    m_scopesOverview = new ScopesOverview(this);
 
     if (!m_loaded) {
         m_loaded = true;
         Q_EMIT loadedChanged();
+        Q_EMIT overviewScopeChanged();
     }
 }
 
@@ -63,6 +72,8 @@ void Scopes::clear()
         m_scopes.clear();
         endRemoveRows();
     }
+    delete m_scopesOverview;
+    m_scopesOverview = nullptr;
 
     if (m_loaded) {
         m_loaded = false;
@@ -110,8 +121,22 @@ unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
     return m_scopes[row];
 }
 
-unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const&) const
+unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const &scope_id) const
 {
+    for (Scope *scope : m_scopes) {
+        // According to mh3 Scopes::getScope should only return non null for visible scopes
+        if (scope->id() == scope_id && scope->visible())
+            return scope;
+    }
+    return nullptr;
+}
+
+unity::shell::scopes::ScopeInterface* Scopes::getScopeFromAll(const QString& scope_id) const
+{
+    for (Scope *scope : m_scopes) {
+        if (scope->id() == scope_id)
+            return scope;
+    }
     return nullptr;
 }
 
@@ -123,6 +148,22 @@ QModelIndex Scopes::parent(const QModelIndex&) const
 bool Scopes::loaded() const
 {
     return m_loaded;
+}
+
+unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
+{
+    return m_scopesOverview;
+}
+
+QList<unity::shell::scopes::ScopeInterface *> Scopes::scopes(bool onlyVisible) const
+{
+    QList<unity::shell::scopes::ScopeInterface *> res;
+    for (Scope *scope : m_scopes) {
+        if (!onlyVisible || scope->visible()) {
+            res << scope;
+        }
+    }
+    return res;
 }
 
 void Scopes::addScope(Scope* scope)

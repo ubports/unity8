@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"POT-Creation-Date: 2014-07-21 15:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,7 +101,7 @@ msgstr ""
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:356
 msgid "See less"
 msgstr ""
 
@@ -109,7 +109,7 @@ msgstr ""
 msgid "Recent"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:356
 msgid "See all"
 msgstr ""
 
@@ -131,6 +131,22 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:185
+msgid "Manage Dash"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:390
+msgid "Done"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
 msgstr ""
 
 #: qml/Greeter/Greeter.qml:157
@@ -157,11 +173,11 @@ msgstr ""
 msgid "Speaking..."
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:97
 msgid "Show password"
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:112
 msgid "Please enter SIM PIN"
 msgstr ""
 
@@ -173,27 +189,27 @@ msgstr ""
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:577
 msgid "In queue…"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:581
 msgid "Downloading"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:585
 msgid "Canceled"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Finished"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Failed, tap to retry"
 msgstr ""
 
@@ -201,7 +217,23 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:347
+msgid "Are you sure you would like to turn power off?"
+msgstr ""
+
+#: qml/Shell.qml:349
+msgid "Power off"
+msgstr ""
+
+#: qml/Shell.qml:360
+msgid "Restart"
+msgstr ""
+
+#: qml/Shell.qml:369
+msgid "Cancel"
+msgstr ""
+
+#: qml/Shell.qml:496
 #, qt-format
 msgid "Please enter %1"
 msgstr ""

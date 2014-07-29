@@ -109,6 +109,7 @@ Label {
                     anchors { left: parent.left; 
                             leftMargin: units.gu(1); 
                             right: parent.right; 
+                            rightMargin: units.gu(1);
                             top: overlayLoader.top; 
                             topMargin: units.gu(1);
 }

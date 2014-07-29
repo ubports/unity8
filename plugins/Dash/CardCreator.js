@@ -408,7 +408,7 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(anchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey")';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey")';
 
     var titleSubtitleCode = "";
     if (hasTitle) {
@@ -438,6 +438,7 @@ function cardString(template, components) {
                 titleAnchors = 'left: parent.left; \n\
                                 leftMargin: units.gu(1); \n\
                                 right: parent.right; \n\
+                                rightMargin: units.gu(1); \n\
                                 top: overlayLoader.top; \n\
                                 topMargin: units.gu(1);\n';
             } else {

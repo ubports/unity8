@@ -88,7 +88,7 @@ Item {
             height: previewListView.height
             width: previewListView.width
 
-            readonly property bool ready: preview.previewModel.loaded
+            readonly property bool ready: preview.previewModel && preview.previewModel.loaded
 
             Previews.Preview {
                 id: preview
@@ -108,7 +108,7 @@ Item {
                 id: processingMouseArea
                 objectName: "processingMouseArea"
                 anchors.fill: parent
-                enabled: !preview.previewModel.loaded || preview.previewModel.processingAction
+                enabled: preview.previewModel && (!preview.previewModel.loaded || preview.previewModel.processingAction)
 
                 ActivityIndicator {
                     anchors.centerIn: parent

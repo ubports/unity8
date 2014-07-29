@@ -125,14 +125,6 @@ FocusScope {
                 opacity: dash.disappearingAnimationProgress
             }
 
-            Image {
-                anchors.fill: dash
-                source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-                fillMode: Image.PreserveAspectCrop
-                horizontalAlignment: Image.AlignRight
-                verticalAlignment: Image.AlignTop
-            }
-
             Dash {
                 id: dash
                 objectName: "dash"
@@ -141,6 +133,8 @@ FocusScope {
                 hides: [stages, launcher, panel.indicators]
                 shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
                 enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
+
+                overviewHandleHeight: shell.edgeSize
 
                 anchors {
                     fill: parent

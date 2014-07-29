@@ -24,7 +24,7 @@ import "SearchHistoryModel"
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + units.gu(2) + bottomContainer.height
+    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
 
     property bool showBackButton: false
     property string title
@@ -34,6 +34,7 @@ Item {
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
     property bool searchInProgress: false
+    property alias showSignatureLine: bottomBorder.visible
 
     property alias bottomItem: bottomContainer.children
 
@@ -45,11 +46,23 @@ Item {
     signal backClicked()
 
     onScopeStyleChanged: refreshLogo()
+    onSearchQueryChanged: {
+        // Make sure we are at the search page if the search query changes behind our feet
+        if (searchQuery) {
+            headerContainer.showSearch = true;
+        }
+    }
 
     function triggerSearch() {
         if (searchEntryEnabled) {
             headerContainer.showSearch = true;
             searchTextField.forceActiveFocus();
+        }
+    }
+
+    function closePopup() {
+        if (headerContainer.popover != null) {
+            PopupUtils.close(headerContainer.popover);
         }
     }
 
@@ -61,9 +74,7 @@ Item {
             unfocus();
         }
         searchTextField.text = "";
-        if (headerContainer.popover != null) {
-            PopupUtils.close(headerContainer.popover);
-        }
+        closePopup();
     }
 
     function unfocus() {
@@ -104,9 +115,7 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: headerContainer.showSearch
         onPressed: {
-            if (headerContainer.popover) {
-                PopupUtils.close(headerContainer.popover);
-            }
+            closePopup();
             if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
@@ -221,6 +230,12 @@ Item {
                             root.openSearchHistory();
                         }
                     }
+
+                    onTextChanged: {
+                        if (text != "") {
+                            closePopup();
+                        }
+                    }
                 }
             }
 
@@ -245,6 +260,7 @@ Item {
 
                     actions: [
                         Action {
+                            objectName: "search"
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
@@ -297,6 +313,7 @@ Item {
 
                 Repeater {
                     id: recentSearches
+                    objectName: "recentSearches"
                     model: searchHistory
 
                     delegate: Standard {
@@ -305,7 +322,8 @@ Item {
                         onClicked: {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
-                            PopupUtils.close(popover);
+                            closePopup();
+                            unfocus();
                         }
                     }
                 }

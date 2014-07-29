@@ -18,6 +18,7 @@
 #
 
 import logging
+import time
 import ubuntuuitoolkit
 
 from unity8.shell import emulators
@@ -68,7 +69,9 @@ class Dash(emulators.UnityEmulatorBase):
 
         """
         scope_loader = self._get_scope_loader(scope_id)
+        print ("open_scope", scope_id, scope_loader)
         if scope_loader.isCurrent:
+            print ("scope_loader.isCurrent")
             logger.info('The scope is already open.')
             return self._get_scope_from_loader(scope_loader)
         else:
@@ -83,6 +86,12 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
+        print ("_get_scope_from_loader", loader, loader.isCurrent, loader.isLoaded, loader.get_children())
+        i = 0
+        time.sleep(1)
+        while len(loader.get_children()) < 1 and i < 5:
+            time.sleep(1)
+            i = i + 1
         return loader.get_children()[0]
 
     def _open_scope_scrolling(self, scope_loader):

@@ -24,13 +24,15 @@
 
 #include <QTimer>
 
+class Scopes;
+
 class Scope : public unity::shell::scopes::ScopeInterface
 {
     Q_OBJECT
 
 public:
-    Scope(QObject* parent = 0);
-    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0, int categories = 20);
+    Scope(Scopes* parent = 0);
+    Scope(QString const& id, QString const& name, bool visible, Scopes* parent = 0, int categories = 20);
 
     /* getters */
     QString id() const override;
@@ -84,7 +86,8 @@ protected:
 
     QString m_previewRendererName;
 
-    Categories* m_categories;
+    unity::shell::scopes::CategoriesInterface* m_categories;
+    unity::shell::scopes::ScopeInterface* m_openScope;
 };
 
 #endif // FAKE_SCOPE_H
