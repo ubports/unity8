@@ -161,7 +161,6 @@ Showable {
             }
         }
 
-
         Timer {
             id: persist
             interval: 2 * UbuntuAnimation.SleepyDuration - UbuntuAnimation.FastDuration
