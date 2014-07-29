@@ -353,7 +353,7 @@ Rectangle {
 
                     // Hiding tiles when their progress is negative or reached the maximum
                     visible: (progress >= 0 && progress < 1.7) ||
-                             (model.appId == "unity8-dash" && priv.focusedAppDelegate.x !== 0)
+                             (isDash && priv.focusedAppDelegate.x !== 0)
 
                     EasingCurve {
                         id: snappingCurve
