@@ -1,3 +1,17 @@
+unity8 (8.00) UNRELEASED; urgency=medium
+
+  [ Gerry Boland ]
+  [ Daniel d'Andrada ]
+  * Re-architecture unity8 to use the QtMirCompositor library so that
+    the Qt scenegraph renderer is used as the Mir compositor, and
+    application surfaces are added to the QML scene as items.
+    
+  [ Michael Zanetti ]
+  * Port phone right-edge spread code to use QtCompositor
+  * Add right-edge spread animation for tablet
+
+ -- Gerry Boland <gerry.boland@canonical.com>  Thu, 10 Jul 2014 10:34:18 +0100
+
 unity8 (7.90+14.10.20140725-0ubuntu1) utopic; urgency=low
 
   [ CI bot ]
