@@ -3,19 +3,18 @@
 
     <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
 
-    <annotation name="org.freedesktop.Accounts.Authentication.ChangeOwn"
-                value="com.canonical.unity.AccountsService.ModifyOwnUser"/>
-
     <annotation name="org.freedesktop.Accounts.Authentication.ReadAny"
-                value="com.canonical.unity.AccountsService.ModifyAnyUser"/>
+                value="com.ubuntu.AccountsService.GreeterReadAny"/>
 
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
-                value="com.canonical.unity.AccountsService.ModifyAnyUser"/>
+                value="com.ubuntu.AccountsService.GreeterChangeAny"/>
 
+    <!-- Should have been named DemoEdges, sorry folks. -mterry -->
     <property name="demo-edges" type="b" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 
+    <!-- Should have been named LauncherItems, sorry folks. -mterry -->
     <property name="launcher-items" type="aa{sv}" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="[{'defaults': <true>}]"/>
     </property>
