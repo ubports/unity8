@@ -141,7 +141,8 @@ void LauncherModel::pin(const QString &appId, int index)
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
                                               m_backend->displayName(appId),
-                                              m_backend->icon(appId));
+                                              m_backend->icon(appId),
+                                              this);
         item->setPinned(true);
         m_list.insert(index, item);
         endInsertRows();
@@ -331,7 +332,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
     if (found) {
         // Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
-        LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString());
+        LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
         item->setFocused(app->focused());
 

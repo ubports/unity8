@@ -37,7 +37,7 @@ Item {
 
     SurfaceContainer {
         id: surfaceContainer
-        objectName: "surfaceContainer" + index
+        objectName: "surfaceContainer"
         anchors.fill: parent
         surface: model.surface
         property bool appHasCreatedASurface: false

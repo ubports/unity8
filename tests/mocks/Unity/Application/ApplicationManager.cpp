@@ -55,6 +55,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
     buildListOfAvailableApplications();
 
     startApplication("unity8-dash");
+    focusApplication("unity8-dash");
 }
 
 ApplicationManager::~ApplicationManager()
@@ -133,7 +134,6 @@ void ApplicationManager::add(ApplicationInfo *application) {
     Q_EMIT applicationAdded(application->appId());
     Q_EMIT countChanged();
     if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
-    Q_EMIT focusRequested(application->appId());
 
     connect(application, &ApplicationInfo::surfaceChanged, this, [application, this]() {
         QModelIndex appIndex = findIndex(application);
@@ -355,7 +355,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("unity8-dash");
     application->setName("Unity 8 Mock Dash");
     application->setIcon(QUrl("unity8-dash"));
-    application->setStage(ApplicationInfo::SideStage);
+    application->setStage(ApplicationInfo::MainStage);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 

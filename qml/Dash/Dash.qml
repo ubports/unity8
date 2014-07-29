@@ -31,7 +31,8 @@ Showable {
     property real contentScale: 1.0
 
     DashCommunicatorService {
-        onSetCurrentScope: {
+        objectName: "dashCommunicatorService"
+        onSetCurrentScopeRequested: {
             dash.setCurrentScope(scopeId, animate, reset)
         }
     }

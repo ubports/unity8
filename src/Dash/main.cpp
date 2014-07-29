@@ -22,12 +22,37 @@
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
 #include <QDebug>
+#include <QCommandLineParser>
+#include <QLibrary>
 
 #include <paths.h>
 
 int main(int argc, const char *argv[])
 {
     QGuiApplication *application = new QGuiApplication(argc, (char**)argv);
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Description: Unity 8 Shell Dash");
+    parser.addHelpOption();
+
+    QCommandLineOption testabilityOption("testability",
+        "Load the testability driver (Alternatively export QT_LOAD_TESTABILITY");
+    parser.addOption(testabilityOption);
+
+    if (parser.isSet(testabilityOption) || getenv("QT_LOAD_TESTABILITY")) {
+        QLibrary testLib(QLatin1String("qttestability"));
+        if (testLib.load()) {
+            typedef void (*TasInitialize)(void);
+            TasInitialize initFunction = (TasInitialize)testLib.resolve("qt_testability_init");
+            if (initFunction) {
+                initFunction();
+            } else {
+                qCritical("Library qttestability resolve failed!");
+            }
+        } else {
+            qCritical("Library qttestability load failed!");
+        }
+    }
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);

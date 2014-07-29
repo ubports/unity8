@@ -86,11 +86,10 @@ Item {
             hideIndicators();
         }
 
-        function killApps(apps) {
-            if (!apps) return;
-            while (apps.count > 1) {
-                var appIndex = apps.get(0).appId == "unity8-dash" ? 1 : 0
-                ApplicationManager.stopApplication(apps.get(appIndex).appId);
+        function killApps() {
+            while (ApplicationManager.count > 1) {
+                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
+                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
             }
             compare(ApplicationManager.count, 1)
         }
@@ -168,6 +167,7 @@ Item {
 
             // wait until the animation has finished
             tryCompare(greeter, "showProgress", 0);
+            waitForRendering(greeter);
         }
 
         /*
@@ -319,8 +319,9 @@ Item {
         }
 
         function waitUntilApplicationWindowIsFullyVisible() {
-            var spreadView = findChild(shell, "surfaceContainer0");
-            tryCompareFunction(function() { return spreadView.surface !== null; }, true);
+            var appDelegate = findChild(shell, "appDelegate0")
+            var surfaceContainer = findChild(appDelegate, "surfaceContainer");
+            tryCompareFunction(function() { return surfaceContainer.surface !== null; }, true);
         }
 
         function waitUntilDashIsFocused() {
@@ -350,7 +351,7 @@ Item {
             tryCompareFunction(function() { return app.surface != null }, true);
 
             // Minimize the application we just launched
-            swipeFromLeftEdge(units.gu(27));
+            swipeFromLeftEdge(units.gu(26) + 1);
 
             waitUntilDashIsFocused();
 
@@ -360,7 +361,21 @@ Item {
             // The main point of this test
             ApplicationManager.requestFocusApplication("dialer-app");
             tryCompare(greeter, "showProgress", 0);
+            waitForRendering(greeter);
         }
+
+        function test_focusRequestedHidesIndicators() {
+            var indicators = findChild(shell, "indicators");
+
+            showIndicators();
+
+            var oldCount = ApplicationManager.count;
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(ApplicationManager, "count", oldCount + 1);
+
+            tryCompare(indicators, "fullyClosed", true);
+        }
+
 
         function test_showGreeterDBusCall() {
             var greeter = findChild(shell, "greeter")
@@ -394,6 +409,27 @@ Item {
             tryCompare(panel, "fullscreenMode", true);
             ApplicationManager.requestFocusApplication("gallery-app");
             tryCompare(panel, "fullscreenMode", false);
+        }
+
+        function test_leftEdgeDragFullscreen() {
+            var panel = findChild(shell, "panel");
+            tryCompare(panel, "fullscreenMode", false)
+
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(panel, "fullscreenMode", true)
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+
+            touchFlick(shell, touchStartX, touchStartY, units.gu(2), touchStartY, true, false);
+
+            compare(panel.fullscreenMode, true);
+
+            touchFlick(shell, units.gu(2), touchStartY, units.gu(10), touchStartY, false, false);
+
+            tryCompare(panel, "fullscreenMode", false);
+
+            touchRelease(shell);
         }
     }
 }

@@ -47,6 +47,11 @@ SpreadDelegate {
 
     property bool isInSideStage: false
 
+    property int dragOffset: 0
+
+    dropShadow: spreadView.isActive ||
+                (active && model.stage == ApplicationInfoInterface.MainStage && priv.xTranslate != 0)
+
     onSelectedChanged: {
         if (selected) {
             priv.snapshot();
@@ -129,6 +134,16 @@ SpreadDelegate {
             return helperEasingCurve.value * (endValue - startValue) + startValue;
         }
 
+        Behavior on xTranslate {
+            enabled: !spreadView.isActive &&
+                     !snapAnimation.running &&
+                     model.appId !== "unity8-dash" &&
+                     !spreadView.sideStageDragging
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.FastDuration
+            }
+        }
+
         property real xTranslate: {
             var newTranslate = 0;
 
@@ -155,7 +170,12 @@ SpreadDelegate {
                 if (spreadView.phase == 0 && shouldMoveAway) {
                     newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -units.gu(4), root.animatedProgress);
                 }
+                newTranslate += root.dragOffset;
             }
+            if (!spreadView.isActive && model.appId == "unity8-dash" && !root.active) {
+                newTranslate -= root.width;
+            }
+
             if (nextInStack && spreadView.phase == 0) {
                 if (model.stage == ApplicationInfoInterface.MainStage) {
                     if (spreadView.sideStageVisible && root.progress > 0) {
@@ -205,6 +225,10 @@ SpreadDelegate {
         }
 
         property real scale: {
+            if (!spreadView.isActive) {
+                return 1;
+            }
+
             if (otherSelected) {
                 return selectedScale;
             }
@@ -249,6 +273,10 @@ SpreadDelegate {
         }
 
         property real angle: {
+            if (!spreadView.isActive) {
+                return 0;
+            }
+
             if (otherSelected) {
                 return selectedAngle;
             }

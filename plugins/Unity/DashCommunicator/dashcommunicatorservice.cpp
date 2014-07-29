@@ -20,7 +20,7 @@ DashCommunicatorService::DashCommunicatorService(QObject *parent):
     QObject(parent),
     m_dbusService(new DBusDashCommunicatorService(this))
 {
-    connect(m_dbusService, &DBusDashCommunicatorService::setCurrentScope, this, &DashCommunicatorService::setCurrentScope);
+    connect(m_dbusService, &DBusDashCommunicatorService::setCurrentScopeRequested, this, &DashCommunicatorService::setCurrentScopeRequested);
 }
 
 

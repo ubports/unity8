@@ -151,10 +151,11 @@ Item {
                 if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
                     lockscreen.show();
                 }
+                panel.indicators.hide();
             }
 
             onApplicationAdded: {
-                if (greeter.shown) {
+                if (greeter.shown && appId != "unity8-dash") {
                     greeter.hide();
                 }
             }
@@ -185,12 +186,17 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed
+                value: !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
                 value: greeter.fakeActiveForApp === "" // to support emergency dialer hack
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "inverseProgress"
+                value: launcher.progress
             }
         }
     }
@@ -423,12 +429,8 @@ Item {
             return;
         }
 
-        if (!stages.locked) {
-            ApplicationManager.requestFocusApplication("unity8-dash")
-            launcher.fadeOut();
-        } else {
-            launcher.switchToNextState("visible");
-        }
+        ApplicationManager.requestFocusApplication("unity8-dash")
+        launcher.fadeOut();
 
         if (greeter.shown) {
             greeter.hideRight();
@@ -458,8 +460,8 @@ Item {
                 ApplicationManager.focusedApplicationId &&
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
-            fullscreenMode: (topmostApplicationIsFullscreen
-                    && !LightDM.Greeter.active) || greeter.fakeActiveForApp !== ""
+            fullscreenMode: (topmostApplicationIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+                            || greeter.fakeActiveForApp !== ""
         }
 
         Launcher {
@@ -476,7 +478,11 @@ Item {
 
             onShowDashHome: showHome()
             onDash: showDash()
-            onDashSwipeChanged: if (dashSwipe) dash.setCurrentScope("clickscope", false, true)
+            onDashSwipeChanged: {
+                if (dashSwipe && ApplicationManager.focusedApplicationId !== "unity8-dash") {
+                    dash.setCurrentScope("clickscope", false, true)
+                }
+            }
             onLauncherApplicationSelected: {
                 if (greeter.fakeActiveForApp !== "") {
                     lockscreen.show()
