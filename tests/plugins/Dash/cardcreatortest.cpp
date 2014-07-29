@@ -19,6 +19,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QtTestGui>
+#include <QDebug>
 
 class CardCreatorTest : public QObject
 {
@@ -73,8 +74,11 @@ private Q_SLOTS:
             QFile testResultFile(testDirPath + resultFileName);
             QVERIFY(testResultFile.open(QIODevice::ReadOnly));
             QTextStream ts2(&testResultFile);
-            const QString expectedResult = ts2.readAll();
-            QCOMPARE(cardStringResult.toString().simplified(), expectedResult.simplified());
+            const QStringList expectedLines = ts2.readAll().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
+            const QStringList cardStringResultLines = cardStringResult.toString().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
+            for (int i = 0; i < expectedLines.size(); ++i) {
+                QCOMPARE(cardStringResultLines[i].simplified(), expectedLines[i].simplified());
+            }
 
             QVariant createCardComponentResult;
             QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON));
