@@ -54,6 +54,7 @@ Rectangle {
         id: listViewHeader
         objectName: "indicatorsListViewHeader"
         model: content.indicatorsModel
+        clip: true
 
         anchors {
             left: parent.left
@@ -99,6 +100,7 @@ Rectangle {
             bottom: parent.bottom
         }
         model: content.indicatorsModel
+        clip: true
 
         currentIndex: listViewHeader.currentIndex
         interactive: false

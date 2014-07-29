@@ -187,7 +187,8 @@ Showable {
             bottom: handle.top
         }
         indicatorsModel: visibleIndicators.model
-        clip: !indicators.fullyOpened
+        visible: indicators.fullyOpened || indicators.partiallyOpened
+        clip: indicators.partiallyOpened
         enabled: contentEnabled
 
         //small shadow gradient at bottom of menu

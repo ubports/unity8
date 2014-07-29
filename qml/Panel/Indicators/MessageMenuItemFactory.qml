@@ -38,9 +38,8 @@ Item {
     property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
 
     // TODO - bug #1260728
-    property var timeFormatter: Utils.TimeFormatter {
-        time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
-        format: "hh:mm - MMM dd"
+    property var timeFormatter: Utils.RelativeTimeFormatter {
+        time: getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000000
     }
 
     onMenuModelChanged: {

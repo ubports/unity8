@@ -124,16 +124,10 @@ IndicatorBase {
         delegate: Loader {
             id: loader
             objectName: "menuItem" + index
-            asynchronous: false
-            visible: height > 0
+            asynchronous: true
+            width: ListView.view.width
 
             property int modelIndex: index
-
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-
             sourceComponent: factory.load(model, identifier)
 
             onLoaded: {

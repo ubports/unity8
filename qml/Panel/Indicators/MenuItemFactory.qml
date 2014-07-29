@@ -46,6 +46,7 @@ Item {
             "com.canonical.indicator.appointment"    : appointmentMenu,
             "com.canonical.indicator.transfer"       : transferMenu,
             "com.canonical.indicator.button-section" : buttonSectionMenu,
+            "com.canonical.indicator.link"           : linkMenu,
 
             "com.canonical.indicator.messages.messageitem"  : messageItem,
             "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
@@ -223,14 +224,46 @@ Item {
                 menuModel.activate(menuIndex);
             }
 
+            // FIXME : At the moment, the indicators aren't using
+            // com.canonical.indicators.link for settings menu. Need to fudge it.
             property bool settingsMenu: menuData.action.indexOf("settings") > -1
-            backColor: settingsMenu ? Qt.rgba(1,1,1,0.05) : "transparent"
-
+            backColor: settingsMenu ? Qt.rgba(1,1,1,0.07) : "transparent"
             component: settingsMenu ? buttonForSettings : undefined
             Component {
                 id: buttonForSettings
                 Icon {
                     name: "settings"
+                    height: units.gu(3)
+                    width: height
+                    color: Theme.palette.selected.backgroundText
+                }
+            }
+        }
+    }
+
+    Component {
+        id: linkMenu;
+
+        Menus.StandardMenu {
+            objectName: "linkMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
+
+            onTriggered: {
+                menuModel.activate(menuIndex);
+            }
+
+            backColor: Qt.rgba(1,1,1,0.07)
+
+            component: menuData.icon ? icon : undefined
+            Component {
+                id: icon
+                SettingsComponents.IconVisual {
+                    source: menuData.icon
                     height: units.gu(3)
                     width: height
                     color: Theme.palette.selected.backgroundText
@@ -664,7 +697,7 @@ Item {
     Component {
         id: buttonSectionMenu;
 
-        ListItems.Standard {
+        Menus.StandardMenu {
             objectName: "buttonSectionMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -674,7 +707,7 @@ Item {
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
             text: menuData && menuData.label || ""
-            showDivider: false
+            foregroundColor: Theme.palette.normal.backgroundText
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -687,11 +720,13 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
             }
 
-            control: Button {
-                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
+            component: Component {
+                Button {
+                    text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
-                onClicked: {
-                    menuModel.activate(menuIndex);
+                    onClicked: {
+                        menuModel.activate(menuIndex);
+                    }
                 }
             }
         }
@@ -712,6 +747,7 @@ Item {
             if (component !== undefined) {
                 return component;
             }
+            console.debug("Don't know how to make " + modelData.type + " for " + context);
         }
         if (modelData.isCheck || modelData.isRadio) {
             return checkableMenu;

@@ -33,7 +33,7 @@ public:
     TimeFormatter(QObject *parent = 0);
     virtual ~TimeFormatter();
 
-    QString format() const;
+    virtual QString format() const;
     QString timeString() const;
     qint64 time() const;
 
