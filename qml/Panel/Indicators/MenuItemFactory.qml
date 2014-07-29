@@ -599,7 +599,7 @@ Item {
             property var uid: getExtendedProperty(extendedData, "xCanonicalUid", undefined)
 
             text: menuData && menuData.label || ""
-            iconSource: menuData && menuData.icon || ""
+            iconSource: menuData && menuData.icon || "image://theme/transfer-none"
             maximum: 1.0
             enabled: menuData && menuData.sensitive || false
             removable: true
