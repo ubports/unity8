@@ -129,6 +129,7 @@ Showable {
 
     Rectangle {
         id: indicator
+        objectName: "processingIndicator"
         anchors {
             left: parent.left
             right: parent.right
@@ -137,6 +138,7 @@ Showable {
         clip: true
         height: units.dp(3)
         color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"
+        opacity: 0
         visible: opacity > 0
 
         readonly property bool processing: dashContent.processing || scopeItem.processing

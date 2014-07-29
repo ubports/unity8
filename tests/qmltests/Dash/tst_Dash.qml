@@ -45,12 +45,8 @@ Item {
         name: "Dash"
         when: windowShown
 
-        property var scopes
-
-        Component.onCompleted: {
-            var dashContent = findChild(dash, "dashContent");
-            scopes = dashContent.scopes;
-        }
+        readonly property Item dashContent: findChild(dash, "dashContent");
+        readonly property var scopes: dashContent.scopes
 
         function init() {
             // clear and reload the scopes.
@@ -90,6 +86,25 @@ Item {
 
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);
+        }
+
+        function test_processing_indicator() {
+            tryCompare(scopes, "loaded", true);
+
+            var processingIndicator = findChild(dash, "processingIndicator");
+            verify(processingIndicator, "Can't find the processing indicator.");
+
+            verify(!processingIndicator.visible, "Processing indicator should be visible.");
+
+            tryCompareFunction(function() {
+                return scopes.getScope(dashContent.currentIndex) != null;
+            }, true);
+            var currentScope = scopes.getScope(dashContent.currentIndex);
+            verify(currentScope, "Can't find the current scope.");
+
+            currentScope.setSearchInProgress(true);
+
+            tryCompare(processingIndicator, "visible", true);
         }
     }
 }
