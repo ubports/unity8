@@ -87,6 +87,8 @@ Item {
                 id: countLabel
                 text: root.count
                 anchors.centerIn: parent
+                // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine
+                // property for Text: https://bugreports.qt-project.org/browse/QTBUG-40479
                 anchors.verticalCenterOffset: -units.dp(.5)
                 width: root.itemWidth - units.gu(1)
                 horizontalAlignment: Text.AlignHCenter
