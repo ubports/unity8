@@ -337,7 +337,7 @@ Item {
             Behavior on opacity { UbuntuNumberAnimation { } }
 
             clickOverride: function (index, result, item, itemModel) {
-                pageHeader.closeSearchHistory();
+                pageHeader.closePopup();
                 if (itemModel.scopeId) {
                     // This can end up in openScope so save restorePosition and restoreSize
                     scopesOverviewXYScaler.restorePosition = item.mapToItem(null, 0, 0);
