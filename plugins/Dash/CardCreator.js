@@ -181,15 +181,35 @@ var kHeaderRow3Code = 'Row { \n\
                                 ] \n\
                     }\n';
 
-// %1 is used as first child of the column
-// %2 is used as second child of the column
-var kHeaderColumnCode = 'Column { \n\
-                            anchors.verticalCenter: parent.verticalCenter; \n\
-                            spacing: units.dp(2); \n\
-                            width: parent.width - x;\n\
-                            data: [ %1\n\
+// %1 is used as anchors
+// %2 is used as height of the container
+// %3 is used as first child of the container
+// %4 is used as second child of the container
+var kHeader2ContainerCode = 'Item { \n\
+                            id: headerTitleContainer; \n\
+                            anchors { %1 } \n\
+                            width: parent.width - x; \n\
+                            implicitHeight: %2; \n\
+                            data: [ %3\n\
                                     ,\n\
-                                    %2 \n\
+                                    %4 \n\
+                                  ] \n\
+                        }\n';
+
+// %1 is used as anchors
+// %2 is used as first child of the container
+// %3 is used as second child of the container
+// %4 is used as third child of the container
+var kHeader3ContainerCode = 'Item { \n\
+                            id: headerTitleContainer; \n\
+                            anchors { %1 } \n\
+                            width: parent.width - x; \n\
+                            implicitHeight: titleLabel.height + subtitleLabel.height; \n\
+                            data: [ %2\n\
+                                    ,\n\
+                                    %3 \n\
+                                    ,\n\
+                                    %4 \n\
                                   ] \n\
                         }\n';
 
@@ -242,12 +262,25 @@ var kTitleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
+var kEmblemImageCode = 'Image { \n\
+                            id: emblemImage; \n\
+                            objectName: "emblemImage"; \n\
+                            anchors { \n\
+                            bottom: titleLabel.baseline; \n\
+                            right: parent.right; \n\ } \n\
+                            source: cardData && cardData["emblem"]; \n\
+                            width: height; \n\
+                            height: titleLabel.font.pixelSize; \n\
+                            fillMode: Image.PreserveAspectFit; \n\
+                        }\n';
+
 // %1 is used as anchors of subtitleLabel
 // %2 is used as color of subtitleLabel
 var kSubtitleLabelCode = 'Label { \n\
                             id: subtitleLabel; \n\
                             objectName: "subtitleLabel"; \n\
                             anchors { %1 } \n\
+                            anchors.topMargin: units.dp(2); \n\
                             elide: Text.ElideRight; \n\
                             fontSize: "small"; \n\
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
@@ -305,6 +338,7 @@ function cardString(template, components) {
     var hasBackground = !isHorizontal && (template["card-background"] || components["background"] || artAndSummary);
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
+    var hasEmblem = components["emblem"] && !(hasMascot && template["card-size"] === "small") || false;
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
@@ -425,24 +459,44 @@ function cardString(template, components) {
 
         var titleAnchors;
         var subtitleAnchors;
-        if (hasMascot && hasSubtitle) {
-            // Using row + column
-            titleAnchors = 'left: parent.left; right: parent.right';
-            subtitleAnchors = titleAnchors;
+        var titleRightAnchor;
+        var titleContainerAnchors;
+
+        if (hasMascot) {
+            titleContainerAnchors = 'verticalCenter: parent.verticalCenter; ';
+        } else {
+            titleContainerAnchors = 'right: parent.right; ';
+            titleContainerAnchors += headerLeftAnchor;
+            titleContainerAnchors += headerVerticalAnchors;
+        }
+        if (hasEmblem) {
+            titleRightAnchor = 'right: emblemImage.left;\n';
+        } else {
+            titleRightAnchor = 'right: parent.right;\n';
+        }
+
+        if (hasEmblem || (hasMascot && hasSubtitle)) {
+            // Using titleContainer (and maybe row)
+            titleAnchors = titleRightAnchor;
+            titleAnchors += 'left: parent.left;\n\
+                            top: parent.top;';
+            subtitleAnchors = 'right: parent.right;\n\
+                               left: parent.left;\n\
+                               top: titleLabel.bottom;\n';
         } else if (hasMascot) {
-            // Using row + label
-            titleAnchors = 'verticalCenter: parent.verticalCenter;\n'
+            // Using row + titleContainer
+            titleAnchors = 'verticalCenter: parent.verticalCenter;\n';
         } else {
             if (headerAsOverlay) {
                 // Using anchors to the overlay
-                titleAnchors = 'left: parent.left; \n\
-                                leftMargin: units.gu(1); \n\
-                                right: parent.right; \n\
-                                top: overlayLoader.top; \n\
-                                topMargin: units.gu(1);\n';
+                titleAnchors = titleRightAnchor;
+                titleAnchors += 'left: parent.left; \n\
+                                 leftMargin: units.gu(1); \n\
+                                 top: overlayLoader.top; \n\
+                                 topMargin: units.gu(1);\n';
             } else {
                 // Using anchors to the mascot/parent
-                titleAnchors = "right: parent.right;";
+                titleAnchors = titleRightAnchor;
                 titleAnchors += headerLeftAnchor;
                 titleAnchors += headerVerticalAnchors;
                 if (!headerLeftAnchorHasMargin) {
@@ -451,22 +505,34 @@ function cardString(template, components) {
             }
             subtitleAnchors = 'left: titleLabel.left; \n\
                                leftMargin: titleLabel.leftMargin; \n\
-                               right: titleLabel.right; \n\
-                               top: titleLabel.bottom; \n\
-                               topMargin: units.dp(2);\n';
+                               top: titleLabel.bottom;\n';
+            if (hasEmblem) {
+                // using container
+                subtitleAnchors += 'right: parent.right; \n';
+            } else {
+                subtitleAnchors += 'right: titleLabel.right; \n';
+            }
         }
 
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
-        var titleCode = kTitleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
+        var titleCode;
+        titleCode = kTitleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
         var subtitleCode = "";
         if (hasSubtitle) {
             subtitleCode += kSubtitleLabelCode.arg(subtitleAnchors).arg(color);
         }
 
-        if (hasMascot && hasSubtitle) {
-            // If using row + column wrap the code in the column
-            titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
+        if (hasEmblem && hasSubtitle) {
+            // using container 3
+            titleSubtitleCode = kHeader3ContainerCode.arg(titleContainerAnchors).arg(titleCode).arg(kEmblemImageCode).arg(kSubtitleLabelCode.arg(subtitleAnchors).arg(color));
+        } else if (hasEmblem) {
+            // container with emblem
+            titleSubtitleCode = kHeader2ContainerCode.arg(titleContainerAnchors).arg('titleLabel.height').arg(titleCode).arg(kEmblemImageCode);
+        } else if (hasMascot && hasSubtitle) {
+            // container with subtitle
+            titleSubtitleCode = kHeader2ContainerCode.arg(titleContainerAnchors).arg('titleLabel.height + subtitleLabel.height').arg(titleCode).arg(subtitleCode);
         } else {
+            // no container
             titleSubtitleCode = titleCode + subtitleCode;
         }
     }
@@ -486,6 +552,7 @@ function cardString(template, components) {
         if (isHorizontal && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
         else if (headerAsOverlay && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
         else if (hasHeaderRow) summaryTopAnchor = "row.bottom";
+        else if (hasEmblem || (hasMascot && hasSubtitle)) summaryTopAnchor = "headerTitleContainer.bottom";
         else if (hasMascot) summaryTopAnchor = "mascotImage.bottom";
         else if (hasSubtitle) summaryTopAnchor = "subtitleLabel.bottom";
         else if (hasTitle) summaryTopAnchor = "titleLabel.bottom";

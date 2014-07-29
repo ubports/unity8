@@ -59,6 +59,7 @@ var fullMapping = ' \
   "art": "art", \
   "subtitle": "subtitle", \
   "mascot": "mascot", \
+  "emblem": "emblem", \
   "summary": "summary" \
 }'
 

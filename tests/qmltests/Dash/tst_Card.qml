@@ -31,6 +31,7 @@ Rectangle {
     {
       "art": "../../../tests/qmltests/Dash/artwork/music-player-design.png",
       "mascot": "../../../tests/qmltests/Dash/artwork/avatar.png",
+      "emblem": "../../../tests/qmltests/Dash/artwork/emblem.png",
       "title": "foo",
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -454,6 +455,23 @@ Rectangle {
             tryCompareFunction(function() { return Qt.colorEqual(summary.color, fontColor); }, true);
             tryCompareFunction(function() { return Qt.colorEqual(title.color, fontColor); }, true);
             tryCompareFunction(function() { return Qt.colorEqual(subtitle.color, fontColor); }, true);
+        }
+
+        function test_emblemImage_data() {
+            return [
+                { tag: "Art and summary", emblem: true, index: 0 },
+                { tag: "Art and summary, small", emblem: false, index: 1 },
+                { tag: "No header", emblem: false, index: 7 },
+                { tag: "With background", emblem: true, index: 10 },
+            ];
+        }
+
+        function test_emblemImage(data) {
+            selector.selectedIndex = data.index;
+            waitForRendering(card);
+
+            var emblemImage = findChild(card, "emblemImage");
+            compare(emblemImage !== null, data.emblem);
         }
 
         function test_mascotShape_data() {
