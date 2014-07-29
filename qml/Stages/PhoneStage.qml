@@ -114,6 +114,8 @@ Rectangle {
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
+        // This indicates when the spreadView is active. That means, all the animations
+        // are activated and tiles need to line up for the spread.
         readonly property bool isActive: shiftedContentX > 0 || spreadDragArea.dragging
 
         // The flickable needs to fill the screen in order to get touch events all over.

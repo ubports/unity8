@@ -153,8 +153,9 @@ Rectangle {
         property int sideStageWidth: units.gu(40)
         property bool sideStageVisible: priv.sideStageAppId
 
+        // This indicates when the spreadView is active. That means, all the animations
+        // are activated and tiles need to line up for the spread.
         readonly property bool isActive: shiftedContentX > 0 || spreadDragArea.dragging
-        onIsActiveChanged: print("spreadView isActive changed", isActive)
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
