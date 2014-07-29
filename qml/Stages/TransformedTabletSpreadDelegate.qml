@@ -49,7 +49,7 @@ SpreadDelegate {
 
     property int dragOffset: 0
 
-    dropShadow: spreadView.isActive ||
+    dropShadow: spreadView.active ||
                 (active && model.stage == ApplicationInfoInterface.MainStage && priv.xTranslate != 0)
 
     onSelectedChanged: {
@@ -135,7 +135,7 @@ SpreadDelegate {
         }
 
         Behavior on xTranslate {
-            enabled: !spreadView.isActive &&
+            enabled: !spreadView.active &&
                      !snapAnimation.running &&
                      model.appId !== "unity8-dash" &&
                      !spreadView.sideStageDragging
@@ -172,7 +172,7 @@ SpreadDelegate {
                 }
                 newTranslate += root.dragOffset;
             }
-            if (!spreadView.isActive && model.appId == "unity8-dash" && !root.active) {
+            if (!spreadView.active && model.appId == "unity8-dash" && !root.active) {
                 newTranslate -= root.width;
             }
 
@@ -225,7 +225,7 @@ SpreadDelegate {
         }
 
         property real scale: {
-            if (!spreadView.isActive) {
+            if (!spreadView.active) {
                 return 1;
             }
 
@@ -273,7 +273,7 @@ SpreadDelegate {
         }
 
         property real angle: {
-            if (!spreadView.isActive) {
+            if (!spreadView.active) {
                 return 0;
             }
 

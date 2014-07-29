@@ -155,7 +155,7 @@ Rectangle {
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
-        readonly property bool isActive: shiftedContentX > 0 || spreadDragArea.dragging
+        readonly property bool active: shiftedContentX > 0 || spreadDragArea.dragging
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
@@ -301,12 +301,12 @@ Rectangle {
                 return index;
             }
 
-            var isActive = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
-            if (isActive && app.stage == ApplicationInfoInterface.MainStage) {
+            var active = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
+            if (active && app.stage == ApplicationInfoInterface.MainStage) {
                 // if this app is active, and its the MainStage, always put it to index 0
                 return 0;
             }
-            if (isActive && app.stage == ApplicationInfoInterface.SideStage) {
+            if (active && app.stage == ApplicationInfoInterface.SideStage) {
                 if (!priv.mainStageAppId) {
                     // Only have SS apps running. Put the active one at 0
                     return 0;
@@ -483,7 +483,7 @@ Rectangle {
                     Binding {
                         target: spreadTile
                         property: "z"
-                        value: (!spreadView.isActive && isDash && !active) ? -1 : spreadTile.zIndex
+                        value: (!spreadView.active && isDash && !active) ? -1 : spreadTile.zIndex
                     }
                     x: spreadView.width
 

@@ -129,7 +129,7 @@ SpreadDelegate {
         // the selected tile, which is animated from the snapshotted position to be fullscreen.
 
         readonly property real xTranslate: {
-            if (!spreadView.isActive) {
+            if (!spreadView.active) {
                 return 0;
             }
 
@@ -184,7 +184,7 @@ SpreadDelegate {
         }
 
         readonly property real angle: {
-            if (!spreadView.isActive) {
+            if (!spreadView.active) {
                 return 0;
             }
 
@@ -217,7 +217,7 @@ SpreadDelegate {
         }
 
         readonly property real scale: {
-            if (!spreadView.isActive) {
+            if (!spreadView.active) {
                 return 1;
             }
             if (priv.otherSelected) {

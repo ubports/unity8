@@ -116,7 +116,7 @@ Rectangle {
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
-        readonly property bool isActive: shiftedContentX > 0 || spreadDragArea.dragging
+        readonly property bool active: shiftedContentX > 0 || spreadDragArea.dragging
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
@@ -268,12 +268,12 @@ Rectangle {
                             && spreadView.shiftedContentX === 0 && root.interactive && index === 0
                     swipeToCloseEnabled: spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
-                    dropShadow: spreadView.isActive ||
+                    dropShadow: spreadView.active ||
                                 priv.focusedAppDelegate.x !== 0
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
-                    z: isDash && !spreadView.isActive ? -1 : behavioredIndex
+                    z: isDash && !spreadView.active ? -1 : behavioredIndex
 
                     x: {
                         // focused app is always positioned at 0 except when following left edge drag
@@ -283,7 +283,7 @@ Rectangle {
                             }
                            return 0;
                         }
-                        if (isDash && !spreadView.isActive && !spreadDragArea.dragging) {
+                        if (isDash && !spreadView.active && !spreadDragArea.dragging) {
                            return 0;
                         }
 
@@ -305,7 +305,7 @@ Rectangle {
 
                     Behavior on x {
                         enabled: root.spreadEnabled &&
-                                 !spreadView.isActive &&
+                                 !spreadView.active &&
                                  !snapAnimation.running
                         UbuntuNumberAnimation {
                             duration: UbuntuAnimation.FastDuration
