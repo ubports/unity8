@@ -76,12 +76,6 @@ class QQuickView(emulators.UnityEmulatorBase):
             objectName="pinPadLoader"
         )
 
-    def get_pinPadButton(self, buttonId):
-        return self.select_single(
-            "PinPadButton",
-            objectName="pinPadButton%i" % buttonId
-        )
-
     def get_lockscreen(self):
         return self.select_single("Lockscreen")
 
@@ -134,3 +128,31 @@ class QQuickView(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def search(self, query):
         self.get_dash().enter_search_query(query)
+
+    @autopilot_logging.log_action(logger.info)
+    def enter_pin_code(self, code):
+        """Enter code 'code' into the single-pin lightdm pincode entry screen.
+
+        :param code: must be a string of numeric characters.
+        :raises: TypeError if code is not a string.
+        :raises: ValueError if code contains non-numeric characters.
+
+        """
+        if not isinstance(code, str):
+            raise TypeError(
+                "'code' parameter must be a string, not %r."
+                % type(code)
+            )
+        for num in code:
+            if not num.isdigit():
+                raise ValueError(
+                    "'code' parameter contains non-numeric characters."
+                )
+            self.pointing_device.click_object(
+                self._get_pinpad_button(int(num)))
+
+    def _get_pinpad_button(self, button_id):
+        return self.select_single(
+            'PinPadButton',
+            objectName='pinPadButton{}'.format(button_id)
+        )

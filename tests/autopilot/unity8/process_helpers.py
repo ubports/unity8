@@ -162,7 +162,7 @@ def start_job(name, *args):
             universal_newlines=True,
         )
         logger.info(output)
-        pid = _get_job_pid(name)
+        pid = get_job_pid(name)
     except subprocess.CalledProcessError as e:
         e.args += ('Failed to start {}: {}.'.format(name, e.output))
         raise
@@ -170,7 +170,7 @@ def start_job(name, *args):
         return pid
 
 
-def _get_job_pid(name):
+def get_job_pid(name):
     """Return the process id of a running job.
 
     :param str name: The name of the job.
@@ -232,7 +232,7 @@ def _get_unity_status():
 
 def _get_unity_pid():
     try:
-        return _get_job_pid('unity8')
+        return get_job_pid('unity8')
     except JobError as error:
         raise CannotAccessUnity(str(error))
 

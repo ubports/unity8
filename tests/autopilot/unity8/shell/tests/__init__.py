@@ -24,6 +24,7 @@ try:
 except ImportError:
     Gio = None
 
+from autopilot import introspection
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
@@ -47,6 +48,7 @@ from unity8 import (
     fixture_setup,
     process_helpers
 )
+from unity8.shell import emulators
 from unity8.shell.emulators import (
     dash as dash_helpers,
     main_window as main_window_emulator,
@@ -391,8 +393,13 @@ class UnityTestCase(AutopilotTestCase):
 
 
     def get_dash(self):
-        dash = self._proxy.wait_select_single(dash_helpers.Dash)
-        return dash
+        pid = process_helpers.get_job_pid('unity8-dash')
+        dash_proxy = introspection.get_proxy_object_for_existing_process(
+            pid=pid,
+            emulator_base=emulators.UnityEmulatorBase,
+        )
+        dash_app = dash_helpers.DashApp(dash_proxy)
+        return dash_app.dash
 
     @property
     def main_window(self):
@@ -433,6 +440,12 @@ class DashBaseTestCase(AutopilotTestCase):
         self.dash_app = dash_helpers.DashApp(dash_proxy)
         self.dash = self.dash_app.dash
 
+    def launch_dash(self, binary_path, variables):
+        launch_dash_app_fixture = fixture_setup.LaunchDashApp(
+            binary_path, variables)
+        self.useFixture(launch_dash_app_fixture)
+        return launch_dash_app_fixture.application_proxy
+
     def should_simulate_device(self):
         return (hasattr(self, 'app_width') and hasattr(self, 'app_height') and
                 hasattr(self, 'grid_unit_px'))
@@ -456,9 +469,3 @@ class DashBaseTestCase(AutopilotTestCase):
         self.assertThat(
             get_window_size,
             Eventually(Equals((self.app_width, self.app_height))))
-
-    def launch_dash(self, binary_path, variables):
-        launch_dash_app_fixture = fixture_setup.LaunchDashApp(
-            binary_path, variables)
-        self.useFixture(launch_dash_app_fixture)
-        return launch_dash_app_fixture.application_proxy
