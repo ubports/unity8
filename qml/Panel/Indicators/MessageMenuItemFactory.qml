@@ -85,20 +85,20 @@ Item {
                 time: timeFormatter.timeString
                 body: getExtendedProperty(extendedData, "xCanonicalText", "")
                 // icons
-                avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
+                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
                 // actions
                 enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected
 
-                onAppActivated: {
+                onIconActivated: {
                     menuModel.activate(menuIndex, true);
                 }
                 onDismissed: {
                     menuModel.activate(menuIndex, false);
                 }
-                onClicked: {
+                onTriggered: {
                     if (selected) {
                         menuDeselected();
                     } else {
@@ -128,15 +128,15 @@ Item {
                 body: getExtendedProperty(extendedData, "xCanonicalText", "")
                 replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
                 // icons
-                avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
+                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
                 enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected
 
-                onAppActivated: {
+                onIconActivated: {
                     menuModel.activate(menuIndex, true);
                 }
                 onDismissed: {
@@ -145,7 +145,7 @@ Item {
                 onReplied: {
                     replyAction.activate(value);
                 }
-                onClicked: {
+                onTriggered: {
                     if (selected) {
                         menuDeselected();
                     } else {
@@ -181,28 +181,28 @@ Item {
                 actionButtonText: getExtendedProperty(activateActionDescription, "label", "Call back")
                 replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
                 // icons
-                avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
+                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/missed-call")
                 // actions
-                activateEnabled: activateAction.valid && activateAction.enabled
+                actionEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
                 enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected
 
-                onAppActivated: {
+                onIconActivated: {
                     menuModel.activate(menuIndex, true);
                 }
                 onDismissed: {
                     menuModel.activate(menuIndex, false);
                 }
-                onActivated: {
+                onActionActivated: {
                     activateAction.activate();
                 }
                 onReplied: {
                     replyAction.activate(value);
                 }
-                onClicked: {
+                onTriggered: {
                     if (selected) {
                         menuDeselected();
                     } else {

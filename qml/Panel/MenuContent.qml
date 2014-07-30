@@ -30,7 +30,7 @@ Rectangle {
     readonly property alias currentMenuIndex: listViewHeader.currentIndex
     color: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
-    property real headerHeight: listViewHeader
+    property real headerHeight: listViewHeader.height
 
     width: units.gu(40)
     height: units.gu(42)
@@ -52,7 +52,7 @@ Rectangle {
 
     ListView {
         id: listViewHeader
-        objectName: "indicatorsListViewHeader"
+        objectName: "indicatorsHeaderListView"
         model: content.indicatorsModel
         clip: true
 
@@ -69,6 +69,7 @@ Rectangle {
         snapMode: ListView.SnapOneItem
         highlightRangeMode: ListView.StrictlyEnforceRange
         boundsBehavior: Flickable.StopAtBounds
+        cacheBuffer: 1073741823
 
         delegate: PageHeader {
             width: ListView.view.width
@@ -92,7 +93,7 @@ Rectangle {
 
     ListView {
         id: listViewContent
-        objectName: "indicatorsListViewContent"
+        objectName: "indicatorsContentListView"
         anchors {
             left: parent.left
             right: parent.right
@@ -106,11 +107,13 @@ Rectangle {
         interactive: false
         highlightMoveDuration: 0
         orientation: ListView.Horizontal
+        cacheBuffer: 1073741823
 
         delegate: Loader {
             id: loader
             width: ListView.view.width
             height: ListView.view.height
+            objectName: identifier
 
             source: pageSource
             asynchronous: true

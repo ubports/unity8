@@ -476,7 +476,7 @@ Item {
             property var extendedData: menuData && menuData.ext || undefined
 
             text: menuData && menuData.label || ""
-            iconSource: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
+            iconSource: getExtendedProperty(extendedData, "icon", "image://theme/message")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
             enabled: menuData && menuData.sensitive || false
             removable: true
@@ -722,6 +722,7 @@ Item {
 
             component: Component {
                 Button {
+                    objectName: "buttonSectionMenuControl"
                     text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
                     onClicked: {

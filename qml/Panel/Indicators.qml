@@ -210,7 +210,7 @@ Showable {
     Rectangle {
         id: handle
 
-        color:  menuContent.backgroundColor
+        color:  menuContent.color
 
         anchors {
             left: parent.left

@@ -91,22 +91,22 @@ Item {
         return "indicator-fake" + (index + 1) + "-page";
     }
 
-    property string testTabObjectName : ""
+    property string testItemObjectName : ""
 
-    function selected_tab_equals_test_tab() {
-        var currentTab = menu_content_test.findChild(menuContent, "tabs").selectedTab
-        if (currentTab === null) {
-            console.log("selected tab undefined");
+    function current_item_equals_test_item() {
+        var currentItem = menu_content_test.findChild(menuContent, "indicatorsContentListView").currentItem
+        if (currentItem === null) {
+            console.log("current item undefined");
             return false;
         }
 
-        var testTab = menu_content_test.findChild(menuContent, testTabObjectName);
-        if (testTab === null) {
-            console.log("test_tab " + testTabObjectName + " undefined");
+        var testItem = menu_content_test.findChild(menuContent, testItemObjectName);
+        if (testItem === null) {
+            console.log("testItem " + testItemObjectName + " undefined");
             return false;
         }
 
-        return testTab == currentTab;
+        return testItem === currentItem;
     }
 
     UT.UnityTestCase {
@@ -125,17 +125,17 @@ Item {
             var menuCount = indicatorsModel.count;
             verify(menuCount > 0, "Menu count should be greater than zero");
 
-            var tabs = menu_content_test.findChild(menuContent, "tabs")
+            var listView = menu_content_test.findChild(menuContent, "indicatorsContentListView")
+            verify(listView !== null)
 
             // Loop over twice to test jump between last and first.
             for (var i = 0; i < menuCount*2; i++) {
-
                 var menuIndex = i%menuCount;
 
                 activate_content(menuIndex);
-                testTabObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
-                compare(tabs.selectedTabIndex, menuIndex, "Current tab index does not match selected tab index");
-                tryCompareFunction(selected_tab_equals_test_tab, true);
+                testItemObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
+                compare(listView.currentIndex, menuIndex, "Current tab index does not match selected tab index");
+                tryCompareFunction(current_item_equals_test_item, true);
             }
         }
 
