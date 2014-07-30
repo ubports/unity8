@@ -117,7 +117,7 @@ Item {
     Flickable {
         id: headerContainer
         objectName: "headerContainer"
-        clip: openSearchAnimation.running
+        clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(6.5)
         contentHeight: headersColumn.height
