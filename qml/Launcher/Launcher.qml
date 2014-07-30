@@ -181,7 +181,7 @@ Item {
             bottom: parent.bottom
         }
         x: -width
-        opacity: (x == -width && dragArea.status === DirectionalDragArea.WaitingForTouch) ? 0 : 1
+        visible: x > -width || dragArea.status === DirectionalDragArea.Undecided
         model: LauncherModel
 
         property bool animate: true
