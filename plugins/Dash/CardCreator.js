@@ -181,37 +181,23 @@ var kHeaderRow3Code = 'Row { \n\
                                 ] \n\
                     }\n';
 
-// %1 is used as anchors
-// %2 is used as height of the container
-// %3 is used as first child of the container
-// %4 is used as second child of the container
-var kHeader2ContainerCode = 'Item { \n\
+// multiple column version of kHeaderContainerCode.
+function kHeaderContainerCodeGenerator() {
+    var headerContainerCodeTemplate = 'Item { \n\
                             id: headerTitleContainer; \n\
                             anchors { %1 } \n\
                             width: parent.width - x; \n\
                             implicitHeight: %2; \n\
-                            data: [ %3\n\
-                                    ,\n\
-                                    %4 \n\
-                                  ] \n\
+                            data: [ \n\
+                                %3 \n\
+                            ]\n\
                         }\n';
-
-// %1 is used as anchors
-// %2 is used as first child of the container
-// %3 is used as second child of the container
-// %4 is used as third child of the container
-var kHeader3ContainerCode = 'Item { \n\
-                            id: headerTitleContainer; \n\
-                            anchors { %1 } \n\
-                            width: parent.width - x; \n\
-                            implicitHeight: titleLabel.height + subtitleLabel.height; \n\
-                            data: [ %2\n\
-                                    ,\n\
-                                    %3 \n\
-                                    ,\n\
-                                    %4 \n\
-                                  ] \n\
-                        }\n';
+    var args = Array.prototype.slice.call(arguments);
+    var anchors = args.shift();
+    var height = args.shift();
+    var code = headerContainerCodeTemplate.arg(anchors).arg(height).arg(args.join(',\n'));
+    return code;
+}
 
 // %1 is used as anchors of mascotShapeLoader
 var kMascotShapeLoaderCode = 'Loader { \n\
@@ -545,13 +531,13 @@ function cardString(template, components) {
         }
         if (hasEmblem && hasSubtitle) {
             // using container 3
-            titleSubtitleCode = kHeader3ContainerCode.arg(titleContainerAnchors).arg(titleCode).arg(emblemCode).arg(kSubtitleLabelCode.arg(subtitleAnchors).arg(color));
+            titleSubtitleCode = kHeaderContainerCodeGenerator(titleContainerAnchors, 'titleLabel.height + subtitleLabel.height', titleCode, emblemCode, kSubtitleLabelCode.arg(subtitleAnchors).arg(color));
         } else if (hasEmblem) {
             // container with emblem
-            titleSubtitleCode = kHeader2ContainerCode.arg(titleContainerAnchors).arg('titleLabel.height').arg(titleCode).arg(emblemCode);
+            titleSubtitleCode = kHeaderContainerCodeGenerator(titleContainerAnchors, 'titleLabel.height', titleCode, emblemCode);
         } else if (hasMascot && hasSubtitle) {
             // container with subtitle
-            titleSubtitleCode = kHeader2ContainerCode.arg(titleContainerAnchors).arg('titleLabel.height + subtitleLabel.height').arg(titleCode).arg(subtitleCode);
+            titleSubtitleCode = kHeaderContainerCodeGenerator(titleContainerAnchors, 'titleLabel.height + subtitleLabel.height', titleCode, subtitleCode);
         } else {
             // no container
             titleSubtitleCode = titleCode + subtitleCode;
