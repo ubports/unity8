@@ -125,7 +125,7 @@ Item {
     Flickable {
         id: headerContainer
         objectName: "headerContainer"
-        clip: true
+        clip: openSearchAnimation.running
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(6.5)
         contentHeight: headersColumn.height
@@ -163,6 +163,7 @@ Item {
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
+                opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
@@ -243,6 +244,7 @@ Item {
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
+                opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
                 textColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                 property var styledItem: header
