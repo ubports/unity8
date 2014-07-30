@@ -29,11 +29,8 @@ AbstractButton {
     signal requestedActivationMode()
     signal requestedTerminationMode()
 
-    // Was: childrenRect.height
-    // To avoid "binding loop" warning
-    height: shapedApplicationImage.height + labelContainer.height
-
-    width: shapedApplicationImage.width <= units.gu(11) ? units.gu(11) : height
+    width: thumbnail.width
+    height: thumbnail.height + labelContainer.height
 
     property bool terminationModeEnabled: false
 
@@ -50,42 +47,53 @@ AbstractButton {
         }
     }
 
-    UbuntuShape {
-        id: shapedApplicationImage
-        anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
+    Item {
+        id: thumbnail
 
-        height: units.gu(17)
-        width: applicationImage.width
-        radius: "medium"
+        width: shapedApplicationImage.width
+        height: shapedApplicationImage.height
 
-        image: Image {
-            id: applicationImage
-            source: application.screenshot
-            // height : width = ss.height : ss.width
-            height: shapedApplicationImage.height
-            fillMode: Image.PreserveAspectCrop
-            width: Math.min(height, height * sourceSize.width / sourceSize.height)
+        UbuntuShape {
+            id: shapedApplicationImage
+            x: 0
+            y: 0
+            height: applicationImage.height
+            width: applicationImage.width
+            radius: "medium"
+
+            image: Image {
+                id: applicationImage
+                source: application.screenshot
+                // height : width = ss.height : ss.width
+
+                property bool isLandscape: sourceSize.width > sourceSize.height
+                property real maxDimension: units.gu(17)
+
+                width: isLandscape ? Math.min(sourceSize.width, maxDimension) : height * (sourceSize.width / sourceSize.height)
+                height: isLandscape ? width * (sourceSize.height / sourceSize.width) : Math.min(sourceSize.height, maxDimension)
+                fillMode: Image.Stretch
+            }
+
         }
 
-    }
+        UbuntuShape {
+            id: borderPressed
 
-    UbuntuShape {
-        id: borderPressed
-
-        anchors.fill: shapedApplicationImage
-        radius: "medium"
-        borderSource: "radius_pressed.sci"
-        opacity: root.pressed ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
+            anchors.fill: shapedApplicationImage
+            radius: "medium"
+            borderSource: "radius_pressed.sci"
+            opacity: root.pressed ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
+        }
     }
 
     // FIXME: label code duplicated with Tile
     Item {
         id: labelContainer
         anchors {
-            left: parent.left
-            right: parent.right
-            top: shapedApplicationImage.bottom
+            left: thumbnail.left
+            right: thumbnail.right
+            top: thumbnail.bottom
         }
         height: units.gu(2)
 
@@ -110,9 +118,9 @@ AbstractButton {
     CloseIcon {
         objectName: "closeIcon " + model.name
         anchors {
-            left: shapedApplicationImage.left
+            left: thumbnail.left
             leftMargin: -units.gu(1)
-            top: parent.top
+            top: thumbnail.top
             topMargin: -units.gu(1)
         }
         height: units.gu(6)
