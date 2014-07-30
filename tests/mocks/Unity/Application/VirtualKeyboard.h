@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+#ifndef VIRTUALKEYBOARD_H
+#define VIRTUALKEYBOARD_H
 
-BorderImage {
-    source: "graphics/sidestage_handle.sci"
-}
+#include "MirSurfaceItem.h"
+
+class VirtualKeyboard : public MirSurfaceItem
+{
+    Q_OBJECT
+public:
+    VirtualKeyboard(State state,
+                    QQuickItem *parent = 0);
+
+    void touchEvent(QTouchEvent * event) override;
+
+private:
+    bool hasTouchInsideKeyboard(QTouchEvent *event);
+};
+
+#endif // VIRTUALKEYBOARD_H
