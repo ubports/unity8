@@ -18,15 +18,18 @@ import QtQuick 2.0
 
 import Unity.Application 0.1
 import Unity.Session 0.1
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 0.1
 
 Item {
     id: root
 
     function onPowerKeyPressed() {
+        // FIXME: event.isAutoRepeat is always false on Nexus 4.
+        // So we use powerKeyTimer.running to avoid the PowerOff key repeat
+        // https://launchpad.net/bugs/1349416
         if (!powerKeyTimer.running) {
-            powerKeyTimer.start();
+            powerKeyTimer.restart();
         }
     }
 
@@ -148,15 +151,7 @@ Item {
                     d.dialogShown = false;
                     root.powerOffClicked();
                 }
-            }
-            Button {
-                text: i18n.tr("Restart")
-                onClicked: {
-                    dBusUnitySessionServiceConnection.closeAllApps();
-                    DBusUnitySessionService.Reboot();
-                    PopupUtils.close(dialoguePower);
-                    d.dialogShown = false;
-                }
+                color: UbuntuColors.red
             }
             Button {
                 text: i18n.tr("Cancel")
@@ -164,6 +159,7 @@ Item {
                     PopupUtils.close(dialoguePower);
                     d.dialogShown = false;
                 }
+                color: UbuntuColors.coolGrey
             }
         }
     }

@@ -508,6 +508,10 @@ Item {
             } else if (status == Powerd.On) {
                 edgeDemo.paused = false;
             }
+
+            // Stop the timer to avoid displaying the power dialog when display
+            // state is changed.
+            dialogs.onPowerKeyReleased();
         }
     }
 
