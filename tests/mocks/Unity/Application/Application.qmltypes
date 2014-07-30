@@ -102,8 +102,6 @@ Module {
                 "ForceMainStage": 1
             }
         }
-        Property { name: "keyboardHeight"; type: "int"; isReadonly: true }
-        Property { name: "keyboardVisible"; type: "bool"; isReadonly: true }
         Property { name: "sideStageWidth"; type: "int"; isReadonly: true }
         Property { name: "stageHint"; type: "StageHint"; isReadonly: true }
         Property { name: "formFactorHint"; type: "FormFactorHint"; isReadonly: true }
