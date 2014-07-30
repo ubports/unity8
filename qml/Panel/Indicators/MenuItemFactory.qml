@@ -426,7 +426,6 @@ Item {
             }
             onUnlock: {
                 unlockAction.activate();
-                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
             locked: unlockAction.valid ? unlockAction.state : false
 
