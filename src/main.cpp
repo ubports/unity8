@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2012-2014 Canonical, Ltd.
  *
  * Authors:
  *  Gerry Boland <gerry.boland@canonical.com>
@@ -23,12 +23,9 @@
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
-#include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <QDebug>
 #include <libintl.h>
-#include <dlfcn.h>
-#include <csignal>
 
 // local
 #include <paths.h>
@@ -36,11 +33,13 @@
 #include "ApplicationArguments.h"
 #include "CachingNetworkManagerFactory.h"
 
-#include <unity-mir/qmirserver.h>
-
-int startShell(int argc, const char** argv, void* server)
+int main(int argc, const char *argv[])
 {
-    const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
+    bool isMirServer = false;
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
+        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
+        isMirServer = true;
+    }
 
     QGuiApplication::setApplicationName("unity8");
     QGuiApplication *application;
@@ -70,21 +69,7 @@ int startShell(int argc, const char** argv, void* server)
 Load the testability driver");
     parser.addOption(testabilityOption);
 
-    if (isUbuntuMirServer) {
-        QLibrary unityMir("unity-mir", 1);
-        unityMir.load();
-
-        typedef QGuiApplication* (*createServerApplication_t)(int&, const char **, void*);
-        createServerApplication_t createQMirServerApplication = (createServerApplication_t) unityMir.resolve("createQMirServerApplication");
-        if (!createQMirServerApplication) {
-            qDebug() << "unable to resolve symbol: createQMirServerApplication";
-            return 4;
-        }
-
-        application = createQMirServerApplication(argc, argv, server);
-    } else {
-        application = new QGuiApplication(argc, (char**)argv);
-    }
+    application = new QGuiApplication(argc, (char**)argv);
 
     // Treat args with single dashes the same as arguments with two dashes
     // Ex: -fullscreen == --fullscreen
@@ -100,8 +85,8 @@ Load the testability driver");
     if (parser.isSet(windowGeometryOption) &&
         parser.value(windowGeometryOption).split('x').size() == 2)
     {
-      QStringList geom = parser.value(windowGeometryOption).split('x');
-      qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
+        QStringList geom = parser.value(windowGeometryOption).split('x');
+        qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
     }
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
@@ -125,7 +110,8 @@ Load the testability driver");
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Qml Phone Shell");
+    view->setColor("black");
+    view->setTitle("Unity8 Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
@@ -141,18 +127,9 @@ Load the testability driver");
         application->installNativeEventFilter(mouseTouchAdaptor);
     }
 
-    QPlatformNativeInterface* nativeInterface = QGuiApplication::platformNativeInterface();
-    /* Shell is declared as a system session so that it always receives all
-       input events.
-       FIXME: use the enum value corresponding to SYSTEM_SESSION_TYPE (= 1)
-       when it becomes available.
-    */
-    nativeInterface->setProperty("ubuntuSessionType", 1);
-    view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
-
     QUrl source(::qmlDirectory()+"Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
-    if (!isUbuntuMirServer) {
+    if (!isMirServer) {
         prependImportPaths(view->engine(), ::nonMirImportPaths());
     }
     appendImportPaths(view->engine(), ::fallbackImportPaths());
@@ -161,10 +138,9 @@ Load the testability driver");
     view->engine()->setNetworkAccessManagerFactory(managerFactory);
 
     view->setSource(source);
-    view->setColor("transparent");
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
+    if (isMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();
     } else {
         view->show();
@@ -177,55 +153,4 @@ Load the testability driver");
     delete application;
 
     return result;
-}
-
-int main(int argc, const char *argv[])
-{
-    /* Workaround Qt platform integration plugin not advertising itself
-       as having the following capabilities:
-        - QPlatformIntegration::ThreadedOpenGL
-        - QPlatformIntegration::BufferQueueingOpenGL
-    */
-    setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
-    setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
-
-    // For ubuntumirserver/ubuntumirclient
-    if (qgetenv("QT_QPA_PLATFORM").startsWith("ubuntumir")) {
-        setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
-
-        // If we use unity-mir directly, we automatically link to the Mir-server
-        // platform-api bindings, which result in unexpected behaviour when
-        // running the non-Mir scenario.
-        QLibrary unityMir("unity-mir", 1);
-        unityMir.load();
-        if (!unityMir.isLoaded()) {
-            qDebug() << "Library unity-mir not found/loaded";
-            return 1;
-        }
-
-        typedef QMirServer* (*createServer_t)(int, const char **);
-        createServer_t createQMirServer = (createServer_t) unityMir.resolve("createQMirServer");
-        if (!createQMirServer) {
-            qDebug() << "unable to resolve symbol: createQMirServer";
-            return 2;
-        }
-
-        QMirServer* mirServer = createQMirServer(argc, argv);
-
-        typedef int (*runWithClient_t)(QMirServer*, std::function<int(int, const char**, void*)>);
-        runWithClient_t runWithClient = (runWithClient_t) unityMir.resolve("runQMirServerWithClient");
-        if (!runWithClient) {
-            qDebug() << "unable to resolve symbol: runWithClient";
-            return 3;
-        }
-
-        return runWithClient(mirServer, startShell);
-    } else {
-        if (!qgetenv("UNITY_MIR_EMITS_SIGSTOP").isEmpty()) {
-            // Emit SIGSTOP as expected by upstart, under Mir it's unity-mir that will raise it.
-            // see http://upstart.ubuntu.com/cookbook/#expect-stop
-            raise(SIGSTOP);
-        }
-        return startShell(argc, argv, nullptr);
-    }
 }
