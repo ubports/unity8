@@ -25,7 +25,6 @@ from autopilot import input
 from unity8.shell import emulators
 from unity8.shell.emulators.greeter import Greeter
 from unity8.shell.emulators.hud import Hud
-from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.launcher import Launcher
 
 logger = logging.getLogger(__name__)
@@ -60,9 +59,6 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def get_hud_edge_drag_area(self):
         return self.select_single(objectName="hudDragArea")
-
-    def get_dash(self):
-        return self.select_single(Dash)
 
     def get_bottombar(self):
         return self.select_single("Bottombar")
@@ -111,23 +107,19 @@ class QQuickView(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def show_dash_swiping(self):
         """Show the dash swiping from the left."""
-        width = self.width
-        height = self.height
-        start_x = 0
-        start_y = height // 2
-        end_x = width
-        end_y = start_y
+        x, y, width, height = self._get_shell().globalRect
+        start_x = x
+        end_x = x + width
+        start_y = end_y = y + height // 2
 
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
-        return self.get_dash()
+
+    def _get_shell(self):
+        return self.select_single('Shell')
 
     def get_current_focused_app_id(self):
         """Return the id of the focused application."""
-        return self.select_single('Shell').focusedApplicationId
-
-    @autopilot_logging.log_action(logger.info)
-    def search(self, query):
-        self.get_dash().enter_search_query(query)
+        return self._get_shell().focusedApplicationId
 
     @autopilot_logging.log_action(logger.info)
     def enter_pin_code(self, code):

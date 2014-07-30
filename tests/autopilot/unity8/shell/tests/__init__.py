@@ -307,8 +307,13 @@ class UnityTestCase(AutopilotTestCase):
 
         # Ensure that the dash is visible before we return:
         logger.debug("Unity started, waiting for it to be ready.")
-        self.assertUnityReady()
+        self.wait_for_unity()
         logger.debug("Unity loaded and ready.")
+
+        if model() == 'Desktop':
+            # On desktop, close the dash because it's opened in a separate
+            # window and it gets on the way.
+            process_helpers.stop_job('unity8-dash')
 
         return app_proxy
 
@@ -379,18 +384,10 @@ class UnityTestCase(AutopilotTestCase):
     def _clear_proxy(self):
         self._proxy = None
 
-    def assertUnityReady(self):
-        dash = self.get_dash()
-        home_scope = dash.get_scope('clickscope')
-
-        # FIXME! There is a huge timeout here for when we're doing CI on
-        # VMs. See lp:1203715
-        self.assertThat(
-            home_scope.isLoaded,
-            Eventually(Equals(True), timeout=60)
-        )
-        self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
-
+    def wait_for_unity(self):
+        greeter_content_loader = self.main_window.wait_select_single(
+            objectName='greeterContentLoader')
+        greeter_content_loader.progress.wait_for(1)
 
     def get_dash(self):
         pid = process_helpers.get_job_pid('unity8-dash')
@@ -439,12 +436,23 @@ class DashBaseTestCase(AutopilotTestCase):
 
         self.dash_app = dash_helpers.DashApp(dash_proxy)
         self.dash = self.dash_app.dash
+        self.wait_for_dash()
 
     def launch_dash(self, binary_path, variables):
         launch_dash_app_fixture = fixture_setup.LaunchDashApp(
             binary_path, variables)
         self.useFixture(launch_dash_app_fixture)
         return launch_dash_app_fixture.application_proxy
+
+    def wait_for_dash(self):
+        home_scope = self.dash.get_scope('clickscope')
+        # FIXME! There is a huge timeout here for when we're doing CI on
+        # VMs. See lp:1203715
+        self.assertThat(
+            home_scope.isLoaded,
+            Eventually(Equals(True), timeout=60)
+        )
+        self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
     def should_simulate_device(self):
         return (hasattr(self, 'app_width') and hasattr(self, 'app_height') and
