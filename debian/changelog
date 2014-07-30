@@ -1,4 +1,4 @@
-unity8 (8.00) UNRELEASED; urgency=medium
+unity8 (8.00+14.10.20140729-0ubuntu1) utopic; urgency=medium
 
   [ Gerry Boland ]
   [ Daniel d'Andrada ]
@@ -10,7 +10,10 @@ unity8 (8.00) UNRELEASED; urgency=medium
   * Port phone right-edge spread code to use QtCompositor
   * Add right-edge spread animation for tablet
 
- -- Gerry Boland <gerry.boland@canonical.com>  Thu, 10 Jul 2014 10:34:18 +0100
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Jul 2014 15:07:32 +0000
 
 unity8 (7.90+14.10.20140725-0ubuntu1) utopic; urgency=low
 
