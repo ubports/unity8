@@ -92,7 +92,7 @@ Item {
             height: previewListView.height
             width: previewListView.width
 
-            isCurrent: parent.ListView.isCurrentItem
+            isCurrent: ListView.isCurrentItem
 
             previewModel: {
                 var previewStack = root.scope.preview(result);
@@ -105,7 +105,13 @@ Item {
     MouseArea {
         id: processingMouseArea
         objectName: "processingMouseArea"
-        anchors.fill: parent
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: pageHeader.bottom
+            bottom: parent.bottom
+        }
+
         enabled: root.processing
     }
 }

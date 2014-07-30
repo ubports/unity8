@@ -135,7 +135,6 @@ Showable {
             right: parent.right
             bottom: parent.bottom
         }
-        clip: true
         height: units.dp(3)
         color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"
         opacity: 0
