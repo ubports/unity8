@@ -384,42 +384,42 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property var statusLabelAction: QMenuModel.UnityMenuAction {
+            property var statusLabelAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemStatusLabelAction", "")
             }
             statusText: statusLabelAction.valid ? statusLabelAction.state : ""
 
-            property var statusIconAction: QMenuModel.UnityMenuAction {
+            property var statusIconAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemStatusIconAction", "")
             }
             statusIcon: statusIconAction.valid ? statusIconAction.state : ""
 
-            property var connectivityIconAction: QMenuModel.UnityMenuAction {
+            property var connectivityIconAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemConnectivityIconAction", "")
             }
             connectivityIcon: connectivityIconAction.valid ? connectivityIconAction.state : ""
 
-            property var simIdentifierLabelAction: QMenuModel.UnityMenuAction {
+            property var simIdentifierLabelAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemSimIdentifierLabelAction", "")
             }
             simIdentifierText: simIdentifierLabelAction.valid ? simIdentifierLabelAction.state : ""
 
-            property var roamingAction: QMenuModel.UnityMenuAction {
+            property var roamingAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemRoamingAction", "")
             }
             roaming: roamingAction.valid ? roamingAction.state : false
 
-            property var unlockAction: QMenuModel.UnityMenuAction {
+            property var unlockAction: UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalModemLockedAction", "")
@@ -442,7 +442,7 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-modem-status-label-action': 'string',
                                                              'x-canonical-modem-status-icon-action': 'string',
                                                              'x-canonical-modem-connectivity-icon-action': 'string',
-                                                             'x-canonical-modem-sim-identifier-label': 'string',
+                                                             'x-canonical-modem-sim-identifier-label-action': 'string',
                                                              'x-canonical-modem-roaming-action': 'string',
                                                              'x-canonical-modem-locked-action': 'string'});
             }

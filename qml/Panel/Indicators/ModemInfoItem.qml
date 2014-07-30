@@ -18,12 +18,15 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 ListItem.Empty {
     id: menu
-    implicitHeight: units.gu(5.5)
+    implicitHeight:   mainColumn.implicitHeight
+                    + mainColumn.anchors.topMargin
+                    + mainColumn.anchors.bottomMargin
 
     property alias statusIcon: statusIcon.name
     property alias statusText: labelStatus.text
@@ -33,93 +36,78 @@ ListItem.Empty {
     property bool roaming: false
     signal unlock
 
-    Row {
-        id: iconRow
-        height: parent.height
-
-        anchors {
-            left: parent.left
-            top: parent.top
-            leftMargin: menu.__contentsMargins
-            verticalCenter: parent.verticalCenter
-        }
-
-        Icon {
-            id: statusIcon
-            color: Theme.palette.selected.backgroundText
-            keyColor: "#cccccc"
-
-            width: height
-            height: Math.min(units.gu(5), parent.height - units.gu(1))
-        }
-
-        Icon {
-            id: iconConnectivity
-            color: Theme.palette.selected.backgroundText
-            keyColor: "#cccccc"
-
-            width: height
-            height: Math.min(units.gu(5), parent.height - units.gu(1))
-        }
-    }
-
-    Column {
-        id: columnStatus
-        anchors {
-            left: iconRow.right
-            leftMargin: units.gu(1)
-            verticalCenter: parent.verticalCenter
-            rightMargin: menu.__contentsMargins
-        }
-
-        Label {
-            id: labelStatus
-
-            elide: Text.ElideRight
-        }
+    ColumnLayout {
+        id: mainColumn
+        anchors.fill: parent
+        anchors.margins: menu.__contentsMargins
+        spacing: units.gu(0.5)
 
         Label {
             id: labelSimIdentifier
-
             elide: Text.ElideRight
             visible: text !== ""
-
-            fontSize: "x-small"
             font.bold: true
-        }
-    }
-
-    Item {
-        height: parent.height
-
-        anchors {
-            right: parent.right
-            rightMargin: menu.__contentsMargins
-            verticalCenter: parent.verticalCenter
+            opacity: menu.locked ? 0.6 : 1.0
         }
 
-        RoamingIndication {
-            id: roamingIndication
-            anchors {
-                right: parent.right
-                verticalCenter: parent.verticalCenter
+        RowLayout {
+            id: statusRow
+            spacing: units.gu(1)
+
+            height: labelStatus.height
+            width: parent.width
+
+            Label {
+                id: labelStatus
+                elide: Text.ElideRight
+                opacity: 0.6
             }
-            visible: menu.roaming
-            height: Math.min(units.gu(5), parent.height - units.gu(1))
+
+            RowLayout {
+                spacing: 0.5
+                height: parent.height
+                Icon {
+                    id: statusIcon
+                    color: Theme.palette.selected.backgroundText
+
+                    width: height
+                    height: parent.height
+
+                    visible: name !== ""
+                }
+
+                Icon {
+                    id: iconConnectivity
+                    color: Theme.palette.selected.backgroundText
+
+                    width: height
+                    height: parent.height
+
+                    visible: name !== ""
+                }
+            }
+
+            Item {
+                // eat up all the excess space so that RoamingIndication
+                // ends up to the far right
+                Layout.fillWidth: true
+            }
+
+            RoamingIndication {
+                id: roamingIndication
+                visible: menu.roaming
+                height: parent.height
+            }
         }
 
         Button {
-            anchors {
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
             id: buttonUnlock
             objectName: "buttonUnlockSim"
             visible: menu.locked
 
-            text: i18n.tr("Unlock")
+            text: i18n.tr("Unlock SIM")
+            Layout.preferredWidth: implicitWidth + units.gu(5)
 
-            height: Math.min(units.gu(4), parent.height - units.gu(1))
             onTriggered: menu.unlock()
         }
     }
