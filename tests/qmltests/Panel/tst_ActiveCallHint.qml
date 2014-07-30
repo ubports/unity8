@@ -95,6 +95,7 @@ Item {
         function test_activeHint(data) {
             if (data.dialer) {
                 var application = ApplicationManager.startApplication("dialer-app");
+                ApplicationManager.focusApplication("dialer-app");
                 tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
                 tryCompare(application, "state", ApplicationInfo.Running);
 
