@@ -116,6 +116,8 @@ Categories::data(const QModelIndex& index, int role) const
                 map["title"] = "HOLA";
                 return map;
             }
+            case RoleHeaderLink:
+                return QString();
             case RoleResults:
                 return QVariant();
             case RoleCount:
@@ -143,8 +145,11 @@ Categories::data(const QModelIndex& index, int role) const
                 } else {
                     map["category-layout"] = "carousel";
                     map["card-size"] = "medium";
-                    map["collapsed-rows"] = 2;
                     map["overlay"] = true;
+                }
+                if (index.row() == 19) {
+                    map["category-layout"] = "grid";
+                    map["collapsed-rows"] = 0;
                 }
                 map["card-size"] = "small";
                 return map;
@@ -163,6 +168,11 @@ Categories::data(const QModelIndex& index, int role) const
                 map["subtitle"] = "HOLA";
                 return map;
             }
+            case RoleHeaderLink:
+                if (index.row() == 1 || index.row() == 4) {
+                    return QString("scope://query/1");
+                }
+                return QString();
             case RoleResults:
                 return QVariant::fromValue(resultsModel);
             case RoleCount:
@@ -172,4 +182,10 @@ Categories::data(const QModelIndex& index, int role) const
                 return QVariant();
         }
     }
+}
+
+QVariant
+Categories::data(int row, int role) const
+{
+    return data(index(row, 0), role);
 }

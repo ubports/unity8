@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
-"PO-Revision-Date: 2014-05-19 12:52+0000\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-07-16 17:58+0000\n"
 "Last-Translator: Volkan Gezer <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-07-26 07:17+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
-msgstr "Başlatıcıya Sabitle"
+msgid "Pin shortcut"
+msgstr "Kısayolu iğnele"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
-msgstr "Başlatıcıdan Ayır"
+msgid "Unpin shortcut"
+msgstr "Kısayol iğnesini kaldır"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -81,11 +81,7 @@ msgstr "Acil Arama"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
-
-#: qml/Components/PageHeader.qml:365
-msgid "Recent searches"
-msgstr "Son aramalar"
+msgstr "Tamam"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
@@ -98,23 +94,27 @@ msgstr "Merhaba"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "İPTAL"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "BİTTİ"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
 msgstr "Daha fazlası"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr "Daha azını gör"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "En son"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -124,15 +124,15 @@ msgstr "Daha fazlası..."
 msgid "Less..."
 msgstr "Daha az.."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr "Oyla"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Bir inceleme ekle"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Gönder"
 
@@ -168,11 +168,43 @@ msgstr "Parolayı göster"
 msgid "Please enter SIM PIN"
 msgstr "Lütfen SIM PIN'inizi girin"
 
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr "Beklemede..."
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr "İndiriliyor"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr "Duraklatıldı, devam etmek için dokunun"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr "İptal edildi"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr "Bitti"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr "Başarısız, yeniden denemek için dokunun"
+
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Ara"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
 msgstr "Lütfen %1 girin"

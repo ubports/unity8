@@ -24,7 +24,7 @@ Item {
     id: root
 
     property var scope: null
-    property var pageHeader: null
+    property var scopeStyle: null
 
     property alias open: previewListView.open
     property alias model: previewListView.model
@@ -34,34 +34,19 @@ Item {
 
     PageHeader {
         id: header
-        objectName: root.objectName + "_pageHeader"
+        objectName: "pageHeader"
         width: parent.width
-        searchEntryEnabled: false
-        scope: root.scope
-        height: units.gu(8.5)
+        title: scope ? scope.name : ""
         showBackButton: true
-        onBackClicked: root.open = false
+        searchEntryEnabled: false
+        scopeStyle: root.scopeStyle
 
-        childItem: Label {
-            id: label
-            anchors {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
-            text: scope ? scope.name : ""
-            // TODO Saviq: These should come from updated Ubuntu Palette.
-            color: "#888888"
-            font.family: "Ubuntu"
-            font.weight: Font.Light
-            fontSize: "x-large"
-            elide: Text.ElideRight
-        }
+        onBackClicked: root.open = false
     }
 
     ListView  {
         id: previewListView
-        objectName: root.objectName + "_listView"
+        objectName: "listView"
         anchors {
             top: header.bottom
             bottom: parent.bottom
@@ -88,9 +73,7 @@ Item {
         property bool open: false
 
         onOpenChanged: {
-            if (open) {
-                pageHeader.unfocus();
-            } else {
+            if (!open) {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem && previewListView.currentItem.previewData !== undefined) {
                     previewListView.currentItem.previewData.cancelAction();
@@ -118,6 +101,7 @@ Item {
                     var previewStack = root.scope.preview(result);
                     return previewStack.getPreviewModel(0);
                 }
+                scopeStyle: root.scopeStyle
             }
 
             MouseArea {

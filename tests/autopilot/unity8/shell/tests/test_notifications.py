@@ -137,7 +137,7 @@ class InteractiveNotificationBase(NotificationsBase):
             ("x-canonical-switch-to-application", "true"),
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app.png')
+                self._get_icon_path('applicationIcons/dialer-app.png')
             )
         ]
 
@@ -172,17 +172,19 @@ class InteractiveNotificationBase(NotificationsBase):
         hints = [
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app.png')
+                self._get_icon_path('applicationIcons/dialer-app.png')
             ),
             ("x-canonical-snap-decisions", "true"),
         ]
 
         actions = [
-            ('action_accept', 'Accept'),
-            ('action_decline_1', 'Decline'),
-            ('action_decline_2', '"Can\'t talk now, what\'s up?"'),
-            ('action_decline_3', '"I call you back."'),
-            ('action_decline_4', 'Send custom message...'),
+            ('action_accept', 'Hold + Answer'),
+            ('action_decline_1', 'End + Answer'),
+            ('action_decline_2', 'Decline'),
+            ('action_decline_3', 'messages:I missed your call - can you call me now?'),
+            ('action_decline_4', 'messages:I\'m running late. I\'m on my way.'),
+            ('action_decline_5', 'messages:I\'m busy at the moment. I\'ll call later.'),
+            ('action_decline_6', 'edit:Custom'),
         ]
 
         self._create_interactive_notification(
@@ -200,19 +202,14 @@ class InteractiveNotificationBase(NotificationsBase):
         notification = get_notification()
         self._assert_notification(notification, summary, body, True, True, 1.0)
         initial_height = notification.height
-        self.touch.tap_object(notification.select_single(objectName="button1"))
-        self.assertThat(
-            notification.height,
-            Eventually(Equals(initial_height +
-                              3 * notification.select_single(
-                                  objectName="buttonColumn").spacing +
-                              3 * notification.select_single(
-                                  objectName="button4").height)))
+        self.touch.tap_object(notification.select_single(objectName="combobutton_dropdown"))
+        self.assertThat(notification.select_single(objectName="button2").expanded, Eventually(Equals(True)))
+        time.sleep(2)
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
-    def test_modal_sd_without_greeter (self):
-        """A snap-decision on a phone should block input to shell beneath it when there's no greeter."""
+    def test_modal_sd_without_greeter(self):
+        """Snap-decision should block input to shell without greeter."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
@@ -238,7 +235,8 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
-        # verify that we cannot reveal the launcher (no longer interact with the shell)
+        # verify that we cannot reveal the launcher (no longer interact with
+        # the shell)
         time.sleep(1)
         self.main_window.show_dash_swiping()
         launcher = self.main_window.get_launcher()
@@ -249,13 +247,14 @@ class InteractiveNotificationBase(NotificationsBase):
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
         notification = get_notification()
-        self._assert_notification(notification, summary, body, True, False, 1.0)
+        self._assert_notification(
+            notification, summary, body, True, False, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button0"))
         self.assert_notification_action_id_was_called("action_accept")
 
-    def test_modal_sd_with_greeter (self):
-        """A snap-decision on a phone should not block input to the greeter beneath it."""
-        unity_proxy = self.launch_unity()
+    def test_modal_sd_with_greeter(self):
+        """A snap-decision should not block input to the greeter beneath it."""
+        self.launch_unity()
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -290,7 +289,8 @@ class InteractiveNotificationBase(NotificationsBase):
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
         notification = get_notification()
-        self._assert_notification(notification, summary, body, True, False, 1.0)
+        self._assert_notification(
+            notification, summary, body, True, False, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button0"))
         self.assert_notification_action_id_was_called("action_accept")
 
@@ -435,7 +435,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         hints = [
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app.png')
+                self._get_icon_path('applicationIcons/dialer-app.png')
             )
         ]
 
@@ -663,7 +663,8 @@ class EphemeralNotificationsTests(NotificationsBase):
         icon_path = self._get_icon_path('avatars/amanda.png')
         notification.update(summary, body, icon_path)
         notification.show()
-        self._assert_notification(get_notification(), summary, body, True, False, 1.0)
+        self._assert_notification(
+            get_notification(), summary, body, True, False, 1.0)
 
     def test_update_notification_layout_change(self):
         """Notification must allow updating its contents and layout while
@@ -677,7 +678,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         body = 'This bubble uses the icon-title-body layout with a ' \
             'secondary icon.'
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
-        hint_icon = self._get_icon_path('applicationIcons/phone-app.png')
+        hint_icon = self._get_icon_path('applicationIcons/dialer-app.png')
 
         notification = shell.create_ephemeral_notification(
             summary,
@@ -710,7 +711,8 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self._assert_notification(get_notification(), summary, body, False, False, 1.0)
+        self._assert_notification(
+            get_notification(), summary, body, False, False, 1.0)
 
     def test_append_hint(self):
         """Notification has to accumulate body-text using append-hint."""

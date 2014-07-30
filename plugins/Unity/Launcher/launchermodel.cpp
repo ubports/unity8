@@ -128,7 +128,7 @@ void LauncherModel::pin(const QString &appId, int index)
         if (index == -1 || index == currentIndex) {
             m_list.at(currentIndex)->setPinned(true);
             QModelIndex modelIndex = this->index(currentIndex);
-            Q_EMIT dataChanged(modelIndex, modelIndex);
+            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
         } else {
             move(currentIndex, index);
             // move() will store the list to the backend itself, so just exit at this point.
@@ -141,7 +141,8 @@ void LauncherModel::pin(const QString &appId, int index)
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
                                               m_backend->displayName(appId),
-                                              m_backend->icon(appId));
+                                              m_backend->icon(appId),
+                                              this);
         item->setPinned(true);
         m_list.insert(index, item);
         endInsertRows();
@@ -159,6 +160,8 @@ void LauncherModel::requestRemove(const QString &appId)
 
     if (m_appManager->findApplication(appId)) {
         m_list.at(index)->setPinned(false);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
         return;
     }
 
@@ -324,7 +327,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
     if (found) {
         // Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
-        LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString());
+        LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
         item->setFocused(app->focused());
 

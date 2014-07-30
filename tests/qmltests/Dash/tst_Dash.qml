@@ -70,24 +70,6 @@ Item {
             ]
         }
 
-        function test_set_current_scope_data() {
-            return get_scope_data()
-        }
-
-        function test_set_current_scope(data) {
-            // wait for scopes to load
-            tryCompare(scopes, "loaded", true);
-
-            var tabbar = findChild(dash, "tabbar");
-            verify(tabbar != undefined)
-            var dashContent = findChild(dash, "dashContent");
-            var current_index = dashContent.currentIndex;
-
-            dash.setCurrentScope(data.tag, true /* animate */, false /* reset */);
-            compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
-            compare(tabbar.selectedIndex, data.shouldBeVisible ? data.visualIndex : current_index);
-        }
-
         function test_show_scope_on_load_data() {
             return get_scope_data()
         }
@@ -104,31 +86,10 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(scopes, "loaded", true);
-            tryCompare(dashContentList, "count", 3);
+            tryCompare(dashContentList, "count", 4);
 
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);
-        }
-
-        function test_dash_bar_set_index_connection_data() {
-            return get_scope_data()
-        }
-
-        function test_dash_bar_set_index_connection(data) {
-            if (data.shouldBeVisible == false) {
-                console.log("Not testing " + data.tag + ": not visible");
-                return;
-            }
-            // wait for scopes to load
-            tryCompare(scopes, "loaded", true);
-
-            var tabbar = findChild(dash, "tabbar");
-            verify(tabbar != undefined)
-            var dashContent = findChild(dash, "dashContent");
-            var current_index = dashContent.currentIndex;
-
-            tabbar.model.selectedIndex = data.visualIndex;
-            compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
     }
 }

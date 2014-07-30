@@ -94,9 +94,16 @@ Item {
         name: "Launcher"
         when: windowShown && initTestCase.completed
 
+        function cleanup() {
+            mouseClick(root, root.width / 2, root.height / 2);
+            revealer.waitUntilLauncherDisappears();
+        }
+
         // Drag from the left edge of the screen rightwards and check that the launcher
         // appears (as if being dragged by the finger/pointer)
         function test_dragLeftEdgeToRevealLauncherAndTapCenterToDismiss() {
+            revealer.waitUntilLauncherDisappears();
+
             var panel = findChild(launcher, "launcherPanel")
             verify(panel != undefined)
 
@@ -115,11 +122,10 @@ Item {
         /* If I click on the icon of an application on the launcher
            Launcher::launcherApplicationSelected signal should be emitted with the
            corresponding desktop file. E.g. clicking on phone icon should yield
-           launcherApplicationSelected("[...]phone-app.desktop") */
+           launcherApplicationSelected("[...]dialer-app.desktop") */
         function test_clickingOnAppIconCausesSignalEmission() {
+            revealer.dragLauncherIntoView();
             launcher.lastSelectedApplication = ""
-
-            revealer.dragLauncherIntoView()
 
             var listView = findChild(launcher, "launcherListView");
             listView.positionViewAtEnd();
@@ -131,7 +137,7 @@ Item {
             mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
 
             tryCompare(launcher, "lastSelectedApplication",
-                       "phone-app")
+                       "dialer-app")
 
             // Tapping on an application icon also dismisses the launcher
             revealer.waitUntilLauncherDisappears()
@@ -184,6 +190,7 @@ Item {
         }
 
         function test_countEmblems() {
+            revealer.dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
@@ -192,6 +199,7 @@ Item {
         }
 
         function test_progressOverlays() {
+            revealer.dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
@@ -200,6 +208,7 @@ Item {
         }
 
         function test_focusedHighlight() {
+            revealer.dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)

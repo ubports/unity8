@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
-"PO-Revision-Date: 2014-06-26 03:08+0000\n"
-"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-07-26 06:22+0000\n"
+"Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-27 07:13+0000\n"
-"X-Generator: Launchpad (build 17077)\n"
+"X-Launchpad-Export-Date: 2014-07-27 06:35+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
-msgstr "Fijar al lanzador"
+msgid "Pin shortcut"
+msgstr "Anclar"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
-msgstr "Quitar del lanzador"
+msgid "Unpin shortcut"
+msgstr "Desanclar"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -85,10 +85,6 @@ msgstr "Llamada de emergencia"
 msgid "OK"
 msgstr "Aceptar"
 
-#: qml/Components/PageHeader.qml:365
-msgid "Recent searches"
-msgstr "Búsquedas recientes"
-
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
@@ -110,13 +106,17 @@ msgstr "HECHO"
 msgid "See more"
 msgstr "Ver más"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr "Ver menos"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "Recientes"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr "Ver todo"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -126,15 +126,15 @@ msgstr "Más…"
 msgid "Less..."
 msgstr "Menos…"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr "Valorar esto"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Añadir una reseña"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Enviar"
 
@@ -170,11 +170,43 @@ msgstr "Mostrar contraseña"
 msgid "Please enter SIM PIN"
 msgstr "Escriba el PIN de la SIM"
 
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "Toque para volver a llamar..."
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "Conferencia"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr "En espera…"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr "Descargando"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr "Pausado, toque para reanudar"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr "Cancelado"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr "Finalizado"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr "Falló, toque para reintentar"
+
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Buscar"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduzca %1"

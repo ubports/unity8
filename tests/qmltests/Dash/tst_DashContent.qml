@@ -47,8 +47,6 @@ Item {
             model: scopesModel
         }
         scopes : scopesModel
-
-        searchHistory: SearchHistoryModel {}
     }
 
     SignalSpy {
@@ -61,6 +59,11 @@ Item {
         id: movementStartedSpy
         target: dashContent
         signalName: "movementStarted"
+    }
+
+    SignalSpy {
+        id: loadedSpy
+        signalName: "loaded"
     }
 
     UT.UnityTestCase {
@@ -80,6 +83,7 @@ Item {
 
         function cleanup() {
             movementStartedSpy.clear();
+            loadedSpy.clear();
             dashContent.visible = true;
 
             var dashContentList = findChild(dashContent, "dashContentList");
@@ -118,10 +122,11 @@ Item {
 
         function test_show_header_on_list_movement() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined);
-            var categoryListView = findChild(dashContentList, "categoryListView");
-            verify(categoryListView != undefined);
+            verify(dashContentList !== null);
+            var scope = findChild(dashContent, "MockScope1 loader");
+            waitForRendering(scope);
 
+            var categoryListView = findChild(scope, "categoryListView");
             waitForRendering(categoryListView);
 
             categoryListView.contentY = units.gu(15);
@@ -135,10 +140,12 @@ Item {
 
         function test_set_current_scope_reset() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined);
-            var categoryListView = findChild(dashContentList, "categoryListView");
-            verify(categoryListView != undefined);
+            verify(dashContentList, "Couldn't find dashContentList");
+            var scope = findChild(dashContent, "MockScope1 loader");
 
+            tryCompare(scope, "status", Loader.Ready);
+
+            var categoryListView = findChild(dashContentList, "categoryListView");
             categoryListView.contentY = units.gu(10);
 
             compare(dashContentList.currentItem.item.objectName,  "MockScope1")
@@ -194,8 +201,9 @@ Item {
         function test_scope_mapping(data) {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
-            var pageHeader = findChild(dashContent, "pageHeader");
-            compare(pageHeader.scope, scopesModel.getScope(data.index));
+            var scopeView = findChild(dashContent, data.objectName);
+            var pageHeader = findChild(scopeView, "innerPageHeader");
+            compare(pageHeader.title, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
@@ -215,67 +223,6 @@ Item {
             tryCompare(scopesModel.getScope(0), "isActive", data.active0);
             tryCompare(scopesModel.getScope(1), "isActive", data.active1);
             tryCompare(scopesModel.getScope(2), "isActive", data.active2);
-        }
-
-        function doFindMusicButton(parent) {
-            for (var i = 0; i < parent.children.length; i++) {
-                var c = parent.children[i];
-                if (UT.Util.isInstanceOf(c, "AbstractButton") && parent.x >= 0) {
-                    for (var ii = 0; ii < c.children.length; ii++) {
-                        var cc = c.children[ii];
-                        if (UT.Util.isInstanceOf(cc, "Label") && cc.text == "Music") {
-                            return c;
-                        }
-                    }
-                }
-                var r = doFindMusicButton(c);
-                if (r !== undefined) {
-                    return r;
-                }
-            }
-            return undefined;
-        }
-
-        function findMusicButton() {
-            // We need to find a AbstractButton that has a Label child
-            // with text Music and it's parent x is >= 0
-            var tabbar = findChild(dashContent, "tabbar");
-            return doFindMusicButton(tabbar);
-        }
-
-        function test_tabBar_index_change() {
-            tryCompare(scopesModel, "loaded", true);
-            var tabbar = findChild(dashContent, "tabbar");
-
-            tryCompare(dashContent, "currentIndex", 0);
-            tryCompare(tabbar, "selectedIndex", 0);
-            tryCompare(tabbar, "selectionMode", false);
-
-            mouseClick(tabbar, units.gu(5), units.gu(5))
-
-            tryCompare(tabbar, "selectionMode", true);
-            tryCompare(tabbar, "selectedIndex", 0);
-            tryCompare(dashContent, "currentIndex", 0);
-
-            var button;
-            tryCompareFunction(function() { button = findMusicButton(); return button != undefined; }, true);
-            waitForRendering(button);
-
-            tryCompareFunction(function() { return button.opacity > 0; }, true);
-            mouseClick(button, button.width / 2, button.height / 2)
-
-            tryCompare(tabbar, "selectionMode", false);
-            tryCompare(tabbar, "selectedIndex", 1);
-            tryCompare(dashContent, "currentIndex", 1);
-        }
-
-        function test_tabBar_listens_to_index_change() {
-            var tabbar = findChild(dashContent, "tabbar");
-            tryCompare(dashContent, "currentIndex", 0);
-            compare(tabbar.selectedIndex, 0);
-            var dashContentList = findChild(dashContent, "dashContentList");
-            dashContentList.currentIndex = 1;
-            compare(tabbar.selectedIndex, 1);
         }
 
         function checkFlickMovingAndNotInteractive()
@@ -298,93 +245,6 @@ Item {
             tryCompare(dashContentList, "interactive", true);
 
             tryCompareFunction(checkFlickMovingAndNotInteractive, true);
-        }
-
-        function openPreview() {
-            tryCompareFunction(function() {
-                                    var filterGrid = findChild(dashContent, "0");
-                                    if (filterGrid != null) {
-                                        var tile = findChild(filterGrid, "delegate0");
-                                        return tile != null;
-                                    }
-                                    return false;
-                                },
-                                true);
-            var tile = findChild(findChild(dashContent, "0"), "delegate0");
-            mouseClick(tile, tile.width / 2, tile.height / 2);
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", true);
-            tryCompare(previewListView, "x", 0);
-        }
-
-        function closePreview() {
-            var closePreviewMouseArea = findChild(dashContent, "dashContentPreviewList_pageHeader_backButton");
-            mouseClick(closePreviewMouseArea, closePreviewMouseArea.width / 2, closePreviewMouseArea.height / 2);
-
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-        }
-
-        function test_previewOpenClose() {
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-
-            var categoryListView = findChild(dashContent, "categoryListView");
-            categoryListView.positionAtBeginning();
-
-            openPreview();
-            closePreview();
-        }
-
-        function test_showPreviewCarousel() {
-            tryCompareFunction(function() {
-                                    var scope = findChild(dashContent, "MockScope1 loader");
-                                    if (scope != null) {
-                                        var dashCategory1 = findChild(scope, "dashCategory1");
-                                        if (dashCategory1 != null) {
-                                            var tile = findChild(dashCategory1, "carouselDelegate1");
-                                            return tile != null;
-                                        }
-                                    }
-                                    return false;
-                                },
-                                true);
-
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-
-            var scope = findChild(dashContent, "MockScope1 loader");
-            var dashCategory1 = findChild(scope, "dashCategory1");
-            var tile = findChild(dashCategory1, "carouselDelegate1");
-            mouseClick(tile, tile.width / 2, tile.height / 2);
-            tryCompare(previewListView, "open", true);
-            tryCompare(previewListView, "x", 0);
-
-            closePreview();
-        }
-
-        function test_previewCycle() {
-            var categoryListView = findChild(dashContent, "categoryListView");
-            categoryListView.positionAtBeginning();
-
-            var previewListView = findChild(dashContent, "dashContentPreviewList");
-            tryCompare(previewListView, "open", false);
-            var previewListViewList = findChild(dashContent, "dashContentPreviewList_listView");
-
-            openPreview();
-
-            // flick to the next previews
-            tryCompare(previewListView, "count", 15);
-            for (var i = 1; i < previewListView.count; ++i) {
-                mouseFlick(previewListView, previewListView.width - units.gu(1),
-                                            previewListView.height / 2,
-                                            units.gu(2),
-                                            previewListView.height / 2);
-                tryCompare(previewListViewList, "moving", false);
-                tryCompare(previewListView.currentItem, "objectName", "previewItem" + i);
-
-            }
-            closePreview();
         }
 
         function test_carouselAspectRatio() {
@@ -461,6 +321,8 @@ Item {
             compare(allButton.visible, true);
             compare(backButton.visible, true);
 
+            tryCompare(departmentListView, "contentX", departmentList1.x);
+            waitForRendering(departmentListView);
             mouseClick(allButton, 0, 0);
             compare(dashDepartments.showList, false);
             tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");

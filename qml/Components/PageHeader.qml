@@ -14,386 +14,301 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Unity 0.2
+import QtQuick 2.2
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes.Ambiance 1.1
+import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.ListItems 1.0
+import "SearchHistoryModel"
 
 Item {
     id: root
+    objectName: "pageHeader"
+    implicitHeight: headerContainer.height + units.gu(2) + bottomContainer.height
+
+    property bool showBackButton: false
+    property string title
+
     property bool searchEntryEnabled: false
-    property alias searchQuery: searchField.text
-    property ListModel searchHistory
-    property var scope: null
-    property alias childItem: itemContainer.children
+    property ListModel searchHistory: SearchHistoryModel
+    property alias searchQuery: searchTextField.text
+    property bool searchInProgress: false
+
     property alias bottomItem: bottomContainer.children
-    property alias showBackButton: backButton.visible
 
-    signal backClicked
+    // TODO We should use foreground for the icons
+    // of the toolbar but unfortunately Action does not have
+    // the keyColor property as Icon does :-/
+    property var scopeStyle: null
 
-    height: header.height + units.gu(2) + bottomContainer.height
-    implicitHeight: header.height + units.gu(2) + bottomContainer.height
+    signal backClicked()
+
+    onScopeStyleChanged: refreshLogo()
 
     function triggerSearch() {
-        if (searchEntryEnabled) searchField.forceActiveFocus()
+        if (searchEntryEnabled) {
+            headerContainer.showSearch = true;
+            searchTextField.forceActiveFocus();
+        }
     }
 
-    function resetSearch() {
-        if (!searchHistory) return;
-
-        searchHistory.addQuery(searchField.text);
-        unfocus();
-        searchField.text = "";
+    function resetSearch(keepFocus) {
+        if (searchHistory) {
+            searchHistory.addQuery(searchTextField.text);
+        }
+        if (!keepFocus) {
+            unfocus();
+        }
+        searchTextField.text = "";
+        if (headerContainer.popover != null) {
+            PopupUtils.close(headerContainer.popover);
+        }
     }
 
     function unfocus() {
-        searchField.focus = false;
+        searchTextField.focus = false;
+        if (!searchTextField.text) {
+            headerContainer.showSearch = false;
+        }
+    }
+
+    function openSearchHistory() {
+        if (openSearchAnimation.running) {
+            openSearchAnimation.openSearchHistory = true;
+        } else if (root.searchHistory.count > 0 && headerContainer.popover == null) {
+            headerContainer.popover = PopupUtils.open(popoverComponent, searchTextField,
+                                                      {
+                                                          "contentWidth": searchTextField.width,
+                                                          "edgeMargins": units.gu(1)
+                                                      }
+                                                     );
+        }
+    }
+
+    function refreshLogo() {
+        if (scopeStyle ? scopeStyle.headerLogo != "" : false) {
+            header.contents = imageComponent.createObject();
+        } else if (header.contents) {
+            header.contents.destroy();
+            header.contents = null;
+        }
     }
 
     Connections {
-        target: greeter
-        onShownChanged: if (shown) resetSearch()
+        target: root.scopeStyle
+        onHeaderLogoChanged: root.refreshLogo()
+    }
+
+    InverseMouseArea {
+        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
+        visible: headerContainer.showSearch
+        onPressed: {
+            if (headerContainer.popover) {
+                PopupUtils.close(headerContainer.popover);
+            }
+            if (!searchTextField.text) {
+                headerContainer.showSearch = false;
+            }
+            searchTextField.focus = false;
+            mouse.accepted = false;
+        }
     }
 
     Flickable {
-        id: header
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-        }
+        id: headerContainer
+        objectName: "headerContainer"
+        clip: openSearchAnimation.running
+        anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(6.5)
-
+        contentHeight: headersColumn.height
         interactive: false
-        contentHeight: headerContainer.height
-        clip: true
+        contentY: showSearch ? 0 : height
 
-        contentY: searchField.activeFocus || searchField.text != "" ? searchContainer.y : headerContainer.y
+        property bool showSearch: false
+        property var popover: null
 
-        Behavior on contentY { NumberAnimation { duration: 200; easing.type: Easing.OutQuad } }
+        Background {
+            objectName: "headerBackground"
+            style: scopeStyle.headerBackground
+        }
 
-        AbstractButton {
-            id: backButton
-            objectName: root.objectName + "_backButton"
-            visible: false
-            height: header.height
-            y: header.contentY
-            anchors {
-                left: parent.left
-                leftMargin: visible ? units.gu(2) : 0
-            }
-            width: visible ? image.width + units.gu(2) : 0
-            onClicked: root.backClicked();
-            Image {
-                id: image
-                anchors.centerIn: parent
-                source: "graphics/headerback.png"
+        Behavior on contentY {
+            UbuntuNumberAnimation {
+                id: openSearchAnimation
+                property bool openSearchHistory: false
+
+                onRunningChanged: {
+                    if (!running && openSearchAnimation.openSearchHistory) {
+                        openSearchAnimation.openSearchHistory = false;
+                        root.openSearchHistory();
+                    }
+                }
             }
         }
 
-        // FIXME this could potentially be simplified to avoid all the containers
-        Item {
-            id: headerContainer
+        Column {
+            id: headersColumn
+            anchors { left: parent.left; right: parent.right }
 
-            anchors {
-                left: backButton.right
-                right: parent.right
-            }
-            height: childrenRect.height
-
-            Item {
-                id: itemContainer
-
-                width: searchContainer.narrowMode ? header.width : header.width - searchContainer.width
-                height: header.height
-            }
-
-            Item {
-                id: searchContainer
-                objectName: "searchContainer"
-
-                visible: searchEntryEnabled
-                property bool popoverShouldOpen: false
-                property bool popoverShouldClose: false
-
-                property bool narrowMode: parent.width < units.gu(80)
-
-                property bool active: searchField.text != "" || searchField.activeFocus
-                property var popover: null
-
-                anchors.right: headerContainer.right
-                height: header.height
-
-                state:
-                    if (active && narrowMode) "narrowActive"
-                    else if (!active && narrowMode) "narrowInactive"
-                    else if (active && !narrowMode) "active"
-                    else if (!active && !narrowMode) "inactive"
-
-                onStateChanged: {
-                    if (state == "active" || state == "narrowActive") {
-                        popoverShouldOpen = true;
-                        popoverShouldClose = false;
-                    } else {
-                        popoverShouldOpen = false;
-                        popoverShouldClose = true;
+            PageHeadStyle {
+                id: searchHeader
+                anchors { left: parent.left; right: parent.right }
+                height: headerContainer.height
+                contentHeight: height
+                opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
+                separatorSource: ""
+                // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
+                property var styledItem: searchHeader
+                property string title
+                property var config: PageHeadConfiguration {
+                    backAction: Action {
+                        iconName: "back"
+                        onTriggered: {
+                            root.resetSearch();
+                            headerContainer.showSearch = false;
+                        }
                     }
                 }
-
-                function openPopover() {
-                    if (searchHistory.count > 0) {
-                        searchContainer.popover = PopupUtils.open(popoverComponent, pointerPositioner,
-                                                                  {
-                                                                      "contentWidth": searchField.width,
-                                                                      "edgeMargins": units.gu(1)
-                                                                  }
-                                                                 )
-                    }
-                    popoverShouldOpen = false;
-                    popoverShouldClose = false;
-                }
-
-                function closePopover() {
-                    if (searchContainer.popover) {
-                        PopupUtils.close(searchContainer.popover);
-                        searchContainer.popover = null;
-                    }
-                    popoverShouldOpen = false;
-                    popoverShouldClose = false;
-                }
-
-                onActiveFocusChanged: if (!activeFocus) { searchHistory.addQuery(searchField.text) }
-
-                TextField {
-                    id: searchField
-
-                    anchors.fill: parent
-                    anchors.margins: units.gu(1)
-
-                    inputMethodHints: Qt.ImhNoPredictiveText
+                property var contents: TextField {
+                    id: searchTextField
+                    objectName: "searchTextField"
                     hasClearButton: false
+                    anchors {
+                        fill: parent
+                        leftMargin: units.gu(1)
+                        topMargin: units.gu(1)
+                        bottomMargin: units.gu(1)
+                        rightMargin: root.width > units.gu(60) ? root.width - units.gu(40) : units.gu(1)
+                    }
 
-                    primaryItem: AbstractButton {
-                        enabled: searchField.text != "" && !searchIndicator.running
-                        onClicked: {
-                            if (searchField.text != "") {
-                                searchHistory.addQuery(searchField.text)
-                                searchField.text = ""
-                            }
-                        }
-                        height: parent.height
+                    secondaryItem: AbstractButton {
+                        height: searchTextField.height
                         width: height
-
-                        ActivityIndicator {
-                            id: searchIndicator
-                            objectName: "searchIndicator"
-
-                            anchors {
-                                verticalCenter: parent.verticalCenter
-                                left: parent.left
-                                leftMargin: units.gu(0.5)
-                            }
-
-                            running: opacity > 0
-                        }
+                        enabled: searchTextField.text.length > 0
 
                         Image {
-                            id: primaryImage
-                            objectName: "primaryImage"
-                            anchors {
-                                verticalCenter: parent.verticalCenter
-                                left: parent.left
-                                leftMargin: units.gu(0.5)
-                            }
-                            width: units.gu(3)
-                            height: units.gu(3)
+                            objectName: "clearIcon"
+                            anchors.fill: parent
+                            anchors.margins: units.gu(.75)
+                            source: "image://theme/clear"
+                            opacity: searchTextField.text.length > 0 && !searchActivityIndicator.running
                             visible: opacity > 0
+                            Behavior on opacity {
+                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                            }
                         }
 
-                        Item {
-                            id: pointerPositioner
-                            anchors.left: parent.right
-                            anchors.leftMargin: units.gu(0.5)
-                            anchors.top: parent.bottom
+                        ActivityIndicator {
+                            id: searchActivityIndicator
+                            objectName: "searchIndicator"
+                            anchors.fill: parent
+                            anchors.margins: units.gu(.75)
+                            running: root.searchInProgress
+                            opacity: running ? 1 : 0
+                            Behavior on opacity {
+                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                            }
                         }
-                    }
 
-                    onTextChanged: {
-                        if (text != "") searchContainer.closePopover()
-                        else if (text == "" && activeFocus) searchContainer.openPopover()
+                        onClicked: {
+                            root.resetSearch(true);
+                            root.openSearchHistory();
+                        }
                     }
 
                     onActiveFocusChanged: {
-                        if (!activeFocus) searchContainer.closePopover()
+                        if (activeFocus) {
+                            root.openSearchHistory();
+                        }
+                    }
+                }
+            }
+
+            PageHeadStyle {
+                id: header
+                objectName: "innerPageHeader"
+                anchors { left: parent.left; right: parent.right }
+                height: headerContainer.height
+                contentHeight: height
+                opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
+                separatorSource: ""
+                textColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
+                property var styledItem: header
+                property string title: root.title
+                property var config: PageHeadConfiguration {
+                    backAction: Action {
+                        iconName: "back"
+                        visible: root.showBackButton
+                        onTriggered: {
+                            root.backClicked();
+                        }
                     }
 
-                    states: [
-                        State {
-                            name: "searching"
-                            when: scope && scope.searchInProgress
-                            PropertyChanges { target: searchIndicator; running: true; opacity: 1 }
-                            PropertyChanges { target: primaryImage; opacity: 0 }
-                        },
-                        State {
-                            name: "idle"
-                            when: !scope || !scope.searchInProgress
-                            PropertyChanges { target: searchIndicator; opacity: 0 }
-                            PropertyChanges { target: primaryImage; opacity: 1 }
-                        }
-                    ]
-
-                    transitions: [
-                        Transition {
-                            to: "searching"
-                            reversible: true
-                            SequentialAnimation {
-                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
-                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
+                    actions: [
+                        Action {
+                            iconName: "search"
+                            visible: root.searchEntryEnabled
+                            onTriggered: {
+                                headerContainer.showSearch = true;
+                                searchTextField.forceActiveFocus();
                             }
                         }
                     ]
                 }
 
-                states: [
-                    State {
-                        name: "wide"
-                        AnchorChanges { target: itemContainer; anchors.top: headerContainer.top }
-                        AnchorChanges { target: searchContainer; anchors.left: undefined; anchors.top: itemContainer.top }
-                    },
-                    State {
-                        name: "narrow"
-                        PropertyChanges { target: searchField; highlighted: true }
-                        AnchorChanges { target: itemContainer; anchors.top: searchContainer.bottom }
-                        AnchorChanges { target: searchContainer; anchors.left: headerContainer.left; anchors.top: headerContainer.top }
-                    },
-                    State {
-                        name: "active"
-                        extend: "wide"
-                        PropertyChanges { target: searchContainer; width: units.gu(40) }
-                        PropertyChanges { target: primaryImage; source: searchField.text ? "../Dash/graphics/icon_clear.png" : "../Dash/graphics/icon_search_active.png" }
-                        PropertyChanges { target: searchField; highlighted: true }
-                    },
-                    State {
-                        name: "inactive"
-                        extend: "wide"
-                        PropertyChanges { target: searchContainer; width: units.gu(25) }
-                        PropertyChanges { target: primaryImage; source: "../Dash/graphics/icon_search_inactive.png" }
-                        PropertyChanges { target: searchField; highlighted: false }
-                    },
-                    State {
-                        name: "narrowActive"
-                        extend: "narrow"
-                        PropertyChanges { target: header; contentY: 0 }
-                        PropertyChanges { target: primaryImage; source: searchField.text ? "../Dash/graphics/icon_clear.png" : "../Dash/graphics/icon_search_active.png" }
-                    },
-                    State {
-                        name: "narrowInactive"
-                        extend: "narrow"
-                        PropertyChanges { target: header; contentY: header.height }
-                        PropertyChanges { target: primaryImage; source: searchField.text ? "../Dash/graphics/icon_clear.png" : "../Dash/graphics/icon_search_active.png" }
-                    }
-                ]
-
-                transitions: [
-                    Transition {
-                        to: "active"
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                NumberAnimation { targets: [searchContainer, searchField]; property: "width"; duration: 200; easing.type: Easing.InOutQuad }
-                                PropertyAction  { target: primaryImage; property: "source" }
-                                AnchorAnimation { targets: [searchContainer, itemContainer]; duration: 200; easing.type: Easing.InOutQuad }
-                            }
-                            ScriptAction { script: if (searchContainer.popoverShouldOpen) { searchContainer.openPopover(); } }
-                        }
-                    },
-                    Transition {
-                        to: "inactive"
-                        ScriptAction { script: if (searchContainer.popoverShouldClose) { searchContainer.closePopover(); } }
-                        NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.InOutQuad }
-                        AnchorAnimation { targets: [searchContainer, itemContainer]; duration: 200; easing.type: Easing.InOutQuad }
-                    },
-                    Transition {
-                        to: "narrowActive"
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.OutQuad }
-                                AnchorAnimation { targets: [searchContainer, itemContainer]; duration: 200; easing.type: Easing.InOutQuad }
-                            }
-                            ScriptAction { script: if (searchContainer.popoverShouldOpen) { searchContainer.openPopover(); } }
-                        }
-                    },
-                    Transition {
-                        to: "narrowInactive"
-                        ScriptAction { script: if (searchContainer.popoverShouldClose) { searchContainer.closePopover(); } }
-                        NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.OutQuad }
-                        AnchorAnimation { targets: [searchContainer, itemContainer]; duration: 200; easing.type: Easing.InOutQuad }
-                    }
-                ]
+                property var contents: null
+                Component.onCompleted: root.refreshLogo()
 
                 Component {
-                    id: popoverComponent
-                    Popover {
-                        id: popover
+                    id: imageComponent
 
-                        // FIXME: this should go into the first item below, but enable: false
-                        // prevents mouse events propagation
-                        AbstractButton {
-                            anchors {
-                                top: parent.top
-                                right: parent.right
-                            }
-                            height: units.gu(6)
-                            width: height
-
-                            onClicked: searchContainer.closePopover()
-
-                            Image {
-                                anchors.centerIn: parent
-                                width: units.gu(2)
-                                height: units.gu(2)
-                                source: "../Dash/graphics/icon_listview_clear.png"
-                            }
-                        }
-
-                        Column {
-                            anchors {
-                                top: parent.top
-                                left: parent.left
-                                right: parent.right
-                            }
-
-                            ListItem.Standard { enabled: false; text: i18n.tr("Recent searches") }
-
-                            Repeater {
-                                id: recentSearches
-                                model: searchHistory
-
-                                delegate: ListItem.Standard {
-                                    showDivider: index < recentSearches.count - 1
-                                    text: query
-                                    onClicked: {
-                                        searchHistory.addQuery(text)
-                                        searchField.text = text
-                                    }
-                                }
-                            }
+                    Item {
+                        anchors { fill: parent; topMargin: units.gu(1); bottomMargin: units.gu(1) }
+                        clip: true
+                        Image {
+                            objectName: "titleImage"
+                            anchors.fill: parent
+                            source: root.scopeStyle ? root.scopeStyle.headerLogo : ""
+                            fillMode: Image.PreserveAspectFit
+                            horizontalAlignment: Image.AlignLeft
+                            sourceSize.height: height
                         }
                     }
                 }
+            }
+        }
+    }
 
-                InverseMouseArea {
-                    enabled: searchField.activeFocus
+    Component {
+        id: popoverComponent
+        Popover {
+            id: popover
+            autoClose: false
 
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        right: parent.right
+            Component.onDestruction: {
+                headerContainer.popover = null;
+            }
+
+            Column {
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+
+                Repeater {
+                    id: recentSearches
+                    model: searchHistory
+
+                    delegate: Standard {
+                        showDivider: index < recentSearches.count - 1
+                        text: query
+                        onClicked: {
+                            searchHistory.addQuery(text);
+                            searchTextField.text = text;
+                            PopupUtils.close(popover);
+                        }
                     }
-
-                    height: searchContainer.popover ? parent.height + searchContainer.popover.contentHeight + units.gu(2) : parent.height
-
-                    onPressed: searchField.focus = false
                 }
             }
         }
@@ -402,7 +317,7 @@ Item {
     BorderImage {
         id: bottomBorder
         anchors {
-            top: header.bottom
+            top: headerContainer.bottom
             left: parent.left
             right: parent.right
             bottom: bottomContainer.top

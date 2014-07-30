@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
-"PO-Revision-Date: 2013-09-28 07:46+0000\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-07-27 12:14+0000\n"
 "Last-Translator: Jared Norris <jarednorris@ubuntu.com>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-07-28 06:44+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
-msgstr ""
+msgid "Pin shortcut"
+msgstr "Pin shortcut"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
-msgstr ""
+msgid "Unpin shortcut"
+msgstr "Unpin shortcut"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -71,6 +71,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
 
 #: qml/Components/Lockscreen.qml:214
 msgid "Emergency Call"
@@ -78,11 +80,7 @@ msgstr "Emergency Call"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
-
-#: qml/Components/PageHeader.qml:365
-msgid "Recent searches"
-msgstr "Recent searches"
+msgstr "OK"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
@@ -95,47 +93,51 @@ msgstr "Hello"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "CANCEL"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "DONE"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "See more"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
-msgstr ""
+msgstr "See less"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "Recent"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr "See all"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "More..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Less..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr "Rate this"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Add a review"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Send"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "Swipe to unlock"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -159,17 +161,49 @@ msgstr "Speaking..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "Show password"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Please enter SIM PIN"
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "Tap to return to call..."
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "Conference"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr "In queue…"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr "Downloading"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr "Paused, tap to resume"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr "Cancelled"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr "Finished"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr "Failed, tap to retry"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Search"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
 msgstr "Please enter %1"

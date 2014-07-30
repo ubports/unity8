@@ -24,6 +24,9 @@
 #include <QtGui/QIcon>
 #include <QMultiMap>
 
+#include <functional>
+#include <random>
+
 using namespace UserMetricsOutput;
 
 namespace UserMetricsOutput

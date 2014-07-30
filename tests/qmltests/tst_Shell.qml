@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
+import LightDM 0.1 as LightDM
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -48,6 +49,11 @@ Item {
 
     Shell {
         id: shell
+    }
+
+    SignalSpy {
+        id: sessionSpy
+        signalName: "sessionStarted"
     }
 
     UT.UnityTestCase {
@@ -91,6 +97,8 @@ Item {
             verify(ok);
 
             swipeAwayGreeter();
+
+            sessionSpy.target = findChild(shell, "greeter")
         }
 
         function cleanup() {
@@ -104,7 +112,7 @@ Item {
             killApps(ApplicationManager);
 
             var dashContent = findChild(shell, "dashContent");
-            dashContent.previewOpen = false;
+            dashContent.closePreview();
 
             var dashHome = findChild(shell, "clickscope loader");
             swipeUntilScopeViewIsReached(dashHome);
@@ -228,6 +236,7 @@ Item {
 
             // wait until the animation has finished
             tryCompare(greeter, "showProgress", 0);
+            waitForRendering(greeter);
         }
 
         /*
@@ -350,11 +359,75 @@ Item {
             verify(itemIsOnScreen(runningApplicationsGrid));
         }
 
+        function test_showInputMethod() {
+            var item = findChild(shell, "inputMethod");
+            var surface = SurfaceManager.inputMethodSurface();
+
+            surface.setState(MirSurfaceItem.Minimized);
+            tryCompare(item, "visible", false);
+
+            surface.setState(MirSurfaceItem.Restored);
+            tryCompare(item, "visible", true);
+
+            surface.setState(MirSurfaceItem.Minimized);
+            tryCompare(item, "visible", false);
+
+            surface.setState(MirSurfaceItem.Maximized);
+            tryCompare(item, "visible", true);
+
+            surface.setState(MirSurfaceItem.Minimized);
+            tryCompare(item, "visible", false);
+        }
+
+        function test_surfaceLosesFocusWhilePanelIsOpen() {
+            var app = ApplicationManager.startApplication("dialer-app");
+            // wait until the app is fully loaded (ie, real surface replaces splash screen)
+            tryCompareFunction(function() { return app.surface != null }, true);
+
+            tryCompare(app.surface, "focus", true);
+
+            // Drag the indicators panel half-open
+            var touchX = shell.width / 2;
+            var indicators = findChild(shell, "indicators");
+            touchFlick(indicators,
+                    touchX /* fromX */, indicators.panelHeight * 0.5 /* fromY */,
+                    touchX /* toX */, shell.height * 0.5 /* toY */,
+                    true /* beginTouch */, false /* endTouch */);
+            verify(indicators.partiallyOpened);
+
+            tryCompare(app.surface, "focus", false);
+
+            // And finish getting it open
+            touchFlick(indicators,
+                    touchX /* fromX */, shell.height * 0.5 /* fromY */,
+                    touchX /* toX */, shell.height * 0.9 /* toY */,
+                    false /* beginTouch */, true /* endTouch */);
+            tryCompare(indicators, "fullyOpened", true);
+
+            tryCompare(app.surface, "focus", false);
+
+            dragToCloseIndicatorsPanel();
+
+            tryCompare(app.surface, "focus", true);
+        }
+
         // Wait for the whole UI to settle down
         function waitForUIToSettle() {
             waitUntilApplicationWindowIsFullyHidden();
             var dashContentList = findChild(shell, "dashContentList");
             tryCompare(dashContentList, "moving", false);
+        }
+
+        function dragToCloseIndicatorsPanel() {
+            var indicators = findChild(shell, "indicators");
+
+            var touchStartX = shell.width / 2;
+            var touchStartY = shell.height - (indicators.panelHeight * 0.5);
+            touchFlick(shell,
+                    touchStartX, touchStartY,
+                    touchStartX, shell.height * 0.1);
+
+            tryCompare(indicators, "fullyClosed", true);
         }
 
         function dragLauncherIntoView() {
@@ -481,7 +554,7 @@ Item {
                 {tag: "under greeter", greeter: true, app: false, launcher: false, indicators: false, expectedShown: false},
                 {tag: "under app", greeter: false, app: true, launcher: false, indicators: false, expectedShown: false},
                 {tag: "under launcher", greeter: false, app: false, launcher: true, indicators: false, expectedShown: true},
-                {tag: "under indicators", greeter: false, app: false, launcher: false, indicators: true, expectedShown: true},
+                {tag: "under indicators", greeter: false, app: false, launcher: false, indicators: true, expectedShown: false},
             ]
         }
 
@@ -510,51 +583,70 @@ Item {
             tryCompare(dash, "shown", data.expectedShown);
         }
 
-        function test_searchIndicatorHidesOnAppFocus() {
-            var searchIndicator = findChild(shell, "container")
-            tryCompare(searchIndicator, "opacity", 1)
-            dragLauncherIntoView();
-
-            // Launch an app from the launcher
-            tapOnAppIconInLauncher();
-            waitUntilApplicationWindowIsFullyVisible();
-
-            tryCompare(searchIndicator, "opacity", 0);
-        }
-
-        function test_searchIndicatorHidesOnGreeterShown() {
-            var searchIndicator = findChild(shell, "container")
+        function test_focusRequestedHidesGreeter() {
             var greeter = findChild(shell, "greeter");
 
-            tryCompare(searchIndicator, "opacity", 1)
+            var app = ApplicationManager.startApplication("dialer-app");
+            // wait until the app is fully loaded (ie, real surface replaces splash screen)
+            tryCompareFunction(function() { return app.surface != null }, true);
 
-            greeter.show()
-            tryCompare(greeter, "shown", true)
-            tryCompare(searchIndicator, "opacity", 0)
+            // Minimize the application we just launched
+            swipeFromLeftEdge(units.gu(27));
+
+            // Wait for the whole UI to settle down
+            waitUntilApplicationWindowIsFullyHidden();
+
+            greeter.show();
+            tryCompare(greeter, "showProgress", 1);
+
+            // The main point of this test
+            ApplicationManager.requestFocusApplication("dialer-app");
+            tryCompare(greeter, "showProgress", 0);
+            waitForRendering(greeter);
         }
 
-        function test_searchIndicatorHideOnPreviewShown() {
-            var searchIndicator = findChild(shell, "container");
-            var dashContent = findChild(shell, "dashContent");
+        function test_focusRequestedHidesIndicators() {
+            var indicators = findChild(shell, "indicators");
 
-            verify(dashContent != null);
+            showIndicators();
 
-            tryCompare(searchIndicator, "opacity", 1);
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(ApplicationManager, "count", 1);
 
-            dashContent.previewOpen = true;
-
-            tryCompare(searchIndicator, "opacity", 0);
+            tryCompare(indicators, "fullyClosed", true);
         }
 
-        function test_focusRequestedHidesGreeter() {
+
+        function test_showGreeterDBusCall() {
             var greeter = findChild(shell, "greeter")
+            tryCompare(greeter, "showProgress", 0)
+            LightDM.Greeter.showGreeter()
+            tryCompare(greeter, "showProgress", 1)
+        }
 
+        function test_login() {
+            sessionSpy.clear()
+
+            var greeter = findChild(shell, "greeter")
             greeter.show()
             tryCompare(greeter, "showProgress", 1)
 
-            ApplicationManager.focusRequested("notes-app")
-            tryCompare(greeter, "showProgress", 0)
-            waitUntilApplicationWindowIsFullyVisible()
+            tryCompare(sessionSpy, "count", 0)
+            swipeAwayGreeter()
+            tryCompare(sessionSpy, "count", 1)
+        }
+
+        function test_fullscreen() {
+            var panel = findChild(shell, "panel");
+            compare(panel.fullscreenMode, false);
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(panel, "fullscreenMode", true);
+            ApplicationManager.startApplication("gallery-app");
+            tryCompare(panel, "fullscreenMode", false);
+            ApplicationManager.requestFocusApplication("camera-app");
+            tryCompare(panel, "fullscreenMode", true);
+            ApplicationManager.requestFocusApplication("gallery-app");
+            tryCompare(panel, "fullscreenMode", false);
         }
     }
 }

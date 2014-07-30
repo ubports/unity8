@@ -1,8 +1,5 @@
-pkg_check_modules(UNITY-MIR REQUIRED unity-mir)
-
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    ${UNITY-MIR_INCLUDE_DIRS}
 )
 
 file(GLOB_RECURSE QML_FILES
@@ -19,6 +16,7 @@ add_executable(${SHELL_APP}
     ApplicationArguments.h
     main.cpp
     MouseTouchAdaptor.cpp
+    CachingNetworkManagerFactory.cpp
     ${QML_FILES} # This is to make qml and image files appear in the IDE's project tree
 )
 

@@ -18,6 +18,7 @@
 #
 
 import logging
+import ubuntuuitoolkit
 
 from unity8.shell import emulators
 
@@ -40,7 +41,7 @@ class Dash(emulators.UnityEmulatorBase):
 
     def get_applications_grid(self):
         get_grid = self.get_scope('clickscope').wait_select_single(
-            'CardFilterGrid', objectName='local')
+            'CardGrid', objectName='local')
         return get_grid
 
     def get_application_icon(self, text):
@@ -108,44 +109,51 @@ class Dash(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_left_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the border of the page header, because some scopes have
-        # contents that can be scrolled horizontally.
-        page_header = self._get_page_header()
-        border = page_header.select_single('QQuickBorderImage')
-        start_x = border.width / 3
-        stop_x = border.width / 3 * 2
-        start_y = stop_y = border.globalRect.y + border.height / 2
+        dashContent = self.select_single(objectName="dashContent")
+        start_x = dashContent.width / 3
+        stop_x = dashContent.width / 3 * 2
+        start_y = stop_y = dashContent.globalRect.y + 1
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
-
-    def _get_page_header(self):
-        return self.select_single('PageHeader', objectName='pageHeader')
 
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_right_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the border of the page header, because some scopes have
-        # contents that can be scrolled horizontally.
-        page_header = self._get_page_header()
-        border = page_header.select_single('QQuickBorderImage')
-        start_x = border.width / 3 * 2
-        stop_x = border.width / 3
-        start_y = stop_y = border.globalRect.y + border.height / 2
+        dashContent = self.select_single(objectName="dashContent")
+        start_x = dashContent.width / 3 * 2
+        stop_x = dashContent.width / 3
+        start_y = stop_y = dashContent.globalRect.y + 1
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
     def enter_search_query(self, query):
+        current_header = self._get_current_page_header()
+        self.pointing_device.move(current_header.globalRect.x +
+                                  current_header.width - current_header.height / 4,
+                                  current_header.globalRect.y +
+                                  current_header.height / 4)
+        self.pointing_device.click()
+        headerContainer = current_header.select_single(objectName="headerContainer")
+        headerContainer.contentY.wait_for(0)
         search_text_field = self._get_search_text_field()
         search_text_field.write(query)
-        search_text_field.state.wait_for('idle')
+        current_header.select_single(objectName="searchIndicator").running.wait_for(False)
 
     def _get_search_text_field(self):
-        page_header = self._get_page_header()
-        search_container = page_header.select_single(
-            'QQuickItem', objectName='searchContainer')
-        search_container.state.wait_for(
-            MatchesAny(Equals('narrowActive'), Equals('active')))
-        return search_container.select_single(toolkit_emulators.TextField)
+        page_header = self._get_current_page_header()
+        return page_header.select_single(objectName='searchTextField')
+
+    def _get_current_page_header(self):
+        dashContentList = self.select_single(objectName="dashContentList")
+        all_headers = dashContentList.select_many("QQuickLoader")
+        for i in all_headers:
+            if i.isCurrent:
+                return i.select_single(objectName="scopePageHeader")
+        return None
+
+
+class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
+    pass
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
@@ -166,8 +174,8 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
-        preview_list = self.get_root_instance().wait_select_single(
-            'PreviewListView', objectName='dashContentPreviewList')
+        preview_list = self.wait_select_single(
+            'PreviewListView', objectName='previewListView')
         preview_list.x.wait_for(0)
         return preview_list.select_single(
             Preview, objectName='preview{}'.format(preview_list.currentIndex))
@@ -191,16 +199,17 @@ class DashApps(GenericScopeView):
 
         """
         category_element = self._get_category_element(category)
+        see_all = category_element.select_single(objectName='seeAll')
         application_cards = category_element.select_many('AbstractButton')
 
-        # sort by y, x
         application_cards = sorted(
-            application_cards,
+            (card for card in application_cards
+             if card.globalRect.y < see_all.globalRect.y),
             key=lambda card: (card.globalRect.y, card.globalRect.x))
 
         result = []
         for card in application_cards:
-            if card.objectName != 'cardToolCard':
+            if card.objectName not in ('cardToolCard', 'seeAll'):
                 result.append(card.title)
         return result
 

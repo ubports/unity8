@@ -7,23 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
 "PO-Revision-Date: 2013-06-27 04:14+0000\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-07-26 07:17+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
+msgid "Pin shortcut"
 msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
+msgid "Unpin shortcut"
 msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
@@ -80,10 +80,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:365
-msgid "Recent searches"
-msgstr "Nedavne pretrage"
-
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
@@ -105,12 +101,16 @@ msgstr ""
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr ""
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
 msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
@@ -121,15 +121,15 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr ""
 
@@ -165,11 +165,43 @@ msgstr ""
 msgid "Please enter SIM PIN"
 msgstr ""
 
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr ""
+
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Pretraživanje"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
 msgstr ""

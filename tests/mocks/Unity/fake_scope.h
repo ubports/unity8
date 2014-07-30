@@ -30,7 +30,7 @@ class Scope : public unity::shell::scopes::ScopeInterface
 
 public:
     Scope(QObject* parent = 0);
-    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0);
+    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0, int categories = 20);
 
     /* getters */
     QString id() const override;
@@ -46,6 +46,7 @@ public:
     QString noResultsHint() const override;
     QString formFactor() const override;
     bool isActive() const override;
+    unity::shell::scopes::SettingsModelInterface* settings() const override;
 
     /* setters */
     void setSearchQuery(const QString& search_query) override;
@@ -63,6 +64,7 @@ public:
     bool hasDepartments() const override;
     Q_INVOKABLE unity::shell::scopes::DepartmentInterface* getDepartment(const QString& id) override;
     Q_INVOKABLE void loadDepartment(const QString& id) override;
+    Q_SIGNAL void performQuery(const QString& query) override;
 
     QVariantMap customizations() const override;
 

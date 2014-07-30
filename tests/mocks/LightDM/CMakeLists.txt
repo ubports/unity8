@@ -18,6 +18,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeterList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/plugin.cpp

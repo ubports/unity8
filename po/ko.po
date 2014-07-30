@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-13 09:55+0200\n"
-"PO-Revision-Date: 2013-10-10 07:04+0000\n"
-"Last-Translator: Kim Boram <boramism@gmail.com>\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-07-17 03:56+0000\n"
+"Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-17 06:51+0000\n"
-"X-Generator: Launchpad (build 17045)\n"
+"X-Launchpad-Export-Date: 2014-07-26 07:16+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Lock to Launcher"
-msgstr ""
+msgid "Pin shortcut"
+msgstr "바로가기를 고정하기"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
-msgid "Unlock from Launcher"
-msgstr ""
+msgid "Unpin shortcut"
+msgstr "바로가기를 고정 해제하기"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -36,140 +36,174 @@ msgstr "오른쪽 끝"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "휴대 전화를 잠금 해제하려면 오른쪽에서부터 끌어보세요."
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
-msgstr ""
+msgstr "윗쪽 끝"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "알림을 보려면 위쪽에서 끌어보세요."
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
-msgstr ""
+msgstr "닫기"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "환경설정 창을 닫으려면 위로 다시 끌어보세요."
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
-msgstr ""
+msgstr "왼쪽 끝"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "애플리케이션을 빠르게 열기 위해 런처를 보려면 왼쪽에서 끌어보세요."
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
-msgstr ""
+msgstr "잘하셨습니다."
 
 #: qml/Components/EdgeDemo.qml:228
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"여러분은 끝에서 끌어오기 제스쳐를 완벽히 익히셨기 때문에 휴대 전화를 사용하기 시작할 수 있습니다. <br><br> 스크린을 터치해서 "
+"시작하세요."
 
 #: qml/Components/Lockscreen.qml:214
 msgid "Emergency Call"
-msgstr ""
+msgstr "긴급 통화"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
-
-#: qml/Components/PageHeader.qml:365
-msgid "Recent searches"
-msgstr "최근 검색"
+msgstr "확인"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "안녕하세요 %1"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 msgid "Hello"
-msgstr ""
+msgstr "안녕하세요"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "취소"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "완료"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "더 보기"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
-msgstr ""
+msgstr "간단히 표시하기"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
+msgstr "최근"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
 msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "더 보기..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "간단하게..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr ""
+msgstr "이 애플리케이션 평가하기"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr ""
+msgstr "평가 제출하기"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr ""
+msgstr "보내기"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "휴대전화를 잠금 해제하려면 움직이세요."
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "확인"
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "명령을 입력하거나 말하세요."
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "준비 중.. 잠시만 기다려 주세요..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "지금 말하세요..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "말하는 중..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "비밀 번호 보기"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
+msgstr "심카드의 PIN 번호를 입력하세요."
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
 msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
+msgid "In queue…"
+msgstr "재생 중..."
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
+msgid "Downloading"
+msgstr "다운로드 중"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
+msgid "Paused, tap to resume"
+msgstr "일시 중지 되었습니다. 계속하려면 누르세요."
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:591
+msgid "Canceled"
+msgstr "취소됨"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:593
+msgid "Finished"
+msgstr "완료됨"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:595
+msgid "Failed, tap to retry"
+msgstr "실패하였습니다. 재시도하려면 누르세요."
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "검색"
 
-#: qml/Shell.qml:334
+#: qml/Shell.qml:359
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "%1 를 입력해주세요."
