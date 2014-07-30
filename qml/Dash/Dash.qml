@@ -98,10 +98,12 @@ Showable {
         }
         onFavoriteSelected: {
             setCurrentScope(scopeId, false, false);
+            dashContentCache.scheduleUpdate();
             hide();
         }
         onAllFavoriteSelected: {
             setCurrentScope(scopeId, false, false);
+            dashContentCache.scheduleUpdate();
             animateDashFromAll(dashContent.currentScopeId);
             hide();
         }
@@ -110,6 +112,7 @@ Showable {
             if (scopeIndex >= 0) {
                 // Is a favorite one
                 setCurrentScope(scopeId, false, false);
+                dashContentCache.scheduleUpdate();
                 showDashFromPos(pos, size);
                 hide();
             } else {
@@ -128,12 +131,23 @@ Showable {
         }
     }
 
+    ShaderEffectSource {
+        id: dashContentCache
+        parent: scopesOverview.dashItemEater
+        z: 1
+        sourceItem: dashContent
+        height: sourceItem.height
+        width: sourceItem.width
+        opacity: 1 - overviewController.progress
+        visible: overviewController.progress != 0
+        live: false
+    }
+
     DashContent {
         id: dashContent
 
         property var scopeThatOpenedScope: null
 
-        parent: overviewController.progress == 0 ? dash : scopesOverview.dashItemEater
         objectName: "dashContent"
         width: dash.width
         height: dash.height
@@ -174,8 +188,8 @@ Showable {
             }
         }
 
-        enabled: opacity == 1
-        opacity: scopesOverview.growingDashFromPos ? 1 : 1 - overviewController.progress
+        enabled: overviewController.progress == 0
+        opacity: enabled ? 1 : 0
     }
 
     DashBackground
@@ -247,6 +261,9 @@ Showable {
         height: units.gu(2)
 
         onSceneDistanceChanged: {
+            if (overviewController.enableAnimation) {
+                dashContentCache.scheduleUpdate();
+            }
             overviewController.enableAnimation = false;
             overviewController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
         }
