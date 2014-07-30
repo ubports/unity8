@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include <QQmlComponent>
 
 class QQuickItem;
+class MirSurfaceItem;
 
 // unity-api
 #include <unity/shell/application/ApplicationInfoInterface.h>
@@ -36,6 +37,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
 
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
     Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
+    Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
 
     // Only exists in this fake implementation
 
@@ -45,9 +47,10 @@ class ApplicationInfo : public ApplicationInfoInterface {
     // QML component used to represent the application window
     Q_PROPERTY(QString windowQml READ windowQml WRITE setWindowQml NOTIFY windowQmlChanged)
 
- public:
+public:
     ApplicationInfo(QObject *parent = NULL);
     ApplicationInfo(const QString &appId, QObject *parent = NULL);
+    ~ApplicationInfo();
 
     #define IMPLEMENT_PROPERTY(name, Name, type) \
     public: \
@@ -56,11 +59,11 @@ class ApplicationInfo : public ApplicationInfoInterface {
     { \
         if (m_##name != value) { \
             m_##name = value; \
-            Q_EMIT name##Changed(); \
+            Q_EMIT name##Changed(value); \
         } \
     } \
     Q_SIGNALS: \
-    void name##Changed(); \
+    void name##Changed(const type&); \
     private: \
     type m_##name;
 
@@ -78,21 +81,31 @@ class ApplicationInfo : public ApplicationInfoInterface {
 
     #undef IMPLEMENT_PROPERTY
 
- public:
+public:
+    void setSurface(MirSurfaceItem* surface);
+    MirSurfaceItem* surface() const { return m_surface; }
+
+Q_SIGNALS:
+    void surfaceChanged(MirSurfaceItem*);
+
+public:
     void showWindow(QQuickItem *parent);
     void hideWindow();
 
- private Q_SLOTS:
+private Q_SLOTS:
     void onWindowComponentStatusChanged(QQmlComponent::Status status);
-    void setRunning();
+    void onStateChanged(State state);
 
- private:
+    void createSurface();
+
+private:
     void createWindowItem();
     void doCreateWindowItem();
     void createWindowComponent();
     QQuickItem *m_windowItem;
     QQmlComponent *m_windowComponent;
     QQuickItem *m_parentItem;
+    MirSurfaceItem* m_surface;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)
