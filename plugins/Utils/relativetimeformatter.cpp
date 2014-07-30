@@ -182,7 +182,11 @@ char* generate_full_format_string_at_time (GDateTime* now,
 QString RelativeTimeFormatter::format() const
 {
     GDateTime* now = g_date_time_new_from_unix_utc(QDateTime::currentMSecsSinceEpoch() / 1000);
+    if (!now) { return QString(); }
+
     GDateTime* then = g_date_time_new_from_unix_local(time());
+    if (!then) { return QString(); }
+
     char* time_format = generate_full_format_string_at_time(now, then);
 
     QString str(QString::fromUtf8(time_format));
