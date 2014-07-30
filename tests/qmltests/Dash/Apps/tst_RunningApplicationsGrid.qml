@@ -19,10 +19,11 @@ import QtTest 1.0
 import "../../../../qml/Dash/Apps"
 import Unity.Test 0.1 as UT
 import Unity.Application 0.1
+import Ubuntu.Components 1.1
 
 // Using Rectangle to have an opaque surface because AppManager paints app surfaces behind it.
 Rectangle {
-    width: units.gu(50)
+    width: units.gu(70)
     height: units.gu(40)
 
     function resetRunningApplications() {
@@ -41,8 +42,28 @@ Rectangle {
     // The component under test
     RunningApplicationsGrid {
         id: runningApplicationsGrid
-        anchors.fill: parent
+        orientationAngle: orientationAngleSelector.selectedIndex * 90
+        anchors.left: parent.left
+        anchors.right: controlPanel.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         model: ApplicationManager
+    }
+
+    Rectangle {
+        id: controlPanel
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        width: units.gu(20)
+        color: "black"
+
+        OptionSelector {
+            id: orientationAngleSelector
+            model: ["0","90","180","270"]
+            text: "Orientation Angle"
+            width: parent.width
+        }
     }
 
     UT.UnityTestCase {

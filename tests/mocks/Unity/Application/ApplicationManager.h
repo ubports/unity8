@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,8 +36,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_ENUMS(FavoriteApplication)
     Q_FLAGS(ExecFlags)
 
-    Q_PROPERTY(int keyboardHeight READ keyboardHeight NOTIFY keyboardHeightChanged)
-    Q_PROPERTY(bool keyboardVisible READ keyboardVisible NOTIFY keyboardVisibleChanged)
+    Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
 
     Q_PROPERTY(int sideStageWidth READ sideStageWidth)
     Q_PROPERTY(StageHint stageHint READ stageHint)
@@ -53,6 +52,12 @@ class ApplicationManager : public ApplicationManagerInterface {
     ApplicationManager(QObject *parent = NULL);
     virtual ~ApplicationManager();
 
+    static ApplicationManager *singleton();
+
+    enum MoreRoles {
+        RoleSurface = RoleScreenshot+1,
+        RoleFullscreen,
+    };
     enum Role {
         Dash, Default, Indicators, Notifications, Greeter, Launcher, OnScreenKeyboard,
         ShutdownDialog
@@ -74,8 +79,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     };
     Q_DECLARE_FLAGS(ExecFlags, Flag)
 
-    int keyboardHeight() const;
-    bool keyboardVisible() const;
     int sideStageWidth() const;
     StageHint stageHint() const;
     FormFactorHint formFactorHint() const;
@@ -108,11 +111,14 @@ class ApplicationManager : public ApplicationManagerInterface {
     int rightMargin() const;
     void setRightMargin(int rightMargin);
 
+    QModelIndex findIndex(ApplicationInfo* application);
+
+    bool isEmpty() const;
+
  Q_SIGNALS:
-    void keyboardHeightChanged();
-    void keyboardVisibleChanged();
     void focusRequested(FavoriteApplication favoriteApplication);
     void focusRequested(const QString &appId);
+    void emptyChanged(bool empty);
 
  private:
     void add(ApplicationInfo *application);
@@ -124,8 +130,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     void createMainStage();
     void createSideStageComponent();
     void createSideStage();
-    int m_keyboardHeight;
-    bool m_keyboardVisible;
     bool m_suspended;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
@@ -135,6 +139,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     QQuickItem *m_sideStage;
 
     int m_rightMargin;
+
+    static ApplicationManager *the_application_manager;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ApplicationManager::ExecFlags)

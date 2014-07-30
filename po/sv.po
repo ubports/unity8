@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-07-24 13:56+0000\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-07-25 14:27+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-25 07:54+0000\n"
-"X-Generator: Launchpad (build 17114)\n"
+"X-Launchpad-Export-Date: 2014-07-26 07:17+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 "Language: sv\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -83,10 +83,6 @@ msgstr "Nödsamtal"
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Components/PageHeader.qml:366
-msgid "Recent searches"
-msgstr "Senaste sökningar"
-
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
@@ -108,13 +104,17 @@ msgstr "KLAR"
 msgid "See more"
 msgstr "Se mer"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr "Se mindre"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "Senaste"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr "Visa alla"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -124,15 +124,15 @@ msgstr "Mer…"
 msgid "Less..."
 msgstr "Mindre…"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr "Betygsätt detta"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Lägg till en recension"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Skicka"
 
@@ -167,6 +167,14 @@ msgstr "Visa lösenord"
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "Ange SIM PIN-kod"
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "Tryck för att återgå till samtal..."
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "Konferens"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"

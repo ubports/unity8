@@ -117,4 +117,8 @@ MouseArea {
         dragging = false
         __pressedPosition = Qt.point(mouse.x, mouse.y)
     }
+
+    onCanceled: {
+        dragging = false
+    }
 }
