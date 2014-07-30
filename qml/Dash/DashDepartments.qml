@@ -25,7 +25,7 @@ AbstractButton {
 
     property bool showList: false
 
-    readonly property var currentDepartment: scope && scope.hasDepartments ? scope.getDepartment(scope.currentDepartmentId) : null
+    readonly property var currentDepartment: scope && scope.hasNavigation ? scope.getNavigation(scope.currentNavigationId) : null
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
@@ -102,8 +102,8 @@ AbstractButton {
         model: ListModel {
             id: departmentModel
             // We have two roles
-            // departmentId: the department id of the department the list represents
-            // nullifyDepartment: overrides departmentId to be null
+            // navigationId: the department id of the department the list represents
+            // nullifyDepartment: overrides navigationId to be null
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
         anchors {
@@ -138,31 +138,31 @@ AbstractButton {
                 }
             }
             height: desiredHeight
-            department: (nullifyDepartment || !scope) ? null : scope.getDepartment(departmentId)
+            department: (nullifyDepartment || !scope) ? null : scope.getNavigation(navigationId)
             currentDepartment: root.currentDepartment
             onEnterDepartment: {
-                scope.loadDepartment(newDepartmentId);
+                scope.performQuery(departmentQuery);
                 // We only need to add a new item to the model
                 // if we have children, otherwise just load it
                 if (hasChildren) {
                     isGoingBack = false;
-                    departmentModel.append({"departmentId": newDepartmentId, "nullifyDepartment": false});
+                    departmentModel.append({"navigationId": newNavigationId, "nullifyDepartment": false});
                     departmentListView.currentIndex++;
                 } else {
                     showList = false;
                 }
             }
             onGoBackToParentClicked: {
-                scope.loadDepartment(department.parentDepartmentId);
+                scope.performQuery(department.parentQuery);
                 isGoingBack = true;
                 departmentModel.setProperty(departmentListView.currentIndex - 1, "nullifyDepartment", false);
                 departmentListView.currentIndex--;
             }
             onAllDepartmentClicked: {
                 showList = false;
-                if (root.currentDepartment.parentDepartmentId == department.departmentId) {
+                if (root.currentDepartment.parentNavigationId == department.navigationId) {
                     // For leaves we have to go to the parent too
-                    scope.loadDepartment(root.currentDepartment.parentDepartmentId);
+                    scope.performQuery(root.currentDepartment.parentQuery);
                 }
             }
         }
@@ -185,16 +185,16 @@ AbstractButton {
 
     onScopeChanged: {
         departmentModel.clear();
-        if (scope && scope.hasDepartments) {
-            departmentModel.append({"departmentId": scope.currentDepartmentId, "nullifyDepartment": false});
+        if (scope && scope.hasNavigation) {
+            departmentModel.append({"navigationId": scope.currentNavigationId, "nullifyDepartment": false});
         }
     }
 
     Connections {
         target: scope
-        onHasDepartmentsChanged: {
-            if (scope.hasDepartments) {
-                departmentModel.append({"departmentId": scope.currentDepartmentId, "nullifyDepartment": false});
+        onHasNavigationChanged: {
+            if (scope.hasNavigation) {
+                departmentModel.append({"navigationId": scope.currentNavigationId, "nullifyDepartment": false});
             } else {
                 departmentModel.clear();
             }

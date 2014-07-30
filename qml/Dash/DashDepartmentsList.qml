@@ -22,7 +22,7 @@ Item {
     property var department: null
     property var currentDepartment: null
     property var scopeStyle: null
-    signal enterDepartment(var newDepartmentId, bool hasChildren)
+    signal enterDepartment(var newNavigationId, var departmentQuery, bool hasChildren)
     signal goBackToParentClicked()
     signal allDepartmentClicked()
 
@@ -114,7 +114,7 @@ Item {
                 id: allButton
                 objectName: "allButton"
                 width: parent.width
-                visible: department && (!department.isRoot || (root.currentDepartment && !root.currentDepartment.isRoot && root.currentDepartment.parentDepartmentId == department.departmentId)) || false
+                visible: department && (!department.isRoot || (root.currentDepartment && !root.currentDepartment.isRoot && root.currentDepartment.parentNavigationId == department.navigationId)) || false
                 height: itemHeight
 
                 Label {
@@ -152,7 +152,7 @@ Item {
                     height: root.itemHeight
                     width: root.width
 
-                    onClicked: root.enterDepartment(departmentId, hasChildren)
+                    onClicked: root.enterDepartment(navigationId, query, hasChildren)
 
                     Label {
                         anchors {
