@@ -23,7 +23,8 @@
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     m_backgroundFile(qmlDirectory() + "graphics/phone_background.jpg"),
-    m_statsWelcomeScreen(true)
+    m_statsWelcomeScreen(true),
+    m_failedLogins(0)
 {
 }
 
@@ -77,4 +78,15 @@ AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() cons
         return PasswordDisplayHint::Numeric;
     else
         return PasswordDisplayHint::Keyboard;
+}
+
+uint AccountsService::failedLogins() const
+{
+    return m_failedLogins;
+}
+
+void AccountsService::setFailedLogins(uint failedLogins)
+{
+    m_failedLogins = failedLogins;
+    failedLoginsChanged();
 }

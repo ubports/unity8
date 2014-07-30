@@ -21,6 +21,7 @@ import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Gestures 0.1
+import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
@@ -51,6 +52,8 @@ FocusScope {
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
+
+    property int maxFailedLogins: 10
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
@@ -511,6 +514,14 @@ FocusScope {
         }
     }
 
+    Component {
+        id: factoryResetWarningDialog
+        FactoryResetWarningDialog {
+            objectName: "factoryResetWarningDialog"
+            alphaNumeric: lockscreen.alphaNumeric
+        }
+    }
+
     Connections {
         target: LightDM.Greeter
 
@@ -533,13 +544,28 @@ FocusScope {
         }
 
         onAuthenticationComplete: {
+            if (LightDM.Greeter.authenticated) {
+                AccountsService.failedLogins = 0
+            }
+            // Else only penalize user for a failed login if they actually were
+            // prompted for a password.  We do this below after the promptless
+            // early exit.
+
             if (LightDM.Greeter.promptless) {
                 return;
             }
+
             if (LightDM.Greeter.authenticated) {
                 lockscreen.hide();
                 greeter.login();
             } else {
+                AccountsService.failedLogins++
+                if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                    PopupUtils.open(factoryResetWarningDialog)
+                } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                    SystemImage.factoryReset() // Ouch!
+                }
+
                 lockscreen.clear(true);
                 if (greeter.narrowMode) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
