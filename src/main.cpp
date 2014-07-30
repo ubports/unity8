@@ -25,8 +25,8 @@
 #include <QtQml/QQmlContext>
 #include <QLibrary>
 #include <QDebug>
+#include <csignal>
 #include <libintl.h>
-#include <signal.h>
 
 // local
 #include <paths.h>
