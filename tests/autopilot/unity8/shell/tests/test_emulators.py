@@ -47,13 +47,13 @@ class MainWindowTestCase(tests.UnityTestCase):
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
 
-    def test_search(self):
-        self.main_window.search('Test')
-        text_field = self.main_window.get_dash()._get_search_text_field()
-        self.assertEqual(text_field.text, 'Test')
-
 
 class DashEmulatorTestCase(tests.DashBaseTestCase):
+
+    def test_search(self):
+        self.dash.enter_search_query('Test')
+        text_field = self.dash._get_search_text_field()
+        self.assertEqual(text_field.text, 'Test')
 
     def test_open_unexisting_scope(self):
         scope_name = 'unexisting'
