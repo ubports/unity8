@@ -50,14 +50,14 @@ PreviewWidget {
         id: textLabel
         objectName: "textLabel"
 
-        readonly property int maximumCollapsedLineCount: 7
+        readonly property int maximumCollapsedLineCount: 3
 
         anchors {
             left: parent.left
             right: parent.right
             top: titleLabel.visible ? titleLabel.bottom : parent.top
         }
-        height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2)
+        height: (lineCount <= maximumCollapsedLineCount || root.expanded) ? contentHeight : contentHeight / lineCount * maximumCollapsedLineCount
         clip: true
         fontSize: "small"
         lineHeight: 1.2
@@ -69,18 +69,5 @@ PreviewWidget {
         Behavior on height {
             UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
         }
-    }
-
-    SeeMore {
-        id: seeMore
-        objectName: "seeMore"
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: textLabel.bottom
-            topMargin: visible ? units.gu(1) : 0
-        }
-        height: visible ? implicitHeight : 0
-        visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
     }
 }

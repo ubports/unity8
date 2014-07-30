@@ -72,28 +72,15 @@ Rectangle {
             tryCompare(textLabel, "y", 0)
         }
 
-        function test_see_more() {
-            var seeMore = findChild(previewTextSummary, "seeMore")
-
+        function test_show_collapsed() {
             // when it's more than textLabel.maximumCollapsedLineCount lines of text, show SeeMore component
             verify(textLabel.lineCount > textLabel.maximumCollapsedLineCount)
-            compare(seeMore.visible, true)
-            verify(seeMore.more === false)
-            verify(textLabel.height < textLabel.contentHeight)
 
-            // test interactions with SeeMore
-            var seeMoreLabel = findChild(seeMore, "seeMoreLabel")
-            var seeLessLabel = findChild(seeMore, "seeLessLabel")
-            var initialTextLabelHeight = textLabel.height
-            mouseClick(seeMoreLabel, seeMoreLabel.width / 2, seeMoreLabel.height / 2)
-            tryCompare(textLabel, "height", textLabel.contentHeight)
-            mouseClick(seeLessLabel, seeLessLabel.width / 2, seeLessLabel.height / 2)
-            tryCompare(textLabel, "height", initialTextLabelHeight)
+            previewTextSummary.expanded = false;
+            tryCompareFunction(function() { return textLabel.height < textLabel.contentHeight; }, true)
 
-            // text SeeMore automatic hiding
             previewTextSummary.widgetData = widgetDataShortText
             verify(textLabel.lineCount <= textLabel.maximumCollapsedLineCount)
-            compare(seeMore.visible, false)
             tryCompare(textLabel, "height", textLabel.contentHeight)
             tryCompare(previewTextSummary, "height", titleLabel.height + textLabel.height)
         }
