@@ -27,7 +27,7 @@ Flickable {
     property real scopeWidth: 0
     property real appliedScale: 1
     property int currentIndex: -1
-    property var currentItem: repeater.itemAt(currentIndex);
+    property var currentItem: currentIndex < repeater.count ? repeater.itemAt(currentIndex) : null
 
     property alias model: repeater.model
 
