@@ -20,6 +20,7 @@
 #include <QQuickView>
 #include <QtTestGui>
 #include <QDebug>
+#include <QTemporaryFile>
 
 class CardCreatorTest : public QObject
 {
@@ -74,11 +75,21 @@ private Q_SLOTS:
             QFile testResultFile(testDirPath + resultFileName);
             QVERIFY(testResultFile.open(QIODevice::ReadOnly));
             QTextStream ts2(&testResultFile);
+
+            // Record failed results to /tmp
+            const QString executedResult = cardStringResult.toString();
+            QTemporaryFile tmpFile(QDir::tempPath() + QDir::separator() + "testCardCreatorFailedResultXXXXXX");
+            tmpFile.open();
+            tmpFile.setAutoRemove(false);
+            tmpFile.write(executedResult.toUtf8().constData());
+
             const QStringList expectedLines = ts2.readAll().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
             const QStringList cardStringResultLines = cardStringResult.toString().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
             for (int i = 0; i < expectedLines.size(); ++i) {
                 QCOMPARE(cardStringResultLines[i].simplified(), expectedLines[i].simplified());
             }
+
+            tmpFile.setAutoRemove(true); // Remove the result if it passed
 
             QVariant createCardComponentResult;
             QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON));
