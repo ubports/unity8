@@ -219,14 +219,14 @@ Item {
                     if (index == 0) {
                         return root.height;
                     } else {
-                        return root.height - pageHeader.height - tabBar.height - tabBar.anchors.margins - units.gu(2)
+                        return root.height - pageHeader.height - tabBar.height - tabBar.anchors.margins - units.gu(2);
                     }
                 }
                 width: {
                     if (index == 0) {
-                        return root.width / scopeScale
+                        return root.width / scopeScale;
                     } else {
-                        return root.width
+                        return root.width;
                     }
                 }
                 x: {
@@ -275,7 +275,7 @@ Item {
                 }
 
                 onLoaded: {
-                    item.model = Qt.binding(function() { return results })
+                    item.model = Qt.binding(function() { return results; });
                     item.cardTool = cardTool;
                     if (index == 0) {
                         item.scopeWidth = Qt.binding(function() { return root.width; });
@@ -291,7 +291,7 @@ Item {
                     target: loader.item
                     onClicked: {
                         if (tabBar.currentTab == 0) {
-                            root.favoriteSelected(itemModel.scopeId)
+                            root.favoriteSelected(itemModel.scopeId);
                         } else {
                             var favoriteScopesItem = middleItems.itemAt(0).item;
                             var scopeIndex = favoriteScopesItem.model.scopeIndex(itemModel.scopeId);
@@ -311,9 +311,9 @@ Item {
                         scopesOverviewXYScaler.restoreSize = allCardSize;
 
                         previewListView.model = target.model;
-                        previewListView.currentIndex = -1
+                        previewListView.currentIndex = -1;
                         previewListView.currentIndex = index;
-                        previewListView.open = true
+                        previewListView.open = true;
                     }
                 }
             }
@@ -482,8 +482,7 @@ Item {
             }
         }
 
-        DashBackground
-        {
+        DashBackground {
             anchors.fill: tempScopeItem
             visible: tempScopeItem.visible
             parent: tempScopeItem.parent
