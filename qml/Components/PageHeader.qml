@@ -306,6 +306,7 @@ Item {
 
                 Repeater {
                     id: recentSearches
+                    objectName: "recentSearches"
                     model: searchHistory
 
                     delegate: Standard {
@@ -315,6 +316,7 @@ Item {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
                             closePopup();
+                            unfocus();
                         }
                     }
                 }
