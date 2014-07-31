@@ -489,7 +489,7 @@ Item {
                 LauncherModel.setUser(user);
             }
 
-            onTease: if (LightDM.Greeter.authenticated) launcher.tease()
+            onTease: launcher.tease()
 
             Binding {
                 target: ApplicationManager
