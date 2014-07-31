@@ -359,7 +359,7 @@ Rectangle {
 
             waitForRendering(card);
 
-            tryCompareFunction(function() { return testCase.summary.y === data.top() }, true);
+            tryCompareFunction(function() { return art.height > 0 && testCase.summary.y === data.top() }, true);
         }
 
         function test_art_visibility() {
