@@ -35,8 +35,8 @@ Item {
     property bool searchInProgress: false
 
     property alias bottomItem: bottomContainer.children
-    property int dividerDotsCount: 0
-    property int dividerDotsIndex: -1
+    property int paginationCount: 0
+    property int paginationIndex: -1
 
     // TODO We should use foreground for the icons
     // of the toolbar but unfortunately Action does not have
@@ -280,18 +280,15 @@ Item {
     }
 
     Row {
-        id: dividerDotsRow
-        objectName: "dividerDotsRow"
         spacing: units.gu(.5)
         Repeater {
-            id: dividerDotsRepeater
-            objectName: "dividerDotsRepeater"
-            model: root.dividerDotsCount
+            objectName: "paginationRepeater"
+            model: root.paginationCount
             Image {
-                objectName: "dividerDots_" + index
+                objectName: "paginationDots_" + index
                 height: units.gu(1)
                 width: height
-                source: (index == root.dividerDotsIndex) ? "graphics/dot_on.png" : "graphics/dot_off.png"
+                source: (index == root.paginationIndex) ? "graphics/dot_on.png" : "graphics/dot_off.png"
             }
         }
         anchors {

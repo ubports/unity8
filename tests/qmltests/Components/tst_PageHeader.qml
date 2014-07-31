@@ -175,25 +175,25 @@ Item {
                     ];
         }
 
-        function test_divider_dots() {
-            var dividerDotsRepeater = findChild(pageHeader, "dividerDotsRepeater");
-            tryCompare(dividerDotsRepeater, "count", 0);
-            pageHeader.dividerDotsCount = 5;
-            tryCompare(dividerDotsRepeater, "count", 5);
-            for (var i=0; i<pageHeader.dividerDotsCount; i++) {
-                pageHeader.dividerDotsIndex = i;
-                for (var j=0; j<dividerDotsRepeater.count; j++) {
-                    var dividerDot = findChild(pageHeader, "dividerDots_"+j);
+        function test_pagination() {
+            var paginationRepeater = findChild(pageHeader, "paginationRepeater");
+            tryCompare(paginationRepeater, "count", 0);
+            pageHeader.paginationCount = 5;
+            tryCompare(paginationRepeater, "count", 5);
+            for (var i=0; i<pageHeader.paginationCount; i++) {
+                pageHeader.paginationIndex = i;
+                for (var j=0; j<paginationRepeater.count; j++) {
+                    var paginationDot = findChild(pageHeader, "paginationDots_"+j);
                     if (i==j) {
-                        compare(dividerDot.source.toString().indexOf("dot_on") > -1, true);
+                        compare(paginationDot.source.toString().indexOf("dot_on") > -1, true);
                     } else {
-                        compare(dividerDot.source.toString().indexOf("dot_off") > -1, true);
+                        compare(paginationDot.source.toString().indexOf("dot_off") > -1, true);
                     }
                 }
             }
-            pageHeader.dividerDotsIndex = -1;
-            pageHeader.dividerDotsCount = 0;
-            tryCompare(dividerDotsRepeater, "count", 0);
+            pageHeader.paginationIndex = -1;
+            pageHeader.paginationCount = 0;
+            tryCompare(paginationRepeater, "count", 0);
         }
 
         function test_tap_outside_closes_popup(data) {
