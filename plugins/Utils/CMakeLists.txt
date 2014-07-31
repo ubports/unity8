@@ -15,6 +15,7 @@ set(QMLPLUGIN_SRC
     qsortfilterproxymodelqml.cpp
     timeformatter.cpp
     unitymenumodelpaths.cpp
+    windowkeysfilter.cpp
     easingcurve.cpp
     plugin.cpp
     )
