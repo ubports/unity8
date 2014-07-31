@@ -45,7 +45,8 @@ QtObject {
 
         \note If background colour is not fully opaque, the defaultLightLuminance it's taken into account instead of it.
      */
-    readonly property real threshold: background.a !== 1.0 ? (d.foregroundLuminance + d.defaultLightLuminance) / 2: (d.foregroundLuminance + d.backgroundLuminance) / 2
+    readonly property real threshold: background.a !== 1.0 ? (d.foregroundLuminance + d.defaultLightLuminance) / 2
+                                                           : (d.foregroundLuminance + d.backgroundLuminance) / 2
 
     /*! \brief The lighter of foreground and background colors
 

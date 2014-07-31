@@ -258,7 +258,7 @@ FocusScope {
                             scopeView.pressAndHoldOverride(index);
                         } else {
                             if (itemModel.uri.indexOf("scope://") !== 0) {
-                                openPreview(index)
+                                openPreview(index);
                             }
                         }
                     }
