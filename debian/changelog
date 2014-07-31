@@ -1,3 +1,12 @@
+unity8 (8.00+14.10.20140729.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Check user's pin/password using PAM, instead of a plaintext keyfile.
+    New build dependency: libpam0g-dev for phone unlock with PAM (LP:
+    #1234983)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Jul 2014 23:36:30 +0000
+
 unity8 (8.00+14.10.20140729-0ubuntu1) utopic; urgency=medium
 
   [ Gerry Boland ]
