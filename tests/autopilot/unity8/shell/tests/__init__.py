@@ -167,13 +167,6 @@ class UnityTestCase(AutopilotTestCase):
         self.touch = Touch.create()
         self._setup_display_details()
 
-    def _reset_launcher(self):
-        """Reset Unity launcher hide mode"""
-        self._unityshell_schema.set_int(
-            UNITYSHELL_LAUNCHER_KEY,
-            self._launcher_hide_mode,
-        )
-
     def _setup_display_details(self):
         scale_divisor = self._determine_geometry()
         self._setup_grid_size(scale_divisor)
