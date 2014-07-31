@@ -387,7 +387,15 @@ Item {
 
         onShowPrompt: {
             if (greeter.narrowMode) {
-                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text.toLowerCase());
+                var promptText = text.toLowerCase()
+                if (promptText === "password") {
+                    promptText = lockscreen.alphaNumeric ?
+                                 i18n.tr("passphrase") : i18n.tr("passcode")
+                }
+                lockscreen.placeholderText = i18n.tr("Enter your %1").arg(promptText)
+                lockscreen.wrongPlaceholderText = i18n.tr("Incorrect %1").arg(promptText) +
+                                                  "\n" +
+                                                  i18n.tr("Please re-enter")
                 lockscreen.show();
             }
         }
@@ -460,6 +468,14 @@ Item {
         }
 
         property bool fullyShown: showProgress === 1.0
+        onFullyShownChanged: {
+            // Wait until the greeter is completely covering lockscreen before resetting it.
+            if (fullyShown && !LightDM.Greeter.authenticated) {
+                lockscreen.reset();
+                lockscreen.show();
+            }
+        }
+
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
         onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
 
@@ -497,10 +513,6 @@ Item {
                 if (shown) {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    }
-                    if (!LightDM.Greeter.authenticated) {
-                        lockscreen.reset();
-                        lockscreen.show();
                     }
                     greeter.fakeActiveForApp = "";
                     greeter.forceActiveFocus();

@@ -38,6 +38,7 @@ Column {
 
     function clear(playAnimation) {
         pinentryField.text = "";
+        pinentryFieldPlaceHolder.text = playAnimation ? wrongPlaceholderText : placeholderText
         if (playAnimation) {
             wrongPasswordAnimation.start();
         }
@@ -90,9 +91,10 @@ Column {
             id: pinentryFieldPlaceHolder
             objectName: "pinentryFieldPlaceHolder"
             anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
             color: "#f3f3e7"
             opacity: 0.6
-            text: wrongPasswordAnimation.running ? parent.wrongPlaceholderText : parent.placeholderText
+            text: parent.placeholderText
             visible: pinentryFieldLabel.text.length == 0
         }
 
