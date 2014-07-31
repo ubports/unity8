@@ -49,7 +49,7 @@ Item {
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown && dash.available && underlay.visible
-    property bool locked: LightDM.Greeter.active && !LightDM.Greeter.promptless
+    property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
@@ -489,7 +489,7 @@ Item {
                 LauncherModel.setUser(user);
             }
 
-            onTease: if (LightDM.Greeter.promptless) launcher.tease()
+            onTease: if (LightDM.Greeter.authenticated) launcher.tease()
 
             Binding {
                 target: ApplicationManager
