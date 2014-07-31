@@ -239,7 +239,7 @@ var kEmblemImageCode = 'Image { \n\
                             right: parent.right; \n\
                             rightMargin: units.gu(1); \n\
                             } \n\
-                            source: cardData && cardData["emblem"]; \n\
+                            source: cardData["emblem"]; \n\
                             width: height; \n\
                             height: titleLabel.font.pixelSize; \n\
                             fillMode: Image.PreserveAspectFit; \n\
@@ -461,8 +461,6 @@ function cardString(template, components) {
         var attributesAnchors;
         var titleContainerAnchors;
         var titleRightAnchor;
-
-        // GOOD LUCK!
 
         if (hasMascot) {
             titleContainerAnchors = 'verticalCenter: parent.verticalCenter; ';

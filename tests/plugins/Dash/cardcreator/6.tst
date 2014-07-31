@@ -1,3 +1,3 @@
-template: {"card-layout":"vertical","card-size":"small","category-layout":"grid","collapsed-rows":2}
-components: {"art":{"aspect-ratio":1.6,"field":"art","fill-mode":"fit"}}
+template: {"card-background":{"elements":["#E9E9E9"],"type":"color"},"card-layout":"vertical","card-size":"medium","category-layout":"grid","collapsed-rows":2}
+components: {"art":{"aspect-ratio":1,"fill-mode":"crop"},"background":{"field":"background"},"subtitle":{"field":"author"},"title":{"field":"title"},"emblem":{"field":"source"}}
 result: 6.res
