@@ -28,7 +28,8 @@ Item {
     readonly property alias currentIndex: dashContentList.currentIndex
     readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
     readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-    readonly property bool previewShown: dashContentList.currentItem && dashContentList.currentItem.item ? dashContentList.currentItem.item.previewShown : false
+    readonly property bool previewShown: dashContentList.currentItem && dashContentList.currentItem.item ?
+                                            dashContentList.currentItem.item.previewShown : false
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
