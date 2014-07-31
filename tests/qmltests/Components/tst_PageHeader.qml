@@ -36,6 +36,16 @@ Item {
 
         function init() {
             searchEnabled = true;
+
+            // Reset to initial state
+            pageHeader.searchQuery = "";
+            pageHeader.closePopup();
+            pageHeader.searchHistory.clear();
+
+            // Check initial state
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
+            compare(pageHeader.searchHistory.count, 0);
         }
 
         function test_search_disabled() {
@@ -80,9 +90,6 @@ Item {
         }
 
         function test_history() {
-            pageHeader.searchHistory.clear()
-            compare(pageHeader.searchHistory.count, 0)
-
             pageHeader.triggerSearch()
             typeString("humppa1")
             pageHeader.resetSearch()
@@ -168,14 +175,14 @@ Item {
             tryCompare(headerContainer.popover, "visible", true);
         }
 
-        function test_tap_outside_closes_popup_data() {
+        function test_popup_closing_data() {
             return [
                         { tag: "with search text", searchText: "foobar", hideSearch: false },
                         { tag: "without search text", searchText: "", hideSearch: true }
                     ];
         }
 
-        function test_tap_outside_closes_popup(data) {
+        function test_popup_closing(data) {
             searchEnabled = true;
             pageHeader.searchHistory.clear();
 
@@ -191,7 +198,11 @@ Item {
 
             pageHeader.searchQuery = data.searchText;
 
-            mouseClick(root, root.width / 2, root.height - 1);
+            if (data.searchText == "") {
+                // When the text is empty the user can also close the
+                // popup by clicking outside the header instead of by starting a search
+                mouseClick(root, root.width / 2, root.height - 1);
+            }
 
             tryCompare(headerContainer, "showSearch", !data.hideSearch);
             tryCompareFunction(function() { return headerContainer.popover === null; }, true);
