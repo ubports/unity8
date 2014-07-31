@@ -26,7 +26,8 @@ AccountsService::AccountsService(QObject* parent)
     m_service(new AccountsServiceDBusAdaptor(this)),
     m_user(qgetenv("USER")),
     m_demoEdges(false),
-    m_statsWelcomeScreen(false)
+    m_statsWelcomeScreen(false),
+    m_passwordDisplayHint(Keyboard)
 {
     connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
@@ -47,6 +48,7 @@ void AccountsService::setUser(const QString &user)
     updateDemoEdges();
     updateBackgroundFile();
     updateStatsWelcomeScreen();
+    updatePasswordDisplayHint();
 }
 
 bool AccountsService::demoEdges() const
@@ -68,6 +70,11 @@ QString AccountsService::backgroundFile() const
 bool AccountsService::statsWelcomeScreen() const
 {
     return m_statsWelcomeScreen;
+}
+
+AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() const
+{
+    return m_passwordDisplayHint;
 }
 
 void AccountsService::updateDemoEdges()
@@ -97,6 +104,15 @@ void AccountsService::updateStatsWelcomeScreen()
     }
 }
 
+void AccountsService::updatePasswordDisplayHint()
+{
+    PasswordDisplayHint passwordDisplayHint = (PasswordDisplayHint)m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "PasswordDisplayHint").toInt();
+    if (m_passwordDisplayHint != passwordDisplayHint) {
+        m_passwordDisplayHint = passwordDisplayHint;
+        Q_EMIT passwordDisplayHintChanged();
+    }
+}
+
 void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
     if (m_user != user) {
@@ -110,6 +126,10 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
     } else if (interface == "com.ubuntu.touch.AccountsService.SecurityPrivacy") {
         if (changed.contains("StatsWelcomeScreen")) {
             updateStatsWelcomeScreen();
+        }
+    } else if (interface == "com.ubuntu.AccountsService.SecurityPrivacy") {
+        if (changed.contains("PasswordDisplayHint")) {
+            updatePasswordDisplayHint();
         }
     }
 }

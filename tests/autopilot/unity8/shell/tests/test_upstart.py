@@ -113,7 +113,7 @@ class UpstartIntegrationTests(UnityTestCase):
         except MismatchError:
             pass
         else:
-            self.process.send_singal(signal.SIGCONT)
+            self.process.send_signal(signal.SIGCONT)
             self.fail('Unity8 raised SIGSTOP')
 
         self._set_proxy()

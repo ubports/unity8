@@ -32,5 +32,6 @@ static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 void AccountsServicePlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("AccountsService"));
+    qRegisterMetaType<AccountsService::PasswordDisplayHint>("AccountsService::PasswordDisplayHint");
     qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);
 }

@@ -244,6 +244,7 @@ Item {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
+        alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         minPinLength: 4
         maxPinLength: 4
 
@@ -258,7 +259,7 @@ Item {
         onShownChanged: if (shown) greeter.fakeActiveForApp = ""
 
         Component.onCompleted: {
-            if (LightDM.Users.count == 1) {
+            if (greeter.narrowMode) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
             }
         }
@@ -270,14 +271,17 @@ Item {
         onShowGreeter: greeter.show()
 
         onShowPrompt: {
-            if (LightDM.Users.count == 1) {
-                // TODO: There's no better way for now to determine if its a PIN or a passphrase.
-                if (text == "PIN") {
-                    lockscreen.alphaNumeric = false
-                } else {
-                    lockscreen.alphaNumeric = true
-                }
-                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
+            if (greeter.narrowMode) {
+                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text.toLowerCase());
+                lockscreen.show();
+            }
+        }
+
+        onPromptlessChanged: {
+            if (LightDM.Greeter.promptless) {
+                lockscreen.hide()
+            } else {
+                lockscreen.reset();
                 lockscreen.show();
             }
         }
@@ -291,6 +295,9 @@ Item {
                 greeter.login();
             } else {
                 lockscreen.clear(true);
+                if (greeter.narrowMode) {
+                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+                }
             }
         }
     }
@@ -345,24 +352,23 @@ Item {
 
             function login() {
                 enabled = false;
-                LightDM.Greeter.startSessionSync();
-                sessionStarted();
-                greeter.hide();
-                lockscreen.hide();
-                launcher.hide();
+                if (LightDM.Greeter.startSessionSync()) {
+                    sessionStarted();
+                    greeter.hide();
+                    lockscreen.hide();
+                    launcher.hide();
+                }
                 enabled = true;
             }
 
             onShownChanged: {
                 if (shown) {
-                    lockscreen.reset();
-                    if (!LightDM.Greeter.promptless) {
-                       lockscreen.show();
-                    }
-                    // If there is only one user, we start authenticating with that one here.
-                    // If there are more users, the Greeter will handle that
-                    if (LightDM.Users.count == 1) {
+                    if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    }
+                    if (!LightDM.Greeter.promptless) {
+                        lockscreen.reset();
+                        lockscreen.show();
                     }
                     greeter.fakeActiveForApp = "";
                     greeter.forceActiveFocus();
