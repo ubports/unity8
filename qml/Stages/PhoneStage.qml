@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
-import LightDM 0.1 as LightDM
 import Utils 0.1
 import "../Components"
 
@@ -26,88 +25,51 @@ Item {
     id: root
 
     // Controls to be set from outside
-    property bool shown: false
-    property bool moving: false
     property int dragAreaWidth
+    property real maximizedAppTopMargin
+    property bool interactive
+    property bool spreadEnabled: true // If false, animations and right edge will be disabled
 
     // State information propagated to the outside
-    readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible || spreadView.visible
-    property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
-    property bool locked: spreadView.visible
-    property bool spreadEnabled: true
-
-    // Not used for PhoneStage, only useful for SideStage and similar
-    property bool overlayMode: false
-    property int overlayWidth: 0
+    readonly property bool locked: spreadView.phase == 2
 
     function select(appId) {
-        spreadView.snapTo(priv.indexOf(appId))
+        spreadView.snapTo(priv.indexOf(appId));
     }
 
-    onMovingChanged: {
-        if (moving) {
-            if (ApplicationManager.focusedApplicationId) {
-                priv.requestNewScreenshot();
-            } else {
-                mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.source = ApplicationManager.get(0).screenshot;
-                mainScreenshotImage.visible = true;
-            }
-        } else {
-            mainScreenshotImage.visible = false;
-        }
+    onWidthChanged: {
+        spreadView.selectedIndex = -1;
+        spreadView.phase = 0;
+        spreadView.contentX = -spreadView.shift;
     }
 
     Connections {
         target: ApplicationManager
 
         onFocusRequested: {
-            if (spreadView.visible) {
+            if (spreadView.phase > 0) {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
                 priv.switchToApp(appId);
             }
         }
 
-        onFocusedApplicationIdChanged: {
-            if (ApplicationManager.focusedApplicationId.length > 0) {
-                if (priv.secondApplicationStarting || priv.applicationStarting) {
-                    appSplashTimer.restart();
-                } else {
-                    var application = priv.focusedApplication;
-                    root.fullscreen = application.fullscreen;
-                    mainScreenshotImage.source = application.screenshot;
-                }
+        onApplicationAdded: {
+            if (spreadView.phase == 2) {
+                spreadView.snapTo(ApplicationManager.count - 1);
             } else {
-                spreadView.selectedIndex = -1;
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
-            }
-        }
-
-        onApplicationAdded: {
-            if (!priv.focusedApplication) {
-                mainScreenshotImage.source = "";
-                mainScreenshotImage.visible = false;
-                priv.applicationStarting = true;
-            } else {
-                mainScreenshotImage.source = "";
-                priv.newFocusedAppId = appId;
-                priv.secondApplicationStarting = true;
-                priv.requestNewScreenshot();
-            }
-
-            if (spreadView.visible) {
-                spreadView.snapTo(0);
+                priv.switchToApp(appId);
             }
         }
 
         onApplicationRemoved: {
-            if (ApplicationManager.count == 0) {
-                mainScreenshotImage.source = ""
-                mainScreenshotImage.visible = false;
-            } else {
-                mainScreenshotImage.source = ApplicationManager.get(0).screenshot;
+            // Unless we're closing the app ourselves in the spread,
+            // lets make sure the spread doesn't mess up by the changing app list.
+            if (spreadView.closingIndex == -1) {
+                spreadView.phase = 0;
+                spreadView.contentX = -spreadView.shift;
             }
         }
     }
@@ -117,46 +79,11 @@ Item {
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-        property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
-
-        property bool waitingForScreenshot: false
-
-        property bool applicationStarting: false
-        property bool secondApplicationStarting: false
-
-        property string newFocusedAppId
-
-        onFocusedScreenshotChanged: {
-            if (root.moving && priv.waitingForScreenshot) {
-                mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.source = priv.focusedScreenshot
-                mainScreenshotImage.visible = true;
-            } else if (priv.secondApplicationStarting && priv.waitingForScreenshot) {
-                applicationSwitchingAnimation.start();
-                if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
-                    // When greeter is up, no fancy animations, since user may
-                    // glimpse an app they shouldn't
-                    applicationSwitchingAnimation.complete();
-                }
-            }
-            waitingForScreenshot = false;
-        }
-
-        function requestNewScreenshot() {
-            waitingForScreenshot = true;
-            ApplicationManager.updateScreenshot(focusedAppId);
-        }
 
         function switchToApp(appId) {
             if (priv.focusedAppId) {
-                priv.newFocusedAppId = appId;
-                root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
-                applicationSwitchingAnimation.start();
-                if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
-                    // When greeter is up, no fancy animations, since user may
-                    // glimpse an app they shouldn't
-                    applicationSwitchingAnimation.complete();
-                }
+                spreadView.focusChanging = true;
+                ApplicationManager.focusApplication(appId);
             } else {
                 ApplicationManager.focusApplication(appId);
             }
@@ -173,90 +100,259 @@ Item {
 
     }
 
-    // FIXME: the signal connections seems to get lost.
-    Connections {
-        target: priv.focusedApplication
-        onScreenshotChanged: priv.focusedScreenshot = priv.focusedApplication.screenshot
-    }
-    Binding {
-        target: root
-        property: "fullscreen"
-        value: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
-    }
-
-    Timer {
-        id: appSplashTimer
-        // FIXME: We really need to show something meaningful in the app surface instead of guessing
-        // when it might be ready
-        interval: 500
-        repeat: false
-        onTriggered: {
-            priv.applicationStarting = false;
-            priv.secondApplicationStarting = false;
-        }
-    }
-
-    SequentialAnimation {
-        id: applicationSwitchingAnimation
-        // setup
-        PropertyAction { target: mainScreenshotImage; property: "anchors.leftMargin"; value: 0 }
-        PropertyAction { target: mainScreenshotImage; property: "source"; value: priv.focusedScreenshot }
-        PropertyAction { targets: [mainScreenshotImage, fadeInScreenshotImage]; property: "visible"; value: true }
-        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: {
-                var newFocusedApp = ApplicationManager.findApplication(priv.newFocusedAppId);
-                return newFocusedApp ? newFocusedApp.screenshot : "" }
-        }
-        PropertyAction { target: fadeInScreenshotImage; property: "opacity"; value: 0 }
-        PropertyAction { target: fadeInScreenshotImage; property: "scale"; value: .8 }
-
-
-        // The actual animation
-        ParallelAnimation {
-            UbuntuNumberAnimation { target: mainScreenshotImage; property: "anchors.leftMargin"; to: root.width; duration: UbuntuAnimation.SlowDuration }
-            UbuntuNumberAnimation { target: fadeInScreenshotImage; properties: "opacity,scale"; to: 1; duration: UbuntuAnimation.SlowDuration }
-        }
-
-        // restore stuff
-        ScriptAction { script: ApplicationManager.focusApplication(priv.newFocusedAppId); }
-        PropertyAction { target: fadeInScreenshotImage; property: "visible"; value: false }
-        PropertyAction { target: mainScreenshotImage; property: "visible"; value: false }
-    }
-
-    // FIXME: Drop this and make the imageprovider show a splashscreen instead
     Rectangle {
-        id: appSplash2
+        id: coverFlipBackground
         anchors.fill: parent
         color: "black"
-        visible: priv.secondApplicationStarting
-    }
-    Image {
-        id: fadeInScreenshotImage
-        anchors { left: parent.left; bottom: parent.bottom }
-        width: parent.width
-        scale: .7
-        visible: false
+        visible: spreadView.visible
     }
 
-    Rectangle {
-        id: appSplash
+
+    Flickable {
+        id: spreadView
+        objectName: "spreadView"
         anchors.fill: parent
-        color: "black"
-        visible: priv.applicationStarting
+        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1) && draggedIndex == -1
+        contentWidth: spreadRow.width - shift
+        contentX: -shift
 
-        WaitingDots {
+        // The flickable needs to fill the screen in order to get touch events all over.
+        // However, we don't want to the user to be able to scroll back all the way. For
+        // that, the beginning of the gesture starts with a negative value for contentX
+        // so the flickable wants to pull it into the view already. "shift" tunes the
+        // distance where to "lock" the content.
+        readonly property real shift: width / 2
+        readonly property real shiftedContentX: contentX + shift
+
+        property int tileDistance: width / 4
+
+        // Those markers mark the various positions in the spread (ratio to screen width from right to left):
+        // 0 - 1: following finger, snap back to the beginning on release
+        property real positionMarker1: 0.3
+        // 1 - 2: curved snapping movement, snap to app 1 on release
+        property real positionMarker2: 0.45
+        // 2 - 3: movement follows finger, snaps back to app 1 on release
+        property real positionMarker3: 0.6
+        // passing 3, we detach movement from the finger and snap to 4
+        property real positionMarker4: 0.9
+
+        // This is where the first app snaps to when bringing it in from the right edge.
+        property real snapPosition: 0.75
+
+        // Phase of the animation:
+        // 0: Starting from right edge, a new app (index 1) comes in from the right
+        // 1: The app has reached the first snap position.
+        // 2: The list is dragged further and snaps into the spread view when entering phase 2
+        property int phase: 0
+
+        property int selectedIndex: -1
+        property int draggedIndex: -1
+        property int closingIndex: -1
+
+        property bool focusChanging: false
+
+        onShiftedContentXChanged: {
+            switch (phase) {
+            case 0:
+                if (shiftedContentX > width * positionMarker2) {
+                    phase = 1;
+                }
+                break;
+            case 1:
+                if (shiftedContentX < width * positionMarker2) {
+                    phase = 0;
+                } else if (shiftedContentX >= width * positionMarker4) {
+                    phase = 2;
+                }
+                break;
+            }
         }
-    }
-    Image {
-        id: mainScreenshotImage
-        anchors { left: parent.left; bottom: parent.bottom }
-        width: parent.width
-        visible: false
+
+        function snap() {
+            if (shiftedContentX < positionMarker1 * width) {
+                snapAnimation.targetContentX = -shift;
+                snapAnimation.start();
+            } else if (shiftedContentX < positionMarker2 * width) {
+                snapTo(1);
+            } else if (shiftedContentX < positionMarker3 * width) {
+                snapTo(1);
+            } else if (phase < 2){
+                // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
+                snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
+                snapAnimation.start();
+            }
+        }
+        function snapTo(index) {
+            if (ApplicationManager.count <= index) {
+                // In case we're trying to snap to some non existing app, lets snap back to the first one
+                index = 0;
+            }
+            spreadView.selectedIndex = index;
+            // If we're not in full spread mode yet, always unwind to start pos
+            // otherwise unwind up to progress 0 of the selected index
+            if (spreadView.phase < 2) {
+                snapAnimation.targetContentX = -shift;
+            } else {
+                snapAnimation.targetContentX = -shift + index * spreadView.tileDistance;
+            }
+            snapAnimation.start();
+        }
+
+        SequentialAnimation {
+            id: snapAnimation
+            property int targetContentX: -spreadView.shift
+
+            UbuntuNumberAnimation {
+                target: spreadView
+                property: "contentX"
+                to: snapAnimation.targetContentX
+                duration: UbuntuAnimation.FastDuration
+            }
+
+            ScriptAction {
+                script: {
+                    if (spreadView.selectedIndex >= 0) {
+                        ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
+
+                        spreadView.selectedIndex = -1;
+                        spreadView.phase = 0;
+                        spreadView.contentX = -spreadView.shift;
+                    }
+                }
+            }
+        }
+
+        Item {
+            id: spreadRow
+            // This width controls how much the spread can be flicked left/right. It's composed of:
+            //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
+            //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
+            width: Math.max(3, ApplicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
+            Behavior on width {
+                enabled: spreadView.closingIndex >= 0
+                UbuntuNumberAnimation {}
+            }
+            onWidthChanged: {
+                if (spreadView.closingIndex >= 0) {
+                    spreadView.contentX = Math.min(spreadView.contentX, width - spreadView.width - spreadView.shift);
+                }
+            }
+
+            x: spreadView.contentX
+
+            Repeater {
+                id: spreadRepeater
+                model: ApplicationManager
+                delegate: TransformedSpreadDelegate {
+                    id: appDelegate
+                    objectName: "appDelegate" + index
+                    startAngle: 45
+                    endAngle: 5
+                    startScale: 1.1
+                    endScale: 0.7
+                    startDistance: spreadView.tileDistance
+                    endDistance: units.gu(.5)
+                    width: spreadView.width
+                    height: spreadView.height
+                    selected: spreadView.selectedIndex == index
+                    otherSelected: spreadView.selectedIndex >= 0 && !selected
+                    interactive: !spreadView.interactive && spreadView.phase === 0
+                            && spreadView.shiftedContentX === 0 && root.interactive && index === 0
+                    swipeToCloseEnabled: spreadView.interactive
+                    maximizedAppTopMargin: root.maximizedAppTopMargin
+                    dropShadow: spreadView.shiftedContentX > 0 || spreadDragArea.status == DirectionalDragArea.Undecided
+
+                    z: behavioredIndex
+                    x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
+                    property real behavioredIndex: index
+                    Behavior on behavioredIndex {
+                        enabled: spreadView.closingIndex >= 0
+                        UbuntuNumberAnimation {
+                            onRunningChanged: {
+                                if (!running) {
+                                    spreadView.closingIndex = -1;
+                                }
+                            }
+                        }
+                    }
+
+                    Behavior on x {
+                        enabled: spreadView.focusChanging && index == 0 && root.spreadEnabled
+                        UbuntuNumberAnimation {
+                            duration: UbuntuAnimation.FastDuration
+                            onRunningChanged: {
+                                if (!running) {
+                                    spreadView.focusChanging = false;
+                                }
+                            }
+                        }
+                    }
+
+                    // Each tile has a different progress value running from 0 to 1.
+                    // 0: means the tile is at the right edge.
+                    // 1: means the tile has finished the main animation towards the left edge.
+                    // >1: after the main animation has finished, tiles will continue to move very slowly to the left
+                    progress: {
+                        var tileProgress = (spreadView.shiftedContentX - behavioredIndex * spreadView.tileDistance) / spreadView.width;
+                        // Tile 1 needs to move directly from the beginning...
+                        if (behavioredIndex == 1 && spreadView.phase < 2) {
+                            tileProgress += spreadView.tileDistance / spreadView.width;
+                        }
+                        // Limiting progress to ~0 and 1.7 to avoid binding calculations when tiles are not
+                        // visible.
+                        // < 0 :  The tile is outside the screen on the right
+                        // > 1.7: The tile is *very* close to the left edge and covered by other tiles now.
+                        // Using 0.0001 to differentiate when a tile should still be visible (==0)
+                        // or we can hide it (< 0)
+                        tileProgress = Math.max(-0.0001, Math.min(1.7, tileProgress));
+                        return tileProgress;
+                    }
+
+                    // This mostly is the same as progress, just adds the snapping to phase 1 for tiles 0 and 1
+                    animatedProgress: {
+                        if (spreadView.phase == 0 && index < 2) {
+                            if (progress < spreadView.positionMarker1) {
+                                return progress;
+                            } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
+                                return spreadView.positionMarker1 + snappingCurve.value * 3;
+                            } else {
+                                return spreadView.positionMarker2;
+                            }
+                        }
+                        return progress;
+                    }
+
+                    EasingCurve {
+                        id: snappingCurve
+                        type: EasingCurve.Linear
+                        period: 0.05
+                        progress: appDelegate.progress - spreadView.positionMarker1
+                    }
+
+                    onClicked: {
+                        if (spreadView.phase == 2) {
+                            if (ApplicationManager.focusedApplicationId == ApplicationManager.get(index).appId) {
+                                spreadView.snapTo(index);
+                            } else {
+                                ApplicationManager.requestFocusApplication(ApplicationManager.get(index).appId);
+                            }
+                        }
+                    }
+
+                    onClosed: {
+                        spreadView.draggedIndex = -1;
+                        spreadView.closingIndex = index;
+                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
+                    }
+                }
+            }
+        }
     }
 
     EdgeDragArea {
         id: spreadDragArea
         direction: Direction.Leftwards
-        enabled: ApplicationManager.count > 1 && spreadView.phase != 2 && root.spreadEnabled
+        enabled: spreadView.phase != 2 && root.spreadEnabled
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
@@ -269,15 +365,14 @@ Item {
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
-            if (!dragging && !priv.waitingForScreenshot) {
-                // Initial touch. Let's update the screenshot and reset the spreadView to the starting position.
-                priv.requestNewScreenshot();
+            if (!dragging) {
+                // Initial touch. Let's reset the spreadView to the starting position.
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
             if (dragging && attachedToView) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                spreadView.contentX = -touchX - spreadView.shift;
+                spreadView.contentX = -touchX + spreadDragArea.width - spreadView.shift;
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 // We passed positionMarker3. Detach from spreadView and snap it.
@@ -321,193 +416,6 @@ Item {
                 // otherwise snap to the closest snap position we can find
                 // (might be back to start, to app 1 or to spread)
                 spreadView.snap();
-            }
-        }
-    }
-
-    Rectangle {
-        id: coverFlipBackground
-        anchors.fill: parent
-        color: "black"
-        visible: spreadView.visible
-    }
-
-    InputFilterArea {
-        anchors.fill: root
-        blockInput: spreadView.visible
-    }
-
-    Flickable {
-        id: spreadView
-        objectName: "spreadView"
-        anchors.fill: parent
-        visible: spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1 || snapAnimation.running
-        contentWidth: spreadRow.width - shift
-        contentX: -shift
-
-        // The flickable needs to fill the screen in order to get touch events all over.
-        // However, we don't want to the user to be able to scroll back all the way. For
-        // that, the beginning of the gesture starts with a negative value for contentX
-        // so the flickable wants to pull it into the view already. "shift" tunes the
-        // distance where to "lock" the content.
-        property real shift: width / 2
-        property real shiftedContentX: contentX + shift
-
-        property int tileDistance: width / 4
-
-        // Those markers mark the various positions in the spread (ratio to screen width from right to left):
-        // 0 - 1: following finger, snap back to the beginning on release
-        property real positionMarker1: 0.3
-        // 1 - 2: curved snapping movement, snap to app 1 on release
-        property real positionMarker2: 0.45
-        // 2 - 3: movement follows finger, snaps back to app 1 on release
-        property real positionMarker3: 0.6
-        // passing 3, we detach movement from the finger and snap to 4
-        property real positionMarker4: 0.9
-
-        // This is where the first app snaps to when bringing it in from the right edge.
-        property real snapPosition: 0.75
-
-        // Phase of the animation:
-        // 0: Starting from right edge, a new app (index 1) comes in from the right
-        // 1: The app has reached the first snap position.
-        // 2: The list is dragged further and snaps into the spread view when entering phase 2
-        property int phase: 0
-
-        property int selectedIndex: -1
-
-        onShiftedContentXChanged: {
-            switch (phase) {
-            case 0:
-                if (shiftedContentX > width * positionMarker2) {
-                    phase = 1;
-                }
-                break;
-            case 1:
-                if (shiftedContentX < width * positionMarker2) {
-                    phase = 0;
-                } else if (shiftedContentX >= width * positionMarker4) {
-                    phase = 2;
-                }
-                break;
-            }
-        }
-
-        function snap() {
-            if (shiftedContentX < positionMarker1 * width) {
-                snapAnimation.targetContentX = -shift;
-                snapAnimation.start();
-            } else if (shiftedContentX < positionMarker2 * width) {
-                snapTo(1)
-            } else if (shiftedContentX < positionMarker3 * width) {
-                snapTo(1)
-            } else if (phase < 2){
-                // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
-                snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
-                snapAnimation.start();
-            }
-        }
-        function snapTo(index) {
-            spreadView.selectedIndex = index;
-            root.fullscreen = ApplicationManager.get(index).fullscreen;
-            snapAnimation.targetContentX = -shift;
-            snapAnimation.start();
-        }
-
-        SequentialAnimation {
-            id: snapAnimation
-            property int targetContentX: -spreadView.shift
-
-            UbuntuNumberAnimation {
-                target: spreadView
-                property: "contentX"
-                to: snapAnimation.targetContentX
-                duration: UbuntuAnimation.FastDuration
-            }
-
-            ScriptAction {
-                script: {
-                    if (spreadView.selectedIndex >= 0) {
-                        ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
-                        spreadView.selectedIndex = -1
-                        spreadView.phase = 0;
-                        spreadView.contentX = -spreadView.shift;
-                    }
-                }
-            }
-        }
-
-        Item {
-            id: spreadRow
-            // This width controls how much the spread can be flicked left/right. It's composed of:
-            //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
-            //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
-            width: Math.max(3, ApplicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
-
-            x: spreadView.contentX
-
-            Repeater {
-                id: spreadRepeater
-                model: ApplicationManager
-                delegate: TransformedSpreadDelegate {
-                    id: appDelegate
-                    objectName: "appDelegate" + index
-                    startAngle: 45
-                    endAngle: 5
-                    startScale: 1.1
-                    endScale: 0.7
-                    startDistance: spreadView.tileDistance
-                    endDistance: units.gu(.5)
-                    width: spreadView.width
-                    height: spreadView.height
-                    selected: spreadView.selectedIndex == index
-                    otherSelected: spreadView.selectedIndex >= 0 && !selected
-
-                    z: index
-                    x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
-
-                    // Each tile has a different progress value running from 0 to 1.
-                    // A progress value of 0 means the tile is at the right edge. 1 means the tile has reched the left edge.
-                    progress: {
-                        var tileProgress = (spreadView.shiftedContentX - index * spreadView.tileDistance) / spreadView.width;
-                        // Tile 1 needs to move directly from the beginning...
-                        if (index == 1 && spreadView.phase < 2) {
-                            tileProgress += spreadView.tileDistance / spreadView.width;
-                        }
-                        return tileProgress;
-                    }
-
-                    // This mostly is the same as progress, just adds the snapping to phase 1 for tiles 0 and 1
-                    animatedProgress: {
-                        if (spreadView.phase == 0 && index < 2) {
-                            if (progress < spreadView.positionMarker1) {
-                                return progress;
-                            } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
-                                return spreadView.positionMarker1 + snappingCurve.value * 3;
-                            } else {
-                                return spreadView.positionMarker2;
-                            }
-                        }
-                        return progress;
-                    }
-
-                    EasingCurve {
-                        id: snappingCurve
-                        type: EasingCurve.OutQuad
-                        period: 0.05
-                        progress: appDelegate.progress - spreadView.positionMarker1
-                    }
-
-                    onClicked: {
-                        if (spreadView.phase == 2) {
-                            if (ApplicationManager.focusedApplicationId == ApplicationManager.get(index).appId) {
-                                spreadView.snapTo(index);
-                            } else {
-                                ApplicationManager.requestFocusApplication(ApplicationManager.get(index).appId);
-                            }
-                        }
-                    }
-                }
             }
         }
     }

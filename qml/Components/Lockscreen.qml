@@ -68,7 +68,9 @@ Showable {
     }
 
     function clear(showAnimation) {
-        pinPadLoader.item.clear(showAnimation);
+        if (pinPadLoader.item) {
+            pinPadLoader.item.clear(showAnimation);
+        }
     }
 
     function showInfoPopup(title, text) {

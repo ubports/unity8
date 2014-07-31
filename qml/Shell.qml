@@ -19,10 +19,10 @@ import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
 import Ubuntu.Gestures 0.1
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
+import Utils 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -32,10 +32,11 @@ import "Launcher"
 import "Panel"
 import "Components"
 import "Notifications"
+import "Stages"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 
-FocusScope {
+Item {
     id: shell
 
     // this is only here to select the width / height of the window if not running fullscreen
@@ -48,7 +49,7 @@ FocusScope {
     property url background
     readonly property real panelHeight: panel.panelHeight
 
-    property bool dashShown: dash.shown
+    property bool dashShown: dash.shown && dash.available && underlay.visible
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
@@ -58,14 +59,10 @@ FocusScope {
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
-            stages.show(true);
-            if (stages.locked && ApplicationManager.focusedApplicationId == appId) {
-                applicationsDisplayLoader.item.select(appId);
-            }
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
-            stages.show(false);
+            stages.show();
         }
     }
 
@@ -92,82 +89,74 @@ FocusScope {
         id: volumeControl
     }
 
-    Keys.onVolumeUpPressed: volumeControl.volumeUp()
-    Keys.onVolumeDownPressed: volumeControl.volumeDown()
+    WindowKeysFilter {
+        // Handle but do not filter out volume keys
+        Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
+        Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
 
-    Item {
-        id: underlayClipper
-        anchors.fill: parent
-        anchors.rightMargin: stages.overlayWidth
-        clip: stages.overlayMode && !stages.painting
-
-        InputFilterArea {
-            anchors.fill: parent
-            blockInput: parent.clip
+        Keys.onPressed: {
+            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                dialogs.onPowerKeyPressed();
+                event.accepted = true;
+            } else {
+                event.accepted = false;
+            }
         }
 
-        Item {
-            id: underlay
-            objectName: "underlay"
-            anchors.fill: parent
-            anchors.rightMargin: -parent.anchors.rightMargin
-
-            // Whether the underlay is fully covered by opaque UI elements.
-            property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicators.width
-
-            // Whether the user should see the topmost application surface (if there's one at all).
-            readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
-
-            // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
-            // through the translucent parts of the shell surface.
-            visible: !fullyCovered && !applicationSurfaceShouldBeSeen
-
-            Rectangle {
-                anchors.fill: parent
-                color: "black"
-                opacity: dash.disappearingAnimationProgress
-            }
-
-            Image {
-                anchors.fill: dash
-                source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-                fillMode: Image.PreserveAspectCrop
-                horizontalAlignment: Image.AlignRight
-                verticalAlignment: Image.AlignTop
-            }
-
-            Dash {
-                id: dash
-                objectName: "dash"
-
-                available: !LightDM.Greeter.active
-                hides: [stages, launcher, panel.indicators]
-                shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
-                enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
-
-                anchors {
-                    fill: parent
-                    topMargin: panel.panelHeight
-                }
-
-                contentScale: 1.0 - 0.2 * disappearingAnimationProgress
-                opacity: 1.0 - disappearingAnimationProgress
-                property real disappearingAnimationProgress: {
-                    if (stages.overlayMode) {
-                        return 0;
-                    } else {
-                        return stages.showProgress
-                    }
-                }
-
-                // FIXME: only necessary because stages.showProgress is not animated
-                Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+        Keys.onReleased: {
+            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                dialogs.onPowerKeyReleased();
+                event.accepted = true;
+            } else {
+                event.accepted = false;
             }
         }
     }
 
+    Item {
+        id: underlay
+        objectName: "underlay"
+        anchors.fill: parent
+
+        // Whether the underlay is fully covered by opaque UI elements.
+        property bool fullyCovered: (panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth)
+                                        || stages.fullyShown || greeterWrapper.fullyShown
+        visible: !fullyCovered
+
+        Image {
+            anchors.fill: dash
+            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignRight
+            verticalAlignment: Image.AlignTop
+        }
+
+        Dash {
+            id: dash
+            objectName: "dash"
+
+            available: !LightDM.Greeter.active
+            hides: [stages, launcher, panel.indicators]
+            shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0 &&
+                   !(panel.indicators.fullyOpened && !sideStageEnabled)
+            enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
+
+            anchors {
+                fill: parent
+                topMargin: panel.panelHeight
+            }
+
+            contentScale: 1.0 - 0.2 * disappearingAnimationProgress
+            opacity: 1.0 - disappearingAnimationProgress
+            property real disappearingAnimationProgress: stages.showProgress
+
+            // FIXME: only necessary because stages.showProgress is not animated
+            Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+        }
+    }
+
     EdgeDragArea {
-        id: stagesDragHandle
+        id: stagesDragArea
         direction: Direction.Leftwards
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
@@ -177,20 +166,20 @@ FocusScope {
 
         onTouchXChanged: {
             if (status == DirectionalDragArea.Recognized) {
-                if (ApplicationManager.count == 0) {
-                    progress = Math.max(stages.width - stagesDragHandle.width + touchX, stages.width * .3)
+                if (ApplicationManager.empty) {
+                    progress = Math.max(stages.width - stagesDragArea.width + touchX, stages.width * .3);
                 } else {
-                    progress = stages.width - stagesDragHandle.width + touchX
+                    progress = stages.width - stagesDragArea.width + touchX;
                 }
             }
         }
 
         onDraggingChanged: {
             if (!dragging) {
-                if (ApplicationManager.count > 0 && progress < stages.width - units.gu(10)) {
-                    stages.show(true)
+                if (!ApplicationManager.empty && progress < stages.width - units.gu(10)) {
+                    stages.show();
                 }
-                stagesDragHandle.progress = stages.width;
+                stagesDragArea.progress = Qt.binding(function () { return stages.width; });
             }
         }
     }
@@ -201,245 +190,85 @@ FocusScope {
         width: parent.width
         height: parent.height
 
+        visible: !fullyHidden && !ApplicationManager.empty
+
         x: {
             if (shown) {
-                if (overlayMode || locked || greeter.fakeActiveForApp !== "") {
+                if (locked || greeter.fakeActiveForApp !== "") {
                     return 0;
                 }
-                return launcher.progress
+                return launcher.progress;
             } else {
-                return stagesDragHandle.progress
+                return stagesDragArea.progress
             }
         }
-
         Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
+        onShownChanged: {
+            if (shown) {
+                if (ApplicationManager.count > 0) {
+                    ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
+                }
+            } else {
+                if (ApplicationManager.focusedApplicationId) {
+                    ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
+                    ApplicationManager.unfocusCurrentApplication();
+                }
+            }
+        }
 
-        property real showProgress: overlayMode ? 0 : MathUtils.clamp(1 - x / shell.width, 0, 1)
+        // Avoid a silent "divide by zero -> NaN" situation during init as shell.width will be
+        // zero. That breaks the property binding and the function won't be reevaluated once
+        // shell.width is set, with the NaN result staying there for good.
+        property real showProgress: shell.width ? MathUtils.clamp(1 - x / shell.width, 0, 1) : 0
 
         property bool fullyShown: x == 0
         property bool fullyHidden: x == width
 
-        property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
-        property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
-        property bool overlayMode: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayMode : false
-        property int overlayWidth: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayWidth : false
         property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
 
-        function show(focusApp) {
+        // It might technically not be fullyShown but visually it just looks so.
+        property bool roughlyFullyShown: x >= 0 && x <= units.gu(1)
+
+        function show() {
             shown = true;
-            panel.indicators.hide();
-            edgeDemo.stopDemo();
-            greeter.hide();
-            if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
-                ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
-            }
         }
 
         function hide() {
             shown = false;
-            if (ApplicationManager.focusedApplicationId) {
-                ApplicationManager.unfocusCurrentApplication();
-            }
         }
 
         Connections {
             target: ApplicationManager
-
             onFocusRequested: {
                 if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
                     lockscreen.show();
                 }
                 greeter.hide();
-                stages.show(true);
+                stages.show();
             }
 
             onFocusedApplicationIdChanged: {
                 if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
                     lockscreen.show();
                 }
-                if (ApplicationManager.focusedApplicationId.length > 0) {
-                    stages.show(false);
-                } else {
-                    if (!stages.overlayMode) {
-                        stages.hide();
-                    }
-                }
+                panel.indicators.hide();
             }
 
             onApplicationAdded: {
-                stages.show(false);
+                if (greeter.shown) {
+                    greeter.hide();
+                }
+                if (!stages.shown) {
+                    stages.show();
+                }
             }
 
-            onApplicationRemoved: {
-                if (ApplicationManager.focusedApplicationId.length == 0) {
+            onEmptyChanged: {
+                if (ApplicationManager.empty) {
                     stages.hide();
                 }
-            }
-        }
-
-        property bool dialogShown: false
-
-        Component {
-            id: logoutDialog
-            Dialog {
-                id: dialogueLogout
-                title: "Logout"
-                text: "Are you sure that you want to logout?"
-                Button {
-                    text: "Cancel"
-                    onClicked: {
-                        PopupUtils.close(dialogueLogout);
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: "Yes"
-                    onClicked: {
-                        DBusUnitySessionService.Logout();
-                        PopupUtils.close(dialogueLogout);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        Component {
-            id: shutdownDialog
-            Dialog {
-                id: dialogueShutdown
-                title: "Shutdown"
-                text: "Are you sure that you want to shutdown?"
-                Button {
-                    text: "Cancel"
-                    onClicked: {
-                        PopupUtils.close(dialogueShutdown);
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: "Yes"
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        DBusUnitySessionService.Shutdown();
-                        PopupUtils.close(dialogueShutdown);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        Component {
-            id: rebootDialog
-            Dialog {
-                id: dialogueReboot
-                title: "Reboot"
-                text: "Are you sure that you want to reboot?"
-                Button {
-                    text: "Cancel"
-                    onClicked: {
-                        PopupUtils.close(dialogueReboot)
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: "Yes"
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        DBusUnitySessionService.Reboot();
-                        PopupUtils.close(dialogueReboot);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        Component {
-            id: powerDialog
-            Dialog {
-                id: dialoguePower
-                title: "Power"
-                text: i18n.tr("Are you sure you would like to turn power off?")
-                Button {
-                    text: i18n.tr("Power off")
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        PopupUtils.close(dialoguePower);
-                        stages.dialogShown = false;
-                        shutdownFadeOutRectangle.enabled = true;
-                        shutdownFadeOutRectangle.visible = true;
-                        shutdownFadeOut.start();
-                    }
-                }
-                Button {
-                    text: i18n.tr("Restart")
-                    onClicked: {
-                        dBusUnitySessionServiceConnection.closeAllApps();
-                        DBusUnitySessionService.Reboot();
-                        PopupUtils.close(dialoguePower);
-                        stages.dialogShown = false;
-                    }
-                }
-                Button {
-                    text: i18n.tr("Cancel")
-                    onClicked: {
-                        PopupUtils.close(dialoguePower);
-                        stages.dialogShown = false;
-                    }
-                }
-            }
-        }
-
-        function showPowerDialog() {
-            if (!stages.dialogShown) {
-                stages.dialogShown = true;
-                PopupUtils.open(powerDialog);
-            }
-        }
-
-        Connections {
-            id: dBusUnitySessionServiceConnection
-            objectName: "dBusUnitySessionServiceConnection"
-            target: DBusUnitySessionService
-
-            function closeAllApps() {
-                while (true) {
-                    var app = ApplicationManager.get(0);
-                    if (app === null) {
-                        break;
-                    }
-                    ApplicationManager.stopApplication(app.appId);
-                }
-            }
-
-            onLogoutRequested: {
-                // Display a dialog to ask the user to confirm.
-                if (!stages.dialogShown) {
-                    stages.dialogShown = true;
-                    PopupUtils.open(logoutDialog);
-                }
-            }
-
-            onShutdownRequested: {
-                // Display a dialog to ask the user to confirm.
-                if (!stages.dialogShown) {
-                    stages.dialogShown = true;
-                    PopupUtils.open(shutdownDialog);
-                }
-            }
-
-            onRebootRequested: {
-                // Display a dialog to ask the user to confirm.
-                if (!stages.dialogShown) {
-                    stages.dialogShown = true;
-                    PopupUtils.open(rebootDialog);
-                }
-            }
-
-            onLogoutReady: {
-                closeAllApps();
-                Qt.quit();
             }
         }
 
@@ -447,7 +276,7 @@ FocusScope {
             id: applicationsDisplayLoader
             anchors.fill: parent
 
-            source: shell.sideStageEnabled ? "Stages/StageWithSideStage.qml" : "Stages/PhoneStage.qml"
+            source: shell.sideStageEnabled ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -456,23 +285,52 @@ FocusScope {
             }
             Binding {
                 target: applicationsDisplayLoader.item
-                property: "moving"
-                value: !stages.fullyShown
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shown"
-                value: stages.shown
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
                 property: "dragAreaWidth"
                 value: shell.edgeSize
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "maximizedAppTopMargin"
+                // Not just using panel.panelHeight as that changes depending on the focused app.
+                value: panel.indicators.panelHeight
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "interactive"
+                value: stages.roughlyFullyShown && !greeter.shown && !lockscreen.shown
+                       && panel.indicators.fullyClosed
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
                 value: greeter.fakeActiveForApp === "" // to support emergency dialer hack
+            }
+        }
+    }
+
+    InputMethod {
+        id: inputMethod
+        objectName: "inputMethod"
+        anchors { fill: parent; topMargin: panel.panelHeight }
+        z: notifications.useModal || panel.indicators.shown ? overlay.z + 1 : overlay.z - 1
+    }
+
+    Connections {
+        target: SurfaceManager
+        onSurfaceCreated: {
+            if (surface.type == MirSurfaceItem.InputMethod) {
+                inputMethod.surface = surface;
+            }
+        }
+
+        onSurfaceDestroyed: {
+            if (inputMethod.surface == surface) {
+                inputMethod.surface = null;
+                surface.parent = null;
+            }
+            if (!surface.parent) {
+                // there's no one displaying it. delete it right away
+                surface.release();
             }
         }
     }
@@ -489,7 +347,7 @@ FocusScope {
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
         y: panel.panelHeight
-        x: required ? 0 : - width
+        visible: required
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
@@ -535,7 +393,7 @@ FocusScope {
         }
 
         onPromptlessChanged: {
-            if (LightDM.Greeter.promptless) {
+            if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
                 lockscreen.hide()
             } else {
                 lockscreen.reset();
@@ -601,8 +459,9 @@ FocusScope {
             StandardAnimation {}
         }
 
+        property bool fullyShown: showProgress === 1.0
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
+        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter
@@ -639,7 +498,7 @@ FocusScope {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     }
-                    if (!LightDM.Greeter.promptless) {
+                    if (!LightDM.Greeter.authenticated) {
                         lockscreen.reset();
                         lockscreen.show();
                     }
@@ -664,12 +523,6 @@ FocusScope {
                 value: greeter.shown && greeterWrapper.showProgress == 1
             }
         }
-    }
-
-    InputFilterArea {
-        anchors.fill: parent
-        blockInput: ApplicationManager.focusedApplicationId.length === 0 || greeter.shown || lockscreen.shown || launcher.shown
-                    || panel.indicators.shown
     }
 
     Connections {
@@ -698,7 +551,7 @@ FocusScope {
         }
 
         if (LightDM.Greeter.active) {
-            if (!LightDM.Greeter.promptless) {
+            if (!LightDM.Greeter.authenticated) {
                 lockscreen.show()
             }
             greeter.hide()
@@ -710,11 +563,11 @@ FocusScope {
     }
 
     function showDash() {
-        if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
+        if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) {
             return;
         }
 
-        if (stages.shown && !stages.overlayMode && !stages.locked) {
+        if (!stages.locked) {
             stages.hide();
             launcher.fadeOut();
         } else {
@@ -729,6 +582,7 @@ FocusScope {
 
     Item {
         id: overlay
+        z: 10
 
         anchors.fill: parent
 
@@ -743,29 +597,13 @@ FocusScope {
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
             }
-            property string focusedAppId: ApplicationManager.focusedApplicationId
-            property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: (focusedApplication && stages.fullscreen && !LightDM.Greeter.active) || greeter.fakeActiveForApp !== ""
 
-            InputFilterArea {
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-                height: (panel.fullscreenMode) ? shell.edgeSize : panel.panelHeight
-                blockInput: true
-            }
-        }
+            property bool topmostApplicationIsFullscreen:
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
-        InputFilterArea {
-            blockInput: launcher.shown
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-                left: parent.left
-            }
-            width: launcher.width
+            fullscreenMode: (stages.roughlyFullyShown && topmostApplicationIsFullscreen
+                    && !LightDM.Greeter.active) || greeter.fakeActiveForApp !== ""
         }
 
         Launcher {
@@ -808,11 +646,6 @@ FocusScope {
             MouseArea {
                 anchors.fill: parent
             }
-
-            InputFilterArea {
-                anchors.fill: parent
-                blockInput: modalNotificationBackground.visible
-            }
         }
 
         Notifications {
@@ -838,36 +671,7 @@ FocusScope {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
-
-            InputFilterArea {
-                anchors { left: parent.left; right: parent.right }
-                height: parent.contentHeight
-                blockInput: height > 0
-            }
         }
-    }
-
-    focus: true
-    onFocusChanged: if (!focus) forceActiveFocus();
-
-    InputFilterArea {
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            left: parent.left
-        }
-        width: shell.edgeSize
-        blockInput: true
-    }
-
-    InputFilterArea {
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            right: parent.right
-        }
-        width: shell.edgeSize
-        blockInput: true
     }
 
     Binding {
@@ -876,24 +680,22 @@ FocusScope {
         value: "unity8"
     }
 
-    OSKController {
-        anchors.topMargin: panel.panelHeight
-        anchors.fill: parent // as needs to know the geometry of the shell
-    }
-
-    //FIXME: This should be handled in the input stack, keyboard shouldnt propagate
-    MouseArea {
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: ApplicationManager.keyboardVisible ? ApplicationManager.keyboardHeight : 0
-
-        enabled: ApplicationManager.keyboardVisible
+    Dialogs {
+        id: dialogs
+        anchors.fill: parent
+        z: overlay.z + 10
+        onPowerOffClicked: {
+            shutdownFadeOutRectangle.enabled = true;
+            shutdownFadeOutRectangle.visible = true;
+            shutdownFadeOut.start();
+        }
     }
 
     Label {
+        id: alphaDisclaimerLabel
         anchors.centerIn: parent
         visible: ApplicationManager.fake ? ApplicationManager.fake : false
+        z: dialogs.z + 10
         text: "EARLY ALPHA\nNOT READY FOR USE"
         color: "lightgrey"
         opacity: 0.2
@@ -907,6 +709,7 @@ FocusScope {
 
     EdgeDemo {
         id: edgeDemo
+        z: alphaDisclaimerLabel.z + 10
         greeter: greeter
         launcher: launcher
         dash: dash
@@ -919,35 +722,9 @@ FocusScope {
         onShowHome: showHome()
     }
 
-    Keys.onPressed: {
-        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-            if (!powerKeyTimer.running) {
-                powerKeyTimer.start();
-            }
-            event.accepted = true;
-        }
-    }
-
-    Keys.onReleased: {
-        if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-            powerKeyTimer.stop();
-            event.accepted = true;
-        }
-    }
-
-    Timer {
-        id: powerKeyTimer
-        interval: 2000
-        repeat: false
-        triggeredOnStart: false
-
-        onTriggered: {
-            stages.showPowerDialog();
-        }
-    }
-
     Rectangle {
         id: shutdownFadeOutRectangle
+        z: edgeDemo.z + 10
         enabled: false
         visible: false
         color: "black"
@@ -964,4 +741,5 @@ FocusScope {
             }
         }
     }
+
 }
