@@ -73,17 +73,17 @@ top: artShapeHolder.bottom;
                                          topMargin: units.gu(1);
 leftMargin: units.gu(1);
  }
-                    elide: Text.ElideRight; 
-                    fontSize: "small"; 
-                    wrapMode: Text.Wrap; 
-                    maximumLineCount: 2; 
-                    font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                    color: root.scopeStyle ? root.scopeStyle.foreground : "grey";
-                    visible: showHeader ; 
-                    text: root.title; 
-                    font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
-                    horizontalAlignment: root.headerAlignment; 
-                }
+                        elide: Text.ElideRight; 
+                        fontSize: "small"; 
+                        wrapMode: Text.Wrap; 
+                        maximumLineCount: 2; 
+                        font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
+                        color: root.scopeStyle ? root.scopeStyle.foreground : "grey";
+                        visible: showHeader ; 
+                        text: root.title; 
+                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        horizontalAlignment: root.headerAlignment; 
+                    }
 UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
