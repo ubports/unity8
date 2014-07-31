@@ -223,6 +223,16 @@ def stop_job(name):
         raise
 
 
+def is_job_running(name):
+    """Return True if the job is running. Otherwise, False.
+
+    :param str name: The name of the job.
+    :raises JobError: if it's not possible to get the status of the job.
+
+    """
+    return 'start/running' in get_job_status(name)
+
+
 def _get_unity_status():
     try:
         return get_job_status('unity8')

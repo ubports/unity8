@@ -35,7 +35,10 @@ import os.path
 import subprocess
 import sys
 from testtools.matchers import Equals
-from ubuntuuitoolkit import fixture_setup as toolkit_fixtures
+from ubuntuuitoolkit import (
+    fixture_setup as toolkit_fixtures,
+    ubuntu_scenarios
+)
 
 from unity8 import (
     get_lib_path,
@@ -405,13 +408,15 @@ class UnityTestCase(AutopilotTestCase):
 
 class DashBaseTestCase(AutopilotTestCase):
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
     qml_mock_enabled = True
     environment = {}
 
     def setUp(self):
         if model() != 'Desktop':
-            process_helpers.restart_unity()
+            process_helpers.restart_unity_with_testability()
+            process_helpers.unlock_unity()
+        self.ensure_dash_not_running()
 
         super(DashBaseTestCase, self).setUp()
 
@@ -437,6 +442,10 @@ class DashBaseTestCase(AutopilotTestCase):
         self.dash_app = dash_helpers.DashApp(dash_proxy)
         self.dash = self.dash_app.dash
         self.wait_for_dash()
+
+    def ensure_dash_not_running(self):
+        if process_helpers.is_job_running('unity8-dash'):
+            process_helpers.stop_job('unity8-dash')
 
     def launch_dash(self, binary_path, variables):
         launch_dash_app_fixture = fixture_setup.LaunchDashApp(
