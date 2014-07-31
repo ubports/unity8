@@ -8,6 +8,7 @@ GDB=false
 FAKE=false
 PINLOCK=false
 KEYLOCK=false
+USE_MOCKS=false
 MOUSE_TOUCH=true
 
 usage() {
@@ -31,9 +32,9 @@ eval set -- "$ARGS"
 while [ $# -gt 0 ]
 do
     case "$1" in
-       -f|--fake)  FAKE=true;;
-       -p|--pinlock)  PINLOCK=true;;
-       -k|--keylock)  KEYLOCK=true;;
+       -f|--fake)  FAKE=true; USE_MOCKS=true;;
+       -p|--pinlock)  PINLOCK=true; USE_MOCKS=true;;
+       -k|--keylock)  KEYLOCK=true; USE_MOCKS=true;;
        -g|--gdb)   GDB=true;;
        -h|--help)  usage;;
        -m|--nomousetouch)  MOUSE_TOUCH=false;;
@@ -43,18 +44,26 @@ do
 done
 
 if $FAKE; then
-  export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single
 fi
 
 if $PINLOCK; then
-  export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-pin
 fi
 
 if $KEYLOCK; then
-  export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-passphrase
+fi
+
+if $USE_MOCKS; then
+  rm -f $PWD/builddir/nonmirplugins/LightDM # undo symlink (from below) for cleanliness
+  export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
+else
+  # Still fake no-login user for convenience (it's annoying to be prompted for your password when testing)
+  # And in particular, just link our LightDM mock into the nonmirplugins folder.  We don't want the rest of
+  # our plugins to be used.
+  ln -s $PWD/builddir/tests/mocks/LightDM $PWD/builddir/nonmirplugins/
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/single
 fi
 
 QML_PHONE_SHELL_ARGS=""

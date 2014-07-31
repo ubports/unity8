@@ -37,6 +37,7 @@ Showable {
     readonly property int lockThreshold: openedHeight / 2
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
+    property bool fullyClosed: height <= panelHeight
     property bool contentEnabled: true
     property bool initalizeItem: true
     readonly property alias content: menuContent
@@ -187,7 +188,7 @@ Showable {
             bottom: handle.top
         }
         indicatorsModel: visibleIndicators.model
-        visible: indicators.fullyOpened || indicators.partiallyOpened
+        visible: indicators.partiallyOpened || indicators.fullyOpened
         clip: indicators.partiallyOpened
         enabled: contentEnabled
 
@@ -219,6 +220,7 @@ Showable {
         }
         height: Math.max(Math.min(handleImage.height, indicators.height - handleImage.height), 0)
         clip: height < handleImage.height
+        visible: menuContent.visible
 
         BorderImage {
             id: handleImage
