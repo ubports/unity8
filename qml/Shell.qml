@@ -53,7 +53,7 @@ FocusScope {
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
-    property int maxFailedLogins: 10
+    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
@@ -560,10 +560,12 @@ FocusScope {
                 greeter.login();
             } else {
                 AccountsService.failedLogins++
-                if (AccountsService.failedLogins === maxFailedLogins - 1) {
-                    PopupUtils.open(factoryResetWarningDialog)
-                } else if (AccountsService.failedLogins >= maxFailedLogins) {
-                    SystemImage.factoryReset() // Ouch!
+                if (maxFailedLogins >= 2) { // require at least a warning
+                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                        PopupUtils.open(factoryResetWarningDialog)
+                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                        SystemImage.factoryReset() // Ouch!
+                    }
                 }
 
                 lockscreen.clear(true);
