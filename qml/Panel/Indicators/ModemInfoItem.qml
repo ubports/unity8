@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Antti Kaijanmäki <antti.kaijanmaki@canonical.com>
  */
 
 import QtQuick 2.0
@@ -70,8 +67,8 @@ ListItem.Empty {
                     id: statusIcon
                     color: Theme.palette.selected.backgroundText
 
-                    width: height
-                    height: parent.height
+                    Layout.preferredHeight: parent.height
+                    Layout.preferredWidth: Layout.preferredHeight
 
                     visible: name !== ""
                 }
@@ -80,8 +77,8 @@ ListItem.Empty {
                     id: iconConnectivity
                     color: Theme.palette.selected.backgroundText
 
-                    width: height
-                    height: parent.height
+                    Layout.preferredHeight: parent.height
+                    Layout.preferredWidth: Layout.preferredHeight
 
                     visible: name !== ""
                 }
@@ -96,7 +93,7 @@ ListItem.Empty {
             RoamingIndication {
                 id: roamingIndication
                 visible: menu.roaming
-                height: parent.height
+                Layout.fillHeight: true
             }
         }
 

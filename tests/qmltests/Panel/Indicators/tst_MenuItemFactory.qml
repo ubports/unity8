@@ -546,16 +546,18 @@ Item {
         function test_create_modemInfoItem_data() {
             // ModemInfoItem gets all it's data through the actions.
             return [
-                {label: "",
-                 enabled: true,
-                 checked: false,
-                 statusLabelAction: "action::statusLabel",
-                 statusIconAction: "action::statusIcon",
-                 connectivityIconAction: "action::connectivityIcon",
-                 simIdentifierLabelAction: "action::simIdentifierLabel",
-                 roamingAction: "action::roaming",
-                 unlockAction: "action::unlock"}
-            ];
+                        {
+                            label: "",
+                            enabled: true,
+                            checked: false,
+                            statusLabelAction: "action::statusLabel",
+                            statusIconAction: "action::statusIcon",
+                            connectivityIconAction: "action::connectivityIcon",
+                            simIdentifierLabelAction: "action::simIdentifierLabel",
+                            roamingAction: "action::roaming",
+                            unlockAction: "action::unlock"
+                        }
+                    ];
         }
 
         function test_create_modemInfoItem(data) {
@@ -564,12 +566,12 @@ Item {
             menuData.sensitive = data.enabled;
             menuData.isToggled = data.checked;
             menuData.ext = {
-                'xCanonicalModemStatusLabelAction': "action::statusLabel",
-                'xCanonicalModemStatusIconAction': "action::statusIcon",
-                'xCanonicalModemConnectivityIconAction': "action::connectivityIcon",
-                'xCanonicalModemSimIdentifierLabelAction': "action::simIdentifierLabel",
-                'xCanonicalModemRoamingAction': "action::roaming",
-                'xCanonicalModemLockedAction': 'action::unlock',
+                'xCanonicalModemStatusLabelAction': data.statusLabelAction,
+                'xCanonicalModemStatusIconAction': data.statusIconAction,
+                'xCanonicalModemConnectivityIconAction': data.connectivityIconAction,
+                'xCanonicalModemSimIdentifierLabelAction': data.simIdentifierLabelAction,
+                'xCanonicalModemRoamingAction': data.roamingAction,
+                'xCanonicalModemLockedAction': data.unlockAction,
             };
 
             loader.data = menuData;
@@ -578,12 +580,12 @@ Item {
             compare(loader.item.objectName, "modemInfoItem", "Should have created a modem info item.");
             compare(loader.item.text, data.label, "Label does not match data");
 
-            compare(loader.item.statusLabelAction.name, "action::statusLabel", "StatusLabel action incorrect");
-            compare(loader.item.statusIconAction.name, "action::statusIcon", "StatusIcon action incorrect");
-            compare(loader.item.connectivityIconAction.name, "action::connectivityIcon", "ConnectivityIcon action incorrect");
-            compare(loader.item.simIdentifierLabelAction.name, "action::simIdentifierLabel", " action incorrect");
-            compare(loader.item.roamingAction.name, "action::roaming", "Roaming action incorrect");
-            compare(loader.item.unlockAction.name, "action::unlock", "Unlock action incorrect");
+            compare(loader.item.statusLabelAction.name, data.statusLabelAction, "StatusLabel action incorrect");
+            compare(loader.item.statusIconAction.name, data.statusIconAction, "StatusIcon action incorrect");
+            compare(loader.item.connectivityIconAction.name, data.connectivityIconAction, "ConnectivityIcon action incorrect");
+            compare(loader.item.simIdentifierLabelAction.name, data.simIdentifierLabelAction, " action incorrect");
+            compare(loader.item.roamingAction.name,  data.roamingAction, "Roaming action incorrect");
+            compare(loader.item.unlockAction.name, data.unlockAction, "Unlock action incorrect");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 

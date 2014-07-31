@@ -12,14 +12,10 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Antti Kaijanmäki <antti.kaijanmaki@canonical.com>
  */
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
-
 import Ubuntu.Components 0.1
 
 RowLayout {
@@ -36,8 +32,8 @@ RowLayout {
         id: iconRoaming
         color: Theme.palette.selected.backgroundText
 
-        height: parent.height
-        width: height
+        Layout.preferredHeight: parent.height
+        Layout.preferredWidth: Layout.preferredHeight
 
         name: "network-cellular-roaming"
     }
