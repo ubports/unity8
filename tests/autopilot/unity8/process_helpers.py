@@ -164,7 +164,7 @@ def start_job(name, *args):
         logger.info(output)
         pid = get_job_pid(name)
     except subprocess.CalledProcessError as e:
-        e.args += ('Failed to start {}: {}.'.format(name, e.output))
+        e.args += ('Failed to start {}: {}.'.format(name, e.output),)
         raise
     else:
         return pid
@@ -219,7 +219,7 @@ def stop_job(name):
         )
         logger.info(output)
     except subprocess.CalledProcessError as e:
-        e.args += ('Failed to stop {}: {}.'.format(name, e.output))
+        e.args += ('Failed to stop {}: {}.'.format(name, e.output),)
         raise
 
 
