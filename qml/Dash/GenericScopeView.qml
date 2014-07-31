@@ -34,8 +34,6 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     property bool showPageHeader: true
-    property var clickOverride: null
-    property var pressAndHoldOverride: null
     readonly property alias previewShown: previewListView.open
 
     property var scopeStyle: ScopeStyle {
@@ -64,6 +62,34 @@ FocusScope {
 
     function closePreview() {
         previewListView.open = false;
+    }
+
+    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
+        if (scope.id === "scopes" || scope.id == "clickscope") {
+            // TODO Technically it is possible that calling activate() will make the scope emit
+            // previewRequested so that we show a preview but there's no scope that does that yet
+            // so it's not implemented
+            scope.activate(result)
+        } else {
+            openPreview(index, resultsModel, limitedCategoryItemCount);
+        }
+    }
+
+    function itemPressedAndHeld(index, resultsModel, limitedCategoryItemCount) {
+        openPreview(index, resultsModel, limitedCategoryItemCount);
+    }
+
+    function openPreview(index, resultsModel, limitedCategoryItemCount) {
+        if (limitedCategoryItemCount > 0) {
+            previewLimitModel.model = resultsModel;
+            previewLimitModel.limit = limitedCategoryItemCount;
+            previewListView.model = previewLimitModel;
+        } else {
+            previewListView.model = resultsModel;
+        }
+        previewListView.currentIndex = -1;
+        previewListView.currentIndex = index;
+        previewListView.open = true;
     }
 
     Binding {
@@ -238,40 +264,19 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        if (scopeView.clickOverride) {
-                            scopeView.clickOverride(index, result, item, itemModel);
-                            return;
-                        }
-
-                        if (scopeView.scope.id === "scopes" || scopeView.scope.id == "clickscope") {
-                            // TODO Technically it is possible that calling activate() will make the scope emit
-                            // previewRequested so that we show a preview but there's no scope that does that yet
-                            // so it's not implemented
-                            scopeView.scope.activate(result)
-                        } else {
-                            openPreview(index);
-                        }
+                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount());
                     }
 
                     onPressAndHold: {
-                        if (scopeView.pressAndHoldOverride) {
-                            scopeView.pressAndHoldOverride(index);
-                        } else {
-                            openPreview(index);
-                        }
+                        scopeView.itemPressedAndHeld(index, target.model, categoryItemCount());
                     }
 
-                    function openPreview(index) {
+                    function categoryItemCount() {
+                        var categoryItemCount = -1;
                         if (!rendererLoader.expanded && !seeAllLabel.visible && target.collapsedItemCount > 0) {
-                            previewLimitModel.model = target.model;
-                            previewLimitModel.limit = target.collapsedItemCount;
-                            previewListView.model = previewLimitModel;
-                        } else {
-                            previewListView.model = target.model;
+                            categoryItemCount = target.collapsedItemCount;
                         }
-                        previewListView.currentIndex = -1;
-                        previewListView.currentIndex = index;
-                        previewListView.open = true;
+                        return categoryItemCount;
                     }
                 }
                 Connections {

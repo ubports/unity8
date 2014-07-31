@@ -336,7 +336,7 @@ Item {
             opacity: searchResultsViewer.scope ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation { } }
 
-            clickOverride: function (index, result, item, itemModel) {
+            function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
                 pageHeader.closePopup();
                 if (itemModel.scopeId) {
                     // This can end up in openScope so save restorePosition and restoreSize
@@ -349,7 +349,7 @@ Item {
                 }
             }
 
-            pressAndHoldOverride: function (index) {
+            function itemPressedAndHeld(index, resultsModel, limitedCategoryItemCount) {
                 // Do nothing
             }
         }
