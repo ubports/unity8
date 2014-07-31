@@ -48,7 +48,6 @@ class TestLockscreen(UnityTestCase):
         unity_proxy = self.launch_unity()
         greeter = self.main_window.get_greeter()
 
-
         if greeter.narrowMode:
             unlock_unity(unity_proxy)
             lockscreen = self._wait_for_lockscreen()
