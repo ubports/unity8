@@ -73,7 +73,6 @@ Rectangle {
         }
 
         function test_show_collapsed() {
-            // when it's more than textLabel.maximumCollapsedLineCount lines of text, show SeeMore component
             verify(textLabel.lineCount > textLabel.maximumCollapsedLineCount)
 
             previewTextSummary.expanded = false;
