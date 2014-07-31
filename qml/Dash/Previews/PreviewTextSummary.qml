@@ -23,7 +23,7 @@ import "../../Components"
     This widget shows text contained in widgetData["text"]
     along with a title that comes from widgetData["title"].
 
-    In case the text does not fit in 7 lines a See More / Less widget is also shown.
+    In case the widget is collapsed it only shows 3 lines of text.
  */
 
 PreviewWidget {
