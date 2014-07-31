@@ -517,7 +517,9 @@ Item {
 
             // Stop the timer to avoid displaying the power dialog when display
             // state is changed.
-            dialogs.onPowerKeyReleased();
+            if (status == Powerd.Off) {
+                dialogs.onPowerKeyReleased();
+            }
         }
     }
 
