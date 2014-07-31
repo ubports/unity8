@@ -30,6 +30,7 @@ Item {
     property alias secondaryIconSource: secondaryIcon.source
     property alias summary: summaryLabel.text
     property alias body: bodyLabel.text
+    property alias value: valueIndicator.value
     property var actions
     property var notificationId
     property var type
@@ -51,7 +52,7 @@ Item {
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
-    color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
+    color: type == Notification.Confirmation && notificationList.useModal && !greeter.shown ? "#eaeaea" : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
 
     state: {
@@ -226,18 +227,18 @@ Item {
                     width: units.gu(6)
                     height: units.gu(6)
                     shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
-                    visible: iconSource !== undefined && iconSource != ""
-               }
+                    visible: iconSource !== undefined && iconSource != "" && type != Notification.Confirmation
+                }
 
-               Image {
-                   id: secondaryIcon
+                Image {
+                    id: secondaryIcon
 
-                   objectName: "secondaryIcon"
-                   width: units.gu(2)
-                   height: units.gu(2)
-                   visible: source !== undefined && source != ""
-                   fillMode: Image.PreserveAspectCrop
-               }
+                    objectName: "secondaryIcon"
+                    width: units.gu(2)
+                    height: units.gu(2)
+                    visible: source !== undefined && source != ""
+                    fillMode: Image.PreserveAspectCrop
+                }
 
                 Column {
                     id: labelColumn
@@ -253,6 +254,7 @@ Item {
                             left: parent.left
                             right: parent.right
                         }
+                        visible: type != Notification.Confirmation
                         fontSize: "medium"
                         font.bold: true
                         color: Theme.palette.selected.backgroundText
@@ -275,6 +277,33 @@ Item {
                         maximumLineCount: 10
                         elide: Text.ElideRight
                     }
+                }
+            }
+
+            ShapedIcon {
+                id: centeredIcon
+
+                objectName: "centeredIcon"
+                width: units.gu(6)
+                height: width
+                shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
+                fileSource: icon.fileSource
+                visible: fileSource !== undefined && fileSource != "" && type == Notification.Confirmation
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            ProgressBar {
+                id: valueIndicator
+                objectName: "valueIndicator"
+                visible: type == Notification.Confirmation
+                minimumValue: 0.0
+                maximumValue: 100.0
+                height: units.gu(1)
+                showProgressPercentage: false
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
                 }
             }
 
