@@ -48,15 +48,12 @@ class LaunchDashApp(fixtures.Fixture):
         self.application_proxy = self.launch_application()
 
     def launch_application(self):
-        self.useFixture(
-            toolkit_fixtures.InitctlEnvironmentVariable(
-                QT_LOAD_TESTABILITY='1'))
-
         binary_arg = 'BINARY={}'.format(self.binary_path)
+        testability_arg = 'QT_LOAD_TESTABILITY={}'.format(1)
         env_args = [
             '{}={}'.format(key, value) for key, value in self.variables.items()
         ]
-        all_args = [binary_arg] + env_args
+        all_args = [binary_arg, testability_arg] + env_args
 
         pid = process_helpers.start_job('unity8-dash', *all_args)
         return introspection.get_proxy_object_for_existing_process(
