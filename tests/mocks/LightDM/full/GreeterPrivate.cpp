@@ -19,6 +19,9 @@
 #include "../Greeter.h"
 #include "../GreeterPrivate.h"
 
+#include <QEventLoop>
+#include <QTimer>
+
 namespace QLightDM
 {
 
@@ -68,6 +71,13 @@ void GreeterPrivate::handleAuthenticate()
 void GreeterPrivate::handleRespond(const QString &response)
 {
     Q_Q(Greeter);
+
+    if (qgetenv("UNITY_TESTING").isEmpty()) {
+        // simulate PAM's delay
+        QEventLoop loop;
+        QTimer::singleShot(1000, &loop, SLOT(quit()));
+        loop.exec();
+    }
 
     if (authenticationUser == "no-response")
         return;

@@ -19,7 +19,8 @@
 #include "../Greeter.h"
 #include "../GreeterPrivate.h"
 
-#include <QDebug>
+#include <QEventLoop>
+#include <QTimer>
 
 namespace QLightDM
 {
@@ -34,9 +35,6 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
 void GreeterPrivate::handleAuthenticate()
 {
     Q_Q(Greeter);
-
-    qDebug() << "handleAuthentication called!" << authenticationUser;
-
     Q_EMIT q->showPrompt("Password:", Greeter::PromptTypeSecret);
 }
 
@@ -44,9 +42,14 @@ void GreeterPrivate::handleRespond(const QString &response)
 {
     Q_Q(Greeter);
 
+    if (qgetenv("UNITY_TESTING").isEmpty()) {
+        // simulate PAM's delay
+        QEventLoop loop;
+        QTimer::singleShot(1000, &loop, SLOT(quit()));
+        loop.exec();
+    }
 
     authenticated = (response == "password");
-    qDebug() << "responding" << response << authenticated;
     Q_EMIT q->authenticationComplete();
 }
 
