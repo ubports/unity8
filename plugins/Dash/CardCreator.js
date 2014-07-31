@@ -153,7 +153,7 @@ var kHeaderRowCodeTemplate = 'Row { \n\
                         anchors { %1 } \n\
                         anchors.right: parent.right; \n\
                         anchors.margins: margins; \n\
-                        anchors.rightMargin: units.gu(0); \n\
+                        anchors.rightMargin: 0; \n\
                         data: [ \n\
                                 %2 \n\
                                 ] \n\
@@ -459,8 +459,8 @@ function cardString(template, components) {
         var titleAnchors;
         var subtitleAnchors;
         var attributesAnchors;
-        var titleRightAnchor;
         var titleContainerAnchors;
+        var titleRightAnchor;
 
         // GOOD LUCK!
 
@@ -475,9 +475,11 @@ function cardString(template, components) {
             }
         }
         if (hasEmblem) {
-            titleRightAnchor = 'right: emblemImage.left;\n';
+            titleRightAnchor = 'right: emblemImage.left; \n\
+                                rightMargin: units.gu(0.5); \n';
         } else {
-            titleRightAnchor = 'right: parent.right;\n';
+            titleRightAnchor = 'right: parent.right; \n\
+                                rightMargin: units.gu(1); \n';
         }
 
         if (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes))) {

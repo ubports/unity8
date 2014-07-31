@@ -55,12 +55,14 @@ Row {
                         spacing: margins; 
                         height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; 
                         anchors { top: parent.top; 
-                                     topMargin: units.gu(1);
-left: parent.left;
- } 
+                        topMargin: units.gu(1);
+                        left: parent.left;
+                        } 
                         anchors.right: parent.right; 
                         anchors.margins: margins;
-                        data: [ Image { 
+                        anchors.rightMargin: 0;
+                        data: [
+Image { 
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
@@ -74,16 +76,19 @@ left: parent.left;
                             verticalAlignment: Image.AlignVCenter; 
                             visible: showHeader; 
                         }
-
-                                ,
-                                Column { 
-                            anchors.verticalCenter: parent.verticalCenter; 
-                            spacing: units.dp(2); 
-                            width: parent.width - x;
-                            data: [ Label { 
+,Item { 
+                            id: headerTitleContainer; 
+                            anchors { verticalCenter: parent.verticalCenter;  } 
+                            width: parent.width - x; 
+                            implicitHeight: titleLabel.height + subtitleLabel.height; 
+                            data: [ 
+                                Label { 
                         id: titleLabel; 
                         objectName: "titleLabel"; 
-                        anchors { left: parent.left; right: parent.right } 
+                        anchors { right: parent.right;
+                        rightMargin: units.gu(1);
+                        left: parent.left;
+                        top: parent.top; } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
@@ -95,16 +100,15 @@ left: parent.left;
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.headerAlignment; 
                     }
-]
-}
-]
-}
-
-                                    ,
-                                    Label { 
+                                    ,Label { 
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
-                            anchors { left: parent.left; right: parent.right } 
+                            anchors { right: parent.right;
+                            left: parent.left;
+                            rightMargin: units.gu(1);
+                            top: titleLabel.bottom;
+                            } 
+                            anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
