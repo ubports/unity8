@@ -95,6 +95,7 @@ left: parent.left;
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.headerAlignment; 
                     }
+
                                     ,
                                     Label { 
                             id: subtitleLabel; 
