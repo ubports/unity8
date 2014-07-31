@@ -26,7 +26,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
 {
     entries =
     {
-        { "single", "Has PIN", 0, 0, false, false, 0, 0 },
+        { "has-pin", "Has PIN", 0, 0, false, false, 0, 0 },
     };
 }
 

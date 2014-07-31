@@ -29,12 +29,14 @@ AccountsService::AccountsService(QObject* parent)
 
 QString AccountsService::user() const
 {
-    return "testuser";
+    return m_user;
 }
 
 void AccountsService::setUser(const QString &user)
 {
-    Q_UNUSED(user)
+    m_user = user;
+    Q_EMIT userChanged();
+    Q_EMIT passwordDisplayHintChanged();
 }
 
 bool AccountsService::demoEdges() const
@@ -67,4 +69,12 @@ void AccountsService::setStatsWelcomeScreen(bool statsWelcomeScreen)
 {
     m_statsWelcomeScreen = statsWelcomeScreen;
     statsWelcomeScreenChanged();
+}
+
+AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() const
+{
+    if (m_user == "has-pin")
+        return PasswordDisplayHint::Numeric;
+    else
+        return PasswordDisplayHint::Keyboard;
 }

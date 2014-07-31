@@ -24,6 +24,7 @@
 namespace QLightDM
 {
 class Greeter;
+class GreeterImpl;
 
 class GreeterPrivate
 {
@@ -40,6 +41,7 @@ public:
     void handleRespond(const QString &response);
 
 protected:
+    GreeterImpl *m_impl; // if the backend needs more private data
     Greeter * const q_ptr;
 
 private:

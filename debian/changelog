@@ -1,3 +1,46 @@
+unity8 (8.00+14.10.20140729.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Check user's pin/password using PAM, instead of a plaintext keyfile.
+    New build dependency: libpam0g-dev for phone unlock with PAM (LP:
+    #1234983)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Jul 2014 23:36:30 +0000
+
+unity8 (8.00+14.10.20140729-0ubuntu1) utopic; urgency=medium
+
+  [ Gerry Boland ]
+  [ Daniel d'Andrada ]
+  * Re-architecture unity8 to use the QtMirCompositor library so that
+    the Qt scenegraph renderer is used as the Mir compositor, and
+    application surfaces are added to the QML scene as items.
+    
+  [ Michael Zanetti ]
+  * Port phone right-edge spread code to use QtCompositor
+  * Add right-edge spread animation for tablet
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Jul 2014 15:07:32 +0000
+
+unity8 (7.90+14.10.20140725-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Fix the ap test for applications.
+
+  [ Albert Astals ]
+  * Use deleteLater instead of a direct delete We are seeing a crash in
+    QQuickWindowPrivate::polishItems because LVWPH is deleting items to
+    polish from it's updatePolish which means the set in
+    QQuickWindowPrivate::polishItems may end up with some yet-to-
+    process-but-now-deleted items. Switching to deleteLater fixes this
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 25 Jul 2014 10:47:34 +0000
+
 unity8 (7.90+14.10.20140724.1-0ubuntu1) utopic; urgency=low
 
   [ Michael Zanetti ]
