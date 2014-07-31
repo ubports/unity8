@@ -413,12 +413,15 @@ class DashBaseTestCase(AutopilotTestCase):
     environment = {}
 
     def setUp(self):
+        super(DashBaseTestCase, self).setUp()
+
+        if is_unity7_running():
+            self.useFixture(toolkit_fixtures.HideUnity7Launcher())
+
         if model() != 'Desktop':
             process_helpers.restart_unity_with_testability()
             process_helpers.unlock_unity()
         self.ensure_dash_not_running()
-
-        super(DashBaseTestCase, self).setUp()
 
         if self.qml_mock_enabled:
             self.environment['QML2_IMPORT_PATH'] = (
