@@ -114,7 +114,6 @@ Loader {
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
-                entryEnabled = false;
             }
 
             onCancel: {

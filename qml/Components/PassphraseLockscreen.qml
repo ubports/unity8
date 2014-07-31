@@ -25,13 +25,13 @@ Item {
     property string placeholderText
     property string wrongPlaceholderText
     property string username: ""
+    property bool entryEnabled: true
 
     signal entered(string passphrase)
     signal cancel()
 
     function clear(playAnimation) {
         pinentryField.text = "";
-        pinentryField.enabled = true
         if (playAnimation) {
             wrongPasswordAnimation.start();
             pinentryField.forceActiveFocus();
@@ -76,11 +76,11 @@ Item {
             echoMode: TextInput.Password
             opacity: 0.9
             hasClearButton: false
+            enabled: entryEnabled
             placeholderText: wrongPasswordAnimation.running ? root.wrongPlaceholderText : root.placeholderText
 
             onAccepted: {
                 if (pinentryField.text) {
-                    pinentryField.enabled = false;
                     root.entered(pinentryField.text);
                 }
             }

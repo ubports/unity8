@@ -57,24 +57,35 @@ Showable {
 
     onRequiredChanged: {
         if (required && pinPadLoader.item) {
-            pinPadLoader.item.clear(false);
+            clear(false)
         }
+    }
+
+    function forceDelay(delay) {
+        forcedDelayTimer.interval = delay 
+        forcedDelayTimer.start()
     }
 
     function reset() {
         // This causes the loader below to destry and recreate the source
         pinPadLoader.resetting = true;
         pinPadLoader.resetting = false;
+        pinPadLoader.waiting = false
     }
 
     function clear(showAnimation) {
         if (pinPadLoader.item) {
             pinPadLoader.item.clear(showAnimation);
         }
+        pinPadLoader.waiting = false
     }
 
     function showInfoPopup(title, text) {
         PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
+    }
+
+    Timer {
+        id: forcedDelayTimer
     }
 
     Rectangle {
@@ -105,6 +116,19 @@ Showable {
             right: parent.right
             bottom: pinPadLoader.top
             bottomMargin: units.gu(2)
+        }
+        Label {
+            id: delayTextLabel
+            objectName: "delayTextLabel"
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            text: i18n.tr("Too many incorrect attempts, please wait")
+            horizontalAlignment: Text.AlignHCenter
+            color: "#f3f3e7"
+            opacity: 0.6
+            visible: forcedDelayTimer.running
         }
         Label {
             objectName: "retryCountLabel"
@@ -145,6 +169,7 @@ Showable {
             verticalCenterOffset: root.alphaNumeric ? -units.gu(10) : -units.gu(4)
         }
         property bool resetting: false
+        property bool waiting: false
 
         source: (!resetting && root.required) ? (root.alphaNumeric ? "PassphraseLockscreen.qml" : "PinLockscreen.qml") : ""
 
@@ -152,6 +177,7 @@ Showable {
             target: pinPadLoader.item
 
             onEntered: {
+                pinPadLoader.waiting = true
                 root.entered(passphrase);
             }
 
@@ -184,6 +210,11 @@ Showable {
             target: pinPadLoader.item
             property: "username"
             value: root.username
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "entryEnabled"
+            value: !pinPadLoader.waiting && !forcedDelayTimer.running
         }
     }
 

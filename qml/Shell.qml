@@ -55,6 +55,8 @@ Item {
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
+    property int failedLoginsDelayAttempts: 5 // number of failed logins
+    property int failedLoginsDelaySeconds: 5 // seconds of forced waiting
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
@@ -432,6 +434,9 @@ Item {
                     } else if (AccountsService.failedLogins >= maxFailedLogins) {
                         SystemImage.factoryReset() // Ouch!
                     }
+                }
+                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                    lockscreen.forceDelay(failedLoginsDelaySeconds * 1000)
                 }
 
                 lockscreen.clear(true);
