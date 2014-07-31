@@ -278,7 +278,7 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
                             color: %2; \n\
-                            model: cardData && cardData["attributes"] || undefined; \n\
+                            model: cardData["attributes"]; \n\
                           }\n';
 
 // %1 is used as top anchor of summary
