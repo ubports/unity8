@@ -141,7 +141,7 @@ Load the testability driver");
     view->setSource(source);
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
-    if (!isMirServer && qEnvironmentVariableIsSet("UNITY_MIR_EMITS_SIGSTOP")) {
+    if (!isMirServer && !qgetenv("UNITY_MIR_EMITS_SIGSTOP").isEmpty()) {
         // Emit SIGSTOP as expected by upstart, under Mir it's qtmir that will raise it.
         // see http://upstart.ubuntu.com/cookbook/#expect-stop
         raise(SIGSTOP);
