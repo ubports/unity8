@@ -257,7 +257,7 @@ FocusScope {
                         if (scopeView.pressAndHoldOverride) {
                             scopeView.pressAndHoldOverride(index);
                         } else {
-                            openPreview(index)
+                            openPreview(index);
                         }
                     }
 
