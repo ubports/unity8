@@ -434,14 +434,13 @@ Item {
         if (LightDM.Greeter.active && !LightDM.Greeter.promptless) {
             return;
         }
-
-        ApplicationManager.requestFocusApplication("unity8-dash")
-        launcher.fadeOut();
-
         if (greeter.shown) {
             greeter.hideRight();
             launcher.fadeOut();
         }
+
+        ApplicationManager.requestFocusApplication("unity8-dash")
+        launcher.fadeOut();
     }
 
     Item {
