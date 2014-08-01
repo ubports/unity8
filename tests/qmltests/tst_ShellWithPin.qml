@@ -49,7 +49,6 @@ Item {
 
     Shell {
         id: shell
-        maxFailedLogins: 3
     }
 
     SignalSpy {
