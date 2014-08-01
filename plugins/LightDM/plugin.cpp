@@ -69,6 +69,8 @@ void LightDMPlugin::registerTypes(const char *uri)
     qmlRegisterType<UserMetricsOutput::ColorTheme>();
 
     Q_ASSERT(uri == QLatin1String("LightDM"));
+    qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
+    qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
     qmlRegisterSingletonType<Greeter>(uri, 0, 1, "Greeter", greeter_provider);
     qmlRegisterSingletonType<UsersModel>(uri, 0, 1, "Users", users_provider);
     qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", "Type is not instantiable");
