@@ -44,11 +44,23 @@ Item {
     signal backClicked()
 
     onScopeStyleChanged: refreshLogo()
+    onSearchQueryChanged: {
+        // Make sure we are at the search page if the search query changes behind our feet
+        if (searchQuery) {
+            headerContainer.showSearch = true;
+        }
+    }
 
     function triggerSearch() {
         if (searchEntryEnabled) {
             headerContainer.showSearch = true;
             searchTextField.forceActiveFocus();
+        }
+    }
+
+    function closePopup() {
+        if (headerContainer.popover != null) {
+            PopupUtils.close(headerContainer.popover);
         }
     }
 
@@ -60,9 +72,7 @@ Item {
             unfocus();
         }
         searchTextField.text = "";
-        if (headerContainer.popover != null) {
-            PopupUtils.close(headerContainer.popover);
-        }
+        closePopup();
     }
 
     function unfocus() {
@@ -103,9 +113,7 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: headerContainer.showSearch
         onPressed: {
-            if (headerContainer.popover) {
-                PopupUtils.close(headerContainer.popover);
-            }
+            closePopup();
             if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
@@ -172,6 +180,7 @@ Item {
                 property var contents: TextField {
                     id: searchTextField
                     objectName: "searchTextField"
+                    inputMethodHints: Qt.ImhNoPredictiveText
                     hasClearButton: false
                     anchors {
                         fill: parent
@@ -219,6 +228,12 @@ Item {
                     onActiveFocusChanged: {
                         if (activeFocus) {
                             root.openSearchHistory();
+                        }
+                    }
+
+                    onTextChanged: {
+                        if (text != "") {
+                            closePopup();
                         }
                     }
                 }
@@ -298,6 +313,7 @@ Item {
 
                 Repeater {
                     id: recentSearches
+                    objectName: "recentSearches"
                     model: searchHistory
 
                     delegate: Standard {
@@ -306,7 +322,8 @@ Item {
                         onClicked: {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
-                            PopupUtils.close(popover);
+                            closePopup();
+                            unfocus();
                         }
                     }
                 }
