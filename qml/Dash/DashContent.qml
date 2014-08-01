@@ -23,8 +23,7 @@ import "../Components"
 Item {
     id: dashContent
 
-    property var model: null
-    property var scopes: null
+    property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
 
     signal scopeLoaded(string scopeId)
@@ -92,7 +91,6 @@ Item {
             interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
 
             anchors.fill: parent
-            model: dashContent.model
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
             flickDeceleration: units.gu(625)

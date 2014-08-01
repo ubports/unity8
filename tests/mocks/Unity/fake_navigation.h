@@ -14,48 +14,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_DEPARTMENT_H
-#define FAKE_DEPARTMENT_H
+#ifndef FAKE_NAVIGATION_H
+#define FAKE_NAVIGATION_H
 
-#include <unity/shell/scopes/DepartmentInterface.h>
+#include <unity/shell/scopes/NavigationInterface.h>
 
 class Scope;
 
-class Department : public unity::shell::scopes::DepartmentInterface
+class Navigation : public unity::shell::scopes::NavigationInterface
 {
     Q_OBJECT
 
 public:
-    Department(const QString& departmentId, const QString& label, const QString& allLabel, const QString& parentId, const QString& parentLabel, Scope* scope);
+    Navigation(const QString& navigationId, const QString& label, const QString& allLabel, const QString& parentId, const QString& parentLabel, Scope* scope);
 
-    QString departmentId() const override;
+    QString navigationId() const override;
+    QString query() const override;
     QString label() const override;
     QString allLabel() const override;
-    QString parentDepartmentId() const override;
+    QString parentNavigationId() const override;
+    QString parentQuery() const override;
     QString parentLabel() const override;
     bool loaded() const override;
-    int count() const override;
     bool isRoot() const override;
+    bool hidden() const override;
+    int count() const override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QHash<int, QByteArray> roleNames() const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 public Q_SLOTS:
-    void slotCurrentDepartmentChanged();
+    void slotCurrentNavigationChanged();
 
 private Q_SLOTS:
     void slotLoaded();
 
 private:
-    QString m_departmentId;
+    QString m_navigationId;
     QString m_label;
     QString m_allLabel;
     QString m_parentId;
     QString m_parentLabel;
     bool m_loaded;
-    QString m_currentDepartment;
+    QString m_currentNavigation;
     Scope *m_scope;
 };
 
-#endif // FAKE_DEPARTMENT_H
+#endif // FAKE_NAVIGATION_H
