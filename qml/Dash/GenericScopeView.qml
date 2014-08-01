@@ -74,8 +74,6 @@ FocusScope {
         }
     }
 
-
-
     function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") !== 0) {
             openPreview(index, resultsModel, limitedCategoryItemCount);
