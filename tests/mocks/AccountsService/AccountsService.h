@@ -27,6 +27,7 @@
 class AccountsService: public QObject
 {
     Q_OBJECT
+    Q_ENUMS(PasswordDisplayHint)
     Q_PROPERTY (QString user
                 READ user
                 WRITE setUser
@@ -43,8 +44,16 @@ class AccountsService: public QObject
                 READ statsWelcomeScreen
                 WRITE setStatsWelcomeScreen // only available in mock
                 NOTIFY statsWelcomeScreenChanged)
+    Q_PROPERTY (PasswordDisplayHint passwordDisplayHint
+                READ passwordDisplayHint
+                NOTIFY passwordDisplayHintChanged)
 
 public:
+    enum PasswordDisplayHint {
+        Keyboard,
+        Numeric,
+    };
+
     explicit AccountsService(QObject *parent = 0);
 
     QString user() const;
@@ -55,15 +64,18 @@ public:
     void setBackgroundFile(const QString &backgroundFile);
     bool statsWelcomeScreen() const;
     void setStatsWelcomeScreen(bool statsWelcomeScreen);
+    PasswordDisplayHint passwordDisplayHint() const;
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
+    void passwordDisplayHintChanged();
 
 private:
     QString m_backgroundFile;
+    QString m_user;
     bool m_statsWelcomeScreen;
 };
 

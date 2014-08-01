@@ -31,8 +31,10 @@ Item {
 
     function clear(playAnimation) {
         pinentryField.text = "";
+        pinentryField.enabled = true
         if (playAnimation) {
             wrongPasswordAnimation.start();
+            pinentryField.forceActiveFocus();
         } else {
             pinentryField.focus = false
         }
@@ -78,6 +80,7 @@ Item {
 
             onAccepted: {
                 if (pinentryField.text) {
+                    pinentryField.enabled = false;
                     root.entered(pinentryField.text);
                 }
             }
