@@ -305,7 +305,7 @@ Item {
                 objectName: "paginationDots_" + index
                 height: units.gu(1)
                 width: height
-                source: (index == root.paginationIndex) ? "graphics/dot_on.png" : "graphics/dot_off.png"
+                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
             }
         }
         anchors {
