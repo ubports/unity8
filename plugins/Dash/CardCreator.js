@@ -332,7 +332,7 @@ function cardString(template, components) {
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
-    var hasAttributes = hasTitle && components["attributes"] || false;
+    var hasAttributes = hasTitle && components["attributes"]["field"] || false;
 
     if (hasBackground) {
         code += kBackgroundLoaderCode;
@@ -443,6 +443,7 @@ function cardString(template, components) {
 
     var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey")';
 
+    var hasTitleContainer = hasTitle && (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes)));
     var titleSubtitleCode = '';
     if (hasTitle) {
         var titleColor;
@@ -480,7 +481,7 @@ function cardString(template, components) {
                                 rightMargin: units.gu(1); \n';
         }
 
-        if (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes))) {
+        if (hasTitleContainer) {
             // Using headerTitleContainer
             titleAnchors = titleRightAnchor;
             titleAnchors += 'left: parent.left; \n\
@@ -557,7 +558,7 @@ function cardString(template, components) {
             containerHeight += ' + attributesRow.height';
         }
 
-        if (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes))) {
+        if (hasTitleContainer) {
             // use container
             titleSubtitleCode = kHeaderContainerCodeGenerator(titleContainerAnchors, containerHeight, containerCode);
         } else {
@@ -587,7 +588,7 @@ function cardString(template, components) {
         if (isHorizontal && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
         else if (headerAsOverlay && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
         else if (hasHeaderRow) summaryTopAnchor = 'row.bottom';
-        else if (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes))) summaryTopAnchor = 'headerTitleContainer.bottom';
+        else if (hasTitleContainer) summaryTopAnchor = 'headerTitleContainer.bottom';
         else if (hasMascot) summaryTopAnchor = 'mascotImage.bottom';
         else if (hasAttributes) summaryTopAnchor = 'attributesRow.bottom';
         else if (hasSubtitle) summaryTopAnchor = 'subtitleLabel.bottom';
@@ -617,23 +618,26 @@ function cardString(template, components) {
     }
     code += kTouchdownCode.arg(touchdownAnchors);
 
+    var implicitHeight = 'implicitHeight: ';
     if (hasSummary) {
-        code += 'implicitHeight: summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
+        implicitHeight += 'summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
     } else if (hasHeaderRow) {
-        code += 'implicitHeight: row.y + row.height + units.gu(1);\n';
+        implicitHeight += 'row.y + row.height + units.gu(1);\n';
     } else if (hasMascot) {
-        code += 'implicitHeight: mascotImage.y + mascotImage.height;\n';
+        implicitHeight += 'mascotImage.y + mascotImage.height;\n';
+    } else if (hasTitleContainer) {
+        implicitHeight += 'headerTitleContainer.y + headerTitleContainer.height + units.gu(1);\n';
     } else if (hasAttributes) {
-        code += 'implicitHeight: attributesRow.y + attributesRow.height + units.gu(1);\n';
+        implicitHeight += 'attributesRow.y + attributesRow.height + units.gu(1);\n';
     } else if (hasSubtitle) {
-        code += 'implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
+        implicitHeight += 'subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
     } else if (hasTitle) {
-        code += 'implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);\n';
+        implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
     } else if (hasArt) {
-        code += 'implicitHeight: artShapeHolder.height;\n';
+        implicitHeight += 'artShapeHolder.height;\n';
     }
     // Close the AbstractButton
-    code += '}\n';
+    code += implicitHeight + '}\n';
 
     return code;
 }
