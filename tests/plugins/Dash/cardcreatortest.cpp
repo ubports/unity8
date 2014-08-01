@@ -19,6 +19,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QtTestGui>
+#include <QTemporaryFile>
 
 class CardCreatorTest : public QObject
 {
@@ -74,7 +75,14 @@ private Q_SLOTS:
             QVERIFY(testResultFile.open(QIODevice::ReadOnly));
             QTextStream ts2(&testResultFile);
             const QString expectedResult = ts2.readAll();
-            QCOMPARE(cardStringResult.toString().simplified(), expectedResult.simplified());
+            const QString executedResult = cardStringResult.toString();
+            // Record failed results to /tmp
+            QTemporaryFile tmpFile(QDir::tempPath() + QDir::separator() + "testCardCreatorFailedResultXXXXXX");
+            tmpFile.open();
+            tmpFile.setAutoRemove(false);
+            tmpFile.write(executedResult.toUtf8().constData());
+            QCOMPARE(executedResult.simplified(), expectedResult.simplified());
+            tmpFile.setAutoRemove(true); // Remove the result if it passed
 
             QVariant createCardComponentResult;
             QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON));
