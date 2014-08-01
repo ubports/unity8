@@ -37,7 +37,7 @@ Rectangle {
 
     property var widgetDataShortText: {
         "title": "Title here",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi vitae augue rhoncus lobortis ut rutrum metus."
     }
 
     PreviewTextSummary {
