@@ -25,7 +25,6 @@ Column {
     spacing: units.gu(3.5)
 
     property alias placeholderText: pinentryField.placeholderText
-    property alias wrongPlaceholderText: pinentryField.wrongPlaceholderText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
     property int minPinLength: -1
@@ -35,10 +34,10 @@ Column {
     signal cancel()
 
     property bool entryEnabled: true
+    property bool waiting: false
 
     function clear(playAnimation) {
         pinentryField.text = "";
-        pinentryFieldPlaceHolder.text = playAnimation ? wrongPlaceholderText : placeholderText
         if (playAnimation) {
             wrongPasswordAnimation.start();
         }
@@ -59,7 +58,6 @@ Column {
         radius: "medium"
         property string text: ""
         property string placeholderText: ""
-        property string wrongPlaceholderText: ""
 
         function appendChar(character) {
             if (root.maxPinLength == -1 || pinentryField.text.length < root.maxPinLength) {
@@ -77,6 +75,11 @@ Column {
             }
         }
 
+        ActivityIndicator {
+            id: spinner
+            anchors.centerIn: parent
+            running: root.waiting
+        }
         Label {
             id: pinentryFieldLabel
             anchors.centerIn: parent
@@ -86,6 +89,7 @@ Column {
             font.pixelSize: units.dp(44)
             color: "#f3f3e7"
             opacity: 0.6
+            visible: !spinner.running
         }
         Label {
             id: pinentryFieldPlaceHolder
@@ -95,7 +99,7 @@ Column {
             color: "#f3f3e7"
             opacity: 0.6
             text: parent.placeholderText
-            visible: pinentryFieldLabel.text.length == 0
+            visible: !spinner.running && pinentryFieldLabel.text.length == 0
         }
 
         Icon {
@@ -109,7 +113,7 @@ Column {
                 bottom: parent.bottom
                 bottomMargin: units.gu(1)
             }
-            visible: !priv.autoConfirm
+            visible: !spinner.running && entryEnabled && !priv.autoConfirm
             width: height
             name: "erase"
             color: "#f3f3e7"

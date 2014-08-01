@@ -77,6 +77,7 @@ Showable {
         if (pinPadLoader.item) {
             pinPadLoader.item.clear(showAnimation);
         }
+        pinPadLoader.showWrongText = showAnimation
         pinPadLoader.waiting = false
     }
 
@@ -86,6 +87,7 @@ Showable {
 
     Timer {
         id: forcedDelayTimer
+        onTriggered: pinPadLoader.showWrongText = false
     }
 
     Rectangle {
@@ -118,19 +120,6 @@ Showable {
             bottomMargin: units.gu(2)
         }
         Label {
-            id: delayTextLabel
-            objectName: "delayTextLabel"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            text: i18n.tr("Too many incorrect attempts, please wait")
-            horizontalAlignment: Text.AlignHCenter
-            color: "#f3f3e7"
-            opacity: 0.6
-            visible: forcedDelayTimer.running
-        }
-        Label {
             objectName: "retryCountLabel"
             anchors {
                 left: parent.left
@@ -157,8 +146,6 @@ Showable {
         }
     }
 
-
-
     Loader {
         id: pinPadLoader
         objectName: "pinPadLoader"
@@ -170,6 +157,7 @@ Showable {
         }
         property bool resetting: false
         property bool waiting: false
+        property bool showWrongText: false
 
         source: (!resetting && root.required) ? (root.alphaNumeric ? "PassphraseLockscreen.qml" : "PinLockscreen.qml") : ""
 
@@ -199,12 +187,12 @@ Showable {
         Binding {
             target: pinPadLoader.item
             property: "placeholderText"
-            value: root.placeholderText
-        }
-        Binding {
-            target: pinPadLoader.item
-            property: "wrongPlaceholderText"
-            value: root.wrongPlaceholderText
+            value: forcedDelayTimer.running ?
+                   (i18n.tr("Too many incorrect attempts") +
+                    "\n" +
+                    i18n.tr("Please wait")) :
+                   (pinPadLoader.showWrongText ?
+                    root.wrongPlaceholderText : root.placeholderText)
         }
         Binding {
             target: pinPadLoader.item
@@ -215,6 +203,11 @@ Showable {
             target: pinPadLoader.item
             property: "entryEnabled"
             value: !pinPadLoader.waiting && !forcedDelayTimer.running
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "waiting"
+            value: pinPadLoader.waiting
         }
     }
 

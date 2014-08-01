@@ -23,9 +23,9 @@ Item {
     height: highlightItem.height
 
     property string placeholderText
-    property string wrongPlaceholderText
     property string username: ""
     property bool entryEnabled: true
+    property bool waiting: false
 
     signal entered(string passphrase)
     signal cancel()
@@ -77,12 +77,20 @@ Item {
             opacity: 0.9
             hasClearButton: false
             enabled: entryEnabled
-            placeholderText: wrongPasswordAnimation.running ? root.wrongPlaceholderText : root.placeholderText
+            placeholderText: root.placeholderText
 
             onAccepted: {
                 if (pinentryField.text) {
                     root.entered(pinentryField.text);
                 }
+            }
+
+            ActivityIndicator {
+                id: spinner
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: units.gu(1)
+                running: root.waiting
             }
         }
     }
