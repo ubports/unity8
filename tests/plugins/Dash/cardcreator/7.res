@@ -77,10 +77,11 @@ left: parent.left;
 
                                 ,
                                 Column { 
-                            anchors.verticalCenter: parent.verticalCenter; 
-                            spacing: units.dp(2); 
-                            width: parent.width - x;
-                            data: [ Label { 
+                    anchors.verticalCenter: parent.verticalCenter; 
+                    spacing: units.dp(2); 
+                    width: parent.width - x;
+                    data: [ 
+                        Label { 
                         id: titleLabel; 
                         objectName: "titleLabel"; 
                         anchors { left: parent.left; right: parent.right } 
@@ -95,9 +96,8 @@ left: parent.left;
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.headerAlignment; 
                     }
-
-                                    ,
-                                    Label { 
+,
+Label { 
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { left: parent.left; right: parent.right } 
@@ -110,9 +110,17 @@ left: parent.left;
                             font.weight: Font.Light; 
                             horizontalAlignment: root.headerAlignment; 
                         }
+,
+CardAttributes { 
+                            id: attributesRow; 
+                            objectName: "attributesRow"; 
+                            anchors { left: parent.left; right: parent.right } 
+                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
+                            model: cardData && cardData["attributes"] || undefined; 
+                          }
  
-                                  ] 
-                        }
+                    ]
+                }
  
                                 ] 
                     }

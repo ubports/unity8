@@ -181,6 +181,7 @@ Item {
                 property var contents: TextField {
                     id: searchTextField
                     objectName: "searchTextField"
+                    inputMethodHints: Qt.ImhNoPredictiveText
                     hasClearButton: false
                     anchors {
                         fill: parent
