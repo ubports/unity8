@@ -56,8 +56,8 @@ Item {
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
-    property int failedLoginsDelayAttempts: 5 // number of failed logins
-    property int failedLoginsDelaySeconds: 5 // seconds of forced waiting
+    property int failedLoginsDelayAttempts: 7 // number of failed logins
+    property int failedLoginsDelaySeconds: 5 * 60 // seconds of forced waiting
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
