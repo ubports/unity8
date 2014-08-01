@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-16 01:37+0000\n"
-"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"PO-Revision-Date: 2014-08-01 04:02+0000\n"
+"Last-Translator: Sok Sophea <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-26 07:16+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-01 07:14+0000\n"
+"X-Generator: Launchpad (build 17141)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -115,7 +115,7 @@ msgstr "បច្ចុប្បន្ន"
 
 #: qml/Dash/GenericScopeView.qml:330
 msgid "See all"
-msgstr ""
+msgstr "មើល​ទាំងអស់"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -171,11 +171,11 @@ msgstr "បញ្ចូល​កូដ PIN របស់​ស៊ីមកាត"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "ប៉ះ​ដើម្បី​ត្រឡប់​ទៅ​ការ​ហៅ..."
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr ""
+msgstr "សន្និសីទ"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
