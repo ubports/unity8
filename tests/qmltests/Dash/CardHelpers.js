@@ -62,7 +62,7 @@ var fullMapping = ' \
   "subtitle": "subtitle", \
   "mascot": "mascot", \
   "overlayColor": "overlayColor", \
-  "summary": "summary" \
+  "summary": "summary", \
   "attributes": "attributes" \
 }'
 
