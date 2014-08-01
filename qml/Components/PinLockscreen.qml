@@ -227,7 +227,7 @@ Column {
                         root.entered(pinentryField.text);
                     }
                 }
-                enabled: entryEnabled
+                enabled: priv.autoConfirm ? entryEnabled : pinentryField.text.length >= root.minPinLength
             }
         }
     }

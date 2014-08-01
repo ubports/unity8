@@ -108,6 +108,8 @@ Item {
 
         function init() {
             swipeAwayGreeter()
+            shell.failedLoginsDelayAttempts = -1
+            shell.maxFailedLogins = -1
         }
 
         function cleanup() {
@@ -154,6 +156,7 @@ Item {
         }
 
         function test_login() {
+            sessionSpy.clear()
             tryCompare(sessionSpy, "count", 0)
             enterPin("1234")
             tryCompare(sessionSpy, "count", 1)
@@ -220,11 +223,27 @@ Item {
             tryCompare(AccountsService, "failedLogins", 0)
         }
 
+        function test_wrongEntries() {
+            shell.failedLoginsDelayAttempts = 3
+
+            var placeHolder = findChild(shell, "pinentryFieldPlaceHolder")
+            tryCompare(placeHolder, "text", "Enter your passcode")
+
+            enterPin("1111")
+            tryCompare(placeHolder, "text", "Incorrect passcode\nPlease re-enter")
+
+            enterPin("1111")
+            tryCompare(placeHolder, "text", "Incorrect passcode\nPlease re-enter")
+
+            enterPin("1111")
+            tryCompare(placeHolder, "text", "Too many incorrect attempts\nPlease wait")
+        }
+
         function test_factoryReset() {
+            shell.maxFailedLogins = 3
             resetSpy.clear()
 
             enterPin("1111")
-
             enterPin("1111")
             tryCompareFunction(function() {return findChild(root, "factoryResetWarningDialog") !== null}, true)
 
