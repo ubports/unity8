@@ -1,3 +1,39 @@
+unity8 (8.00+14.10.20140731.1-0ubuntu1) utopic; urgency=low
+
+  [ Gerry Boland ]
+  * Fix the run.sh script - pretend to be running with qtmir and emit
+    SIGSTOP at the right time
+
+  [ Ying-Chun Liu ]
+  * Implement Attribute UI. (LP: #1282460)
+
+  [ Albert Astals ]
+  * Hide search history popup as soon as you start typing As discussed
+    with Mike and Saviq
+  * Compile with for scopes-v3 unity-api
+  * PageHeader: Unfocus search field when search entry is selected
+  * Show search field if the search query changes
+  * Test: Add a condition for art.height being > 0 means stuff has
+    already been layouted a bit without it it can happen that we get 0
+    for everything at startup and tests still pass
+  * Remove leftover in test of an old headerless implementation
+
+  [ Michael Zanetti ]
+  * Drop Recent apps category from Dash (LP: #1281092)
+  * update launcher count emblems to match new spec (LP: #1338984)
+
+  [ Bill Filler ]
+  * disable predictive text for dash search field (LP: #1340409)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Antti Kaijanmäki ]
+  * DefaultIndicatorPage: use Loader status to determine the visible
+    property. (LP: #1350555)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 31 Jul 2014 16:51:01 +0000
+
 unity8 (8.00+14.10.20140729.1-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
