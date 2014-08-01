@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 import "../Components"
@@ -71,7 +71,7 @@ Rectangle {
         boundsBehavior: Flickable.StopAtBounds
         cacheBuffer: 1073741823
 
-        delegate: PageHeader {
+        delegate: Header {
             width: ListView.view.width
             height: implicitHeight
 
@@ -79,7 +79,6 @@ Rectangle {
 
             IndicatorDelegate {
                 id: indicatorDelegate
-
                 Component.onCompleted: {
                     for(var pName in indicatorProperties) {
                         if (indicatorDelegate.hasOwnProperty(pName)) {
