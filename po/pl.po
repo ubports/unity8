@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-19 14:10+0000\n"
-"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
+"PO-Revision-Date: 2014-07-31 13:51+0000\n"
+"Last-Translator: Michał Radwański <radwanski.michal@outlook.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-26 07:17+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-01 07:14+0000\n"
+"X-Generator: Launchpad (build 17141)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -115,7 +115,7 @@ msgstr "Ostatnio używane"
 
 #: qml/Dash/GenericScopeView.qml:330
 msgid "See all"
-msgstr ""
+msgstr "Zobacz wszystko"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -171,11 +171,11 @@ msgstr "Wprowadź kod PIN karty SIM"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Dotknij aby powrócić do połączenia..."
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr ""
+msgstr "Konferencja"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
