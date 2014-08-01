@@ -391,7 +391,7 @@ Item {
         onShowPrompt: {
             if (greeter.narrowMode) {
                 var promptText = text.toLowerCase()
-                if (promptText === "password") {
+                if (isDefaultPrompt) {
                     promptText = lockscreen.alphaNumeric ?
                                  i18n.tr("passphrase") : i18n.tr("passcode")
                 }
