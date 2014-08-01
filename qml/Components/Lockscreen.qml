@@ -70,7 +70,6 @@ Showable {
         // This causes the loader below to destry and recreate the source
         pinPadLoader.resetting = true;
         pinPadLoader.resetting = false;
-        pinPadLoader.waiting = false
     }
 
     function clear(showAnimation) {
@@ -160,6 +159,10 @@ Showable {
         property bool showWrongText: false
 
         source: (!resetting && root.required) ? (root.alphaNumeric ? "PassphraseLockscreen.qml" : "PinLockscreen.qml") : ""
+        onSourceChanged: {
+            waiting = false
+            showWrongText = false
+        }
 
         Connections {
             target: pinPadLoader.item
