@@ -116,7 +116,7 @@ CardAttributes {
                             objectName: "attributesRow"; 
                             anchors { left: parent.left; right: parent.right } 
                             color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey"); 
-                            model: cardData["attributes"] 
+                            model: cardData && cardData["attributes"] || undefined; 
                           }
  
                     ]
