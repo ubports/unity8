@@ -25,6 +25,7 @@
 #include <QtQml/QQmlContext>
 #include <QLibrary>
 #include <QDebug>
+#include <csignal>
 #include <libintl.h>
 
 // local
@@ -139,6 +140,12 @@ Load the testability driver");
 
     view->setSource(source);
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
+
+    if (!isMirServer && qEnvironmentVariableIsSet("UNITY_MIR_EMITS_SIGSTOP")) {
+        // Emit SIGSTOP as expected by upstart, under Mir it's qtmir that will raise it.
+        // see http://upstart.ubuntu.com/cookbook/#expect-stop
+        raise(SIGSTOP);
+    }
 
     if (isMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();
