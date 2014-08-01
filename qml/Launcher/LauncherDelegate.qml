@@ -70,28 +70,31 @@ Item {
             height: root.itemHeight - units.gu(1)
         }
 
-        BorderImage {
+        UbuntuShape {
             objectName: "countEmblem"
             anchors {
                 right: parent.right
                 top: parent.top
                 margins: units.dp(3)
             }
-            width: Math.min(root.itemWidth, Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
-            height: units.gu(3)
-            source: "graphics/notification.sci"
+            width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
+            height: units.gu(2)
+            color: UbuntuColors.orange
             visible: root.count > 0
+            borderSource: "none"
 
             Label {
                 id: countLabel
                 text: root.count
                 anchors.centerIn: parent
+                // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine
+                // property for Text: https://bugreports.qt-project.org/browse/QTBUG-40479
+                anchors.verticalCenterOffset: -units.dp(.5)
                 width: root.itemWidth - units.gu(1)
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
-                fontSize: "small"
-                font.bold: true
+                fontSize: "x-small"
             }
         }
 
