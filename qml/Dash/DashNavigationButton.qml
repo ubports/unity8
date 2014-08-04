@@ -113,7 +113,7 @@ AbstractButton {
             navigation: (nullifyNavigation || !scope) ? null : getNavigation(navigationId)
             currentNavigation: root.currentNavigation
             onEnterNavigation: {
-                scope.performQuery(navigationQuery);
+                scope.setNavigationState(newNavigationId, isAltNavigation);
                 // We only need to add a new item to the model
                 // if we have children, otherwise just load it
                 if (hasChildren) {
@@ -125,7 +125,7 @@ AbstractButton {
                 }
             }
             onGoBackToParentClicked: {
-                scope.performQuery(navigation.parentQuery);
+                scope.setNavigationState(navigation.parentNavigationId, isAltNavigation);
                 isGoingBack = true;
                 navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
                 navigationListView.currentIndex--;
@@ -134,7 +134,7 @@ AbstractButton {
                 showList = false;
                 if (root.currentNavigation.parentNavigationId == navigation.navigationId) {
                     // For leaves we have to go to the parent too
-                    scope.performQuery(root.currentNavigation.parentQuery);
+                    scope.setNavigationState(root.currentNavigation.parentNavigationId, isAltNavigation);
                 }
             }
         }

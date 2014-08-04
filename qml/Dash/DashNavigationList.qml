@@ -22,7 +22,7 @@ Item {
     property var navigation: null
     property var currentNavigation: null
     property var scopeStyle: null
-    signal enterNavigation(var newNavigationId, var navigationQuery, bool hasChildren)
+    signal enterNavigation(var newNavigationId, bool hasChildren)
     signal goBackToParentClicked()
     signal allNavigationClicked()
 
@@ -152,7 +152,7 @@ Item {
                     height: root.itemHeight
                     width: root.width
 
-                    onClicked: root.enterNavigation(navigationId, query, hasChildren)
+                    onClicked: root.enterNavigation(navigationId, hasChildren)
 
                     Label {
                         anchors {
