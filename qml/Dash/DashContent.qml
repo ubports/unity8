@@ -121,10 +121,12 @@ Item {
                 Loader {
                     width: ListView.view.width
                     height: ListView.view.height
+                    opacity: { // hide delegate if offscreen
+                        var xPositionRelativetoView = ListView.view.contentX - x
+                        return (xPositionRelativetoView > -width && xPositionRelativetoView < width) ? 1 : 0
+                    }
                     asynchronous: true
-                    // TODO This if will eventually go away since we're killing DashApps.qml
-                    // once we move app closing to the spread
-                    source: (scope.id == "clickscope") ? "DashApps.qml" : "GenericScopeView.qml"
+                    source: "GenericScopeView.qml"
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
