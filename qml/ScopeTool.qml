@@ -45,16 +45,6 @@ Rectangle {
         signal searchClicked
     }
 
-    SortFilterProxyModel {
-        id: filteredScopes
-        model: Scopes {
-            id: scopes
-        }
-        dynamicSortFilter: true
-
-        filterRole: Scopes.RoleVisible
-        filterRegExp: RegExp("^true$")
-    }
 
     Rectangle {
         anchors.fill: dashContent
@@ -72,8 +62,8 @@ Rectangle {
     DashContent {
         id: dashContent
 
-        model: filteredScopes
         property var scope: scopes.getScope(currentIndex)
+        scopes: Scopes { }
 
         anchors {
             top: parent.top
