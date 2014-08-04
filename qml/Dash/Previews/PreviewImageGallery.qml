@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 import "../../Components"
 
 /*! This preview widget shows a horizontal list of images.
