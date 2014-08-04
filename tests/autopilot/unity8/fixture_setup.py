@@ -19,7 +19,6 @@
 
 import fixtures
 from autopilot import introspection
-from ubuntuuitoolkit import fixture_setup as toolkit_fixtures
 
 from unity8 import process_helpers
 from unity8.shell import emulators
