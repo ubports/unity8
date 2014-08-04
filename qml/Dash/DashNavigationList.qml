@@ -114,7 +114,7 @@ Item {
                 id: allButton
                 objectName: "allButton"
                 width: parent.width
-                visible: navigation && (!navigation.isRoot || (root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
+                visible: navigation && (!navigation.isRoot || (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
                 height: itemHeight
 
                 Label {

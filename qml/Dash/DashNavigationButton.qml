@@ -21,57 +21,33 @@ AbstractButton {
     id: root
     objectName: "dashNavigation"
 
+    // Set by parent
     property var scope: null
+    property var scopeStyle: null
+    property bool isAltNavigation: false
 
+    // Used by parent
+    readonly property var currentNavigation: scope && scope[hasNavigation] ? getNavigation(scope[currentNavigationId]) : null
+    readonly property alias listView: navigationListView
     property bool showList: false
 
-    readonly property var currentNavigation: scope && scope.hasNavigation ? scope.getNavigation(scope.currentNavigationId) : null
-
-    property alias windowWidth: blackRect.width
-    property alias windowHeight: blackRect.height
-    property var scopeStyle: null
-
+    // Internal
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
+    readonly property string hasNavigation: isAltNavigation ? "hasAltNavigation" : "hasNavigation"
+    readonly property string currentNavigationId: isAltNavigation ? "currentAltNavigationId" : "currentNavigationId"
+    function getNavigation(navId) {
+        if (isAltNavigation) {
+            return scope.getAltNavigation(navId);
+        } else {
+            return scope.getNavigation(navId);
+        }
+    }
 
     visible: root.currentNavigation != null
 
-    height: visible ? units.gu(5) : 0
-
     onClicked: {
         root.showList = !root.showList;
-    }
-
-    Rectangle {
-        id: blackRect
-        color: "black"
-        opacity: navigationListView.currentItem && navigationListView.currentItem.visible ? 0.3 : 0
-        Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-        anchors.top: navigationListView.top
-        anchors.right: parent.right
-        visible: opacity != 0
-    }
-
-    Image {
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/dash_divider_top_lightgrad.png"
-        z: -1
-    }
-
-    Image {
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/dash_divider_top_darkgrad.png"
-        z: -1
     }
 
     Label {
@@ -106,11 +82,7 @@ AbstractButton {
             // nullifyNavigation: overrides navigationId to be null
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: root.bottom
-        }
+        anchors.top: root.bottom
         readonly property int maxHeight: (windowHeight - mapToItem(null, root.x, root.y).y) - units.gu(8)
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
@@ -138,7 +110,7 @@ AbstractButton {
                 }
             }
             height: desiredHeight
-            navigation: (nullifyNavigation || !scope) ? null : scope.getNavigation(navigationId)
+            navigation: (nullifyNavigation || !scope) ? null : getNavigation(navigationId)
             currentNavigation: root.currentNavigation
             onEnterNavigation: {
                 scope.performQuery(navigationQuery);
@@ -177,27 +149,39 @@ AbstractButton {
         }
     }
 
-    InverseMouseArea {
-        anchors.fill: navigationListView
-        enabled: root.showList
-        onClicked: root.showList = false
-    }
-
     onScopeChanged: {
         navigationModel.clear();
-        if (scope && scope.hasNavigation) {
-            navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
+        if (scope && scope[hasNavigation]) {
+            navigationModel.append({"navigationId": scope[currentNavigationId], "nullifyNavigation": false});
         }
     }
 
     Connections {
         target: scope
+        // This is duplicated since we can't have something based on the dynamic hasNavigation string property
         onHasNavigationChanged: {
-            if (scope.hasNavigation) {
-                navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
-            } else {
-                navigationModel.clear();
+            if (!root.isAltNavigation) {
+                if (scope.hasNavigation) {
+                    navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
+                } else {
+                    navigationModel.clear();
+                }
             }
         }
+        onHasAltNavigationChanged: {
+            if (root.isAltNavigation) {
+                if (scope.hasAltNavigation) {
+                    navigationModel.append({"navigationId": scope.currentAltNavigationId, "nullifyNavigation": false});
+                } else {
+                    navigationModel.clear();
+                }
+            }
+        }
+    }
+
+    InverseMouseArea {
+        anchors.fill: navigationListView
+        enabled: root.showList
+        onClicked: root.showList = false
     }
 }

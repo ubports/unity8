@@ -244,11 +244,16 @@ unity::shell::scopes::NavigationInterface* Scope::getAltNavigation(QString const
 
     QString parentId;
     QString parentLabel;
-    if (id.startsWith("altmiddle")) {
+    if (id != "altroot") {
         parentId = "altroot";
         parentLabel = "altroot";
     }
-    return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
+    auto result = new Navigation(id, id, "all"+id, parentId, parentLabel, this);
+    if (id == "altroot") {
+        m_currentAltNavigationId = "altrootChild1";
+        Q_EMIT currentAltNavigationIdChanged();
+    }
+    return result;
 }
 
 void Scope::performQuery(const QString& query)
