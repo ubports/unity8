@@ -26,7 +26,7 @@ from unity8.shell import emulators
 
 class LaunchDashApp(fixtures.Fixture):
 
-    """Fixture to launch the Dashh app."""
+    """Fixture to launch the Dash app."""
 
     def __init__(self, binary_path, variables):
         """Initialize an instance.
