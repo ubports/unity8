@@ -230,7 +230,7 @@ def is_job_running(name):
     :raises JobError: if it's not possible to get the status of the job.
 
     """
-    return 'start/running' in get_job_status(name)
+    return 'start/' in get_job_status(name)
 
 
 def _get_unity_status():
