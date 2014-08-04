@@ -62,7 +62,7 @@ Showable {
     }
 
     function forceDelay(delay) {
-        forcedDelayTimer.interval = delay 
+        forcedDelayTimer.interval = delay
         forcedDelayTimer.start()
     }
 
