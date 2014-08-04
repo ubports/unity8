@@ -99,7 +99,7 @@ def is_unity7_running():
 
 
 def get_qml_import_path_with_mock():
-    """Return the QML2_IMPORT_PATH value with the mock path preppended."""
+    """Return the QML2_IMPORT_PATH value with the mock path prepended."""
     qml_import_path = [get_mocks_library_path()]
     if os.getenv('QML2_IMPORT_PATH') is not None:
         qml_import_path.append(os.getenv('QML2_IMPORT_PATH'))
