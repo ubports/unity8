@@ -308,7 +308,7 @@ class UnityTestCase(AutopilotTestCase):
 
         if model() == 'Desktop':
             # On desktop, close the dash because it's opened in a separate
-            # window and it gets on the way.
+            # window and it gets in the way.
             process_helpers.stop_job('unity8-dash')
 
         return app_proxy
