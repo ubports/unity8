@@ -67,7 +67,8 @@ public:
     bool hasAltNavigation() const  override;
     Q_INVOKABLE unity::shell::scopes::NavigationInterface* getNavigation(QString const& navigationId) override;
     Q_INVOKABLE unity::shell::scopes::NavigationInterface* getAltNavigation(QString const& altNavigationId) override;
-    Q_INVOKABLE void performQuery(const QString& query) override;
+    Q_INVOKABLE void setNavigationState(const QString &navigationId, bool isAltNavigation) override;
+    Q_SIGNAL void performQuery(const QString& query) override;
 
     Status status() const override;
     QVariantMap customizations() const override;

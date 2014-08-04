@@ -39,16 +39,6 @@ FocusScope {
 
     signal backClicked()
 
-    onScopeChanged: {
-        if (scope) {
-            scope.activateApplication.connect(activateApp);
-        }
-    }
-
-    function activateApp(appId) {
-        shell.activateApplication(appId);
-    }
-
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
     }

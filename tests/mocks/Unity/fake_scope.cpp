@@ -251,17 +251,13 @@ unity::shell::scopes::NavigationInterface* Scope::getAltNavigation(QString const
     return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
 }
 
-void Scope::performQuery(const QString& query)
+void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation)
 {
-    if (query.startsWith("navigation:/")) {
-        QString navigationId = query;
-        navigationId.remove(0, QString("navigation:/").length());
-        if (navigationId.startsWith("alt")) {
-            m_currentAltNavigationId = navigationId;
-            Q_EMIT currentAltNavigationIdChanged();
-        } else {
-            m_currentNavigationId = navigationId;
-            Q_EMIT currentNavigationIdChanged();
-        }
+    if (isAltNavigation) {
+        m_currentAltNavigationId = navigationId;
+        Q_EMIT currentAltNavigationIdChanged();
+    } else {
+        m_currentNavigationId = navigationId;
+        Q_EMIT currentNavigationIdChanged();
     }
 }

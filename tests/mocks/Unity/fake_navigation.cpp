@@ -39,11 +39,6 @@ QString Navigation::navigationId() const
     return m_navigationId;
 }
 
-QString Navigation::query() const
-{
-    return "navigation:/" + m_navigationId;
-}
-
 QString Navigation::label() const
 {
     return m_label;
@@ -57,11 +52,6 @@ QString Navigation::allLabel() const
 QString Navigation::parentNavigationId() const
 {
     return m_parentId;
-}
-
-QString Navigation::parentQuery() const
-{
-    return "navigation:/" + m_parentId;
 }
 
 QString Navigation::parentLabel() const
@@ -106,8 +96,6 @@ int Navigation::rowCount(const QModelIndex & /*parent*/) const
 QVariant Navigation::data(const QModelIndex &index, int role) const
 {
     switch (role) {
-        case RoleQuery:
-            return QString("navigation:/%1").arg(data(index, RoleNavigationId).toString());
         case RoleNavigationId:
             if (m_navigationId == "root")
                 return QString("middle%1").arg(index.row());
