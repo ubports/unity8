@@ -120,7 +120,7 @@ AbstractButton {
             }
         }
         highlightMoveDuration: UbuntuAnimation.FastDuration
-        delegate: DashDepartmentsList {
+        delegate: DashNavigationList {
             objectName: "department" + index
             visible: height != 0
             width: departmentListView.width

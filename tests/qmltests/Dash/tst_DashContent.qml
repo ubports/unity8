@@ -43,9 +43,6 @@ Item {
         id: dashContent
         anchors.fill: parent
 
-        model: SortFilterProxyModel {
-            model: scopesModel
-        }
         scopes : scopesModel
     }
 
@@ -269,8 +266,10 @@ Item {
         }
 
         function test_departments() {
-            var dashDepartments = findChild(dashContent, "dashDepartments");
-            compare(dashDepartments.visible, true);
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashDepartments") != null; }, true);
+            var dashDepartments = findChild(dashContentList.currentItem, "dashDepartments");
+            tryCompare(dashDepartments, "visible", true);
             compare(dashDepartments.showList, false);
             waitForRendering(dashDepartments);
             mouseClick(dashDepartments, 0, 0);
@@ -289,8 +288,8 @@ Item {
             var department = findChild(dashDepartments, "department0child3");
             mouseClick(department, 0, 0);
             compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle3");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "root");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "middle3");
+            tryCompare(departmentListView.currentItem.department, "navigationId", "root");
 
             mouseClick(dashDepartments, 0, 0);
             compare(dashDepartments.showList, true);
@@ -300,8 +299,8 @@ Item {
 
             mouseClick(allButton, 0, 0);
             compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "root");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "root");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "root");
+            tryCompare(departmentListView.currentItem.department, "navigationId", "root");
 
             mouseClick(dashDepartments, 0, 0);
             compare(dashDepartments.showList, true);
@@ -312,8 +311,8 @@ Item {
             department = findChild(dashDepartments, "department0child2");
             mouseClick(department, 0, 0);
             compare(dashDepartments.showList, true);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "middle2");
+            tryCompare(departmentListView.currentItem.department, "navigationId", "middle2");
 
             var departmentList1 = findChild(dashDepartments, "department1");
             allButton = findChild(departmentList1, "allButton");
@@ -325,8 +324,8 @@ Item {
             waitForRendering(departmentListView);
             mouseClick(allButton, 0, 0);
             compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "middle2");
+            tryCompare(departmentListView.currentItem.department, "navigationId", "middle2");
 
             mouseClick(dashDepartments, 0, 0);
             compare(dashDepartments.showList, true);
@@ -339,8 +338,8 @@ Item {
             department = findChild(dashDepartments, "department1child2");
             mouseClick(department, 0, 0);
             compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "childmiddle22");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "childmiddle22");
+            tryCompare(departmentListView.currentItem.department, "navigationId", "middle2");
 
             mouseClick(dashDepartments, 0, 0);
             compare(dashDepartments.showList, true);
@@ -351,8 +350,8 @@ Item {
             department = findChild(dashDepartments, "department1child3");
             mouseClick(department, 0, 0);
             compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "childmiddle23");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "childmiddle23");
+            tryCompare(departmentListView.currentItem.department, "navigationId", "middle2");
 
             mouseClick(dashDepartments, 0, 0);
             compare(dashDepartments.showList, true);
@@ -360,8 +359,8 @@ Item {
             waitForRendering(departmentListView.currentItem);
             mouseClick(backButton, 0, 0);
 
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "root");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "root");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "root");
+            tryCompare(departmentListView.currentItem.department, "navigationId", "root");
             compare(dashDepartments.showList, true);
             mouseClick(dashDepartments, 0, 0);
             compare(dashDepartments.showList, false);
@@ -374,11 +373,11 @@ Item {
             compare(dashDepartments.showList, true);
             departmentList1 = findChild(dashDepartments, "department1");
             compare(departmentList1.department.loaded, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "middle2");
             allButton = findChild(departmentList1, "allButton");
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "middle2");
             mouseClick(allButton, 0, 0);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
+            tryCompare(dashDepartments.currentDepartment, "navigationId", "middle2");
         }
     }
 }

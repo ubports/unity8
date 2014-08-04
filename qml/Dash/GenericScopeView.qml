@@ -390,7 +390,7 @@ FocusScope {
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
             scopeStyle: scopeView.scopeStyle
 
-            bottomItem: DashDepartments {
+            bottomItem: DashNavigation {
                 scope: scopeView.scope
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right
