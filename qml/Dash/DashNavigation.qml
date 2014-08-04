@@ -74,6 +74,7 @@ Item {
 
     DashNavigationButton {
         id: altNavigationButton
+        objectName: "altNavigationButton"
         height: root.height
         width: navigationButton.visible ? root.width / 2 : root.width
         scope: root.scope
@@ -84,6 +85,7 @@ Item {
 
     DashNavigationButton {
         id: navigationButton
+        objectName: "navigationButton"
         height: root.height
         width: altNavigationButton.visible ? root.width / 2 : root.width
         x: altNavigationButton.visible ? root.width / 2 : 0

@@ -270,51 +270,52 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             tryCompare(dashNavigation, "visible", true);
-            compare(dashNavigation.showList, false);
-            waitForRendering(dashNavigation);
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, true);
+            var dashNavigationButton = findChild(dashContentList.currentItem, "navigationButton");
+            compare(dashNavigationButton.showList, false);
+            waitForRendering(dashNavigationButton);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
 
-            var navigationListView = findChild(dashNavigation, "navigationListView");
+            var navigationListView = findChild(dashNavigationButton, "navigationListView");
             compare(navigationListView.count, 1);
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
 
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
 
-            var allButton = findChild(dashNavigation, "allButton");
+            var allButton = findChild(dashNavigationButton, "allButton");
             compare(allButton.visible, false);
 
-            var navigation = findChild(dashNavigation, "navigation0child3");
+            var navigation = findChild(dashNavigationButton, "navigation0child3");
             mouseClick(navigation, 0, 0);
-            compare(dashNavigation.showList, false);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle3");
+            compare(dashNavigationButton.showList, false);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle3");
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
 
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, true);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
             compare(allButton.visible, true);
 
             mouseClick(allButton, 0, 0);
-            compare(dashNavigation.showList, false);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "root");
+            compare(dashNavigationButton.showList, false);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "root");
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
 
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, true);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
             compare(allButton.visible, false);
 
-            navigation = findChild(dashNavigation, "navigation0child2");
+            navigation = findChild(dashNavigationButton, "navigation0child2");
             mouseClick(navigation, 0, 0);
-            compare(dashNavigation.showList, true);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            compare(dashNavigationButton.showList, true);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle2");
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            var navigationList1 = findChild(dashNavigation, "navigation1");
+            var navigationList1 = findChild(dashNavigationButton, "navigation1");
             allButton = findChild(navigationList1, "allButton");
             var backButton = findChild(findChild(navigationList1, "navigation1"), "backButton");
             compare(allButton.visible, true);
@@ -323,61 +324,61 @@ Item {
             tryCompare(navigationListView, "contentX", navigationList1.x);
             waitForRendering(navigationListView);
             mouseClick(allButton, 0, 0);
-            compare(dashNavigation.showList, false);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            compare(dashNavigationButton.showList, false);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle2");
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, true);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
             compare(allButton.visible, true);
             compare(backButton.visible, true);
 
             tryCompare(navigationList1.navigation, "loaded", true);
-            navigation = findChild(dashNavigation, "navigation1child2");
+            navigation = findChild(dashNavigationButton, "navigation1child2");
             mouseClick(navigation, 0, 0);
-            compare(dashNavigation.showList, false);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "childmiddle22");
+            compare(dashNavigationButton.showList, false);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "childmiddle22");
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, true);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
 
             tryCompare(navigationList1.navigation, "loaded", true);
-            navigation = findChild(dashNavigation, "navigation1child3");
+            navigation = findChild(dashNavigationButton, "navigation1child3");
             mouseClick(navigation, 0, 0);
-            compare(dashNavigation.showList, false);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "childmiddle23");
+            compare(dashNavigationButton.showList, false);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "childmiddle23");
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, true);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
             mouseClick(backButton, 0, 0);
 
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "root");
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "root");
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
-            compare(dashNavigation.showList, true);
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, false);
+            compare(dashNavigationButton.showList, true);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, false);
 
-            mouseClick(dashNavigation, 0, 0);
-            compare(dashNavigation.showList, true);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
-            navigation = findChild(dashNavigation, "navigation0child2");
+            navigation = findChild(dashNavigationButton, "navigation0child2");
             mouseClick(navigation, 0, 0);
-            compare(dashNavigation.showList, true);
-            navigationList1 = findChild(dashNavigation, "navigation1");
+            compare(dashNavigationButton.showList, true);
+            navigationList1 = findChild(dashNavigationButton, "navigation1");
             compare(navigationList1.navigation.loaded, false);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle2");
             allButton = findChild(navigationList1, "allButton");
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle2");
             mouseClick(allButton, 0, 0);
-            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle2");
         }
     }
 }
