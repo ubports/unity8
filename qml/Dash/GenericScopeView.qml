@@ -114,7 +114,8 @@ FocusScope {
         x: previewListView.open ? -width : 0
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
-        height: parent.height
+        height: floatingSeeLess.visible ? parent.height - floatingSeeLess.height : parent.height
+        clip: height != parent.height
 
         model: scopeView.categories
         forceNoClip: previewListView.open
@@ -321,6 +322,7 @@ FocusScope {
                 onClicked: {
                     if (categoryView.expandedCategoryId != baseItem.category) {
                         categoryView.expandedCategoryId = baseItem.category;
+                        floatingSeeLess.companionTo = seeAll;
                     } else {
                         categoryView.expandedCategoryId = "";
                     }
@@ -400,6 +402,54 @@ FocusScope {
             }
 
             onBackClicked: scopeView.backClicked()
+        }
+    }
+
+    AbstractButton {
+        id: floatingSeeLess
+
+        property var companionTo: null
+        property bool companionLowerThanSelf: false
+
+        objectName: "floatingSeeLess"
+        anchors {
+            bottom: parent.bottom
+            left: categoryView.left
+            right: categoryView.right
+        }
+        height: seeLessLabel.font.pixelSize + units.gu(4)
+        visible: companionTo && companionLowerThanSelf
+
+        onClicked: categoryView.expandedCategoryId = "";
+
+        function updateLowerThan() {
+            var pos = companionTo.mapToItem(floatingSeeLess, 0, 0);
+            companionLowerThanSelf = pos.y >= 0;
+            if (!companionLowerThanSelf && categoryView.expandedCategoryId === "") {
+                companionTo = null;
+            }
+        }
+
+        Label {
+            id: seeLessLabel
+            text: i18n.tr("See less")
+            anchors {
+                centerIn: parent
+                verticalCenterOffset: units.gu(-0.5)
+            }
+            fontSize: "small"
+            font.weight: Font.Bold
+            color: scopeStyle ? scopeStyle.foreground : "grey"
+        }
+
+        Connections {
+            target: floatingSeeLess.companionTo ? categoryView : null
+            onContentYChanged: floatingSeeLess.updateLowerThan();
+        }
+
+        Connections {
+            target: floatingSeeLess.companionTo ? floatingSeeLess.companionTo : null
+            onYChanged: floatingSeeLess.updateLowerThan();
         }
     }
 
