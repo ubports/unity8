@@ -57,6 +57,11 @@ Item {
         signalName: "sessionStarted"
     }
 
+    SignalSpy {
+        id: dashCommunicatorSpy
+        signalName: "setCurrentScopeCalled"
+    }
+
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
@@ -67,44 +72,10 @@ Item {
         when: windowShown
 
         function initTestCase() {
-            var ok = false;
-            var attempts = 0;
-            var maxAttempts = 1000;
-
-            // Qt loads a qml scene asynchronously. So early on, some findChild() calls made in
-            // tests may fail because the desired child item wasn't loaded yet.
-            // Thus here we try to ensure the scene has been fully loaded before proceeding with the tests.
-            // As I couldn't find an API in QQuickView & friends to tell me that the scene is 100% loaded
-            // (all items instantiated, etc), I resort to checking the existence of some key items until
-            // repeatedly until they're all there.
-            do {
-                var dashContentList = findChild(shell, "dashContentList");
-                waitForRendering(dashContentList);
-                var homeLoader = findChild(dashContentList, "clickscope loader");
-                ok = homeLoader !== null
-                    && homeLoader.item !== undefined;
-
-                var greeter = findChild(shell, "greeter");
-                ok &= greeter !== null;
-
-                var launcherPanel = findChild(shell, "launcherPanel");
-                ok &= launcherPanel !== null;
-
-                attempts++;
-                if (!ok) {
-                    console.log("Attempt " + attempts + " failed. Waiting a bit before trying again.");
-                    // wait a bit before retrying
-                    wait(100);
-                } else {
-                    console.log("All seem fine after " + attempts + " attempts.");
-                }
-            } while (!ok && attempts <= maxAttempts);
-
-            verify(ok);
-
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
+            dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
         }
 
         function cleanup() {
@@ -117,56 +88,16 @@ Item {
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
-            var dashContent = findChild(shell, "dashContent");
-            dashContent.closePreview();
-
-            var dashHome = findChild(shell, "clickscope loader");
-            swipeUntilScopeViewIsReached(dashHome);
-
+            waitForUIToSettle();
             hideIndicators();
         }
 
-        function killApps(apps) {
-            if (!apps) return;
-            while (apps.count > 0) {
-                ApplicationManager.stopApplication(apps.get(0).appId);
+        function killApps() {
+            while (ApplicationManager.count > 1) {
+                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
+                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
             }
-            compare(ApplicationManager.count, 0)
-        }
-
-        /*
-           Test the effect of a right-edge drag on the dash in 3 situations:
-           1 - when no application has been launched yet
-           2 - when there's a minimized application
-           3 - after the last running application has been closed/stopped
-
-           The behavior of Dash on 3 should be the same as on 1.
-         */
-        function test_rightEdgeDrag() {
-            checkRightEdgeDragWithNoRunningApps();
-
-            dragLauncherIntoView();
-
-            // Launch an app from the launcher
-            tapOnAppIconInLauncher();
-            waitUntilApplicationWindowIsFullyVisible();
-
-            // Minimize the application we just launched
-            swipeFromLeftEdge(units.gu(27));
-
-            waitForUIToSettle();
-
-            checkRightEdgeDragWithMinimizedApp();
-
-            // Minimize that application once again
-            swipeFromLeftEdge(units.gu(27));
-
-            // Right edge behavior should now be the same as before that app,
-            // was launched.  Manually cleanup beforehand to get to initial
-            // state.
-            cleanup();
-            waitForUIToSettle();
-            checkRightEdgeDragWithNoRunningApps();
+            compare(ApplicationManager.count, 1)
         }
 
         function test_leftEdgeDrag_data() {
@@ -189,7 +120,7 @@ Item {
 
             swipeFromLeftEdge(data.swipeLength);
             if (data.appHides)
-                waitUntilApplicationWindowIsFullyHidden();
+                waitUntilDashIsFocused();
             else
                 waitUntilApplicationWindowIsFullyVisible();
         }
@@ -245,99 +176,17 @@ Item {
         }
 
         /*
-            Perform a right-edge drag when the Dash is being show and there are
-            no running/minimized apps to be restored.
-
-            The expected behavior is that an animation should be played to hint the
-            user that his right-edge drag gesture has been successfully recognized
-            but there is no application to be brought to foreground.
-         */
-        function checkRightEdgeDragWithNoRunningApps() {
-            var touchX = shell.width - (shell.edgeSize / 2);
-            var touchY = shell.height / 2;
-
-            var dash = findChild(shell, "dash");
-            // check that dash has normal scale and opacity
-            tryCompare(dash, "contentScale", 1.0);
-            tryCompare(dash, "opacity", 1.0);
-
-            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
-
-            // check that Dash has been scaled down and had its opacity reduced
-            tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
-            tryCompareFunction(function() { return dash.opacity <= 0.5; }, true);
-
-            touchRelease(shell, shell.width * 0.1, touchY);
-
-            // and now everything should have gone back to normal
-            tryCompare(dash, "contentScale", 1.0);
-            tryCompare(dash, "opacity", 1.0);
-        }
-
-        /*
-            Perform a right-edge drag when the Dash is being show and there is
-            a running/minimized app to be restored.
-
-            The expected behavior is that the dash should fade away and ultimately be
-            made invisible once the gesture is finished as the restored app will now
-            be on foreground.
-         */
-        function checkRightEdgeDragWithMinimizedApp() {
-            var touchX = shell.width - (shell.edgeSize / 2);
-            var touchY = shell.height / 2;
-
-            var dash = findChild(shell, "dash");
-            // check that dash has normal scale and opacity
-            tryCompare(dash, "contentScale", 1.0);
-            tryCompare(dash, "opacity", 1.0);
-
-            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
-
-            // check that Dash has been scaled down and had its opacity reduced
-            tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
-            tryCompareFunction(function() { return dash.opacity <= 0.5; }, true);
-
-            touchRelease(shell, shell.width * 0.1, touchY);
-
-            // dash should have gone away, now that the app is on foreground
-            tryCompare(dash, "visible", false);
-        }
-
-        /*
           Regression test for bug https://bugs.launchpad.net/touch-preview-images/+bug/1193419
 
-          When the user minimizes an application (left-edge swipe) he should always end up in the "Running Apps"
-          category of the "Applications" scope view.
+          When the user minimizes an application (left-edge swipe) he should always end up in the
+          "Applications" scope view.
 
           Steps:
-          - go to apps lens
-          - scroll to the bottom
-          - reveal launcher and launch an app
+          - reveal launcher and launch an app that covers the dash
           - perform long left edge swipe to go minimize the app and go back to the dash.
-
-          Expected Results
-          - apps lens shown
+          - verify the setCurrentScope() D-Bus call to the dash has been called for the correct scope id.
          */
         function test_minimizingAppTakesToDashApps() {
-            var dashApps = findChild(shell, "clickscope");
-            swipeUntilScopeViewIsReached(dashApps);
-
-            // swipe finger up until the running/recent apps section (which we assume
-            // it's the first one) is as far from view as possible.
-            // We also assume that DashApps is tall enough that it's scrollable
-            var appsCategoryListView = findChild(dashApps, "categoryListView");
-            while (!appsCategoryListView.atYEnd) {
-                swipeUpFromCenter();
-                tryCompare(appsCategoryListView, "moving", false);
-            }
-
-            // Switch away from the Applications scope.
-            swipeRightFromCenter();
-            waitUntilItemStopsMoving(dashApps);
-            verify(!itemIsOnScreen(dashApps));
-
             dragLauncherIntoView();
 
             // Launch an app from the launcher
@@ -345,19 +194,16 @@ Item {
 
             waitUntilApplicationWindowIsFullyVisible();
 
-            // Dragging launcher into view with a little bit of gap (units.gu(1)) should switch to Apps scope
-            dragLauncherIntoView();
-            verify(itemIsOnScreen(dashApps));
+            verify(ApplicationManager.focusedApplicationId !== "unity8-dash")
 
+            dashCommunicatorSpy.clear();
             // Minimize the application we just launched
             swipeFromLeftEdge(units.gu(27));
 
-            // Wait for the whole UI to settle down
-            waitUntilApplicationWindowIsFullyHidden();
-            waitUntilItemStopsMoving(dashApps);
-            tryCompare(appsCategoryListView, "moving", false);
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
-            verify(itemIsOnScreen(dashApps));
+            compare(dashCommunicatorSpy.count, 1);
+            compare(dashCommunicatorSpy.signalArguments[0][0], "clickscope");
         }
 
         function test_showInputMethod() {
@@ -414,9 +260,14 @@ Item {
 
         // Wait for the whole UI to settle down
         function waitForUIToSettle() {
-            waitUntilApplicationWindowIsFullyHidden();
-            var dashContentList = findChild(shell, "dashContentList");
-            tryCompare(dashContentList, "moving", false);
+            var launcher = findChild(shell, "launcherPanel")
+            tryCompareFunction(function() {return launcher.x === 0 || launcher.x === -launcher.width;}, true);
+            if (launcher.x === 0) {
+                mouseClick(shell, shell.width / 2, shell.height / 2)
+            }
+            tryCompare(launcher, "x", -launcher.width)
+
+            waitForRendering(shell)
         }
 
         function dragToCloseIndicatorsPanel() {
@@ -473,48 +324,19 @@ Item {
         }
 
         function waitUntilApplicationWindowIsFullyVisible() {
-            var underlay = findChild(shell, "underlay");
-            tryCompare(underlay, "visible", false);
+            var appDelegate = findChild(shell, "appDelegate0")
+            var surfaceContainer = findChild(appDelegate, "surfaceContainer");
+            tryCompareFunction(function() { return surfaceContainer.surface !== null; }, true);
         }
 
-        function waitUntilApplicationWindowIsFullyHidden() {
-            var stages = findChild(shell, "stages");
-            tryCompare(stages, "fullyHidden", true);
-        }
-
-        function swipeUntilScopeViewIsReached(scopeView) {
-            while (!itemIsOnScreen(scopeView)) {
-                if (itemIsToLeftOfScreen(scopeView)) {
-                    swipeRightFromCenter();
-                } else {
-                    swipeLeftFromCenter();
-                }
-                waitUntilItemStopsMoving(scopeView);
-            }
+        function waitUntilDashIsFocused() {
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
         function swipeFromLeftEdge(swipeLength) {
             var touchStartX = 2;
             var touchStartY = shell.height / 2;
             touchFlick(shell, touchStartX, touchStartY, swipeLength, touchStartY);
-        }
-
-        function swipeLeftFromCenter() {
-            var touchStartX = shell.width * 3 / 4;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, 0, touchStartY);
-        }
-
-        function swipeRightFromCenter() {
-            var touchStartX = shell.width * 3 / 4;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, shell.width, touchStartY);
-        }
-
-        function swipeUpFromCenter() {
-            var touchStartX = shell.width / 2;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, touchStartX, 0);
         }
 
         function itemIsOnScreen(item) {
@@ -526,64 +348,6 @@ Item {
                 && itemRectInShell.y + itemRectInShell.height <= shell.height;
         }
 
-        function itemIsToLeftOfScreen(item) {
-            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-            return itemRectInShell.x < 0;
-        }
-
-        function waitUntilItemStopsMoving(item) {
-            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-            var previousX = itemRectInShell.x;
-            var previousY = itemRectInShell.y;
-            var isStill = false;
-
-            do {
-                wait(100);
-                itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-                if (itemRectInShell.x == previousX && itemRectInShell.y == previousY) {
-                    isStill = true;
-                } else {
-                    previousX = itemRectInShell.x;
-                    previousY = itemRectInShell.y;
-                }
-            } while (!isStill);
-        }
-
-        function test_DashShown_data() {
-            return [
-                {tag: "in focus", greeter: false, app: false, launcher: false, indicators: false, expectedShown: true},
-                {tag: "under greeter", greeter: true, app: false, launcher: false, indicators: false, expectedShown: false},
-                {tag: "under app", greeter: false, app: true, launcher: false, indicators: false, expectedShown: false},
-                {tag: "under launcher", greeter: false, app: false, launcher: true, indicators: false, expectedShown: true},
-                {tag: "under indicators", greeter: false, app: false, launcher: false, indicators: true, expectedShown: false},
-            ]
-        }
-
-        function test_DashShown(data) {
-            if (data.greeter) {
-                // Swipe the greeter in
-                var greeter = findChild(shell, "greeter");
-                LightDM.Greeter.showGreeter();
-                tryCompare(greeter, "showProgress", 1);
-            }
-
-            if (data.app) {
-                dragLauncherIntoView();
-                tapOnAppIconInLauncher();
-            }
-
-            if (data.launcher) {
-                dragLauncherIntoView();
-            }
-
-            if (data.indicators) {
-                showIndicators();
-            }
-
-            var dash = findChild(shell, "dash");
-            tryCompare(dash, "shown", data.expectedShown);
-        }
-
         function test_focusRequestedHidesGreeter() {
             var greeter = findChild(shell, "greeter");
 
@@ -592,10 +356,9 @@ Item {
             tryCompareFunction(function() { return app.surface != null }, true);
 
             // Minimize the application we just launched
-            swipeFromLeftEdge(units.gu(27));
+            swipeFromLeftEdge(units.gu(26) + 1);
 
-            // Wait for the whole UI to settle down
-            waitUntilApplicationWindowIsFullyHidden();
+            waitUntilDashIsFocused();
 
             greeter.show();
             tryCompare(greeter, "showProgress", 1);
@@ -611,8 +374,9 @@ Item {
 
             showIndicators();
 
+            var oldCount = ApplicationManager.count;
             ApplicationManager.startApplication("camera-app");
-            tryCompare(ApplicationManager, "count", 1);
+            tryCompare(ApplicationManager, "count", oldCount + 1);
 
             tryCompare(indicators, "fullyClosed", true);
         }
@@ -621,6 +385,7 @@ Item {
         function test_showGreeterDBusCall() {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 0)
+            waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
             tryCompare(greeter, "showProgress", 1)
         }
@@ -629,6 +394,7 @@ Item {
             sessionSpy.clear()
 
             var greeter = findChild(shell, "greeter")
+            waitForRendering(greeter)
             greeter.show()
             tryCompare(greeter, "showProgress", 1)
 
@@ -648,6 +414,27 @@ Item {
             tryCompare(panel, "fullscreenMode", true);
             ApplicationManager.requestFocusApplication("gallery-app");
             tryCompare(panel, "fullscreenMode", false);
+        }
+
+        function test_leftEdgeDragFullscreen() {
+            var panel = findChild(shell, "panel");
+            tryCompare(panel, "fullscreenMode", false)
+
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(panel, "fullscreenMode", true)
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+
+            touchFlick(shell, touchStartX, touchStartY, units.gu(2), touchStartY, true, false);
+
+            compare(panel.fullscreenMode, true);
+
+            touchFlick(shell, units.gu(2), touchStartY, units.gu(10), touchStartY, false, false);
+
+            tryCompare(panel, "fullscreenMode", false);
+
+            touchRelease(shell);
         }
     }
 }
