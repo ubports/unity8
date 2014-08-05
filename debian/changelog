@@ -1,3 +1,16 @@
+unity8 (8.00+14.10.20140805-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * Split the dash from the shell into a separate app (LP: #1232687)
+
+  [ Leo Arias ]
+  * Update the autopilot tests to work with the new dash app.
+
+  [ Daniel d'Andrada ]
+  * Split the dash from the shell into a separate app (LP: #1232687)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 05 Aug 2014 12:06:31 +0000
+
 unity8 (8.00+14.10.20140731.1-0ubuntu1) utopic; urgency=low
 
   [ Gerry Boland ]
