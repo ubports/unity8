@@ -64,7 +64,7 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
         Q_FOREACH (QWindow *win, unity->allWindows()) {
             QQuickWindow *quickWin = qobject_cast<QQuickWindow*>(win);
             if (quickWin) {
-                image = image.scaledToWidth(quickWin->width() - m_appManager->rightMargin());
+                image = image.scaledToWidth(quickWin->width());
                 break;
             }
         }
