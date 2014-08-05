@@ -125,6 +125,11 @@ bool Scopes::loaded() const
     return m_loaded;
 }
 
+unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
+{
+    return nullptr;
+}
+
 void Scopes::addScope(Scope* scope)
 {
     int index = rowCount();

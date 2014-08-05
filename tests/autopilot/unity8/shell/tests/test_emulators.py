@@ -47,24 +47,13 @@ class MainWindowTestCase(tests.UnityTestCase):
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
 
+
+class DashEmulatorTestCase(tests.DashBaseTestCase):
+
     def test_search(self):
-        self.main_window.search('Test')
-        text_field = self.main_window.get_dash()._get_search_text_field()
+        self.dash.enter_search_query('Test')
+        text_field = self.dash._get_search_text_field()
         self.assertEqual(text_field.text, 'Test')
-
-
-class DashBaseTestCase(tests.UnityTestCase):
-
-    scenarios = tests._get_device_emulation_scenarios()
-
-    def setUp(self):
-        super(DashBaseTestCase, self).setUp()
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
-        self.dash = self.main_window.get_dash()
-
-
-class DashEmulatorTestCase(DashBaseTestCase):
 
     def test_open_unexisting_scope(self):
         scope_name = 'unexisting'
@@ -142,10 +131,10 @@ class DashEmulatorTestCase(DashBaseTestCase):
         scope_id = 'clickscope'
         scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
-        self.assertIsInstance(scope, dash_emulators.DashApps)
+        self.assertIsInstance(scope, dash_emulators.GenericScopeView)
 
 
-class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
+class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
@@ -159,7 +148,7 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
         self.assertTrue(preview.isCurrent)
 
 
-class DashAppsEmulatorTestCase(DashBaseTestCase):
+class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
 
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',

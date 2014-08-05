@@ -25,7 +25,8 @@ import signal
 import subprocess
 import time
 
-from testtools.matchers._basic import Equals
+import fixtures
+from testtools.matchers import Equals, MismatchError
 from autopilot.matchers import Eventually
 from autopilot.introspection import get_proxy_object_for_existing_process
 
@@ -100,16 +101,30 @@ class UpstartIntegrationTests(UnityTestCase):
                 emulator_base=UnityEmulatorBase,))
 
     def test_no_sigstop(self):
-        self.patch_environment("UNITY_MIR_EMITS_SIGSTOP", "")
+        self.useFixture(
+            fixtures.EnvironmentVariable(
+                'UNITY_MIR_EMITS_SIGSTOP', newvalue=None))
         self._launch_unity()
+
+        try:
+            self.assertThat(
+                lambda: os.WIFSTOPPED(self._get_status()),
+                Eventually(Equals(True)))
+        except MismatchError:
+            pass
+        else:
+            self.process.send_signal(signal.SIGCONT)
+            self.fail('Unity8 raised SIGSTOP')
+
         self._set_proxy()
 
         logger.debug("Unity started, waiting for it to be ready.")
-        self.assertUnityReady()
+        self.wait_for_unity()
         logger.debug("Unity loaded and ready.")
 
     def test_expect_sigstop(self):
-        self.patch_environment("UNITY_MIR_EMITS_SIGSTOP", "1")
+        self.useFixture(
+            fixtures.EnvironmentVariable('UNITY_MIR_EMITS_SIGSTOP', '1'))
         self._launch_unity()
         self.assertThat(
             lambda: os.WIFSTOPPED(self._get_status()),
@@ -122,5 +137,5 @@ class UpstartIntegrationTests(UnityTestCase):
 
         logger.debug("Unity started, waiting for it to be ready.")
         self._set_proxy()
-        self.assertUnityReady()
+        self.wait_for_unity()
         logger.debug("Unity loaded and ready.")
