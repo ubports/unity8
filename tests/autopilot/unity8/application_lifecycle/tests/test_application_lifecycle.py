@@ -106,7 +106,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.assert_current_focused_application(application_name)
 
         self.main_window.show_dash_swiping()
-        self.assert_current_focused_application('')
+        self.assert_current_focused_application('unity8-dash')
 
         process_helpers.lock_unity()
         greeter = self.main_window.get_greeter()

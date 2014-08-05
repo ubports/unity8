@@ -88,22 +88,12 @@ public:
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
 
-public:
-    void showWindow(QQuickItem *parent);
-    void hideWindow();
-
 private Q_SLOTS:
-    void onWindowComponentStatusChanged(QQmlComponent::Status status);
     void onStateChanged(State state);
 
     void createSurface();
 
 private:
-    void createWindowItem();
-    void doCreateWindowItem();
-    void createWindowComponent();
-    QQuickItem *m_windowItem;
-    QQmlComponent *m_windowComponent;
     QQuickItem *m_parentItem;
     MirSurfaceItem* m_surface;
 };

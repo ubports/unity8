@@ -31,8 +31,6 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_windowItem(0)
-    , m_windowComponent(0)
     , m_parentItem(0)
     , m_surface(0)
 {
@@ -45,8 +43,6 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_windowItem(0)
-    , m_windowComponent(0)
     , m_parentItem(0)
     , m_surface(0)
 {
@@ -59,12 +55,6 @@ ApplicationInfo::~ApplicationInfo()
         Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
         m_surface->deleteLater();
     }
-}
-
-void ApplicationInfo::onWindowComponentStatusChanged(QQmlComponent::Status status)
-{
-    if (status == QQmlComponent::Ready && !m_windowItem)
-        doCreateWindowItem();
 }
 
 void ApplicationInfo::onStateChanged(State state)
@@ -107,56 +97,4 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
 
     Q_EMIT surfaceChanged(m_surface);
     SurfaceManager::singleton()->registerSurface(m_surface);
-}
-
-void ApplicationInfo::createWindowComponent()
-{
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
-    QQmlEngine *engine = quickView->engine();
-
-    m_windowComponent = new QQmlComponent(engine, this);
-    m_windowComponent->setData(m_windowQml.toLatin1(), QUrl());
-}
-
-void ApplicationInfo::doCreateWindowItem()
-{
-    m_windowItem = qobject_cast<QQuickItem *>(m_windowComponent->create());
-    m_windowItem->setParentItem(m_parentItem);
-}
-
-void ApplicationInfo::createWindowItem()
-{
-    if (!m_windowComponent)
-        createWindowComponent();
-
-    // only create the windowItem once the component is ready
-    if (!m_windowComponent->isReady()) {
-        connect(m_windowComponent, &QQmlComponent::statusChanged,
-                this, &ApplicationInfo::onWindowComponentStatusChanged);
-    } else {
-        doCreateWindowItem();
-    }
-}
-
-void ApplicationInfo::showWindow(QQuickItem *parent)
-{
-    m_parentItem = parent;
-
-    if (!m_windowItem)
-        createWindowItem();
-
-    if (m_windowItem) {
-        m_windowItem->setVisible(true);
-    }
-}
-
-void ApplicationInfo::hideWindow()
-{
-    if (!m_windowItem)
-        return;
-
-    m_windowItem->setVisible(false);
 }

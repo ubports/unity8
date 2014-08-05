@@ -59,6 +59,7 @@ Item {
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "count", 0);
             scopes.load();
+            tryCompare(dashContentList, "currentIndex", 0);
         }
 
         function get_scope_data() {
@@ -90,6 +91,24 @@ Item {
 
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);
+        }
+
+        function test_setCurrentScope() {
+            var dashContentList = findChild(dash, "dashContentList");
+            var startX = dash.width - units.gu(1);
+            var startY = dash.height / 2;
+            var stopX = units.gu(1)
+            var stopY = startY;
+            var retry = 0;
+            while (dashContentList.currentIndex != 2 && retry <= 5) {
+                mouseFlick(dash, startX, startY, stopX, stopY)
+                waitForRendering(dashContentList)
+                retry++;
+            }
+            compare(dashContentList.currentIndex, 2);
+            var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
+            dashCommunicatorService.mockSetCurrentScope("clickscope", true, true);
+            tryCompare(dashContentList, "currentIndex", 1)
         }
     }
 }
