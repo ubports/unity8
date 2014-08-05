@@ -2,6 +2,7 @@ add_subdirectory(Application)
 add_subdirectory(Indicators)
 add_subdirectory(Launcher)
 add_subdirectory(Notifications)
+add_subdirectory(DashCommunicator)
 
 pkg_search_module(DEE dee-1.0 REQUIRED)
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)

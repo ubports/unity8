@@ -37,6 +37,7 @@ Item {
 
     SurfaceContainer {
         id: surfaceContainer
+        objectName: "surfaceContainer"
         anchors.fill: parent
         surface: model.surface
         property bool appHasCreatedASurface: false
@@ -172,6 +173,11 @@ Item {
         }
 
         onDragEnd: {
+            if (model.appId == "unity8-dash") {
+                animation.animate("center")
+                return;
+            }
+
             // velocity and distance values specified by design prototype
             if ((dragVelocity < -units.gu(40) && distance < -units.gu(8)) || distance < -root.height / 2) {
                 animation.animate("up")
