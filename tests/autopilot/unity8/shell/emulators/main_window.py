@@ -25,7 +25,6 @@ from autopilot import input
 from unity8.shell import emulators
 from unity8.shell.emulators.greeter import Greeter
 from unity8.shell.emulators.hud import Hud
-from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.launcher import Launcher
 
 logger = logging.getLogger(__name__)
@@ -61,9 +60,6 @@ class QQuickView(emulators.UnityEmulatorBase):
     def get_hud_edge_drag_area(self):
         return self.select_single(objectName="hudDragArea")
 
-    def get_dash(self):
-        return self.select_single(Dash)
-
     def get_bottombar(self):
         return self.select_single("Bottombar")
 
@@ -74,12 +70,6 @@ class QQuickView(emulators.UnityEmulatorBase):
         return self.select_single(
             "QQuickLoader",
             objectName="pinPadLoader"
-        )
-
-    def get_pinPadButton(self, buttonId):
-        return self.select_single(
-            "PinPadButton",
-            objectName="pinPadButton%i" % buttonId
         )
 
     def get_lockscreen(self):
@@ -117,20 +107,44 @@ class QQuickView(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def show_dash_swiping(self):
         """Show the dash swiping from the left."""
-        width = self.width
-        height = self.height
-        start_x = 0
-        start_y = height // 2
-        end_x = width
-        end_y = start_y
+        x, y, width, height = self._get_shell().globalRect
+        start_x = x
+        end_x = x + width
+        start_y = end_y = y + height // 2
 
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
-        return self.get_dash()
+
+    def _get_shell(self):
+        return self.select_single('Shell')
 
     def get_current_focused_app_id(self):
         """Return the id of the focused application."""
-        return self.select_single('Shell').focusedApplicationId
+        return self._get_shell().focusedApplicationId
 
     @autopilot_logging.log_action(logger.info)
-    def search(self, query):
-        self.get_dash().enter_search_query(query)
+    def enter_pin_code(self, code):
+        """Enter code 'code' into the single-pin lightdm pincode entry screen.
+
+        :param code: must be a string of numeric characters.
+        :raises: TypeError if code is not a string.
+        :raises: ValueError if code contains non-numeric characters.
+
+        """
+        if not isinstance(code, str):
+            raise TypeError(
+                "'code' parameter must be a string, not %r."
+                % type(code)
+            )
+        for num in code:
+            if not num.isdigit():
+                raise ValueError(
+                    "'code' parameter contains non-numeric characters."
+                )
+            self.pointing_device.click_object(
+                self._get_pinpad_button(int(num)))
+
+    def _get_pinpad_button(self, button_id):
+        return self.select_single(
+            'PinPadButton',
+            objectName='pinPadButton{}'.format(button_id)
+        )
