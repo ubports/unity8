@@ -231,9 +231,10 @@ Item {
         }
 
         function cleanup() {
-            while (ApplicationManager.count > 0) {
+            while (ApplicationManager.count > 1) {
                 var oldCount = ApplicationManager.count;
-                ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+                var closingIndex = ApplicationManager.focusedApplicationId == "unity8-dash" ? 1 : 0
+                ApplicationManager.stopApplication(ApplicationManager.get(closingIndex).appId)
                 tryCompare(ApplicationManager, "count", oldCount - 1)
             }
         }
