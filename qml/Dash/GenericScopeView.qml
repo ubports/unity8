@@ -48,7 +48,7 @@ FocusScope {
     }
 
     function activateApp(appId) {
-        shell.activateApplication(appId);
+        Qt.openUrlExternally(appId);
     }
 
     function positionAtBeginning() {
