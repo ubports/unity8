@@ -24,6 +24,7 @@ try:
 except ImportError:
     Gio = None
 
+from autopilot import introspection
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
@@ -34,6 +35,10 @@ import os.path
 import subprocess
 import sys
 from testtools.matchers import Equals
+from ubuntuuitoolkit import (
+    fixture_setup as toolkit_fixtures,
+    ubuntu_scenarios
+)
 
 from unity8 import (
     get_lib_path,
@@ -42,9 +47,15 @@ from unity8 import (
     get_default_extra_mock_libraries,
     get_data_dirs
 )
-from unity8.process_helpers import restart_unity_with_testability
-from unity8.shell.emulators import main_window as main_window_emulator
-from unity8.shell.emulators.dash import Dash
+from unity8 import (
+    fixture_setup,
+    process_helpers
+)
+from unity8.shell import emulators
+from unity8.shell.emulators import (
+    dash as dash_helpers,
+    main_window as main_window_emulator,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -76,6 +87,26 @@ def _get_device_emulation_scenarios(devices='All'):
             )
     else:
         return [native]
+
+
+def is_unity7_running():
+    """Return True if Unity7 is running. Otherwise, return False."""
+    return (
+        Gio is not None and
+        UNITYSHELL_GSETTINGS_SCHEMA in
+        Gio.Settings.list_relocatable_schemas()
+    )
+
+
+def get_qml_import_path_with_mock():
+    """Return the QML2_IMPORT_PATH value with the mock path prepended."""
+    qml_import_path = [get_mocks_library_path()]
+    if os.getenv('QML2_IMPORT_PATH') is not None:
+        qml_import_path.append(os.getenv('QML2_IMPORT_PATH'))
+
+    qml_import_path = ':'.join(qml_import_path)
+    logger.info("New QML2 import path: %s", qml_import_path)
+    return qml_import_path
 
 
 class UnityTestCase(AutopilotTestCase):
@@ -118,23 +149,8 @@ class UnityTestCase(AutopilotTestCase):
 
     def setUp(self):
         super(UnityTestCase, self).setUp()
-        if (Gio is not None and
-                UNITYSHELL_GSETTINGS_SCHEMA in
-                Gio.Settings.list_relocatable_schemas()):
-
-            # Hide Unity launcher
-            self._unityshell_schema = Gio.Settings.new_with_path(
-                UNITYSHELL_GSETTINGS_SCHEMA,
-                UNITYSHELL_GSETTINGS_PATH,
-            )
-            self._launcher_hide_mode = self._unityshell_schema.get_int(
-                UNITYSHELL_LAUNCHER_KEY,
-            )
-            self._unityshell_schema.set_int(
-                UNITYSHELL_LAUNCHER_KEY,
-                UNITYSHELL_LAUNCHER_MODE,
-            )
-            self.addCleanup(self._reset_launcher)
+        if is_unity7_running():
+            self.useFixture(toolkit_fixtures.HideUnity7Launcher())
 
         self._proxy = None
         self._lightdm_mock_type = None
@@ -150,13 +166,6 @@ class UnityTestCase(AutopilotTestCase):
 
         self.touch = Touch.create()
         self._setup_display_details()
-
-    def _reset_launcher(self):
-        """Reset Unity launcher hide mode"""
-        self._unityshell_schema.set_int(
-            UNITYSHELL_LAUNCHER_KEY,
-            self._launcher_hide_mode,
-        )
 
     def _setup_display_details(self):
         scale_divisor = self._determine_geometry()
@@ -263,7 +272,9 @@ class UnityTestCase(AutopilotTestCase):
             self.patch_lightdm_mock()
 
         if self._qml_mock_enabled:
-            self._setup_extra_mock_environment_patch()
+            self._environment['QML2_IMPORT_PATH'] = (
+                get_qml_import_path_with_mock()
+            )
 
         if self._data_dirs_mock_enabled:
             self._patch_data_dirs()
@@ -292,8 +303,13 @@ class UnityTestCase(AutopilotTestCase):
 
         # Ensure that the dash is visible before we return:
         logger.debug("Unity started, waiting for it to be ready.")
-        self.assertUnityReady()
+        self.wait_for_unity()
         logger.debug("Unity loaded and ready.")
+
+        if model() == 'Desktop':
+            # On desktop, close the dash because it's opened in a separate
+            # window and it gets in the way.
+            process_helpers.stop_job('unity8-dash')
 
         return app_proxy
 
@@ -308,7 +324,7 @@ class UnityTestCase(AutopilotTestCase):
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
-        return restart_unity_with_testability(*all_args)
+        return process_helpers.restart_unity_with_testability(*all_args)
 
     def _cleanup_launching_upstart_unity(self):
         logger.info("Stopping unity")
@@ -353,15 +369,6 @@ class UnityTestCase(AutopilotTestCase):
             )
         return lightdm_mock_path
 
-    def _setup_extra_mock_environment_patch(self):
-        qml_import_path = [get_mocks_library_path()]
-        if os.getenv('QML2_IMPORT_PATH') is not None:
-            qml_import_path.append(os.getenv('QML2_IMPORT_PATH'))
-
-        qml_import_path = ':'.join(qml_import_path)
-        logger.info("New QML2 import path: %s", qml_import_path)
-        self._environment['QML2_IMPORT_PATH'] = qml_import_path
-
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common
         parts of the shell later on.
@@ -373,10 +380,80 @@ class UnityTestCase(AutopilotTestCase):
     def _clear_proxy(self):
         self._proxy = None
 
-    def assertUnityReady(self):
-        dash = self.get_dash()
-        home_scope = dash.get_scope('clickscope')
+    def wait_for_unity(self):
+        greeter_content_loader = self.main_window.wait_select_single(
+            objectName='greeterContentLoader')
+        greeter_content_loader.progress.wait_for(1)
 
+    def get_dash(self):
+        pid = process_helpers.get_job_pid('unity8-dash')
+        dash_proxy = introspection.get_proxy_object_for_existing_process(
+            pid=pid,
+            emulator_base=emulators.UnityEmulatorBase,
+        )
+        dash_app = dash_helpers.DashApp(dash_proxy)
+        return dash_app.dash
+
+    @property
+    def main_window(self):
+        return self._proxy.select_single(main_window_emulator.QQuickView)
+
+
+class DashBaseTestCase(AutopilotTestCase):
+
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
+    qml_mock_enabled = True
+    environment = {}
+
+    def setUp(self):
+        super(DashBaseTestCase, self).setUp()
+
+        if is_unity7_running():
+            self.useFixture(toolkit_fixtures.HideUnity7Launcher())
+
+        if model() != 'Desktop':
+            # On the phone, we need unity to be running and unlocked.
+            self.addCleanup(process_helpers.stop_job, 'unity8')
+            process_helpers.restart_unity_with_testability()
+            process_helpers.unlock_unity()
+
+        self.ensure_dash_not_running()
+
+        if self.qml_mock_enabled:
+            self.environment['QML2_IMPORT_PATH'] = (
+                get_qml_import_path_with_mock()
+            )
+
+        if self.should_simulate_device():
+            # This sets the grid units, so it should be called before launching
+            # the app.
+            self.simulate_device()
+
+        binary_path = get_binary_path('unity8-dash')
+        dash_proxy = self.launch_dash(binary_path, self.environment)
+
+        if self.should_simulate_device():
+            # XXX Currently we have no way to launch the application with a
+            # specific size, so we must resize it after it's launched.
+            # --elopio - 2014-06-25
+            self.resize_window()
+
+        self.dash_app = dash_helpers.DashApp(dash_proxy)
+        self.dash = self.dash_app.dash
+        self.wait_for_dash()
+
+    def ensure_dash_not_running(self):
+        if process_helpers.is_job_running('unity8-dash'):
+            process_helpers.stop_job('unity8-dash')
+
+    def launch_dash(self, binary_path, variables):
+        launch_dash_app_fixture = fixture_setup.LaunchDashApp(
+            binary_path, variables)
+        self.useFixture(launch_dash_app_fixture)
+        return launch_dash_app_fixture.application_proxy
+
+    def wait_for_dash(self):
+        home_scope = self.dash.get_scope('clickscope')
         # FIXME! There is a huge timeout here for when we're doing CI on
         # VMs. See lp:1203715
         self.assertThat(
@@ -385,10 +462,26 @@ class UnityTestCase(AutopilotTestCase):
         )
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
-    def get_dash(self):
-        dash = self._proxy.wait_select_single(Dash)
-        return dash
+    def should_simulate_device(self):
+        return (hasattr(self, 'app_width') and hasattr(self, 'app_height') and
+                hasattr(self, 'grid_unit_px'))
 
-    @property
-    def main_window(self):
-        return self._proxy.select_single(main_window_emulator.QQuickView)
+    def simulate_device(self):
+        simulate_device_fixture = self.useFixture(
+            toolkit_fixtures.SimulateDevice(
+                self.app_width, self.app_height, self.grid_unit_px))
+        self.app_width = simulate_device_fixture.app_width
+        self.app_height = simulate_device_fixture.app_height
+
+    def resize_window(self):
+        application = self.process_manager.get_running_applications()[0]
+        window = application.get_windows()[0]
+        window.resize(self.app_width, self.app_height)
+
+        def get_window_size():
+            _, _, window_width, window_height = window.geometry
+            return window_width, window_height
+
+        self.assertThat(
+            get_window_size,
+            Eventually(Equals((self.app_width, self.app_height))))

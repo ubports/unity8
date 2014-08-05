@@ -46,9 +46,6 @@ SpreadDelegate {
     property real startDistance: units.gu(5)
     property real endDistance: units.gu(.5)
 
-    // Hiding tiles when their progress is negative or reached the maximum
-    visible: progress >= 0 && progress < 1.7
-
     onSelectedChanged: {
         if (selected) {
             priv.snapshot();
@@ -132,6 +129,10 @@ SpreadDelegate {
         // the selected tile, which is animated from the snapshotted position to be fullscreen.
 
         readonly property real xTranslate: {
+            if (!spreadView.active) {
+                return 0;
+            }
+
             if (otherSelected) {
                 if (spreadView.phase < 2 && index == 0) {
                     return linearAnimation(selectedProgress, 0, selectedXTranslate,
@@ -183,7 +184,7 @@ SpreadDelegate {
         }
 
         readonly property real angle: {
-            if (spreadView.focusChanging) {
+            if (!spreadView.active) {
                 return 0;
             }
 
@@ -216,7 +217,7 @@ SpreadDelegate {
         }
 
         readonly property real scale: {
-            if (spreadView.focusChanging) {
+            if (!spreadView.active) {
                 return 1;
             }
             if (priv.otherSelected) {
