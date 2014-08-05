@@ -22,7 +22,6 @@ Item {
     id: demo
 
     property Item greeter
-    property Item dash
     property Item launcher
     property Item indicators
     property Item underlay
@@ -144,7 +143,7 @@ Item {
                 "edge": "top",
                 "title": i18n.tr("Top edge"),
                 "text": i18n.tr("Try swiping from the top edge to access the indicators"),
-                "anchors.fill": demo.dash,
+                "anchors.fill": demo.underlay,
             });
         }
         if (d.topEdgeDemo) {
@@ -193,12 +192,12 @@ Item {
     function startLeftEdgeDemo() {
         demo.panelEnabled = false;
         demo.launcherEnabled = true;
-        if (demo.dash && demo.underlay) {
+        if (demo.underlay) {
             d.leftEdgeDemo = d.overlay.createObject(demo.underlay, {
                 "edge": "left",
                 "title": i18n.tr("Left edge"),
                 "text": i18n.tr("Swipe from the left to reveal the launcher for quick access to apps"),
-                "anchors.fill": demo.dash,
+                "anchors.fill": demo.underlay,
             });
         }
         if (d.leftEdgeDemo) {
@@ -221,12 +220,12 @@ Item {
 
     function startFinalEdgeDemo() {
         demo.launcherEnabled = false;
-        if (demo.dash && demo.underlay) {
+        if (demo.underlay) {
             d.finalEdgeDemo = d.overlay.createObject(demo.underlay, {
                 "edge": "none",
                 "title": i18n.tr("Well done"),
                 "text": i18n.tr("You have now mastered the edge gestures and can start using the phone<br><br>Tap on the screen to start"),
-                "anchors.fill": demo.dash,
+                "anchors.fill": demo.underlay,
                 "showSkip": false,
             });
         }
