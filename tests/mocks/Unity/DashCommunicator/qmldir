@@ -1,0 +1,3 @@
+module Unity.DashCommunicator
+plugin MockDashCommunicator-qml
+typeinfo DashCommunicator.qmltypes
