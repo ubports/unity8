@@ -48,16 +48,14 @@ ApplicationManager *ApplicationManager::singleton()
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
     , m_suspended(false)
-    , m_mainStageComponent(0)
-    , m_mainStage(0)
-    , m_sideStageComponent(0)
-    , m_sideStage(0)
-    , m_rightMargin(0)
 {
     m_roleNames.insert(RoleSurface, "surface");
     m_roleNames.insert(RoleFullscreen, "fullscreen");
 
     buildListOfAvailableApplications();
+
+    startApplication("unity8-dash");
+    focusApplication("unity8-dash");
 }
 
 ApplicationManager::~ApplicationManager()
@@ -136,7 +134,6 @@ void ApplicationManager::add(ApplicationInfo *application) {
     Q_EMIT applicationAdded(application->appId());
     Q_EMIT countChanged();
     if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
-    Q_EMIT focusRequested(application->appId());
 
     connect(application, &ApplicationInfo::surfaceChanged, this, [application, this]() {
         QModelIndex appIndex = findIndex(application);
@@ -222,6 +219,10 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
 
 bool ApplicationManager::stopApplication(const QString &appId)
 {
+    if (appId == "unity8-dash") {
+        return false;
+    }
+
     ApplicationInfo *application = findApplication(appId);
     if (application == nullptr)
         return false;
@@ -294,39 +295,25 @@ bool ApplicationManager::focusApplication(const QString &appId)
         for (ApplicationInfo *app : m_runningApplications) {
             if (app->focused() && app->stage() == ApplicationInfo::MainStage) {
                 app->setFocused(false);
-                app->hideWindow();
                 app->setState(ApplicationInfo::Suspended);
             }
         }
 
         // focus this app
         application->setFocused(true);
-        if (!m_mainStage)
-            createMainStage();
         application->setState(ApplicationInfo::Running);
-        application->showWindow(m_mainStage);
-        m_mainStage->setZ(-1000);
-        if (m_sideStage)
-            m_sideStage->setZ(-2000);
     } else if (application->stage() == ApplicationInfo::SideStage) {
         // unfocus currently focused sidestage app
         for (ApplicationInfo *app : m_runningApplications) {
             if (app->focused() && app->stage() == ApplicationInfo::SideStage) {
                 app->setFocused(false);
-                app->hideWindow();
                 app->setState(ApplicationInfo::Suspended);
             }
         }
 
         // focus this app
         application->setFocused(true);
-        if (!m_sideStage)
-            createSideStage();
         application->setState(ApplicationInfo::Running);
-        application->showWindow(m_sideStage);
-        m_sideStage->setZ(-1000);
-        if (m_mainStage)
-            m_mainStage->setZ(-2000);
     }
 
     // move app to top of stack
@@ -337,18 +324,14 @@ bool ApplicationManager::focusApplication(const QString &appId)
 
 bool ApplicationManager::requestFocusApplication(const QString &appId)
 {
-    if (appId != focusedApplicationId()) {
-        QMetaObject::invokeMethod(this, "focusRequested", Qt::QueuedConnection, Q_ARG(QString, appId));
-        return true;
-    }
-    return false;
+    QMetaObject::invokeMethod(this, "focusRequested", Qt::QueuedConnection, Q_ARG(QString, appId));
+    return true;
 }
 
 void ApplicationManager::unfocusCurrentApplication()
 {
     for (ApplicationInfo *app : m_runningApplications) {
         if (app->focused()) {
-            app->hideWindow();
             app->setFocused(false);
         }
     }
@@ -357,42 +340,6 @@ void ApplicationManager::unfocusCurrentApplication()
 
 void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
 {
-    // TODO: Is there a better way of solving this fullscreen vs. regular
-    //       application height?
-    QString topMargin;
-    if (application->fullscreen()) {
-        topMargin.append("0");
-    } else {
-        // Taken from Panel.panelHeight
-        topMargin.append("units.gu(3) + units.dp(2)");
-    }
-
-    QString windowQml = QString(
-        "import QtQuick 2.0\n"
-        "Image {\n"
-        "   anchors.fill: parent\n"
-        "   anchors.topMargin: %1\n"
-        "   anchors.rightMargin: %2\n"
-        "   source: \"file://%3/Dash/graphics/phone/screenshots/%4.png\"\n"
-        "   smooth: true\n"
-        "   fillMode: Image.PreserveAspectCrop\n"
-        "}").arg(topMargin)
-            .arg(m_rightMargin)
-            .arg(qmlDirectory())
-            .arg(application->icon().toString());
-    application->setWindowQml(windowQml);
-
-    QString imageQml = QString(
-        "import QtQuick 2.0\n"
-        "Image {\n"
-        "   anchors.fill: parent\n"
-        "   source: \"file://%1/Dash/graphics/phone/screenshots/%2.png\"\n"
-        "   smooth: true\n"
-        "   fillMode: Image.PreserveAspectCrop\n"
-        "}").arg(qmlDirectory())
-            .arg(application->icon().toString());
-    application->setImageQml(imageQml);
-
     application->setScreenshot(QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png").arg(qmlDirectory())
                                                                                              .arg(application->icon().toString()));
 }
@@ -400,6 +347,14 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
 void ApplicationManager::buildListOfAvailableApplications()
 {
     ApplicationInfo *application;
+
+    application = new ApplicationInfo(this);
+    application->setAppId("unity8-dash");
+    application->setName("Unity 8 Mock Dash");
+    application->setIcon(QUrl("unity8-dash"));
+    application->setStage(ApplicationInfo::MainStage);
+    generateQmlStrings(application);
+    m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("dialer-app");
@@ -521,78 +476,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 }
 
-void ApplicationManager::createMainStageComponent()
-{
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
-    QQmlEngine *engine = quickView->engine();
-
-    m_mainStageComponent = new QQmlComponent(engine, this);
-    QString mainStageQml =
-        "import QtQuick 2.0\n"
-        "Rectangle {\n"
-        "   anchors.fill: parent\n"
-        "   color: 'black'\n"
-        "   z: -2000\n"
-        "}\n";
-    m_mainStageComponent->setData(mainStageQml.toLatin1(), QUrl());
-}
-
-void ApplicationManager::createMainStage()
-{
-    if (!m_mainStageComponent)
-        createMainStageComponent();
-
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
-    QQuickItem *shell = quickView->rootObject();
-
-    m_mainStage = qobject_cast<QQuickItem *>(m_mainStageComponent->create());
-    m_mainStage->setParentItem(shell);
-}
-
-void ApplicationManager::createSideStageComponent()
-{
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
-    QQmlEngine *engine = quickView->engine();
-
-    m_sideStageComponent = new QQmlComponent(engine, this);
-    QString sideStageQml =
-        "import QtQuick 2.0\n"
-        "import Ubuntu.Components 0.1\n"
-        "Item {\n"
-        "   width: units.gu(40)\n" // from SideStage in Shell.qml
-        "   anchors.top: parent.top\n"
-        "   anchors.bottom: parent.bottom\n"
-        "   anchors.right: parent.right\n"
-        "   z: -1000\n"
-        "}\n";
-    m_sideStageComponent->setData(sideStageQml.toLatin1(), QUrl());
-}
-
-void ApplicationManager::createSideStage()
-{
-    if (!m_sideStageComponent)
-        createSideStageComponent();
-
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
-    QQuickItem *shell = quickView->rootObject();
-
-    m_sideStage = qobject_cast<QQuickItem *>(m_sideStageComponent->create());
-    m_sideStage->setParentItem(shell);
-    m_sideStage->setFlag(QQuickItem::ItemHasContents, false);
-}
-
 QStringList ApplicationManager::availableApplications()
 {
     QStringList appIds;
@@ -600,19 +483,6 @@ QStringList ApplicationManager::availableApplications()
         appIds << app->appId();
     }
     return appIds;
-}
-
-int ApplicationManager::rightMargin() const
-{
-    return m_rightMargin;
-}
-
-void ApplicationManager::setRightMargin(int rightMargin)
-{
-    m_rightMargin = rightMargin;
-    Q_FOREACH(ApplicationInfo *app, m_availableApplications) {
-        generateQmlStrings(app);
-    }
 }
 
 bool ApplicationManager::isEmpty() const
