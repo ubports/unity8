@@ -17,6 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import ubuntuuitoolkit
+
 from unity8.shell.emulators import UnityEmulatorBase
 
 
@@ -37,4 +39,5 @@ class Greeter(UnityEmulatorBase):
         self.created.wait_for(False)
 
     def get_prompt(self):
-        return self.select_single("TextField", objectName="passwordInput")
+        return self.select_single(
+            ubuntuuitoolkit.TextField, objectName='passwordInput')
