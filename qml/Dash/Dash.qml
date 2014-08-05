@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity 0.2
 import Utils 0.1
+import Unity.DashCommunicator 0.1
 import "../Components"
 
 Showable {
@@ -30,7 +31,12 @@ Showable {
     property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 
-    property alias overviewHandleHeight: overviewDragHandle.height
+    DashCommunicatorService {
+        objectName: "dashCommunicatorService"
+        onSetCurrentScopeRequested: {
+            dash.setCurrentScope(scopeId, animate, reset)
+        }
+    }
 
     function setCurrentScope(scopeId, animate, reset) {
         var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
