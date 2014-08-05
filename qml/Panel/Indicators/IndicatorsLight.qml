@@ -27,12 +27,9 @@ QtObject {
     Component.onDestruction: Lights.state = Lights.Off
 
     // QtObject does not have children
-    property var _connections: Connections {
-        id: powerConnection
-
-        target: Powerd
-        onStatusChanged: {
-            Lights.state = (Powerd.status === Powerd.Off) ? Lights.On : Lights.Off
-        }
+    property var _binding: Binding {
+        target: Lights
+        property: "state"
+        value: (Powerd.status === Powerd.Off) ? Lights.On : Lights.Off
     }
 }
