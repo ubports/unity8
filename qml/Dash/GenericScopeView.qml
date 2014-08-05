@@ -114,7 +114,7 @@ FocusScope {
         x: previewListView.open ? -width : 0
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
-        height: floatingSeeLess.visible ? parent.height - floatingSeeLess.height : parent.height
+        height: floatingSeeLess.visible ? parent.height - floatingSeeLess.height + floatingSeeLess.yOffset : parent.height
         clip: height != parent.height
 
         model: scopeView.categories
@@ -323,6 +323,7 @@ FocusScope {
                     if (categoryView.expandedCategoryId != baseItem.category) {
                         categoryView.expandedCategoryId = baseItem.category;
                         floatingSeeLess.companionTo = seeAll;
+                        floatingSeeLess.companionBase = baseItem;
                     } else {
                         categoryView.expandedCategoryId = "";
                     }
@@ -407,26 +408,34 @@ FocusScope {
 
     AbstractButton {
         id: floatingSeeLess
+        objectName: "floatingSeeLess"
 
         property var companionTo: null
-        property bool companionLowerThanSelf: false
+        property var companionBase: null
+        property bool showBecausePosition: false
+        property real yOffset: 0
 
-        objectName: "floatingSeeLess"
         anchors {
-            bottom: parent.bottom
             left: categoryView.left
             right: categoryView.right
         }
+        y: parent.height - height + yOffset
         height: seeLessLabel.font.pixelSize + units.gu(4)
-        visible: companionTo && companionLowerThanSelf
+        visible: companionTo && showBecausePosition
 
         onClicked: categoryView.expandedCategoryId = "";
 
-        function updateLowerThan() {
-            var pos = companionTo.mapToItem(floatingSeeLess, 0, 0);
-            companionLowerThanSelf = pos.y >= 0;
-            if (!companionLowerThanSelf && categoryView.expandedCategoryId === "") {
+        function updateVisibility() {
+            var companionPos = companionTo.mapToItem(floatingSeeLess, 0, 0);
+            showBecausePosition = companionPos.y > 0;
+
+            var posToBase = floatingSeeLess.mapToItem(companionBase, 0, -yOffset).y;
+            yOffset = Math.max(0, companionBase.item.collapsedHeight - posToBase);
+            yOffset = Math.min(yOffset, height);
+
+            if (!showBecausePosition && categoryView.expandedCategoryId === "") {
                 companionTo = null;
+                companionBase = false;
             }
         }
 
@@ -444,12 +453,12 @@ FocusScope {
 
         Connections {
             target: floatingSeeLess.companionTo ? categoryView : null
-            onContentYChanged: floatingSeeLess.updateLowerThan();
+            onContentYChanged: floatingSeeLess.updateVisibility();
         }
 
         Connections {
             target: floatingSeeLess.companionTo ? floatingSeeLess.companionTo : null
-            onYChanged: floatingSeeLess.updateLowerThan();
+            onYChanged: floatingSeeLess.updateVisibility();
         }
     }
 
