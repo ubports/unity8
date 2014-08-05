@@ -29,5 +29,5 @@ DashCommunicatorService::~DashCommunicatorService()
 
 void DashCommunicatorService::mockSetCurrentScope(const QString &scopeId, bool animate, bool reset)
 {
-    Q_EMIT setCurrentScope(scopeId, animate, reset);
+    Q_EMIT setCurrentScopeRequested(scopeId, animate, reset);
 }
