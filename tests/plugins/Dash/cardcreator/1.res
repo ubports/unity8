@@ -78,5 +78,13 @@ leftMargin: units.gu(1);
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.headerAlignment; 
                     }
+UbuntuShape {
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: artShapeHolder }
+    visible: root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);
 }

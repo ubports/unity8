@@ -57,5 +57,13 @@ Item  {
                     }
                 }
 readonly property int headerHeight: 0;
+UbuntuShape {
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: artShapeHolder }
+    visible: root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: artShapeHolder.height;
 }
