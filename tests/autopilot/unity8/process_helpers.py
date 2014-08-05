@@ -36,6 +36,10 @@ from unity8.shell.emulators import main_window as main_window_emulator
 logger = logging.getLogger(__name__)
 
 
+class JobError(Exception):
+    pass
+
+
 class CannotAccessUnity(Exception):
     pass
 
@@ -134,48 +138,113 @@ def restart_unity(*args):
     """
     status = _get_unity_status()
     if "start/" in status:
-        try:
-            output = subprocess.check_output(
-                ['/sbin/initctl', 'stop', 'unity8'])
-            logger.info(output)
-        except subprocess.CalledProcessError as e:
-            e.args += (
-                "Failed to stop running instance of unity8: %s" % e.output,
-            )
-            raise
+        stop_job('unity8')
 
+    pid = start_job('unity8', *args)
+    return _get_unity_proxy_object(pid)
+
+
+def start_job(name, *args):
+    """Start a job.
+
+    :param str name: The name of the job.
+    :param args: The arguments to be used when starting the job.
+    :return: The process id of the started job.
+    :raises CalledProcessError: if the job failed to start.
+
+    """
+    logger.info('Starting job {} with arguments {}.'.format(name, args))
+    command = ['/sbin/initctl', 'start', name] + list(args)
     try:
-        command = ['/sbin/initctl', 'start', 'unity8'] + list(args)
         output = subprocess.check_output(
             command,
             stderr=subprocess.STDOUT,
             universal_newlines=True,
         )
         logger.info(output)
-        pid = _get_unity_pid()
+        pid = get_job_pid(name)
     except subprocess.CalledProcessError as e:
-        e.args += ("Failed to start unity8: %s" % e.output,)
+        e.args += ('Failed to start {}: {}.'.format(name, e.output),)
         raise
     else:
-        return _get_unity_proxy_object(pid)
+        return pid
 
 
-def _get_unity_status():
+def get_job_pid(name):
+    """Return the process id of a running job.
+
+    :param str name: The name of the job.
+    :raises JobError: if the job is not running.
+
+    """
+    status = get_job_status(name)
+    if "start/" not in status:
+        raise JobError('{} is not in the running state.'.format(name))
+    return int(status.split()[-1])
+
+
+def get_job_status(name):
+    """Return the status of a job.
+
+    :param str name: The name of the job.
+    :raises JobError: if it's not possible to get the status of the job.
+
+    """
     try:
         return subprocess.check_output([
             '/sbin/initctl',
             'status',
-            'unity8'
+            name
         ], universal_newlines=True)
+    except subprocess.CalledProcessError as error:
+        raise JobError(
+                "Unable to get {}'s status: {}".format(name, error)
+        )
+
+
+def stop_job(name):
+    """Stop a job.
+
+    :param str name: The name of the job.
+    :raises CalledProcessError: if the job failed to stop.
+
+    """
+    logger.info('Stoping job {}.'.format(name))
+    command = ['/sbin/initctl', 'stop', name]
+    try:
+        output = subprocess.check_output(
+            command,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+        )
+        logger.info(output)
     except subprocess.CalledProcessError as e:
-        raise CannotAccessUnity("Unable to get unity's status: %s" % str(e))
+        e.args += ('Failed to stop {}: {}.'.format(name, e.output),)
+        raise
+
+
+def is_job_running(name):
+    """Return True if the job is running. Otherwise, False.
+
+    :param str name: The name of the job.
+    :raises JobError: if it's not possible to get the status of the job.
+
+    """
+    return 'start/' in get_job_status(name)
+
+
+def _get_unity_status():
+    try:
+        return get_job_status('unity8')
+    except JobError as error:
+        raise CannotAccessUnity(str(error))
 
 
 def _get_unity_pid():
-    status = _get_unity_status()
-    if "start/" not in status:
-        raise CannotAccessUnity("Unity is not in the running state.")
-    return int(status.split()[-1])
+    try:
+        return get_job_pid('unity8')
+    except JobError as error:
+        raise CannotAccessUnity(str(error))
 
 
 def _get_unity_proxy_object(pid):

@@ -31,6 +31,17 @@ from ubuntuuitoolkit import emulators as toolkit_emulators
 logger = logging.getLogger(__name__)
 
 
+class DashApp(object):
+
+    """Autopilot helper for the Dash app."""
+
+    def __init__(self, app_proxy):
+        self.app_proxy = app_proxy
+        self.main_view = self.app_proxy.select_single(
+            toolkit_emulators.MainView)
+        self.dash = self.main_view.select_single(Dash)
+
+
 class Dash(emulators.UnityEmulatorBase):
     """An emulator that understands the Dash."""
 
@@ -109,20 +120,22 @@ class Dash(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_left_scope(self):
         original_index = self.dash_content_list.currentIndex
-        dashContent = self.select_single(objectName="dashContent")
-        start_x = dashContent.width / 3
-        stop_x = dashContent.width / 3 * 2
-        start_y = stop_y = dashContent.globalRect.y + 1
+        dash_content = self.select_single(objectName="dashContent")
+        x, y, width, height = dash_content.globalRect
+        start_x = x + width / 3
+        stop_x = x + width / 3 * 2
+        start_y = stop_y = y + 1
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
 
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_right_scope(self):
         original_index = self.dash_content_list.currentIndex
-        dashContent = self.select_single(objectName="dashContent")
-        start_x = dashContent.width / 3 * 2
-        stop_x = dashContent.width / 3
-        start_y = stop_y = dashContent.globalRect.y + 1
+        dash_content = self.select_single(objectName="dashContent")
+        x, y, width, height = dash_content.globalRect
+        start_x = x + width / 3 * 2
+        stop_x = x + width / 3
+        start_y = stop_y = y + 1
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
