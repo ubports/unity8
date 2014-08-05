@@ -126,7 +126,7 @@ IndicatorBase {
             id: loader
             objectName: "menuItem" + index
             asynchronous: false
-            visible: height > 0
+            visible: status == Loader.Ready
 
             property int modelIndex: index
 

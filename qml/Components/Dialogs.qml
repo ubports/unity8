@@ -17,6 +17,7 @@
 import QtQuick 2.0
 
 import Unity.Application 0.1
+import Unity.Session 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 

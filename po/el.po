@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-25 19:27+0000\n"
-"Last-Translator: George Christofis <geochr22@gmail.com>\n"
+"PO-Revision-Date: 2014-08-04 18:44+0000\n"
+"Last-Translator: madvinegar <madvinegar@hotmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-26 07:16+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-05 06:45+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -111,11 +111,11 @@ msgstr "Λιγότερα"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "Πρόσφατα"
 
 #: qml/Dash/GenericScopeView.qml:330
 msgid "See all"
-msgstr ""
+msgstr "Εμφάνιση όλων"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -139,7 +139,7 @@ msgstr "Αποστολή"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "Σύρετε για να ξεκλειδώσετε"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -171,11 +171,11 @@ msgstr "Παρακαλώ εισάγετε το PIN της κάρτας SIM"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Πατήστε για να γυρίσετε στην κλήση..."
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr ""
+msgstr "Συνδιάσκεψη"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
@@ -183,23 +183,23 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "Λήψη σε εξέλιξη"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Σταματημένο, αγγίξτε για συνέχιση"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
-msgstr ""
+msgstr "Ακυρώθηκε"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Ολοκληρώθηκε"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Αποτυχία, πατήστε για να ξαναπροσπαθήσετε"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
