@@ -316,7 +316,7 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(4) : 0
 
                 onClicked: {
                     if (categoryView.expandedCategoryId != baseItem.category) {
