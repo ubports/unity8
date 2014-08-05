@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,12 +12,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-import QtQuick 2.0
-import Dash 0.1
+#include "plugin.h"
+#include "dashcommunicator.h"
+#include "dashcommunicatorservice.h"
 
-ListViewWithPageHeader {
-    maximumFlickVelocity: height * 10
-    flickDeceleration: height * 2
+#include <QDBusConnection>
+#include <QtQml/qqml.h>
+
+void DashCommunicatorPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QStringLiteral("Unity.DashCommunicator"));
+    qmlRegisterType<DashCommunicatorService>(uri, 0, 1, "DashCommunicatorService");
+    qmlRegisterType<DashCommunicator>(uri, 0, 1, "DashCommunicator");
 }

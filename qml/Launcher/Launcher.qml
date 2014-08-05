@@ -29,8 +29,7 @@ Item {
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
-                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) :
-                                (dragArea.dragging ? 0.001 : 0)
+                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
     readonly property bool shown: panel.x > -panel.width
 
@@ -245,7 +244,7 @@ Item {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     if (distance > minimizeDistance) {
-                        root.dash()
+                        root.dash();
                     } else {
                         root.switchToNextState("visible")
                     }
