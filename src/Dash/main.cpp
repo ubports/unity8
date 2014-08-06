@@ -26,6 +26,7 @@
 #include <QLibrary>
 
 #include <paths.h>
+#include "../MouseTouchAdaptor.h"
 
 int main(int argc, const char *argv[])
 {
@@ -35,9 +36,22 @@ int main(int argc, const char *argv[])
     parser.setApplicationDescription("Description: Unity 8 Shell Dash");
     parser.addHelpOption();
 
+    QCommandLineOption mousetouchOption("mousetouch",
+        "Allow the mouse to provide touch input");
+    parser.addOption(mousetouchOption);
+
     QCommandLineOption testabilityOption("testability",
         "Load the testability driver (Alternatively export QT_LOAD_TESTABILITY");
     parser.addOption(testabilityOption);
+
+    QCommandLineOption desktopFileHintOption("desktop_file_hint",
+        "The desktop_file_hint option for QtMir", "hint_file");
+    parser.addOption(desktopFileHintOption);
+
+    // Treat args with single dashes the same as arguments with two dashes
+    // Ex: -fullscreen == --fullscreen
+    parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
+    parser.process(*application);
 
     if (parser.isSet(testabilityOption) || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
@@ -54,9 +68,19 @@ int main(int argc, const char *argv[])
         }
     }
 
+    bindtextdomain("unity8", translationDirectory().toUtf8().data());
+
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Unity Dash");
+
+    // You will need this if you want to interact with touch-only components using a mouse
+    // Needed only when manually testing on a desktop.
+    MouseTouchAdaptor *mouseTouchAdaptor = 0;
+    if (parser.isSet(mousetouchOption)) {
+        mouseTouchAdaptor = new MouseTouchAdaptor;
+        application->installNativeEventFilter(mouseTouchAdaptor);
+    }
 
     QUrl source(::qmlDirectory()+"Dash/DashApplication.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
