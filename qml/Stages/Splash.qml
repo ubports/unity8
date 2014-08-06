@@ -68,6 +68,11 @@ StyledItem {
         style: Component { PageHeadStyle {theme: root.theme} }
     }
 
+    ActivityIndicator {
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: header.height
+    }
+
     MouseArea {
         anchors.fill: parent
         enabled: parent.visible
