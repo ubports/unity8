@@ -60,20 +60,12 @@ Item {
 
             PropertyAction {
                 target: surface
-                property: "opacity"
-                value: 0.0
-            }
-            PropertyAction {
-                target: surface
                 property: "visible"
                 value: true
             }
-            UbuntuNumberAnimation {
-                target: surface
-                property: "opacity"
-                from: 0.0
-                to: 1.0
-            }
+            // FIXME: there is a delay between surface.visible = true and the
+            // surface actually being the proper size and visible
+            PauseAnimation { duration: 200 }
             PropertyAction {
                 target: splashLoader
                 property: "source"
