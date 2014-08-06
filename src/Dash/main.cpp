@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QCommandLineParser>
 #include <QLibrary>
+#include <libintl.h>
 
 #include <paths.h>
 #include "../MouseTouchAdaptor.h"
