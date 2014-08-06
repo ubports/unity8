@@ -94,7 +94,7 @@ Rectangle {
 
         function test_threshold_data() {
             return [
-                { tag: "default", index: 0, threshold: 0.5020 },
+                { tag: "default", index: 0, threshold: 0.7510 },
                 { tag: "red on black", index: 1, threshold: 0.1063 },
                 { tag: "green on white", index: 2, threshold: 0.6795 },
                 { tag: "blue on darkgrey", index: 3, threshold: 0.3675 },
