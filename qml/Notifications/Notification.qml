@@ -39,7 +39,6 @@ Item {
     property bool fullscreen: false
     property int maxHeight
     property int margins
-
     property Gradient greenGradient : Gradient {
         GradientStop { position: 0.0; color: "#3fb24f" }
         GradientStop { position: 1.0; color: "#3fb24f" }
