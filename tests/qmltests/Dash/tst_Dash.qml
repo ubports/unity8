@@ -64,10 +64,10 @@ Item {
 
         function get_scope_data() {
             return [
-                        { tag: "MockScope1", visualIndex: 0, shouldBeVisible: true },
-                        { tag: "MockScope2", visualIndex: -1, shouldBeVisible: false },
-                        { tag: "clickscope", visualIndex: 1, shouldBeVisible: true },
-                        { tag: "MockScope5", visualIndex: 2, shouldBeVisible: true },
+                        { tag: "MockScope1", visualIndex: 0 },
+                        { tag: "MockScope2", visualIndex: 1 },
+                        { tag: "clickscope", visualIndex: 2 },
+                        { tag: "MockScope5", visualIndex: 3 },
             ]
         }
 
@@ -76,10 +76,6 @@ Item {
         }
 
         function test_show_scope_on_load(data) {
-            if (data.shouldBeVisible == false) {
-                console.log("Not testing " + data.tag + ": not visible");
-                return;
-            }
             var dashContentList = findChild(dash, "dashContentList");
 
             dash.showScopeOnLoaded = data.tag
@@ -87,7 +83,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(scopes, "loaded", true);
-            tryCompare(dashContentList, "count", 4);
+            tryCompare(dashContentList, "count", 5);
 
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);

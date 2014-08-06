@@ -39,7 +39,7 @@ AbstractButton {
     height: visible ? units.gu(5) : 0
 
     onClicked: {
-        departmentListView.updateMaxHeight();
+        navigationListView.updateMaxHeight();
         root.showList = !root.showList;
     }
 
