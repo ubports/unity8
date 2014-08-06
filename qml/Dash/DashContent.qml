@@ -25,6 +25,8 @@ Item {
 
     property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
+    readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
+                                       && dashContentList.currentItem.item.processing || false
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)

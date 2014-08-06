@@ -32,7 +32,6 @@ Item {
     property bool searchEntryEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
-    property bool searchInProgress: false
 
     property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
@@ -203,20 +202,8 @@ Item {
                             anchors.fill: parent
                             anchors.margins: units.gu(.75)
                             source: "image://theme/clear"
-                            opacity: searchTextField.text.length > 0 && !searchActivityIndicator.running
+                            opacity: searchTextField.text.length > 0
                             visible: opacity > 0
-                            Behavior on opacity {
-                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
-                            }
-                        }
-
-                        ActivityIndicator {
-                            id: searchActivityIndicator
-                            objectName: "searchIndicator"
-                            anchors.fill: parent
-                            anchors.margins: units.gu(.75)
-                            running: root.searchInProgress
-                            opacity: running ? 1 : 0
                             Behavior on opacity {
                                 UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
                             }

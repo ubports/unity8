@@ -119,29 +119,6 @@ Item {
             compare(pageHeader.searchHistory.get(0).query, "humppa4")
         }
 
-        function test_search_indicator() {
-            var searchIndicator = findChild(pageHeader, "searchIndicator")
-            var clearIcon = findChild(pageHeader, "clearIcon")
-
-            pageHeader.triggerSearch()
-
-            tryCompare(clearIcon, "visible", false)
-            pageHeader.searchQuery = "ubuntu"
-            tryCompare(clearIcon, "visible", true)
-
-            pageHeader.searchInProgress = false
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(clearIcon, "visible", true)
-
-            pageHeader.searchInProgress = true
-            compare(searchIndicator.running, true, "Search indicator isn't running.")
-            tryCompare(clearIcon, "visible", false)
-
-            pageHeader.searchInProgress = false;
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(clearIcon, "visible", true)
-        }
-
         function test_titleImage() {
 
             var titleImage = findChild(pageHeader, "titleImage");
