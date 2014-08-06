@@ -24,7 +24,7 @@ Item {
     property Item greeter
     property Item launcher
     property Item indicators
-    property Item underlay
+    property Item stages
 
     property bool launcherEnabled: true
     property bool dashEnabled: true
@@ -138,12 +138,12 @@ Item {
 
     function startTopEdgeDemo() {
         demo.panelEnabled = true;
-        if (demo.dash && demo.underlay) {
-            d.topEdgeDemo = d.overlay.createObject(demo.underlay, {
+        if (demo.dash && demo.stages) {
+            d.topEdgeDemo = d.overlay.createObject(demo.stages, {
                 "edge": "top",
                 "title": i18n.tr("Top edge"),
                 "text": i18n.tr("Try swiping from the top edge to access the indicators"),
-                "anchors.fill": demo.underlay,
+                "anchors.fill": demo.stages,
             });
         }
         if (d.topEdgeDemo) {
@@ -192,12 +192,12 @@ Item {
     function startLeftEdgeDemo() {
         demo.panelEnabled = false;
         demo.launcherEnabled = true;
-        if (demo.underlay) {
-            d.leftEdgeDemo = d.overlay.createObject(demo.underlay, {
+        if (demo.stages) {
+            d.leftEdgeDemo = d.overlay.createObject(demo.stages, {
                 "edge": "left",
                 "title": i18n.tr("Left edge"),
                 "text": i18n.tr("Swipe from the left to reveal the launcher for quick access to apps"),
-                "anchors.fill": demo.underlay,
+                "anchors.fill": demo.stages,
             });
         }
         if (d.leftEdgeDemo) {
@@ -220,12 +220,12 @@ Item {
 
     function startFinalEdgeDemo() {
         demo.launcherEnabled = false;
-        if (demo.underlay) {
-            d.finalEdgeDemo = d.overlay.createObject(demo.underlay, {
+        if (demo.stages) {
+            d.finalEdgeDemo = d.overlay.createObject(demo.stages, {
                 "edge": "none",
                 "title": i18n.tr("Well done"),
                 "text": i18n.tr("You have now mastered the edge gestures and can start using the phone<br><br>Tap on the screen to start"),
-                "anchors.fill": demo.underlay,
+                "anchors.fill": demo.stages,
                 "showSkip": false,
             });
         }
