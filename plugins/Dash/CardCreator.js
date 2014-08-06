@@ -593,7 +593,6 @@ function cardString(template, components) {
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 0.1; \n\
-                   import Ubuntu.Thumbnailer 0.1;\n\
                    import Dash 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
