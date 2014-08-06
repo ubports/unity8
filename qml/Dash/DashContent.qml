@@ -88,7 +88,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.departmentsShown
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
 
             anchors.fill: parent
             orientation: ListView.Horizontal
@@ -128,7 +128,7 @@ Item {
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
-                    readonly property bool departmentsShown: item ? item.departmentsShown : false
+                    readonly property bool navigationShown: item ? item.navigationShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 
