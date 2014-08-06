@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.3
+import Ubuntu.Components 1.1
 import "../../Components"
 
 /*! \brief Preview widget for expandable widgets.
@@ -56,11 +56,6 @@ PreviewWidget {
         anchors.right: parent.right
         onClicked: {
             root.expanded = !root.expanded;
-        }
-        // TODO Remove when "view-collapse" : "view-expand" are there
-        Rectangle {
-            anchors.fill: parent
-            color: root.expanded ? "red" : "green"
         }
         Icon {
             anchors.fill: parent
