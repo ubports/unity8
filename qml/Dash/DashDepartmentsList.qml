@@ -54,6 +54,7 @@ Item {
 
         anchors.fill: parent
 
+        flickableDirection: Flickable.VerticalFlick
         contentHeight: column.height
         contentWidth: width
 
