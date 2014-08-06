@@ -171,6 +171,7 @@ Item {
                 property var styledItem: searchHeader
                 property string title
                 property var config: PageHeadConfiguration {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                     backAction: Action {
                         iconName: "back"
                         onTriggered: {
@@ -249,10 +250,10 @@ Item {
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
-                textColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
