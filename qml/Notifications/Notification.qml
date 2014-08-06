@@ -39,7 +39,6 @@ Item {
     property bool fullscreen: false
     property int maxHeight
     property int margins
-    property string acceptActionId
 
     property Gradient greenGradient : Gradient {
         GradientStop { position: 0.0; color: "#3fb24f" }
@@ -146,7 +145,7 @@ Item {
     signal accept()
 
     onAccept: {
-        notification.notification.invokeAction(notification.acceptActionId)
+        notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
     }
 
     Item {
@@ -352,11 +351,6 @@ Item {
                                 objectName: "button" + index
                                 width: buttonRow.width / 2 - spacing
                                 text: loader.actionLabel
-                                Component.onCompleted: {
-                                    if (index == 0) {
-                                        notification.acceptActionId = loader.actionId
-                                    }
-                                }
                                 gradient: notification.hints["x-canonical-private-button-tint"] == "true" && index == 0 ? greenGradient : darkgreyGradient
                                 onClicked: notification.notification.invokeAction(loader.actionId)
                             }
