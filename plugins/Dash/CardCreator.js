@@ -257,6 +257,16 @@ var kTitleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
+// %1 is used as anchors of touchdown effect
+var kTouchdownCode = 'UbuntuShape { \n\
+                        id: touchdown; \n\
+                        objectName: "touchdown"; \n\
+                        anchors { %1 } \n\
+                        visible: root.pressed; \n\
+                        radius: "medium"; \n\
+                        borderSource: "radius_pressed.sci" \n\
+                    }\n';
+
 // %1 is used as anchors of subtitleLabel
 // %2 is used as color of subtitleLabel
 var kSubtitleLabelCode = 'Label { \n\
@@ -279,7 +289,7 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
                             color: %2; \n\
-                            model: cardData && cardData["attributes"] || undefined; \n\
+                            model: cardData["attributes"]; \n\
                           }\n';
 
 // %1 is used as top anchor of summary
@@ -568,6 +578,16 @@ function cardString(template, components) {
 
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(color);
     }
+
+    var touchdownAnchors;
+    if (hasBackground) {
+        touchdownAnchors = 'fill: backgroundLoader';
+    } else if (hasArt && !hasMascot && !hasSummary) {
+        touchdownAnchors = 'fill: artShapeHolder';
+    } else {
+        touchdownAnchors = 'fill: root'
+    }
+    code += kTouchdownCode.arg(touchdownAnchors);
 
     if (hasSummary) {
         code += 'implicitHeight: summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
