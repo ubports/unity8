@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"POT-Creation-Date: 2014-08-06 11:23-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr ""
+
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
@@ -24,6 +28,22 @@ msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
 msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
@@ -72,28 +92,61 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:214
-msgid "Emergency Call"
+#: qml/Components/FactoryResetWarningDialog.qml:27
+msgid "Sorry, incorrect passphrase."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/FactoryResetWarningDialog.qml:28
+msgid "Sorry, incorrect passcode."
+msgstr ""
+
+#: qml/Components/FactoryResetWarningDialog.qml:31
+msgid "This will be your last attempt."
+msgstr ""
+
+#: qml/Components/FactoryResetWarningDialog.qml:38
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+
+#: qml/Components/FactoryResetWarningDialog.qml:39
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+
+#: qml/Components/FactoryResetWarningDialog.qml:47
+#: qml/Components/Lockscreen.qml:273
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:250
+msgid "Emergency Call"
+msgstr ""
+
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr ""
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr ""
 
-#: qml/Components/PinLockscreen.qml:198
+#: qml/Components/PinLockscreen.qml:204
 msgid "CANCEL"
 msgstr ""
 
-#: qml/Components/PinLockscreen.qml:216
+#: qml/Components/PinLockscreen.qml:222
 msgid "DONE"
 msgstr ""
 
@@ -101,15 +154,11 @@ msgstr ""
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:331
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr ""
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:331
 msgid "See all"
 msgstr ""
 
@@ -157,11 +206,11 @@ msgstr ""
 msgid "Speaking..."
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:97
 msgid "Show password"
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:112
 msgid "Please enter SIM PIN"
 msgstr ""
 
@@ -173,27 +222,27 @@ msgstr ""
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:577
 msgid "In queue…"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:581
 msgid "Downloading"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:585
 msgid "Canceled"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Finished"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Failed, tap to retry"
 msgstr ""
 
@@ -201,7 +250,24 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:396
+msgid "passphrase"
+msgstr ""
+
+#: qml/Shell.qml:396
+msgid "passcode"
+msgstr ""
+
+#: qml/Shell.qml:398
 #, qt-format
-msgid "Please enter %1"
+msgid "Enter your %1"
+msgstr ""
+
+#: qml/Shell.qml:399
+#, qt-format
+msgid "Incorrect %1"
+msgstr ""
+
+#: qml/Shell.qml:401
+msgid "Please re-enter"
 msgstr ""
