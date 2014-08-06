@@ -63,9 +63,6 @@ Item {
                 property: "visible"
                 value: true
             }
-            // FIXME: there is a delay between surface.visible = true and the
-            // surface actually being the proper size and visible
-            PauseAnimation { duration: 200 }
             PropertyAction {
                 target: splashLoader
                 property: "source"
