@@ -25,7 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property alias departmentsShown: dashDepartments.showList
+    readonly property alias navigationShown: dashNavigation.showList
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -41,16 +41,6 @@ FocusScope {
     }
 
     signal backClicked()
-
-    onScopeChanged: {
-        if (scope) {
-            scope.activateApplication.connect(activateApp);
-        }
-    }
-
-    function activateApp(appId) {
-        Qt.openUrlExternally(appId);
-    }
 
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
@@ -122,7 +112,7 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: previewListView.open
         pixelAligned: true
-        interactive: !dashDepartments.showList
+        interactive: !dashNavigation.showList
 
         property string expandedCategoryId: ""
 
@@ -398,8 +388,8 @@ FocusScope {
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
             scopeStyle: scopeView.scopeStyle
 
-            bottomItem: DashDepartments {
-                id: dashDepartments
+            bottomItem: DashNavigation {
+                id: dashNavigation
                 scope: scopeView.scope
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right
