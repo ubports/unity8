@@ -32,7 +32,7 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
 void GreeterPrivate::handleAuthenticate()
 {
     Q_Q(Greeter);
-    Q_EMIT q->showPrompt("Password:", Greeter::PromptTypeSecret);
+    Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
 }
 
 void GreeterPrivate::handleRespond(const QString &response)

@@ -54,7 +54,7 @@ void GreeterPrivate::handleAuthenticate()
         authenticated = true;
         Q_EMIT q->authenticationComplete();
     } else if (authenticationUser == "has-pin"){
-        Q_EMIT q->showPrompt("Password:", Greeter::PromptTypeSecret);
+        Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
     } else if (authenticationUser == "auth-error") {
         authenticated = false;
         Q_EMIT q->authenticationComplete();
