@@ -71,6 +71,7 @@ StyledItem {
     ActivityIndicator {
         anchors.centerIn: parent
         anchors.verticalCenterOffset: header.height
+        running: true
     }
 
     MouseArea {
