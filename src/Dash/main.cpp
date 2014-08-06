@@ -45,6 +45,7 @@ int main(int argc, const char *argv[])
         "Load the testability driver (Alternatively export QT_LOAD_TESTABILITY");
     parser.addOption(testabilityOption);
 
+    // FIXME Remove once we drop the need of the hint
     QCommandLineOption desktopFileHintOption("desktop_file_hint",
         "The desktop_file_hint option for QtMir", "hint_file");
     parser.addOption(desktopFileHintOption);
