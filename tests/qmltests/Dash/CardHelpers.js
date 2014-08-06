@@ -16,7 +16,7 @@
 
 .pragma library
 
-var components = ["title", "art", "subtitle", "mascot", "emblem", "old-price", "price", "alt-price", "rating", "alt-rating", "summary", "attributes"]
+var components = ["title", "art", "subtitle", "mascot", "emblem", "old-price", "price", "alt-price", "rating", "alt-rating", "summary", "attributes", "overlayColor"]
 
 var defaultLayout = ' \
 { \
@@ -35,6 +35,7 @@ var defaultLayout = ' \
         "fill-mode": "crop" \
     }, \
     "subtitle": null, \
+    "overlayColor": null, \
     "mascot": null, \
     "emblem": null, \
     "old-price": null, \
@@ -60,6 +61,7 @@ var fullMapping = ' \
   "art": "art", \
   "subtitle": "subtitle", \
   "mascot": "mascot", \
+  "overlayColor": "overlayColor", \
   "summary": "summary", \
   "attributes": "attributes" \
 }'
