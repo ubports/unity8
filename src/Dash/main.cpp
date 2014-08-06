@@ -41,10 +41,6 @@ int main(int argc, const char *argv[])
         "Allow the mouse to provide touch input");
     parser.addOption(mousetouchOption);
 
-    QCommandLineOption testabilityOption("testability",
-        "Load the testability driver (Alternatively export QT_LOAD_TESTABILITY");
-    parser.addOption(testabilityOption);
-
     // FIXME Remove once we drop the need of the hint
     QCommandLineOption desktopFileHintOption("desktop_file_hint",
         "The desktop_file_hint option for QtMir", "hint_file");
@@ -55,7 +51,7 @@ int main(int argc, const char *argv[])
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
     parser.process(*application);
 
-    if (parser.isSet(testabilityOption) || getenv("QT_LOAD_TESTABILITY")) {
+    if (getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
