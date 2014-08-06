@@ -192,6 +192,27 @@ Item {
                     ];
         }
 
+        function test_pagination() {
+            var paginationRepeater = findChild(pageHeader, "paginationRepeater");
+            tryCompare(paginationRepeater, "count", 0);
+            pageHeader.paginationCount = 5;
+            tryCompare(paginationRepeater, "count", 5);
+            for (var i=0; i<pageHeader.paginationCount; i++) {
+                pageHeader.paginationIndex = i;
+                for (var j=0; j<paginationRepeater.count; j++) {
+                    var paginationDot = findChild(pageHeader, "paginationDots_"+j);
+                    if (i==j) {
+                        compare(paginationDot.source.toString().indexOf("pagination_dot_on") > -1, true);
+                    } else {
+                        compare(paginationDot.source.toString().indexOf("pagination_dot_off") > -1, true);
+                    }
+                }
+            }
+            pageHeader.paginationIndex = -1;
+            pageHeader.paginationCount = 0;
+            tryCompare(paginationRepeater, "count", 0);
+        }
+
         function test_popup_closing(data) {
             searchEnabled = true;
             pageHeader.searchHistory.clear();

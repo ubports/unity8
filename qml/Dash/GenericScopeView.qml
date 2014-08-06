@@ -33,6 +33,8 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    property alias paginationCount: pageHeader.paginationCount
+    property alias paginationIndex: pageHeader.paginationIndex
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
