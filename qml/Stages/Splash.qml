@@ -14,50 +14,58 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.2
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes 0.1
 import "../Components"
 
-Rectangle {
+StyledItem {
     id: root
-    color: "black"
 
     property string name: ""
     property url image: ""
 
-    UbuntuShape {
-        id: iconShape
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: -units.gu(4)
-        width: units.gu(8)
-        height: units.gu(7.5)
+    // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
+    property var theme: QtObject {
+        property string name
+        property Palette palette: paletteLoader.item
+    }
 
-        radius: "medium"
-        borderSource: "none"
+    Loader {
+        id: paletteLoader
+        source: "%1Palette.qml".arg(theme.name)
+    }
 
-        image: Image {
-            id: iconImage
-            sourceSize.width: iconShape.width
-            sourceSize.height: iconShape.height
-            source: root.image
-            fillMode: Image.PreserveAspectCrop
+    // mimic API of toolkit's MainView component required by MainViewStyle
+    property color headerColor: backgroundColor
+    // FIXME: should be read from desktop file and set by SpreadDelegate
+    property color backgroundColor: theme.palette.normal.background
+    property color footerColor: backgroundColor
+
+    // FIXME: should instead use to be created API from toolkit
+    // style: theme.createStyleComponent("MainViewStyle.qml", root)
+    style: Component { MainViewStyle {theme: root.theme} }
+
+    StyledItem {
+        id: header
+        anchors {
+            left: parent.left
+            right: parent.right
         }
-    }
 
-    Label {
-        text: root.name
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: iconShape.bottom
-        anchors.topMargin: units.gu(2)
-        fontSize: "large"
-    }
+        // mimic API of toolkit's AppHeader component required by PageHeadStyle
+        property Item pageStack
+        property Item contents
+        property string title: root.name
+        property var tabsModel
+        property var config: QtObject {
+            property color foregroundColor: theme.palette.selected.backgroundText
+            property var sections
+        }
 
-    WaitingDots {
-        visible: parent.visible
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(12)
+        // FIXME: should instead use to be created API from toolkit:
+        // style: theme.createStyleComponent("PageHeadStyle.qml", header)
+        style: Component { PageHeadStyle {theme: root.theme} }
     }
 
     MouseArea {

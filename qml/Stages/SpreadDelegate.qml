@@ -52,8 +52,33 @@ Item {
         }
 
         function revealSurface() {
-            surface.visible = true;
-            splashLoader.source = "";
+            revealAnimation.start();
+        }
+
+        SequentialAnimation {
+            id: revealAnimation
+
+            PropertyAction {
+                target: surface
+                property: "opacity"
+                value: 0.0
+            }
+            PropertyAction {
+                target: surface
+                property: "visible"
+                value: true
+            }
+            UbuntuNumberAnimation {
+                target: surface
+                property: "opacity"
+                from: 0.0
+                to: 1.0
+            }
+            PropertyAction {
+                target: splashLoader
+                property: "source"
+                value: ""
+            }
         }
 
         Binding {
@@ -143,6 +168,7 @@ Item {
     Loader {
         id: splashLoader
         anchors.fill: surfaceContainer
+        anchors.topMargin: maximizedAppTopMargin
     }
 
     DraggingArea {
