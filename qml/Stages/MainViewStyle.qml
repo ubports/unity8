@@ -27,7 +27,7 @@ Item {
       The background texture of the main view. The image will be drawn over the background color,
       so if it has (semi-)transparent pixels, in those pixels the background color will be visible.
      */
-    property url backgroundSource: "graphics/background_paper.png"
+    property url backgroundSource: (ColorUtils.luminance(styledItem.backgroundColor) >= 0.85) ? "graphics/background_paper.png" : ""
     property var theme
 
     Gradient {
