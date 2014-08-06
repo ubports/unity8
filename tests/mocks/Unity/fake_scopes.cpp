@@ -46,6 +46,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
+    addScope(new Scope("SingleCategoryScope", "Single", true, this, 1));
 
     if (!m_loaded) {
         m_loaded = true;
@@ -122,6 +123,11 @@ QModelIndex Scopes::parent(const QModelIndex&) const
 bool Scopes::loaded() const
 {
     return m_loaded;
+}
+
+unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
+{
+    return nullptr;
 }
 
 void Scopes::addScope(Scope* scope)

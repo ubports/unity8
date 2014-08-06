@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-07-17 05:46+0000\n"
-"Last-Translator: Tiago Hillebrandt <tiagohillebrandt@gmail.com>\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-08-04 18:33+0000\n"
+"Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-18 05:28+0000\n"
-"X-Generator: Launchpad (build 17114)\n"
+"X-Launchpad-Export-Date: 2014-08-05 06:45+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -84,10 +84,6 @@ msgstr "Chamada de emergência"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PageHeader.qml:366
-msgid "Recent searches"
-msgstr "Pesquisas recentes"
-
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
 msgid "Hello %1"
@@ -103,19 +99,23 @@ msgstr "CANCELAR"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "FEITO"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
 msgstr "Ver mais"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr "Ver menos"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "Recentes"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr "Ver todos"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -125,15 +125,15 @@ msgstr "Mais..."
 msgid "Less..."
 msgstr "Menos..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr "Avaliar isto"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Adicionar uma análise"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Enviar"
 
@@ -169,6 +169,14 @@ msgstr "Exibir senha"
 msgid "Please enter SIM PIN"
 msgstr "Por favor, digite o PIN do cartão SIM"
 
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "Toque para retornar para a chamada..."
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "Conferência"
+
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
 msgstr ""
@@ -179,7 +187,7 @@ msgstr "Baixando"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Em pausa, toque para continuar"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
@@ -187,11 +195,11 @@ msgstr "Cancelado"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "Finalizado"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Falhou, toque para tentar novamente"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"

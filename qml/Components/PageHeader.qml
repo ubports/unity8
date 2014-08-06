@@ -44,11 +44,23 @@ Item {
     signal backClicked()
 
     onScopeStyleChanged: refreshLogo()
+    onSearchQueryChanged: {
+        // Make sure we are at the search page if the search query changes behind our feet
+        if (searchQuery) {
+            headerContainer.showSearch = true;
+        }
+    }
 
     function triggerSearch() {
         if (searchEntryEnabled) {
             headerContainer.showSearch = true;
             searchTextField.forceActiveFocus();
+        }
+    }
+
+    function closePopup() {
+        if (headerContainer.popover != null) {
+            PopupUtils.close(headerContainer.popover);
         }
     }
 
@@ -60,9 +72,7 @@ Item {
             unfocus();
         }
         searchTextField.text = "";
-        if (headerContainer.popover != null) {
-            PopupUtils.close(headerContainer.popover);
-        }
+        closePopup();
     }
 
     function unfocus() {
@@ -103,9 +113,7 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: headerContainer.showSearch
         onPressed: {
-            if (headerContainer.popover) {
-                PopupUtils.close(headerContainer.popover);
-            }
+            closePopup();
             if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
@@ -117,7 +125,7 @@ Item {
     Flickable {
         id: headerContainer
         objectName: "headerContainer"
-        clip: true
+        clip: openSearchAnimation.running
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(6.5)
         contentHeight: headersColumn.height
@@ -126,6 +134,11 @@ Item {
 
         property bool showSearch: false
         property var popover: null
+
+        Background {
+            objectName: "headerBackground"
+            style: scopeStyle.headerBackground
+        }
 
         Behavior on contentY {
             UbuntuNumberAnimation {
@@ -150,6 +163,7 @@ Item {
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
+                opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
@@ -166,6 +180,7 @@ Item {
                 property var contents: TextField {
                     id: searchTextField
                     objectName: "searchTextField"
+                    inputMethodHints: Qt.ImhNoPredictiveText
                     hasClearButton: false
                     anchors {
                         fill: parent
@@ -215,6 +230,12 @@ Item {
                             root.openSearchHistory();
                         }
                     }
+
+                    onTextChanged: {
+                        if (text != "") {
+                            closePopup();
+                        }
+                    }
                 }
             }
 
@@ -224,8 +245,9 @@ Item {
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
+                opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
-                textColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+                textColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
@@ -291,6 +313,7 @@ Item {
 
                 Repeater {
                     id: recentSearches
+                    objectName: "recentSearches"
                     model: searchHistory
 
                     delegate: Standard {
@@ -299,7 +322,8 @@ Item {
                         onClicked: {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
-                            PopupUtils.close(popover);
+                            closePopup();
+                            unfocus();
                         }
                     }
                 }

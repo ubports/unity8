@@ -51,7 +51,7 @@ class TestLockscreen(UnityTestCase):
         if greeter.narrowMode:
             unlock_unity(unity_proxy)
             lockscreen = self._wait_for_lockscreen()
-            self._enter_pincode("1234")
+            self.main_window.enter_pin_code("1234")
             self.assertThat(lockscreen.shown, Eventually(Equals(False)))
         else:
             self._enter_prompt_passphrase("1234")
@@ -81,7 +81,7 @@ class TestLockscreen(UnityTestCase):
         if greeter.narrowMode:
             unlock_unity(unity_proxy)
             lockscreen = self._wait_for_lockscreen()
-            self._enter_pincode("4321")
+            self.main_window.enter_pin_code("4321")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))
             self.assertThat(lockscreen.shown, Eventually(Equals(True)))
@@ -118,28 +118,6 @@ class TestLockscreen(UnityTestCase):
         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
         return lockscreen
 
-    def _enter_pincode(self, code):
-        """Enter code 'code' into the single-pin lightdm pincode entry
-        screen.
-
-        :param code: must be a string of numeric characters.
-        :raises: TypeError if code is not a string.
-        :raises: ValueError if code contains non-numeric characters.
-
-        """
-
-        if not isinstance(code, basestring):
-            raise TypeError(
-                "'code' parameter must be a string, not %r."
-                % type(code)
-            )
-        for num in code:
-            if not num.isdigit():
-                raise ValueError(
-                    "'code' parameter contains non-numeric characters."
-                )
-            self.touch.tap_object(self.main_window.get_pinPadButton(int(num)))
-
     def _enter_pin_passphrase(self, passphrase):
         """Enter the password specified in 'passphrase' into the password entry
         field of the pin lock screen.
@@ -148,18 +126,15 @@ class TestLockscreen(UnityTestCase):
         :raises: TypeError if passphrase is not a string.
 
         """
-        if not isinstance(passphrase, basestring):
+        if not isinstance(passphrase, str):
             raise TypeError(
                 "'passphrase' parameter must be a string, not %r."
                 % type(passphrase)
             )
 
-        pinentryField = self.main_window.get_pinentryField()
-        self.touch.tap_object(pinentryField)
-        self.assertThat(pinentryField.activeFocus, Eventually(Equals(True)))
-        for character in passphrase:
-            self._type_character(character, pinentryField)
-        logger.debug("Typed passphrase: %s", pinentryField.text)
+        pin_entry_field = self.main_window.get_pinentryField()
+        pin_entry_field.write(passphrase)
+        logger.debug("Typed passphrase: %s", pin_entry_field.text)
         self.keyboard.type("\n")
 
     def _enter_prompt_passphrase(self, passphrase):
@@ -177,21 +152,6 @@ class TestLockscreen(UnityTestCase):
             )
 
         prompt = self.main_window.get_greeter().get_prompt()
-        self.touch.tap_object(prompt)
-        self.assertThat(prompt.activeFocus, Eventually(Equals(True)))
-        for character in passphrase:
-            self._type_character(character, prompt)
+        prompt.write(passphrase)
         logger.debug("Typed passphrase: %s", prompt.text)
         self.keyboard.type("\n")
-
-    def _type_character(self, character, prompt, retries=5):
-        current_text = prompt.text
-        self.keyboard.type(character)
-        try:
-            self.assertThat(
-                prompt.text, Eventually(Equals(current_text + character)))
-        except AssertionError:
-            if retries > 0:
-                self._type_character(character, prompt, retries-1)
-            else:
-                raise

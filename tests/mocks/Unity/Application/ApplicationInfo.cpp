@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,8 @@
  */
 
 #include "ApplicationInfo.h"
+#include "MirSurfaceItem.h"
+#include "SurfaceManager.h"
 
 #include <QGuiApplication>
 #include <QQuickItem>
@@ -24,91 +26,75 @@
 
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
-    ,m_appId(appId)
-    ,m_stage(MainStage)
-    ,m_state(Starting)
-    ,m_focused(false)
-    ,m_fullscreen(false)
-    ,m_windowItem(0)
-    ,m_windowComponent(0)
-    ,m_parentItem(0)
+    , m_appId(appId)
+    , m_stage(MainStage)
+    , m_state(Starting)
+    , m_focused(false)
+    , m_fullscreen(false)
+    , m_parentItem(0)
+    , m_surface(0)
 {
-    QTimer::singleShot(300, this, SLOT(setRunning()));
+    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
     : ApplicationInfoInterface(QString(), parent)
-     ,m_stage(MainStage)
-     ,m_state(Starting)
-     ,m_focused(false)
-     ,m_fullscreen(false)
-     ,m_windowItem(0)
-     ,m_windowComponent(0)
-     ,m_parentItem(0)
+    , m_stage(MainStage)
+    , m_state(Starting)
+    , m_focused(false)
+    , m_fullscreen(false)
+    , m_parentItem(0)
+    , m_surface(0)
 {
-    QTimer::singleShot(300, this, SLOT(setRunning()));
+    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
-void ApplicationInfo::onWindowComponentStatusChanged(QQmlComponent::Status status)
+ApplicationInfo::~ApplicationInfo()
 {
-    if (status == QQmlComponent::Ready && !m_windowItem)
-        doCreateWindowItem();
-}
-
-void ApplicationInfo::setRunning()
-{
-    m_state = Running;
-    Q_EMIT stateChanged();
-}
-
-void ApplicationInfo::createWindowComponent()
-{
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
-    QQmlEngine *engine = quickView->engine();
-
-    m_windowComponent = new QQmlComponent(engine, this);
-    m_windowComponent->setData(m_windowQml.toLatin1(), QUrl());
-}
-
-void ApplicationInfo::doCreateWindowItem()
-{
-    m_windowItem = qobject_cast<QQuickItem *>(m_windowComponent->create());
-    m_windowItem->setParentItem(m_parentItem);
-}
-
-void ApplicationInfo::createWindowItem()
-{
-    if (!m_windowComponent)
-        createWindowComponent();
-
-    // only create the windowItem once the component is ready
-    if (!m_windowComponent->isReady()) {
-        connect(m_windowComponent, &QQmlComponent::statusChanged,
-                this, &ApplicationInfo::onWindowComponentStatusChanged);
-    } else {
-        doCreateWindowItem();
+    if (m_surface) {
+        Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
+        m_surface->deleteLater();
     }
 }
 
-void ApplicationInfo::showWindow(QQuickItem *parent)
+void ApplicationInfo::onStateChanged(State state)
 {
-    m_parentItem = parent;
-
-    if (!m_windowItem)
-        createWindowItem();
-
-    if (m_windowItem) {
-        m_windowItem->setVisible(true);
+    if (state == ApplicationInfo::Running) {
+        QTimer::singleShot(1000, this, SLOT(createSurface()));
+    } else if (state == ApplicationInfo::Stopped) {
+        setSurface(nullptr);
     }
 }
 
-void ApplicationInfo::hideWindow()
+void ApplicationInfo::createSurface()
 {
-    if (!m_windowItem)
+    if (m_surface || state() == ApplicationInfo::Stopped) return;
+
+    setSurface(new MirSurfaceItem(name(),
+                                   MirSurfaceItem::Normal,
+                                   fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
+                                   screenshot()));
+}
+
+void ApplicationInfo::setSurface(MirSurfaceItem* surface)
+{
+    if (m_surface == surface)
         return;
 
-    m_windowItem->setVisible(false);
+    if (m_surface) {
+        m_surface->setApplication(nullptr);
+        m_surface->setParent(nullptr);
+        SurfaceManager::singleton()->unregisterSurface(m_surface);
+    }
+
+    m_surface = surface;
+
+    if (m_surface) {
+        m_surface->setApplication(this);
+        m_surface->setParent(this);
+        SurfaceManager::singleton()->registerSurface(m_surface);
+    }
+
+    Q_EMIT surfaceChanged(m_surface);
+    SurfaceManager::singleton()->registerSurface(m_surface);
 }
