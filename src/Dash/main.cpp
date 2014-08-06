@@ -44,6 +44,10 @@ int main(int argc, const char *argv[])
         "Load the testability driver (Alternatively export QT_LOAD_TESTABILITY");
     parser.addOption(testabilityOption);
 
+    QCommandLineOption desktopFileHintOption("desktop_file_hint",
+        "The desktop_file_hint option for QtMir", "hint_file");
+    parser.addOption(desktopFileHintOption);
+
     // Treat args with single dashes the same as arguments with two dashes
     // Ex: -fullscreen == --fullscreen
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
