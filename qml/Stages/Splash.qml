@@ -27,7 +27,7 @@ StyledItem {
 
     // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
     property var theme: QtObject {
-        property string name
+        property string name: "Ambiance"
         property Palette palette: paletteLoader.item
     }
 
