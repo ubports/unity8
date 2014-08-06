@@ -70,7 +70,7 @@ StyledItem {
 
     ActivityIndicator {
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: header.height
+        anchors.verticalCenterOffset: header.height / 2
         running: true
     }
 
