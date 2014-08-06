@@ -40,6 +40,8 @@ FocusScope {
     signal backClicked()
 
     onScopeChanged: {
+        floatingSeeLess.companionTo = null;
+        floatingSeeLess.companionBase = null;
         if (scope) {
             scope.activateApplication.connect(activateApp);
         }
@@ -435,7 +437,7 @@ FocusScope {
 
             if (!showBecausePosition && categoryView.expandedCategoryId === "") {
                 companionTo = null;
-                companionBase = false;
+                companionBase = null;
             }
         }
 
