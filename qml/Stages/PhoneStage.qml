@@ -21,7 +21,7 @@ import Unity.Application 0.1
 import Utils 0.1
 import "../Components"
 
-Item {
+Rectangle {
     id: root
 
     // Controls to be set from outside
@@ -29,9 +29,9 @@ Item {
     property real maximizedAppTopMargin
     property bool interactive
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
+    property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
 
-    // State information propagated to the outside
-    readonly property bool locked: spreadView.phase == 2
+    color: "black"
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
@@ -43,6 +43,16 @@ Item {
         spreadView.contentX = -spreadView.shift;
     }
 
+    onInverseProgressChanged: {
+        if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
+            // left edge drag released. Minimum distance is given by design.
+            if (priv.oldInverseProgress > units.gu(22)) {
+                ApplicationManager.focusApplication("unity8-dash");
+            }
+        }
+        priv.oldInverseProgress = inverseProgress;
+    }
+
     Connections {
         target: ApplicationManager
 
@@ -50,7 +60,7 @@ Item {
             if (spreadView.phase > 0) {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
-                priv.switchToApp(appId);
+                ApplicationManager.focusApplication(appId);
             }
         }
 
@@ -60,7 +70,7 @@ Item {
             } else {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
-                priv.switchToApp(appId);
+                ApplicationManager.focusApplication(appId);
             }
         }
 
@@ -79,15 +89,11 @@ Item {
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
+        property var focusedAppDelegate: null
 
-        function switchToApp(appId) {
-            if (priv.focusedAppId) {
-                spreadView.focusChanging = true;
-                ApplicationManager.focusApplication(appId);
-            } else {
-                ApplicationManager.focusApplication(appId);
-            }
-        }
+        property real oldInverseProgress: 0
+
+        onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -100,14 +106,6 @@ Item {
 
     }
 
-    Rectangle {
-        id: coverFlipBackground
-        anchors.fill: parent
-        color: "black"
-        visible: spreadView.visible
-    }
-
-
     Flickable {
         id: spreadView
         objectName: "spreadView"
@@ -115,6 +113,10 @@ Item {
         interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1) && draggedIndex == -1
         contentWidth: spreadRow.width - shift
         contentX: -shift
+
+        // This indicates when the spreadView is active. That means, all the animations
+        // are activated and tiles need to line up for the spread.
+        readonly property bool active: shiftedContentX > 0 || spreadDragArea.dragging
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
@@ -198,6 +200,12 @@ Item {
             snapAnimation.start();
         }
 
+        // In case the ApplicationManager already holds an app when starting up we're missing animations
+        // Make sure we end up in the same state
+        Component.onCompleted: {
+            spreadView.contentX = -spreadView.shift
+        }
+
         SequentialAnimation {
             id: snapAnimation
             property int targetContentX: -spreadView.shift
@@ -260,14 +268,33 @@ Item {
                             && spreadView.shiftedContentX === 0 && root.interactive && index === 0
                     swipeToCloseEnabled: spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
-                    dropShadow: spreadView.shiftedContentX > 0 || spreadDragArea.status == DirectionalDragArea.Undecided
+                    dropShadow: spreadView.active ||
+                                priv.focusedAppDelegate.x !== 0
 
-                    z: behavioredIndex
-                    x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
+                    readonly property bool isDash: model.appId == "unity8-dash"
+
+                    z: isDash && !spreadView.active ? -1 : behavioredIndex
+
+                    x: {
+                        // focused app is always positioned at 0 except when following left edge drag
+                        if (index == 0) {
+                            if (!isDash && root.inverseProgress > 0) {
+                                return root.inverseProgress;
+                            }
+                           return 0;
+                        }
+                        if (isDash && !spreadView.active && !spreadDragArea.dragging) {
+                           return 0;
+                        }
+
+                        // Otherwise line up for the spread
+                        return spreadView.width + (index - 1) * spreadView.tileDistance;
+                    }
                     property real behavioredIndex: index
                     Behavior on behavioredIndex {
                         enabled: spreadView.closingIndex >= 0
                         UbuntuNumberAnimation {
+                            id: appXAnimation
                             onRunningChanged: {
                                 if (!running) {
                                     spreadView.closingIndex = -1;
@@ -277,11 +304,13 @@ Item {
                     }
 
                     Behavior on x {
-                        enabled: spreadView.focusChanging && index == 0 && root.spreadEnabled
+                        enabled: root.spreadEnabled &&
+                                 !spreadView.active &&
+                                 !snapAnimation.running
                         UbuntuNumberAnimation {
                             duration: UbuntuAnimation.FastDuration
                             onRunningChanged: {
-                                if (!running) {
+                                if (!running && root.inverseProgress == 0) {
                                     spreadView.focusChanging = false;
                                 }
                             }
@@ -321,6 +350,10 @@ Item {
                         }
                         return progress;
                     }
+
+                    // Hiding tiles when their progress is negative or reached the maximum
+                    visible: (progress >= 0 && progress < 1.7) ||
+                             (isDash && priv.focusedAppDelegate.x !== 0)
 
                     EasingCurve {
                         id: snappingCurve

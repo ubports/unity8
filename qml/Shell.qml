@@ -27,7 +27,6 @@ import Utils 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
-import "Dash"
 import "Greeter"
 import "Launcher"
 import "Panel"
@@ -36,6 +35,7 @@ import "Notifications"
 import "Stages"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
+import Unity.DashCommunicator 0.1
 
 Item {
     id: shell
@@ -50,8 +50,6 @@ Item {
     property url background
     readonly property real panelHeight: panel.panelHeight
 
-    property bool dashShown: dash.shown && dash.available && underlay.visible
-
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
@@ -65,7 +63,6 @@ Item {
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
-            stages.show();
         }
     }
 
@@ -90,6 +87,11 @@ Item {
 
     VolumeControl {
         id: volumeControl
+    }
+
+    DashCommunicator {
+        id: dash
+        objectName: "dashCommunicator"
     }
 
     WindowKeysFilter {
@@ -117,130 +119,11 @@ Item {
     }
 
     Item {
-        id: underlay
-        objectName: "underlay"
-        anchors.fill: parent
-
-        // Whether the underlay is fully covered by opaque UI elements.
-        property bool fullyCovered: (panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth)
-                                        || stages.fullyShown || greeterWrapper.fullyShown
-        visible: !fullyCovered
-
-        Image {
-            anchors.fill: dash
-            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-            fillMode: Image.PreserveAspectCrop
-            horizontalAlignment: Image.AlignRight
-            verticalAlignment: Image.AlignTop
-        }
-
-        Dash {
-            id: dash
-            objectName: "dash"
-
-            available: !LightDM.Greeter.active
-            hides: [stages, launcher, panel.indicators]
-            shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0 &&
-                   !(panel.indicators.fullyOpened && !sideStageEnabled)
-            enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
-
-            anchors {
-                fill: parent
-                topMargin: panel.panelHeight
-            }
-
-            contentScale: 1.0 - 0.2 * disappearingAnimationProgress
-            opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: stages.showProgress
-
-            // FIXME: only necessary because stages.showProgress is not animated
-            Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
-        }
-    }
-
-    EdgeDragArea {
-        id: stagesDragArea
-        direction: Direction.Leftwards
-
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-        width: shell.edgeSize
-
-        property real progress: stages.width
-
-        onTouchXChanged: {
-            if (status == DirectionalDragArea.Recognized) {
-                if (ApplicationManager.empty) {
-                    progress = Math.max(stages.width - stagesDragArea.width + touchX, stages.width * .3);
-                } else {
-                    progress = stages.width - stagesDragArea.width + touchX;
-                }
-            }
-        }
-
-        onDraggingChanged: {
-            if (!dragging) {
-                if (!ApplicationManager.empty && progress < stages.width - units.gu(10)) {
-                    stages.show();
-                }
-                stagesDragArea.progress = Qt.binding(function () { return stages.width; });
-            }
-        }
-    }
-
-    Item {
         id: stages
         objectName: "stages"
         width: parent.width
         height: parent.height
-
-        visible: !fullyHidden && !ApplicationManager.empty
-
-        x: {
-            if (shown) {
-                if (locked || greeter.fakeActiveForApp !== "") {
-                    return 0;
-                }
-                return launcher.progress;
-            } else {
-                return stagesDragArea.progress
-            }
-        }
-        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
-
-        property bool shown: false
-        onShownChanged: {
-            if (shown) {
-                if (ApplicationManager.count > 0) {
-                    ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
-                }
-            } else {
-                if (ApplicationManager.focusedApplicationId) {
-                    ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
-                    ApplicationManager.unfocusCurrentApplication();
-                }
-            }
-        }
-
-        // Avoid a silent "divide by zero -> NaN" situation during init as shell.width will be
-        // zero. That breaks the property binding and the function won't be reevaluated once
-        // shell.width is set, with the NaN result staying there for good.
-        property real showProgress: shell.width ? MathUtils.clamp(1 - x / shell.width, 0, 1) : 0
-
-        property bool fullyShown: x == 0
-        property bool fullyHidden: x == width
-
-        property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
-
-        // It might technically not be fullyShown but visually it just looks so.
-        property bool roughlyFullyShown: x >= 0 && x <= units.gu(1)
-
-        function show() {
-            shown = true;
-        }
-
-        function hide() {
-            shown = false;
-        }
+        visible: !ApplicationManager.empty
 
         Connections {
             target: ApplicationManager
@@ -249,7 +132,6 @@ Item {
                     lockscreen.show();
                 }
                 greeter.hide();
-                stages.show();
             }
 
             onFocusedApplicationIdChanged: {
@@ -260,17 +142,8 @@ Item {
             }
 
             onApplicationAdded: {
-                if (greeter.shown) {
+                if (greeter.shown && appId != "unity8-dash") {
                     greeter.hide();
-                }
-                if (!stages.shown) {
-                    stages.show();
-                }
-            }
-
-            onEmptyChanged: {
-                if (ApplicationManager.empty) {
-                    stages.hide();
                 }
             }
         }
@@ -300,13 +173,17 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: stages.roughlyFullyShown && !greeter.shown && !lockscreen.shown
-                       && panel.indicators.fullyClosed
+                value: edgeDemo.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: greeter.fakeActiveForApp === "" // to support emergency dialer hack
+                value: edgeDemo.stagesEnabled && greeter.fakeActiveForApp === "" // to support emergency dialer hack
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "inverseProgress"
+                value: launcher.progress
             }
         }
     }
@@ -550,7 +427,7 @@ Item {
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity) {
+            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
                 greeter.showNow();
             }
 
@@ -577,25 +454,20 @@ Item {
 
         var animate = !LightDM.Greeter.active && !stages.shown
         dash.setCurrentScope("clickscope", animate, false)
-        stages.hide()
+        ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
     function showDash() {
         if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) {
             return;
         }
-
-        if (!stages.locked) {
-            stages.hide();
-            launcher.fadeOut();
-        } else {
-            launcher.switchToNextState("visible");
-        }
-
         if (greeter.shown) {
             greeter.hideRight();
             launcher.fadeOut();
         }
+
+        ApplicationManager.requestFocusApplication("unity8-dash")
+        launcher.fadeOut();
     }
 
     Item {
@@ -620,8 +492,8 @@ Item {
                 ApplicationManager.focusedApplicationId &&
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
-            fullscreenMode: (stages.roughlyFullyShown && topmostApplicationIsFullscreen
-                    && !LightDM.Greeter.active) || greeter.fakeActiveForApp !== ""
+            fullscreenMode: (topmostApplicationIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+                            || greeter.fakeActiveForApp !== ""
         }
 
         Launcher {
@@ -638,7 +510,11 @@ Item {
 
             onShowDashHome: showHome()
             onDash: showDash()
-            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
+            onDashSwipeChanged: {
+                if (dashSwipe && ApplicationManager.focusedApplicationId !== "unity8-dash") {
+                    dash.setCurrentScope("clickscope", false, true)
+                }
+            }
             onLauncherApplicationSelected: {
                 if (greeter.fakeActiveForApp !== "") {
                     lockscreen.show()
@@ -730,9 +606,8 @@ Item {
         z: alphaDisclaimerLabel.z + 10
         greeter: greeter
         launcher: launcher
-        dash: dash
         indicators: panel.indicators
-        underlay: underlay
+        stages: stages
     }
 
     Connections {

@@ -1,3 +1,74 @@
+unity8 (8.00+14.10.20140806.1-0ubuntu1) utopic; urgency=low
+
+  [ Michal Hruby ]
+  * Work with the scopes-v4 branch + departments->navigation renaming
+
+  [ Michał Sawicz ]
+  * Hardcode art shape size for click scope local and predefined
+    categories While at it, drop the fillmode of cards
+  * Use the correct API in PageHeader. (LP: #1353048)
+  * Refactor dash activity indicator. (LP: #1351539)
+
+  [ Albert Astals ]
+  * Dash Departments fixes Update maxHeight manually since it depends on
+    the position of the item and its parents and it can't know when the
+    binding has to be updated Make parent stuff non interactive when the
+    department list is shown
+  * PageHeader: when on search clip y-coordinates otherwise the
+    background spills out when on search (LP: #1350398)
+  * Dash: Implement OverlayColor support in Cards
+  * Hardcode art shape size for click scope local and predefined
+    categories While at it, drop the fillmode of cards
+  * Make test_departments test more stable There's various
+    DashDepartments on the dash, make sure we're working over the one
+    that is on screen, otherwise clicks don't end up where they should
+  * Work with the scopes-v4 branch + departments->navigation renaming
+  * Fixes for dash as app Load i18n catalog Process command line options
+    Add the posibility to have a mouse touch adaptor (LP: #1353351)
+  * Implement the Expandable Preview Widget Now TextSummary is not
+    expandable by itself anymore, you have to use it inside an
+    Expandable to get the behaviour
+  * Add test prefix to xml output, seems CI needs it
+
+  [ Antti Kaijanmäki ]
+  * Indicators: Adds new ModemInfoItem to be used with indicator-network
+    (LP: #1329204)
+
+  [ Michael Terry ]
+  * When the edge demo is running, don't show the greeter if the screen
+    is turned off. This avoids an odd interaction where parts of the
+    greeter are disabled but the edge demo isn't visible until you slide
+    the greeter away. (LP: #1283425)
+  * Don't hardcode the phablet password in our testing script.
+
+  [ Ying-Chun Liu ]
+  * Add divider dots.
+
+  [ Mirco Müller ]
+  * Make sure the TextField of a snap-decision notification has the
+    active focus upon creation, thus the osk shows up right away. (LP:
+    #1346867)
+
+  [ Andrea Cimitan ]
+  * Add touchdown effect to dash cards.
+  * Import Ubuntu.Components for preview image gallery to pick up
+    default flicking speeds.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 06 Aug 2014 19:40:05 +0000
+
+unity8 (8.00+14.10.20140805-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * Split the dash from the shell into a separate app (LP: #1232687)
+
+  [ Leo Arias ]
+  * Update the autopilot tests to work with the new dash app.
+
+  [ Daniel d'Andrada ]
+  * Split the dash from the shell into a separate app (LP: #1232687)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 05 Aug 2014 12:06:31 +0000
+
 unity8 (8.00+14.10.20140731.1-0ubuntu1) utopic; urgency=low
 
   [ Gerry Boland ]

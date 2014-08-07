@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import Ubuntu.Thumbnailer 0.1 // Register support for image://thumbnailer/ and image://albumart/
 import Utils 0.1
 import Unity 0.2
 import "Components"
@@ -45,16 +46,6 @@ Rectangle {
         signal searchClicked
     }
 
-    SortFilterProxyModel {
-        id: filteredScopes
-        model: Scopes {
-            id: scopes
-        }
-        dynamicSortFilter: true
-
-        filterRole: Scopes.RoleVisible
-        filterRegExp: RegExp("^true$")
-    }
 
     Rectangle {
         anchors.fill: dashContent
@@ -72,8 +63,8 @@ Rectangle {
     DashContent {
         id: dashContent
 
-        model: filteredScopes
         property var scope: scopes.getScope(currentIndex)
+        scopes: Scopes { }
 
         anchors {
             top: parent.top
