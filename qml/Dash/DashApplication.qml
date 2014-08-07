@@ -23,6 +23,12 @@ MainView {
 
     useDeprecatedToolbar: false
 
+    Binding {
+        target: i18n
+        property: "domain"
+        value: "unity8"
+    }
+
     Dash {
         anchors.fill: parent
     }

@@ -148,6 +148,14 @@ Showable {
         live: false
     }
 
+    Image {
+        anchors.fill: parent
+        source: parent.width > parent.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignRight
+        verticalAlignment: Image.AlignTop
+    }
+
     DashContent {
         id: dashContent
 

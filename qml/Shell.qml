@@ -167,12 +167,12 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0
+                value: edgeDemo.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: greeter.fakeActiveForApp === "" // to support emergency dialer hack
+                value: edgeDemo.stagesEnabled && greeter.fakeActiveForApp === "" // to support emergency dialer hack
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -561,7 +561,7 @@ Item {
         greeter: greeter
         launcher: launcher
         indicators: panel.indicators
-        underlay: underlay
+        stages: stages
     }
 
     Connections {
