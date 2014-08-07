@@ -59,9 +59,9 @@ Item {
         function get_scope_data() {
             return [
                         { tag: "MockScope1", visualIndex: 0 },
-                        { tag: "MockScope2", visualIndex: 1 },
-                        { tag: "clickscope", visualIndex: 2 },
-                        { tag: "MockScope5", visualIndex: 3 },
+                        { tag: "MockScope2", visualIndex: -1 },
+                        { tag: "clickscope", visualIndex: 1 },
+                        { tag: "MockScope5", visualIndex: 2 },
             ]
         }
 
@@ -80,7 +80,14 @@ Item {
             tryCompare(dashContentList, "count", 6);
 
             verify(dashContentList != undefined);
-            tryCompare(dashContentList, "currentIndex", data.visualIndex);
+            if (data.visualIndex == -1) {
+                tryCompare(dashContentList, "currentIndex", 0);
+                expectFail(data.tag, "non favorite scopes should not be visble in the scopes model");
+                compare(dashContentList.currentItem.scopeId, data.tag); // this should fail
+            } else {
+                tryCompare(dashContentList, "currentIndex", data.visualIndex);
+                compare(dashContentList.currentItem.scopeId, data.tag);
+            }
         }
 
         function test_dash_overview_show_select_same_favorite() {

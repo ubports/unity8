@@ -113,7 +113,13 @@ Showable {
             hide();
         }
         onSearchSelected: {
-            var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId);
+            var scopeIndex = -1;
+            for (var i = 0; i < scopes.count; ++i) {
+                if (scopes.getScope(i).id == scopeId) {
+                    scopeIndex = i;
+                    break;
+                }
+            }
             if (scopeIndex >= 0) {
                 // Is a favorite one
                 setCurrentScope(scopeId, false, false);

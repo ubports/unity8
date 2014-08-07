@@ -25,7 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem.showList : false
+    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].showList : false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -35,8 +35,8 @@ FocusScope {
     property var categoryView: categoryView
     property bool showPageHeader: true
     readonly property alias previewShown: previewListView.open
-    property alias paginationCount: pageHeader.paginationCount
-    property alias paginationIndex: pageHeader.paginationIndex
+    property int paginationCount: 0
+    property int paginationIndex: 0
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
@@ -417,6 +417,8 @@ FocusScope {
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
                     scopeStyle: scopeView.scopeStyle
+                    paginationCount: scopeView.paginationCount
+                    paginationIndex: scopeView.paginationIndex
 
                     bottomItem: DashNavigation {
                         scope: scopeView.scope

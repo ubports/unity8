@@ -188,7 +188,6 @@ Item {
             scopeStyle: overviewScopeStyle
             showSignatureLine: false
             searchEntryEnabled: true
-            searchInProgress: root.scope ? root.scope.searchInProgress : false
         }
 
         ScopesOverviewTab {
