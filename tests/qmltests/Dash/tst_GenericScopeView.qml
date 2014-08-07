@@ -129,8 +129,9 @@ Item {
                 var initialHeight = category.height;
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(category.expanded);
-                tryCompareFunction(function() { return category.height > initialHeight; }, true);
+                tryCompare(category, "height", category.item.expandedHeight + seeAll.height);
 
+                waitForRendering(seeAll);
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(!category.expanded);
             }
