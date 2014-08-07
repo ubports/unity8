@@ -381,7 +381,7 @@ Item {
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity) {
+            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
                 greeter.showNow();
             }
 
