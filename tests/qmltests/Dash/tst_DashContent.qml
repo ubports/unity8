@@ -270,8 +270,10 @@ Item {
         }
 
         function test_departments() {
-            var dashDepartments = findChild(dashContent, "dashDepartments");
-            compare(dashDepartments.visible, true);
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashDepartments") != null; }, true);
+            var dashDepartments = findChild(dashContentList.currentItem, "dashDepartments");
+            tryCompare(dashDepartments, "visible", true);
             compare(dashDepartments.showList, false);
             waitForRendering(dashDepartments);
             mouseClick(dashDepartments, 0, 0);
