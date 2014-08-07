@@ -80,7 +80,7 @@ class ScopesOverviewResultsModel : public unity::shell::scopes::ResultsModelInte
     Q_OBJECT
 
 public:
-    explicit ScopesOverviewResultsModel(const QList<unity::shell::scopes::ScopeInterface *> &scopes, const QString &categoryId, QObject* parent = 0);
+    explicit ScopesOverviewResultsModel(const QList<Scope *> &scopes, const QString &categoryId, QObject* parent = 0);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
@@ -97,7 +97,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    QList<unity::shell::scopes::ScopeInterface *> m_scopes;
+    QList<Scope *> m_scopes;
     QString m_categoryId;
 };
 

@@ -61,8 +61,8 @@ Item {
             property Item header: findChild(genericScopeView, "scopePageHeader")
 
             function init() {
-                genericScopeView.scope = scopes.getScope(1)
-                shell.width = units.gu(120)
+                genericScopeView.scope = scopes.getScope(2);
+                shell.width = units.gu(120);
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
             }
@@ -88,13 +88,13 @@ Item {
 
             function test_showDash() {
                 testCase.previewListView.open = true;
-                scopes.getScope(1).showDash();
+                genericScopeView.scope.showDash();
                 tryCompare(testCase.previewListView, "open", false);
             }
 
             function test_hideDash() {
                 testCase.previewListView.open = true;
-                scopes.getScope(1).hideDash();
+                genericScopeView.scope.hideDash();
                 tryCompare(testCase.previewListView, "open", false);
             }
 
@@ -111,8 +111,9 @@ Item {
 
             function test_changeScope() {
                 genericScopeView.scope.searchQuery = "test"
-                genericScopeView.scope = scopes.getScope(2)
-                genericScopeView.scope = scopes.getScope(1)
+                var originalScopeId = genericScopeView.scope.id;
+                genericScopeView.scope = scopes.getScope(originalScopeId + 1)
+                genericScopeView.scope = scopes.getScope(originalScopeId)
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
@@ -129,8 +130,9 @@ Item {
                 var initialHeight = category.height;
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(category.expanded);
-                tryCompareFunction(function() { return category.height > initialHeight; }, true);
+                tryCompare(category, "height", category.item.expandedHeight + seeAll.height);
 
+                waitForRendering(seeAll);
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(!category.expanded);
             }
@@ -197,6 +199,8 @@ Item {
                 openPreview(4, 0);
 
                 compare(testCase.previewListView.count, 12, "There should only be 12 items in preview.");
+
+                closePreview();
             }
 
             function test_narrow_delegate_ranges_expand() {
@@ -231,7 +235,7 @@ Item {
             }
 
             function test_single_category_expansion() {
-                genericScopeView.scope = scopes.getScope(4);
+                genericScopeView.scope = scopes.getScope(3);
 
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
@@ -319,7 +323,7 @@ Item {
                                                 units.gu(2),
                                                 testCase.previewListView.height / 2);
                     tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.previewListView.currentItem, "objectName", "previewItem" + i);
+                    tryCompare(testCase.previewListView.currentItem, "objectName", "preview" + i);
 
                 }
                 closePreview();
@@ -328,8 +332,8 @@ Item {
             function test_header_style_data() {
                 return [
                     { tag: "Default", index: 0, foreground: "grey", background: "", logo: "" },
-                    { tag: "Foreground", index: 2, foreground: "yellow", background: "", logo: "" },
-                    { tag: "Logo+Background", index: 3, foreground: "grey", background: "gradient:///lightgrey/grey",
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "", logo: "" },
+                    { tag: "Logo+Background", index: 2, foreground: "grey", background: "gradient:///lightgrey/grey",
                       logo: Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
             }

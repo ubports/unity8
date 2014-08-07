@@ -25,6 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
+    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].showList : false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -34,22 +35,16 @@ FocusScope {
     property var categoryView: categoryView
     property bool showPageHeader: true
     readonly property alias previewShown: previewListView.open
+    property int paginationCount: 0
+    property int paginationIndex: 0
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
     }
 
+    readonly property bool processing: scope ? scope.searchInProgress || previewListView.processing : false
+
     signal backClicked()
-
-    onScopeChanged: {
-        if (scope) {
-            scope.activateApplication.connect(activateApp);
-        }
-    }
-
-    function activateApp(appId) {
-        Qt.openUrlExternally(appId);
-    }
 
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
@@ -153,6 +148,7 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: previewListView.open
         pixelAligned: true
+        interactive: !navigationShown
 
         property string expandedCategoryId: ""
 
@@ -245,6 +241,10 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
+                    if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
+                        // Yeah, hackish :/
+                        cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
+                    }
                     item.cardTool = cardTool;
                 }
 
@@ -419,10 +419,11 @@ FocusScope {
                     searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
-                    searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
                     scopeStyle: scopeView.scopeStyle
+                    paginationCount: scopeView.paginationCount
+                    paginationIndex: scopeView.paginationIndex
 
-                    bottomItem: DashDepartments {
+                    bottomItem: DashNavigation {
                         scope: scopeView.scope
                         width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                         anchors.right: parent.right

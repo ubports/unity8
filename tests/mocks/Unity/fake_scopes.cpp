@@ -34,6 +34,11 @@ Scopes::Scopes(QObject *parent)
     timer.setSingleShot(true);
     timer.setInterval(100);
     QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(updateScopes()));
+
+    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
+    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
+    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
+
     load();
 }
 
@@ -68,7 +73,8 @@ void Scopes::clear()
     timer.stop();
     if (m_scopes.size() > 0) {
         beginRemoveRows(QModelIndex(), 0, m_scopes.count()-1);
-        qDeleteAll(m_scopes);
+        qDeleteAll(m_allScopes);
+        m_allScopes.clear();
         m_scopes.clear();
         endRemoveRows();
     }
@@ -103,8 +109,6 @@ QVariant Scopes::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(scope);
     } else if (role == Scopes::RoleId) {
         return QVariant::fromValue(scope->id());
-    } else if (role == Scopes::RoleVisible) {
-        return QVariant::fromValue(scope->visible());
     } else if (role == Scopes::RoleTitle) {
         return QVariant::fromValue(scope->name());
     } else {
@@ -123,17 +127,17 @@ unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
 
 unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const &scope_id) const
 {
+    // According to mh3 Scopes::getScope should only return favorite scopes (i.e the ones in the model)
     for (Scope *scope : m_scopes) {
-        // According to mh3 Scopes::getScope should only return non null for visible scopes
-        if (scope->id() == scope_id && scope->visible())
+        if (scope->id() == scope_id)
             return scope;
     }
     return nullptr;
 }
 
-unity::shell::scopes::ScopeInterface* Scopes::getScopeFromAll(const QString& scope_id) const
+Scope* Scopes::getScopeFromAll(const QString& scope_id) const
 {
-    for (Scope *scope : m_scopes) {
+    for (Scope *scope : m_allScopes) {
         if (scope->id() == scope_id)
             return scope;
     }
@@ -150,26 +154,33 @@ bool Scopes::loaded() const
     return m_loaded;
 }
 
+int Scopes::count() const
+{
+    return rowCount();
+}
+
 unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
 {
     return m_scopesOverview;
 }
 
-QList<unity::shell::scopes::ScopeInterface *> Scopes::scopes(bool onlyVisible) const
+QList<Scope*> Scopes::scopes() const
 {
-    QList<unity::shell::scopes::ScopeInterface *> res;
-    for (Scope *scope : m_scopes) {
-        if (!onlyVisible || scope->visible()) {
-            res << scope;
-        }
-    }
-    return res;
+    return m_scopes;
+}
+
+QList<Scope*> Scopes::allScopes() const
+{
+    return m_allScopes;
 }
 
 void Scopes::addScope(Scope* scope)
 {
     int index = rowCount();
-    beginInsertRows(QModelIndex(), index, index);
-    m_scopes.append(scope);
-    endInsertRows();
+    if (scope->favorite()) {
+        beginInsertRows(QModelIndex(), index, index);
+        m_scopes.append(scope);
+        endInsertRows();
+    }
+    m_allScopes.append(scope);
 }
