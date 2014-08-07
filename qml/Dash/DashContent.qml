@@ -148,6 +148,8 @@ Item {
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         dashContent.scopeLoaded(item.scope.id)
+                        item.paginationCount = Qt.binding(function() { return dashContentList.count } )
+                        item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
                     }
                     Connections {
                         target: isCurrent ? scope : null

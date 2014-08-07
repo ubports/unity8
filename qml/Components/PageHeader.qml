@@ -36,6 +36,8 @@ Item {
     property alias showSignatureLine: bottomBorder.visible
 
     property alias bottomItem: bottomContainer.children
+    property int paginationCount: 0
+    property int paginationIndex: -1
 
     // TODO We should use foreground for the icons
     // of the toolbar but unfortunately Action does not have
@@ -293,6 +295,25 @@ Item {
                     }
                 }
             }
+        }
+    }
+
+    Row {
+        spacing: units.gu(.5)
+        Repeater {
+            objectName: "paginationRepeater"
+            model: root.paginationCount
+            Image {
+                objectName: "paginationDots_" + index
+                height: units.gu(1)
+                width: height
+                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
+            }
+        }
+        anchors {
+            top: headerContainer.bottom
+            horizontalCenter: headerContainer.horizontalCenter
+            topMargin: units.gu(.5)
         }
     }
 

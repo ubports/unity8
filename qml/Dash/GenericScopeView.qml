@@ -35,6 +35,8 @@ FocusScope {
     property var categoryView: categoryView
     property bool showPageHeader: true
     readonly property alias previewShown: previewListView.open
+    property alias paginationCount: pageHeader.paginationCount
+    property alias paginationIndex: pageHeader.paginationIndex
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
