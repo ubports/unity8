@@ -31,7 +31,7 @@ PreviewWidget {
     implicitHeight: paymentButton.implicitHeight
     implicitWidth: paymentButton.implicitWidth
 
-    property bool active: false
+    property bool processActive: false
 
     Button {
         id: paymentButton
@@ -40,7 +40,7 @@ PreviewWidget {
         color: Theme.palette.selected.foreground
         text: root.active ? i18n.tr("Purchasing…") : paymentClient.formattedPrice
         onClicked: {
-            root.active = true;
+            root.processActive = true;
             root.processing(root.active);
             paymentClient.start();
         }
@@ -56,13 +56,13 @@ PreviewWidget {
             currency: source["currency"]
             storeItemId: source["store_item_id"]
             onPurchaseCompleted: {
-                root.active = false;
-                root.processing(root.active);
+                root.processActive = false;
+                root.processing(root.processActive);
                 root.triggered(widgetId, "purchaseCompleted", source);
             }
             onPurchaseError: {
-                root.active = false;
-                root.processing(root.active);
+                root.processActive = false;
+                root.processing(root.processActive);
                 root.triggered(widgetId, "purchaseError", source);
             }
         }
