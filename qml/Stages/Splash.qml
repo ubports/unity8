@@ -33,12 +33,7 @@ StyledItem {
     // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
     property var theme: QtObject {
         property string name: "Ambiance"
-        property Palette palette: paletteLoader.item
-    }
-
-    Loader {
-        id: paletteLoader
-        source: "%1Palette.qml".arg(theme.name)
+        property Palette palette: Qt.createQmlObject("import QtQuick 2.2; import Ubuntu.Components.Themes.%1 1.1; Palette {}".arg(theme.name), root, "dynamicPalette");
     }
 
     // FIXME: should instead use to be created API from toolkit
