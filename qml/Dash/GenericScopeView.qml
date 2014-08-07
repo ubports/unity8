@@ -42,6 +42,8 @@ FocusScope {
         style: scope ? scope.customizations : {}
     }
 
+    readonly property bool processing: scope ? scope.searchInProgress || previewListView.processing : false
+
     signal backClicked()
 
     function positionAtBeginning() {
@@ -414,7 +416,6 @@ FocusScope {
                     title: scopeView.scope ? scopeView.scope.name : ""
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
-                    searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
                     scopeStyle: scopeView.scopeStyle
 
                     bottomItem: DashNavigation {

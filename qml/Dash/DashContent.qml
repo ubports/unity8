@@ -29,6 +29,8 @@ Item {
     readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
     readonly property bool previewShown: dashContentList.currentItem && dashContentList.currentItem.item ?
                                             dashContentList.currentItem.item.previewShown : false
+    readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
+                                       && dashContentList.currentItem.item.processing || false
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
