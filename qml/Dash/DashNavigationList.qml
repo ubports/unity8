@@ -15,16 +15,16 @@
  */
 
 import QtQuick 2.2
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 Item {
     id: root
-    property var department: null
-    property var currentDepartment: null
+    property var navigation: null
+    property var currentNavigation: null
     property var scopeStyle: null
-    signal enterDepartment(var newDepartmentId, bool hasChildren)
+    signal enterNavigation(var newNavigationId, bool hasChildren)
     signal goBackToParentClicked()
-    signal allDepartmentClicked()
+    signal allNavigationClicked()
 
     readonly property int itemHeight: units.gu(5)
     readonly property color foregroundColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
@@ -35,11 +35,6 @@ Item {
         anchors.fill: parent
     }
 
-    ActivityIndicator {
-        id: loadingIndicator
-        anchors.centerIn: parent
-        running: !(department && department.loaded)
-    }
     clip: true
 
     Behavior on height {
@@ -54,6 +49,7 @@ Item {
 
         anchors.fill: parent
 
+        flickableDirection: Flickable.VerticalFlick
         contentHeight: column.height
         contentWidth: width
 
@@ -68,7 +64,7 @@ Item {
                 id: backButton
                 objectName: "backButton"
                 width: parent.width
-                visible: department && !department.isRoot || false
+                visible: navigation && !navigation.isRoot || false
                 height: itemHeight
 
                 onClicked: root.goBackToParentClicked();
@@ -92,7 +88,7 @@ Item {
                         left: backImage.right
                         leftMargin: units.gu(0.5)
                     }
-                    text: department ? department.parentLabel : ""
+                    text: navigation ? navigation.parentLabel : ""
                     color: root.foregroundColor
                 }
 
@@ -114,7 +110,7 @@ Item {
                 id: allButton
                 objectName: "allButton"
                 width: parent.width
-                visible: department && (!department.isRoot || (root.currentDepartment && !root.currentDepartment.isRoot && root.currentDepartment.parentDepartmentId == department.departmentId)) || false
+                visible: navigation && (!navigation.isRoot || (root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
                 height: itemHeight
 
                 Label {
@@ -123,7 +119,7 @@ Item {
                         left: parent.left
                         leftMargin: units.gu(2)
                     }
-                    text: department ? (department.allLabel != "" ? department.allLabel : department.label) : ""
+                    text: navigation ? (navigation.allLabel != "" ? navigation.allLabel : navigation.label) : ""
                     font.bold: true
                     color: root.foregroundColor
                 }
@@ -141,18 +137,18 @@ Item {
                     height: units.dp(1)
                 }
 
-                onClicked: root.allDepartmentClicked();
+                onClicked: root.allNavigationClicked();
             }
 
             Repeater {
-                model: department && department.loaded ? department : null
+                model: navigation && navigation.loaded ? navigation : null
                 clip: true
                 delegate: AbstractButton {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
                     width: root.width
 
-                    onClicked: root.enterDepartment(departmentId, hasChildren)
+                    onClicked: root.enterNavigation(navigationId, hasChildren)
 
                     Label {
                         anchors {
@@ -188,7 +184,7 @@ Item {
                         color: root.foregroundColor
                         opacity: 0.1
                         height: units.dp(1)
-                        visible: index != department.count - 1
+                        visible: index != navigation.count - 1
                     }
                 }
             }

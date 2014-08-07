@@ -317,6 +317,11 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         return;
     }
 
+    if (app->appId() == "unity8-dash") {
+        // Not adding the dash app
+        return;
+    }
+
     bool found = false;
     Q_FOREACH(LauncherItem *item, m_list) {
         if (app->appId() == item->appId()) {
