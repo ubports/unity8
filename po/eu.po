@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-25 12:38+0000\n"
+"PO-Revision-Date: 2014-08-06 22:51+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-26 07:16+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-07 06:27+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -36,7 +36,8 @@ msgstr "Eskuineko ertza"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Probatu eskuineko ertzetik arrastatzen telefonoa desblokeatzeko"
+msgstr ""
+"Pasatu hatza eskuineko ertzetik ezkerrerantz telefonoa desblokeatzeko"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
@@ -44,7 +45,7 @@ msgstr "Goiko ertza"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Probatu goiko ertzetik arrastatzen adierazleak ikusteko"
+msgstr "Pasatu hatza goiko ertzetik beherantz adierazleak ikusteko"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -52,7 +53,7 @@ msgstr "Itxi"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr "Pasatu hatza gora berriro ezarpenen leihoa ixteko"
+msgstr "Pasatu hatza berriro gora ezarpenen leihoa ixteko"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
