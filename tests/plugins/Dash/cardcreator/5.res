@@ -69,7 +69,7 @@ Loader {
                             sourceComponent: ShaderEffect { 
                                 id: overlay; 
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); 
-                                opacity: 0.6; 
+                                property color overlayColor: cardData && cardData["overlayColor"] || "#99000000";
                                 property var source: ShaderEffectSource { 
                                     id: shaderSource; 
                                     sourceItem: artShapeLoader.item; 
@@ -90,9 +90,10 @@ Loader {
                                     varying highp vec2 coord; 
                                     uniform sampler2D source; 
                                     uniform lowp float qt_Opacity; 
+                                    uniform highp vec4 overlayColor;
                                     void main() { 
                                         lowp vec4 tex = texture2D(source, coord); 
-                                        gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity; 
+                                        gl_FragColor = vec4(overlayColor.r, overlayColor.g, overlayColor.b, 1) * qt_Opacity * overlayColor.a * tex.a; 
                                     }"; 
                             } 
                         }
