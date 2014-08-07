@@ -147,10 +147,6 @@ Item {
         }
     }
 
-    property color modelBackgroundColor: "transparent"
-    property color modelHeaderColor: "transparent"
-    property color modelFooterColor: "transparent"
-
     StateGroup {
         id: appSurfaceState
         states: [
@@ -159,19 +155,19 @@ Item {
                 when: !surfaceContainer.appHasCreatedASurface
                 StateChangeScript {
                     script: {
-                        var properties = { "title": model.name,
-                                           "image": "",
-                                           "showHeader": true
+                        var properties = { "title": model.splashTitle ? model.splashTitle : model.name,
+                                           "image": model.splashImage,
+                                           "showHeader": model.splashShowHeader
                                          };
 
-                        if (root.modelBackgroundColor.a == 1) {
-                            properties["backgroundColor"] = root.modelBackgroundColor;
+                        if (model.splashColor.a == 1) {
+                            properties["backgroundColor"] = model.splashColor;
                         }
-                        if (root.modelHeaderColor.a == 1) {
-                            properties["headerColor"] = root.modelHeaderColor;
+                        if (model.splashColorHeader.a == 1) {
+                            properties["headerColor"] = model.splashColorHeader;
                         }
-                        if (root.modelFooterColor.a == 1) {
-                            properties["footerColor"] = root.modelFooterColor;
+                        if (model.splashColorFooter.a == 1) {
+                            properties["footerColor"] = model.splashColorFooter;
                         }
                         splashLoader.setSource("Splash.qml", properties);
                     }
