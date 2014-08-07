@@ -50,17 +50,20 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
 
     bool loaded() const override;
+    int count() const override;
     unity::shell::scopes::ScopeInterface* overviewScope() const override;
 
     // This is used as part of implementation of the other C++ code, not API
-    QList<unity::shell::scopes::ScopeInterface *> scopes(bool onlyVisible) const;
-    unity::shell::scopes::ScopeInterface* getScopeFromAll(const QString& scope_id) const;
+    QList<Scope*> scopes() const;
+    QList<Scope*> allScopes() const;
+    Scope* getScopeFromAll(const QString& scope_id) const;
 
 private Q_SLOTS:
     void updateScopes();
 
 private:
-    QList<Scope*> m_scopes;
+    QList<Scope*> m_scopes; // the favorite ones
+    QList<Scope*> m_allScopes;
     Scope *m_scopesOverview;
     bool m_loaded;
     QTimer timer;

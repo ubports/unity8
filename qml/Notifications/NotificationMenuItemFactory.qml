@@ -76,6 +76,9 @@ Loader {
                 }
                 echoMode: checkBox.checked ? TextInput.Normal : TextInput.Password
                 height: units.gu(5)
+                Component.onCompleted: {
+                    forceActiveFocus();
+                }
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
                 }
