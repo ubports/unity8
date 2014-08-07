@@ -16,7 +16,7 @@
  * Authors: Michael Zanetti <michael.zanetti@canonical.com>
 */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Unity.Application 0.1
 import Ubuntu.Components 1.1
 import "../Components"
@@ -60,8 +60,20 @@ Item {
 
             PropertyAction {
                 target: surface
+                property: "opacity"
+                value: 0.0
+            }
+            PropertyAction {
+                target: surface
                 property: "visible"
                 value: true
+            }
+            OpacityAnimator {
+                duration: UbuntuAnimation.FastDuration
+                easing: UbuntuAnimation.StandardEasing
+                target: surface
+                from: 0.0
+                to: 1.0
             }
             PropertyAction {
                 target: splashLoader
@@ -91,7 +103,7 @@ Item {
 
         Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
             id: surfaceRevealDelay
-            interval: 100
+            interval: 300
             onTriggered: surfaceContainer.revealSurface()
         }
 
@@ -124,6 +136,12 @@ Item {
             Behavior on opacity { UbuntuNumberAnimation {} }
         }
 
+        Loader {
+            id: splashLoader
+            anchors.fill: surfaceContainer
+            anchors.topMargin: maximizedAppTopMargin
+        }
+
         transform: Translate {
             y: dragArea.distance
         }
@@ -154,11 +172,6 @@ Item {
         state: "noSurfaceYet"
     }
 
-    Loader {
-        id: splashLoader
-        anchors.fill: surfaceContainer
-        anchors.topMargin: maximizedAppTopMargin
-    }
 
     DraggingArea {
         id: dragArea
