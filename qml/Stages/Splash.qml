@@ -24,8 +24,6 @@ StyledItem {
 
     property string title: ""
     property string image: ""
-    onImageChanged: print("IMAGE", image)
-    Component.onCompleted: print("COM IMGE", image)
     property bool showHeader: true
     // mimic API of toolkit's MainView component required by MainViewStyle
     property color backgroundColor: theme.palette.normal.background

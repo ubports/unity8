@@ -156,7 +156,7 @@ Item {
                 StateChangeScript {
                     script: {
                         var properties = { "title": model.splashTitle ? model.splashTitle : model.name,
-                                           "image": model.path,//model.splashImage,
+                                           "image": model.splashImage,
                                            "showHeader": model.splashShowHeader
                                          };
 
