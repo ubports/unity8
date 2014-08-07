@@ -93,7 +93,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.departmentsShown
 
             anchors.fill: parent
             model: dashContent.model
@@ -134,6 +134,7 @@ Item {
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
+                    readonly property bool departmentsShown: item ? item.departmentsShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 
