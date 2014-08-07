@@ -339,6 +339,7 @@ Item {
             showPageHeader: false
             clip: true
             opacity: searchResultsViewer.scope ? 1 : 0
+            isCurrent: true
             Behavior on opacity { UbuntuNumberAnimation { } }
 
             function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
