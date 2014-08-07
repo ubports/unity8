@@ -232,7 +232,14 @@ Item {
             tryCompare(dashContentList, "currentIndex", 1);
 
             // Click on card that opens temp scope
-            var dashCategory2 = findChild(dashContentList.currentItem, "dashCategory2");
+            var categoryListView = findChild(dashContentList.currentItem, "categoryListView");
+            var dashCategory2 = findChild(categoryListView, "dashCategory2");
+            tryCompareFunction(function() {
+                    var d = findChild(dashCategory2, "delegate2");
+                    if (d) return true;
+                    categoryListView.contentY += 100;
+                    return false;
+                }, true);
             var card2 = findChild(dashCategory2, "delegate2");
             waitForRendering(card2);
             mouseClick(card2, card2.width / 2, card2.height / 2);
