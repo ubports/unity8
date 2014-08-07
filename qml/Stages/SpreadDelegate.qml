@@ -103,7 +103,7 @@ Item {
 
         Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
             id: surfaceRevealDelay
-            interval: 300
+            interval: 400
             onTriggered: surfaceContainer.revealSurface()
         }
 
