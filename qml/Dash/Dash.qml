@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Ubuntu.Components 0.1
 import Unity 0.2
 import Utils 0.1
@@ -38,7 +38,13 @@ Showable {
     }
 
     function setCurrentScope(scopeId, animate, reset) {
-        var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
+        var scopeIndex = -1;
+        for (var i = 0; i < scopes.count; ++i) {
+            if (scopes.getScope(i).id == scopeId) {
+                scopeIndex = i;
+                break;
+            }
+        }
 
         if (scopeIndex == -1) {
             console.warn("No match for scope with id: %1".arg(scopeId))
@@ -63,15 +69,16 @@ Showable {
         }
     }
 
-    SortFilterProxyModel {
-        id: filteredScopes
-        model: Scopes {
-            id: scopes
-        }
-        dynamicSortFilter: true
+    Scopes {
+        id: scopes
+    }
 
-        filterRole: Scopes.RoleVisible
-        filterRegExp: RegExp("^true$")
+    Image {
+        anchors.fill: parent
+        source: parent.width > parent.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignRight
+        verticalAlignment: Image.AlignTop
     }
 
     DashContent {
@@ -79,7 +86,6 @@ Showable {
         objectName: "dashContent"
         width: parent.width
         height: parent.height
-        model: filteredScopes
         scopes: scopes
         visible: x != -width
         onGotoScope: {
@@ -134,4 +140,71 @@ Showable {
             }
         }
     }
+
+    Rectangle {
+        id: indicator
+        objectName: "processingIndicator"
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        height: units.dp(3)
+        color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"
+        opacity: 0
+        visible: opacity > 0
+
+        readonly property bool processing: dashContent.processing || scopeItem.processing
+
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+        }
+
+        onProcessingChanged: {
+            if (processing) delay.start();
+            else if (!persist.running) indicator.opacity = 0;
+        }
+
+        Timer {
+            id: delay
+            interval: 200
+            onTriggered: if (indicator.processing) {
+                persist.restart();
+                indicator.opacity = 1;
+            }
+        }
+
+        Timer {
+            id: persist
+            interval: 2 * UbuntuAnimation.SleepyDuration - UbuntuAnimation.FastDuration
+            onTriggered: if (!indicator.processing) indicator.opacity = 0
+        }
+
+        Rectangle {
+            id: orange
+            anchors { top: parent.top;  bottom: parent.bottom }
+            width: parent.width / 4
+            color: Theme.palette.selected.foreground
+
+            SequentialAnimation {
+                running: indicator.visible
+                loops: Animation.Infinite
+                XAnimator {
+                    from: -orange.width / 2
+                    to: indicator.width - orange.width / 2
+                    duration: UbuntuAnimation.SleepyDuration
+                    easing.type: Easing.InOutSine
+                    target: orange
+                }
+                XAnimator {
+                    from: indicator.width - orange.width / 2
+                    to: -orange.width / 2
+                    duration: UbuntuAnimation.SleepyDuration
+                    easing.type: Easing.InOutSine
+                    target: orange
+                }
+            }
+        }
+    }
+
 }

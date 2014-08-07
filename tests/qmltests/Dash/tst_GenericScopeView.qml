@@ -131,6 +131,7 @@ Item {
                 verify(category.expanded);
                 tryCompare(category, "height", category.item.expandedHeight + seeAll.height);
 
+                waitForRendering(seeAll);
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(!category.expanded);
             }
@@ -320,7 +321,7 @@ Item {
                                                 units.gu(2),
                                                 testCase.previewListView.height / 2);
                     tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.previewListView.currentItem, "objectName", "previewItem" + i);
+                    tryCompare(testCase.previewListView.currentItem, "objectName", "preview" + i);
 
                 }
                 closePreview();

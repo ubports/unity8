@@ -71,19 +71,14 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     visible: image.status == Image.Ready; \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
-                                    readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } \n\
-                                    onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } \n\
                                     function updateWidthHeightBindings() { \n\
                                         if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { \n\
                                             width = root.fixedArtShapeSize.width; \n\
                                             height = root.fixedArtShapeSize.height; \n\
-                                        } else if (aspectSmallerThanImageAspect) { \n\
-                                            width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
-                                            height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); \n\
                                         } else { \n\
-                                            width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect }); \n\
+                                            width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
                                             height = Qt.binding(function() { return !visible ? 0 : image.height }); \n\
                                         } \n\
                                     } \n\
@@ -92,8 +87,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                         source: cardData && cardData["art"] || ""; \n\
                                         cache: true; \n\
                                         asynchronous: root.asynchronous; \n\
-                                        fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop; \n\
-                                        readonly property real aspect: implicitWidth / implicitHeight; \n\
+                                        fillMode: Image.PreserveAspectCrop; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                     } \n\
@@ -114,7 +108,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
-                                opacity: 0.6; \n\
+                                property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
                                     sourceItem: artShapeLoader.item; \n\
@@ -135,9 +129,10 @@ var kOverlayLoaderCode = 'Loader { \n\
                                     varying highp vec2 coord; \n\
                                     uniform sampler2D source; \n\
                                     uniform lowp float qt_Opacity; \n\
+                                    uniform highp vec4 overlayColor; \n\
                                     void main() { \n\
                                         lowp vec4 tex = texture2D(source, coord); \n\
-                                        gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity; \n\
+                                        gl_FragColor = vec4(overlayColor.r, overlayColor.g, overlayColor.b, 1) * qt_Opacity * overlayColor.a * tex.a; \n\
                                     }"; \n\
                             } \n\
                         }\n';
@@ -257,6 +252,16 @@ var kTitleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
+// %1 is used as anchors of touchdown effect
+var kTouchdownCode = 'UbuntuShape { \n\
+                        id: touchdown; \n\
+                        objectName: "touchdown"; \n\
+                        anchors { %1 } \n\
+                        visible: root.pressed; \n\
+                        radius: "medium"; \n\
+                        borderSource: "radius_pressed.sci" \n\
+                    }\n';
+
 // %1 is used as anchors of subtitleLabel
 // %2 is used as color of subtitleLabel
 var kSubtitleLabelCode = 'Label { \n\
@@ -279,7 +284,7 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
                             color: %2; \n\
-                            model: cardData && cardData["attributes"] || undefined; \n\
+                            model: cardData["attributes"]; \n\
                           }\n';
 
 // %1 is used as top anchor of summary
@@ -569,6 +574,16 @@ function cardString(template, components) {
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(color);
     }
 
+    var touchdownAnchors;
+    if (hasBackground) {
+        touchdownAnchors = 'fill: backgroundLoader';
+    } else if (hasArt && !hasMascot && !hasSummary) {
+        touchdownAnchors = 'fill: artShapeHolder';
+    } else {
+        touchdownAnchors = 'fill: root'
+    }
+    code += kTouchdownCode.arg(touchdownAnchors);
+
     if (hasSummary) {
         code += 'implicitHeight: summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
     } else if (hasHeaderRow) {
@@ -593,7 +608,6 @@ function cardString(template, components) {
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 0.1; \n\
-                   import Ubuntu.Thumbnailer 0.1;\n\
                    import Dash 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
