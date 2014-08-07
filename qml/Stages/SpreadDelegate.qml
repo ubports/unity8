@@ -35,11 +35,13 @@ Item {
     signal clicked()
     signal closed()
 
-    SurfaceContainer {
+    AppSurfaceContainer {
         id: surfaceContainer
         objectName: "surfaceContainer"
         anchors.fill: parent
         surface: model.surface
+        promptSurfaces: model.application.promptSurfaces
+
         property bool appHasCreatedASurface: false
 
         onSurfaceChanged: {

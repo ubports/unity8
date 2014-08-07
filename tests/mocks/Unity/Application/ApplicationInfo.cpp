@@ -98,3 +98,52 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
     Q_EMIT surfaceChanged(m_surface);
     SurfaceManager::singleton()->registerSurface(m_surface);
 }
+
+void ApplicationInfo::removeSurface(MirSurfaceItem* surface)
+{
+    if (m_surface == surface) {
+        setSurface(nullptr);
+    } else if (m_promptSurfaces.contains(surface)) {
+        m_promptSurfaces.removeAll(surface);
+        surface->setApplication(nullptr);
+
+        Q_EMIT promptSurfacesChanged();
+    }
+}
+
+void ApplicationInfo::addPromptSurface(MirSurfaceItem* surface)
+{
+    if (surface == m_surface || m_promptSurfaces.contains(surface)) return;
+
+    surface->setApplication(this);
+    m_promptSurfaces.append(surface);
+    Q_EMIT promptSurfacesChanged();
+}
+
+QList<MirSurfaceItem*> ApplicationInfo::promptSurfaceList() const
+{
+    return m_promptSurfaces;
+}
+
+QQmlListProperty<MirSurfaceItem> ApplicationInfo::promptSurfaces()
+{
+    return QQmlListProperty<MirSurfaceItem>(this,
+                                            0,
+                                            ApplicationInfo::promptSurfaceCount,
+                                            ApplicationInfo::promptSurfaceAt);
+}
+
+int ApplicationInfo::promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
+{
+    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
+    return p->m_promptSurfaces.count();
+}
+
+MirSurfaceItem* ApplicationInfo::promptSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
+{
+    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
+
+    if (index < 0 || index >= p->m_promptSurfaces.count())
+        return nullptr;
+    return p->m_promptSurfaces[index];
+}
