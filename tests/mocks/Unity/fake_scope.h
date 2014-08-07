@@ -73,6 +73,8 @@ public:
     Status status() const override;
     QVariantMap customizations() const override;
 
+    Q_INVOKABLE void refresh() override;
+
 protected:
 
     QString m_id;

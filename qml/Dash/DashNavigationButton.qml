@@ -47,6 +47,7 @@ AbstractButton {
     visible: root.currentNavigation != null
 
     onClicked: {
+        navigationListView.updateMaxHeight();
         root.showList = !root.showList;
     }
 
@@ -83,7 +84,12 @@ AbstractButton {
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
         anchors.top: root.bottom
-        readonly property int maxHeight: (windowHeight - mapToItem(null, root.x, root.y).y) - units.gu(8)
+        property int maxHeight: -1
+        Component.onCompleted: updateMaxHeight();
+        function updateMaxHeight()
+        {
+            maxHeight = (windowHeight - mapToItem(null, 0, 0).y) - units.gu(8);
+        }
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
         onHeightChanged: {
@@ -101,6 +107,7 @@ AbstractButton {
                 if (root.showList) {
                     if (navigation && navigation.loaded && x == navigationListView.contentX)
                     {
+                        navigationListView.updateMaxHeight();
                         return Math.min(implicitHeight, navigationListView.maxHeight);
                     } else {
                         return navigationListView.prevHeight;

@@ -35,11 +35,6 @@ Item {
         anchors.fill: parent
     }
 
-    ActivityIndicator {
-        id: loadingIndicator
-        anchors.centerIn: parent
-        running: !(navigation && navigation.loaded)
-    }
     clip: true
 
     Behavior on height {
@@ -54,6 +49,7 @@ Item {
 
         anchors.fill: parent
 
+        flickableDirection: Flickable.VerticalFlick
         contentHeight: column.height
         contentWidth: width
 

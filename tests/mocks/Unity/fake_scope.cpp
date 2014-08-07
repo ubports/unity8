@@ -220,6 +220,11 @@ QVariantMap Scope::customizations() const
     return m;
 }
 
+void Scope::refresh()
+{
+    qDebug() << "Scope::refresh is currently not implmented in the fake scopes plugin";
+}
+
 unity::shell::scopes::NavigationInterface* Scope::getNavigation(const QString& id)
 {
     if (id.isEmpty())

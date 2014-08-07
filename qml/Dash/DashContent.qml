@@ -25,6 +25,8 @@ Item {
 
     property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
+    readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
+                                       && dashContentList.currentItem.item.processing || false
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
@@ -88,7 +90,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
 
             anchors.fill: parent
             orientation: ListView.Horizontal
@@ -128,6 +130,7 @@ Item {
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
+                    readonly property bool navigationShown: item ? item.navigationShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 
@@ -141,6 +144,8 @@ Item {
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         dashContent.scopeLoaded(item.scope.id)
+                        item.paginationCount = Qt.binding(function() { return dashContentList.count } )
+                        item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
                     }
                     Connections {
                         target: isCurrent ? scope : null

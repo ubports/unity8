@@ -25,6 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
+    readonly property alias navigationShown: dashNavigation.showList
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -32,10 +33,14 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    property alias paginationCount: pageHeader.paginationCount
+    property alias paginationIndex: pageHeader.paginationIndex
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
     }
+
+    readonly property bool processing: scope ? scope.searchInProgress || previewListView.processing : false
 
     signal backClicked()
 
@@ -109,6 +114,7 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: previewListView.open
         pixelAligned: true
+        interactive: !dashNavigation.showList
 
         property string expandedCategoryId: ""
 
@@ -201,6 +207,10 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
+                    if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
+                        // Yeah, hackish :/
+                        cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
+                    }
                     item.cardTool = cardTool;
                 }
 
@@ -377,10 +387,10 @@ FocusScope {
             title: scopeView.scope ? scopeView.scope.name : ""
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
-            searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
             scopeStyle: scopeView.scopeStyle
 
             bottomItem: DashNavigation {
+                id: dashNavigation
                 scope: scopeView.scope
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right
