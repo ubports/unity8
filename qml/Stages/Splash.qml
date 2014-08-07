@@ -65,6 +65,7 @@ StyledItem {
     }
 
     Image {
+        id: overlaidImage
         anchors.centerIn: parent
         anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
         sourceSize {
@@ -77,7 +78,7 @@ StyledItem {
     ActivityIndicator {
         anchors.centerIn: parent
         anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
-        running: root.image === ""
+        running: overlaidImage.status == Image.Error || overlaidImage.status == Image.Null
     }
 
     MouseArea {
