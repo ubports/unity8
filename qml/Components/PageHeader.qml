@@ -32,10 +32,11 @@ Item {
     property bool searchEntryEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
-    property bool searchInProgress: false
     property alias showSignatureLine: bottomBorder.visible
 
     property alias bottomItem: bottomContainer.children
+    property int paginationCount: 0
+    property int paginationIndex: -1
 
     // TODO We should use foreground for the icons
     // of the toolbar but unfortunately Action does not have
@@ -126,7 +127,7 @@ Item {
     Flickable {
         id: headerContainer
         objectName: "headerContainer"
-        clip: openSearchAnimation.running
+        clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(6.5)
         contentHeight: headersColumn.height
@@ -170,6 +171,7 @@ Item {
                 property var styledItem: searchHeader
                 property string title
                 property var config: PageHeadConfiguration {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                     backAction: Action {
                         iconName: "back"
                         onTriggered: {
@@ -201,20 +203,8 @@ Item {
                             anchors.fill: parent
                             anchors.margins: units.gu(.75)
                             source: "image://theme/clear"
-                            opacity: searchTextField.text.length > 0 && !searchActivityIndicator.running
+                            opacity: searchTextField.text.length > 0
                             visible: opacity > 0
-                            Behavior on opacity {
-                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
-                            }
-                        }
-
-                        ActivityIndicator {
-                            id: searchActivityIndicator
-                            objectName: "searchIndicator"
-                            anchors.fill: parent
-                            anchors.margins: units.gu(.75)
-                            running: root.searchInProgress
-                            opacity: running ? 1 : 0
                             Behavior on opacity {
                                 UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
                             }
@@ -248,10 +238,10 @@ Item {
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
-                textColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
@@ -293,6 +283,25 @@ Item {
                     }
                 }
             }
+        }
+    }
+
+    Row {
+        spacing: units.gu(.5)
+        Repeater {
+            objectName: "paginationRepeater"
+            model: root.paginationCount
+            Image {
+                objectName: "paginationDots_" + index
+                height: units.gu(1)
+                width: height
+                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
+            }
+        }
+        anchors {
+            top: headerContainer.bottom
+            horizontalCenter: headerContainer.horizontalCenter
+            topMargin: units.gu(.5)
         }
     }
 

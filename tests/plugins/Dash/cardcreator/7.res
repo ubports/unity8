@@ -116,7 +116,7 @@ CardAttributes {
                             objectName: "attributesRow"; 
                             anchors { left: parent.left; right: parent.right } 
                             color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
-                            model: cardData && cardData["attributes"] || undefined; 
+                            model: cardData["attributes"];
                           }
  
                     ]
@@ -124,5 +124,13 @@ CardAttributes {
  
                                 ] 
                     }
+UbuntuShape {
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: backgroundLoader }
+    visible: root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: row.y + row.height + units.gu(1);
 }

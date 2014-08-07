@@ -84,6 +84,12 @@ Item {
         }
     }
 
+    Binding {
+        target: scope
+        property: "isActive"
+        value: progress === 1
+    }
+
     function animateDashFromAll(scopeId) {
         var currentScopePos = allScopeCardPosition(scopeId);
         if (currentScopePos) {
@@ -188,7 +194,6 @@ Item {
             scopeStyle: overviewScopeStyle
             showSignatureLine: false
             searchEntryEnabled: true
-            searchInProgress: root.scope ? root.scope.searchInProgress : false
         }
 
         ScopesOverviewTab {
@@ -334,6 +339,7 @@ Item {
             showPageHeader: false
             clip: true
             opacity: searchResultsViewer.scope ? 1 : 0
+            isCurrent: true
             Behavior on opacity { UbuntuNumberAnimation { } }
 
             function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
@@ -357,10 +363,10 @@ Item {
         Rectangle {
             id: bottomBar
             color: "black"
-            height: units.gu(6)
+            height: units.gu(8)
             width: parent.width
-            enabled: opacity == 0.4
-            opacity: scope && scope.searchQuery == "" ? 0.4 : 0
+            enabled: opacity == 1
+            opacity: scope && scope.searchQuery == "" ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation { } }
             y: {
                 if (root.progress < 0.5) {
