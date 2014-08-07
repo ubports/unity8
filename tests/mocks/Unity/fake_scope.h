@@ -31,7 +31,7 @@ class Scope : public unity::shell::scopes::ScopeInterface
     Q_OBJECT
 
 public:
-    Scope(QObject* parent = 0);
+    Scope(Scopes* parent = 0);
     Scope(QString const& id, QString const& name, bool favorite, Scopes* parent = 0, int categories = 20);
 
     /* getters */

@@ -81,7 +81,8 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
     unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewCategories*>(this);
-        resultsModel = new ScopesOverviewResultsModel(m_scopes->scopes(index.row() == 0), categoryId, that);
+        QList<Scope*> scopes = index.row() == 0 ? m_scopes->scopes() : m_scopes->allScopes();
+        resultsModel = new ScopesOverviewResultsModel(scopes, categoryId, that);
         m_resultsModels[index.row()] = resultsModel;
     }
     switch (role) {
@@ -158,7 +159,7 @@ ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
     unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewSearchCategories*>(this);
-        QList<unity::shell::scopes::ScopeInterface *> scopes;
+        QList<Scope *> scopes;
         if (index.row() == 0) {
             scopes << m_scopes->getScopeFromAll("clickscope") << nullptr << m_scopes->getScopeFromAll("MockScope2");
         } else {
@@ -207,7 +208,7 @@ ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
 }
 
 
-ScopesOverviewResultsModel::ScopesOverviewResultsModel(const QList<unity::shell::scopes::ScopeInterface *> &scopes, const QString &categoryId, QObject* parent)
+ScopesOverviewResultsModel::ScopesOverviewResultsModel(const QList<Scope *> &scopes, const QString &categoryId, QObject* parent)
     : unity::shell::scopes::ResultsModelInterface(parent)
     , m_scopes(scopes)
     , m_categoryId(categoryId)

@@ -19,7 +19,7 @@
 
 #include "fake_scope.h"
 
-include "fake_navigation.h"
+#include "fake_navigation.h"
 #include "fake_resultsmodel.h"
 #include "fake_scopes.h"
 
