@@ -16,6 +16,7 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.0
+import Ubuntu.Thumbnailer 0.1 // Register support for image://thumbnailer/ and image://albumart/
 
 MainView {
     width: units.gu(40)
