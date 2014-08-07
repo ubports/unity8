@@ -147,6 +147,9 @@ Item {
         }
     }
 
+    property color modelBackgroundColor: "transparent"
+    property color modelHeaderColor: "transparent"
+    property color modelFooterColor: "transparent"
 
     StateGroup {
         id: appSurfaceState
@@ -155,7 +158,23 @@ Item {
                 name: "noSurfaceYet"
                 when: !surfaceContainer.appHasCreatedASurface
                 StateChangeScript {
-                    script: { splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
+                    script: {
+                        var properties = { "title": model.name,
+                                           "image": "",
+                                           "showHeader": true
+                                         };
+
+                        if (root.modelBackgroundColor.a == 1) {
+                            properties["backgroundColor"] = root.modelBackgroundColor;
+                        }
+                        if (root.modelHeaderColor.a == 1) {
+                            properties["headerColor"] = root.modelHeaderColor;
+                        }
+                        if (root.modelFooterColor.a == 1) {
+                            properties["footerColor"] = root.modelFooterColor;
+                        }
+                        splashLoader.setSource("Splash.qml", properties);
+                    }
                 }
             },
             State {

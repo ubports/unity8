@@ -22,8 +22,13 @@ import "../Components"
 StyledItem {
     id: root
 
-    property string name: ""
+    property string title: ""
     property url image: ""
+    property bool showHeader: true
+    // mimic API of toolkit's MainView component required by MainViewStyle
+    property color backgroundColor: theme.palette.normal.background
+    property color headerColor: backgroundColor
+    property color footerColor: backgroundColor
 
     // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
     property var theme: QtObject {
@@ -36,12 +41,6 @@ StyledItem {
         source: "%1Palette.qml".arg(theme.name)
     }
 
-    // mimic API of toolkit's MainView component required by MainViewStyle
-    property color headerColor: backgroundColor
-    // FIXME: should be read from desktop file and set by SpreadDelegate
-    property color backgroundColor: theme.palette.normal.background
-    property color footerColor: backgroundColor
-
     // FIXME: should instead use to be created API from toolkit
     // style: theme.createStyleComponent("MainViewStyle.qml", root)
     style: Component { MainViewStyle {theme: root.theme} }
@@ -53,10 +52,12 @@ StyledItem {
             right: parent.right
         }
 
+        visible: root.showHeader
+
         // mimic API of toolkit's AppHeader component required by PageHeadStyle
         property Item pageStack
         property Item contents
-        property string title: root.name
+        property string title: root.title
         property var tabsModel
         property var config: QtObject {
             property color foregroundColor: theme.palette.selected.backgroundText
@@ -68,10 +69,20 @@ StyledItem {
         style: Component { PageHeadStyle {theme: root.theme} }
     }
 
+    Image {
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
+        sourceSize {
+            width: 1024
+            height: 1024
+        }
+        source: root.image
+    }
+
     ActivityIndicator {
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: header.height / 2
-        running: true
+        anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
+        running: root.image === ""
     }
 
     MouseArea {
