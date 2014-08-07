@@ -15,17 +15,17 @@
  */
 
 import QtQuick 2.2
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 AbstractButton {
     id: root
-    objectName: "dashDepartments"
+    objectName: "dashNavigation"
 
     property var scope: null
 
     property bool showList: false
 
-    readonly property var currentDepartment: scope && scope.hasDepartments ? scope.getDepartment(scope.currentDepartmentId) : null
+    readonly property var currentNavigation: scope && scope.hasNavigation ? scope.getNavigation(scope.currentNavigationId) : null
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
@@ -34,21 +34,21 @@ AbstractButton {
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
 
-    visible: root.currentDepartment != null
+    visible: root.currentNavigation != null
 
     height: visible ? units.gu(5) : 0
 
     onClicked: {
-        departmentListView.updateMaxHeight();
+        navigationListView.updateMaxHeight();
         root.showList = !root.showList;
     }
 
     Rectangle {
         id: blackRect
         color: "black"
-        opacity: departmentListView.currentItem && departmentListView.currentItem.visible ? 0.3 : 0
+        opacity: navigationListView.currentItem && navigationListView.currentItem.visible ? 0.3 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-        anchors.top: departmentListView.top
+        anchors.top: navigationListView.top
         anchors.right: parent.right
         visible: opacity != 0
     }
@@ -79,7 +79,7 @@ AbstractButton {
         anchors.fill: parent
         anchors.margins: units.gu(2)
         verticalAlignment: Text.AlignVCenter
-        text: root.currentDepartment ? root.currentDepartment.label : ""
+        text: root.currentNavigation ? root.currentNavigation.label : ""
         color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     }
 
@@ -93,18 +93,18 @@ AbstractButton {
         color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
     }
 
-    //  departmentListView is outside root
+    //  navigationListView is outside root
     ListView {
-        id: departmentListView
-        objectName: "departmentListView"
+        id: navigationListView
+        objectName: "navigationListView"
         orientation: ListView.Horizontal
         interactive: false
         clip: root.width != windowWidth
         model: ListModel {
-            id: departmentModel
+            id: navigationModel
             // We have two roles
-            // departmentId: the department id of the department the list represents
-            // nullifyDepartment: overrides departmentId to be null
+            // navigationId: the navigation id of the navigation the list represents
+            // nullifyNavigation: overrides navigationId to be null
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
         anchors {
@@ -126,84 +126,84 @@ AbstractButton {
             }
         }
         highlightMoveDuration: UbuntuAnimation.FastDuration
-        delegate: DashDepartmentsList {
-            objectName: "department" + index
+        delegate: DashNavigationList {
+            objectName: "navigation" + index
             visible: height != 0
-            width: departmentListView.width
+            width: navigationListView.width
             scopeStyle: root.scopeStyle
             property real desiredHeight: {
                 if (root.showList) {
-                    if (department && department.loaded && x == departmentListView.contentX)
+                    if (navigation && navigation.loaded && x == navigationListView.contentX)
                     {
-                        departmentListView.updateMaxHeight();
-                        return Math.min(implicitHeight, departmentListView.maxHeight);
+                        navigationListView.updateMaxHeight();
+                        return Math.min(implicitHeight, navigationListView.maxHeight);
                     } else {
-                        return departmentListView.prevHeight;
+                        return navigationListView.prevHeight;
                     }
                 } else {
                     return 0;
                 }
             }
             height: desiredHeight
-            department: (nullifyDepartment || !scope) ? null : scope.getDepartment(departmentId)
-            currentDepartment: root.currentDepartment
-            onEnterDepartment: {
-                scope.loadDepartment(newDepartmentId);
+            navigation: (nullifyNavigation || !scope) ? null : scope.getNavigation(navigationId)
+            currentNavigation: root.currentNavigation
+            onEnterNavigation: {
+                scope.setNavigationState(newNavigationId, false);
                 // We only need to add a new item to the model
                 // if we have children, otherwise just load it
                 if (hasChildren) {
                     isGoingBack = false;
-                    departmentModel.append({"departmentId": newDepartmentId, "nullifyDepartment": false});
-                    departmentListView.currentIndex++;
+                    navigationModel.append({"navigationId": newNavigationId, "nullifyNavigation": false});
+                    navigationListView.currentIndex++;
                 } else {
                     showList = false;
                 }
             }
             onGoBackToParentClicked: {
-                scope.loadDepartment(department.parentDepartmentId);
+                scope.setNavigationState(navigation.parentNavigationId, false);
                 isGoingBack = true;
-                departmentModel.setProperty(departmentListView.currentIndex - 1, "nullifyDepartment", false);
-                departmentListView.currentIndex--;
+                navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
+                navigationListView.currentIndex--;
             }
-            onAllDepartmentClicked: {
+            onAllNavigationClicked: {
                 showList = false;
-                if (root.currentDepartment.parentDepartmentId == department.departmentId) {
+                if (root.currentNavigation.parentNavigationId == navigation.navigationId) {
                     // For leaves we have to go to the parent too
-                    scope.loadDepartment(root.currentDepartment.parentDepartmentId);
+                    scope.setNavigationState(root.currentNavigation.parentNavigationId, false);
                 }
             }
         }
         onContentXChanged: {
-            if (contentX == width * departmentListView.currentIndex) {
+            if (contentX == width * navigationListView.currentIndex) {
                 if (isGoingBack) {
-                    departmentModel.remove(departmentListView.currentIndex + 1);
+                    navigationModel.remove(navigationListView.currentIndex + 1);
                 } else {
-                    departmentModel.setProperty(departmentListView.currentIndex - 1, "nullifyDepartment", true);
+                    navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", true);
                 }
             }
         }
     }
 
     InverseMouseArea {
-        anchors.fill: departmentListView
+        anchors.fill: navigationListView
         enabled: root.showList
         onClicked: root.showList = false
     }
 
     onScopeChanged: {
-        departmentModel.clear();
-        if (scope && scope.hasDepartments) {
-            departmentModel.append({"departmentId": scope.currentDepartmentId, "nullifyDepartment": false});
+        navigationModel.clear();
+        if (scope && scope.hasNavigation) {
+            navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
         }
     }
 
     Connections {
         target: scope
-        onHasDepartmentsChanged: {
-            if (scope.hasDepartments) {
-                departmentModel.append({"departmentId": scope.currentDepartmentId, "nullifyDepartment": false});
+        onHasNavigationChanged: {
+            if (scope.hasNavigation) {
+                navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
             } else {
-                departmentModel.clear();
+                navigationModel.clear();
             }
         }
     }

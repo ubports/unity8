@@ -23,8 +23,7 @@ import "../Components"
 Item {
     id: dashContent
 
-    property var model: null
-    property var scopes: null
+    property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
     readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
     readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
@@ -93,10 +92,9 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.departmentsShown
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
 
             anchors.fill: parent
-            model: dashContent.model
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
             flickDeceleration: units.gu(625)
@@ -134,7 +132,7 @@ Item {
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
-                    readonly property bool departmentsShown: item ? item.departmentsShown : false
+                    readonly property bool navigationShown: item ? item.navigationShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 

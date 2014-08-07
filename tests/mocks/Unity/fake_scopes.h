@@ -50,6 +50,7 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
 
     bool loaded() const override;
+    int count() const override;
     unity::shell::scopes::ScopeInterface* overviewScope() const override;
 
     // This is used as part of implementation of the other C++ code, not API

@@ -39,7 +39,13 @@ Showable {
     }
 
     function setCurrentScope(scopeId, animate, reset) {
-        var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
+        var scopeIndex = -1;
+        for (var i = 0; i < scopes.count; ++i) {
+            if (scopes.getScope(i).id == scopeId) {
+                scopeIndex = i;
+                break;
+            }
+        }
 
         if (scopeIndex == -1) {
             console.warn("No match for scope with id: %1".arg(scopeId))
@@ -64,15 +70,8 @@ Showable {
         }
     }
 
-    SortFilterProxyModel {
-        id: filteredScopes
-        model: Scopes {
-            id: scopes
-        }
-        dynamicSortFilter: true
-
-        filterRole: Scopes.RoleVisible
-        filterRegExp: RegExp("^true$")
+    Scopes {
+        id: scopes
     }
 
     QtObject {
@@ -157,7 +156,6 @@ Showable {
         objectName: "dashContent"
         width: dash.width
         height: dash.height
-        model: filteredScopes
         scopes: scopes
         visible: !scopesOverview.showingNonFavoriteScope && x != -width
         onGotoScope: {
