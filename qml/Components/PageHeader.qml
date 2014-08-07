@@ -30,6 +30,7 @@ Item {
     property string title
 
     property bool searchEntryEnabled: false
+    property bool settingsEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property bool searchInProgress: false
@@ -42,6 +43,8 @@ Item {
     property var scopeStyle: null
 
     signal backClicked()
+
+    signal settingsClicked()
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -266,6 +269,13 @@ Item {
                             onTriggered: {
                                 headerContainer.showSearch = true;
                                 searchTextField.forceActiveFocus();
+                            }
+                        },
+                        Action {
+                            iconName: "settings"
+                            visible: root.settingsEnabled
+                            onTriggered: {
+                                root.settingsClicked()
                             }
                         }
                     ]

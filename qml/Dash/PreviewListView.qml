@@ -32,6 +32,8 @@ Item {
     property alias currentItem: previewListView.currentItem
     property alias count: previewListView.count
 
+    signal backClicked()
+
     PageHeader {
         id: header
         objectName: "pageHeader"
@@ -41,7 +43,7 @@ Item {
         searchEntryEnabled: false
         scopeStyle: root.scopeStyle
 
-        onBackClicked: root.open = false
+        onBackClicked: root.backClicked()
     }
 
     ListView  {

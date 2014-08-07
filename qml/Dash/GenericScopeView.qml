@@ -58,13 +58,13 @@ FocusScope {
     }
 
     function closePreview() {
-        previewListView.open = false;
+        subPageLoader.closeSubPage()
     }
 
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !previewListView.open
+        value: isCurrent && !subPageLoader.open
     }
 
     SortFilterProxyModel {
@@ -78,7 +78,7 @@ FocusScope {
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
-        previewListView.open = false;
+        subPageLoader.closeSubPage();
     }
 
     Binding {
@@ -97,8 +97,8 @@ FocusScope {
 
     Connections {
         target: scopeView.scope
-        onShowDash: previewListView.open = false;
-        onHideDash: previewListView.open = false;
+        onShowDash: subPageLoader.closeSubPage()
+        onHideDash: subPageLoader.closeSubPage()
     }
 
     Rectangle {
@@ -111,13 +111,13 @@ FocusScope {
         id: categoryView
         objectName: "categoryListView"
 
-        x: previewListView.open ? -width : 0
+        x: subPageLoader.open ? -width : 0
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
         height: parent.height
 
         model: scopeView.categories
-        forceNoClip: previewListView.open
+        forceNoClip: subPageLoader.open
         pixelAligned: true
 
         property string expandedCategoryId: ""
@@ -238,13 +238,14 @@ FocusScope {
                         if (!rendererLoader.expanded && !seeAllLabel.visible && target.collapsedItemCount > 0) {
                             previewLimitModel.model = target.model;
                             previewLimitModel.limit = target.collapsedItemCount;
-                            previewListView.model = previewLimitModel;
+                            subPageLoader.model = previewLimitModel;
                         } else {
-                            previewListView.model = target.model;
+                            subPageLoader.model = target.model;
                         }
-                        previewListView.currentIndex = -1;
-                        previewListView.currentIndex = index;
-                        previewListView.open = true;
+                        subPageLoader.currentIndex = -1;
+                        subPageLoader.currentIndex = index;
+                        subPageLoader.subPage = "preview";
+                        subPageLoader.openSubPage();
                     }
                 }
                 Connections {
@@ -260,10 +261,10 @@ FocusScope {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
                                 var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
                                 var growingVisible = shouldExpand && y + height < categoryView.height;
-                                if (!previewListView.open || shouldExpand) {
+                                if (!subPageLoader.open || shouldExpand) {
                                     var animate = shrinkingVisible || growingVisible;
                                     baseItem.expand(shouldExpand, animate)
-                                    if (shouldExpand && !previewListView.open) {
+                                    if (shouldExpand && !subPageLoader.open) {
                                         categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
                                     }
                                 }
@@ -388,6 +389,7 @@ FocusScope {
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
+            settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
             scopeStyle: scopeView.scopeStyle
 
             bottomItem: DashDepartments {
@@ -400,6 +402,11 @@ FocusScope {
             }
 
             onBackClicked: scopeView.backClicked()
+
+            onSettingsClicked: {
+                subPageLoader.subPage = "settings";
+                subPageLoader.openSubPage();
+            }
         }
     }
 
@@ -407,19 +414,73 @@ FocusScope {
         id: previewLimitModel
     }
 
-    PreviewListView {
-        id: previewListView
-        objectName: "previewListView"
+    Loader {
+        id: subPageLoader
+        objectName: "subPageLoader"
         visible: x != width
-        scope: scopeView.scope
-        scopeStyle: scopeView.scopeStyle
         width: parent.width
         height: parent.height
         anchors.left: categoryView.right
 
+        property bool open: false
+        property var scope: scopeView.scope
+        property var scopeStyle: scopeView.scopeStyle
+        property int currentIndex: -1
+        property var model: null
+
+        property string subPage: ""
+
+        function updateBindings() {
+            if (status === Loader.Ready) {
+                item.scope = Qt.binding(function() { return subPageLoader.scope } )
+                item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle } )
+                if (item.hasOwnProperty("open")) item.open = Qt.binding(function() { return subPageLoader.open } )
+                if (item.hasOwnProperty("currentIndex")) item.currentIndex = Qt.binding(function() { return subPageLoader.currentIndex } )
+                if (item.hasOwnProperty("model")) item.model = Qt.binding(function() { return subPageLoader.model } )
+            }
+        }
+
+        function updateSource() {
+            switch (subPage) {
+                case "preview": source = "PreviewListView.qml"; break;
+                case "settings": source = "ScopeSettingsPage.qml"; break;
+                default: source = ""; break;
+            }
+        }
+
+        function openSubPage() {
+            // FIXME adding the following check before opening makes more sense to me,
+            // but it doesn't seem to work in qmltestrunner::GenericScopeView::test_previewOpenClose()
+            // if (!visible && status === Loader.Ready), x is different to width.
+            // Let's just check status for now.
+            if (status === Loader.Ready) open = true;
+        }
+
+        function closeSubPage() {
+            open = false;
+            subPage = "";
+        }
+
+        onSubPageChanged: {
+            // let's update the source only when the loader is not visible
+            if (!visible) updateSource();
+        }
+
+        onVisibleChanged: {
+            // let's update the source only when the loader is not visible
+            if (!visible) updateSource();
+        }
+
+        onLoaded: updateBindings()
+
         onOpenChanged: {
+            if (open) updateBindings();
             pageHeader.unfocus();
         }
-    }
 
+        Connections {
+            target: subPageLoader.item
+            onBackClicked: subPageLoader.closeSubPage()
+        }
+    }
 }

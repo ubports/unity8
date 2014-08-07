@@ -57,7 +57,7 @@ Item {
             name: "GenericScopeView"
             when: scopes.loaded && windowShown
 
-            property Item previewListView: findChild(genericScopeView, "previewListView")
+            property Item subPageLoader: findChild(genericScopeView, "subPageLoader")
             property Item header: findChild(genericScopeView, "scopePageHeader")
 
             function init() {
@@ -78,24 +78,24 @@ Item {
                 tryCompare(genericScopeView.scope, "isActive", false)
                 genericScopeView.isCurrent = true
                 tryCompare(genericScopeView.scope, "isActive", true)
-                testCase.previewListView.open = true
+                testCase.subPageLoader.open = true
                 tryCompare(genericScopeView.scope, "isActive", false)
-                testCase.previewListView.open = false
+                testCase.subPageLoader.open = false
                 tryCompare(genericScopeView.scope, "isActive", true)
                 genericScopeView.isCurrent = false
                 tryCompare(genericScopeView.scope, "isActive", false)
             }
 
             function test_showDash() {
-                testCase.previewListView.open = true;
+                testCase.subPageLoader.open = true;
                 scopes.getScope(1).showDash();
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
             }
 
             function test_hideDash() {
-                testCase.previewListView.open = true;
+                testCase.subPageLoader.open = true;
                 scopes.getScope(1).hideDash();
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
             }
 
             function test_searchQuery() {
@@ -196,7 +196,7 @@ Item {
 
                 openPreview(4, 0);
 
-                compare(testCase.previewListView.count, 12, "There should only be 12 items in preview.");
+                compare(testCase.subPageLoader.item.count, 12, "There should only be 12 items in preview.");
             }
 
             function test_narrow_delegate_ranges_expand() {
@@ -257,19 +257,19 @@ Item {
                                     true);
                 var tile = findChild(findChild(genericScopeView, category), "delegate"+delegate);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
-                tryCompare(testCase.previewListView, "open", true);
-                tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
             }
 
             function closePreview() {
-                var closePreviewMouseArea = findChild(genericScopeView, "innerPageHeader");
+                var closePreviewMouseArea = findChild(subPageLoader.item, "pageHeader");
                 mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
 
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
             }
 
             function test_previewOpenClose() {
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
 
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
@@ -289,15 +289,15 @@ Item {
                                     },
                                     true);
 
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
 
                 var dashCategory1 = findChild(genericScopeView, "dashCategory1");
                 var tile = findChild(dashCategory1, "carouselDelegate1");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(tile, "explicitlyScaled", true);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
-                tryCompare(testCase.previewListView, "open", true);
-                tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
 
                 closePreview();
             }
@@ -306,20 +306,20 @@ Item {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
 
-                tryCompare(testCase.previewListView, "open", false);
-                var previewListViewList = findChild(previewListView, "listView");
+                tryCompare(testCase.subPageLoader, "open", false);
 
                 openPreview();
+                var previewListViewList = findChild(subPageLoader.item, "listView");
 
                 // flick to the next previews
-                tryCompare(testCase.previewListView, "count", 15);
-                for (var i = 1; i < testCase.previewListView.count; ++i) {
-                    mouseFlick(testCase.previewListView, testCase.previewListView.width - units.gu(1),
-                                                testCase.previewListView.height / 2,
+                tryCompare(testCase.subPageLoader.item, "count", 15);
+                for (var i = 1; i < testCase.subPageLoader.item.count; ++i) {
+                    mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.item.width - units.gu(1),
+                                                testCase.subPageLoader.item.height / 2,
                                                 units.gu(2),
-                                                testCase.previewListView.height / 2);
+                                                testCase.subPageLoader.item.height / 2);
                     tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.previewListView.currentItem, "objectName", "previewItem" + i);
+                    tryCompare(testCase.subPageLoader.item.currentItem, "objectName", "previewItem" + i);
 
                 }
                 closePreview();
