@@ -129,8 +129,9 @@ Item {
                 var initialHeight = category.height;
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(category.expanded);
-                tryCompareFunction(function() { return category.height > initialHeight; }, true);
+                tryCompare(category, "height", category.item.expandedHeight + seeAll.height);
 
+                waitForRendering(seeAll);
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(!category.expanded);
             }
@@ -319,8 +320,7 @@ Item {
                                                 units.gu(2),
                                                 testCase.subPageLoader.item.height / 2);
                     tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.subPageLoader.item.currentItem, "objectName", "previewItem" + i);
-
+                    tryCompare(testCase.subPageLoader.item.currentItem, "objectName", "preview" + i);
                 }
                 closePreview();
             }
