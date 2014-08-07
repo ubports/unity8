@@ -38,5 +38,7 @@ Item {
      */
     signal triggered(string widgetId, string actionId, var data)
 
+    signal processing(bool active)
+
     objectName: widgetId
 }

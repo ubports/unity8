@@ -92,6 +92,10 @@ Item {
                         previewModel.triggered(widgetId, actionId, data);
                     }
 
+                    onProcessing: {
+                        previewModel.processingAction = active;
+                    }
+
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
 
                     onHeightChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)

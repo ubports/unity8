@@ -40,6 +40,8 @@ Loader {
     //! Triggered signal forwarded from the widgets.
     signal triggered(string widgetId, string actionId, var data)
 
+    signal processing(bool active)
+
     source: widgetSource
 
     //! \cond private
@@ -71,5 +73,6 @@ Loader {
     Connections {
         target: root.item
         onTriggered: root.triggered(widgetId, actionId, data)
+        onProcessing: root.processing(active)
     }
 }
