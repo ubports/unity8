@@ -84,6 +84,12 @@ Item {
         }
     }
 
+    Binding {
+        target: scope
+        property: "isActive"
+        value: progress === 1
+    }
+
     function animateDashFromAll(scopeId) {
         var currentScopePos = allScopeCardPosition(scopeId);
         if (currentScopePos) {
