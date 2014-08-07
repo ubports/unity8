@@ -70,7 +70,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 10);
+            tryCompare(scopeLoadedSpy, "count", 6);
         }
 
         function init() {
@@ -114,7 +114,7 @@ Item {
 
             loadScopes();
 
-            compare(dashContentList.count, 10);
+            compare(dashContentList.count, 6);
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < dashContentList.count);
         }
 
@@ -190,9 +190,9 @@ Item {
         function test_scope_mapping_data() {
             return [
                 {tag: "index0", index: 0, objectName: "MockScope1"},
-                {tag: "index1", index: 1, objectName: "MockScope2"},
-                {tag: "index2", index: 2, objectName: "clickscope"},
-                {tag: "index3", index: 3, objectName: "MockScope5"}
+                {tag: "index1", index: 1, objectName: "clickscope"},
+                {tag: "index2", index: 2, objectName: "MockScope5"},
+                {tag: "index3", index: 3, objectName: "SingleCategoryScope"}
             ]
         }
 
