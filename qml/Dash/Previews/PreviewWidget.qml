@@ -31,6 +31,9 @@ Item {
     //! The ScopeStyle component.
     property var scopeStyle: null
 
+    //! Should the widget show in expanded mode (For those that support it)
+    property bool expanded: true
+
     /*! \brief This signal should be emitted when a preview action was triggered.
      *
      *  \param widgetId, actionId Respective identifiers from widgetData.

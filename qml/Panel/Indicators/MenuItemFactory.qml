@@ -57,6 +57,7 @@ Item {
 
         "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
+        "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
     }
 
     function getExtendedProperty(object, propertyName, defaultValue) {
@@ -370,6 +371,79 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
                                                              'x-canonical-wifi-ap-is-secure': 'bool',
                                                              'x-canonical-wifi-ap-strength-action': 'string'});
+            }
+        }
+    }
+
+    Component {
+        id: modeminfoitem;
+        ModemInfoItem {
+            objectName: "modemInfoItem"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
+
+            property var statusLabelAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalModemStatusLabelAction", "")
+            }
+            statusText: statusLabelAction.valid ? statusLabelAction.state : ""
+
+            property var statusIconAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalModemStatusIconAction", "")
+            }
+            statusIcon: statusIconAction.valid ? statusIconAction.state : ""
+
+            property var connectivityIconAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalModemConnectivityIconAction", "")
+            }
+            connectivityIcon: connectivityIconAction.valid ? connectivityIconAction.state : ""
+
+            property var simIdentifierLabelAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalModemSimIdentifierLabelAction", "")
+            }
+            simIdentifierText: simIdentifierLabelAction.valid ? simIdentifierLabelAction.state : ""
+
+            property var roamingAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalModemRoamingAction", "")
+            }
+            roaming: roamingAction.valid ? roamingAction.state : false
+
+            property var unlockAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalModemLockedAction", "")
+            }
+            onUnlock: {
+                unlockAction.activate();
+            }
+            locked: unlockAction.valid ? unlockAction.state : false
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-modem-status-label-action': 'string',
+                                                             'x-canonical-modem-status-icon-action': 'string',
+                                                             'x-canonical-modem-connectivity-icon-action': 'string',
+                                                             'x-canonical-modem-sim-identifier-label-action': 'string',
+                                                             'x-canonical-modem-roaming-action': 'string',
+                                                             'x-canonical-modem-locked-action': 'string'});
             }
         }
     }
