@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-08-06 15:19+0000\n"
-"Last-Translator: Shushi Kurose <md81bird@hitaki.net>\n"
+"PO-Revision-Date: 2014-08-08 06:18+0000\n"
+"Last-Translator: Mitsuya Shibata <mty.shibata@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-07 06:27+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-08 07:07+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -78,7 +78,7 @@ msgstr "緊急通報"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
@@ -99,7 +99,7 @@ msgstr ""
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "さらに表示する"
 
 #: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
@@ -155,7 +155,7 @@ msgstr "音声入力を開始..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "入力中..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
