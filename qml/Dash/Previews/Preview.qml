@@ -39,6 +39,9 @@ Item {
     //! \brief The ScopeStyle component.
     property var scopeStyle: null
 
+    //! \brief The ScopeStyle component.
+    property bool actionInProgress: false
+
     clip: true
 
     Binding {
@@ -93,7 +96,7 @@ Item {
                     }
 
                     onProcessing: {
-                        previewModel.processingAction = active;
+                        root.actionInProgress = active;
                     }
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
