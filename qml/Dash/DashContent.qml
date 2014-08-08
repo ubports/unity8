@@ -25,6 +25,10 @@ Item {
 
     property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
+    readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
+    readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
+    readonly property bool previewShown: dashContentList.currentItem && dashContentList.currentItem.item ?
+                                            dashContentList.currentItem.item.previewShown : false
     readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
                                        && dashContentList.currentItem.item.processing || false
 
@@ -77,14 +81,14 @@ Item {
         }
     }
 
-    function closeScope(scope) {
-        dashContentList.currentItem.theScope.closeScope(scope)
-    }
-
     Item {
         id: dashContentListHolder
 
         anchors.fill: parent
+
+        DashBackground {
+            anchors.fill: parent
+        }
 
         ListView {
             id: dashContentList
