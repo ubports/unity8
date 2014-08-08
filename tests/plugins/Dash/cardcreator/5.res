@@ -103,7 +103,6 @@ Label {
                         id: titleLabel;
                         objectName: "titleLabel"; 
                         anchors { right: parent.right; 
-                        rightMargin: units.gu(1); 
                         left: parent.left; 
                         leftMargin: units.gu(1); 
                         top: overlayLoader.top; 
@@ -125,7 +124,6 @@ Label {
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
                             leftMargin: titleLabel.leftMargin; 
-                            rightMargin: units.gu(1); 
                             right: titleLabel.right; 
                             top: titleLabel.bottom; 
                             } 

@@ -227,13 +227,14 @@ var kTitleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
+// %1 is used as extra anchors of emblemImage
 var kEmblemImageCode = 'Image { \n\
                             id: emblemImage; \n\
                             objectName: "emblemImage"; \n\
                             anchors { \n\
                             bottom: titleLabel.baseline; \n\
                             right: parent.right; \n\
-                            rightMargin: units.gu(1); \n\
+                            %1
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             width: height; \n\
@@ -394,6 +395,8 @@ function cardString(template, components) {
         headerLeftAnchor = 'left: parent.left;\n';
     }
 
+    var touchdownOnArtShape = !hasBackground && hasArt && !hasMascot && !hasSummary;
+
     if (hasHeaderRow) {
         code += 'readonly property int headerHeight: row.height;\n'
     } else if (hasMascot) {
@@ -459,6 +462,13 @@ function cardString(template, components) {
         var titleContainerAnchors;
         var titleRightAnchor;
 
+        var extraRightAnchor = '';
+        var extraLeftAnchor = '';
+        if (!touchdownOnArtShape) {
+            extraRightAnchor = 'rightMargin: units.gu(1); \n';
+            extraLeftAnchor = 'leftMargin: units.gu(1); \n';
+        }
+
         if (hasMascot) {
             titleContainerAnchors = 'verticalCenter: parent.verticalCenter; ';
         } else {
@@ -466,15 +476,15 @@ function cardString(template, components) {
             titleContainerAnchors += headerLeftAnchor;
             titleContainerAnchors += headerVerticalAnchors;
             if (!headerLeftAnchorHasMargin) {
-                titleContainerAnchors += 'leftMargin: units.gu(1);\n';
+                titleContainerAnchors += extraLeftAnchor;
             }
         }
         if (hasEmblem) {
             titleRightAnchor = 'right: emblemImage.left; \n\
                                 rightMargin: emblemImage.width > 0 ? units.gu(0.5) : 0; \n';
         } else {
-            titleRightAnchor = 'right: parent.right; \n\
-                                rightMargin: units.gu(1); \n';
+            titleRightAnchor = 'right: parent.right; \n'
+            titleRightAnchor += extraRightAnchor;
         }
 
         if (hasTitleContainer) {
@@ -483,8 +493,8 @@ function cardString(template, components) {
             titleAnchors += 'left: parent.left; \n\
                              top: parent.top;';
             subtitleAnchors = 'right: parent.right; \n\
-                               left: parent.left; \n\
-                               rightMargin: units.gu(1); \n';
+                               left: parent.left; \n';
+            subtitleAnchors += extraRightAnchor;
             if (hasSubtitle) {
                 attributesAnchors = subtitleAnchors + 'top: subtitleLabel.bottom;\n';
                 subtitleAnchors += 'top: titleLabel.bottom;\n';
@@ -508,12 +518,12 @@ function cardString(template, components) {
                 titleAnchors += headerLeftAnchor;
                 titleAnchors += headerVerticalAnchors;
                 if (!headerLeftAnchorHasMargin) {
-                    titleAnchors += 'leftMargin: units.gu(1);\n';
+                    titleAnchors += extraLeftAnchor;
                 }
             }
             subtitleAnchors = 'left: titleLabel.left; \n\
-                               leftMargin: titleLabel.leftMargin; \n\
-                               rightMargin: units.gu(1); \n';
+                               leftMargin: titleLabel.leftMargin; \n';
+            subtitleAnchors += extraRightAnchor;
             if (hasEmblem) {
                 // using container
                 subtitleAnchors += 'right: parent.right; \n';
@@ -534,7 +544,6 @@ function cardString(template, components) {
         var titleCode = kTitleLabelCode.arg(titleAnchors).arg(titleColor).arg(titleLabelVisibleExtra);
         var subtitleCode;
         var attributesCode;
-        var emblemCode;
 
         // code for the title container
         var containerCode = [];
@@ -546,11 +555,11 @@ function cardString(template, components) {
             containerHeight += ' + subtitleLabel.height';
         }
         if (hasEmblem) {
-            containerCode.push(kEmblemImageCode);
+            containerCode.push(kEmblemImageCode.arg(extraRightAnchor));
         }
         if (hasAttributes) {
             attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(titleColor);
-            containerCode.push(kAttributesRowCode.arg(attributesAnchors).arg(titleColor));
+            containerCode.push(attributesCode);
             containerHeight += ' + attributesRow.height';
         }
 
@@ -607,7 +616,7 @@ function cardString(template, components) {
     var touchdownAnchors;
     if (hasBackground) {
         touchdownAnchors = 'fill: backgroundLoader';
-    } else if (hasArt && !hasMascot && !hasSummary) {
+    } else if (touchdownOnArtShape) {
         touchdownAnchors = 'fill: artShapeHolder';
     } else {
         touchdownAnchors = 'fill: root'
