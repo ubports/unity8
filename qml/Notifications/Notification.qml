@@ -257,6 +257,7 @@ Item {
                         font.bold: true
                         color: Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
 
                     Label {
@@ -274,6 +275,7 @@ Item {
                         wrapMode: Text.WordWrap
                         maximumLineCount: 10
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
                 }
             }
