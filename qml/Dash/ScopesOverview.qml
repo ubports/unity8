@@ -32,7 +32,7 @@ Item {
     property alias currentTab: tabBar.currentTab
 
     // Properties used by parent
-    readonly property alias processing: searchResultsViewer.processing
+    readonly property bool processing: searchResultsViewer.processing || tempScopeItem.processing
     property bool growingDashFromPos: false
     readonly property bool searching: scope && scope.searchQuery == ""
     readonly property bool showingNonFavoriteScope: tempScopeItem.scope != null
