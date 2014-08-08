@@ -100,7 +100,7 @@ Item {
                             anchors { 
                             bottom: titleLabel.baseline; 
                             right: parent.right; 
-                            rightMargin: status === Image.Ready ? units.gu(1) : 0; 
+                            rightMargin: units.gu(1); 
                             } 
                             source: cardData && cardData["emblem"] || ""; 
                             width: height; 

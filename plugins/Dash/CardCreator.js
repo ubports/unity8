@@ -233,7 +233,7 @@ var kEmblemImageCode = 'Image { \n\
                             anchors { \n\
                             bottom: titleLabel.baseline; \n\
                             right: parent.right; \n\
-                            rightMargin: status === Image.Ready ? units.gu(1) : 0; \n\
+                            rightMargin: units.gu(1); \n\
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             width: height; \n\
