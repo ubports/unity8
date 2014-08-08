@@ -197,7 +197,7 @@ var kMascotImageCode = 'Image { \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
                             readonly property int maxSize: Math.max(width, height) * 4; \n\
-                            source: cardData && cardData["mascot"]; \n\
+                            source: cardData && cardData["mascot"] || ""; \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             sourceSize { width: maxSize; height: maxSize } \n\
@@ -232,11 +232,11 @@ var kEmblemImageCode = 'Image { \n\
                             anchors { \n\
                             bottom: titleLabel.baseline; \n\
                             right: parent.right; \n\
-                            rightMargin: units.gu(1); \n\
+                            rightMargin: status === Image.Ready ? units.gu(1) : 0; \n\
                             } \n\
-                            source: cardData["emblem"]; \n\
+                            source: cardData && cardData["emblem"] || ""; \n\
                             width: height; \n\
-                            height: titleLabel.font.pixelSize; \n\
+                            height: status === Image.Ready ? titleLabel.font.pixelSize : 0; \n\
                             fillMode: Image.PreserveAspectFit; \n\
                         }\n';
 
@@ -273,7 +273,7 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
                             color: %2; \n\
-                            model: cardData["attributes"]; \n\
+                            model: cardData && cardData["attributes"]; \n\
                           }\n';
 
 // %1 is used as top anchor of summary
@@ -470,7 +470,7 @@ function cardString(template, components) {
         }
         if (hasEmblem) {
             titleRightAnchor = 'right: emblemImage.left; \n\
-                                rightMargin: units.gu(0.5); \n';
+                                rightMargin: emblemImage.width > 0 ? units.gu(0.5) : 0; \n';
         } else {
             titleRightAnchor = 'right: parent.right; \n\
                                 rightMargin: units.gu(1); \n';
