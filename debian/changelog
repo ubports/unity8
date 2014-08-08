@@ -1,3 +1,196 @@
+unity8 (8.00+14.10.20140806.1-0ubuntu1) utopic; urgency=low
+
+  [ Michal Hruby ]
+  * Work with the scopes-v4 branch + departments->navigation renaming
+
+  [ Michał Sawicz ]
+  * Hardcode art shape size for click scope local and predefined
+    categories While at it, drop the fillmode of cards
+  * Use the correct API in PageHeader. (LP: #1353048)
+  * Refactor dash activity indicator. (LP: #1351539)
+
+  [ Albert Astals ]
+  * Dash Departments fixes Update maxHeight manually since it depends on
+    the position of the item and its parents and it can't know when the
+    binding has to be updated Make parent stuff non interactive when the
+    department list is shown
+  * PageHeader: when on search clip y-coordinates otherwise the
+    background spills out when on search (LP: #1350398)
+  * Dash: Implement OverlayColor support in Cards
+  * Hardcode art shape size for click scope local and predefined
+    categories While at it, drop the fillmode of cards
+  * Make test_departments test more stable There's various
+    DashDepartments on the dash, make sure we're working over the one
+    that is on screen, otherwise clicks don't end up where they should
+  * Work with the scopes-v4 branch + departments->navigation renaming
+  * Fixes for dash as app Load i18n catalog Process command line options
+    Add the posibility to have a mouse touch adaptor (LP: #1353351)
+  * Implement the Expandable Preview Widget Now TextSummary is not
+    expandable by itself anymore, you have to use it inside an
+    Expandable to get the behaviour
+  * Add test prefix to xml output, seems CI needs it
+
+  [ Antti Kaijanmäki ]
+  * Indicators: Adds new ModemInfoItem to be used with indicator-network
+    (LP: #1329204)
+
+  [ Michael Terry ]
+  * When the edge demo is running, don't show the greeter if the screen
+    is turned off. This avoids an odd interaction where parts of the
+    greeter are disabled but the edge demo isn't visible until you slide
+    the greeter away. (LP: #1283425)
+  * Don't hardcode the phablet password in our testing script.
+
+  [ Ying-Chun Liu ]
+  * Add divider dots.
+
+  [ Mirco Müller ]
+  * Make sure the TextField of a snap-decision notification has the
+    active focus upon creation, thus the osk shows up right away. (LP:
+    #1346867)
+
+  [ Andrea Cimitan ]
+  * Add touchdown effect to dash cards.
+  * Import Ubuntu.Components for preview image gallery to pick up
+    default flicking speeds.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 06 Aug 2014 19:40:05 +0000
+
+unity8 (8.00+14.10.20140805-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * Split the dash from the shell into a separate app (LP: #1232687)
+
+  [ Leo Arias ]
+  * Update the autopilot tests to work with the new dash app.
+
+  [ Daniel d'Andrada ]
+  * Split the dash from the shell into a separate app (LP: #1232687)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 05 Aug 2014 12:06:31 +0000
+
+unity8 (8.00+14.10.20140731.1-0ubuntu1) utopic; urgency=low
+
+  [ Gerry Boland ]
+  * Fix the run.sh script - pretend to be running with qtmir and emit
+    SIGSTOP at the right time
+
+  [ Ying-Chun Liu ]
+  * Implement Attribute UI. (LP: #1282460)
+
+  [ Albert Astals ]
+  * Hide search history popup as soon as you start typing As discussed
+    with Mike and Saviq
+  * Compile with for scopes-v3 unity-api
+  * PageHeader: Unfocus search field when search entry is selected
+  * Show search field if the search query changes
+  * Test: Add a condition for art.height being > 0 means stuff has
+    already been layouted a bit without it it can happen that we get 0
+    for everything at startup and tests still pass
+  * Remove leftover in test of an old headerless implementation
+
+  [ Michael Zanetti ]
+  * Drop Recent apps category from Dash (LP: #1281092)
+  * update launcher count emblems to match new spec (LP: #1338984)
+
+  [ Bill Filler ]
+  * disable predictive text for dash search field (LP: #1340409)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Antti Kaijanmäki ]
+  * DefaultIndicatorPage: use Loader status to determine the visible
+    property. (LP: #1350555)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 31 Jul 2014 16:51:01 +0000
+
+unity8 (8.00+14.10.20140729.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Check user's pin/password using PAM, instead of a plaintext keyfile.
+    New build dependency: libpam0g-dev for phone unlock with PAM (LP:
+    #1234983)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Jul 2014 23:36:30 +0000
+
+unity8 (8.00+14.10.20140729-0ubuntu1) utopic; urgency=medium
+
+  [ Gerry Boland ]
+  [ Daniel d'Andrada ]
+  * Re-architecture unity8 to use the QtMirCompositor library so that
+    the Qt scenegraph renderer is used as the Mir compositor, and
+    application surfaces are added to the QML scene as items.
+    
+  [ Michael Zanetti ]
+  * Port phone right-edge spread code to use QtCompositor
+  * Add right-edge spread animation for tablet
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Jul 2014 15:07:32 +0000
+
+unity8 (7.90+14.10.20140725-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Fix the ap test for applications.
+
+  [ Albert Astals ]
+  * Use deleteLater instead of a direct delete We are seeing a crash in
+    QQuickWindowPrivate::polishItems because LVWPH is deleting items to
+    polish from it's updatePolish which means the set in
+    QQuickWindowPrivate::polishItems may end up with some yet-to-
+    process-but-now-deleted items. Switching to deleteLater fixes this
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 25 Jul 2014 10:47:34 +0000
+
+unity8 (7.90+14.10.20140724.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * properly parent launcher items (LP: #1347902)
+
+  [ Michał Sawicz ]
+  * Move the PyDev project files to the root, supporting .py scripts
+    outside of tests/autopilot. Add Autopilot Run and List launch
+    configurations to easily support debugging in Eclipse. Use
+    add_unity8_mock macro in the Telephony plugin.
+  * Drop FilterGrid and refactor height animations in GenericScopeView.
+    Also implement forced category expansion. (LP: #1326470)
+  * Move expansion button from section header to category footer. (LP:
+    #1261300)
+  * Fix expect-sigstop enviroment variable name. (LP: #1346819)
+  * Make headerless categories easier Instead of having no header
+    category (which is a bit confusing since the LVWPH code was designed
+    so that when a category has no header it is because it shares the
+    category with the previous one) what we have for headerless
+    categories is a header of height 0, this way everything works as it
+    should and results in cleaner code in the LVWPH and in
+    GenericScopeView
+  * Add support for header links.
+  * Add dash PageHeader styling.
+
+  [ Albert Astals ]
+  * Make headerless categories easier Instead of having no header
+    category (which is a bit confusing since the LVWPH code was designed
+    so that when a category has no header it is because it shares the
+    category with the previous one) what we have for headerless
+    categories is a header of height 0, this way everything works as it
+    should and results in cleaner code in the LVWPH and in
+    GenericScopeView
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 24 Jul 2014 20:41:29 +0000
+
+unity8 (7.90+14.10.20140723.4-0ubuntu1) utopic; urgency=low
+
+  [ thomas-voss ]
+  * Explicitly select gcc version.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 23 Jul 2014 15:32:41 +0000
+
 unity8 (7.90+14.10.20140721.1-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]

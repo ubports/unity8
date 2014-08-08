@@ -23,7 +23,9 @@ import Ubuntu.Components 0.1
 SpreadDelegate {
     id: root
 
+    // Set this to true when this tile is selected in the spread. The animation will change to bring the tile to front.
     property bool selected: false
+    // Set this to true when another tile in the spread is selected. The animation will change to fade this tile out.
     property bool otherSelected: false
 
     // The progress animates the tiles. A value > 0 makes it appear from the right edge. At 1 it reaches the end position.
@@ -106,16 +108,6 @@ SpreadDelegate {
             selectedTopMarginProgress = topMarginProgress;
         }
 
-        // This calculates how much negative progress there can be if unwinding the spread completely
-        // the progress for each tile starts at 0 when it crosses the right edge, so the later a tile comes in,
-        // the bigger its negativeProgress can be.
-        property real negativeProgress: {
-            if (index == 1 && spreadView.phase < 2) {
-                return 0;
-            }
-            return -index * spreadView.tileDistance / spreadView.width;
-        }
-
         function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
             // progress : progressDiff = value : valueDiff => value = progress * valueDiff / progressDiff
             return (progress - startProgress) * (endValue - startValue) / (endProgress - startProgress) + startValue;
@@ -127,22 +119,24 @@ SpreadDelegate {
             return helperEasingCurve.value * (endValue - startValue) + startValue;
         }
 
-        property real animatedEndDistance: linearAnimation(0, 2, root.endDistance, 0, root.progress)
-
         // The following blocks handle the animation of the tile in the spread.
         // At the beginning, each tile is attached at the right edge, outside the screen.
         // The progress for each tile starts at 0 and it reaches its end position at a progress of 1.
-        // The first phases are handled special for the first 2 tiles. as we do the alt-tab and snapping in there
-        // Once we reached phase 3, the animation is the same for all tiles.
-        // When a tile is selected, the animation state is snapshotted, and the spreadView is unwound (progress animates
-        // back to negativeProgress). All tiles are kept in place and faded out to 0 opacity except
+        // The first phases are handled special for the first 2 tiles. as we do the alt-tab and snapping
+        // in there. Once we reached phase 3, the animation is the same for all tiles.
+        // When a tile is selected, the animation state is snapshotted, and the spreadView is unwound.
+        // All tiles are kept in place and faded out to 0 opacity except
         // the selected tile, which is animated from the snapshotted position to be fullscreen.
 
-        property real xTranslate: {
+        readonly property real xTranslate: {
+            if (!spreadView.active) {
+                return 0;
+            }
+
             if (otherSelected) {
                 if (spreadView.phase < 2 && index == 0) {
-                    return linearAnimation(selectedProgress, negativeProgress,
-                                           selectedXTranslate, selectedXTranslate - spreadView.tileDistance, root.progress);
+                    return linearAnimation(selectedProgress, 0, selectedXTranslate,
+                                           selectedXTranslate - spreadView.tileDistance, root.progress);
                 }
 
                 return selectedXTranslate;
@@ -160,7 +154,7 @@ SpreadDelegate {
                     // Apply the same animation as with the rest but add spreadView.width to align it with the others.
                     return -easingCurve.value * spreadView.width + spreadView.width;
                 } else if (priv.isSelected) {
-                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, 0, root.progress);
+                    return linearAnimation(selectedProgress, 0, selectedXTranslate, 0, root.progress);
                 }
 
             case 1:
@@ -177,23 +171,28 @@ SpreadDelegate {
             if (priv.isSelected) {
                 // Distance to left edge
                 var targetTranslate = -spreadView.width - ((index - 1) * root.startDistance);
-                return linearAnimation(selectedProgress, negativeProgress,
+                return linearAnimation(selectedProgress, 0,
                                        selectedXTranslate, targetTranslate, root.progress);
             }
 
             // Fix it at the right edge...
             var rightEdgeOffset =  -((index - 1) * root.startDistance);
             // ...and use our easing to move them to the left. Stop a bit earlier for each tile
+            var animatedEndDistance = linearAnimation(0, 2, root.endDistance, 0, root.progress);
             return -easingCurve.value * spreadView.width + (index * animatedEndDistance) + rightEdgeOffset;
 
         }
 
-        property real angle: {
+        readonly property real angle: {
+            if (!spreadView.active) {
+                return 0;
+            }
+
             if (priv.otherSelected) {
                 return priv.selectedAngle;
             }
             if (priv.isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedAngle, 0, root.progress);
+                return linearAnimation(selectedProgress, 0, selectedAngle, 0, root.progress);
             }
             switch (index) {
             case 0:
@@ -217,12 +216,15 @@ SpreadDelegate {
             return root.startAngle - easingCurve.value * (root.startAngle - root.endAngle);
         }
 
-        property real scale: {
+        readonly property real scale: {
+            if (!spreadView.active) {
+                return 1;
+            }
             if (priv.otherSelected) {
                 return priv.selectedScale;
             }
             if (priv.isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedScale, 1, root.progress);
+                return linearAnimation(selectedProgress, 0, selectedScale, 1, root.progress);
             }
 
             switch (index) {
@@ -247,7 +249,7 @@ SpreadDelegate {
             return root.startScale - easingCurve.value * (root.startScale - root.endScale);
         }
 
-        property real opacity: {
+        readonly property real opacity: {
             if (priv.otherSelected) {
                 return linearAnimation (selectedProgress, Math.max(0, selectedProgress - .5),
                                         selectedOpacity, 0, root.progress);
@@ -265,9 +267,9 @@ SpreadDelegate {
             return 1;
         }
 
-        property real topMarginProgress: {
+        readonly property real topMarginProgress: {
             if (priv.isSelected) {
-                return linearAnimation(selectedProgress, negativeProgress, selectedTopMarginProgress, 0, root.progress);
+                return linearAnimation(selectedProgress, 0, selectedTopMarginProgress, 0, root.progress);
             }
 
             switch (index) {
@@ -290,6 +292,7 @@ SpreadDelegate {
 
             return easingCurve.value;
         }
+
     }
 
     transform: [
@@ -303,18 +306,22 @@ SpreadDelegate {
             xScale: priv.scale
             yScale: xScale
         },
+        Scale {
+            origin { x: 0; y: (spreadView.height * priv.scale) + maximizedAppTopMargin * 3 }
+            xScale: 1
+            yScale: isFullscreen ? 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height : 1
+        },
         Translate {
             x: priv.xTranslate
         }
     ]
     opacity: priv.opacity
-    topMarginProgress: priv.topMarginProgress
 
     EasingCurve {
         id: easingCurve
         type: EasingCurve.OutSine
         period: 1 - spreadView.positionMarker2
-        progress: root.animatedProgress
+        progress: root.progress
     }
 
     // This is used as a calculation helper to figure values for progress other than the current one

@@ -20,9 +20,4 @@ import Dash 0.1
 ListViewWithPageHeader {
     maximumFlickVelocity: height * 10
     flickDeceleration: height * 2
-
-    Connections {
-        target: greeter
-        onShownChanged: if (greeter.shown) showHeader()
-    }
 }

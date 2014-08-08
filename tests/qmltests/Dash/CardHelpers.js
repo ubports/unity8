@@ -16,7 +16,7 @@
 
 .pragma library
 
-var components = ["title", "art", "subtitle", "mascot", "emblem", "old-price", "price", "alt-price", "rating", "alt-rating", "summary"]
+var components = ["title", "art", "subtitle", "mascot", "emblem", "old-price", "price", "alt-price", "rating", "alt-rating", "summary", "attributes", "overlayColor"]
 
 var defaultLayout = ' \
 { \
@@ -31,10 +31,10 @@ var defaultLayout = ' \
   "components": { \
     "title": null, \
     "art": { \
-        "aspect-ratio": 1.0, \
-        "fill-mode": "crop" \
+        "aspect-ratio": 1.0 \
     }, \
     "subtitle": null, \
+    "overlayColor": null, \
     "mascot": null, \
     "emblem": null, \
     "old-price": null, \
@@ -48,7 +48,8 @@ var defaultLayout = ' \
       "empty": "image://theme/rating-star-empty" \
     }, \
     "alt-rating": null, \
-    "summary": null \
+    "summary": null, \
+    "attributes": { "max-count": 2 } \
   }, \
   "resources": {} \
 }'
@@ -59,7 +60,9 @@ var fullMapping = ' \
   "art": "art", \
   "subtitle": "subtitle", \
   "mascot": "mascot", \
-  "summary": "summary" \
+  "overlayColor": "overlayColor", \
+  "summary": "summary", \
+  "attributes": "attributes" \
 }'
 
 

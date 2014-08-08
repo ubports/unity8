@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-07-22 15:46+0000\n"
-"Last-Translator: Kenneth Ramsussen <kentora@kentora.dk>\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-07-30 12:37+0000\n"
+"Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-23 07:01+0000\n"
-"X-Generator: Launchpad (build 17114)\n"
+"X-Launchpad-Export-Date: 2014-07-31 07:15+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -72,7 +72,7 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
-"Du mestrer nu kantgestusserne og kan begynde at bruge telefonen<br><br>Tryk "
+"Du mestrer nu kantbevægelserne og kan begynde at bruge telefonen<br><br>Tryk "
 "på skærmen for at starte"
 
 #: qml/Components/Lockscreen.qml:214
@@ -82,10 +82,6 @@ msgstr "Nødopkald"
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
 msgstr "O.k."
-
-#: qml/Components/PageHeader.qml:366
-msgid "Recent searches"
-msgstr "Seneste søgninger"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
@@ -108,13 +104,17 @@ msgstr "FÆRDIG"
 msgid "See more"
 msgstr "Vis mere"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
 msgstr "Vis mindre"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "Seneste"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr "Se alle"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -124,15 +124,15 @@ msgstr "Mere..."
 msgid "Less..."
 msgstr "Mindre..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
 msgstr "Bedøm dette"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Tilføj en forhåndsvisning"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Send"
 
@@ -167,6 +167,14 @@ msgstr "Vis adgangskode"
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
 msgstr "Indtast venligst PIN for SIM"
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "Tryk for at besvare opkaldet..."
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "Konference"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"

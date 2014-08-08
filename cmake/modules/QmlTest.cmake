@@ -135,7 +135,7 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
     set(testCommand
           LD_LIBRARY_PATH=${LD_PATH}
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
-          -o ${CMAKE_BINARY_DIR}/${CLASSNAME}Test.xml,xunitxml
+          -o ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
           -o -,txt)
 
     add_qmltest_target(test${CLASS_NAME} "${testCommand}" FALSE TRUE)
@@ -151,7 +151,7 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
           LD_LIBRARY_PATH=${LD_PATH}
           xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
-          -o ${CMAKE_BINARY_DIR}/${CLASS_NAME}Test.xml,xunitxml
+          -o ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
           -o -,txt)
 
     add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)

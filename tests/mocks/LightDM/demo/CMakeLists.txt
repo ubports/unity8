@@ -11,11 +11,13 @@ set(LibLightDM_SOURCES
 add_library(MockLightDM-demo STATIC ${LibLightDM_SOURCES})
 
 include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
 )
 
 target_link_libraries(MockLightDM-demo
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
-    )
+    -lpam
+)
 
-qt5_use_modules(MockLightDM-demo Gui)
+qt5_use_modules(MockLightDM-demo Concurrent Gui)
