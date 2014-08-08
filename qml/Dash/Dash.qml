@@ -327,14 +327,13 @@ Showable {
     Image {
         source: "graphics/overview_hint.png"
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        opacity: overviewController.progress == 0 &&
-                 (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : dashContent.pageHeaderTotallyVisible) &&
-                 overviewDragHandle.enabled ? 1 : 0
+        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : dashContent.pageHeaderTotallyVisible) &&
+                 (overviewDragHandle.enabled || overviewController.progress != 0) ? 1 : 0
         Behavior on opacity {
             enabled: overviewController.progress == 0
             UbuntuNumberAnimation {}
         }
+        y: parent.height - height * (1 - overviewController.progress * 4)
     }
 
     EdgeDragArea {
