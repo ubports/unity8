@@ -37,6 +37,7 @@ FocusScope {
     readonly property alias previewShown: previewListView.open
     property int paginationCount: 0
     property int paginationIndex: 0
+    property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
@@ -157,6 +158,9 @@ FocusScope {
         interactive: !navigationShown
 
         property string expandedCategoryId: ""
+
+        readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
+            ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
 
         delegate: ListItems.Base {
             id: baseItem
