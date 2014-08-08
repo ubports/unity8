@@ -41,6 +41,9 @@ public:
     bool focused() const { return m_focused; }
     QUrl screenshot() const { return QUrl(); }
 
+    Q_INVOKABLE void updateScreenshot() override {}
+    Q_INVOKABLE void discardScreenshot() override {}
+
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
 private:

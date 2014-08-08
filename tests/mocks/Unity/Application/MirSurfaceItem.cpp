@@ -17,31 +17,70 @@
 #include "MirSurfaceItem.h"
 #include "ApplicationInfo.h"
 
-#include <QPainter>
+#include <paths.h>
+
+#include <QGuiApplication>
+#include <QQuickView>
+#include <QQmlProperty>
 #include <QQmlEngine>
+#include <QString>
+
+#include <QDebug>
 
 MirSurfaceItem::MirSurfaceItem(const QString& name,
                                MirSurfaceItem::Type type,
                                MirSurfaceItem::State state,
                                const QUrl& screenshot,
+                               const QString &qmlFilePath,
                                QQuickItem *parent)
-    : QQuickPaintedItem(parent)
+    : QQuickItem(parent)
     , m_application(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)
-    , m_img(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString())
     , m_parentSurface(nullptr)
-    , m_haveInputMethod(false)
+    , m_qmlItem(nullptr)
+    , m_screenshotUrl(screenshot)
 {
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
     // The virtual keyboard (input method) has a big transparent area so that
     // content behind it show through
-    setFillColor(Qt::transparent);
+    //setFillColor(Qt::transparent);
 
     connect(this, &QQuickItem::focusChanged,
             this, &MirSurfaceItem::onFocusChanged);
+
+
+    // The assumptions I make here really should hold.
+    QQuickView *quickView =
+        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
+
+    QString qmlComponentFilePath;
+    if (!qmlFilePath.isEmpty()) {
+        qmlComponentFilePath.append(qmlFilePath);
+    } else {
+        qmlComponentFilePath = QString("%1/Unity/Application/MirSurfaceItem.qml")
+            .arg(mockPluginsDir());
+    }
+
+    m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);
+
+    switch (m_qmlContentComponent->status()) {
+        case QQmlComponent::Ready:
+            createQmlContentItem();
+            break;
+        case QQmlComponent::Loading:
+            connect(m_qmlContentComponent, &QQmlComponent::statusChanged,
+                    this, &MirSurfaceItem::onComponentStatusChanged);
+            break;
+        case QQmlComponent::Error:
+            printComponentErrors();
+            qFatal("MirSurfaceItem: failed to create content component.");
+            break;
+        default:
+            qFatal("MirSurfaceItem: Unhandled component status");
+    }
 }
 
 MirSurfaceItem::~MirSurfaceItem()
@@ -57,10 +96,11 @@ MirSurfaceItem::~MirSurfaceItem()
         m_application->setSurface(nullptr);
 }
 
-void MirSurfaceItem::paint(QPainter * painter)
+void MirSurfaceItem::printComponentErrors()
 {
-    if (!m_img.isNull()) {
-        painter->drawImage(contentsBoundingRect(), m_img, QRect(QPoint(0,0), m_img.size()));
+    QList<QQmlError> errors = m_qmlContentComponent->errors();
+    for (int i = 0; i < errors.count(); ++i) {
+        qDebug() << errors[i];
     }
 }
 
@@ -147,19 +187,24 @@ MirSurfaceItem* MirSurfaceItem::childSurfaceAt(QQmlListProperty<MirSurfaceItem> 
 }
 
 
-void MirSurfaceItem::touchEvent(QTouchEvent * event)
+void MirSurfaceItem::onQmlWantInputMethodChanged()
 {
-    if (event->type() == QEvent::TouchBegin && hasFocus()) {
+    QQmlProperty prop(m_qmlItem, "wantInputMethod");
+    bool wantInputMethod = prop.read().toBool();
+
+    if (hasFocus() && wantInputMethod) {
         Q_EMIT inputMethodRequested();
-        m_haveInputMethod = true;
     }
 }
 
 void MirSurfaceItem::onFocusChanged()
 {
-    if (!hasFocus() && m_haveInputMethod) {
+    QQmlProperty prop(m_qmlItem, "wantInputMethod");
+    bool wantInputMethod = prop.read().toBool();
+
+    if (!hasFocus() && wantInputMethod) {
         Q_EMIT inputMethodDismissed();
-        m_haveInputMethod = false;
+        prop.write(QVariant::fromValue(false));
     }
 }
 
@@ -168,5 +213,36 @@ void MirSurfaceItem::setState(MirSurfaceItem::State newState)
     if (newState != m_state) {
         m_state = newState;
         Q_EMIT stateChanged(newState);
+    }
+}
+
+void MirSurfaceItem::onComponentStatusChanged(QQmlComponent::Status status)
+{
+    if (status == QQmlComponent::Ready) {
+        createQmlContentItem();
+    }
+}
+
+void MirSurfaceItem::createQmlContentItem()
+{
+    m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
+    m_qmlItem->setParentItem(this);
+
+    {
+        QQmlProperty anchorsFill(m_qmlItem, "anchors.fill");
+        anchorsFill.write(QVariant::fromValue(this));
+    }
+
+    {
+        QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
+        screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
+    }
+
+    {
+        QQmlProperty prop(m_qmlItem, "wantInputMethod");
+        if (prop.type() == QQmlProperty::Property) {
+            bool ok = prop.connectNotifySignal(this, SLOT(onQmlWantInputMethodChanged()));
+            if (!ok) qCritical("MirSurfaceItem: failed to connect to wantInputMethod notify signal");
+        }
     }
 }

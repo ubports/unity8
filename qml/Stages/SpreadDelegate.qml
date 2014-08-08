@@ -14,147 +14,71 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors: Michael Zanetti <michael.zanetti@canonical.com>
-*/
+ *          Daniel d'Andrada <daniel.dandrada@canonical.com>
+ */
 
 import QtQuick 2.0
-import Unity.Application 0.1
 import Ubuntu.Components 1.1
 import "../Components"
 
 Item {
     id: root
 
+    // to be read from outside
+    readonly property bool dragged: dragArea.moving
+    signal clicked()
+    signal closed()
+
     // to be set from outside
     property bool interactive: true
     property bool dropShadow: true
     property real maximizedAppTopMargin
     property alias swipeToCloseEnabled: dragArea.enabled
+    property bool closeable
+    property alias application: appWindow.application
 
-    readonly property bool isFullscreen: surface !== null && surfaceContainer.surface.anchors.topMargin == 0
+    Item {
+        objectName: "appWindowWithShadow"
 
-    signal clicked()
-    signal closed()
-
-    SurfaceContainer {
-        id: surfaceContainer
-        objectName: "surfaceContainer"
-        anchors.fill: parent
-        surface: model.surface
-        property bool appHasCreatedASurface: false
-
-        onSurfaceChanged: {
-            if (surface) {
-                if (!appHasCreatedASurface) {
-                    surface.visible = false; // hide until splash screen removed
-                    appHasCreatedASurface = true;
-                }
-            }
-        }
-
-        function revealSurface() {
-            surface.visible = true;
-            splashLoader.source = "";
-        }
-
-        Binding {
-            target: surfaceContainer.surface
-            property: "anchors.topMargin"
-            value: {
-                return surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
-            }
-        }
-
-        Binding {
-            target: surface
-            property: "enabled"
-            value: root.interactive
-        }
-        Binding {
-            target: surface
-            property: "focus"
-            value: root.interactive
-        }
-
-        Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
-            id: surfaceRevealDelay
-            interval: 100
-            onTriggered: surfaceContainer.revealSurface()
-        }
-
-        Connections {
-            target: surface
-            // FIXME: I would rather not need to do this, but currently it doesn't get
-            // active focus without it and I don't know why.
-            onFocusChanged: forceSurfaceActiveFocusIfReady();
-            onParentChanged: forceSurfaceActiveFocusIfReady();
-            onEnabledChanged: forceSurfaceActiveFocusIfReady();
-            function forceSurfaceActiveFocusIfReady() {
-                if (surface.focus && surface.parent === surfaceContainer && surface.enabled) {
-                    surface.forceActiveFocus();
-                }
-            }
-        }
+        x: 0
+        y: dragArea.distance
+        width: parent.width
+        height: parent.height
 
         BorderImage {
-            id: dropShadowImage
             anchors {
-                fill: parent
+                fill: appWindow
                 leftMargin: -units.gu(2)
                 rightMargin: -units.gu(2)
                 bottomMargin: -units.gu(2)
-                topMargin: -units.gu(2) + (root.isFullscreen ? 0 : maximizedAppTopMargin)
+                topMargin: -units.gu(2)
             }
             source: "graphics/dropshadow.png"
             border { left: 50; right: 50; top: 50; bottom: 50 }
-            opacity: root.dropShadow ? .4 : 0
+            opacity: root.dropShadow ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation {} }
         }
 
-        transform: Translate {
-            y: dragArea.distance
-        }
-    }
-
-
-    StateGroup {
-        id: appSurfaceState
-        states: [
-            State {
-                name: "noSurfaceYet"
-                when: !surfaceContainer.appHasCreatedASurface
-                StateChangeScript {
-                    script: { splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
-                }
-            },
-            State {
-                name: "hasSurface"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface !== null)
-                StateChangeScript { script: { surfaceRevealDelay.start(); } }
-            },
-            State {
-                name: "surfaceLostButAppStillAlive"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface === null)
-                // TODO - use app snapshot
+        ApplicationWindow {
+            id: appWindow
+            anchors {
+                fill: parent
+                topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin
             }
-        ]
-        state: "noSurfaceYet"
-    }
 
-    Loader {
-        id: splashLoader
-        anchors.fill: surfaceContainer
+            interactive: root.interactive
+        }
     }
 
     DraggingArea {
         id: dragArea
+        objectName: "dragArea"
         anchors.fill: parent
 
         property bool moving: false
         property real distance: 0
 
-        onMovingChanged: {
-            spreadView.draggedIndex = moving ? index : -1
-        }
+        readonly property real minSpeedToClose: units.gu(40)
 
         onDragValueChanged: {
             if (!dragging) {
@@ -173,15 +97,15 @@ Item {
         }
 
         onDragEnd: {
-            if (model.appId == "unity8-dash") {
+            if (!root.closeable) {
                 animation.animate("center")
                 return;
             }
 
             // velocity and distance values specified by design prototype
-            if ((dragVelocity < -units.gu(40) && distance < -units.gu(8)) || distance < -root.height / 2) {
+            if ((dragVelocity < -minSpeedToClose && distance < -units.gu(8)) || distance < -root.height / 2) {
                 animation.animate("up")
-            } else if ((dragVelocity > units.gu(40) && distance > units.gu(8)) || distance > root.height / 2) {
+            } else if ((dragVelocity > minSpeedToClose  && distance > units.gu(8)) || distance > root.height / 2) {
                 animation.animate("down")
             } else {
                 animation.animate("center")
@@ -190,6 +114,7 @@ Item {
 
         UbuntuNumberAnimation {
             id: animation
+            objectName: "closeAnimation"
             target: dragArea
             property: "distance"
             property bool requestClose: false
@@ -214,9 +139,10 @@ Item {
             onRunningChanged: {
                 if (!running) {
                     dragArea.moving = false;
-                    dragArea.distance = 0;
                     if (requestClose) {
                         root.closed();
+                    } else {
+                        dragArea.distance = 0;
                     }
                 }
             }

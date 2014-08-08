@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QList>
 #include <QStringList>
+#include <QTimer>
 #include "ApplicationInfo.h"
 
 // unity-api
@@ -114,15 +115,18 @@ class ApplicationManager : public ApplicationManagerInterface {
     void focusRequested(const QString &appId);
     void emptyChanged(bool empty);
 
+ private Q_SLOTS:
+    void onWindowCreatedTimerTimeout();
+
  private:
     void add(ApplicationInfo *application);
     void remove(ApplicationInfo* application);
-    void showApplicationWindow(ApplicationInfo *application);
     void buildListOfAvailableApplications();
-    void generateQmlStrings(ApplicationInfo *application);
+    void onWindowCreated();
     bool m_suspended;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
+    QTimer m_windowCreatedTimer;
 
     static ApplicationManager *the_application_manager;
 };

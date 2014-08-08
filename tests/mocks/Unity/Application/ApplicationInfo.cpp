@@ -18,6 +18,9 @@
 #include "MirSurfaceItem.h"
 #include "SurfaceManager.h"
 
+// unity8
+#include <paths.h>
+
 #include <QGuiApplication>
 #include <QQuickItem>
 #include <QQuickView>
@@ -31,10 +34,9 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_parentItem(0)
     , m_surface(0)
+    , m_parentItem(0)
 {
-    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
@@ -43,10 +45,9 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_parentItem(0)
     , m_surface(0)
+    , m_parentItem(0)
 {
-    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
 ApplicationInfo::~ApplicationInfo()
@@ -57,15 +58,6 @@ ApplicationInfo::~ApplicationInfo()
     }
 }
 
-void ApplicationInfo::onStateChanged(State state)
-{
-    if (state == ApplicationInfo::Running) {
-        QTimer::singleShot(1000, this, SLOT(createSurface()));
-    } else if (state == ApplicationInfo::Stopped) {
-        setSurface(nullptr);
-    }
-}
-
 void ApplicationInfo::createSurface()
 {
     if (m_surface || state() == ApplicationInfo::Stopped) return;
@@ -73,7 +65,7 @@ void ApplicationInfo::createSurface()
     setSurface(new MirSurfaceItem(name(),
                                    MirSurfaceItem::Normal,
                                    fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   screenshot()));
+                                   m_screenshotUrl));
 }
 
 void ApplicationInfo::setSurface(MirSurfaceItem* surface)
@@ -97,4 +89,89 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
 
     Q_EMIT surfaceChanged(m_surface);
     SurfaceManager::singleton()->registerSurface(m_surface);
+}
+
+void ApplicationInfo::updateScreenshot()
+{
+    qDebug() << "ApplicationInfo::updateScreenshot()";
+    setScreenshot(m_screenshotUrl);
+}
+
+void ApplicationInfo::discardScreenshot()
+{
+    setScreenshot(QUrl());
+}
+
+void ApplicationInfo::setIconId(const QString &iconId)
+{
+    setIcon(QString("file://%1/graphics/applicationIcons/%2@18.png")
+            .arg(qmlDirectory())
+            .arg(iconId));
+}
+
+void ApplicationInfo::setScreenshotId(const QString &screenshotId)
+{
+    m_screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+            .arg(qmlDirectory())
+            .arg(screenshotId);
+}
+
+void ApplicationInfo::setName(const QString &value)
+{
+    if (value != m_name) {
+        m_name = value;
+        Q_EMIT nameChanged(value);
+    }
+}
+
+void ApplicationInfo::setIcon(const QUrl &value)
+{
+    if (value != m_icon) {
+        m_icon = value;
+        Q_EMIT iconChanged(value);
+    }
+}
+
+void ApplicationInfo::setStage(Stage value)
+{
+    if (value != m_stage) {
+        m_stage = value;
+        Q_EMIT stageChanged(value);
+    }
+}
+
+void ApplicationInfo::setState(State value)
+{
+    if (value != m_state) {
+        m_state = value;
+        Q_EMIT stateChanged(value);
+
+        if (m_state == ApplicationInfo::Running) {
+            QTimer::singleShot(1000, this, SLOT(createSurface()));
+        }
+    }
+}
+
+void ApplicationInfo::setFocused(bool value)
+{
+    if (value != m_focused) {
+        m_focused = value;
+        Q_EMIT focusedChanged(value);
+    }
+}
+
+void ApplicationInfo::setScreenshot(const QUrl &value)
+{
+    if (value != m_screenshot) {
+        m_screenshot = value;
+        Q_EMIT screenshotChanged(value);
+    }
+}
+
+void ApplicationInfo::setFullscreen(bool value)
+{
+    if (value != m_fullscreen) {
+        m_fullscreen = value;
+        Q_EMIT fullscreenChanged(value);
+    }
 }
