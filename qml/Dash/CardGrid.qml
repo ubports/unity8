@@ -26,9 +26,19 @@ DashRenderer {
     }
 
     expandedHeight: grid.totalContentHeight
-    collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows), expandedHeight)
+    collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
     collapsedItemCount: collapsedRows * grid.columns
     originY: grid.originY
+
+    function cardPosition(index) {
+        var pos = {};
+        var row = Math.floor(index / grid.columns);
+        var column = index % grid.columns;
+        // Bit sad this is not symmetrical
+        pos.x = column * grid.cellWidth + grid.margins;
+        pos.y = row * grid.cellHeight;
+        return pos;
+    }
 
     ResponsiveGridView {
         id: grid
@@ -53,6 +63,7 @@ DashRenderer {
                     item.objectName = "delegate" + index;
                     item.width = Qt.binding(function() { return cardTool.cardWidth; });
                     item.height = Qt.binding(function() { return cardTool.cardHeight; });
+                    item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
                     item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
                     item.cardData = Qt.binding(function() { return model; });
                     item.template = Qt.binding(function() { return cardTool.template; });
@@ -62,7 +73,7 @@ DashRenderer {
                 }
                 Connections {
                     target: loader.item
-                    onClicked: root.clicked(index, result)
+                    onClicked: root.clicked(index, result, loader.item, model)
                     onPressAndHold: root.pressAndHold(index)
                 }
             }

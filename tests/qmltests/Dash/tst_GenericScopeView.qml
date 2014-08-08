@@ -61,8 +61,8 @@ Item {
             property Item header: findChild(genericScopeView, "scopePageHeader")
 
             function init() {
-                genericScopeView.scope = scopes.getScope(1)
-                shell.width = units.gu(120)
+                genericScopeView.scope = scopes.getScope(2);
+                shell.width = units.gu(120);
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
             }
@@ -88,13 +88,13 @@ Item {
 
             function test_showDash() {
                 testCase.subPageLoader.open = true;
-                scopes.getScope(1).showDash();
+                genericScopeView.scope.showDash();
                 tryCompare(testCase.subPageLoader, "open", false);
             }
 
             function test_hideDash() {
                 testCase.subPageLoader.open = true;
-                scopes.getScope(1).hideDash();
+                genericScopeView.scope.hideDash();
                 tryCompare(testCase.subPageLoader, "open", false);
             }
 
@@ -111,8 +111,9 @@ Item {
 
             function test_changeScope() {
                 genericScopeView.scope.searchQuery = "test"
-                genericScopeView.scope = scopes.getScope(2)
-                genericScopeView.scope = scopes.getScope(1)
+                var originalScopeId = genericScopeView.scope.id;
+                genericScopeView.scope = scopes.getScope(originalScopeId + 1)
+                genericScopeView.scope = scopes.getScope(originalScopeId)
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
@@ -197,7 +198,9 @@ Item {
 
                 openPreview(4, 0);
 
-                compare(testCase.subPageLoader.item.count, 12, "There should only be 12 items in preview.");
+                compare(testCase.subPageLoader.count, 12, "There should only be 12 items in preview.");
+
+                closePreview();
             }
 
             function test_narrow_delegate_ranges_expand() {
@@ -232,7 +235,7 @@ Item {
             }
 
             function test_single_category_expansion() {
-                genericScopeView.scope = scopes.getScope(4);
+                genericScopeView.scope = scopes.getScope(3);
 
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
@@ -313,14 +316,14 @@ Item {
                 var previewListViewList = findChild(subPageLoader.item, "listView");
 
                 // flick to the next previews
-                tryCompare(testCase.subPageLoader.item, "count", 15);
-                for (var i = 1; i < testCase.subPageLoader.item.count; ++i) {
-                    mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.item.width - units.gu(1),
-                                                testCase.subPageLoader.item.height / 2,
+                tryCompare(testCase.subPageLoader, "count", 15);
+                for (var i = 1; i < testCase.subPageLoader.count; ++i) {
+                    mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.width - units.gu(1),
+                                                testCase.subPageLoader.height / 2,
                                                 units.gu(2),
-                                                testCase.subPageLoader.item.height / 2);
+                                                testCase.subPageLoader.height / 2);
                     tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.subPageLoader.item.currentItem, "objectName", "preview" + i);
+                    tryCompare(testCase.subPageLoader.currentItem, "objectName", "preview" + i);
                 }
                 closePreview();
             }
@@ -328,8 +331,8 @@ Item {
             function test_header_style_data() {
                 return [
                     { tag: "Default", index: 0, foreground: "grey", background: "", logo: "" },
-                    { tag: "Foreground", index: 2, foreground: "yellow", background: "", logo: "" },
-                    { tag: "Logo+Background", index: 3, foreground: "grey", background: "gradient:///lightgrey/grey",
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "", logo: "" },
+                    { tag: "Logo+Background", index: 2, foreground: "grey", background: "gradient:///lightgrey/grey",
                       logo: Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
             }

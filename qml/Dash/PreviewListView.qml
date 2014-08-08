@@ -110,7 +110,7 @@ Item {
         anchors {
             left: parent.left
             right: parent.right
-            top: pageHeader.bottom
+            top: header.bottom
             bottom: parent.bottom
         }
 
