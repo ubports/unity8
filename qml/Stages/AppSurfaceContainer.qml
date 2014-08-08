@@ -21,6 +21,34 @@ SurfaceContainer {
     id: container
     property var promptSurfaces
 
+    property bool appHasCreatedASurface: false
+
+    onSurfaceChanged: {
+        if (surface) {
+            if (!appHasCreatedASurface) {
+                surface.visible = false; // hide until splash screen removed
+                appHasCreatedASurface = true;
+            }
+        }
+    }
+
+    function revealSurface() {
+        surface.visible = true;
+        splashLoader.source = "";
+    }
+
+    Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
+        id: surfaceRevealDelay
+        interval: 100
+        onTriggered: surfaceContainer.revealSurface()
+    }
+
+    Loader {
+        z: 3
+        id: splashLoader
+        anchors.fill: parent
+    }
+
     Repeater {
         model: container.promptSurfaces
 
@@ -33,12 +61,36 @@ SurfaceContainer {
                 leftMargin: container.surface.anchors.leftMargin
             }
 
-            z: 3 + index
+            z: 4 + index
             surface: modelData
 
             Component.onCompleted: {
                 animateIn();
             }
         }
+    }
+
+    StateGroup {
+        id: appSurfaceState
+        states: [
+            State {
+                name: "noSurfaceYet"
+                when: !surfaceContainer.appHasCreatedASurface
+                StateChangeScript {
+                    script: { splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
+                }
+            },
+            State {
+                name: "hasSurface"
+                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface !== null)
+                StateChangeScript { script: { surfaceRevealDelay.start(); } }
+            },
+            State {
+                name: "surfaceLostButAppStillAlive"
+                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface === null)
+                // TODO - use app snapshot
+            }
+        ]
+        state: "noSurfaceYet"
     }
 }
