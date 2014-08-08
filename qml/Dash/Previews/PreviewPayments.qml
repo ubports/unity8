@@ -41,7 +41,7 @@ PreviewWidget {
         text: root.processActive ? i18n.tr("Purchasing…") : paymentClient.formattedPrice
         onClicked: {
             root.processActive = true;
-            root.processing(root.active);
+            root.processing(root.processActive);
             paymentClient.start();
         }
         anchors.right: parent.right
