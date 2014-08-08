@@ -141,12 +141,6 @@ Item {
         opacity: parent.opacity
     }
 
-    signal accept()
-
-    onAccept: {
-        notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-    }
-
     Item {
         id: contents
         anchors.fill: fullscreen ? nonShapedBack : shapedBack
@@ -316,6 +310,9 @@ Item {
 
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
+                        }
+                        onAccepted: {
+                            notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
                         }
                     }
                 }
