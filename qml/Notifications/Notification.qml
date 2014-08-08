@@ -243,7 +243,7 @@ Item {
                             right: parent.right
                         }
                         fontSize: "medium"
-                        color: type == Notification.SnapDecision ? sdFontColor :Theme.palette.selected.backgroundText
+                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                     }
 
@@ -258,9 +258,8 @@ Item {
                         visible: body != ""
                         fontSize: "small"
                         color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
-                        opacity: type == Notification.SnapDecision ? 1.0 : 0.6
                         wrapMode: Text.WordWrap
-                        maximumLineCount: 10
+                        maximumLineCount: 2
                         elide: Text.ElideRight
                     }
                 }
