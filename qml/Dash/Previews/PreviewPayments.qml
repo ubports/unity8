@@ -38,7 +38,7 @@ PreviewWidget {
         objectName: "paymentButton"
 
         color: Theme.palette.selected.foreground
-        text: root.active ? i18n.tr("Purchasing…") : paymentClient.formattedPrice
+        text: root.processActive ? i18n.tr("Purchasing…") : paymentClient.formattedPrice
         onClicked: {
             root.processActive = true;
             root.processing(root.active);
