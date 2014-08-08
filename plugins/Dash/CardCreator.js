@@ -155,8 +155,7 @@ var kHeaderRowCodeTemplate = 'Row { \n\
                                 ] \n\
                     }\n';
     var args = Array.prototype.slice.call(arguments);
-    var HeaderRowAnchors = args.shift();
-    var code = kHeaderRowCodeTemplate.arg(HeaderRowAnchors).arg(args.join(',\n'));
+    var code = kHeaderRowCodeTemplate.arg(args.shift()).arg(args.join(',\n'));
     return code;
 }
 
@@ -172,9 +171,7 @@ function kHeaderContainerCodeGenerator() {
                             ]\n\
                         }\n';
     var args = Array.prototype.slice.call(arguments);
-    var headerContainerAnchors = args.shift();
-    var headerContainerHeight = args.shift();
-    var code = headerContainerCodeTemplate.arg(headerContainerAnchors).arg(headerContainerHeight).arg(args.join(',\n'));
+    var code = headerContainerCodeTemplate.arg(args.shift()).arg(args.shift()).arg(args.join(',\n'));
     return code;
 }
 
@@ -232,9 +229,9 @@ var kEmblemImageCode = 'Image { \n\
                             id: emblemImage; \n\
                             objectName: "emblemImage"; \n\
                             anchors { \n\
-                            bottom: titleLabel.baseline; \n\
-                            right: parent.right; \n\
-                            %1
+                                bottom: titleLabel.baseline; \n\
+                                right: parent.right; \n\
+                                %1
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             width: height; \n\
