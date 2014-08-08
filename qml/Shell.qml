@@ -113,25 +113,6 @@ Item {
     }
 
     Item {
-        id: underlay
-        objectName: "underlay"
-        anchors.fill: parent
-
-        // Whether the underlay is fully covered by opaque UI elements.
-        property bool fullyCovered: (panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth)
-                                        || stages.fullyShown || greeterWrapper.fullyShown
-        visible: !fullyCovered
-
-        Image {
-            anchors.fill: underlay
-            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-            fillMode: Image.PreserveAspectCrop
-            horizontalAlignment: Image.AlignRight
-            verticalAlignment: Image.AlignTop
-        }
-    }
-
-    Item {
         id: stages
         objectName: "stages"
         width: parent.width
@@ -186,12 +167,12 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0
+                value: edgeDemo.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: greeter.fakeActiveForApp === "" // to support emergency dialer hack
+                value: edgeDemo.stagesEnabled && greeter.fakeActiveForApp === "" // to support emergency dialer hack
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -400,7 +381,7 @@ Item {
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity) {
+            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
                 greeter.showNow();
             }
 
@@ -580,7 +561,7 @@ Item {
         greeter: greeter
         launcher: launcher
         indicators: panel.indicators
-        underlay: underlay
+        stages: stages
     }
 
     Connections {

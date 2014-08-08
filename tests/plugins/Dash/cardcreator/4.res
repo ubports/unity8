@@ -94,5 +94,13 @@ Label {
 }
 ]
 }
+UbuntuShape {
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: root }
+    visible: root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: row.y + row.height + units.gu(1);
 }

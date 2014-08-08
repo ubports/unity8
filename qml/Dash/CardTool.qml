@@ -126,7 +126,7 @@ Item {
      type:real \brief Height of the card's header.
     */
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
-    readonly property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
+    property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
 
     /*!
      \brief Desired alignment of header components.

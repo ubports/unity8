@@ -45,12 +45,8 @@ Item {
         name: "Dash"
         when: windowShown
 
-        property var scopes
-
-        Component.onCompleted: {
-            var dashContent = findChild(dash, "dashContent");
-            scopes = dashContent.scopes;
-        }
+        readonly property Item dashContent: findChild(dash, "dashContent");
+        readonly property var scopes: dashContent.scopes
 
         function init() {
             // clear and reload the scopes.
@@ -64,10 +60,10 @@ Item {
 
         function get_scope_data() {
             return [
-                        { tag: "MockScope1", visualIndex: 0, shouldBeVisible: true },
-                        { tag: "MockScope2", visualIndex: -1, shouldBeVisible: false },
-                        { tag: "clickscope", visualIndex: 1, shouldBeVisible: true },
-                        { tag: "MockScope5", visualIndex: 2, shouldBeVisible: true },
+                        { tag: "MockScope1", visualIndex: 0 },
+                        { tag: "MockScope2", visualIndex: 1 },
+                        { tag: "clickscope", visualIndex: 2 },
+                        { tag: "MockScope5", visualIndex: 3 },
             ]
         }
 
@@ -76,10 +72,6 @@ Item {
         }
 
         function test_show_scope_on_load(data) {
-            if (data.shouldBeVisible == false) {
-                console.log("Not testing " + data.tag + ": not visible");
-                return;
-            }
             var dashContentList = findChild(dash, "dashContentList");
 
             dash.showScopeOnLoaded = data.tag
@@ -87,7 +79,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(scopes, "loaded", true);
-            tryCompare(dashContentList, "count", 4);
+            tryCompare(dashContentList, "count", 5);
 
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);
@@ -109,6 +101,27 @@ Item {
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
             dashCommunicatorService.mockSetCurrentScope("clickscope", true, true);
             tryCompare(dashContentList, "currentIndex", 1)
+        }
+
+        function test_processing_indicator() {
+            tryCompare(scopes, "loaded", true);
+
+            var processingIndicator = findChild(dash, "processingIndicator");
+            verify(processingIndicator, "Can't find the processing indicator.");
+
+            verify(!processingIndicator.visible, "Processing indicator should be visible.");
+
+            tryCompareFunction(function() {
+                return scopes.getScope(dashContent.currentIndex) != null;
+            }, true);
+            var currentScope = scopes.getScope(dashContent.currentIndex);
+            verify(currentScope, "Can't find the current scope.");
+
+            currentScope.setSearchInProgress(true);
+            tryCompare(processingIndicator, "visible", true);
+
+            currentScope.setSearchInProgress(false);
+            tryCompare(processingIndicator, "visible", false);
         }
     }
 }
