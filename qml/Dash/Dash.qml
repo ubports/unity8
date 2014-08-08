@@ -150,7 +150,7 @@ Showable {
         height: sourceItem.height
         width: sourceItem.width
         opacity: 1 - overviewController.progress
-        visible: overviewController.progress != 0
+        visible: overviewController.progress != 0 && scopeItem.scope === null
         live: false
     }
 
@@ -322,6 +322,18 @@ Showable {
                 }
             }
         }
+    }
+
+    Image {
+        source: "graphics/overview_hint.png"
+        anchors.horizontalCenter: parent.horizontalCenter
+        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : dashContent.pageHeaderTotallyVisible) &&
+                 (overviewDragHandle.enabled || overviewController.progress != 0) ? 1 : 0
+        Behavior on opacity {
+            enabled: overviewController.progress == 0
+            UbuntuNumberAnimation {}
+        }
+        y: parent.height - height * (1 - overviewController.progress * 4)
     }
 
     EdgeDragArea {
