@@ -459,7 +459,7 @@ Rectangle {
             tryCompareFunction(function() { return Qt.colorEqual(subtitle.color, fontColor); }, true);
         }
 
-        function test_emblemImage_data() {
+        function test_emblemIcon_data() {
             return [
                 { tag: "Art and summary", emblem: true, index: 0 },
                 { tag: "Art and summary, small", emblem: false, index: 1 },
@@ -468,12 +468,12 @@ Rectangle {
             ];
         }
 
-        function test_emblemImage(data) {
+        function test_emblemIcon(data) {
             selector.selectedIndex = data.index;
             waitForRendering(card);
 
-            var emblemImage = findChild(card, "emblemImage");
-            compare(emblemImage !== null, data.emblem);
+            var emblemIcon = findChild(card, "emblemIcon");
+            compare(emblemIcon !== null, data.emblem);
         }
 
         function test_mascotShape_data() {

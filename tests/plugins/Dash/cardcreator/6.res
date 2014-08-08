@@ -61,8 +61,8 @@ Item {
                                 Label { 
                         id: titleLabel; 
                         objectName: "titleLabel"; 
-                        anchors { right: emblemImage.left; 
-                        rightMargin: emblemImage.width > 0 ? units.gu(0.5) : 0; 
+                        anchors { right: emblemIcon.left; 
+                        rightMargin: emblemIcon.width > 0 ? units.gu(0.5) : 0; 
                         left: parent.left; 
                         top: parent.top; } 
                         elide: Text.ElideRight; 
@@ -94,18 +94,18 @@ Item {
                             font.weight: Font.Light; 
                             horizontalAlignment: root.headerAlignment; 
                         }
-,Image { 
-                            id: emblemImage; 
-                            objectName: "emblemImage"; 
+,Icon { 
+                            id: emblemIcon; 
+                            objectName: "emblemIcon"; 
                             anchors { 
                             bottom: titleLabel.baseline; 
                             right: parent.right; 
                             rightMargin: units.gu(1); 
                             } 
                             source: cardData && cardData["emblem"] || ""; 
+                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
                             width: height; 
                             height: status === Image.Ready ? titleLabel.font.pixelSize : 0; 
-                            fillMode: Image.PreserveAspectFit; 
                         }
  
                             ]

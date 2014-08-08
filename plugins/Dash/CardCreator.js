@@ -224,19 +224,20 @@ var kTitleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
-// %1 is used as extra anchors of emblemImage
-var kEmblemImageCode = 'Image { \n\
-                            id: emblemImage; \n\
-                            objectName: "emblemImage"; \n\
+// %1 is used as extra anchors of emblemIcon
+// %2 is used as color of emblemIcon
+var kEmblemIconCode = 'Icon { \n\
+                            id: emblemIcon; \n\
+                            objectName: "emblemIcon"; \n\
                             anchors { \n\
                                 bottom: titleLabel.baseline; \n\
                                 right: parent.right; \n\
                                 %1
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
+                            color: %2; \n\
                             width: height; \n\
                             height: status === Image.Ready ? titleLabel.font.pixelSize : 0; \n\
-                            fillMode: Image.PreserveAspectFit; \n\
                         }\n';
 
 // %1 is used as anchors of touchdown effect
@@ -267,6 +268,7 @@ var kSubtitleLabelCode = 'Label { \n\
                         }\n';
 
 // %1 is used as anchors of attributesRow
+// %2 is used as color of attributesRow
 var kAttributesRowCode = 'CardAttributes { \n\
                             id: attributesRow; \n\
                             objectName: "attributesRow"; \n\
@@ -477,8 +479,8 @@ function cardString(template, components) {
             }
         }
         if (hasEmblem) {
-            titleRightAnchor = 'right: emblemImage.left; \n\
-                                rightMargin: emblemImage.width > 0 ? units.gu(0.5) : 0; \n';
+            titleRightAnchor = 'right: emblemIcon.left; \n\
+                                rightMargin: emblemIcon.width > 0 ? units.gu(0.5) : 0; \n';
         } else {
             titleRightAnchor = 'right: parent.right; \n'
             titleRightAnchor += extraRightAnchor;
@@ -552,7 +554,7 @@ function cardString(template, components) {
             containerHeight += ' + subtitleLabel.height';
         }
         if (hasEmblem) {
-            containerCode.push(kEmblemImageCode.arg(extraRightAnchor));
+            containerCode.push(kEmblemIconCode.arg(extraRightAnchor).arg(titleColor));
         }
         if (hasAttributes) {
             attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(titleColor);
@@ -646,7 +648,7 @@ function cardString(template, components) {
 
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
-                   import Ubuntu.Components 0.1; \n\
+                   import Ubuntu.Components 1.1; \n\
                    import Dash 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
