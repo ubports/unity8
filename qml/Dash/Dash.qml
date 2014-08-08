@@ -150,7 +150,7 @@ Showable {
         height: sourceItem.height
         width: sourceItem.width
         opacity: 1 - overviewController.progress
-        visible: overviewController.progress != 0
+        visible: overviewController.progress != 0 && scopeItem.scope === null
         live: false
     }
 
