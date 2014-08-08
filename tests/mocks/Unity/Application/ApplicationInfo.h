@@ -38,6 +38,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
     Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
     Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
+    Q_PROPERTY(QQmlListProperty<MirSurfaceItem> promptSurfaces READ promptSurfaces NOTIFY promptSurfacesChanged DESIGNABLE false)
 
     // Only exists in this fake implementation
 
@@ -85,8 +86,15 @@ public:
     void setSurface(MirSurfaceItem* surface);
     MirSurfaceItem* surface() const { return m_surface; }
 
+    void removeSurface(MirSurfaceItem* surface);
+
+    void addPromptSurface(MirSurfaceItem* surface);
+    QList<MirSurfaceItem*> promptSurfaceList() const;
+    QQmlListProperty<MirSurfaceItem> promptSurfaces();
+
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
+    void promptSurfacesChanged();
 
 private Q_SLOTS:
     void onStateChanged(State state);
@@ -94,10 +102,15 @@ private Q_SLOTS:
     void createSurface();
 
 private:
+    static int promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
+    static MirSurfaceItem* promptSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
+
     QQuickItem *m_parentItem;
     MirSurfaceItem* m_surface;
+    QList<MirSurfaceItem*> m_promptSurfaces;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)
+Q_DECLARE_METATYPE(QQmlListProperty<MirSurfaceItem>)
 
 #endif  // APPLICATION_H
