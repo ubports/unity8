@@ -329,7 +329,7 @@ Showable {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         opacity: overviewController.progress == 0 &&
-                 (dashContent.pageHeaderTotallyVisible || scopeItem.scope && scopeItem.pageHeaderTotallyVisible) &&
+                 (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : dashContent.pageHeaderTotallyVisible) &&
                  overviewDragHandle.enabled ? 1 : 0
         Behavior on opacity {
             enabled: overviewController.progress == 0
