@@ -45,13 +45,15 @@ MirSurfaceItem* topSurface(MirSurfaceItem* surface)
 
 quint32 ApplicationDBusAdaptor::addPromptSurface(const QString &appId, const QString &surfaceImage)
 {
+    qDebug() << "ApplicationDBusAdaptor::addPromptSurface to " << appId;
+
     ApplicationInfo* application = m_applicationManager->findApplication(appId);
     if (!application) {
         qDebug() << "ApplicationDBusAdaptor::addChildSurface - No application found for " << appId;
         return 0;
     }
     quint32 surfaceId = ++nextId;
-    MirSurfaceItem* surface = new MirSurfaceItem(QString("ChildSurface%1").arg(surfaceId),
+    MirSurfaceItem* surface = new MirSurfaceItem(QString("%1-ChildSurface%2").arg(appId).arg(surfaceId),
                                                  MirSurfaceItem::Normal,
                                                  MirSurfaceItem::Maximized,
                                                  QUrl(surfaceImage));
@@ -59,12 +61,9 @@ quint32 ApplicationDBusAdaptor::addPromptSurface(const QString &appId, const QSt
 
     if (application->promptSurfaceList().count() > 0) {
         surface->setParentSurface(topSurface(application->promptSurfaceList()[0]));
-        qDebug() << "ApplicationDBusAdaptor::addChildSurface - " << appId;
     } else {
         application->addPromptSurface(surface);
-        qDebug() << "ApplicationDBusAdaptor::addPromptSurface - " << appId;
     }
-
 
     return surfaceId;
 }

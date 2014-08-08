@@ -78,6 +78,7 @@ void ApplicationInfo::createSurface()
 
 void ApplicationInfo::setSurface(MirSurfaceItem* surface)
 {
+    qDebug() << "Application::setSurface - appId=" << appId() << "surface=" << surface;
     if (m_surface == surface)
         return;
 
@@ -99,25 +100,28 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
     SurfaceManager::singleton()->registerSurface(m_surface);
 }
 
-void ApplicationInfo::removeSurface(MirSurfaceItem* surface)
-{
-    if (m_surface == surface) {
-        setSurface(nullptr);
-    } else if (m_promptSurfaces.contains(surface)) {
-        m_promptSurfaces.removeAll(surface);
-        surface->setApplication(nullptr);
-
-        Q_EMIT promptSurfacesChanged();
-    }
-}
-
 void ApplicationInfo::addPromptSurface(MirSurfaceItem* surface)
 {
+    qDebug() << "ApplicationInfo::addPromptSurface " << surface->name() << " to " << name();
     if (surface == m_surface || m_promptSurfaces.contains(surface)) return;
 
     surface->setApplication(this);
     m_promptSurfaces.append(surface);
     Q_EMIT promptSurfacesChanged();
+}
+
+void ApplicationInfo::removeSurface(MirSurfaceItem* surface)
+{
+    if (m_surface == surface) {
+        setSurface(nullptr);
+    } else if (m_promptSurfaces.contains(surface)) {
+        qDebug() << "Application::removeSurface " << surface->name() << " from " << name();
+
+        m_promptSurfaces.removeAll(surface);
+        surface->setApplication(nullptr);
+
+        Q_EMIT promptSurfacesChanged();
+    }
 }
 
 QList<MirSurfaceItem*> ApplicationInfo::promptSurfaceList() const
