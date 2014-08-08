@@ -328,7 +328,9 @@ Showable {
         source: "graphics/overview_hint.png"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        opacity: overviewController.progress == 0 && (dashContent.pageHeaderTotallyVisible || scopeItem.scope && scopeItem.pageHeaderTotallyVisible) ? 1 : 0
+        opacity: overviewController.progress == 0 &&
+                 (dashContent.pageHeaderTotallyVisible || scopeItem.scope && scopeItem.pageHeaderTotallyVisible) &&
+                 overviewDragHandle.enabled ? 1 : 0
         Behavior on opacity {
             enabled: overviewController.progress == 0
             UbuntuNumberAnimation {}
