@@ -82,6 +82,13 @@ Item {
             scopesOverviewXYScaler.y = 0;
             scopesOverviewXYScaler.opacity = 1;
         }
+        onGotoScope: {
+            if (tabBar.currentTab == 0) {
+                root.favoriteSelected(scopeId);
+            } else {
+                root.allFavoriteSelected(scopeId);
+            }
+        }
     }
 
     Binding {
@@ -409,13 +416,13 @@ Item {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
                 }
-                Image {
+                Icon {
                     id: storeImage
-                    source: "graphics/apps-scope.png"
+                    name: "ubuntu-store-symbolic"
+                    color: "white"
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: units.gu(2)
                     height: units.gu(2)
-                    fillMode: Image.Stretch
                 }
                 Label {
                     id: storeLabel
