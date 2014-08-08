@@ -41,6 +41,7 @@ PreviewWidget {
         text: root.processActive ? i18n.tr("Purchasing…") : paymentClient.formattedPrice
         onClicked: {
             root.processActive = true;
+            paymentButton.enabled = false;
             root.processing(root.processActive);
             paymentClient.start();
         }
@@ -57,11 +58,13 @@ PreviewWidget {
             storeItemId: source["store_item_id"]
             onPurchaseCompleted: {
                 root.processActive = false;
+                paymentButton.enabled = true;
                 root.processing(root.processActive);
                 root.triggered(widgetId, "purchaseCompleted", source);
             }
             onPurchaseError: {
                 root.processActive = false;
+                paymentButton.enabled = true;
                 root.processing(root.processActive);
                 root.triggered(widgetId, "purchaseError", source);
             }
