@@ -31,6 +31,8 @@ Item {
                                             dashContentList.currentItem.item.previewShown : false
     readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
                                        && dashContentList.currentItem.item.processing || false
+    readonly property bool pageHeaderTotallyVisible: dashContentList.currentItem && dashContentList.currentItem.item
+                                       && dashContentList.currentItem.item.pageHeaderTotallyVisible || false
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
