@@ -32,4 +32,3 @@ ListView {
         onTriggered: model.value = value;
     }
 }
-

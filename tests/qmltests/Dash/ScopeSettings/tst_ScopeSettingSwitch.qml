@@ -29,5 +29,4 @@ Rectangle {
         "subtitle": "Something catchy",
         "mascot": "../graphics/play_button.png"
     }
-    
 }
