@@ -58,8 +58,9 @@ ResultsModel::data(const QModelIndex& index, int role) const
         case RoleUri:
         case RoleCategoryId:
         case RoleDndUri:
-        case RoleResult:
             return QString();
+        case RoleResult:
+            return QString("Result.%1.%2").arg(m_categoryId).arg(index.row());
         case RoleTitle:
             return QString("Title.%1.%2").arg(m_categoryId).arg(index.row());
         case RoleArt:

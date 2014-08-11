@@ -108,6 +108,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
+                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b; \n\
                                 property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
@@ -446,13 +447,13 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(anchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey")';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey")';
 
     var titleSubtitleCode = "";
     if (hasTitle) {
         var color;
         if (headerAsOverlay) {
-            color = '"white"';
+            color = 'overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey")';
         } else if (hasSummary) {
             color = 'summary.color';
         } else if (hasBackground) {
