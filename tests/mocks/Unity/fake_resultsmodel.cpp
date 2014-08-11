@@ -29,6 +29,11 @@ ResultsModel::ResultsModel(int result_count, int categoryId, QObject* parent)
 {
 }
 
+ResultsModel::ResultsModel(QObject *parent)
+    : ResultsModel::ResultsModel(10, 1, parent)
+{
+}
+
 QString ResultsModel::categoryId() const
 {
     return QString::number(m_categoryId);

@@ -65,14 +65,6 @@ Item {
         maximumFlickVelocity: width * 5
         cacheBuffer: 0
 
-        // To be set before opening the preview
-        property string categoryId: ""
-
-        // because the ListView is built asynchronous, setting the
-        // currentIndex directly won't work. We need to refresh it
-        // when the first preview is ready to be displayed.
-        property bool init: true
-
         property bool open: false
 
         onOpenChanged: {
