@@ -60,6 +60,11 @@ Item {
         }
     }
 
+    function setFakeActiveForApp(app) {
+        greeter.fakeActiveForApp = app
+        lockscreen.hide()
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -122,18 +127,18 @@ Item {
         Connections {
             target: ApplicationManager
             onFocusRequested: {
-                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
+                if (LightDM.Greeter.active && appId === "dialer-app") {
+                    // Always let the dialer-app through.  Either user asked
+                    // for an emergency call or accepted an incoming call.
+                    setFakeActiveForApp(appId)
+                } else if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
                     lockscreen.show();
                 }
                 greeter.hide();
             }
 
             onFocusedApplicationIdChanged: {
-                if (LightDM.Greeter.active && ApplicationManager.focusedApplicationId === "dialer-app") {
-                    // Always let the dialer-app through, by starting an emergency call.
-                    // Likely the user just accepted an incoming call via notification.
-                    lockscreen.emergencyCall()
-                } else if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
+                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
                     lockscreen.show();
                 }
                 panel.indicators.hide();
@@ -235,11 +240,7 @@ Item {
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
-        onEmergencyCall: {
-            greeter.fakeActiveForApp = "dialer-app"
-            shell.activateApplication("dialer-app")
-            lockscreen.hide()
-        }
+        onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter fake-active mode
 
         onShownChanged: if (shown) greeter.fakeActiveForApp = ""
 
