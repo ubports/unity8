@@ -39,9 +39,6 @@ Item {
     //! \brief The ScopeStyle component.
     property var scopeStyle: null
 
-    //! \brief Should be set to true if an operation is in the background and the preview shouldn't allow interactions.
-    property bool actionInProgress: false
-
     clip: true
 
     Binding {
@@ -93,10 +90,6 @@ Item {
 
                     onTriggered: {
                         previewModel.triggered(widgetId, actionId, data);
-                    }
-
-                    onProcessing: {
-                        root.actionInProgress = active;
                     }
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)

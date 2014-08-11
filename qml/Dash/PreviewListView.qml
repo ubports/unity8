@@ -33,8 +33,7 @@ Item {
     property alias count: previewListView.count
 
     readonly property bool processing: currentItem && (!currentItem.previewModel.loaded
-                                                       || currentItem.previewModel.processingAction
-                                                       || currentItem.actionInProgress)
+                                                       || currentItem.previewModel.processingAction)
 
     PageHeader {
         id: header

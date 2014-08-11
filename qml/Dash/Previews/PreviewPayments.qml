@@ -38,15 +38,16 @@ PreviewWidget {
         objectName: "paymentButton"
 
         color: Theme.palette.selected.foreground
-        text: root.processActive ? i18n.tr("Purchasing…") : paymentClient.formattedPrice
+        text: paymentClient.formattedPrice
         onClicked: {
             root.processActive = true;
-            root.processing(root.processActive);
             paymentClient.start();
         }
         enabled: !root.processActive
         anchors.right: parent.right
         width: (root.width - units.gu(1)) / 2
+        opacity: root.processActive ? 0 : 1
+        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.SlowDuration}}
 
         Payments {
             id: paymentClient
@@ -57,15 +58,21 @@ PreviewWidget {
             currency: source["currency"]
             storeItemId: source["store_item_id"]
             onPurchaseCompleted: {
-                root.processActive = false;
-                root.processing(root.processActive);
                 root.triggered(widgetId, "purchaseCompleted", source);
             }
             onPurchaseError: {
-                root.processActive = false;
-                root.processing(root.processActive);
                 root.triggered(widgetId, "purchaseError", source);
             }
         }
+    }
+
+    ProgressBar {
+        id: loadingBar
+        indeterminate: true
+        anchors.right: parent.right
+        width: (root.width - units.gu(1)) / 2
+        opacity: root.processActive ? 1 : 0
+
+        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.SlowDuration}}
     }
 }
