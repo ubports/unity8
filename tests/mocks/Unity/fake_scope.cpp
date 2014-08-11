@@ -69,7 +69,7 @@ QString Scope::description() const
 
 QString Scope::searchHint() const
 {
-    return QString("");
+    return QString("Search %1").arg(m_name);
 }
 
 QString Scope::shortcut() const

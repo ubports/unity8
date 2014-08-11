@@ -32,6 +32,7 @@ Item {
     property bool searchEntryEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
+    property alias searchHint: searchTextField.placeholderText
     property alias showSignatureLine: bottomBorder.visible
 
     property alias bottomItem: bottomContainer.children

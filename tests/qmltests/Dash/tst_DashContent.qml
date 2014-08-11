@@ -380,5 +380,17 @@ Item {
             mouseClick(allButton, 0, 0);
             tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
         }
+
+        function test_searchHint() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList !== null);
+            var scope = findChild(dashContent, "MockScope1 loader");
+            waitForRendering(scope);
+
+            var categoryListView = findChild(scope, "categoryListView");
+            waitForRendering(categoryListView);
+
+            compare(categoryListView.pageHeader.searchHint, "Search People");
+        }
     }
 }
