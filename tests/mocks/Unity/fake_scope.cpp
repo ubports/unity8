@@ -14,26 +14,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDebug>
 #include <QUrl>
 
 #include "fake_scope.h"
-#include "fake_department.h"
+#include "fake_navigation.h"
 #include "fake_resultsmodel.h"
 
 Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent)
+Scope::Scope(QString const& id, QString const& name, bool favorite, QObject* parent, int categories)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
-    , m_visible(visible)
     , m_searching(false)
+    , m_favorite(favorite)
     , m_isActive(false)
-    , m_currentDeparment("root")
+    , m_currentNavigationId("root")
+    , m_currentAltNavigationId("altroot")
     , m_previewRendererName("preview-generic")
-    , m_categories(new Categories(20, this))
+    , m_categories(new Categories(categories, this))
 {
 }
 
@@ -77,6 +79,11 @@ bool Scope::searchInProgress() const
     return m_searching;
 }
 
+bool Scope::favorite() const
+{
+    return m_favorite;
+}
+
 unity::shell::scopes::CategoriesInterface* Scope::categories() const
 {
     return m_categories;
@@ -95,11 +102,6 @@ QString Scope::noResultsHint() const
 QString Scope::formFactor() const
 {
     return m_formFactor;
-}
-
-bool Scope::visible() const
-{
-    return m_visible;
 }
 
 bool Scope::isActive() const
@@ -131,6 +133,13 @@ void Scope::setActive(const bool active)
     }
 }
 
+void Scope::setFavorite(const bool favorite)
+{
+    if (favorite != m_favorite) {
+        m_favorite = favorite;
+        Q_EMIT favoriteChanged();
+    }
+}
 void Scope::setSearchInProgress(const bool inProg)
 {
     if (inProg != m_searching) {
@@ -170,31 +179,53 @@ void Scope::closeScope(unity::shell::scopes::ScopeInterface* /*scope*/)
     qFatal("Scope::closeScope is not implemented");
 }
 
-QString Scope::currentDepartmentId() const
+QString Scope::currentNavigationId() const
 {
-    return m_currentDeparment;
+    return m_currentNavigationId;
 }
 
-bool Scope::hasDepartments() const
+bool Scope::hasNavigation() const
 {
     return true;
 }
 
+QString Scope::currentAltNavigationId() const
+{
+    return m_currentAltNavigationId;
+}
+
+bool Scope::hasAltNavigation() const
+{
+    return true;
+}
+
+Scope::Status Scope::status() const
+{
+    return Status::Okay;
+}
+
 QVariantMap Scope::customizations() const
 {
-    QVariantMap m;
+    QVariantMap m, h;
     if (m_id == "clickscope") {
+        h["foreground-color"] = "yellow";
         m["background-color"] = "red";
         m["foreground-color"] = "blue";
+        m["page-header"] = h;
     } else if (m_id == "MockScope5") {
-        QVariantMap pageHeader;
-        pageHeader["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
-        m["page-header"] = pageHeader;
+        h["background"] = "gradient:///lightgrey/grey";
+        h["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
+        m["page-header"] = h;
     }
     return m;
 }
 
-unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& id)
+void Scope::refresh()
+{
+    qDebug() << "Scope::refresh is currently not implmented in the fake scopes plugin";
+}
+
+unity::shell::scopes::NavigationInterface* Scope::getNavigation(const QString& id)
 {
     if (id.isEmpty())
         return nullptr;
@@ -208,16 +239,30 @@ unity::shell::scopes::DepartmentInterface* Scope::getDepartment(const QString& i
         parentId = id.mid(5, 7);
         parentLabel = parentId;
     }
-    return new Department(id, id, "all"+id, parentId, parentLabel, this);
+    return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
 }
 
-void Scope::loadDepartment(const QString& id)
+unity::shell::scopes::NavigationInterface* Scope::getAltNavigation(QString const& id)
 {
-    m_currentDeparment = id;
-    Q_EMIT currentDepartmentIdChanged();
+    if (id.isEmpty())
+        return nullptr;
+
+    QString parentId;
+    QString parentLabel;
+    if (id.startsWith("altmiddle")) {
+        parentId = "altroot";
+        parentLabel = "altroot";
+    }
+    return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
 }
 
-void Scope::performQuery(const QString& query)
+void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation)
 {
-    Q_UNUSED(query);
+    if (isAltNavigation) {
+        m_currentAltNavigationId = navigationId;
+        Q_EMIT currentAltNavigationIdChanged();
+    } else {
+        m_currentNavigationId = navigationId;
+        Q_EMIT currentNavigationIdChanged();
+    }
 }

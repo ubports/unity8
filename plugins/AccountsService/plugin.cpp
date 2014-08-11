@@ -33,5 +33,6 @@ void AccountsServicePlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("AccountsService"));
     qDBusRegisterMetaType<QList<QVariantMap>>();
+    qRegisterMetaType<AccountsService::PasswordDisplayHint>("AccountsService::PasswordDisplayHint");
     qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);
 }

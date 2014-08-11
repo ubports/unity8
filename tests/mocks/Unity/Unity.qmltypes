@@ -24,6 +24,12 @@ Module {
             Parameter { name: "categoryId"; type: "string" }
             Parameter { name: "json"; type: "string" }
         }
+        Method {
+            name: "data"
+            type: "QVariant"
+            Parameter { name: "row"; type: "int" }
+            Parameter { name: "role"; type: "int" }
+        }
     }
     Component {
         name: "PreviewModel"
@@ -62,6 +68,10 @@ Module {
         prototype: "unity::shell::scopes::ScopeInterface"
         exports: ["Unity/MockScope 0.2"]
         exportMetaObjectRevisions: [0]
+        Signal {
+            name: "performQuery"
+            Parameter { name: "query"; type: "string" }
+        }
         Method {
             name: "setSearchInProgress"
             Parameter { name: "inProg"; type: "bool" }
@@ -81,18 +91,21 @@ Module {
             Parameter { name: "scope"; type: "unity::shell::scopes::ScopeInterface"; isPointer: true }
         }
         Method {
-            name: "getDepartment"
-            type: "unity::shell::scopes::DepartmentInterface*"
-            Parameter { name: "id"; type: "string" }
+            name: "getNavigation"
+            type: "unity::shell::scopes::NavigationInterface*"
+            Parameter { name: "navigationId"; type: "string" }
         }
         Method {
-            name: "loadDepartment"
-            Parameter { name: "id"; type: "string" }
+            name: "getAltNavigation"
+            type: "unity::shell::scopes::NavigationInterface*"
+            Parameter { name: "altNavigationId"; type: "string" }
         }
         Method {
-            name: "performQuery"
-            Parameter { name: "query"; type: "string" }
+            name: "setNavigationState"
+            Parameter { name: "navigationId"; type: "string" }
+            Parameter { name: "isAltNavigation"; type: "bool" }
         }
+        Method { name: "refresh" }
     }
     Component {
         name: "Scopes"
@@ -137,6 +150,7 @@ Module {
                 "RoleRawRendererTemplate": 3,
                 "RoleRenderer": 4,
                 "RoleComponents": 5,
+                "RoleHeaderLink": 6,
                 "RoleResults": 7,
                 "RoleCount": 8
             }
@@ -157,27 +171,28 @@ Module {
         }
     }
     Component {
-        name: "unity::shell::scopes::DepartmentInterface"
+        name: "unity::shell::scopes::NavigationInterface"
         prototype: "QAbstractListModel"
-        exports: ["Unity/Department 0.2"]
+        exports: ["Unity/Navigation 0.2"]
         isCreatable: false
         exportMetaObjectRevisions: [0]
         Enum {
             name: "Roles"
             values: {
-                "RoleDepartmentId": 0,
+                "RoleNavigationId": 0,
                 "RoleLabel": 1,
                 "RoleHasChildren": 2,
                 "RoleIsActive": 3
             }
         }
-        Property { name: "departmentId"; type: "string"; isReadonly: true }
+        Property { name: "navigationId"; type: "string"; isReadonly: true }
         Property { name: "label"; type: "string"; isReadonly: true }
         Property { name: "allLabel"; type: "string"; isReadonly: true }
-        Property { name: "parentDepartmentId"; type: "string"; isReadonly: true }
+        Property { name: "parentNavigationId"; type: "string"; isReadonly: true }
         Property { name: "parentLabel"; type: "string"; isReadonly: true }
         Property { name: "loaded"; type: "bool"; isReadonly: true }
         Property { name: "isRoot"; type: "bool"; isReadonly: true }
+        Property { name: "hidden"; type: "bool"; isReadonly: true }
         Property { name: "count"; type: "int"; isReadonly: true }
     }
     Component {
@@ -247,7 +262,8 @@ Module {
                 "RoleEmblem": 8,
                 "RoleSummary": 9,
                 "RoleAttributes": 10,
-                "RoleBackground": 11
+                "RoleBackground": 11,
+                "RoleOverlayColor": 12
             }
         }
         Property { name: "categoryId"; type: "string" }
@@ -259,13 +275,22 @@ Module {
         exports: ["Unity/Scope 0.2"]
         isCreatable: false
         exportMetaObjectRevisions: [0]
+        Enum {
+            name: "Status"
+            values: {
+                "Okay": 0,
+                "NoInternet": 1,
+                "NoLocationData": 2,
+                "Unknown": 3
+            }
+        }
         Property { name: "id"; type: "string"; isReadonly: true }
         Property { name: "name"; type: "string"; isReadonly: true }
         Property { name: "iconHint"; type: "string"; isReadonly: true }
         Property { name: "description"; type: "string"; isReadonly: true }
         Property { name: "searchHint"; type: "string"; isReadonly: true }
         Property { name: "searchInProgress"; type: "bool"; isReadonly: true }
-        Property { name: "visible"; type: "bool"; isReadonly: true }
+        Property { name: "favorite"; type: "bool" }
         Property { name: "shortcut"; type: "string"; isReadonly: true }
         Property {
             name: "categories"
@@ -273,13 +298,27 @@ Module {
             isReadonly: true
             isPointer: true
         }
+        Property {
+            name: "settings"
+            type: "unity::shell::scopes::SettingsModelInterface"
+            isReadonly: true
+            isPointer: true
+        }
         Property { name: "searchQuery"; type: "string" }
         Property { name: "noResultsHint"; type: "string" }
         Property { name: "formFactor"; type: "string" }
         Property { name: "isActive"; type: "bool" }
-        Property { name: "currentDepartmentId"; type: "string"; isReadonly: true }
-        Property { name: "hasDepartments"; type: "bool"; isReadonly: true }
+        Property { name: "currentNavigationId"; type: "string"; isReadonly: true }
+        Property { name: "hasNavigation"; type: "bool"; isReadonly: true }
+        Property { name: "currentAltNavigationId"; type: "string"; isReadonly: true }
+        Property { name: "hasAltNavigation"; type: "bool"; isReadonly: true }
         Property { name: "customizations"; type: "QVariantMap"; isReadonly: true }
+        Property {
+            name: "status"
+            type: "unity::shell::scopes::ScopeInterface::Status"
+            isReadonly: true
+        }
+        Signal { name: "detailsChanged" }
         Signal { name: "showDash" }
         Signal { name: "hideDash" }
         Signal {
@@ -298,10 +337,6 @@ Module {
             name: "openScope"
             Parameter { name: "scope"; type: "unity::shell::scopes::ScopeInterface"; isPointer: true }
         }
-        Signal {
-            name: "activateApplication"
-            Parameter { name: "desktop"; type: "string" }
-        }
         Method {
             name: "activate"
             Parameter { name: "result"; type: "QVariant" }
@@ -317,14 +352,25 @@ Module {
             Parameter { name: "scope"; type: "unity::shell::scopes::ScopeInterface"; isPointer: true }
         }
         Method {
-            name: "getDepartment"
-            type: "unity::shell::scopes::DepartmentInterface*"
-            Parameter { name: "departmentId"; type: "string" }
+            name: "getNavigation"
+            type: "unity::shell::scopes::NavigationInterface*"
+            Parameter { name: "navigationId"; type: "string" }
         }
         Method {
-            name: "loadDepartment"
-            Parameter { name: "departmentId"; type: "string" }
+            name: "getAltNavigation"
+            type: "unity::shell::scopes::NavigationInterface*"
+            Parameter { name: "altNavigationId"; type: "string" }
         }
+        Method {
+            name: "setNavigationState"
+            Parameter { name: "navId"; type: "string" }
+            Parameter { name: "altNavigation"; type: "bool" }
+        }
+        Method {
+            name: "performQuery"
+            Parameter { name: "cannedQuery"; type: "string" }
+        }
+        Method { name: "refresh" }
     }
     Component {
         name: "unity::shell::scopes::ScopesInterface"
@@ -334,11 +380,17 @@ Module {
             values: {
                 "RoleScope": 0,
                 "RoleId": 1,
-                "RoleVisible": 2,
-                "RoleTitle": 3
+                "RoleTitle": 2
             }
         }
         Property { name: "loaded"; type: "bool"; isReadonly: true }
+        Property { name: "count"; type: "int"; isReadonly: true }
+        Property {
+            name: "overviewScope"
+            type: "unity::shell::scopes::ScopeInterface"
+            isReadonly: true
+            isPointer: true
+        }
         Method {
             name: "getScope"
             type: "unity::shell::scopes::ScopeInterface*"

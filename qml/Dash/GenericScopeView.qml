@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
-import Unity.Application 0.1
 import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
@@ -26,6 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
+    readonly property alias navigationShown: dashNavigation.showList
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -33,22 +33,16 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    property alias paginationCount: pageHeader.paginationCount
+    property alias paginationIndex: pageHeader.paginationIndex
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
     }
 
+    readonly property bool processing: scope ? scope.searchInProgress || previewListView.processing : false
+
     signal backClicked()
-
-    onScopeChanged: {
-        if (scope) {
-            scope.activateApplication.connect(activateApp);
-        }
-    }
-
-    function activateApp(appId) {
-        shell.activateApplication(appId);
-    }
 
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
@@ -119,6 +113,8 @@ FocusScope {
 
         model: scopeView.categories
         forceNoClip: previewListView.open
+        pixelAligned: true
+        interactive: !dashNavigation.showList
 
         property string expandedCategoryId: ""
 
@@ -128,10 +124,21 @@ FocusScope {
             highlightWhenPressed: false
             showDivider: false
 
-            readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filtered : true
+            readonly property bool expandable: {
+                if (categoryView.model.count === 1) return false;
+                if (cardTool.template && cardTool.template["collapsed-rows"] === 0) return false;
+                if (item && item.expandedHeight > item.collapsedHeight) return true;
+                return false;
+            }
+            property bool expanded: false
             readonly property string category: categoryId
+            readonly property string headerLink: model.headerLink
             readonly property var item: rendererLoader.item
+
+            function expand(expand, animate) {
+                heightBehaviour.enabled = animate;
+                expanded = expand;
+            }
 
             CardTool {
                 id: cardTool
@@ -142,22 +149,48 @@ FocusScope {
                 viewWidth: parent.width
             }
 
+            onExpandableChanged: {
+                // This can happen with the VJ that doesn't know how height it will be on creation
+                // so doesn't set expandable until a bit too late for onLoaded
+                if (expandable) {
+                    var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
+                    baseItem.expand(shouldExpand, false /*animate*/);
+                }
+            }
+
+            onHeightChanged: rendererLoader.updateDelegateCreationRange();
+            onYChanged: rendererLoader.updateDelegateCreationRange();
+
             Loader {
                 id: rendererLoader
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
-                    topMargin: hasSectionHeader ? 0 : units.gu(2)
+                    topMargin: name != "" ? 0 : units.gu(2)
                 }
+
+                Behavior on height {
+                    id: heightBehaviour
+                    enabled: false
+                    animation: UbuntuNumberAnimation {
+                        onRunningChanged: {
+                            if (!running) {
+                                heightBehaviour.enabled = false
+                            }
+                        }
+                    }
+                }
+
+                readonly property bool expanded: baseItem.expanded || !baseItem.expandable
+                height: expanded ? item.expandedHeight : item.collapsedHeight
 
                 source: {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
                         case "vertical-journal": return "CardVerticalJournal.qml";
-                        case "running-apps": return "Apps/RunningApplicationsGrid.qml";
                         case "grid":
-                        default: return "CardFilterGrid.qml";
+                        default: return "CardGrid.qml";
                     }
                 }
 
@@ -166,21 +199,18 @@ FocusScope {
                         item.enableHeightBehavior = scopeView.enableHeightBehaviorOnNextCreation;
                         scopeView.enableHeightBehaviorOnNextCreation = false;
                     }
-                    if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
-                        // TODO: this is still a kludge :D Ideally add some kind of hook so that we
-                        // can do this from DashApps.qml or think a better way that needs no special casing
-                        item.model = Qt.binding(function() { return runningApps; })
-                        item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
-                    } else {
-                        item.model = Qt.binding(function() { return results })
-                    }
+                    item.model = Qt.binding(function() { return results })
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
-                    if (item.expandable) {
-                        var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                        item.setFilter(shouldFilter, false /*animate*/);
+                    if (baseItem.expandable) {
+                        var shouldExpand = categoryId === categoryView.expandedCategoryId;
+                        baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
+                    if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
+                        // Yeah, hackish :/
+                        cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
+                    }
                     item.cardTool = cardTool;
                 }
 
@@ -199,25 +229,22 @@ FocusScope {
                             // so it's not implemented
                             scopeView.scope.activate(result)
                         } else {
+                            openPreview(index);
+                        }
+                    }
+                    onPressAndHold: openPreview(index)
+
+                    function openPreview(index) {
+                        if (!rendererLoader.expanded && !seeAllLabel.visible && target.collapsedItemCount > 0) {
+                            previewLimitModel.model = target.model;
+                            previewLimitModel.limit = target.collapsedItemCount;
+                            previewListView.model = previewLimitModel;
+                        } else {
                             previewListView.model = target.model;
-                            previewListView.currentIndex = -1
-                            previewListView.currentIndex = index;
-                            previewListView.open = true
                         }
-                    }
-                    onPressAndHold: {
-                        previewListView.model = target.model;
-                        previewListView.currentIndex = -1
+                        previewListView.currentIndex = -1;
                         previewListView.currentIndex = index;
-                        previewListView.open = true
-                    }
-                    onExpandableChanged: {
-                        // This can happen with the VJ that doesn't know how height it will be on creation
-                        // so doesn't set expandable until a bit too late for onLoaded
-                        if (rendererLoader.item.expandable) {
-                            var shouldFilter = baseItem.category != categoryView.expandedCategoryId;
-                            rendererLoader.item.setFilter(shouldFilter, false /*animate*/);
-                        }
+                        previewListView.open = true;
                     }
                 }
                 Connections {
@@ -227,17 +254,17 @@ FocusScope {
                     }
                     function collapseAllButExpandedCategory() {
                         var item = rendererLoader.item;
-                        if (item.expandable) {
-                            var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                            if (shouldFilter != item.filter) {
+                        if (baseItem.expandable) {
+                            var shouldExpand = categoryId === categoryView.expandedCategoryId;
+                            if (shouldExpand != baseItem.expanded) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
-                                var growingVisible = !shouldFilter && y + height < categoryView.height;
-                                if (!previewListView.open || !shouldFilter) {
+                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
+                                var growingVisible = shouldExpand && y + height < categoryView.height;
+                                if (!previewListView.open || shouldExpand) {
                                     var animate = shrinkingVisible || growingVisible;
-                                    item.setFilter(shouldFilter, animate)
-                                    if (!shouldFilter && !previewListView.open) {
-                                        categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
+                                    baseItem.expand(shouldExpand, animate)
+                                    if (shouldExpand && !previewListView.open) {
+                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
                                     }
                                 }
                             }
@@ -274,58 +301,82 @@ FocusScope {
                             item.displayMarginEnd = -baseItem.height;
                         } else {
                             item.displayMarginBeginning = -Math.max(-baseItem.y, 0);
-                            item.displayMarginEnd = -Math.max(baseItem.height - categoryView.height + baseItem.y, 0)
+                            item.displayMarginEnd = -Math.max(baseItem.height - seeAll.height
+                                                              - categoryView.height + baseItem.y, 0)
                         }
                     }
                 }
+            }
 
-                Image {
-                    visible: index != 0
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        right: parent.right
+            AbstractButton {
+                id: seeAll
+                objectName: "seeAll"
+                anchors {
+                    top: rendererLoader.bottom
+                    left: parent.left
+                    right: parent.right
+                }
+                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+
+                onClicked: {
+                    if (categoryView.expandedCategoryId != baseItem.category) {
+                        categoryView.expandedCategoryId = baseItem.category;
+                    } else {
+                        categoryView.expandedCategoryId = "";
                     }
-                    fillMode: Image.Stretch
-                    source: "graphics/dash_divider_top_lightgrad.png"
-                    z: -1
                 }
 
-                Image {
-                    // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
-                    visible: index != categoryView.model.count - 1
+                Label {
+                    id: seeAllLabel
+                    text: baseItem.expanded ? i18n.tr("See less") : i18n.tr("See all")
                     anchors {
-                        bottom: parent.bottom
-                        left: parent.left
-                        right: parent.right
+                        centerIn: parent
+                        verticalCenterOffset: units.gu(-0.5)
                     }
-                    fillMode: Image.Stretch
-                    source: "graphics/dash_divider_top_darkgrad.png"
-                    z: -1
+                    fontSize: "small"
+                    font.weight: Font.Bold
+                    color: scopeStyle ? scopeStyle.foreground : "grey"
+                    visible: baseItem.expandable && !baseItem.headerLink
                 }
             }
 
-            onHeightChanged: rendererLoader.updateDelegateCreationRange();
-            onYChanged: rendererLoader.updateDelegateCreationRange();
+            Image {
+                visible: index != 0
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                fillMode: Image.Stretch
+                source: "graphics/dash_divider_top_lightgrad.png"
+                z: -1
+            }
+
+            Image {
+                // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
+                visible: index != categoryView.model.count - 1
+                anchors {
+                    bottom: seeAll.bottom
+                    left: parent.left
+                    right: parent.right
+                }
+                fillMode: Image.Stretch
+                source: "graphics/dash_divider_top_darkgrad.png"
+                z: -1
+            }
         }
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
-            property var delegate: categoryView.item(delegateIndex)
+            readonly property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
+            height: section != "" ? units.gu(5) : 0
             text: section
-            textColor: scopeStyle ? scopeStyle.foreground : "grey"
-            image: {
-                if (delegate && delegate.expandable)
-                    return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
-                return "";
-            }
+            color: scopeStyle ? scopeStyle.foreground : "grey"
+            iconName: delegate && delegate.headerLink ? "go-next" : ""
             onClicked: {
-                if (categoryView.expandedCategoryId != delegate.category)
-                    categoryView.expandedCategoryId = delegate.category;
-                else
-                    categoryView.expandedCategoryId = "";
+                if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
             }
         }
 
@@ -336,10 +387,10 @@ FocusScope {
             title: scopeView.scope ? scopeView.scope.name : ""
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
-            searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
             scopeStyle: scopeView.scopeStyle
 
-            bottomItem: DashDepartments {
+            bottomItem: DashNavigation {
+                id: dashNavigation
                 scope: scopeView.scope
                 width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
                 anchors.right: parent.right
@@ -352,6 +403,10 @@ FocusScope {
         }
     }
 
+    LimitProxyModel {
+        id: previewLimitModel
+    }
+
     PreviewListView {
         id: previewListView
         objectName: "previewListView"
@@ -361,6 +416,10 @@ FocusScope {
         width: parent.width
         height: parent.height
         anchors.left: categoryView.right
+
+        onOpenChanged: {
+            pageHeader.unfocus();
+        }
     }
 
 }

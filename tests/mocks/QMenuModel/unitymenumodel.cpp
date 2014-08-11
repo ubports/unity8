@@ -126,6 +126,11 @@ void UnityMenuModel::setActionStateParser(ActionStateParser*)
 {
 }
 
+QString UnityMenuModel::nameOwner() const
+{
+    return QString("");
+}
+
 int UnityMenuModel::rowCount(const QModelIndex&) const
 {
     return m_modelData.count();
