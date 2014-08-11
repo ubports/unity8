@@ -102,13 +102,12 @@ readonly property int headerHeight: titleLabel.height + subtitleLabel.height + s
 Label { 
                         id: titleLabel;
                         objectName: "titleLabel"; 
-                        anchors { left: parent.left; 
-                                leftMargin: units.gu(1); 
-                                right: parent.right; 
-                                rightMargin: units.gu(1); 
-                                top: overlayLoader.top; 
-                                topMargin: units.gu(1);
- } 
+                        anchors { right: parent.right; 
+                        left: parent.left; 
+                        leftMargin: units.gu(1); 
+                        top: overlayLoader.top; 
+                        topMargin: units.gu(1);
+                        } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
@@ -124,12 +123,11 @@ Label {
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
-                               leftMargin: titleLabel.leftMargin; 
-                               right: titleLabel.right; 
-                               rightMargin: titleLabel.rightMargin; 
-                               top: titleLabel.bottom; 
-                               topMargin: units.dp(2);
- } 
+                            leftMargin: titleLabel.leftMargin; 
+                            right: titleLabel.right; 
+                            top: titleLabel.bottom; 
+                            } 
+                            anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
