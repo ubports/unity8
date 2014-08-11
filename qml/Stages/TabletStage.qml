@@ -475,6 +475,7 @@ Rectangle {
                     swipeToCloseEnabled: spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 ? root.inverseProgress : 0
+                    closeable: !isDash
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 

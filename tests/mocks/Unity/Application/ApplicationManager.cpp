@@ -55,12 +55,30 @@ ApplicationManager::ApplicationManager(QObject *parent)
 
     buildListOfAvailableApplications();
 
-    startApplication("unity8-dash");
-    focusApplication("unity8-dash");
+    // polling to find out when the toplevel window has been created as there's
+    // no signal telling us that
+    connect(&m_windowCreatedTimer, &QTimer::timeout,
+            this, &ApplicationManager::onWindowCreatedTimerTimeout);
+    m_windowCreatedTimer.setSingleShot(false);
+    m_windowCreatedTimer.start(200);
 }
 
 ApplicationManager::~ApplicationManager()
 {
+}
+
+void ApplicationManager::onWindowCreatedTimerTimeout()
+{
+    if (QGuiApplication::topLevelWindows().count() > 0) {
+        m_windowCreatedTimer.stop();
+        onWindowCreated();
+    }
+}
+
+void ApplicationManager::onWindowCreated()
+{
+    startApplication("unity8-dash");
+    focusApplication("unity8-dash");
 }
 
 int ApplicationManager::rowCount(const QModelIndex& parent) const {
@@ -143,6 +161,16 @@ void ApplicationManager::add(ApplicationInfo *application) {
         if (!appIndex.isValid()) return;
         Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleSurface);
     });
+    connect(application, &ApplicationInfo::focusedChanged, this, [application, this]() {
+        QModelIndex appIndex = findIndex(application);
+        if (!appIndex.isValid()) return;
+        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleFocused);
+    });
+    connect(application, &ApplicationInfo::stateChanged, this, [application, this]() {
+        QModelIndex appIndex = findIndex(application);
+        if (!appIndex.isValid()) return;
+        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleState);
+    });
 }
 
 void ApplicationManager::remove(ApplicationInfo *application) {
@@ -155,7 +183,7 @@ void ApplicationManager::remove(ApplicationInfo *application) {
         Q_EMIT countChanged();
         if (isEmpty()) Q_EMIT emptyChanged(isEmpty());
     }
-    disconnect(application, &ApplicationInfo::surfaceChanged, this, 0);
+    disconnect(application, 0, this, 0);
 }
 
 void ApplicationManager::move(int from, int to) {
@@ -293,31 +321,17 @@ bool ApplicationManager::focusApplication(const QString &appId)
     if (application == nullptr)
         return false;
 
-    if (application->stage() == ApplicationInfo::MainStage) {
-        // unfocus currently focused mainstage app
-        for (ApplicationInfo *app : m_runningApplications) {
-            if (app->focused() && app->stage() == ApplicationInfo::MainStage) {
-                app->setFocused(false);
-                app->setState(ApplicationInfo::Suspended);
-            }
+    // unfocus currently focused app
+    for (ApplicationInfo *app : m_runningApplications) {
+        if (app->focused()) {
+            app->setFocused(false);
+            app->setState(ApplicationInfo::Suspended);
         }
-
-        // focus this app
-        application->setFocused(true);
-        application->setState(ApplicationInfo::Running);
-    } else if (application->stage() == ApplicationInfo::SideStage) {
-        // unfocus currently focused sidestage app
-        for (ApplicationInfo *app : m_runningApplications) {
-            if (app->focused() && app->stage() == ApplicationInfo::SideStage) {
-                app->setFocused(false);
-                app->setState(ApplicationInfo::Suspended);
-            }
-        }
-
-        // focus this app
-        application->setFocused(true);
-        application->setState(ApplicationInfo::Running);
     }
+
+    // focus this app
+    application->setFocused(true);
+    application->setState(ApplicationInfo::Running);
 
     // move app to top of stack
     move(m_runningApplications.indexOf(application), 0);
@@ -341,12 +355,6 @@ void ApplicationManager::unfocusCurrentApplication()
     Q_EMIT focusedApplicationIdChanged();
 }
 
-void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
-{
-    application->setScreenshot(QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png").arg(qmlDirectory())
-                                                                                             .arg(application->icon().toString()));
-}
-
 void ApplicationManager::buildListOfAvailableApplications()
 {
     ApplicationInfo *application;
@@ -354,128 +362,119 @@ void ApplicationManager::buildListOfAvailableApplications()
     application = new ApplicationInfo(this);
     application->setAppId("unity8-dash");
     application->setName("Unity 8 Mock Dash");
-    application->setIcon(QUrl("unity8-dash"));
+    application->setScreenshotId("unity8-dash");
     application->setStage(ApplicationInfo::MainStage);
-    generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("dialer-app");
     application->setName("Dialer");
-    application->setIcon(QUrl("dialer"));
+    application->setScreenshotId("dialer");
+    application->setIconId("dialer-app");
     application->setStage(ApplicationInfo::SideStage);
-    generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("camera-app");
     application->setName("Camera");
-    application->setIcon(QUrl("camera"));
+    application->setScreenshotId("camera");
+    application->setIconId("camera");
     application->setFullscreen(true);
-    generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("gallery-app");
     application->setName("Gallery");
-    application->setIcon(QUrl("gallery"));
-    generateQmlStrings(application);
+    application->setScreenshotId("gallery");
+    application->setIconId("gallery");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("facebook-webapp");
     application->setName("Facebook");
-    application->setIcon(QUrl("facebook"));
+    application->setScreenshotId("facebook");
+    application->setIconId("facebook");
     application->setStage(ApplicationInfo::SideStage);
-    generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("webbrowser-app");
     application->setFullscreen(true);
     application->setName("Browser");
-    application->setIcon(QUrl("browser"));
-    generateQmlStrings(application);
+    application->setScreenshotId("browser");
+    application->setIconId("browser");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("twitter-webapp");
     application->setName("Twitter");
-    application->setIcon(QUrl("twitter"));
+    application->setScreenshotId("twitter");
+    application->setIconId("twitter");
     application->setStage(ApplicationInfo::SideStage);
-    generateQmlStrings(application);
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("map");
+    application->setName("Map");
+    application->setIconId("map");
+    application->setScreenshotId("map");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("gmail-webapp");
     application->setName("GMail");
-    application->setIcon(QUrl("gmail"));
+    application->setIconId("gmail");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("ubuntu-weather-app");
     application->setName("Weather");
-    application->setIcon(QUrl("weather"));
+    application->setIconId("weather");
     application->setStage(ApplicationInfo::SideStage);
-    generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("notes-app");
     application->setName("Notepad");
-    application->setIcon(QUrl("notepad"));
+    application->setIconId("notepad");
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("calendar-app");
     application->setName("Calendar");
-    application->setIcon(QUrl("calendar"));
+    application->setIconId("calendar");
     application->setStage(ApplicationInfo::SideStage);
-    m_availableApplications.append(application);
-
-    application = new ApplicationInfo(this);
-    application->setAppId("mediaplayer-app");
-    application->setName("Media Player");
-    application->setIcon(QUrl("mediaplayer-app"));
-    application->setFullscreen(true);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("evernote");
     application->setName("Evernote");
-    application->setIcon(QUrl("evernote"));
-    m_availableApplications.append(application);
-
-    application = new ApplicationInfo(this);
-    application->setAppId("map");
-    application->setName("Map");
-    application->setIcon(QUrl("map"));
-    generateQmlStrings(application);
+    application->setIconId("evernote");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("pinterest");
     application->setName("Pinterest");
-    application->setIcon(QUrl("pinterest"));
+    application->setIconId("pinterest");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("soundcloud");
     application->setName("SoundCloud");
-    application->setIcon(QUrl("soundcloud"));
+    application->setIconId("soundcloud");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("wikipedia");
     application->setName("Wikipedia");
-    application->setIcon(QUrl("wikipedia"));
+    application->setIconId("wikipedia");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("youtube");
     application->setName("YouTube");
-    application->setIcon(QUrl("youtube"));
+    application->setIconId("youtube");
     m_availableApplications.append(application);
 }
 
