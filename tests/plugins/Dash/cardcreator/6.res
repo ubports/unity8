@@ -105,7 +105,7 @@ Item {
                             source: cardData && cardData["emblem"] || ""; 
                             color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
                             width: height; 
-                            height: status === Image.Ready ? titleLabel.font.pixelSize : 0; 
+                            height: source != "" ? titleLabel.font.pixelSize : 0; 
                         }
  
                             ]
