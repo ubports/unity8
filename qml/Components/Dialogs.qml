@@ -67,17 +67,17 @@ Item {
         id: logoutDialog
         Dialog {
             id: dialogueLogout
-            title: "Logout"
-            text: "Are you sure that you want to logout?"
+            title: i18n.tr("Logout")
+            text: i18n.tr("Are you sure that you want to logout?")
             Button {
-                text: "Cancel"
+                text: i18n.tr("Cancel")
                 onClicked: {
                     PopupUtils.close(dialogueLogout);
                     d.dialogShown = false;
                 }
             }
             Button {
-                text: "Yes"
+                text: i18n.tr("Yes")
                 onClicked: {
                     DBusUnitySessionService.Logout();
                     PopupUtils.close(dialogueLogout);
@@ -91,17 +91,17 @@ Item {
         id: shutdownDialog
         Dialog {
             id: dialogueShutdown
-            title: "Shutdown"
-            text: "Are you sure that you want to shutdown?"
+            title: i18n.tr("Shutdown")
+            text: i18n.tr("Are you sure that you want to shutdown?")
             Button {
-                text: "Cancel"
+                text: i18n.tr("Cancel")
                 onClicked: {
                     PopupUtils.close(dialogueShutdown);
                     d.dialogShown = false;
                 }
             }
             Button {
-                text: "Yes"
+                text: i18n.tr("Yes")
                 onClicked: {
                     dBusUnitySessionServiceConnection.closeAllApps();
                     DBusUnitySessionService.Shutdown();
@@ -116,17 +116,17 @@ Item {
         id: rebootDialog
         Dialog {
             id: dialogueReboot
-            title: "Reboot"
-            text: "Are you sure that you want to reboot?"
+            title: i18n.tr("Reboot")
+            text: i18n.tr("Are you sure that you want to reboot?")
             Button {
-                text: "Cancel"
+                text: i18n.tr("Cancel")
                 onClicked: {
                     PopupUtils.close(dialogueReboot)
                     d.dialogShown = false;
                 }
             }
             Button {
-                text: "Yes"
+                text: i18n.tr("Yes")
                 onClicked: {
                     dBusUnitySessionServiceConnection.closeAllApps();
                     DBusUnitySessionService.Reboot();
@@ -141,7 +141,7 @@ Item {
         id: powerDialog
         Dialog {
             id: dialoguePower
-            title: "Power"
+            title: i18n.tr("Power")
             text: i18n.tr("Are you sure you would like to turn power off?")
             Button {
                 text: i18n.tr("Power off")
