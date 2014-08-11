@@ -39,7 +39,7 @@ Item {
     //! \brief The ScopeStyle component.
     property var scopeStyle: null
 
-    //! \brief The ScopeStyle component.
+    //! \brief Should be set to true if an operation is in the background and the preview shouldn't allow interactions.
     property bool actionInProgress: false
 
     clip: true
