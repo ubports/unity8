@@ -119,7 +119,7 @@ class UpstartIntegrationTests(UnityTestCase):
         self._set_proxy()
 
         logger.debug("Unity started, waiting for it to be ready.")
-        self.assertUnityReady()
+        self.wait_for_unity()
         logger.debug("Unity loaded and ready.")
 
     def test_expect_sigstop(self):
@@ -137,5 +137,5 @@ class UpstartIntegrationTests(UnityTestCase):
 
         logger.debug("Unity started, waiting for it to be ready.")
         self._set_proxy()
-        self.assertUnityReady()
+        self.wait_for_unity()
         logger.debug("Unity loaded and ready.")

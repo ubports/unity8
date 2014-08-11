@@ -55,8 +55,8 @@ Rectangle {
             "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "aspect-ratio": 2 } }) }
         },
         {
-            "name": "Art, title - fitted",
-            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "fill-mode": "fit" } }) }
+            "name": "Art, title - tall",
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "aspect-ratio": 0.7 } }) }
         },
         {
             "name": "Art, header, summary - horizontal",
@@ -269,7 +269,7 @@ Rectangle {
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
-                { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
+                { tag: "Tall", height: units.gu(38) / 0.7, size: "large", width: units.gu(38), index: 4 },
                 { tag: "VerticalWidth", width: function() { return headerRow.width + units.gu(1) * 2 }, index: 0 },
                 { tag: "HorizontalHeight", height: function() { return headerRow.height + units.gu(1) * 2 }, index: 5 },
                 { tag: "HorizontalWidth", width: function() { return headerRow.x - units.gu(1) }, index: 5 },
@@ -474,6 +474,18 @@ Rectangle {
 
             compare(shape !== null, data.shape);
             tryCompare(mascotImage, "visible", !data.shape);
+        }
+
+        function test_touchdown_visibility() {
+            selector.selectedIndex = 0;
+
+            var touchdown = findChild(card, "touchdown");
+
+            compare(touchdown.visible, false);
+            mousePress(card, card.width/2, card.height/2);
+            compare(touchdown.visible, true);
+            mouseRelease(card, card.width/2, card.height/2);
+            compare(touchdown.visible, false);
         }
     }
 }
