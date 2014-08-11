@@ -63,8 +63,10 @@ Item {
     }
 
     function setFakeActiveForApp(app) {
-        greeter.fakeActiveForApp = app
-        lockscreen.hide()
+        if (shell.locked) {
+            greeter.fakeActiveForApp = app
+            lockscreen.hide()
+        }
     }
 
     Binding {
@@ -129,7 +131,7 @@ Item {
         Connections {
             target: ApplicationManager
             onFocusRequested: {
-                if (LightDM.Greeter.active && appId === "dialer-app") {
+                if (appId === "dialer-app") {
                     // Always let the dialer-app through.  Either user asked
                     // for an emergency call or accepted an incoming call.
                     setFakeActiveForApp(appId)
