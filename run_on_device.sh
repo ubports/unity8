@@ -2,7 +2,6 @@
 CODE_DIR=shell
 USER=phablet
 USER_ID=32011
-PASSWORD=phablet
 PACKAGE=unity8
 BINARY=unity8
 TARGET_IP=${TARGET_IP-127.0.0.1}
@@ -13,7 +12,6 @@ SETUP=false
 GDB=false
 PINLOCK=false
 KEYLOCK=false
-SUDO="echo $PASSWORD | sudo -S"
 NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
 FLIPPED=false
 CHROOT_PREFIX="/data/ubuntu"
@@ -76,7 +74,7 @@ setup_adb_forwarding() {
 
 install_dependencies() {
     exec_with_adb apt-get update
-    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs unity-plugin-scopes
+    exec_with_adb apt-get -y --force-yes install build-essential rsync bzr ccache gdb ninja-build devscripts equivs unity-plugin-scopes
 }
 
 sync_code() {

@@ -33,7 +33,6 @@ Item {
     PhoneStage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
-        shown: true
         dragAreaWidth: units.gu(2)
     }
 
@@ -45,7 +44,6 @@ Item {
 
     Rectangle {
         anchors { fill: parent; leftMargin: phoneStage.width }
-//        color: "blue"
 
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
@@ -59,7 +57,10 @@ Item {
             }
             Button {
                 anchors { left: parent.left; right: parent.right }
-                text: "Add App"
+                text: "Remove App"
+                onClicked: {
+                    ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+                }
             }
         }
     }
@@ -74,11 +75,8 @@ Item {
             for (var i = 0; i < count; i++) {
                 var app = ApplicationManager.startApplication(ApplicationManager.availableApplications()[ApplicationManager.count])
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
-                // Fixme: Right now there is a timeout in the PhoneStage that displays a white splash
-                // screen rectangle when an app starts. This is because we don't yet have a way of
-                // knowing when an app has finished launching. That workaround and this wait() should
-                // go away at some point and the app's state only changing to Running when ready for real.
-//                wait(1000)
+                var spreadView = findChild(phoneStage, "spreadView");
+                tryCompare(spreadView, "contentX", -spreadView.shift);
                 waitForRendering(phoneStage)
             }
         }
@@ -114,8 +112,6 @@ Item {
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
 
             tryCompare(ApplicationManager, "focusedApplicationId", activeApp.appId)
-
-            tryCompare(phoneStage, "painting", false);
         }
 
         function test_enterSpread_data() {
@@ -139,7 +135,7 @@ Item {
             var startX = phoneStage.width;
             var startY = phoneStage.height / 2;
             var endY = startY;
-            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset - phoneStage.dragAreaWidth;
+            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset;
 
             var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);
@@ -165,7 +161,6 @@ Item {
                 mouseClick(app2, units.gu(1), units.gu(1));
             }
 
-            tryCompare(phoneStage, "painting", false);
             tryCompare(ApplicationManager, "focusedApplicationId", newFocusedApp.appId);
         }
 
@@ -212,16 +207,6 @@ Item {
             tryCompare(spreadView, "phase", 0);
         }
 
-        function test_animateAppStartup() {
-            compare(phoneStage.painting, false);
-            addApps(2);
-            tryCompare(phoneStage, "painting", true);
-            tryCompare(phoneStage, "painting", false);
-            addApps(1);
-            tryCompare(phoneStage, "painting", true);
-            tryCompare(phoneStage, "painting", false);
-        }
-
         function test_select_data() {
             return [
                 { tag: "0", index: 0 },
@@ -240,47 +225,16 @@ Item {
 
             phoneStage.select(selectedApp.appId);
 
-            tryCompare(phoneStage, "painting", false);
+            tryCompare(spreadView, "contentX", -spreadView.shift);
+
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
         }
 
-        function test_fullscreenMode() {
-            var fullscreenApp = null;
-            var normalApp = null;
-
-            for (var i = 0; i < 5; i++) {
-                addApps(1);
-                var newApp = ApplicationManager.get(0);
-                tryCompare(phoneStage, "fullscreen", newApp.fullscreen);
-                if (newApp.fullscreen && fullscreenApp == null) {
-                    fullscreenApp = newApp;
-                } else if (!newApp.fullscreen && normalApp == null){
-                    normalApp = newApp;
-                }
-            }
-            verify(fullscreenApp != null); // Can't continue the test without having a fullscreen app
-            verify(normalApp != null); // Can't continue the test without having a non-fullscreen app
-
-            // Select a normal app
-            goToSpread();
-            phoneStage.select(normalApp.appId);
-            tryCompare(phoneStage, "fullscreen", false);
-
-            // Select a fullscreen app
-            goToSpread();
-            phoneStage.select(fullscreenApp.appId);
-            tryCompare(phoneStage, "fullscreen", true);
-
-            // Select a normal app
-            goToSpread();
-            phoneStage.select(normalApp.appId);
-            tryCompare(phoneStage, "fullscreen", false);
-        }
-
         function cleanup() {
-            while (ApplicationManager.count > 0) {
+            while (ApplicationManager.count > 1) {
                 var oldCount = ApplicationManager.count;
-                ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+                var closingIndex = ApplicationManager.focusedApplicationId == "unity8-dash" ? 1 : 0
+                ApplicationManager.stopApplication(ApplicationManager.get(closingIndex).appId)
                 tryCompare(ApplicationManager, "count", oldCount - 1)
             }
         }
