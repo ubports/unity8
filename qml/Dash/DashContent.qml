@@ -23,9 +23,10 @@ import "../Components"
 Item {
     id: dashContent
 
-    property var model: null
-    property var scopes: null
+    property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
+    readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
+                                       && dashContentList.currentItem.item.processing || false
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
@@ -89,10 +90,9 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
 
             anchors.fill: parent
-            model: dashContent.model
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
             flickDeceleration: units.gu(625)
@@ -121,13 +121,16 @@ Item {
                 Loader {
                     width: ListView.view.width
                     height: ListView.view.height
+                    opacity: { // hide delegate if offscreen
+                        var xPositionRelativetoView = ListView.view.contentX - x
+                        return (xPositionRelativetoView > -width && xPositionRelativetoView < width) ? 1 : 0
+                    }
                     asynchronous: true
-                    // TODO This if will eventually go away since we're killing DashApps.qml
-                    // once we move app closing to the spread
-                    source: (scope.id == "clickscope") ? "DashApps.qml" : "GenericScopeView.qml"
+                    source: "GenericScopeView.qml"
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
+                    readonly property bool navigationShown: item ? item.navigationShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 
@@ -141,6 +144,8 @@ Item {
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         dashContent.scopeLoaded(item.scope.id)
+                        item.paginationCount = Qt.binding(function() { return dashContentList.count } )
+                        item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
                     }
                     Connections {
                         target: isCurrent ? scope : null

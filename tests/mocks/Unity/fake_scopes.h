@@ -50,6 +50,8 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
 
     bool loaded() const override;
+    int count() const override;
+    unity::shell::scopes::ScopeInterface* overviewScope() const override;
 
 private Q_SLOTS:
     void updateScopes();

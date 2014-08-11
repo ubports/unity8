@@ -39,7 +39,8 @@ class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
         desktop_file_name = os.path.basename(desktop_file_path)
         application_name, _ = os.path.splitext(desktop_file_name)
 
-        self.assertEqual('', self.main_window.get_current_focused_app_id())
+        self.assertEqual(
+            'unity8-dash', self.main_window.get_current_focused_app_id())
         self.addCleanup(os.system, 'pkill qmlscene')
 
         subprocess.check_call(
@@ -47,4 +48,4 @@ class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
         self.assert_current_focused_application(application_name)
 
         self.main_window.show_dash_swiping()
-        self.assert_current_focused_application('')
+        self.assert_current_focused_application('unity8-dash')

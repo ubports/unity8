@@ -18,8 +18,9 @@ import QtQuick 2.0
 import QtTest 1.0
 import ".."
 import "../../../qml/Components"
-import Ubuntu.Components 0.1
+import AccountsService 0.1
 import LightDM 0.1 as LightDM
+import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 Rectangle {
@@ -53,11 +54,16 @@ Rectangle {
         }
     }
 
+    function setUser(username) {
+        AccountsService.user = username
+        LightDM.Greeter.authenticate(username)
+    }
+
     Connections {
         target: LightDM.Greeter
 
         onShowPrompt: {
-            if (text.indexOf("PIN") >= 0) {
+            if (AccountsService.passwordDisplayHint === AccountsService.Numeric) {
                 pinPadCheckBox.checked = false
             } else {
                 pinPadCheckBox.checked = true
@@ -139,12 +145,12 @@ Rectangle {
             Button {
                 text: "start auth (1234)"
                 width: parent.width
-                onClicked: LightDM.Greeter.authenticate("has-pin")
+                onClicked: setUser("has-pin")
             }
             Button {
                 text: "start auth (password)"
                 width: parent.width
-                onClicked: LightDM.Greeter.authenticate("has-password")
+                onClicked: setUser("has-password")
             }
 
             TextField {
@@ -255,7 +261,7 @@ Rectangle {
             enteredLabel.text = ""
             minPinLengthTextField.text = data.minPinLength
             maxPinLengthTextField.text = data.maxPinLength
-            LightDM.Greeter.authenticate(data.username)
+            setUser(data.username)
             waitForLockscreenReady();
 
             var inputField = findChild(lockscreen, "pinentryField")

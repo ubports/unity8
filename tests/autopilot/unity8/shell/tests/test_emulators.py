@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from unity8.shell.emulators.dash import ListViewWithPageHeader
 
 """Tests for the Dash autopilot emulators.
 
@@ -46,24 +47,13 @@ class MainWindowTestCase(tests.UnityTestCase):
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
 
+
+class DashEmulatorTestCase(tests.DashBaseTestCase):
+
     def test_search(self):
-        self.main_window.search('Test')
-        text_field = self.main_window.get_dash()._get_search_text_field()
+        self.dash.enter_search_query('Test')
+        text_field = self.dash._get_search_text_field()
         self.assertEqual(text_field.text, 'Test')
-
-
-class DashBaseTestCase(tests.UnityTestCase):
-
-    scenarios = tests._get_device_emulation_scenarios()
-
-    def setUp(self):
-        super(DashBaseTestCase, self).setUp()
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
-        self.dash = self.main_window.get_dash()
-
-
-class DashEmulatorTestCase(DashBaseTestCase):
 
     def test_open_unexisting_scope(self):
         scope_name = 'unexisting'
@@ -141,10 +131,10 @@ class DashEmulatorTestCase(DashBaseTestCase):
         scope_id = 'clickscope'
         scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
-        self.assertIsInstance(scope, dash_emulators.DashApps)
+        self.assertIsInstance(scope, dash_emulators.GenericScopeView)
 
 
-class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
+class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
@@ -158,7 +148,7 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
         self.assertTrue(preview.isCurrent)
 
 
-class DashAppsEmulatorTestCase(DashBaseTestCase):
+class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
 
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
@@ -182,18 +172,27 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
 
     def test_get_applications_should_return_correct_applications(self):
         category = '2'
+        category_element = self.applications_scope._get_category_element(
+            category)
+        list_view = self.dash.get_scope('clickscope')\
+            .select_single(ListViewWithPageHeader)
         expected_apps_count = self._get_number_of_application_slots(category)
         expected_applications = self.available_applications[
             :expected_apps_count]
+        x_center = list_view.globalRect.x + list_view.width / 2
+        y_center = list_view.globalRect.y + list_view.height / 2
+        y_diff = category_element.y - list_view.height + category_element.height
+        list_view._slow_drag(x_center, x_center,
+                             y_center, y_center - y_diff)
         applications = self.applications_scope.get_applications(category)
         self.assertEqual(expected_applications, applications)
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
             category)
-        grid = category_element.select_single('CardFilterGrid')
-        filtergrid = grid.select_single('FilterGrid')
-        if (grid.filtered):
-            return filtergrid.collapsedRowCount * filtergrid.columns
+        cardgrid = category_element.select_single('CardGrid')
+        if (category_element.expanded):
+            return cardgrid.select_single('QQuickGridView').count
         else:
-            return filtergrid.uncollapsedRowCount * filtergrid.columns
+            return cardgrid.collapsedRows \
+                * cardgrid.select_single('ResponsiveGridView').columns

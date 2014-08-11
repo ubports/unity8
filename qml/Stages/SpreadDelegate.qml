@@ -17,39 +17,159 @@
 */
 
 import QtQuick 2.0
+import Unity.Application 0.1
+import Ubuntu.Components 1.1
+import "../Components"
 
 Item {
     id: root
 
+    // to be set from outside
+    property bool interactive: true
+    property bool dropShadow: true
+    property real maximizedAppTopMargin
+    property alias swipeToCloseEnabled: dragArea.enabled
+
+    readonly property bool isFullscreen: surface !== null && surfaceContainer.surface.anchors.topMargin == 0
+
     signal clicked()
+    signal closed()
 
-    property real topMarginProgress
+    AppSurfaceContainer {
+        id: surfaceContainer
+        objectName: "surfaceContainer"
+        anchors.fill: parent
+        surface: model.surface
+        promptSurfaces: model.application.promptSurfaces
 
-    QtObject {
-        id: priv
-        property real heightDifference: root.height - appImage.implicitHeight
-    }
-
-    Image {
-        id: dropShadow
-        anchors.fill: appImage
-        anchors.margins: -units.gu(2)
-        source: "graphics/dropshadow.png"
-        opacity: .4
-    }
-    Image {
-        id: appImage
-        anchors {
-            left: parent.left;
-            bottom: parent.bottom;
-            top: parent.top;
-            topMargin: priv.heightDifference * Math.max(0, 1 - root.topMarginProgress)
+        Binding {
+            target: surfaceContainer.surface
+            property: "anchors.topMargin"
+            value: {
+                return surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
+            }
         }
-        source: model.screenshot
-        antialiasing: true
+
+        Binding {
+            target: surface
+            property: "enabled"
+            value: root.interactive
+        }
+        Binding {
+            target: surface
+            property: "focus"
+            value: root.interactive
+        }
+
+        Connections {
+            target: surface
+            // FIXME: I would rather not need to do this, but currently it doesn't get
+            // active focus without it and I don't know why.
+            onFocusChanged: forceSurfaceActiveFocusIfReady();
+            onParentChanged: forceSurfaceActiveFocusIfReady();
+            onEnabledChanged: forceSurfaceActiveFocusIfReady();
+            function forceSurfaceActiveFocusIfReady() {
+                if (surface.focus && surface.parent === surfaceContainer && surface.enabled) {
+                    surface.forceActiveFocus();
+                }
+            }
+        }
+
+        BorderImage {
+            id: dropShadowImage
+            anchors {
+                fill: parent
+                leftMargin: -units.gu(2)
+                rightMargin: -units.gu(2)
+                bottomMargin: -units.gu(2)
+                topMargin: -units.gu(2) + (root.isFullscreen ? 0 : maximizedAppTopMargin)
+            }
+            source: "graphics/dropshadow.png"
+            border { left: 50; right: 50; top: 50; bottom: 50 }
+            opacity: root.dropShadow ? .4 : 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
+        }
+
+        transform: Translate {
+            y: dragArea.distance
+        }
     }
-    MouseArea {
-        anchors.fill: appImage
-        onClicked: root.clicked()
+
+    DraggingArea {
+        id: dragArea
+        anchors.fill: parent
+
+        property bool moving: false
+        property real distance: 0
+
+        onMovingChanged: {
+            spreadView.draggedIndex = moving ? index : -1
+        }
+
+        onDragValueChanged: {
+            if (!dragging) {
+                return;
+            }
+            moving = moving || Math.abs(dragValue) > units.gu(1)
+            if (moving) {
+                distance = dragValue;
+            }
+        }
+
+        onClicked: {
+            if (!moving) {
+                root.clicked();
+            }
+        }
+
+        onDragEnd: {
+            if (model.appId == "unity8-dash") {
+                animation.animate("center")
+                return;
+            }
+
+            // velocity and distance values specified by design prototype
+            if ((dragVelocity < -units.gu(40) && distance < -units.gu(8)) || distance < -root.height / 2) {
+                animation.animate("up")
+            } else if ((dragVelocity > units.gu(40) && distance > units.gu(8)) || distance > root.height / 2) {
+                animation.animate("down")
+            } else {
+                animation.animate("center")
+            }
+        }
+
+        UbuntuNumberAnimation {
+            id: animation
+            target: dragArea
+            property: "distance"
+            property bool requestClose: false
+
+            function animate(direction) {
+                animation.from = dragArea.distance;
+                switch (direction) {
+                case "up":
+                    animation.to = -root.height * 1.5;
+                    requestClose = true;
+                    break;
+                case "down":
+                    animation.to = root.height * 1.5;
+                    requestClose = true;
+                    break;
+                default:
+                    animation.to = 0
+                }
+                animation.start();
+            }
+
+            onRunningChanged: {
+                if (!running) {
+                    dragArea.moving = false;
+                    dragArea.distance = 0;
+                    if (requestClose) {
+                        root.closed();
+                    }
+                }
+            }
+        }
     }
 }

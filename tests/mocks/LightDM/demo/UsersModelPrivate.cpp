@@ -29,7 +29,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
   : q_ptr(parent)
 {
     QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
-    QStringList users = settings.value("users", QStringList() << "phablet").toStringList();
+    QStringList users = settings.value("users", QStringList() << qgetenv("USER")).toStringList();
 
     Q_FOREACH(const QString &user, users)
     {

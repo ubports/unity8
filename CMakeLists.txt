@@ -96,6 +96,7 @@ include(autopilot)
 declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
 set(SHELL_APP unity8)
+set(DASH_APP unity8-dash)
 set(SCOPE_TOOL unity-scope-tool)
 
 include_directories(

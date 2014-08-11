@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,54 +15,45 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 0.1
 
 Item {
-    /*!
-     \preliminary
-     The text that is shown as the header text.
-     \qmlproperty string text
-    */
     property alias text: label.text
-    property alias textColor: label.color
-    property alias image: image.source
+    property alias color: label.color
+    property alias iconName: icon.name
 
     signal clicked(variant mouse)
 
     height: units.gu(5)
 
-    Item {
+    RowLayout {
+        spacing: units.gu(.5)
         anchors {
             left: parent.left
             right: parent.right
-            rightMargin: units.gu(0.5)
-            top: parent.top
-            bottom: parent.bottom
+            verticalCenter: parent.verticalCenter
+            margins: units.gu(1)
         }
 
         Label {
             id: label
-            anchors {
-                left: parent.left
-                leftMargin: units.gu(2)
-                verticalCenter: parent.verticalCenter
-            }
+            Layout.fillWidth: true
 
-            color: "grey" // TODO karni: Update Ubuntu.Compoonents.Themes.Palette.
             font.family: "Ubuntu"
             fontSize: "medium"
             elide: Text.ElideRight
+            maximumLineCount: 1
             textFormat: Text.PlainText
-            width: parent.width - image.width - image.leftMargin - anchors.leftMargin
+            width: Math.min(parent.width - units.gu(4), implicitWidth)
         }
 
-        Image {
-            id: image
-            readonly property double leftMargin: units.gu(1)
-            x: label.x + label.contentWidth + leftMargin
-            anchors {
-                verticalCenter: parent.verticalCenter
-            }
+        Icon {
+            id: icon
+            visible: name != ""
+            height: units.gu(2)
+            width: height
+            color: label.color
         }
     }
 

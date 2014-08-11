@@ -1,8 +1,5 @@
-pkg_check_modules(UNITY-MIR REQUIRED unity-mir)
-
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    ${UNITY-MIR_INCLUDE_DIRS}
 )
 
 file(GLOB_RECURSE QML_FILES
@@ -38,3 +35,4 @@ install(TARGETS ${SHELL_APP}
      )
 
 add_subdirectory(Panel)
+add_subdirectory(Dash)

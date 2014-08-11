@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-07 12:15+0100\n"
-"PO-Revision-Date: 2014-01-25 13:32+0000\n"
+"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"PO-Revision-Date: 2014-08-10 11:45+0000\n"
 "Last-Translator: Daniel Cheung <daniel.2345@hotmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17100)\n"
+"X-Launchpad-Export-Date: 2014-08-11 06:34+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr ""
+msgstr "釘住捷徑"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "取消捷徑釘選"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -32,11 +32,11 @@ msgstr "跳過介紹"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
-msgstr "右邊緣"
+msgstr "右側邊緣"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "試從右邊緣輕掃解鎖手機"
+msgstr "試從右邊緣向左滑動解鎖手機"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
@@ -52,15 +52,15 @@ msgstr "關閉"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr "再向上掃一次以關閉設定畫面"
+msgstr "再向上滑動一次以關閉設定畫面"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
-msgstr "左邊緣"
+msgstr "左側邊緣"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "從左邊緣輕掃以顯示啟動器快速訪問應用"
+msgstr "從左側邊緣滑動以顯示啟動器快速查看應用"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
@@ -70,7 +70,7 @@ msgstr "做得好"
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
-msgstr ""
+msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
 
 #: qml/Components/Lockscreen.qml:214
 msgid "Emergency Call"
@@ -78,11 +78,7 @@ msgstr "緊急電話"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr ""
-
-#: qml/Components/PageHeader.qml:366
-msgid "Recent searches"
-msgstr "最近的搜尋"
+msgstr "確定"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
@@ -95,47 +91,51 @@ msgstr "您好"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "取消"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "完成"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "查看更多"
 
-#: qml/Components/SeeMore.qml:58
+#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
 msgid "See less"
-msgstr ""
+msgstr "縮減查看"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "最近"
+
+#: qml/Dash/GenericScopeView.qml:330
+msgid "See all"
+msgstr "查看全部"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "更多..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "縮減…"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr "評價"
+msgstr "評分"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:128
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "新增評論"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:168
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "傳送"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "滑動解除鎖定"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -147,11 +147,11 @@ msgstr "輸入或說出指令"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "正載入。請稍候..."
+msgstr "載入中。請稍候..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "馬上講..."
+msgstr "請講..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
@@ -163,31 +163,39 @@ msgstr "顯示密碼"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "請輸入 SIM 卡 PIN 碼"
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "輕觸可返回通話…"
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "會議"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:583
 msgid "In queue…"
-msgstr ""
+msgstr "佇列中…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:587
 msgid "Downloading"
-msgstr ""
+msgstr "下載中"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:589
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "已暫停，輕觸以繼續"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:591
 msgid "Canceled"
-msgstr ""
+msgstr "已取消"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:593
 msgid "Finished"
-msgstr ""
+msgstr "已完成"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:595
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "失敗，輕觸以重試"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
