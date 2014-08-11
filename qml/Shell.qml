@@ -129,7 +129,11 @@ Item {
             }
 
             onFocusedApplicationIdChanged: {
-                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
+                if (LightDM.Greeter.active && ApplicationManager.focusedApplicationId === "dialer-app") {
+                    // Always let the dialer-app through, by starting an emergency call.
+                    // Likely the user just accepted an incoming call via notification.
+                    lockscreen.emergencyCall()
+                } else if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
                     lockscreen.show();
                 }
                 panel.indicators.hide();
