@@ -28,6 +28,8 @@ Item {
     width: units.gu(120)
     height: units.gu(100)
 
+    // TODO Add a test that checks we don't preview things whose uri starts with scope://
+
     // BEGIN To reduce warnings
     // TODO I think it we should pass down these variables
     // as needed instead of hoping they will be globally around
