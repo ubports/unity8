@@ -162,4 +162,3 @@ class QQuickView(emulators.UnityEmulatorBase):
             'PinPadButton',
             objectName='pinPadButton{}'.format(button_id)
         )
->>>>>>> MERGE-SOURCE
