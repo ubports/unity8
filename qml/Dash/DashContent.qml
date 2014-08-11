@@ -96,8 +96,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
-
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown && !currentItem.settingsShown
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -139,6 +138,7 @@ Item {
                     readonly property bool navigationShown: item ? item.navigationShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
+                    readonly property bool settingsShown: item ? item.settingsShown : false
 
                     // these are needed for autopilot tests
                     readonly property string scopeId: scope.id

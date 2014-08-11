@@ -25,12 +25,12 @@ Rectangle {
     height: units.gu(80)
 
     property var settingData: {
-        "displayName" : "Fake boolean setting",
-        "value": true
+        "displayName" : "Fake label setting",
+        "value": "fake label"
     }
 
-    ScopeSettingSwitch {
-        id: scopeSettingSwitch
+    ScopeSettingLabel {
+        id: scopeSettingLabel
         widgetData: settingData
         width: units.gu(40)
 
@@ -49,14 +49,10 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingSwitchTest"
+        name: "ScopeSettingLabelTest"
         when: windowShown
 
         function test_triggered() {
-            var control = findChild(scopeSettingSwitch, "control");
-            mouseClick(control, control.width / 2, control.height / 2);
-            triggeredSpy.wait();
-            compare(triggeredSpy.signalArguments[0][0], false);
         }
     }
 }

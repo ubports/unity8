@@ -36,6 +36,7 @@ ScopeSetting {
 
     Switch {
         id: control
+        objectName: "control"
         anchors {
             right: parent.right
             rightMargin: __margins
