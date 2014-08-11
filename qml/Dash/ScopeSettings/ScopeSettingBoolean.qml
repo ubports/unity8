@@ -23,8 +23,8 @@ ScopeSetting {
 
     ListItem.Empty {
         onClicked: {
-            control.focus = true;
-            control.selectAll();
+            control.checked = !control.checked
+            updated(control.checked)
         }
 
         Label {
@@ -40,32 +40,16 @@ ScopeSetting {
             color: scopeStyle ? scopeStyle.foreground : "grey"
         }
 
-        TextField {
+        CheckBox {
             id: control
-            objectName: "control"
             anchors {
                 right: parent.right
                 rightMargin: __margins
                 verticalCenter: parent.verticalCenter
             }
-            text: widgetData.value
-            width: units.gu(8)
-            validator: DoubleValidator {}
-            hasClearButton: false
+            checked: widgetData.value
 
-            function updateText() {
-                if (acceptableInput) {
-                    text = displayText;
-                    root.updated(text);
-                }
-            }
-
-            onAccepted: updateText()
-            onActiveFocusChanged: {
-                if (!activeFocus) {
-                    updateText();
-                }
-            }
+            onTriggered: root.updated(checked)
         }
     }
 }

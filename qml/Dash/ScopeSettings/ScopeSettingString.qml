@@ -28,6 +28,7 @@ ScopeSetting {
         }
 
         Label {
+            id: label
             anchors {
                 left: parent.left
                 leftMargin: __margins
@@ -48,16 +49,12 @@ ScopeSetting {
                 rightMargin: __margins
                 verticalCenter: parent.verticalCenter
             }
+            width: units.gu(12)
             text: widgetData.value
-            width: units.gu(8)
-            validator: DoubleValidator {}
-            hasClearButton: false
 
             function updateText() {
-                if (acceptableInput) {
-                    text = displayText;
-                    root.updated(text);
-                }
+                text = displayText;
+                root.updated(text);
             }
 
             onAccepted: updateText()

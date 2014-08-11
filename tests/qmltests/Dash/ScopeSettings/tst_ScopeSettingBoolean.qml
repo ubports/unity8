@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 import QtTest 1.0
 import "../../../../qml/Dash/ScopeSettings"
 import Unity.Test 0.1 as UT
@@ -25,34 +26,32 @@ Rectangle {
     height: units.gu(80)
 
     property var settingData: {
-        "displayName" : "Fake label setting",
-        "value": "fake label"
+        "displayName" : "Mock boolean setting",
+        "value": true
     }
 
-    ScopeSettingLabel {
-        id: scopeSettingLabel
+    ScopeSettingBoolean {
+        id: scopeSetting
         widgetData: settingData
-        width: units.gu(40)
-
-        Rectangle {
-            anchors.fill: parent
-            color: "red"
-            opacity: 0.1
-        }
+        width: parent.width
     }
 
     SignalSpy {
-        id: triggeredSpy
-        target: scopeSettingSwitch
-        signalName: "triggered"
+        id: spy
+        target: scopeSetting
+        signalName: "updated"
     }
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingLabelTest"
+        name: "ScopeSettingBooleanTest"
         when: windowShown
 
-        function test_triggered() {
+        function test_updated() {
+            var control = findChild(scopeSetting, "control");
+            mouseClick(control, control.width / 2, control.height / 2);
+            spy.wait();
+            compare(spy.signalArguments[0][0], false);
         }
     }
 }

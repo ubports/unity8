@@ -29,6 +29,6 @@ ListView {
         widgetData: model
         scopeStyle: root.scopeStyle
 
-        onTriggered: model.value = value;
+        onUpdated: model.value = value;
     }
 }

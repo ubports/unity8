@@ -28,17 +28,17 @@ Loader {
     property var widgetData: null
 
     //! Triggered signal forwarded from the widgets.
-    signal triggered(var value)
+    signal updated(var value)
 
     source: widgetSource
 
     //! \cond private
     property url widgetSource: {
         switch (widgetData.type) {
-            case "boolean": return "ScopeSettingSwitch.qml";
-            case "list": return "ScopeSettingSwitch.qml";
+            case "boolean": return "ScopeSettingBoolean.qml";
+            case "list": return "ScopeSettingList.qml";
             case "number": return "ScopeSettingNumber.qml";
-            case "string": return "ScopeSettingLabel.qml";
+            case "string": return "ScopeSettingString.qml";
             default: return "";
         }
     }
@@ -46,10 +46,11 @@ Loader {
 
     onLoaded: {
         item.widgetData = Qt.binding(function() { return root.widgetData } )
+        item.scopeStyle = Qt.binding(function() { return root.scopeStyle } )
     }
 
     Connections {
         target: root.item
-        onTriggered: root.triggered(value)
+        onUpdated: root.updated(value)
     }
 }

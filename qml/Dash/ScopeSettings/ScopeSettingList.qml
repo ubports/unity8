@@ -16,22 +16,21 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+import Ubuntu.Components.ListItems 1.0 as ListItem
 
 ScopeSetting {
     id: root
-    implicitHeight: optionSelector.implicitHeight
 
-    OptionSelector {
-        id: optionSelector
+    ListItem.ItemSelector {
+        id: control
+        objectName: "control"
         anchors {
             left: parent.left
             right: parent.right
-            top: parent.top
-            margins: __margins
         }
         text: widgetData.displayName
         model: widgetData.properties["values"]
 
-        onSelectedIndexChanged: root.triggered(selectedIndex)
+        onSelectedIndexChanged: root.updated(selectedIndex)
     }
 }

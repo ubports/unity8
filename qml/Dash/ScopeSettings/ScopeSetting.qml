@@ -28,9 +28,9 @@ Item {
 
     readonly property real __margins: units.gu(2)
 
-    /*! \brief This signal should be emitted when a setting action was triggered.
+    /*! \brief This signal should be emitted when a setting action was updated.
      *
-     *  \param new value
+     *  \param value the new setting value.
      */
-    signal triggered(var value)
+    signal updated(var value)
 }
