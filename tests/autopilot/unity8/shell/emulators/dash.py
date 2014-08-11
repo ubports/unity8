@@ -24,6 +24,7 @@ from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
 logger = logging.getLogger(__name__)
@@ -149,8 +150,6 @@ class Dash(emulators.UnityEmulatorBase):
         headerContainer.contentY.wait_for(0)
         search_text_field = self._get_search_text_field()
         search_text_field.write(query)
-        current_header.select_single(
-            objectName="searchIndicator").running.wait_for(False)
         self.select_single(objectName="processingIndicator").visible.wait_for(False)
 
     def _get_search_text_field(self):
