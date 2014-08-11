@@ -22,16 +22,15 @@ Item {
     id: demo
 
     property Item greeter
-    property Item dash
     property Item launcher
     property Item indicators
-    property Item underlay
+    property Item stages
 
     property bool launcherEnabled: true
-    property bool dashEnabled: true
+    property bool stagesEnabled: true
     property bool panelEnabled: true
     property bool panelContentEnabled: true
-    property bool running: !launcherEnabled || !dashEnabled || !panelEnabled || !panelContentEnabled
+    property bool running: !launcherEnabled || !stagesEnabled || !panelEnabled || !panelContentEnabled
 
     property bool paused: false
 
@@ -59,7 +58,7 @@ Item {
 
     function stopDemo() {
         launcherEnabled = true
-        dashEnabled = true
+        stagesEnabled = true
         panelEnabled = true
         panelContentEnabled = true
         if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy()
@@ -75,11 +74,11 @@ Item {
         }
 
         launcherEnabled = false;
-        dashEnabled = false;
+        stagesEnabled = false;
         panelEnabled = false;
         panelContentEnabled = false;
 
-        // Begin with either greeter or dash, depending on which is visible
+        // Begin with either greeter or top, depending on which is visible
         if (greeter && greeter.shown) {
             startRightEdgeDemo()
         } else {
@@ -139,12 +138,12 @@ Item {
 
     function startTopEdgeDemo() {
         demo.panelEnabled = true;
-        if (demo.dash && demo.underlay) {
-            d.topEdgeDemo = d.overlay.createObject(demo.underlay, {
+        if (demo.stages) {
+            d.topEdgeDemo = d.overlay.createObject(demo.stages, {
                 "edge": "top",
                 "title": i18n.tr("Top edge"),
                 "text": i18n.tr("Try swiping from the top edge to access the indicators"),
-                "anchors.fill": demo.dash,
+                "anchors.fill": demo.stages,
             });
         }
         if (d.topEdgeDemo) {
@@ -193,12 +192,12 @@ Item {
     function startLeftEdgeDemo() {
         demo.panelEnabled = false;
         demo.launcherEnabled = true;
-        if (demo.dash && demo.underlay) {
-            d.leftEdgeDemo = d.overlay.createObject(demo.underlay, {
+        if (demo.stages) {
+            d.leftEdgeDemo = d.overlay.createObject(demo.stages, {
                 "edge": "left",
                 "title": i18n.tr("Left edge"),
                 "text": i18n.tr("Swipe from the left to reveal the launcher for quick access to apps"),
-                "anchors.fill": demo.dash,
+                "anchors.fill": demo.stages,
             });
         }
         if (d.leftEdgeDemo) {
@@ -221,12 +220,12 @@ Item {
 
     function startFinalEdgeDemo() {
         demo.launcherEnabled = false;
-        if (demo.dash && demo.underlay) {
-            d.finalEdgeDemo = d.overlay.createObject(demo.underlay, {
+        if (demo.stages) {
+            d.finalEdgeDemo = d.overlay.createObject(demo.stages, {
                 "edge": "none",
                 "title": i18n.tr("Well done"),
                 "text": i18n.tr("You have now mastered the edge gestures and can start using the phone<br><br>Tap on the screen to start"),
-                "anchors.fill": demo.dash,
+                "anchors.fill": demo.stages,
                 "showSkip": false,
             });
         }

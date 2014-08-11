@@ -38,14 +38,20 @@ QtObject {
     /// Color used for text and symbolic icons
     readonly property color foreground: "foreground-color" in style ? style["foreground-color"] : d.defaultDark
 
+    /// Luminance of the foreground color
+    readonly property real foregroundLuminance: foreground ? luminance(foreground) : d.defaultForegroundLuminance
+
     /// Color used for the overall background
     readonly property color background: "background-color" in style ? style["background-color"] : "transparent"
+
+    /// Luminance of the foreground color
+    readonly property real backgroundLuminance: background ? luminance(background) : d.defaultBackgroundLuminance
 
     /*! \brief Luminance threshold for switching between fore and background color
 
         \note If background colour is not fully opaque, it's not taken into account.
      */
-    readonly property real threshold: background.a !== 1.0 ? d.foregroundLuminance : (d.foregroundLuminance + d.backgroundLuminance) / 2
+    readonly property real threshold: background.a !== 1.0 ? foregroundLuminance : (foregroundLuminance + backgroundLuminance) / 2
 
     /*! \brief The lighter of foreground and background colors
 
@@ -53,8 +59,8 @@ QtObject {
               and defaults to the theme-provided light color.
      */
     readonly property color light: {
-        if (background.a !== 1.0) return d.foregroundLuminance > d.defaultLightLuminance ? foreground : d.defaultLight;
-        return d.foregroundLuminance > d.backgroundLuminance ? foreground : background;
+        if (background.a !== 1.0) return foregroundLuminance > d.defaultLightLuminance ? foreground : d.defaultLight;
+        return foregroundLuminance > backgroundLuminance ? foreground : background;
     }
 
     /*! \brief The darker of foreground and background colors
@@ -63,8 +69,8 @@ QtObject {
               and defaults to the theme-provided dark color.
      */
     readonly property color dark: {
-        if (background.a !== 1.0) return d.foregroundLuminance < d.defaultDarkLuminance ? foreground : d.defaultDark;
-        return d.foregroundLuminance < d.backgroundLuminance ? foreground : background;
+        if (background.a !== 1.0) return foregroundLuminance < d.defaultDarkLuminance ? foreground : d.defaultDark;
+        return foregroundLuminance < backgroundLuminance ? foreground : background;
     }
 
     /// Source of the logo image for the header
@@ -78,9 +84,6 @@ QtObject {
 
     //! @cond
     property var d: QtObject {
-        readonly property real foregroundLuminance: luminance(foreground)
-        readonly property real backgroundLuminance: luminance(background)
-
         // FIXME: should be taken from the theme
         readonly property color defaultLight: "white"
         readonly property color defaultDark: "grey"

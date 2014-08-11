@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-08-03 17:15+0000\n"
+"PO-Revision-Date: 2014-08-06 07:41+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-04 06:32+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-08 07:07+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -82,7 +82,7 @@ msgstr "Vészhívás"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "OK"
-msgstr "Oké"
+msgstr "Ok"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 #, qt-format
@@ -91,7 +91,7 @@ msgstr "Üdv %1"
 
 #: qml/Components/PassphraseLockscreen.qml:60
 msgid "Hello"
-msgstr "Üdv"
+msgstr "Üdvözöljük"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
