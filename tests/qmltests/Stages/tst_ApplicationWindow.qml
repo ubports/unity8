@@ -83,6 +83,8 @@ Rectangle {
         property string name: "Gallery"
         property url icon: "../../../qml/graphics/applicationIcons/gallery.png"
         property var surface: null
+        property bool fullscreen: true
+        property list<Item> childSurfaces
     }
     Timer {
         id: fakeScreenshotTimer

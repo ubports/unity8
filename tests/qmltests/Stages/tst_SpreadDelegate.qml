@@ -50,6 +50,8 @@ Rectangle {
             signal removed()
             function release() {}
         }
+
+        property bool fullscreen: true
     }
 
     Component {
