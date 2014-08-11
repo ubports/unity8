@@ -375,24 +375,14 @@ Item {
         }
     }
 
-    function showGreeterIfScreenIsOff() {
-        if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
-            greeter.showNow()
-        }
-    }
-
-    Connections {
-        id: callConnection
-        target: callManager
-        onHasCallsChanged: showGreeterIfScreenIsOff()
-    }
-
     Connections {
         id: powerConnection
         target: Powerd
 
         onStatusChanged: {
-            showGreeterIfScreenIsOff()
+            if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+                greeter.showNow()
+            }
 
             // No reason to chew demo CPU when user isn't watching
             if (Powerd.status === Powerd.Off) {
