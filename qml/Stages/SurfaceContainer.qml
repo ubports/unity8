@@ -18,56 +18,51 @@ import QtQuick 2.0
 import "Animations"
 
 Item {
-    id: container
+    id: root
+    objectName: "surfaceContainer"
     property Item surface: null
+    property var childSurfaces: surface ? surface.childSurfaces : 0
     property bool removing: false
 
     onSurfaceChanged: {
         if (surface) {
-            surface.parent = container;
+            surface.parent = root;
             surface.z = 1;
             state = "initial"
         }
     }
 
-    Connections {
-        target: surface
-        onRemoved: {
-            container.removing = true;
-
-            var childSurfaces = surface.childSurfaces;
-            for (var i=0; i<childSurfaces.length; i++) {
-                childSurfaces[i].removed();
-            }
-
-            animateOut();
-        }
-    }
-
     Repeater {
-        model: surface.childSurfaces
+        model: root.childSurfaces
 
         delegate: Loader {
-            z: 2
+            objectName: "childDelegate" + index
             anchors {
-                fill: container
-                topMargin: container.surface.anchors.topMargin
-                rightMargin: container.surface.anchors.rightMargin
-                bottomMargin: container.surface.anchors.bottomMargin
-                leftMargin: container.surface.anchors.leftMargin
+                fill: root
+                topMargin: root.surface.anchors.topMargin
+                rightMargin: root.surface.anchors.rightMargin
+                bottomMargin: root.surface.anchors.bottomMargin
+                leftMargin: root.surface.anchors.leftMargin
             }
+            z: 2
 
             // Only way to do recursive qml items.
             source: Qt.resolvedUrl("SurfaceContainer.qml")
             onLoaded: {
                 item.surface = modelData;
-                item.animateIn();
+            }
+
+            Connections {
+                target: modelData
+                onRemoved: {
+                    modelData.release()
+                }
             }
         }
     }
 
-    function animateIn() {
-        var animation = swipeFromBottom.createObject(container, { "surface": container.surface });
+    function animateIn(animationComponent) {
+        var animation = animationComponent.createObject(root, { "surface": root.surface });
         animation.start();
 
         var tmp = d.animations;
@@ -82,7 +77,7 @@ Item {
             popped.end();
             d.animations = tmp;
         } else {
-            container.state = "initial";
+            root.state = "initial";
         }
     }
 
@@ -100,7 +95,7 @@ Item {
     states: [
         State {
             name: "initial"
-            PropertyChanges { target: surface; anchors.fill: container }
+            PropertyChanges { target: surface; anchors.fill: root }
         }
     ]
 }

@@ -20,7 +20,9 @@
 #include "ApplicationManager.h"
 #include "ApplicationScreenshotProvider.h"
 #include "MirSurfaceItem.h"
+#include "MirSurfaceItemModel.h"
 #include "SurfaceManager.h"
+#include "ApplicationTestInterface.h"
 
 #include <qqml.h>
 #include <QQmlEngine>
@@ -37,20 +39,32 @@ static QObject* surfaceManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEng
     return SurfaceManager::singleton();
 }
 
+ApplicationTestInterface* s_appTestInterface = nullptr;
+
+static QObject* applicationTestInterface(QQmlEngine* engine, QJSEngine* scriptEngine) {
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    if (!s_appTestInterface) {
+        s_appTestInterface = new ApplicationTestInterface(engine);
+    }
+    return s_appTestInterface;
+}
+
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
     qRegisterMetaType<MirSurfaceItem*>("MirSurfaceItem*");
+    qRegisterMetaType<MirSurfaceItemModel*>("MirSurfaceItemModel*");
 
     qmlRegisterUncreatableType<unity::shell::application::ApplicationManagerInterface>(uri, 0, 1, "ApplicationManagerInterface", "Abstract interface. Cannot be created in QML");
-    qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
-    qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
-
     qmlRegisterUncreatableType<unity::shell::application::ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Abstract interface. Cannot be created in QML");
-    qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
-
     qmlRegisterUncreatableType<MirSurfaceItem>(uri, 0, 1, "MirSurfaceItem", "MirSurfaceItem can't be instantiated from QML");
 
+    qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
     qmlRegisterType<ApplicationImage>(uri, 0, 1, "ApplicationImage");
+
+    qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
+    qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
+    qmlRegisterSingletonType<ApplicationTestInterface>(uri, 0, 1, "ApplicationTest", applicationTestInterface);
 }
 
 void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
@@ -58,4 +72,6 @@ void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const c
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
     engine->addImageProvider(QLatin1String("application"), new ApplicationScreenshotProvider(ApplicationManager::singleton()));
+    // make sure we initialise our test interface.
+    applicationTestInterface(engine, nullptr);
 }

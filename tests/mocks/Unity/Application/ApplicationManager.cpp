@@ -15,9 +15,10 @@
  */
 
 #include "ApplicationManager.h"
-#include "ApplicationDBusAdaptor.h"
 #include "ApplicationInfo.h"
 #include "MirSurfaceItem.h"
+#include "MirSurfaceItemModel.h"
+#include "ApplicationTestInterface.h"
 
 #include <paths.h>
 
@@ -36,11 +37,6 @@ ApplicationManager *ApplicationManager::singleton()
 {
     if (!the_application_manager) {
         the_application_manager = new ApplicationManager();
-        new ApplicationDBusAdaptor(the_application_manager);
-
-        QDBusConnection connection = QDBusConnection::sessionBus();
-        connection.registerService("com.canonical.Unity8");
-        connection.registerObject("/com/canonical/Unity8/Mocks", the_application_manager);
     }
     return the_application_manager;
 }

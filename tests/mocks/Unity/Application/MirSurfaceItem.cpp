@@ -15,6 +15,7 @@
  */
 
 #include "MirSurfaceItem.h"
+#include "MirSurfaceItemModel.h"
 #include "ApplicationInfo.h"
 
 #include <QPainter>
@@ -32,6 +33,7 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_state(state)
     , m_img(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString())
     , m_parentSurface(nullptr)
+    , m_children(new MirSurfaceItemModel(this))
     , m_haveInputMethod(false)
 {
     qDebug() << "MirSurfaceItem::MirSurfaceItem() " << this->name();
@@ -49,16 +51,19 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
 MirSurfaceItem::~MirSurfaceItem()
 {
     qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << name();
+    Q_EMIT aboutToBeDestroyed();
 
-    QList<MirSurfaceItem*> children(m_children);
+    QList<MirSurfaceItem*> children(m_children->list());
     for (MirSurfaceItem* child : children) {
-        child->setParentSurface(nullptr);
+        delete child;
     }
-    if (m_parentSurface)
+    if (m_parentSurface) {
         m_parentSurface->removeChildSurface(this);
-
-    if (m_application)
+    }
+    if (m_application) {
         m_application->removeSurface(this);
+    }
+    delete m_children;
 }
 
 void MirSurfaceItem::paint(QPainter * painter)
@@ -70,10 +75,8 @@ void MirSurfaceItem::paint(QPainter * painter)
 
 void MirSurfaceItem::release()
 {
-    QList<MirSurfaceItem*> children(m_children);
-    for (MirSurfaceItem* child : children) {
-        child->release();
-    }
+    qDebug() << "MirSurfaceItem::release " << name();
+
     if (m_parentSurface) {
         m_parentSurface->removeChildSurface(this);
     }
@@ -96,62 +99,36 @@ void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
     if (m_parentSurface == surface || surface == this)
         return;
 
-    if (m_parentSurface) {
-        m_parentSurface->removeChildSurface(this);
-    }
-
     m_parentSurface = surface;
-
-    if (m_parentSurface) {
-        m_parentSurface->addChildSurface(this);
-    }
     Q_EMIT parentSurfaceChanged(surface);
 }
 
 void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
 {
-    qDebug() << "MirSurfaceItem::addChildSurface " << surface->name() << " to " << name();
+    insertChildSurface(m_children->count(), surface);
+}
 
-    m_children.append(surface);
-    Q_EMIT childSurfacesChanged();
+void MirSurfaceItem::insertChildSurface(uint index, MirSurfaceItem* surface)
+{
+    qDebug() << "MirSurfaceItem::insertChildSurface - " << surface->name() << " to " << name() << " @  " << index;
+
+    surface->setParentSurface(this);
+    m_children->insertSurface(index, surface);
 }
 
 void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
 {
-    qDebug() << "MirSurfaceItem::removeChildSurface " << surface->name() << " from " << name();
+    qDebug() << "MirSurfaceItem::removeChildSurface - " << surface->name() << " from " << name();
 
-    if (m_children.contains(surface)) {
-        m_children.removeOne(surface);
-        Q_EMIT childSurfacesChanged();
+    if (m_children->contains(surface)) {
+        m_children->removeSurface(surface);
+        surface->setParentSurface(nullptr);
     }
 }
 
-QList<MirSurfaceItem*> MirSurfaceItem::childSurfaceList()
+MirSurfaceItemModel* MirSurfaceItem::childSurfaces() const
 {
     return m_children;
-}
-
-QQmlListProperty<MirSurfaceItem> MirSurfaceItem::childSurfaces()
-{
-    return QQmlListProperty<MirSurfaceItem>(this,
-                                            0,
-                                            MirSurfaceItem::childSurfaceCount,
-                                            MirSurfaceItem::childSurfaceAt);
-}
-
-int MirSurfaceItem::childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
-{
-    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
-    return p->m_children.count();
-}
-
-MirSurfaceItem* MirSurfaceItem::childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
-{
-    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
-
-    if (index < 0 || index >= p->m_children.count())
-        return nullptr;
-    return p->m_children[index];
 }
 
 

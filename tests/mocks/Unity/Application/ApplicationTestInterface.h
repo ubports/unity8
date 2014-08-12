@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef APPLICATIONDBUSADAPTOR_H
-#define APPLICATIONDBUSADAPTOR_H
+#ifndef APPLICATIONTESTINTERFACE_H
+#define APPLICATIONTESTINTERFACE_H
 
 #include <QtDBus/QtDBus>
 
@@ -23,21 +23,20 @@ class ApplicationManager;
 class SurfaceManager;
 class MirSurfaceItem;
 
-class ApplicationDBusAdaptor : public QDBusAbstractAdaptor
+class ApplicationTestInterface : public QDBusAbstractAdaptor
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity8.Mocks.Application")
 public:
-    ApplicationDBusAdaptor(ApplicationManager* applicationManager);
+    ApplicationTestInterface(QObject* parent = 0);
 
 public Q_SLOTS:
-    quint32 addPromptSurface(const QString& appId, const QString& surfaceImage);
-    void removeChildSurface(int surfaceId);
+    Q_INVOKABLE quint32 addPromptSurface(const QString& appId, const QString& surfaceImage);
+    Q_INVOKABLE quint32 addChildSurface(const QString& appId, const quint32 existingSurfaceId, const QString& surfaceImage);
+    Q_INVOKABLE void removeSurface(int surfaceId);
 
 private:
-    ApplicationManager* m_applicationManager;
-
     QHash<quint32, MirSurfaceItem*> m_childItems;
 };
 
-#endif // APPLICATIONDBUSADAPTOR_H
+#endif // APPLICATIONTESTINTERFACE_H

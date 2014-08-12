@@ -46,7 +46,8 @@ Item {
             target: surfaceContainer.surface
             property: "anchors.topMargin"
             value: {
-                return surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
+                return surfaceContainer.surface == null ||
+                       surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
             }
         }
 

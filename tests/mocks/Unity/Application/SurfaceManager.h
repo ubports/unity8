@@ -19,7 +19,8 @@
 
 #include <QObject>
 
-class MirSurfaceItem;
+#include "MirSurfaceItem.h"
+
 class VirtualKeyboard;
 
 class SurfaceManager : public QObject
@@ -29,6 +30,11 @@ public:
     explicit SurfaceManager(QObject *parent = 0);
 
     static SurfaceManager *singleton();
+
+    MirSurfaceItem *createSurface(const QString& name,
+                                  MirSurfaceItem::Type type,
+                                  MirSurfaceItem::State state,
+                                  const QUrl& screenshot);
 
     // Internal mock use
     void registerSurface(MirSurfaceItem *surface);
@@ -45,6 +51,8 @@ Q_SIGNALS:
 private Q_SLOTS:
     void showInputMethod();
     void hideInputMethod();
+
+    void onSurfaceAboutToBeDestroyed();
 
 private:
     static SurfaceManager *the_surface_manager;

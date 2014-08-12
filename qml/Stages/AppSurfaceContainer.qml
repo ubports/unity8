@@ -18,7 +18,7 @@ import QtQuick 2.0
 import "Animations"
 
 SurfaceContainer {
-    id: container
+    id: root
     property var promptSurfaces
 
     property bool appHasCreatedASurface: false
@@ -40,32 +40,55 @@ SurfaceContainer {
     Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
         id: surfaceRevealDelay
         interval: 100
-        onTriggered: surfaceContainer.revealSurface()
+        onTriggered: root.revealSurface()
     }
 
     Loader {
-        z: 3
         id: splashLoader
         anchors.fill: parent
+        z: 3
     }
 
     Repeater {
-        model: container.promptSurfaces
+        id: promptRepeater
+        model: root.promptSurfaces
 
         delegate: SurfaceContainer {
-            anchors {
-                fill: container
-                topMargin: container.surface.anchors.topMargin
-                rightMargin: container.surface.anchors.rightMargin
-                bottomMargin: container.surface.anchors.bottomMargin
-                leftMargin: container.surface.anchors.leftMargin
-            }
+            objectName: "promptDelegate" + index
+            id: prompt
 
+            anchors {
+                fill: root
+                topMargin: root.surface.anchors.topMargin
+                rightMargin: root.surface.anchors.rightMargin
+                bottomMargin: root.surface.anchors.bottomMargin
+                leftMargin: root.surface.anchors.leftMargin
+            }
             z: 4 + index
+
             surface: modelData
 
             Component.onCompleted: {
-                animateIn();
+                prompt.animateIn(swipeFromBottom);
+            }
+
+            Connections {
+                target: prompt.surface
+                onRemoved: {
+                    // remove all prompts after this one.
+                    if (index !== promptRepeater.count-1) {
+                        var nextSurface = promptRepeater.itemAt(index+1).surface;
+                        nextSurface.removed();
+                    }
+
+                    prompt.removing = true;
+                    prompt.animateOut();
+                }
+            }
+
+            Component {
+                id: swipeFromBottom
+                SwipeFromBottomAnimation {}
             }
         }
     }
@@ -75,19 +98,19 @@ SurfaceContainer {
         states: [
             State {
                 name: "noSurfaceYet"
-                when: !surfaceContainer.appHasCreatedASurface
+                when: !root.appHasCreatedASurface
                 StateChangeScript {
                     script: { splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
                 }
             },
             State {
                 name: "hasSurface"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface !== null)
+                when: root.appHasCreatedASurface && (root.surface !== null)
                 StateChangeScript { script: { surfaceRevealDelay.start(); } }
             },
             State {
                 name: "surfaceLostButAppStillAlive"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface === null)
+                when: root.appHasCreatedASurface && (root.surface === null)
                 // TODO - use app snapshot
             }
         ]

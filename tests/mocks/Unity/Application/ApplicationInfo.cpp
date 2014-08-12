@@ -16,7 +16,7 @@
 
 #include "ApplicationInfo.h"
 #include "MirSurfaceItem.h"
-#include "SurfaceManager.h"
+#include "MirSurfaceItemModel.h"
 
 #include <QGuiApplication>
 #include <QQuickItem>
@@ -33,6 +33,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_fullscreen(false)
     , m_parentItem(0)
     , m_surface(0)
+    , m_promptSurfaces(new MirSurfaceItemModel(this))
 {
     connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
@@ -45,16 +46,20 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_fullscreen(false)
     , m_parentItem(0)
     , m_surface(0)
+    , m_promptSurfaces(new MirSurfaceItemModel(this))
 {
     connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
 ApplicationInfo::~ApplicationInfo()
 {
-    if (m_surface) {
-        Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
-        m_surface->deleteLater();
+    QList<MirSurfaceItem*> promptSurfaces(m_promptSurfaces->list());
+    for (MirSurfaceItem* promptSurface : promptSurfaces) {
+        delete promptSurface;
     }
+
+    delete m_surface;
+    delete m_promptSurfaces;
 }
 
 void ApplicationInfo::onStateChanged(State state)
@@ -70,7 +75,7 @@ void ApplicationInfo::createSurface()
 {
     if (m_surface || state() == ApplicationInfo::Stopped) return;
 
-    setSurface(new MirSurfaceItem(name(),
+    setSurface(SurfaceManager::singleton()->createSurface(name(),
                                    MirSurfaceItem::Normal,
                                    fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
                                    screenshot()));
@@ -85,7 +90,6 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
     if (m_surface) {
         m_surface->setApplication(nullptr);
         m_surface->setParent(nullptr);
-        SurfaceManager::singleton()->unregisterSurface(m_surface);
     }
 
     m_surface = surface;
@@ -93,61 +97,37 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
     if (m_surface) {
         m_surface->setApplication(this);
         m_surface->setParent(this);
-        SurfaceManager::singleton()->registerSurface(m_surface);
     }
 
     Q_EMIT surfaceChanged(m_surface);
-    SurfaceManager::singleton()->registerSurface(m_surface);
 }
 
 void ApplicationInfo::addPromptSurface(MirSurfaceItem* surface)
 {
-    qDebug() << "ApplicationInfo::addPromptSurface " << surface->name() << " to " << name();
-    if (surface == m_surface || m_promptSurfaces.contains(surface)) return;
+    insertPromptSurface(m_promptSurfaces->count(), surface);
+}
+
+void ApplicationInfo::insertPromptSurface(uint index, MirSurfaceItem* surface)
+{
+    qDebug() << "ApplicationInfo::insertPromptSurface - " << surface->name() << " to " << name() << " @  " << index;
 
     surface->setApplication(this);
-    m_promptSurfaces.append(surface);
-    Q_EMIT promptSurfacesChanged();
+    m_promptSurfaces->insertSurface(index, surface);
 }
 
 void ApplicationInfo::removeSurface(MirSurfaceItem* surface)
 {
+    qDebug() << "Application::removeSurface - " << surface->name() << " from " << name();
+
     if (m_surface == surface) {
         setSurface(nullptr);
-    } else if (m_promptSurfaces.contains(surface)) {
-        qDebug() << "Application::removeSurface " << surface->name() << " from " << name();
-
-        m_promptSurfaces.removeAll(surface);
+    } else {
+        m_promptSurfaces->removeSurface(surface);
         surface->setApplication(nullptr);
-
-        Q_EMIT promptSurfacesChanged();
     }
 }
 
-QList<MirSurfaceItem*> ApplicationInfo::promptSurfaceList() const
+MirSurfaceItemModel* ApplicationInfo::promptSurfaces() const
 {
     return m_promptSurfaces;
-}
-
-QQmlListProperty<MirSurfaceItem> ApplicationInfo::promptSurfaces()
-{
-    return QQmlListProperty<MirSurfaceItem>(this,
-                                            0,
-                                            ApplicationInfo::promptSurfaceCount,
-                                            ApplicationInfo::promptSurfaceAt);
-}
-
-int ApplicationInfo::promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
-{
-    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
-    return p->m_promptSurfaces.count();
-}
-
-MirSurfaceItem* ApplicationInfo::promptSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
-{
-    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
-
-    if (index < 0 || index >= p->m_promptSurfaces.count())
-        return nullptr;
-    return p->m_promptSurfaces[index];
 }

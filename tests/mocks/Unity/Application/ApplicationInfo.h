@@ -17,11 +17,14 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include "SurfaceManager.h"
+
 #include <QObject>
 #include <QQmlComponent>
 
 class QQuickItem;
 class MirSurfaceItem;
+class MirSurfaceItemModel;
 
 // unity-api
 #include <unity/shell/application/ApplicationInfoInterface.h>
@@ -38,7 +41,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
     Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
     Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
-    Q_PROPERTY(QQmlListProperty<MirSurfaceItem> promptSurfaces READ promptSurfaces NOTIFY promptSurfacesChanged DESIGNABLE false)
+    Q_PROPERTY(MirSurfaceItemModel* promptSurfaces READ promptSurfaces NOTIFY promptSurfacesChanged DESIGNABLE false)
 
     // Only exists in this fake implementation
 
@@ -89,8 +92,8 @@ public:
     void removeSurface(MirSurfaceItem* surface);
 
     void addPromptSurface(MirSurfaceItem* surface);
-    QList<MirSurfaceItem*> promptSurfaceList() const;
-    QQmlListProperty<MirSurfaceItem> promptSurfaces();
+    void insertPromptSurface(uint index, MirSurfaceItem* surface);
+    MirSurfaceItemModel* promptSurfaces() const;
 
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
@@ -102,12 +105,9 @@ private Q_SLOTS:
     void createSurface();
 
 private:
-    static int promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
-    static MirSurfaceItem* promptSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
-
     QQuickItem *m_parentItem;
     MirSurfaceItem* m_surface;
-    QList<MirSurfaceItem*> m_promptSurfaces;
+    MirSurfaceItemModel* m_promptSurfaces;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)

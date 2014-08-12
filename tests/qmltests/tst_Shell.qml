@@ -61,6 +61,12 @@ Item {
         signalName: "setCurrentScopeCalled"
     }
 
+    SignalSpy {
+        id: surfaceSpy
+        target: SurfaceManager
+        signalName: "surfaceDestroyed"
+    }
+
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown
@@ -430,6 +436,128 @@ Item {
             tryCompare(panel, "fullscreenMode", false);
 
             touchRelease(shell);
+        }
+
+        function test_promptSurfaces_data() {
+            return [ { tag: "1", count: 1 },
+                     { tag: "4", count: 4 } ];
+        }
+
+        function test_promptSurfaces(data) {
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            waitUntilDashIsFocused();
+
+            var appDelegate = findChild(shell, "appDelegate0")
+            var surfaceContainer = findChild(appDelegate, "surfaceContainer");
+
+            var i;
+            var surfaces = [];
+            compare(surfaceContainer.promptSurfaces.count, 0);
+            for (i = 0; i < data.count; i++) {
+                surfaces.push(ApplicationTest.addPromptSurface("unity8-dash", Qt.resolvedUrl("Dash/artwork/music-player-design.png")));
+                compare(surfaceContainer.promptSurfaces.count, i+1);
+            }
+
+            surfaceSpy.clear();
+            for (i = data.count-1; i >= 0; i--) {
+                ApplicationTest.removeSurface(surfaces[i]);
+                tryCompare(surfaceContainer.promptSurfaces, "count", i);
+            }
+            tryCompare(surfaceSpy, "count", data.count)
+        }
+
+        function test_removeFirstPromptSurface_data() {
+            return [ { tag: "1", count: 1 },
+                     { tag: "4", count: 4 } ];
+        }
+
+        function test_removeFirstPromptSurface(data) {
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            waitUntilDashIsFocused();
+
+            var appDelegate = findChild(shell, "appDelegate0")
+            var surfaceContainer = findChild(appDelegate, "surfaceContainer");
+
+            var i;
+            var surfaces = [];
+            compare(surfaceContainer.promptSurfaces.count, 0);
+            for (i = 0; i < data.count; i++) {
+                surfaces.push(ApplicationTest.addPromptSurface("unity8-dash", Qt.resolvedUrl("Dash/artwork/music-player-design.png")));
+                compare(surfaceContainer.promptSurfaces.count, i+1);
+            }
+
+            surfaceSpy.clear();
+            ApplicationTest.removeSurface(surfaces[0]);
+            tryCompare(surfaceContainer.promptSurfaces, "count", 0);
+            tryCompare(surfaceSpy, "count", data.count)
+        }
+
+        function test_childSurfaces_data() {
+            return [ { tag: "1", count: 1 },
+                     { tag: "4", count: 4 } ];
+        }
+
+        function test_childSurfaces(data) {
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            waitUntilDashIsFocused();
+
+            var appDelegate = findChild(shell, "appDelegate0")
+            var surfaceContainer = findChild(appDelegate, "surfaceContainer");
+
+            var i;
+            var surfaces = [];
+            compare(surfaceContainer.childSurfaces.count, 0);
+            for (i = 0; i < data.count; i++) {
+                surfaces.push(ApplicationTest.addChildSurface("unity8-dash", 0, Qt.resolvedUrl("Dash/artwork/music-player-design.png")));
+                compare(surfaceContainer.childSurfaces.count, i+1);
+            }
+
+            surfaceSpy.clear();
+            for (i = data.count-1; i >= 0; i--) {
+                ApplicationTest.removeSurface(surfaces[i]);
+                tryCompare(surfaceContainer.childSurfaces, "count", i);
+            }
+            tryCompare(surfaceSpy, "count", data.count)
+        }
+
+        function test_tieredChildSurfaces_data() {
+            return [
+                { tag: "2", count: 2 },
+                { tag: "10", count: 10 }
+            ];
+        }
+
+        function test_tieredChildSurfaces(data) {
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            waitUntilDashIsFocused();
+
+            var delegate = findChild(shell, "appDelegate0")
+            var surfaceContainer = findChild(delegate, "surfaceContainer");
+
+            var i;
+            var surfaces = [];
+            var lastSurfaceId = 0;
+            compare(surfaceContainer.childSurfaces.count, 0);
+            for (i = 0; i < data.count; i++) {
+                lastSurfaceId = ApplicationTest.addChildSurface("unity8-dash", lastSurfaceId, Qt.resolvedUrl("Dash/artwork/music-player-design.png"))
+                surfaces.push(lastSurfaceId);
+
+                compare(surfaceContainer.childSurfaces.count, 1);
+
+                delegate = findChild(surfaceContainer, "childDelegate0");
+                surfaceContainer = findChild(delegate, "surfaceContainer");
+            }
+
+            surfaceSpy.clear();
+            for (i = data.count-1; i >= 0; i--) {
+                ApplicationTest.removeSurface(surfaces[i]);
+            }
+
+            delegate = findChild(shell, "appDelegate0")
+            surfaceContainer = findChild(delegate, "surfaceContainer");
+
+            compare(surfaceContainer.childSurfaces.count, 0);
+            tryCompare(surfaceSpy, "count", data.count)
         }
     }
 }
