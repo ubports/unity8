@@ -43,7 +43,7 @@ PreviewWidget {
         }
         anchors.right: parent.right
         width: (root.width - units.gu(1)) / 2
-        visible: opacity == 0 ? false : true
+        visible: paymentButton.opacity == 0 ? false : true
         Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.FastDuration}}
 
         Payments {
