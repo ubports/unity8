@@ -26,11 +26,12 @@ Showable {
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
     property url defaultBackground
+    property bool loadContent: required
 
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
 
-    showAnimation: StandardAnimation { property: "x"; to: 0 }
+    showAnimation: StandardAnimation { property: "x"; to: 0; duration: UbuntuAnimation.FastDuration }
     hideAnimation: __leftHideAnimation
 
     property alias dragHandleWidth: dragHandle.width
@@ -58,10 +59,8 @@ Showable {
 
     onRequiredChanged: {
         // Reset hide animation to default once we're finished with it
-        if (!required) {
-            // Put back on left for reliable show direction and so that
-            // if normal hide() is called, we don't animate from right.
-            x = -width
+        if (required) {
+            // Reset hide animation so that a hide() call is reliably left
             hideAnimation = __leftHideAnimation
         }
     }
@@ -90,12 +89,13 @@ Showable {
         onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
 
         onDragEnd: {
-            if (rightEvaluator.shouldAutoComplete())
+            if (greeter.x > 0 && rightEvaluator.shouldAutoComplete()) {
                 greeter.hideRight()
-            else if (leftEvaluator.shouldAutoComplete())
+            } else if (greeter.x < 0 && leftEvaluator.shouldAutoComplete()) {
                 greeter.hide();
-            else
+            } else {
                 greeter.show(); // undo drag
+            }
         }
 
         onDragValueChanged: {
@@ -127,7 +127,7 @@ Showable {
         property var infographicModel: LightDM.Infographic
         readonly property int backgroundTopMargin: -greeter.y
 
-        source: required ? "GreeterContent.qml" : ""
+        source: loadContent ? "GreeterContent.qml" : ""
 
         onLoaded: {
             selected(currentIndex);
