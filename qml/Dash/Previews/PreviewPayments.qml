@@ -31,8 +31,6 @@ PreviewWidget {
     implicitHeight: paymentButton.implicitHeight
     implicitWidth: paymentButton.implicitWidth
 
-    property bool processActive: false
-
     Button {
         id: paymentButton
         objectName: "paymentButton"
@@ -43,11 +41,10 @@ PreviewWidget {
             paymentClient.start();
             root.processActive = true;
         }
-        enabled: !root.processActive
         anchors.right: parent.right
         width: (root.width - units.gu(1)) / 2
-        opacity: root.processActive ? 0 : 1
-        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.SlowDuration}}
+        visible: opacity == 0 ? false : true
+        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.FastDuration}}
 
         Payments {
             id: paymentClient
@@ -69,10 +66,10 @@ PreviewWidget {
     ProgressBar {
         id: loadingBar
         indeterminate: true
-        anchors.right: parent.right
-        width: (root.width - units.gu(1)) / 2
-        opacity: root.processActive ? 1 : 0
+        anchors.fill: paymentButton
+        opacity: 1 - paymentsButton.opacity
+        visible: opacity == 0 ? false : true
 
-        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.SlowDuration}}
+        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.FastDuration}}
     }
 }
