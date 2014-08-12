@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-27 01:25+0000\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"PO-Revision-Date: 2014-08-11 23:40+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-28 06:44+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-12 06:43+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,66 +26,82 @@ msgstr "አቋራጭ ማጣበቂያ"
 msgid "Unpin shortcut"
 msgstr "አቋራጭ መለያያ"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr "እንደገና ማስጀመሪያ"
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr "መሰረዣ"
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "መግቢያውን መዝለያ"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "የቀኝ ጠርዝ"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "ስልኩን ለመክፈት ከ ቀኝ ጠርዝ በኩል ወደ ግራ ይጥረጉ"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "የላይ ጠርዝ"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "ጠቋሚዎች ጋር ለመድረስ  ከ ላይ ጠርዝ በኩል ወደ ታች ይጥረጉ"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "መዝጊያ"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "የማሰናጃውን መመልከቻ ለመዝጋት እንደገና ወደ ላይ ይጥረጉ"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "የግራ ጠርዝ"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "ከ ግራ በኩል ወደ ቀኝ ይጥረጉ በፍጥነት መተግበሪያዎች ጋር ለመድረስ እና ለማስጀመር"
+
+#: qml/Components/EdgeDemo.qml:226
+msgid "Well done"
+msgstr "ጥሩ አድረገዋል"
 
 #: qml/Components/EdgeDemo.qml:227
-msgid "Well done"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:228
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "የ ድንገተኛ ጥሪ"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "እሺ"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "ሰላም %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "ሰላም"
 
@@ -97,19 +113,11 @@ msgstr "መሰረዣ"
 msgid "DONE"
 msgstr "ጨርሷል"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "ተጨማሪ መመልከቻ"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "አነስተኛ መመልከቻ"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "የቅርብ ጊዜ"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "ሁሉንም መመልከቻ"
 
@@ -123,7 +131,7 @@ msgstr "አነስተኛ..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr ""
+msgstr "ለዚህ ደረጃ ይስጡ"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
@@ -133,9 +141,29 @@ msgstr "ግምገማ መጨመሪያ"
 msgid "Send"
 msgstr "መላኪያ"
 
+#: qml/Dash/ScopesOverview.qml:200
+msgid "Manage Dash"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:405
+msgid "Done"
+msgstr "ጨርሷል"
+
+#: qml/Dash/ScopesOverview.qml:431
+msgid "Store"
+msgstr "ማስቀመጫ"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "የምወዳቸው"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "ሁሉንም"
+
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "ለመክፈት ይጥረጉ"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -157,11 +185,11 @@ msgstr "አሁን ይናገሩ..."
 msgid "Speaking..."
 msgstr "በመናገር ላይ..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "የመግቢያ ቃል ማሳያ"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr ""
 
@@ -173,35 +201,43 @@ msgstr ""
 msgid "Conference"
 msgstr "ስብሰባ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "ወረፋ በመጠበቅ ላይ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "በማውረድ ላይ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "ተሰርዟል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "ጨርሷል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
+msgstr ""
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr ""
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
 msgstr ""
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "መፈለጊያ"
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
 msgstr "እባክዎን ያስገቡ %1"

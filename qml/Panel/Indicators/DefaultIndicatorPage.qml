@@ -126,6 +126,7 @@ IndicatorBase {
             objectName: "menuItem" + index
             asynchronous: true
             width: ListView.view.width
+            visible: status == Loader.Ready
 
             property int modelIndex: index
             sourceComponent: factory.load(model, identifier)

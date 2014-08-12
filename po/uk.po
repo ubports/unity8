@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
 "PO-Revision-Date: 2014-07-29 07:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-31 07:15+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,50 +26,66 @@ msgstr "Заблокувати кнопку"
 msgid "Unpin shortcut"
 msgstr "Розблокувати кнопку"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr ""
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Пропустити вступ"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "Правий край"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "Верхній край"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 "Спробуйте провести пальцем від верхнього краю, щоб розблокувати телефон"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Закрити"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Проведіть пальцем ще раз, щоб закрити вікно параметрів"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "Лівий край"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Проведіть пальцем від лівого краю, щоб відкрити панель запуску для "
 "пришвидшення доступу до програм"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Добре"
 
-#: qml/Components/EdgeDemo.qml:228
+#: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -77,20 +93,20 @@ msgstr ""
 "Вами налаштовано дії у відповідь на дотики на краях екрана. Тепер телефоном "
 "можна користуватися.<br><br>Торкніться екрана, щоб розпочати."
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Терміновий виклик"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "Гаразд"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "Привіт, %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "Привіт!"
 
@@ -102,19 +118,11 @@ msgstr "Скасувати"
 msgid "DONE"
 msgstr "Виконано"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "Докладніше"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "Стисліше"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "Нещодавні"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "Детальніше"
 
@@ -137,6 +145,26 @@ msgstr "Додати рецензію"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Надіслати"
+
+#: qml/Dash/ScopesOverview.qml:200
+msgid "Manage Dash"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:405
+msgid "Done"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:431
+msgid "Store"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -162,11 +190,11 @@ msgstr "Можна говорити…"
 msgid "Speaking..."
 msgstr "Мовлення…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "Показати пароль"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "Введіть PIN-код SIM-картки"
 
@@ -178,35 +206,43 @@ msgstr "Торкніться, щоб повернутися до дзвінка�
 msgid "Conference"
 msgstr "Конференція"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "У черзі…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "Отримуємо"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "Призупинено, торкніться, щоб поновити"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "Скасовано"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "Завершено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "Помилка, торкніться, щоб повторити спробу"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr ""
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr ""
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Пошук"
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
 msgstr "Будь ласка, введіть %1"

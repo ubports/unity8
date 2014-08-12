@@ -31,9 +31,11 @@ Rectangle {
     {
       "art": "../../../tests/qmltests/Dash/artwork/music-player-design.png",
       "mascot": "../../../tests/qmltests/Dash/artwork/avatar.png",
+      "emblem": "../../../tests/qmltests/Dash/artwork/emblem.png",
       "title": "foo",
       "subtitle": "bar",
-      "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
     }'
 
     property var cardsModel: [
@@ -54,8 +56,8 @@ Rectangle {
             "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "aspect-ratio": 2 } }) }
         },
         {
-            "name": "Art, title - fitted",
-            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "fill-mode": "fit" } }) }
+            "name": "Art, title - tall",
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "aspect-ratio": 0.7 } }) }
         },
         {
             "name": "Art, header, summary - horizontal",
@@ -110,6 +112,7 @@ Rectangle {
         anchors { top: parent.top; left: parent.left; margins: units.gu(1) }
 
         sourceComponent: cardTool.cardComponent
+        clip: true
         onLoaded: {
             item.template = Qt.binding(function() { return cardTool.template; });
             item.components = Qt.binding(function() { return cardTool.components; });
@@ -267,8 +270,8 @@ Rectangle {
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
-                { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
-                { tag: "VerticalWidth", width: function() { return headerRow.width + units.gu(1) * 2 }, index: 0 },
+                { tag: "Tall", height: units.gu(38) / 0.7, size: "large", width: units.gu(38), index: 4 },
+                { tag: "VerticalWidth", width: function() { return headerRow.width + units.gu(1) }, index: 0 },
                 { tag: "HorizontalHeight", height: function() { return headerRow.height + units.gu(1) * 2 }, index: 5 },
                 { tag: "HorizontalWidth", width: function() { return headerRow.x - units.gu(1) }, index: 5 },
             ]
@@ -359,7 +362,7 @@ Rectangle {
 
             waitForRendering(card);
 
-            tryCompareFunction(function() { return testCase.summary.y === data.top() }, true);
+            tryCompareFunction(function() { return art.height > 0 && testCase.summary.y === data.top() }, true);
         }
 
         function test_art_visibility() {
@@ -456,6 +459,23 @@ Rectangle {
             tryCompareFunction(function() { return Qt.colorEqual(subtitle.color, fontColor); }, true);
         }
 
+        function test_emblemIcon_data() {
+            return [
+                { tag: "Art and summary", emblem: true, index: 0 },
+                { tag: "Art and summary, small", emblem: false, index: 1 },
+                { tag: "No header", emblem: false, index: 7 },
+                { tag: "With background", emblem: true, index: 10 },
+            ];
+        }
+
+        function test_emblemIcon(data) {
+            selector.selectedIndex = data.index;
+            waitForRendering(card);
+
+            var emblemIcon = findChild(card, "emblemIcon");
+            compare(emblemIcon !== null, data.emblem);
+        }
+
         function test_mascotShape_data() {
             return [
                 { tag: "Art and summary", shape: false, index: 0 },
@@ -472,6 +492,18 @@ Rectangle {
 
             compare(shape !== null, data.shape);
             tryCompare(mascotImage, "visible", !data.shape);
+        }
+
+        function test_touchdown_visibility() {
+            selector.selectedIndex = 0;
+
+            var touchdown = findChild(card, "touchdown");
+
+            compare(touchdown.visible, false);
+            mousePress(card, card.width/2, card.height/2);
+            compare(touchdown.visible, true);
+            mouseRelease(card, card.width/2, card.height/2);
+            compare(touchdown.visible, false);
         }
     }
 }

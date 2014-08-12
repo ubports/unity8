@@ -7,201 +7,239 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2013-10-31 19:02+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"PO-Revision-Date: 2014-08-03 13:00+0000\n"
+"Last-Translator: Arash Badie Modiri <arashbm@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-26 07:17+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr ""
+msgstr "سنجاق کردن میانبر"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
+msgstr "برداشتن سنجاق میانبر"
+
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
 msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "پرش از مقدّمه"
+
+#: qml/Components/EdgeDemo.qml:112
+msgid "Right edge"
+msgstr "لبه‌ی راست"
 
 #: qml/Components/EdgeDemo.qml:113
-msgid "Right edge"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "برای باز کردن قفل تلفن، از لبه‌ی راست بکشید"
+
+#: qml/Components/EdgeDemo.qml:144
+msgid "Top edge"
+msgstr "لبه‌ی بالا"
 
 #: qml/Components/EdgeDemo.qml:145
-msgid "Top edge"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "برای دست‌رسی به نشانگرها، از لبه‌ی بالا بکشید"
+
+#: qml/Components/EdgeDemo.qml:170
+msgid "Close"
+msgstr "بستن"
 
 #: qml/Components/EdgeDemo.qml:171
-msgid "Close"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "برای بستن صفحه‌ی تنظیمات، دوباره به بالا بکشپد"
+
+#: qml/Components/EdgeDemo.qml:198
+msgid "Left edge"
+msgstr "لبه‌ی چپ"
 
 #: qml/Components/EdgeDemo.qml:199
-msgid "Left edge"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "برای آشکار شدن اجراگر به منظور دست‌رسی سریع به اپ‌ها از سمت چپ بکشید"
+
+#: qml/Components/EdgeDemo.qml:226
+msgid "Well done"
+msgstr "عالی بود"
 
 #: qml/Components/EdgeDemo.qml:227
-msgid "Well done"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:228
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید استفاده "
+"از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
-msgstr ""
+msgstr "تماس اضطراری"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
-msgstr ""
+msgstr "قبول"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "سلام %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
-msgstr ""
+msgstr "سلام"
 
 #: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
-msgstr ""
+msgstr "لغو"
 
 #: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
-msgstr ""
+msgstr "انجام شد"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr ""
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
-msgstr ""
+msgstr "کم‌تر ببینید"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr ""
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
-msgstr ""
+msgstr "دیدن همه"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "بیش‌تر…"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "کم‌تر…"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr ""
+msgstr "امتیاز دادن"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr ""
+msgstr "افزودن یک بازبینی"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
+msgstr "ارسال"
+
+#: qml/Dash/ScopesOverview.qml:200
+msgid "Manage Dash"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:405
+msgid "Done"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:431
+msgid "Store"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
 msgstr ""
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "برای باز کردن قفل بکشد"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "تأیید"
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "دستوری را بنویسید یا بگویید"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "در حال بار کردن. لطفاً صبر کنید…"
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "اکنون صحبت کنید…"
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "در حال صحبت کردن…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
-msgstr ""
+msgstr "نمایش گذرواژه"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "لطفاً PIN سیم‌کارت را وارد کنید"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "برای بازگشت به تماس ضربه بزنید…"
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr ""
+msgstr "کنفرانس"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
-msgstr ""
+msgstr "در صف…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
-msgstr ""
+msgstr "در حال بارگیری"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "مکث شد، برای از سر گیری ضربه بزنید"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
-msgstr ""
+msgstr "لغو شد"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
+msgstr "پایان یافت"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
+msgid "Failed, tap to retry"
+msgstr "شکست خورد، برای تلاش دوباره ضربه بزنید"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
-msgid "Failed, tap to retry"
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
 msgstr ""
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "جست‌وجو"
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "لطفا %1 را وارد کنید"

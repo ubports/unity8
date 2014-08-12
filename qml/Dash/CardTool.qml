@@ -126,7 +126,7 @@ Item {
      type:real \brief Height of the card's header.
     */
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
-    readonly property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
+    property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
 
     /*!
      \brief Desired alignment of header components.
@@ -165,15 +165,40 @@ Item {
         }
     }
 
+    Item {
+        id: attributesModel
+        property int numOfAttributes: 0
+        property var model: []
+        property bool hasAttributes: {
+            var attributes = components["attributes"];
+            var hasAttributesFlag = (attributes != undefined) && attributes["field"];
+
+            if (hasAttributesFlag) {
+                if (attributes["max-count"]) {
+                    numOfAttributes = attributes["max-count"];
+                }
+            }
+            return hasAttributesFlag
+        }
+
+        onNumOfAttributesChanged: {
+            model = []
+            for (var i = 0; i < numOfAttributes; i++) {
+                model.push( {"value":"text"+(i+1), "icon":"image://theme/ok" } );
+            }
+        }
+    }
+
     Loader {
         id: cardLoader
-        property var fields: ["art", "mascot", "title", "subtitle", "summary"]
+        property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
         property var maxData: {
             "art": Qt.resolvedUrl("graphics/checkers.png"),
             "mascot": Qt.resolvedUrl("graphics/checkers.png"),
             "title": "—\n—",
             "subtitle": "—",
-            "summary": "—\n—\n—\n—\n—"
+            "summary": "—\n—\n—\n—\n—",
+            "attributes": attributesModel.model
         }
         sourceComponent: cardTool.cardComponent
         onLoaded: {

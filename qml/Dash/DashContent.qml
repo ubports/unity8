@@ -23,9 +23,16 @@ import "../Components"
 Item {
     id: dashContent
 
-    property var model: null
-    property var scopes: null
+    property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
+    readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
+    readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
+    readonly property bool previewShown: dashContentList.currentItem && dashContentList.currentItem.item ?
+                                            dashContentList.currentItem.item.previewShown : false
+    readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
+                                       && dashContentList.currentItem.item.processing || false
+    readonly property bool pageHeaderTotallyVisible: dashContentList.currentItem && dashContentList.currentItem.item
+                                       && dashContentList.currentItem.item.pageHeaderTotallyVisible || false
 
     signal scopeLoaded(string scopeId)
     signal gotoScope(string scopeId)
@@ -76,23 +83,22 @@ Item {
         }
     }
 
-    function closeScope(scope) {
-        dashContentList.currentItem.theScope.closeScope(scope)
-    }
-
     Item {
         id: dashContentListHolder
 
         anchors.fill: parent
 
+        DashBackground {
+            anchors.fill: parent
+        }
+
         ListView {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
 
             anchors.fill: parent
-            model: dashContent.model
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
             flickDeceleration: units.gu(625)
@@ -126,12 +132,11 @@ Item {
                         return (xPositionRelativetoView > -width && xPositionRelativetoView < width) ? 1 : 0
                     }
                     asynchronous: true
-                    // TODO This if will eventually go away since we're killing DashApps.qml
-                    // once we move app closing to the spread
-                    source: (scope.id == "clickscope") ? "DashApps.qml" : "GenericScopeView.qml"
+                    source: "GenericScopeView.qml"
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
+                    readonly property bool navigationShown: item ? item.navigationShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 
@@ -145,6 +150,8 @@ Item {
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         dashContent.scopeLoaded(item.scope.id)
+                        item.paginationCount = Qt.binding(function() { return dashContentList.count } )
+                        item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
                     }
                     Connections {
                         target: isCurrent ? scope : null

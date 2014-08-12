@@ -36,6 +36,16 @@ Item {
 
         function init() {
             searchEnabled = true;
+
+            // Reset to initial state
+            pageHeader.searchQuery = "";
+            pageHeader.closePopup();
+            pageHeader.searchHistory.clear();
+
+            // Check initial state
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
+            compare(pageHeader.searchHistory.count, 0);
         }
 
         function test_search_disabled() {
@@ -80,9 +90,6 @@ Item {
         }
 
         function test_history() {
-            pageHeader.searchHistory.clear()
-            compare(pageHeader.searchHistory.count, 0)
-
             pageHeader.triggerSearch()
             typeString("humppa1")
             pageHeader.resetSearch()
@@ -110,29 +117,6 @@ Item {
 
             compare(pageHeader.searchHistory.count, 3)
             compare(pageHeader.searchHistory.get(0).query, "humppa4")
-        }
-
-        function test_search_indicator() {
-            var searchIndicator = findChild(pageHeader, "searchIndicator")
-            var clearIcon = findChild(pageHeader, "clearIcon")
-
-            pageHeader.triggerSearch()
-
-            tryCompare(clearIcon, "visible", false)
-            pageHeader.searchQuery = "ubuntu"
-            tryCompare(clearIcon, "visible", true)
-
-            pageHeader.searchInProgress = false
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(clearIcon, "visible", true)
-
-            pageHeader.searchInProgress = true
-            compare(searchIndicator.running, true, "Search indicator isn't running.")
-            tryCompare(clearIcon, "visible", false)
-
-            pageHeader.searchInProgress = false;
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(clearIcon, "visible", true)
         }
 
         function test_titleImage() {
@@ -166,16 +150,47 @@ Item {
             tryCompareFunction(function() { return headerContainer.popover !== null; }, true);
 
             tryCompare(headerContainer.popover, "visible", true);
+
+            var searchTextField = findChild(pageHeader, "searchTextField");
+            compare(searchTextField.focus, true);
+
+            var recentSearches = findChild(headerContainer.popover, "recentSearches");
+            mouseClick(recentSearches.itemAt(0), 0, 0);
+
+            compare(pageHeader.searchQuery, "Search2");
+            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
+            compare(searchTextField.focus, false);
         }
 
-        function test_tap_outside_closes_popup_data() {
+        function test_popup_closing_data() {
             return [
                         { tag: "with search text", searchText: "foobar", hideSearch: false },
                         { tag: "without search text", searchText: "", hideSearch: true }
                     ];
         }
 
-        function test_tap_outside_closes_popup(data) {
+        function test_pagination() {
+            var paginationRepeater = findChild(pageHeader, "paginationRepeater");
+            tryCompare(paginationRepeater, "count", 0);
+            pageHeader.paginationCount = 5;
+            tryCompare(paginationRepeater, "count", 5);
+            for (var i=0; i<pageHeader.paginationCount; i++) {
+                pageHeader.paginationIndex = i;
+                for (var j=0; j<paginationRepeater.count; j++) {
+                    var paginationDot = findChild(pageHeader, "paginationDots_"+j);
+                    if (i==j) {
+                        compare(paginationDot.source.toString().indexOf("pagination_dot_on") > -1, true);
+                    } else {
+                        compare(paginationDot.source.toString().indexOf("pagination_dot_off") > -1, true);
+                    }
+                }
+            }
+            pageHeader.paginationIndex = -1;
+            pageHeader.paginationCount = 0;
+            tryCompare(paginationRepeater, "count", 0);
+        }
+
+        function test_popup_closing(data) {
             searchEnabled = true;
             pageHeader.searchHistory.clear();
 
@@ -191,12 +206,25 @@ Item {
 
             pageHeader.searchQuery = data.searchText;
 
-            mouseClick(root, root.width / 2, root.height - 1);
+            if (data.searchText == "") {
+                // When the text is empty the user can also close the
+                // popup by clicking outside the header instead of by starting a search
+                mouseClick(root, root.width / 2, root.height - 1);
+            }
 
             tryCompare(headerContainer, "showSearch", !data.hideSearch);
             tryCompareFunction(function() { return headerContainer.popover === null; }, true);
 
             pageHeader.resetSearch();
+        }
+
+        function test_search_change_shows_search() {
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            compare(headerContainer.showSearch, false);
+            compare(searchQuery, "");
+
+            searchQuery = "H";
+            compare(headerContainer.showSearch, true);
         }
     }
 

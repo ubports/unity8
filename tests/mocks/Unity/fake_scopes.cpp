@@ -18,6 +18,7 @@
 
 // Self
 #include "fake_scopes.h"
+#include "fake_scopesoverview.h"
 
 // TODO: Implement remaining pieces, like Categories (i.e. LensView now gives warnings)
 
@@ -26,12 +27,18 @@
 
 Scopes::Scopes(QObject *parent)
  : unity::shell::scopes::ScopesInterface(parent)
+ , m_scopesOverview(nullptr)
  , m_loaded(false)
  , timer(this)
 {
     timer.setSingleShot(true);
     timer.setInterval(100);
     QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(updateScopes()));
+
+    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
+    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
+    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
+
     load();
 }
 
@@ -47,10 +54,17 @@ void Scopes::updateScopes()
     addScope(new Scope("clickscope", "Apps", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
     addScope(new Scope("SingleCategoryScope", "Single", true, this, 1));
+    addScope(new Scope("MockScope4", "MS4", true, this));
+    addScope(new Scope("MockScope6", "MS6", true, this));
+    addScope(new Scope("MockScope7", "MS7", false, this));
+    addScope(new Scope("MockScope8", "MS8", false, this));
+    addScope(new Scope("MockScope9", "MS9", false, this));
+    m_scopesOverview = new ScopesOverview(this);
 
     if (!m_loaded) {
         m_loaded = true;
         Q_EMIT loadedChanged();
+        Q_EMIT overviewScopeChanged();
     }
 }
 
@@ -59,10 +73,13 @@ void Scopes::clear()
     timer.stop();
     if (m_scopes.size() > 0) {
         beginRemoveRows(QModelIndex(), 0, m_scopes.count()-1);
-        qDeleteAll(m_scopes);
+        qDeleteAll(m_allScopes);
+        m_allScopes.clear();
         m_scopes.clear();
         endRemoveRows();
     }
+    delete m_scopesOverview;
+    m_scopesOverview = nullptr;
 
     if (m_loaded) {
         m_loaded = false;
@@ -92,8 +109,6 @@ QVariant Scopes::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(scope);
     } else if (role == Scopes::RoleId) {
         return QVariant::fromValue(scope->id());
-    } else if (role == Scopes::RoleVisible) {
-        return QVariant::fromValue(scope->visible());
     } else if (role == Scopes::RoleTitle) {
         return QVariant::fromValue(scope->name());
     } else {
@@ -110,8 +125,22 @@ unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
     return m_scopes[row];
 }
 
-unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const&) const
+unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const &scope_id) const
 {
+    // According to mh3 Scopes::getScope should only return favorite scopes (i.e the ones in the model)
+    for (Scope *scope : m_scopes) {
+        if (scope->id() == scope_id)
+            return scope;
+    }
+    return nullptr;
+}
+
+Scope* Scopes::getScopeFromAll(const QString& scope_id) const
+{
+    for (Scope *scope : m_allScopes) {
+        if (scope->id() == scope_id)
+            return scope;
+    }
     return nullptr;
 }
 
@@ -125,10 +154,33 @@ bool Scopes::loaded() const
     return m_loaded;
 }
 
+int Scopes::count() const
+{
+    return rowCount();
+}
+
+unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
+{
+    return m_scopesOverview;
+}
+
+QList<Scope*> Scopes::scopes() const
+{
+    return m_scopes;
+}
+
+QList<Scope*> Scopes::allScopes() const
+{
+    return m_allScopes;
+}
+
 void Scopes::addScope(Scope* scope)
 {
     int index = rowCount();
-    beginInsertRows(QModelIndex(), index, index);
-    m_scopes.append(scope);
-    endInsertRows();
+    if (scope->favorite()) {
+        beginInsertRows(QModelIndex(), index, index);
+        m_scopes.append(scope);
+        endInsertRows();
+    }
+    m_allScopes.append(scope);
 }

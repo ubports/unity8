@@ -58,40 +58,6 @@ Item {
         when: windowShown
 
         function initTestCase() {
-            var ok = false;
-            var attempts = 0;
-            var maxAttempts = 1000;
-
-            // Qt loads a qml scene asynchronously. So early on, some findChild() calls made in
-            // tests may fail because the desired child item wasn't loaded yet.
-            // Thus here we try to ensure the scene has been fully loaded before proceeding with the tests.
-            // As I couldn't find an API in QQuickView & friends to tell me that the scene is 100% loaded
-            // (all items instantiated, etc), I resort to checking the existence of some key items until
-            // repeatedly until they're all there.
-            do {
-                var dashContentList = findChild(shell, "dashContentList");
-                waitForRendering(dashContentList);
-                var homeLoader = findChild(dashContentList, "clickscope loader");
-                ok = homeLoader !== null
-                    && homeLoader.item !== undefined;
-
-                var greeter = findChild(shell, "greeter");
-                ok &= greeter !== null;
-
-                var launcherPanel = findChild(shell, "launcherPanel");
-                ok &= launcherPanel !== null;
-
-                attempts++;
-                if (!ok) {
-                    console.log("Attempt " + attempts + " failed. Waiting a bit before trying again.");
-                    // wait a bit before retrying
-                    wait(100);
-                } else {
-                    console.log("All seem fine after " + attempts + " attempts.");
-                }
-            } while (!ok && attempts <= maxAttempts);
-
-            verify(ok);
 
             sessionSpy.target = findChild(shell, "greeter")
         }
@@ -110,10 +76,11 @@ Item {
         }
 
         function killApps() {
-            while (ApplicationManager.count > 0) {
-                ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+            while (ApplicationManager.count > 1) {
+                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
+                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
             }
-            compare(ApplicationManager.count, 0)
+            compare(ApplicationManager.count, 1)
         }
 
         function swipeAwayGreeter() {
@@ -149,6 +116,14 @@ Item {
             tryCompare(sessionSpy, "count", 1)
         }
 
+        function test_disabledEdges() {
+            var launcher = findChild(shell, "launcher")
+            tryCompare(launcher, "available", false)
+
+            var indicators = findChild(shell, "indicators")
+            tryCompare(indicators, "available", false)
+        }
+
         function test_emergencyCall() {
             var greeter = findChild(shell, "greeter")
             var lockscreen = findChild(shell, "lockscreen")
@@ -163,9 +138,12 @@ Item {
             tryCompare(greeter, "fakeActiveForApp", "dialer-app")
             tryCompare(lockscreen, "shown", false)
             tryCompare(panel, "fullscreenMode", true)
-            tryCompare(indicators, "available", false)
-            tryCompare(launcher, "available", false)
             tryCompare(stage, "spreadEnabled", false)
+
+            // These are normally false anyway, but confirm they remain so in
+            // emergency mode.
+            tryCompare(launcher, "available", false)
+            tryCompare(indicators, "available", false)
 
             // Cancel emergency mode, and go back to normal
             waitForRendering(greeter)
@@ -175,8 +153,6 @@ Item {
             tryCompare(greeter, "fakeActiveForApp", "")
             tryCompare(lockscreen, "shown", true)
             tryCompare(panel, "fullscreenMode", false)
-            tryCompare(indicators, "available", true)
-            tryCompare(launcher, "available", true)
             tryCompare(stage, "spreadEnabled", true)
         }
 
