@@ -23,7 +23,7 @@ ListView {
 
     orientation: ListView.Vertical
 
-    delegate: ScopeSettingWidgetFactory {
+    delegate: ScopeSettingsWidgetFactory {
         objectName: "scopeSettingItem" + index
         width: root.width
         widgetData: model

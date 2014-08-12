@@ -20,8 +20,10 @@ import Ubuntu.Components.ListItems 1.0 as ListItem
 
 ScopeSetting {
     id: root
+    height: listItem.height
 
     ListItem.Empty {
+        id: listItem
         onClicked: {
             control.focus = true;
             control.selectAll();

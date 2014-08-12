@@ -20,9 +20,10 @@ import Ubuntu.Components.ListItems 1.0 as ListItem
 
 ScopeSetting {
     id: root
+    height: listItem.height
 
     ListItem.ItemSelector {
-        id: control
+        id: listItem
         objectName: "control"
         anchors {
             left: parent.left
@@ -30,6 +31,7 @@ ScopeSetting {
         }
         text: widgetData.displayName
         model: widgetData.properties["values"]
+        onHeightChanged: console.log("item", height)
 
         onSelectedIndexChanged: root.updated(selectedIndex)
     }
