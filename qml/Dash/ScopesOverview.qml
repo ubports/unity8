@@ -365,7 +365,7 @@ Item {
                 }
             }
 
-            function itemPressedAndHeld(index, resultsModel, limitedCategoryItemCount) {
+            function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
                 // Do nothing
             }
         }

@@ -61,7 +61,7 @@ FocusScope {
     }
 
     function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
-        if (scope.id === "scopes" || scope.id == "clickscope") {
+        if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope") {
             // TODO Technically it is possible that calling activate() will make the scope emit
             // previewRequested so that we show a preview but there's no scope that does that yet
             // so it's not implemented
@@ -71,8 +71,10 @@ FocusScope {
         }
     }
 
-    function itemPressedAndHeld(index, resultsModel, limitedCategoryItemCount) {
-        openPreview(index, resultsModel, limitedCategoryItemCount);
+    function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
+        if (itemModel.uri.indexOf("scope://") !== 0) {
+            openPreview(index, resultsModel, limitedCategoryItemCount);
+        }
     }
 
     function openPreview(index, resultsModel, limitedCategoryItemCount) {
@@ -265,7 +267,7 @@ FocusScope {
                     }
 
                     onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, target.model, categoryItemCount());
+                        scopeView.itemPressedAndHeld(index, itemModel, target.model, categoryItemCount());
                     }
 
                     function categoryItemCount() {
@@ -420,6 +422,7 @@ FocusScope {
                     objectName: "scopePageHeader"
                     width: parent.width
                     title: scopeView.scope ? scopeView.scope.name : ""
+                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
                     settingsEnabled: scopeView.scope ? scopeView.scope.settings && scopeView.scope.settings.count > 0 : false
