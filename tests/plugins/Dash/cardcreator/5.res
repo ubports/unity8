@@ -25,7 +25,7 @@ Item  {
                                 objectName: "artShapeLoader"; 
                                 active: cardData && cardData["art"] || false; 
                                 asynchronous: root.asynchronous; 
-                                visible: status == Loader.Ready; 
+                                visible: status == Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     id: artShape; 
                                     objectName: "artShape"; 
@@ -33,20 +33,15 @@ Item  {
                                     visible: image.status == Image.Ready; 
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; 
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; 
-                                    readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; 
                                     Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } 
-                                    onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); 
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
                                     function updateWidthHeightBindings() { 
                                         if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { 
                                             width = root.fixedArtShapeSize.width; 
                                             height = root.fixedArtShapeSize.height; 
-                                        } else if (aspectSmallerThanImageAspect) { 
-                                            width = Qt.binding(function() { return !visible ? 0 : image.width }); 
-                                            height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); 
                                         } else { 
-                                            width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect }); 
-                                            height = Qt.binding(function() { return !visible ? 0 : image.height }); 
+                                            width = Qt.binding(function() { return !visible ? 0 : image.width });
+                                            height = Qt.binding(function() { return !visible ? 0 : image.height });
                                         } 
                                     } 
                                     image: Image { 
@@ -54,13 +49,12 @@ Item  {
                                         source: cardData && cardData["art"] || ""; 
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
-                                        fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop; 
-                                        readonly property real aspect: implicitWidth / implicitHeight; 
+                                        fillMode: Image.PreserveAspectCrop;
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
                                 } 
-                            } 
+                            }
                         }
 Loader { 
                             id: overlayLoader; 
@@ -69,13 +63,14 @@ Loader {
                                 right: artShapeHolder.right; 
                                 bottom: artShapeHolder.bottom; 
                             } 
-                            active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; 
+                            active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false;
                             asynchronous: root.asynchronous; 
                             visible: showHeader && status == Loader.Ready; 
                             sourceComponent: ShaderEffect { 
                                 id: overlay; 
-                                height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); 
-                                opacity: 0.6; 
+                                height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2);
+                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b;
+                                property color overlayColor: cardData && cardData["overlayColor"] || "#99000000";
                                 property var source: ShaderEffectSource { 
                                     id: shaderSource; 
                                     sourceItem: artShapeLoader.item; 
@@ -96,29 +91,29 @@ Loader {
                                     varying highp vec2 coord; 
                                     uniform sampler2D source; 
                                     uniform lowp float qt_Opacity; 
+                                    uniform highp vec4 overlayColor;
                                     void main() { 
                                         lowp vec4 tex = texture2D(source, coord); 
-                                        gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity; 
+                                        gl_FragColor = vec4(overlayColor.r, overlayColor.g, overlayColor.b, 1) * qt_Opacity * overlayColor.a * tex.a; 
                                     }"; 
                             } 
                         }
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Label { 
-                        id: titleLabel; 
+                        id: titleLabel;
                         objectName: "titleLabel"; 
-                        anchors { left: parent.left; 
-                                leftMargin: units.gu(1); 
-                                right: parent.right; 
-                                rightMargin: units.gu(1); 
-                                top: overlayLoader.top; 
-                                topMargin: units.gu(1);
- } 
+                        anchors { right: parent.right; 
+                        left: parent.left; 
+                        leftMargin: units.gu(1); 
+                        top: overlayLoader.top; 
+                        topMargin: units.gu(1);
+                        } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: "white"; 
+                        color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
                         visible: showHeader && overlayLoader.active; 
                         text: root.title; 
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -128,20 +123,27 @@ Label {
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
-                               leftMargin: titleLabel.leftMargin; 
-                               right: titleLabel.right; 
-                               rightMargin: titleLabel.rightMargin; 
-                               top: titleLabel.bottom; 
-                               topMargin: units.dp(2);
- } 
+                            leftMargin: titleLabel.leftMargin; 
+                            right: titleLabel.right; 
+                            top: titleLabel.bottom; 
+                            } 
+                            anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: "white"; 
+                            color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                             horizontalAlignment: root.headerAlignment; 
                         }
+UbuntuShape { 
+    id: touchdown; 
+    objectName: "touchdown"; 
+    anchors { fill: artShapeHolder } 
+    visible: root.pressed; 
+    radius: "medium"; 
+    borderSource: "radius_pressed.sci" 
+}
 implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
 }

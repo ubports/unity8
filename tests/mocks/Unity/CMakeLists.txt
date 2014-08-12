@@ -2,11 +2,12 @@ add_subdirectory(Application)
 add_subdirectory(Indicators)
 add_subdirectory(Launcher)
 add_subdirectory(Notifications)
+add_subdirectory(DashCommunicator)
 
 pkg_search_module(DEE dee-1.0 REQUIRED)
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
 pkg_search_module(DEEQT libdee-qt5 REQUIRED)
-pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=3)
+pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=4)
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -21,15 +22,16 @@ add_definitions(-DQT_NO_KEYWORDS)
 set(UnityQML_SOURCES
   fake_scope.cpp
   fake_scopes.cpp
+  fake_scopesoverview.cpp
   fake_categories.cpp
-  fake_department.cpp
+  fake_navigation.cpp
   fake_resultsmodel.cpp
   fake_previewmodel.cpp
   fake_previewstack.cpp
   fake_previewwidgetmodel.cpp
   fake_unity_plugin.cpp
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/CategoriesInterface.h
-  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/DepartmentInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/NavigationInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewStackInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewWidgetModelInterface.h

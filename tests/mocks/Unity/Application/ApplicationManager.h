@@ -44,10 +44,6 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     Q_PROPERTY(bool fake READ fake CONSTANT)
 
-    // Only for testing
-    // This can be used to place some controls to right, like make tryPhoneStage for example
-    Q_PROPERTY(int rightMargin READ rightMargin WRITE setRightMargin)
-
  public:
     ApplicationManager(QObject *parent = NULL);
     virtual ~ApplicationManager();
@@ -57,6 +53,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     enum MoreRoles {
         RoleSurface = RoleScreenshot+1,
         RoleFullscreen,
+        RoleApplication,
     };
     enum Role {
         Dash, Default, Indicators, Notifications, Greeter, Launcher, OnScreenKeyboard,
@@ -108,8 +105,6 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     // Only for testing
     Q_INVOKABLE QStringList availableApplications();
-    int rightMargin() const;
-    void setRightMargin(int rightMargin);
 
     QModelIndex findIndex(ApplicationInfo* application);
 
@@ -126,19 +121,9 @@ class ApplicationManager : public ApplicationManagerInterface {
     void showApplicationWindow(ApplicationInfo *application);
     void buildListOfAvailableApplications();
     void generateQmlStrings(ApplicationInfo *application);
-    void createMainStageComponent();
-    void createMainStage();
-    void createSideStageComponent();
-    void createSideStage();
     bool m_suspended;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
-    QQmlComponent *m_mainStageComponent;
-    QQuickItem *m_mainStage;
-    QQmlComponent *m_sideStageComponent;
-    QQuickItem *m_sideStage;
-
-    int m_rightMargin;
 
     static ApplicationManager *the_application_manager;
 };

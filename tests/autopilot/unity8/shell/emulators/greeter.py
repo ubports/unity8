@@ -17,6 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import ubuntuuitoolkit
+
 from unity8.shell.emulators import UnityEmulatorBase
 
 
@@ -26,6 +28,7 @@ class Greeter(UnityEmulatorBase):
     def swipe(self):
         """Swipe the greeter screen away."""
         self.created.wait_for(True)
+        self.showProgress.wait_for(1)
 
         rect = self.globalRect
         start_x = rect[0] + rect[2] - 3
@@ -34,7 +37,8 @@ class Greeter(UnityEmulatorBase):
         stop_y = start_y
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
 
-        self.created.wait_for(False)
+        self.showProgress.wait_for(0)
 
     def get_prompt(self):
-        return self.select_single("TextField", objectName="passwordInput")
+        return self.select_single(
+            ubuntuuitoolkit.TextField, objectName='passwordInput')

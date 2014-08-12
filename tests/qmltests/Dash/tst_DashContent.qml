@@ -43,9 +43,6 @@ Item {
         id: dashContent
         anchors.fill: parent
 
-        model: SortFilterProxyModel {
-            model: scopesModel
-        }
         scopes : scopesModel
     }
 
@@ -73,7 +70,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 4);
+            tryCompare(scopeLoadedSpy, "count", 6);
         }
 
         function init() {
@@ -117,7 +114,8 @@ Item {
 
             loadScopes();
 
-            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
+            compare(dashContentList.count, 6);
+            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < dashContentList.count);
         }
 
         function test_show_header_on_list_movement() {
@@ -173,7 +171,7 @@ Item {
 
             // test greater than scope count.
             var currentScopeIndex = dashContent.currentIndex;
-            dashContent.setCurrentScopeAtIndex(8, true, false);
+            dashContent.setCurrentScopeAtIndex(18, true, false);
             compare(dashContent.currentIndex, currentScopeIndex, "Scope should not change if changing to greater index than count");
         }
 
@@ -192,9 +190,9 @@ Item {
         function test_scope_mapping_data() {
             return [
                 {tag: "index0", index: 0, objectName: "MockScope1"},
-                {tag: "index1", index: 1, objectName: "MockScope2"},
-                {tag: "index2", index: 2, objectName: "clickscope"},
-                {tag: "index3", index: 3, objectName: "MockScope5"}
+                {tag: "index1", index: 1, objectName: "clickscope"},
+                {tag: "index2", index: 2, objectName: "MockScope5"},
+                {tag: "index3", index: 3, objectName: "SingleCategoryScope"}
             ]
         }
 
@@ -268,117 +266,131 @@ Item {
             verify(carouselLV.tileWidth / carouselLV.tileHeight == cardTool.components["art"]["aspect-ratio"]);
         }
 
-        function test_departments() {
-            var dashDepartments = findChild(dashContent, "dashDepartments");
-            compare(dashDepartments.visible, true);
-            compare(dashDepartments.showList, false);
-            waitForRendering(dashDepartments);
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, true);
+        function test_navigations() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
+            tryCompare(dashNavigation, "visible", true);
+            compare(dashNavigation.showList, false);
+            waitForRendering(dashNavigation);
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, true);
 
-            var departmentListView = findChild(dashDepartments, "departmentListView");
-            compare(departmentListView.count, 1);
-            tryCompare(departmentListView.currentItem.department, "loaded", true);
+            var navigationListView = findChild(dashNavigation, "navigationListView");
+            compare(navigationListView.count, 1);
+            tryCompare(navigationListView.currentItem.navigation, "loaded", true);
 
-            waitForRendering(departmentListView);
-            waitForRendering(departmentListView.currentItem);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
 
-            var allButton = findChild(dashDepartments, "allButton");
+            var allButton = findChild(dashNavigation, "allButton");
             compare(allButton.visible, false);
 
-            var department = findChild(dashDepartments, "department0child3");
-            mouseClick(department, 0, 0);
-            compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle3");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "root");
+            var navigation = findChild(dashNavigation, "navigation0child3");
+            mouseClick(navigation, 0, 0);
+            compare(dashNavigation.showList, false);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle3");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
 
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, true);
-            waitForRendering(departmentListView);
-            waitForRendering(departmentListView.currentItem);
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
             compare(allButton.visible, true);
 
             mouseClick(allButton, 0, 0);
-            compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "root");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "root");
+            compare(dashNavigation.showList, false);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "root");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
 
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, true);
-            waitForRendering(departmentListView);
-            waitForRendering(departmentListView.currentItem);
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
             compare(allButton.visible, false);
 
-            department = findChild(dashDepartments, "department0child2");
-            mouseClick(department, 0, 0);
-            compare(dashDepartments.showList, true);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            navigation = findChild(dashNavigation, "navigation0child2");
+            mouseClick(navigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            var departmentList1 = findChild(dashDepartments, "department1");
-            allButton = findChild(departmentList1, "allButton");
-            var backButton = findChild(findChild(departmentList1, "department1"), "backButton");
+            var navigationList1 = findChild(dashNavigation, "navigation1");
+            allButton = findChild(navigationList1, "allButton");
+            var backButton = findChild(findChild(navigationList1, "navigation1"), "backButton");
             compare(allButton.visible, true);
             compare(backButton.visible, true);
 
-            tryCompare(departmentListView, "contentX", departmentList1.x);
-            waitForRendering(departmentListView);
+            tryCompare(navigationListView, "contentX", navigationList1.x);
+            waitForRendering(navigationListView);
             mouseClick(allButton, 0, 0);
-            compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            compare(dashNavigation.showList, false);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, true);
-            waitForRendering(departmentListView);
-            waitForRendering(departmentListView.currentItem);
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
             compare(allButton.visible, true);
             compare(backButton.visible, true);
 
-            tryCompare(departmentList1.department, "loaded", true);
-            department = findChild(dashDepartments, "department1child2");
-            mouseClick(department, 0, 0);
-            compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "childmiddle22");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            tryCompare(navigationList1.navigation, "loaded", true);
+            navigation = findChild(dashNavigation, "navigation1child2");
+            mouseClick(navigation, 0, 0);
+            compare(dashNavigation.showList, false);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "childmiddle22");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, true);
-            waitForRendering(departmentListView);
-            waitForRendering(departmentListView.currentItem);
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
 
-            tryCompare(departmentList1.department, "loaded", true);
-            department = findChild(dashDepartments, "department1child3");
-            mouseClick(department, 0, 0);
-            compare(dashDepartments.showList, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "childmiddle23");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "middle2");
+            tryCompare(navigationList1.navigation, "loaded", true);
+            navigation = findChild(dashNavigation, "navigation1child3");
+            mouseClick(navigation, 0, 0);
+            compare(dashNavigation.showList, false);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "childmiddle23");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle2");
 
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, true);
-            waitForRendering(departmentListView);
-            waitForRendering(departmentListView.currentItem);
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
             mouseClick(backButton, 0, 0);
 
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "root");
-            tryCompare(departmentListView.currentItem.department, "departmentId", "root");
-            compare(dashDepartments.showList, true);
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, false);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "root");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
+            compare(dashNavigation.showList, true);
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, false);
 
-            mouseClick(dashDepartments, 0, 0);
-            compare(dashDepartments.showList, true);
-            tryCompare(departmentListView.currentItem.department, "loaded", true);
-            department = findChild(dashDepartments, "department0child2");
-            mouseClick(department, 0, 0);
-            compare(dashDepartments.showList, true);
-            departmentList1 = findChild(dashDepartments, "department1");
-            compare(departmentList1.department.loaded, false);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
-            allButton = findChild(departmentList1, "allButton");
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
+            mouseClick(dashNavigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            tryCompare(navigationListView.currentItem.navigation, "loaded", true);
+            navigation = findChild(dashNavigation, "navigation0child2");
+            mouseClick(navigation, 0, 0);
+            compare(dashNavigation.showList, true);
+            navigationList1 = findChild(dashNavigation, "navigation1");
+            compare(navigationList1.navigation.loaded, false);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+            allButton = findChild(navigationList1, "allButton");
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
             mouseClick(allButton, 0, 0);
-            tryCompare(dashDepartments.currentDepartment, "departmentId", "middle2");
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+        }
+
+        function test_searchHint() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList !== null);
+            var scope = findChild(dashContent, "MockScope1 loader");
+            waitForRendering(scope);
+
+            var categoryListView = findChild(scope, "categoryListView");
+            waitForRendering(categoryListView);
+
+            compare(categoryListView.pageHeader.searchHint, "Search People");
         }
     }
 }

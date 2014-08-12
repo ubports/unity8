@@ -31,8 +31,6 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_windowItem(0)
-    , m_windowComponent(0)
     , m_parentItem(0)
     , m_surface(0)
 {
@@ -45,8 +43,6 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_windowItem(0)
-    , m_windowComponent(0)
     , m_parentItem(0)
     , m_surface(0)
 {
@@ -59,12 +55,6 @@ ApplicationInfo::~ApplicationInfo()
         Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
         m_surface->deleteLater();
     }
-}
-
-void ApplicationInfo::onWindowComponentStatusChanged(QQmlComponent::Status status)
-{
-    if (status == QQmlComponent::Ready && !m_windowItem)
-        doCreateWindowItem();
 }
 
 void ApplicationInfo::onStateChanged(State state)
@@ -88,6 +78,7 @@ void ApplicationInfo::createSurface()
 
 void ApplicationInfo::setSurface(MirSurfaceItem* surface)
 {
+    qDebug() << "Application::setSurface - appId=" << appId() << "surface=" << surface;
     if (m_surface == surface)
         return;
 
@@ -109,54 +100,54 @@ void ApplicationInfo::setSurface(MirSurfaceItem* surface)
     SurfaceManager::singleton()->registerSurface(m_surface);
 }
 
-void ApplicationInfo::createWindowComponent()
+void ApplicationInfo::addPromptSurface(MirSurfaceItem* surface)
 {
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
+    qDebug() << "ApplicationInfo::addPromptSurface " << surface->name() << " to " << name();
+    if (surface == m_surface || m_promptSurfaces.contains(surface)) return;
 
-    QQmlEngine *engine = quickView->engine();
-
-    m_windowComponent = new QQmlComponent(engine, this);
-    m_windowComponent->setData(m_windowQml.toLatin1(), QUrl());
+    surface->setApplication(this);
+    m_promptSurfaces.append(surface);
+    Q_EMIT promptSurfacesChanged();
 }
 
-void ApplicationInfo::doCreateWindowItem()
+void ApplicationInfo::removeSurface(MirSurfaceItem* surface)
 {
-    m_windowItem = qobject_cast<QQuickItem *>(m_windowComponent->create());
-    m_windowItem->setParentItem(m_parentItem);
-}
+    if (m_surface == surface) {
+        setSurface(nullptr);
+    } else if (m_promptSurfaces.contains(surface)) {
+        qDebug() << "Application::removeSurface " << surface->name() << " from " << name();
 
-void ApplicationInfo::createWindowItem()
-{
-    if (!m_windowComponent)
-        createWindowComponent();
+        m_promptSurfaces.removeAll(surface);
+        surface->setApplication(nullptr);
 
-    // only create the windowItem once the component is ready
-    if (!m_windowComponent->isReady()) {
-        connect(m_windowComponent, &QQmlComponent::statusChanged,
-                this, &ApplicationInfo::onWindowComponentStatusChanged);
-    } else {
-        doCreateWindowItem();
+        Q_EMIT promptSurfacesChanged();
     }
 }
 
-void ApplicationInfo::showWindow(QQuickItem *parent)
+QList<MirSurfaceItem*> ApplicationInfo::promptSurfaceList() const
 {
-    m_parentItem = parent;
-
-    if (!m_windowItem)
-        createWindowItem();
-
-    if (m_windowItem) {
-        m_windowItem->setVisible(true);
-    }
+    return m_promptSurfaces;
 }
 
-void ApplicationInfo::hideWindow()
+QQmlListProperty<MirSurfaceItem> ApplicationInfo::promptSurfaces()
 {
-    if (!m_windowItem)
-        return;
+    return QQmlListProperty<MirSurfaceItem>(this,
+                                            0,
+                                            ApplicationInfo::promptSurfaceCount,
+                                            ApplicationInfo::promptSurfaceAt);
+}
 
-    m_windowItem->setVisible(false);
+int ApplicationInfo::promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
+{
+    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
+    return p->m_promptSurfaces.count();
+}
+
+MirSurfaceItem* ApplicationInfo::promptSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
+{
+    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
+
+    if (index < 0 || index >= p->m_promptSurfaces.count())
+        return nullptr;
+    return p->m_promptSurfaces[index];
 }
