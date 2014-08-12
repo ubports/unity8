@@ -265,6 +265,7 @@ Item {
                             }
                         },
                         Action {
+                            objectName: "settings"
                             iconName: "settings"
                             visible: root.settingsEnabled
                             onTriggered: {

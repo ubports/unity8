@@ -332,6 +332,30 @@ Item {
                 closePreview();
             }
 
+            function test_settingsOpenClose() {
+                waitForRendering(genericScopeView);
+                verify(header, "Could not find the header.");
+                var innerHeader = findChild(header, "innerPageHeader");
+                verify(innerHeader, "Could not find the inner header");
+
+                // open
+                tryCompare(testCase.subPageLoader, "open", false);
+                var settings = findChild(innerHeader, "settings_header_button");
+                mouseClick(settings, settings.width / 2, settings.height / 2);
+                tryCompare(testCase.subPageLoader, "open", true);
+                verify(("" + subPageLoader.source).indexOf("ScopeSettingsPage.qml") != -1);
+                compare(genericScopeView.settingsShown, true)
+                tryCompare(testCase.subPageLoader, "x", 0);
+
+                // close
+                var settingsHeader = findChild(testCase.subPageLoader.item, "pageHeader");
+                mouseClick(settingsHeader, units.gu(2), units.gu(2));
+                tryCompare(testCase.subPageLoader, "open", false);
+                compare(genericScopeView.settingsShown, false);
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                tryCompare(categoryListView, "x", 0);
+            }
+
             function test_header_style_data() {
                 return [
                     { tag: "Default", index: 0, foreground: "grey", background: "", logo: "" },
