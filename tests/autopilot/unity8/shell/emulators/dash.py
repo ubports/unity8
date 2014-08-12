@@ -141,10 +141,9 @@ class Dash(emulators.UnityEmulatorBase):
 
     def enter_search_query(self, query):
         current_header = self._get_current_page_header()
-        self.pointing_device.move(current_header.globalRect.x +
-                                  current_header.width - current_header.height / 4,
-                                  current_header.globalRect.y +
-                                  current_header.height / 4)
+        search_button = current_header.select_single(objectName="search_header_button")
+        self.pointing_device.move(search_button.globalRect.x + search_button.width / 2,
+                                  search_button.globalRect.y + search_button.height / 2)
         self.pointing_device.click()
         headerContainer = current_header.select_single(objectName="headerContainer")
         headerContainer.contentY.wait_for(0)
@@ -188,7 +187,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
         preview_list = self.wait_select_single(
-            'PreviewListView', objectName='previewListView')
+            'QQuickLoader', objectName='subPageLoader')
         preview_list.x.wait_for(0)
         return preview_list.select_single(
             Preview, objectName='preview{}'.format(preview_list.currentIndex))

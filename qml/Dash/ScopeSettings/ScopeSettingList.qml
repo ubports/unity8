@@ -20,7 +20,9 @@ import Ubuntu.Components.ListItems 1.0 as ListItem
 
 ScopeSetting {
     id: root
-    height: listItem.height
+
+    // FIXME workaround for: https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1355830
+    height: listItem.currentlyExpanded ? listItem.itemHeight * widgetData.properties["values"].length + units.gu(6) : listItem.height
 
     ListItem.ItemSelector {
         id: listItem
@@ -31,7 +33,6 @@ ScopeSetting {
         }
         text: widgetData.displayName
         model: widgetData.properties["values"]
-        onHeightChanged: console.log("item", height)
 
         onSelectedIndexChanged: root.updated(selectedIndex)
     }
