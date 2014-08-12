@@ -39,7 +39,7 @@ PreviewWidget {
         text: paymentClient.formattedPrice
         onClicked: {
             paymentClient.start();
-            root.processActive = true;
+            paymentButton.opacity = 0;
         }
         anchors.right: parent.right
         width: (root.width - units.gu(1)) / 2
@@ -68,7 +68,7 @@ PreviewWidget {
         indeterminate: true
         anchors.fill: paymentButton
         opacity: 1 - paymentsButton.opacity
-        visible: opacity == 0 ? false : true
+        visible: loadingBar.opacity == 0 ? false : true
 
         Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.FastDuration}}
     }
