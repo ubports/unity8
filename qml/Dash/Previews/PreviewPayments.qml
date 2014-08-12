@@ -40,8 +40,8 @@ PreviewWidget {
         color: Theme.palette.selected.foreground
         text: paymentClient.formattedPrice
         onClicked: {
-            root.processActive = true;
             paymentClient.start();
+            root.processActive = true;
         }
         enabled: !root.processActive
         anchors.right: parent.right
