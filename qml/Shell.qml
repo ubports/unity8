@@ -152,6 +152,11 @@ Item {
                 if (greeter.shown && appId != "unity8-dash") {
                     greeter.hide();
                 }
+                if (appId === "dialer-app") {
+                    // Always let the dialer-app through.  Either user asked
+                    // for an emergency call or accepted an incoming call.
+                    setFakeActiveForApp(appId)
+                }
             }
         }
 
