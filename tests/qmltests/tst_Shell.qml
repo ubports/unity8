@@ -144,8 +144,10 @@ Item {
             Powerd.status = Powerd.Off;
             tryCompare(greeter, "showProgress", 0);
 
-            // Now end call, triggering a greeter show
+            // Now try again after ending call
             callManager.foregroundCall = null;
+            Powerd.status = Powerd.On;
+            Powerd.status = Powerd.Off;
             tryCompare(greeter, "showProgress", 1);
 
             tryCompare(ApplicationManager, "suspended", true);
