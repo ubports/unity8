@@ -34,7 +34,6 @@ Column {
     signal cancel()
 
     property bool entryEnabled: true
-    property bool waiting: false
 
     function clear(playAnimation) {
         pinentryField.text = "";
@@ -75,11 +74,6 @@ Column {
             }
         }
 
-        ActivityIndicator {
-            id: spinner
-            anchors.centerIn: parent
-            running: root.waiting
-        }
         Label {
             id: pinentryFieldLabel
             anchors.centerIn: parent
@@ -89,7 +83,6 @@ Column {
             font.pixelSize: units.dp(44)
             color: "#f3f3e7"
             opacity: 0.6
-            visible: !spinner.running
         }
         Label {
             id: pinentryFieldPlaceHolder
@@ -99,7 +92,7 @@ Column {
             color: "#f3f3e7"
             opacity: 0.6
             text: parent.placeholderText
-            visible: !spinner.running && pinentryFieldLabel.text.length == 0
+            visible: pinentryFieldLabel.text.length == 0
         }
 
         Icon {
@@ -113,7 +106,7 @@ Column {
                 bottom: parent.bottom
                 bottomMargin: units.gu(1)
             }
-            visible: !spinner.running && entryEnabled && !priv.autoConfirm
+            visible: entryEnabled && !priv.autoConfirm
             width: height
             name: "erase"
             color: "#f3f3e7"

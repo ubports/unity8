@@ -208,11 +208,6 @@ Showable {
             property: "entryEnabled"
             value: !pinPadLoader.waiting && !forcedDelayTimer.running
         }
-        Binding {
-            target: pinPadLoader.item
-            property: "waiting"
-            value: pinPadLoader.waiting
-        }
     }
 
     Column {
