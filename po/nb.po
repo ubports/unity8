@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-26 12:05+0000\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"PO-Revision-Date: 2014-08-13 06:16+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-27 06:35+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-13 06:56+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,47 +26,63 @@ msgstr "Fest snarvei"
 msgid "Unpin shortcut"
 msgstr "Fjern snarvei"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr "Er du sikker på at du vil slå av?"
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr "Slå av"
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr "Start på nytt"
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr "Avbryt"
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Hopp over introduksjon"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "Høyre kant"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Prøv å sveipe fra høyre side for å låse opp telefonen"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "Øvre kant"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "Prøv å sveipe fra toppen for å få tilgang til innstillingene"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Lukk"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Sveip opp igjen for å lukke innstillingsmenyen"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "Venstre kant"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr "Sveip fra venstre for å få tilgang til programoppstarteren"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Bra jobba"
 
-#: qml/Components/EdgeDemo.qml:228
+#: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -74,20 +90,20 @@ msgstr ""
 "Du har nå mestret kantbevegelsene, og er klar til å bruke "
 "telefonen<br><br>Trykk på skjermen for å begynne"
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Nødanrop"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "Hei, %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "Hei"
 
@@ -99,19 +115,11 @@ msgstr "AVBRYT"
 msgid "DONE"
 msgstr "FERDIG"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "Vis mer"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "Vis mindre"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "Nylig"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "Vis alt"
 
@@ -134,6 +142,26 @@ msgstr "Skriv en anmeldelse"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Send"
+
+#: qml/Dash/ScopesOverview.qml:200
+msgid "Manage Dash"
+msgstr "Håndter dashbord"
+
+#: qml/Dash/ScopesOverview.qml:405
+msgid "Done"
+msgstr "Ferdig"
+
+#: qml/Dash/ScopesOverview.qml:431
+msgid "Store"
+msgstr "Butikk"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "Favoritter"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "Alt"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -159,11 +187,11 @@ msgstr "Snakk nå …"
 msgid "Speaking..."
 msgstr "Snakker …"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "Vis passord"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "Skriv inn PIN-koden til SIM-kortet"
 
@@ -175,35 +203,43 @@ msgstr "Trykk for å gå tilbake til anrop …"
 msgid "Conference"
 msgstr "Konferanse"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "I kø …"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "Laster ned"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "Satt på pause (trykk for å fortsette)"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "Avbrutt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "Ferdig"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "Feilet. Trykk for å prøve på nytt"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr "Lås opp SIM"
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr "Fremmednett"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Søk"
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
 msgstr "Skriv inn %1"

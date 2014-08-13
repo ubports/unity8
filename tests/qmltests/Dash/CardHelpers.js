@@ -60,6 +60,7 @@ var fullMapping = ' \
   "art": "art", \
   "subtitle": "subtitle", \
   "mascot": "mascot", \
+  "emblem": "emblem", \
   "overlayColor": "overlayColor", \
   "summary": "summary", \
   "attributes": "attributes" \
