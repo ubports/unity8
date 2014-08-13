@@ -52,8 +52,6 @@ private Q_SLOTS:
     void showInputMethod();
     void hideInputMethod();
 
-    void onSurfaceAboutToBeDestroyed();
-
 private:
     static SurfaceManager *the_surface_manager;
     VirtualKeyboard *m_virtualKeyboard;

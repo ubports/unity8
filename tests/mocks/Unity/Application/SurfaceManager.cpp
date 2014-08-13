@@ -46,7 +46,9 @@ MirSurfaceItem *SurfaceManager::createSurface(const QString& name,
                                        state,
                                        screenshot);
     registerSurface(surface);
-    connect(surface, &MirSurfaceItem::aboutToBeDestroyed, this, &SurfaceManager::onSurfaceAboutToBeDestroyed);
+    connect(surface, &MirSurfaceItem::aboutToBeDestroyed, this, [&] {
+        Q_EMIT surfaceDestroyed(qobject_cast<MirSurfaceItem*>(sender()));
+    });
     Q_EMIT surfaceCreated(surface);
     return surface;
 }
@@ -57,11 +59,6 @@ void SurfaceManager::registerSurface(MirSurfaceItem *surface)
             this, &SurfaceManager::showInputMethod);
     connect(surface, &MirSurfaceItem::inputMethodDismissed,
             this, &SurfaceManager::hideInputMethod);
-}
-
-void SurfaceManager::onSurfaceAboutToBeDestroyed()
-{
-    Q_EMIT surfaceDestroyed(qobject_cast<MirSurfaceItem*>(sender()));
 }
 
 void SurfaceManager::showInputMethod()
