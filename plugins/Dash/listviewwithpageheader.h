@@ -53,6 +53,7 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
     Q_PROPERTY(QString sectionProperty READ sectionProperty WRITE setSectionProperty NOTIFY sectionPropertyChanged)
     Q_PROPERTY(bool forceNoClip READ forceNoClip WRITE setForceNoClip NOTIFY forceNoClipChanged)
     Q_PROPERTY(int stickyHeaderHeight READ stickyHeaderHeight NOTIFY stickyHeaderHeightChanged)
+    Q_PROPERTY(qreal headerItemShownHeight READ headerItemShownHeight NOTIFY headerItemShownHeightChanged)
 
     friend class ListViewWithPageHeaderTest;
     friend class ListViewWithPageHeaderTestSection;
@@ -81,6 +82,7 @@ public:
     void setForceNoClip(bool noClip);
 
     int stickyHeaderHeight() const;
+    qreal headerItemShownHeight() const;
 
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
@@ -100,6 +102,7 @@ Q_SIGNALS:
     void sectionPropertyChanged();
     void forceNoClipChanged();
     void stickyHeaderHeightChanged();
+    void headerItemShownHeightChanged();
 
 protected:
     void componentComplete() override;

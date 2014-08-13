@@ -1,3 +1,29 @@
+unity8 (8.00+14.10.20140811-0ubuntu1) utopic; urgency=low
+
+  [ Andrea Cimitan ]
+  * Add emblem support in dash cards.
+
+  [ Michael Terry ]
+  * Fix a variety of design nits with the current lockscreen: * disable
+    indicators and launcher when locked * when reversing the direction
+    of a greeter flick, treat it as a cancel * don't animate dots when
+    changing the infographic data source * make cancelling a login
+    nicer: * reduce the delay before greeter starts animating * show the
+    greeter from the same side of the screen that it hid to * don't re-
+    animate the infographic (LP: #1351027)
+
+  [ Stephen M. Webb ]
+  * enables the unity8 upstart job for desktop sessions (LP: #1353041)
+
+  [ Albert Astals ]
+  * Dash Overview (LP: #1317683)
+  * GenericScopeView: On click only activate scope:// uris and
+    clickscope items The rest of clicks result in a preview, also
+    scope:// uris don't get a preview
+  * Pass the scope search hint up to the search line
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 11 Aug 2014 19:03:41 +0000
+
 unity8 (8.00+14.10.20140808-0ubuntu1) utopic; urgency=low
 
   [ CI bot ]
