@@ -24,6 +24,7 @@ ScopeSetting {
 
     ListItem.Empty {
         id: listItem
+
         onClicked: {
             control.checked = !control.checked
             updated(control.checked)
@@ -44,6 +45,7 @@ ScopeSetting {
 
         CheckBox {
             id: control
+            objectName: "control"
             anchors {
                 right: parent.right
                 rightMargin: __margins

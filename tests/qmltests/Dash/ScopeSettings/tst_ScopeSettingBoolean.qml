@@ -52,6 +52,11 @@ Rectangle {
             mouseClick(control, control.width / 2, control.height / 2);
             spy.wait();
             compare(spy.signalArguments[0][0], false);
+
+            spy.clear();
+            mouseClick(scopeSetting, scopeSetting.width / 2, scopeSetting.height / 2);
+            spy.wait();
+            compare(spy.signalArguments[0][0], true);
         }
     }
 }
