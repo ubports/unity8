@@ -108,6 +108,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
+                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b; \n\
                                 property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
@@ -137,10 +138,9 @@ var kOverlayLoaderCode = 'Loader { \n\
                             } \n\
                         }\n';
 
-// %1 is used as anchors of row
-// %2 is used as first child of the row
-// %3 is used as second child of the row
-var kHeaderRow2Code = 'Row { \n\
+// multiple row version of HeaderRowCode
+function kHeaderRowCodeGenerator() {
+var kHeaderRowCodeTemplate = 'Row { \n\
                         id: row; \n\
                         objectName: "outerRow"; \n\
                         property real margins: units.gu(1); \n\
@@ -148,58 +148,30 @@ var kHeaderRow2Code = 'Row { \n\
                         height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n\
                         anchors { %1 } \n\
                         anchors.right: parent.right; \n\
-                        anchors.margins: margins;\n\
-                        data: [ %2\n\
-                                ,\n\
-                                %3 \n\
+                        anchors.margins: margins; \n\
+                        anchors.rightMargin: 0; \n\
+                        data: [ \n\
+                                %2 \n\
                                 ] \n\
                     }\n';
-
-// %1 is used as anchors of row
-// %2 is used as first child of the row
-// %3 is used as second child of the row
-// %4 is used as third child of the row
-var kHeaderRow3Code = 'Row { \n\
-                        id: row; \n\
-                        objectName: "outerRow"; \n\
-                        property real margins: units.gu(1); \n\
-                        spacing: margins; \n\
-                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n\
-                        anchors { %1 } \n\
-                        anchors.right: parent.right; \n\
-                        anchors.margins: margins;\n\
-                        data: [ %2\n\
-                                ,\n\
-                                %3 \n\
-                                ,\n\
-                                %4 \n\
-                                ] \n\
-                    }\n';
-
-// %1 is used as first child of the column
-// %2 is used as second child of the column
-var kHeaderColumnCode = 'Column { \n\
-                            anchors.verticalCenter: parent.verticalCenter; \n\
-                            spacing: units.dp(2); \n\
-                            width: parent.width - x;\n\
-                            data: [ %1\n\
-                                    ,\n\
-                                    %2 \n\
-                                  ] \n\
-                        }\n';
-
-// multiple column version of kHeaderColumnCode.
-function kHeaderColumnCodeGenerator() {
-    var headerColumnCodeTemplate = 'Column { \n\
-                    anchors.verticalCenter: parent.verticalCenter; \n\
-                    spacing: units.dp(2); \n\
-                    width: parent.width - x;\n\
-                    data: [ \n\
-                        %1 \n\
-                    ]\n\
-                }\n';
     var args = Array.prototype.slice.call(arguments);
-    var code = headerColumnCodeTemplate.arg(args.join(',\n'));
+    var code = kHeaderRowCodeTemplate.arg(args.shift()).arg(args.join(',\n'));
+    return code;
+}
+
+// multiple item version of kHeaderContainerCode
+function kHeaderContainerCodeGenerator() {
+    var headerContainerCodeTemplate = 'Item { \n\
+                            id: headerTitleContainer; \n\
+                            anchors { %1 } \n\
+                            width: parent.width - x; \n\
+                            implicitHeight: %2; \n\
+                            data: [ \n\
+                                %3 \n\
+                            ]\n\
+                        }\n';
+    var args = Array.prototype.slice.call(arguments);
+    var code = headerContainerCodeTemplate.arg(args.shift()).arg(args.shift()).arg(args.join(',\n'));
     return code;
 }
 
@@ -223,7 +195,7 @@ var kMascotImageCode = 'Image { \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
                             readonly property int maxSize: Math.max(width, height) * 4; \n\
-                            source: cardData && cardData["mascot"]; \n\
+                            source: cardData && cardData["mascot"] || ""; \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             sourceSize { width: maxSize; height: maxSize } \n\
@@ -252,6 +224,22 @@ var kTitleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
+// %1 is used as extra anchors of emblemIcon
+// %2 is used as color of emblemIcon
+var kEmblemIconCode = 'Icon { \n\
+                            id: emblemIcon; \n\
+                            objectName: "emblemIcon"; \n\
+                            anchors { \n\
+                                bottom: titleLabel.baseline; \n\
+                                right: parent.right; \n\
+                                %1
+                            } \n\
+                            source: cardData && cardData["emblem"] || ""; \n\
+                            color: %2; \n\
+                            width: height; \n\
+                            height: source != "" ? titleLabel.font.pixelSize : 0; \n\
+                        }\n';
+
 // %1 is used as anchors of touchdown effect
 var kTouchdownCode = 'UbuntuShape { \n\
                         id: touchdown; \n\
@@ -268,6 +256,7 @@ var kSubtitleLabelCode = 'Label { \n\
                             id: subtitleLabel; \n\
                             objectName: "subtitleLabel"; \n\
                             anchors { %1 } \n\
+                            anchors.topMargin: units.dp(2); \n\
                             elide: Text.ElideRight; \n\
                             fontSize: "small"; \n\
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
@@ -279,12 +268,13 @@ var kSubtitleLabelCode = 'Label { \n\
                         }\n';
 
 // %1 is used as anchors of attributesRow
+// %2 is used as color of attributesRow
 var kAttributesRowCode = 'CardAttributes { \n\
                             id: attributesRow; \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
                             color: %2; \n\
-                            model: cardData["attributes"]; \n\
+                            model: cardData && cardData["attributes"]; \n\
                           }\n';
 
 // %1 is used as top anchor of summary
@@ -334,10 +324,11 @@ function cardString(template, components) {
     var hasBackground = !isHorizontal && (template["card-background"] || components["background"] || artAndSummary);
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
+    var hasEmblem = components["emblem"] && !(hasMascot && template["card-size"] === "small") || false;
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
-    var hasAttributes = hasTitle && components["attributes"] || false;
+    var hasAttributes = hasTitle && components["attributes"]["field"] || false;
 
     if (hasBackground) {
         code += kBackgroundLoaderCode;
@@ -348,9 +339,9 @@ function cardString(template, components) {
         code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
 
         var widthCode, heightCode;
-        var anchors;
+        var artAnchors;
         if (isHorizontal) {
-            anchors = 'left: parent.left';
+            artAnchors = 'left: parent.left';
             if (hasMascot || hasTitle) {
                 widthCode = 'height * artShape.aspect'
                 heightCode = 'headerHeight + 2 * units.gu(1)';
@@ -361,12 +352,12 @@ function cardString(template, components) {
                 heightCode = 'units.gu(7.625)';
             }
         } else {
-            anchors = 'horizontalCenter: parent.horizontalCenter;';
+            artAnchors = 'horizontalCenter: parent.horizontalCenter;';
             widthCode = 'root.width'
             heightCode = 'width / artShape.aspect';
         }
 
-        code += kArtShapeHolderCode.arg(anchors).arg(widthCode).arg(heightCode);
+        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
@@ -403,6 +394,8 @@ function cardString(template, components) {
         headerLeftAnchor = 'left: parent.left;\n';
     }
 
+    var touchdownOnArtShape = !hasBackground && hasArt && !hasMascot && !hasSummary;
+
     if (hasHeaderRow) {
         code += 'readonly property int headerHeight: row.height;\n'
     } else if (hasMascot) {
@@ -423,191 +416,239 @@ function cardString(template, components) {
         code += 'readonly property int headerHeight: 0;\n'
     }
 
-    var mascotShapeCode = "";
-    var mascotCode = "";
+    var mascotShapeCode = '';
+    var mascotCode = '';
     if (hasMascot) {
         var useMascotShape = !hasBackground && !headerAsOverlay;
-        var anchors = "";
+        var mascotAnchors = '';
         if (!hasHeaderRow) {
-            anchors += headerLeftAnchor;
-            anchors += headerVerticalAnchors;
+            mascotAnchors += headerLeftAnchor;
+            mascotAnchors += headerVerticalAnchors;
             if (!headerLeftAnchorHasMargin) {
-                anchors += 'leftMargin: units.gu(1);\n'
+                mascotAnchors += 'leftMargin: units.gu(1);\n'
             }
         } else {
-            anchors = "verticalCenter: parent.verticalCenter;"
+            mascotAnchors = 'verticalCenter: parent.verticalCenter;'
         }
 
         if (useMascotShape) {
-            mascotShapeCode = kMascotShapeLoaderCode.arg(anchors);
+            mascotShapeCode = kMascotShapeLoaderCode.arg(mascotAnchors);
         }
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
-        mascotCode = kMascotImageCode.arg(anchors).arg(mascotImageVisible);
+        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : (root.scopeStyle ? root.scopeStyle.foreground : "grey")';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey")';
 
-    var titleSubtitleCode = "";
+    var hasTitleContainer = hasTitle && (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes)));
+    var titleSubtitleCode = '';
     if (hasTitle) {
-        var color;
+        var titleColor;
         if (headerAsOverlay) {
-            color = '"white"';
+            titleColor = 'overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey")';
         } else if (hasSummary) {
-            color = 'summary.color';
+            titleColor = 'summary.color';
         } else if (hasBackground) {
-            color = summaryColorWithBackground;
+            titleColor = summaryColorWithBackground;
         } else {
-            color = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
+            titleColor = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
         }
 
         var titleAnchors;
         var subtitleAnchors;
         var attributesAnchors;
-        if (hasMascot && (hasSubtitle || hasAttributes)) {
-            // Using row + column
-            titleAnchors = 'left: parent.left; right: parent.right';
-            subtitleAnchors = titleAnchors;
-            attributesAnchors = subtitleAnchors;
+        var titleContainerAnchors;
+        var titleRightAnchor;
+
+        var extraRightAnchor = '';
+        var extraLeftAnchor = '';
+        if (!touchdownOnArtShape) {
+            extraRightAnchor = 'rightMargin: units.gu(1); \n';
+            extraLeftAnchor = 'leftMargin: units.gu(1); \n';
+        }
+
+        if (hasMascot) {
+            titleContainerAnchors = 'verticalCenter: parent.verticalCenter; ';
+        } else {
+            titleContainerAnchors = 'right: parent.right; ';
+            titleContainerAnchors += headerLeftAnchor;
+            titleContainerAnchors += headerVerticalAnchors;
+            if (!headerLeftAnchorHasMargin) {
+                titleContainerAnchors += extraLeftAnchor;
+            }
+        }
+        if (hasEmblem) {
+            titleRightAnchor = 'right: emblemIcon.left; \n\
+                                rightMargin: emblemIcon.width > 0 ? units.gu(0.5) : 0; \n';
+        } else {
+            titleRightAnchor = 'right: parent.right; \n'
+            titleRightAnchor += extraRightAnchor;
+        }
+
+        if (hasTitleContainer) {
+            // Using headerTitleContainer
+            titleAnchors = titleRightAnchor;
+            titleAnchors += 'left: parent.left; \n\
+                             top: parent.top;';
+            subtitleAnchors = 'right: parent.right; \n\
+                               left: parent.left; \n';
+            subtitleAnchors += extraRightAnchor;
+            if (hasSubtitle) {
+                attributesAnchors = subtitleAnchors + 'top: subtitleLabel.bottom;\n';
+                subtitleAnchors += 'top: titleLabel.bottom;\n';
+            } else {
+                attributesAnchors = subtitleAnchors + 'top: titleLabel.bottom;\n';
+            }
         } else if (hasMascot) {
-            // Using row + label
-            titleAnchors = 'verticalCenter: parent.verticalCenter;\n'
+            // Using row + titleContainer
+            titleAnchors = 'verticalCenter: parent.verticalCenter;\n';
         } else {
             if (headerAsOverlay) {
                 // Using anchors to the overlay
-                titleAnchors = 'left: parent.left; \n\
-                                leftMargin: units.gu(1); \n\
-                                right: parent.right; \n\
-                                rightMargin: units.gu(1); \n\
-                                top: overlayLoader.top; \n\
-                                topMargin: units.gu(1);\n';
+                titleAnchors = titleRightAnchor;
+                titleAnchors += 'left: parent.left; \n\
+                                 leftMargin: units.gu(1); \n\
+                                 top: overlayLoader.top; \n\
+                                 topMargin: units.gu(1);\n';
             } else {
                 // Using anchors to the mascot/parent
-                titleAnchors = "right: parent.right;\n";
-                titleAnchors += "rightMargin: units.gu(1);\n";
+                titleAnchors = titleRightAnchor;
                 titleAnchors += headerLeftAnchor;
                 titleAnchors += headerVerticalAnchors;
                 if (!headerLeftAnchorHasMargin) {
-                    titleAnchors += 'leftMargin: units.gu(1);\n'
+                    titleAnchors += extraLeftAnchor;
                 }
             }
             subtitleAnchors = 'left: titleLabel.left; \n\
-                               leftMargin: titleLabel.leftMargin; \n\
-                               right: titleLabel.right; \n\
-                               rightMargin: titleLabel.rightMargin; \n\
-                               top: titleLabel.bottom; \n\
-                               topMargin: units.dp(2);\n';
-            if (hasSubtitle) {
-                attributesAnchors = 'left: subtitleLabel.left; \n\
-                                   leftMargin: subtitleLabel.leftMargin; \n\
-                                   right: subtitleLabel.right; \n\
-                                   rightMargin: subtitleLabel.rightMargin; \n\
-                                   top: subtitleLabel.bottom; \n\
-                                   topMargin: units.dp(2);\n';
+                               leftMargin: titleLabel.leftMargin; \n';
+            subtitleAnchors += extraRightAnchor;
+            if (hasEmblem) {
+                // using container
+                subtitleAnchors += 'right: parent.right; \n';
             } else {
-                attributesAnchors = subtitleAnchors;
+                subtitleAnchors += 'right: titleLabel.right; \n';
+            }
+
+            if (hasSubtitle) {
+                attributesAnchors = subtitleAnchors + 'top: subtitleLabel.bottom;\n';
+                subtitleAnchors += 'top: titleLabel.bottom;\n';
+            } else {
+                attributesAnchors = subtitleAnchors + 'top: titleLabel.bottom;\n';
             }
         }
 
+        // code for different elements
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
-        var titleCode = kTitleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
-        var subtitleCode = "";
+        var titleCode = kTitleLabelCode.arg(titleAnchors).arg(titleColor).arg(titleLabelVisibleExtra);
+        var subtitleCode;
+        var attributesCode;
+
+        // code for the title container
+        var containerCode = [];
+        var containerHeight = 'titleLabel.height';
+        containerCode.push(titleCode);
         if (hasSubtitle) {
-            subtitleCode += kSubtitleLabelCode.arg(subtitleAnchors).arg(color);
+            subtitleCode = kSubtitleLabelCode.arg(subtitleAnchors).arg(titleColor);
+            containerCode.push(subtitleCode);
+            containerHeight += ' + subtitleLabel.height';
+        }
+        if (hasEmblem) {
+            containerCode.push(kEmblemIconCode.arg(extraRightAnchor).arg(titleColor));
+        }
+        if (hasAttributes) {
+            attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(titleColor);
+            containerCode.push(attributesCode);
+            containerHeight += ' + attributesRow.height';
         }
 
-        if (hasMascot && (hasSubtitle || hasAttributes)) {
-            // If using row + column wrap the code in the column
-            titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
-            if (hasSubtitle && hasAttributes) {
-                var attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(color);
-                titleSubtitleCode = kHeaderColumnCodeGenerator(titleCode, subtitleCode, attributesCode);
-            } else if (hasSubtitle) {
-                titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(subtitleCode);
-            } else if (hasAttributes) {
-                var attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(color);
-                titleSubtitleCode = kHeaderColumnCode.arg(titleCode).arg(attributesCode);
-            }
+        if (hasTitleContainer) {
+            // use container
+            titleSubtitleCode = kHeaderContainerCodeGenerator(titleContainerAnchors, containerHeight, containerCode);
         } else {
+            // no container
             titleSubtitleCode = titleCode;
             if (hasSubtitle) {
-                titleSubtitleCode = titleSubtitleCode + subtitleCode;
+                titleSubtitleCode += subtitleCode;
             }
             if (hasAttributes) {
-                var attributesCode = kAttributesRowCode.arg(attributesAnchors).arg(color);
-                titleSubtitleCode = titleSubtitleCode + attributesCode;
+                titleSubtitleCode += attributesCode;
             }
         }
     }
 
     if (hasHeaderRow) {
-        if (mascotShapeCode != "") {
-            code += kHeaderRow3Code.arg(headerVerticalAnchors + headerLeftAnchor).arg(mascotShapeCode).arg(mascotCode).arg(titleSubtitleCode);
-        } else {
-            code += kHeaderRow2Code.arg(headerVerticalAnchors + headerLeftAnchor).arg(mascotCode).arg(titleSubtitleCode);
+        var rowCode = [mascotCode, titleSubtitleCode];
+        if (mascotShapeCode != '') {
+           rowCode.unshift(mascotShapeCode);
         }
+        code += kHeaderRowCodeGenerator(headerVerticalAnchors + headerLeftAnchor, rowCode)
     } else {
         code += mascotShapeCode + mascotCode + titleSubtitleCode;
     }
 
     if (hasSummary) {
         var summaryTopAnchor;
-        if (isHorizontal && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
-        else if (headerAsOverlay && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
-        else if (hasHeaderRow) summaryTopAnchor = "row.bottom";
-        else if (hasMascot) summaryTopAnchor = "mascotImage.bottom";
-        else if (hasAttributes) summaryTopAnchor = "attributesRow.bottom";
-        else if (hasSubtitle) summaryTopAnchor = "subtitleLabel.bottom";
-        else if (hasTitle) summaryTopAnchor = "titleLabel.bottom";
-        else if (hasArt) summaryTopAnchor = "artShapeHolder.bottom";
-        else summaryTopAnchor = "parent.top";
+        if (isHorizontal && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
+        else if (headerAsOverlay && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
+        else if (hasHeaderRow) summaryTopAnchor = 'row.bottom';
+        else if (hasTitleContainer) summaryTopAnchor = 'headerTitleContainer.bottom';
+        else if (hasMascot) summaryTopAnchor = 'mascotImage.bottom';
+        else if (hasAttributes) summaryTopAnchor = 'attributesRow.bottom';
+        else if (hasSubtitle) summaryTopAnchor = 'subtitleLabel.bottom';
+        else if (hasTitle) summaryTopAnchor = 'titleLabel.bottom';
+        else if (hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
+        else summaryTopAnchor = 'parent.top';
 
-        var color;
+        var summaryColor;
         if (hasBackground) {
-            color = summaryColorWithBackground;
+            summaryColor = summaryColorWithBackground;
         } else {
-            color = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
+            summaryColor = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
         }
 
         var summaryTopMargin = (hasMascot || hasSubtitle || hasAttributes ? 'anchors.margins' : '0');
 
-        code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(color);
+        code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(summaryColor);
     }
 
     var touchdownAnchors;
     if (hasBackground) {
         touchdownAnchors = 'fill: backgroundLoader';
-    } else if (hasArt && !hasMascot && !hasSummary) {
+    } else if (touchdownOnArtShape) {
         touchdownAnchors = 'fill: artShapeHolder';
     } else {
         touchdownAnchors = 'fill: root'
     }
     code += kTouchdownCode.arg(touchdownAnchors);
 
+    var implicitHeight = 'implicitHeight: ';
     if (hasSummary) {
-        code += 'implicitHeight: summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
+        implicitHeight += 'summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
     } else if (hasHeaderRow) {
-        code += 'implicitHeight: row.y + row.height + units.gu(1);\n';
+        implicitHeight += 'row.y + row.height + units.gu(1);\n';
     } else if (hasMascot) {
-        code += 'implicitHeight: mascotImage.y + mascotImage.height;\n';
+        implicitHeight += 'mascotImage.y + mascotImage.height;\n';
+    } else if (hasTitleContainer) {
+        implicitHeight += 'headerTitleContainer.y + headerTitleContainer.height + units.gu(1);\n';
     } else if (hasAttributes) {
-        code += 'implicitHeight: attributesRow.y + attributesRow.height + units.gu(1);\n';
+        implicitHeight += 'attributesRow.y + attributesRow.height + units.gu(1);\n';
     } else if (hasSubtitle) {
-        code += 'implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
+        implicitHeight += 'subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
     } else if (hasTitle) {
-        code += 'implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);\n';
+        implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
     } else if (hasArt) {
-        code += 'implicitHeight: artShapeHolder.height;\n';
+        implicitHeight += 'artShapeHolder.height;\n';
     }
     // Close the AbstractButton
-    code += '}\n';
+    code += implicitHeight + '}\n';
 
     return code;
 }
 
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
-                   import Ubuntu.Components 0.1; \n\
+                   import Ubuntu.Components 1.1; \n\
                    import Dash 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';

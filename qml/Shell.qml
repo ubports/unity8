@@ -50,6 +50,8 @@ Item {
     property url background
     readonly property real panelHeight: panel.panelHeight
 
+    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated
+
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
@@ -373,6 +375,7 @@ Item {
             available: true
             hides: [launcher, panel.indicators]
             shown: true
+            loadContent: required || lockscreen.required // keeps content in memory for quick show()
 
             defaultBackground: shell.background
 
@@ -458,7 +461,7 @@ Item {
     }
 
     function showDash() {
-        if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) {
+        if (shell.locked) {
             return;
         }
         if (greeter.shown) {
@@ -482,7 +485,7 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && greeter.fakeActiveForApp === ""
+                available: edgeDemo.panelEnabled && !shell.locked
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
@@ -506,7 +509,7 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && greeter.fakeActiveForApp === ""
+            available: edgeDemo.launcherEnabled && !shell.locked
 
             onShowDashHome: showHome()
             onDash: showDash()

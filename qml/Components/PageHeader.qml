@@ -24,7 +24,7 @@ import "SearchHistoryModel"
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + units.gu(2) + bottomContainer.height
+    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
 
     property bool showBackButton: false
     property string title
@@ -32,6 +32,8 @@ Item {
     property bool searchEntryEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
+    property alias searchHint: searchTextField.placeholderText
+    property alias showSignatureLine: bottomBorder.visible
 
     property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
@@ -251,6 +253,7 @@ Item {
 
                     actions: [
                         Action {
+                            objectName: "search"
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
