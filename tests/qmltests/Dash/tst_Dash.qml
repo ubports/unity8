@@ -316,13 +316,10 @@ Item {
             var startY = dash.height / 2;
             var stopX = units.gu(1)
             var stopY = startY;
-            var retry = 0;
-            while (dashContentList.currentIndex != 2 && retry <= 2) {
-                mouseFlick(dash, startX, startY, stopX, stopY)
-                waitForRendering(dashContentList)
-                retry++;
-            }
-            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2 in 10 retries");
+            waitForRendering(dashContentList)
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
             dashCommunicatorService.mockSetCurrentScope("clickscope", true, true);
             tryCompare(dashContentList, "currentIndex", 1)
