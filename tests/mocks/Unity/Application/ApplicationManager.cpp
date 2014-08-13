@@ -105,8 +105,6 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
         return app->state();
     case RoleFocused:
         return app->focused();
-    case RoleScreenshot:
-        return app->screenshot();
     case RoleSurface:
         return QVariant::fromValue(app->surface());
     case RoleFullscreen:
@@ -226,6 +224,21 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
                                               const QStringList &arguments)
 {
     Q_UNUSED(arguments)
+    ApplicationInfo *application = add(appId);
+    if (!application)
+        return 0;
+
+    if (flags.testFlag(ApplicationManager::ForceMainStage)
+            && application->stage() == ApplicationInfo::SideStage) {
+        application->setStage(ApplicationInfo::MainStage);
+    }
+    application->setState(ApplicationInfo::Running);
+
+    return application;
+}
+
+ApplicationInfo* ApplicationManager::add(QString appId)
+{
     ApplicationInfo *application = 0;
 
     for (ApplicationInfo *availableApp : m_availableApplications) {
@@ -235,15 +248,8 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
         }
     }
 
-    if (!application)
-        return 0;
-
-    if (flags.testFlag(ApplicationManager::ForceMainStage)
-            && application->stage() == ApplicationInfo::SideStage) {
-        application->setStage(ApplicationInfo::MainStage);
-    }
-    add(application);
-    application->setState(ApplicationInfo::Running);
+    if (application)
+        add(application);
 
     return application;
 }
@@ -263,27 +269,6 @@ bool ApplicationManager::stopApplication(const QString &appId)
     }
     application->setState(ApplicationInfo::Stopped);
     remove(application);
-    return true;
-}
-
-bool ApplicationManager::updateScreenshot(const QString &appId)
-{
-    int idx = -1;
-    ApplicationInfo *application = nullptr;
-    for (int i = 0; i < m_availableApplications.count(); ++i) {
-        application = m_availableApplications.at(i);
-        if (application->appId() == appId) {
-            idx = i;
-            break;
-        }
-    }
-
-    if (idx == -1) {
-        return false;
-    }
-
-    QModelIndex appIndex = index(idx);
-    Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << RoleScreenshot);
     return true;
 }
 

@@ -41,7 +41,7 @@ Item {
         && root.applicationState === ApplicationInfo.Stopped
     on_NeedToTakeScreenshotChanged: {
         if (_needToTakeScreenshot) {
-            application.updateScreenshot();
+            screenshotImage.take();
         }
     }
 
@@ -96,8 +96,18 @@ Item {
 
     Image {
         id: screenshotImage
-        source: root.application ? root.application.screenshot : ""
+        objectName: "screenshotImage"
+        source: ""
         anchors.fill: parent
+
+        function take() {
+            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
+            // eg: "image://application/calculator-app/123456"
+            var timeMs = new Date().getTime();
+            source = "image://application/" + root.application.appId + "/" + timeMs;
+        }
+
+        onSourceChanged: { console.log("screenshotImage.source = " + source); }
     }
 
     Loader {
@@ -216,11 +226,8 @@ Item {
                     UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
                                             from: 1.0; to: 0.0
                                             duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: screenshotImage
-                                     property: "visible"; value: false }
-                    ScriptAction { script: {
-                        if (root.application.screenshot) { root.application.discardScreenshot(); }
-                    } }
+                    PropertyAction { target: screenshotImage; property: "visible"; value: false }
+                    PropertyAction { target: screenshotImage; property: "source"; value: "" }
                 }
             }
         ]

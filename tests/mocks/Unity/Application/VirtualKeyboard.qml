@@ -17,6 +17,8 @@
 import QtQuick 2.0
 
 Item {
+    width: units.gu(40)
+    height: units.gu(70)
 
     property alias screenshotSource: screenshotImage.source
 

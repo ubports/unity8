@@ -35,6 +35,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_surface(0)
+    , m_manualSurfaceCreation(false)
     , m_parentItem(0)
 {
 }
@@ -46,6 +47,7 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_surface(0)
+    , m_manualSurfaceCreation(false)
     , m_parentItem(0)
 {
 }
@@ -53,6 +55,9 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
 ApplicationInfo::~ApplicationInfo()
 {
     if (m_surface) {
+        // break the cyclic reference before destroying it
+        m_surface->setApplication(nullptr);
+
         Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
         m_surface->deleteLater();
     }
@@ -62,10 +67,12 @@ void ApplicationInfo::createSurface()
 {
     if (m_surface || state() == ApplicationInfo::Stopped) return;
 
+    QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
+
     setSurface(new MirSurfaceItem(name(),
                                    MirSurfaceItem::Normal,
                                    fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   m_screenshotUrl));
+                                   screenshotUrl));
 }
 
 void ApplicationInfo::setSurface(MirSurfaceItem* surface)
@@ -144,17 +151,6 @@ MirSurfaceItem* ApplicationInfo::promptSurfaceAt(QQmlListProperty<MirSurfaceItem
     return p->m_promptSurfaces[index];
 }
 
-void ApplicationInfo::updateScreenshot()
-{
-    qDebug() << "ApplicationInfo::updateScreenshot()";
-    setScreenshot(m_screenshotUrl);
-}
-
-void ApplicationInfo::discardScreenshot()
-{
-    setScreenshot(QUrl());
-}
-
 void ApplicationInfo::setIconId(const QString &iconId)
 {
     setIcon(QString("file://%1/graphics/applicationIcons/%2@18.png")
@@ -164,7 +160,7 @@ void ApplicationInfo::setIconId(const QString &iconId)
 
 void ApplicationInfo::setScreenshotId(const QString &screenshotId)
 {
-    m_screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+    m_screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2@12.png")
             .arg(qmlDirectory())
             .arg(screenshotId);
 }
@@ -199,7 +195,7 @@ void ApplicationInfo::setState(State value)
         m_state = value;
         Q_EMIT stateChanged(value);
 
-        if (m_state == ApplicationInfo::Running) {
+        if (!m_manualSurfaceCreation && m_state == ApplicationInfo::Running) {
             QTimer::singleShot(1000, this, SLOT(createSurface()));
         }
     }
@@ -213,18 +209,18 @@ void ApplicationInfo::setFocused(bool value)
     }
 }
 
-void ApplicationInfo::setScreenshot(const QUrl &value)
-{
-    if (value != m_screenshot) {
-        m_screenshot = value;
-        Q_EMIT screenshotChanged(value);
-    }
-}
-
 void ApplicationInfo::setFullscreen(bool value)
 {
     if (value != m_fullscreen) {
         m_fullscreen = value;
         Q_EMIT fullscreenChanged(value);
+    }
+}
+
+void ApplicationInfo::setManualSurfaceCreation(bool value)
+{
+    if (value != m_manualSurfaceCreation) {
+        m_manualSurfaceCreation = value;
+        Q_EMIT manualSurfaceCreationChanged(value);
     }
 }

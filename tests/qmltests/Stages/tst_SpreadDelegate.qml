@@ -29,30 +29,10 @@ Rectangle {
     width: units.gu(70)
     height: units.gu(70)
 
-    QtObject {
-        id: fakeApplication
-        property url screenshot: ""
-
-        function updateScreenshot() {}
-        function discardScreenshot() {}
-
-        property int state: ApplicationInfo.Running
-        property string name: "Gallery"
-        property url icon: "../../../qml/graphics/applicationIcons/gallery.png"
-
-        property var surface: Image {
-            source: "../../../qml/Dash/graphics/phone/screenshots/gallery@12.png"
-            width: spreadDelegateLoader.width
-            height: spreadDelegateLoader.height
-
-            property var application: fakeApplication
-
-            signal removed()
-            function release() {}
-        }
-
-        property bool fullscreen: true
+    Component.onCompleted: {
+        root.fakeApplication = ApplicationManager.startApplication("gallery-app");
     }
+    property QtObject fakeApplication: null
 
     Component {
         id: spreadDelegateComponent

@@ -37,13 +37,13 @@ class ApplicationInfo : public ApplicationInfoInterface {
 
     // Only exists in this fake implementation
 
+    // whether the test code will explicitly control the creation of the application surface
+    Q_PROPERTY(bool manualSurfaceCreation READ manualSurfaceCreation WRITE setManualSurfaceCreation NOTIFY manualSurfaceCreationChanged)
+
 public:
     ApplicationInfo(QObject *parent = NULL);
     ApplicationInfo(const QString &appId, QObject *parent = NULL);
     ~ApplicationInfo();
-
-    Q_INVOKABLE void updateScreenshot() override;
-    Q_INVOKABLE void discardScreenshot() override;
 
     void setIconId(const QString &iconId);
     void setScreenshotId(const QString &screenshotId);
@@ -67,7 +67,7 @@ public:
     void setFocused(bool value);
     bool focused() const override { return m_focused; }
 
-    QUrl screenshot() const override { return m_screenshot; }
+    QString screenshot() const { return m_screenshotFileName; }
 
     void setFullscreen(bool value);
     bool fullscreen() const { return m_fullscreen; }
@@ -81,13 +81,17 @@ public:
     QList<MirSurfaceItem*> promptSurfaceList() const;
     QQmlListProperty<MirSurfaceItem> promptSurfaces();
 
+    bool manualSurfaceCreation() const { return m_manualSurfaceCreation; }
+    void setManualSurfaceCreation(bool value);
+
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
     void promptSurfacesChanged();
     void fullscreenChanged(bool value);
+    void manualSurfaceCreationChanged(bool value);
 
-private Q_SLOTS:
-    void createSurface();
+public Q_SLOTS:
+    Q_INVOKABLE void createSurface();
 
 private:
     static int promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
@@ -95,7 +99,7 @@ private:
     void setIcon(const QUrl &value);
     void setScreenshot(const QUrl &value);
 
-    QUrl m_screenshotUrl;
+    QString m_screenshotFileName;
 
     QString m_appId;
     QString m_name;
@@ -103,9 +107,10 @@ private:
     Stage m_stage;
     State m_state;
     bool m_focused;
-    QUrl m_screenshot;
     bool m_fullscreen;
     MirSurfaceItem* m_surface;
+
+    bool m_manualSurfaceCreation;
 
     QQuickItem *m_parentItem;
     QList<MirSurfaceItem*> m_promptSurfaces;

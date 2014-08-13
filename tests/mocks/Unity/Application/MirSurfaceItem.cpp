@@ -46,13 +46,8 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
 
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
-    // The virtual keyboard (input method) has a big transparent area so that
-    // content behind it show through
-    //setFillColor(Qt::transparent);
-
     connect(this, &QQuickItem::focusChanged,
             this, &MirSurfaceItem::onFocusChanged);
-
 
     // The assumptions I make here really should hold.
     QQuickView *quickView =
@@ -233,13 +228,13 @@ void MirSurfaceItem::onComponentStatusChanged(QQmlComponent::Status status)
 
 void MirSurfaceItem::createQmlContentItem()
 {
+    qDebug() << "MirSurfaceItem::createQmlContentItem()";
+
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
 
-    {
-        QQmlProperty anchorsFill(m_qmlItem, "anchors.fill");
-        anchorsFill.write(QVariant::fromValue(this));
-    }
+    setImplicitWidth(m_qmlItem->width());
+    setImplicitHeight(m_qmlItem->height());
 
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");

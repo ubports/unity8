@@ -17,12 +17,19 @@
 import QtQuick 2.0
 
 Rectangle {
+    objectName: "fakeSurfaceQML"
     id: root
     color: "yellow"
+
+    width: units.gu(40)
+    height: units.gu(70)
 
     property alias screenshotSource: screenshotImage.source
 
     property bool wantInputMethod: false
+
+    property int touchPressCount: 0
+    property int touchReleaseCount: 0
 
     Image {
         id: screenshotImage
@@ -41,6 +48,7 @@ Rectangle {
 
     MultiPointTouchArea {
         anchors.fill: parent
-        onPressed: { root.wantInputMethod = true }
+        onPressed: { root.wantInputMethod = true; root.touchPressCount++; }
+        onReleased: { root.touchReleaseCount++; }
     }
 }

@@ -29,68 +29,17 @@ Rectangle {
     width: units.gu(70)
     height: units.gu(70)
 
-    Component {
-        id: fakeSurfaceComponent
-        Image {
-            source: "../../../qml/Dash/graphics/phone/screenshots/gallery@12.png"
-            width: applicationWindowLoader.width
-            height: applicationWindowLoader.height
-
-            property var application: fakeApplication
-            property int touchPressCount: 0
-            property int touchReleaseCount: 0
-
-            Text {
-                anchors.fill: parent
-                text: "SURFACE"
-                color: "yellow"
-                font.bold: true
-                fontSizeMode: Text.Fit
-                minimumPixelSize: 10; font.pixelSize: 200
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            MultiPointTouchArea {
-                anchors.fill: parent
-                onPressed: { touchPressCount++; }
-                onReleased: { touchReleaseCount++; }
-            }
-
-            signal removed()
-
-            function release() {
-                fakeApplication.surface = null;
-                parent = null;
-                removed();
-                surfaceCheckbox.checked = false;
-            }
-        }
+    Component.onCompleted: {
+        root.fakeApplication = ApplicationManager.add("gallery-app");
+        root.fakeApplication.manualSurfaceCreation = true;
+        root.fakeApplication.setState(ApplicationInfo.Starting);
     }
+    property QtObject fakeApplication: null
 
-    QtObject {
-        id: fakeApplication
-        property url screenshot: ""
-
-        function updateScreenshot() {
-            fakeScreenshotTimer.start();
-        }
-
-        function discardScreenshot() {
-            screenshot = "";
-        }
-
-        property alias state: appStateSelector.selectedApplicationState
-        property string name: "Gallery"
-        property url icon: "../../../qml/graphics/applicationIcons/gallery.png"
-        property var surface: null
-        property bool fullscreen: true
-        property list<Item> childSurfaces
-    }
-    Timer {
-        id: fakeScreenshotTimer
-        interval: 100
-        onTriggered: {
-            fakeApplication.screenshot = "../../../qml/Dash/graphics/phone/screenshots/gallery@12.png";
+    Connections {
+        target: fakeApplication
+        onSurfaceChanged: {
+            surfaceCheckbox.checked = fakeApplication.surface !== null;
         }
     }
 
@@ -133,7 +82,7 @@ Rectangle {
                             return;
 
                         if (checked && !fakeApplication.surface) {
-                            fakeApplication.surface = fakeSurfaceComponent.createObject(null, {});
+                            fakeApplication.createSurface();
                         } else if (!checked && fakeApplication.surface) {
                             fakeApplication.surface.release();
                         }
@@ -159,6 +108,10 @@ Rectangle {
                     } else {
                         return ApplicationInfo.Stopped;
                     }
+                }
+                onSelectedApplicationStateChanged: {
+                    // state is a read-only property, thus we have to call the setter function
+                    fakeApplication.setState(selectedApplicationState);
                 }
             }
         }
@@ -199,9 +152,8 @@ Rectangle {
             appStateSelector.selectedIndex = 0;
             surfaceCheckbox.checked = false;
 
-            fakeScreenshotTimer.stop();
-            fakeApplication.screenshot = "";
-            fakeApplication.surface = null;
+            if (fakeApplication.surface)
+                fakeApplication.surface.release();
 
             applicationWindowLoader.active = true;
         }
@@ -270,6 +222,7 @@ Rectangle {
 
         function test_restartApp() {
             var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
+            var screenshotImage = findChild(applicationWindowLoader.item, "screenshotImage");
 
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
@@ -298,7 +251,7 @@ Rectangle {
             surfaceCheckbox.checked = true;
 
             tryCompare(stateGroup, "state", "surface");
-            tryCompare(fakeApplication, "screenshot", "");
+            tryCompare(screenshotImage, "status", Image.Null);
         }
 
         function test_appCrashed() {
@@ -347,14 +300,16 @@ Rectangle {
             // wait until any transition animation has finished
             tryCompare(stateGroup, "transitioning", false, 2000);
 
-            fakeApplication.surface.touchPressCount = 0;
-            fakeApplication.surface.touchReleaseCount = 0;
+            // Because doing stuff in C++ is a PITA we keep the counter in the interal qml impl.
+            var fakeSurface = findChild(fakeApplication.surface, "fakeSurfaceQML");
+            fakeSurface.touchPressCount = 0;
+            fakeSurface.touchReleaseCount = 0;
 
             tap(applicationWindowLoader.item,
                 applicationWindowLoader.item.width / 2, applicationWindowLoader.item.height / 2);
 
-            verify(fakeApplication.surface.touchPressCount === 1);
-            verify(fakeApplication.surface.touchReleaseCount === 1);
+            verify(fakeSurface.touchPressCount === 1);
+            verify(fakeSurface.touchReleaseCount === 1);
         }
     }
 }
