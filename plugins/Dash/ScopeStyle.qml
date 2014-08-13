@@ -83,6 +83,12 @@ QtObject {
     /// Foreground color for the header
     readonly property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : foreground
 
+    /// Color of the header divider
+    readonly property color headerDividerColor: "divider-color" in d.headerStyle ? d.headerStyle["divider-color"] : "#e0e0e0"
+
+    /// Background style for the navigation
+    readonly property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : "color:///#e0e0e0"
+
     //! @cond
     property var d: QtObject {
         // FIXME: should be taken from the theme
