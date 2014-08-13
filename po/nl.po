@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-27 19:12+0000\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"PO-Revision-Date: 2014-08-12 18:13+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-28 06:44+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-13 06:56+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,47 +26,63 @@ msgstr "Snelkoppeling vastzetten"
 msgid "Unpin shortcut"
 msgstr "Snelkoppeling losmaken"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr "Herstarten"
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr "Annuleren"
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Intro overslaan"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "Rechterrand"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Veeg vanuit de rechterrand om het scherm te ontgrendelen"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "Bovenrand"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "Veeg vanuit de bovenrand om de indicatoren te bekijken"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Sluiten"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "Linkerrand"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Goed gedaan"
 
-#: qml/Components/EdgeDemo.qml:228
+#: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -74,20 +90,20 @@ msgstr ""
 "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
 "het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Noodoproep"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "Hallo"
 
@@ -99,19 +115,11 @@ msgstr "ANNULEREN"
 msgid "DONE"
 msgstr "KLAAR"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "Meer zien"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "Recent"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "Alles zien"
 
@@ -134,6 +142,26 @@ msgstr "Voeg recensie toe"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Versturen"
+
+#: qml/Dash/ScopesOverview.qml:200
+msgid "Manage Dash"
+msgstr "Snelzoeker-beheer"
+
+#: qml/Dash/ScopesOverview.qml:405
+msgid "Done"
+msgstr "Gereed"
+
+#: qml/Dash/ScopesOverview.qml:431
+msgid "Store"
+msgstr "Winkel"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "Favorieten"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "Alles"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -159,11 +187,11 @@ msgstr "Nu inspreken…"
 msgid "Speaking..."
 msgstr "Inspreken…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "Wachtwoord tonen"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "Voer SIM-pincode in"
 
@@ -175,35 +203,43 @@ msgstr "Tik om terug te keren naar gesprek…"
 msgid "Conference"
 msgstr "Groepsgesprek"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "In wachtrij…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "Aan het downloaden"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "Gepauzeerd, tik om te hervatten"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "Geannuleerd"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "Klaar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "Mislukt, tik om het opnieuw te proberen"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr "SIM-kaart deblokkeren"
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr ""
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Zoeken"
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
 msgstr "Voer %1 in"

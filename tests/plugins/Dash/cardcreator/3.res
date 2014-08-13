@@ -61,12 +61,10 @@ Label {
                         id: titleLabel; 
                         objectName: "titleLabel"; 
                         anchors { right: parent.right;
-rightMargin: units.gu(1);
-left: parent.left;
-top: artShapeHolder.bottom; 
-                                         topMargin: units.gu(1);
-leftMargin: units.gu(1);
- } 
+                        left: parent.left;
+                        top: artShapeHolder.bottom; 
+                        topMargin: units.gu(1);
+                        } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
@@ -82,12 +80,11 @@ Label {
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
-                               leftMargin: titleLabel.leftMargin; 
-                               right: titleLabel.right; 
-                               rightMargin: titleLabel.rightMargin; 
-                               top: titleLabel.bottom; 
-                               topMargin: units.dp(2);
- } 
+                            leftMargin: titleLabel.leftMargin; 
+                            right: titleLabel.right; 
+                            top: titleLabel.bottom; 
+                            } 
+                            anchors.topMargin: units.dp(2);
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
