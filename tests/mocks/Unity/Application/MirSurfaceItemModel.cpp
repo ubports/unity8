@@ -29,7 +29,7 @@ MirSurfaceItemModel::MirSurfaceItemModel(
 
 void MirSurfaceItemModel::insertSurface(uint index, MirSurfaceItem* surface)
 {
-    index = qMax(index, (uint)count());
+    index = qMin(index, (uint)count());
 
     int existingSurfaceIndex = m_surfaceItems.indexOf(surface);
     if (existingSurfaceIndex != -1) {
