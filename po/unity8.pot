@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-13 09:50-0400\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,35 +92,6 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/FactoryResetWarningDialog.qml:27
-msgid "Sorry, incorrect passphrase."
-msgstr ""
-
-#: qml/Components/FactoryResetWarningDialog.qml:28
-msgid "Sorry, incorrect passcode."
-msgstr ""
-
-#: qml/Components/FactoryResetWarningDialog.qml:31
-msgid "This will be your last attempt."
-msgstr ""
-
-#: qml/Components/FactoryResetWarningDialog.qml:38
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-
-#: qml/Components/FactoryResetWarningDialog.qml:39
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-
-#: qml/Components/FactoryResetWarningDialog.qml:47
-#: qml/Components/Lockscreen.qml:273
-msgid "OK"
-msgstr ""
-
 #: qml/Components/Lockscreen.qml:161
 msgid "Too many incorrect attempts"
 msgstr ""
@@ -129,24 +100,28 @@ msgstr ""
 msgid "Please wait"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:250
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr ""
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/Lockscreen.qml:268
+msgid "OK"
+msgstr ""
+
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr ""
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr ""
 
-#: qml/Components/PinLockscreen.qml:204
+#: qml/Components/PinLockscreen.qml:197
 msgid "CANCEL"
 msgstr ""
 
-#: qml/Components/PinLockscreen.qml:222
+#: qml/Components/PinLockscreen.qml:215
 msgid "DONE"
 msgstr ""
 
@@ -274,24 +249,48 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Shell.qml:275
+#: qml/Shell.qml:267
 msgid "passphrase"
 msgstr ""
 
-#: qml/Shell.qml:275
+#: qml/Shell.qml:267
 msgid "passcode"
 msgstr ""
 
-#: qml/Shell.qml:277
+#: qml/Shell.qml:269
 #, qt-format
 msgid "Enter your %1"
 msgstr ""
 
-#: qml/Shell.qml:278
+#: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
 msgstr ""
 
-#: qml/Shell.qml:280
+#: qml/Shell.qml:272
 msgid "Please re-enter"
+msgstr ""
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr ""
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr ""
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr ""
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
 msgstr ""
