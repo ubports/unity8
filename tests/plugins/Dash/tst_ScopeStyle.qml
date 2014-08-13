@@ -35,7 +35,8 @@ Rectangle {
         property color color
         property var styles: [
             {},
-            { "foreground-color": "red", "background-color": "black", "page-header": { "logo": "/foo/bar" } },
+            { "foreground-color": "red", "background-color": "black", "page-header": { "logo": "/foo/bar" },
+              "preview-button-color": "red"},
             { "foreground-color": "green", "background-color": "white",
               "page-header": { "foreground-color": "black",
                                "divider-color": "blue" } },
@@ -207,6 +208,19 @@ Rectangle {
         function test_navigationBackground(data) {
             tool.style = testCase.styles[data.index];
             compare(tool.navigationBackground, data.navigationBackground, "Navigation background was incorrect.");
+        }
+
+        function test_previewButtonColor_data() {
+            return [
+                { tag: "default", index: 0, previewButtonColor: Theme.palette.selected.foreground },
+                { tag: "red", index: 1, previewButtonColor: "red" },
+            ];
+        }
+
+        function test_previewButtonColor(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.previewButtonColor, data.previewButtonColor),
+                   "Preview button color not equal: %1 != %2".arg(tool.previewButtonColor).arg(data.previewButtonColor));
         }
     }
 }
