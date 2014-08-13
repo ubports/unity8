@@ -273,6 +273,8 @@ Item {
             // Click on a temp scope in the search
             var dashCategorysearchA = findChild(searchResultsViewer, "dashCategorysearchA");
             var cardTempScope = findChild(dashCategorysearchA, "delegate2");
+            verify(cardTempScope, "Could not find delegate2");
+
             waitForRendering(cardTempScope);
             mouseClick(cardTempScope, cardTempScope.width / 2, cardTempScope.height / 2);
 
