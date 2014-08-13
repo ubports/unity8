@@ -54,6 +54,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
+            tryCompare(dashContentList, "count", 6);
         }
 
         function get_scope_data() {
@@ -316,7 +317,7 @@ Item {
             var stopX = units.gu(1)
             var stopY = startY;
             var retry = 0;
-            while (dashContentList.currentIndex != 2 && retry <= 10) {
+            while (dashContentList.currentIndex != 2 && retry <= 2) {
                 mouseFlick(dash, startX, startY, stopX, stopY)
                 waitForRendering(dashContentList)
                 retry++;
