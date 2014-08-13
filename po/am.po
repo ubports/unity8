@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-11 23:40+0000\n"
+"PO-Revision-Date: 2014-08-12 20:52+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:43+0000\n"
+"X-Launchpad-Export-Date: 2014-08-13 06:56+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -28,11 +28,11 @@ msgstr "አቋራጭ መለያያ"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "በእርግጥ ሐይሉን ማጥፋት ይፈልጋሉ"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "ማጥፊያ"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
@@ -195,7 +195,7 @@ msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "ወደ ጥሪው ለመመለስ መታ ያድርጉ..."
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
@@ -211,7 +211,7 @@ msgstr "በማውረድ ላይ"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "ማስቆሚያ: ለመቀጠል መታ ያድርጉ"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
@@ -223,7 +223,7 @@ msgstr "ጨርሷል"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "አልተቻለም: እንደገና ለመሞከር መታ ያድርጉ"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"

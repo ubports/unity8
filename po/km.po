@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-01 04:02+0000\n"
+"PO-Revision-Date: 2014-08-13 04:57+0000\n"
 "Last-Translator: Sok Sophea <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Launchpad-Export-Date: 2014-08-13 06:56+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -28,19 +28,19 @@ msgstr "មិន​ភ្ជាប់ផ្លូវកាត់"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "តើ​អ្នក​ពិតជា​ចង់​បិទ​មែន​ឬ?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "បិទ"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "បោះបង់"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -147,23 +147,23 @@ msgstr "ផ្ញើ"
 
 #: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
-msgstr ""
+msgstr "គ្រប់គ្រង​ផ្ទាំង"
 
 #: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
-msgstr ""
+msgstr "ធ្វើរួច"
 
 #: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
-msgstr ""
+msgstr "រក្សាទុក"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "និយម"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "ទាំងអស់"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -231,11 +231,11 @@ msgstr "បាន​បរាជ័យ ប៉ះ​ ដើម្បី​ព្�
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "ដោះ​សោ​ស៊ីម"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "រ៉ូមីង"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
