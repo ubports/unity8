@@ -254,14 +254,6 @@ Item {
         }
     }
 
-    Component {
-        id: factoryResetWarningDialog
-        FactoryResetWarningDialog {
-            objectName: "factoryResetWarningDialog"
-            alphaNumeric: lockscreen.alphaNumeric
-        }
-    }
-
     Connections {
         target: LightDM.Greeter
 
@@ -310,7 +302,14 @@ Item {
                 AccountsService.failedLogins++
                 if (maxFailedLogins >= 2) { // require at least a warning
                     if (AccountsService.failedLogins === maxFailedLogins - 1) {
-                        PopupUtils.open(factoryResetWarningDialog)
+                        var title = lockscreen.alphaNumeric ?
+                                    i18n.tr("Sorry, incorrect passphrase.") :
+                                    i18n.tr("Sorry, incorrect passcode.")
+                        var text = i18n.tr("This will be your last attempt.") + " " +
+                                   (lockscreen.alphaNumeric ?
+                                    i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
+                                    i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
+                        lockscreen.showInfoPopup(title, text)
                     } else if (AccountsService.failedLogins >= maxFailedLogins) {
                         SystemImage.factoryReset() // Ouch!
                     }
