@@ -220,12 +220,12 @@ Item {
 
             enterPin("1111")
             enterPin("1111")
-            tryCompareFunction(function() {return findChild(root, "factoryResetWarningDialog") !== null}, true)
+            tryCompareFunction(function() {return findChild(root, "infoPopup") !== null}, true)
 
-            var dialog = findChild(root, "factoryResetWarningDialog")
-            var button = findChild(dialog, "button")
+            var dialog = findChild(root, "infoPopup")
+            var button = findChild(dialog, "infoPopupOkButton")
             mouseClick(button, units.gu(1), units.gu(1))
-            tryCompareFunction(function() {return findChild(root, "factoryResetWarningDialog")}, null)
+            tryCompareFunction(function() {return findChild(root, "infoPopup")}, null)
 
             tryCompare(resetSpy, "count", 0)
             enterPin("1111")
