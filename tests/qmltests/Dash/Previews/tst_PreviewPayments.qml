@@ -68,6 +68,25 @@ Rectangle {
 
             var button = findChild(root, "paymentButton");
             verify(button != null, "Button not found.");
+            var progress = findChild(root, "loadingBar");
+            verify(progress != null, "ProgressBar not found.");
+
+            mouseClick(button, button.width / 2, button.height / 2);
+
+            spy.wait();
+
+            verify(progress.visible == true, "ProgressBar not visible.");
+            verify(progress.opacity == 1, "ProgressBar wrong opacity.");
+            verify(button.visible == false, "Button visible.");
+            verify(button.opacity == 0, "Button wrong opacity.");
+        }
+
+        function test_progress_show() {
+            // Make sure the progress bar is shown.
+            previewPayments.widgetData = jsonPurchase;
+
+            var button = findChild(root, "paymentButton");
+            verify(button != null, "Button not found.");
 
             mouseClick(button, button.width / 2, button.height / 2);
 

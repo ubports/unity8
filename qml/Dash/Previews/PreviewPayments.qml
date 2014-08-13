@@ -65,6 +65,7 @@ PreviewWidget {
 
     ProgressBar {
         id: loadingBar
+        objectName: "loadingBar"
         indeterminate: true
         anchors.fill: paymentButton
         opacity: 1 - paymentsButton.opacity
