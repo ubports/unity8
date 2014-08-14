@@ -24,7 +24,9 @@ AbstractButton {
     // Set by parent
     property var scope: null
     property var scopeStyle: null
+    property color foregroundColor: Theme.palette.normal.baseText
     property bool isAltNavigation: false
+    property bool showDivider: false
 
     // Used by parent
     readonly property var currentNavigation: scope && scope[hasNavigation] ? getNavigation(scope[currentNavigationId]) : null
@@ -56,7 +58,7 @@ AbstractButton {
         anchors.margins: units.gu(2)
         verticalAlignment: Text.AlignVCenter
         text: root.currentNavigation ? root.currentNavigation.label : ""
-        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+        color: root.foregroundColor
     }
 
     Icon {
@@ -66,7 +68,7 @@ AbstractButton {
         name: showList ? "up" : "down"
         height: units.gu(2)
         width: height
-        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+        color: root.foregroundColor
     }
 
     //  navigationListView is outside root
@@ -103,6 +105,7 @@ AbstractButton {
             visible: height != 0
             width: navigationListView.width
             scopeStyle: root.scopeStyle
+            foregroundColor: root.foregroundColor
             property real desiredHeight: {
                 if (root.showList) {
                     if (navigation && navigation.loaded && x == navigationListView.contentX)
@@ -201,5 +204,18 @@ AbstractButton {
         anchors.fill: navigationListView
         enabled: root.showList
         onClicked: root.showList = false
+    }
+
+    Rectangle {
+        visible: root.showDivider
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.right
+            leftMargin: -units.dp(1)
+        }
+        width: units.dp(2)
+        color: root.foregroundColor
+        opacity: 0.3
     }
 }

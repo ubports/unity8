@@ -38,14 +38,23 @@ Item {
 
     height: visible ? units.gu(5) : 0
 
+    QtObject {
+        id: d
+        readonly property color foregroundColor: {
+            if (scopeStyle) return background.luminance > scopeStyle.threshold ? scopeStyle.dark : ScopeStyle.light;
+            else return background.luminance > 0.7 ? Theme.palette.normal.baseText : "white"
+        }
+        readonly property bool bothVisible: altNavigationButton.visible && navigationButton.visible
+        readonly property real navigationWidth: root.width >= units.gu(60) ? units.gu(40) : root.width
+        readonly property real buttonWidth: navigationWidth / (bothVisible ? 2 : 1)
+    }
+
     Rectangle {
         id: blackRect
         color: "black"
         opacity: openList && openList.currentItem && openList.currentItem.visible ? 0.3 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-        // Doesn't matter if navigationButton or altNavigationButton list, they are both at the same y
-        y: navigationButton.listView.y
-        anchors.right: parent.right
+        anchors { left: parent.left; right: parent.right }
         visible: opacity != 0
     }
 
@@ -59,71 +68,43 @@ Item {
         id: altNavigationButton
         objectName: "altNavigationButton"
         height: root.height
-        width: navigationButton.visible ? root.width / 2 : root.width
+        width: d.buttonWidth
         scope: root.scope
         scopeStyle: root.scopeStyle
-        listView.width: root.width
+        foregroundColor: d.foregroundColor
+        listView.width: d.navigationWidth
         isAltNavigation: true
-    }
-
-    Rectangle {
-        visible: navigationButton.visible && altNavigationButton.visible
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            right: navigationButton.left
-            rightMargin: -units.dp(1)
-        }
-        width: units.dp(2)
-        color: scopeStyle ? (background.luminance > scopeStyle.threshold ? scopeStyle.dark : scopeStyle.light) : Theme.palette.normal.baseText
-        opacity: 0.3
+        showDivider: navigationButton.visible || root.width > d.navigationWidth
     }
 
     DashNavigationButton {
         id: navigationButton
         objectName: "navigationButton"
         height: root.height
-        width: altNavigationButton.visible ? root.width / 2 : root.width
-        x: altNavigationButton.visible ? root.width / 2 : 0
+        width: altNavigationButton.visible ? d.buttonWidth : d.navigationWidth
+        x: altNavigationButton.visible ? d.buttonWidth : 0
         scope: root.scope
         scopeStyle: root.scopeStyle
-        listView.width: root.width
+        foregroundColor: d.foregroundColor
+        listView.width: d.navigationWidth
         listView.x: -x
+        showDivider: root.width > d.navigationWidth
     }
 
     Image {
-        id: dropShadow
         fillMode: Image.Stretch
         source: "graphics/navigation_shadow.png"
+        anchors { top: parent.bottom; left: parent.left; right: parent.right }
+        z: d.bothVisible ? -1 : 0
+    }
 
-        readonly property bool bothVisible: navigationButton.visible & altNavigationButton.visible
-
-        state: "default"
-
-        states: [
-            State {
-                name: "default"
-                when: !dropShadow.bothVisible || (!altNavigationButton.showList && !navigationButton.showList)
-                PropertyChanges { target: dropShadow; width: root.width; x: 0; rotation: 0 }
-                AnchorChanges { target: dropShadow; anchors.top: parent.bottom; anchors.bottom: undefined }
-            },
-            State {
-                name: "open"
-                PropertyChanges { target: dropShadow; width: navigationButton.width; rotation: 180 }
-                AnchorChanges { target: dropShadow; anchors.bottom: parent.bottom; anchors.top: undefined }
-            },
-            State {
-                name: "mainOpen"
-                extend: "open"
-                when: dropShadow.bothVisible && navigationButton.showList
-                PropertyChanges { target: dropShadow; x: altNavigationButton.x }
-            },
-            State {
-                name: "altOpen"
-                extend: "open"
-                when: dropShadow.bothVisible && altNavigationButton.showList
-                PropertyChanges { target: dropShadow; x: navigationButton.x }
-            }
-        ]
+    Image {
+        fillMode: Image.Stretch
+        source: "graphics/navigation_shadow.png"
+        x: navigationButton.listView.height > 0 ? altNavigationButton.x : navigationButton.x
+        width: d.buttonWidth
+        rotation: 180
+        anchors.bottom: parent.bottom
+        visible: d.bothVisible && (navigationButton.listView.height > 0 || altNavigationButton.listView.height > 0)
     }
 }

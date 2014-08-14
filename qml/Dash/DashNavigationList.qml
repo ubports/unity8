@@ -23,12 +23,12 @@ Item {
     property var navigation: null
     property var currentNavigation: null
     property var scopeStyle: null
+    property color foregroundColor: Theme.palette.normal.baseText
     signal enterNavigation(var newNavigationId, bool hasChildren)
     signal goBackToParentClicked()
     signal allNavigationClicked()
 
     readonly property int itemHeight: units.gu(5)
-    readonly property color foregroundColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
     implicitHeight: flickable.contentHeight
 
     Background {
