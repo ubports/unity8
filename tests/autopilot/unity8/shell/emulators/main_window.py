@@ -110,6 +110,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         start_y = end_y = y + height // 2
 
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
+        self.get_current_focused_app_id().wait_for('unity8-dash')
 
     def _get_shell(self):
         return self.select_single('Shell')
@@ -123,6 +124,8 @@ class QQuickView(emulators.UnityEmulatorBase):
         """Open the dash clicking the dash icon on the launcher."""
         launcher = self.open_launcher()
         launcher.click_dash_icon()
+        self.get_current_focused_app_id().wait_for('unity8-dash')
+        launcher.shown.wait_for(False)
 
     @autopilot_logging.log_action(logger.info)
     def open_launcher(self):
@@ -135,6 +138,18 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def is_launcher_open(self):
         return self._get_launcher().shown
+
+    @autopilot_logging.log_action(logger.info)
+    def launch_application(self, application_name):
+        """Launch an application.
+
+        :parameter application_name: The name of the application to launch.
+
+        """
+        launcher = self.open_launcher()
+        launcher.click_application_launcher_icon(application_name)
+        self.get_current_focused_app_id().wait_for(application_name)
+        launcher.shown.wait_for(False)
 
     def enter_pin_code(self, code):
         """Enter code 'code' into the single-pin lightdm pincode entry screen.

@@ -57,3 +57,9 @@ class Launcher(emulators.UnityEmulatorBase):
             self.pointing_device.click_object(dash_icon)
         else:
             raise emulators.UnityEmulatorException('The launcher is closed.')
+
+    @autopilot.logging.log_action(logger.debug)
+    def click_application_launcher_icon(self, application_name):
+        launcher_delegate = self.select_single(
+            'LauncherDelegate', appId=application_name)
+        self.pointing_device.click_object(launcher_delegate)
