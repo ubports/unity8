@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,35 +12,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#ifndef MOCK_SYSTEMIMAGE_H
+#define MOCK_SYSTEMIMAGE_H
 
-namespace QLightDM
+#include <QObject>
+
+class MockSystemImage : public QObject
 {
+    Q_OBJECT
+    Q_DISABLE_COPY(MockSystemImage)
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    q_ptr(parent)
-{
-}
+public:
+    explicit MockSystemImage(QObject *parent = 0);
 
-void GreeterPrivate::handleAuthenticate()
-{
-    Q_Q(Greeter);
-    Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
-}
+    Q_INVOKABLE void factoryReset();
 
-void GreeterPrivate::handleRespond(const QString &response)
-{
-    Q_Q(Greeter);
+Q_SIGNALS:
+    void resettingDevice(); // only for mock
+};
 
-    authenticated = (response == "1234");
-    q->sendAuthenticationComplete();
-}
-
-}
+#endif // MOCK_SYSTEMIMAGE_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,35 +12,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#ifndef SYSTEMIMAGE_H
+#define SYSTEMIMAGE_H
 
-namespace QLightDM
+#include <QObject>
+
+class QDBusInterface;
+
+class SystemImage : public QObject
 {
+    Q_OBJECT
+    Q_DISABLE_COPY(SystemImage)
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    q_ptr(parent)
-{
-}
+public:
+    explicit SystemImage(QObject *parent = 0);
 
-void GreeterPrivate::handleAuthenticate()
-{
-    Q_Q(Greeter);
-    Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
-}
+    Q_INVOKABLE void factoryReset();
 
-void GreeterPrivate::handleRespond(const QString &response)
-{
-    Q_Q(Greeter);
+private:
+    QDBusInterface *m_interface;
+};
 
-    authenticated = (response == "1234");
-    q->sendAuthenticationComplete();
-}
-
-}
+#endif // SYSTEMIMAGE_H

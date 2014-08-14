@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,35 +12,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#ifndef MOCK_SYSTEMIMAGE_PLUGIN_H
+#define MOCK_SYSTEMIMAGE_PLUGIN_H
 
-namespace QLightDM
+#include <QQmlExtensionPlugin>
+
+class BackendPlugin : public QQmlExtensionPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    q_ptr(parent)
-{
-}
+public:
+    void registerTypes(const char *uri);
+};
 
-void GreeterPrivate::handleAuthenticate()
-{
-    Q_Q(Greeter);
-    Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
-}
-
-void GreeterPrivate::handleRespond(const QString &response)
-{
-    Q_Q(Greeter);
-
-    authenticated = (response == "1234");
-    q->sendAuthenticationComplete();
-}
-
-}
+#endif // MOCK_SYSTEMIMAGE_PLUGIN_H
