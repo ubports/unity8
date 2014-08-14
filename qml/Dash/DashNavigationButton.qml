@@ -56,9 +56,12 @@ AbstractButton {
     Label {
         anchors.fill: parent
         anchors.margins: units.gu(2)
+        anchors.rightMargin: units.gu(5)
         verticalAlignment: Text.AlignVCenter
         text: root.currentNavigation ? root.currentNavigation.label : ""
         color: root.foregroundColor
+        elide: Text.ElideRight
+        maximumLineCount: 1
     }
 
     Icon {
