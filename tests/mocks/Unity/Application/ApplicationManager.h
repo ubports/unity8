@@ -53,7 +53,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     enum MoreRoles {
         RoleSurface = RoleScreenshot+1,
         RoleFullscreen,
-        RoleApplication,
+        RolePromptSurfaces,
     };
     enum Role {
         Dash, Default, Indicators, Notifications, Greeter, Launcher, OnScreenKeyboard,

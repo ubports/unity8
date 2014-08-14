@@ -47,7 +47,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
 {
     m_roleNames.insert(RoleSurface, "surface");
     m_roleNames.insert(RoleFullscreen, "fullscreen");
-    m_roleNames.insert(RoleApplication, "application");
+    m_roleNames.insert(RolePromptSurfaces, "promptSurfaces");
 
     buildListOfAvailableApplications();
 
@@ -89,8 +89,8 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
         return QVariant::fromValue(app->surface());
     case RoleFullscreen:
         return app->fullscreen();
-    case RoleApplication:
-        return QVariant::fromValue(app);
+    case RolePromptSurfaces:
+        return QVariant::fromValue(app->promptSurfaces());
     default:
         return QVariant();
     }

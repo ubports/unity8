@@ -40,7 +40,7 @@ Item {
         objectName: "surfaceContainer"
         anchors.fill: parent
         surface: model.surface
-        promptSurfaces: model.application.promptSurfaces
+        promptSurfaces: model.promptSurfaces
 
         Binding {
             target: surfaceContainer.surface
