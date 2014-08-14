@@ -639,7 +639,12 @@ function cardString(template, components) {
         implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
     } else if (hasArt) {
         implicitHeight += 'artShapeHolder.height;\n';
+    } else {
+        // No implicit height, close
+        code += '}\n';
+        return code
     }
+
     // Close the AbstractButton
     code += implicitHeight + '}\n';
 
@@ -653,5 +658,18 @@ function createCardComponent(parent, template, components) {
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
 
-    return Qt.createQmlObject(code, parent, "createCardComponent");
+    var o = null;
+    try {
+        return Qt.createQmlObject(code, parent, "createCardComponent");
+    } catch (e) {
+        var k;
+        console.error("ERROR: Invalid component created.");
+        console.error("Template:");
+        console.error(JSON.stringify(template));
+        console.error("Components:");
+        console.error(JSON.stringify(components));
+        console.error("Code:");
+        console.error(code);
+        throw e;
+    }
 }
