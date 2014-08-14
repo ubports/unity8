@@ -89,7 +89,7 @@ QtObject {
     property var d: QtObject {
         // FIXME: should be taken from the theme
         readonly property color defaultLight: "white"
-        readonly property color defaultDark: Theme.palette.normal.baseText
+        readonly property color defaultDark: UbuntuColors.darkGrey
         readonly property real defaultLightLuminance: Style.luminance(defaultLight)
         readonly property real defaultDarkLuminance: Style.luminance(defaultDark)
 
