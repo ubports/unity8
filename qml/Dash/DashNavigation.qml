@@ -16,6 +16,8 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+import Dash 0.1
+import "../Components"
 
 Item {
     id: root
@@ -47,29 +49,10 @@ Item {
         visible: opacity != 0
     }
 
-    Image {
-        id: topGradient
-        anchors.top: parent.top
-        fillMode: Image.Stretch
-        source: "graphics/dash_divider_top_lightgrad.png"
-        z: -1
-
-        readonly property bool bothVisible: navigationButton.visible & altNavigationButton.visible
-        width: root.openList && bothVisible ? navigationButton.width : root.width
-        x: !bothVisible ? 0 :
-                    navigationButton.showList ? altNavigationButton.x :
-                    altNavigationButton.showList ? navigationButton.x : 0
-    }
-
-    Image {
-        anchors {
-            bottom: parent.bottom
-            left: topGradient.left
-            right: topGradient.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/dash_divider_top_darkgrad.png"
-        z: -1
+    Background {
+        id: background
+        anchors.fill: parent
+        style: scopeStyle ? scopeStyle.navigationBackground : "color:///f5f5f5"
     }
 
     DashNavigationButton {
@@ -83,6 +66,19 @@ Item {
         isAltNavigation: true
     }
 
+    Rectangle {
+        visible: navigationButton.visible && altNavigationButton.visible
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            right: navigationButton.left
+            rightMargin: -units.dp(1)
+        }
+        width: units.dp(2)
+        color: scopeStyle ? (background.luminance > scopeStyle.threshold ? scopeStyle.dark : scopeStyle.light) : Theme.palette.normal.baseText
+        opacity: 0.3
+    }
+
     DashNavigationButton {
         id: navigationButton
         objectName: "navigationButton"
@@ -93,5 +89,41 @@ Item {
         scopeStyle: root.scopeStyle
         listView.width: root.width
         listView.x: -x
+    }
+
+    Image {
+        id: dropShadow
+        fillMode: Image.Stretch
+        source: "graphics/navigation_shadow.png"
+
+        readonly property bool bothVisible: navigationButton.visible & altNavigationButton.visible
+
+        state: "default"
+
+        states: [
+            State {
+                name: "default"
+                when: !dropShadow.bothVisible || (!altNavigationButton.showList && !navigationButton.showList)
+                PropertyChanges { target: dropShadow; width: root.width; x: 0; rotation: 0 }
+                AnchorChanges { target: dropShadow; anchors.top: parent.bottom; anchors.bottom: undefined }
+            },
+            State {
+                name: "open"
+                PropertyChanges { target: dropShadow; width: navigationButton.width; rotation: 180 }
+                AnchorChanges { target: dropShadow; anchors.bottom: parent.bottom; anchors.top: undefined }
+            },
+            State {
+                name: "mainOpen"
+                extend: "open"
+                when: dropShadow.bothVisible && navigationButton.showList
+                PropertyChanges { target: dropShadow; x: altNavigationButton.x }
+            },
+            State {
+                name: "altOpen"
+                extend: "open"
+                when: dropShadow.bothVisible && altNavigationButton.showList
+                PropertyChanges { target: dropShadow; x: navigationButton.x }
+            }
+        ]
     }
 }

@@ -16,6 +16,7 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+import "../Components"
 
 Item {
     id: root
@@ -30,8 +31,8 @@ Item {
     readonly property color foregroundColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
     implicitHeight: flickable.contentHeight
 
-    Rectangle {
-        color: !root.scopeStyle || Qt.colorEqual(root.scopeStyle.background, "transparent") ? "white" : root.scopeStyle.background
+    Background {
+        style: scopeStyle ? scopeStyle.navigationBackground : "color:///#f5f5f5"
         anchors.fill: parent
     }
 

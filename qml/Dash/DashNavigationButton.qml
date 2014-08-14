@@ -156,6 +156,17 @@ AbstractButton {
         }
     }
 
+    Image {
+        anchors {
+            top: navigationListView.bottom
+            left: navigationListView.left
+            right: navigationListView.right
+        }
+        fillMode: Image.Stretch
+        source: "graphics/navigation_shadow.png"
+        visible: root.showList
+    }
+
     onScopeChanged: {
         navigationModel.clear();
         if (scope && scope[hasNavigation]) {
