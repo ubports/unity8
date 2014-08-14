@@ -40,10 +40,7 @@ Item {
 
     QtObject {
         id: d
-        readonly property color foregroundColor: {
-            if (scopeStyle) return background.luminance > scopeStyle.threshold ? scopeStyle.dark : ScopeStyle.light;
-            else return background.luminance > 0.7 ? Theme.palette.normal.baseText : "white"
-        }
+        readonly property color foregroundColor: scopeStyle.getTextColor(background.luminance)
         readonly property bool bothVisible: altNavigationButton.visible && navigationButton.visible
         readonly property real navigationWidth: root.width >= units.gu(60) ? units.gu(40) : root.width
         readonly property real buttonWidth: navigationWidth / (bothVisible ? 2 : 1)
@@ -66,7 +63,7 @@ Item {
 
     Image {
         fillMode: Image.Stretch
-        source: scopeStyle.backgroundLuminance > 0.7 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
+        source: scopeStyle.backgroundLuminance > 0.2 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
         anchors { top: parent.bottom; left: parent.left; right: parent.right }
     }
 
