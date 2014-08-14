@@ -75,6 +75,8 @@ Item {
         listView.width: d.navigationWidth
         isAltNavigation: true
         showDivider: navigationButton.visible || root.width > d.navigationWidth
+        // needed so that InverseMouseArea is above navigationButton
+        z: listView.height > 0 ? 1 : 0
     }
 
     DashNavigationButton {
