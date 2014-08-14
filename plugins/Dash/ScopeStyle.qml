@@ -16,6 +16,7 @@
 
 import QtQuick 2.2
 import Utils 0.1
+import Ubuntu.Components 1.1
 
 /*! \brief Helper for processing scope customization options.
 
@@ -40,31 +41,17 @@ QtObject {
     /// Luminance of the background color
     readonly property real backgroundLuminance: background ? Style.luminance(background) : Style.luminance(d.defaultLight)
 
-    /*! \brief Luminance threshold for switching between fore and background color
-
-        \note If background colour is not fully opaque, the defaultLightLuminance it's taken into account instead of it.
+    /*! \brief Get the most contrasting available color based on luminance
+     *
+     * If background color is transparent, theme provided colors are taken into account
      */
-    readonly property real threshold: background.a !== 1.0 ? (foregroundLuminance + d.defaultLightLuminance) / 2
-                                                           : (foregroundLuminance + backgroundLuminance) / 2
-
-    /*! \brief The lighter of foreground and background colors
-
-        \note If background color is not fully opaque, it's not taken into account
-              and defaults to the theme-provided light color.
-     */
-    readonly property color light: {
-        if (background.a !== 1.0) return foregroundLuminance > d.defaultLightLuminance ? foreground : d.defaultLight;
-        return foregroundLuminance > backgroundLuminance ? foreground : background;
-    }
-
-    /*! \brief The darker of foreground and background colors
-
-        \note If background color is not fully opaque, it's not taken into account
-              and defaults to the theme-provided dark color.
-     */
-    readonly property color dark: {
-        if (background.a !== 1.0) return foregroundLuminance < d.defaultDarkLuminance ? foreground : d.defaultDark;
-        return foregroundLuminance < backgroundLuminance ? foreground : background;
+    function getTextColor(luminance) {
+        if (Math.abs(foregroundLuminance - luminance) >
+            Math.abs(d.opaqueBackgroundLuminance - luminance)) {
+            return foreground;
+        } else {
+            return d.opaqueBackground;
+        }
     }
 
     /// Source of the logo image for the header
@@ -89,9 +76,18 @@ QtObject {
     property var d: QtObject {
         // FIXME: should be taken from the theme
         readonly property color defaultLight: "white"
-        readonly property color defaultDark: Theme.palette.normal.baseText
+        readonly property color defaultDark: UbuntuColors.darkGrey
         readonly property real defaultLightLuminance: Style.luminance(defaultLight)
         readonly property real defaultDarkLuminance: Style.luminance(defaultDark)
+
+        readonly property color opaqueBackground: {
+            background.a > 0 ?
+                        background :
+                        (Math.abs(foregroundLuminance - defaultLightLuminance) >
+                         Math.abs(foregroundLuminance - defaultDarkLuminance)) ?
+                            defaultLight : defaultDark
+        }
+        readonly property real opaqueBackgroundLuminance: Style.luminance(opaqueBackground)
 
         readonly property var headerStyle: "page-header" in style ? style["page-header"] : { }
     }
