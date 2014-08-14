@@ -36,8 +36,12 @@ Rectangle {
         property var styles: [
             {},
             { "foreground-color": "red", "background-color": "black", "page-header": { "logo": "/foo/bar" } },
-            { "foreground-color": "green", "background-color": "white", "page-header": { "foreground-color": "black" } },
-            { "foreground-color": "blue", "background-color": "darkgrey", "page-header": { "background": "gradient:///white/blue" } },
+            { "foreground-color": "green", "background-color": "white",
+              "page-header": { "foreground-color": "black",
+                               "divider-color": "blue" } },
+            { "foreground-color": "blue", "background-color": "darkgrey",
+              "page-header": { "background": "gradient:///white/blue",
+                               "navigation-background": "gradient:///white/blue" } },
         ]
 
         function cleanup() {
@@ -178,6 +182,31 @@ Rectangle {
         function test_headerBackground(data) {
             tool.style = testCase.styles[data.index];
             compare(tool.headerBackground, data.headerBackground, "Header background was incorrect.");
+        }
+
+        function test_headerDividerColor_data() {
+            return [
+                { tag: "default", index: 0, headerDividerColor: "#e0e0e0" },
+                { tag: "blue", index: 2, headerDividerColor: "blue" },
+            ];
+        }
+
+        function test_headerDividerColor(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.headerDividerColor, data.headerDividerColor),
+                   "Header divider color not equal: %1 != %2".arg(tool.headerDividerColor).arg(data.headerDividerColor));
+        }
+
+        function test_navigationBackground_data() {
+            return [
+                { tag: "default", index: 0, navigationBackground: "color:///#e0e0e0" },
+                { tag: "black", index: 3, navigationBackground: "gradient:///white/blue" },
+            ];
+        }
+
+        function test_navigationBackground(data) {
+            tool.style = testCase.styles[data.index];
+            compare(tool.navigationBackground, data.navigationBackground, "Navigation background was incorrect.");
         }
     }
 }
