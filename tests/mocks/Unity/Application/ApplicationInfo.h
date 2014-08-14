@@ -41,7 +41,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
     Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
     Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
-    Q_PROPERTY(MirSurfaceItemModel* promptSurfaces READ promptSurfaces NOTIFY promptSurfacesChanged DESIGNABLE false)
+    Q_PROPERTY(MirSurfaceItemModel* promptSurfaces READ promptSurfaces DESIGNABLE false CONSTANT)
 
     // Only exists in this fake implementation
 
@@ -97,7 +97,6 @@ public:
 
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
-    void promptSurfacesChanged();
 
 private Q_SLOTS:
     void onStateChanged(State state);

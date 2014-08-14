@@ -34,8 +34,8 @@ class MirSurfaceItem : public QQuickPaintedItem
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged)
-    Q_PROPERTY(MirSurfaceItemModel* childSurfaces READ childSurfaces NOTIFY childSurfacesChanged DESIGNABLE false)
+    Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged DESIGNABLE false)
+    Q_PROPERTY(MirSurfaceItemModel* childSurfaces READ childSurfaces DESIGNABLE false CONSTANT)
 
 public:
     enum Type {
@@ -84,7 +84,6 @@ Q_SIGNALS:
     void stateChanged(State);
     void nameChanged(QString);
     void parentSurfaceChanged(MirSurfaceItem*);
-    void childSurfacesChanged();
 
     void removed();
 
