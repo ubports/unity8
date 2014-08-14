@@ -261,7 +261,7 @@ Item {
         }
 
         onPromptlessChanged: {
-            if (LightDM.Greeter.promptless) {
+            if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
                 lockscreen.hide()
             } else {
                 lockscreen.reset();
@@ -312,7 +312,7 @@ Item {
 
         property bool fullyShown: showProgress === 1.0
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
+        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter
@@ -350,7 +350,7 @@ Item {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     }
-                    if (!LightDM.Greeter.promptless) {
+                    if (!LightDM.Greeter.authenticated) {
                         lockscreen.reset();
                         lockscreen.show();
                     }
@@ -403,7 +403,7 @@ Item {
         }
 
         if (LightDM.Greeter.active) {
-            if (!LightDM.Greeter.promptless) {
+            if (!LightDM.Greeter.authenticated) {
                 lockscreen.show()
             }
             greeter.hide()
