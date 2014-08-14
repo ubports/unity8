@@ -52,7 +52,7 @@ Item {
     Rectangle {
         id: blackRect
         color: "black"
-        opacity: openList && openList.currentItem && openList.currentItem.visible ? 0.3 : 0
+        opacity: openList && openList.currentItem && openList.currentItem.visible ? 0.5 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
         anchors { left: parent.left; right: parent.right }
         visible: opacity != 0
