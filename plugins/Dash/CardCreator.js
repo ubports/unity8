@@ -29,7 +29,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                     gradientColor: getColor(1) || color; \n\
                                     anchors.fill: parent; \n\
                                     image: backgroundImage.source ? backgroundImage : null; \n\
-                                    property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b; \n\
+                                    property real luminance: Style.luminance(color); \n\
                                     property Image backgroundImage: Image { \n\
                                         objectName: "backgroundImage"; \n\
                                         source: { \n\
@@ -108,7 +108,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
-                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b; \n\
+                                property real luminance: Style.luminance(overlayColor); \n\
                                 property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
@@ -649,7 +649,8 @@ function cardString(template, components) {
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 1.1; \n\
-                   import Dash 0.1;\n';
+                   import Dash 0.1;\n\
+                   import Utils 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
 

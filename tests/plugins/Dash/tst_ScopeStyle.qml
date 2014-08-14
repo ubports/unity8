@@ -18,6 +18,7 @@ import QtQuick 2.2
 import QtTest 1.0
 import Dash 0.1
 import Ubuntu.Components 1.1
+import Utils 0.1
 
 Rectangle {
     width: units.gu(40)
@@ -47,27 +48,6 @@ Rectangle {
 
         function cleanup() {
             testCase.color = "transparent";
-        }
-
-        function test_luminance_data() {
-            return [
-                { tag: "#F00", luminance: 0.2126 },
-                { tag: "#0F0", luminance: 0.7152 },
-                { tag: "#00F", luminance: 0.0722 },
-                { tag: "white", luminance: 1.0 },
-                { tag: "black", luminance: 0.0 },
-                { tag: "lightgrey", luminance: 0.8275 },
-                { tag: "grey", luminance: 0.5020 },
-                { tag: "darkgrey", luminance: 0.6627 },
-                { tag: "red", luminance: 0.2126 },
-                { tag: "green", luminance: 0.3590 },
-                { tag: "blue", luminance: 0.0722 },
-            ];
-        }
-
-        function test_luminance(data) {
-            testCase.color = data.tag;
-            compare(tool.luminance(testCase.color).toFixed(4), data.luminance.toFixed(4));
         }
 
         function test_foreground_data() {

@@ -26,7 +26,7 @@ Loader {
                                     gradientColor: getColor(1) || color; 
                                     anchors.fill: parent; 
                                     image: backgroundImage.source ? backgroundImage : null; 
-                                    property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b; 
+                                    property real luminance: Style.luminance(color); 
                                     property Image backgroundImage: Image { 
                                         objectName: "backgroundImage"; 
                                         source: { 

@@ -69,7 +69,7 @@ Loader {
                             sourceComponent: ShaderEffect { 
                                 id: overlay; 
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2);
-                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b;
+                                property real luminance: Style.luminance(overlayColor);
                                 property color overlayColor: cardData && cardData["overlayColor"] || "#99000000";
                                 property var source: ShaderEffectSource { 
                                     id: shaderSource; 
