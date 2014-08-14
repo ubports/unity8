@@ -170,7 +170,7 @@ Rectangle {
 
         function test_headerBackground_data() {
             return [
-                { tag: "default", index: 0, headerBackground: "" },
+                { tag: "default", index: 0, headerBackground: "color:///#f5f5f5" },
                 { tag: "black", index: 3, headerBackground: "gradient:///white/blue" },
             ];
         }
