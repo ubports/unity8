@@ -227,6 +227,7 @@ FocusScope {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
                         case "vertical-journal": return "CardVerticalJournal.qml";
+                        case "horizontal-list": return "CardHorizontalList.qml";
                         case "grid":
                         default: return "CardGrid.qml";
                     }
