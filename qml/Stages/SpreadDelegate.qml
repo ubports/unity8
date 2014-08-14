@@ -40,7 +40,6 @@ Item {
     Item {
         objectName: "appWindowWithShadow"
 
-        x: 0
         y: dragArea.distance
         width: parent.width
         height: parent.height
@@ -55,7 +54,7 @@ Item {
             }
             source: "graphics/dropshadow.png"
             border { left: 50; right: 50; top: 50; bottom: 50 }
-            opacity: root.dropShadow ? 1 : 0
+            opacity: root.dropShadow ? .4 : 0
             Behavior on opacity { UbuntuNumberAnimation {} }
         }
 

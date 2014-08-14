@@ -18,7 +18,6 @@
 #include "MirSurfaceItem.h"
 #include "SurfaceManager.h"
 
-// unity8
 #include <paths.h>
 
 #include <QGuiApplication>

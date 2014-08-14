@@ -28,45 +28,50 @@ Item {
     property bool interactive: true
     property QtObject application
 
-    // helpers so that we don't have to check for the existence of an application everywhere
-    // (in order to avoid breaking qml binding due to a javascript exception)
-    readonly property string name: application ? application.name : ""
-    readonly property url icon: application ? application.icon : ""
-    readonly property Item surface: application ? application.surface : null
-    readonly property int applicationState: application ? application.state : -1
-    readonly property var promptSurfaces: application ? application.promptSurfaces : null
+    QtObject {
+        id: d
 
-    property bool _needToTakeScreenshot:
-        root.surface && root._surfaceInitialized && screenshotImage.status === Image.Null
-        && root.applicationState === ApplicationInfo.Stopped
-    on_NeedToTakeScreenshotChanged: {
-        if (_needToTakeScreenshot) {
-            screenshotImage.take();
+        // helpers so that we don't have to check for the existence of an application everywhere
+        // (in order to avoid breaking qml binding due to a javascript exception)
+        readonly property string name: root.application ? root.application.name : ""
+        readonly property url icon: root.application ? root.application.icon : ""
+        readonly property Item surface: root.application ? root.application.surface : null
+        readonly property int applicationState: root.application ? root.application.state : -1
+        readonly property var promptSurfaces: root.application ? root.application.promptSurfaces : null
+
+        property bool needToTakeScreenshot:
+            d.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
+            && d.applicationState === ApplicationInfo.Stopped
+        onNeedToTakeScreenshotChanged: {
+            if (needToTakeScreenshot) {
+                screenshotImage.take();
+            }
+        }
+
+        //FIXME - this is a hack to avoid the first few rendered frames as they
+        // might show the UI accommodating due to surface resizes on startup.
+        // Remove this when possible
+        property bool surfaceInitialized: false
+        onSurfaceChanged: {
+            if (surface) {
+                surfaceInitTimer.start();
+            } else {
+                surfaceInitialized = false;
+            }
         }
     }
 
-    //FIXME - this is a hack to avoid the first few rendered frames as they
-    // might show the UI accommodating due to surface resizes on startup.
-    // Remove this when possible
-    property bool _surfaceInitialized: false
-    onSurfaceChanged: {
-        if (surface) {
-            _surfaceInitTimer.start();
-        } else {
-            _surfaceInitialized = false;
-        }
-    }
     Timer {
-        id: _surfaceInitTimer
+        id: surfaceInitTimer
         interval: 100
-        onTriggered: { if (root.surface) {root._surfaceInitialized = true;} }
+        onTriggered: { if (d.surface) {d.surfaceInitialized = true;} }
     }
 
     SurfaceContainer {
         id: surfaceContainer
         objectName: "surfaceContainer"
         anchors.fill: parent
-        surface: root.surface
+        surface: d.surface
 
         Binding {
             target: surface
@@ -116,12 +121,12 @@ Item {
         active: false
         anchors.fill: surfaceContainer
         sourceComponent: Component {
-            Splash { name: root.name; image: root.icon }
+            Splash { name: d.name; image: d.icon }
         }
     }
 
     Repeater {
-        model: root.promptSurfaces
+        model: d.promptSurfaces
 
         delegate: SurfaceContainer {
             anchors {
@@ -142,16 +147,16 @@ Item {
             State {
                 name: "splashScreen"
                 when:
-                     (!root.surface || !root._surfaceInitialized)
+                     (!d.surface || !d.surfaceInitialized)
                      &&
                      screenshotImage.status !== Image.Ready
             },
             State {
                 name: "surface"
                 when:
-                      (root.surface && root._surfaceInitialized)
+                      (d.surface && d.surfaceInitialized)
                       &&
-                      (root.applicationState !== ApplicationInfo.Stopped
+                      (d.applicationState !== ApplicationInfo.Stopped
                        || screenshotImage.status !== Image.Ready)
             },
             State {
@@ -160,8 +165,8 @@ Item {
                       screenshotImage.status === Image.Ready
                       &&
                       (
-                        root.applicationState === ApplicationInfo.Stopped
-                        || !root.surface || !root._surfaceInitialized
+                        d.applicationState === ApplicationInfo.Stopped
+                        || !d.surface || !d.surfaceInitialized
                       )
             }
         ]
@@ -214,7 +219,7 @@ Item {
                                             duration: UbuntuAnimation.BriskDuration }
                     PropertyAction { target: surfaceContainer
                                      property: "visible"; value: false }
-                    ScriptAction { script: { if (root.surface) { root.surface.release(); } } }
+                    ScriptAction { script: { if (d.surface) { d.surface.release(); } } }
                 }
             },
             Transition {

@@ -111,7 +111,7 @@ Rectangle {
         objectName: "spreadView"
         anchors.fill: parent
         interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
-                     && numDelegatesBeingDragged === 0
+                     && draggedDelegateCount === 0
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -149,7 +149,7 @@ Rectangle {
         property int phase: 0
 
         property int selectedIndex: -1
-        property int numDelegatesBeingDragged: 0
+        property int draggedDelegateCount: 0
         property int closingIndex: -1
 
         property bool focusChanging: false
@@ -379,9 +379,9 @@ Rectangle {
 
                     onDraggedChanged: {
                         if (dragged) {
-                            spreadView.numDelegatesBeingDragged++;
+                            spreadView.draggedDelegateCount++;
                         } else {
-                            spreadView.numDelegatesBeingDragged--;
+                            spreadView.draggedDelegateCount--;
                         }
                     }
 

@@ -137,7 +137,7 @@ SpreadDelegate {
         Behavior on xTranslate {
             enabled: !spreadView.active &&
                      !snapAnimation.running &&
-                     root.closeable &&
+                     model.appId !== "unity8-dash" &&
                      !spreadView.sideStageDragging
             UbuntuNumberAnimation {
                 duration: UbuntuAnimation.FastDuration
@@ -172,7 +172,7 @@ SpreadDelegate {
                 }
                 newTranslate += root.dragOffset;
             }
-            if (!spreadView.active && !root.closeable && !root.active) {
+            if (!spreadView.active && model.appId == "unity8-dash" && !root.active) {
                 newTranslate -= root.width;
             }
 

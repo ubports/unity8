@@ -158,30 +158,32 @@ Rectangle {
             applicationWindowLoader.active = true;
         }
 
-        function test_showSplashUntilAppFullyInit1() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
+        function test_showSplashUntilAppFullyInit_data() {
+            return [
+                {tag: "state=Running then create surface", swapInitOrder: false},
 
-            verify(stateGroup.state === "splashScreen");
-
-            setApplicationState(appRunning);
-
-            verify(stateGroup.state === "splashScreen");
-
-            surfaceCheckbox.checked = true;
-
-            tryCompare(stateGroup, "state", "surface");
+                {tag: "create surface then state=Running", swapInitOrder: true},
+            ]
         }
 
-        function test_showSplashUntilAppFullyInit2() {
+        function test_showSplashUntilAppFullyInit() {
             var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
 
             verify(stateGroup.state === "splashScreen");
 
-            surfaceCheckbox.checked = true;
+            if (data.swapInitOrder) {
+                surfaceCheckbox.checked = true;
+            } else {
+                setApplicationState(appRunning);
+            }
 
             verify(stateGroup.state === "splashScreen");
 
-            setApplicationState(appRunning);
+            if (data.swapInitOrder) {
+                setApplicationState(appRunning);
+            } else {
+                surfaceCheckbox.checked = true;
+            }
 
             tryCompare(stateGroup, "state", "surface");
         }
@@ -191,14 +193,16 @@ Rectangle {
 
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
+
             tryCompare(stateGroup, "state", "surface");
+
+            // wait until any transition animation has finished
+            tryCompare(stateGroup, "transitioning", false, 2000);
 
             setApplicationState(appSuspended);
 
-            for (var i = 0; i < 10; ++i) {
-                wait(50);
-                verify(stateGroup.state === "surface");
-            }
+            verify(stateGroup.state === "surface");
+            verify(stateGroup.transitioning === false);
         }
 
         function test_killedAppShowsScreenshot() {
@@ -227,6 +231,7 @@ Rectangle {
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
+            tryCompare(stateGroup, "transitioning", false, 2000);
 
             setApplicationState(appSuspended);
 
@@ -234,19 +239,20 @@ Rectangle {
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
+            tryCompare(stateGroup, "transitioning", false, 2000);
             tryCompare(fakeApplication, "surface", null);
 
             // and restart it
             setApplicationState(appStarting);
 
-            wait(50);
+            verify(stateGroup.transitioning === false);
+            verify(stateGroup.state === "screenshot");
             verify(fakeApplication.surface === null);
-            tryCompare(stateGroup, "state", "screenshot");
 
             setApplicationState(appRunning);
 
-            wait(50);
-            tryCompare(stateGroup, "state", "screenshot");
+            verify(stateGroup.transitioning === false);
+            verify(stateGroup.state === "screenshot");
 
             surfaceCheckbox.checked = true;
 
@@ -260,6 +266,7 @@ Rectangle {
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
+            tryCompare(stateGroup, "transitioning", false, 2000);
 
             // oh, it crashed...
             setApplicationState(appStopped);
@@ -274,17 +281,18 @@ Rectangle {
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
+            tryCompare(stateGroup, "transitioning", false, 2000);
             verify(fakeApplication.surface !== null);
 
             applicationWindowLoader.item.visible = false;
 
-            wait(50);
+            verify(stateGroup.transitioning === false);
             verify(stateGroup.state === "surface");
             verify(fakeApplication.surface !== null);
 
             applicationWindowLoader.item.visible = true;
 
-            wait(50);
+            verify(stateGroup.transitioning === false);
             verify(stateGroup.state === "surface");
             verify(fakeApplication.surface !== null);
         }
