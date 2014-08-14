@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Utils 0.1 as Utils
 
 Loader {
     id: root
@@ -23,6 +24,11 @@ Loader {
     property url style
     readonly property var parsedStyle: String(style)
         .match(/^(color|gradient):\/\/\/(?:(#(?:[0-9a-f]{3,4}){1,2}|[a-z]{3,}))(?:\/(#(?:[0-9a-f]{3,4}){1,2}|[a-z]{3,}))?\/?$/i)
+    readonly property var luminance: {
+        if (!parsedStyle) return 0.5;
+        if (parsedStyle[1] === "color") return Utils.Style.luminance(parsedStyle[2]);
+        else if (parsedStyle[1] === "gradient") return Utils.Style.luminance(parsedStyle[2], parsedStyle[3]);
+    }
 
     sourceComponent: {
         if (style == "") return null;

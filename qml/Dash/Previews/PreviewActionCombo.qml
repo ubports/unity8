@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 Item {
     id: root
@@ -25,6 +25,7 @@ Item {
     signal triggeredAction(var actionData)
 
     property alias model: actionRepeater.model
+    property color strokeColor: Theme.palette.normal.textBase
 
     Button {
         id: moreButton
@@ -32,7 +33,7 @@ Item {
 
         objectName: "moreLessButton"
         text: !expanded ? i18n.tr("More...") : i18n.tr("Less...")
-        color: Theme.palette.selected.foreground
+        strokeColor: root.strokeColor
         onClicked: expanded = !expanded
         width: parent.width
     }
@@ -60,6 +61,7 @@ Item {
                 data: modelData
                 width: implicitWidth < parent.width ? parent.width : implicitWidth
                 onClicked: root.triggeredAction(modelData)
+                strokeColor: root.strokeColor
             }
         }
     }

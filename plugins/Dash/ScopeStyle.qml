@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.2
+import Utils 0.1
 
 /*! \brief Helper for processing scope customization options.
 
@@ -27,25 +28,17 @@ QtObject {
     /// Style object passed from the scope
     property var style: Object()
 
-    /*! \brief Calculate luminance of the passed color
-
-        \note If not fully opaque, luminance is dependant on blending.
-     */
-    function luminance(color) {
-        return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
-    }
-
     /// Color used for text and symbolic icons
     readonly property color foreground: "foreground-color" in style ? style["foreground-color"] : d.defaultDark
 
     /// Luminance of the foreground color
-    readonly property real foregroundLuminance: foreground ? luminance(foreground) : d.defaultForegroundLuminance
+    readonly property real foregroundLuminance: foreground ? Style.luminance(foreground) : Style.luminance(d.defaultDark)
 
     /// Color used for the overall background
-    readonly property color background: "background-color" in style ? style["background-color"] : "transparent"
+    readonly property color background: "background-color" in style ? style["background-color"] : "#00f5f5f5"
 
-    /// Luminance of the foreground color
-    readonly property real backgroundLuminance: background ? luminance(background) : d.defaultBackgroundLuminance
+    /// Luminance of the background color
+    readonly property real backgroundLuminance: background ? Style.luminance(background) : Style.luminance(d.defaultLight)
 
     /*! \brief Luminance threshold for switching between fore and background color
 
@@ -78,18 +71,27 @@ QtObject {
     readonly property url headerLogo: "logo" in d.headerStyle ? d.headerStyle["logo"] : ""
 
     /// Background style for the header
-    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : ""
+    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : "color:///#f5f5f5"
 
     /// Foreground color for the header
     readonly property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : foreground
+
+    /// Color of the header divider
+    readonly property color headerDividerColor: "divider-color" in d.headerStyle ? d.headerStyle["divider-color"] : "#e0e0e0"
+
+    /// Background style for the navigation
+    readonly property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : "color:///#f5f5f5"
+
+    /// Color of the primary preview button
+    readonly property color previewButtonColor: "preview-button-color" in style ? style["preview-button-color"] : Theme.palette.selected.foreground
 
     //! @cond
     property var d: QtObject {
         // FIXME: should be taken from the theme
         readonly property color defaultLight: "white"
-        readonly property color defaultDark: "grey"
-        readonly property real defaultLightLuminance: luminance(defaultLight)
-        readonly property real defaultDarkLuminance: luminance(defaultDark)
+        readonly property color defaultDark: Theme.palette.normal.baseText
+        readonly property real defaultLightLuminance: Style.luminance(defaultLight)
+        readonly property real defaultDarkLuminance: Style.luminance(defaultDark)
 
         readonly property var headerStyle: "page-header" in style ? style["page-header"] : { }
     }

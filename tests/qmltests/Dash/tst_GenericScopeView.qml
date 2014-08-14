@@ -28,6 +28,8 @@ Item {
     width: units.gu(120)
     height: units.gu(100)
 
+    // TODO Add a test that checks we don't preview things whose uri starts with scope://
+
     // BEGIN To reduce warnings
     // TODO I think it we should pass down these variables
     // as needed instead of hoping they will be globally around
@@ -332,10 +334,10 @@ Item {
 
             function test_header_style_data() {
                 return [
-                    { tag: "Default", index: 0, foreground: "grey", background: "", logo: "" },
-                    { tag: "Foreground", index: 1, foreground: "yellow", background: "", logo: "" },
-                    { tag: "Logo+Background", index: 2, foreground: "grey", background: "gradient:///lightgrey/grey",
-                      logo: Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg") },
+                    { tag: "Default", index: 0, foreground: Theme.palette.normal.baseText, background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Logo+Background", index: 2, foreground: Theme.palette.normal.baseText, background: "gradient:///lightgrey/grey",
+                      logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
             }
 

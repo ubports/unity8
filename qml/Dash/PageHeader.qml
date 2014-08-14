@@ -19,7 +19,8 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.Themes.Ambiance 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
-import "SearchHistoryModel"
+import "../Components"
+import "../Components/SearchHistoryModel"
 
 Item {
     id: root
@@ -172,7 +173,7 @@ Item {
                 property var styledItem: searchHeader
                 property string title
                 property var config: PageHeadConfiguration {
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
                         iconName: "back"
                         onTriggered: {
@@ -242,7 +243,7 @@ Item {
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
@@ -287,25 +288,6 @@ Item {
         }
     }
 
-    Row {
-        spacing: units.gu(.5)
-        Repeater {
-            objectName: "paginationRepeater"
-            model: root.paginationCount
-            Image {
-                objectName: "paginationDots_" + index
-                height: units.gu(1)
-                width: height
-                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
-            }
-        }
-        anchors {
-            top: headerContainer.bottom
-            horizontalCenter: headerContainer.horizontalCenter
-            topMargin: units.gu(.5)
-        }
-    }
-
     Component {
         id: popoverComponent
         Popover {
@@ -343,7 +325,7 @@ Item {
         }
     }
 
-    BorderImage {
+    Rectangle {
         id: bottomBorder
         anchors {
             top: headerContainer.bottom
@@ -352,7 +334,26 @@ Item {
             bottom: bottomContainer.top
         }
 
-        source: "graphics/PageHeaderBaseDivider.sci"
+        color: scopeStyle ? scopeStyle.headerDividerColor : "#e0e0e0"
+    }
+
+    Row {
+        spacing: units.gu(.5)
+        Repeater {
+            objectName: "paginationRepeater"
+            model: root.paginationCount
+            Image {
+                objectName: "paginationDots_" + index
+                height: units.gu(1)
+                width: height
+                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
+            }
+        }
+        anchors {
+            top: headerContainer.bottom
+            horizontalCenter: headerContainer.horizontalCenter
+            topMargin: units.gu(.5)
+        }
     }
 
     Item {
