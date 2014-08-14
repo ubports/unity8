@@ -103,7 +103,6 @@ Item {
                 compare(surfaceContainer.childSurfaces.count, 1);
 
                 delegate = findChild(surfaceContainer, "childDelegate0");
-                console.log("XXX " + delegate)
                 surfaceContainer = findChild(delegate, "surfaceContainer");
             }
 
