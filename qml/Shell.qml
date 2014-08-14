@@ -19,7 +19,9 @@ import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
+import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
 import LightDM 0.1 as LightDM
@@ -52,6 +54,10 @@ Item {
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
+
+    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
+    property int failedLoginsDelayAttempts: 7 // number of failed logins
+    property int failedLoginsDelaySeconds: 5 * 60 // seconds of forced waiting
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
@@ -267,13 +273,21 @@ Item {
 
         onShowPrompt: {
             if (greeter.narrowMode) {
-                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text.toLowerCase());
+                var promptText = text.toLowerCase()
+                if (isDefaultPrompt) {
+                    promptText = lockscreen.alphaNumeric ?
+                                 i18n.tr("passphrase") : i18n.tr("passcode")
+                }
+                lockscreen.placeholderText = i18n.tr("Enter your %1").arg(promptText)
+                lockscreen.wrongPlaceholderText = i18n.tr("Incorrect %1").arg(promptText) +
+                                                  "\n" +
+                                                  i18n.tr("Please re-enter")
                 lockscreen.show();
             }
         }
 
         onPromptlessChanged: {
-            if (LightDM.Greeter.promptless) {
+            if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
                 lockscreen.hide()
             } else {
                 lockscreen.reset();
@@ -282,13 +296,40 @@ Item {
         }
 
         onAuthenticationComplete: {
+            if (LightDM.Greeter.authenticated) {
+                AccountsService.failedLogins = 0
+            }
+            // Else only penalize user for a failed login if they actually were
+            // prompted for a password.  We do this below after the promptless
+            // early exit.
+
             if (LightDM.Greeter.promptless) {
                 return;
             }
+
             if (LightDM.Greeter.authenticated) {
                 lockscreen.hide();
                 greeter.login();
             } else {
+                AccountsService.failedLogins++
+                if (maxFailedLogins >= 2) { // require at least a warning
+                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                        var title = lockscreen.alphaNumeric ?
+                                    i18n.tr("Sorry, incorrect passphrase.") :
+                                    i18n.tr("Sorry, incorrect passcode.")
+                        var text = i18n.tr("This will be your last attempt.") + " " +
+                                   (lockscreen.alphaNumeric ?
+                                    i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
+                                    i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
+                        lockscreen.showInfoPopup(title, text)
+                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                        SystemImage.factoryReset() // Ouch!
+                    }
+                }
+                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                    lockscreen.forceDelay(failedLoginsDelaySeconds * 1000)
+                }
+
                 lockscreen.clear(true);
                 if (greeter.narrowMode) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
@@ -323,8 +364,16 @@ Item {
         }
 
         property bool fullyShown: showProgress === 1.0
+        onFullyShownChanged: {
+            // Wait until the greeter is completely covering lockscreen before resetting it.
+            if (fullyShown && !LightDM.Greeter.authenticated) {
+                lockscreen.reset();
+                lockscreen.show();
+            }
+        }
+
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
+        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter
@@ -361,10 +410,6 @@ Item {
                 if (shown) {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    }
-                    if (!LightDM.Greeter.promptless) {
-                        lockscreen.reset();
-                        lockscreen.show();
                     }
                     greeter.fakeActiveForApp = "";
                     greeter.forceActiveFocus();
@@ -415,7 +460,7 @@ Item {
         }
 
         if (LightDM.Greeter.active) {
-            if (!LightDM.Greeter.promptless) {
+            if (!LightDM.Greeter.authenticated) {
                 lockscreen.show()
             }
             greeter.hide()

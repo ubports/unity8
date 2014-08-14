@@ -19,6 +19,7 @@
 #include "Greeter.h"
 #include "GreeterPrivate.h"
 #include <QtCore/QCoreApplication>
+#include <QTimer>
 
 namespace QLightDM
 {
@@ -162,6 +163,16 @@ void Greeter::respond(const QString &response)
     Q_D(Greeter);
 
     d->handleRespond(response);
+}
+
+void Greeter::sendAuthenticationComplete()
+{
+    if (qgetenv("UNITY_TESTING").isEmpty()) {
+        // simulate PAM's delay
+        QTimer::singleShot(1000, this, SIGNAL(authenticationComplete()));
+    } else {
+        Q_EMIT authenticationComplete();
+    }
 }
 
 }
