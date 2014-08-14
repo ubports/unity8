@@ -390,7 +390,7 @@ Item {
             var categoryListView = findChild(scope, "categoryListView");
             waitForRendering(categoryListView);
 
-            compare(categoryListView.pageHeader.searchHint, "Search People");
+            compare(categoryListView.pageHeader.item.searchHint, "Search People");
         }
     }
 }

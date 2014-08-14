@@ -32,6 +32,7 @@ Item {
     property alias currentTab: tabBar.currentTab
 
     // Properties used by parent
+    readonly property bool processing: searchResultsViewer.processing || tempScopeItem.processing
     property bool growingDashFromPos: false
     readonly property bool searching: scope && scope.searchQuery == ""
     readonly property bool showingNonFavoriteScope: tempScopeItem.scope != null
@@ -147,7 +148,12 @@ Item {
 
     ScopeStyle {
         id: overviewScopeStyle
-        style: { "foreground-color" : "white", "background-color" : "transparent" }
+        style: { "foreground-color" : "white",
+                 "background-color" : "transparent",
+                 "page-header": {
+                    "background": "color:///transparent"
+                 }
+        }
     }
 
     DashBackground {
@@ -302,6 +308,7 @@ Item {
                 Connections {
                     target: loader.item
                     onClicked: {
+                        pageHeader.unfocus();
                         if (tabBar.currentTab == 0) {
                             root.favoriteSelected(itemModel.scopeId);
                         } else {
@@ -350,6 +357,7 @@ Item {
             Behavior on opacity { UbuntuNumberAnimation { } }
 
             function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
+                pageHeader.unfocus();
                 pageHeader.closePopup();
                 if (itemModel.scopeId) {
                     // This can end up in openScope so save restorePosition and restoreSize

@@ -45,6 +45,10 @@ class AccountsService: public QObject
     Q_PROPERTY (PasswordDisplayHint passwordDisplayHint
                 READ passwordDisplayHint
                 NOTIFY passwordDisplayHintChanged)
+    Q_PROPERTY (uint failedLogins
+                READ failedLogins
+                WRITE setFailedLogins
+                NOTIFY failedLoginsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -61,6 +65,8 @@ public:
     QString backgroundFile() const;
     bool statsWelcomeScreen() const;
     PasswordDisplayHint passwordDisplayHint() const;
+    uint failedLogins() const;
+    void setFailedLogins(uint failedLogins);
 
 Q_SIGNALS:
     void userChanged();
@@ -68,6 +74,7 @@ Q_SIGNALS:
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
+    void failedLoginsChanged();
 
 private Q_SLOTS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -78,6 +85,7 @@ private:
     void updateBackgroundFile();
     void updateStatsWelcomeScreen();
     void updatePasswordDisplayHint();
+    void updateFailedLogins();
 
     AccountsServiceDBusAdaptor *m_service;
     QString m_user;
@@ -85,6 +93,7 @@ private:
     QString m_backgroundFile;
     bool m_statsWelcomeScreen;
     PasswordDisplayHint m_passwordDisplayHint;
+    uint m_failedLogins;
 };
 
 #endif

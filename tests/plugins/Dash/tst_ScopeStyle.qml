@@ -18,6 +18,7 @@ import QtQuick 2.2
 import QtTest 1.0
 import Dash 0.1
 import Ubuntu.Components 1.1
+import Utils 0.1
 
 Rectangle {
     width: units.gu(40)
@@ -35,39 +36,23 @@ Rectangle {
         property color color
         property var styles: [
             {},
-            { "foreground-color": "red", "background-color": "black", "page-header": { "logo": "/foo/bar" } },
-            { "foreground-color": "green", "background-color": "white", "page-header": { "foreground-color": "black" } },
-            { "foreground-color": "blue", "background-color": "darkgrey", "page-header": { "background": "gradient:///white/blue" } },
+            { "foreground-color": "red", "background-color": "black", "page-header": { "logo": "/foo/bar" },
+              "preview-button-color": "red"},
+            { "foreground-color": "green", "background-color": "white",
+              "page-header": { "foreground-color": "black",
+                               "divider-color": "blue" } },
+            { "foreground-color": "blue", "background-color": "darkgrey",
+              "page-header": { "background": "gradient:///white/blue",
+                               "navigation-background": "gradient:///white/blue" } },
         ]
 
         function cleanup() {
             testCase.color = "transparent";
         }
 
-        function test_luminance_data() {
-            return [
-                { tag: "#F00", luminance: 0.2126 },
-                { tag: "#0F0", luminance: 0.7152 },
-                { tag: "#00F", luminance: 0.0722 },
-                { tag: "white", luminance: 1.0 },
-                { tag: "black", luminance: 0.0 },
-                { tag: "lightgrey", luminance: 0.8275 },
-                { tag: "grey", luminance: 0.5020 },
-                { tag: "darkgrey", luminance: 0.6627 },
-                { tag: "red", luminance: 0.2126 },
-                { tag: "green", luminance: 0.3590 },
-                { tag: "blue", luminance: 0.0722 },
-            ];
-        }
-
-        function test_luminance(data) {
-            testCase.color = data.tag;
-            compare(tool.luminance(testCase.color).toFixed(4), data.luminance.toFixed(4));
-        }
-
         function test_foreground_data() {
             return [
-                { tag: "default", index: 0, foreground: "grey", luminance: 0.5020 },
+                { tag: "default", index: 0, foreground: Theme.palette.normal.foreground, luminance: 0.5725 },
                 { tag: "red on black", index: 1, foreground: "red", luminance: 0.2126 },
                 { tag: "green on white", index: 2, foreground: "green", luminance: 0.3590 },
                 { tag: "blue on darkgrey", index: 3, foreground: "blue", luminance: 0.0722 },
@@ -83,7 +68,7 @@ Rectangle {
 
         function test_background_data() {
             return [
-                { tag: "default", index: 0, background: "transparent" },
+                { tag: "default", index: 0, background: "#00f5f5f5", luminance: 0.9608 },
                 { tag: "red on black", index: 1, background: "black", luminance: 0 },
                 { tag: "green on white", index: 2, background: "white", luminance: 1 },
                 { tag: "blue on darkgrey", index: 3, background: "darkgrey", luminance: 0.6627 },
@@ -94,14 +79,12 @@ Rectangle {
             tool.style = testCase.styles[data.index];
             verify(Qt.colorEqual(tool.background, data.background),
                    "Background color not equal: %1 != %2".arg(tool.background).arg(data.background));
-            if (data.hasOwnProperty("luminance")) {
-                compare(tool.backgroundLuminance.toFixed(4), data.luminance.toFixed(4));
-            }
+            compare(tool.backgroundLuminance.toFixed(4), data.luminance.toFixed(4));
         }
 
         function test_threshold_data() {
             return [
-                { tag: "default", index: 0, threshold: 0.7510 },
+                { tag: "default", index: 0, threshold: 0.7863 },
                 { tag: "red on black", index: 1, threshold: 0.1063 },
                 { tag: "green on white", index: 2, threshold: 0.6795 },
                 { tag: "blue on darkgrey", index: 3, threshold: 0.3675 },
@@ -130,7 +113,7 @@ Rectangle {
 
         function test_dark_data() {
             return [
-                { tag: "default", index: 0, dark: "grey" },
+                { tag: "default", index: 0, dark: Theme.palette.normal.baseText },
                 { tag: "red on black", index: 1, dark: "black" },
                 { tag: "green on white", index: 2, dark: "green" },
                 { tag: "blue on darkgrey", index: 3, dark: "blue" },
@@ -157,7 +140,7 @@ Rectangle {
 
         function test_headerForeground_data() {
             return [
-                { tag: "default", index: 0, headerForeground: "grey" },
+                { tag: "default", index: 0, headerForeground: Theme.palette.normal.baseText },
                 { tag: "black", index: 2, headerForeground: "black" },
             ];
         }
@@ -170,7 +153,7 @@ Rectangle {
 
         function test_headerBackground_data() {
             return [
-                { tag: "default", index: 0, headerBackground: "" },
+                { tag: "default", index: 0, headerBackground: "color:///#f5f5f5" },
                 { tag: "black", index: 3, headerBackground: "gradient:///white/blue" },
             ];
         }
@@ -178,6 +161,44 @@ Rectangle {
         function test_headerBackground(data) {
             tool.style = testCase.styles[data.index];
             compare(tool.headerBackground, data.headerBackground, "Header background was incorrect.");
+        }
+
+        function test_headerDividerColor_data() {
+            return [
+                { tag: "default", index: 0, headerDividerColor: "#e0e0e0" },
+                { tag: "blue", index: 2, headerDividerColor: "blue" },
+            ];
+        }
+
+        function test_headerDividerColor(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.headerDividerColor, data.headerDividerColor),
+                   "Header divider color not equal: %1 != %2".arg(tool.headerDividerColor).arg(data.headerDividerColor));
+        }
+
+        function test_navigationBackground_data() {
+            return [
+                { tag: "default", index: 0, navigationBackground: "color:///#f5f5f5" },
+                { tag: "black", index: 3, navigationBackground: "gradient:///white/blue" },
+            ];
+        }
+
+        function test_navigationBackground(data) {
+            tool.style = testCase.styles[data.index];
+            compare(tool.navigationBackground, data.navigationBackground, "Navigation background was incorrect.");
+        }
+
+        function test_previewButtonColor_data() {
+            return [
+                { tag: "default", index: 0, previewButtonColor: Theme.palette.selected.foreground },
+                { tag: "red", index: 1, previewButtonColor: "red" },
+            ];
+        }
+
+        function test_previewButtonColor(data) {
+            tool.style = testCase.styles[data.index];
+            verify(Qt.colorEqual(tool.previewButtonColor, data.previewButtonColor),
+                   "Preview button color not equal: %1 != %2".arg(tool.previewButtonColor).arg(data.previewButtonColor));
         }
     }
 }

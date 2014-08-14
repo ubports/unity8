@@ -28,6 +28,7 @@
 
 #include <paths.h>
 #include "../MouseTouchAdaptor.h"
+#include "../CachingNetworkManagerFactory.h"
 
 int main(int argc, const char *argv[])
 {
@@ -83,6 +84,9 @@ int main(int argc, const char *argv[])
     QUrl source(::qmlDirectory()+"Dash/DashApplication.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
+
+    CachingNetworkManagerFactory *managerFactory = new CachingNetworkManagerFactory();
+    view->engine()->setNetworkAccessManagerFactory(managerFactory);
 
     view->setSource(source);
     view->show();

@@ -31,7 +31,7 @@ public:
     ApplicationDBusAdaptor(ApplicationManager* applicationManager);
 
 public Q_SLOTS:
-    quint32 addChildSurface(const QString& appId, const QString& surfaceImage);
+    quint32 addPromptSurface(const QString& appId, const QString& surfaceImage);
     void removeChildSurface(int surfaceId);
 
 private:

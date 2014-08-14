@@ -40,19 +40,12 @@ Item {
                 childSurfaces[i].removed();
             }
 
-            //if we don't have children, nothing will tell us to animate out, so do it.
-            if (childSurfaces.length === 0) {
-                animateOut();
-            }
-            // tell our parent to animate out.
-            if (surface.parentSurface) {
-                surface.parentSurface.parent.animateOut();
-            }
+            animateOut();
         }
     }
 
     Repeater {
-        model: container.surface ? container.surface.childSurfaces : 0
+        model: surface.childSurfaces
 
         delegate: Loader {
             z: 2
@@ -68,14 +61,13 @@ Item {
             source: Qt.resolvedUrl("SurfaceContainer.qml")
             onLoaded: {
                 item.surface = modelData;
-                item.animateIn(swipeFromBottom);
-                container.animateIn(swipeUp);
+                item.animateIn();
             }
         }
     }
 
-    function animateIn(component) {
-        var animation = component.createObject(container, { "surface": container.surface });
+    function animateIn() {
+        var animation = swipeFromBottom.createObject(container, { "surface": container.surface });
         animation.start();
 
         var tmp = d.animations;
@@ -104,20 +96,11 @@ Item {
         id: swipeFromBottom
         SwipeFromBottomAnimation {}
     }
-    Component {
-        id: swipeUp
-        SwipeUpAnimation {}
-    }
-    Component {
-        id: darkenFade
-        DarkenAndFadeInAnimation {}
-    }
 
     states: [
         State {
             name: "initial"
             PropertyChanges { target: surface; anchors.fill: container }
         }
-        // TODO: more animations!
     ]
 }

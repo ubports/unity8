@@ -6,17 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-05 19:54+0200\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
 "PO-Revision-Date: 2014-08-06 07:41+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-07 06:27+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -90,8 +89,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
-"Elsajátította a gesztusokat, és megkezdheti a telefon használatát."
-"<br><br>Koppintson a képernyőre a kezdéshez."
+"Elsajátította a gesztusokat, és megkezdheti a telefon "
+"használatát.<br><br>Koppintson a képernyőre a kezdéshez."
 
 #: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
@@ -118,15 +117,11 @@ msgstr "MÉGSE"
 msgid "DONE"
 msgstr "KÉSZ"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "Több"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:354
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "Kevesebb"
 
-#: qml/Dash/GenericScopeView.qml:354
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "Összes megtekintése"
 
@@ -150,15 +145,15 @@ msgstr "Értékelés hozzáadása"
 msgid "Send"
 msgstr "Küldés"
 
-#: qml/Dash/ScopesOverview.qml:187
+#: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:392
+#: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:418
+#: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
 msgstr ""
 
@@ -194,11 +189,11 @@ msgstr "Most beszéljen…"
 msgid "Speaking..."
 msgstr "Beszéd…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:97
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "Jelszó megjelenítése"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:112
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "Adja meg a SIM PIN kódját"
 
@@ -210,29 +205,37 @@ msgstr "Érintse meg, hogy visszatérjen a híváshoz..."
 msgid "Conference"
 msgstr "Konferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:577
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "Sorban…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:581
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "Letöltés"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "Szüneteltetve, koppintson a folytatáshoz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:585
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "Megszakítva"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "Befejeződött"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "Sikertelen, koppintson az újrapróbáláshoz"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr ""
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr ""
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -242,6 +245,3 @@ msgstr "Keresés"
 #, qt-format
 msgid "Please enter %1"
 msgstr "Adja meg a következőt: %1"
-
-#~ msgid "Recent"
-#~ msgstr "Legutóbbi"

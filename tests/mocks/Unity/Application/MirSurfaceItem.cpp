@@ -34,6 +34,8 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_parentSurface(nullptr)
     , m_haveInputMethod(false)
 {
+    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << this->name();
+
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
     // The virtual keyboard (input method) has a big transparent area so that
@@ -46,6 +48,8 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
 
 MirSurfaceItem::~MirSurfaceItem()
 {
+    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << name();
+
     QList<MirSurfaceItem*> children(m_children);
     for (MirSurfaceItem* child : children) {
         child->setParentSurface(nullptr);
@@ -54,7 +58,7 @@ MirSurfaceItem::~MirSurfaceItem()
         m_parentSurface->removeChildSurface(this);
 
     if (m_application)
-        m_application->setSurface(nullptr);
+        m_application->removeSurface(this);
 }
 
 void MirSurfaceItem::paint(QPainter * painter)
@@ -75,7 +79,7 @@ void MirSurfaceItem::release()
     }
 
     if (m_application) {
-        m_application->setSurface(nullptr);
+        m_application->removeSurface(this);
     }
     if (!parent()) {
         deleteLater();
@@ -104,18 +108,22 @@ void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
     Q_EMIT parentSurfaceChanged(surface);
 }
 
+void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
+{
+    qDebug() << "MirSurfaceItem::addChildSurface " << surface->name() << " to " << name();
+
+    m_children.append(surface);
+    Q_EMIT childSurfacesChanged();
+}
+
 void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
 {
+    qDebug() << "MirSurfaceItem::removeChildSurface " << surface->name() << " from " << name();
+
     if (m_children.contains(surface)) {
         m_children.removeOne(surface);
         Q_EMIT childSurfacesChanged();
     }
-}
-
-void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
-{
-    m_children.append(surface);
-    Q_EMIT childSurfacesChanged();
 }
 
 QList<MirSurfaceItem*> MirSurfaceItem::childSurfaceList()
