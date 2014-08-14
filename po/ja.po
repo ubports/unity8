@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-08 06:18+0000\n"
-"Last-Translator: Mitsuya Shibata <mty.shibata@gmail.com>\n"
+"PO-Revision-Date: 2014-08-12 07:14+0000\n"
+"Last-Translator: Shushi Kurose <md81bird@hitaki.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Launchpad-Export-Date: 2014-08-13 06:56+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -159,7 +159,7 @@ msgstr ""
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -240,4 +240,4 @@ msgstr "検索"
 #: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "%1を入力してください"

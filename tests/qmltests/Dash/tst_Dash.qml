@@ -54,6 +54,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
+            tryCompare(dashContentList, "count", 6);
         }
 
         function get_scope_data() {
@@ -273,6 +274,8 @@ Item {
             // Click on a temp scope in the search
             var dashCategorysearchA = findChild(searchResultsViewer, "dashCategorysearchA");
             var cardTempScope = findChild(dashCategorysearchA, "delegate2");
+            verify(cardTempScope, "Could not find delegate2");
+
             waitForRendering(cardTempScope);
             mouseClick(cardTempScope, cardTempScope.width / 2, cardTempScope.height / 2);
 
@@ -313,13 +316,10 @@ Item {
             var startY = dash.height / 2;
             var stopX = units.gu(1)
             var stopY = startY;
-            var retry = 0;
-            while (dashContentList.currentIndex != 2 && retry <= 5) {
-                mouseFlick(dash, startX, startY, stopX, stopY)
-                waitForRendering(dashContentList)
-                retry++;
-            }
-            compare(dashContentList.currentIndex, 2);
+            waitForRendering(dashContentList)
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
             dashCommunicatorService.mockSetCurrentScope("clickscope", true, true);
             tryCompare(dashContentList, "currentIndex", 1)

@@ -1,3 +1,50 @@
+unity8 (8.00+14.10.20140814.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Add --lightdm= argument to ./run.sh that lets developers choose
+    which lightdm backend to use. Stop letting a user that is
+    immediately denied via PAM into the shell by fixing some assumptions
+    that a user which was not prompted was successfully authenticated.
+    This is not a common situation, you'd have to manually change your
+    PAM config. Fix a small console warning .
+  * Make wrong-password handling much nicer by showing a pretty spinner
+    while we wait for PAM, by improving the prompt text to match
+    designs, by forcing the user to wait five seconds after every five
+    failed attemps, and by supporting (but not yet enabling) an opt-in
+    "factory-reset your phone after X failed attemps" feature.
+
+  [ Michael Zanetti ]
+  * bring back network caching in dash (LP: #1355729)
+
+  [ Michał Sawicz ]
+  * Add --lightdm= argument to ./run.sh that lets developers choose
+    which lightdm backend to use. Stop letting a user that is
+    immediately denied via PAM into the shell by fixing some assumptions
+    that a user which was not prompted was successfully authenticated.
+    This is not a common situation, you'd have to manually change your
+    PAM config. Fix a small console warning .
+  * Fix anchor in PreviewListView.qml.
+  * Make wrong-password handling much nicer by showing a pretty spinner
+    while we wait for PAM, by improving the prompt text to match
+    designs, by forcing the user to wait five seconds after every five
+    failed attemps, and by supporting (but not yet enabling) an opt-in
+    "factory-reset your phone after X failed attemps" feature.
+  * Add new horizontal list category layout. (LP: #1352226)
+  * Fix qml tests - loader around PageHeader, more retries for selecting
+    a scope and undefined attributes in mock overview scope.
+
+  [ Leo Arias ]
+  * Added autopilot helpers and tests for the launcher and dash icon.
+  * Added an autopilot helper to click a scope item.
+  * Added an autopilot test for focusing an app clicking the icon on the
+    launcher.
+
+  [ Mirco Müller ]
+  * Allow ENTER/RETURN in a TextField to accept a snap-decision
+    notification. (LP: #1305885)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 14 Aug 2014 01:29:55 +0000
+
 unity8 (8.00+14.10.20140811-0ubuntu1) utopic; urgency=low
 
   [ Andrea Cimitan ]

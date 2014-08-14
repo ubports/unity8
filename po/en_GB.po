@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-07-27 14:09+0000\n"
+"PO-Revision-Date: 2014-08-12 12:46+0000\n"
 "Last-Translator: Alan Pope ㋛ <alan@ubuntu.com>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Launchpad-Export-Date: 2014-08-13 06:56+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -28,19 +28,19 @@ msgstr "Unpin shortcut"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Are you sure you would like to turn power off?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "Power off"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "Restart"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -145,23 +145,23 @@ msgstr "Send"
 
 #: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
-msgstr ""
+msgstr "Manage Dash"
 
 #: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
-msgstr ""
+msgstr "Done"
 
 #: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
-msgstr ""
+msgstr "Store"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Favourites"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "All"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -229,11 +229,11 @@ msgstr "Failed, tap to retry"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Unlock SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Roaming"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
