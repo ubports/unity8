@@ -311,6 +311,9 @@ Item {
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
                         }
+                        onAccepted: {
+                            notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                        }
                     }
                 }
             }
