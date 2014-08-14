@@ -163,6 +163,7 @@ Rectangle {
                     { label: "Horizontal Journal", layout: "journal" },
                     { label: "Vertical Journal", layout: "vertical-journal" },
                     { label: "Carousel", layout: "carousel" },
+                    { label: "Horizontal List", layout: "horizontal-list" },
                 ]
                 delegate: OptionSelectorDelegate { text: modelData.label }
                 onSelectedIndexChanged: {
@@ -226,6 +227,7 @@ Rectangle {
                     case "journal": layoutSelector.selectedIndex = 2; break;
                     case "vertical-journal": layoutSelector.selectedIndex = 3; break;
                     case "carousel": layoutSelector.selectedIndex = 4; break;
+                    case "horizontal-list": layoutSelector.selectedIndex = 5; break;
                     case "grid":
                     default: layoutSelector.selectedIndex = 0; break;
                 }
@@ -270,6 +272,10 @@ Rectangle {
                 { tag: "MediumCarousel", width: units.gu(22), height: units.gu(22), viewWidth: 84, index: 0, layout_index: 4},
                 { tag: "LargeCarousel", width: units.gu(26), height: units.gu(26), viewWidth: 140, index: 0, layout_index: 4},
                 { tag: "PortraitCarousel", width: units.gu(22), height: units.gu(44), viewWidth: 84, index: 10, layout_index: 4},
+                { tag: "SmallHorizontalList", width: units.gu(18), height: units.gu(39.5), viewWidth: 30, index: 0, layout_index: 5},
+                { tag: "MediumHorizontalList", width: units.gu(22), height: units.gu(43.5), viewWidth: 84, index: 0, layout_index: 5},
+                { tag: "LargeHorizontalList", width: units.gu(26), height: units.gu(47.5), viewWidth: 140, index: 0, layout_index: 5},
+                { tag: "PortraitHorizontalList", width: units.gu(22), height: units.gu(65.5), viewWidth: 84, index: 10, layout_index: 5},
             ]
         }
 

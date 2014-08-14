@@ -103,7 +103,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
     endif()
 
     set(qmltest_command
-        env ${qmltest_ENVIRONMENT}
+        env ${qmltest_ENVIRONMENT} UNITY_TESTING=1
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmltestrunner_imports}
             ${ITERATIONS_STRING}
@@ -117,7 +117,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
         set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
     endif()
     set(qmltest_xvfb_command
-        env ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH}
+        env ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH} UNITY_TESTING=1
         xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
         ${qmltestrunner_imports}

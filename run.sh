@@ -18,6 +18,7 @@ usage() {
     echo " -f, --fake Force use of fake Qml modules." >&2
     echo " -p, --pinlock Use a pin protected user." >&2
     echo " -k, --keylock Use a passphrase protected user." >&2
+    echo " -l, --lightdm Use the specified lightdm mock." >&2
     echo " -g, --gdb Run through gdb." >&2
     echo " -h, --help Show this help." >&2
     echo " -m, --nomousetouch Run without -mousetouch argument." >&2
@@ -25,16 +26,20 @@ usage() {
     exit 1
 }
 
-ARGS=`getopt -n$0 -u -a --longoptions="fake,pinlock,keylock,gdb,help,nomousetouch" -o "fpkghm" -- "$@"`
+ARGS=`getopt -n$0 -u -a --longoptions="fake,pinlock,keylock,gdb,help,lightdm:,nomousetouch" -o "fpkl:ghm" -- "$@"`
 [ $? -ne 0 ] && usage
 eval set -- "$ARGS"
 
 while [ $# -gt 0 ]
 do
     case "$1" in
-       -f|--fake)  FAKE=true; USE_MOCKS=true;;
-       -p|--pinlock)  PINLOCK=true; USE_MOCKS=true;;
-       -k|--keylock)  KEYLOCK=true; USE_MOCKS=true;;
+       -f|--fake)     USE_MOCKS=true;;
+       -p|--pinlock)  USE_MOCKS=true; LIGHTDM_MOCK=single-pin;;
+       -k|--keylock)  USE_MOCKS=true; LIGHTDM_MOCK=single-passphrase;;
+       -l|--lightdm)  LIGHTDM_MOCK=$2; shift;
+                      if [ -z "$LIGHTDM_MOCK" ]; then
+                        echo "Please specify an argument to --lightdm"
+                      fi;;
        -g|--gdb)   GDB=true;;
        -h|--help)  usage;;
        -m|--nomousetouch)  MOUSE_TOUCH=false;;
@@ -43,27 +48,23 @@ do
     shift
 done
 
-if $FAKE; then
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single
+if [ -z "$LIGHTDM_MOCK" ]; then
+  LIGHTDM_MOCK=single
 fi
 
-if $PINLOCK; then
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-pin
-fi
-
-if $KEYLOCK; then
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-passphrase
-fi
+# Even without USE_MOCKS set, we want to fake our lightdm backend, because it's
+# annoying to be prompted for your password when testing.  To get the same
+# backend used in production, pass '--lightdm=demo'.
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/$LIGHTDM_MOCK
 
 if $USE_MOCKS; then
   rm -f $PWD/builddir/nonmirplugins/LightDM # undo symlink (from below) for cleanliness
   export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics
 else
-  # Still fake no-login user for convenience (it's annoying to be prompted for your password when testing)
-  # And in particular, just link our LightDM mock into the nonmirplugins folder.  We don't want the rest of
-  # our plugins to be used.
-  ln -s $PWD/builddir/tests/mocks/LightDM $PWD/builddir/nonmirplugins/
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/single
+  # Just link our LightDM mock into the nonmirplugins folder.  We don't want
+  # the rest of our plugins to be used.
+  ln -sf $PWD/builddir/tests/mocks/LightDM $PWD/builddir/nonmirplugins/
 fi
 
 QML_PHONE_SHELL_ARGS=""
