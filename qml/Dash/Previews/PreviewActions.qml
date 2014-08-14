@@ -24,6 +24,8 @@ import QtQuick 2.1
 PreviewWidget {
     id: root
 
+    property var scopeStyle: null
+
     height: row.height + units.gu(1)
 
     Row {
@@ -46,6 +48,11 @@ PreviewWidget {
                     item.model = row.actions.slice(1);
                 }
             }
+            Binding {
+                target: loader.item
+                property: "strokeColor"
+                value: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+            }
             Connections {
                 target: loader.item
                 onTriggeredAction: {
@@ -59,6 +66,7 @@ PreviewWidget {
             visible: row.actions && row.actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, actionData.id, actionData)
             width: (root.width - units.gu(1)) / 2
+            color: root.scopeStyle ? root.scopeStyle.previewButtonColor : Theme.palette.selected.foreground
         }
     }
 }
