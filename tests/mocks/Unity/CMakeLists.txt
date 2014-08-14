@@ -22,6 +22,7 @@ add_definitions(-DQT_NO_KEYWORDS)
 set(UnityQML_SOURCES
   fake_scope.cpp
   fake_scopes.cpp
+  fake_scopesoverview.cpp
   fake_categories.cpp
   fake_navigation.cpp
   fake_resultsmodel.cpp

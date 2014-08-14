@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-08-01 04:02+0000\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"PO-Revision-Date: 2014-08-13 04:57+0000\n"
 "Last-Translator: Sok Sophea <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-02 06:39+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-14 07:38+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,49 +26,65 @@ msgstr "ភ្ជាប់​ផ្លូវកាត់"
 msgid "Unpin shortcut"
 msgstr "មិន​ភ្ជាប់ផ្លូវកាត់"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr "តើ​អ្នក​ពិតជា​ចង់​បិទ​មែន​ឬ?"
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr "បិទ"
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr "បោះបង់"
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "រំលង​ការ​ណែនាំ"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "គែម​ស្ដាំ"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "គែម​ខាង​លើ"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "សាកល្បង​អូស​ពី​គែម​ខាង​លើ ដើម្បី​ចូល​ដំណើរការ​សញ្ញា"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "បិទ"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "អូស​ឡើង​លើ​ម្ដងទៀត ដើម្បី​បិទ​ការ​កំណត់​អេក្រង់"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "គែមឆ្វេង"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "អូស​ពី​គែម​ឆ្វេង "
 "ដើម្បី​បង្ហាញ​កម្មវិធី​ចាប់ផ្ដើម​សម្រាប់​ចូល​ដំណើរ​ការ​កម្មវិធី​រហ័ស"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "ធ្វើ​បាន​ល្អ"
 
-#: qml/Components/EdgeDemo.qml:228
+#: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -76,20 +92,20 @@ msgstr ""
 "ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
 "និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "ការ​ហៅ​ពេល​អាសន្ន"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "យល់ព្រម"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "សួស្ដី %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "សួស្តី"
 
@@ -101,19 +117,11 @@ msgstr "បោះបង់"
 msgid "DONE"
 msgstr "រួចរាល់"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "មើល​ច្រើន​ទៀត"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "មើល​តិច​ជាង"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "បច្ចុប្បន្ន"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "មើល​ទាំងអស់"
 
@@ -136,6 +144,26 @@ msgstr "បន្ថែម​ការ​ពិនិត្យ"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "ផ្ញើ"
+
+#: qml/Dash/ScopesOverview.qml:200
+msgid "Manage Dash"
+msgstr "គ្រប់គ្រង​ផ្ទាំង"
+
+#: qml/Dash/ScopesOverview.qml:405
+msgid "Done"
+msgstr "ធ្វើរួច"
+
+#: qml/Dash/ScopesOverview.qml:431
+msgid "Store"
+msgstr "រក្សាទុក"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "និយម"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "ទាំងអស់"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -161,11 +189,11 @@ msgstr "និយាយ​ឥឡូវ..."
 msgid "Speaking..."
 msgstr "កំពុង​និយាយ..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "បង្ហាញ​ពាក្យ​សម្ងាត់"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "បញ្ចូល​កូដ PIN របស់​ស៊ីមកាត"
 
@@ -177,35 +205,43 @@ msgstr "ប៉ះ​ដើម្បី​ត្រឡប់​ទៅ​ការ
 msgid "Conference"
 msgstr "សន្និសីទ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "ក្នុងជួរ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "ទាញយក"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "បាន​ផ្អាក, ប៉ះ ដើម្បីបន្ត"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "បាន​បោះបង់"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "បាន​បញ្ចប់"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "បាន​បរាជ័យ ប៉ះ​ ដើម្បី​ព្យាយាម​ម្ដង​ទៀត"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr "ដោះ​សោ​ស៊ីម"
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr "រ៉ូមីង"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ស្វែង​រក"
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
 msgstr "សូម​បញ្ចូល %1"

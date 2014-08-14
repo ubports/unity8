@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-25 22:02+0000\n"
-"Last-Translator: GunChleoc <Unknown>\n"
+"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"PO-Revision-Date: 2014-08-13 00:21+0000\n"
+"Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-26 07:16+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-13 06:56+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 "Language: gd\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -27,53 +27,69 @@ msgstr "Prìnich ath-ghoirid"
 msgid "Unpin shortcut"
 msgstr "Neo-phrìnich an ath-ghoirid"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr "A bheil thu cinnteach gu bheil thu airson a chur dheth?"
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr "Cuir a' chumhachd dheth"
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr "Ath-thòisich"
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr "Sguir dheth"
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Gearr leum thairis air an ro-ràdh"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "An oir dheas"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
 "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
 "far an fhòn"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "An oir aig a' bharr"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 "Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
 "fhaighinn air na taisbeanairean"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Dùin"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "An oir chlì"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
 "luath air na h-aplacaidean"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Gasta!"
 
-#: qml/Components/EdgeDemo.qml:228
+#: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -81,20 +97,20 @@ msgstr ""
 "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
 "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Gairm èiginn"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "Ceart ma-thà"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "Shin thu, %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "Shin thu"
 
@@ -106,19 +122,11 @@ msgstr "SGUIR DHETH"
 msgid "DONE"
 msgstr "DÈANTA"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "Seall barrachd"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "O chionn goirid"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "Seall na h-uile"
 
@@ -141,6 +149,26 @@ msgstr "Cuir lèirmheas ris"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Cuir"
+
+#: qml/Dash/ScopesOverview.qml:200
+msgid "Manage Dash"
+msgstr "Stiùirich an deas-bhòrd"
+
+#: qml/Dash/ScopesOverview.qml:405
+msgid "Done"
+msgstr "Deiseil"
+
+#: qml/Dash/ScopesOverview.qml:431
+msgid "Store"
+msgstr "Am bùth"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "Annsachdan"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "Na h-uile"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -166,11 +194,11 @@ msgstr "Can rud a-nis..."
 msgid "Speaking..."
 msgstr "A' bruidhinn..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "Seall am facal-faire"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "Cuir a-steach SIM PIN"
 
@@ -182,35 +210,43 @@ msgstr "Gnog gus tilleadh dhan ghairm..."
 msgid "Conference"
 msgstr "Gairm co-labhairt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "Air a' chiudha…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "'Ga luchdadh a-nuas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "'Na stad, thoir gnogag gus leantainn air"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "Air a sgur dheth"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "Coileanta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr "Thoir a' ghlas far an SIM"
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr "Air fàrsan"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Lorg"
 
-#: qml/Shell.qml:359
+#: qml/Shell.qml:256
 #, qt-format
 msgid "Please enter %1"
 msgstr "Cuir a-steach %1"

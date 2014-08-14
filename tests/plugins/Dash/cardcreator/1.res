@@ -61,12 +61,10 @@ Label {
                         id: titleLabel; 
                         objectName: "titleLabel"; 
                         anchors { right: parent.right;
-rightMargin: units.gu(1);
-left: parent.left;
-top: artShapeHolder.bottom; 
-                                         topMargin: units.gu(1);
-leftMargin: units.gu(1);
- } 
+                        left: parent.left;
+                        top: artShapeHolder.bottom; 
+                        topMargin: units.gu(1);
+                        } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
