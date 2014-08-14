@@ -184,12 +184,11 @@ class TestHud(UnityTestCase, DragMixin):
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
         hud = self.main_window.get_hud()
-        launcher = self.main_window.get_launcher()
 
         self._launch_test_app_from_app_screen()
 
         hud.show()
-        launcher.show()
+        self.main_window.open_launcher()
 
         self.assertThat(hud.shown, Eventually(Equals(False)))
 

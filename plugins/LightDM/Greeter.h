@@ -55,7 +55,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void showMessage(const QString &text, bool isError);
-    void showPrompt(const QString &text, bool isSecret);
+    void showPrompt(const QString &text, bool isSecret, bool isDefaultPrompt);
     void authenticationComplete();
     void authenticationUserChanged(const QString &user);
     void isActiveChanged();

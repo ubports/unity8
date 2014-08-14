@@ -47,6 +47,10 @@ class AccountsService: public QObject
     Q_PROPERTY (PasswordDisplayHint passwordDisplayHint
                 READ passwordDisplayHint
                 NOTIFY passwordDisplayHintChanged)
+    Q_PROPERTY (uint failedLogins
+                READ failedLogins
+                WRITE setFailedLogins
+                NOTIFY failedLoginsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -65,6 +69,8 @@ public:
     bool statsWelcomeScreen() const;
     void setStatsWelcomeScreen(bool statsWelcomeScreen);
     PasswordDisplayHint passwordDisplayHint() const;
+    uint failedLogins() const;
+    void setFailedLogins(uint failedLogins);
 
 Q_SIGNALS:
     void userChanged();
@@ -72,11 +78,13 @@ Q_SIGNALS:
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
+    void failedLoginsChanged();
 
 private:
     QString m_backgroundFile;
     QString m_user;
     bool m_statsWelcomeScreen;
+    uint m_failedLogins;
 };
 
 #endif

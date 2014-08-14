@@ -17,6 +17,7 @@
  */
 
 #include "Greeter.h"
+#include <libintl.h>
 #include <QLightDM/Greeter>
 
 class GreeterPrivate
@@ -125,13 +126,15 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
     Q_D(Greeter);
     d->wasPrompted = true;
 
+    bool isDefaultPrompt = (text == dgettext("Linux-PAM", "Password: "));
+
     // Strip prompt of any colons at the end
     QString trimmedText = text.trimmed();
     if (trimmedText.endsWith(":") || trimmedText.endsWith("：")) {
         trimmedText.chop(1);
     }
 
-    Q_EMIT showPrompt(trimmedText, type == QLightDM::Greeter::PromptTypeSecret);
+    Q_EMIT showPrompt(trimmedText, type == QLightDM::Greeter::PromptTypeSecret, isDefaultPrompt);
 }
 
 void Greeter::showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type)
