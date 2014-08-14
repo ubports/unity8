@@ -227,6 +227,7 @@ QVariantMap Scope::customizations() const
     } else if (m_id == "MockScope5") {
         h["background"] = "gradient:///lightgrey/grey";
         h["logo"] = QUrl("../../../tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
+        h["navigation-background"] = "color:///black";
         m["page-header"] = h;
     }
     return m;
