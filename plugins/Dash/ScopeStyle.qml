@@ -32,13 +32,13 @@ QtObject {
     readonly property color foreground: "foreground-color" in style ? style["foreground-color"] : d.defaultDark
 
     /// Luminance of the foreground color
-    readonly property real foregroundLuminance: foreground ? Style.luminance(foreground) : d.defaultForegroundLuminance
+    readonly property real foregroundLuminance: foreground ? Style.luminance(foreground) : Style.luminance(d.defaultDark)
 
     /// Color used for the overall background
-    readonly property color background: "background-color" in style ? style["background-color"] : "transparent"
+    readonly property color background: "background-color" in style ? style["background-color"] : "#00f5f5f5"
 
     /// Luminance of the background color
-    readonly property real backgroundLuminance: background ? Style.luminance(background) : d.defaultBackgroundLuminance
+    readonly property real backgroundLuminance: background ? Style.luminance(background) : Style.luminance(d.defaultLight)
 
     /*! \brief Luminance threshold for switching between fore and background color
 

@@ -68,7 +68,7 @@ Rectangle {
 
         function test_background_data() {
             return [
-                { tag: "default", index: 0, background: "transparent" },
+                { tag: "default", index: 0, background: "#00f5f5f5", luminance: 0.9608 },
                 { tag: "red on black", index: 1, background: "black", luminance: 0 },
                 { tag: "green on white", index: 2, background: "white", luminance: 1 },
                 { tag: "blue on darkgrey", index: 3, background: "darkgrey", luminance: 0.6627 },
@@ -79,9 +79,7 @@ Rectangle {
             tool.style = testCase.styles[data.index];
             verify(Qt.colorEqual(tool.background, data.background),
                    "Background color not equal: %1 != %2".arg(tool.background).arg(data.background));
-            if (data.hasOwnProperty("luminance")) {
-                compare(tool.backgroundLuminance.toFixed(4), data.luminance.toFixed(4));
-            }
+            compare(tool.backgroundLuminance.toFixed(4), data.luminance.toFixed(4));
         }
 
         function test_threshold_data() {
