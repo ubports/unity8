@@ -44,7 +44,7 @@ PreviewWidget {
         anchors.right: parent.right
         width: (root.width - units.gu(1)) / 2
         visible: paymentButton.opacity == 0 ? false : true
-        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.FastDuration}}
+        Behavior on opacity { PropertyAnimation { duration: UbuntuAnimation.FastDuration } }
 
         Payments {
             id: paymentClient
@@ -69,8 +69,6 @@ PreviewWidget {
         indeterminate: true
         anchors.fill: paymentButton
         opacity: 1 - paymentsButton.opacity
-        visible: loadingBar.opacity == 0 ? false : true
-
-        Behavior on opacity { PropertyAnimation {duration: UbuntuAnimation.FastDuration}}
+        visible: opacity == 0 ? false : true
     }
 }

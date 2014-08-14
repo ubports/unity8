@@ -68,25 +68,6 @@ Rectangle {
 
             var button = findChild(root, "paymentButton");
             verify(button != null, "Button not found.");
-            var progress = findChild(root, "loadingBar");
-            verify(progress != null, "ProgressBar not found.");
-
-            mouseClick(button, button.width / 2, button.height / 2);
-
-            spy.wait();
-
-            verify(progress.visible == true, "ProgressBar not visible.");
-            verify(progress.opacity == 1, "ProgressBar wrong opacity.");
-            verify(button.visible == false, "Button visible.");
-            verify(button.opacity == 0, "Button wrong opacity.");
-        }
-
-        function test_progress_show() {
-            // Make sure the progress bar is shown.
-            previewPayments.widgetData = jsonPurchase;
-
-            var button = findChild(root, "paymentButton");
-            verify(button != null, "Button not found.");
 
             mouseClick(button, button.width / 2, button.height / 2);
 
@@ -96,6 +77,23 @@ Rectangle {
             compare(args[0], "previewPayments");
             compare(args[1], "purchaseCompleted");
             compare(args[2], jsonPurchase["source"]);
+        }
+
+        function test_progress_show() {
+            // Make sure the progress bar is shown.
+            previewPayments.widgetData = jsonPurchase;
+
+            var button = findChild(root, "paymentButton");
+            var progress = findChild(root, "loadingBar");
+
+            mouseClick(button, button.width / 2, button.height / 2);
+
+            spy.wait();
+
+            tryCompare(progress, "visible", true);
+            tryCompare(progress, "opacity", 1);
+            tryCompare(button, "visible", false);
+            tryCompare(button, "opacity", 0);
         }
 
         function test_purchase_error() {
