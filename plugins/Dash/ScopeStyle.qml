@@ -89,6 +89,9 @@ QtObject {
     /// Background style for the navigation
     readonly property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : "color:///#e0e0e0"
 
+    /// Color of the primary preview button
+    readonly property color previewButtonColor: "preview-button-color" in style ? style["preview-button-color"] : Theme.palette.selected.foreground
+
     //! @cond
     property var d: QtObject {
         // FIXME: should be taken from the theme
