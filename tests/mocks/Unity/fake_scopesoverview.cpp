@@ -105,11 +105,12 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
         }
         case RoleComponents:
         {
-            QVariantMap map, artMap;
+            QVariantMap map, artMap, attributesMap;
             artMap["aspect-ratio"] = "0.5";
             artMap["field"] = "art";
             map["art"] = artMap;
             map["title"] = "HOLA";
+            map["attributes"] = attributesMap;
             return map;
         }
         case RoleResults:
@@ -188,11 +189,12 @@ ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
         }
         case RoleComponents:
         {
-            QVariantMap map, artMap;
+            QVariantMap map, artMap, attributesMap;
             artMap["aspect-ratio"] = "1";
             artMap["field"] = "art";
             map["art"] = artMap;
             map["title"] = "HOLA";
+            map["attributes"] = attributesMap;
             return map;
         }
         case RoleResults:
