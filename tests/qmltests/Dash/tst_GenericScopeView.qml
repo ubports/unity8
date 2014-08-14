@@ -336,7 +336,7 @@ Item {
                     { tag: "Default", index: 0, foreground: Theme.palette.normal.baseText, background: "", logo: "" },
                     { tag: "Foreground", index: 1, foreground: "yellow", background: "", logo: "" },
                     { tag: "Logo+Background", index: 2, foreground: Theme.palette.normal.baseText, background: "gradient:///lightgrey/grey",
-                      logo: Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg") },
+                      logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
             }
 
