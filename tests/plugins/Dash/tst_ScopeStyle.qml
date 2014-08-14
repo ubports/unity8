@@ -180,7 +180,7 @@ Rectangle {
 
         function test_navigationBackground_data() {
             return [
-                { tag: "default", index: 0, navigationBackground: "color:///#e0e0e0" },
+                { tag: "default", index: 0, navigationBackground: "color:///#f5f5f5" },
                 { tag: "black", index: 3, navigationBackground: "gradient:///white/blue" },
             ];
         }
