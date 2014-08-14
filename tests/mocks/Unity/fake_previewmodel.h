@@ -40,8 +40,11 @@ public:
     bool loaded() const override;
     bool processingAction() const override;
 
+    Q_INVOKABLE void setLoaded(bool); // Only available for testing
+
 private:
     QList<PreviewWidgetModel*> m_previewWidgetModels;
+    bool m_loaded;
 };
 
 Q_DECLARE_METATYPE(PreviewModel*)

@@ -29,6 +29,7 @@
 
 PreviewModel::PreviewModel(QObject* parent)
  : unity::shell::scopes::PreviewModelInterface(parent)
+ , m_loaded(true)
 {
     // we have one column by default
     PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
@@ -49,7 +50,7 @@ int PreviewModel::widgetColumnCount() const
 
 bool PreviewModel::loaded() const
 {
-    return true;
+    return m_loaded;
 }
 
 bool PreviewModel::processingAction() const
@@ -69,5 +70,13 @@ QVariant PreviewModel::data(const QModelIndex& index, int role) const
             return QVariant::fromValue(m_previewWidgetModels.at(index.row()));
         default:
             return QVariant();
+    }
+}
+
+void PreviewModel::setLoaded(bool loaded)
+{
+    if (m_loaded != loaded) {
+        m_loaded = loaded;
+        Q_EMIT loadedChanged();
     }
 }
