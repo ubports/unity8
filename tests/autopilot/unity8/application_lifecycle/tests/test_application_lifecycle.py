@@ -115,3 +115,11 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.launch_upstart_application(application_name)
         self.assertThat(greeter.created, Eventually(Equals(False)))
         self.assert_current_focused_application(application_name)
+
+    def test_click_dash_icon_must_unfocus_application(self):
+        application_name = self.launch_fake_app()
+        self.assert_current_focused_application(application_name)
+
+        self.main_window.show_dash_from_launcher()
+
+        self.assert_current_focused_application('unity8-dash')

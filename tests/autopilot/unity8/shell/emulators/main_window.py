@@ -63,9 +63,6 @@ class QQuickView(emulators.UnityEmulatorBase):
     def get_bottombar(self):
         return self.select_single("Bottombar")
 
-    def get_launcher(self):
-        return self.select_single(Launcher)
-
     def get_pinPadLoader(self):
         return self.select_single(
             "QQuickLoader",
@@ -122,6 +119,23 @@ class QQuickView(emulators.UnityEmulatorBase):
         return self._get_shell().focusedApplicationId
 
     @autopilot_logging.log_action(logger.info)
+    def show_dash_from_launcher(self):
+        """Open the dash clicking the dash icon on the launcher."""
+        launcher = self.open_launcher()
+        launcher.click_dash_icon()
+
+    @autopilot_logging.log_action(logger.info)
+    def open_launcher(self):
+        launcher = self._get_launcher()
+        launcher.show()
+        return launcher
+
+    def _get_launcher(self):
+        return self.select_single(Launcher)
+
+    def is_launcher_open(self):
+        return self._get_launcher().shown
+
     def enter_pin_code(self, code):
         """Enter code 'code' into the single-pin lightdm pincode entry screen.
 
