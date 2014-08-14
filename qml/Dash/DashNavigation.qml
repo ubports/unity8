@@ -64,6 +64,12 @@ Item {
         style: scopeStyle ? scopeStyle.navigationBackground : "color:///f5f5f5"
     }
 
+    Image {
+        fillMode: Image.Stretch
+        source: scopeStyle.backgroundLuminance > 0.7 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
+        anchors { top: parent.bottom; left: parent.left; right: parent.right }
+    }
+
     DashNavigationButton {
         id: altNavigationButton
         objectName: "altNavigationButton"
@@ -95,14 +101,7 @@ Item {
 
     Image {
         fillMode: Image.Stretch
-        source: "graphics/navigation_shadow.png"
-        anchors { top: parent.bottom; left: parent.left; right: parent.right }
-        z: d.bothVisible ? -1 : 0
-    }
-
-    Image {
-        fillMode: Image.Stretch
-        source: "graphics/navigation_shadow.png"
+        source: background.luminance > 0.7 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
         x: navigationButton.listView.height > 0 ? altNavigationButton.x : navigationButton.x
         width: d.buttonWidth
         rotation: 180
