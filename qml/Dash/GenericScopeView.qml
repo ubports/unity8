@@ -233,6 +233,7 @@ FocusScope {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
                         case "vertical-journal": return "CardVerticalJournal.qml";
+                        case "horizontal-list": return "CardHorizontalList.qml";
                         case "grid":
                         default: return "CardGrid.qml";
                     }
@@ -372,7 +373,7 @@ FocusScope {
                     }
                     fontSize: "small"
                     font.weight: Font.Bold
-                    color: scopeStyle ? scopeStyle.foreground : "grey"
+                    color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
                     visible: baseItem.expandable && !baseItem.headerLink
                 }
             }
@@ -410,7 +411,7 @@ FocusScope {
             width: categoryView.width
             height: section != "" ? units.gu(5) : 0
             text: section
-            color: scopeStyle ? scopeStyle.foreground : "grey"
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
             iconName: delegate && delegate.headerLink ? "go-next" : ""
             onClicked: {
                 if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);

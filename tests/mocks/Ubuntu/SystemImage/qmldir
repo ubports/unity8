@@ -1,0 +1,3 @@
+module Ubuntu.SystemImage
+plugin MockSystemImage
+typeinfo SystemImage.qmltypes

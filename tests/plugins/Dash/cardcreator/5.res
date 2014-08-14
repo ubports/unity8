@@ -69,7 +69,7 @@ Loader {
                             sourceComponent: ShaderEffect { 
                                 id: overlay; 
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2);
-                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b;
+                                property real luminance: Style.luminance(overlayColor);
                                 property color overlayColor: cardData && cardData["overlayColor"] || "#99000000";
                                 property var source: ShaderEffectSource { 
                                     id: shaderSource; 
@@ -102,19 +102,18 @@ readonly property int headerHeight: titleLabel.height + subtitleLabel.height + s
 Label { 
                         id: titleLabel;
                         objectName: "titleLabel"; 
-                        anchors { left: parent.left; 
-                                leftMargin: units.gu(1); 
-                                right: parent.right; 
-                                rightMargin: units.gu(1); 
-                                top: overlayLoader.top; 
-                                topMargin: units.gu(1);
- } 
+                        anchors { right: parent.right; 
+                        left: parent.left; 
+                        leftMargin: units.gu(1); 
+                        top: overlayLoader.top; 
+                        topMargin: units.gu(1);
+                        } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
+                        color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
                         visible: showHeader && overlayLoader.active; 
                         text: root.title; 
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -124,16 +123,15 @@ Label {
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
-                               leftMargin: titleLabel.leftMargin; 
-                               right: titleLabel.right; 
-                               rightMargin: titleLabel.rightMargin; 
-                               top: titleLabel.bottom; 
-                               topMargin: units.dp(2);
- } 
+                            leftMargin: titleLabel.leftMargin; 
+                            right: titleLabel.right; 
+                            top: titleLabel.bottom; 
+                            } 
+                            anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey");
+                            color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 

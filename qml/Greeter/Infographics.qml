@@ -26,6 +26,9 @@ Item {
 
     property int animDuration: 10
 
+    property bool __useDotAnimation: true
+    property int __circleModifier: __useDotAnimation ? 1 : 2
+
     Connections {
         target: model
 
@@ -41,19 +44,24 @@ Item {
 
     function startShowAnimation() {
         dotHideAnimTimer.stop()
-        circleShrinkAnimTimer.stop()
         notification.hideAnim.stop()
 
-        dotShowAnimTimer.startFromBeginning()
+        if (__useDotAnimation) {
+            dotShowAnimTimer.startFromBeginning()
+        }
         notification.showAnim.start()
     }
 
     function startHideAnimation() {
         dotShowAnimTimer.stop()
-        circleGrowAnimTimer.stop()
+        circleChangeAnimTimer.stop()
         notification.showAnim.stop()
 
-        dotHideAnimTimer.startFromBeginning()
+        if (__useDotAnimation) {
+            dotHideAnimTimer.startFromBeginning()
+        } else {
+            circleChangeAnimTimer.startFromBeginning()
+        }
         notification.hideAnim.start()
     }
 
@@ -73,22 +81,22 @@ Item {
         anchors.centerIn: parent
 
         Timer {
-            id: circleGrowAnimTimer
+            id: circleChangeAnimTimer
 
             property int pastCircleCounter
             property int presentCircleCounter
 
-            interval: animDuration
+            interval: notification.duration
             running: false
             repeat: true
             onTriggered: {
                 if (pastCircleCounter < pastCircles.count) {
                     var nextCircle = pastCircles.itemAt(pastCircleCounter++)
-                    if (nextCircle !== null) nextCircle.pastCircleGrowAnim.start()
+                    if (nextCircle !== null) nextCircle.pastCircleChangeAnim.start()
                 }
                 if (pastCircleCounter > pastCircles.count / 2) {
                     var nextCircle = presentCircles.itemAt(presentCircleCounter++)
-                    if (nextCircle !== null) nextCircle.presentCircleGrowAnim.start()
+                    if (nextCircle !== null) nextCircle.presentCircleChangeAnim.start()
                 }
                 if (presentCircleCounter > infographic.model.currentDay && pastCircleCounter >= pastCircles.count) {
                     stop()
@@ -96,39 +104,8 @@ Item {
             }
 
             function startFromBeginning() {
-                circleGrowAnimTimer.pastCircleCounter = 0
-                circleGrowAnimTimer.presentCircleCounter = 0
-                start()
-            }
-        }
-
-        Timer {
-            id: circleShrinkAnimTimer
-
-            property int pastCircleCounter
-            property int presentCircleCounter
-
-            interval: animDuration
-            running: false
-            repeat: true
-            onTriggered: {
-                if (pastCircleCounter >= 0) {
-                    var nextCircle = pastCircles.itemAt(pastCircleCounter--)
-                    if (nextCircle !== null) nextCircle.pastCircleShrinkAnim.start()
-                }
-                if (pastCircleCounter < pastCircles.count / 2) {
-                    var nextCircle = presentCircles.itemAt(presentCircleCounter--)
-                    if (nextCircle !== null) nextCircle.presentCircleShrinkAnim.start()
-                }
-                if (presentCircleCounter < 0) {
-                    stop()
-                    infographic.model.readyForDataChange()
-                }
-            }
-
-            function startFromBeginning() {
-                pastCircleCounter = pastCircles.count - 1
-                presentCircleCounter = model.currentDay
+                circleChangeAnimTimer.pastCircleCounter = 0
+                circleChangeAnimTimer.presentCircleCounter = 0
                 start()
             }
         }
@@ -139,8 +116,7 @@ Item {
             model: infographic.model.secondMonth
 
             delegate: ObjectPositioner {
-                property alias pastCircleGrowAnim: pastCircleGrowAnim
-                property alias pastCircleShrinkAnim: pastCircleShrinkAnim
+                property alias pastCircleChangeAnim: pastCircleChangeAnim
 
                 index: model.index
                 count: pastCircles.count
@@ -160,52 +136,33 @@ Item {
                     opacity: 0.0
                     scale: 0.0
                     visible: modelData !== undefined
-                    color: Gradient.threeColorByIndex(index, count, infographic.model.secondColor)
+                    color: "transparent"
 
                     SequentialAnimation {
-                        id: pastCircleGrowAnim
+                        id: pastCircleChangeAnim
 
                         loops: 1
                         ParallelAnimation {
                             PropertyAnimation {
                                 target: pastCircle
                                 property: "opacity"
-                                from: 0.0
                                 to: pastCircle.circleOpacity
                                 easing.type: Easing.OutCurve
-                                duration: circleGrowAnimTimer.interval * 4
+                                duration: circleChangeAnimTimer.interval * __circleModifier
                             }
                             PropertyAnimation {
                                 target: pastCircle
                                 property: "scale"
-                                from: 0.0
                                 to: modelData
                                 easing.type: Easing.OutCurve
-                                duration: circleGrowAnimTimer.interval * 4
+                                duration: circleChangeAnimTimer.interval * __circleModifier
                             }
-                        }
-                    }
-
-                    SequentialAnimation {
-                        id: pastCircleShrinkAnim
-
-                        loops: 1
-                        ParallelAnimation {
-                            PropertyAnimation {
+                            ColorAnimation {
                                 target: pastCircle
-                                property: "opacity"
-                                from: pastCircle.circleOpacity
-                                to: 0.0
+                                property: "color"
+                                to: Gradient.threeColorByIndex(index, count, infographic.model.secondColor)
                                 easing.type: Easing.OutCurve
-                                duration: circleShrinkAnimTimer.interval * 4
-                            }
-                            PropertyAnimation {
-                                target: pastCircle
-                                property: "scale"
-                                from: modelData
-                                to: 0.0
-                                easing.type: Easing.OutCurve
-                                duration: circleShrinkAnimTimer.interval * 4
+                                duration: circleChangeAnimTimer.interval * __circleModifier
                             }
                         }
                     }
@@ -219,8 +176,7 @@ Item {
             model: infographic.model.firstMonth
 
             delegate: ObjectPositioner {
-                property alias presentCircleGrowAnim: presentCircleGrowAnim
-                property alias presentCircleShrinkAnim: presentCircleShrinkAnim
+                property alias presentCircleChangeAnim: presentCircleChangeAnim
 
                 index: model.index
                 count: presentCircles.count
@@ -240,10 +196,10 @@ Item {
                     opacity: 0.0
                     scale: 0.0
                     visible: modelData !== undefined
-                    color: Gradient.threeColorByIndex(index, infographic.model.currentDay, infographic.model.firstColor)
+                    color: "transparent"
 
                     SequentialAnimation {
-                        id: presentCircleGrowAnim
+                        id: presentCircleChangeAnim
 
                         loops: 1
 
@@ -253,36 +209,21 @@ Item {
                                 property: "opacity"
                                 to: presentCircle.circleOpacity
                                 easing.type: Easing.OutCurve
-                                duration: circleGrowAnimTimer.interval * 4
+                                duration: circleChangeAnimTimer.interval * __circleModifier
                             }
                             PropertyAnimation {
                                 target: presentCircle
                                 property: "scale"
                                 to: modelData
                                 easing.type: Easing.OutCurve
-                                duration: circleGrowAnimTimer.interval * 4
+                                duration: circleChangeAnimTimer.interval * __circleModifier
                             }
-                        }
-                    }
-
-                    SequentialAnimation {
-                        id: presentCircleShrinkAnim
-
-                        loops: 1
-                        ParallelAnimation {
-                            PropertyAnimation {
+                            ColorAnimation {
                                 target: presentCircle
-                                property: "opacity"
-                                to: 0.0
+                                property: "color"
+                                to: Gradient.threeColorByIndex(index, infographic.model.currentDay, infographic.model.firstColor)
                                 easing.type: Easing.OutCurve
-                                duration: circleShrinkAnimTimer.interval * 4
-                            }
-                            PropertyAnimation {
-                                target: presentCircle
-                                property: "scale"
-                                to: 0.0
-                                easing.type: Easing.OutCurve
-                                duration: circleShrinkAnimTimer.interval * 4
+                                duration: circleChangeAnimTimer.interval * __circleModifier
                             }
                         }
                     }
@@ -313,7 +254,7 @@ Item {
                     stop()
                 }
                 if (dotCounter == Math.round(dots.count / 2)) {
-                    circleGrowAnimTimer.startFromBeginning()
+                    circleChangeAnimTimer.startFromBeginning()
                 }
             }
 
@@ -340,8 +281,8 @@ Item {
                 } else {
                     stop()
                 }
-                if (dotCounter == Math.round(dots.count / 2)) {
-                    circleShrinkAnimTimer.startFromBeginning()
+                if (dotCounter == 0) {
+                    infographic.model.readyForDataChange()
                 }
             }
 
@@ -413,6 +354,7 @@ Item {
             property alias showAnim: increaseOpacity
 
             property real baseOpacity: 0.6
+            property real duration: dotShowAnimTimer.interval * 5
 
             height: 0.7 * backgroundCircle.width
             width: notification.height
@@ -432,7 +374,7 @@ Item {
                 property: "opacity"
                 from: 0.0
                 to: notification.baseOpacity
-                duration: dotShowAnimTimer.interval * dots.count * 5
+                duration: notification.duration * dots.count
             }
 
             PropertyAnimation {
@@ -442,7 +384,8 @@ Item {
                 property: "opacity"
                 from: notification.baseOpacity
                 to: 0.0
-                duration: dotShowAnimTimer.interval * dots.count * 5
+                duration: notification.duration * dots.count
+                onStopped: if (!__useDotAnimation) infographic.model.readyForDataChange()
             }
         }
     }
@@ -453,9 +396,10 @@ Item {
         onDoubleClicked: {
             if (!dotHideAnimTimer.running &&
                     !dotShowAnimTimer.running &&
-                    !circleShrinkAnimTimer.running &&
-                    !circleGrowAnimTimer.running)
+                    !circleChangeAnimTimer.running) {
+                __useDotAnimation = false
                 infographic.model.nextDataSource()
+            }
         }
 
         onClicked: mouse.accepted = false

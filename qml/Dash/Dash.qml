@@ -271,7 +271,7 @@ Showable {
         opacity: 0
         visible: opacity > 0
 
-        readonly property bool processing: dashContent.processing || scopeItem.processing
+        readonly property bool processing: dashContent.processing || scopeItem.processing || scopesOverview.processing
 
         Behavior on opacity {
             UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
