@@ -266,10 +266,8 @@ Item {
                     promptText = lockscreen.alphaNumeric ?
                                  i18n.tr("passphrase") : i18n.tr("passcode")
                 }
-                lockscreen.placeholderText = i18n.tr("Enter your %1").arg(promptText)
-                lockscreen.wrongPlaceholderText = i18n.tr("Incorrect %1").arg(promptText) +
-                                                  "\n" +
-                                                  i18n.tr("Please re-enter")
+                lockscreen.infoText = i18n.tr("Enter your %1").arg(promptText)
+                lockscreen.errorText = i18n.tr("Incorrect %1").arg(promptText)
                 lockscreen.show();
             }
         }

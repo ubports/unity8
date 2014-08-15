@@ -22,9 +22,11 @@ import "../Components"
 Column {
     id: root
     anchors.centerIn: parent
-    spacing: units.gu(3.5)
+    spacing: units.gu(2)
 
-    property alias placeholderText: pinentryField.placeholderText
+    property string infoText
+    property string retryText
+    property string errorText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
     property int minPinLength: -1
@@ -35,199 +37,173 @@ Column {
 
     property bool entryEnabled: true
 
-    function clear(playAnimation) {
+    function clear(showAnimation) {
         pinentryField.text = "";
-        if (playAnimation) {
+        if (showAnimation) {
+            pinentryField.incorrectOverride = true;
             wrongPasswordAnimation.start();
         }
     }
 
-    QtObject {
-        id: priv
-        property bool autoConfirm: root.minPinLength == root.maxPinLength && root.minPinLength != -1
-    }
-
-    UbuntuShape {
-        id: pinentryField
-        objectName: "pinentryField"
+    Label {
+        id: infoField
+        objectName: "infoTextLabel"
+        fontSize: "large"
+        color: "#f3f3e7"
         anchors.horizontalCenter: parent.horizontalCenter
-        color: "#55000000"
-        width:root.padWidth
-        height: units.gu(5)
-        radius: "medium"
-        property string text: ""
-        property string placeholderText: ""
-
-        function appendChar(character) {
-            if (root.maxPinLength == -1 || pinentryField.text.length < root.maxPinLength) {
-                pinentryField.text = pinentryField.text + character;
-            }
-        }
-
-        onTextChanged: {
-            pinentryFieldLabel.text = "";
-            for (var i = 0; i < text.length; ++i) {
-                pinentryFieldLabel.text += "•";
-            }
-            if (priv.autoConfirm && text.length === root.maxPinLength) {
-                root.entered(text);
-            }
-        }
-
-        Label {
-            id: pinentryFieldLabel
-            anchors.centerIn: parent
-            width: parent.width - (backspaceIcon.width + backspaceIcon.anchors.rightMargin) * 2
-            elide: Text.ElideMiddle
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: units.dp(44)
-            color: "#f3f3e7"
-            opacity: 0.6
-        }
-        Label {
-            id: pinentryFieldPlaceHolder
-            objectName: "pinentryFieldPlaceHolder"
-            anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            color: "#f3f3e7"
-            opacity: 0.6
-            text: parent.placeholderText
-            visible: pinentryFieldLabel.text.length == 0
-        }
-
-        Icon {
-            id: backspaceIcon
-            objectName: "backspaceIcon"
-            anchors {
-                top: parent.top
-                topMargin: units.gu(1)
-                right: parent.right
-                rightMargin: units.gu(2)
-                bottom: parent.bottom
-                bottomMargin: units.gu(1)
-            }
-            visible: entryEnabled && !priv.autoConfirm
-            width: height
-            name: "erase"
-            color: "#f3f3e7"
-            opacity: 0.6
-            MouseArea {
-                anchors.fill: parent
-                onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
-            }
-        }
+        text: root.infoText
     }
 
-    UbuntuShape {
-        anchors {
-            left: parent.left
-            right: parent.right
-            margins: (parent.width - root.padWidth) / 2
-        }
-        height: root.padHeight
-        color: "#55000000"
-        radius: "medium"
+    Item {
+        id: pinContainer
+        anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
+        height: units.gu(4)
 
-        ThinDivider {
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: parent.top
-                topMargin: root.padHeight / 4
-            }
-        }
-        ThinDivider {
-            anchors {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
-        }
-        ThinDivider {
-            anchors {
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-                bottomMargin: root.padHeight / 4
-            }
-        }
+        Row {
+            id: pinentryField
+            objectName: "pinentryField"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: Math.max(0, Math.min(units.gu(3), (parent.width / root.maxPinLength) - units.gu(3)))
 
-        ThinDivider {
-            anchors.centerIn: parent
-            anchors.horizontalCenterOffset: -root.padWidth / 6
-            width: root.padHeight
-            rotation: -90
-        }
-        ThinDivider {
-            anchors.centerIn: parent
-            anchors.horizontalCenterOffset: root.padWidth / 6
-            width: root.padHeight
-            rotation: -90
-        }
-
-        Grid {
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: (parent.width - root.padWidth) / 2
-            }
-
-            columns: 3
+            property string text
+            property bool incorrectOverride: false
 
             Repeater {
-                model: 9
-
-                PinPadButton {
-                    objectName: "pinPadButton" + (index + 1)
-                    width: root.padWidth / 3
-                    height: root.padHeight / 4
-                    text: index + 1
-                    enabled: entryEnabled
-
-                    onClicked: {
-                        pinentryField.appendChar(text);
-                    }
+                model: pinentryField.text.length
+                delegate: Rectangle {
+                    color: "#f3f3e7"
+                    width: Math.min(units.gu(2), (pinContainer.width - pinContainer.height*2 ) / (root.maxPinLength >= 0 ? root.maxPinLength : 16))
+                    height: width
+                    radius: width / 2
                 }
             }
 
-            PinPadButton {
-                objectName: "pinPadButtonBack"
-                width: root.padWidth / 3
-                height: root.padHeight / 4
-                subText: i18n.tr("CANCEL")
-                onClicked: root.cancel();
-            }
-
-            PinPadButton {
-                objectName: "pinPadButton0"
-                width: root.padWidth / 3
-                height: root.padHeight / 4
-                text: "0"
-                onClicked: pinentryField.appendChar(text);
-                enabled: entryEnabled
-            }
-
-            PinPadButton {
-                objectName: "pinPadButtonErase"
-                width: root.padWidth / 3
-                height: root.padHeight / 4
-                iconName: priv.autoConfirm ? "erase" : ""
-                subText: priv.autoConfirm ? "" : i18n.tr("DONE")
-                onClicked: {
-                    if (priv.autoConfirm) {
-                        pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
-                    } else {
-                        root.entered(pinentryField.text);
-                    }
+            function appendNumber(number) {
+                if (incorrectOverride) {
+                    incorrectOverride = false;
                 }
-                enabled: priv.autoConfirm ? entryEnabled : pinentryField.text.length >= root.minPinLength
+
+                pinentryField.text = pinentryField.text + number
             }
+
+            function backspace() {
+                pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
+            }
+        }
+        Label {
+            id: wrongNoticeLabel
+            objectName: "wrongNoticeLabel"
+            fontSize: "x-large"
+            color: "#f3f3e7"
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: root.errorText
+            visible: pinentryField.incorrectOverride
+        }
+
+        AbstractButton {
+            objectName: "backspaceIcon"
+            anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
+            width: height
+
+            Icon {
+                anchors.fill: parent
+                name: "erase"
+                color: "#f3f3e7"
+            }
+
+            opacity: (pinentryField.text.length && !pinentryField.incorrectOverride) > 0 ? 1 : 0
+
+            Behavior on opacity {
+                UbuntuNumberAnimation {}
+            }
+
+            onClicked: pinentryField.backspace()
         }
     }
 
+
+    Label {
+        objectName: "retryLabel"
+        fontSize: "x-small"
+        color: "#f3f3e7"
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: root.retryText
+    }
+
+    ThinDivider {
+        anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
+    }
+
+    Grid {
+        id: numbersGrid
+        anchors { horizontalCenter: parent.horizontalCenter }
+        columns: 3
+
+        property int buttonHeight: units.gu(8)
+        property int buttonWidth: units.gu(12)
+
+        Repeater {
+            model: 9
+
+            PinPadButton {
+                objectName: "pinPadButton" + text
+                text: index + 1
+                height: numbersGrid.buttonHeight
+                width: numbersGrid.buttonWidth
+                enabled: root.maxPinLength == -1 ||
+                         pinentryField.text.length < root.maxPinLength ||
+                         pinentryField.incorrectOverride
+
+                onClicked: {
+                    pinentryField.appendNumber(index + 1)
+                }
+            }
+        }
+        Item {
+            height: numbersGrid.buttonHeight
+            width: numbersGrid.buttonWidth
+        }
+        PinPadButton {
+            text: "0"
+            height: numbersGrid.buttonHeight
+            width: numbersGrid.buttonWidth
+            enabled: root.maxPinLength == -1 ||
+                     pinentryField.text.length < root.maxPinLength ||
+                     pinentryField.incorrectOverride
+
+            onClicked: {
+                pinentryField.appendNumber(0)
+            }
+        }
+        Item {
+            height: numbersGrid.buttonHeight
+            width: numbersGrid.buttonWidth
+        }
+        PinPadButton {
+            iconName: "close"
+            height: numbersGrid.buttonHeight
+            width: numbersGrid.buttonWidth
+
+            onClicked: root.cancel()
+        }
+        Item {
+            height: numbersGrid.buttonHeight
+            width: numbersGrid.buttonWidth
+        }
+        PinPadButton {
+            iconName: "tick"
+            objectName: "confirmButton"
+            height: numbersGrid.buttonHeight
+            width: numbersGrid.buttonWidth
+            enabled: pinentryField.text.length >= root.minPinLength
+
+            onClicked: root.entered(pinentryField.text)
+        }
+    }
     WrongPasswordAnimation {
         id: wrongPasswordAnimation
         objectName: "wrongPasswordAnimation"
-        target: pinentryField
+        target: root
     }
 }

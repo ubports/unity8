@@ -22,7 +22,7 @@ Item {
     id: root
     height: highlightItem.height
 
-    property string placeholderText
+    property string infoText
     property string username: ""
     property bool entryEnabled: true
 
@@ -75,8 +75,7 @@ Item {
             echoMode: TextInput.Password
             opacity: 0.9
             hasClearButton: false
-            enabled: entryEnabled
-            placeholderText: root.placeholderText
+            placeholderText: root.infoText
 
             onAccepted: {
                 if (pinentryField.text) {

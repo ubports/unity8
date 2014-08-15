@@ -24,15 +24,14 @@ Showable {
     // Determine if a numeric or alphanumeric pad is used.
     property bool alphaNumeric: false
 
-    // Placeholder text
-    property string placeholderText: ""
-    // Placeholder text while shaking (e.g. Incorrect passprase)
-    property string wrongPlaceholderText: ""
+    // Informational text. (e.g. some text to tell which domain this is pin is entered for)
+    property string infoText: ""
+
     // Retries text (e.g. 3 retries left)
     property string retryText: ""
 
-    // Informational text. (e.g. some text to tell which domain this is pin is entered for.
-    property string infoText: ""
+    // The text to be displayed in case the login failed
+    property string errorText: ""
 
     // In case the Lockscreen can show a greeter message, this is the username
     property string username: ""
@@ -41,10 +40,7 @@ Showable {
     // If both are unset, the Lockscreen will show a confirm button and allow typing any length of pin before
     // confirming. If minPinLength is set to a value > 0, the confirm button will only become active when the
     // entered pin is at least that long. If maxPinLength is set, the lockscreen won't allow entering any
-    // more numbers than that. If both are set to the same value, the lockscreen will enter auto confirming
-    // behavior, hiding the confirmation button and triggering that automatically when the entered pin reached
-    // that length. This is ignored by the alphaNumeric lockscreen as that one is always confirmed by pressing
-    // enter on the OSK.
+    // more numbers than that.
     property int minPinLength: -1
     property int maxPinLength: -1
 
@@ -110,41 +106,6 @@ Showable {
         anchors.fill: root
     }
 
-    Column {
-        spacing: units.gu(2)
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: pinPadLoader.top
-            bottomMargin: units.gu(2)
-        }
-        Label {
-            objectName: "retryCountLabel"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            text: root.retryText
-            horizontalAlignment: Text.AlignHCenter
-            color: "#f3f3e7"
-            opacity: 0.6
-            visible: root.retryText.length > 0
-        }
-        Label {
-            id: infoTextLabel
-            objectName: "infoTextLabel"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            text: root.infoText
-            horizontalAlignment: Text.AlignHCenter
-            color: "#f3f3e7"
-            opacity: 0.6
-            visible: root.infoText.length > 0
-        }
-    }
-
     Loader {
         id: pinPadLoader
         objectName: "pinPadLoader"
@@ -152,7 +113,7 @@ Showable {
             left: parent.left
             right: parent.right
             verticalCenter: parent.verticalCenter
-            verticalCenterOffset: root.alphaNumeric ? -units.gu(10) : -units.gu(4)
+            verticalCenterOffset: root.alphaNumeric ? -units.gu(10) : 0
         }
         property bool resetting: false
         property bool waiting: false
@@ -193,10 +154,18 @@ Showable {
         }
         Binding {
             target: pinPadLoader.item
-            property: "placeholderText"
-            value: forcedDelayTimer.running ? pinPadLoader.forcedDelayText :
-                   (pinPadLoader.showWrongText ? root.wrongPlaceholderText :
-                    root.placeholderText)
+            property: "infoText"
+            value: root.infoText
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "retryText"
+            value: root.retryText
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "errorText"
+            value: root.errorText
         }
         Binding {
             target: pinPadLoader.item
@@ -210,8 +179,9 @@ Showable {
         }
     }
 
-    Column {
-        id: emergencyCallColumn
+    Label {
+        id: emergencyCallLabel
+        objectName: "emergencyCallLabel"
 
         // FIXME: We *should* show emergency dialer if there is a SIM present,
         // regardless of whether the side stage is enabled.  But right now,
@@ -223,37 +193,21 @@ Showable {
         visible: !shell.sideStageEnabled
 
         anchors {
-            left: parent.left
             bottom: parent.bottom
             bottomMargin: units.gu(4)
-            right: parent.right
-        }
-        height: childrenRect.height
-        spacing: units.gu(1)
-
-        Icon {
-            objectName: "emergencyCallIcon"
-            height: units.gu(3)
-            width: height
-            anchors.horizontalCenter: parent.horizontalCenter
-            name: "phone-app-call-symbolic"
-            color: "#f3f3e7"
-            opacity: 0.6
+            horizontalCenter: parent.horizontalCenter
         }
 
-        Label {
-            text: i18n.tr("Emergency Call")
-            color: "#f3f3e7"
-            opacity: 0.6
-            fontSize: "medium"
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+        text: i18n.tr("Emergency Call")
+        color: "#f3f3e7"
+        opacity: 0.6
+        fontSize: "small"
     }
 
     MouseArea {
-        anchors.fill: emergencyCallColumn
+        anchors.fill: emergencyCallLabel
         onClicked: root.emergencyCall()
-        enabled: emergencyCallColumn.visible
+        enabled: emergencyCallLabel.visible
     }
 
     Component {
