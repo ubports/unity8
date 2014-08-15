@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-13 09:36+0000\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-14 14:23+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-14 07:37+0000\n"
+"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "Contrasinal : "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -92,38 +96,50 @@ msgstr ""
 "Agora xa domina os xestos dos bordos e pode comezar a usar o "
 "teléfono<br><br>Toque na pantalla para comezar"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "Demasiados erros"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "Agarde"
+
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Chamada de emerxencia"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:268
 msgid "OK"
 msgstr "Aceptar"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "Ola %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "Ola"
 
-#: qml/Components/PinLockscreen.qml:198
+#: qml/Components/PinLockscreen.qml:197
 msgid "CANCEL"
 msgstr "CANCELAR"
 
-#: qml/Components/PinLockscreen.qml:216
+#: qml/Components/PinLockscreen.qml:215
 msgid "DONE"
 msgstr "FEITO"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See all"
 msgstr "Ver todo"
+
+#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Buscar"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -145,15 +161,15 @@ msgstr "Engadir unha opinión"
 msgid "Send"
 msgstr "Enviar"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
 msgstr "Xestionar o Panel"
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
 msgstr "Feito"
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
 msgstr "Tenda"
 
@@ -237,11 +253,52 @@ msgstr "Desbloquear a SIM"
 msgid "Roaming"
 msgstr "Itinerancia"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Buscar"
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "Frase de paso"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "código"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
+msgid "Enter your %1"
 msgstr "Introduza %1"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "Incorrecto %1"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "Introducir de novo"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "Sentímolo é incorrecta."
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "Sentímolo é incorrecto."
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "Este será o seu último intento."
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Se a frase de paso introducida é incorrecta, o teléfono restabelecerá os "
+"valores de fábrica e perderá todos os datos persoais."
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Se o código introducido é incorrecto, o teléfono restabelecerá os valores de "
+"fábrica e perderá todos os datos persoais."

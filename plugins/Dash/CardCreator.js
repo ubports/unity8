@@ -439,14 +439,14 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText)';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
 
     var hasTitleContainer = hasTitle && (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes)));
     var titleSubtitleCode = '';
     if (hasTitle) {
         var titleColor;
         if (headerAsOverlay) {
-            titleColor = 'overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText)';
+            titleColor = 'root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
         } else if (hasSummary) {
             titleColor = 'summary.color';
         } else if (hasBackground) {

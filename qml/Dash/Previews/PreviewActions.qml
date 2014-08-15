@@ -24,8 +24,6 @@ import QtQuick 2.1
 PreviewWidget {
     id: root
 
-    property var scopeStyle: null
-
     height: row.height + units.gu(1)
 
     Row {
