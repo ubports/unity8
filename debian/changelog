@@ -1,3 +1,33 @@
+unity8 (8.00+14.10.20140815.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Bring dialer to front on incoming call even when device is locked
+    (LP: #1354532)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Use palette's baseText for text colour in dash.
+  * Update qmltypes definitions
+  * Move PageHeader out of qml/Components into qml/Dash
+  * Reshuffle and update dependencies
+  * Fix cardtool test and make card creator output debugging info on
+    errors.
+  * Support previews for scopes in overview and hook up preview
+    processing to activity indicator.
+  * Fix notifications indicator title
+  * Fix horizontal list activation and add test for it.
+
+  [ Ying-Chun Liu ]
+  * Add button colors and i18n for power off dialog. (LP: #1354506)
+
+  [ Mirco Müller ]
+  * Force plain-text rendering for summary- and body-text. (LP:
+    #1335787)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 15 Aug 2014 17:38:07 +0000
+
 unity8 (8.00+14.10.20140814.1-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
