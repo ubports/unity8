@@ -166,7 +166,7 @@ Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: accountsservice-ubuntu-schemas,
-         gsettings-ubuntu-schemas (>= 0.0.3),
+         gsettings-ubuntu-schemas (> 0.0.2+14.10.20140813),
          libhardware2,
          libunity-core-6.0-9,
          pay-service,
