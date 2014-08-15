@@ -59,9 +59,10 @@ PreviewWidget {
         }
         Icon {
             anchors.fill: parent
-            width: 64
-            height: 64
+            width: units.gu(3)
+            height: units.gu(3)
             name: root.expanded ? "view-collapse" : "view-expand"
+            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
         }
     }
 

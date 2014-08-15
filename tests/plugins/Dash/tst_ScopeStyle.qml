@@ -52,7 +52,7 @@ Rectangle {
 
         function test_foreground_data() {
             return [
-                { tag: "default", index: 0, foreground: Theme.palette.normal.foreground, luminance: 0.5725 },
+                { tag: "default", index: 0, foreground: UbuntuColors.darkGrey, luminance: 0.3647 },
                 { tag: "red on black", index: 1, foreground: "red", luminance: 0.2126 },
                 { tag: "green on white", index: 2, foreground: "green", luminance: 0.3590 },
                 { tag: "blue on darkgrey", index: 3, foreground: "blue", luminance: 0.0722 },
@@ -82,48 +82,32 @@ Rectangle {
             compare(tool.backgroundLuminance.toFixed(4), data.luminance.toFixed(4));
         }
 
-        function test_threshold_data() {
+        function test_getTextColor_data() {
             return [
-                { tag: "default", index: 0, threshold: 0.7863 },
-                { tag: "red on black", index: 1, threshold: 0.1063 },
-                { tag: "green on white", index: 2, threshold: 0.6795 },
-                { tag: "blue on darkgrey", index: 3, threshold: 0.3675 },
+                { tag: "default on black", background: "black", index: 0, textColor: "white" },
+                { tag: "default on lightgrey", background: "lightgrey", index: 0, textColor: UbuntuColors.darkGrey },
+                { tag: "default on white", background: "white", index: 0, textColor: UbuntuColors.darkGrey },
+                { tag: "default on yellow", background: "yellow", index: 0, textColor: UbuntuColors.darkGrey },
+                { tag: "red/black on black", background: "black", index: 1, textColor: "red" },
+                { tag: "red/black on lightgrey", background: "lightgrey", index: 1, textColor: "black" },
+                { tag: "red/black on white", background: "white", index: 1, textColor: "black" },
+                { tag: "red/black on yellow", background: "yellow", index: 1, textColor: "black" },
+                { tag: "green/white on black", background: "black", index: 2, textColor: "white" },
+                { tag: "green/white on lightgrey", background: "lightgrey", index: 2, textColor: "green" },
+                { tag: "green/white on white", background: "white", index: 2, textColor: "green" },
+                { tag: "green/white on yellow", background: "yellow", index: 2, textColor: "green" },
+                { tag: "blue/darkgrey on black", background: "black", index: 3, textColor: "darkgrey" },
+                { tag: "blue/darkgrey on lightgrey", background: "lightgrey", index: 3, textColor: "blue" },
+                { tag: "blue/darkgrey on white", background: "white", index: 3, textColor: "blue" },
+                { tag: "blue/darkgrey on yellow", background: "yellow", index: 3, textColor: "blue" },
             ];
         }
 
-        function test_threshold(data) {
+        function test_getTextColor(data) {
             tool.style = testCase.styles[data.index];
-            compare(tool.threshold.toFixed(4), data.threshold.toFixed(4), "Luminance threshold was incorrect.");
-        }
-
-        function test_light_data() {
-            return [
-                { tag: "default", index: 0, light: "white" },
-                { tag: "red on black", index: 1, light: "red" },
-                { tag: "green on white", index: 2, light: "white" },
-                { tag: "blue on darkgrey", index: 3, light: "darkgrey" },
-            ];
-        }
-
-        function test_light(data) {
-            tool.style = testCase.styles[data.index];
-            verify(Qt.colorEqual(tool.light, data.light),
-                   "Light color not equal: %1 != %2".arg(tool.light).arg(data.light));
-        }
-
-        function test_dark_data() {
-            return [
-                { tag: "default", index: 0, dark: Theme.palette.normal.baseText },
-                { tag: "red on black", index: 1, dark: "black" },
-                { tag: "green on white", index: 2, dark: "green" },
-                { tag: "blue on darkgrey", index: 3, dark: "blue" },
-            ];
-        }
-
-        function test_dark(data) {
-            tool.style = testCase.styles[data.index];
-            verify(Qt.colorEqual(tool.dark, data.dark),
-                   "Dark color not equal: %1 != %2".arg(tool.dark).arg(data.dark));
+            var textColor = tool.getTextColor(Style.luminance(data.background));
+            verify(Qt.colorEqual(textColor, data.textColor),
+                   "TextColor not equal: %1 != %2".arg(textColor).arg(data.textColor));
         }
 
         function test_headerLogo_data() {
@@ -140,7 +124,7 @@ Rectangle {
 
         function test_headerForeground_data() {
             return [
-                { tag: "default", index: 0, headerForeground: Theme.palette.normal.baseText },
+                { tag: "default", index: 0, headerForeground: UbuntuColors.darkGrey },
                 { tag: "black", index: 2, headerForeground: "black" },
             ];
         }
