@@ -25,7 +25,7 @@ Item {
     signal triggeredAction(var actionData)
 
     property alias model: actionRepeater.model
-    property color strokeColor: Theme.palette.normal.textBase
+    property alias strokeColor: moreButton.strokeColor
 
     Button {
         id: moreButton
@@ -33,7 +33,7 @@ Item {
 
         objectName: "moreLessButton"
         text: !expanded ? i18n.tr("More...") : i18n.tr("Less...")
-        strokeColor: root.strokeColor
+        strokeColor: Theme.palette.normal.baseText
         onClicked: expanded = !expanded
         width: parent.width
     }
@@ -61,7 +61,7 @@ Item {
                 data: modelData
                 width: implicitWidth < parent.width ? parent.width : implicitWidth
                 onClicked: root.triggeredAction(modelData)
-                strokeColor: root.strokeColor
+                strokeColor: moreButton.strokeColor
             }
         }
     }
