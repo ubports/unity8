@@ -70,7 +70,7 @@ Loader {
         item.widgetData = Qt.binding(function() { return root.widgetData } )
         item.isCurrentPreview = Qt.binding(function() { return root.isCurrentPreview } )
         item.expanded = Qt.binding(function() { return root.expanded } )
-        if (item.hasOwnProperty("scopeStyle")) item.scopeStyle = root.scopeStyle;
+        item.scopeStyle = Qt.binding(function() { return root.scopeStyle } )
     }
 
     Connections {
