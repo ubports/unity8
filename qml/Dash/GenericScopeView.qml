@@ -493,7 +493,7 @@ FocusScope {
             }
             fontSize: "small"
             font.weight: Font.Bold
-            color: scopeStyle ? scopeStyle.foreground : "grey"
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
         }
 
         Connections {
