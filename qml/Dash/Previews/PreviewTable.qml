@@ -47,7 +47,7 @@ PreviewWidget {
             }
             height: visible ? implicitHeight : 0
             fontSize: "large"
-            color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
             visible: text !== ""
             opacity: .8
             text: widgetData["title"] || ""
@@ -70,7 +70,7 @@ PreviewWidget {
                         fontSize: "small"
                         text: perRowRepeater.model[index]
                         visible: root.expanded || rowIndex < maximumCollapsedRowCount
-                        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
                         font.bold: index == 0
                     }
                 }
