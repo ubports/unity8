@@ -53,16 +53,15 @@ public:
                 this, SLOT(handlePrompt(QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)));
     }
 
+    ~GreeterImpl()
+    {
+        cancelPam();
+    }
+
     void start(QString username)
     {
-        // Clear out any existing PAM interactions first (we can't simply
-        // cancel our QFuture because QtConcurrent::run doesn't support cancel)
-        if (pamHandle != NULL) {
-            pam_handle *handle = pamHandle;
-            pamHandle = NULL; // to disable normal finishPam() handling
-            while (respond(QString())); // clear our local queue of QFutures
-            pam_end(handle, PAM_CONV_ERR);
-        }
+        // Clear out any existing PAM interactions first
+        cancelPam();
 
         // Now actually start a new conversation with PAM
         pam_conv conversation;
@@ -212,6 +211,17 @@ private Q_SLOTS:
     }
 
 private:
+    void cancelPam()
+    {
+        // Unfortunately we can't simply cancel our QFuture because QtConcurrent::run doesn't support cancel
+        if (pamHandle != NULL) {
+            pam_handle *handle = pamHandle;
+            pamHandle = NULL; // to disable normal finishPam() handling
+            while (respond(QString())); // clear our local queue of QFutures
+            pam_end(handle, PAM_CONV_ERR);
+        }
+    }
+
     Greeter *greeter;
     GreeterPrivate *greeterPrivate;
     pam_handle* pamHandle;
