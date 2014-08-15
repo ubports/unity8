@@ -85,8 +85,8 @@ FocusScope {
         } else {
             subPageLoader.model = resultsModel;
         }
-        subPageLoader.currentIndex = -1;
-        subPageLoader.currentIndex = index;
+        subPageLoader.initialIndex = -1;
+        subPageLoader.initialIndex = index;
         subPageLoader.subPage = "preview";
         subPageLoader.openSubPage();
     }
@@ -466,11 +466,12 @@ FocusScope {
         property bool open: false
         property var scope: scopeView.scope
         property var scopeStyle: scopeView.scopeStyle
-        property int currentIndex: -1
+        property int initialIndex: -1
         property var model: null
 
         readonly property bool processing: status === Loader.Ready && item.hasOwnProperty("processing") ? item.processing : false
         readonly property int count: status === Loader.Ready && item.hasOwnProperty("count") ? item.count : 0
+        readonly property int currentIndex: status === Loader.Ready && item.hasOwnProperty("currentIndex") ? item.currentIndex : false
         readonly property var currentItem: status === Loader.Ready && item.hasOwnProperty("currentItem") ? item.currentItem : false
 
         property string subPage: ""
@@ -482,7 +483,7 @@ FocusScope {
                 item.scope = Qt.binding(function() { return subPageLoader.scope } )
                 item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle } )
                 if (item.hasOwnProperty("open")) item.open = Qt.binding(function() { return subPageLoader.open } )
-                if (item.hasOwnProperty("currentIndex")) item.currentIndex = Qt.binding(function() { return subPageLoader.currentIndex } )
+                if (item.hasOwnProperty("initialIndex")) item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex } )
                 if (item.hasOwnProperty("model")) item.model = Qt.binding(function() { return subPageLoader.model } )
             }
         }

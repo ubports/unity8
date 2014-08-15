@@ -23,6 +23,7 @@ import "Previews" as Previews
 Item {
     id: root
 
+    property int initialIndex: -1
     property var scope: null
     property var scopeStyle: null
 
@@ -78,6 +79,10 @@ Item {
                 scope.cancelActivation();
                 model = undefined;
             }
+        }
+
+        onCountChanged: {
+            if (count > 0) currentIndex = initialIndex;
         }
 
         delegate: Previews.Preview {

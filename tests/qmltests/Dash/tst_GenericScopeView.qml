@@ -410,7 +410,6 @@ Item {
                 verify(background, "Could not find the background");
                 compare(background.style, data.background);
 
-                wait(50) // XXX Cimi my machine needs this to pass the following checks
                 var image = findChild(genericScopeView, "titleImage");
                 if (data.logo == "") expectFail(data.tag, "Title image should not exist.");
                 verify(image, "Could not find the title image.");
