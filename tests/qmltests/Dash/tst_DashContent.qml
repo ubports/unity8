@@ -266,7 +266,7 @@ Item {
             verify(carouselLV.tileWidth / carouselLV.tileHeight == cardTool.components["art"]["aspect-ratio"]);
         }
 
-        function test_navigations() {
+        function test_mainNavigation() {
             var dashContentList = findChild(dashContent, "dashContentList");
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
@@ -381,6 +381,66 @@ Item {
             mouseClick(allButton, 0, 0);
             tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle2");
         }
+
+        function test_altNavigation() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
+            tryCompare(dashNavigation, "visible", true);
+            var dashNavigationButton = findChild(dashContentList.currentItem, "altNavigationButton");
+            verify(dashNavigationButton, "Can't find navigation button");
+
+            compare(dashNavigationButton.showList, false);
+            waitForRendering(dashNavigationButton);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
+
+            var navigationListView = findChild(dashNavigationButton, "navigationListView");
+            compare(navigationListView.count, 1);
+            tryCompare(navigationListView.currentItem.navigation, "loaded", true);
+
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
+
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "altrootChild1");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "altroot");
+
+            var allButton = findChild(dashNavigationButton, "allButton");
+            compare(allButton.visible, false);
+            var backButton = findChild(navigationListView, "backButton");
+            compare(backButton.visible, false);
+
+            var navigation = findChild(dashNavigationButton, "navigation0child3");
+            mouseClick(navigation, 0, 0);
+            compare(dashNavigationButton.showList, false);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "altrootChild3");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "altroot");
+
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
+            compare(allButton.visible, false);
+
+            navigation = findChild(dashNavigationButton, "navigation0child2");
+            mouseClick(navigation, 0, 0);
+            compare(dashNavigationButton.showList, false);
+            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "altrootChild2");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "altroot");
+
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
+            verify(!backButton.visible, "Back button should not be visible");
+
+            var navigationList1 = findChild(dashNavigationButton, "navigation1");
+            verify(navigationList1 === null, "There should be no second-level navigation");
+
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, false);
+        }
+
 
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
