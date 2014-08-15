@@ -67,10 +67,10 @@ Item {
         id: logoutDialog
         Dialog {
             id: dialogueLogout
-            title: i18n.tr("Logout")
-            text: i18n.tr("Are you sure that you want to logout?")
+            title: i18n.tr("Log out")
+            text: i18n.tr("Are you sure you want to log out?")
             Button {
-                text: i18n.tr("Cancel")
+                text: i18n.tr("No")
                 onClicked: {
                     PopupUtils.close(dialogueLogout);
                     d.dialogShown = false;
@@ -91,10 +91,10 @@ Item {
         id: shutdownDialog
         Dialog {
             id: dialogueShutdown
-            title: i18n.tr("Shutdown")
-            text: i18n.tr("Are you sure that you want to shutdown?")
+            title: i18n.tr("Shut down")
+            text: i18n.tr("Are you sure you want to shut down?")
             Button {
-                text: i18n.tr("Cancel")
+                text: i18n.tr("No")
                 onClicked: {
                     PopupUtils.close(dialogueShutdown);
                     d.dialogShown = false;
@@ -117,9 +117,9 @@ Item {
         Dialog {
             id: dialogueReboot
             title: i18n.tr("Reboot")
-            text: i18n.tr("Are you sure that you want to reboot?")
+            text: i18n.tr("Are you sure you want to reboot?")
             Button {
-                text: i18n.tr("Cancel")
+                text: i18n.tr("No")
                 onClicked: {
                     PopupUtils.close(dialogueReboot)
                     d.dialogShown = false;
@@ -142,7 +142,7 @@ Item {
         Dialog {
             id: dialoguePower
             title: i18n.tr("Power")
-            text: i18n.tr("Are you sure you would like to turn power off?")
+            text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
                 text: i18n.tr("Power off")
                 onClicked: {
