@@ -78,6 +78,7 @@ AbstractButton {
     ListView {
         id: navigationListView
         objectName: "navigationListView"
+        visible: height > 0
         orientation: ListView.Horizontal
         interactive: false
         clip: root.width != windowWidth
@@ -105,7 +106,7 @@ AbstractButton {
         highlightMoveDuration: UbuntuAnimation.FastDuration
         delegate: DashNavigationList {
             objectName: "navigation" + index
-            visible: height != 0
+            visible: height > 0
             width: navigationListView.width
             scopeStyle: root.scopeStyle
             foregroundColor: root.foregroundColor
