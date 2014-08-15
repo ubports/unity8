@@ -349,9 +349,9 @@ Item {
 
     Rectangle {
         anchors {
-            top: bottomBorder.bottom
             left: parent.left
             right: parent.right
+            bottom: bottomContainer.top
         }
         height: units.dp(1)
         opacity: 0.6

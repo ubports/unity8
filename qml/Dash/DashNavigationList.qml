@@ -32,7 +32,7 @@ Item {
     implicitHeight: flickable.contentHeight
 
     Background {
-        style: scopeStyle ? scopeStyle.navigationBackground : "color:///#f5f5f5"
+        style: root.scopeStyle ? root.scopeStyle.navigationBackground : "color:///#f5f5f5"
         anchors.fill: parent
     }
 
