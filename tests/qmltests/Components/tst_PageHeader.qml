@@ -242,7 +242,7 @@ Item {
             searchEntryEnabled: true
             title: "%^$%^%^&%^&%^$%GHR%"
             scopeStyle: QtObject {
-                readonly property color foreground: "grey"
+                readonly property color foreground: Theme.palette.normal.baseText
                 readonly property url headerLogo: showImageCheckBox.checked ? pageHeader.titleImageSource : ""
             }
             showBackButton: showBackButtonCheckBox.checked

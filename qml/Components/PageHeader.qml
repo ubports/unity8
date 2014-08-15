@@ -172,7 +172,7 @@ Item {
                 property var styledItem: searchHeader
                 property string title
                 property var config: PageHeadConfiguration {
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
                         iconName: "back"
                         onTriggered: {
@@ -242,7 +242,7 @@ Item {
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : "grey"
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
