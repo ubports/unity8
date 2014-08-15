@@ -8,15 +8,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
 "PO-Revision-Date: 2014-07-30 12:37+0000\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -91,38 +95,50 @@ msgstr ""
 "Du mestrer nu kantbevægelserne og kan begynde at bruge telefonen<br><br>Tryk "
 "på skærmen for at starte"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Nødopkald"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:268
 msgid "OK"
 msgstr "O.k."
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "Hej %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "Hej"
 
-#: qml/Components/PinLockscreen.qml:198
+#: qml/Components/PinLockscreen.qml:197
 msgid "CANCEL"
 msgstr "ANNULLÉR"
 
-#: qml/Components/PinLockscreen.qml:216
+#: qml/Components/PinLockscreen.qml:215
 msgid "DONE"
 msgstr "FÆRDIG"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See less"
 msgstr "Vis mindre"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See all"
 msgstr "Se alle"
+
+#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Søg"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -144,15 +160,15 @@ msgstr "Tilføj en forhåndsvisning"
 msgid "Send"
 msgstr "Send"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
 msgstr ""
 
@@ -236,11 +252,48 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Søg"
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr ""
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr ""
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
-msgstr "Indtast venligst %1"
+msgid "Enter your %1"
+msgstr ""
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr ""
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr ""
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr ""
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr ""
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""

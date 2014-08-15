@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-13 09:06+0000\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-14 19:08+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-14 07:37+0000\n"
+"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "Wachtwoord: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -90,38 +94,50 @@ msgstr ""
 "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
 "het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "Te veel mislukte pogingen"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "Even geduld a.u.b."
+
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Noodoproep"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:268
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "Hallo"
 
-#: qml/Components/PinLockscreen.qml:198
+#: qml/Components/PinLockscreen.qml:197
 msgid "CANCEL"
 msgstr "ANNULEREN"
 
-#: qml/Components/PinLockscreen.qml:216
+#: qml/Components/PinLockscreen.qml:215
 msgid "DONE"
 msgstr "KLAAR"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See all"
 msgstr "Alles zien"
+
+#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Zoeken"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -143,15 +159,15 @@ msgstr "Voeg recensie toe"
 msgid "Send"
 msgstr "Versturen"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
 msgstr "Snelzoeker-beheer"
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
 msgstr "Klaar"
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
 msgstr "Winkel"
 
@@ -235,11 +251,52 @@ msgstr "SIM-kaart deblokkeren"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Zoeken"
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "wachtwoordzin"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "toegangscode"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
-msgstr "Voer %1 in"
+msgid "Enter your %1"
+msgstr "Voer uw %1 in"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "%1 onjuist"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "A.u.b. opnieuw invoeren"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "Sorry, onjuiste wachtwoordzin."
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "Sorry, onjuiste toegangscode."
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "Dit zal uw laatste poging worden."
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
+"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Wanneer de toegangscode nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
+"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
