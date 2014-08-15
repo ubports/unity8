@@ -342,6 +342,7 @@ Showable {
         z: 1
         direction: Direction.Upwards
         enabled: !dashContent.previewShown &&
+                 !dashContent.settingsShown &&
                   dashContent.currentScope &&
                   dashContent.currentScope.searchQuery == "" &&
                   (overviewController.progress == 0 || dragging)
