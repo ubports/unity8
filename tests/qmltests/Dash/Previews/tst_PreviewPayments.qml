@@ -52,6 +52,8 @@ Rectangle {
         function cleanup()
         {
             spy.clear();
+            var button = findChild(root, "paymentButton");
+            button.opacity = 1;
         }
 
         function test_purchase_text_display() {
