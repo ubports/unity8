@@ -217,7 +217,10 @@ Item {
                 var floatingSeeLess = findChild(genericScopeView, "floatingSeeLess");
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 tryCompare(category, "expanded", true);
-                tryCompareFunction(function() { return category.item.height + floatingSeeLess.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
+                tryCompareFunction(function() {
+                    return category.item.height + floatingSeeLess.height ==
+                    genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd;
+                    }, true);
                 mouseClick(floatingSeeLess, floatingSeeLess.width / 2, floatingSeeLess.height / 2);
                 tryCompare(category, "expanded", false);
             }
