@@ -45,90 +45,96 @@ Column {
         }
     }
 
-    Label {
-        id: infoField
-        objectName: "infoTextLabel"
-        fontSize: "large"
-        color: "#f3f3e7"
+    Column {
+        id: shakeContainer
         anchors.horizontalCenter: parent.horizontalCenter
-        text: root.infoText
-    }
+        width: parent.width
+        spacing: units.gu(2)
 
-    Item {
-        id: pinContainer
-        anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
-        height: units.gu(4)
-
-        Row {
-            id: pinentryField
-            objectName: "pinentryField"
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: Math.max(0, Math.min(units.gu(3), (parent.width / root.maxPinLength) - units.gu(3)))
-
-            property string text
-            property bool incorrectOverride: false
-
-            Repeater {
-                model: pinentryField.text.length
-                delegate: Rectangle {
-                    color: "#f3f3e7"
-                    width: Math.min(units.gu(2), (pinContainer.width - pinContainer.height*2 ) / (root.maxPinLength >= 0 ? root.maxPinLength : 16))
-                    height: width
-                    radius: width / 2
-                }
-            }
-
-            function appendNumber(number) {
-                if (incorrectOverride) {
-                    incorrectOverride = false;
-                }
-
-                pinentryField.text = pinentryField.text + number
-            }
-
-            function backspace() {
-                pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
-            }
-        }
         Label {
-            id: wrongNoticeLabel
-            objectName: "wrongNoticeLabel"
-            fontSize: "x-large"
+            id: infoField
+            objectName: "infoTextLabel"
+            fontSize: "large"
             color: "#f3f3e7"
             anchors.horizontalCenter: parent.horizontalCenter
-            text: root.errorText
-            visible: pinentryField.incorrectOverride
+            text: root.infoText
         }
 
-        AbstractButton {
-            objectName: "backspaceIcon"
-            anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
-            width: height
+        Item {
+            id: pinContainer
+            anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
+            height: units.gu(4)
 
-            Icon {
-                anchors.fill: parent
-                name: "erase"
+            Row {
+                id: pinentryField
+                objectName: "pinentryField"
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: Math.max(0, Math.min(units.gu(3), (parent.width / root.maxPinLength) - units.gu(3)))
+
+                property string text
+                property bool incorrectOverride: false
+
+                Repeater {
+                    model: pinentryField.text.length
+                    delegate: Rectangle {
+                        color: "#f3f3e7"
+                        width: Math.min(units.gu(2), (pinContainer.width - pinContainer.height*2 ) / (root.maxPinLength >= 0 ? root.maxPinLength : 16))
+                        height: width
+                        radius: width / 2
+                    }
+                }
+
+                function appendNumber(number) {
+                    if (incorrectOverride) {
+                        incorrectOverride = false;
+                    }
+
+                    pinentryField.text = pinentryField.text + number
+                }
+
+                function backspace() {
+                    pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
+                }
+            }
+            Label {
+                id: wrongNoticeLabel
+                objectName: "wrongNoticeLabel"
+                fontSize: "x-large"
                 color: "#f3f3e7"
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: root.errorText
+                visible: pinentryField.incorrectOverride
             }
 
-            opacity: (pinentryField.text.length && !pinentryField.incorrectOverride) > 0 ? 1 : 0
+            AbstractButton {
+                objectName: "backspaceIcon"
+                anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
+                width: height
 
-            Behavior on opacity {
-                UbuntuNumberAnimation {}
+                Icon {
+                    anchors.fill: parent
+                    name: "erase"
+                    color: "#f3f3e7"
+                }
+
+                opacity: (pinentryField.text.length && !pinentryField.incorrectOverride) > 0 ? 1 : 0
+
+                Behavior on opacity {
+                    UbuntuNumberAnimation {}
+                }
+
+                onClicked: pinentryField.backspace()
             }
-
-            onClicked: pinentryField.backspace()
         }
-    }
 
-
-    Label {
-        objectName: "retryLabel"
-        fontSize: "x-small"
-        color: "#f3f3e7"
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: root.retryText
+        Label {
+            objectName: "retryLabel"
+            fontSize: "x-small"
+            color: "#f3f3e7"
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: root.retryText
+        }
     }
 
     ThinDivider {
@@ -204,6 +210,6 @@ Column {
     WrongPasswordAnimation {
         id: wrongPasswordAnimation
         objectName: "wrongPasswordAnimation"
-        target: root
+        target: shakeContainer
     }
 }
