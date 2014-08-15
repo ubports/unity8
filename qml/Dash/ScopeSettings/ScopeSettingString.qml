@@ -25,7 +25,7 @@ ScopeSetting {
     ListItem.Empty {
         id: listItem
         onClicked: {
-            control.focus = true;
+            control.forceActiveFocus();
             control.selectAll();
         }
 
