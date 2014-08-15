@@ -347,19 +347,6 @@ Item {
         }
     }
 
-    Rectangle {
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: bottomContainer.top
-        }
-        height: units.dp(1)
-        opacity: 0.6
-        color: scopeStyle ?
-                   Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2) :
-                   "#CCFFFFFF"
-    }
-
     Row {
         spacing: units.gu(.5)
         Repeater {
@@ -377,6 +364,20 @@ Item {
             horizontalCenter: headerContainer.horizontalCenter
             topMargin: units.gu(.5)
         }
+    }
+
+    // FIXME this doesn't work with solid scope backgrounds due to z-ordering
+    Rectangle {
+        anchors {
+            top: bottomContainer.top
+            left: parent.left
+            right: parent.right
+        }
+        height: units.dp(1)
+        opacity: 0.6
+        color: scopeStyle ?
+                   Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2) :
+                   "#CCFFFFFF"
     }
 
     Item {
