@@ -335,6 +335,29 @@ Item {
         }
 
         color: scopeStyle ? scopeStyle.headerDividerColor : "#e0e0e0"
+
+        Rectangle {
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            height: units.dp(1)
+            color: Qt.darker(parent.color, 1.1)
+        }
+    }
+
+    Rectangle {
+        anchors {
+            top: bottomBorder.bottom
+            left: parent.left
+            right: parent.right
+        }
+        height: units.dp(1)
+        opacity: 0.6
+        color: scopeStyle ?
+                   Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2) :
+                   "#CCFFFFFF"
     }
 
     Row {
