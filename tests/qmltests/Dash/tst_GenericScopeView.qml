@@ -78,6 +78,20 @@ Item {
                 spy.signalName = "";
             }
 
+            function scrollToCategory(category) {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                tryCompareFunction(function() {
+                    if (findChild(genericScopeView, category)) return true;
+                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
+                               genericScopeView.width/2, genericScopeView.y)
+                    tryCompare(categoryListView, "moving", false);
+                    return findChild(genericScopeView, category) !== null;
+                }, true);
+
+                tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
+                return findChild(genericScopeView, category);
+            }
+
             function test_isActive() {
                 tryCompare(genericScopeView.scope, "isActive", false)
                 genericScopeView.isCurrent = true
@@ -224,12 +238,7 @@ Item {
             }
 
             function test_forced_category_expansion() {
-                tryCompareFunction(function() {
-                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
-                               genericScopeView.width/2, genericScopeView.y)
-                    return findChild(genericScopeView, "dashCategory19") !== null;
-                }, true);
-                var category = findChild(genericScopeView, "dashCategory19")
+                var category = scrollToCategory("dashCategory19");
                 compare(category.expandable, false, "Category with collapsed-rows: 0 should not be expandable");
 
                 var grid = findChild(category, "19");
@@ -287,25 +296,47 @@ Item {
             }
 
             function test_showPreviewCarousel() {
-                tryCompareFunction(function() {
-                                        var dashCategory1 = findChild(genericScopeView, "dashCategory1");
-                                        if (dashCategory1 != null) {
-                                            var tile = findChild(dashCategory1, "carouselDelegate1");
-                                            return tile != null;
-                                        }
-                                        return false;
-                                    },
-                                    true);
+                var category = scrollToCategory("dashCategory1");
 
                 tryCompare(testCase.subPageLoader, "open", false);
 
-                var dashCategory1 = findChild(genericScopeView, "dashCategory1");
-                var tile = findChild(dashCategory1, "carouselDelegate1");
+                var tile = findChild(category, "carouselDelegate1");
+                verify(tile, "Could not find delegate");
+
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(tile, "explicitlyScaled", true);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
+
+                closePreview();
+
+                mousePress(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
+                mouseRelease(tile, tile.width / 2, tile.height / 2);
+
+                closePreview();
+            }
+
+            function test_showPreviewHorizontalList() {
+                var category = scrollToCategory("dashCategory18");
+
+                tryCompare(testCase.subPageLoader, "open", false);
+
+                var tile = findChild(category, "delegate1");
+                verify(tile, "Could not find delegate");
+
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
+
+                closePreview();
+
+                mousePress(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
+                mouseRelease(tile, tile.width / 2, tile.height / 2);
 
                 closePreview();
             }
@@ -379,6 +410,7 @@ Item {
                 verify(background, "Could not find the background");
                 compare(background.style, data.background);
 
+                wait(50) // XXX Cimi my machine needs this to pass the following checks
                 var image = findChild(genericScopeView, "titleImage");
                 if (data.logo == "") expectFail(data.tag, "Title image should not exist.");
                 verify(image, "Could not find the title image.");
