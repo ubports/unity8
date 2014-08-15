@@ -31,8 +31,7 @@ Item {
     implicitHeight: flickable.contentHeight
 
     Rectangle {
-        color: !root.scopeStyle || Qt.colorEqual(root.scopeStyle.background, "transparent") ?
-                   "white" : root.scopeStyle.navigationBackground
+        color: !root.scopeStyle || root.scopeStyle.background.a !== 1 ? "white" : root.scopeStyle.navigationBackground
         anchors.fill: parent
     }
 
