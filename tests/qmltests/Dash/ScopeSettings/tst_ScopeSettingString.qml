@@ -51,9 +51,9 @@ Rectangle {
         property string newText: "new text to compare"
 
         function init() {
-            spy.clear();
             control.focus = false;
             control.text = settingData.value;
+            spy.clear();
         }
 
         function test_updated_on_unfocus() {
