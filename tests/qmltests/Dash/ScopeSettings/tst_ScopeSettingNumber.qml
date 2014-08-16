@@ -90,8 +90,9 @@ Rectangle {
             control.selectAll();
             control.cut();
             control.insert(0, "not valid");
+            var spyCount = spy.count; // because SignalSpy is stupid and doesn't reset on clear()
             control.accepted();
-            compare(spy.count, 0);
+            compare(spy.count, spyCount);
             compare(control.displayText, "");
         }
     }
