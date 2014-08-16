@@ -368,6 +368,7 @@ Item {
 
     // FIXME this doesn't work with solid scope backgrounds due to z-ordering
     Rectangle {
+        visible: bottomBorder.visible
         anchors {
             top: bottomContainer.top
             left: parent.left
