@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-13 06:38+0000\n"
+"PO-Revision-Date: 2014-08-15 08:10+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
+"X-Launchpad-Export-Date: 2014-08-16 06:51+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "Salasana: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -96,11 +96,11 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:161
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "Liian monta virheellistä yritystä"
 
 #: qml/Components/Lockscreen.qml:163
 msgid "Please wait"
-msgstr ""
+msgstr "Odota hetki"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -253,21 +253,21 @@ msgstr "Verkkovierailu"
 
 #: qml/Shell.qml:267
 msgid "passphrase"
-msgstr ""
+msgstr "tunnuslause"
 
 #: qml/Shell.qml:267
 msgid "passcode"
-msgstr ""
+msgstr "tunnuskoodi"
 
 #: qml/Shell.qml:269
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "Anna %1"
 
 #: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
-msgstr ""
+msgstr "Virheellinen %1"
 
 #: qml/Shell.qml:272
 msgid "Please re-enter"
@@ -275,24 +275,28 @@ msgstr ""
 
 #: qml/Shell.qml:306
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Virheellinen tunnuslause."
 
 #: qml/Shell.qml:307
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Virheellinen tunnuskoodi."
 
 #: qml/Shell.qml:308
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Tämä on viimeinen yritys."
 
 #: qml/Shell.qml:310
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Jos kirjoitat tunnuslauseen virheellisesti, puhelimesi palautetaan "
+"tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
 
 #: qml/Shell.qml:311
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Jos kirjoitat tunnuskoodin virheellisesti, puhelimesi palautetaan "
+"tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
