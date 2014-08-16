@@ -20,7 +20,7 @@ import Unity 0.2
 import ".."
 import "../../../qml/Dash"
 import "../../../qml/Components"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Unity.Test 0.1 as UT
 
 Item {
@@ -217,7 +217,10 @@ Item {
                 var floatingSeeLess = findChild(genericScopeView, "floatingSeeLess");
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 tryCompare(category, "expanded", true);
-                tryCompareFunction(function() { return category.item.height + floatingSeeLess.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
+                tryCompareFunction(function() {
+                    return category.item.height + floatingSeeLess.height ==
+                    genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd;
+                    }, true);
                 mouseClick(floatingSeeLess, floatingSeeLess.width / 2, floatingSeeLess.height / 2);
                 tryCompare(category, "expanded", false);
             }
@@ -334,9 +337,9 @@ Item {
 
             function test_header_style_data() {
                 return [
-                    { tag: "Default", index: 0, foreground: Theme.palette.normal.baseText, background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#f5f5f5", logo: "" },
                     { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#f5f5f5", logo: "" },
-                    { tag: "Logo+Background", index: 2, foreground: Theme.palette.normal.baseText, background: "gradient:///lightgrey/grey",
+                    { tag: "Logo+Background", index: 2, foreground: UbuntuColors.darkGrey, background: "gradient:///lightgrey/grey",
                       logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
             }
