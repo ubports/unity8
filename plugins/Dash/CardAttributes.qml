@@ -44,18 +44,18 @@ GridLayout {
             Layout.columnSpan: index == repeater.count - 1 && grid.columns == 3 && column == 1 ? 2 : 1
             Layout.maximumWidth: Math.max(icon.width, label.x + label.implicitWidth)
             Layout.fillWidth: true
-            height: implicitHeight || units.gu(2)
+            height: units.gu(2)
             StatusIcon {
                 id: icon
                 height: units.gu(2)
                 sets: ["actions", "status", "apps"]
-                source: "icon" in modelData ? modelData["icon"] : ""
+                source: "icon" in modelData && modelData["icon"] || ""
             }
             Label {
                 id: label
                 width: parent.width - x
                 anchors.verticalCenter: parent.verticalCenter
-                text: "value" in modelData ? modelData["value"] : "";
+                text: "value" in modelData && modelData["value"] || "";
                 elide: Text.ElideRight
                 maximumLineCount: 1
                 font.weight: "style" in modelData && modelData["style"] == "highlighted" ? Font.DemiBold : Font.Light
