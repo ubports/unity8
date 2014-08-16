@@ -148,7 +148,12 @@ Item {
 
     ScopeStyle {
         id: overviewScopeStyle
-        style: { "foreground-color" : "white", "background-color" : "transparent" }
+        style: { "foreground-color" : "white",
+                 "background-color" : "transparent",
+                 "page-header": {
+                    "background": "color:///transparent"
+                 }
+        }
     }
 
     DashBackground {
@@ -400,7 +405,7 @@ Item {
                     border.color: "white"
                     border.width: units.dp(1)
                     radius: units.dp(10)
-                    color: parent.pressed ? "gray" : "transparent"
+                    color: parent.pressed ? Theme.palette.normal.baseText : "transparent"
                 }
                 Label {
                     id: label

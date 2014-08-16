@@ -50,6 +50,7 @@ GridLayout {
                 height: units.gu(2)
                 sets: ["actions", "status", "apps"]
                 source: "icon" in modelData && modelData["icon"] || ""
+                color: grid.color
             }
             Label {
                 id: label
