@@ -453,9 +453,9 @@ Item {
         width: parent.width
         height: parent.height
         anchors.left: scopesOverviewContent.right
+
+        onBackClicked: open = false
     }
-
-
 
     Item {
         id: scopesOverviewXYScaler
