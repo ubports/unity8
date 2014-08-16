@@ -96,6 +96,9 @@ Q_SIGNALS:
     void authenticationComplete();
     void autologinTimerExpired();
 
+protected:
+    void sendAuthenticationComplete();
+
 private:
     GreeterPrivate *d_ptr;
     Q_DECLARE_PRIVATE(Greeter)

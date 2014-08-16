@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-08-03 13:00+0000\n"
-"Last-Translator: Arash Badie Modiri <arashbm@gmail.com>\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-15 14:00+0000\n"
+"Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-04 06:32+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-16 06:51+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "گذرواژه: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,47 +30,63 @@ msgstr "سنجاق کردن میانبر"
 msgid "Unpin shortcut"
 msgstr "برداشتن سنجاق میانبر"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr "مطمئنید که می‌خواهید خاموش کنید؟"
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr "خاموش کردن"
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr "شروع مجدّد"
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr "لغو"
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "پرش از مقدّمه"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "لبه‌ی راست"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "برای باز کردن قفل تلفن، از لبه‌ی راست بکشید"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "لبه‌ی بالا"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "برای دست‌رسی به نشانگرها، از لبه‌ی بالا بکشید"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "بستن"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "برای بستن صفحه‌ی تنظیمات، دوباره به بالا بکشپد"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "لبه‌ی چپ"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr "برای آشکار شدن اجراگر به منظور دست‌رسی سریع به اپ‌ها از سمت چپ بکشید"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "عالی بود"
 
-#: qml/Components/EdgeDemo.qml:228
+#: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -74,46 +94,50 @@ msgstr ""
 "هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید استفاده "
 "از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "تلاش‌های ناموفّق زیاد"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "لطفاً صبر کنید"
+
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "تماس اضطراری"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:268
 msgid "OK"
 msgstr "قبول"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "سلام %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "سلام"
 
-#: qml/Components/PinLockscreen.qml:198
+#: qml/Components/PinLockscreen.qml:197
 msgid "CANCEL"
 msgstr "لغو"
 
-#: qml/Components/PinLockscreen.qml:216
+#: qml/Components/PinLockscreen.qml:215
 msgid "DONE"
 msgstr "انجام شد"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "بیش‌تر ببینید"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See less"
 msgstr "کم‌تر ببینید"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "موارد اخیر"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See all"
 msgstr "دیدن همه"
+
+#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "جست‌وجو"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -134,6 +158,26 @@ msgstr "افزودن یک بازبینی"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "ارسال"
+
+#: qml/Dash/ScopesOverview.qml:201
+msgid "Manage Dash"
+msgstr "مدیریت دش"
+
+#: qml/Dash/ScopesOverview.qml:408
+msgid "Done"
+msgstr "انجام شد"
+
+#: qml/Dash/ScopesOverview.qml:434
+msgid "Store"
+msgstr "فروشگاه"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "برگزیده‌ها"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "همه"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -159,11 +203,11 @@ msgstr "اکنون صحبت کنید…"
 msgid "Speaking..."
 msgstr "در حال صحبت کردن…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "نمایش گذرواژه"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "لطفاً PIN سیم‌کارت را وارد کنید"
 
@@ -175,35 +219,84 @@ msgstr "برای بازگشت به تماس ضربه بزنید…"
 msgid "Conference"
 msgstr "کنفرانس"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "در صف…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "در حال بارگیری"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "مکث شد، برای از سر گیری ضربه بزنید"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "لغو شد"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "پایان یافت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "شکست خورد، برای تلاش دوباره ضربه بزنید"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "جست‌وجو"
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr "باز کردن قفل سیم‌کارت"
 
-#: qml/Shell.qml:359
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr "رومینگ"
+
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "عبارت‌عبور"
+
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "رمزعبور"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
-msgstr "لطفا %1 را وارد کنید"
+msgid "Enter your %1"
+msgstr "%1 خود را وارد کنید"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "%1 نادرست"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "لطفاً دوباره وارد کنید"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "متأسّفیم، عبارت‌عبور نادرست است."
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "متأسّفیم، رمزعبور نادرست است."
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "این آخرین تلاش شما خواهد بود."
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"اگر عبارت‌عبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
+"اطّلاعات شخصی حذف خواهند شد."
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"اگر رمزعبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
+"اطّلاعات شخصی حذف خواهند شد."

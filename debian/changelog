@@ -1,3 +1,117 @@
+unity8 (8.00+14.10.20140815.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Bring dialer to front on incoming call even when device is locked
+    (LP: #1354532)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Use palette's baseText for text colour in dash.
+  * Update qmltypes definitions
+  * Move PageHeader out of qml/Components into qml/Dash
+  * Reshuffle and update dependencies
+  * Fix cardtool test and make card creator output debugging info on
+    errors.
+  * Support previews for scopes in overview and hook up preview
+    processing to activity indicator.
+  * Fix notifications indicator title
+  * Fix horizontal list activation and add test for it.
+
+  [ Ying-Chun Liu ]
+  * Add button colors and i18n for power off dialog. (LP: #1354506)
+
+  [ Mirco Müller ]
+  * Force plain-text rendering for summary- and body-text. (LP:
+    #1335787)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 15 Aug 2014 17:38:07 +0000
+
+unity8 (8.00+14.10.20140814.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Add --lightdm= argument to ./run.sh that lets developers choose
+    which lightdm backend to use. Stop letting a user that is
+    immediately denied via PAM into the shell by fixing some assumptions
+    that a user which was not prompted was successfully authenticated.
+    This is not a common situation, you'd have to manually change your
+    PAM config. Fix a small console warning .
+  * Make wrong-password handling much nicer by showing a pretty spinner
+    while we wait for PAM, by improving the prompt text to match
+    designs, by forcing the user to wait five seconds after every five
+    failed attemps, and by supporting (but not yet enabling) an opt-in
+    "factory-reset your phone after X failed attemps" feature.
+
+  [ Michael Zanetti ]
+  * bring back network caching in dash (LP: #1355729)
+
+  [ Michał Sawicz ]
+  * Add --lightdm= argument to ./run.sh that lets developers choose
+    which lightdm backend to use. Stop letting a user that is
+    immediately denied via PAM into the shell by fixing some assumptions
+    that a user which was not prompted was successfully authenticated.
+    This is not a common situation, you'd have to manually change your
+    PAM config. Fix a small console warning .
+  * Fix anchor in PreviewListView.qml.
+  * Make wrong-password handling much nicer by showing a pretty spinner
+    while we wait for PAM, by improving the prompt text to match
+    designs, by forcing the user to wait five seconds after every five
+    failed attemps, and by supporting (but not yet enabling) an opt-in
+    "factory-reset your phone after X failed attemps" feature.
+  * Add new horizontal list category layout. (LP: #1352226)
+  * Fix qml tests - loader around PageHeader, more retries for selecting
+    a scope and undefined attributes in mock overview scope.
+
+  [ Leo Arias ]
+  * Added autopilot helpers and tests for the launcher and dash icon.
+  * Added an autopilot helper to click a scope item.
+  * Added an autopilot test for focusing an app clicking the icon on the
+    launcher.
+
+  [ Mirco Müller ]
+  * Allow ENTER/RETURN in a TextField to accept a snap-decision
+    notification. (LP: #1305885)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 14 Aug 2014 01:29:55 +0000
+
+unity8 (8.00+14.10.20140811-0ubuntu1) utopic; urgency=low
+
+  [ Andrea Cimitan ]
+  * Add emblem support in dash cards.
+
+  [ Michael Terry ]
+  * Fix a variety of design nits with the current lockscreen: * disable
+    indicators and launcher when locked * when reversing the direction
+    of a greeter flick, treat it as a cancel * don't animate dots when
+    changing the infographic data source * make cancelling a login
+    nicer: * reduce the delay before greeter starts animating * show the
+    greeter from the same side of the screen that it hid to * don't re-
+    animate the infographic (LP: #1351027)
+
+  [ Stephen M. Webb ]
+  * enables the unity8 upstart job for desktop sessions (LP: #1353041)
+
+  [ Albert Astals ]
+  * Dash Overview (LP: #1317683)
+  * GenericScopeView: On click only activate scope:// uris and
+    clickscope items The rest of clicks result in a preview, also
+    scope:// uris don't get a preview
+  * Pass the scope search hint up to the search line
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 11 Aug 2014 19:03:41 +0000
+
+unity8 (8.00+14.10.20140808-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Nick Dedekind ]
+  * Added application prompt surfaces to allow prompting application
+    which have not yet created a surface.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 08 Aug 2014 12:15:05 +0000
+
 unity8 (8.00+14.10.20140806.1-0ubuntu1) utopic; urgency=low
 
   [ Michal Hruby ]

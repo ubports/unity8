@@ -1,6 +1,0 @@
-[Allow LightDM to set Unity AccountsService fields]
-Identity=unix-user:lightdm
-Action=com.canonical.unity.AccountsService.ModifyAnyUser
-ResultActive=yes
-ResultInactive=yes
-ResultAny=yes

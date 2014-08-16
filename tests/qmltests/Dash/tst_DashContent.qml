@@ -70,7 +70,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 4);
+            tryCompare(scopeLoadedSpy, "count", 6);
         }
 
         function init() {
@@ -114,7 +114,8 @@ Item {
 
             loadScopes();
 
-            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
+            compare(dashContentList.count, 6);
+            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < dashContentList.count);
         }
 
         function test_show_header_on_list_movement() {
@@ -170,7 +171,7 @@ Item {
 
             // test greater than scope count.
             var currentScopeIndex = dashContent.currentIndex;
-            dashContent.setCurrentScopeAtIndex(8, true, false);
+            dashContent.setCurrentScopeAtIndex(18, true, false);
             compare(dashContent.currentIndex, currentScopeIndex, "Scope should not change if changing to greater index than count");
         }
 
@@ -189,9 +190,9 @@ Item {
         function test_scope_mapping_data() {
             return [
                 {tag: "index0", index: 0, objectName: "MockScope1"},
-                {tag: "index1", index: 1, objectName: "MockScope2"},
-                {tag: "index2", index: 2, objectName: "clickscope"},
-                {tag: "index3", index: 3, objectName: "MockScope5"}
+                {tag: "index1", index: 1, objectName: "clickscope"},
+                {tag: "index2", index: 2, objectName: "MockScope5"},
+                {tag: "index3", index: 3, objectName: "SingleCategoryScope"}
             ]
         }
 
@@ -378,6 +379,18 @@ Item {
             tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
             mouseClick(allButton, 0, 0);
             tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
+        }
+
+        function test_searchHint() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList !== null);
+            var scope = findChild(dashContent, "MockScope1 loader");
+            waitForRendering(scope);
+
+            var categoryListView = findChild(scope, "categoryListView");
+            waitForRendering(categoryListView);
+
+            compare(categoryListView.pageHeader.item.searchHint, "Search People");
         }
     }
 }

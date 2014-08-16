@@ -109,11 +109,13 @@ Categories::data(const QModelIndex& index, int role) const
             }
             case RoleComponents:
             {
-                QVariantMap map, artMap;
+                QVariantMap map, artMap, attributeMap;
                 artMap["aspect-ratio"] = "1.0";
                 artMap["field"] = "art";
                 map["art"] = artMap;
                 map["title"] = "HOLA";
+                attributeMap["field"] = "attribute";
+                map["attributes"] = attributeMap;
                 return map;
             }
             case RoleHeaderLink:
@@ -147,6 +149,9 @@ Categories::data(const QModelIndex& index, int role) const
                     map["card-size"] = "medium";
                     map["overlay"] = true;
                 }
+                if (index.row() == 18) {
+                    map["category-layout"] = "horizontal-list";
+                }
                 if (index.row() == 19) {
                     map["category-layout"] = "grid";
                     map["collapsed-rows"] = 0;
@@ -156,7 +161,7 @@ Categories::data(const QModelIndex& index, int role) const
             }
             case RoleComponents:
             {
-                QVariantMap map, artMap;
+                QVariantMap map, artMap, attributeMap;
                 if (index.row() % 2 != 0) {
                     artMap["aspect-ratio"] = QString("1.%1").arg(index.row());
                 } else {
@@ -166,6 +171,8 @@ Categories::data(const QModelIndex& index, int role) const
                 map["art"] = artMap;
                 map["title"] = "HOLA";
                 map["subtitle"] = "HOLA";
+                attributeMap["field"] = "attribute";
+                map["attributes"] = attributeMap;
                 return map;
             }
             case RoleHeaderLink:
