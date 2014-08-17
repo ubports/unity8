@@ -127,8 +127,9 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
+            tryCompareFunction(function() { return findChild(dash, "MockScope1 loader") != null; }, true);
             var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompare(mockScope1Loader, "status", Loader.Ready);
 
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
