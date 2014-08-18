@@ -471,8 +471,8 @@ FocusScope {
         readonly property var currentItem: item &&  item.currentItem || null
 
         property string subPage: ""
-        readonly property bool previewShown: open && subPage == "preview"
-        readonly property bool settingsShown: open && subPage == "settings"
+        readonly property bool previewShown: visible && subPage == "preview"
+        readonly property bool settingsShown: visible && subPage == "settings"
 
         function openSubPage(page) {
             subPage = page;
