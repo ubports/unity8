@@ -112,7 +112,9 @@ Item {
             source = "image://application/" + root.application.appId + "/" + timeMs;
         }
 
-        onSourceChanged: { console.log("screenshotImage.source = " + source); }
+        // Save memory by using a half-resolution (thus quarter size) screenshot
+        sourceSize.width: root.width / 2
+        sourceSize.height: root.height / 2
     }
 
     Loader {
