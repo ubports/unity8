@@ -75,6 +75,7 @@ Item {
             echoMode: TextInput.Password
             opacity: 0.9
             hasClearButton: false
+            enabled: root.entryEnabled
             placeholderText: root.infoText
 
             onAccepted: {
