@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../qml/Components"
+import "../../../qml/Dash"
 import Ubuntu.Components 0.1
 import Unity 0.2
 import Unity.Test 0.1 as UT
@@ -242,7 +242,7 @@ Item {
             searchEntryEnabled: true
             title: "%^$%^%^&%^&%^$%GHR%"
             scopeStyle: QtObject {
-                readonly property color foreground: "grey"
+                readonly property color foreground: Theme.palette.normal.baseText
                 readonly property url headerLogo: showImageCheckBox.checked ? pageHeader.titleImageSource : ""
             }
             showBackButton: showBackButtonCheckBox.checked

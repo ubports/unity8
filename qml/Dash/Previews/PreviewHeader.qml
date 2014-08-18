@@ -35,7 +35,7 @@ PreviewWidget {
         readonly property url mascot: root.widgetData["mascot"] || ""
         readonly property string title: root.widgetData["title"] || ""
         readonly property string subtitle: root.widgetData["subtitle"] || ""
-        readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+        readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
 
         implicitHeight: row.height + row.margins * 2
         width: parent.width

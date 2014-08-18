@@ -72,7 +72,7 @@ PreviewWidget {
                     id: authorLabel
                     objectName: "authorLabel"
                     anchors { left: parent.left; right: parent.right }
-                    color: scopeStyle ? scopeStyle.foreground : "grey"
+                    color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
                     opacity: .8
                     text: modelData["author"] || ""
                     visible: text !== ""
@@ -83,7 +83,7 @@ PreviewWidget {
                     id: reviewLabel
                     objectName: "reviewLabel"
                     anchors { left: parent.left; right: parent.right }
-                    color: scopeStyle ? scopeStyle.foreground : "grey"
+                    color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
                     opacity: .8
                     text: modelData["review"] || ""
                     visible: text !== ""

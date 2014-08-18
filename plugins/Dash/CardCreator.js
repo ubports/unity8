@@ -439,20 +439,20 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey")';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText)';
 
     var hasTitleContainer = hasTitle && (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes)));
     var titleSubtitleCode = '';
     if (hasTitle) {
         var titleColor;
         if (headerAsOverlay) {
-            titleColor = 'overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey")';
+            titleColor = 'overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText)';
         } else if (hasSummary) {
             titleColor = 'summary.color';
         } else if (hasBackground) {
             titleColor = summaryColorWithBackground;
         } else {
-            titleColor = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
+            titleColor = 'root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText';
         }
 
         var titleAnchors;
@@ -604,7 +604,7 @@ function cardString(template, components) {
         if (hasBackground) {
             summaryColor = summaryColorWithBackground;
         } else {
-            summaryColor = 'root.scopeStyle ? root.scopeStyle.foreground : "grey"';
+            summaryColor = 'root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText';
         }
 
         var summaryTopMargin = (hasMascot || hasSubtitle || hasAttributes ? 'anchors.margins' : '0');
@@ -639,7 +639,10 @@ function cardString(template, components) {
         implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
     } else if (hasArt) {
         implicitHeight += 'artShapeHolder.height;\n';
+    } else {
+        implicitHeight = '';
     }
+
     // Close the AbstractButton
     code += implicitHeight + '}\n';
 
@@ -653,5 +656,16 @@ function createCardComponent(parent, template, components) {
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
 
-    return Qt.createQmlObject(code, parent, "createCardComponent");
+    try {
+        return Qt.createQmlObject(code, parent, "createCardComponent");
+    } catch (e) {
+        console.error("ERROR: Invalid component created.");
+        console.error("Template:");
+        console.error(JSON.stringify(template));
+        console.error("Components:");
+        console.error(JSON.stringify(components));
+        console.error("Code:");
+        console.error(code);
+        throw e;
+    }
 }
