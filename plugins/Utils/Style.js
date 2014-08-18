@@ -22,7 +22,11 @@
  */
 function luminance() {
     var sum = 0;
-    for (var k in arguments) {
+    // TODO this was originally
+    // for (var k in arguments) {
+    // but for some unkown reason was causing crashes in testDash/testDashContent
+    // investigate when we have some time
+    for (var k = 0; k < arguments.length; ++k) {
         // only way to convert string to color
         var c = Qt.lighter(arguments[k], 1.0);
 
