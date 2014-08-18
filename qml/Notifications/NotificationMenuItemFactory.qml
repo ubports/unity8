@@ -117,7 +117,7 @@ Loader {
                 right: parent.right
             }
             height: menuFactory.maxHeight
-            infoText: i18n.tr("Please enter SIM PIN")
+            infoText: i18n.tr("Enter SIM PIN")
             errorText: i18n.tr("Sorry, incorrect PIN")
             minPinLength: 4
             maxPinLength: 8
