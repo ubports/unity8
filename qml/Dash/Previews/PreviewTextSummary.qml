@@ -39,7 +39,7 @@ PreviewWidget {
         }
         height: visible ? implicitHeight : 0
         fontSize: "large"
-        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
         visible: text !== ""
         opacity: .8
         text: widgetData["title"] || ""
@@ -61,7 +61,7 @@ PreviewWidget {
         clip: true
         fontSize: "small"
         lineHeight: 1.2
-        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
         opacity: .8
         text: widgetData["text"]
         wrapMode: Text.Wrap

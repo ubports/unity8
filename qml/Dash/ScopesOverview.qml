@@ -32,7 +32,7 @@ Item {
     property alias currentTab: tabBar.currentTab
 
     // Properties used by parent
-    readonly property bool processing: searchResultsViewer.processing || tempScopeItem.processing
+    readonly property bool processing: searchResultsViewer.processing || tempScopeItem.processing || previewListView.processing
     property bool growingDashFromPos: false
     readonly property bool searching: scope && scope.searchQuery == ""
     readonly property bool showingNonFavoriteScope: tempScopeItem.scope != null
@@ -366,7 +366,16 @@ Item {
             }
 
             function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
-                // Do nothing
+                if (itemModel.uri.indexOf("scope://") === 0) {
+                    // Preview can call openScope so make sure restorePosition and restoreSize are set
+                    scopesOverviewXYScaler.restorePosition = undefined;
+                    scopesOverviewXYScaler.restoreSize = allCardSize;
+
+                    previewListView.model = resultsModel;
+                    previewListView.currentIndex = -1;
+                    previewListView.currentIndex = index;
+                    previewListView.open = true;
+                }
             }
         }
 
@@ -400,7 +409,7 @@ Item {
                     border.color: "white"
                     border.width: units.dp(1)
                     radius: units.dp(10)
-                    color: parent.pressed ? "gray" : "transparent"
+                    color: parent.pressed ? Theme.palette.normal.baseText : "transparent"
                 }
                 Label {
                     id: label
@@ -454,8 +463,6 @@ Item {
         height: parent.height
         anchors.left: scopesOverviewContent.right
     }
-
-
 
     Item {
         id: scopesOverviewXYScaler
