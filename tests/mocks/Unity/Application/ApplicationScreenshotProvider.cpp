@@ -34,8 +34,6 @@ ApplicationScreenshotProvider::ApplicationScreenshotProvider(ApplicationManager 
 QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize * size,
                                                      const QSize &requestedSize)
 {
-    qDebug() << "AppScreenshotProvider::requestImage" << imageId;
-
     // We ignore requestedSize here intentionally to avoid keeping scaled copies around
     Q_UNUSED(requestedSize)
 
