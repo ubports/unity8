@@ -20,8 +20,6 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 
-#include <functional>
-
 class ApplicationInfo;
 class MirSurfaceItemModel;
 
