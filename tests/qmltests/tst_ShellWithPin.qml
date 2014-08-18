@@ -217,7 +217,7 @@ Item {
             shell.failedLoginsDelayAttempts = 3
 
             var placeHolder = findChild(shell, "wrongNoticeLabel")
-            tryCompare(placeHolder, "text", "Incorrect passcode")
+            tryCompare(placeHolder, "text", "")
 
             enterPin("1111")
             tryCompare(placeHolder, "text", "Incorrect passcode")
