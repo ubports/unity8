@@ -59,6 +59,7 @@ ApplicationInfo::~ApplicationInfo()
 
         Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
         m_surface->deleteLater();
+        setSurface(nullptr);
     }
 }
 

@@ -14,15 +14,58 @@ Module {
         exportMetaObjectRevisions: [0]
         Property { name: "fullscreen"; type: "bool" }
         Property { name: "stage"; type: "Stage" }
+        Property { name: "surface"; type: "MirSurfaceItem"; isReadonly: true; isPointer: true }
+        Property { name: "promptSurfaces"; type: "MirSurfaceItem"; isList: true; isReadonly: true }
         Property { name: "imageQml"; type: "string" }
         Property { name: "windowQml"; type: "string" }
-        Signal { name: "appIdChanged" }
-        Signal { name: "nameChanged" }
-        Signal { name: "commentChanged" }
-        Signal { name: "iconChanged" }
-        Signal { name: "stateChanged" }
-        Signal { name: "focusedChanged" }
-        Signal { name: "screenshotChanged" }
+        Signal {
+            name: "appIdChanged"
+            Parameter { type: "string" }
+        }
+        Signal {
+            name: "nameChanged"
+            Parameter { type: "string" }
+        }
+        Signal {
+            name: "commentChanged"
+            Parameter { type: "string" }
+        }
+        Signal {
+            name: "iconChanged"
+            Parameter { type: "QUrl" }
+        }
+        Signal {
+            name: "stageChanged"
+            Parameter { type: "Stage" }
+        }
+        Signal {
+            name: "stateChanged"
+            Parameter { type: "State" }
+        }
+        Signal {
+            name: "focusedChanged"
+            Parameter { type: "bool" }
+        }
+        Signal {
+            name: "fullscreenChanged"
+            Parameter { type: "bool" }
+        }
+        Signal {
+            name: "imageQmlChanged"
+            Parameter { type: "string" }
+        }
+        Signal {
+            name: "windowQmlChanged"
+            Parameter { type: "string" }
+        }
+        Signal {
+            name: "screenshotChanged"
+            Parameter { type: "QUrl" }
+        }
+        Signal {
+            name: "surfaceChanged"
+            Parameter { type: "MirSurfaceItem"; isPointer: true }
+        }
     }
     Component {
         name: "ApplicationManager"
@@ -83,11 +126,11 @@ Module {
                 "ForceMainStage": 1
             }
         }
+        Property { name: "empty"; type: "bool"; isReadonly: true }
         Property { name: "sideStageWidth"; type: "int"; isReadonly: true }
         Property { name: "stageHint"; type: "StageHint"; isReadonly: true }
         Property { name: "formFactorHint"; type: "FormFactorHint"; isReadonly: true }
         Property { name: "fake"; type: "bool"; isReadonly: true }
-        Property { name: "rightMargin"; type: "int" }
         Signal {
             name: "focusRequested"
             Parameter { name: "favoriteApplication"; type: "FavoriteApplication" }
@@ -95,6 +138,10 @@ Module {
         Signal {
             name: "focusRequested"
             Parameter { name: "appId"; type: "string" }
+        }
+        Signal {
+            name: "emptyChanged"
+            Parameter { name: "empty"; type: "bool" }
         }
         Method {
             name: "get"
@@ -157,6 +204,84 @@ Module {
             Parameter { name: "appId"; type: "string" }
         }
         Method { name: "availableApplications"; type: "QStringList" }
+    }
+    Component {
+        name: "MirSurfaceItem"
+        defaultProperty: "data"
+        prototype: "QQuickPaintedItem"
+        exports: ["Unity.Application/MirSurfaceItem 0.1"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Enum {
+            name: "Type"
+            values: {
+                "Normal": 0,
+                "Utility": 1,
+                "Dialog": 2,
+                "Overlay": 3,
+                "Freestyle": 4,
+                "Popover": 5,
+                "InputMethod": 6
+            }
+        }
+        Enum {
+            name: "State"
+            values: {
+                "Unknown": 0,
+                "Restored": 1,
+                "Minimized": 2,
+                "Maximized": 3,
+                "VertMaximized": 4,
+                "Fullscreen": 5
+            }
+        }
+        Property { name: "type"; type: "Type"; isReadonly: true }
+        Property { name: "state"; type: "State"; isReadonly: true }
+        Property { name: "name"; type: "string"; isReadonly: true }
+        Property { name: "parentSurface"; type: "MirSurfaceItem"; isReadonly: true; isPointer: true }
+        Property { name: "childSurfaces"; type: "MirSurfaceItem"; isList: true; isReadonly: true }
+        Signal {
+            name: "typeChanged"
+            Parameter { type: "Type" }
+        }
+        Signal {
+            name: "stateChanged"
+            Parameter { type: "State" }
+        }
+        Signal {
+            name: "nameChanged"
+            Parameter { type: "string" }
+        }
+        Signal {
+            name: "parentSurfaceChanged"
+            Parameter { type: "MirSurfaceItem"; isPointer: true }
+        }
+        Signal { name: "removed" }
+        Signal { name: "inputMethodRequested" }
+        Signal { name: "inputMethodDismissed" }
+        Method {
+            name: "setState"
+            Parameter { name: "newState"; type: "State" }
+        }
+        Method { name: "release" }
+    }
+    Component {
+        name: "SurfaceManager"
+        prototype: "QObject"
+        exports: ["Unity.Application/SurfaceManager 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Signal { name: "countChanged" }
+        Signal {
+            name: "surfaceCreated"
+            Parameter { name: "surface"; type: "MirSurfaceItem"; isPointer: true }
+        }
+        Signal {
+            name: "surfaceDestroyed"
+            Parameter { name: "surface"; type: "MirSurfaceItem"; isPointer: true }
+        }
+        Method { name: "inputMethodSurface"; type: "MirSurfaceItem*" }
     }
     Component {
         name: "unity::shell::application::ApplicationInfoInterface"
