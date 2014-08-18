@@ -128,6 +128,7 @@ Image {
                             top: subtitleLabel.bottom; 
                             } 
                             color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                            fontScale: root.fontScale; 
                             model: cardData && cardData["attributes"]; 
                           }
  
