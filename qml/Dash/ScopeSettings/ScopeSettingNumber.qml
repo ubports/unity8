@@ -15,59 +15,7 @@
  */
 
 import QtQuick 2.2
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
 
-ScopeSetting {
-    id: root
-    height: listItem.height
-
-    ListItem.Empty {
-        id: listItem
-        onClicked: {
-            control.forceActiveFocus();
-            control.selectAll();
-        }
-
-        Label {
-            anchors {
-                left: parent.left
-                leftMargin: __margins
-                right: control.left
-                rightMargin: units.gu(1)
-                verticalCenter: parent.verticalCenter
-            }
-            text: widgetData.displayName
-            elide: Text.ElideMiddle
-            color: scopeStyle ? scopeStyle.foreground : "grey"
-        }
-
-        TextField {
-            id: control
-            objectName: "control"
-            anchors {
-                right: parent.right
-                rightMargin: __margins
-                verticalCenter: parent.verticalCenter
-            }
-            text: widgetData.value
-            width: units.gu(8)
-            validator: DoubleValidator {}
-            hasClearButton: false
-
-            function updateText() {
-                if (acceptableInput) {
-                    text = displayText;
-                    root.updated(text);
-                }
-            }
-
-            onAccepted: updateText()
-            onActiveFocusChanged: {
-                if (!activeFocus) {
-                    updateText();
-                }
-            }
-        }
-    }
+ScopeSettingString {
+    mode: "number"
 }

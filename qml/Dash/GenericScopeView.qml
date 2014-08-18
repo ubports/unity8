@@ -469,10 +469,10 @@ FocusScope {
         property int initialIndex: -1
         property var model: null
 
-        readonly property bool processing: status === Loader.Ready && item.hasOwnProperty("processing") ? item.processing : false
-        readonly property int count: status === Loader.Ready && item.hasOwnProperty("count") ? item.count : 0
-        readonly property int currentIndex: status === Loader.Ready && item.hasOwnProperty("currentIndex") ? item.currentIndex : false
-        readonly property var currentItem: status === Loader.Ready && item.hasOwnProperty("currentItem") ? item.currentItem : false
+        readonly property bool processing: item && item.processing || false
+        readonly property int count: item && item.count || 0
+        readonly property int currentIndex: item && item.currentIndex || -1
+        readonly property var currentItem: item &&  item.currentItem || null
 
         property string subPage: ""
         readonly property bool previewShown: open && subPage == "preview"

@@ -40,7 +40,8 @@ ScopeSetting {
             }
             text: widgetData.displayName
             elide: Text.ElideMiddle
-            color: scopeStyle ? scopeStyle.foreground : "grey"
+            maximumLineCount: 1
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
         }
 
         CheckBox {

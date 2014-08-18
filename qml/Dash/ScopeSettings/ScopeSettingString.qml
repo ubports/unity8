@@ -22,6 +22,8 @@ ScopeSetting {
     id: root
     height: listItem.height
 
+    property string mode: "string"
+
     ListItem.Empty {
         id: listItem
         onClicked: {
@@ -40,7 +42,8 @@ ScopeSetting {
             }
             text: widgetData.displayName
             elide: Text.ElideMiddle
-            color: scopeStyle ? scopeStyle.foreground : "grey"
+            maximumLineCount: 1
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
         }
 
         TextField {
@@ -51,12 +54,21 @@ ScopeSetting {
                 rightMargin: __margins
                 verticalCenter: parent.verticalCenter
             }
-            width: units.gu(12)
+            width: root.mode == "number" ? units.gu(8) : units.gu(12)
             text: widgetData.value
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.fieldText
+            validator: root.mode == "number" ? doubleValidator : null
+            hasClearButton: root.mode == "number" ? false : true
+
+            DoubleValidator {
+                id: doubleValidator
+            }
 
             function updateText() {
-                text = displayText;
-                root.updated(text);
+                if (acceptableInput) {
+                    text = displayText;
+                    root.updated(text);
+                }
             }
 
             onAccepted: updateText()

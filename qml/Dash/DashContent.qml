@@ -138,9 +138,9 @@ Item {
 
                     readonly property bool moving: item ? item.moving : false
                     readonly property bool navigationShown: item ? item.navigationShown : false
+                    readonly property bool settingsShown: item ? item.settingsShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
-                    readonly property bool settingsShown: item ? item.settingsShown : false
 
                     // these are needed for autopilot tests
                     readonly property string scopeId: scope.id

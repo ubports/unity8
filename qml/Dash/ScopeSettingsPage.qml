@@ -34,13 +34,12 @@ Item {
         width: parent.width
         title: scope ? scope.name : ""
         showBackButton: true
-        searchEntryEnabled: false
         scopeStyle: root.scopeStyle || undefined
 
         onBackClicked: root.backClicked()
     }
 
-    ScopeSettings {
+    ListView {
         id: scopeSettings
         objectName: "scopeSettings"
         anchors {
@@ -50,5 +49,14 @@ Item {
             right: parent.right
         }
         model: root.scope ? root.scope.settings : null
+
+        delegate: ScopeSettingsWidgetFactory {
+            objectName: "scopeSettingItem" + index
+            width: root.width
+            widgetData: model
+            scopeStyle: root.scopeStyle
+
+            onUpdated: model.value = value;
+        }
     }
 }

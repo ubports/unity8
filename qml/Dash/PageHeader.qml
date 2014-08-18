@@ -47,7 +47,6 @@ Item {
     property var scopeStyle: null
 
     signal backClicked()
-
     signal settingsClicked()
 
     onScopeStyleChanged: refreshLogo()
