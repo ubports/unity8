@@ -389,20 +389,30 @@ Rectangle {
                 mouseClick(pinPadButton5, units.gu(1), units.gu(1));
                 tryCompare(backspaceButton, "opacity", 1)
 
-                if (data.maxPinLength == -1) {
-                    // Undefined maxLength... make sure all presses are recorded
-                    compare(inputField.text.length, i+1);
+                if (data.maxPinLength == data.minPinLength && data.minPinLength > 0) {
+                    // Autoconfirm mode. This will automatically confirm (and with it reset)
+                    // the textfield every data.minPinLength presses
+                    if (i+1 < data.minPinLength) {
+                        compare(inputField.text.length, i + 1);
+                    } else {
+                        compare(inputField.text.length, (i+1) % data.minPinLength)
+                    }
                 } else {
-                    // We have a max length. Make sure we're only accepting maxLength presses
-                    compare(inputField.text.length, Math.min(data.maxPinLength, i+1));
-                }
+                    if (data.maxPinLength == -1) {
+                        // Undefined maxLength... make sure all presses are recorded
+                        compare(inputField.text.length, i+1);
+                    } else {
+                        // We have a max length. Make sure we're only accepting maxLength presses
+                        compare(inputField.text.length, Math.min(data.maxPinLength, i+1));
+                    }
 
-                if (data.minPinLength == -1) {
-                    // Undefined minLength. Make sure confirm button is always enabled
-                    compare(confirmButton.enabled, true);
-                } else {
-                    // We have a min length. Make sure the confirm button is only enabled when met.
-                    compare(confirmButton.enabled, (i+1) >= data.minPinLength);
+                    if (data.minPinLength == -1) {
+                        // Undefined minLength. Make sure confirm button is always enabled
+                        compare(confirmButton.enabled, true);
+                    } else {
+                        // We have a min length. Make sure the confirm button is only enabled when met.
+                        compare(confirmButton.enabled, (i+1) >= data.minPinLength);
+                    }
                 }
             }
         }
