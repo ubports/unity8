@@ -39,6 +39,7 @@ Module {
         Property { name: "sectionProperty"; type: "string" }
         Property { name: "forceNoClip"; type: "bool" }
         Property { name: "stickyHeaderHeight"; type: "int"; isReadonly: true }
+        Property { name: "headerItemShownHeight"; type: "double"; isReadonly: true }
         Signal { name: "headerChanged" }
         Method { name: "positionAtBeginning" }
         Method { name: "showHeader" }
