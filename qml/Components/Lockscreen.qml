@@ -40,7 +40,10 @@ Showable {
     // If both are unset, the Lockscreen will show a confirm button and allow typing any length of pin before
     // confirming. If minPinLength is set to a value > 0, the confirm button will only become active when the
     // entered pin is at least that long. If maxPinLength is set, the lockscreen won't allow entering any
-    // more numbers than that.
+    // more numbers than that. If both are set to the same value, the lockscreen will enter auto confirming
+    // behavior, hiding the confirmation button and triggering that automatically when the entered pin reached
+    // that length. This is ignored by the alphaNumeric lockscreen as that one is always confirmed by pressing
+    // enter on the OSK.
     property int minPinLength: -1
     property int maxPinLength: -1
 
@@ -82,6 +85,7 @@ Showable {
 
     Timer {
         id: forcedDelayTimer
+        onTriggered: pinPadLoader.showWrongText = false
     }
 
     Rectangle {
@@ -160,7 +164,8 @@ Showable {
         Binding {
             target: pinPadLoader.item
             property: "errorText"
-            value: forcedDelayTimer.running ? i18n.tr("Too many incorrect attempts") : root.errorText
+            value: forcedDelayTimer.running ? i18n.tr("Too many incorrect attempts") :
+                                              (pinPadLoader.showWrongText ? root.errorText : "")
         }
         Binding {
             target: pinPadLoader.item
