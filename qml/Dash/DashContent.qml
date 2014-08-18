@@ -112,6 +112,23 @@ Item {
             onMovementStarted: currentItem.item.showHeader();
             clip: parent.x != 0
 
+            // TODO QTBUG-40846 and QTBUG-40848
+            // The remove transition doesn't happen when removing the last item
+            // And can't work around it because index is reset to -1 regardless of
+            // ListView.delayRemove
+
+            remove: Transition {
+                SequentialAnimation {
+                    PropertyAction { property: "layer.enabled"; value: true }
+                    PropertyAction { property: "ListView.delayRemove"; value: true }
+                    PropertyAnimation { properties: "opacity"; to: 0; duration: UbuntuAnimation.SnapDuration }
+                    PropertyAction { property: "ListView.delayRemove"; value: false }
+                }
+            }
+            removeDisplaced: Transition {
+                PropertyAnimation { property: "x"; duration: UbuntuAnimation.SnapDecision }
+            }
+
             // If the number of items is less than the current index, then need to reset to another item.
             onCountChanged: {
                 if (count > 0) {

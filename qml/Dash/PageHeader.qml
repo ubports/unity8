@@ -32,6 +32,7 @@ Item {
 
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
+    property bool favoriteEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
@@ -41,13 +42,12 @@ Item {
     property int paginationCount: 0
     property int paginationIndex: -1
 
-    // TODO We should use foreground for the icons
-    // of the toolbar but unfortunately Action does not have
-    // the keyColor property as Icon does :-/
+    property var scope: null
     property var scopeStyle: null
 
     signal backClicked()
     signal settingsClicked()
+    signal favoriteClicked()
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -257,6 +257,7 @@ Item {
                     actions: [
                         Action {
                             objectName: "search"
+                            text: i18n.tr("Search")
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
@@ -266,12 +267,23 @@ Item {
                         },
                         Action {
                             objectName: "settings"
+                            text: i18n.tr("Settings")
                             iconName: "settings"
                             visible: root.settingsEnabled
                             onTriggered: {
                                 root.settingsClicked()
                             }
+                        },
+                        Action {
+                            objectName: "favorite"
+                            text: root.scope && root.scope.favorite ? i18n.tr("Remove from Dash") : i18n.tr("Add to Dash")
+                            iconName: root.scope && root.scope.favorite ? "starred" : "non-starred"
+                            visible: root.favoriteEnabled
+                            onTriggered: {
+                                root.favoriteClicked()
+                            }
                         }
+
                     ]
                 }
 
