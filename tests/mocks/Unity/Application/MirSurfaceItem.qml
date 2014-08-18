@@ -19,10 +19,12 @@ import QtQuick 2.0
 Rectangle {
     objectName: "fakeSurfaceQML"
     id: root
-    color: "yellow"
+    color: "pink"
 
-    width: units.gu(40)
-    height: units.gu(70)
+    anchors.fill: parent
+
+    implicitWidth: units.gu(40)
+    implicitHeight: units.gu(70)
 
     property alias screenshotSource: screenshotImage.source
 
@@ -34,6 +36,7 @@ Rectangle {
     Image {
         id: screenshotImage
         anchors.fill: parent
+        fillMode: Image.Stretch
     }
 
     Text {

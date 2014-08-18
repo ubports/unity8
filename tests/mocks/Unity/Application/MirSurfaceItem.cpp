@@ -233,8 +233,8 @@ void MirSurfaceItem::createQmlContentItem()
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
 
-    setImplicitWidth(m_qmlItem->width());
-    setImplicitHeight(m_qmlItem->height());
+    setImplicitWidth(m_qmlItem->implicitWidth());
+    setImplicitHeight(m_qmlItem->implicitHeight());
 
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");

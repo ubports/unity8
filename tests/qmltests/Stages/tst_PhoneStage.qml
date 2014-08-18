@@ -26,14 +26,11 @@ Item {
     width: units.gu(70)
     height: units.gu(70)
 
-    Rectangle {
-
-    }
-
     PhoneStage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
         dragAreaWidth: units.gu(2)
+        maximizedAppTopMargin: units.gu(3) + units.dp(2)
     }
 
     Binding {

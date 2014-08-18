@@ -372,6 +372,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Gallery");
     application->setScreenshotId("gallery");
     application->setIconId("gallery");
+    application->setFullscreen(true);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
