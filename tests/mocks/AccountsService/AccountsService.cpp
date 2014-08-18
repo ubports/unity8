@@ -22,6 +22,7 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
+    m_interactiveWhileLocked(true),
     m_backgroundFile(qmlDirectory() + "graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true),
     m_failedLogins(0)
@@ -52,7 +53,13 @@ void AccountsService::setDemoEdges(bool demoEdges)
 
 bool AccountsService::interactiveWhileLocked() const
 {
-    return true;
+    return m_interactiveWhileLocked;
+}
+
+void AccountsService::setInteractiveWhileLocked(bool interactiveWhileLocked)
+{
+    m_interactiveWhileLocked = interactiveWhileLocked;
+    Q_EMIT interactiveWhileLockedChanged();
 }
 
 QString AccountsService::backgroundFile() const

@@ -38,6 +38,7 @@ class AccountsService: public QObject
                 NOTIFY demoEdgesChanged)
     Q_PROPERTY (bool interactiveWhileLocked
                 READ interactiveWhileLocked
+                WRITE setInteractiveWhileLocked // only available in mock
                 NOTIFY interactiveWhileLockedChanged)
     Q_PROPERTY (QString backgroundFile
                 READ backgroundFile
@@ -68,6 +69,7 @@ public:
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
     bool interactiveWhileLocked() const;
+    void setInteractiveWhileLocked(bool interactiveWhileLocked);
     QString backgroundFile() const;
     void setBackgroundFile(const QString &backgroundFile);
     bool statsWelcomeScreen() const;
@@ -86,6 +88,7 @@ Q_SIGNALS:
     void failedLoginsChanged();
 
 private:
+    bool m_interactiveWhileLocked;
     QString m_backgroundFile;
     QString m_user;
     bool m_statsWelcomeScreen;
