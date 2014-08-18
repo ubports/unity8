@@ -54,9 +54,6 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
 ApplicationInfo::~ApplicationInfo()
 {
     if (m_surface) {
-        // break the cyclic reference before destroying it
-        m_surface->setApplication(nullptr);
-
         Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
         m_surface->deleteLater();
         setSurface(nullptr);
