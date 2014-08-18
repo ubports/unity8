@@ -68,6 +68,13 @@ Item {
         }
     }
 
+    function setFakeActiveForApp(app) {
+        if (shell.locked) {
+            greeter.fakeActiveForApp = app
+            lockscreen.hide()
+        }
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -130,7 +137,11 @@ Item {
         Connections {
             target: ApplicationManager
             onFocusRequested: {
-                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
+                if (appId === "dialer-app") {
+                    // Always let the dialer-app through.  Either user asked
+                    // for an emergency call or accepted an incoming call.
+                    setFakeActiveForApp(appId)
+                } else if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
                     lockscreen.show();
                 }
                 greeter.hide();
@@ -146,6 +157,11 @@ Item {
             onApplicationAdded: {
                 if (greeter.shown && appId != "unity8-dash") {
                     greeter.hide();
+                }
+                if (appId === "dialer-app") {
+                    // Always let the dialer-app through.  Either user asked
+                    // for an emergency call or accepted an incoming call.
+                    setFakeActiveForApp(appId)
                 }
             }
         }
@@ -239,11 +255,7 @@ Item {
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
-        onEmergencyCall: {
-            greeter.fakeActiveForApp = "dialer-app"
-            shell.activateApplication("dialer-app")
-            lockscreen.hide()
-        }
+        onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter fake-active mode
 
         onShownChanged: if (shown) greeter.fakeActiveForApp = ""
 
