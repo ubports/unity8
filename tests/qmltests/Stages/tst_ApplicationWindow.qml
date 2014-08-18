@@ -145,7 +145,34 @@ Rectangle {
             }
         }
 
+        // holds some of the internal ApplicationWindow objects we probe during the tests
+        property var stateGroup: null
+
+        function findInterestingApplicationWindowChildren() {
+            stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
+            verify(stateGroup);
+        }
+
+        function forgetApplicationWindowChildren() {
+            stateGroup = null;
+        }
+
+        // wait until any transition animation has finished
+        function waitUntilTransitionsEnd() {
+            var transitions = stateGroup.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        function init() {
+            findInterestingApplicationWindowChildren();
+        }
+
         function cleanup() {
+            forgetApplicationWindowChildren();
+
             // reload our test subject to get it in a fresh state once again
             applicationWindowLoader.active = false;
 
@@ -167,8 +194,6 @@ Rectangle {
         }
 
         function test_showSplashUntilAppFullyInit() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
-
             verify(stateGroup.state === "splashScreen");
 
             if (data.swapInitOrder) {
@@ -189,25 +214,20 @@ Rectangle {
         }
 
         function test_suspendedAppShowsSurface() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
-
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
 
             tryCompare(stateGroup, "state", "surface");
 
-            // wait until any transition animation has finished
-            tryCompare(stateGroup, "transitioning", false, 2000);
+            waitUntilTransitionsEnd();
 
             setApplicationState(appSuspended);
 
             verify(stateGroup.state === "surface");
-            verify(stateGroup.transitioning === false);
+            waitUntilTransitionsEnd();
         }
 
         function test_killedAppShowsScreenshot() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
-
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
@@ -225,13 +245,12 @@ Rectangle {
         }
 
         function test_restartApp() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
             var screenshotImage = findChild(applicationWindowLoader.item, "screenshotImage");
 
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            tryCompare(stateGroup, "transitioning", false, 2000);
+            waitUntilTransitionsEnd();
 
             setApplicationState(appSuspended);
 
@@ -239,19 +258,19 @@ Rectangle {
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(stateGroup, "transitioning", false, 2000);
+            waitUntilTransitionsEnd();
             tryCompare(fakeApplication, "surface", null);
 
             // and restart it
             setApplicationState(appStarting);
 
-            verify(stateGroup.transitioning === false);
+            waitUntilTransitionsEnd();
             verify(stateGroup.state === "screenshot");
             verify(fakeApplication.surface === null);
 
             setApplicationState(appRunning);
 
-            verify(stateGroup.transitioning === false);
+            waitUntilTransitionsEnd();
             verify(stateGroup.state === "screenshot");
 
             surfaceCheckbox.checked = true;
@@ -261,12 +280,10 @@ Rectangle {
         }
 
         function test_appCrashed() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
-
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            tryCompare(stateGroup, "transitioning", false, 2000);
+            waitUntilTransitionsEnd();
 
             // oh, it crashed...
             setApplicationState(appStopped);
@@ -276,37 +293,32 @@ Rectangle {
         }
 
         function test_keepSurfaceWhileInvisible() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
-
             surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            tryCompare(stateGroup, "transitioning", false, 2000);
+            waitUntilTransitionsEnd();
             verify(fakeApplication.surface !== null);
 
             applicationWindowLoader.item.visible = false;
 
-            verify(stateGroup.transitioning === false);
+            waitUntilTransitionsEnd();
             verify(stateGroup.state === "surface");
             verify(fakeApplication.surface !== null);
 
             applicationWindowLoader.item.visible = true;
 
-            verify(stateGroup.transitioning === false);
+            waitUntilTransitionsEnd();
             verify(stateGroup.state === "surface");
             verify(fakeApplication.surface !== null);
         }
 
         function test_touchesReachSurfaceWhenItsShown() {
-            var stateGroup = findInvisibleChild(applicationWindowLoader.item, "applicationWindowStateGroup");
-
             setApplicationState(appRunning);
             surfaceCheckbox.checked = true;
 
             tryCompare(stateGroup, "state", "surface");
 
-            // wait until any transition animation has finished
-            tryCompare(stateGroup, "transitioning", false, 2000);
+            waitUntilTransitionsEnd();
 
             // Because doing stuff in C++ is a PITA we keep the counter in the interal qml impl.
             var fakeSurface = findChild(fakeApplication.surface, "fakeSurfaceQML");

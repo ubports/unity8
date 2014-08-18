@@ -67,36 +67,37 @@ Item {
         onTriggered: { if (d.surface) {d.surfaceInitialized = true;} }
     }
 
+    Binding {
+        target: d.surface
+        when: d.surface
+        property: "enabled"
+        value: root.interactive
+    }
+    Binding {
+        target: d.surface
+        when: d.surface
+        property: "focus"
+        value: root.interactive
+    }
+    Connections {
+        target: d.surface
+        // FIXME: I would rather not need to do this, but currently it doesn't get
+        // active focus without it and I don't know why.
+        onFocusChanged: forceSurfaceActiveFocusIfReady();
+        onParentChanged: forceSurfaceActiveFocusIfReady();
+        onEnabledChanged: forceSurfaceActiveFocusIfReady();
+        function forceSurfaceActiveFocusIfReady() {
+            if (d.surface.focus && d.surface.parent === surfaceContainer && d.surface.enabled) {
+                d.surface.forceActiveFocus();
+            }
+        }
+    }
+
     SurfaceContainer {
         id: surfaceContainer
         objectName: "surfaceContainer"
         anchors.fill: parent
         surface: d.surface
-
-        Binding {
-            target: surface
-            property: "enabled"
-            value: root.interactive
-        }
-        Binding {
-            target: surface
-            property: "focus"
-            value: root.interactive
-        }
-
-        Connections {
-            target: surface
-            // FIXME: I would rather not need to do this, but currently it doesn't get
-            // active focus without it and I don't know why.
-            onFocusChanged: forceSurfaceActiveFocusIfReady();
-            onParentChanged: forceSurfaceActiveFocusIfReady();
-            onEnabledChanged: forceSurfaceActiveFocusIfReady();
-            function forceSurfaceActiveFocusIfReady() {
-                if (surface.focus && surface.parent === surfaceContainer && surface.enabled) {
-                    surface.forceActiveFocus();
-                }
-            }
-        }
     }
 
     Image {
@@ -173,21 +174,12 @@ Item {
             }
         ]
 
-        // For testing purposes
-        property bool transitioning: defaultToSplash.running
-            || splashToSurface.running
-            || surfaceToSplash.running
-            || surfaceToScreenshot.running
-            || screenshotToSurface.running
-
         transitions: [
             Transition {
-                id: defaultToSplash
                 from: ""; to: "splashScreen"
                 PropertyAction { target: splashLoader; property: "active"; value: true }
             },
             Transition {
-                id: splashToSurface
                 from: "splashScreen"; to: "surface"
                 SequentialAnimation {
                     PropertyAction { target: surfaceContainer
@@ -199,7 +191,6 @@ Item {
                 }
             },
             Transition {
-                id: surfaceToSplash
                 from: "surface"; to: "splashScreen"
                 SequentialAnimation {
                     PropertyAction { target: splashLoader; property: "active"; value: true }
@@ -211,7 +202,6 @@ Item {
                 }
             },
             Transition {
-                id: surfaceToScreenshot
                 from: "surface"; to: "screenshot"
                 SequentialAnimation {
                     PropertyAction { target: screenshotImage
@@ -225,7 +215,6 @@ Item {
                 }
             },
             Transition {
-                id: screenshotToSurface
                 from: "screenshot"; to: "surface"
                 SequentialAnimation {
                     PropertyAction { target: surfaceContainer
