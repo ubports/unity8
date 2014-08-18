@@ -343,7 +343,7 @@ Item {
                             id: oneOverTwoButtonTop
 
                             Button {
-                                objectName: "button" + index
+                                objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
                                 color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : sdDarkGrey
@@ -371,7 +371,7 @@ Item {
                                 id: oneOverTwoButtonBottom
 
                                 Button {
-                                    objectName: "button" + index
+                                    objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing * 2
                                     text: oneOverTwoLoaderBottom.actionLabel
                                     color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
@@ -411,7 +411,7 @@ Item {
                             id: actionButton
 
                             Button {
-                                objectName: "button" + index
+                                objectName: "notify_button" + index
                                 width: buttonRow.width / 2 - spacing*2
                                 text: loader.actionLabel
                                 color: {
@@ -435,7 +435,7 @@ Item {
             ComboButton {
                 id: comboButton
 
-                objectName: "button2"
+                objectName: "notify_button2"
                 width: parent.width
                 anchors {
                     left: parent.left
@@ -478,7 +478,7 @@ Item {
                                     MouseArea {
                                         id: comboInputArea
 
-                                        objectName: "button" + index
+                                        objectName: "notify_button" + index
                                         width: comboButton.width
                                         height: comboIcon.height + units.gu(2)
 
