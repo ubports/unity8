@@ -26,6 +26,7 @@ AccountsService::AccountsService(QObject* parent)
     m_service(new AccountsServiceDBusAdaptor(this)),
     m_user(qgetenv("USER")),
     m_demoEdges(false),
+    m_interactiveWhileLocked(false),
     m_statsWelcomeScreen(false),
     m_passwordDisplayHint(Keyboard),
     m_failedLogins(0)
@@ -47,6 +48,7 @@ void AccountsService::setUser(const QString &user)
     Q_EMIT userChanged();
 
     updateDemoEdges();
+    updateInteractiveWhileLocked();
     updateBackgroundFile();
     updateStatsWelcomeScreen();
     updatePasswordDisplayHint();
@@ -62,6 +64,11 @@ void AccountsService::setDemoEdges(bool demoEdges)
 {
     m_demoEdges = demoEdges;
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+}
+
+bool AccountsService::interactiveWhileLocked() const
+{
+    return m_interactiveWhileLocked;
 }
 
 QString AccountsService::backgroundFile() const
@@ -85,6 +92,15 @@ void AccountsService::updateDemoEdges()
     if (m_demoEdges != demoEdges) {
         m_demoEdges = demoEdges;
         Q_EMIT demoEdgesChanged();
+    }
+}
+
+void AccountsService::updateInteractiveWhileLocked()
+{
+    auto interactiveWhileLocked = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "InteractiveWhileLocked").toBool();
+    if (m_interactiveWhileLocked != interactiveWhileLocked) {
+        m_interactiveWhileLocked = interactiveWhileLocked;
+        Q_EMIT interactiveWhileLockedChanged();
     }
 }
 
@@ -144,6 +160,9 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
     if (interface == "com.canonical.unity.AccountsService") {
         if (changed.contains("demo-edges")) {
             updateDemoEdges();
+        }
+        if (changed.contains("InteractiveWhileLocked")) {
+            updateInteractiveWhileLocked();
         }
     } else if (interface == "com.canonical.unity.AccountsService.Private") {
         if (changed.contains("FailedLogins")) {

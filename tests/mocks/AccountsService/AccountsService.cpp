@@ -50,6 +50,11 @@ void AccountsService::setDemoEdges(bool demoEdges)
     Q_UNUSED(demoEdges)
 }
 
+bool AccountsService::interactiveWhileLocked() const
+{
+    return true;
+}
+
 QString AccountsService::backgroundFile() const
 {
     return m_backgroundFile;

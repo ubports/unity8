@@ -9,6 +9,10 @@
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
                 value="com.ubuntu.AccountsService.GreeterChangeAny"/>
 
+    <property name="InteractiveWhileLocked" type="b" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
+    </property>
+
     <!-- Should have been named DemoEdges, sorry folks. -mterry -->
     <property name="demo-edges" type="b" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
