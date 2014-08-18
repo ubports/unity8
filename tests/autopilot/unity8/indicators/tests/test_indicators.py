@@ -76,7 +76,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
         ('Location', dict(indicator_name='indicator-location',
                           title='Location')),
         ('Messaging', dict(indicator_name='indicator-messages',
-                           title='Incoming')),
+                           title='Notification center')),
         ('Network', dict(indicator_name='indicator-network',
                          title='Network')),
         ('Power', dict(indicator_name='indicator-power',
