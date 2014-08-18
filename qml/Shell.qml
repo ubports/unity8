@@ -289,6 +289,7 @@ Item {
             // prompted for a password.  We do this below after the promptless
             // early exit.
 
+            print("huppppa")
             if (LightDM.Greeter.promptless) {
                 return;
             }
@@ -298,6 +299,7 @@ Item {
                 greeter.login();
             } else {
                 AccountsService.failedLogins++
+                print("auth failed. failed logins", AccountsService.failedLogins, "max", maxFailedLogins)
                 if (maxFailedLogins >= 2) { // require at least a warning
                     if (AccountsService.failedLogins === maxFailedLogins - 1) {
                         var title = lockscreen.alphaNumeric ?

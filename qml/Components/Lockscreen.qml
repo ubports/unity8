@@ -82,7 +82,6 @@ Showable {
 
     Timer {
         id: forcedDelayTimer
-        onTriggered: pinPadLoader.showWrongText = false
     }
 
     Rectangle {
@@ -118,10 +117,6 @@ Showable {
         property bool resetting: false
         property bool waiting: false
         property bool showWrongText: false
-
-        readonly property string forcedDelayText: i18n.tr("Too many incorrect attempts") +
-                                                  "\n" +
-                                                  i18n.tr("Please wait")
 
         source: (!resetting && root.required) ? (root.alphaNumeric ? "PassphraseLockscreen.qml" : "PinLockscreen.qml") : ""
         onSourceChanged: {
@@ -160,12 +155,12 @@ Showable {
         Binding {
             target: pinPadLoader.item
             property: "retryText"
-            value: root.retryText
+            value: forcedDelayTimer.running ? i18n.tr("Please wait") : root.retryText
         }
         Binding {
             target: pinPadLoader.item
             property: "errorText"
-            value: root.errorText
+            value: forcedDelayTimer.running ? i18n.tr("Too many incorrect attempts") : root.errorText
         }
         Binding {
             target: pinPadLoader.item

@@ -91,6 +91,11 @@ Column {
                     }
 
                     pinentryField.text = pinentryField.text + number
+
+                    if (root.minPinLength > 0 && root.maxPinLength > 0
+                            && root.minPinLength == root.maxPinLength && pinentryField.text.length == root.minPinLength) {
+                        root.entered(pinentryField.text)
+                    }
                 }
 
                 function backspace() {
@@ -157,9 +162,9 @@ Column {
                 text: index + 1
                 height: numbersGrid.buttonHeight
                 width: numbersGrid.buttonWidth
-                enabled: root.maxPinLength == -1 ||
+                enabled: root.entryEnabled && (root.maxPinLength == -1 ||
                          pinentryField.text.length < root.maxPinLength ||
-                         pinentryField.incorrectOverride
+                         pinentryField.incorrectOverride)
 
                 onClicked: {
                     pinentryField.appendNumber(index + 1)
@@ -174,9 +179,9 @@ Column {
             text: "0"
             height: numbersGrid.buttonHeight
             width: numbersGrid.buttonWidth
-            enabled: root.maxPinLength == -1 ||
+            enabled: root.entryEnabled && (root.maxPinLength == -1 ||
                      pinentryField.text.length < root.maxPinLength ||
-                     pinentryField.incorrectOverride
+                     pinentryField.incorrectOverride)
 
             onClicked: {
                 pinentryField.appendNumber(0)
@@ -202,7 +207,7 @@ Column {
             objectName: "confirmButton"
             height: numbersGrid.buttonHeight
             width: numbersGrid.buttonWidth
-            enabled: pinentryField.text.length >= root.minPinLength
+            enabled: root.enabled && pinentryField.text.length >= root.minPinLength
 
             onClicked: root.entered(pinentryField.text)
         }

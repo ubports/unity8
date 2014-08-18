@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.0
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
@@ -28,7 +29,7 @@ import "../../qml"
 
 Item {
     id: root
-    width: shell.width
+    width: shell.width + units.gu(20)
     height: shell.height
 
     QtObject {
@@ -49,6 +50,20 @@ Item {
 
     Shell {
         id: shell
+        maxFailedLogins: maxRetriesTextField.text
+    }
+    Column {
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; margins:units.gu(1) }
+        width: units.gu(18)
+
+        Label {
+            text: "Max retries:"
+            color: "black"
+        }
+        TextField {
+            id: maxRetriesTextField
+            text: "-1"
+        }
     }
 
     SignalSpy {
@@ -74,7 +89,7 @@ Item {
         function init() {
             swipeAwayGreeter()
             shell.failedLoginsDelayAttempts = -1
-            shell.maxFailedLogins = -1
+            maxRetriesTextField.text = "-1"
         }
 
         function cleanup() {
@@ -139,7 +154,7 @@ Item {
         function test_emergencyCall() {
             var greeter = findChild(shell, "greeter")
             var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             var panel = findChild(shell, "panel")
             var indicators = findChild(shell, "indicators")
             var launcher = findChild(shell, "launcher")
@@ -170,7 +185,7 @@ Item {
 
         function test_emergencyCallCrash() {
             var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
 
             tryCompare(lockscreen, "shown", false)
@@ -180,7 +195,7 @@ Item {
 
         function test_emergencyCallAppLaunch() {
             var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
 
             tryCompare(lockscreen, "shown", false)
@@ -201,21 +216,21 @@ Item {
         function test_wrongEntries() {
             shell.failedLoginsDelayAttempts = 3
 
-            var placeHolder = findChild(shell, "pinentryFieldPlaceHolder")
-            tryCompare(placeHolder, "text", "Enter your passcode")
+            var placeHolder = findChild(shell, "wrongNoticeLabel")
+            tryCompare(placeHolder, "text", "Incorrect passcode")
 
             enterPin("1111")
-            tryCompare(placeHolder, "text", "Incorrect passcode\nPlease re-enter")
+            tryCompare(placeHolder, "text", "Incorrect passcode")
 
             enterPin("1111")
-            tryCompare(placeHolder, "text", "Incorrect passcode\nPlease re-enter")
+            tryCompare(placeHolder, "text", "Incorrect passcode")
 
             enterPin("1111")
-            tryCompare(placeHolder, "text", "Too many incorrect attempts\nPlease wait")
+            tryCompare(placeHolder, "text", "Too many incorrect attempts")
         }
 
         function test_factoryReset() {
-            shell.maxFailedLogins = 3
+            maxRetriesTextField.text = "3"
             resetSpy.clear()
 
             enterPin("1111")
