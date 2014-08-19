@@ -127,6 +127,11 @@ Showable {
             waiting = false
             showWrongText = false
         }
+        onLoaded: {
+            if (forcedDelayTimer.running) {
+                pinPadLoader.item.clear(true)
+            }
+        }
 
         Connections {
             target: pinPadLoader.item
