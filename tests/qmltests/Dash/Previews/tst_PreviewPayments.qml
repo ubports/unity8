@@ -88,6 +88,11 @@ Rectangle {
             var button = findChild(root, "paymentButton");
             var progress = findChild(root, "loadingBar");
 
+            tryCompare(progress, "visible", false);
+            tryCompare(progress, "opacity", 0);
+            tryCompare(button, "visible", true);
+            tryCompare(button, "opacity", 1);
+
             mouseClick(button, button.width / 2, button.height / 2);
 
             spy.wait();
