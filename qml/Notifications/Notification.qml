@@ -270,7 +270,7 @@ Item {
                     objectName: "secondaryIcon"
                     width: units.gu(3)
                     height: units.gu(3)
-                    visible: source !== undefined && source != ""
+                    visible: status === Image.Ready
                     fillMode: Image.PreserveAspectCrop
                 }
             }
