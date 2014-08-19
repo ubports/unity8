@@ -41,6 +41,10 @@ Item {
         id: scopes
     }
 
+    MockScope {
+        id: mockScope
+    }
+
     SignalSpy {
         id: spy
     }
@@ -389,6 +393,45 @@ Item {
                 if (data.logo == "") expectFail(data.tag, "Title image should not exist.");
                 verify(image, "Could not find the title image.");
                 compare(image.source, data.logo, "Title image has the wrong source");
+            }
+
+            function test_seeAllTwoCategoriesScenario1() {
+                mockScope.setId("mockScope");
+                mockScope.setName("Mock Scope");
+                mockScope.categories.setCount(2);
+                mockScope.categories.resultModel(0).setResultCount(50);
+                mockScope.categories.setLayout(1, "grid");
+                mockScope.categories.setHeaderLink(1, "");
+                genericScopeView.scope = mockScope;
+                waitForRendering(genericScopeView.categoryView);
+
+                var category0 = findChild(genericScopeView, "dashCategory0")
+                var seeAll0 = findChild(category0, "seeAll")
+
+                waitForRendering(seeAll0);
+                verify(category0.expandable);
+                verify(!category0.expanded);
+
+                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                verify(category0.expanded);
+                tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(13.5));
+
+                scrollToCategory("dashCategory1");
+
+                var category1 = findChild(genericScopeView, "dashCategory1")
+                var seeAll1 = findChild(category1, "seeAll")
+                verify(category1.expandable);
+                verify(!category1.expanded);
+
+                mouseClick(seeAll1, seeAll1.width / 2, seeAll1.height / 2);
+                verify(!category0.expanded);
+                verify(category1.expanded);
+                tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
+                tryCompareFunction(function() {
+                    return genericScopeView.categoryView.contentY + category1.y + category1.height + genericScopeView.categoryView.pageHeader.height
+                           == genericScopeView.categoryView.contentHeight;}
+                    , true);
             }
         }
     }
