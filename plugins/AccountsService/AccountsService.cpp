@@ -104,7 +104,7 @@ void AccountsService::updateDemoEdges()
 
 void AccountsService::updateEnableLauncherWhileLocked()
 {
-    auto enableLauncherWhileLocked = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "EnableLauncherWhileLocked").toBool();
+    auto enableLauncherWhileLocked = m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableLauncherWhileLocked").toBool();
     if (m_enableLauncherWhileLocked != enableLauncherWhileLocked) {
         m_enableLauncherWhileLocked = enableLauncherWhileLocked;
         Q_EMIT enableLauncherWhileLockedChanged();
@@ -113,7 +113,7 @@ void AccountsService::updateEnableLauncherWhileLocked()
 
 void AccountsService::updateEnableIndicatorsWhileLocked()
 {
-    auto enableIndicatorsWhileLocked = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "EnableIndicatorsWhileLocked").toBool();
+    auto enableIndicatorsWhileLocked = m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableIndicatorsWhileLocked").toBool();
     if (m_enableIndicatorsWhileLocked != enableIndicatorsWhileLocked) {
         m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
         Q_EMIT enableIndicatorsWhileLockedChanged();
@@ -177,12 +177,6 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
         if (changed.contains("demo-edges")) {
             updateDemoEdges();
         }
-        if (changed.contains("EnableLauncherWhileLocked")) {
-            updateEnableLauncherWhileLocked();
-        }
-        if (changed.contains("EnableIndicatorsWhileLocked")) {
-            updateEnableIndicatorsWhileLocked();
-        }
     } else if (interface == "com.canonical.unity.AccountsService.Private") {
         if (changed.contains("FailedLogins")) {
             updateFailedLogins();
@@ -194,6 +188,12 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
     } else if (interface == "com.ubuntu.AccountsService.SecurityPrivacy") {
         if (changed.contains("PasswordDisplayHint")) {
             updatePasswordDisplayHint();
+        }
+        if (changed.contains("EnableLauncherWhileLocked")) {
+            updateEnableLauncherWhileLocked();
+        }
+        if (changed.contains("EnableIndicatorsWhileLocked")) {
+            updateEnableIndicatorsWhileLocked();
         }
     }
 }
