@@ -224,7 +224,6 @@ FocusScope {
                     target: rendererLoader.item
                     onClicked: {
                         if (cardTool.template && cardTool.template["non-interactive"]) {
-                            event.accepted = false;
                             return;
                         }
                         if (scopeView.scope.id === "scopes" || scopeView.scope.id == "clickscope") {
@@ -238,7 +237,6 @@ FocusScope {
                     }
                     onPressAndHold: {
                         if (cardTool.template && cardTool.template["non-interactive"]) {
-                            event.accepted = false;
                             return;
                         }
                         openPreview(index);
