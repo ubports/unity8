@@ -21,6 +21,7 @@
 #include <unitymenumodel.h>
 
 #include <QQmlEngine>
+#include <QDebug>
 
 UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
     : QObject(parent)
@@ -52,13 +53,18 @@ void UnityMenuModelCache::ref(UnityMenuModel* menuModel)
 void UnityMenuModelCache::deref(UnityMenuModel* menuModel)
 {
     if (m_refs.contains(menuModel)) {
-        if (m_refs[menuModel]-- == 0) {
+        if (--m_refs[menuModel] == 0) {
             m_refs.remove(menuModel);
             QList<QString> keys = m_menuModels.keys(menuModel);
             Q_FOREACH(const QString& key, keys) {
                 m_menuModels.remove(key);
             }
-            delete menuModel;
+            menuModel->deleteLater();
         }
     }
+}
+
+bool UnityMenuModelCache::contains(UnityMenuModel* menuModel)
+{
+    return m_refs.contains(menuModel);
 }
