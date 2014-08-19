@@ -39,6 +39,9 @@ Item {
         readonly property int applicationState: root.application ? root.application.state : -1
         readonly property var promptSurfaces: root.application ? root.application.promptSurfaces : null
 
+        // Whether the Application had a surface before but lost it.
+        property bool hadSurface: false
+
         property bool needToTakeScreenshot:
             d.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
             && d.applicationState === ApplicationInfo.Stopped
@@ -56,6 +59,7 @@ Item {
             if (surface) {
                 surfaceInitTimer.start();
             } else {
+                hadSurface = true;
                 surfaceInitialized = false;
             }
         }
@@ -148,9 +152,16 @@ Item {
         objectName: "applicationWindowStateGroup"
         states: [
             State {
+                name: "void"
+                when:
+                     d.hadSurface && (!d.surface || !d.surfaceInitialized)
+                     &&
+                     screenshotImage.status !== Image.Ready
+            },
+            State {
                 name: "splashScreen"
                 when:
-                     (!d.surface || !d.surfaceInitialized)
+                     !d.hadSurface && (!d.surface || !d.surfaceInitialized)
                      &&
                      screenshotImage.status !== Image.Ready
             },
@@ -224,6 +235,23 @@ Item {
                                             duration: UbuntuAnimation.BriskDuration }
                     PropertyAction { target: screenshotImage; property: "visible"; value: false }
                     PropertyAction { target: screenshotImage; property: "source"; value: "" }
+                }
+            },
+            Transition {
+                from: "surface"; to: "void"
+                SequentialAnimation {
+                    PropertyAction { target: surfaceContainer; property: "visible"; value: false }
+                    ScriptAction { script: { if (d.surface) { d.surface.release(); } } }
+                }
+            },
+            Transition {
+                from: "void"; to: "surface"
+                SequentialAnimation {
+                    PropertyAction { target: surfaceContainer; property: "opacity"; value: 0.0 }
+                    PropertyAction { target: surfaceContainer; property: "visible"; value: true }
+                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
+                                            from: 0.0; to: 1.0
+                                            duration: UbuntuAnimation.BriskDuration }
                 }
             }
         ]

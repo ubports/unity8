@@ -331,5 +331,16 @@ Rectangle {
             verify(fakeSurface.touchPressCount === 1);
             verify(fakeSurface.touchReleaseCount === 1);
         }
+
+        function test_showNothingOnSuddenSurfaceLoss() {
+            surfaceCheckbox.checked = true;
+            setApplicationState(appRunning);
+            tryCompare(stateGroup, "state", "surface");
+            waitUntilTransitionsEnd();
+
+            surfaceCheckbox.checked = false;
+
+            verify(stateGroup.state === "void");
+        }
     }
 }
