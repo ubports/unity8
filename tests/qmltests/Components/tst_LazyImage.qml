@@ -32,7 +32,7 @@ Rectangle {
             rightMargin: 2 * parent.width / 3
         }
 
-        color: "grey"
+        color: Theme.palette.normal.baseText
 
         Column {
             anchors { fill: parent; margins: units.gu(5) }

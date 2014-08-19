@@ -61,8 +61,8 @@ DashRenderer {
             }
             Connections {
                 target: loader.item
-                onClicked: root.clicked(index, result)
-                onPressAndHold: root.pressAndHold(index)
+                onClicked: root.clicked(index, result, loader.item, model)
+                onPressAndHold: root.pressAndHold(index, model)
             }
         }
     }

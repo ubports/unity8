@@ -13,57 +13,110 @@ AbstractButton {
                 property bool asynchronous: true;
                 property bool showHeader: true;
                 implicitWidth: childrenRect.width;
-onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; }
-readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
-Item  {
-                    id: artShapeHolder;
-                    height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height;
-                    width: root.fixedArtShapeSize.width > 0 ? root.fixedArtShapeSize.width : artShapeLoader.width;
-                    anchors { horizontalCenter: parent.horizontalCenter; }
-                    Loader {
-                        id: artShapeLoader;
-                        objectName: "artShapeLoader";
-                        active: cardData && cardData["art"] || false;
-                        asynchronous: root.asynchronous;
-                        visible: status == Loader.Ready;
-                        sourceComponent: UbuntuShape {
-                            id: artShape;
-                            objectName: "artShape";
-                            radius: "medium";
-                            visible: image.status == Image.Ready;
-                            readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
-                            readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1;
-                            Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
-                            Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); }
-                            function updateWidthHeightBindings() {
-                                if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) {
-                                            width = root.fixedArtShapeSize.width;
-                                            height = root.fixedArtShapeSize.height;
-                                } else {
-                                    width = Qt.binding(function() { return !visible ? 0 : image.width });
-                                    height = Qt.binding(function() { return !visible ? 0 : image.height });
-                                }
+Loader {
+                                id: backgroundLoader; 
+                                objectName: "backgroundLoader"; 
+                                anchors.fill: parent; 
+                                asynchronous: root.asynchronous; 
+                                visible: status == Loader.Ready; 
+                                sourceComponent: UbuntuShape { 
+                                    objectName: "background"; 
+                                    radius: "medium"; 
+                                    color: getColor(0) || "white"; 
+                                    gradientColor: getColor(1) || color; 
+                                    anchors.fill: parent; 
+                                    image: backgroundImage.source ? backgroundImage : null; 
+                                    property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b; 
+                                    property Image backgroundImage: Image { 
+                                        objectName: "backgroundImage"; 
+                                        source: { 
+                                            if (cardData && typeof cardData["background"] === "string") return cardData["background"]; 
+                                            else if (template && typeof template["card-background"] === "string") return template["card-background"]; 
+                                            else return ""; 
+                                        } 
+                                    } 
+                                    function getColor(index) { 
+                                        if (cardData && typeof cardData["background"] === "object" 
+                                            && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { 
+                                            return cardData["background"]["elements"][index]; 
+                                        } else if (template && typeof template["card-background"] === "object" 
+                                                && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  { 
+                                            return template["card-background"]["elements"][index]; 
+                                        } else return undefined; 
+                                    } 
+                                } 
                             }
-                            image: Image {
-                                objectName: "artImage";
-                                source: cardData && cardData["art"] || "";
-                                cache: true;
-                                asynchronous: root.asynchronous;
-                                fillMode: Image.PreserveAspectCrop;
-                                width: root.width;
-                                height: width / artShape.aspect;
-                            }
-                        }
+readonly property size artShapeSize: Qt.size(-1, -1);
+readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
+Item { 
+                            id: headerTitleContainer; 
+                            anchors { right: parent.right; left: parent.left;
+                            top: parent.top; 
+                            topMargin: units.gu(1);
+                            leftMargin: units.gu(1);
+                            } 
+                            width: parent.width - x; 
+                            implicitHeight: titleLabel.height + subtitleLabel.height; 
+                            data: [ 
+                                Label { 
+                        id: titleLabel; 
+                        objectName: "titleLabel"; 
+                        anchors { right: emblemIcon.left; 
+                        rightMargin: emblemIcon.width > 0 ? units.gu(0.5) : 0; 
+                        left: parent.left; 
+                        top: parent.top; } 
+                        elide: Text.ElideRight; 
+                        fontSize: "small"; 
+                        wrapMode: Text.Wrap; 
+                        maximumLineCount: 2; 
+                        font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
+                        color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
+                        visible: showHeader ; 
+                        text: root.title; 
+                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        horizontalAlignment: root.headerAlignment; 
                     }
-                }
-readonly property int headerHeight: 0;
+,Label { 
+                            id: subtitleLabel; 
+                            objectName: "subtitleLabel"; 
+                            anchors { right: parent.right; 
+                            left: parent.left; 
+                            rightMargin: units.gu(1); 
+                            top: titleLabel.bottom;
+                            } 
+                            anchors.topMargin: units.dp(2); 
+                            elide: Text.ElideRight; 
+                            fontSize: "small"; 
+                            font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
+                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
+                            visible: titleLabel.visible && titleLabel.text; 
+                            text: cardData && cardData["subtitle"] || ""; 
+                            font.weight: Font.Light; 
+                            horizontalAlignment: root.headerAlignment; 
+                        }
+,Icon { 
+                            id: emblemIcon; 
+                            objectName: "emblemIcon"; 
+                            anchors { 
+                            bottom: titleLabel.baseline; 
+                            right: parent.right; 
+                            rightMargin: units.gu(1); 
+                            } 
+                            source: cardData && cardData["emblem"] || ""; 
+                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
+                            width: height; 
+                            height: source != "" ? titleLabel.font.pixelSize : 0; 
+                        }
+ 
+                            ]
+                        }
 UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
-    anchors { fill: artShapeHolder }
+    anchors { fill: backgroundLoader }
     visible: root.pressed;
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }
-implicitHeight: artShapeHolder.height;
+implicitHeight: headerTitleContainer.y + headerTitleContainer.height + units.gu(1);
 }

@@ -18,14 +18,16 @@
 #include <QUrl>
 
 #include "fake_scope.h"
+
 #include "fake_navigation.h"
 #include "fake_resultsmodel.h"
+#include "fake_scopes.h"
 
-Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
+Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool favorite, QObject* parent, int categories)
+Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
@@ -36,6 +38,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, QObject* par
     , m_currentAltNavigationId("altroot")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
+    , m_openScope(nullptr)
 {
 }
 
@@ -66,7 +69,7 @@ QString Scope::description() const
 
 QString Scope::searchHint() const
 {
-    return QString("");
+    return QString("Search %1").arg(m_name);
 }
 
 QString Scope::shortcut() const
@@ -158,7 +161,12 @@ void Scope::setNoResultsHint(const QString& str)
 
 void Scope::activate(QVariant const& result)
 {
-    Q_UNUSED(result);
+    qDebug() << "Called activate on scope" << m_id << "with result" << result;
+    if (result.toString() == "Result.2.2") {
+        Scopes *scopes = dynamic_cast<Scopes*>(parent());
+        m_openScope = scopes->getScopeFromAll("MockScope9");
+        Q_EMIT openScope(m_openScope);
+    }
 }
 
 PreviewStack* Scope::preview(QVariant const& result)
@@ -174,9 +182,13 @@ void Scope::cancelActivation()
 {
 }
 
-void Scope::closeScope(unity::shell::scopes::ScopeInterface* /*scope*/)
+void Scope::closeScope(unity::shell::scopes::ScopeInterface* scope)
 {
-    qFatal("Scope::closeScope is not implemented");
+    if (scope != m_openScope) {
+        qDebug() << scope << m_openScope;
+        qFatal("Scope::closeScope got wrong scope in closeScope");
+    }
+    m_openScope = nullptr;
 }
 
 QString Scope::currentNavigationId() const
@@ -214,7 +226,7 @@ QVariantMap Scope::customizations() const
         m["page-header"] = h;
     } else if (m_id == "MockScope5") {
         h["background"] = "gradient:///lightgrey/grey";
-        h["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
+        h["logo"] = QUrl("../../../tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
         m["page-header"] = h;
     }
     return m;

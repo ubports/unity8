@@ -44,6 +44,7 @@ install_dependencies() {
                          gsettings-ubuntu-schemas \
                          pay-service \
                          qmenumodel-qml \
+                         qml-module-qtquick-layouts \
                          qml-module-qtquick-xmllistmodel \
                          qtdeclarative5-gsettings1.0 \
                          qtdeclarative5-ubuntu-ui-toolkit-plugin \
