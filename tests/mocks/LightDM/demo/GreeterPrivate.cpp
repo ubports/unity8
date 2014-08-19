@@ -33,6 +33,12 @@ class GreeterImpl : public QObject
 {
     Q_OBJECT
 
+    struct AppData
+    {
+        GreeterImpl *impl;
+        pam_handle *handle;
+    };
+
     typedef QFutureInterface<QString> ResponseFuture;
 
 public:
@@ -46,11 +52,11 @@ public:
 
         connect(&futureWatcher, SIGNAL(finished()),
                 this, SLOT(finishPam()));
-        connect(this, SIGNAL(showMessage(QString, QLightDM::Greeter::MessageType)),
-                greeter, SIGNAL(showMessage(QString, QLightDM::Greeter::MessageType)));
+        connect(this, SIGNAL(showMessage(pam_handle *, QString, QLightDM::Greeter::MessageType)),
+                this, SLOT(handleMessage(pam_handle *, QString, QLightDM::Greeter::MessageType)));
         // This next connect is how we pass ResponseFutures between threads
-        connect(this, SIGNAL(showPrompt(QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)),
-                this, SLOT(handlePrompt(QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)));
+        connect(this, SIGNAL(showPrompt(pam_handle *, QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)),
+                this, SLOT(handlePrompt(pam_handle *, QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)));
     }
 
     void start(QString username)
@@ -64,14 +70,19 @@ public:
             pam_end(handle, PAM_CONV_ERR);
         }
 
+        AppData *appData = new AppData();
+        appData->impl = this;
+
         // Now actually start a new conversation with PAM
         pam_conv conversation;
         conversation.conv = converseWithPam;
-        conversation.appdata_ptr = static_cast<void*>(this);
+        conversation.appdata_ptr = static_cast<void*>(appData);
 
         if (pam_start("lightdm", username.toUtf8(), &conversation, &pamHandle) == PAM_SUCCESS) {
+            appData->handle = pamHandle;
             futureWatcher.setFuture(QtConcurrent::run(authenticateWithPam, pamHandle));
         } else {
+            delete appData;
             greeterPrivate->authenticated = false;
             Q_EMIT greeter->showMessage("Internal error: could not start PAM authentication", QLightDM::Greeter::MessageTypeError);
             Q_EMIT greeter->authenticationComplete();
@@ -103,7 +114,9 @@ public:
         if (!tmp_response)
             return PAM_CONV_ERR;
 
-        GreeterImpl* impl = static_cast<GreeterImpl*>(appdata_ptr);
+        AppData *appData = static_cast<AppData*>(appdata_ptr);
+        GreeterImpl *impl = appData->impl;
+        pam_handle *handle = appData->handle;
 
         int count;
         QVector<ResponseFuture> responses;
@@ -117,7 +130,7 @@ public:
                 QString message(msg[count]->msg);
                 responses.append(ResponseFuture());
                 responses.last().reportStarted();
-                Q_EMIT impl->showPrompt(message, Greeter::PromptTypeQuestion, responses.last());
+                Q_EMIT impl->showPrompt(handle, message, Greeter::PromptTypeQuestion, responses.last());
                 break;
             }
             case PAM_PROMPT_ECHO_OFF:
@@ -125,19 +138,19 @@ public:
                 QString message(msg[count]->msg);
                 responses.append(ResponseFuture());
                 responses.last().reportStarted();
-                Q_EMIT impl->showPrompt(message, Greeter::PromptTypeSecret, responses.last());
+                Q_EMIT impl->showPrompt(handle, message, Greeter::PromptTypeSecret, responses.last());
                 break;
             }
             case PAM_TEXT_INFO:
             {
                 QString message(msg[count]->msg);
-                Q_EMIT impl->showMessage(message, Greeter::MessageTypeInfo);
+                Q_EMIT impl->showMessage(handle, message, Greeter::MessageTypeInfo);
                 break;
             }
             default:
             {
                 QString message(msg[count]->msg);
-                Q_EMIT impl->showMessage(message, Greeter::MessageTypeError);
+                Q_EMIT impl->showMessage(handle, message, Greeter::MessageTypeError);
                 break;
             }
             }
@@ -158,6 +171,8 @@ public:
                 break;
             }
         }
+
+        delete appData;
 
         if (raise_error)
         {
@@ -186,8 +201,8 @@ public Q_SLOTS:
     }
 
 Q_SIGNALS:
-    void showMessage(QString text, QLightDM::Greeter::MessageType type);
-    void showPrompt(QString text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture response);
+    void showMessage(pam_handle *handle, QString text, QLightDM::Greeter::MessageType type);
+    void showPrompt(pam_handle *handle, QString text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture response);
 
 private Q_SLOTS:
     void finishPam()
@@ -205,8 +220,22 @@ private Q_SLOTS:
         Q_EMIT greeter->authenticationComplete();
     }
 
-    void handlePrompt(QString text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture future)
+    void handleMessage(pam_handle *handle, QString text, QLightDM::Greeter::MessageType type)
     {
+        if (handle != pamHandle)
+            return;
+
+        Q_EMIT greeter->showMessage(text, type);
+    }
+
+    void handlePrompt(pam_handle *handle, QString text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture future)
+    {
+        if (handle != pamHandle) {
+            future.reportResult(QString());
+            future.reportFinished();
+            return;
+        }
+
         futures.enqueue(future);
         Q_EMIT greeter->showPrompt(text, type);
     }
