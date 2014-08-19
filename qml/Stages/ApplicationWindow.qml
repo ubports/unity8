@@ -178,10 +178,8 @@ Item {
                 when:
                       screenshotImage.status === Image.Ready
                       &&
-                      (
-                        d.applicationState === ApplicationInfo.Stopped
-                        || !d.surface || !d.surfaceInitialized
-                      )
+                      (d.applicationState === ApplicationInfo.Stopped
+                       || !d.surface || !d.surfaceInitialized)
             }
         ]
 
