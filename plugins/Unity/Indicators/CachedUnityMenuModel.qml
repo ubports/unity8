@@ -18,43 +18,51 @@
  */
 
 import QtQuick 2.0
-import QMenuModel 0.1 as QMenuModel
+import QMenuModel 0.1
 import Unity.Indicators 0.1 as Indicators
 
 // Make sure we don't duplicate models.
 Item {
     id: cachedModel
-    property string busName: ""
-    property string actionsObjectPath: ""
-    property string menuObjectPath: ""
-
+    property string busName
+    property string actionsObjectPath
+    property string menuObjectPath
     readonly property bool ready: busName!=="" && actionsObjectPath!=="" && menuObjectPath!==""
 
-    property QtObject model: {
-        if (!ready) {
-            return null;
-        }
+    property UnityMenuModel model: {
+        if (!ready) return null;
 
-        var component = Indicators.UnityMenuModelCache.model(menuObjectPath);
-        if (!component) {
-            component = modelComponent.createObject(cachedModel);
-            return component;
+        var newModel = Indicators.UnityMenuModelCache.model(menuObjectPath);
+        if (!newModel) {
+            newModel = modelComponent.createObject(null,
+                                                   {
+                                                       "busName": cachedModel.busName,
+                                                       "menuObjectPath": cachedModel.menuObjectPath,
+                                                       "actions": { "indicator": cachedModel.actionsObjectPath },
+                                                   });
+            Indicators.UnityMenuModelCache.registerModel(newModel.menuObjectPath, newModel);
         }
-        return component;
+        return newModel;
+    }
+
+    QtObject {
+        id: d
+        property UnityMenuModel oldModel: null
+    }
+
+    onModelChanged: {
+        if (model !== d.oldModel) {
+            if (d.oldModel) Indicators.UnityMenuModelCache.deref(d.oldModel);
+            if (model) Indicators.UnityMenuModelCache.ref(model);
+        }
+        d.oldModel = model;
+    }
+    Component.onDestruction: {
+        if (model) Indicators.UnityMenuModelCache.deref(model);
     }
 
     Component {
         id: modelComponent
-
-        QMenuModel.UnityMenuModel {
-            id: unityModel
-            busName: cachedModel.busName
-            actions: { "indicator": cachedModel.actionsObjectPath }
-            menuObjectPath: cachedModel.menuObjectPath
-
-            Component.onCompleted: {
-                Indicators.UnityMenuModelCache.registerModel(cachedModel.menuObjectPath, unityModel);
-            }
-        }
+        UnityMenuModel {}
     }
 }
