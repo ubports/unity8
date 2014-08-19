@@ -37,14 +37,10 @@ public:
     Q_INVOKABLE UnityMenuModel* model(const QString& path) const;
     Q_INVOKABLE void registerModel(const QString& path, UnityMenuModel* menuModel);
 
-    Q_INVOKABLE void ref(UnityMenuModel* menuModel);
-    Q_INVOKABLE void deref(UnityMenuModel* menuModel);
-
     Q_INVOKABLE bool contains(UnityMenuModel* menuModel);
 
 private:
     QHash<QString, UnityMenuModel*> m_menuModels;
-    QHash<UnityMenuModel*, uint> m_refs;
 };
 
 #endif // UNITYMENUMODELCACHE_H

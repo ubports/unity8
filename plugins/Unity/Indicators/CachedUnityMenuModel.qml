@@ -45,22 +45,6 @@ Item {
         return newModel;
     }
 
-    QtObject {
-        id: d
-        property UnityMenuModel oldModel: null
-    }
-
-    onModelChanged: {
-        if (model !== d.oldModel) {
-            if (d.oldModel) Indicators.UnityMenuModelCache.deref(d.oldModel);
-            if (model) Indicators.UnityMenuModelCache.ref(model);
-        }
-        d.oldModel = model;
-    }
-    Component.onDestruction: {
-        if (model) Indicators.UnityMenuModelCache.deref(model);
-    }
-
     Component {
         id: modelComponent
         UnityMenuModel {}

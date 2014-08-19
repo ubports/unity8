@@ -30,7 +30,6 @@ UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
 
 UnityMenuModelCache::~UnityMenuModelCache()
 {
-    qDeleteAll(m_menuModels);
 }
 
 UnityMenuModel* UnityMenuModelCache::model(const QString& path) const
@@ -40,31 +39,17 @@ UnityMenuModel* UnityMenuModelCache::model(const QString& path) const
 
 void UnityMenuModelCache::registerModel(const QString& path, UnityMenuModel* menuModel)
 {
-    QQmlEngine::setObjectOwnership(menuModel, QQmlEngine::CppOwnership);
-    menuModel->setParent(this);
     m_menuModels[path] = menuModel;
-}
 
-void UnityMenuModelCache::ref(UnityMenuModel* menuModel)
-{
-    m_refs[menuModel] = m_refs.value(menuModel, 0) + 1;
-}
-
-void UnityMenuModelCache::deref(UnityMenuModel* menuModel)
-{
-    if (m_refs.contains(menuModel)) {
-        if (--m_refs[menuModel] == 0) {
-            m_refs.remove(menuModel);
-            QList<QString> keys = m_menuModels.keys(menuModel);
-            Q_FOREACH(const QString& key, keys) {
-                m_menuModels.remove(key);
-            }
-            menuModel->deleteLater();
+    connect(menuModel, &QObject::destroyed, this, [menuModel, this](QObject*) {
+        QList<QString> keys = m_menuModels.keys(menuModel);
+        Q_FOREACH(const QString& key, keys) {
+            m_menuModels.remove(key);
         }
-    }
+    });
 }
 
 bool UnityMenuModelCache::contains(UnityMenuModel* menuModel)
 {
-    return m_refs.contains(menuModel);
+    return !m_menuModels.keys(menuModel).isEmpty();
 }

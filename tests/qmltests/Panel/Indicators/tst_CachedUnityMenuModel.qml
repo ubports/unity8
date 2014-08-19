@@ -50,9 +50,6 @@ Item {
                                });
 
             verify(cachedObject.model !== cachedObject2.model);
-
-            cachedObject.destroy();
-            cachedObject2.destroy();
         }
 
         function test_createSame() {
@@ -71,53 +68,6 @@ Item {
                                });
 
             verify(cachedObject.model === cachedObject2.model);
-
-            cachedObject.destroy();
-            cachedObject2.destroy();
-        }
-
-        function test_destroyAllDeletesModel() {
-            var cachedObject = model.createObject(root,
-                               {
-                                   "busName": "com.canonical.test1",
-                                   "menuObjectPath": "com/canonical/test1",
-                                   "actionsObjectPath": "com/canonical/test1/actions"
-                               });
-
-            var cachedObject2 = model.createObject(root,
-                               {
-                                   "busName": "com.canonical.test1",
-                                   "menuObjectPath": "com/canonical/test1",
-                                   "actionsObjectPath": "com/canonical/test1/actions"
-                               });
-
-            var menuModel = cachedObject.model;
-            cachedObject.destroy();
-            cachedObject2.destroy();
-            tryCompareFunction(function() { return Indicators.UnityMenuModelCache.contains(menuModel) }, false);
-        }
-
-        function test_destroyPartialKeepsModel() {
-            var cachedObject = model.createObject(root,
-                               {
-                                   "busName": "com.canonical.test1",
-                                   "menuObjectPath": "com/canonical/test1",
-                                   "actionsObjectPath": "com/canonical/test1/actions"
-                               });
-
-            var cachedObject2 = model.createObject(root,
-                               {
-                                   "busName": "com.canonical.test1",
-                                   "menuObjectPath": "com/canonical/test1",
-                                   "actionsObjectPath": "com/canonical/test1/actions"
-                               });
-
-            var menuModel = cachedObject.model;
-            cachedObject.destroy();
-            wait(1);
-            compare(Indicators.UnityMenuModelCache.contains(menuModel), true);
-
-            cachedObject2.destroy();
         }
 
         // Tests that changing cached model data does not change the model path of others
@@ -141,9 +91,6 @@ Item {
             compare(cachedObject2.model.menuObjectPath, "com/canonical/test1");
 
             verify(cachedObject.model !== cachedObject2.model);
-
-            cachedObject.destroy();
-            cachedObject2.destroy();
         }
     }
 }
