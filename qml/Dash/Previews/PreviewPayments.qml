@@ -69,6 +69,6 @@ PreviewWidget {
         indeterminate: true
         anchors.fill: paymentButton
         opacity: 1 - paymentsButton.opacity
-        visible: opacity == 0 ? false : true
+        visible: !paymentsButton.visible
     }
 }
