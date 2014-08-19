@@ -26,7 +26,8 @@ AccountsService::AccountsService(QObject* parent)
     m_service(new AccountsServiceDBusAdaptor(this)),
     m_user(qgetenv("USER")),
     m_demoEdges(false),
-    m_interactiveWhileLocked(false),
+    m_enableLauncherWhileLocked(false),
+    m_enableIndicatorsWhileLocked(false),
     m_statsWelcomeScreen(false),
     m_passwordDisplayHint(Keyboard),
     m_failedLogins(0)
@@ -48,7 +49,8 @@ void AccountsService::setUser(const QString &user)
     Q_EMIT userChanged();
 
     updateDemoEdges();
-    updateInteractiveWhileLocked();
+    updateEnableLauncherWhileLocked();
+    updateEnableIndicatorsWhileLocked();
     updateBackgroundFile();
     updateStatsWelcomeScreen();
     updatePasswordDisplayHint();
@@ -66,9 +68,14 @@ void AccountsService::setDemoEdges(bool demoEdges)
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
 }
 
-bool AccountsService::interactiveWhileLocked() const
+bool AccountsService::enableLauncherWhileLocked() const
 {
-    return m_interactiveWhileLocked;
+    return m_enableLauncherWhileLocked;
+}
+
+bool AccountsService::enableIndicatorsWhileLocked() const
+{
+    return m_enableIndicatorsWhileLocked;
 }
 
 QString AccountsService::backgroundFile() const
@@ -95,12 +102,21 @@ void AccountsService::updateDemoEdges()
     }
 }
 
-void AccountsService::updateInteractiveWhileLocked()
+void AccountsService::updateEnableLauncherWhileLocked()
 {
-    auto interactiveWhileLocked = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "InteractiveWhileLocked").toBool();
-    if (m_interactiveWhileLocked != interactiveWhileLocked) {
-        m_interactiveWhileLocked = interactiveWhileLocked;
-        Q_EMIT interactiveWhileLockedChanged();
+    auto enableLauncherWhileLocked = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "EnableLauncherWhileLocked").toBool();
+    if (m_enableLauncherWhileLocked != enableLauncherWhileLocked) {
+        m_enableLauncherWhileLocked = enableLauncherWhileLocked;
+        Q_EMIT enableLauncherWhileLockedChanged();
+    }
+}
+
+void AccountsService::updateEnableIndicatorsWhileLocked()
+{
+    auto enableIndicatorsWhileLocked = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "EnableIndicatorsWhileLocked").toBool();
+    if (m_enableIndicatorsWhileLocked != enableIndicatorsWhileLocked) {
+        m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
+        Q_EMIT enableIndicatorsWhileLockedChanged();
     }
 }
 
@@ -161,8 +177,11 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
         if (changed.contains("demo-edges")) {
             updateDemoEdges();
         }
-        if (changed.contains("InteractiveWhileLocked")) {
-            updateInteractiveWhileLocked();
+        if (changed.contains("EnableLauncherWhileLocked")) {
+            updateEnableLauncherWhileLocked();
+        }
+        if (changed.contains("EnableIndicatorsWhileLocked")) {
+            updateEnableIndicatorsWhileLocked();
         }
     } else if (interface == "com.canonical.unity.AccountsService.Private") {
         if (changed.contains("FailedLogins")) {

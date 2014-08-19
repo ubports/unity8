@@ -36,10 +36,14 @@ class AccountsService: public QObject
                 READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
-    Q_PROPERTY (bool interactiveWhileLocked
-                READ interactiveWhileLocked
-                WRITE setInteractiveWhileLocked // only available in mock
-                NOTIFY interactiveWhileLockedChanged)
+    Q_PROPERTY (bool enableLauncherWhileLocked
+                READ enableLauncherWhileLocked
+                WRITE setEnableLauncherWhileLocked // only available in mock
+                NOTIFY enableLauncherWhileLockedChanged)
+    Q_PROPERTY (bool enableIndicatorsWhileLocked
+                READ enableIndicatorsWhileLocked
+                WRITE setEnableIndicatorsWhileLocked // only available in mock
+                NOTIFY enableIndicatorsWhileLockedChanged)
     Q_PROPERTY (QString backgroundFile
                 READ backgroundFile
                 WRITE setBackgroundFile // only available in mock
@@ -68,8 +72,10 @@ public:
     void setUser(const QString &user);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
-    bool interactiveWhileLocked() const;
-    void setInteractiveWhileLocked(bool interactiveWhileLocked);
+    bool enableLauncherWhileLocked() const;
+    void setEnableLauncherWhileLocked(bool enableLauncherWhileLocked);
+    bool enableIndicatorsWhileLocked() const;
+    void setEnableIndicatorsWhileLocked(bool enableIndicatorsWhileLocked);
     QString backgroundFile() const;
     void setBackgroundFile(const QString &backgroundFile);
     bool statsWelcomeScreen() const;
@@ -81,14 +87,16 @@ public:
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
-    void interactiveWhileLockedChanged();
+    void enableLauncherWhileLockedChanged();
+    void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
 
 private:
-    bool m_interactiveWhileLocked;
+    bool m_enableLauncherWhileLocked;
+    bool m_enableIndicatorsWhileLocked;
     QString m_backgroundFile;
     QString m_user;
     bool m_statsWelcomeScreen;

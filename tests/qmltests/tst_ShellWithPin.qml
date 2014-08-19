@@ -75,7 +75,8 @@ Item {
             swipeAwayGreeter()
             shell.failedLoginsDelayAttempts = -1
             shell.maxFailedLogins = -1
-            AccountsService.interactiveWhileLocked = true
+            AccountsService.enableLauncherWhileLocked = true
+            AccountsService.enableIndicatorsWhileLocked = true
         }
 
         function cleanup() {
@@ -131,12 +132,13 @@ Item {
 
         function test_disabledEdges() {
             var launcher = findChild(shell, "launcher")
-            var indicators = findChild(shell, "indicators")
             tryCompare(launcher, "available", true)
-            tryCompare(indicators, "available", true)
-
-            AccountsService.interactiveWhileLocked = false
+            AccountsService.enableLauncherWhileLocked = false
             tryCompare(launcher, "available", false)
+
+            var indicators = findChild(shell, "indicators")
+            tryCompare(indicators, "available", true)
+            AccountsService.enableIndicatorsWhileLocked = false
             tryCompare(indicators, "available", false)
         }
 

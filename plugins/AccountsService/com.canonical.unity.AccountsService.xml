@@ -9,7 +9,11 @@
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
                 value="com.ubuntu.AccountsService.GreeterChangeAny"/>
 
-    <property name="InteractiveWhileLocked" type="b" access="readwrite">
+    <property name="EnableLauncherWhileLocked" type="b" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
+    </property>
+
+    <property name="EnableIndicatorsWhileLocked" type="b" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 
