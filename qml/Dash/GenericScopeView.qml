@@ -87,8 +87,7 @@ FocusScope {
         }
         subPageLoader.initialIndex = -1;
         subPageLoader.initialIndex = index;
-        subPageLoader.subPage = "preview";
-        subPageLoader.openSubPage();
+        subPageLoader.openSubPage("preview");
     }
 
     Binding {
@@ -107,8 +106,8 @@ FocusScope {
     }
 
     onIsCurrentChanged: {
-        if (showPageHeader) {
-            pageHeaderLoader.item.resetSearch();
+        if (pageHeaderLoader.item && showPageHeader) {
+             pageHeaderLoader.item.resetSearch();
         }
         subPageLoader.closeSubPage();
     }
@@ -442,10 +441,7 @@ FocusScope {
 
                     onBackClicked: scopeView.backClicked()
 
-                    onSettingsClicked: {
-                        subPageLoader.subPage = "settings";
-                        subPageLoader.openSubPage();
-                    }
+                    onSettingsClicked: subPageLoader.openSubPage("settings")
                 }
             }
         }
@@ -471,59 +467,42 @@ FocusScope {
 
         readonly property bool processing: item && item.processing || false
         readonly property int count: item && item.count || 0
-        readonly property int currentIndex: item && item.currentIndex || -1
-        readonly property var currentItem: item &&  item.currentItem || null
+        readonly property int currentIndex: item && item.currentIndex || 0
+        readonly property var currentItem: item && item.currentItem || null
 
         property string subPage: ""
-        readonly property bool previewShown: open && subPage == "preview"
-        readonly property bool settingsShown: open && subPage == "settings"
+        readonly property bool previewShown: visible && subPage == "preview"
+        readonly property bool settingsShown: visible && subPage == "settings"
 
-        function updateBindings() {
-            if (status === Loader.Ready) {
-                item.scope = Qt.binding(function() { return subPageLoader.scope } )
-                item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle } )
-                if (item.hasOwnProperty("open")) item.open = Qt.binding(function() { return subPageLoader.open } )
-                if (item.hasOwnProperty("initialIndex")) item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex } )
-                if (item.hasOwnProperty("model")) item.model = Qt.binding(function() { return subPageLoader.model } )
-            }
-        }
-
-        function updateSource() {
-            switch (subPage) {
-                case "preview": source = "PreviewListView.qml"; break;
-                case "settings": source = "ScopeSettingsPage.qml"; break;
-                default: source = ""; break;
-            }
-        }
-
-        function openSubPage() {
-            // FIXME adding the following check before opening makes more sense to me,
-            // but it doesn't seem to work in qmltestrunner::GenericScopeView::test_previewOpenClose()
-            // if (!visible && status === Loader.Ready), x is different to width.
-            // Let's just check status for now.
-            if (status === Loader.Ready) open = true;
+        function openSubPage(page) {
+            subPage = page;
+            open = true;
         }
 
         function closeSubPage() {
             open = false;
-            subPage = "";
         }
 
-        onSubPageChanged: {
-            // let's update the source only when the loader is not visible
-            if (!visible) updateSource();
+        source: visible && subPage && (subPage == "preview" ? "PreviewListView.qml" : "ScopeSettingsPage.qml") || ""
+
+        onLoaded: {
+            if (status === Loader.Ready) {
+                item.scope = Qt.binding(function() { return subPageLoader.scope } )
+                item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle } )
+                if (subPage == "preview") {
+                    item.open = Qt.binding(function() { return subPageLoader.open } )
+                    item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex } )
+                    item.model = Qt.binding(function() { return subPageLoader.model } )
+                }
+            }
         }
+
+        onOpenChanged: pageHeaderLoader.item.unfocus();
 
         onVisibleChanged: {
-            // let's update the source only when the loader is not visible
-            if (!visible) updateSource();
-        }
-
-        onLoaded: updateBindings()
-
-        onOpenChanged: {
-            if (open) updateBindings();
-            pageHeaderLoader.item.unfocus();
+            if (!visible) {
+                subPage = "";
+            }
         }
 
         Connections {

@@ -374,7 +374,7 @@ Item {
                 var settings = findChild(innerHeader, "settings_header_button");
                 mouseClick(settings, settings.width / 2, settings.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
-                verify(("" + subPageLoader.source).indexOf("ScopeSettingsPage.qml") != -1);
+                tryCompareFunction(function() { return ("" + subPageLoader.source).indexOf("ScopeSettingsPage.qml") != -1; }, true);
                 compare(genericScopeView.settingsShown, true)
                 tryCompare(testCase.subPageLoader, "x", 0);
 
@@ -382,7 +382,7 @@ Item {
                 var settingsHeader = findChild(testCase.subPageLoader.item, "pageHeader");
                 mouseClick(settingsHeader, units.gu(2), units.gu(2));
                 tryCompare(testCase.subPageLoader, "open", false);
-                compare(genericScopeView.settingsShown, false);
+                tryCompare(genericScopeView, "settingsShown", false);
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 tryCompare(categoryListView, "x", 0);
             }
