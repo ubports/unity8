@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-07 12:34+0000\n"
-"Last-Translator: Salomão Carneiro de Brito <salomaocar@gmail.com>\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-18 14:14+0000\n"
+"Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Launchpad-Export-Date: 2014-08-19 06:59+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "Senha: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -28,19 +32,19 @@ msgstr "Desafixar atalho"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Você tem certeza de que deseja desligar?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "Desligar"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -92,6 +96,14 @@ msgstr ""
 "Agora você já domina os gestos das bordas e pode começar a usar o "
 "telefone<br><br>Toque na tela para iniciar"
 
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "Muitas tentativas incorretas"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "Por favor, aguarde"
+
 #: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Chamada de emergência"
@@ -125,6 +137,10 @@ msgstr "Ver menos"
 msgid "See all"
 msgstr "Ver todos"
 
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Pesquisar"
+
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Mais..."
@@ -147,23 +163,23 @@ msgstr "Enviar"
 
 #: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
-msgstr ""
+msgstr "Gerencia painel"
 
 #: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
-msgstr ""
+msgstr "Concluído"
 
 #: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
-msgstr ""
+msgstr "Loja"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritos"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Tudo"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -231,17 +247,58 @@ msgstr "Falhou, toque para tentar novamente"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Desbloquear SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Roaming"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Pesquisar"
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "senha"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "código de acesso"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
-msgstr "Por favor, digite %1"
+msgid "Enter your %1"
+msgstr "Digite o seu %1"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "%1 incorreto"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "Por favor, digite novamente"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "Desculpe, senha incorreta."
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "Desculpe, código de acesso incorreto."
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "Esta será a sua última tentativa."
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Se a senha for digitada incorretamente, o telefone será restaurado aos "
+"padrões de fábrica e todos os dados pessoais serão apagados."
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Se o código de acesso for digitado incorretamente, o telefone será "
+"restaurado aos padrões de fábrica e todos os dados pessoais serão apagados."

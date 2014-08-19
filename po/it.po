@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-07-25 16:09+0000\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-14 11:35+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
+"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "Password: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -28,19 +32,19 @@ msgstr "Sblocca scorciatoia"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Spegnere veramente il dispositivo?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "Spegni"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "Riavvia"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -95,38 +99,50 @@ msgstr ""
 "L'apprendimento dei gesti è stato  completato. È ora possibile iniziare a "
 "usare il telefono.<br><br>Toccare lo schermo per iniziare"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "Troppi tentativi errati"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "Attendere"
+
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Chiamata di emergenza"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:268
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "Ciao %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "Ciao"
 
-#: qml/Components/PinLockscreen.qml:198
+#: qml/Components/PinLockscreen.qml:197
 msgid "CANCEL"
 msgstr "Annulla"
 
-#: qml/Components/PinLockscreen.qml:216
+#: qml/Components/PinLockscreen.qml:215
 msgid "DONE"
 msgstr "Fatto"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See less"
 msgstr "Mostra meno"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See all"
 msgstr "Mostra tutto"
+
+#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Cerca"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -148,25 +164,25 @@ msgstr "Aggiungi una recensione"
 msgid "Send"
 msgstr "Invia"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr ""
+msgstr "Gestione della Dash"
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
-msgstr ""
+msgstr "Fatto"
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
-msgstr ""
+msgstr "Store"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Preferiti"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Tutto"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -234,17 +250,58 @@ msgstr "Non riuscito. Tocca per riprovare"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Sblocca SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Roaming"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Cerca"
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "passphrase"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "passcode"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
+msgid "Enter your %1"
 msgstr "Inserire %1"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "Errore %1"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "Inserire nuovamente"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "Passphrase non corretta"
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "Passcode non corretto"
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "Questo sarà l'ultimo tentativo."
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Se verrà inserita una passphrase errata, il telefono eseguirà un ripristino "
+"delle impostazioni di fabbrica e tutti i dati personali verranno eliminati."
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Se verrà inserito una passcode errato, il telefono eseguirà un ripristino "
+"delle impostazioni di fabbrica e tutti i dati personali verranno eliminati."

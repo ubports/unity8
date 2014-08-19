@@ -15,7 +15,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes.Ambiance 1.1
 import "../Components"
 
 Item {
@@ -89,12 +90,18 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            PageHeader {
+            PageHeadStyle {
                 id: header
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.topMargin: units.gu(1)
+                height: units.gu(6.5)
+                contentHeight: height
+                separatorSource: ""
+                property var styledItem: header
+                property string title
+                property var config: PageHeadConfiguration { }
             }
         }
     }

@@ -452,7 +452,7 @@ Rectangle {
 
             background.color = data.tag;
 
-            var fontColor = data.dark ? "grey" : "white";
+            var fontColor = data.dark ? Theme.palette.normal.baseText : "white";
 
             tryCompareFunction(function() { return Qt.colorEqual(summary.color, fontColor); }, true);
             tryCompareFunction(function() { return Qt.colorEqual(title.color, fontColor); }, true);
