@@ -460,7 +460,7 @@ Item {
                             id: comboRepeater
 
                             onVisibleChanged: {
-                                comboButton.text = comboRepeater.itemAt(2).actionLabel
+                                comboButton.text = comboRepeater.count >= 3 ? comboRepeater.itemAt(2).actionLabel : ""
                             }
 
                             model: notification.actions

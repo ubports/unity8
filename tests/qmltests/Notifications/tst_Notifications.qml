@@ -479,8 +479,8 @@ Row {
             tryCompare(audioItem, "playbackState", data.hasSound ? Audio.PlayingState : Audio.StoppedState)
 
             if(data.buttonRowVisible) {
-                var buttonCancel = findChild(buttonRow, "button1")
-                var buttonAccept = findChild(buttonRow, "button0")
+                var buttonCancel = findChild(buttonRow, "notify_button1")
+                var buttonAccept = findChild(buttonRow, "notify_button0")
 
                 // only test the left/cancel-button if two actions have been passed in
                 if (data.actions.length == 2) {
@@ -500,19 +500,19 @@ Row {
 
                 // check if there's a ComboButton created due to more actions being passed
                 if (data.actions.length > 2) {
-                    var comboButton = findChild(notification, "button2")
+                    var comboButton = findChild(notification, "notify_button2")
                     tryCompareFunction(function() { return comboButton.expanded == false; }, true);
 
                     // click to expand
                     tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == true; }, true);
 
                     // try clicking on choices in expanded comboList
-                    var choiceButton1 = findChild(notification, "button3")
+                    var choiceButton1 = findChild(notification, "notify_button3")
                     tryCompareFunction(function() { mouseClick(choiceButton1, choiceButton1.width / 2, choiceButton1.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
                     actionSpy.clear()
 
-                    var choiceButton2 = findChild(notification, "button4")
+                    var choiceButton2 = findChild(notification, "notify_button4")
                     tryCompareFunction(function() { mouseClick(choiceButton2, choiceButton2.width / 2, choiceButton2.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
                     actionSpy.clear()

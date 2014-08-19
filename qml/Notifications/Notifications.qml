@@ -33,7 +33,7 @@ ListView {
         id: snapDecisionProxyModel
 
         model: notificationList.model
-        filterRole: UnityNotifications.ModelInterface.RoleType
+        filterRole: UnityNotifications.ModelInterface != undefined ? UnityNotifications.ModelInterface.RoleType : 0
         filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
     }
 
