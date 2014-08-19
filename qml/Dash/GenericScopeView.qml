@@ -152,9 +152,49 @@ FocusScope {
         interactive: !navigationShown
 
         property string expandedCategoryId: ""
+        property bool needMaximizeAfterExpand: false
 
         readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
             ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
+
+        onExpandedCategoryIdChanged: {
+            var firstCreated = firstCreatedIndex();
+            var shrinkingAny = false;
+            var shrinkHeightDifference = 0;
+            for (var i = 0; i < createdItemCount(); ++i) {
+                var baseItem = item(firstCreated + i);
+                if (baseItem.expandable) {
+                    var shouldExpand = baseItem.category === expandedCategoryId;
+                    if (shouldExpand != baseItem.expanded) {
+
+                        var animate = false;
+                        if (!previewListView.open) {
+                            var animateShrinking = !shouldExpand  && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAll.height < categoryView.height;
+                            var animateGrowing = shouldExpand && baseItem.y + baseItem.height < categoryView.height;
+                            animate = shrinkingAny || animateShrinking || animateGrowing;
+                        }
+
+                        if (!shouldExpand) {
+                            shrinkingAny = true;
+                            shrinkHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
+                        }
+
+                        if (shouldExpand && !previewListView.open) {
+                            if (!shrinkingAny) {
+                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAll.height);
+                            } else {
+                                // If the space that shrkinking is smaller than the one we need to grow we'll call maximizeVisibleArea
+                                // after the shrink/grow animation ends
+                                var growHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
+                                needMaximizeAfterExpand = growHeightDifference > shrinkHeightDifference;
+                            }
+                        }
+
+                        baseItem.expand(shouldExpand, animate);
+                    }
+                }
+            }
+        }
 
         delegate: ListItems.Base {
             id: baseItem
@@ -172,6 +212,7 @@ FocusScope {
             readonly property string category: categoryId
             readonly property string headerLink: model.headerLink
             readonly property var item: rendererLoader.item
+            readonly property var seeAll: seeAll
 
             function expand(expand, animate) {
                 heightBehaviour.enabled = animate;
@@ -212,9 +253,14 @@ FocusScope {
                     id: heightBehaviour
                     enabled: false
                     animation: UbuntuNumberAnimation {
+                        duration: categoryView.needMaximizeAfterExpand ? UbuntuAnimation.FastDuration / 2 : UbuntuAnimation.FastDuration
                         onRunningChanged: {
                             if (!running) {
                                 heightBehaviour.enabled = false
+                                if (categoryView.needMaximizeAfterExpand && baseItem.category === categoryView.expandedCategoryId) {
+                                    categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
+                                    categoryView.needMaximizeAfterExpand = false;
+                                }
                             }
                         }
                     }
@@ -279,27 +325,6 @@ FocusScope {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedCategoryIdChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    function collapseAllButExpandedCategory() {
-                        var item = rendererLoader.item;
-                        if (baseItem.expandable) {
-                            var shouldExpand = categoryId === categoryView.expandedCategoryId;
-                            if (shouldExpand != baseItem.expanded) {
-                                // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
-                                var growingVisible = shouldExpand && y + height < categoryView.height;
-                                if (!previewListView.open || shouldExpand) {
-                                    var animate = shrinkingVisible || growingVisible;
-                                    baseItem.expand(shouldExpand, animate)
-                                    if (shouldExpand && !previewListView.open) {
-                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
-                                    }
-                                }
-                            }
-                        }
-                    }
                     onOriginYChanged: rendererLoader.updateDelegateCreationRange();
                     onContentYChanged: rendererLoader.updateDelegateCreationRange();
                     onHeightChanged: rendererLoader.updateDelegateCreationRange();
