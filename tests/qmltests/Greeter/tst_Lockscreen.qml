@@ -374,16 +374,18 @@ Rectangle {
 
         function test_minMaxLength(data) {
             pinPadCheckBox.checked = false
-            minPinLengthTextField.text = data.minPinLength
-            maxPinLengthTextField.text = data.maxPinLength
+            minPinLengthTextField.text = data.minPinLength;
+            maxPinLengthTextField.text = data.maxPinLength;
             waitForLockscreenReady();
 
             var pinPadButton5 = findChild(lockscreen, "pinPadButton5");
             var backspaceButton = findChild(lockscreen, "backspaceIcon");
             var confirmButton = findChild(lockscreen, "confirmButton");
-            var inputField = findChild(lockscreen, "pinentryField")
+            var inputField = findChild(lockscreen, "pinentryField");
 
-            tryCompare(backspaceButton, "opacity", 0)
+            tryCompare(backspaceButton, "opacity", 0);
+
+            tryCompare(confirmButton, "visible", (data.minPinLength != data.maxPinLength) || (data.minPinLength == -1));
 
             for (var i = 0; i < 10; i++) {
                 mouseClick(pinPadButton5, units.gu(1), units.gu(1));
@@ -419,7 +421,7 @@ Rectangle {
 
         function test_retryDisplay_data() {
             return [
-                {tag: "empty", retryText: ""},
+                {tag: "empty", retryText: " "},
                 {tag: "3 retries left", retryText: "3 retries left"},
             ]
         }

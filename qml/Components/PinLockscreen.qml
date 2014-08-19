@@ -208,6 +208,7 @@ Column {
             height: numbersGrid.buttonHeight
             width: numbersGrid.buttonWidth
             enabled: root.enabled && pinentryField.text.length >= root.minPinLength
+            visible: root.minPinLength == -1 || root.minPinLength !== root.maxPinLength
 
             onClicked: root.entered(pinentryField.text)
         }

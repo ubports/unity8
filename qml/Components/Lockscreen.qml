@@ -206,7 +206,6 @@ Showable {
         text: i18n.tr("Emergency Call")
         color: "#f3f3e7"
         opacity: 0.6
-        fontSize: "small"
     }
 
     MouseArea {
