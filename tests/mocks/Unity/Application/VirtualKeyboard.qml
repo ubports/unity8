@@ -17,14 +17,18 @@
 import QtQuick 2.0
 
 Item {
-    width: units.gu(40)
-    height: units.gu(70)
+    implicitWidth: units.gu(40)
+    implicitHeight: units.gu(70)
+
+    anchors.fill: parent
 
     property alias screenshotSource: screenshotImage.source
 
+    property bool landscape: width > height
+
     Image {
         id: screenshotImage
-        height: width * 0.6
+        height: landscape ? parent.height * 0.4 : width * 0.6
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
