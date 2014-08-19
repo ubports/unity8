@@ -138,7 +138,7 @@ Column {
             fontSize: "x-small"
             color: "#f3f3e7"
             anchors.horizontalCenter: parent.horizontalCenter
-            text: root.retryText
+            text: root.retryText || " "
         }
     }
 
