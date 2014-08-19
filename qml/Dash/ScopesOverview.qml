@@ -541,6 +541,10 @@ Item {
                     // TODO Animate the newly opened scope into the foreground (stacked on top of the current scope)
                     tempScopeItem.scope = scope;
                 }
+                onGotoScope: {
+                    tempScopeItem.backClicked();
+                    root.favoriteSelected(scopeId);
+                }
             }
         }
     }
