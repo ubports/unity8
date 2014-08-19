@@ -87,7 +87,6 @@ Item {
 
         onLoaded: {
             item.currentIndex = greeterContentLoader.currentIndex;
-            item.resetAuthentication();
         }
 
         Binding {
