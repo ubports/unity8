@@ -535,6 +535,13 @@ Item {
                 scopesOverviewXYScaler.opacity = 0;
                 middleItems.overrideOpacity = -1;
             }
+            Connections {
+                target: tempScopeItem.scope
+                onOpenScope: {
+                    // TODO Animate the newly opened scope into the foreground (stacked on top of the current scope)
+                    tempScopeItem.scope = scope;
+                }
+            }
         }
     }
 }
