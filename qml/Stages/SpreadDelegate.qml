@@ -35,26 +35,12 @@ Item {
     signal clicked()
     signal closed()
 
-    SurfaceContainer {
+    AppSurfaceContainer {
         id: surfaceContainer
         objectName: "surfaceContainer"
         anchors.fill: parent
         surface: model.surface
-        property bool appHasCreatedASurface: false
-
-        onSurfaceChanged: {
-            if (surface) {
-                if (!appHasCreatedASurface) {
-                    surface.visible = false; // hide until splash screen removed
-                    appHasCreatedASurface = true;
-                }
-            }
-        }
-
-        function revealSurface() {
-            surface.visible = true;
-            splashLoader.source = "";
-        }
+        promptSurfaces: model.application.promptSurfaces
 
         Binding {
             target: surfaceContainer.surface
@@ -73,12 +59,6 @@ Item {
             target: surface
             property: "focus"
             value: root.interactive
-        }
-
-        Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
-            id: surfaceRevealDelay
-            interval: 100
-            onTriggered: surfaceContainer.revealSurface()
         }
 
         Connections {
@@ -113,36 +93,6 @@ Item {
         transform: Translate {
             y: dragArea.distance
         }
-    }
-
-
-    StateGroup {
-        id: appSurfaceState
-        states: [
-            State {
-                name: "noSurfaceYet"
-                when: !surfaceContainer.appHasCreatedASurface
-                StateChangeScript {
-                    script: { splashLoader.setSource("Splash.qml", { "name": model.name, "image": model.icon }); }
-                }
-            },
-            State {
-                name: "hasSurface"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface !== null)
-                StateChangeScript { script: { surfaceRevealDelay.start(); } }
-            },
-            State {
-                name: "surfaceLostButAppStillAlive"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface === null)
-                // TODO - use app snapshot
-            }
-        ]
-        state: "noSurfaceYet"
-    }
-
-    Loader {
-        id: splashLoader
-        anchors.fill: surfaceContainer
     }
 
     DraggingArea {

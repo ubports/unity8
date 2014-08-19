@@ -80,7 +80,7 @@ AbstractButton {
         anchors.margins: units.gu(2)
         verticalAlignment: Text.AlignVCenter
         text: root.currentNavigation ? root.currentNavigation.label : ""
-        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
     }
 
     Icon {
@@ -90,7 +90,7 @@ AbstractButton {
         name: showList ? "up" : "down"
         height: units.gu(2)
         width: height
-        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
     }
 
     //  navigationListView is outside root

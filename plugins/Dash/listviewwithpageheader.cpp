@@ -330,6 +330,11 @@ int ListViewWithPageHeader::stickyHeaderHeight() const
     return m_topSectionItem ? m_topSectionItem->height() : 0;
 }
 
+qreal ListViewWithPageHeader::headerItemShownHeight() const
+{
+    return m_headerItemShownHeight;
+}
+
 void ListViewWithPageHeader::positionAtBeginning()
 {
     if (m_delegateModel->count() <= 0)
@@ -396,6 +401,7 @@ void ListViewWithPageHeader::showHeader()
                 firstItem->setY(firstItem->y() - m_headerItemShownHeight);
                 layout();
             }
+            Q_EMIT headerItemShownHeightChanged();
         }
         m_contentYAnimation->setTo(to);
         contentYAnimationType = ContentYAnimationShowHeader;
@@ -544,6 +550,7 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
                     m_headerItem->setY(-m_minYExtent);
                 }
             }
+            Q_EMIT headerItemShownHeightChanged();
         } else {
             // Stick the header item to the top when dragging down
             m_headerItem->setY(contentY());
@@ -822,8 +829,8 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 ListItem *nextItem = itemAtIndex(modelIndex + 1);
                 if (nextItem) {
                     listItem->setY(nextItem->y() - listItem->height());
-                } else if (modelIndex == 0 && m_headerItem) {
-                    listItem->setY(m_headerItem->height());
+                } else if (modelIndex == 0) {
+                    listItem->setY(m_headerItem ? m_headerItem->height() : 0);
                 } else if (!m_visibleItems.isEmpty()) {
                     lostItem = true;
                 }
@@ -1096,6 +1103,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
         m_headerItemShownHeight = qBound(static_cast<qreal>(0.), m_headerItemShownHeight, newHeaderHeight);
         updateClipItem();
         adjustMinYExtent();
+        Q_EMIT headerItemShownHeightChanged();
     } else {
         if (oldHeaderY + oldHeaderHeight > contentY()) {
             // If the header is shown because its position

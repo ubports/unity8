@@ -32,6 +32,7 @@ Build-Depends: cmake,
                python3-all:any,
                python3-setuptools,
                python:any (>= 2.7),
+               qml-module-qtquick-layouts,
                qml-module-qtquick-xmllistmodel,
                qml-module-qtquick2,
                qml-module-qttest,
@@ -83,8 +84,7 @@ Depends: gsettings-desktop-schemas,
          qmenumodel-qml (>= 0.2.8),
          qml-module-qtquick-xmllistmodel,
          qtdeclarative5-gsettings1.0,
-         qtdeclarative5-qtmir-plugin (>= 0.4),
-         qtdeclarative5-ubuntu-settings-components (>= 0.3),
+         qtdeclarative5-qtmir-plugin (>= 0.4.1),
          qtdeclarative5-ubuntu-telephony0.1,
          unity-launcher-impl-3,
          unity8-common (= ${source:Version}),
@@ -105,7 +105,9 @@ Description: Unity 8 shell
 
 Package: unity8-common
 Architecture: all
-Depends: qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
+Depends: qml-module-qtquick-layouts,
+         qtdeclarative5-ubuntu-settings-components (>= 0.3),
+         qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.49) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.49),
          qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
          ubuntu-thumbnailer-impl-0,
@@ -165,7 +167,8 @@ Package: unity8-private
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: gsettings-ubuntu-schemas,
+Depends: accountsservice-ubuntu-schemas,
+         gsettings-ubuntu-schemas,
          libhardware2,
          libunity-core-6.0-9,
          pay-service,

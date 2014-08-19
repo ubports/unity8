@@ -27,7 +27,8 @@ AccountsService::AccountsService(QObject* parent)
     m_user(qgetenv("USER")),
     m_demoEdges(false),
     m_statsWelcomeScreen(false),
-    m_passwordDisplayHint(Keyboard)
+    m_passwordDisplayHint(Keyboard),
+    m_failedLogins(0)
 {
     connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
@@ -49,6 +50,7 @@ void AccountsService::setUser(const QString &user)
     updateBackgroundFile();
     updateStatsWelcomeScreen();
     updatePasswordDisplayHint();
+    updateFailedLogins();
 }
 
 bool AccountsService::demoEdges() const
@@ -113,6 +115,26 @@ void AccountsService::updatePasswordDisplayHint()
     }
 }
 
+void AccountsService::updateFailedLogins()
+{
+    uint failedLogins = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins").toUInt();
+    if (m_failedLogins != failedLogins) {
+        m_failedLogins = failedLogins;
+        Q_EMIT failedLoginsChanged();
+    }
+}
+
+uint AccountsService::failedLogins() const
+{
+    return m_failedLogins;
+}
+
+void AccountsService::setFailedLogins(uint failedLogins)
+{
+    m_failedLogins = failedLogins;
+    m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins", failedLogins);
+}
+
 void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
     if (m_user != user) {
@@ -122,6 +144,10 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
     if (interface == "com.canonical.unity.AccountsService") {
         if (changed.contains("demo-edges")) {
             updateDemoEdges();
+        }
+    } else if (interface == "com.canonical.unity.AccountsService.Private") {
+        if (changed.contains("FailedLogins")) {
+            updateFailedLogins();
         }
     } else if (interface == "com.ubuntu.touch.AccountsService.SecurityPrivacy") {
         if (changed.contains("StatsWelcomeScreen")) {

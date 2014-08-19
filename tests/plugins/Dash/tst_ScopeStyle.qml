@@ -67,7 +67,7 @@ Rectangle {
 
         function test_foreground_data() {
             return [
-                { tag: "default", index: 0, foreground: "grey", luminance: 0.5020 },
+                { tag: "default", index: 0, foreground: Theme.palette.normal.foreground, luminance: 0.5725 },
                 { tag: "red on black", index: 1, foreground: "red", luminance: 0.2126 },
                 { tag: "green on white", index: 2, foreground: "green", luminance: 0.3590 },
                 { tag: "blue on darkgrey", index: 3, foreground: "blue", luminance: 0.0722 },
@@ -101,7 +101,7 @@ Rectangle {
 
         function test_threshold_data() {
             return [
-                { tag: "default", index: 0, threshold: 0.5020 },
+                { tag: "default", index: 0, threshold: 0.7863 },
                 { tag: "red on black", index: 1, threshold: 0.1063 },
                 { tag: "green on white", index: 2, threshold: 0.6795 },
                 { tag: "blue on darkgrey", index: 3, threshold: 0.3675 },
@@ -130,7 +130,7 @@ Rectangle {
 
         function test_dark_data() {
             return [
-                { tag: "default", index: 0, dark: "grey" },
+                { tag: "default", index: 0, dark: Theme.palette.normal.baseText },
                 { tag: "red on black", index: 1, dark: "black" },
                 { tag: "green on white", index: 2, dark: "green" },
                 { tag: "blue on darkgrey", index: 3, dark: "blue" },
@@ -157,7 +157,7 @@ Rectangle {
 
         function test_headerForeground_data() {
             return [
-                { tag: "default", index: 0, headerForeground: "grey" },
+                { tag: "default", index: 0, headerForeground: Theme.palette.normal.baseText },
                 { tag: "black", index: 2, headerForeground: "black" },
             ];
         }
