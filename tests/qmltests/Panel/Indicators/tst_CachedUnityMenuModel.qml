@@ -116,6 +116,34 @@ Item {
             cachedObject.destroy();
             wait(1);
             compare(Indicators.UnityMenuModelCache.contains(menuModel), true);
+
+            cachedObject2.destroy();
+        }
+
+        // Tests that changing cached model data does not change the model path of others
+        function test_lp1328646() {
+            var cachedObject = model.createObject(root,
+                               {
+                                   "busName": "com.canonical.test1",
+                                   "menuObjectPath": "com/canonical/test1",
+                                   "actionsObjectPath": "com/canonical/test1/actions"
+                               });
+
+            var cachedObject2 = model.createObject(root,
+                               {
+                                   "busName": "com.canonical.test1",
+                                   "menuObjectPath": "com/canonical/test1",
+                                   "actionsObjectPath": "com/canonical/test1/actions"
+                               });
+
+            cachedObject.menuObjectPath = "com/canonical/test2";
+            compare(cachedObject.model.menuObjectPath, "com/canonical/test2");
+            compare(cachedObject2.model.menuObjectPath, "com/canonical/test1");
+
+            verify(cachedObject.model !== cachedObject2.model);
+
+            cachedObject.destroy();
+            cachedObject2.destroy();
         }
     }
 }
