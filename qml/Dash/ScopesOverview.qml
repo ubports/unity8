@@ -543,6 +543,7 @@ Item {
                 }
                 onGotoScope: {
                     tempScopeItem.backClicked();
+                    root.currentTab = 0;
                     root.favoriteSelected(scopeId);
                 }
             }
