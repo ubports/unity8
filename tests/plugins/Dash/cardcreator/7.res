@@ -95,7 +95,7 @@ Image {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
+                        color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -113,7 +113,7 @@ Image {
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
+                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
@@ -127,7 +127,7 @@ Image {
                             rightMargin: units.gu(1);
                             top: subtitleLabel.bottom; 
                             } 
-                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
+                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
                             model: cardData && cardData["attributes"]; 
                           }
  
