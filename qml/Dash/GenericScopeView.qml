@@ -25,6 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
+    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].showList : false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -32,22 +33,19 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
+    property bool showPageHeader: true
+    readonly property alias previewShown: previewListView.open
+    property int paginationCount: 0
+    property int paginationIndex: 0
+    property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
     }
 
+    readonly property bool processing: scope ? scope.searchInProgress || previewListView.processing : false
+
     signal backClicked()
-
-    onScopeChanged: {
-        if (scope) {
-            scope.activateApplication.connect(activateApp);
-        }
-    }
-
-    function activateApp(appId) {
-        Qt.openUrlExternally(appId);
-    }
 
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
@@ -59,6 +57,36 @@ FocusScope {
 
     function closePreview() {
         previewListView.open = false;
+    }
+
+    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
+        if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope") {
+            // TODO Technically it is possible that calling activate() will make the scope emit
+            // previewRequested so that we show a preview but there's no scope that does that yet
+            // so it's not implemented
+            scope.activate(result)
+        } else {
+            openPreview(index, resultsModel, limitedCategoryItemCount);
+        }
+    }
+
+    function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
+        if (itemModel.uri.indexOf("scope://") !== 0) {
+            openPreview(index, resultsModel, limitedCategoryItemCount);
+        }
+    }
+
+    function openPreview(index, resultsModel, limitedCategoryItemCount) {
+        if (limitedCategoryItemCount > 0) {
+            previewLimitModel.model = resultsModel;
+            previewLimitModel.limit = limitedCategoryItemCount;
+            previewListView.model = previewLimitModel;
+        } else {
+            previewListView.model = resultsModel;
+        }
+        previewListView.currentIndex = -1;
+        previewListView.currentIndex = index;
+        previewListView.open = true;
     }
 
     Binding {
@@ -77,22 +105,24 @@ FocusScope {
     }
 
     onIsCurrentChanged: {
-        pageHeader.resetSearch();
+        if (showPageHeader) {
+            pageHeaderLoader.item.resetSearch();
+        }
         previewListView.open = false;
     }
 
     Binding {
         target: scopeView.scope
         property: "searchQuery"
-        value: pageHeader.searchQuery
-        when: isCurrent
+        value: pageHeaderLoader.item ? pageHeaderLoader.item.searchQuery : ""
+        when: isCurrent && showPageHeader
     }
 
     Binding {
-        target: pageHeader
+        target: pageHeaderLoader.item
         property: "searchQuery"
         value: scopeView.scope ? scopeView.scope.searchQuery : ""
-        when: isCurrent
+        when: isCurrent && showPageHeader
     }
 
     Connections {
@@ -119,8 +149,12 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: previewListView.open
         pixelAligned: true
+        interactive: !navigationShown
 
         property string expandedCategoryId: ""
+
+        readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
+            ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
 
         delegate: ListItems.Base {
             id: baseItem
@@ -193,6 +227,7 @@ FocusScope {
                     switch (cardTool.categoryLayout) {
                         case "carousel": return "CardCarousel.qml";
                         case "vertical-journal": return "CardVerticalJournal.qml";
+                        case "horizontal-list": return "CardHorizontalList.qml";
                         case "grid":
                         default: return "CardGrid.qml";
                     }
@@ -211,6 +246,10 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
+                    if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
+                        // Yeah, hackish :/
+                        cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
+                    }
                     item.cardTool = cardTool;
                 }
 
@@ -223,28 +262,19 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        if (scopeView.scope.id === "scopes" || scopeView.scope.id == "clickscope") {
-                            // TODO Technically it is possible that calling activate() will make the scope emit
-                            // previewRequested so that we show a preview but there's no scope that does that yet
-                            // so it's not implemented
-                            scopeView.scope.activate(result)
-                        } else {
-                            openPreview(index);
-                        }
+                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount());
                     }
-                    onPressAndHold: openPreview(index)
 
-                    function openPreview(index) {
+                    onPressAndHold: {
+                        scopeView.itemPressedAndHeld(index, itemModel, target.model, categoryItemCount());
+                    }
+
+                    function categoryItemCount() {
+                        var categoryItemCount = -1;
                         if (!rendererLoader.expanded && !seeAllLabel.visible && target.collapsedItemCount > 0) {
-                            previewLimitModel.model = target.model;
-                            previewLimitModel.limit = target.collapsedItemCount;
-                            previewListView.model = previewLimitModel;
-                        } else {
-                            previewListView.model = target.model;
+                            categoryItemCount = target.collapsedItemCount;
                         }
-                        previewListView.currentIndex = -1;
-                        previewListView.currentIndex = index;
-                        previewListView.open = true;
+                        return categoryItemCount;
                     }
                 }
                 Connections {
@@ -335,7 +365,7 @@ FocusScope {
                     }
                     fontSize: "small"
                     font.weight: Font.Bold
-                    color: scopeStyle ? scopeStyle.foreground : "grey"
+                    color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
                     visible: baseItem.expandable && !baseItem.headerLink
                 }
             }
@@ -373,33 +403,43 @@ FocusScope {
             width: categoryView.width
             height: section != "" ? units.gu(5) : 0
             text: section
-            color: scopeStyle ? scopeStyle.foreground : "grey"
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
             iconName: delegate && delegate.headerLink ? "go-next" : ""
             onClicked: {
                 if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
             }
         }
 
-        pageHeader: PageHeader {
-            id: pageHeader
-            objectName: "scopePageHeader"
+        pageHeader: scopeView.showPageHeader ? pageHeaderLoader : null
+        Loader {
+            id: pageHeaderLoader
             width: parent.width
-            title: scopeView.scope ? scopeView.scope.name : ""
-            showBackButton: scopeView.hasBackAction
-            searchEntryEnabled: true
-            searchInProgress: scopeView.scope ? scopeView.scope.searchInProgress : false
-            scopeStyle: scopeView.scopeStyle
+            sourceComponent: scopeView.showPageHeader ? pageHeaderComponent : undefined
+            Component {
+                id: pageHeaderComponent
+                PageHeader {
+                    objectName: "scopePageHeader"
+                    width: parent.width
+                    title: scopeView.scope ? scopeView.scope.name : ""
+                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
+                    showBackButton: scopeView.hasBackAction
+                    searchEntryEnabled: true
+                    scopeStyle: scopeView.scopeStyle
+                    paginationCount: scopeView.paginationCount
+                    paginationIndex: scopeView.paginationIndex
 
-            bottomItem: DashDepartments {
-                scope: scopeView.scope
-                width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                anchors.right: parent.right
-                windowHeight: scopeView.height
-                windowWidth: scopeView.width
-                scopeStyle: scopeView.scopeStyle
+                    bottomItem: DashNavigation {
+                        scope: scopeView.scope
+                        width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
+                        anchors.right: parent.right
+                        windowHeight: scopeView.height
+                        windowWidth: scopeView.width
+                        scopeStyle: scopeView.scopeStyle
+                    }
+
+                    onBackClicked: scopeView.backClicked()
+                }
             }
-
-            onBackClicked: scopeView.backClicked()
         }
     }
 
@@ -418,7 +458,9 @@ FocusScope {
         anchors.left: categoryView.right
 
         onOpenChanged: {
-            pageHeader.unfocus();
+            if (showPageHeader) {
+                pageHeaderLoader.item.unfocus();
+            }
         }
     }
 

@@ -27,7 +27,9 @@ Row {
 }
                     anchors.right: parent.right; 
                     anchors.margins: margins;
-data: [ Loader { 
+                    anchors.rightMargin: 0;
+data: [ 
+Loader { 
                         id: mascotShapeLoader; 
                         objectName: "mascotShapeLoader"; 
                         asynchronous: root.asynchronous; 
@@ -39,13 +41,12 @@ data: [ Loader {
                         anchors { verticalCenter: parent.verticalCenter; }
                     }
 
-,
-Image { 
+,Image { 
                     id: mascotImage; 
                     objectName: "mascotImage"; 
                     anchors { verticalCenter: parent.verticalCenter; }
                     readonly property int maxSize: Math.max(width, height) * 4; 
-                    source: cardData && cardData["mascot"]; 
+                    source: cardData && cardData["mascot"] || ""; 
                     width: units.gu(6); 
                     height: units.gu(5.625); 
                     sourceSize { width: maxSize; height: maxSize } 
@@ -55,36 +56,43 @@ Image {
                     visible: false; 
                 }
 
-,
-Column { 
-                        anchors.verticalCenter: parent.verticalCenter; 
-                        spacing: units.dp(2); 
-                        width: parent.width - x;
-data: [ Label { 
+,Item { 
+                            id: headerTitleContainer; 
+                            anchors { verticalCenter: parent.verticalCenter;  } 
+                            width: parent.width - x; 
+                            implicitHeight: titleLabel.height + subtitleLabel.height; 
+                            data: [ 
+Label { 
                     id: titleLabel; 
                     objectName: "titleLabel"; 
-                    anchors { left: parent.left; right: parent.right }
+                    anchors { right: parent.right;
+                    rightMargin: units.gu(1); 
+                    left: parent.left; 
+                    top: parent.top; }
                     elide: Text.ElideRight; 
                     fontSize: "small"; 
                     wrapMode: Text.Wrap; 
                     maximumLineCount: 2; 
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                    color: root.scopeStyle ? root.scopeStyle.foreground : "grey";
+                    color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                     visible: showHeader ; 
                     text: root.title; 
                     font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
                     horizontalAlignment: root.headerAlignment; 
                 }
-,
-Label { 
+,Label { 
                         id: subtitleLabel; 
                         objectName: "subtitleLabel"; 
-                        anchors { left: parent.left; right: parent.right }
-
+                        anchors { right: parent.right; 
+                        left: parent.left; 
+                        rightMargin: units.gu(1); 
+                        top: titleLabel.bottom; 
+                        }
+                        anchors.topMargin: units.dp(2);
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : "grey";
+                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                         visible: titleLabel.visible && titleLabel.text; 
                         text: cardData && cardData["subtitle"] || ""; 
                         font.weight: Font.Light; 
@@ -93,6 +101,14 @@ Label {
 ]
 }
 ]
+}
+UbuntuShape {
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: root }
+    visible: root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
 }
 implicitHeight: row.y + row.height + units.gu(1);
 }

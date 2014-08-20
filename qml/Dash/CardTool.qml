@@ -91,6 +91,7 @@ Item {
                 }
                 return units.gu(18.5);
             case "carousel":
+            case "horizontal-list":
                 return carouselTool.minimumTileWidth;
             case undefined:
             case "organic-grid":
@@ -111,6 +112,7 @@ Item {
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
                 return units.gu(18.5);
             case "grid":
+            case "horizontal-list":
                 return cardLoader.item ? cardLoader.item.implicitHeight : 0
             case "carousel":
                 return cardWidth / (components ? components["art"]["aspect-ratio"] : 1)
@@ -126,7 +128,7 @@ Item {
      type:real \brief Height of the card's header.
     */
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
-    readonly property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
+    property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
 
     /*!
      \brief Desired alignment of header components.

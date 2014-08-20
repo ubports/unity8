@@ -1,5 +1,7 @@
 set(DASH_SRCS
     main.cpp
+    ../MouseTouchAdaptor.cpp
+    ../CachingNetworkManagerFactory.cpp
 )
 
 add_executable(unity8-dash ${DASH_SRCS})

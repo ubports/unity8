@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../qml/Components"
+import "../../../qml/Dash"
 import Ubuntu.Components 0.1
 import Unity 0.2
 import Unity.Test 0.1 as UT
@@ -119,29 +119,6 @@ Item {
             compare(pageHeader.searchHistory.get(0).query, "humppa4")
         }
 
-        function test_search_indicator() {
-            var searchIndicator = findChild(pageHeader, "searchIndicator")
-            var clearIcon = findChild(pageHeader, "clearIcon")
-
-            pageHeader.triggerSearch()
-
-            tryCompare(clearIcon, "visible", false)
-            pageHeader.searchQuery = "ubuntu"
-            tryCompare(clearIcon, "visible", true)
-
-            pageHeader.searchInProgress = false
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(clearIcon, "visible", true)
-
-            pageHeader.searchInProgress = true
-            compare(searchIndicator.running, true, "Search indicator isn't running.")
-            tryCompare(clearIcon, "visible", false)
-
-            pageHeader.searchInProgress = false;
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(clearIcon, "visible", true)
-        }
-
         function test_titleImage() {
 
             var titleImage = findChild(pageHeader, "titleImage");
@@ -190,6 +167,27 @@ Item {
                         { tag: "with search text", searchText: "foobar", hideSearch: false },
                         { tag: "without search text", searchText: "", hideSearch: true }
                     ];
+        }
+
+        function test_pagination() {
+            var paginationRepeater = findChild(pageHeader, "paginationRepeater");
+            tryCompare(paginationRepeater, "count", 0);
+            pageHeader.paginationCount = 5;
+            tryCompare(paginationRepeater, "count", 5);
+            for (var i=0; i<pageHeader.paginationCount; i++) {
+                pageHeader.paginationIndex = i;
+                for (var j=0; j<paginationRepeater.count; j++) {
+                    var paginationDot = findChild(pageHeader, "paginationDots_"+j);
+                    if (i==j) {
+                        compare(paginationDot.source.toString().indexOf("pagination_dot_on") > -1, true);
+                    } else {
+                        compare(paginationDot.source.toString().indexOf("pagination_dot_off") > -1, true);
+                    }
+                }
+            }
+            pageHeader.paginationIndex = -1;
+            pageHeader.paginationCount = 0;
+            tryCompare(paginationRepeater, "count", 0);
         }
 
         function test_popup_closing(data) {
@@ -244,7 +242,7 @@ Item {
             searchEntryEnabled: true
             title: "%^$%^%^&%^&%^$%GHR%"
             scopeStyle: QtObject {
-                readonly property color foreground: "grey"
+                readonly property color foreground: Theme.palette.normal.baseText
                 readonly property url headerLogo: showImageCheckBox.checked ? pageHeader.titleImageSource : ""
             }
             showBackButton: showBackButtonCheckBox.checked

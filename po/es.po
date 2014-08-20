@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-07-11 14:59+0200\n"
-"PO-Revision-Date: 2014-07-26 06:22+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-17 04:37+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-27 06:35+0000\n"
-"X-Generator: Launchpad (build 17131)\n"
+"X-Launchpad-Export-Date: 2014-08-18 07:20+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "Contraseña: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,50 +30,66 @@ msgstr "Anclar"
 msgid "Unpin shortcut"
 msgstr "Desanclar"
 
+#: qml/Components/Dialogs.qml:142
+msgid "Are you sure you would like to turn power off?"
+msgstr "¿Está seguro de que quiere apagarlo?"
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power off"
+msgstr "Apagar"
+
+#: qml/Components/Dialogs.qml:153
+msgid "Restart"
+msgstr "Reiniciar"
+
+#: qml/Components/Dialogs.qml:162
+msgid "Cancel"
+msgstr "Cancelar"
+
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Omitir la introducción"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "Borde derecho"
 
-#: qml/Components/EdgeDemo.qml:114
+#: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Deslice el dedo desde el borde derecho para desbloquear el teléfono"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "Borde superior"
 
-#: qml/Components/EdgeDemo.qml:146
+#: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 "Deslice el dedo desde el borde superior para acceder a los indicadores"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Cerrar"
 
-#: qml/Components/EdgeDemo.qml:172
+#: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Deslice hacia arriba para cerrar la pantalla de configuración"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "Borde izquierdo"
 
-#: qml/Components/EdgeDemo.qml:200
+#: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Deslice el dedo desde la izquierda para mostrar el lanzador y acceder "
 "rápidamente a las aplicaciones"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Bien hecho"
 
-#: qml/Components/EdgeDemo.qml:228
+#: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -77,46 +97,50 @@ msgstr ""
 "Ahora domina los gestos de los bordes y puede usar el teléfono<br><br>Toque "
 "la pantalla para comenzar"
 
-#: qml/Components/Lockscreen.qml:214
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "Demasiados intentos incorrectos"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "Espere un momento"
+
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Llamada de emergencia"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:268
 msgid "OK"
 msgstr "Aceptar"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "Hola, %1"
 
-#: qml/Components/PassphraseLockscreen.qml:60
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "Hola"
 
-#: qml/Components/PinLockscreen.qml:198
+#: qml/Components/PinLockscreen.qml:197
 msgid "CANCEL"
 msgstr "CANCELAR"
 
-#: qml/Components/PinLockscreen.qml:216
+#: qml/Components/PinLockscreen.qml:215
 msgid "DONE"
 msgstr "HECHO"
 
-#: qml/Components/SeeMore.qml:35
-msgid "See more"
-msgstr "Ver más"
-
-#: qml/Components/SeeMore.qml:58 qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/DashApps.qml:37
-msgid "Recent"
-msgstr "Recientes"
-
-#: qml/Dash/GenericScopeView.qml:330
+#: qml/Dash/GenericScopeView.qml:360
 msgid "See all"
 msgstr "Ver todo"
+
+#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Buscar"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -137,6 +161,26 @@ msgstr "Añadir una reseña"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Enviar"
+
+#: qml/Dash/ScopesOverview.qml:201
+msgid "Manage Dash"
+msgstr "Gestionar tablero"
+
+#: qml/Dash/ScopesOverview.qml:408
+msgid "Done"
+msgstr "Hecho"
+
+#: qml/Dash/ScopesOverview.qml:434
+msgid "Store"
+msgstr "Tienda"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "Favoritos"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "Todo"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -162,11 +206,11 @@ msgstr "Hable ahora…"
 msgid "Speaking..."
 msgstr "Hablando…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:91
+#: qml/Notifications/NotificationMenuItemFactory.qml:100
 msgid "Show password"
 msgstr "Mostrar contraseña"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:103
+#: qml/Notifications/NotificationMenuItemFactory.qml:115
 msgid "Please enter SIM PIN"
 msgstr "Escriba el PIN de la SIM"
 
@@ -178,35 +222,84 @@ msgstr "Toque para volver a llamar..."
 msgid "Conference"
 msgstr "Conferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:583
+#: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
 msgstr "En espera…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:587
+#: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
 msgstr "Descargando"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:589
+#: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
 msgstr "Pausado, toque para reanudar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:591
+#: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:593
+#: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
 msgstr "Finalizado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:595
+#: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
 msgstr "Falló, toque para reintentar"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Buscar"
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr "Desbloquear SIM"
 
-#: qml/Shell.qml:359
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr "Itinerancia"
+
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "frase de paso"
+
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "Código de paso"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
-msgstr "Introduzca %1"
+msgid "Enter your %1"
+msgstr "Introduzca su %1"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "%1 incorrecta"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "Vuelva a introducirla"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "Frase de paso incorrecta"
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "Código de paso incorrecto"
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "Este será su último intento."
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Si se introduce la frase incorrectamente, el teléfono volverá a la "
+"configuración de fábrica y se perderán todos los datos personales."
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Si se introduce el código incorrectamente, el teléfono volverá a la "
+"configuración de fábrica y se perderán todos los datos personales."

@@ -140,4 +140,11 @@ Module {
         Property { name: "actionsHint"; type: "QByteArray" }
         Property { name: "menuObjectPathHint"; type: "QByteArray" }
     }
+    Component {
+        name: "WindowKeysFilter"
+        defaultProperty: "data"
+        prototype: "QQuickItem"
+        exports: ["Utils/WindowKeysFilter 0.1"]
+        exportMetaObjectRevisions: [0]
+    }
 }

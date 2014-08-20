@@ -25,7 +25,6 @@ Column {
     spacing: units.gu(3.5)
 
     property alias placeholderText: pinentryField.placeholderText
-    property alias wrongPlaceholderText: pinentryField.wrongPlaceholderText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
     property int minPinLength: -1
@@ -58,7 +57,6 @@ Column {
         radius: "medium"
         property string text: ""
         property string placeholderText: ""
-        property string wrongPlaceholderText: ""
 
         function appendChar(character) {
             if (root.maxPinLength == -1 || pinentryField.text.length < root.maxPinLength) {
@@ -90,9 +88,10 @@ Column {
             id: pinentryFieldPlaceHolder
             objectName: "pinentryFieldPlaceHolder"
             anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
             color: "#f3f3e7"
             opacity: 0.6
-            text: wrongPasswordAnimation.running ? parent.wrongPlaceholderText : parent.placeholderText
+            text: parent.placeholderText
             visible: pinentryFieldLabel.text.length == 0
         }
 
@@ -107,7 +106,7 @@ Column {
                 bottom: parent.bottom
                 bottomMargin: units.gu(1)
             }
-            visible: !priv.autoConfirm
+            visible: entryEnabled && !priv.autoConfirm
             width: height
             name: "erase"
             color: "#f3f3e7"

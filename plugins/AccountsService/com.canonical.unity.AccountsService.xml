@@ -3,21 +3,44 @@
 
     <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
 
-    <annotation name="org.freedesktop.Accounts.Authentication.ChangeOwn"
-                value="com.canonical.unity.AccountsService.ModifyOwnUser"/>
-
     <annotation name="org.freedesktop.Accounts.Authentication.ReadAny"
-                value="com.canonical.unity.AccountsService.ModifyAnyUser"/>
+                value="com.ubuntu.AccountsService.GreeterReadAny"/>
 
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
-                value="com.canonical.unity.AccountsService.ModifyAnyUser"/>
+                value="com.ubuntu.AccountsService.GreeterChangeAny"/>
 
+    <!-- Should have been named DemoEdges, sorry folks. -mterry -->
     <property name="demo-edges" type="b" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 
+    <!-- Should have been named LauncherItems, sorry folks. -mterry -->
     <property name="launcher-items" type="aa{sv}" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="[{'defaults': <true>}]"/>
+    </property>
+
+  </interface>
+
+  <!-- This interface is for bits of data that the greeter wants to track
+       per-user in a persistent way, but that users shouldn't be able to edit
+       in an ideal world.
+
+       This interface is identical in permissions to the above one for now,
+       but once we stop running the greeter in user-space, we should
+       disallow org.freedesktop.Accounts.Authentication.ChangeOwn from the
+       Private inteface.  -->
+  <interface name="com.canonical.unity.AccountsService.Private">
+
+    <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
+
+    <annotation name="org.freedesktop.Accounts.Authentication.ReadAny"
+                value="com.ubuntu.AccountsService.GreeterReadAny"/>
+
+    <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
+                value="com.ubuntu.AccountsService.GreeterChangeAny"/>
+
+    <property name="FailedLogins" type="u" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="0"/>
     </property>
 
   </interface>

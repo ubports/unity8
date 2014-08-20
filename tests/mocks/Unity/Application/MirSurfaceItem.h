@@ -117,5 +117,6 @@ private:
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
+Q_DECLARE_METATYPE(QList<MirSurfaceItem*>)
 
 #endif // MIRSURFACEITEM_H

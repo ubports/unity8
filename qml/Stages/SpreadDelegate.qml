@@ -16,7 +16,7 @@
  * Authors: Michael Zanetti <michael.zanetti@canonical.com>
 */
 
-import QtQuick 2.2
+import QtQuick 2.0
 import Unity.Application 0.1
 import Ubuntu.Components 1.1
 import "../Components"
@@ -35,52 +35,13 @@ Item {
     signal clicked()
     signal closed()
 
-    SurfaceContainer {
+    AppSurfaceContainer {
         id: surfaceContainer
         objectName: "surfaceContainer"
         anchors.fill: parent
         surface: model.surface
-        property bool appHasCreatedASurface: false
-
-        onSurfaceChanged: {
-            if (surface) {
-                if (!appHasCreatedASurface) {
-                    surface.visible = false; // hide until splash screen removed
-                    appHasCreatedASurface = true;
-                }
-            }
-        }
-
-        function revealSurface() {
-            revealAnimation.start();
-        }
-
-        SequentialAnimation {
-            id: revealAnimation
-
-            PropertyAction {
-                target: surface
-                property: "opacity"
-                value: 0.0
-            }
-            PropertyAction {
-                target: surface
-                property: "visible"
-                value: true
-            }
-            OpacityAnimator {
-                duration: UbuntuAnimation.FastDuration
-                easing: UbuntuAnimation.StandardEasing
-                target: surface
-                from: 0.0
-                to: 1.0
-            }
-            PropertyAction {
-                target: splashLoader
-                property: "source"
-                value: ""
-            }
-        }
+        maximizedAppTopMargin: root.maximizedAppTopMargin
+        promptSurfaces: model.application.promptSurfaces
 
         Binding {
             target: surfaceContainer.surface
@@ -99,12 +60,6 @@ Item {
             target: surface
             property: "focus"
             value: root.interactive
-        }
-
-        Timer { //FIXME - need to delay removing splash screen to allow surface resize to complete
-            id: surfaceRevealDelay
-            interval: 400
-            onTriggered: surfaceContainer.revealSurface()
         }
 
         Connections {
@@ -136,57 +91,10 @@ Item {
             Behavior on opacity { UbuntuNumberAnimation {} }
         }
 
-        Loader {
-            id: splashLoader
-            anchors.fill: surfaceContainer
-            anchors.topMargin: maximizedAppTopMargin
-        }
-
         transform: Translate {
             y: dragArea.distance
         }
     }
-
-    StateGroup {
-        id: appSurfaceState
-        states: [
-            State {
-                name: "noSurfaceYet"
-                when: !surfaceContainer.appHasCreatedASurface
-                StateChangeScript {
-                    script: {
-                        var properties = { "title": model.splashTitle ? model.splashTitle : model.name,
-                                           "image": model.splashImage,
-                                           "showHeader": model.splashShowHeader
-                                         };
-
-                        if (model.splashColor.a == 1) {
-                            properties["backgroundColor"] = model.splashColor;
-                        }
-                        if (model.splashColorHeader.a == 1) {
-                            properties["headerColor"] = model.splashColorHeader;
-                        }
-                        if (model.splashColorFooter.a == 1) {
-                            properties["footerColor"] = model.splashColorFooter;
-                        }
-                        splashLoader.setSource("Splash.qml", properties);
-                    }
-                }
-            },
-            State {
-                name: "hasSurface"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface !== null)
-                StateChangeScript { script: { surfaceRevealDelay.start(); } }
-            },
-            State {
-                name: "surfaceLostButAppStillAlive"
-                when: surfaceContainer.appHasCreatedASurface && (surfaceContainer.surface === null)
-                // TODO - use app snapshot
-            }
-        ]
-        state: "noSurfaceYet"
-    }
-
 
     DraggingArea {
         id: dragArea

@@ -43,9 +43,9 @@ MirSurfaceItem* topSurface(MirSurfaceItem* surface)
     return child ? child : surface;
 }
 
-quint32 ApplicationDBusAdaptor::addChildSurface(const QString &appId, const QString &surfaceImage)
+quint32 ApplicationDBusAdaptor::addPromptSurface(const QString &appId, const QString &surfaceImage)
 {
-    qDebug() << "ApplicationDBusAdaptor::addChildSurface - " << appId;
+    qDebug() << "ApplicationDBusAdaptor::addPromptSurface to " << appId;
 
     ApplicationInfo* application = m_applicationManager->findApplication(appId);
     if (!application) {
@@ -53,12 +53,18 @@ quint32 ApplicationDBusAdaptor::addChildSurface(const QString &appId, const QStr
         return 0;
     }
     quint32 surfaceId = ++nextId;
-    MirSurfaceItem* surface = new MirSurfaceItem(QString("ChildSurface%1").arg(surfaceId),
+    MirSurfaceItem* surface = new MirSurfaceItem(QString("%1-ChildSurface%2").arg(appId).arg(surfaceId),
                                                  MirSurfaceItem::Normal,
                                                  MirSurfaceItem::Maximized,
                                                  QUrl(surfaceImage));
     m_childItems[surfaceId] = surface;
-    surface->setParentSurface(topSurface(application->surface()));
+
+    if (application->promptSurfaceList().count() > 0) {
+        surface->setParentSurface(topSurface(application->promptSurfaceList()[0]));
+    } else {
+        application->addPromptSurface(surface);
+    }
+
     return surfaceId;
 }
 

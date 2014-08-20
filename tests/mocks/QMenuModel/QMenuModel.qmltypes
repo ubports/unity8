@@ -23,6 +23,7 @@ Module {
         Property { name: "actions"; type: "QVariantMap" }
         Property { name: "menuObjectPath"; type: "QByteArray" }
         Property { name: "actionStateParser"; type: "ActionStateParser"; isPointer: true }
+        Property { name: "nameOwner"; type: "string"; isReadonly: true }
         Method {
             name: "insertRow"
             Parameter { name: "row"; type: "int" }

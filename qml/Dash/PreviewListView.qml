@@ -32,6 +32,9 @@ Item {
     property alias currentItem: previewListView.currentItem
     property alias count: previewListView.count
 
+    readonly property bool processing: currentItem && (!currentItem.previewModel.loaded
+                                                       || currentItem.previewModel.processingAction)
+
     PageHeader {
         id: header
         objectName: "pageHeader"
@@ -62,14 +65,6 @@ Item {
         maximumFlickVelocity: width * 5
         cacheBuffer: 0
 
-        // To be set before opening the preview
-        property string categoryId: ""
-
-        // because the ListView is built asynchronous, setting the
-        // currentIndex directly won't work. We need to refresh it
-        // when the first preview is ready to be displayed.
-        property bool init: true
-
         property bool open: false
 
         onOpenChanged: {
@@ -83,39 +78,32 @@ Item {
             }
         }
 
-        delegate: Item {
-            objectName: "previewItem" + index
+        delegate: Previews.Preview {
+            id: preview
+            objectName: "preview" + index
             height: previewListView.height
             width: previewListView.width
 
-            readonly property bool ready: preview.previewModel.loaded
+            isCurrent: ListView.isCurrentItem
 
-            Previews.Preview {
-                id: preview
-                objectName: "preview" + index
-                anchors.fill: parent
-
-                isCurrent: parent.ListView.isCurrentItem
-
-                previewModel: {
-                    var previewStack = root.scope.preview(result);
-                    return previewStack.getPreviewModel(0);
-                }
-                scopeStyle: root.scopeStyle
+            previewModel: {
+                var previewStack = root.scope.preview(result);
+                return previewStack.getPreviewModel(0);
             }
-
-            MouseArea {
-                id: processingMouseArea
-                objectName: "processingMouseArea"
-                anchors.fill: parent
-                enabled: !preview.previewModel.loaded || preview.previewModel.processingAction
-
-                ActivityIndicator {
-                    anchors.centerIn: parent
-                    visible: root.open && parent.enabled
-                    running: visible
-                }
-            }
+            scopeStyle: root.scopeStyle
         }
+    }
+
+    MouseArea {
+        id: processingMouseArea
+        objectName: "processingMouseArea"
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: header.bottom
+            bottom: parent.bottom
+        }
+
+        enabled: root.processing
     }
 }

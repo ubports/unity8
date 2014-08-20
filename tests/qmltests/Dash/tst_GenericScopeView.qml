@@ -28,6 +28,8 @@ Item {
     width: units.gu(120)
     height: units.gu(100)
 
+    // TODO Add a test that checks we don't preview things whose uri starts with scope://
+
     // BEGIN To reduce warnings
     // TODO I think it we should pass down these variables
     // as needed instead of hoping they will be globally around
@@ -61,8 +63,8 @@ Item {
             property Item header: findChild(genericScopeView, "scopePageHeader")
 
             function init() {
-                genericScopeView.scope = scopes.getScope(1)
-                shell.width = units.gu(120)
+                genericScopeView.scope = scopes.getScope(2);
+                shell.width = units.gu(120);
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
             }
@@ -72,6 +74,20 @@ Item {
                 spy.clear();
                 spy.target = null;
                 spy.signalName = "";
+            }
+
+            function scrollToCategory(category) {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                tryCompareFunction(function() {
+                    if (findChild(genericScopeView, category)) return true;
+                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
+                               genericScopeView.width/2, genericScopeView.y)
+                    tryCompare(categoryListView, "moving", false);
+                    return findChild(genericScopeView, category) !== null;
+                }, true);
+
+                tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
+                return findChild(genericScopeView, category);
             }
 
             function test_isActive() {
@@ -88,13 +104,13 @@ Item {
 
             function test_showDash() {
                 testCase.previewListView.open = true;
-                scopes.getScope(1).showDash();
+                genericScopeView.scope.showDash();
                 tryCompare(testCase.previewListView, "open", false);
             }
 
             function test_hideDash() {
                 testCase.previewListView.open = true;
-                scopes.getScope(1).hideDash();
+                genericScopeView.scope.hideDash();
                 tryCompare(testCase.previewListView, "open", false);
             }
 
@@ -111,8 +127,9 @@ Item {
 
             function test_changeScope() {
                 genericScopeView.scope.searchQuery = "test"
-                genericScopeView.scope = scopes.getScope(2)
-                genericScopeView.scope = scopes.getScope(1)
+                var originalScopeId = genericScopeView.scope.id;
+                genericScopeView.scope = scopes.getScope(originalScopeId + 1)
+                genericScopeView.scope = scopes.getScope(originalScopeId)
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
@@ -129,8 +146,9 @@ Item {
                 var initialHeight = category.height;
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(category.expanded);
-                tryCompareFunction(function() { return category.height > initialHeight; }, true);
+                tryCompare(category, "height", category.item.expandedHeight + seeAll.height);
 
+                waitForRendering(seeAll);
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 verify(!category.expanded);
             }
@@ -197,6 +215,8 @@ Item {
                 openPreview(4, 0);
 
                 compare(testCase.previewListView.count, 12, "There should only be 12 items in preview.");
+
+                closePreview();
             }
 
             function test_narrow_delegate_ranges_expand() {
@@ -216,12 +236,7 @@ Item {
             }
 
             function test_forced_category_expansion() {
-                tryCompareFunction(function() {
-                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
-                               genericScopeView.width/2, genericScopeView.y)
-                    return findChild(genericScopeView, "dashCategory19") !== null;
-                }, true);
-                var category = findChild(genericScopeView, "dashCategory19")
+                var category = scrollToCategory("dashCategory19");
                 compare(category.expandable, false, "Category with collapsed-rows: 0 should not be expandable");
 
                 var grid = findChild(category, "19");
@@ -231,7 +246,7 @@ Item {
             }
 
             function test_single_category_expansion() {
-                genericScopeView.scope = scopes.getScope(4);
+                genericScopeView.scope = scopes.getScope(3);
 
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
@@ -279,25 +294,47 @@ Item {
             }
 
             function test_showPreviewCarousel() {
-                tryCompareFunction(function() {
-                                        var dashCategory1 = findChild(genericScopeView, "dashCategory1");
-                                        if (dashCategory1 != null) {
-                                            var tile = findChild(dashCategory1, "carouselDelegate1");
-                                            return tile != null;
-                                        }
-                                        return false;
-                                    },
-                                    true);
+                var category = scrollToCategory("dashCategory1");
 
                 tryCompare(testCase.previewListView, "open", false);
 
-                var dashCategory1 = findChild(genericScopeView, "dashCategory1");
-                var tile = findChild(dashCategory1, "carouselDelegate1");
+                var tile = findChild(category, "carouselDelegate1");
+                verify(tile, "Could not find delegate");
+
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(tile, "explicitlyScaled", true);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.previewListView, "open", true);
                 tryCompare(testCase.previewListView, "x", 0);
+
+                closePreview();
+
+                mousePress(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.previewListView, "open", true);
+                tryCompare(testCase.previewListView, "x", 0);
+                mouseRelease(tile, tile.width / 2, tile.height / 2);
+
+                closePreview();
+            }
+
+            function test_showPreviewHorizontalList() {
+                var category = scrollToCategory("dashCategory18");
+
+                tryCompare(testCase.previewListView, "open", false);
+
+                var tile = findChild(category, "delegate1");
+                verify(tile, "Could not find delegate");
+
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.previewListView, "open", true);
+                tryCompare(testCase.previewListView, "x", 0);
+
+                closePreview();
+
+                mousePress(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.previewListView, "open", true);
+                tryCompare(testCase.previewListView, "x", 0);
+                mouseRelease(tile, tile.width / 2, tile.height / 2);
 
                 closePreview();
             }
@@ -319,7 +356,7 @@ Item {
                                                 units.gu(2),
                                                 testCase.previewListView.height / 2);
                     tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.previewListView.currentItem, "objectName", "previewItem" + i);
+                    tryCompare(testCase.previewListView.currentItem, "objectName", "preview" + i);
 
                 }
                 closePreview();
@@ -327,10 +364,10 @@ Item {
 
             function test_header_style_data() {
                 return [
-                    { tag: "Default", index: 0, foreground: "grey", background: "", logo: "" },
-                    { tag: "Foreground", index: 2, foreground: "yellow", background: "", logo: "" },
-                    { tag: "Logo+Background", index: 3, foreground: "grey", background: "gradient:///lightgrey/grey",
-                      logo: Qt.resolvedUrl("../Components/tst_PageHeader/logo-ubuntu-orange.svg") },
+                    { tag: "Default", index: 0, foreground: Theme.palette.normal.baseText, background: "", logo: "" },
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "", logo: "" },
+                    { tag: "Logo+Background", index: 2, foreground: Theme.palette.normal.baseText, background: "gradient:///lightgrey/grey",
+                      logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
             }
 
