@@ -29,24 +29,11 @@ Item {
     property string menuObjectPath
     readonly property bool ready: busName!=="" && actionsObjectPath!=="" && menuObjectPath!==""
 
-    property UnityMenuModel model: {
+    property var model: {
         if (!ready) return null;
 
-        var newModel = Indicators.UnityMenuModelCache.model(menuObjectPath);
-        if (!newModel) {
-            newModel = modelComponent.createObject(null,
-                                                   {
-                                                       "busName": cachedModel.busName,
-                                                       "menuObjectPath": cachedModel.menuObjectPath,
-                                                       "actions": { "indicator": cachedModel.actionsObjectPath },
-                                                   });
-            Indicators.UnityMenuModelCache.registerModel(newModel.menuObjectPath, newModel);
-        }
-        return newModel;
-    }
-
-    Component {
-        id: modelComponent
-        UnityMenuModel {}
+        return Indicators.UnityMenuModelCache.model(cachedModel.busName,
+                                                    cachedModel.menuObjectPath,
+                                                    { "indicator": cachedModel.actionsObjectPath });
     }
 }

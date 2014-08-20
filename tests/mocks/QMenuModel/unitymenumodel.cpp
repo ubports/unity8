@@ -17,7 +17,6 @@
  */
 
 #include "unitymenumodel.h"
-#include <QDebug>
 
 enum MenuRoles {
     LabelRole  = Qt::DisplayRole + 1,

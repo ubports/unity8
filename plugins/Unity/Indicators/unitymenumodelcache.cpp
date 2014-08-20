@@ -20,9 +20,6 @@
 #include "unitymenumodelcache.h"
 #include <unitymenumodel.h>
 
-#include <QQmlEngine>
-#include <QDebug>
-
 UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
     : QObject(parent)
 {
@@ -32,24 +29,30 @@ UnityMenuModelCache::~UnityMenuModelCache()
 {
 }
 
-UnityMenuModel* UnityMenuModelCache::model(const QString& path) const
+UnityMenuModel* UnityMenuModelCache::model(const QByteArray& bus,
+                                           const QByteArray& path,
+                                           const QVariantMap& actions)
 {
-    return m_menuModels.value(path, NULL);
-}
+    if (m_registry.contains(path))
+        return m_registry[path];
 
-void UnityMenuModelCache::registerModel(const QString& path, UnityMenuModel* menuModel)
-{
-    m_menuModels[path] = menuModel;
-
+    UnityMenuModel* menuModel = new UnityMenuModel;
     connect(menuModel, &QObject::destroyed, this, [menuModel, this](QObject*) {
-        QList<QString> keys = m_menuModels.keys(menuModel);
-        Q_FOREACH(const QString& key, keys) {
-            m_menuModels.remove(key);
+        QList<QByteArray> keys = m_registry.keys(menuModel);
+        Q_FOREACH(const QByteArray& key, keys) {
+            m_registry.remove(key);
+            qDebug() << "removed " << key;
         }
     });
+    m_registry[path] = menuModel;
+
+    menuModel->setBusName(bus);
+    menuModel->setMenuObjectPath(path);
+    menuModel->setActions(actions);
+    return menuModel;
 }
 
 bool UnityMenuModelCache::contains(UnityMenuModel* menuModel)
 {
-    return !m_menuModels.keys(menuModel).isEmpty();
+    return !m_registry.keys(menuModel).isEmpty();
 }
