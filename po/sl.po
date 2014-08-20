@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-06 06:11+0000\n"
+"PO-Revision-Date: 2014-08-19 12:54+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-20 06:23+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "Geslo: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -32,19 +32,19 @@ msgstr "Odpni bližnjico"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite izklopiti?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "Izklopi"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "Ponovno zaženi"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -98,46 +98,46 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:161
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "Preveč nepravilnih poskusov"
 
 #: qml/Components/Lockscreen.qml:163
 msgid "Please wait"
-msgstr ""
+msgstr "Počakajte"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Klic v sili"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "V REDU"
 
-#: qml/Components/PassphraseLockscreen.qml:61
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "Pozdravljeni, %1"
 
-#: qml/Components/PassphraseLockscreen.qml:61
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "Pozdravljeni"
 
-#: qml/Components/PinLockscreen.qml:197
+#: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
 msgstr "PREKLIČI"
 
-#: qml/Components/PinLockscreen.qml:215
+#: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
 msgstr "KONČANO"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "Ogled vsega"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Iskanje"
 
@@ -161,25 +161,25 @@ msgstr "Dodaj oceno"
 msgid "Send"
 msgstr "Pošlji"
 
-#: qml/Dash/ScopesOverview.qml:201
+#: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
-msgstr ""
+msgstr "Upravljaj s pregledno ploščo"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
-msgstr ""
+msgstr "Končano"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
-msgstr ""
+msgstr "Trgovina"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Priljubljeni"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Vse"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -247,54 +247,58 @@ msgstr "Spodletelo, tapnite za ponovni poskus"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Odkleni SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Gostovanje"
 
 #: qml/Shell.qml:267
 msgid "passphrase"
-msgstr ""
+msgstr "šifrirno reklo"
 
 #: qml/Shell.qml:267
 msgid "passcode"
-msgstr ""
+msgstr "geslo"
 
 #: qml/Shell.qml:269
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "Vnesite vaš %1"
 
 #: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
-msgstr ""
+msgstr "Nepravilen %1"
 
 #: qml/Shell.qml:272
 msgid "Please re-enter"
-msgstr ""
+msgstr "Ponovno vnesite"
 
 #: qml/Shell.qml:306
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Nepravilno geslo."
 
 #: qml/Shell.qml:307
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Nepravilno geslo."
 
 #: qml/Shell.qml:308
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "To je vaš zadnji poskus"
 
 #: qml/Shell.qml:310
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Če je vneseno nepravilno šifrirno reklo, bo telefon ponastavljen na "
+"tovarniške nastavitve ter vsi osebni podatki bodo izbrisani."
 
 #: qml/Shell.qml:311
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Če je vneseno nepravilno geslo, bo telefon ponastavljen na tovarniške "
+"nastavitve ter vsi osebni podatki bodo izbrisani."
