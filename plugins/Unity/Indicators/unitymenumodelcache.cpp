@@ -41,7 +41,6 @@ UnityMenuModel* UnityMenuModelCache::model(const QByteArray& bus,
         QList<QByteArray> keys = m_registry.keys(menuModel);
         Q_FOREACH(const QByteArray& key, keys) {
             m_registry.remove(key);
-            qDebug() << "removed " << key;
         }
     });
     m_registry[path] = menuModel;
