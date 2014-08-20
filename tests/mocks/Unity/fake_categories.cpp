@@ -139,7 +139,8 @@ ResultsModel* Categories::resultModel(int row) const
 {
     ResultsModel *result = m_resultsModels[row];
     if (!result) {
-        result = new ResultsModel(15, row);
+        Categories *that = const_cast<Categories*>(this);
+        result = new ResultsModel(15, row, that);
         m_resultsModels[row] = result;
     }
     return result;

@@ -152,7 +152,7 @@ FocusScope {
         interactive: !navigationShown
 
         property string expandedCategoryId: ""
-        property bool needMaximizeAfterExpand: false
+        property int runMaximizeAfterSizeChanges: 0
 
         readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
             ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
@@ -186,7 +186,11 @@ FocusScope {
                                 // If the space that shrkinking is smaller than the one we need to grow we'll call maximizeVisibleArea
                                 // after the shrink/grow animation ends
                                 var growHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
-                                needMaximizeAfterExpand = growHeightDifference > shrinkHeightDifference;
+                                if (growHeightDifference > shrinkHeightDifference) {
+                                    runMaximizeAfterSizeChanges = 2;
+                                } else {
+                                    runMaximizeAfterSizeChanges = 0;
+                                }
                             }
                         }
 
@@ -253,13 +257,22 @@ FocusScope {
                     id: heightBehaviour
                     enabled: false
                     animation: UbuntuNumberAnimation {
-                        duration: categoryView.needMaximizeAfterExpand ? UbuntuAnimation.FastDuration / 2 : UbuntuAnimation.FastDuration
+                        duration: UbuntuAnimation.FastDuration
                         onRunningChanged: {
                             if (!running) {
                                 heightBehaviour.enabled = false
-                                if (categoryView.needMaximizeAfterExpand && baseItem.category === categoryView.expandedCategoryId) {
-                                    categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
-                                    categoryView.needMaximizeAfterExpand = false;
+                                if (categoryView.runMaximizeAfterSizeChanges > 0) {
+                                    categoryView.runMaximizeAfterSizeChanges--;
+                                    if (categoryView.runMaximizeAfterSizeChanges == 0) {
+                                        var firstCreated = categoryView.firstCreatedIndex();
+                                        for (var i = 0; i < categoryView.createdItemCount(); ++i) {
+                                            var baseItem = categoryView.item(firstCreated + i);
+                                            if (baseItem.category === categoryView.expandedCategoryId) {
+                                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAll.height);
+                                                break;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
