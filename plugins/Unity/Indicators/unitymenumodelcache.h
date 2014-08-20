@@ -37,7 +37,7 @@ public:
     Q_INVOKABLE UnityMenuModel* model(const QByteArray& bus,
                                       const QByteArray& path,
                                       const QVariantMap& actions);
-    Q_INVOKABLE bool contains(UnityMenuModel* menuModel);
+    Q_INVOKABLE bool contains(const QByteArray& path);
 
 private:
     QHash<QByteArray, UnityMenuModel*> m_registry;

@@ -51,7 +51,7 @@ UnityMenuModel* UnityMenuModelCache::model(const QByteArray& bus,
     return menuModel;
 }
 
-bool UnityMenuModelCache::contains(UnityMenuModel* menuModel)
+bool UnityMenuModelCache::contains(const QByteArray& path)
 {
-    return !m_registry.keys(menuModel).isEmpty();
+    return m_registry.contains(path);
 }

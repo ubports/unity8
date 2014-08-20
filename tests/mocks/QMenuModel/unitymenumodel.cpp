@@ -37,6 +37,10 @@ UnityMenuModel::UnityMenuModel(QObject *parent)
 {
 }
 
+UnityMenuModel::~UnityMenuModel()
+{
+}
+
 QVariant UnityMenuModel::modelData() const
 {
     return m_modelData;
@@ -80,10 +84,6 @@ void UnityMenuModel::removeRow(int row)
     m_modelData.removeAt(row);
 
     endRemoveRows();
-}
-
-UnityMenuModel::~UnityMenuModel()
-{
 }
 
 QByteArray UnityMenuModel::busName() const
