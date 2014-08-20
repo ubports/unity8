@@ -72,10 +72,10 @@ SurfaceContainer {
     }
 
     Loader {
-        z: 3
         id: splashLoader
         anchors.fill: parent
         anchors.topMargin: maximizedAppTopMargin
+        z: 0 // so that it is under the surface
     }
 
     Repeater {
