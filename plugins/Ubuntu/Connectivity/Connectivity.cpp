@@ -20,16 +20,14 @@
 #include <QDBusPendingCall>
 
 Connectivity::Connectivity(QObject *parent)
-    : QObject(parent),
-      m_interface(new QDBusInterface("com.ubuntu.connectivity1",
-                                     "/com/ubuntu/connectivity1/Private",
-                                     "com.ubuntu.connectivity1.Private",
-                                     QDBusConnection::sessionBus(),
-                                     this))
+    : QObject(parent)
 {
 }
 
 void Connectivity::unlockAllModems()
 {
-    m_interface->asyncCall("UnlockAllModems");
+    QDBusInterface iface("com.ubuntu.connectivity1",
+                         "/com/ubuntu/connectivity1/Private",
+                         "com.ubuntu.connectivity1.Private");
+    iface.asyncCall("UnlockAllModems");
 }

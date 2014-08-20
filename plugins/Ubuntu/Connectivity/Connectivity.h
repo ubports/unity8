@@ -19,8 +19,6 @@
 
 #include <QObject>
 
-class QDBusInterface;
-
 class Connectivity : public QObject
 {
     Q_OBJECT
@@ -30,9 +28,6 @@ public:
     explicit Connectivity(QObject *parent = 0);
 
     Q_INVOKABLE void unlockAllModems();
-
-private:
-    QDBusInterface *m_interface;
 };
 
 #endif // CONNECTIVITY_H
