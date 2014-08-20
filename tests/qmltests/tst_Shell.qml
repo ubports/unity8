@@ -403,11 +403,11 @@ Item {
             compare(panel.fullscreenMode, false);
             ApplicationManager.startApplication("camera-app");
             tryCompare(panel, "fullscreenMode", true);
-            ApplicationManager.startApplication("gallery-app");
+            ApplicationManager.startApplication("dialer-app");
             tryCompare(panel, "fullscreenMode", false);
             ApplicationManager.requestFocusApplication("camera-app");
             tryCompare(panel, "fullscreenMode", true);
-            ApplicationManager.requestFocusApplication("gallery-app");
+            ApplicationManager.requestFocusApplication("dialer-app");
             tryCompare(panel, "fullscreenMode", false);
         }
 
