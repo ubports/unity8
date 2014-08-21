@@ -510,7 +510,7 @@ Rectangle {
             mouseRelease(card, card.width/2, card.height/2);
             compare(touchdown.visible, false);
         }
-        
+
         function test_paddings_data() {
             return [
                 { tag: "Art and summary", index: 0 },
@@ -521,7 +521,7 @@ Rectangle {
                 { tag: "Art, title - overlaid", index: 13 },
             ];
         }
-        
+
         function test_paddings(data) {
             selector.selectedIndex = data.index;
             waitForRendering(card);
@@ -548,6 +548,5 @@ Rectangle {
                 verify((card.width - titleToCard.x - titleToCard.width) === units.gu(1));
             }
         }
-        
     }
 }
