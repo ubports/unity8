@@ -52,6 +52,11 @@ Item {
         }
     }
 
+    Connections {
+        target: UriHandler
+        onOpened: dashContentList.currentItem.scope.performQuery(uris[0])
+    }
+
     function setCurrentScopeAtIndex(index, animate, reset) {
         // if the scopes haven't loaded yet, then wait until they are.
         if (!scopes.loaded) {
