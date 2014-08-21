@@ -45,7 +45,7 @@ Item {
     }
 
     Repeater {
-        model: surface.childSurfaces
+        model: surface ? surface.childSurfaces : null
 
         delegate: Loader {
             z: 2
