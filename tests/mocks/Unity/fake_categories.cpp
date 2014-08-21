@@ -149,6 +149,9 @@ Categories::data(const QModelIndex& index, int role) const
                     map["card-size"] = "medium";
                     map["overlay"] = true;
                 }
+                if (index.row() == 18) {
+                    map["category-layout"] = "horizontal-list";
+                }
                 if (index.row() == 19) {
                     map["category-layout"] = "grid";
                     map["collapsed-rows"] = 0;

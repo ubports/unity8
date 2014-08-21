@@ -41,7 +41,7 @@ PreviewWidget {
             right: expandButton.left
         }
         fontSize: "large"
-        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
         visible: text !== ""
         opacity: .8
         text: widgetData["title"] || ""

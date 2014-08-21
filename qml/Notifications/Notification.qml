@@ -52,7 +52,7 @@ Item {
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 0
+    opacity: 1
 
     state: {
         var result = "";
@@ -257,6 +257,7 @@ Item {
                         font.bold: true
                         color: Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
 
                     Label {
@@ -274,6 +275,7 @@ Item {
                         wrapMode: Text.WordWrap
                         maximumLineCount: 10
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
                 }
             }

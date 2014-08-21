@@ -1,3 +1,59 @@
+unity8 (8.00+14.10.20140820-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Nick Dedekind ]
+  * Fixed CachedUnityMenuModel destruction unhinging indicators. (LP:
+    #1328646)
+
+  [ Mirco Müller ]
+  * Temporarily disable any opacity-animation for notifications to
+    unblock the train due to LP: 1354406. (LP: #1354406)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 20 Aug 2014 20:03:55 +0000
+
+unity8 (8.00+14.10.20140817-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Fix dash overview test and prevent crash in mock ApplicationInfo's
+    d'tor. tryCompareFunction didn't work because .item threw.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sun, 17 Aug 2014 00:37:35 +0000
+
+unity8 (8.00+14.10.20140815.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Bring dialer to front on incoming call even when device is locked
+    (LP: #1354532)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Use palette's baseText for text colour in dash.
+  * Update qmltypes definitions
+  * Move PageHeader out of qml/Components into qml/Dash
+  * Reshuffle and update dependencies
+  * Fix cardtool test and make card creator output debugging info on
+    errors.
+  * Support previews for scopes in overview and hook up preview
+    processing to activity indicator.
+  * Fix notifications indicator title
+  * Fix horizontal list activation and add test for it.
+
+  [ Ying-Chun Liu ]
+  * Add button colors and i18n for power off dialog. (LP: #1354506)
+
+  [ Mirco Müller ]
+  * Force plain-text rendering for summary- and body-text. (LP:
+    #1335787)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 15 Aug 2014 17:38:07 +0000
+
 unity8 (8.00+14.10.20140814.1-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
