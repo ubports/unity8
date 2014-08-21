@@ -511,7 +511,7 @@ Rectangle {
             compare(touchdown.visible, false);
         }
         
-        function test_apaddings_data() {
+        function test_paddings_data() {
             return [
                 { tag: "Art and summary", index: 0 },
                 { tag: "No Summary", index: 6 },
@@ -522,7 +522,7 @@ Rectangle {
             ];
         }
         
-        function test_apaddings(data) {
+        function test_paddings(data) {
             selector.selectedIndex = data.index;
             waitForRendering(card);
 
