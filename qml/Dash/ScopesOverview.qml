@@ -535,6 +535,7 @@ Item {
                 scopesOverviewXYScaler.opacity = 0;
                 middleItems.overrideOpacity = -1;
             }
+            // TODO Add tests for these connections
             Connections {
                 target: tempScopeItem.scope
                 onOpenScope: {
