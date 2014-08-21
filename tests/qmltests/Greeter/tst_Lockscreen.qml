@@ -319,11 +319,9 @@ Rectangle {
             if (data.animation) {
                 if (data.alphanumeric) {
                     tryCompare(inputField, "placeholderText", lockscreen.wrongPlaceholderText)
-                    tryCompare(inputField, "placeholderText", lockscreen.placeholderText)
                 } else {
                     var label = findChild(lockscreen, "pinentryFieldPlaceHolder");
                     tryCompare(label, "text", lockscreen.wrongPlaceholderText)
-                    tryCompare(label, "text", lockscreen.placeholderText)
                 }
             }
 

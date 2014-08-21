@@ -57,8 +57,13 @@ Showable {
 
     onRequiredChanged: {
         if (required && pinPadLoader.item) {
-            pinPadLoader.item.clear(false);
+            clear(false)
         }
+    }
+
+    function forceDelay(delay) {
+        forcedDelayTimer.interval = delay
+        forcedDelayTimer.start()
     }
 
     function reset() {
@@ -68,11 +73,20 @@ Showable {
     }
 
     function clear(showAnimation) {
-        pinPadLoader.item.clear(showAnimation);
+        if (pinPadLoader.item) {
+            pinPadLoader.item.clear(showAnimation);
+        }
+        pinPadLoader.showWrongText = showAnimation
+        pinPadLoader.waiting = false
     }
 
     function showInfoPopup(title, text) {
         PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
+    }
+
+    Timer {
+        id: forcedDelayTimer
+        onTriggered: pinPadLoader.showWrongText = false
     }
 
     Rectangle {
@@ -131,8 +145,6 @@ Showable {
         }
     }
 
-
-
     Loader {
         id: pinPadLoader
         objectName: "pinPadLoader"
@@ -143,13 +155,24 @@ Showable {
             verticalCenterOffset: root.alphaNumeric ? -units.gu(10) : -units.gu(4)
         }
         property bool resetting: false
+        property bool waiting: false
+        property bool showWrongText: false
+
+        readonly property string forcedDelayText: i18n.tr("Too many incorrect attempts") +
+                                                  "\n" +
+                                                  i18n.tr("Please wait")
 
         source: (!resetting && root.required) ? (root.alphaNumeric ? "PassphraseLockscreen.qml" : "PinLockscreen.qml") : ""
+        onSourceChanged: {
+            waiting = false
+            showWrongText = false
+        }
 
         Connections {
             target: pinPadLoader.item
 
             onEntered: {
+                pinPadLoader.waiting = true
                 root.entered(passphrase);
             }
 
@@ -171,17 +194,19 @@ Showable {
         Binding {
             target: pinPadLoader.item
             property: "placeholderText"
-            value: root.placeholderText
-        }
-        Binding {
-            target: pinPadLoader.item
-            property: "wrongPlaceholderText"
-            value: root.wrongPlaceholderText
+            value: forcedDelayTimer.running ? pinPadLoader.forcedDelayText :
+                   (pinPadLoader.showWrongText ? root.wrongPlaceholderText :
+                    root.placeholderText)
         }
         Binding {
             target: pinPadLoader.item
             property: "username"
             value: root.username
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "entryEnabled"
+            value: !pinPadLoader.waiting && !forcedDelayTimer.running
         }
     }
 

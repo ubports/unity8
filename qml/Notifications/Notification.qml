@@ -50,7 +50,7 @@ Item {
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + contentSpacing * 2) : 0
 
     color: type == Notification.SnapDecision ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 0
+    opacity: 1
 
     state: {
         var result = "";
@@ -245,6 +245,7 @@ Item {
                         fontSize: "medium"
                         color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
 
                     Label {
@@ -261,6 +262,7 @@ Item {
                         wrapMode: Text.WordWrap
                         maximumLineCount: 2
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
                 }
 
@@ -311,6 +313,9 @@ Item {
 
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
+                        }
+                        onAccepted: {
+                            notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
                         }
                     }
                 }

@@ -34,6 +34,7 @@ Item {
     property string deviceMenuObjectPath: menuObjectPath
 
     property alias menuModel: cachedModel.model
+    property alias rootActionState: rootAction
 
     CachedUnityMenuModel {
         id: cachedModel
@@ -42,8 +43,9 @@ Item {
         menuObjectPath: indicatorItem.deviceMenuObjectPath
     }
 
-    property RootActionState rootActionState: RootActionState {
-        menu: menuModel
+    RootActionState {
+        id: rootAction
+        menu: menuModel ? menuModel : null
         onUpdated: indicatorItem.rootActionStateChanged()
     }
 }

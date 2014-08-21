@@ -30,6 +30,8 @@ Loader {
     property int maxHeight
     readonly property bool fullscreen: menuData.type === "com.canonical.snapdecision.pinlock"
 
+    signal accepted()
+
     property var _map:  {
         "com.canonical.snapdecision.textfield": textfield,
         "com.canonical.snapdecision.pinlock" : pinLock,
@@ -84,6 +86,9 @@ Loader {
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
                 }
+                onAccepted: {
+                    menuFactory.accepted()
+                }
             }
 
             Row {
@@ -120,7 +125,6 @@ Loader {
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
-                entryEnabled = false;
             }
 
             onCancel: {

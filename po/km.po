@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-01 04:02+0000\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sok Sophea <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-21 06:48+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "ពាក្យសម្ងាត់៖ "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -28,19 +32,19 @@ msgstr "មិន​ភ្ជាប់ផ្លូវកាត់"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "តើ​អ្នក​ពិតជា​ចង់​បិទ​មែន​ឬ?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "បិទ"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "បោះបង់"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -92,6 +96,14 @@ msgstr ""
 "ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
 "និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
 
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "បាន​ព្យាយាម​ខុស​ច្រើន​ដង​ពេក"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "សូមរង់ចាំ"
+
 #: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "ការ​ហៅ​ពេល​អាសន្ន"
@@ -125,6 +137,10 @@ msgstr "មើល​តិច​ជាង"
 msgid "See all"
 msgstr "មើល​ទាំងអស់"
 
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "ស្វែង​រក"
+
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "ច្រើនជាង​..."
@@ -147,23 +163,23 @@ msgstr "ផ្ញើ"
 
 #: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
-msgstr ""
+msgstr "គ្រប់គ្រង​ផ្ទាំង"
 
 #: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
-msgstr ""
+msgstr "ធ្វើរួច"
 
 #: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
-msgstr ""
+msgstr "រក្សាទុក"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "និយម"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "ទាំងអស់"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -231,17 +247,60 @@ msgstr "បាន​បរាជ័យ ប៉ះ​ ដើម្បី​ព្�
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "ដោះ​សោ​ស៊ីម"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "រ៉ូមីង"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "ស្វែង​រក"
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "ឃ្លា​សម្ងាត់"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "កូដ​សម្ងាត់"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
-msgstr "សូម​បញ្ចូល %1"
+msgid "Enter your %1"
+msgstr "បញ្ចូល %1 របស់​អ្នក"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "មិន​ត្រឹមត្រូវ %1"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "សូម​បញ្ចូល​ឡើងវិញ"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "នេះ​គឺ​ការ​ព្យាយាម​លើក​ចុងក្រោយ។"
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"បើ​បញ្ចូល​ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ "
+"ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
+"ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"បើ​បញ្ចូល​កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ "
+"ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
+"ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"

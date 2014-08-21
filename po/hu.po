@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-08-06 07:41+0000\n"
+"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"PO-Revision-Date: 2014-08-19 07:08+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-20 06:23+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr "Jelszó: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -28,19 +32,19 @@ msgstr "Indító feloldása"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Biztos benne, hogy ki szeretné kapcsolni?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "Kikapcsolás"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "Újraindítás"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -92,6 +96,14 @@ msgstr ""
 "Elsajátította a gesztusokat, és megkezdheti a telefon "
 "használatát.<br><br>Koppintson a képernyőre a kezdéshez."
 
+#: qml/Components/Lockscreen.qml:161
+msgid "Too many incorrect attempts"
+msgstr "Túl sok sikertelen kísérlet"
+
+#: qml/Components/Lockscreen.qml:163
+msgid "Please wait"
+msgstr "Kérem várjon"
+
 #: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Vészhívás"
@@ -125,6 +137,10 @@ msgstr "Kevesebb"
 msgid "See all"
 msgstr "Összes megtekintése"
 
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Keresés"
+
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Több…"
@@ -147,23 +163,23 @@ msgstr "Küldés"
 
 #: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
-msgstr ""
+msgstr "Dash kezelése"
 
 #: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
-msgstr ""
+msgstr "Kész"
 
 #: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
-msgstr ""
+msgstr "Áruház"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Kedvencek"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Összes"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -231,17 +247,58 @@ msgstr "Sikertelen, koppintson az újrapróbáláshoz"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "SIM feloldása"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Barangolás"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Keresés"
+#: qml/Shell.qml:267
+msgid "passphrase"
+msgstr "jelmondat"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "passcode"
+msgstr "jelkód"
+
+#: qml/Shell.qml:269
 #, qt-format
-msgid "Please enter %1"
+msgid "Enter your %1"
 msgstr "Adja meg a következőt: %1"
+
+#: qml/Shell.qml:270
+#, qt-format
+msgid "Incorrect %1"
+msgstr "Helytelen %1"
+
+#: qml/Shell.qml:272
+msgid "Please re-enter"
+msgstr "Kérjük adja meg újra"
+
+#: qml/Shell.qml:306
+msgid "Sorry, incorrect passphrase."
+msgstr "Sajnáljuk, helytelen jelmondat."
+
+#: qml/Shell.qml:307
+msgid "Sorry, incorrect passcode."
+msgstr "Sajnáljuk, helytelen jelkód."
+
+#: qml/Shell.qml:308
+msgid "This will be your last attempt."
+msgstr "Ez az utolsó próbálkozási lehetősége."
+
+#: qml/Shell.qml:310
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Ha helytelen jelmondatot ad meg, a telefonja visszaállítja a gyári "
+"beállításokat és törli minden személyes adatát."
+
+#: qml/Shell.qml:311
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Ha helytelen jelkódot ad meg, a telefonja visszaállítja a gyári "
+"beállításokat és törli minden személyes adatát."
