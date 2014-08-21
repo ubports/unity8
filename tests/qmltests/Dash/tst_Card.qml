@@ -96,6 +96,11 @@ Rectangle {
             "layout": { "template": { "card-background": Qt.resolvedUrl("artwork/checkers.png") },
                         "components": JSON.parse(Helpers.fullMapping) }
         },
+        {
+            "name": "Art, title - overlaid",
+            "layout": { "template": { "overlay": true },
+                        "components": { "art": "art", "summary": "summary" } }
+        },
     ]
 
     CardTool {
@@ -505,5 +510,44 @@ Rectangle {
             mouseRelease(card, card.width/2, card.height/2);
             compare(touchdown.visible, false);
         }
+        
+        function test_apaddings_data() {
+            return [
+                { tag: "Art and summary", index: 0 },
+                { tag: "No Summary", index: 6 },
+                { tag: "No header", index: 7 },
+                { tag: "Header only", index: 8 },
+                { tag: "Art, header, summary - overlaid", index: 9 },
+                { tag: "Art, title - overlaid", index: 13 },
+            ];
+        }
+        
+        function test_apaddings(data) {
+            selector.selectedIndex = data.index;
+            waitForRendering(card);
+
+            if (title) var titleToCard = title.mapToItem(card, 0, 0, title.width, title.height);
+
+            // left margin
+            if (mascotImage) {
+                var mascotToCard = mascotImage.mapToItem(card, 0, 0, mascotImage.width, mascotImage.height);
+                verify(mascotToCard.x === units.gu(1));
+                if (title) {
+                    verify((titleToCard.x - mascotToCard.x - mascotToCard.width) === units.gu(1));
+                }
+            } else if (title) {
+                verify(titleToCard.x === units.gu(1));
+            }
+
+            // right margin
+            var emblemIcon = findChild(card, "emblemIcon");
+            if (emblemIcon) {
+                var emblemToCard = emblemIcon.mapToItem(card, 0, 0, emblemIcon.width, emblemIcon.height);
+                verify((card.width - emblemToCard.x - emblemToCard.width) === units.gu(1));
+            } else if (title) {
+                verify((card.width - titleToCard.x - titleToCard.width) === units.gu(1));
+            }
+        }
+        
     }
 }
