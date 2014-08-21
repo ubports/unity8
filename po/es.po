@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-15 07:13+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"PO-Revision-Date: 2014-08-17 04:37+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-16 06:51+0000\n"
+"X-Launchpad-Export-Date: 2014-08-18 07:20+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr "Contraseña : "
+msgstr "Contraseña: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -136,7 +136,7 @@ msgstr "Ver menos"
 
 #: qml/Dash/GenericScopeView.qml:360
 msgid "See all"
-msgstr "Ver todas"
+msgstr "Ver todo"
 
 #: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -270,7 +270,7 @@ msgstr "Introduzca su %1"
 #: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
-msgstr "%1 Incorrecta"
+msgstr "%1 incorrecta"
 
 #: qml/Shell.qml:272
 msgid "Please re-enter"
@@ -293,7 +293,7 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Si se introduce la frase de paso incorrectamente, su teléfono volverá a la "
+"Si se introduce la frase incorrectamente, el teléfono volverá a la "
 "configuración de fábrica y se perderán todos los datos personales."
 
 #: qml/Shell.qml:311
@@ -301,5 +301,5 @@ msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Si se introduce el código de paso incorrectamente, su teléfono volverá a la "
+"Si se introduce el código incorrectamente, el teléfono volverá a la "
 "configuración de fábrica y se perderán todos los datos personales."

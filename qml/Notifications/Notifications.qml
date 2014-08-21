@@ -79,7 +79,7 @@ ListView {
         }
     }
 
-    populate: Transition {
+    /*populate: Transition {
         UbuntuNumberAnimation {
             property: "opacity"
             to: 1
@@ -107,5 +107,5 @@ ListView {
             properties: "x,y"
             duration: UbuntuAnimation.SnapDuration
         }
-    }
+    }*/
 }
