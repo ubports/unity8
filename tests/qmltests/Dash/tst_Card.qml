@@ -99,7 +99,7 @@ Rectangle {
         {
             "name": "Art, title - overlaid",
             "layout": { "template": { "overlay": true },
-                        "components": { "art": "art", "summary": "summary" } }
+                        "components": { "art": "art", "title": "title" } }
         },
     ]
 

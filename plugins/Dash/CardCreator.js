@@ -467,6 +467,8 @@ function cardString(template, components) {
         if (!touchdownOnArtShape) {
             extraRightAnchor = 'rightMargin: units.gu(1); \n';
             extraLeftAnchor = 'leftMargin: units.gu(1); \n';
+        } else if (headerAsOverlay && !hasEmblem) {
+            extraRightAnchor = 'rightMargin: units.gu(1); \n';
         }
 
         if (hasMascot) {
