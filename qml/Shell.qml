@@ -20,6 +20,7 @@ import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
+import Ubuntu.Connectivity 0.1
 import Ubuntu.Gestures 0.1
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
@@ -414,6 +415,10 @@ Item {
                     greeter.fakeActiveForApp = "";
                     greeter.forceActiveFocus();
                 }
+            }
+
+            Component.onCompleted: {
+                Connectivity.unlockAllModems()
             }
 
             onUnlocked: greeter.hide()

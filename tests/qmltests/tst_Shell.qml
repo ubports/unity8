@@ -21,6 +21,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
 import LightDM 0.1 as LightDM
+import Ubuntu.Connectivity 0.1
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -28,6 +29,7 @@ import Powerd 0.1
 import "../../qml"
 
 Item {
+    id: root
     width: shell.width
     height: shell.height
 
@@ -51,6 +53,11 @@ Item {
         id: shell
     }
 
+    Component {
+        id: shellComponent
+        Shell {}
+    }
+
     SignalSpy {
         id: sessionSpy
         signalName: "sessionStarted"
@@ -59,6 +66,12 @@ Item {
     SignalSpy {
         id: dashCommunicatorSpy
         signalName: "setCurrentScopeCalled"
+    }
+
+    SignalSpy {
+        id: unlockAllModemsSpy
+        target: Connectivity
+        signalName: "unlockingAllModems"
     }
 
     UT.UnityTestCase {
@@ -441,6 +454,14 @@ Item {
 
             var indicators = findChild(shell, "indicators")
             tryCompare(indicators, "available", true)
+        }
+
+        function test_unlockAllModemsOnBoot() {
+            unlockAllModemsSpy.clear()
+            // actually create an object so we notice the onCompleted signal
+            var greeter = shellComponent.createObject(root)
+            tryCompare(unlockAllModemsSpy, "count", 1)
+            greeter.destroy()
         }
     }
 }
