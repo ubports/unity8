@@ -15,8 +15,7 @@
  */
 
 #include "MirSurfaceItem.h"
-#include "MirSurfaceItemModel.h"
-#include "ApplicationInfo.h"
+#include "MirSessionItem.h"
 
 #include <QPainter>
 #include <QQmlEngine>
@@ -27,7 +26,7 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
                                const QUrl& screenshot,
                                QQuickItem *parent)
     : QQuickPaintedItem(parent)
-    , m_application(nullptr)
+    , m_session(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)
@@ -60,8 +59,8 @@ MirSurfaceItem::~MirSurfaceItem()
     if (m_parentSurface) {
         m_parentSurface->removeChildSurface(this);
     }
-    if (m_application) {
-        m_application->removeSurface(this);
+    if (m_session) {
+        m_session->setSurface(nullptr);
     }
     delete m_children;
 }
@@ -80,18 +79,23 @@ void MirSurfaceItem::release()
     if (m_parentSurface) {
         m_parentSurface->removeChildSurface(this);
     }
-
-    if (m_application) {
-        m_application->removeSurface(this);
+    if (m_session) {
+        m_session->setSurface(nullptr);
     }
     if (!parent()) {
         deleteLater();
     }
 }
 
-void MirSurfaceItem::setApplication(ApplicationInfo* application)
+void MirSurfaceItem::setSession(MirSessionItem* session)
 {
-    m_application = application;
+    m_session = session;
+}
+
+void MirSurfaceItem::setScreenshot(const QUrl& screenshot)
+{
+    m_img.load(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString());
+    update();
 }
 
 void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
@@ -105,7 +109,7 @@ void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
 
 void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
 {
-    insertChildSurface(m_children->count(), surface);
+    insertChildSurface(m_children->rowCount(), surface);
 }
 
 void MirSurfaceItem::insertChildSurface(uint index, MirSurfaceItem* surface)
@@ -113,7 +117,7 @@ void MirSurfaceItem::insertChildSurface(uint index, MirSurfaceItem* surface)
     qDebug() << "MirSurfaceItem::insertChildSurface - " << surface->name() << " to " << name() << " @  " << index;
 
     surface->setParentSurface(this);
-    m_children->insertSurface(index, surface);
+    m_children->insert(index, surface);
 }
 
 void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
@@ -121,7 +125,7 @@ void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
     qDebug() << "MirSurfaceItem::removeChildSurface - " << surface->name() << " from " << name();
 
     if (m_children->contains(surface)) {
-        m_children->removeSurface(surface);
+        m_children->remove(surface);
         surface->setParentSurface(nullptr);
     }
 }

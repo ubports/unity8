@@ -17,10 +17,8 @@
 import QtQuick 2.0
 import "Animations"
 
-SurfaceContainer {
+SessionContainer {
     id: root
-    property var promptSurfaces
-
     property bool appHasCreatedASurface: false
 
     onSurfaceChanged: {
@@ -47,50 +45,6 @@ SurfaceContainer {
         id: splashLoader
         anchors.fill: parent
         z: 3
-    }
-
-    Repeater {
-        id: promptRepeater
-        model: root.promptSurfaces
-
-        delegate: SurfaceContainer {
-            objectName: "promptDelegate" + index
-            id: prompt
-
-            anchors {
-                fill: root
-                topMargin: root.surface.anchors.topMargin
-                rightMargin: root.surface.anchors.rightMargin
-                bottomMargin: root.surface.anchors.bottomMargin
-                leftMargin: root.surface.anchors.leftMargin
-            }
-            z: 4 + index
-
-            surface: modelData
-
-            Component.onCompleted: {
-                prompt.animateIn(swipeFromBottom);
-            }
-
-            Connections {
-                target: prompt.surface
-                onRemoved: {
-                    // remove all prompts after this one.
-                    if (index !== promptRepeater.count-1) {
-                        var nextSurface = promptRepeater.itemAt(index+1).surface;
-                        nextSurface.removed();
-                    }
-
-                    prompt.removing = true;
-                    prompt.animateOut();
-                }
-            }
-
-            Component {
-                id: swipeFromBottom
-                SwipeFromBottomAnimation {}
-            }
-        }
     }
 
     StateGroup {

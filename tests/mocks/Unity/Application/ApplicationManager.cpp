@@ -16,8 +16,7 @@
 
 #include "ApplicationManager.h"
 #include "ApplicationInfo.h"
-#include "MirSurfaceItem.h"
-#include "MirSurfaceItemModel.h"
+#include "MirSessionItem.h"
 #include "ApplicationTestInterface.h"
 
 #include <paths.h>
@@ -45,9 +44,8 @@ ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
     , m_suspended(false)
 {
-    m_roleNames.insert(RoleSurface, "surface");
+    m_roleNames.insert(RoleSession, "session");
     m_roleNames.insert(RoleFullscreen, "fullscreen");
-    m_roleNames.insert(RolePromptSurfaces, "promptSurfaces");
 
     buildListOfAvailableApplications();
 
@@ -85,12 +83,10 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
         return app->focused();
     case RoleScreenshot:
         return app->screenshot();
-    case RoleSurface:
-        return QVariant::fromValue(app->surface());
+    case RoleSession:
+        return QVariant::fromValue(app->session());
     case RoleFullscreen:
         return app->fullscreen();
-    case RolePromptSurfaces:
-        return QVariant::fromValue(app->promptSurfaces());
     default:
         return QVariant();
     }
@@ -134,10 +130,10 @@ void ApplicationManager::add(ApplicationInfo *application) {
     Q_EMIT countChanged();
     if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
 
-    connect(application, &ApplicationInfo::surfaceChanged, this, [application, this]() {
+    connect(application, &ApplicationInfo::sessionChanged, this, [application, this]() {
         QModelIndex appIndex = findIndex(application);
         if (!appIndex.isValid()) return;
-        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleSurface);
+        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleSession);
     });
 }
 
@@ -151,7 +147,7 @@ void ApplicationManager::remove(ApplicationInfo *application) {
         Q_EMIT countChanged();
         if (isEmpty()) Q_EMIT emptyChanged(isEmpty());
     }
-    disconnect(application, &ApplicationInfo::surfaceChanged, this, 0);
+    disconnect(application, &ApplicationInfo::sessionChanged, this, 0);
 }
 
 void ApplicationManager::move(int from, int to) {

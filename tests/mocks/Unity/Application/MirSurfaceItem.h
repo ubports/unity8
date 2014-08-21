@@ -17,11 +17,12 @@
 #ifndef MIRSURFACEITEM_H
 #define MIRSURFACEITEM_H
 
+#include "MirSurfaceItemModel.h"
+
 #include <QQuickPaintedItem>
 #include <QImage>
 
-class ApplicationInfo;
-class MirSurfaceItemModel;
+class MirSessionItem;
 
 class MirSurfaceItem : public QQuickPaintedItem
 {
@@ -59,13 +60,14 @@ public:
     ~MirSurfaceItem();
 
     //getters
-    ApplicationInfo* application() const { return m_application; }
+    MirSessionItem* session() const { return m_session; }
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
 
-    void setApplication(ApplicationInfo* item);
+    void setSession(MirSessionItem* item);
+    void setScreenshot(const QUrl& screenshot);
 
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
@@ -106,11 +108,11 @@ protected:
     void setParentSurface(MirSurfaceItem* surface);
 
 private:
-    ApplicationInfo* m_application;
+    MirSessionItem* m_session;
     const QString m_name;
     const Type m_type;
     State m_state;
-    const QImage m_img;
+    QImage m_img;
 
     MirSurfaceItem* m_parentSurface;
     MirSurfaceItemModel* m_children;

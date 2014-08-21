@@ -19,6 +19,7 @@
 #include "ApplicationImage.h"
 #include "ApplicationManager.h"
 #include "ApplicationScreenshotProvider.h"
+#include "MirSessionItem.h"
 #include "MirSurfaceItem.h"
 #include "MirSurfaceItemModel.h"
 #include "SurfaceManager.h"
@@ -52,11 +53,14 @@ static QObject* applicationTestInterface(QQmlEngine* engine, QJSEngine* scriptEn
 
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
+    qRegisterMetaType<MirSessionItem*>("MirSessionItem*");
     qRegisterMetaType<MirSurfaceItem*>("MirSurfaceItem*");
+    qRegisterMetaType<MirSurfaceItemModel*>("MirSessionItemModel*");
     qRegisterMetaType<MirSurfaceItemModel*>("MirSurfaceItemModel*");
 
     qmlRegisterUncreatableType<unity::shell::application::ApplicationManagerInterface>(uri, 0, 1, "ApplicationManagerInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterUncreatableType<unity::shell::application::ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Abstract interface. Cannot be created in QML");
+    qmlRegisterUncreatableType<MirSessionItem>(uri, 0, 1, "MirSessionItem", "MirSessionItem can't be instantiated from QML");
     qmlRegisterUncreatableType<MirSurfaceItem>(uri, 0, 1, "MirSurfaceItem", "MirSurfaceItem can't be instantiated from QML");
 
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");

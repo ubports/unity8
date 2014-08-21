@@ -14,15 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MIRSURFACEITEMMODEL_H
-#define MIRSURFACEITEMMODEL_H
+#ifndef MIRSESSIONITEMMODEL_H
+#define MIRSESSIONITEMMODEL_H
 
-// Llocal
+// Local
 #include "MirItemModel.h"
 
-class MirSurfaceItem;
-typedef MirItemModel<MirSurfaceItem> MirSurfaceItemModel;
+class MirSessionItem;
+typedef MirItemModel<MirSessionItem> MirSessionItemModel;
 
-Q_DECLARE_METATYPE(MirSurfaceItemModel*)
+Q_DECLARE_METATYPE(MirSessionItemModel*)
 
-#endif // MIRSURFACEITEMMODEL_H
+#endif // MIRSESSIONITEMMODEL_H

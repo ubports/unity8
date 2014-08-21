@@ -29,24 +29,24 @@ Item {
     property bool dropShadow: true
     property real maximizedAppTopMargin
     property alias swipeToCloseEnabled: dragArea.enabled
+    property alias surface: surfaceContainer.surface
 
-    readonly property bool isFullscreen: surface !== null && surfaceContainer.surface.anchors.topMargin == 0
+    readonly property bool isFullscreen: surface !== null && session.anchors.topMargin == 0
 
     signal clicked()
     signal closed()
 
-    AppSurfaceContainer {
+    ApplicationSessionContainer {
         id: surfaceContainer
         objectName: "surfaceContainer"
         anchors.fill: parent
-        surface: model.surface
-        promptSurfaces: model.promptSurfaces
+        session: model.session
 
         Binding {
-            target: surfaceContainer.surface
+            target: surface
             property: "anchors.topMargin"
             value: {
-                return surfaceContainer.surface == null ||
+                return surface == null ||
                        surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
             }
         }

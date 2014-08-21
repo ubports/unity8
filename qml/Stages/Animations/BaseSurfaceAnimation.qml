@@ -37,7 +37,7 @@ import QtQuick 2.0
  */
 Item {
     id: base
-    property Item surface: null
+    property Item session: null
 
     // changes applied when state changes to "in"
     property list<QtObject> outChanges
@@ -61,7 +61,7 @@ Item {
     states: [
         State {
             name: "baseAnimation"
-            PropertyChanges { target: base.surface; anchors.fill: undefined }
+            PropertyChanges { target: base.session; anchors.fill: undefined }
         },
 
         State {

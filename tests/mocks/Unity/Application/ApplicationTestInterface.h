@@ -20,7 +20,7 @@
 #include <QtDBus/QtDBus>
 
 class ApplicationManager;
-class SurfaceManager;
+class MirSessionItem;
 class MirSurfaceItem;
 
 class ApplicationTestInterface : public QDBusAbstractAdaptor
@@ -31,12 +31,14 @@ public:
     ApplicationTestInterface(QObject* parent = 0);
 
 public Q_SLOTS:
-    Q_INVOKABLE quint32 addPromptSurface(const QString& appId, const QString& surfaceImage);
-    Q_INVOKABLE quint32 addChildSurface(const QString& appId, const quint32 existingSurfaceId, const QString& surfaceImage);
-    Q_INVOKABLE void removeSurface(int surfaceId);
+    Q_INVOKABLE quint32 addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage);
+    Q_INVOKABLE quint32 addChildSurface(const QString& appId, quint32 existingSessionId, quint32 existingSurfaceId, const QString& surfaceImage);
+    Q_INVOKABLE void removeSession(quint32 sessionId);
+    Q_INVOKABLE void removeSurface(quint32 surfaceId);
 
 private:
-    QHash<quint32, MirSurfaceItem*> m_childItems;
+    QHash<quint32, MirSessionItem*> m_childSessions;
+    QHash<quint32, MirSurfaceItem*> m_childSurfaces;
 };
 
 #endif // APPLICATIONTESTINTERFACE_H

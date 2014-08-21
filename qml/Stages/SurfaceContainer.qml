@@ -25,10 +25,18 @@ Item {
     property bool removing: false
 
     onSurfaceChanged: {
+        console.log("SURFACE " + surface)
         if (surface) {
             surface.parent = root;
             surface.z = 1;
             state = "initial"
+        }
+    }
+
+    Connections {
+        target: surface
+        onRemoved: {
+            surface.release();
         }
     }
 
@@ -37,13 +45,7 @@ Item {
 
         delegate: Loader {
             objectName: "childDelegate" + index
-            anchors {
-                fill: root
-                topMargin: root.surface.anchors.topMargin
-                rightMargin: root.surface.anchors.rightMargin
-                bottomMargin: root.surface.anchors.bottomMargin
-                leftMargin: root.surface.anchors.leftMargin
-            }
+            anchors.fill: root
             z: 2
 
             // Only way to do recursive qml items.
@@ -51,45 +53,7 @@ Item {
             onLoaded: {
                 item.surface = modelData;
             }
-
-            Connections {
-                target: modelData
-                onRemoved: {
-                    modelData.release()
-                }
-            }
         }
-    }
-
-    function animateIn(animationComponent) {
-        var animation = animationComponent.createObject(root, { "surface": root.surface });
-        animation.start();
-
-        var tmp = d.animations;
-        tmp.push(animation);
-        d.animations = tmp;
-    }
-
-    function animateOut() {
-        if (d.animations.length > 0) {
-            var tmp = d.animations;
-            var popped = tmp.pop();
-            popped.end();
-            d.animations = tmp;
-        } else {
-            root.state = "initial";
-        }
-    }
-
-    QtObject {
-        id: d
-        property var animations: []
-        property var currentAnimation: animations.length > 0 ? animations[animations.length-1] : undefined
-    }
-
-    Component {
-        id: swipeFromBottom
-        SwipeFromBottomAnimation {}
     }
 
     states: [

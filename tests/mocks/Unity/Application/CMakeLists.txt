@@ -7,8 +7,9 @@ set(FakeUnityApplicationQml_SOURCES
     ApplicationManager.cpp
     ApplicationScreenshotProvider.cpp
     ApplicationTestInterface.cpp
+    MirSessionItem.cpp
     MirSurfaceItem.cpp
-    MirSurfaceItemModel.cpp
+    SessionManager.cpp
     SurfaceManager.cpp
     VirtualKeyboard.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h

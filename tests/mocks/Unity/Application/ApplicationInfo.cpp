@@ -15,14 +15,13 @@
  */
 
 #include "ApplicationInfo.h"
-#include "MirSurfaceItem.h"
-#include "MirSurfaceItemModel.h"
+#include "MirSessionItem.h"
+#include "SessionManager.h"
 
 #include <QGuiApplication>
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQmlComponent>
-#include <QTimer>
 
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
@@ -32,10 +31,9 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_parentItem(0)
-    , m_surface(0)
-    , m_promptSurfaces(new MirSurfaceItemModel(this))
+    , m_session(0)
 {
-    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
+    createSession();
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
@@ -45,89 +43,42 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_parentItem(0)
-    , m_surface(0)
-    , m_promptSurfaces(new MirSurfaceItemModel(this))
+    , m_session(0)
 {
-    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
+    createSession();
 }
 
 ApplicationInfo::~ApplicationInfo()
 {
-    QList<MirSurfaceItem*> promptSurfaces(m_promptSurfaces->list());
-    for (MirSurfaceItem* promptSurface : promptSurfaces) {
-        delete promptSurface;
-    }
-
-    delete m_surface;
-    delete m_promptSurfaces;
+    delete m_session;
 }
 
-void ApplicationInfo::onStateChanged(State state)
+void ApplicationInfo::createSession()
 {
-    if (state == ApplicationInfo::Running) {
-        QTimer::singleShot(1000, this, SLOT(createSurface()));
-    } else if (state == ApplicationInfo::Stopped) {
-        setSurface(nullptr);
-    }
+    setSession(SessionManager::singleton()->createSession(name(), screenshot()));
 }
 
-void ApplicationInfo::createSurface()
+void ApplicationInfo::setSession(MirSessionItem* session)
 {
-    if (m_surface || state() == ApplicationInfo::Stopped) return;
-
-    setSurface(SurfaceManager::singleton()->createSurface(name(),
-                                   MirSurfaceItem::Normal,
-                                   fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   screenshot()));
-}
-
-void ApplicationInfo::setSurface(MirSurfaceItem* surface)
-{
-    qDebug() << "Application::setSurface - appId=" << appId() << "surface=" << surface;
-    if (m_surface == surface)
+    qDebug() << "Application::setSession - appId=" << appId() << "session=" << session;
+    if (m_session == session)
         return;
 
-    if (m_surface) {
-        m_surface->setApplication(nullptr);
-        m_surface->setParent(nullptr);
+    if (m_session) {
+        disconnect(this, 0, m_session, 0);
+        m_session->setApplication(nullptr);
+        m_session->setParent(nullptr);
     }
 
-    m_surface = surface;
+    m_session = session;
 
-    if (m_surface) {
-        m_surface->setApplication(this);
-        m_surface->setParent(this);
+    if (m_session) {
+        m_session->setApplication(this);
+        m_session->setParent(this);
+        connect(this, &ApplicationInfo::screenshotChanged, m_session, [this](const QUrl& screenshot) {
+            m_session->setScreenshot(screenshot);
+        });
     }
 
-    Q_EMIT surfaceChanged(m_surface);
-}
-
-void ApplicationInfo::addPromptSurface(MirSurfaceItem* surface)
-{
-    insertPromptSurface(m_promptSurfaces->count(), surface);
-}
-
-void ApplicationInfo::insertPromptSurface(uint index, MirSurfaceItem* surface)
-{
-    qDebug() << "ApplicationInfo::insertPromptSurface - " << surface->name() << " to " << name() << " @  " << index;
-
-    surface->setApplication(this);
-    m_promptSurfaces->insertSurface(index, surface);
-}
-
-void ApplicationInfo::removeSurface(MirSurfaceItem* surface)
-{
-    qDebug() << "Application::removeSurface - " << surface->name() << " from " << name();
-
-    if (m_surface == surface) {
-        setSurface(nullptr);
-    } else {
-        m_promptSurfaces->removeSurface(surface);
-        surface->setApplication(nullptr);
-    }
-}
-
-MirSurfaceItemModel* ApplicationInfo::promptSurfaces() const
-{
-    return m_promptSurfaces;
+    Q_EMIT sessionChanged(m_session);
 }

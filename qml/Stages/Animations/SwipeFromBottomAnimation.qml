@@ -19,20 +19,20 @@ import QtQuick 2.0
 BaseSurfaceAnimation {
     id: animation
 
-    outChanges: [ AnchorChanges { target: animation.surface; anchors.top: animation.parent.bottom } ]
+    outChanges: [ AnchorChanges { target: animation.session; anchors.top: animation.parent.bottom } ]
     outAnimations: [
         SequentialAnimation {
             PropertyAction { target: animation.parent; property: "clip"; value: true }
             AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.surface; property: "visible"; value: !animation.parent.removing }
+            PropertyAction { target: animation.session; property: "visible"; value: !animation.parent.removing }
             PropertyAction { target: animation.parent; property: "clip"; value: false }
-            ScriptAction { script: { if (animation.parent.removing) animation.surface.release(); } }
+            ScriptAction { script: { if (animation.parent.removing) animation.session.release(); } }
         }
     ]
 
     inChanges: [
         AnchorChanges {
-            target: animation.surface;
+            target: animation.session;
             anchors.top: animation.parent.top
             anchors.right: undefined
             anchors.bottom: undefined

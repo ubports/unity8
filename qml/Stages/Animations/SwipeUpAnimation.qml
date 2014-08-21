@@ -22,16 +22,16 @@ BaseSurfaceAnimation {
     outAnimations: [
         SequentialAnimation {
             PropertyAction { target: animation.parent; property: "clip"; value: true }
-            PropertyAction { target: animation.surface; property: "visible"; value: true }
+            PropertyAction { target: animation.session; property: "visible"; value: true }
             AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
             PropertyAction { target: animation.parent; property: "clip"; value: false }
-            ScriptAction { script: { if (animation.parent.removing) animation.surface.release(); } }
+            ScriptAction { script: { if (animation.parent.removing) animation.session.release(); } }
         }
     ]
 
     inChanges: [
         AnchorChanges {
-            target: animation.surface;
+            target: animation.session;
             anchors.top: undefined
             anchors.right: undefined
             anchors.bottom: animation.parent.top
@@ -42,7 +42,7 @@ BaseSurfaceAnimation {
         SequentialAnimation {
             PropertyAction { target: animation.parent; property: "clip"; value: true }
             AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.surface; property: "visible"; value: false}
+            PropertyAction { target: animation.session; property: "visible"; value: false}
             PropertyAction { target: animation.parent; property: "clip"; value: false }
         }
     ]
