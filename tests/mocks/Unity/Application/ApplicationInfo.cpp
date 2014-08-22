@@ -55,7 +55,7 @@ ApplicationInfo::~ApplicationInfo()
 
 void ApplicationInfo::createSession()
 {
-    setSession(SessionManager::singleton()->createSession(name(), screenshot()));
+    setSession(SessionManager::singleton()->createSession(appId(), screenshot()));
 }
 
 void ApplicationInfo::setSession(MirSessionItem* session)

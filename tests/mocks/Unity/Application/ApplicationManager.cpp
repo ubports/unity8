@@ -343,129 +343,111 @@ void ApplicationManager::buildListOfAvailableApplications()
 {
     ApplicationInfo *application;
 
-    application = new ApplicationInfo(this);
-    application->setAppId("unity8-dash");
+    application = new ApplicationInfo("unity8-dash", this);
     application->setName("Unity 8 Mock Dash");
     application->setIcon(QUrl("unity8-dash"));
     application->setStage(ApplicationInfo::MainStage);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("dialer-app");
+    application = new ApplicationInfo("dialer-app", this);
     application->setName("Dialer");
     application->setIcon(QUrl("dialer"));
     application->setStage(ApplicationInfo::SideStage);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("camera-app");
+    application = new ApplicationInfo("camera-app", this);
     application->setName("Camera");
     application->setIcon(QUrl("camera"));
     application->setFullscreen(true);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("gallery-app");
+    application = new ApplicationInfo("gallery-app", this);
     application->setName("Gallery");
     application->setIcon(QUrl("gallery"));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("facebook-webapp");
+    application = new ApplicationInfo("facebook-webapp", this);
     application->setName("Facebook");
     application->setIcon(QUrl("facebook"));
     application->setStage(ApplicationInfo::SideStage);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("webbrowser-app");
+    application = new ApplicationInfo("webbrowser-app", this);
     application->setFullscreen(true);
     application->setName("Browser");
     application->setIcon(QUrl("browser"));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("twitter-webapp");
+    application = new ApplicationInfo("twitter-webapp", this);
     application->setName("Twitter");
     application->setIcon(QUrl("twitter"));
     application->setStage(ApplicationInfo::SideStage);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("gmail-webapp");
+    application = new ApplicationInfo("gmail-webapp", this);
     application->setName("GMail");
     application->setIcon(QUrl("gmail"));
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("ubuntu-weather-app");
+    application = new ApplicationInfo("ubuntu-weather-app", this);
     application->setName("Weather");
     application->setIcon(QUrl("weather"));
     application->setStage(ApplicationInfo::SideStage);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("notes-app");
+    application = new ApplicationInfo("notes-app", this);
     application->setName("Notepad");
     application->setIcon(QUrl("notepad"));
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("calendar-app");
+    application = new ApplicationInfo("calendar-app", this);
     application->setName("Calendar");
     application->setIcon(QUrl("calendar"));
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("mediaplayer-app");
+    application = new ApplicationInfo("mediaplayer-app", this);
     application->setName("Media Player");
     application->setIcon(QUrl("mediaplayer-app"));
     application->setFullscreen(true);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("evernote");
+    application = new ApplicationInfo("evernote", this);
     application->setName("Evernote");
     application->setIcon(QUrl("evernote"));
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("map");
+    application = new ApplicationInfo("map", this);
     application->setName("Map");
     application->setIcon(QUrl("map"));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("pinterest");
+    application = new ApplicationInfo("pinterest", this);
     application->setName("Pinterest");
     application->setIcon(QUrl("pinterest"));
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("soundcloud");
+    application = new ApplicationInfo("soundcloud", this);
     application->setName("SoundCloud");
     application->setIcon(QUrl("soundcloud"));
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("wikipedia");
+    application = new ApplicationInfo("wikipedia", this);
     application->setName("Wikipedia");
     application->setIcon(QUrl("wikipedia"));
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo(this);
-    application->setAppId("youtube");
+    application = new ApplicationInfo("youtube", this);
     application->setName("YouTube");
     application->setIcon(QUrl("youtube"));
     m_availableApplications.append(application);

@@ -32,9 +32,9 @@ Item {
         delegate: SurfaceContainer {
             id: container
             anchors.fill: parent
-            objectName: application.appId
+            objectName: appId
 
-            surface: model.surface
+            surface: model.session && model.session.surface ? model.session.surface : null
         }
     }
 
@@ -63,19 +63,19 @@ Item {
 
         function test_childSurfaces(data) {
             var unity8dash = findChild(shell, "unity8-dash");
-            compare(unity8dash.childSurfaces.count, 0);
+            compare(unity8dash.childSurfaces.count(), 0);
 
             var i;
             var surfaces = [];
             for (i = 0; i < data.count; i++) {
-                surfaces.push(ApplicationTest.addChildSurface("unity8-dash", 0, Qt.resolvedUrl("Dash/artwork/music-player-design.png")));
-                compare(unity8dash.childSurfaces.count, i+1);
+                surfaces.push(ApplicationTest.addChildSurface("unity8-dash", 0, 0, Qt.resolvedUrl("Dash/artwork/music-player-design.png")));
+                compare(unity8dash.childSurfaces.count(), i+1);
             }
 
             surfaceSpy.clear();
             for (i = data.count-1; i >= 0; i--) {
                 ApplicationTest.removeSurface(surfaces[i]);
-                tryCompare(unity8dash.childSurfaces, "count", i);
+                tryCompareFunction(function() { return unity8dash.childSurfaces.count(); }, i);
             }
             tryCompare(surfaceSpy, "count", data.count)
         }
@@ -89,7 +89,7 @@ Item {
 
         function test_tieredChildSurfaces(data) {
             var unity8dash = findChild(shell, "unity8-dash");
-            compare(unity8dash.childSurfaces.count, 0);
+            compare(unity8dash.childSurfaces.count(), 0);
 
             var i;
             var surfaces = [];
@@ -97,10 +97,10 @@ Item {
             var delegate;
             var surfaceContainer = unity8dash;
             for (i = 0; i < data.count; i++) {
-                lastSurfaceId = ApplicationTest.addChildSurface("unity8-dash", lastSurfaceId, Qt.resolvedUrl("Dash/artwork/music-player-design.png"))
+                lastSurfaceId = ApplicationTest.addChildSurface("unity8-dash", 0, lastSurfaceId, Qt.resolvedUrl("Dash/artwork/music-player-design.png"))
                 surfaces.push(lastSurfaceId);
 
-                compare(surfaceContainer.childSurfaces.count, 1);
+                compare(surfaceContainer.childSurfaces.count(), 1);
 
                 delegate = findChild(surfaceContainer, "childDelegate0");
                 surfaceContainer = findChild(delegate, "surfaceContainer");
@@ -111,7 +111,7 @@ Item {
                 ApplicationTest.removeSurface(surfaces[i]);
             }
 
-            compare(unity8dash.childSurfaces.count, 0);
+            compare(unity8dash.childSurfaces.count(), 0);
             tryCompare(surfaceSpy, "count", data.count)
         }
     }

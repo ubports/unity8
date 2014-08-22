@@ -21,7 +21,7 @@ Item {
     id: root
     objectName: "sessionContainer"
     property Item session
-    property var children: session ? session.childSessions : 0
+    property var childSessions: session ? session.childSessions : 0
     property bool removing: false
     property alias surface: surfaceContainer.surface
 
@@ -45,17 +45,11 @@ Item {
     }
 
     Repeater {
-        model: root.children
+        model: root.childSessions
 
         delegate: Loader {
             objectName: "childDelegate" + index
-            anchors {
-                fill: root
-                topMargin: root.surface.anchors.topMargin
-                rightMargin: root.surface.anchors.rightMargin
-                bottomMargin: root.surface.anchors.bottomMargin
-                leftMargin: root.surface.anchors.leftMargin
-            }
+            anchors.fill: surfaceContainer
             z: 4
 
             // Only way to do recursive qml items.
@@ -67,6 +61,7 @@ Item {
             Connections {
                 target: modelData
                 onRemoved: {
+                    item.removing = true;
                     item.animateOut();
                 }
             }

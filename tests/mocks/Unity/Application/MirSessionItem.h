@@ -56,6 +56,7 @@ Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(MirSessionItem*);
     void removed();
+    void aboutToBeDestroyed();
 
 public Q_SLOTS:
     void createSurface();

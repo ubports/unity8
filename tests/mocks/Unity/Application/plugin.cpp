@@ -23,6 +23,7 @@
 #include "MirSurfaceItem.h"
 #include "MirSurfaceItemModel.h"
 #include "SurfaceManager.h"
+#include "SessionManager.h"
 #include "ApplicationTestInterface.h"
 
 #include <qqml.h>
@@ -38,6 +39,12 @@ static QObject* surfaceManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEng
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
     return SurfaceManager::singleton();
+}
+
+static QObject* sessionManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    return SessionManager::singleton();
 }
 
 ApplicationTestInterface* s_appTestInterface = nullptr;
@@ -68,6 +75,7 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
     qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
+    qmlRegisterSingletonType<SessionManager>(uri, 0, 1, "SessionManager", sessionManagerSingleton);
     qmlRegisterSingletonType<ApplicationTestInterface>(uri, 0, 1, "ApplicationTest", applicationTestInterface);
 }
 

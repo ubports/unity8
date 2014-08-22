@@ -12,6 +12,9 @@ set(FakeUnityApplicationQml_SOURCES
     SessionManager.cpp
     SurfaceManager.cpp
     VirtualKeyboard.cpp
+    MirItemModel.h
+    MirSurfaceItemModel.h
+    MirSessionItemModel.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
 )

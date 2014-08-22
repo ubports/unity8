@@ -31,7 +31,7 @@ Item {
     property alias swipeToCloseEnabled: dragArea.enabled
     property alias surface: surfaceContainer.surface
 
-    readonly property bool isFullscreen: surface !== null && session.anchors.topMargin == 0
+    readonly property bool isFullscreen: session.anchors.topMargin === 0
 
     signal clicked()
     signal closed()
@@ -43,11 +43,11 @@ Item {
         session: model.session
 
         Binding {
-            target: surface
+            target: session
             property: "anchors.topMargin"
             value: {
                 return surface == null ||
-                       surfaceContainer.surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
+                       surface.state === MirSurfaceItem.Fullscreen ? 0 : maximizedAppTopMargin;
             }
         }
 

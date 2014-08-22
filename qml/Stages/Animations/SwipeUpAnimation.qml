@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 
-BaseSurfaceAnimation {
+BaseSessionAnimation {
     id: animation
 
     outAnimations: [

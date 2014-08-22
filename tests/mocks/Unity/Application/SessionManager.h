@@ -31,6 +31,10 @@ public:
 
     MirSessionItem* createSession(const QString& name, const QUrl& screenshot);
 
+Q_SIGNALS:
+    void sessionCreated(MirSessionItem *session);
+    void sessionDestroyed(MirSessionItem *session);
+
 private:
     static SessionManager *the_session_manager;
 };

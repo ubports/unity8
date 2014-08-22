@@ -85,7 +85,7 @@ public:
         return roleNames;
     }
 
-private:
+protected:
     void move(int from, int to)
     {
         if (from == to) return;

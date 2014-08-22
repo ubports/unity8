@@ -39,7 +39,10 @@ MirSessionItem *SessionManager::createSession(const QString& name,
                                               const QUrl& screenshot)
 {
     MirSessionItem* session = new MirSessionItem(name, screenshot);
-    connect(session, &MirSessionItem::destroyed, this, [&](QObject*) {
+    connect(session, &MirSessionItem::aboutToBeDestroyed, this, [&] {
+        Q_EMIT sessionDestroyed(qobject_cast<MirSessionItem*>(sender()));
     });
+
+    Q_EMIT sessionCreated(session);
     return session;
 }

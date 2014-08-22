@@ -21,7 +21,14 @@
 #include "MirItemModel.h"
 
 class MirSurfaceItem;
-typedef MirItemModel<MirSurfaceItem> MirSurfaceItemModel;
+class MirSurfaceItemModel: public MirItemModel<MirSurfaceItem>
+{
+    Q_OBJECT
+public:
+    MirSurfaceItemModel(QObject *parent = 0): MirItemModel(parent) {}
+
+    Q_INVOKABLE int count() const { return rowCount(); }
+};
 
 Q_DECLARE_METATYPE(MirSurfaceItemModel*)
 

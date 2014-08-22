@@ -22,7 +22,6 @@ Item {
     objectName: "surfaceContainer"
     property Item surface: null
     property var childSurfaces: surface ? surface.childSurfaces : 0
-    property bool removing: false
 
     onSurfaceChanged: {
         console.log("SURFACE " + surface)

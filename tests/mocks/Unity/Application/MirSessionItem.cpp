@@ -59,6 +59,7 @@ MirSessionItem::~MirSessionItem()
 void MirSessionItem::release()
 {
     qDebug() << "MirSessionItem::release " << name();
+    Q_EMIT aboutToBeDestroyed();
 
     if (m_parentSession) {
         m_parentSession->removeChildSession(this);
