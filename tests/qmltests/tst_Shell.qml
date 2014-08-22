@@ -445,6 +445,17 @@ Item {
             touchRelease(shell);
         }
 
+        function test_unlockedProperties() {
+            // Confirm that various properties have the correct values when unlocked
+            tryCompare(shell, "locked", false)
+
+            var launcher = findChild(shell, "launcher")
+            tryCompare(launcher, "available", true)
+
+            var indicators = findChild(shell, "indicators")
+            tryCompare(indicators, "available", true)
+        }
+
         function test_unlockAllModemsOnBoot() {
             unlockAllModemsSpy.clear()
             // actually create an object so we notice the onCompleted signal
