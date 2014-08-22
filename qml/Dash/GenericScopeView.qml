@@ -347,7 +347,8 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: seeAllLabel.doShow ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+                height: baseItem.expandable && !baseItem.headerLink ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+                visible: height != 0
 
                 onClicked: {
                     if (categoryView.expandedCategoryId != baseItem.category) {
@@ -367,8 +368,6 @@ FocusScope {
                     fontSize: "small"
                     font.weight: Font.Bold
                     color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
-                    readonly property bool doShow: baseItem.expandable && !baseItem.headerLink
-                    visible: doShow
                 }
             }
 

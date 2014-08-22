@@ -25,7 +25,7 @@ import "../Components/SearchHistoryModel"
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0);
+    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
 
     property bool showBackButton: false
     property string title
