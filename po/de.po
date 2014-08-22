@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-17 21:46+0000\n"
-"Last-Translator: Phillip Sz <Unknown>\n"
+"PO-Revision-Date: 2014-08-21 16:18+0000\n"
+"Last-Translator: Martin Pitt <martin.pitt@ubuntu.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-18 07:20+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-22 07:39+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
@@ -32,7 +32,7 @@ msgstr "Verknüpfung entfernen"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Sind Sie sicher dass das Telefon ausgeschaltet werden soll?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
@@ -99,7 +99,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:161
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "Zu viele falsche Versuche"
 
 #: qml/Components/Lockscreen.qml:163
 msgid "Please wait"
@@ -164,7 +164,7 @@ msgstr "Senden"
 
 #: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr ""
+msgstr "Dash verwalten"
 
 #: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
@@ -172,7 +172,7 @@ msgstr "Erledigt"
 
 #: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
-msgstr ""
+msgstr "Store"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
@@ -248,7 +248,7 @@ msgstr "Fehlgeschlagen, tippen Sie zum Wiederholen"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "SIM-Karte entsprerren"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
@@ -260,42 +260,46 @@ msgstr "Passwort"
 
 #: qml/Shell.qml:267
 msgid "passcode"
-msgstr ""
+msgstr "Passwort"
 
 #: qml/Shell.qml:269
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "%1 eingeben"
 
 #: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
-msgstr ""
+msgstr "%1 falsch"
 
 #: qml/Shell.qml:272
 msgid "Please re-enter"
-msgstr ""
+msgstr "Bitte neu eingeben"
 
 #: qml/Shell.qml:306
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Falsches Passwort."
 
 #: qml/Shell.qml:307
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Falsche PIN"
 
 #: qml/Shell.qml:308
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Dies ist Ihr letzter Versuch."
 
 #: qml/Shell.qml:310
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Wird das Passwort falsch eingegeben, wird das Telefon auf den Werkszustand "
+"zurückgesetzt und alle Daten werden gelöscht."
 
 #: qml/Shell.qml:311
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Wird die PIN falsch eingegeben, wird das Telefon auf den Werkszustand "
+"zurückgesetzt und alle Daten werden gelöscht."
