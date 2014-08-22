@@ -34,15 +34,21 @@ Rectangle {
         "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
+    ListModel {
+        id: widgetsModel
+    }
+
     property var widgetData: {
         "title": "Title here",
         "collapsed-widgets": 2,
-        "widgets": [
-            { "type": "text", "widgetId" : "text1", "properties" : { "text": longText } },
-            { "type": "table", "widgetId" : "table1", "properties" : tableData },
-            { "type": "text", "widgetId" : "text3", "properties" : { "text": shortText } },
-            { "type": "text", "widgetId" : "text4", "properties" : { "text": longText } }
-        ]
+        "widgets": widgetsModel
+    }
+
+    Component.onCompleted: {
+        widgetsModel.append({"type": "text", "widgetId": "text1", "properties": { "text": longText }});
+        widgetsModel.append({"type": "text", "widgetId": "table1", "properties": { "text": tableData }});
+        widgetsModel.append({"type": "text", "widgetId": "text3", "properties": { "text": shortText }});
+        widgetsModel.append({"type": "text", "widgetId": "text4", "properties": { "text": longText }});
     }
 
     PreviewExpandable {
