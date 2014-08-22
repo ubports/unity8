@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-13 04:53+0000\n"
-"Last-Translator: Tiago Hillebrandt <tiagohillebrandt@gmail.com>\n"
+"PO-Revision-Date: 2014-08-18 14:14+0000\n"
+"Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
+"X-Launchpad-Export-Date: 2014-08-19 06:59+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "Senha: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -98,46 +98,46 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:161
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "Muitas tentativas incorretas"
 
 #: qml/Components/Lockscreen.qml:163
 msgid "Please wait"
-msgstr ""
+msgstr "Por favor, aguarde"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Chamada de emergência"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:61
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "Olá %1"
 
-#: qml/Components/PassphraseLockscreen.qml:61
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "Olá"
 
-#: qml/Components/PinLockscreen.qml:197
+#: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
 msgstr "CANCELAR"
 
-#: qml/Components/PinLockscreen.qml:215
+#: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
 msgstr "FEITO"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "Ver todos"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Pesquisar"
 
@@ -161,15 +161,15 @@ msgstr "Adicionar uma análise"
 msgid "Send"
 msgstr "Enviar"
 
-#: qml/Dash/ScopesOverview.qml:201
+#: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
-msgstr ""
+msgstr "Gerencia painel"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
-msgstr ""
+msgstr "Concluído"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
 msgstr "Loja"
 
@@ -179,7 +179,7 @@ msgstr "Favoritos"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Tudo"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -255,46 +255,50 @@ msgstr "Roaming"
 
 #: qml/Shell.qml:267
 msgid "passphrase"
-msgstr ""
+msgstr "senha"
 
 #: qml/Shell.qml:267
 msgid "passcode"
-msgstr ""
+msgstr "código de acesso"
 
 #: qml/Shell.qml:269
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "Digite o seu %1"
 
 #: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
-msgstr ""
+msgstr "%1 incorreto"
 
 #: qml/Shell.qml:272
 msgid "Please re-enter"
-msgstr ""
+msgstr "Por favor, digite novamente"
 
 #: qml/Shell.qml:306
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Desculpe, senha incorreta."
 
 #: qml/Shell.qml:307
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Desculpe, código de acesso incorreto."
 
 #: qml/Shell.qml:308
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Esta será a sua última tentativa."
 
 #: qml/Shell.qml:310
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Se a senha for digitada incorretamente, o telefone será restaurado aos "
+"padrões de fábrica e todos os dados pessoais serão apagados."
 
 #: qml/Shell.qml:311
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Se o código de acesso for digitado incorretamente, o telefone será "
+"restaurado aos padrões de fábrica e todos os dados pessoais serão apagados."

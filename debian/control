@@ -54,6 +54,7 @@ Homepage: http://launchpad.net/unity
 # and sync up the code again.
 Vcs-Bzr: https://code.launchpad.net/unity8
 Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
+X-Ubuntu-Use-Langpack: yes
 
 Package: indicators-client
 Architecture: amd64 armhf i386
@@ -168,7 +169,7 @@ Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: accountsservice-ubuntu-schemas,
-         gsettings-ubuntu-schemas,
+         gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
          libunity-core-6.0-9,
          pay-service,
