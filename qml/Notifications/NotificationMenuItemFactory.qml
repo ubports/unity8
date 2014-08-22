@@ -127,6 +127,11 @@ Loader {
             onCancel: {
                 menuModel.activate(menuIndex, false);
             }
+
+            onEmergencyCall: {
+                shell.activateApplication("dialer-app")
+                menuModel.activate(menuIndex, false)
+            }
         }
     }
 }
