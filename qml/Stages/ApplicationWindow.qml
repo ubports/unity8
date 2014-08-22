@@ -137,7 +137,7 @@ Item {
 
         delegate: SurfaceContainer {
             anchors {
-                fill: container
+                fill: surfaceContainer
             }
 
             surface: modelData
