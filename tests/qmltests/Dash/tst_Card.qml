@@ -222,6 +222,7 @@ Rectangle {
 
         function test_card_binding(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
             waitForRendering(card);
 
             tryCompareFunction(function() { return testCase[data.object] !== null }, true);
@@ -252,6 +253,8 @@ Rectangle {
 
         function test_card_size(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
+            waitForRendering(card);
 
             if (data.hasOwnProperty("card_layout")) {
                 cardTool.template['card-layout'] = data.card_layout;
@@ -284,6 +287,7 @@ Rectangle {
 
         function test_art_size(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
             if (data.hasOwnProperty("size")) {
                 cardTool.template['card-size'] = data.size;
                 cardTool.templateChanged();
@@ -315,6 +319,7 @@ Rectangle {
 
         function test_art_shape_fixed_size() {
             selector.selectedIndex = 6;
+            waitForRendering(selector);
             card.fixedArtShapeSize = Qt.size( units.gu(8), units.gu(4) );
             waitForRendering(card);
             tryCompare(art, "width", units.gu(8));
@@ -331,6 +336,7 @@ Rectangle {
 
         function test_art_layout(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
             waitForRendering(card);
 
             tryCompare(headerRow, "x", data.left());
@@ -349,6 +355,7 @@ Rectangle {
 
         function test_header_layout(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
             waitForRendering(card);
 
             tryCompareFunction(function() { return testCase.headerRow.y === data.top() }, true);
@@ -364,7 +371,7 @@ Rectangle {
 
         function test_summary_layout(data) {
             selector.selectedIndex = data.index;
-
+            waitForRendering(selector);
             waitForRendering(card);
 
             tryCompareFunction(function() { return art.height > 0 && testCase.summary.y === data.top() }, true);
@@ -372,6 +379,8 @@ Rectangle {
 
         function test_art_visibility() {
             selector.selectedIndex = 8;
+            waitForRendering(selector);
+            waitForRendering(card);
 
             compare(testCase.artImage, null);
             compare(testCase.art, null);
@@ -394,6 +403,7 @@ Rectangle {
 
         function test_background(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
 
             if (data.hasOwnProperty("background")) {
                 card.cardData["background"] = data.background;
@@ -430,6 +440,8 @@ Rectangle {
 
         function test_font_weights(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
+            waitForRendering(card);
 
             tryCompare(testCase.title.font, "weight", data.weight);
         }
@@ -453,6 +465,7 @@ Rectangle {
 
         function test_fontColor(data) {
             selector.selectedIndex = 10;
+            waitForRendering(selector);
             waitForRendering(card);
 
             background.color = data.tag;
@@ -475,6 +488,7 @@ Rectangle {
 
         function test_emblemIcon(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
             waitForRendering(card);
 
             var emblemIcon = findChild(card, "emblemIcon");
@@ -491,6 +505,7 @@ Rectangle {
 
         function test_mascotShape(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
             waitForRendering(card);
 
             var shape = findChild(card, "mascotShapeLoader");
@@ -501,6 +516,8 @@ Rectangle {
 
         function test_touchdown_visibility() {
             selector.selectedIndex = 0;
+            waitForRendering(selector);
+            waitForRendering(card);
 
             var touchdown = findChild(card, "touchdown");
 
@@ -524,6 +541,7 @@ Rectangle {
 
         function test_paddings(data) {
             selector.selectedIndex = data.index;
+            waitForRendering(selector);
             waitForRendering(card);
 
             if (title) var titleToCard = title.mapToItem(card, 0, 0, title.width, title.height);
