@@ -413,7 +413,8 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
     }
     QString appId = details.value("id").toString();
 
-    if (findDesktopFile(appId).isEmpty()) {
+    QString desktopFile = findDesktopFile(appId);
+    if (desktopFile.isEmpty()) {
         return;
     }
 
@@ -422,10 +423,13 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
         delete item;
     }
 
-    item = new LauncherBackendItem();
-
-    item->displayName = details.value("name").toString();
-    item->icon = details.value("icon").toString();
+    if (qgetenv("USER") == "lightdm") {
+        item = new LauncherBackendItem();
+        item->displayName = details.value("name").toString();
+        item->icon = details.value("icon").toString();
+    } else {
+        item = parseDesktopFile(desktopFile);
+    }
     item->count = details.value("count").toInt();
     item->countVisible = details.value("countVisible").toBool();
 
