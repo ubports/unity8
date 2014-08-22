@@ -34,9 +34,9 @@ AbstractButton {
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
 
-    visible: root.currentNavigation != null
+    visible: height != 0
 
-    height: visible ? units.gu(5) : 0
+    height: root.currentNavigation != null ? units.gu(5) : 0
 
     onClicked: {
         navigationListView.updateMaxHeight();

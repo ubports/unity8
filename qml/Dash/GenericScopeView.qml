@@ -142,6 +142,7 @@ FocusScope {
         objectName: "categoryListView"
 
         x: previewListView.open ? -width : 0
+        visible: x != -width
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
         height: parent.height
@@ -346,7 +347,7 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+                height: seeAllLabel.doShow ? seeAllLabel.font.pixelSize + units.gu(6) : 0
 
                 onClicked: {
                     if (categoryView.expandedCategoryId != baseItem.category) {
@@ -366,7 +367,8 @@ FocusScope {
                     fontSize: "small"
                     font.weight: Font.Bold
                     color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
-                    visible: baseItem.expandable && !baseItem.headerLink
+                    readonly property bool doShow: baseItem.expandable && !baseItem.headerLink
+                    visible: doShow
                 }
             }
 

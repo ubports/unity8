@@ -25,7 +25,7 @@ import "../Components/SearchHistoryModel"
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
+    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0);
 
     property bool showBackButton: false
     property string title
@@ -34,7 +34,7 @@ Item {
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
-    property alias showSignatureLine: bottomBorder.visible
+    property bool showSignatureLine: true
 
     property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
@@ -346,6 +346,7 @@ Item {
 
     BorderImage {
         id: bottomBorder
+        visible: showSignatureLine
         anchors {
             top: headerContainer.bottom
             left: parent.left

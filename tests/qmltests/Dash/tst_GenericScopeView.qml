@@ -274,6 +274,7 @@ Item {
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.previewListView, "open", true);
                 tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(findChild(genericScopeView, "categoryListView"), "visible", false);
             }
 
             function closePreview() {
@@ -281,6 +282,9 @@ Item {
                 mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
 
                 tryCompare(testCase.previewListView, "open", false);
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                tryCompare(categoryListView, "visible", true);
+                tryCompare(categoryListView, "x", 0);
             }
 
             function test_previewOpenClose() {
