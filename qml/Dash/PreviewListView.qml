@@ -26,6 +26,8 @@ Item {
     property var scope: null
     property var scopeStyle: null
 
+    property alias showSignatureLine: header.showSignatureLine
+
     property alias open: previewListView.open
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
