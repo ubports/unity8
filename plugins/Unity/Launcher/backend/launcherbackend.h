@@ -166,6 +166,7 @@ Q_SIGNALS:
     void progressChanged(const QString &appId, int progress) const;
     void countChanged(const QString &appId, int count) const;
     void countVisibleChanged(const QString &appId, bool visible) const;
+    void appUninstalled(const QString &appId);
 
 private:
     QString findDesktopFile(const QString &appId) const;
@@ -177,6 +178,7 @@ private:
     bool isDefaultsItem(const QList<QVariantMap> &apps) const;
     void syncFromAccounts();
     void syncToAccounts();
+    void refresh();
 
     QList<QString> m_storedApps;
     mutable QHash<QString, LauncherBackendItem*> m_itemCache;
