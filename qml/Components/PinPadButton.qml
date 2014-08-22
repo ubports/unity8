@@ -15,62 +15,48 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
-Item {
+AbstractButton {
     id: root
     opacity: enabled ? 1 : 0.6
 
     property alias text: label.text
-    property alias subText: subTextLabel.text
     property string iconName
 
-    signal clicked()
-
-    Column {
-        anchors.centerIn: parent
-        width: parent.width
-        height: childrenRect.height
-
-        Item {
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            height: label.visible || icon.visible ? Math.max(label.height, icon.height) : 0
-
-            Label {
-                id: label
-                anchors.centerIn: parent
-                width: parent.width
-                horizontalAlignment: Text.AlignHCenter
-                color: "#f3f3e7"
-                fontSize: "large"
-                font.weight: Font.DemiBold
-                visible: text.length > 0
-            }
-
-            Icon {
-                id: icon
-                height: units.gu(3)
-                width: height
-                anchors.centerIn: parent
-                name: root.iconName
-                color: "#f3f3e7"
-                visible: name.length > 0
-            }
-        }
-        Label {
-            id: subTextLabel
-            fontSize: "small"
-            color: "#f3f3e7"
-            anchors.horizontalCenter: parent.horizontalCenter
-            visible: text.length > 0
+    UbuntuShape {
+        anchors.fill: parent
+        opacity: root.pressed ? 1 : 0
+        Behavior on opacity {
+            UbuntuNumberAnimation {}
         }
     }
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: root.clicked()
+    Label {
+        id: label
+        anchors.centerIn: parent
+        horizontalAlignment: Text.AlignHCenter
+        color: "#f3f3e7"
+        fontSize: "x-large"
+        font.weight: Font.DemiBold
+        visible: text.length > 0
+        scale: root.pressed ? 0.9 : 1
+        Behavior on scale {
+            UbuntuNumberAnimation {}
+        }
+    }
+
+    Icon {
+        id: icon
+        height: units.gu(3)
+        width: height
+        anchors.centerIn: parent
+        name: root.iconName
+        color: "#f3f3e7"
+        visible: name.length > 0
+        scale: root.pressed ? 0.9 : 1
+        Behavior on scale {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration }
+        }
     }
 }

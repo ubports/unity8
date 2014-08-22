@@ -274,15 +274,19 @@ Item {
 
         onShowPrompt: {
             if (greeter.narrowMode) {
-                var promptText = text.toLowerCase()
                 if (isDefaultPrompt) {
-                    promptText = lockscreen.alphaNumeric ?
-                                 i18n.tr("passphrase") : i18n.tr("passcode")
+                    if (lockscreen.alphaNumeric) {
+                        lockscreen.infoText = i18n.tr("Enter your passphrase")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase")
+                    } else {
+                        lockscreen.infoText = i18n.tr("Enter your PIN")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect PIN")
+                    }
+                } else {
+                    lockscreen.infoText = i18n.tr("Enter your %1").arg(text.toLowerCase())
+                    lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
                 }
-                lockscreen.placeholderText = i18n.tr("Enter your %1").arg(promptText)
-                lockscreen.wrongPlaceholderText = i18n.tr("Incorrect %1").arg(promptText) +
-                                                  "\n" +
-                                                  i18n.tr("Please re-enter")
+
                 lockscreen.show();
             }
         }
