@@ -34,6 +34,7 @@ LauncherModel::LauncherModel(QObject *parent):
 {
     connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));
     connect(m_backend, SIGNAL(progressChanged(QString,int)), SLOT(progressChanged(QString,int)));
+    connect(m_backend, SIGNAL(appUninstalled(QString)), SLOT(requestRemove(QString)));
 
     Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
         LauncherItem *item = new LauncherItem(entry,

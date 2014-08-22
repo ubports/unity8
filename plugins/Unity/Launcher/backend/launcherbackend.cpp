@@ -314,6 +314,19 @@ void LauncherBackend::syncToAccounts()
     }
 }
 
+void LauncherBackend::refresh()
+{
+    QList<QString> removedApps;
+    Q_FOREACH (const QString &appId, m_storedApps) {
+        if (findDesktopFile(appId).isEmpty()) {
+            removedApps << appId;
+        }
+    }
+    Q_FOREACH (const QString &appId, removedApps) {
+        Q_EMIT appUninstalled(appId);
+    }
+}
+
 QString LauncherBackend::findDesktopFile(const QString &appId) const
 {
     int dashPos = -1;
@@ -400,15 +413,23 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
     }
     QString appId = details.value("id").toString();
 
+    QString desktopFile = findDesktopFile(appId);
+    if (desktopFile.isEmpty()) {
+        return;
+    }
+
     LauncherBackendItem *item = m_itemCache.value(appId, nullptr);
     if (item) {
         delete item;
     }
 
-    item = new LauncherBackendItem();
-
-    item->displayName = details.value("name").toString();
-    item->icon = details.value("icon").toString();
+    if (qgetenv("USER") == "lightdm") {
+        item = new LauncherBackendItem();
+        item->displayName = details.value("name").toString();
+        item->icon = details.value("icon").toString();
+    } else {
+        item = parseDesktopFile(desktopFile);
+    }
     item->count = details.value("count").toInt();
     item->countVisible = details.value("countVisible").toBool();
 
@@ -442,6 +463,16 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
     if (message.type() != QDBusMessage::MessageType::MethodCallMessage) {
         return false;
     }
+    // First handle methods of the Launcher interface
+    if (message.interface() == "com.canonical.Unity.Launcher") {
+        if (message.member() == "Refresh") {
+            QDBusMessage reply = message.createReply();
+            refresh();
+            return connection.send(reply);
+        }
+    }
+
+    // Now handle dynamic properties (for launcher emblems)
     if (message.interface() != "org.freedesktop.DBus.Properties") {
         return false;
     }
@@ -491,6 +522,12 @@ QString LauncherBackend::introspect(const QString &path) const
     if (path == "/com/canonical/Unity/Launcher/" || path == "/com/canonical/Unity/Launcher") {
         QString nodes;
 
+        // Add Refresh to introspect
+        nodes = "<interface name=\"com.canonical.Unity.Launcher\">"
+                "<method name=\"Refresh\"/>"
+            "</interface>";
+
+        // Add dynamic properties for launcher emblems
         Q_FOREACH(const QString &appId, m_itemCache.keys()) {
             nodes.append("<node name=\"");
             nodes.append(encodeAppId(appId));
