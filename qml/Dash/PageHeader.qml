@@ -240,6 +240,7 @@ Item {
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
+                separatorBottomSource: ""
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
@@ -348,6 +349,7 @@ Item {
     }
 
     Row {
+        visible: bottomBorder.visible
         spacing: units.gu(.5)
         Repeater {
             objectName: "paginationRepeater"

@@ -463,6 +463,7 @@ Item {
         objectName: "scopesOverviewPreviewListView"
         scope: root.scope
         scopeStyle: overviewScopeStyle
+        showSignatureLine: false
         visible: x != width
         width: parent.width
         height: parent.height
