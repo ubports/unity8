@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-12 19:07+0000\n"
+"PO-Revision-Date: 2014-08-21 09:46+0000\n"
 "Last-Translator: Jānis-Marks Gailis <jm-gailis@fai-vianet.fr>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-22 07:39+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "Parole: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -32,7 +32,7 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Vai esat drošs ka vēlaties izslēgt?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
@@ -98,7 +98,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:163
 msgid "Please wait"
-msgstr ""
+msgstr "Lūdzu, uzgaidiet"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -167,7 +167,7 @@ msgstr "Pabeigts"
 
 #: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
-msgstr ""
+msgstr "Veikals"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
@@ -219,7 +219,7 @@ msgstr "Konference"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
-msgstr ""
+msgstr "Sarakstā..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
@@ -239,7 +239,7 @@ msgstr "Pabeigts"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Neizdevās, spiest lai mēģināt vēlreiz"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -247,7 +247,7 @@ msgstr "Atbloķēt SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Viesabonēšana"
 
 #: qml/Shell.qml:267
 msgid "passphrase"
@@ -260,16 +260,16 @@ msgstr ""
 #: qml/Shell.qml:269
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "Ievadiet jūsu %1"
 
 #: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
-msgstr ""
+msgstr "Nepareizs %1"
 
 #: qml/Shell.qml:272
 msgid "Please re-enter"
-msgstr ""
+msgstr "Lūdzu ievadiet vēlreiz"
 
 #: qml/Shell.qml:306
 msgid "Sorry, incorrect passphrase."
@@ -281,7 +281,7 @@ msgstr ""
 
 #: qml/Shell.qml:308
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Šīs būs jūs pēdējais mēģinājums."
 
 #: qml/Shell.qml:310
 msgid ""

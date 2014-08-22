@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-13 04:57+0000\n"
+"PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sok Sophea <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-21 06:48+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "ពាក្យសម្ងាត់៖ "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -98,46 +98,46 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:161
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "បាន​ព្យាយាម​ខុស​ច្រើន​ដង​ពេក"
 
 #: qml/Components/Lockscreen.qml:163
 msgid "Please wait"
-msgstr ""
+msgstr "សូមរង់ចាំ"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "ការ​ហៅ​ពេល​អាសន្ន"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:243
 msgid "OK"
 msgstr "យល់ព្រម"
 
-#: qml/Components/PassphraseLockscreen.qml:61
+#: qml/Components/PassphraseLockscreen.qml:62
 #, qt-format
 msgid "Hello %1"
 msgstr "សួស្ដី %1"
 
-#: qml/Components/PassphraseLockscreen.qml:61
+#: qml/Components/PassphraseLockscreen.qml:62
 msgid "Hello"
 msgstr "សួស្តី"
 
-#: qml/Components/PinLockscreen.qml:197
+#: qml/Components/PinLockscreen.qml:198
 msgid "CANCEL"
 msgstr "បោះបង់"
 
-#: qml/Components/PinLockscreen.qml:215
+#: qml/Components/PinLockscreen.qml:216
 msgid "DONE"
 msgstr "រួចរាល់"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See less"
 msgstr "មើល​តិច​ជាង"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:358
 msgid "See all"
 msgstr "មើល​ទាំងអស់"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ស្វែង​រក"
 
@@ -161,15 +161,15 @@ msgstr "បន្ថែម​ការ​ពិនិត្យ"
 msgid "Send"
 msgstr "ផ្ញើ"
 
-#: qml/Dash/ScopesOverview.qml:201
+#: qml/Dash/ScopesOverview.qml:200
 msgid "Manage Dash"
 msgstr "គ្រប់គ្រង​ផ្ទាំង"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:405
 msgid "Done"
 msgstr "ធ្វើរួច"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:431
 msgid "Store"
 msgstr "រក្សាទុក"
 
@@ -255,46 +255,52 @@ msgstr "រ៉ូមីង"
 
 #: qml/Shell.qml:267
 msgid "passphrase"
-msgstr ""
+msgstr "ឃ្លា​សម្ងាត់"
 
 #: qml/Shell.qml:267
 msgid "passcode"
-msgstr ""
+msgstr "កូដ​សម្ងាត់"
 
 #: qml/Shell.qml:269
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "បញ្ចូល %1 របស់​អ្នក"
 
 #: qml/Shell.qml:270
 #, qt-format
 msgid "Incorrect %1"
-msgstr ""
+msgstr "មិន​ត្រឹមត្រូវ %1"
 
 #: qml/Shell.qml:272
 msgid "Please re-enter"
-msgstr ""
+msgstr "សូម​បញ្ចូល​ឡើងវិញ"
 
 #: qml/Shell.qml:306
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
 #: qml/Shell.qml:307
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
 #: qml/Shell.qml:308
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "នេះ​គឺ​ការ​ព្យាយាម​លើក​ចុងក្រោយ។"
 
 #: qml/Shell.qml:310
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"បើ​បញ្ចូល​ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ "
+"ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
+"ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
 
 #: qml/Shell.qml:311
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"បើ​បញ្ចូល​កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ "
+"ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
+"ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
