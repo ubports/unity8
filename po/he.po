@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-21 11:36+0200\n"
-"PO-Revision-Date: 2014-07-25 16:26+0000\n"
+"PO-Revision-Date: 2014-08-23 14:19+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-23 07:17+0000\n"
+"X-Launchpad-Export-Date: 2014-08-24 06:46+0000\n"
 "X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "ססמה: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -32,19 +32,19 @@ msgstr "הפרדת קיצור הדרך"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "האם ברצונך לכבות את המכשיר?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "כיבוי"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "הפעלה מחדש"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -96,11 +96,11 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
-msgstr ""
+msgstr "נא להמתין"
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "יותר מדי ניסיונות שגויים"
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
@@ -157,19 +157,19 @@ msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
-msgstr ""
+msgstr "סיימתי"
 
 #: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
-msgstr ""
+msgstr "אחסון"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "מועדפים"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "הכול"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -245,15 +245,15 @@ msgstr ""
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "נדידה"
 
 #: qml/Shell.qml:266
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "נא להזין את מילת הצופן שלך"
 
 #: qml/Shell.qml:267
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "מילת הצופן שגויה, עמך הסליחה."
 
 #: qml/Shell.qml:269
 msgid "Enter your PIN"
@@ -271,15 +271,15 @@ msgstr ""
 
 #: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "מילת הצופן שגויה, עמך הסליחה."
 
 #: qml/Shell.qml:311
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "הצופן שגוי, עם הסליחה."
 
 #: qml/Shell.qml:312
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "זה יהיה הניסיון האחרון שלך."
 
 #: qml/Shell.qml:314
 msgid ""

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-21 11:36+0200\n"
-"PO-Revision-Date: 2014-08-17 20:27+0000\n"
+"PO-Revision-Date: 2014-08-23 20:52+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-23 07:17+0000\n"
+"X-Launchpad-Export-Date: 2014-08-24 06:46+0000\n"
 "X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
@@ -202,11 +202,11 @@ msgstr "Mostrar palavra-passe"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "Introduza o PIN do SIM"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "Desculpe, PIN incorreto"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -295,6 +295,8 @@ msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Se a senha for introduzida incorretamente, o seu telemóvel vai apagar todos "
+"os seus dados pessoais."
 
 #~ msgid "Please enter SIM PIN"
 #~ msgstr "Por favor insira o PIN"
