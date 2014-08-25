@@ -276,6 +276,7 @@ Item {
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
+                tryCompare(testCase.subPageLoader, "visible", true);
             }
 
             function closePreview() {
@@ -283,10 +284,12 @@ Item {
                 mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
 
                 tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
             }
 
             function test_previewOpenClose() {
                 tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
 
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
@@ -371,11 +374,12 @@ Item {
 
                 // open
                 tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
                 var settings = findChild(innerHeader, "settings_header_button");
                 mouseClick(settings, settings.width / 2, settings.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompareFunction(function() { return ("" + subPageLoader.source).indexOf("ScopeSettingsPage.qml") != -1; }, true);
-                compare(genericScopeView.subPageShown, true);
+                tryCompare(genericScopeView, "subPageShown", true);
                 compare(testCase.subPageLoader.subPage, "settings");
                 tryCompare(testCase.subPageLoader, "x", 0);
 
