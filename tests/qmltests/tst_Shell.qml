@@ -460,7 +460,7 @@ Item {
             unlockAllModemsSpy.clear()
             // actually create an object so we notice the onCompleted signal
             var greeter = shellComponent.createObject(root)
-            // TODO reenable when service ready
+            // TODO reenable when service ready (LP: #1361074)
             expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
             greeter.destroy()

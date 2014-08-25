@@ -421,7 +421,7 @@ Item {
                 }
             }
 
-            /* TODO re-enable when the corresponding changes in the service land
+            /* TODO re-enable when the corresponding changes in the service land (LP: #1361074)
             Component.onCompleted: {
                 Connectivity.unlockAllModems()
             } */
