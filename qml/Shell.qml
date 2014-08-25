@@ -421,9 +421,10 @@ Item {
                 }
             }
 
+            /* TODO re-enable when the corresponding changes in the service land
             Component.onCompleted: {
                 Connectivity.unlockAllModems()
-            }
+            } */
 
             onUnlocked: greeter.hide()
             onSelected: {
