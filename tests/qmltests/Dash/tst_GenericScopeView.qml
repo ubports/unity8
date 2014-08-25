@@ -375,14 +375,15 @@ Item {
                 mouseClick(settings, settings.width / 2, settings.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompareFunction(function() { return ("" + subPageLoader.source).indexOf("ScopeSettingsPage.qml") != -1; }, true);
-                compare(genericScopeView.settingsShown, true)
+                compare(genericScopeView.subPageShown, true);
+                compare(genericScopeView.subPage, "settings");
                 tryCompare(testCase.subPageLoader, "x", 0);
 
                 // close
                 var settingsHeader = findChild(testCase.subPageLoader.item, "pageHeader");
                 mouseClick(settingsHeader, units.gu(2), units.gu(2));
                 tryCompare(testCase.subPageLoader, "open", false);
-                tryCompare(genericScopeView, "settingsShown", false);
+                tryCompare(genericScopeView, "subPageShown", false);
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 tryCompare(categoryListView, "x", 0);
             }

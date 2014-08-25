@@ -34,8 +34,7 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     property bool showPageHeader: true
-    readonly property alias previewShown: subPageLoader.previewShown
-    readonly property alias settingsShown: subPageLoader.settingsShown
+    readonly property alias subPageShown: subPageLoader.subPageShown
     property int paginationCount: 0
     property int paginationIndex: 0
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
@@ -471,8 +470,7 @@ FocusScope {
         readonly property var currentItem: item && item.currentItem || null
 
         property string subPage: ""
-        readonly property bool previewShown: visible && subPage == "preview"
-        readonly property bool settingsShown: visible && subPage == "settings"
+        readonly property bool subPageShown: visible && status === Loader.Ready
 
         function openSubPage(page) {
             subPage = page;
