@@ -82,9 +82,9 @@ Item {
         }
 
         onCountChanged: {
-            if (count > 0) {
+            if (count > 0 && initialIndex >= 0) {
                 currentIndex = initialIndex;
-                if (initialIndex >= 0) initialIndex = -1;
+                initialIndex = -1;
             }
         }
 
