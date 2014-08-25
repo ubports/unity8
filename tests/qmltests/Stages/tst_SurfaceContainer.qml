@@ -141,7 +141,7 @@ Rectangle {
             That second surface should be properly sized.
 
             Regression test for https://bugs.launchpad.net/ubuntu/+source/qtmir/+bug/1359819
-         */ 
+         */
         function test_resetSurfaceGetsProperlySized() {
             surfaceCheckbox.checked = true;
             surfaceCheckbox.checked = false;
