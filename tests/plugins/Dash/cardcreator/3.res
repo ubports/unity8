@@ -1,4 +1,4 @@
-AbstractButton {
+AbstractButton { 
                 id: root; 
                 property var template; 
                 property var components; 
@@ -49,6 +49,7 @@ Item  {
                                         source: cardData && cardData["art"] || ""; 
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
+                                        visible: false; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
