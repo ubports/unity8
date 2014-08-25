@@ -106,6 +106,7 @@ void Greeter::authenticate(const QString &username)
     }
 
     d->m_greeter->authenticate(username);
+    Q_EMIT isAuthenticatedChanged();
     Q_EMIT authenticationUserChanged(username);
 }
 
@@ -150,5 +151,6 @@ void Greeter::authenticationCompleteFilter()
         Q_EMIT promptlessChanged();
     }
 
+    Q_EMIT isAuthenticatedChanged();
     Q_EMIT authenticationComplete();
 }

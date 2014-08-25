@@ -63,7 +63,8 @@ ListView {
 
         // make sure there's no opacity-difference between the several
         // elements in a notification
-        layer.enabled: add.running || remove.running || populate.running
+        // FIXME: disabled all transitions because of LP: #1354406 workaround
+        //layer.enabled: add.running || remove.running || populate.running
 
         Component.onCompleted: {
             if (index == 1) {
@@ -79,6 +80,7 @@ ListView {
         }
     }
 
+    // FIXME: disabled all transitions because of LP: #1354406 workaround
     /*populate: Transition {
         UbuntuNumberAnimation {
             property: "opacity"
