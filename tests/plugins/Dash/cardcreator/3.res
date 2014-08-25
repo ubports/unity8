@@ -1,4 +1,4 @@
-AbstractButton { 
+AbstractButton {
                 id: root; 
                 property var template; 
                 property var components; 
@@ -44,12 +44,11 @@ Item  {
                                             height = Qt.binding(function() { return !visible ? 0 : image.height });
                                         } 
                                     } 
-                                    image: Image { 
+                                    image: CroppedImageMinimumSourceSize {
                                         objectName: "artImage"; 
                                         source: cardData && cardData["art"] || ""; 
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
-                                        fillMode: Image.PreserveAspectCrop;
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
