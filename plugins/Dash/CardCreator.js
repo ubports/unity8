@@ -87,6 +87,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                         source: cardData && cardData["art"] || ""; \n\
                                         cache: true; \n\
                                         asynchronous: root.asynchronous; \n\
+                                        visible: false; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                     } \n\
