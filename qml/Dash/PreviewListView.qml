@@ -83,6 +83,7 @@ Item {
 
         onCountChanged: {
             if (count > 0) currentIndex = initialIndex;
+            if (initialIndex >= 0) initialIndex = -1;
         }
 
         delegate: Previews.Preview {

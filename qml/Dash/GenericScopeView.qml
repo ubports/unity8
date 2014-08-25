@@ -106,7 +106,7 @@ FocusScope {
 
     onIsCurrentChanged: {
         if (pageHeaderLoader.item && showPageHeader) {
-             pageHeaderLoader.item.resetSearch();
+            pageHeaderLoader.item.resetSearch();
         }
         subPageLoader.closeSubPage();
     }
@@ -439,7 +439,6 @@ FocusScope {
                     }
 
                     onBackClicked: scopeView.backClicked()
-
                     onSettingsClicked: subPageLoader.openSubPage("settings")
                 }
             }
@@ -474,14 +473,13 @@ FocusScope {
 
         function openSubPage(page) {
             subPage = page;
-            open = true;
         }
 
         function closeSubPage() {
             open = false;
         }
 
-        source: visible && subPage && (subPage == "preview" ? "PreviewListView.qml" : "ScopeSettingsPage.qml") || ""
+        source: subPage && (subPage == "preview" ? "PreviewListView.qml" : "ScopeSettingsPage.qml") || ""
 
         onLoaded: {
             if (status === Loader.Ready) {
@@ -492,16 +490,13 @@ FocusScope {
                     item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex } )
                     item.model = Qt.binding(function() { return subPageLoader.model } )
                 }
+                open = true;
             }
         }
 
         onOpenChanged: pageHeaderLoader.item.unfocus();
 
-        onVisibleChanged: {
-            if (!visible) {
-                subPage = "";
-            }
-        }
+        onVisibleChanged: if (!visible) subPage = "";
 
         Connections {
             target: subPageLoader.item
