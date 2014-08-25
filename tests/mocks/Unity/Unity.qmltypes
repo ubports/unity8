@@ -36,6 +36,10 @@ Module {
         prototype: "unity::shell::scopes::PreviewModelInterface"
         exports: ["Unity/FakePreviewModel 0.2"]
         exportMetaObjectRevisions: [0]
+        Method {
+            name: "setLoaded"
+            Parameter { type: "bool" }
+        }
     }
     Component {
         name: "PreviewStack"
@@ -59,9 +63,9 @@ Module {
     Component {
         name: "ResultsModel"
         prototype: "unity::shell::scopes::ResultsModelInterface"
-        exports: ["Unity/ResultsModel 0.2"]
+        exports: ["Unity/FakeResultsModel 0.2", "Unity/ResultsModel 0.2"]
         isCreatable: false
-        exportMetaObjectRevisions: [0]
+        exportMetaObjectRevisions: [0, 0]
     }
     Component {
         name: "Scope"
