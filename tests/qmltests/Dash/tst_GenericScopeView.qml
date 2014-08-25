@@ -376,7 +376,7 @@ Item {
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompareFunction(function() { return ("" + subPageLoader.source).indexOf("ScopeSettingsPage.qml") != -1; }, true);
                 compare(genericScopeView.subPageShown, true);
-                compare(genericScopeView.subPage, "settings");
+                compare(testCase.subPageLoader.subPage, "settings");
                 tryCompare(testCase.subPageLoader, "x", 0);
 
                 // close
