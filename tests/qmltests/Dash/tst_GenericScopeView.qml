@@ -442,7 +442,7 @@ Item {
                 expectFail("Apps", "Click scope should not have a favorite button");
                 var favoriteAction = findChild(innerHeader, "favorite_header_button");
                 verify(favoriteAction, "Could not find the favorite action.");
-                mouseClick(favoriteAction, 0, 0);
+                mouseClick(favoriteAction, favoriteAction.width / 2, favoriteAction.height / 2);
 
                 tryCompare(genericScopeView.scope, "favorite", !data.favorite);
 
