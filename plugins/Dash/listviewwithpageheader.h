@@ -54,7 +54,7 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
     Q_PROPERTY(bool forceNoClip READ forceNoClip WRITE setForceNoClip NOTIFY forceNoClipChanged)
     Q_PROPERTY(int stickyHeaderHeight READ stickyHeaderHeight NOTIFY stickyHeaderHeightChanged)
     Q_PROPERTY(qreal headerItemShownHeight READ headerItemShownHeight NOTIFY headerItemShownHeightChanged)
-    Q_PROPERTY(int cacheBuffer READ cacheBuffer WRITE setCacheBuffer NOTIFY cacheBufferChanged)
+    Q_PROPERTY(qreal cacheBuffer READ cacheBuffer WRITE setCacheBuffer NOTIFY cacheBufferChanged)
 
     friend class ListViewWithPageHeaderTest;
     friend class ListViewWithPageHeaderTestSection;
