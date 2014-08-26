@@ -34,6 +34,7 @@ Rectangle {
     property real maximizedAppTopMargin
     property bool interactive
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
+    property int orientation
 
     onInverseProgressChanged: {
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
@@ -547,6 +548,18 @@ Rectangle {
                     onClosed: {
                         spreadView.closingIndex = index;
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
+                    }
+
+                    onInteractiveChanged: {
+                        if (isInSideStage) {
+                            appDelegate.orientation = Qt.PortraitOrientation; // FIXME! Need Proper Rotation Support
+                        } else {
+                            if (interactive) {
+                                appDelegate.orientation = Qt.binding( function() { return root.orientation; } );
+                            } else {
+                                appDelegate.orientation = root.orientation; // breaks the binding intentionally
+                            }
+                        }
                     }
 
                     EasingCurve {

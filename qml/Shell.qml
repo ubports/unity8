@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
@@ -167,6 +168,18 @@ Item {
             }
         }
 
+        property int orientation
+        readonly property int deviceOrientation: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
+        onDeviceOrientationChanged: {
+            if (!OrientationLock.enabled)
+                orientation = Screen.orientation;
+        }
+        readonly property bool orientationLockEnabled: OrientationLock.enabled
+        onOrientationLockEnabledChanged: {
+            if (!OrientationLock.enabled)
+                orientation = Screen.orientation;
+        }
+
         Loader {
             id: applicationsDisplayLoader
             anchors.fill: parent
@@ -203,6 +216,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
                 value: launcher.progress
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "orientation"
+                value: stages.orientation
             }
         }
     }

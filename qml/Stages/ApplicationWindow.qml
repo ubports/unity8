@@ -27,6 +27,7 @@ Item {
     // to be set from outside
     property bool interactive: true
     property QtObject application
+    property int orientation
 
     QtObject {
         id: d
@@ -57,6 +58,7 @@ Item {
         property bool surfaceInitialized: false
         onSurfaceChanged: {
             if (surface) {
+                surface.orientation = Qt.binding( function() { return root.orientation; } );
                 surfaceInitTimer.start();
             } else {
                 hadSurface = true;
