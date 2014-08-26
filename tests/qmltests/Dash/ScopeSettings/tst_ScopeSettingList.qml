@@ -33,6 +33,11 @@ Rectangle {
     ScopeSettingList {
         id: scopeSetting
         width: parent.width
+        widgetData: settingData
+    }
+
+    ScopeSettingList {
+        id: scopeSettingFresh
         initialValue: 2
     }
 
@@ -49,19 +54,15 @@ Rectangle {
 
         property var control: findChild(scopeSetting, "control")
 
-        function initTestCase() {
-            scopeSetting.widgetData = settingData;
-        }
-
         function cleanup() {
             control.selectedIndex = 0;
             spy.clear();
         }
 
-        function test_0initialValue() {
-            // this works because is the first test to run
-            tryCompare(control, "selectedIndex", 2);
-            scopeSetting.initialValue = -1;
+        function test_initialValue() {
+            var controlFresh = findChild(scopeSettingFresh, "control");
+            scopeSettingFresh.widgetData = settingData;
+            tryCompare(controlFresh, "selectedIndex", 2);
         }
 
         function test_updated_data() {
