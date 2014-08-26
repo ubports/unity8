@@ -609,8 +609,6 @@ void ListViewWithPageHeader::refill()
     const qreal to = from + height();
     const qreal bufferFrom = from - m_cacheBuffer;
     const qreal bufferTo = to + m_cacheBuffer;
-//     qDebug() << from << to << bufferFrom << bufferTo << m_cacheBuffer;
-
     bool added = addVisibleItems(from, to, false);
     bool removed = removeNonVisibleItems(bufferFrom, bufferTo);
     added |= addVisibleItems(bufferFrom, bufferTo, true);
