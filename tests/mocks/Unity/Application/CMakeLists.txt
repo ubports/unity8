@@ -1,15 +1,13 @@
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=3)
 
 set(FakeUnityApplicationQml_SOURCES
     plugin.cpp
     ApplicationDBusAdaptor.cpp
     ApplicationInfo.cpp
-    ApplicationImage.cpp
     ApplicationManager.cpp
     ApplicationScreenshotProvider.cpp
     MirSurfaceItem.cpp
     SurfaceManager.cpp
-    VirtualKeyboard.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
 )
