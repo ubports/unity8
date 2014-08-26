@@ -15,7 +15,7 @@
  */
 
 #include "plugin.h"
-#include "MockConnectivity.h"
+#include "Connectivity.h"
 
 #include <QtQml>
 
@@ -23,12 +23,12 @@ static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new MockConnectivity();
+    return new Connectivity();
 }
 
 void BackendPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("Ubuntu.Connectivity"));
+    Q_ASSERT(uri == QLatin1String("Unity.Connectivity"));
 
-    qmlRegisterSingletonType<MockConnectivity>(uri, 0, 1, "Connectivity", service_provider);
+    qmlRegisterSingletonType<Connectivity>(uri, 0, 1, "Connectivity", service_provider);
 }
