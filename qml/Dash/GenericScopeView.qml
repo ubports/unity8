@@ -482,24 +482,26 @@ FocusScope {
             open = false;
         }
 
-        source: subPage && (subPage == "preview" ? "PreviewListView.qml" : "ScopeSettingsPage.qml") || ""
-
-        onLoaded: {
-            if (status === Loader.Ready) {
-                item.scope = Qt.binding(function() { return subPageLoader.scope } )
-                item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle } )
-                if (subPage == "preview") {
-                    item.open = Qt.binding(function() { return subPageLoader.open } )
-                    item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex } )
-                    item.model = Qt.binding(function() { return subPageLoader.model } )
-                }
-                open = true;
-            }
+        source: switch(subPage) {
+            case "preview": return "PreviewListView.qml";
+            case "settings": return "ScopeSettingsPage.qml";
+            default: return "";
         }
 
-        onOpenChanged: pageHeaderLoader.item.unfocus();
+        onLoaded: {
+            item.scope = Qt.binding(function() { return subPageLoader.scope; } )
+            item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle; } )
+            if (subPage == "preview") {
+                item.open = Qt.binding(function() { return subPageLoader.open; } )
+                item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
+                item.model = Qt.binding(function() { return subPageLoader.model; } )
+            }
+            open = true;
+        }
 
-        onVisibleChanged: if (!visible) subPage = "";
+        onOpenChanged: pageHeaderLoader.item.unfocus()
+
+        onVisibleChanged: if (!visible) subPage = ""
 
         Connections {
             target: subPageLoader.item

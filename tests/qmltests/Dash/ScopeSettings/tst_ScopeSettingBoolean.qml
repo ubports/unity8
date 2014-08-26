@@ -44,7 +44,7 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingBooleanTest"
+        name: "ScopeSettingBoolean"
         when: windowShown
 
         function test_updated() {

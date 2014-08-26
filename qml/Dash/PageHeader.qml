@@ -249,9 +249,7 @@ Item {
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
-                        onTriggered: {
-                            root.backClicked();
-                        }
+                        onTriggered: root.backClicked()
                     }
 
                     actions: [
@@ -270,20 +268,15 @@ Item {
                             text: i18n.tr("Settings")
                             iconName: "settings"
                             visible: root.settingsEnabled
-                            onTriggered: {
-                                root.settingsClicked()
-                            }
+                            onTriggered: root.settingsClicked()
                         },
                         Action {
                             objectName: "favorite"
                             text: root.favorite ? i18n.tr("Remove from Favorites") : i18n.tr("Add to Favorites")
                             iconName: root.favorite ? "starred" : "non-starred"
                             visible: root.favoriteEnabled
-                            onTriggered: {
-                                root.favoriteClicked()
-                            }
+                            onTriggered: root.favoriteClicked()
                         }
-
                     ]
                 }
 

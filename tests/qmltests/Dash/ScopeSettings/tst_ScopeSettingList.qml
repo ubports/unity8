@@ -32,8 +32,8 @@ Rectangle {
 
     ScopeSettingList {
         id: scopeSetting
-        widgetData: settingData
         width: parent.width
+        widgetData: settingData
     }
 
     SignalSpy {
@@ -44,14 +44,22 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingListTest"
+        name: "ScopeSettingList"
         when: windowShown
 
         property var control: findChild(scopeSetting, "control")
 
-        function init() {
+        function cleanup() {
             control.selectedIndex = 0;
             spy.clear();
+        }
+
+        function test_initialValue() {
+            var newObject = Qt.createQmlObject('import "../../../../qml/Dash/ScopeSettings" \n\
+                                                ScopeSettingList { initialValue: 2; }', root, "dynamicScopeSettingList");
+            newObject.widgetData = settingData;
+            var controlDynamic = findChild(newObject, "control");
+            tryCompare(controlDynamic, "selectedIndex", 2);
         }
 
         function test_updated_data() {

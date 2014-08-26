@@ -45,12 +45,13 @@ Loader {
     //! \endcond
 
     onLoaded: {
-        item.widgetData = Qt.binding(function() { return root.widgetData } )
-        item.scopeStyle = Qt.binding(function() { return root.scopeStyle } )
+        if (item.hasOwnProperty("initialValue")) item.initialValue = root.widgetData.value;
+        item.widgetData = Qt.binding(function() { return root.widgetData; } )
+        item.scopeStyle = Qt.binding(function() { return root.scopeStyle; } )
     }
 
     Connections {
         target: root.item
-        onUpdated: root.updated(value)
+        onUpdated: if (value !== widgetData.value) root.updated(value)
     }
 }

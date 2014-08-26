@@ -35,14 +35,15 @@ ScopeSetting {
             id: label
             anchors {
                 left: parent.left
-                leftMargin: __margins
+                leftMargin: settingMargins
                 right: control.left
                 rightMargin: units.gu(1)
                 verticalCenter: parent.verticalCenter
             }
             text: widgetData.displayName
             elide: Text.ElideMiddle
-            maximumLineCount: 1
+            maximumLineCount: 2
+            wrapMode: Text.Wrap
             color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
         }
 
@@ -51,7 +52,7 @@ ScopeSetting {
             objectName: "control"
             anchors {
                 right: parent.right
-                rightMargin: __margins
+                rightMargin: settingMargins
                 verticalCenter: parent.verticalCenter
             }
             width: root.mode == "number" ? units.gu(8) : units.gu(12)

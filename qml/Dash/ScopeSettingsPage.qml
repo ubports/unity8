@@ -34,7 +34,7 @@ Item {
         width: parent.width
         title: scope ? scope.name : ""
         showBackButton: true
-        scopeStyle: root.scopeStyle || undefined
+        scopeStyle: root.scopeStyle
 
         onBackClicked: root.backClicked()
     }
