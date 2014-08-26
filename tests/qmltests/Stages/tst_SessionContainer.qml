@@ -41,7 +41,7 @@ Item {
     SignalSpy {
         id: sessionSpy
         target: SessionManager
-        signalName: "sessionDestroyed"
+        signalName: "sessionStopping"
     }
 
     UT.UnityTestCase {
