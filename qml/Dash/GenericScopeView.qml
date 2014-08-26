@@ -424,7 +424,7 @@ FocusScope {
                     searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
-                    settingsEnabled: scopeView.scope ? scopeView.scope.settings && scopeView.scope.settings.count > 0 : false
+                    settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
                     scopeStyle: scopeView.scopeStyle
                     paginationCount: scopeView.paginationCount
                     paginationIndex: scopeView.paginationIndex
