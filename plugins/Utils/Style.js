@@ -14,14 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+.pragma library
 
-Button {
-    signal triggeredAction(var actionData)
+/*! \brief Calculate average luminance of the passed colors
 
-    property var data: null
-    objectName: "button" + (data && data.id || "")
-    text: data && data.label || ""
-    onClicked: triggeredAction(data)
+    \note If not fully opaque, luminance is dependant on blending.
+ */
+function luminance() {
+    var sum = 0;
+    // TODO this was originally
+    // for (var k in arguments) {
+    // but for some unkown reason was causing crashes in testDash/testDashContent
+    // investigate when we have some time
+    for (var k = 0; k < arguments.length; ++k) {
+        // only way to convert string to color
+        var c = Qt.lighter(arguments[k], 1.0);
+
+        sum += 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+    }
+
+    return sum / arguments.length;
 }

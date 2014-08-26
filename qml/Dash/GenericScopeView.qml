@@ -144,14 +144,16 @@ FocusScope {
         x: subPageLoader.open ? -width : 0
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
-        height: parent.height
+        height: floatingSeeLess.visible ? parent.height - floatingSeeLess.height + floatingSeeLess.yOffset
+                                        : parent.height
+        clip: height != parent.height
 
         model: scopeView.categories
         forceNoClip: subPageLoader.open
         pixelAligned: true
         interactive: !navigationShown
 
-        property string expandedCategoryId: ""
+        property Item expandedCategoryItem: null
 
         readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
             ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
@@ -161,6 +163,8 @@ FocusScope {
             objectName: "dashCategory" + category
             highlightWhenPressed: false
             showDivider: false
+
+            property Item seeAllButton: seeAll
 
             readonly property bool expandable: {
                 if (categoryView.model.count === 1) return false;
@@ -191,7 +195,7 @@ FocusScope {
                 // This can happen with the VJ that doesn't know how height it will be on creation
                 // so doesn't set expandable until a bit too late for onLoaded
                 if (expandable) {
-                    var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
+                    var shouldExpand = baseItem === categoryView.expandedCategoryItem;
                     baseItem.expand(shouldExpand, false /*animate*/);
                 }
             }
@@ -242,7 +246,7 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (baseItem.expandable) {
-                        var shouldExpand = categoryId === categoryView.expandedCategoryId;
+                        var shouldExpand = baseItem === categoryView.expandedCategoryItem;
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
@@ -279,13 +283,13 @@ FocusScope {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedCategoryIdChanged: {
+                    onExpandedCategoryItemChanged: {
                         collapseAllButExpandedCategory();
                     }
                     function collapseAllButExpandedCategory() {
                         var item = rendererLoader.item;
                         if (baseItem.expandable) {
-                            var shouldExpand = categoryId === categoryView.expandedCategoryId;
+                            var shouldExpand = baseItem === categoryView.expandedCategoryItem;
                             if (shouldExpand != baseItem.expanded) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
                                 var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
@@ -346,13 +350,13 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(4) : 0
 
                 onClicked: {
-                    if (categoryView.expandedCategoryId != baseItem.category) {
-                        categoryView.expandedCategoryId = baseItem.category;
+                    if (categoryView.expandedCategoryItem !== baseItem) {
+                        categoryView.expandedCategoryItem = baseItem;
                     } else {
-                        categoryView.expandedCategoryId = "";
+                        categoryView.expandedCategoryItem = null;
                     }
                 }
 
@@ -433,8 +437,7 @@ FocusScope {
 
                     bottomItem: DashNavigation {
                         scope: scopeView.scope
-                        width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                        anchors.right: parent.right
+                        anchors { left: parent.left; right: parent.right }
                         windowHeight: scopeView.height
                         windowWidth: scopeView.width
                         scopeStyle: scopeView.scopeStyle
@@ -445,6 +448,57 @@ FocusScope {
                     onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
                 }
             }
+        }
+    }
+
+    AbstractButton {
+        id: floatingSeeLess
+        objectName: "floatingSeeLess"
+
+        property Item companionTo: companionBase ? companionBase.seeAllButton : null
+        property Item companionBase: categoryView.expandedCategoryItem
+        property bool showBecausePosition: false
+        property real yOffset: 0
+
+        anchors {
+            left: categoryView.left
+            right: categoryView.right
+        }
+        y: parent.height - height + yOffset
+        height: seeLessLabel.font.pixelSize + units.gu(4)
+        visible: companionTo && showBecausePosition
+
+        onClicked: categoryView.expandedCategoryItem = null;
+
+        function updateVisibility() {
+            var companionPos = companionTo.mapToItem(floatingSeeLess, 0, 0);
+            showBecausePosition = companionPos.y > 0;
+
+            var posToBase = floatingSeeLess.mapToItem(companionBase, 0, -yOffset).y;
+            yOffset = Math.max(0, companionBase.item.collapsedHeight - posToBase);
+            yOffset = Math.min(yOffset, height);
+        }
+
+        Label {
+            id: seeLessLabel
+            text: i18n.tr("See less")
+            anchors {
+                centerIn: parent
+                verticalCenterOffset: units.gu(-0.5)
+            }
+            fontSize: "small"
+            font.weight: Font.Bold
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
+        }
+
+        Connections {
+            target: floatingSeeLess.companionTo ? categoryView : null
+            onContentYChanged: floatingSeeLess.updateVisibility();
+        }
+
+        Connections {
+            target: floatingSeeLess.companionTo
+            onYChanged: floatingSeeLess.updateVisibility();
         }
     }
 

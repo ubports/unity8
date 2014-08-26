@@ -46,10 +46,10 @@ Rectangle {
 
         function test_style_data() {
             return [
-                { tag: "empty", style: "" },
-                { tag: "solid", style: "color:///black" },
-                { tag: "gradient", style: "gradient:///black/red" },
-                { tag: "image", style: "/some/path" },
+                { tag: "empty", style: "", luminance: 0.5 },
+                { tag: "solid", style: "color:///black", luminance: 0 },
+                { tag: "gradient", style: "gradient:///black/red", luminance: 0.1063 },
+                { tag: "image", style: "/some/path", luminance: 0.5 },
             ];
         }
 
@@ -58,6 +58,7 @@ Rectangle {
             expectFail("empty", "Empty style should not create a background.");
             loadedSpy.wait();
             compare(background.item.objectName, data.tag, "Background should be %1".arg(data.style));
+            compare(background.luminance, data.luminance);
         }
 
         function test_solid() {
