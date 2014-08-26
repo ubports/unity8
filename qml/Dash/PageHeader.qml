@@ -249,9 +249,7 @@ Item {
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
-                        onTriggered: {
-                            root.backClicked();
-                        }
+                        onTriggered: root.backClicked()
                     }
 
                     actions: [
@@ -268,9 +266,7 @@ Item {
                             objectName: "settings"
                             iconName: "settings"
                             visible: root.settingsEnabled
-                            onTriggered: {
-                                root.settingsClicked()
-                            }
+                            onTriggered: root.settingsClicked()
                         }
                     ]
                 }

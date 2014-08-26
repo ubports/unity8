@@ -42,7 +42,7 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingWidgetFactoryTest"
+        name: "ScopeSettingWidgetFactory"
         when: windowShown
 
         function test_mapping_data() {
@@ -59,7 +59,7 @@ Rectangle {
             newSettingData.type = data.type;
             scopeSettingsWidgetFactory.widgetData = newSettingData;
 
-            verify(("" + scopeSettingsWidgetFactory.source).indexOf(data.source) != -1);
+            verify((String() + scopeSettingsWidgetFactory.source).indexOf(data.source) != -1);
         }
     }
 }

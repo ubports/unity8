@@ -26,11 +26,12 @@ Item {
     //! Variable used to contain widget's data
     property var widgetData: null
 
-    readonly property real __margins: units.gu(2)
-
     /*! \brief This signal should be emitted when a setting action was updated.
      *
      *  \param value the new setting value.
      */
     signal updated(var value)
+
+    //! \internal
+    readonly property real settingMargins: units.gu(2)
 }

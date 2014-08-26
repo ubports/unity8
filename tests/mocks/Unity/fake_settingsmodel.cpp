@@ -69,8 +69,7 @@ QVariant SettingsModel::data(const QModelIndex& index, int role) const {
     return result;
 }
 
-bool SettingsModel::setData(const QModelIndex &index, const QVariant &value,
-        int role) {
+bool SettingsModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     int row = index.row();
     if (row < m_data.size()) {
         switch (role) {

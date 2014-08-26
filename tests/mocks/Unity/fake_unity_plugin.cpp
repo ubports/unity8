@@ -44,7 +44,7 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scopes>(uri, 0, 2, "Scopes");
     qmlRegisterType<Scope>(uri, 0, 2, "MockScope");
     qmlRegisterUncreatableType<unity::shell::scopes::ScopeInterface>(uri, 0, 2, "Scope", "Can't create Scope object in QML.");
-    qmlRegisterUncreatableType<unity::shell::scopes::SettingsModelInterface>(uri, 0, 2, "Scope", "Can't create SettingsModel object in QML.");
+    qmlRegisterUncreatableType<unity::shell::scopes::SettingsModelInterface>(uri, 0, 2, "SettingsModel", "Can't create SettingsModel object in QML.");
     qmlRegisterUncreatableType<unity::shell::scopes::NavigationInterface>(uri, 0, 2, "Navigation", "Can't create Navigation object in QML.");
     qmlRegisterUncreatableType<unity::shell::scopes::CategoriesInterface>(uri, 0, 2, "Categories", "Can't create Categories object in QML.");
     qmlRegisterUncreatableType<unity::shell::scopes::PreviewModelInterface>(uri, 0, 2, "PreviewModel", "Can't create new PreviewModel in QML. Get them from PreviewStack instance.");

@@ -24,6 +24,8 @@ ScopeSetting {
     // FIXME workaround for: https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1355830
     height: listItem.currentlyExpanded ? listItem.itemHeight * widgetData.properties["values"].length + units.gu(6) : listItem.height
 
+    property int initialValue: -1
+
     ListItem.ItemSelector {
         id: listItem
         objectName: "control"
@@ -34,6 +36,15 @@ ScopeSetting {
         text: widgetData.displayName
         model: widgetData.properties["values"]
 
-        onSelectedIndexChanged: root.updated(selectedIndex)
+        onSelectedIndexChanged: {
+            if (root.initialValue >= 0) {
+                var tmpValue = root.initialValue;
+                root.initialValue = -1;
+                selectedIndex = tmpValue;
+                return;
+            }
+
+            root.updated(selectedIndex)
+        }
     }
 }

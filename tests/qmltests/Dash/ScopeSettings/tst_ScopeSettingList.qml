@@ -44,12 +44,12 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingListTest"
+        name: "ScopeSettingList"
         when: windowShown
 
         property var control: findChild(scopeSetting, "control")
 
-        function init() {
+        function cleanup() {
             control.selectedIndex = 0;
             spy.clear();
         }

@@ -44,13 +44,13 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingStringTest"
+        name: "ScopeSettingString"
         when: windowShown
 
         property var control: findChild(scopeSetting, "control")
         property string newText: "new text to compare"
 
-        function init() {
+        function cleanup() {
             control.focus = false;
             control.text = settingData.value;
             spy.clear();

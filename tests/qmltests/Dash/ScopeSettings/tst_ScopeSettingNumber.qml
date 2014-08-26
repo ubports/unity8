@@ -44,13 +44,13 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "ScopeSettingNumberTest"
+        name: "ScopeSettingNumber"
         when: windowShown
 
         property var control: findChild(scopeSetting, "control")
         property real newNumber: 11.7
 
-        function init() {
+        function cleanup() {
             control.focus = false;
             control.text = settingData.value;
             spy.clear();
@@ -85,7 +85,7 @@ Rectangle {
             verify(control.displayText == newNumber);
         }
 
-        function test_unacceptableInput() {
+        function test_unacceptable_input() {
             mouseClick(control, control.width / 2, control.height / 2);
             control.selectAll();
             control.cut();
