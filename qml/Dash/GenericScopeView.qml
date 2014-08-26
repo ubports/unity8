@@ -305,6 +305,10 @@ FocusScope {
                     onHeightChanged: rendererLoader.updateDelegateCreationRange();
                     onContentHeightChanged: rendererLoader.updateDelegateCreationRange();
                 }
+                Connections {
+                    target: scopeView
+                    onIsCurrentChanged: rendererLoader.updateDelegateCreationRange();
+                }
 
                 function updateDelegateCreationRange() {
                     if (categoryView.moving) {
@@ -321,7 +325,10 @@ FocusScope {
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
                         // TODO do we need item.originY here, test 1300302 once we have a silo
                         // and we can run it on the phone
-                        if (baseItem.y + baseItem.height <= 0) {
+                        if (scopeView.isCurrent) {
+                            item.displayMarginBeginning = 1073741823;
+                            item.displayMarginEnd = 1073741823;
+                        } else if (baseItem.y + baseItem.height <= 0) {
                             // Not visible (item at top of the list viewport)
                             item.displayMarginBeginning = -baseItem.height;
                             item.displayMarginEnd = 0;
