@@ -93,146 +93,146 @@ private Q_SLOTS:
         }
     }
 
-    void testCount_data() {
-        QTest::addColumn<QString>("appId");
-        QTest::addColumn<bool>("setCount");
-        QTest::addColumn<int>("inCount");
-        QTest::addColumn<bool>("countVisible");
-        QTest::addColumn<int>("expectedCount");
+//    void testCount_data() {
+//        QTest::addColumn<QString>("appId");
+//        QTest::addColumn<bool>("setCount");
+//        QTest::addColumn<int>("inCount");
+//        QTest::addColumn<bool>("countVisible");
+//        QTest::addColumn<int>("expectedCount");
 
-        /* Get baseline data on things working */
-        QTest::newRow("Baseline") << "rel-icon" << false << 0 << false << -1;
+//        /* Get baseline data on things working */
+//        QTest::newRow("Baseline") << "rel-icon" << false << 0 << false << -1;
 
-        /* Valid count, but not visible */
-        QTest::newRow("Not visible") << "rel-icon" << true << 42 << false << -1;
+//        /* Valid count, but not visible */
+//        QTest::newRow("Not visible") << "rel-icon" << true << 42 << false << -1;
 
-        /* Turn it on */
-        QTest::newRow("Visible Count") << "rel-icon" << true << 42 << true << 42;
+//        /* Turn it on */
+//        QTest::newRow("Visible Count") << "rel-icon" << true << 42 << true << 42;
 
-        /* Invalide app to load */
-        QTest::newRow("Invalid App ID") << "this-app-doesnt-exist" << true << 42 << true << -1;
-    }
+//        /* Invalide app to load */
+//        QTest::newRow("Invalid App ID") << "this-app-doesnt-exist" << true << 42 << true << -1;
+//    }
 
-    void testCount() {
-        QFETCH(QString, appId);
-        QFETCH(bool, setCount);
-        QFETCH(int, inCount);
-        QFETCH(bool, countVisible);
-        QFETCH(int, expectedCount);
+//    void testCount() {
+//        QFETCH(QString, appId);
+//        QFETCH(bool, setCount);
+//        QFETCH(int, inCount);
+//        QFETCH(bool, countVisible);
+//        QFETCH(int, expectedCount);
 
-        LauncherBackend backend;
+//        LauncherBackend backend;
 
-        if (setCount)
-            backend.setCount(appId, inCount);
-        backend.setCountVisible(appId, countVisible);
+//        if (setCount)
+//            backend.setCount(appId, inCount);
+//        backend.setCountVisible(appId, countVisible);
 
-        QCOMPARE(backend.count(appId), expectedCount);
-    }
+//        QCOMPARE(backend.count(appId), expectedCount);
+//    }
 
-    void testDbusName_data() {
-        QTest::addColumn<QString>("decoded");
-        QTest::addColumn<QString>("encoded");
+//    void testDbusName_data() {
+//        QTest::addColumn<QString>("decoded");
+//        QTest::addColumn<QString>("encoded");
 
-        /* Passthrough test */
-        QTest::newRow("Passthrough") << "fine" << "fine";
+//        /* Passthrough test */
+//        QTest::newRow("Passthrough") << "fine" << "fine";
 
-        /* Number as first characeter */
-        QTest::newRow("Number first") << "31337" << "_331337";
+//        /* Number as first characeter */
+//        QTest::newRow("Number first") << "31337" << "_331337";
 
-        /* Underscore test */
-        QTest::newRow("Underscore test") << "this_is_c_style_namespacing" << "this_5Fis_5Fc_5Fstyle_5Fnamespacing";
+//        /* Underscore test */
+//        QTest::newRow("Underscore test") << "this_is_c_style_namespacing" << "this_5Fis_5Fc_5Fstyle_5Fnamespacing";
 
-        /* Hyphen test */
-        QTest::newRow("Hyphen test") << "typical-application" << "typical_2Dapplication";
+//        /* Hyphen test */
+//        QTest::newRow("Hyphen test") << "typical-application" << "typical_2Dapplication";
 
-        /* Japanese test */
-        QTest::newRow("日本語 test") << "日本語" << "_E6_97_A5_E6_9C_AC_E8_AA_9E";
-    }
+//        /* Japanese test */
+//        QTest::newRow("日本語 test") << "日本語" << "_E6_97_A5_E6_9C_AC_E8_AA_9E";
+//    }
 
-    void testDbusName() {
-        QFETCH(QString, decoded);
-        QFETCH(QString, encoded);
+//    void testDbusName() {
+//        QFETCH(QString, decoded);
+//        QFETCH(QString, encoded);
 
-        QString encodeOut = LauncherBackend::encodeAppId(decoded);
-        QCOMPARE(encoded, encodeOut);
+//        QString encodeOut = LauncherBackend::encodeAppId(decoded);
+//        QCOMPARE(encoded, encodeOut);
 
-        QString decodeOut = LauncherBackend::decodeAppId(encoded);
-        QCOMPARE(decoded, decodeOut);
-    }
+//        QString decodeOut = LauncherBackend::decodeAppId(encoded);
+//        QCOMPARE(decoded, decodeOut);
+//    }
 
-    void testDbusIface_data() {
-        QTest::addColumn<QString>("appId");
-        QTest::addColumn<bool>("setCount");
-        QTest::addColumn<int>("inCount");
-        QTest::addColumn<bool>("countVisible");
-        QTest::addColumn<int>("expectedCount");
+//    void testDbusIface_data() {
+//        QTest::addColumn<QString>("appId");
+//        QTest::addColumn<bool>("setCount");
+//        QTest::addColumn<int>("inCount");
+//        QTest::addColumn<bool>("countVisible");
+//        QTest::addColumn<int>("expectedCount");
 
-        /* Get baseline data on things working */
-        QTest::newRow("Baseline") << "rel-icon" << false << 0 << false << -1;
+//        /* Get baseline data on things working */
+//        QTest::newRow("Baseline") << "rel-icon" << false << 0 << false << -1;
 
-        /* Turn it on */
-        QTest::newRow("Visible Count") << "rel-icon" << true << 42 << true << 42;
+//        /* Turn it on */
+//        QTest::newRow("Visible Count") << "rel-icon" << true << 42 << true << 42;
 
-        /* Invalide app to load */
-        QTest::newRow("Invalid App ID") << "this-app-doesnt-exist" << true << 42 << true << -1;
-    }
+//        /* Invalide app to load */
+//        QTest::newRow("Invalid App ID") << "this-app-doesnt-exist" << true << 42 << true << -1;
+//    }
 
-    void testDbusIface() {
-        QFETCH(QString, appId);
-        QFETCH(bool, setCount);
-        QFETCH(int, inCount);
-        QFETCH(bool, countVisible);
-        QFETCH(int, expectedCount);
+//    void testDbusIface() {
+//        QFETCH(QString, appId);
+//        QFETCH(bool, setCount);
+//        QFETCH(int, inCount);
+//        QFETCH(bool, countVisible);
+//        QFETCH(int, expectedCount);
 
-        QDBusConnection con = QDBusConnection::sessionBus();
-        QDBusMessage message;
-        QDBusMessage reply;
+//        QDBusConnection con = QDBusConnection::sessionBus();
+//        QDBusMessage message;
+//        QDBusMessage reply;
 
-        LauncherBackend backend;
+//        LauncherBackend backend;
 
-        if (setCount) {
-            message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
-                                                     "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
-                                                     "org.freedesktop.DBus.Properties",
-                                                     "Set");
-            QVariantList cargs;
-            cargs.append(QString("com.canonical.Unity.Launcher.Item"));
-            cargs.append(QString("count"));
-            cargs.append(QVariant::fromValue(QDBusVariant(inCount)));
+//        if (setCount) {
+//            message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
+//                                                     "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
+//                                                     "org.freedesktop.DBus.Properties",
+//                                                     "Set");
+//            QVariantList cargs;
+//            cargs.append(QString("com.canonical.Unity.Launcher.Item"));
+//            cargs.append(QString("count"));
+//            cargs.append(QVariant::fromValue(QDBusVariant(inCount)));
 
-            message.setArguments(cargs);
-            reply = con.call(message);
-            QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
-        }
+//            message.setArguments(cargs);
+//            reply = con.call(message);
+//            QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
+//        }
 
-        /* Set countVisible */
-        message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
-                                                 "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
-                                                 "org.freedesktop.DBus.Properties",
-                                                 "Set");
-        QVariantList cvargs;
-        cvargs.append(QString("com.canonical.Unity.Launcher.Item"));
-        cvargs.append(QString("countVisible"));
-        cvargs.append(QVariant::fromValue(QDBusVariant(countVisible)));
+//        /* Set countVisible */
+//        message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
+//                                                 "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
+//                                                 "org.freedesktop.DBus.Properties",
+//                                                 "Set");
+//        QVariantList cvargs;
+//        cvargs.append(QString("com.canonical.Unity.Launcher.Item"));
+//        cvargs.append(QString("countVisible"));
+//        cvargs.append(QVariant::fromValue(QDBusVariant(countVisible)));
 
-        message.setArguments(cvargs);
-        reply = con.call(message);
-        QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
+//        message.setArguments(cvargs);
+//        reply = con.call(message);
+//        QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
 
-        /* Get value */
-        message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
-                                                 "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
-                                                 "org.freedesktop.DBus.Properties",
-                                                 "Get");
-        QVariantList getargs;
-        getargs.append(QString("com.canonical.Unity.Launcher.Item"));
-        getargs.append(QString("count"));
+//        /* Get value */
+//        message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
+//                                                 "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
+//                                                 "org.freedesktop.DBus.Properties",
+//                                                 "Get");
+//        QVariantList getargs;
+//        getargs.append(QString("com.canonical.Unity.Launcher.Item"));
+//        getargs.append(QString("count"));
 
-        message.setArguments(getargs);
-        reply = con.call(message);
-        QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
-        QCOMPARE(reply.arguments()[0].value<QDBusVariant>().variant().toInt(), expectedCount);
-    }
+//        message.setArguments(getargs);
+//        reply = con.call(message);
+//        QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
+//        QCOMPARE(reply.arguments()[0].value<QDBusVariant>().variant().toInt(), expectedCount);
+//    }
 };
 
 QTEST_GUILESS_MAIN(LauncherBackendTest)

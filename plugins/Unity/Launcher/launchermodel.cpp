@@ -19,7 +19,9 @@
 
 #include "launchermodel.h"
 #include "launcheritem.h"
-#include "backend/launcherbackend.h"
+#include "gsettings.h"
+#include "desktopfilehandler.h"
+#include "dbusinterface.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
@@ -29,20 +31,29 @@ using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_backend(new LauncherBackend(this)),
+    m_settings(new GSettings(this)),
+    m_dbusIface(new DBusInterface(this)),
+    m_desktopFileHandler(new DesktopFileHandler(this)),
     m_appManager(0)
 {
-    connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));
-    connect(m_backend, SIGNAL(progressChanged(QString,int)), SLOT(progressChanged(QString,int)));
-    connect(m_backend, SIGNAL(appUninstalled(QString)), SLOT(requestRemove(QString)));
+    connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
+    connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
+    connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
-    Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
+    Q_FOREACH (const QString &entry, m_settings->storedApplications()) {
+        qDebug() << "got stored item:" << entry;
+        if (m_desktopFileHandler->findDesktopFile(entry).isEmpty()) {
+            qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
+            continue;
+        }
+
         LauncherItem *item = new LauncherItem(entry,
-                                              m_backend->displayName(entry),
-                                              m_backend->icon(entry),
+                                              m_desktopFileHandler->displayName(entry),
+                                              m_desktopFileHandler->icon(entry),
                                               this);
         item->setPinned(true);
         m_list.append(item);
+        qDebug() << "Loaded item" << item->name() << item->icon();
     }
 }
 
@@ -73,6 +84,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->pinned();
         case RoleCount:
             return item->count();
+        case RoleCountVisible:
+            return item->countVisible();
         case RoleProgress:
             return item->progress();
         case RoleFocused:
@@ -139,10 +152,16 @@ void LauncherModel::pin(const QString &appId, int index)
         if (index == -1) {
             index = m_list.count();
         }
+
+        if (m_desktopFileHandler->findDesktopFile(appId).isEmpty()) {
+            qWarning() << "Can't pin this application, there is no .destkop file available.";
+            return;
+        }
+
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
-                                              m_backend->displayName(appId),
-                                              m_backend->icon(appId),
+                                              m_desktopFileHandler->displayName(appId),
+                                              m_desktopFileHandler->icon(appId),
                                               this);
         item->setPinned(true);
         m_list.insert(index, item);
@@ -195,25 +214,27 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
 
         // Nope, we don't know this action, let the backend forward it to the application
         } else {
-            m_backend->triggerQuickListAction(appId, actionId);
+            // TODO: forward quicklist action to app, possibly via m_dbusIface
         }
     }
 }
 
 void LauncherModel::setUser(const QString &username)
 {
-    m_backend->setUser(username);
+    Q_UNUSED(username)
+    qWarning() << "This backend doesn't support multiple users";
 }
 
 QString LauncherModel::getUrlForAppId(const QString &appId) const
 {
     // appId is either an appId or a legacy app name.  Let's find out which
-    if (appId.isEmpty())
+    if (appId.isEmpty()) {
         return QString();
+    }
 
-    QString df = m_backend->desktopFile(appId + ".desktop");
-    if (!df.isEmpty())
+    if (!appId.contains("_")) {
         return "application:///" + appId + ".desktop";
+    }
 
     QStringList parts = appId.split('_');
     QString package = parts.value(0);
@@ -273,7 +294,7 @@ void LauncherModel::storeAppList()
             appIds << item->appId();
         }
     }
-    m_backend->setStoredApplications(appIds);
+    m_settings->setStoredApplications(appIds);
 }
 
 int LauncherModel::findApplication(const QString &appId)
@@ -305,6 +326,53 @@ void LauncherModel::countChanged(const QString &appId, int count)
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
         Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+    }
+}
+
+void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
+{
+    int idx = findApplication(appId);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        item->setCountVisible(countVisible);
+        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCountVisible);
+
+        // If countVisible goes to false, and the item is neither pinned nor recent we can drop it
+        if (!countVisible && !item->pinned() && !item->recent()) {
+            beginRemoveRows(QModelIndex(), idx, idx);
+            m_list.takeAt(idx)->deleteLater();
+            endRemoveRows();
+        }
+    } else {
+        // Need to create a new LauncherItem and show the highlight
+        if (countVisible && !m_desktopFileHandler->findDesktopFile(appId).isEmpty()) {
+            LauncherItem *item = new LauncherItem(appId,
+                                                  m_desktopFileHandler->displayName(appId),
+                                                  m_desktopFileHandler->icon(appId));
+            item->setCountVisible(true);
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            m_list.append(item);
+            endInsertRows();
+        }
+    }
+}
+
+void LauncherModel::refresh()
+{
+    QList<LauncherItem*> toBeRemoved;
+    Q_FOREACH (LauncherItem* item, m_list) {
+        if (m_desktopFileHandler->findDesktopFile(item->appId()).isEmpty()) {
+            toBeRemoved << item;
+        } else {
+            int idx = m_list.indexOf(item);
+            item->setName(m_desktopFileHandler->displayName(item->appId()));
+            item->setIcon(m_desktopFileHandler->icon(item->appId()));
+            Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+        }
+    }
+
+    Q_FOREACH (LauncherItem* item, toBeRemoved) {
+        requestRemove(item->appId());
     }
 }
 

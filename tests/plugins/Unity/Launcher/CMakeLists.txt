@@ -25,6 +25,7 @@ add_executable(launcherbackendtestExec
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/gsettings.cpp
     )
 target_link_libraries(launcherbackendtestExec ${GSETTINGS_QT_LDFLAGS})
 qt5_use_modules(launcherbackendtestExec Test Core DBus)
@@ -40,6 +41,7 @@ add_executable(launchermodeltestExec
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launchermodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/gsettings.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp

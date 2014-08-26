@@ -37,26 +37,26 @@ public:
     QString appId() const;
     QString name() const;
     QString icon() const;
-
     bool pinned() const;
-    void setPinned(bool pinned);
-
     bool running() const;
-    void setRunning(bool running);
-
     bool recent() const;
-    void setRecent(bool recent);
-
     int progress() const;
-    void setProgress(int progress);
-
     int count() const;
-    void setCount(int count);
-
+    bool countVisible() const;
     bool focused() const;
-    void setFocused(bool focused);
 
     unity::shell::launcher::QuickListModelInterface *quickList() const;
+
+private:
+    void setName(const QString &name);
+    void setIcon(const QString &icon);
+    void setPinned(bool pinned);
+    void setRunning(bool running);
+    void setRecent(bool recent);
+    void setProgress(int progress);
+    void setCount(int count);
+    void setCountVisible(bool countVisible);
+    void setFocused(bool focused);
 
 Q_SIGNALS:
     void favoriteChanged(bool favorite);
@@ -71,8 +71,11 @@ private:
     bool m_recent;
     int m_progress;
     int m_count;
+    bool m_countVisible;
     bool m_focused;
     QuickListModel *m_quickList;
+
+    friend class LauncherModel;
 };
 
 #endif // LAUNCHERITEM_H

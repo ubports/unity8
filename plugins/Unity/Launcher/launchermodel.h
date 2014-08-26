@@ -20,15 +20,15 @@
 #ifndef LAUNCHERMODEL_H
 #define LAUNCHERMODEL_H
 
-// unity-api
 #include <unity/shell/launcher/LauncherModelInterface.h>
 #include <unity/shell/application/ApplicationManagerInterface.h>
 
-// Qt
 #include <QAbstractListModel>
 
 class LauncherItem;
-class LauncherBackend;
+class GSettings;
+class DesktopFileHandler;
+class DBusInterface;
 
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
@@ -41,7 +41,7 @@ public:
     LauncherModel(QObject *parent = 0);
     ~LauncherModel();
 
-    int rowCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     QVariant data(const QModelIndex &index, int role) const;
 
@@ -55,16 +55,19 @@ public:
     unity::shell::application::ApplicationManagerInterface* applicationManager() const;
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager);
 
+    int findApplication(const QString &appId);
+
 public Q_SLOTS:
     void requestRemove(const QString &appId);
 
 private:
     void storeAppList();
-    int findApplication(const QString &appId);
 
 private Q_SLOTS:
-    void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
+    void countVisibleChanged(const QString &appId, int count);
+    void progressChanged(const QString &appId, int progress);
+    void refresh();
 
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);
@@ -72,7 +75,11 @@ private Q_SLOTS:
 
 private:
     QList<LauncherItem*> m_list;
-    LauncherBackend *m_backend;
+
+    GSettings *m_settings;
+    DBusInterface *m_dbusIface;
+    DesktopFileHandler *m_desktopFileHandler;
+
     ApplicationManagerInterface *m_appManager;
 };
 

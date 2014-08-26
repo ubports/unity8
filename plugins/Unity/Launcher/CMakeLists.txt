@@ -16,8 +16,10 @@ set(QMLLAUNCHERPLUGIN_SRC
     launchermodel.cpp
     launcheritem.cpp
     quicklistmodel.cpp
-    common/quicklistentry.cpp
-    backend/launcherbackend.cpp
+    quicklistentry.cpp
+    dbusinterface.cpp
+    gsettings.cpp
+    desktopfilehandler.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
