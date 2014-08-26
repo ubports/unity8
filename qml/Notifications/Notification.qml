@@ -52,7 +52,7 @@ Item {
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 0
+    opacity: 1
 
     state: {
         var result = "";

@@ -186,6 +186,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         self.click_scope_item(category, app_name)
         preview_list = self.wait_select_single(
             'QQuickLoader', objectName='subPageLoader')
+        preview_list.subPageShown.wait_for(True)
         preview_list.x.wait_for(0)
         return preview_list.select_single(
             Preview, objectName='preview{}'.format(preview_list.currentIndex))

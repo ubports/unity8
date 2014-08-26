@@ -17,7 +17,6 @@
  */
 
 #include "unitymenumodel.h"
-#include <QDebug>
 
 enum MenuRoles {
     LabelRole  = Qt::DisplayRole + 1,
@@ -35,6 +34,10 @@ enum MenuRoles {
 
 UnityMenuModel::UnityMenuModel(QObject *parent)
 :   QAbstractListModel(parent)
+{
+}
+
+UnityMenuModel::~UnityMenuModel()
 {
 }
 
@@ -81,10 +84,6 @@ void UnityMenuModel::removeRow(int row)
     m_modelData.removeAt(row);
 
     endRemoveRows();
-}
-
-UnityMenuModel::~UnityMenuModel()
-{
 }
 
 QByteArray UnityMenuModel::busName() const

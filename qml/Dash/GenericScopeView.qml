@@ -34,8 +34,7 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     property bool showPageHeader: true
-    readonly property alias previewShown: subPageLoader.previewShown
-    readonly property alias settingsShown: subPageLoader.settingsShown
+    readonly property alias subPageShown: subPageLoader.subPageShown
     property int paginationCount: 0
     property int paginationIndex: 0
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
@@ -425,7 +424,7 @@ FocusScope {
                     searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
-                    settingsEnabled: scopeView.scope ? scopeView.scope.settings && scopeView.scope.settings.count > 0 : false
+                    settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
                     favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
                     scope: scopeView.scope
                     scopeStyle: scopeView.scopeStyle
@@ -469,23 +468,21 @@ FocusScope {
 
         readonly property bool processing: item && item.processing || false
         readonly property int count: item && item.count || 0
-        readonly property int currentIndex: item && item.currentIndex || -1
-        readonly property var currentItem: item &&  item.currentItem || null
+        readonly property int currentIndex: item && item.currentIndex || 0
+        readonly property var currentItem: item && item.currentItem || null
 
         property string subPage: ""
-        readonly property bool previewShown: visible && subPage == "preview"
-        readonly property bool settingsShown: visible && subPage == "settings"
+        readonly property bool subPageShown: visible && status === Loader.Ready
 
         function openSubPage(page) {
             subPage = page;
-            open = true;
         }
 
         function closeSubPage() {
             open = false;
         }
 
-        source: visible && subPage && (subPage == "preview" ? "PreviewListView.qml" : "ScopeSettingsPage.qml") || ""
+        source: subPage && (subPage == "preview" ? "PreviewListView.qml" : "ScopeSettingsPage.qml") || ""
 
         onLoaded: {
             if (status === Loader.Ready) {
@@ -496,16 +493,13 @@ FocusScope {
                     item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex } )
                     item.model = Qt.binding(function() { return subPageLoader.model } )
                 }
+                open = true;
             }
         }
 
         onOpenChanged: pageHeaderLoader.item.unfocus();
 
-        onVisibleChanged: {
-            if (!visible) {
-                subPage = "";
-            }
-        }
+        onVisibleChanged: if (!visible) subPage = "";
 
         Connections {
             target: subPageLoader.item
