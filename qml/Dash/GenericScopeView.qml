@@ -196,8 +196,8 @@ FocusScope {
                 }
             }
 
-            onHeightChanged: rendererLoader.updateDelegateCreationRange();
-            onYChanged: rendererLoader.updateDelegateCreationRange();
+            onHeightChanged: rendererLoader.updateRanges();
+            onYChanged: rendererLoader.updateRanges();
 
             Loader {
                 id: rendererLoader
@@ -245,7 +245,7 @@ FocusScope {
                         var shouldExpand = categoryId === categoryView.expandedCategoryId;
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
-                    updateDelegateCreationRange();
+                    updateRanges();
                     if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
                         // Yeah, hackish :/
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
@@ -300,17 +300,17 @@ FocusScope {
                             }
                         }
                     }
-                    onOriginYChanged: rendererLoader.updateDelegateCreationRange();
-                    onContentYChanged: rendererLoader.updateDelegateCreationRange();
-                    onHeightChanged: rendererLoader.updateDelegateCreationRange();
-                    onContentHeightChanged: rendererLoader.updateDelegateCreationRange();
+                    onOriginYChanged: rendererLoader.updateRanges();
+                    onContentYChanged: rendererLoader.updateRanges();
+                    onHeightChanged: rendererLoader.updateRanges();
+                    onContentHeightChanged: rendererLoader.updateRanges();
                 }
                 Connections {
                     target: scopeView
-                    onIsCurrentChanged: rendererLoader.updateDelegateCreationRange();
+                    onIsCurrentChanged: rendererLoader.updateRanges();
                 }
 
-                function updateDelegateCreationRange() {
+                function updateRanges() {
                     if (categoryView.moving) {
                         // Do not update the range if we are overshooting up or down, since we'll come back
                         // to the stable position and delete/create items without any reason
@@ -320,6 +320,11 @@ FocusScope {
                                    categoryView.contentY + categoryView.height > categoryView.contentHeight) {
                             return;
                         }
+                    }
+
+                    if (item && item.hasOwnProperty("visibleRangeBegin")) {
+                        item.visibleRangeBegin = Math.max(-baseItem.y, 0)
+                        item.visibleRangeEnd = item.visibleRangeBegin + Math.min(categoryView.height, rendererLoader.height)
                     }
 
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
