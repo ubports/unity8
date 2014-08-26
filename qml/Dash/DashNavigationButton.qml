@@ -214,6 +214,7 @@ AbstractButton {
         visible: root.showDivider
         anchors {
             top: parent.top
+            topMargin: units.dp(1)
             bottom: parent.bottom
             left: parent.right
             leftMargin: -units.dp(1)
