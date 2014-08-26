@@ -379,13 +379,17 @@ Item {
         height: units.dp(1)
         opacity: 0.6
 
-        // FIXME this should be a shader when bottomContainer.height != 0
+        // FIXME this should be a shader when bottomItem exists
         // to support image backgrounds
         Rectangle {
             anchors.fill: parent
-            color: scopeStyle && bottomContainer.height === 0 ?
-                       Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2) :
-                       "#CCFFFFFF"
+            color: if (bottomItem && bottomItem.background) {
+                       Qt.lighter(Qt.rgba(bottomItem.background.topColor.r,
+                                          bottomItem.background.topColor.g,
+                                          bottomItem.background.topColor.b, 1.0), 1.2);
+                   } else if (!bottomItem && scopeStyle) {
+                       Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2);
+                   } else "#CCFFFFFF"
         }
     }
 

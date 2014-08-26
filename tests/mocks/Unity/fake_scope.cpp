@@ -224,11 +224,17 @@ QVariantMap Scope::customizations() const
         m["background-color"] = "red";
         m["foreground-color"] = "blue";
         m["page-header"] = h;
+    } else if (m_id == "MockScope4") {
+        h["navigation-background"] = QUrl("../../../tests/qmltests/Dash/artwork/background.png");
+        m["page-header"] = h;
     } else if (m_id == "MockScope5") {
         h["background"] = "gradient:///lightgrey/grey";
         h["logo"] = QUrl("../../../tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
         h["divider-color"] = "red";
         h["navigation-background"] = "color:///black";
+        m["page-header"] = h;
+    } else if (m_id == "MockScope6") {
+        h["navigation-background"] = "gradient:///blue/red";
         m["page-header"] = h;
     }
     return m;

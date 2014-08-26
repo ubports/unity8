@@ -34,13 +34,16 @@ Item {
         return null;
     }
 
+    // FIXME this is only here for highlight purposes (see Background.qml, too)
+    readonly property var background: backgroundItem
+
     visible: navigationButton.currentNavigation || altNavigationButton.currentNavigation
 
     height: visible ? units.gu(5) : 0
 
     QtObject {
         id: d
-        readonly property color foregroundColor: scopeStyle.getTextColor(background.luminance)
+        readonly property color foregroundColor: scopeStyle.getTextColor(backgroundItem.luminance)
         readonly property bool bothVisible: altNavigationButton.visible && navigationButton.visible
         readonly property real navigationWidth: root.width >= units.gu(60) ? units.gu(40) : root.width
         readonly property real buttonWidth: navigationWidth / (bothVisible ? 2 : 1)
@@ -56,7 +59,7 @@ Item {
     }
 
     Background {
-        id: background
+        id: backgroundItem
         anchors.fill: parent
         style: scopeStyle ? scopeStyle.navigationBackground : "color:///f5f5f5"
     }
@@ -98,7 +101,7 @@ Item {
 
     Image {
         fillMode: Image.Stretch
-        source: background.luminance > 0.7 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
+        source: backgroundItem.luminance > 0.7 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
         x: navigationButton.listView.height > 0 ? altNavigationButton.x : navigationButton.x
         width: d.buttonWidth
         rotation: 180
