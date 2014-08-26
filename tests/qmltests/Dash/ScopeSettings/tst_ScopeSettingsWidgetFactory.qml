@@ -59,7 +59,7 @@ Rectangle {
             newSettingData.type = data.type;
             scopeSettingsWidgetFactory.widgetData = newSettingData;
 
-            verify((String() + scopeSettingsWidgetFactory.source).indexOf(data.source) != -1);
+            verify((String(scopeSettingsWidgetFactory.source)).indexOf(data.source) != -1);
         }
     }
 }
