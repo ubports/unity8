@@ -21,8 +21,8 @@ import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
 import LightDM 0.1 as LightDM
-import Ubuntu.Connectivity 0.1
 import Unity.Application 0.1
+import Unity.Connectivity 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
@@ -416,11 +416,11 @@ Item {
             compare(panel.fullscreenMode, false);
             ApplicationManager.startApplication("camera-app");
             tryCompare(panel, "fullscreenMode", true);
-            ApplicationManager.startApplication("gallery-app");
+            ApplicationManager.startApplication("dialer-app");
             tryCompare(panel, "fullscreenMode", false);
             ApplicationManager.requestFocusApplication("camera-app");
             tryCompare(panel, "fullscreenMode", true);
-            ApplicationManager.requestFocusApplication("gallery-app");
+            ApplicationManager.requestFocusApplication("dialer-app");
             tryCompare(panel, "fullscreenMode", false);
         }
 
@@ -460,6 +460,8 @@ Item {
             unlockAllModemsSpy.clear()
             // actually create an object so we notice the onCompleted signal
             var greeter = shellComponent.createObject(root)
+            // TODO reenable when service ready (LP: #1361074)
+            expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
             greeter.destroy()
         }
