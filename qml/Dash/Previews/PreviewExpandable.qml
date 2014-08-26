@@ -80,9 +80,9 @@ PreviewWidget {
             delegate: PreviewWidgetFactory {
                 height: visible ? implicitHeight : 0
                 width: parent.width
-                widgetId: modelData.widgetId
-                widgetType: modelData.type
-                widgetData: modelData.properties
+                widgetId: model.widgetId
+                widgetType: model.type
+                widgetData: model.properties
                 isCurrentPreview: root.isCurrentPreview
                 scopeStyle: root.scopeStyle
                 anchors {

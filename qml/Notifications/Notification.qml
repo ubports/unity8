@@ -52,7 +52,7 @@ Item {
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 1
+    opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
 
     state: {
         var result = "";
@@ -82,7 +82,8 @@ Item {
         source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
-    onOpacityChanged: {
+    // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
+    Component.onCompleted: {
         if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source) {
             sound.play();
         }
@@ -380,7 +381,7 @@ Item {
                             id: comboRepeater
 
                             onVisibleChanged: {
-                                comboButton.text = comboRepeater.itemAt(2).actionLabel
+                                comboButton.text = comboRepeater.count >= 3 ? comboRepeater.itemAt(2).actionLabel : ""
                             }
 
                             model: notification.actions
