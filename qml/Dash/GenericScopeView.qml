@@ -426,7 +426,7 @@ FocusScope {
                     searchEntryEnabled: true
                     settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
                     favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
-                    scope: scopeView.scope
+                    favorite: scopeView.scope && scopeView.scope.favorite
                     scopeStyle: scopeView.scopeStyle
                     paginationCount: scopeView.paginationCount
                     paginationIndex: scopeView.paginationIndex

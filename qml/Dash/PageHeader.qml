@@ -33,6 +33,7 @@ Item {
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
     property bool favoriteEnabled: false
+    property bool favorite: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
@@ -42,7 +43,6 @@ Item {
     property int paginationCount: 0
     property int paginationIndex: -1
 
-    property var scope: null
     property var scopeStyle: null
 
     signal backClicked()
@@ -276,8 +276,8 @@ Item {
                         },
                         Action {
                             objectName: "favorite"
-                            text: root.scope && root.scope.favorite ? i18n.tr("Remove from Favorites") : i18n.tr("Add to Favorites")
-                            iconName: root.scope && root.scope.favorite ? "starred" : "non-starred"
+                            text: root.favorite ? i18n.tr("Remove from Favorites") : i18n.tr("Add to Favorites")
+                            iconName: root.favorite ? "starred" : "non-starred"
                             visible: root.favoriteEnabled
                             onTriggered: {
                                 root.favoriteClicked()
