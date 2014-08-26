@@ -217,10 +217,10 @@ AbstractButton {
             topMargin: units.dp(1)
             bottom: parent.bottom
             left: parent.right
-            leftMargin: -units.dp(1)
+            leftMargin: -units.dp(0.5)
         }
-        width: units.dp(2)
+        width: units.dp(1)
         color: root.foregroundColor
-        opacity: 0.3
+        opacity: 0.2
     }
 }
