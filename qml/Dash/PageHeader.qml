@@ -276,7 +276,7 @@ Item {
                         },
                         Action {
                             objectName: "favorite"
-                            text: root.scope && root.scope.favorite ? i18n.tr("Remove from Dash") : i18n.tr("Add to Dash")
+                            text: root.scope && root.scope.favorite ? i18n.tr("Remove from Favorites") : i18n.tr("Add to Favorites")
                             iconName: root.scope && root.scope.favorite ? "starred" : "non-starred"
                             visible: root.favoriteEnabled
                             onTriggered: {
