@@ -119,7 +119,10 @@ Item {
                 SequentialAnimation {
                     PropertyAction { property: "layer.enabled"; value: true }
                     PropertyAction { property: "ListView.delayRemove"; value: true }
-                    PropertyAnimation { properties: "opacity"; to: 0; duration: UbuntuAnimation.SnapDuration }
+                    ParallelAnimation {
+                        PropertyAnimation { properties: "scale"; to: 0.25; duration: UbuntuAnimation.SnapDuration }
+                        PropertyAnimation { properties: "y"; to: dashContent.height; duration: UbuntuAnimation.SnapDuration }
+                    }
                     PropertyAction { property: "ListView.delayRemove"; value: false }
                 }
             }
