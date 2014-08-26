@@ -131,6 +131,19 @@ void MockLauncherItem::setCount(int count)
     }
 }
 
+bool MockLauncherItem::countVisible() const
+{
+    return m_countVisible;
+}
+
+void MockLauncherItem::setCountVisible(bool countVisible)
+{
+    if (m_countVisible != countVisible) {
+        m_countVisible = countVisible;
+        Q_EMIT countVisibleChanged(countVisible);
+    }
+}
+
 bool MockLauncherItem::focused() const
 {
     return m_focused;

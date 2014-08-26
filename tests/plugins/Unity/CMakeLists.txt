@@ -1,3 +1,3 @@
 add_subdirectory(Indicators)
-#add_subdirectory(Launcher)
+add_subdirectory(Launcher)
 add_subdirectory(Session)

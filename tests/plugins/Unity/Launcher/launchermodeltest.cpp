@@ -111,186 +111,186 @@ private:
 
 private Q_SLOTS:
 
-    void initTestCase() {
-        launcherModel = new LauncherModel(this);
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 0);
+//    void initTestCase() {
+//        launcherModel = new LauncherModel(this);
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 0);
 
-        appManager = new MockAppManager(this);
-        launcherModel->setApplicationManager(appManager);
-    }
+//        appManager = new MockAppManager(this);
+//        launcherModel->setApplicationManager(appManager);
+//    }
 
-    // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
-    void init() {
-        appManager->addApplication(new MockApp("abs-icon"));
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+//    // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
+//    void init() {
+//        appManager->addApplication(new MockApp("abs-icon"));
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
 
-        appManager->addApplication(new MockApp("no-icon"));
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
-    }
+//        appManager->addApplication(new MockApp("no-icon"));
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//    }
 
-    // Removing apps from appmanager and launcher as pinned ones would stick
-    void cleanup() {
-        while (appManager->count() > 0) {
-            appManager->removeApplication(0);
-        }
-        while (launcherModel->rowCount(QModelIndex()) > 0) {
-            launcherModel->requestRemove(launcherModel->get(0)->appId());
-        }
-    }
+//    // Removing apps from appmanager and launcher as pinned ones would stick
+//    void cleanup() {
+//        while (appManager->count() > 0) {
+//            appManager->removeApplication(0);
+//        }
+//        while (launcherModel->rowCount(QModelIndex()) > 0) {
+//            launcherModel->requestRemove(launcherModel->get(0)->appId());
+//        }
+//    }
 
-    void testMove() {
-        QCOMPARE(launcherModel->get(0)->pinned(), false);
-        QCOMPARE(launcherModel->get(1)->pinned(), false);
+//    void testMove() {
+//        QCOMPARE(launcherModel->get(0)->pinned(), false);
+//        QCOMPARE(launcherModel->get(1)->pinned(), false);
 
-        LauncherItemInterface *item0BeforeMove = launcherModel->get(0);
-        LauncherItemInterface *item1BeforeMove = launcherModel->get(1);
-        launcherModel->move(1, 0);
+//        LauncherItemInterface *item0BeforeMove = launcherModel->get(0);
+//        LauncherItemInterface *item1BeforeMove = launcherModel->get(1);
+//        launcherModel->move(1, 0);
 
-        QCOMPARE(item0BeforeMove, launcherModel->get(1));
-        QCOMPARE(item1BeforeMove, launcherModel->get(0));
+//        QCOMPARE(item0BeforeMove, launcherModel->get(1));
+//        QCOMPARE(item1BeforeMove, launcherModel->get(0));
 
-        // moved item must be pinned now
-        QCOMPARE(item0BeforeMove->pinned(), false);
-        QCOMPARE(item1BeforeMove->pinned(), true);
-    }
+//        // moved item must be pinned now
+//        QCOMPARE(item0BeforeMove->pinned(), false);
+//        QCOMPARE(item1BeforeMove->pinned(), true);
+//    }
 
-    void testPinning() {
-        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
-        QCOMPARE(launcherModel->get(0)->pinned(), false);
-        QCOMPARE(launcherModel->get(1)->pinned(), false);
-        launcherModel->pin(launcherModel->get(0)->appId());
-        QCOMPARE(launcherModel->get(0)->pinned(), true);
-        QCOMPARE(launcherModel->get(1)->pinned(), false);
-        QCOMPARE(spy.count(), 1);
-        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+//    void testPinning() {
+//        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
+//        QCOMPARE(launcherModel->get(0)->pinned(), false);
+//        QCOMPARE(launcherModel->get(1)->pinned(), false);
+//        launcherModel->pin(launcherModel->get(0)->appId());
+//        QCOMPARE(launcherModel->get(0)->pinned(), true);
+//        QCOMPARE(launcherModel->get(1)->pinned(), false);
+//        QCOMPARE(spy.count(), 1);
+//        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
 
-        launcherModel->requestRemove(launcherModel->get(0)->appId());
-        QCOMPARE(launcherModel->get(0)->pinned(), false);
-        QCOMPARE(launcherModel->get(1)->pinned(), false);
-        QCOMPARE(spy.count(), 2);
-        QCOMPARE(spy.at(1).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
-    }
+//        launcherModel->requestRemove(launcherModel->get(0)->appId());
+//        QCOMPARE(launcherModel->get(0)->pinned(), false);
+//        QCOMPARE(launcherModel->get(1)->pinned(), false);
+//        QCOMPARE(spy.count(), 2);
+//        QCOMPARE(spy.at(1).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+//    }
 
-    void testRemove_data() {
+//    void testRemove_data() {
 
-        QTest::addColumn<bool>("pinned");
-        QTest::addColumn<bool>("running");
+//        QTest::addColumn<bool>("pinned");
+//        QTest::addColumn<bool>("running");
 
-        QTest::newRow("non-pinned, running") << false << true;
-        QTest::newRow("pinned, running") << true << false;
-        QTest::newRow("pinned, non-running") << true << false;
-    }
+//        QTest::newRow("non-pinned, running") << false << true;
+//        QTest::newRow("pinned, running") << true << false;
+//        QTest::newRow("pinned, non-running") << true << false;
+//    }
 
-    void testRemove() {
-        QFETCH(bool, pinned);
-        QFETCH(bool, running);
+//    void testRemove() {
+//        QFETCH(bool, pinned);
+//        QFETCH(bool, running);
 
-        // In the beginning we always have two items
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//        // In the beginning we always have two items
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
-        // pin one if required
-        if (pinned) {
-            launcherModel->pin(launcherModel->get(1)->appId());
-        }
+//        // pin one if required
+//        if (pinned) {
+//            launcherModel->pin(launcherModel->get(1)->appId());
+//        }
 
-        // stop it if required
-        if (!running) {
-            appManager->removeApplication(1);
-        }
+//        // stop it if required
+//        if (!running) {
+//            appManager->removeApplication(1);
+//        }
 
-        // Now remove it
-        launcherModel->requestRemove(launcherModel->get(1)->appId());
+//        // Now remove it
+//        launcherModel->requestRemove(launcherModel->get(1)->appId());
 
-        if (running) {
-            // both apps are running, both apps must still be here
-            QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//        if (running) {
+//            // both apps are running, both apps must still be here
+//            QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
-           // Item must be unpinned now
-           QCOMPARE(launcherModel->get(1)->pinned(), false);
+//           // Item must be unpinned now
+//           QCOMPARE(launcherModel->get(1)->pinned(), false);
 
-        } else if (pinned) {
-           // Item 1 must go away, item 0 is here to stay
-            QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
-        }
+//        } else if (pinned) {
+//           // Item 1 must go away, item 0 is here to stay
+//            QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+//        }
 
-        // done our checks. now stop the app if was still running
-        if (running) {
-            appManager->removeApplication(1);
-        }
+//        // done our checks. now stop the app if was still running
+//        if (running) {
+//            appManager->removeApplication(1);
+//        }
 
-        // It needs to go away in any case now
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
-    }
+//        // It needs to go away in any case now
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+//    }
 
-    void testQuickListPinningRemoving() {
-        // we start with 2 unpinned items
-        QCOMPARE(launcherModel->get(0)->pinned(), false);
-        QCOMPARE(launcherModel->get(1)->pinned(), false);
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//    void testQuickListPinningRemoving() {
+//        // we start with 2 unpinned items
+//        QCOMPARE(launcherModel->get(0)->pinned(), false);
+//        QCOMPARE(launcherModel->get(1)->pinned(), false);
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
-        // find the Pin item in the quicklist
-        QuickListModel *model = qobject_cast<QuickListModel*>(launcherModel->get(0)->quickList());
-        int pinActionIndex = -1;
-        for (int i = 0; i < model->rowCount(QModelIndex()); ++i) {
-            if (model->get(i).actionId() == "pin_item") {
-                pinActionIndex = i;
-                break;
-            }
-        }
-        QVERIFY(pinActionIndex >= 0);
+//        // find the Pin item in the quicklist
+//        QuickListModel *model = qobject_cast<QuickListModel*>(launcherModel->get(0)->quickList());
+//        int pinActionIndex = -1;
+//        for (int i = 0; i < model->rowCount(QModelIndex()); ++i) {
+//            if (model->get(i).actionId() == "pin_item") {
+//                pinActionIndex = i;
+//                break;
+//            }
+//        }
+//        QVERIFY(pinActionIndex >= 0);
 
-        // trigger pin item quicklist action => Item must be pinned now.
-        launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), pinActionIndex);
-        QCOMPARE(launcherModel->get(0)->pinned(), true);
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//        // trigger pin item quicklist action => Item must be pinned now.
+//        launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), pinActionIndex);
+//        QCOMPARE(launcherModel->get(0)->pinned(), true);
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
-        // quicklist needs to transform to remove item. trigger it and check it item goes away
-        launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), pinActionIndex);
-        QCOMPARE(launcherModel->get(0)->pinned(), false);
+//        // quicklist needs to transform to remove item. trigger it and check it item goes away
+//        launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), pinActionIndex);
+//        QCOMPARE(launcherModel->get(0)->pinned(), false);
 
-        // still needs to be here as the app is still here
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
-        // close the app
-        appManager->removeApplication(0);
-        // Now it needs to go away
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
-    }
+//        // still needs to be here as the app is still here
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//        // close the app
+//        appManager->removeApplication(0);
+//        // Now it needs to go away
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+//    }
 
-    void testApplicationFocused() {
-        // all apps unfocused at beginning...
-        QCOMPARE(launcherModel->get(0)->focused(), false);
-        QCOMPARE(launcherModel->get(1)->focused(), false);
+//    void testApplicationFocused() {
+//        // all apps unfocused at beginning...
+//        QCOMPARE(launcherModel->get(0)->focused(), false);
+//        QCOMPARE(launcherModel->get(1)->focused(), false);
 
-        appManager->focusApplication("abs-icon");
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
-        QCOMPARE(launcherModel->get(0)->focused(), true);
-        QCOMPARE(launcherModel->get(1)->focused(), false);
+//        appManager->focusApplication("abs-icon");
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//        QCOMPARE(launcherModel->get(0)->focused(), true);
+//        QCOMPARE(launcherModel->get(1)->focused(), false);
 
-        appManager->focusApplication("no-icon");
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
-        QCOMPARE(launcherModel->get(0)->focused(), false);
-        QCOMPARE(launcherModel->get(1)->focused(), true);
-    }
+//        appManager->focusApplication("no-icon");
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+//        QCOMPARE(launcherModel->get(0)->focused(), false);
+//        QCOMPARE(launcherModel->get(1)->focused(), true);
+//    }
 
-    void testClosingApps() {
-        // At the start there are 2 items. Let's pin one.
-        launcherModel->pin("abs-icon");
-        while (appManager->count() > 0) {
-            appManager->removeApplication(0);
-        }
-        // The pinned one needs to stay, the other needs to disappear
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
-        QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
-    }
+//    void testClosingApps() {
+//        // At the start there are 2 items. Let's pin one.
+//        launcherModel->pin("abs-icon");
+//        while (appManager->count() > 0) {
+//            appManager->removeApplication(0);
+//        }
+//        // The pinned one needs to stay, the other needs to disappear
+//        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+//        QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
+//    }
 
-    void testGetUrlForAppId() {
-        QCOMPARE(launcherModel->getUrlForAppId(QString()), QString());
-        QCOMPARE(launcherModel->getUrlForAppId(""), QString());
-        QCOMPARE(launcherModel->getUrlForAppId("no-name"), QString("application:///no-name.desktop"));
-        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("appid://com.test.good/first-listed-app/current-user-version"));
-        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application"), QString("appid://com.test.good/application/current-user-version"));
-        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application_1.2.3"), QString("appid://com.test.good/application/current-user-version"));
-    }
+//    void testGetUrlForAppId() {
+//        QCOMPARE(launcherModel->getUrlForAppId(QString()), QString());
+//        QCOMPARE(launcherModel->getUrlForAppId(""), QString());
+//        QCOMPARE(launcherModel->getUrlForAppId("no-name"), QString("application:///no-name.desktop"));
+//        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("appid://com.test.good/first-listed-app/current-user-version"));
+//        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application"), QString("appid://com.test.good/application/current-user-version"));
+//        QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application_1.2.3"), QString("appid://com.test.good/application/current-user-version"));
+//    }
 };
 
 QTEST_GUILESS_MAIN(LauncherModelTest)
