@@ -13,10 +13,10 @@ DBusInterface::DBusInterface(LauncherModel *parent):
 {
     /* Set up ourselves on DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
-    if (!con.registerService("com.canonical.Unity.Launcher2")) {
+    if (!con.registerService("com.canonical.Unity.Launcher")) {
         qWarning() << "Unable to register launcher name";
     }
-    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher2", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
+    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
         qWarning() << "Unable to register launcher object";
     }
 }
@@ -25,19 +25,19 @@ DBusInterface::~DBusInterface()
 {
     /* Remove oursevles from DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
-    con.unregisterService("com.canonical.Unity.Launcher2");
-    con.unregisterObject("/com/canonical/Unity/Launcher2");
+    con.unregisterService("com.canonical.Unity.Launcher");
+    con.unregisterObject("/com/canonical/Unity/Launcher");
 }
 
 QString DBusInterface::introspect(const QString &path) const
 {
     qDebug() << "introspecting" << path;
     /* This case we should just list the nodes */
-    if (path == "/com/canonical/Unity/Launcher2/" || path == "/com/canonical/Unity/Launcher2") {
+    if (path == "/com/canonical/Unity/Launcher/" || path == "/com/canonical/Unity/Launcher") {
         QString nodes;
 
         // Add Refresh to introspect
-        nodes = "<interface name=\"com.canonical.Unity.Launcher2\">"
+        nodes = "<interface name=\"com.canonical.Unity.Launcher\">"
                 "<method name=\"Refresh\"/>"
                 "</interface>";
 
@@ -51,13 +51,13 @@ QString DBusInterface::introspect(const QString &path) const
     }
 
     /* Should not happen, but let's handle it */
-    if (!path.startsWith("/com/canonical/Unity/Launcher2")) {
+    if (!path.startsWith("/com/canonical/Unity/Launcher")) {
         return "";
     }
 
     /* Now we should be looking at a node */
     QString nodeiface =
-        "<interface name=\"com.canonical.Unity.Launcher2.Item\">"
+        "<interface name=\"com.canonical.Unity.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
         "</interface>";
@@ -134,16 +134,16 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         return false;
     }
 
-    if (message.member() != "GetAll" && message.arguments()[0].toString() != "com.canonical.Unity.Launcher2.Item") {
+    if (message.member() != "GetAll" && message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item") {
         return false;
     }
 
     /* Break down the path to just the app id */
     QString pathtemp = message.path();
-    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher2/")) {
+    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/")) {
         return false;
     }
-    pathtemp.remove("/com/canonical/Unity/Launcher2/");
+    pathtemp.remove("/com/canonical/Unity/Launcher/");
     if (pathtemp.indexOf('/') >= 0) {
         return false;
     }
@@ -194,7 +194,7 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
 
 void DBusInterface::emitPropChangedDbus(const QString& appId, const QString& property, const QVariant &value)
 {
-    QString path("/com/canonical/Unity/Launcher2/");
+    QString path("/com/canonical/Unity/Launcher/");
     path.append(encodeAppId(appId));
 
     QDBusMessage message = QDBusMessage::createSignal(path, "org.freedesktop.DBus.Properties", "PropertiesChanged");
