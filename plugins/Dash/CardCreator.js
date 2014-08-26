@@ -84,7 +84,8 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     } \n\
                                     image: Image { \n\
                                         objectName: "artImage"; \n\
-                                        source: cardData && cardData["art"] || ""; \n\
+                                        property bool everShown: false; \n\
+                                        source: { if (root.visible) everShown = true; return everShown && cardData && cardData["art"] || ""; } \n\
                                         cache: true; \n\
                                         asynchronous: root.asynchronous; \n\
                                         fillMode: Image.PreserveAspectCrop; \n\
@@ -195,7 +196,8 @@ var kMascotImageCode = 'Image { \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
                             readonly property int maxSize: Math.max(width, height) * 4; \n\
-                            source: cardData && cardData["mascot"] || ""; \n\
+                            property bool everShown: false; \n\
+                            source: { if (root.visible) everShown = true; return everShown && cardData && cardData["mascot"] || ""; } \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             sourceSize { width: maxSize; height: maxSize } \n\

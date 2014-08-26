@@ -46,7 +46,8 @@ Item  {
                                     } 
                                     image: Image { 
                                         objectName: "artImage"; 
-                                        source: cardData && cardData["art"] || ""; 
+                                        property bool everShown: false; 
+                                        source: { if (root.visible) everShown = true; return everShown && cardData && cardData["art"] || ""; }
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
                                         fillMode: Image.PreserveAspectCrop;
