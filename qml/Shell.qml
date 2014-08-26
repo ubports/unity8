@@ -453,13 +453,6 @@ Item {
             if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
                 greeter.showNow()
             }
-
-            // No reason to chew demo CPU when user isn't watching
-            if (Powerd.status === Powerd.Off) {
-                edgeDemo.paused = true;
-            } else if (Powerd.status === Powerd.On) {
-                edgeDemo.paused = false;
-            }
         }
     }
 
@@ -627,6 +620,7 @@ Item {
     EdgeDemo {
         id: edgeDemo
         z: alphaDisclaimerLabel.z + 10
+        paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
         indicators: panel.indicators
