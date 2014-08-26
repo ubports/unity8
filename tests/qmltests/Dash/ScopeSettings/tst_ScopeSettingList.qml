@@ -36,11 +36,6 @@ Rectangle {
         widgetData: settingData
     }
 
-    ScopeSettingList {
-        id: scopeSettingFresh
-        initialValue: 2
-    }
-
     SignalSpy {
         id: spy
         target: scopeSetting
@@ -60,9 +55,11 @@ Rectangle {
         }
 
         function test_initialValue() {
-            var controlFresh = findChild(scopeSettingFresh, "control");
-            scopeSettingFresh.widgetData = settingData;
-            tryCompare(controlFresh, "selectedIndex", 2);
+            var newObject = Qt.createQmlObject('import "../../../../qml/Dash/ScopeSettings" \n\
+                                                ScopeSettingList { initialValue: 2; }', root, "dynamicScopeSettingList");
+            newObject.widgetData = settingData;
+            var controlDynamic = findChild(newObject, "control");
+            tryCompare(controlDynamic, "selectedIndex", 2);
         }
 
         function test_updated_data() {
