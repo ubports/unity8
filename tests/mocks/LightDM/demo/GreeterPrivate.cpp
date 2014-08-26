@@ -46,7 +46,7 @@ public:
         : QObject(parent),
           greeter(parent),
           greeterPrivate(greeterPrivate),
-          pamHandle(NULL)
+          pamHandle(nullptr)
     {
         qRegisterMetaType<QLightDM::GreeterImpl::ResponseFuture>("QLightDM::GreeterImpl::ResponseFuture");
 
@@ -206,14 +206,14 @@ Q_SIGNALS:
 private Q_SLOTS:
     void finishPam()
     {
-        if (pamHandle == NULL) {
+        if (pamHandle == nullptr) {
             return;
         }
 
         int pamStatus = futureWatcher.result();
 
         pam_end(pamHandle, pamStatus);
-        pamHandle = NULL;
+        pamHandle = nullptr;
 
         greeterPrivate->authenticated = (pamStatus == PAM_SUCCESS);
         Q_EMIT greeter->authenticationComplete();
@@ -243,9 +243,9 @@ private:
     void cancelPam()
     {
         // Unfortunately we can't simply cancel our QFuture because QtConcurrent::run doesn't support cancel
-        if (pamHandle != NULL) {
+        if (pamHandle != nullptr) {
             pam_handle *handle = pamHandle;
-            pamHandle = NULL; // to disable normal finishPam() handling
+            pamHandle = nullptr; // to disable normal finishPam() handling
             while (respond(QString())); // clear our local queue of QFutures
             pam_end(handle, PAM_CONV_ERR);
         }

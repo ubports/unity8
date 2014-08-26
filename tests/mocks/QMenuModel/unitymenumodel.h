@@ -35,7 +35,7 @@ class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
     Q_PROPERTY(QString nameOwner READ nameOwner NOTIFY nameOwnerChanged)
 
 public:
-    UnityMenuModel(QObject *parent = NULL);
+    UnityMenuModel(QObject *parent = nullptr);
     virtual ~UnityMenuModel();
 
     Q_INVOKABLE void insertRow(int row, const QVariant& data);
@@ -66,7 +66,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const;
     QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE QObject * submenu(int position, QQmlComponent* actionStateParser = NULL);
+    Q_INVOKABLE QObject * submenu(int position, QQmlComponent* actionStateParser = nullptr);
     Q_INVOKABLE bool loadExtendedAttributes(int position, const QVariantMap &schema);
     Q_INVOKABLE QVariant get(int row, const QByteArray &role);
 
