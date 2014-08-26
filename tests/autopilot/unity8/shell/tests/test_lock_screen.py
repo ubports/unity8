@@ -54,7 +54,7 @@ class TestLockscreen(UnityTestCase):
             self.main_window.enter_pin_code("1234")
             self.assertThat(lockscreen.shown, Eventually(Equals(False)))
         else:
-            self._enter_prompt_passphrase("1234")
+            self._enter_prompt_passphrase("1234\n")
             self.assertThat(greeter.shown, Eventually(Equals(False)))
 
     @with_lightdm_mock("single-passphrase")
@@ -86,7 +86,7 @@ class TestLockscreen(UnityTestCase):
             self.assertThat(pinentryField.text, Eventually(Equals("")))
             self.assertThat(lockscreen.shown, Eventually(Equals(True)))
         else:
-            self._enter_prompt_passphrase("4231")
+            self._enter_prompt_passphrase("4231\n")
             prompt = self.main_window.get_greeter().get_prompt()
             self.assertThat(prompt.text, Eventually(Equals("")))
             self.assertThat(greeter.shown, Eventually(Equals(True)))

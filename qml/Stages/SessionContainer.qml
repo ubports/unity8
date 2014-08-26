@@ -24,24 +24,37 @@ Item {
     property var childSessions: session ? session.childSessions : 0
     property bool removing: false
     property alias surface: surfaceContainer.surface
+    property bool interactive: true
 
     onSessionChanged: {
         if (session) {
             session.parent = root;
             session.z = 1;
-            state = "initial"
         }
     }
 
     SurfaceContainer {
         id: surfaceContainer
-        anchors.fill: session
+        anchors.fill: parent
         z: 2;
 
         surface: session ? session.surface : null
         onSurfaceChanged: {
-            root.animateIn(swipeFromBottom);
+//            root.animateIn(swipeFromBottom);
         }
+    }
+
+    Binding {
+        target: surface
+        when: surface
+        property: "enabled"
+        value: interactive
+    }
+    Binding {
+        target: surface
+        when: surface
+        property: "focus"
+        value: interactive
     }
 
     Repeater {
@@ -56,13 +69,14 @@ Item {
             source: Qt.resolvedUrl("SessionContainer.qml")
             onLoaded: {
                 item.session = modelData;
+                item.interactive = Qt.bindind(function() { return root.interactive; } );
             }
 
             Connections {
                 target: modelData
                 onRemoved: {
                     item.removing = true;
-                    item.animateOut();
+//                    item.animateOut();
                 }
             }
         }
@@ -83,8 +97,6 @@ Item {
             var popped = tmp.pop();
             popped.end();
             d.animations = tmp;
-        } else {
-            root.state = "initial";
         }
     }
 
@@ -98,11 +110,4 @@ Item {
         id: swipeFromBottom
         SwipeFromBottomAnimation {}
     }
-
-    states: [
-        State {
-            name: "initial"
-            PropertyChanges { target: session; anchors.fill: root }
-        }
-    ]
 }

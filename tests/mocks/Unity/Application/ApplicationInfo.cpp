@@ -30,7 +30,6 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_parentItem(0)
     , m_session(0)
 {
     createSession();
@@ -55,7 +54,9 @@ ApplicationInfo::~ApplicationInfo()
 
 void ApplicationInfo::createSession()
 {
-    setSession(SessionManager::singleton()->createSession(appId(), screenshot()));
+    QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
+
+    setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));
 }
 
 void ApplicationInfo::setSession(MirSessionItem* session)
@@ -75,10 +76,82 @@ void ApplicationInfo::setSession(MirSessionItem* session)
     if (m_session) {
         m_session->setApplication(this);
         m_session->setParent(this);
-        connect(this, &ApplicationInfo::screenshotChanged, m_session, [this](const QUrl& screenshot) {
-            m_session->setScreenshot(screenshot);
-        });
     }
 
     Q_EMIT sessionChanged(m_session);
+}
+
+void ApplicationInfo::setIconId(const QString &iconId)
+{
+    setIcon(QString("file://%1/graphics/applicationIcons/%2@18.png")
+            .arg(qmlDirectory())
+            .arg(iconId));
+}
+
+void ApplicationInfo::setScreenshotId(const QString &screenshotId)
+{
+    QString screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2@12.png")
+            .arg(qmlDirectory())
+            .arg(screenshotId);
+
+    if (screenshotFileName != m_screenshotFileName) {
+        m_screenshotFileName = screenshotFileName;
+
+        QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
+        if (m_session) {
+            m_session->setScreenshot(screenshot);
+        }
+    }
+}
+
+void ApplicationInfo::setName(const QString &value)
+{
+    if (value != m_name) {
+        m_name = value;
+        Q_EMIT nameChanged(value);
+    }
+}
+
+void ApplicationInfo::setIcon(const QUrl &value)
+{
+    if (value != m_icon) {
+        m_icon = value;
+        Q_EMIT iconChanged(value);
+    }
+}
+
+void ApplicationInfo::setStage(Stage value)
+{
+    if (value != m_stage) {
+        m_stage = value;
+        Q_EMIT stageChanged(value);
+    }
+}
+
+void ApplicationInfo::setState(State value)
+{
+    if (value != m_state) {
+        m_state = value;
+        Q_EMIT stateChanged(value);
+
+        if (!m_manualSurfaceCreation && m_state == ApplicationInfo::Running) {
+            QTimer::singleShot(1000, this, SLOT(createSurface()));
+        }
+    }
+}
+
+void ApplicationInfo::setFocused(bool value)
+{
+    if (value != m_focused) {
+        m_focused = value;
+        Q_EMIT focusedChanged(value);
+    }
+}
+
+void ApplicationInfo::setFullscreen(bool value)
+{
+    if (value != m_fullscreen) {
+        m_fullscreen = value;
+        Q_EMIT fullscreenChanged(value);
+    }
 }

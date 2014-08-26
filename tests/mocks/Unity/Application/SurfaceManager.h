@@ -21,8 +21,6 @@
 
 #include "MirSurfaceItem.h"
 
-class VirtualKeyboard;
-
 class SurfaceManager : public QObject
 {
     Q_OBJECT
@@ -54,7 +52,7 @@ private Q_SLOTS:
 
 private:
     static SurfaceManager *the_surface_manager;
-    VirtualKeyboard *m_virtualKeyboard;
+    MirSurfaceItem *m_virtualKeyboard;
 };
 
 #endif // SURFACEMANAGER_H

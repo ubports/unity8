@@ -19,12 +19,12 @@
 
 #include "MirSurfaceItemModel.h"
 
-#include <QQuickPaintedItem>
-#include <QImage>
+#include <QQuickItem>
+#include <QUrl>
 
 class MirSessionItem;
 
-class MirSurfaceItem : public QQuickPaintedItem
+class MirSurfaceItem : public QQuickItem
 {
     Q_OBJECT
     Q_ENUMS(Type)
@@ -72,9 +72,6 @@ public:
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
 
-    void paint(QPainter * painter) override;
-    void touchEvent(QTouchEvent * event) override;
-
     void addChildSurface(MirSurfaceItem* surface);
     void insertChildSurface(uint index, MirSurfaceItem* surface);
     void removeChildSurface(MirSurfaceItem* surface);
@@ -94,29 +91,34 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onFocusChanged();
+    void onComponentStatusChanged(QQmlComponent::Status status);
+    void onQmlWantInputMethodChanged();
 
-protected:
+private:
     explicit MirSurfaceItem(const QString& name,
                             Type type,
                             State state,
                             const QUrl& screenshot,
+                            const QString &qmlFilePath = QString(),
                             QQuickItem *parent = 0);
-
-    const QImage &screenshotImage() { return m_img; }
 
     MirSurfaceItemModel* childSurfaces() const;
     void setParentSurface(MirSurfaceItem* surface);
 
-private:
+    void createQmlContentItem();
+    void printComponentErrors();
+
     MirSessionItem* m_session;
     const QString m_name;
     const Type m_type;
     State m_state;
-    QImage m_img;
 
     MirSurfaceItem* m_parentSurface;
     MirSurfaceItemModel* m_children;
-    bool m_haveInputMethod;
+
+    QQmlComponent *m_qmlContentComponent;
+    QQuickItem *m_qmlItem;
+    QUrl m_screenshotUrl;
 
     friend class SurfaceManager;
 };

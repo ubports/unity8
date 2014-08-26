@@ -24,12 +24,14 @@ Item {
     property var childSurfaces: surface ? surface.childSurfaces : 0
 
     onSurfaceChanged: {
-        console.log("SURFACE " + surface)
         if (surface) {
             surface.parent = root;
             surface.z = 1;
-            state = "initial"
         }
+    }
+    Binding {
+        target: surface
+        property: "anchors.fill"; value: container
     }
 
     Connections {
@@ -54,11 +56,4 @@ Item {
             }
         }
     }
-
-    states: [
-        State {
-            name: "initial"
-            PropertyChanges { target: surface; anchors.fill: root }
-        }
-    ]
 }

@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QList>
 #include <QStringList>
+#include <QTimer>
 #include "ApplicationInfo.h"
 
 // unity-api
@@ -51,7 +52,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     static ApplicationManager *singleton();
 
     enum MoreRoles {
-        RoleSession = RoleScreenshot+1,
+        RoleSession = RoleFocused+1,
         RoleFullscreen,
     };
     enum Role {
@@ -96,7 +97,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
-    Q_INVOKABLE bool updateScreenshot(const QString &appId) override;
 
     QString focusedApplicationId() const override;
     bool suspended() const;
@@ -104,6 +104,7 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     // Only for testing
     Q_INVOKABLE QStringList availableApplications();
+    Q_INVOKABLE ApplicationInfo* add(QString appId);
 
     QModelIndex findIndex(ApplicationInfo* application);
 
@@ -114,15 +115,18 @@ class ApplicationManager : public ApplicationManagerInterface {
     void focusRequested(const QString &appId);
     void emptyChanged(bool empty);
 
+ private Q_SLOTS:
+    void onWindowCreatedTimerTimeout();
+
  private:
     void add(ApplicationInfo *application);
     void remove(ApplicationInfo* application);
-    void showApplicationWindow(ApplicationInfo *application);
     void buildListOfAvailableApplications();
-    void generateQmlStrings(ApplicationInfo *application);
+    void onWindowCreated();
     bool m_suspended;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
+    QTimer m_windowCreatedTimer;
 
     static ApplicationManager *the_application_manager;
 };

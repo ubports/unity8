@@ -29,60 +29,43 @@ class MirSurfaceItem;
 // unity-api
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
-// A pretty dumb file. Just a container for properties.
-// Implemented in C++ instead of QML just because of the enumerations
-// See QTBUG-14861
-
 using namespace unity::shell::application;
 
 class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT
 
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
-    Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
     Q_PROPERTY(MirSessionItem* session READ session NOTIFY sessionChanged)
 
-    // Only exists in this fake implementation
-
-    // QML component used to represent its image/screenhot
-    Q_PROPERTY(QString imageQml READ imageQml WRITE setImageQml NOTIFY imageQmlChanged)
-
-    // QML component used to represent the application window
-    Q_PROPERTY(QString windowQml READ windowQml WRITE setWindowQml NOTIFY windowQmlChanged)
-
 public:
-    ApplicationInfo(QObject *parent = NULL);
     ApplicationInfo(const QString &appId, QObject *parent = NULL);
     ~ApplicationInfo();
 
-    #define IMPLEMENT_PROPERTY(name, Name, type) \
-    public: \
-    type name() const { return m_##name; } \
-    void set##Name(const type& value) \
-    { \
-        if (m_##name != value) { \
-            m_##name = value; \
-            Q_EMIT name##Changed(value); \
-        } \
-    } \
-    Q_SIGNALS: \
-    void name##Changed(const type&); \
-    private: \
-    type m_##name;
+     void setIconId(const QString &iconId);
+    void setScreenshotId(const QString &screenshotId);
 
-    IMPLEMENT_PROPERTY(appId, AppId, QString)
-    IMPLEMENT_PROPERTY(name, Name, QString)
-    IMPLEMENT_PROPERTY(comment, Comment, QString)
-    IMPLEMENT_PROPERTY(icon, Icon, QUrl)
-    IMPLEMENT_PROPERTY(stage, Stage, Stage)
-    IMPLEMENT_PROPERTY(state, State, State)
-    IMPLEMENT_PROPERTY(focused, Focused, bool)
-    IMPLEMENT_PROPERTY(fullscreen, Fullscreen, bool)
-    IMPLEMENT_PROPERTY(imageQml, ImageQml, QString)
-    IMPLEMENT_PROPERTY(windowQml, WindowQml, QString)
-    IMPLEMENT_PROPERTY(screenshot, Screenshot, QUrl)
+    QString appId() const override { return m_appId; }
 
-    #undef IMPLEMENT_PROPERTY
+    void setName(const QString &value);
+    QString name() const override { return m_name; }
+
+    QString comment() const override { return QString(); }
+
+    QUrl icon() const override { return m_icon; }
+
+    void setStage(Stage value);
+    Stage stage() const override { return m_stage; }
+
+    Q_INVOKABLE void setState(State value);
+    State state() const override { return m_state; }
+
+    void setFocused(bool value);
+    bool focused() const override { return m_focused; }
+
+    QString screenshot() const { return m_screenshotFileName; }
+
+    void setFullscreen(bool value);
+    bool fullscreen() const { return m_fullscreen; }
 
 public:
     void setSession(MirSessionItem* session);
@@ -90,6 +73,8 @@ public:
 
 Q_SIGNALS:
     void sessionChanged(MirSessionItem*);
+    void fullscreenChanged(bool value);
+    void manualSurfaceCreationChanged(bool value);
 
 private:
     void createSession();

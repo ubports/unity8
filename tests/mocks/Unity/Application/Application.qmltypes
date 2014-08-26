@@ -8,25 +8,6 @@ import QtQuick.tooling 1.1
 
 Module {
     Component {
-        name: "ApplicationImage"
-        defaultProperty: "data"
-        prototype: "QQuickItem"
-        exports: ["Unity.Application/ApplicationImage 0.1"]
-        exportMetaObjectRevisions: [0]
-        Enum {
-            name: "FillMode"
-            values: {
-                "Stretch": 0,
-                "PreserveAspectCrop": 1
-            }
-        }
-        Property { name: "source"; type: "ApplicationInfo"; isPointer: true }
-        Property { name: "fillMode"; type: "FillMode" }
-        Property { name: "ready"; type: "bool" }
-        Method { name: "scheduleUpdate" }
-        Method { name: "updateFromCache" }
-    }
-    Component {
         name: "ApplicationInfo"
         prototype: "unity::shell::application::ApplicationInfoInterface"
         exports: ["Unity.Application/ApplicationInfo 0.1"]

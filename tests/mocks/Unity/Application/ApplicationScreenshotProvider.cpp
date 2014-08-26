@@ -44,11 +44,9 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
         return QImage();
     }
 
-    QString filePath = QString("%1/Dash/graphics/phone/screenshots/%2@12.png").arg(qmlDirectory()).arg(app->icon().toString());
-
     QImage image;
-    if (!image.load(filePath)) {
-        qWarning() << "failed loading app image" << filePath;
+    if (!image.load(app->screenshot())) {
+        qWarning() << "failed loading app image" << app->screenshot();
     }
 
 

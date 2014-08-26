@@ -16,9 +16,8 @@
 
 #include "SurfaceManager.h"
 
+#include <paths.h>
 #include "MirSurfaceItem.h"
-#include "VirtualKeyboard.h"
-
 
 SurfaceManager *SurfaceManager::the_surface_manager = nullptr;
 
@@ -76,7 +75,19 @@ void SurfaceManager::hideInputMethod()
 MirSurfaceItem *SurfaceManager::inputMethodSurface()
 {
     if (!m_virtualKeyboard) {
-        m_virtualKeyboard = new VirtualKeyboard(MirSurfaceItem::Minimized);
+
+        QString screenshotPath = QString("file://%1/Dash/graphics/phone/screenshots/vkb_portrait.png")
+            .arg(qmlDirectory());
+
+        QString qmlFilePath = QString("%1/Unity/Application/VirtualKeyboard.qml")
+            .arg(mockPluginsDir());
+
+        m_virtualKeyboard = new MirSurfaceItem(
+                "input-method",
+                MirSurfaceItem::InputMethod,
+                MirSurfaceItem::Minimized,
+                screenshotPath,
+                qmlFilePath);
         Q_EMIT surfaceCreated(m_virtualKeyboard);
     }
     return m_virtualKeyboard;
