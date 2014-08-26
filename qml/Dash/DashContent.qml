@@ -54,7 +54,7 @@ Item {
 
     Connections {
         target: UriHandler
-        onOpened: dashContentList.currentItem.scope.performQuery(uris[0])
+        onOpened: dashContentList.currentItem.theScope.performQuery(uris[0])
     }
 
     function setCurrentScopeAtIndex(index, animate, reset) {
