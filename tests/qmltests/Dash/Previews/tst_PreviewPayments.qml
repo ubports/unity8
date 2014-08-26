@@ -52,6 +52,8 @@ Rectangle {
         function cleanup()
         {
             spy.clear();
+            var button = findChild(root, "paymentButton");
+            button.opacity = 1;
         }
 
         function test_purchase_text_display() {
@@ -77,6 +79,28 @@ Rectangle {
             compare(args[0], "previewPayments");
             compare(args[1], "purchaseCompleted");
             compare(args[2], jsonPurchase["source"]);
+        }
+
+        function test_progress_show() {
+            // Make sure the progress bar is shown.
+            previewPayments.widgetData = jsonPurchase;
+
+            var button = findChild(root, "paymentButton");
+            var progress = findChild(root, "loadingBar");
+
+            tryCompare(progress, "visible", false);
+            tryCompare(progress, "opacity", 0);
+            tryCompare(button, "visible", true);
+            tryCompare(button, "opacity", 1);
+
+            mouseClick(button, button.width / 2, button.height / 2);
+
+            spy.wait();
+
+            tryCompare(progress, "visible", true);
+            tryCompare(progress, "opacity", 1);
+            tryCompare(button, "visible", false);
+            tryCompare(button, "opacity", 0);
         }
 
         function test_purchase_error() {

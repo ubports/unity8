@@ -54,6 +54,7 @@ Homepage: http://launchpad.net/unity
 # and sync up the code again.
 Vcs-Bzr: https://code.launchpad.net/unity8
 Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
+X-Ubuntu-Use-Langpack: yes
 
 Package: indicators-client
 Architecture: amd64 armhf i386
@@ -111,7 +112,7 @@ Depends: qml-module-qtquick-layouts,
          qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.49) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.49),
          qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
          ubuntu-thumbnailer-impl-0,
-         unity-application-impl-2,
+         unity-application-impl-3,
          unity-notifications-impl-3,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-4,
@@ -158,7 +159,7 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,
-          unity-application-impl-2,
+          unity-application-impl-3,
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
@@ -168,7 +169,7 @@ Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: accountsservice-ubuntu-schemas,
-         gsettings-ubuntu-schemas,
+         gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
          libunity-core-6.0-9,
          pay-service,

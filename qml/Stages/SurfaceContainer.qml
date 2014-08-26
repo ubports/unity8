@@ -26,8 +26,11 @@ Item {
         if (surface) {
             surface.parent = container;
             surface.z = 1;
-            state = "initial"
         }
+    }
+    Binding {
+        target: surface
+        property: "anchors.fill"; value: container
     }
 
     Connections {
@@ -81,8 +84,6 @@ Item {
             var popped = tmp.pop();
             popped.end();
             d.animations = tmp;
-        } else {
-            container.state = "initial";
         }
     }
 
@@ -96,11 +97,4 @@ Item {
         id: swipeFromBottom
         SwipeFromBottomAnimation {}
     }
-
-    states: [
-        State {
-            name: "initial"
-            PropertyChanges { target: surface; anchors.fill: container }
-        }
-    ]
 }
