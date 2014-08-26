@@ -17,12 +17,13 @@
 #ifndef MIRSURFACEITEM_H
 #define MIRSURFACEITEM_H
 
-#include <QQuickPaintedItem>
-#include <QImage>
+#include <QQuickItem>
+#include <QQmlComponent>
+#include <QUrl>
 
 class ApplicationInfo;
 
-class MirSurfaceItem : public QQuickPaintedItem
+class MirSurfaceItem : public QQuickItem
 {
     Q_OBJECT
     Q_ENUMS(Type)
@@ -59,6 +60,7 @@ public:
                             Type type,
                             State state,
                             const QUrl& screenshot,
+                            const QString &qmlFilePath = QString(),
                             QQuickItem *parent = 0);
     ~MirSurfaceItem();
 
@@ -76,9 +78,6 @@ public:
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
 
-    void paint(QPainter * painter) override;
-    void touchEvent(QTouchEvent * event) override;
-
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
@@ -93,9 +92,8 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onFocusChanged();
-
-protected:
-    const QImage &screenshotImage() { return m_img; }
+    void onComponentStatusChanged(QQmlComponent::Status status);
+    void onQmlWantInputMethodChanged();
 
 private:
     void addChildSurface(MirSurfaceItem* surface);
@@ -105,15 +103,20 @@ private:
     static int childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
     static MirSurfaceItem* childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
 
+    void createQmlContentItem();
+    void printComponentErrors();
+
     ApplicationInfo* m_application;
     const QString m_name;
     const Type m_type;
     State m_state;
-    const QImage m_img;
 
     MirSurfaceItem* m_parentSurface;
     QList<MirSurfaceItem*> m_children;
-    bool m_haveInputMethod;
+
+    QQmlComponent *m_qmlContentComponent;
+    QQuickItem *m_qmlItem;
+    QUrl m_screenshotUrl;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)

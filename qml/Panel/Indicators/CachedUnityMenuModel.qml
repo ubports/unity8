@@ -18,13 +18,22 @@
  */
 
 import QtQuick 2.0
+import QMenuModel 0.1
+import Unity.Indicators 0.1 as Indicators
 
+// Make sure we don't duplicate models.
 Item {
-    property string busName: ""
-    property string actionsObjectPath: ""
-    property string menuObjectPath: ""
+    id: cachedModel
+    property string busName
+    property string actionsObjectPath
+    property string menuObjectPath
+    readonly property bool ready: busName!=="" && actionsObjectPath!=="" && menuObjectPath!==""
 
-    readonly property bool ready: false
+    property var model: {
+        if (!ready) return null;
 
-    property QtObject model: null
+        return Indicators.UnityMenuModelCache.model(cachedModel.busName,
+                                                    cachedModel.menuObjectPath,
+                                                    { "indicator": cachedModel.actionsObjectPath });
+    }
 }

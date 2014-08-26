@@ -29,14 +29,29 @@ UnityMenuModelCache::~UnityMenuModelCache()
 {
 }
 
-
-UnityMenuModel* UnityMenuModelCache::model(const QString& path) const
+UnityMenuModel* UnityMenuModelCache::model(const QByteArray& bus,
+                                           const QByteArray& path,
+                                           const QVariantMap& actions)
 {
-    return m_menuModels.value(path, NULL);
+    if (m_registry.contains(path))
+        return m_registry[path];
+
+    UnityMenuModel* menuModel = new UnityMenuModel;
+    connect(menuModel, &QObject::destroyed, this, [menuModel, this](QObject*) {
+        QList<QByteArray> keys = m_registry.keys(menuModel);
+        Q_FOREACH(const QByteArray& key, keys) {
+            m_registry.remove(key);
+        }
+    });
+    m_registry[path] = menuModel;
+
+    menuModel->setBusName(bus);
+    menuModel->setMenuObjectPath(path);
+    menuModel->setActions(actions);
+    return menuModel;
 }
 
-void UnityMenuModelCache::registerModel(const QString& path, UnityMenuModel* menuModel)
+bool UnityMenuModelCache::contains(const QByteArray& path)
 {
-    menuModel->setParent(this);
-    m_menuModels[path] = menuModel;
+    return m_registry.contains(path);
 }
