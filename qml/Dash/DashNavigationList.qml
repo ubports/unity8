@@ -16,22 +16,23 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+import "../Components"
 
 Item {
     id: root
     property var navigation: null
     property var currentNavigation: null
     property var scopeStyle: null
+    property color foregroundColor: Theme.palette.normal.baseText
     signal enterNavigation(var newNavigationId, bool hasChildren)
     signal goBackToParentClicked()
     signal allNavigationClicked()
 
     readonly property int itemHeight: units.gu(5)
-    readonly property color foregroundColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
     implicitHeight: flickable.contentHeight
 
-    Rectangle {
-        color: !root.scopeStyle || Qt.colorEqual(root.scopeStyle.background, "transparent") ? "white" : root.scopeStyle.background
+    Background {
+        style: root.scopeStyle ? root.scopeStyle.navigationBackground : "color:///#f5f5f5"
         anchors.fill: parent
     }
 
@@ -110,7 +111,7 @@ Item {
                 id: allButton
                 objectName: "allButton"
                 width: parent.width
-                visible: navigation && (!navigation.isRoot || (root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
+                visible: navigation && (!navigation.isRoot || (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
                 height: itemHeight
 
                 Label {
