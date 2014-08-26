@@ -32,8 +32,8 @@ Rectangle {
 
     ScopeSettingList {
         id: scopeSetting
-        widgetData: settingData
         width: parent.width
+        initialValue: 2
     }
 
     SignalSpy {
@@ -49,9 +49,19 @@ Rectangle {
 
         property var control: findChild(scopeSetting, "control")
 
+        function initTestCase() {
+            scopeSetting.widgetData = settingData;
+        }
+
         function cleanup() {
             control.selectedIndex = 0;
             spy.clear();
+        }
+
+        function test_0initialValue() {
+            // this works because is the first test to run
+            tryCompare(control, "selectedIndex", 2);
+            scopeSetting.initialValue = -1;
         }
 
         function test_updated_data() {
