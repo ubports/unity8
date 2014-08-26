@@ -44,7 +44,7 @@ ScopeSetting {
                 return;
             }
 
-            root.updated(selectedIndex)
+            root.updated(selectedIndex);
         }
     }
 }

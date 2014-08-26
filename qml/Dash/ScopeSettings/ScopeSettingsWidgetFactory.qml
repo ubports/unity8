@@ -52,6 +52,6 @@ Loader {
 
     Connections {
         target: root.item
-        onUpdated: root.updated(value)
+        onUpdated: if (value !== widgetData.value) root.updated(value)
     }
 }
