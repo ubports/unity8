@@ -17,7 +17,6 @@
 #include "SessionManager.h"
 
 #include "MirSurfaceItem.h"
-#include "VirtualKeyboard.h"
 
 SessionManager *SessionManager::the_session_manager = nullptr;
 

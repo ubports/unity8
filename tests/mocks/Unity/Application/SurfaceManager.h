@@ -29,7 +29,7 @@ public:
 
     static SurfaceManager *singleton();
 
-    MirSurfaceItem *createSurface(const QString& name,
+    Q_INVOKABLE MirSurfaceItem *createSurface(const QString& name,
                                   MirSurfaceItem::Type type,
                                   MirSurfaceItem::State state,
                                   const QUrl& screenshot);

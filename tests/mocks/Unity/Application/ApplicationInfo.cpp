@@ -18,10 +18,13 @@
 #include "MirSessionItem.h"
 #include "SessionManager.h"
 
+#include <paths.h>
+
 #include <QGuiApplication>
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQmlComponent>
+#include <QTimer>
 
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
@@ -31,8 +34,8 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_session(0)
+    , m_manualSessionCreation(false)
 {
-    createSession();
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
@@ -43,8 +46,8 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_fullscreen(false)
     , m_parentItem(0)
     , m_session(0)
+    , m_manualSessionCreation(false)
 {
-    createSession();
 }
 
 ApplicationInfo::~ApplicationInfo()
@@ -54,8 +57,9 @@ ApplicationInfo::~ApplicationInfo()
 
 void ApplicationInfo::createSession()
 {
-    QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
+    if (m_session) { return; }
 
+    QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
     setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));
 }
 
@@ -99,7 +103,7 @@ void ApplicationInfo::setScreenshotId(const QString &screenshotId)
 
         QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
         if (m_session) {
-            m_session->setScreenshot(screenshot);
+            m_session->setScreenshot(screenshotUrl);
         }
     }
 }
@@ -134,8 +138,9 @@ void ApplicationInfo::setState(State value)
         m_state = value;
         Q_EMIT stateChanged(value);
 
-        if (!m_manualSurfaceCreation && m_state == ApplicationInfo::Running) {
-            QTimer::singleShot(1000, this, SLOT(createSurface()));
+        if (!m_manualSessionCreation && m_state == ApplicationInfo::Running) {
+
+            QTimer::singleShot(500, this, SLOT(createSession()));
         }
     }
 }
@@ -153,5 +158,13 @@ void ApplicationInfo::setFullscreen(bool value)
     if (value != m_fullscreen) {
         m_fullscreen = value;
         Q_EMIT fullscreenChanged(value);
+    }
+}
+
+void ApplicationInfo::setManualSessionCreation(bool value)
+{
+    if (value != m_manualSessionCreation) {
+        m_manualSessionCreation = value;
+        Q_EMIT manualSessionCreationChanged(value);
     }
 }

@@ -32,7 +32,7 @@ class MirSurfaceItem : public QQuickItem
 
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged DESIGNABLE false)
     Q_PROPERTY(MirSurfaceItemModel* childSurfaces READ childSurfaces DESIGNABLE false CONSTANT)
 
@@ -72,14 +72,13 @@ public:
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
 
-    void addChildSurface(MirSurfaceItem* surface);
+    Q_INVOKABLE void addChildSurface(MirSurfaceItem* surface);
     void insertChildSurface(uint index, MirSurfaceItem* surface);
     void removeChildSurface(MirSurfaceItem* surface);
 
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
-    void nameChanged(QString);
     void parentSurfaceChanged(MirSurfaceItem*);
 
     void removed();

@@ -22,6 +22,8 @@
 #include "MirSessionItem.h"
 #include "MirSurfaceItem.h"
 
+#include <paths.h>
+
 quint32 nextId = 0;
 
 ApplicationTestInterface::ApplicationTestInterface(QObject* parent)
@@ -52,11 +54,15 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
         return 0;
     }
 
+    QUrl screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+            .arg(qmlDirectory())
+            .arg(surfaceImage);
+
     quint32 sessionId = ++nextId;
     MirSessionItem* session = SessionManager::singleton()->createSession(
         QString("%1-Child%2").arg(parentSession->name())
                              .arg(sessionId),
-        QUrl(surfaceImage));
+        screenshotUrl);
     parentSession->addChildSession(session);
     session->createSurface();
     m_childSessions[sessionId] = session;
@@ -98,13 +104,17 @@ quint32 ApplicationTestInterface::addChildSurface(const QString& appId, quint32 
         return 0;
     }
 
+    QUrl screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+            .arg(qmlDirectory())
+            .arg(surfaceImage);
+
     quint32 surfaceId = ++nextId;
     MirSurfaceItem* surface = SurfaceManager::singleton()->createSurface(
         QString("%1-Child%2").arg(parentSurface->name())
                              .arg(surfaceId),
         MirSurfaceItem::Normal,
         MirSurfaceItem::Maximized,
-        QUrl(surfaceImage));
+        screenshotUrl);
     parentSurface->addChildSurface(surface);
     m_childSurfaces[surfaceId] = surface;
 

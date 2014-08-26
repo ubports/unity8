@@ -23,7 +23,7 @@ Item {
     property Item session
     property var childSessions: session ? session.childSessions : 0
     property bool removing: false
-    property alias surface: surfaceContainer.surface
+    property alias surface: _surfaceContainer.surface
     property bool interactive: true
 
     onSessionChanged: {
@@ -32,16 +32,17 @@ Item {
             session.z = 1;
         }
     }
+    Binding {
+        target: session
+        property: "anchors.fill"; value: root
+    }
 
+    readonly property alias surfaceContainer: _surfaceContainer
     SurfaceContainer {
-        id: surfaceContainer
-        anchors.fill: parent
-        z: 2;
-
+        id: _surfaceContainer
+        anchors.fill: session
+        z: 2
         surface: session ? session.surface : null
-        onSurfaceChanged: {
-//            root.animateIn(swipeFromBottom);
-        }
     }
 
     Binding {
@@ -69,15 +70,23 @@ Item {
             source: Qt.resolvedUrl("SessionContainer.qml")
             onLoaded: {
                 item.session = modelData;
-                item.interactive = Qt.bindind(function() { return root.interactive; } );
+                item.interactive = Qt.binding(function() { return root.interactive; } );
             }
 
             Connections {
                 target: modelData
+                onSurfaceChanged: {
+                    item.animateIn(swipeFromBottom);
+                }
                 onRemoved: {
                     item.removing = true;
-//                    item.animateOut();
+                    item.animateOut();
                 }
+            }
+
+            Component {
+                id: swipeFromBottom
+                SwipeFromBottomAnimation {}
             }
         }
     }
@@ -104,10 +113,5 @@ Item {
         id: d
         property var animations: []
         property var currentAnimation: animations.length > 0 ? animations[animations.length-1] : undefined
-    }
-
-    Component {
-        id: swipeFromBottom
-        SwipeFromBottomAnimation {}
     }
 }

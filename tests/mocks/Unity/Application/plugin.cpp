@@ -75,6 +75,9 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
     qmlRegisterSingletonType<SessionManager>(uri, 0, 1, "SessionManager", sessionManagerSingleton);
     qmlRegisterSingletonType<ApplicationTestInterface>(uri, 0, 1, "ApplicationTest", applicationTestInterface);
+
+    qRegisterMetaType<MirSurfaceItem::Type>("MirSurfaceItem::Type");
+    qRegisterMetaType<MirSurfaceItem::State>("MirSurfaceItem::State");
 }
 
 void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

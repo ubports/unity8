@@ -129,8 +129,11 @@ void MirSurfaceItem::setSession(MirSessionItem* session)
 
 void MirSurfaceItem::setScreenshot(const QUrl& screenshot)
 {
-    m_img.load(screenshot.isLocalFile() ? screenshot.toLocalFile() : screenshot.toString());
-    update();
+    m_screenshotUrl = screenshot;
+    if (m_qmlItem) {
+        QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
+        screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
+    }
 }
 
 void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)

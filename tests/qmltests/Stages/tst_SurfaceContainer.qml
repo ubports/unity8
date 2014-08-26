@@ -28,59 +28,15 @@ Rectangle {
     width: units.gu(70)
     height: units.gu(70)
 
-    Component {
-        id: fakeSurfaceComponent
-        Rectangle {
-            color: "green"
-
-            Rectangle {
-                color: "blue"
-                anchors.fill: parent
-                anchors.margins: units.gu(2)
-                Text {
-                    anchors.fill: parent
-                    text: "Surface"
-                    color: "green"
-                    font.bold: true
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 10; font.pixelSize: 200
-                    verticalAlignment: Text.AlignVCenter
-                }
-            }
-
-            width: units.gu(1)
-            height: units.gu(1)
-
-            property int type: MirSurfaceItem.Normal
-            property int state: MirSurfaceItem.Restored
-            property string name: "Fake Surface"
-            property Item parentSurface: null
-            property list<Item> childSurfaces
-            function release() {}
-            signal removed();
-        }
-    }
-
-    Item {
-        id: tempSurfaceHolder
-    }
-
-    Component {
-        id: surfaceContainerComponent
-        SurfaceContainer {
-            anchors.fill: parent
-        }
-    }
-    Loader {
-        id: surfaceContainerLoader
+    SurfaceContainer {
+        id: surfaceContainer
         anchors {
             top: parent.top
-            topMargin: fullscreenCheckbox.checked ? 0 : units.gu(3) + units.dp(2)
             bottom: parent.bottom
             left: parent.left
+            topMargin: fullscreenCheckbox.checked ? 0 : units.gu(3) + units.dp(2)
         }
         width: units.gu(40)
-        sourceComponent: surfaceContainerComponent
     }
 
     Rectangle {
@@ -88,7 +44,7 @@ Rectangle {
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: surfaceContainerLoader.right
+            left: surfaceContainer.right
             right: parent.right
         }
 
@@ -98,19 +54,16 @@ Rectangle {
             Row {
                 anchors { left: parent.left; right: parent.right }
                 CheckBox {
-                    id: surfaceCheckbox; checked: false;
+                    id: surfaceCheckbox;
+                    checked: false;
                     onCheckedChanged: {
-                        if (surfaceContainerLoader.status !== Loader.Ready)
-                            return;
-
                         if (checked) {
-                            var fakeSurface = fakeSurfaceComponent.createObject(tempSurfaceHolder);
-                            surfaceContainerLoader.item.surface = fakeSurface;
+                            surfaceContainer.surface = SurfaceManager.createSurface("fake-surface",
+                                                                           MirSurfaceItem.Normal,
+                                                                           MirSurfaceItem.Restored,
+                                                                           Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
                         } else {
-                            var fakeSurface = surfaceContainerLoader.item.surface;
-                            surfaceContainerLoader.item.surface = null;
-                            fakeSurface.parent = null;
-                            fakeSurface.destroy();
+                            surfaceContainer.surface.release();
                         }
                     }
                 }
@@ -124,6 +77,12 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: surfaceSpy
+        target: SurfaceManager
+        signalName: "surfaceDestroyed"
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "SurfaceContainer"
@@ -131,9 +90,10 @@ Rectangle {
 
         function cleanup() {
             // reload our test subject to get it in a fresh state once again
-            surfaceContainerLoader.active = false;
             surfaceCheckbox.checked = false;
-            surfaceContainerLoader.active = true;
+            tryCompare(surfaceContainer, "surface", null);
+            surfaceSpy.clear();
+
         }
 
         /*
@@ -146,68 +106,75 @@ Rectangle {
             surfaceCheckbox.checked = true;
             surfaceCheckbox.checked = false;
             surfaceCheckbox.checked = true;
-            var fakeSurface = surfaceContainerLoader.item.surface;
-            compare(fakeSurface.width, surfaceContainerLoader.item.width);
-            compare(fakeSurface.height, surfaceContainerLoader.item.height);
+            var fakeSurface = surfaceContainer.surface;
+            compare(fakeSurface.width, surfaceContainer.width);
+            compare(fakeSurface.height, surfaceContainer.height);
         }
 
-        // function test_childSurfaces_data() {
-        //     return [ { tag: "1", count: 1 },
-        //              { tag: "4", count: 4 } ];
-        // }
+         function test_childSurfaces_data() {
+             return [ { tag: "1", count: 1 },
+                      { tag: "4", count: 4 } ];
+         }
 
-        // function test_childSurfaces(data) {
-        //     var unity8dash = findChild(shell, "unity8-dash");
-        //     compare(unity8dash.childSurfaces.count(), 0);
+         function test_childSurfaces(data) {
+             surfaceCheckbox.checked = true;
 
-        //     var i;
-        //     var surfaces = [];
-        //     for (i = 0; i < data.count; i++) {
-        //         surfaces.push(ApplicationTest.addChildSurface("unity8-dash", 0, 0, Qt.resolvedUrl("Dash/artwork/music-player-design.png")));
-        //         compare(unity8dash.childSurfaces.count(), i+1);
-        //     }
+             var i;
+             var surfaces = [];
+             for (i = 0; i < data.count; i++) {
+                 var surface = SurfaceManager.createSurface(surfaceContainer.surface.name + "-Child" + i,
+                                                            MirSurfaceItem.Normal,
+                                                            MirSurfaceItem.Restored,
+                                                            Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
+                 surfaceContainer.surface.addChildSurface(surface);
+                 compare(surfaceContainer.childSurfaces.count(), i+1);
 
-        //     surfaceSpy.clear();
-        //     for (i = data.count-1; i >= 0; i--) {
-        //         ApplicationTest.removeSurface(surfaces[i]);
-        //         tryCompareFunction(function() { return unity8dash.childSurfaces.count(); }, i);
-        //     }
-        //     tryCompare(surfaceSpy, "count", data.count)
-        // }
+                 surfaces.push(surface);
+             }
 
-        // function test_tieredChildSurfaces_data() {
-        //     return [
-        //         { tag: "2", count: 2 },
-        //         { tag: "10", count: 10 }
-        //     ];
-        // }
+             for (i = data.count-1; i >= 0; i--) {
+                 surfaces[i].release();
+                 tryCompareFunction(function() { return surfaceContainer.childSurfaces.count(); }, i);
+             }
+             tryCompare(surfaceSpy, "count", data.count);
+         }
 
-        // function test_tieredChildSurfaces(data) {
-        //     var unity8dash = findChild(shell, "unity8-dash");
-        //     compare(unity8dash.childSurfaces.count(), 0);
+         function test_nestedChildSurfaces_data() {
+             return [
+                 { tag: "2", count: 2 },
+                 { tag: "10", count: 10 }
+             ];
+         }
 
-        //     var i;
-        //     var surfaces = [];
-        //     var lastSurfaceId = 0;
-        //     var delegate;
-        //     var surfaceContainer = unity8dash;
-        //     for (i = 0; i < data.count; i++) {
-        //         lastSurfaceId = ApplicationTest.addChildSurface("unity8-dash", 0, lastSurfaceId, Qt.resolvedUrl("Dash/artwork/music-player-design.png"))
-        //         surfaces.push(lastSurfaceId);
+         function test_nestedChildSurfaces(data) {
+             surfaceCheckbox.checked = true;
 
-        //         compare(surfaceContainer.childSurfaces.count(), 1);
+             var i;
+             var surfaces = [];
+             var lastSurface = surfaceContainer.surface;
+             var delegate;
+             var container = surfaceContainer;
+             for (i = 0; i < data.count; i++) {
+                 var surface = SurfaceManager.createSurface(surfaceContainer.surface.name + "-Child" + i,
+                                                            MirSurfaceItem.Normal,
+                                                            MirSurfaceItem.Restored,
+                                                            Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
+                 lastSurface.addChildSurface(surface);
+                 compare(container.childSurfaces.count(), 1);
+                 surfaces.push(surface);
 
-        //         delegate = findChild(surfaceContainer, "childDelegate0");
-        //         surfaceContainer = findChild(delegate, "surfaceContainer");
-        //     }
+                 delegate = findChild(container, "childDelegate0");
+                 container = findChild(delegate, "surfaceContainer");
+                 lastSurface = surface;
+             }
 
-        //     surfaceSpy.clear();
-        //     for (i = data.count-1; i >= 0; i--) {
-        //         ApplicationTest.removeSurface(surfaces[i]);
-        //     }
+             surfaceSpy.clear();
+             for (i = data.count-1; i >= 0; i--) {
+                 surfaces[i].release();
+             }
 
-        //     compare(unity8dash.childSurfaces.count(), 0);
-        //     tryCompare(surfaceSpy, "count", data.count)
-        // }
+             compare(surfaceContainer.childSurfaces.count(), 0);
+             tryCompare(surfaceSpy, "count", data.count)
+         }
     }
 }

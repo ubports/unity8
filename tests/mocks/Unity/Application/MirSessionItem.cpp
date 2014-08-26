@@ -32,6 +32,7 @@ MirSessionItem::MirSessionItem(const QString &name,
     , m_surface(nullptr)
     , m_parentSession(nullptr)
     , m_children(new MirSessionItemModel(this))
+    , m_manualSurfaceCreation(false)
 {
     qDebug() << "MirSessionItem::MirSessionItem() " << this->name();
 
@@ -85,12 +86,13 @@ void MirSessionItem::setApplication(ApplicationInfo* application)
 
     if (m_application) {
         connect(m_application, &ApplicationInfo::stateChanged, this, [this](ApplicationInfo::State state) {
-            if (state == ApplicationInfo::Running) {
+            if (!m_manualSurfaceCreation && state == ApplicationInfo::Running) {
                 QTimer::singleShot(500, this, SLOT(createSurface()));
-            } else if (state == ApplicationInfo::Stopped) {
-                setSurface(nullptr);
             }
         });
+        if (!m_manualSurfaceCreation && m_application->state() == ApplicationInfo::Running) {
+            QTimer::singleShot(500, this, SLOT(createSurface()));
+        }
     }
 }
 
@@ -170,4 +172,12 @@ void MirSessionItem::removeChildSession(MirSessionItem* session)
 MirSessionItemModel* MirSessionItem::childSessions() const
 {
     return m_children;
+}
+
+void MirSessionItem::setManualSurfaceCreation(bool value)
+{
+    if (value != m_manualSurfaceCreation) {
+        m_manualSurfaceCreation = value;
+        Q_EMIT manualSurfaceCreationChanged(value);
+    }
 }

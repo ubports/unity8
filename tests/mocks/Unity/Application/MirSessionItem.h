@@ -26,9 +26,15 @@ class ApplicationInfo;
 class MirSessionItem : public QQuickItem
 {
     Q_OBJECT
+    Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
     Q_PROPERTY(MirSessionItem* parentSession READ parentSession NOTIFY parentSessionChanged DESIGNABLE false)
     Q_PROPERTY(MirSessionItemModel* childSessions READ childSessions DESIGNABLE false CONSTANT)
+
+    // Only exists in this fake implementation
+
+    // whether the test code will explicitly control the creation of the application surface
+    Q_PROPERTY(bool manualSurfaceCreation READ manualSurfaceCreation WRITE setManualSurfaceCreation NOTIFY manualSurfaceCreationChanged)
 
 public:
     explicit MirSessionItem(const QString &name,
@@ -48,18 +54,22 @@ public:
     void setSurface(MirSurfaceItem* surface);
     void setScreenshot(const QUrl& m_screenshot);
 
-    void addChildSession(MirSessionItem* session);
+    Q_INVOKABLE void addChildSession(MirSessionItem* session);
     void insertChildSession(uint index, MirSessionItem* session);
     void removeChildSession(MirSessionItem* session);
+
+    bool manualSurfaceCreation() const { return m_manualSurfaceCreation; }
+    void setManualSurfaceCreation(bool value);
 
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(MirSessionItem*);
     void removed();
     void aboutToBeDestroyed();
+    void manualSurfaceCreationChanged(bool value);
 
 public Q_SLOTS:
-    void createSurface();
+    Q_INVOKABLE void createSurface();
 
 private:
     MirSessionItemModel* childSessions() const;
@@ -71,6 +81,8 @@ private:
     MirSurfaceItem* m_surface;
     MirSessionItem* m_parentSession;
     MirSessionItemModel* m_children;
+
+    bool m_manualSurfaceCreation;
 };
 
 Q_DECLARE_METATYPE(MirSessionItem*)

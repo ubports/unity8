@@ -31,7 +31,7 @@ Item {
     }
     Binding {
         target: surface
-        property: "anchors.fill"; value: container
+        property: "anchors.fill"; value: root
     }
 
     Connections {

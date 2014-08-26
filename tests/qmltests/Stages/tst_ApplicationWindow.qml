@@ -31,15 +31,18 @@ Rectangle {
 
     Component.onCompleted: {
         root.fakeApplication = ApplicationManager.add("gallery-app");
-        root.fakeApplication.manualSurfaceCreation = true;
+        root.fakeApplication.manualSessionCreation = true;
+        root.fakeApplication.createSession();
+        root.fakeApplication.session.manualSessionCreation = true;
         root.fakeApplication.setState(ApplicationInfo.Starting);
     }
     property QtObject fakeApplication: null
+    readonly property var fakeSession: fakeApplication ? fakeApplication.session : null
 
     Connections {
-        target: fakeApplication
+        target: fakeSession
         onSurfaceChanged: {
-            surfaceCheckbox.checked = fakeApplication.surface !== null;
+            surfaceCheckbox.checked = fakeSession.surface !== null;
         }
     }
 
@@ -81,10 +84,10 @@ Rectangle {
                         if (applicationWindowLoader.status !== Loader.Ready)
                             return;
 
-                        if (checked && !fakeApplication.surface) {
-                            fakeApplication.createSurface();
-                        } else if (!checked && fakeApplication.surface) {
-                            fakeApplication.surface.release();
+                        if (checked && !fakeSession.surface) {
+                            fakeSession.createSurface();
+                        } else if (!checked && fakeSession.surface) {
+                            fakeSession.surface.release();
                         }
                     }
                 }
@@ -241,7 +244,7 @@ Rectangle {
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(fakeApplication, "surface", null);
+            tryCompare(fakeSession, "surface", null);
         }
 
         function test_restartApp() {
@@ -259,14 +262,14 @@ Rectangle {
 
             tryCompare(stateGroup, "state", "screenshot");
             waitUntilTransitionsEnd();
-            tryCompare(fakeApplication, "surface", null);
+            tryCompare(fakeSession, "surface", null);
 
             // and restart it
             setApplicationState(appStarting);
 
             waitUntilTransitionsEnd();
             verify(stateGroup.state === "screenshot");
-            verify(fakeApplication.surface === null);
+            verify(fakeSession.surface === null);
 
             setApplicationState(appRunning);
 
@@ -289,7 +292,7 @@ Rectangle {
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(fakeApplication, "surface", null);
+            tryCompare(fakeSession, "surface", null);
         }
 
         function test_keepSurfaceWhileInvisible() {
@@ -297,19 +300,19 @@ Rectangle {
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd();
-            verify(fakeApplication.surface !== null);
+            verify(fakeSession.surface !== null);
 
             applicationWindowLoader.item.visible = false;
 
             waitUntilTransitionsEnd();
             verify(stateGroup.state === "surface");
-            verify(fakeApplication.surface !== null);
+            verify(fakeSession.surface !== null);
 
             applicationWindowLoader.item.visible = true;
 
             waitUntilTransitionsEnd();
             verify(stateGroup.state === "surface");
-            verify(fakeApplication.surface !== null);
+            verify(fakeSession.surface !== null);
         }
 
         function test_touchesReachSurfaceWhenItsShown() {
@@ -321,7 +324,7 @@ Rectangle {
             waitUntilTransitionsEnd();
 
             // Because doing stuff in C++ is a PITA we keep the counter in the interal qml impl.
-            var fakeSurface = findChild(fakeApplication.surface, "fakeSurfaceQML");
+            var fakeSurface = findChild(fakeSession.surface, "fakeSurfaceQML");
             fakeSurface.touchPressCount = 0;
             fakeSurface.touchReleaseCount = 0;
 

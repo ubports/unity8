@@ -237,9 +237,9 @@ Item {
         function test_surfaceLosesFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.surface != null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
 
-            tryCompare(app.surface, "focus", true);
+            tryCompare(app.session.surface, "focus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -250,7 +250,7 @@ Item {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.surface, "focus", false);
+            tryCompare(app.session.surface, "focus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -259,11 +259,11 @@ Item {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.surface, "focus", false);
+            tryCompare(app.session.surface, "focus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.surface, "focus", true);
+            tryCompare(app.session.surface, "focus", true);
         }
 
         // Wait for the whole UI to settle down
@@ -361,7 +361,7 @@ Item {
 
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.surface != null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
 
             // Minimize the application we just launched
             swipeFromLeftEdge(units.gu(26) + 1);

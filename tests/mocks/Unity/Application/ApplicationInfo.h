@@ -21,7 +21,6 @@
 #include "MirSurfaceItemModel.h"
 
 #include <QObject>
-#include <QQmlComponent>
 
 class QQuickItem;
 class MirSurfaceItem;
@@ -37,8 +36,14 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
     Q_PROPERTY(MirSessionItem* session READ session NOTIFY sessionChanged)
 
+    // Only exists in this fake implementation
+
+    // whether the test code will explicitly control the creation of the application surface
+    Q_PROPERTY(bool manualSessionCreation READ manualSessionCreation WRITE setManualSessionCreation NOTIFY manualSessionCreationChanged)
+
 public:
     ApplicationInfo(const QString &appId, QObject *parent = NULL);
+    ApplicationInfo(QObject *parent = NULL);
     ~ApplicationInfo();
 
      void setIconId(const QString &iconId);
@@ -67,6 +72,9 @@ public:
     void setFullscreen(bool value);
     bool fullscreen() const { return m_fullscreen; }
 
+    bool manualSessionCreation() const { return m_manualSessionCreation; }
+    void setManualSessionCreation(bool value);
+
 public:
     void setSession(MirSessionItem* session);
     MirSessionItem* session() const { return m_session; }
@@ -74,13 +82,28 @@ public:
 Q_SIGNALS:
     void sessionChanged(MirSessionItem*);
     void fullscreenChanged(bool value);
-    void manualSurfaceCreationChanged(bool value);
+    void manualSessionCreationChanged(bool value);
+
+public Q_SLOTS:
+    Q_INVOKABLE void createSession();
 
 private:
-    void createSession();
+    void setIcon(const QUrl &value);
+
+    QString m_screenshotFileName;
+
+    QString m_appId;
+    QString m_name;
+    QUrl m_icon;
+    Stage m_stage;
+    State m_state;
+    bool m_focused;
+    bool m_fullscreen;
 
     QQuickItem *m_parentItem;
     MirSessionItem* m_session;
+
+    bool m_manualSessionCreation;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)

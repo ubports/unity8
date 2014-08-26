@@ -29,7 +29,7 @@ public:
 
     static SessionManager *singleton();
 
-    MirSessionItem* createSession(const QString& name, const QUrl& screenshot);
+    Q_INVOKABLE MirSessionItem* createSession(const QString& name, const QUrl& screenshot);
 
 Q_SIGNALS:
     void sessionStarting(MirSessionItem *session);

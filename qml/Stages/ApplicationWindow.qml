@@ -26,6 +26,7 @@ SessionContainer {
 
     // to be set from outside
     property QtObject application
+    session: application ? application.session : null
 
     QtObject {
         id: d
@@ -104,7 +105,7 @@ SessionContainer {
         id: splashLoader
         visible: active
         active: false
-        anchors.fill: surfaceContainer
+        anchors.fill: parent
         sourceComponent: Component {
             Splash { name: d.name; image: d.icon }
         }

@@ -336,7 +336,7 @@ void ApplicationManager::buildListOfAvailableApplications()
 {
     ApplicationInfo *application;
 
-    application = new ApplicationInfo(("unity8-dash", this);
+    application = new ApplicationInfo("unity8-dash", this);
     application->setName("Unity 8 Mock Dash");
     application->setScreenshotId("unity8-dash");
     application->setStage(ApplicationInfo::MainStage);
