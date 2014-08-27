@@ -75,23 +75,20 @@ Item {
             Connections {
                 target: modelData
                 onSurfaceChanged: {
-                    if (surface) item.animateIn(swipeFromBottom);
+                    if (modelData.surface) {
+                        item.animateIn();
+                    }
                 }
                 onRemoved: {
                     item.removing = true;
                     item.animateOut();
                 }
             }
-
-            Component {
-                id: swipeFromBottom
-                SwipeFromBottomAnimation {}
-            }
         }
     }
 
-    function animateIn(animationComponent) {
-        var animation = animationComponent.createObject(root,
+    function animateIn() {
+        var animation = swipeFromBottom.createObject(root,
                                                         {
                                                             "sessionContainer": root,
                                                             "surfaceContainer": surfaceContainer
@@ -110,6 +107,11 @@ Item {
             popped.end();
             d.animations = tmp;
         }
+    }
+
+    Component {
+        id: swipeFromBottom
+        SwipeFromBottomAnimation {}
     }
 
     QtObject {
