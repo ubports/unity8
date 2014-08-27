@@ -49,6 +49,7 @@ PreviewWidget {
 
         Payments {
             id: paymentClient
+            objectName: "paymentClient"
 
             property var source: widgetData["source"]
 
