@@ -148,7 +148,12 @@ Item {
 
     ScopeStyle {
         id: overviewScopeStyle
-        style: { "foreground-color" : "white", "background-color" : "transparent" }
+        style: { "foreground-color" : "white",
+                 "background-color" : "transparent",
+                 "page-header": {
+                    "background": "color:///transparent"
+                 }
+        }
     }
 
     DashBackground {
@@ -458,6 +463,7 @@ Item {
         objectName: "scopesOverviewPreviewListView"
         scope: root.scope
         scopeStyle: overviewScopeStyle
+        showSignatureLine: false
         visible: x != width
         width: parent.width
         height: parent.height

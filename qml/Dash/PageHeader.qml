@@ -240,6 +240,7 @@ Item {
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
+                separatorBottomSource: ""
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
@@ -288,25 +289,6 @@ Item {
         }
     }
 
-    Row {
-        spacing: units.gu(.5)
-        Repeater {
-            objectName: "paginationRepeater"
-            model: root.paginationCount
-            Image {
-                objectName: "paginationDots_" + index
-                height: units.gu(1)
-                width: height
-                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
-            }
-        }
-        anchors {
-            top: headerContainer.bottom
-            horizontalCenter: headerContainer.horizontalCenter
-            topMargin: units.gu(.5)
-        }
-    }
-
     Component {
         id: popoverComponent
         Popover {
@@ -344,7 +326,7 @@ Item {
         }
     }
 
-    BorderImage {
+    Rectangle {
         id: bottomBorder
         anchors {
             top: headerContainer.bottom
@@ -353,7 +335,52 @@ Item {
             bottom: bottomContainer.top
         }
 
-        source: "graphics/PageHeaderBaseDivider.sci"
+        color: scopeStyle ? scopeStyle.headerDividerColor : "#e0e0e0"
+
+        Rectangle {
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            height: units.dp(1)
+            color: Qt.darker(parent.color, 1.1)
+        }
+    }
+
+    Row {
+        visible: bottomBorder.visible
+        spacing: units.gu(.5)
+        Repeater {
+            objectName: "paginationRepeater"
+            model: root.paginationCount
+            Image {
+                objectName: "paginationDots_" + index
+                height: units.gu(1)
+                width: height
+                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
+            }
+        }
+        anchors {
+            top: headerContainer.bottom
+            horizontalCenter: headerContainer.horizontalCenter
+            topMargin: units.gu(.5)
+        }
+    }
+
+    // FIXME this doesn't work with solid scope backgrounds due to z-ordering
+    Rectangle {
+        visible: bottomBorder.visible
+        anchors {
+            top: bottomContainer.top
+            left: parent.left
+            right: parent.right
+        }
+        height: units.dp(1)
+        opacity: 0.6
+        color: scopeStyle ?
+                   Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2) :
+                   "#CCFFFFFF"
     }
 
     Item {
