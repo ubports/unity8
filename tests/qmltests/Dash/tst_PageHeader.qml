@@ -155,7 +155,7 @@ Item {
             compare(searchTextField.focus, true);
 
             var recentSearches = findChild(headerContainer.popover, "recentSearches");
-            verify(recentSearches, "Could not find recent searches in the popover")?
+            verify(recentSearches, "Could not find recent searches in the popover");
             waitForRendering(recentSearches);
             mouseClick(recentSearches.itemAt(0), 0, 0);
 
