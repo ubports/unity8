@@ -17,7 +17,6 @@
  */
 
 #include "unitymenumodel.h"
-#include <QDebug>
 
 enum MenuRoles {
     LabelRole  = Qt::DisplayRole + 1,
@@ -35,6 +34,10 @@ enum MenuRoles {
 
 UnityMenuModel::UnityMenuModel(QObject *parent)
 :   QAbstractListModel(parent)
+{
+}
+
+UnityMenuModel::~UnityMenuModel()
 {
 }
 
@@ -83,10 +86,6 @@ void UnityMenuModel::removeRow(int row)
     endRemoveRows();
 }
 
-UnityMenuModel::~UnityMenuModel()
-{
-}
-
 QByteArray UnityMenuModel::busName() const
 {
     return m_busName;
@@ -119,7 +118,7 @@ void UnityMenuModel::setMenuObjectPath(const QByteArray &path)
 
 ActionStateParser* UnityMenuModel::actionStateParser() const
 {
-    return NULL;
+    return nullptr;
 }
 
 void UnityMenuModel::setActionStateParser(ActionStateParser*)
@@ -191,11 +190,11 @@ QHash<int, QByteArray> UnityMenuModel::roleNames() const
 QObject * UnityMenuModel::submenu(int position, QQmlComponent*)
 {
     if (position < 0 || m_modelData.count() < position) {
-        return NULL;
+        return nullptr;
     }
 
     while (submenus.count() <= position) {
-        submenus.append(NULL);
+        submenus.append(nullptr);
     }
 
     QVariant submenuData = subMenuData(position);
@@ -210,7 +209,7 @@ QObject * UnityMenuModel::submenu(int position, QQmlComponent*)
         return model;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool UnityMenuModel::loadExtendedAttributes(int, const QVariantMap &)

@@ -110,7 +110,8 @@ Rectangle {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
-        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1) && draggedIndex == -1
+        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
+                     && draggedDelegateCount === 0
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -148,7 +149,7 @@ Rectangle {
         property int phase: 0
 
         property int selectedIndex: -1
-        property int draggedIndex: -1
+        property int draggedDelegateCount: 0
         property int closingIndex: -1
 
         property bool focusChanging: false
@@ -269,7 +270,7 @@ Rectangle {
                     swipeToCloseEnabled: spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.active ||
-                                priv.focusedAppDelegate.x !== 0
+                                (priv.focusedAppDelegate && priv.focusedAppDelegate.x !== 0)
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
@@ -290,6 +291,10 @@ Rectangle {
                         // Otherwise line up for the spread
                         return spreadView.width + (index - 1) * spreadView.tileDistance;
                     }
+
+                    application: ApplicationManager.get(index)
+                    closeable: !isDash
+
                     property real behavioredIndex: index
                     Behavior on behavioredIndex {
                         enabled: spreadView.closingIndex >= 0
@@ -372,8 +377,15 @@ Rectangle {
                         }
                     }
 
+                    onDraggedChanged: {
+                        if (dragged) {
+                            spreadView.draggedDelegateCount++;
+                        } else {
+                            spreadView.draggedDelegateCount--;
+                        }
+                    }
+
                     onClosed: {
-                        spreadView.draggedIndex = -1;
                         spreadView.closingIndex = index;
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
                     }

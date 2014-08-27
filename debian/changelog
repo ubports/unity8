@@ -1,3 +1,129 @@
+unity8 (8.00+14.10.20140827.2-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Implement scope header customization options
+  * Don't ignore empty attributes in CardAttributes.qml and improve its
+    encapsulation (LP: #1355901)
+  * Add support for preview button color customization. Deprecate
+    support for action icons.
+  * Add table preview widget
+  * Make "See Less" get stuck at the bottom of the view
+  * Support alternative navigation in the dash.
+  * Add scope settings UI
+  * Add scope favoriting support
+  * Passcode, not PIN (LP: #1361114)
+
+  [ Jussi Pakkanen ]
+  * Use nullptr instead of NULL.
+
+  [ Albert Astals ]
+  * Add table preview widget
+  * Make "See Less" get stuck at the bottom of the view
+  * Support alternative navigation in the dash.
+  * Make the PageHeaderLabelTest pass under valgrind
+
+  [ Benjamin Zeller ]
+  * Add support for scope:// url in the dash (LP: #1361349)
+
+  [ Marcus Tomlinson ]
+  * Handle the openScope signal in "tempScopeItem" (ScopesOverview.qml)
+    as is done with "scopeItem" (Dash.qml) (LP: #1356410)
+
+  [ Daniel d'Andrada ]
+  * Make "See Less" get stuck at the bottom of the view
+
+  [ Andrea Cimitan ]
+  * Fix right padding on overlay card
+  * Add scope settings UI
+
+  [ Michael Zanetti ]
+  * use a smaller asset for the app's dropshadow (LP: #1359157)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 27 Aug 2014 15:37:05 +0000
+
+unity8 (8.00+14.10.20140825.3-0ubuntu1) utopic; urgency=low
+
+  [ Daniel d'Andrada ]
+  * SpreadDelegate - properly transition between splash screen, surface
+    and screenshot
+
+  [ Michał Sawicz ]
+  * Rename Ubuntu.Connectivity to Unity.Connectivity to avoid name clash
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 25 Aug 2014 13:10:57 +0000
+
+unity8 (8.00+14.10.20140822-0ubuntu1) utopic; urgency=low
+
+  [ Albert Astals ]
+  * More stable dash overview tests
+  * PreviewExpandable: "widgets" is a model, not an array
+
+  [ Alberto Aguirre ]
+  * Proxy inactivity timeout values from gsettings into Unity.Screen
+    (LP: #1230345)
+
+  [ Gerry Boland ]
+  * Cancel open PAM interactions on shutdown - fixes hang on logout on
+    desktop (LP: #1353041)
+
+  [ Diego Sarmentero ]
+  * Show progress bar on payment button click The payment process has a
+    small delay before the UI comes up which might cause confusion. Show
+    a progress bar with unknown value to indicate activity. (LP:
+    #1354139)
+
+  [ Mirco Müller ]
+  * Made notification qml-test pass again by using Component.onCompleted
+    instead of onOpacityChanged for the time being.
+
+  [ Michael Zanetti ]
+  * Implement new lockscreen designs
+
+  [ Michael Terry ]
+  * Show the SIM unlock dialog immediately after booting, and enable its
+    emergency call button.
+  * Always keep indicator/launcher locked state in sync with whether the
+    user is authenticated. (LP:# 1357230) (LP: #1357230)
+  * Allow logging into a desktop or tablet session again, by properly
+    dismissing old PAM conversations. (LP: #1350878) In a desktop or
+    tablet, we were accidentally starting two PAM conversations in
+    sequence on startup. Which is a small bug; it shouldn't normally be
+    a problem, since each new PAM conversation should kill the old
+    one.But the way we were killing the old one was subject to a thread
+    race condition. See, a PAM conversation thread won't exit until all
+    its prompts are answered. And what we do when we kill a PAM
+    conversation is to answer all prompts with empty strings.But it's
+    possible that when we want to kill a PAM conversation that it hasn't
+    actually gotten to the point of prompting us yet. And when those
+    prompts do come through, we were treating them as prompts for the
+    new PAM conversation.So I've changed the PAM conversation logic to
+    include a pam_handle and compare the handle with the current handle
+    when being prompted. If it's an old handle, we just dismiss the
+    prompt with an empty string response.Oh, and I fixed the bug that
+    caused two prompts on startup in the first place. (But we still need
+    the above logic anyway, for when you switch users quickly.) (LP:
+    #1350878)
+
+  [ Martin Pitt ]
+  * Mark for using language packs.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 22 Aug 2014 09:29:41 +0000
+
+unity8 (8.00+14.10.20140820-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Nick Dedekind ]
+  * Fixed CachedUnityMenuModel destruction unhinging indicators. (LP:
+    #1328646)
+
+  [ Mirco Müller ]
+  * Temporarily disable any opacity-animation for notifications to
+    unblock the train due to LP: 1354406. (LP: #1354406)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 20 Aug 2014 20:03:55 +0000
+
 unity8 (8.00+14.10.20140817-0ubuntu1) utopic; urgency=low
 
   [ CI bot ]

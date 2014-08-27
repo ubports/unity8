@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-17 16:53+0000\n"
+"POT-Creation-Date: 2014-08-21 11:36+0200\n"
+"PO-Revision-Date: 2014-08-26 18:32+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-18 07:20+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-27 07:46+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
@@ -94,19 +94,19 @@ msgstr ""
 "Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
 "käytön<br><br>Napauta näyttöä aloittaaksesi"
 
-#: qml/Components/Lockscreen.qml:161
-msgid "Too many incorrect attempts"
-msgstr "Liian monta virheellistä yritystä"
-
-#: qml/Components/Lockscreen.qml:163
+#: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
 msgstr "Odota hetki"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "Liian monta virheellistä yritystä"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Hätäpuhelu"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "OK"
 
@@ -119,23 +119,15 @@ msgstr "Hei %1!"
 msgid "Hello"
 msgstr "Hei"
 
-#: qml/Components/PinLockscreen.qml:197
-msgid "CANCEL"
-msgstr "PERU"
-
-#: qml/Components/PinLockscreen.qml:215
-msgid "DONE"
-msgstr "VALMIS"
-
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "Näytä vähemmän"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "Näytä kaikki"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Hae"
 
@@ -161,7 +153,7 @@ msgstr "Lähetä"
 
 #: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr "Dashin hallinta"
+msgstr "Unityn hallinta"
 
 #: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
@@ -203,13 +195,17 @@ msgstr "Puhu nyt..."
 msgid "Speaking..."
 msgstr "Puhutaan..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "Näytä salasana"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
 msgstr "Anna SIM-kortin PIN-koodi"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+msgid "Sorry, incorrect PIN"
+msgstr "Väärä PIN-koodi"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -251,41 +247,41 @@ msgstr "Avaa SIM-kortin lukitus"
 msgid "Roaming"
 msgstr "Verkkovierailu"
 
-#: qml/Shell.qml:267
-msgid "passphrase"
-msgstr "tunnuslause"
+#: qml/Shell.qml:266
+msgid "Enter your passphrase"
+msgstr "Anna tunnuslause"
 
 #: qml/Shell.qml:267
-msgid "passcode"
-msgstr "tunnuskoodi"
+msgid "Sorry, incorrect passphrase"
+msgstr "Virheellinen tunnuslause"
 
 #: qml/Shell.qml:269
+msgid "Enter your PIN"
+msgstr "Anna PIN-koodi"
+
+#: qml/Shell.qml:273
 #, qt-format
 msgid "Enter your %1"
 msgstr "Anna %1"
 
-#: qml/Shell.qml:270
+#: qml/Shell.qml:274
 #, qt-format
-msgid "Incorrect %1"
-msgstr "Virheellinen %1"
+msgid "Sorry, incorrect %1"
+msgstr "Väärä %1"
 
-#: qml/Shell.qml:272
-msgid "Please re-enter"
-msgstr "Anna uudelleen"
-
-#: qml/Shell.qml:306
+#: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
 msgstr "Virheellinen tunnuslause."
 
-#: qml/Shell.qml:307
+#: qml/Shell.qml:311
 msgid "Sorry, incorrect passcode."
 msgstr "Virheellinen tunnuskoodi."
 
-#: qml/Shell.qml:308
+#: qml/Shell.qml:312
 msgid "This will be your last attempt."
 msgstr "Tämä on viimeinen yritys."
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:314
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -293,10 +289,32 @@ msgstr ""
 "Jos kirjoitat tunnuslauseen virheellisesti, puhelimesi palautetaan "
 "tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:315
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Jos kirjoitat tunnuskoodin virheellisesti, puhelimesi palautetaan "
 "tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
+
+#~ msgid "Please enter SIM PIN"
+#~ msgstr "Anna SIM-kortin PIN-koodi"
+
+#~ msgid "CANCEL"
+#~ msgstr "PERU"
+
+#~ msgid "DONE"
+#~ msgstr "VALMIS"
+
+#, qt-format
+#~ msgid "Incorrect %1"
+#~ msgstr "Virheellinen %1"
+
+#~ msgid "passphrase"
+#~ msgstr "tunnuslause"
+
+#~ msgid "passcode"
+#~ msgstr "tunnuskoodi"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Anna uudelleen"

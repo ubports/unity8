@@ -14,22 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIRTUALKEYBOARD_H
-#define VIRTUALKEYBOARD_H
+#include "MockConnectivity.h"
 
-#include "MirSurfaceItem.h"
-
-class VirtualKeyboard : public MirSurfaceItem
+MockConnectivity::MockConnectivity(QObject *parent)
+    : QObject(parent)
 {
-    Q_OBJECT
-public:
-    VirtualKeyboard(State state,
-                    QQuickItem *parent = 0);
+}
 
-    void touchEvent(QTouchEvent * event) override;
-
-private:
-    bool hasTouchInsideKeyboard(QTouchEvent *event);
-};
-
-#endif // VIRTUALKEYBOARD_H
+void MockConnectivity::unlockAllModems()
+{
+    Q_EMIT unlockingAllModems();
+}

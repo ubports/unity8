@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"POT-Creation-Date: 2014-08-21 11:36+0200\n"
 "PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sok Sophea <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-20 06:23+0000\n"
+"X-Launchpad-Export-Date: 2014-08-23 07:17+0000\n"
 "X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
@@ -96,48 +96,40 @@ msgstr ""
 "ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
 "និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
 
-#: qml/Components/Lockscreen.qml:161
-msgid "Too many incorrect attempts"
-msgstr "បាន​ព្យាយាម​ខុស​ច្រើន​ដង​ពេក"
-
-#: qml/Components/Lockscreen.qml:163
+#: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
 msgstr "សូមរង់ចាំ"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "បាន​ព្យាយាម​ខុស​ច្រើន​ដង​ពេក"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "ការ​ហៅ​ពេល​អាសន្ន"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "យល់ព្រម"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "សួស្ដី %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "សួស្តី"
 
-#: qml/Components/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr "បោះបង់"
-
-#: qml/Components/PinLockscreen.qml:216
-msgid "DONE"
-msgstr "រួចរាល់"
-
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "មើល​តិច​ជាង"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "មើល​ទាំងអស់"
 
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ស្វែង​រក"
 
@@ -161,15 +153,15 @@ msgstr "បន្ថែម​ការ​ពិនិត្យ"
 msgid "Send"
 msgstr "ផ្ញើ"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
 msgstr "គ្រប់គ្រង​ផ្ទាំង"
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
 msgstr "ធ្វើរួច"
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
 msgstr "រក្សាទុក"
 
@@ -205,13 +197,17 @@ msgstr "និយាយ​ឥឡូវ..."
 msgid "Speaking..."
 msgstr "កំពុង​និយាយ..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "បង្ហាញ​ពាក្យ​សម្ងាត់"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
-msgstr "បញ្ចូល​កូដ PIN របស់​ស៊ីមកាត"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+msgid "Sorry, incorrect PIN"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -253,41 +249,41 @@ msgstr "ដោះ​សោ​ស៊ីម"
 msgid "Roaming"
 msgstr "រ៉ូមីង"
 
-#: qml/Shell.qml:267
-msgid "passphrase"
-msgstr "ឃ្លា​សម្ងាត់"
+#: qml/Shell.qml:266
+msgid "Enter your passphrase"
+msgstr ""
 
 #: qml/Shell.qml:267
-msgid "passcode"
-msgstr "កូដ​សម្ងាត់"
+msgid "Sorry, incorrect passphrase"
+msgstr ""
 
 #: qml/Shell.qml:269
+msgid "Enter your PIN"
+msgstr ""
+
+#: qml/Shell.qml:273
 #, qt-format
 msgid "Enter your %1"
 msgstr "បញ្ចូល %1 របស់​អ្នក"
 
-#: qml/Shell.qml:270
+#: qml/Shell.qml:274
 #, qt-format
-msgid "Incorrect %1"
-msgstr "មិន​ត្រឹមត្រូវ %1"
+msgid "Sorry, incorrect %1"
+msgstr ""
 
-#: qml/Shell.qml:272
-msgid "Please re-enter"
-msgstr "សូម​បញ្ចូល​ឡើងវិញ"
-
-#: qml/Shell.qml:306
+#: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
 msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
-#: qml/Shell.qml:307
+#: qml/Shell.qml:311
 msgid "Sorry, incorrect passcode."
 msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
-#: qml/Shell.qml:308
+#: qml/Shell.qml:312
 msgid "This will be your last attempt."
 msgstr "នេះ​គឺ​ការ​ព្យាយាម​លើក​ចុងក្រោយ។"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:314
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -296,7 +292,7 @@ msgstr ""
 "ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
 "ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:315
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -304,3 +300,25 @@ msgstr ""
 "បើ​បញ្ចូល​កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ "
 "ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
 "ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
+
+#~ msgid "Please enter SIM PIN"
+#~ msgstr "បញ្ចូល​កូដ PIN របស់​ស៊ីមកាត"
+
+#~ msgid "CANCEL"
+#~ msgstr "បោះបង់"
+
+#~ msgid "DONE"
+#~ msgstr "រួចរាល់"
+
+#~ msgid "passphrase"
+#~ msgstr "ឃ្លា​សម្ងាត់"
+
+#, qt-format
+#~ msgid "Incorrect %1"
+#~ msgstr "មិន​ត្រឹមត្រូវ %1"
+
+#~ msgid "Please re-enter"
+#~ msgstr "សូម​បញ្ចូល​ឡើងវិញ"
+
+#~ msgid "passcode"
+#~ msgstr "កូដ​សម្ងាត់"

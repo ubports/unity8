@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-13 14:09-0400\n"
+"POT-Creation-Date: 2014-08-21 11:36+0200\n"
 "PO-Revision-Date: 2014-08-18 15:03+0000\n"
 "Last-Translator: Mitsuya Shibata <mty.shibata@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-19 06:59+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-23 07:17+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
@@ -93,48 +93,40 @@ msgid ""
 msgstr ""
 "これでスマートフォンの操作に必要な、画面端を用いたジェスチャーを習得できました。<br><br>利用を開始するなら画面をタップしてください"
 
-#: qml/Components/Lockscreen.qml:161
-msgid "Too many incorrect attempts"
-msgstr "失敗回数が上限に達しました"
-
-#: qml/Components/Lockscreen.qml:163
+#: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
 msgstr "お待ちください"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "失敗回数が上限に達しました"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "緊急通報"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "こんにちは %1 さん"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "こんにちは"
 
-#: qml/Components/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr "キャンセル"
-
-#: qml/Components/PinLockscreen.qml:216
-msgid "DONE"
-msgstr "完了"
-
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "すべて表示する"
 
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "検索"
 
@@ -158,15 +150,15 @@ msgstr "レビューを追加"
 msgid "Send"
 msgstr "送信"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
 msgstr "Dashの管理"
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
 msgstr "完了"
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
 msgstr "保存"
 
@@ -202,13 +194,17 @@ msgstr "音声入力を開始..."
 msgid "Speaking..."
 msgstr "入力中..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "パスワードを表示"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
-msgstr "SIM PINを入力してください"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+msgid "Sorry, incorrect PIN"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -250,48 +246,70 @@ msgstr "SIMのアンロック"
 msgid "Roaming"
 msgstr "ローミング"
 
-#: qml/Shell.qml:267
-msgid "passphrase"
-msgstr "パスフレーズ"
+#: qml/Shell.qml:266
+msgid "Enter your passphrase"
+msgstr ""
 
 #: qml/Shell.qml:267
-msgid "passcode"
-msgstr "パスコード"
+msgid "Sorry, incorrect passphrase"
+msgstr ""
 
 #: qml/Shell.qml:269
+msgid "Enter your PIN"
+msgstr ""
+
+#: qml/Shell.qml:273
 #, qt-format
 msgid "Enter your %1"
 msgstr "%1を入力してください"
 
-#: qml/Shell.qml:270
+#: qml/Shell.qml:274
 #, qt-format
-msgid "Incorrect %1"
-msgstr "%1が間違っています"
+msgid "Sorry, incorrect %1"
+msgstr ""
 
-#: qml/Shell.qml:272
-msgid "Please re-enter"
-msgstr "再入力してください"
-
-#: qml/Shell.qml:306
+#: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
 msgstr "パスフレーズが間違っています。"
 
-#: qml/Shell.qml:307
+#: qml/Shell.qml:311
 msgid "Sorry, incorrect passcode."
 msgstr "パスコードが間違っています。"
 
-#: qml/Shell.qml:308
+#: qml/Shell.qml:312
 msgid "This will be your last attempt."
 msgstr "これが最後のチャンスです。"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:314
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:315
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+
+#~ msgid "CANCEL"
+#~ msgstr "キャンセル"
+
+#~ msgid "DONE"
+#~ msgstr "完了"
+
+#~ msgid "Please enter SIM PIN"
+#~ msgstr "SIM PINを入力してください"
+
+#~ msgid "passphrase"
+#~ msgstr "パスフレーズ"
+
+#, qt-format
+#~ msgid "Incorrect %1"
+#~ msgstr "%1が間違っています"
+
+#~ msgid "passcode"
+#~ msgstr "パスコード"
+
+#~ msgid "Please re-enter"
+#~ msgstr "再入力してください"

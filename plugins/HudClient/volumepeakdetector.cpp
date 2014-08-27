@@ -45,15 +45,15 @@ PulseAudioVolumePeakDetector::PulseAudioVolumePeakDetector()
  : m_accumulatedValue(0)
  , m_nAccumulatedValues(0)
  , m_accumulatedValuesLimit(1)
- , m_context(NULL)
- , m_mainloop_api(NULL)
- , m_stream(NULL)
+ , m_context(nullptr)
+ , m_mainloop_api(nullptr)
+ , m_stream(nullptr)
 {
 }
 
 void PulseAudioVolumePeakDetector::start()
 {
-    pa_mainloop *mainloop = NULL;
+    pa_mainloop *mainloop = nullptr;
 
     /* Set up a new main loop */
     mainloop = pa_mainloop_new();
@@ -63,7 +63,7 @@ void PulseAudioVolumePeakDetector::start()
     m_mainloop_api = pa_mainloop_get_api(mainloop);
 
     /* Create a new connection context */
-    m_context = pa_context_new(m_mainloop_api, NULL);
+    m_context = pa_context_new(m_mainloop_api, nullptr);
     if (!m_context) {
         goto quit;
     }
@@ -71,12 +71,12 @@ void PulseAudioVolumePeakDetector::start()
     pa_context_set_state_callback(m_context, context_state_callback, this);
 
     /* Connect the context */
-    if (pa_context_connect(m_context, NULL, PA_CONTEXT_NOFLAGS, NULL) < 0) {
+    if (pa_context_connect(m_context, nullptr, PA_CONTEXT_NOFLAGS, nullptr) < 0) {
         goto quit;
     }
 
     /* Run the main loop */
-    if (pa_mainloop_run(mainloop, NULL) < 0) {
+    if (pa_mainloop_run(mainloop, nullptr) < 0) {
         goto quit;
     }
 
@@ -130,7 +130,7 @@ void PulseAudioVolumePeakDetector::startStream()
     pa_channel_map_init_extend(&channel_map, sample_spec.channels, PA_CHANNEL_MAP_DEFAULT);
     pa_proplist_sets(proplist, PA_PROP_MEDIA_NAME, "HUD Peak Detector");
 
-    m_stream = pa_stream_new_with_proplist(m_context, NULL, &sample_spec, &channel_map, proplist);
+    m_stream = pa_stream_new_with_proplist(m_context, nullptr, &sample_spec, &channel_map, proplist);
     if (!m_stream) {
         pa_proplist_free(proplist);
         quit();
@@ -144,7 +144,7 @@ void PulseAudioVolumePeakDetector::startStream()
     buffer_attr.maxlength = (uint32_t) -1;
     buffer_attr.fragsize = sizeof(float);
 
-    if (pa_stream_connect_record(m_stream, NULL, &buffer_attr, (pa_stream_flags_t)(PA_STREAM_PEAK_DETECT | PA_STREAM_ADJUST_LATENCY)) < 0) {
+    if (pa_stream_connect_record(m_stream, nullptr, &buffer_attr, (pa_stream_flags_t)(PA_STREAM_PEAK_DETECT | PA_STREAM_ADJUST_LATENCY)) < 0) {
         quit();
     }
 }

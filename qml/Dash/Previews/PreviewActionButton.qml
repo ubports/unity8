@@ -15,16 +15,13 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 Button {
     signal triggeredAction(var actionData)
 
     property var data: null
     objectName: "button" + (data && data.id || "")
-    color: Theme.palette.selected.foreground
     text: data && data.label || ""
-    iconSource: data && data.icon || ""
-    iconPosition: "left"
     onClicked: triggeredAction(data)
 }
