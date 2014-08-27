@@ -69,8 +69,8 @@ StyledItem {
         anchors.centerIn: parent
         anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
         sourceSize {
-            width: 1024
-            height: 1024
+            width: root.width
+            height: root.height
         }
         source: root.image
         asynchronous: true
