@@ -1,3 +1,4 @@
 module Utils
 plugin Utils-qml
 typeinfo Utils.qmltypes
+Style 0.1 Style.js

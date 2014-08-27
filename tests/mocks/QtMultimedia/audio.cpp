@@ -22,7 +22,7 @@ Audio::Audio(QObject* parent):
     QObject(parent),
     m_playbackState(StoppedState)
 {
-    qsrand(time(NULL));
+    qsrand(time(nullptr));
     m_timer.setInterval(1000);
     connect(&m_timer, SIGNAL(timeout()), SLOT(timerEvent()));
 }

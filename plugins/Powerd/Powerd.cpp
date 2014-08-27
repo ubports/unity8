@@ -39,7 +39,7 @@ void dimTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *un
 
 Powerd::Powerd(QObject* parent)
   : QObject(parent),
-    unityScreen(NULL)
+    unityScreen(nullptr)
 {
     unityScreen = new QDBusInterface("com.canonical.Unity.Screen",
                                      "/com/canonical/Unity/Screen",

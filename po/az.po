@@ -8,43 +8,43 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-21 11:36+0200\n"
-"PO-Revision-Date: 2014-01-15 09:50+0000\n"
+"PO-Revision-Date: 2014-08-26 22:12+0000\n"
 "Last-Translator: Turan Mahmudov <turan.mahmudov@gmail.com>\n"
 "Language-Team: Azerbaijani <az@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-23 07:16+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2014-08-27 07:46+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "Parol: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Pin qısayolu"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Açma qısayolu"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you would like to turn power off?"
-msgstr ""
+msgstr "Söndürmək istədiyinizə əminsiniz?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
+msgstr "Söndür"
 
 #: qml/Components/Dialogs.qml:153
 msgid "Restart"
-msgstr ""
+msgstr "Yenidən Başlat"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "İmtina"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -92,14 +92,16 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Siz künc jestlərini mənimsəmisiniz və telefonu istifadə etməyə başlaya "
+"bilərsiniz.<br><br>Başlamaq üçün ekrana toxunun"
 
 #: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
-msgstr ""
+msgstr "Lütfən gözləyin"
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "Çoxlu yanlış cəhd"
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
@@ -107,7 +109,7 @@ msgstr "Zərurət zəngi"
 
 #: qml/Components/Lockscreen.qml:226
 msgid "OK"
-msgstr ""
+msgstr "ОК"
 
 #: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
@@ -120,11 +122,11 @@ msgstr "Xoş gördük"
 
 #: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
-msgstr ""
+msgstr "Daha az gör"
 
 #: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
-msgstr ""
+msgstr "Hamısını gör"
 
 #: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -132,11 +134,11 @@ msgstr "Axtar"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Ətraflı..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Az..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
@@ -156,23 +158,23 @@ msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
-msgstr ""
+msgstr "Başa çatdı"
 
 #: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
-msgstr ""
+msgstr "Saxla"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Seçilmişlər"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Hamısı"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "Kilidi açmaq üçün sürüşdürün"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -200,94 +202,120 @@ msgstr "Parolu göstər"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "SIM PIN kodunuzu daxil edin"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "Təəssüf ki, PIN yanlışdır"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Zəngə qayıtmaq üçün toxunun..."
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr ""
+msgstr "Konfrans"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
-msgstr ""
+msgstr "Növbədədir..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
-msgstr ""
+msgstr "Endirilir"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Saxlanıldı, davam etmək üçün toxunun"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
-msgstr ""
+msgstr "İmtina edildi"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
-msgstr ""
+msgstr "Bitdi"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Alınmadı, davam etmək üçün toxunun"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "SIM kilidini aç"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Rominq"
 
 #: qml/Shell.qml:266
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Açar sözünüzü daxil edin"
 
 #: qml/Shell.qml:267
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Təəssüf ki, açar söz yanlışdır"
 
 #: qml/Shell.qml:269
 msgid "Enter your PIN"
-msgstr ""
+msgstr "PIN kodunuzu daxil edin"
 
 #: qml/Shell.qml:273
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "%1 daxil edin"
 
 #: qml/Shell.qml:274
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Təəssüf ki, %1 yanlışdır"
 
 #: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Təəssüf ki, açar söz yanlışdır."
 
 #: qml/Shell.qml:311
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Təəssüf ki, açar kod yanlışdır."
 
 #: qml/Shell.qml:312
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Bu sizin son cəhdiniz olacaq."
 
 #: qml/Shell.qml:314
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Əgər açar söz yanlış daxil edilibsə, onda telefonunuz fabrika parametrlərinə "
+"geri qayıdacaq və bütün şəxsi məlumatlarınız silinəcək."
 
 #: qml/Shell.qml:315
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Əgər açar kod yanlış daxil edilibsə, onda telefonunuz fabrika parametrlərinə "
+"geri qayıdacaq və bütün şəxsi məlumatlarınız silinəcək."
+
+#~ msgid "DONE"
+#~ msgstr "OLDU"
+
+#~ msgid "CANCEL"
+#~ msgstr "İMTİNA"
+
+#~ msgid "Please enter SIM PIN"
+#~ msgstr "SIM PIN kodunu yazın"
+
+#, qt-format
+#~ msgid "Incorrect %1"
+#~ msgstr "Yanlış %1"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Lütfən yenidən daxil edin"
+
+#~ msgid "passphrase"
+#~ msgstr "açar söz"
+
+#~ msgid "passcode"
+#~ msgstr "açar kod"
