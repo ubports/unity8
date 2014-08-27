@@ -1,3 +1,14 @@
+unity8 (8.00+14.10.20140825.3-0ubuntu1) utopic; urgency=low
+
+  [ Daniel d'Andrada ]
+  * SpreadDelegate - properly transition between splash screen, surface
+    and screenshot
+
+  [ Michał Sawicz ]
+  * Rename Ubuntu.Connectivity to Unity.Connectivity to avoid name clash
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 25 Aug 2014 13:10:57 +0000
+
 unity8 (8.00+14.10.20140822-0ubuntu1) utopic; urgency=low
 
   [ Albert Astals ]

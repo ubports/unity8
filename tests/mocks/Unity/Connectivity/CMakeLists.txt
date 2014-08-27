@@ -7,4 +7,4 @@ add_library(MockConnectivity MODULE ${MOCK_CONNECTIVITY_SOURCES})
 
 qt5_use_modules(MockConnectivity Qml Quick Core)
 
-add_unity8_mock(Ubuntu.Connectivity 0.1 Ubuntu/Connectivity TARGETS MockConnectivity)
+add_unity8_mock(Unity.Connectivity 0.1 Unity/Connectivity TARGETS MockConnectivity)

@@ -16,7 +16,6 @@
 
 #include "plugin.h"
 #include "ApplicationInfo.h"
-#include "ApplicationImage.h"
 #include "ApplicationManager.h"
 #include "ApplicationScreenshotProvider.h"
 #include "MirSurfaceItem.h"
@@ -49,8 +48,6 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
 
     qmlRegisterUncreatableType<MirSurfaceItem>(uri, 0, 1, "MirSurfaceItem", "MirSurfaceItem can't be instantiated from QML");
-
-    qmlRegisterType<ApplicationImage>(uri, 0, 1, "ApplicationImage");
 }
 
 void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
