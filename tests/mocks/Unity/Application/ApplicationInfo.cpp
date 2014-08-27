@@ -44,7 +44,6 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_parentItem(0)
     , m_session(0)
     , m_manualSessionCreation(false)
 {
@@ -57,7 +56,7 @@ ApplicationInfo::~ApplicationInfo()
 
 void ApplicationInfo::createSession()
 {
-    if (m_session) { return; }
+    if (m_session || state() == ApplicationInfo::Stopped) { return; }
 
     QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
     setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));

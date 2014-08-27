@@ -67,12 +67,15 @@ Item {
             onLoaded: {
                 item.session = modelData;
                 item.interactive = Qt.binding(function() { return root.interactive; } );
+                if (modelData.surface) {
+                    item.animateIn(swipeFromBottom);
+                }
             }
 
             Connections {
                 target: modelData
                 onSurfaceChanged: {
-                    item.animateIn(swipeFromBottom);
+                    if (surface) item.animateIn(swipeFromBottom);
                 }
                 onRemoved: {
                     item.removing = true;
@@ -112,6 +115,5 @@ Item {
     QtObject {
         id: d
         property var animations: []
-        property var currentAnimation: animations.length > 0 ? animations[animations.length-1] : undefined
     }
 }

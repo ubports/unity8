@@ -99,8 +99,6 @@ private:
     State m_state;
     bool m_focused;
     bool m_fullscreen;
-
-    QQuickItem *m_parentItem;
     Session* m_session;
 
     bool m_manualSessionCreation;

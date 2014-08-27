@@ -28,15 +28,22 @@ Rectangle {
     width: units.gu(70)
     height: units.gu(70)
 
-    SurfaceContainer {
-        id: surfaceContainer
+    Component {
+        id: surfaceContainerComponent
+        SurfaceContainer {
+            anchors.fill: parent
+        }
+    }
+    Loader {
+        id: surfaceContainerLoader
         anchors {
             top: parent.top
+            topMargin: fullscreenCheckbox.checked ? 0 : units.gu(3) + units.dp(2)
             bottom: parent.bottom
             left: parent.left
-            topMargin: fullscreenCheckbox.checked ? 0 : units.gu(3) + units.dp(2)
         }
         width: units.gu(40)
+        sourceComponent: surfaceContainerComponent
     }
 
     Rectangle {
@@ -44,7 +51,7 @@ Rectangle {
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: surfaceContainer.right
+            left: surfaceContainerLoader.right
             right: parent.right
         }
 
@@ -57,13 +64,17 @@ Rectangle {
                     id: surfaceCheckbox;
                     checked: false;
                     onCheckedChanged: {
+                        if (surfaceContainerLoader.status !== Loader.Ready)
+                            return;
+
                         if (checked) {
-                            surfaceContainer.surface = SurfaceManager.createSurface("fake-surface",
+                            var fakeSurface = SurfaceManager.createSurface("fake-surface",
                                                                            MirSurfaceItem.Normal,
                                                                            MirSurfaceItem.Restored,
                                                                            Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
+                            surfaceContainerLoader.item.surface = fakeSurface;
                         } else {
-                            surfaceContainer.surface.release();
+                            surfaceContainerLoader.item.surface.release();
                         }
                     }
                 }
@@ -90,10 +101,12 @@ Rectangle {
 
         function cleanup() {
             // reload our test subject to get it in a fresh state once again
+            surfaceContainerLoader.active = false;
             surfaceCheckbox.checked = false;
-            tryCompare(surfaceContainer, "surface", null);
-            surfaceSpy.clear();
+            surfaceContainerLoader.active = true;
 
+            tryCompare(surfaceContainerLoader.item, "surface", null);
+            surfaceSpy.clear();
         }
 
         /*
@@ -106,9 +119,9 @@ Rectangle {
             surfaceCheckbox.checked = true;
             surfaceCheckbox.checked = false;
             surfaceCheckbox.checked = true;
-            var fakeSurface = surfaceContainer.surface;
-            compare(fakeSurface.width, surfaceContainer.width);
-            compare(fakeSurface.height, surfaceContainer.height);
+            var fakeSurface = surfaceContainerLoader.item.surface;
+            compare(fakeSurface.width, surfaceContainerLoader.item.width);
+            compare(fakeSurface.height, surfaceContainerLoader.item.height);
         }
 
          function test_childSurfaces_data() {
@@ -117,6 +130,7 @@ Rectangle {
          }
 
          function test_childSurfaces(data) {
+             var surfaceContainer = surfaceContainerLoader.item;
              surfaceCheckbox.checked = true;
 
              var i;
@@ -147,6 +161,7 @@ Rectangle {
          }
 
          function test_nestedChildSurfaces(data) {
+             var surfaceContainer = surfaceContainerLoader.item;
              surfaceCheckbox.checked = true;
 
              var i;

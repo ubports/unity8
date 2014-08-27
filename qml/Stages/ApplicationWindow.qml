@@ -183,7 +183,7 @@ SessionContainer {
                                             duration: UbuntuAnimation.BriskDuration }
                     PropertyAction { target: surfaceContainer
                                      property: "visible"; value: false }
-                    ScriptAction { script: { if (root.surface) { root.surface.release(); } } }
+                    ScriptAction { script: { if (root.session) { root.session.release(); } } }
                 }
             },
             Transition {
@@ -202,7 +202,7 @@ SessionContainer {
                 from: "surface"; to: "void"
                 SequentialAnimation {
                     PropertyAction { target: surfaceContainer; property: "visible"; value: false }
-                    ScriptAction { script: { if (d.surface) { d.surface.release(); } } }
+                    ScriptAction { script: { if (root.session) { d.session.release(); } } }
                 }
             },
             Transition {

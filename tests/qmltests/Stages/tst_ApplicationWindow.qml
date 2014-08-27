@@ -32,8 +32,6 @@ Rectangle {
     Component.onCompleted: {
         root.fakeApplication = ApplicationManager.add("gallery-app");
         root.fakeApplication.manualSessionCreation = true;
-        root.fakeApplication.createSession();
-        root.fakeApplication.session.manualSessionCreation = true;
         root.fakeApplication.setState(ApplicationInfo.Starting);
     }
     property QtObject fakeApplication: null
@@ -84,10 +82,12 @@ Rectangle {
                         if (applicationWindowLoader.status !== Loader.Ready)
                             return;
 
-                        if (checked && !fakeSession.surface) {
+                        if (checked && !fakeApplication.session) {
+                            fakeApplication.createSession();
+                            fakeSession.manualSurfaceCreation = true;
                             fakeSession.createSurface();
-                        } else if (!checked && fakeSession.surface) {
-                            fakeSession.surface.release();
+                        } else if (!checked && fakeApplication.session) {
+                            fakeApplication.session.release();
                         }
                     }
                 }
@@ -182,8 +182,8 @@ Rectangle {
             appStateSelector.selectedIndex = 0;
             surfaceCheckbox.checked = false;
 
-            if (fakeApplication.surface)
-                fakeApplication.surface.release();
+            if (fakeApplication.session)
+                fakeApplication.session.release();
 
             applicationWindowLoader.active = true;
         }
@@ -244,7 +244,7 @@ Rectangle {
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(fakeSession, "surface", null);
+            tryCompare(fakeApplication, "session", null);
         }
 
         function test_restartApp() {
@@ -292,7 +292,7 @@ Rectangle {
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(fakeSession, "surface", null);
+            tryCompare(fakeApplication, "session", null);
         }
 
         function test_keepSurfaceWhileInvisible() {
