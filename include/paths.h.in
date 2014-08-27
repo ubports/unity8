@@ -91,7 +91,7 @@ inline QString mockPluginsDir() {
 inline QStringList shellDataDirs() {
     QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     if (!isRunningInstalled()) {
-        if (getenv("UNITY_TEST_ENV")==NULL) {
+        if (getenv("UNITY_TEST_ENV")==nullptr) {
             dirs.prepend("@CMAKE_BINARY_DIR@/share");
         }
     }
