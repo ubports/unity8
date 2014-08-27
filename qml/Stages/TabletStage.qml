@@ -551,14 +551,10 @@ Rectangle {
                     }
 
                     onInteractiveChanged: {
-                        if (isInSideStage) {
-                            appDelegate.orientation = Qt.PortraitOrientation; // FIXME! Need Proper Rotation Support
+                        if (interactive) {
+                            appDelegate.orientation = Qt.binding( function() { return root.orientation; } );
                         } else {
-                            if (interactive) {
-                                appDelegate.orientation = Qt.binding( function() { return root.orientation; } );
-                            } else {
-                                appDelegate.orientation = root.orientation; // breaks the binding intentionally
-                            }
+                            appDelegate.orientation = root.orientation; // breaks the binding intentionally
                         }
                     }
 
