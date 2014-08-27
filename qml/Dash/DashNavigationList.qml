@@ -87,10 +87,15 @@ Item {
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: backImage.right
+                        right: parent.right
                         leftMargin: units.gu(0.5)
+                        rightMargin: units.gu(2)
                     }
                     text: navigation ? navigation.parentLabel : ""
                     color: root.foregroundColor
+                    wrapMode: Text.Wrap
+                    maximumLineCount: 2
+                    elide: Text.ElideMiddle
                 }
 
                 Rectangle {
@@ -118,11 +123,16 @@ Item {
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
+                        right: parent.right
                         leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
                     }
                     text: navigation ? (navigation.allLabel != "" ? navigation.allLabel : navigation.label) : ""
                     font.bold: true
                     color: root.foregroundColor
+                    wrapMode: Text.Wrap
+                    maximumLineCount: 2
+                    elide: Text.ElideMiddle
                 }
 
                 Rectangle {
@@ -156,12 +166,18 @@ Item {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
                             leftMargin: units.gu(2)
+                            right: rightIcon.visible ? rightIcon.left : parent.right
+                            rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
                         }
                         text: label
                         color: root.foregroundColor
+                        wrapMode: Text.Wrap
+                        maximumLineCount: 2
+                        elide: Text.ElideMiddle
                     }
 
                     Icon {
+                        id: rightIcon
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
