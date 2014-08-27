@@ -543,6 +543,19 @@ Item {
                 scopesOverviewXYScaler.opacity = 0;
                 middleItems.overrideOpacity = -1;
             }
+            // TODO Add tests for these connections
+            Connections {
+                target: tempScopeItem.scope
+                onOpenScope: {
+                    // TODO Animate the newly opened scope into the foreground (stacked on top of the current scope)
+                    tempScopeItem.scope = scope;
+                }
+                onGotoScope: {
+                    tempScopeItem.backClicked();
+                    root.currentTab = 0;
+                    root.scope.gotoScope(scopeId);
+                }
+            }
         }
     }
 }
