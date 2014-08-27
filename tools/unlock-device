@@ -19,7 +19,9 @@ done
 
 eval "$WAIT_COMMAND"
 
-UNLOCK_OUTPUT=$(adb shell "sudo -u phablet -i gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked" 2>&1)
+GDBUS_CMD="gdbus call --session --dest com.canonical.UnityGreeterd --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked"
+
+UNLOCK_OUTPUT=$(adb shell "if [ \"\$(id -u)\" = 0 ]; then sudo -u phablet -i $GDBUS_CMD; else $GDBUS_CMD; fi" 2>&1)
 if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
     echo "I: Unlock passed"
     exit 0
