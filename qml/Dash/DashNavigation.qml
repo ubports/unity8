@@ -24,10 +24,10 @@ Item {
     objectName: "dashNavigation"
 
     property var scope: null
+    property var scopeStyle: null
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
-    property var scopeStyle: null
     readonly property var openList: {
         if (navigationButton.showList) return navigationButton.listView;
         if (altNavigationButton.showList) return altNavigationButton.listView;
@@ -43,7 +43,9 @@ Item {
 
     QtObject {
         id: d
-        readonly property color foregroundColor: scopeStyle.getTextColor(backgroundItem.luminance)
+        readonly property color foregroundColor: root.scopeStyle
+                                                 ? root.scopeStyle.getTextColor(backgroundItem.luminance)
+                                                 : Theme.palette.normal.baseText
         readonly property bool bothVisible: altNavigationButton.visible && navigationButton.visible
         readonly property real navigationWidth: root.width >= units.gu(60) ? units.gu(40) : root.width
         readonly property real buttonWidth: navigationWidth / (bothVisible ? 2 : 1)
@@ -55,7 +57,7 @@ Item {
         opacity: openList && openList.currentItem && openList.currentItem.visible ? 0.5 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
         anchors { left: parent.left; right: parent.right }
-        visible: opacity != 0
+        visible: opacity > 0
     }
 
     Background {
