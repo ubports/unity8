@@ -42,11 +42,11 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_PROPERTY(bool manualSessionCreation READ manualSessionCreation WRITE setManualSessionCreation NOTIFY manualSessionCreationChanged)
 
 public:
-    ApplicationInfo(const QString &appId, QObject *parent = NULL);
-    ApplicationInfo(QObject *parent = NULL);
+    ApplicationInfo(QObject *parent = nullptr);
+    ApplicationInfo(const QString &appId, QObject *parent = nullptr);
     ~ApplicationInfo();
 
-     void setIconId(const QString &iconId);
+    void setIconId(const QString &iconId);
     void setScreenshotId(const QString &screenshotId);
 
     void setAppId(const QString &value) { m_appId = value; }

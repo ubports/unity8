@@ -27,3 +27,8 @@ run_tests(
     qsortfilterproxymodeltest
     timeformattertest
     )
+
+# plain qml test
+set(qmltest_DEFAULT_TARGETS qmltests)
+set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal")
+add_qml_test(. UtilsStyle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)

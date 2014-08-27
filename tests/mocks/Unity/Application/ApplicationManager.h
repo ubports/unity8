@@ -46,7 +46,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_PROPERTY(bool fake READ fake CONSTANT)
 
  public:
-    ApplicationManager(QObject *parent = NULL);
+    ApplicationManager(QObject *parent = nullptr);
     virtual ~ApplicationManager();
 
     static ApplicationManager *singleton();
