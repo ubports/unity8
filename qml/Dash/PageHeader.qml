@@ -32,6 +32,8 @@ Item {
 
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
+    property bool favoriteEnabled: false
+    property bool favorite: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
@@ -45,6 +47,7 @@ Item {
 
     signal backClicked()
     signal settingsClicked()
+    signal favoriteClicked()
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -253,6 +256,7 @@ Item {
                     actions: [
                         Action {
                             objectName: "search"
+                            text: i18n.tr("Search")
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
@@ -262,9 +266,17 @@ Item {
                         },
                         Action {
                             objectName: "settings"
+                            text: i18n.tr("Settings")
                             iconName: "settings"
                             visible: root.settingsEnabled
                             onTriggered: root.settingsClicked()
+                        },
+                        Action {
+                            objectName: "favorite"
+                            text: root.favorite ? i18n.tr("Remove from Favorites") : i18n.tr("Add to Favorites")
+                            iconName: root.favorite ? "starred" : "non-starred"
+                            visible: root.favoriteEnabled
+                            onTriggered: root.favoriteClicked()
                         }
                     ]
                 }

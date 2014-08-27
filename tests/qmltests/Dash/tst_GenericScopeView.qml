@@ -425,6 +425,34 @@ Item {
                 verify(image, "Could not find the title image.");
                 compare(image.source, data.logo, "Title image has the wrong source");
             }
+
+            function test_favorite_data() {
+                return [
+                    { tag: "People", id: "MockScope1", favorite: true },
+                    { tag: "Music", id: "MockScope2", favorite: false },
+                    { tag: "Apps", id: "clickscope", favorite: true },
+                ];
+            }
+
+            function test_favorite(data) {
+                genericScopeView.scope = scopes.getScopeFromAll(data.id);
+                waitForRendering(genericScopeView);
+                verify(header, "Could not find the header.");
+
+                compare(genericScopeView.scope.favorite, data.favorite, "Unexpected initial favorite value");
+
+                var innerHeader = findChild(header, "innerPageHeader");
+                verify(innerHeader, "Could not find the inner header");
+
+                expectFail("Apps", "Click scope should not have a favorite button");
+                var favoriteAction = findChild(innerHeader, "favorite_header_button");
+                verify(favoriteAction, "Could not find the favorite action.");
+                mouseClick(favoriteAction, favoriteAction.width / 2, favoriteAction.height / 2);
+
+                tryCompare(genericScopeView.scope, "favorite", !data.favorite);
+
+                genericScopeView.scope = !genericScopeView.scope;
+            }
         }
     }
 }
