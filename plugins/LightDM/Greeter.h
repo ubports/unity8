@@ -35,7 +35,7 @@ class Greeter : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool active READ isActive WRITE setIsActive NOTIFY isActiveChanged)
-    Q_PROPERTY(bool authenticated READ isAuthenticated)
+    Q_PROPERTY(bool authenticated READ isAuthenticated NOTIFY isAuthenticatedChanged)
     Q_PROPERTY(QString authenticationUser READ authenticationUser NOTIFY authenticationUserChanged)
     Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
 
@@ -59,6 +59,7 @@ Q_SIGNALS:
     void authenticationComplete();
     void authenticationUserChanged(const QString &user);
     void isActiveChanged();
+    void isAuthenticatedChanged();
     void promptlessChanged();
     void showGreeter();
 

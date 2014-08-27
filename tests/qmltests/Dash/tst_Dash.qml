@@ -96,8 +96,10 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
-            var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true);
 
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
@@ -159,8 +161,10 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
-            var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true);
 
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
@@ -224,8 +228,10 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
-            var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true);
 
             // Swipe right to Apps scope
             touchFlick(dash, dash.width - 1, units.gu(1), dash.width - units.gu(10), units.gu(1));

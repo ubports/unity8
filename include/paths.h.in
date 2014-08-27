@@ -80,6 +80,14 @@ inline QStringList fallbackImportPaths() {
     return paths;
 }
 
+inline QString mockPluginsDir() {
+    if (isRunningInstalled()) {
+        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@/mocks");
+    } else {
+        return QString("@CMAKE_BINARY_DIR@/tests/mocks");
+    }
+}
+
 inline QStringList shellDataDirs() {
     QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     if (!isRunningInstalled()) {
