@@ -144,7 +144,7 @@ Item {
             verify(mainAppId != "");
             var mainApp = ApplicationManager.findApplication(mainAppId);
             verify(mainApp);
-            tryCompare(mainApp, "state", ApplicationInfo.Running);
+            tryCompare(mainApp, "state", ApplicationInfoInterface.Running);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.Proximity);
@@ -157,7 +157,7 @@ Item {
             tryCompare(greeter, "showProgress", 1);
 
             tryCompare(ApplicationManager, "suspended", true);
-            compare(mainApp.state, ApplicationInfo.Suspended);
+            compare(mainApp.state, ApplicationInfoInterface.Suspended);
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
@@ -166,7 +166,7 @@ Item {
             // Swipe away greeter to focus app
             swipeAwayGreeter();
             tryCompare(ApplicationManager, "suspended", false);
-            compare(mainApp.state, ApplicationInfo.Running);
+            compare(mainApp.state, ApplicationInfoInterface.Running);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 

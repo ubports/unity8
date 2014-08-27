@@ -32,7 +32,7 @@ Rectangle {
     Component.onCompleted: {
         root.fakeApplication = ApplicationManager.add("gallery-app");
         root.fakeApplication.manualSessionCreation = true;
-        root.fakeApplication.setState(ApplicationInfo.Starting);
+        root.fakeApplication.setState(ApplicationInfoInterface.Starting);
     }
     property QtObject fakeApplication: null
     readonly property var fakeSession: fakeApplication ? fakeApplication.session : null
@@ -103,13 +103,13 @@ Rectangle {
                         "Stopped"]
                 property int selectedApplicationState: {
                     if (model[selectedIndex] === "Starting") {
-                        return ApplicationInfo.Starting;
+                        return ApplicationInfoInterface.Starting;
                     } else if (model[selectedIndex] === "Running") {
-                        return ApplicationInfo.Running;
+                        return ApplicationInfoInterface.Running;
                     } else if (model[selectedIndex] === "Suspended") {
-                        return ApplicationInfo.Suspended;
+                        return ApplicationInfoInterface.Suspended;
                     } else {
-                        return ApplicationInfo.Stopped;
+                        return ApplicationInfoInterface.Stopped;
                     }
                 }
                 onSelectedApplicationStateChanged: {
@@ -126,10 +126,10 @@ Rectangle {
         when: windowShown
 
         // just to make them shorter
-        property int appStarting: ApplicationInfo.Starting
-        property int appRunning: ApplicationInfo.Running
-        property int appSuspended: ApplicationInfo.Suspended
-        property int appStopped: ApplicationInfo.Stopped
+        property int appStarting: ApplicationInfoInterface.Starting
+        property int appRunning: ApplicationInfoInterface.Running
+        property int appSuspended: ApplicationInfoInterface.Suspended
+        property int appStopped: ApplicationInfoInterface.Stopped
 
         function setApplicationState(appState) {
             switch (appState) {

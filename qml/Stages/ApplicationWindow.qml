@@ -42,7 +42,7 @@ SessionContainer {
 
         property bool needToTakeScreenshot:
             root.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
-            && d.applicationState === ApplicationInfo.Stopped
+            && d.applicationState === ApplicationInfoInterface.Stopped
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
                 screenshotImage.take();
@@ -133,7 +133,7 @@ SessionContainer {
                 when:
                       (root.surface && d.surfaceInitialized)
                       &&
-                      (d.applicationState !== ApplicationInfo.Stopped
+                      (d.applicationState !== ApplicationInfoInterface.Stopped
                        || screenshotImage.status !== Image.Ready)
             },
             State {
@@ -141,7 +141,7 @@ SessionContainer {
                 when:
                       screenshotImage.status === Image.Ready
                       &&
-                      (d.applicationState === ApplicationInfo.Stopped
+                      (d.applicationState === ApplicationInfoInterface.Stopped
                        || !root.surface || !d.surfaceInitialized)
             }
         ]
