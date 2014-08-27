@@ -31,6 +31,8 @@ Style.PageHeadStyle {
 
     implicitHeight: headerStyle.contentHeight
 
+    property var theme
+
     Label {
         anchors {
             left: parent.left
