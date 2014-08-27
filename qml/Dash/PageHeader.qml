@@ -31,6 +31,7 @@ Item {
     property string title
 
     property bool searchEntryEnabled: false
+    property bool settingsEnabled: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
@@ -43,6 +44,7 @@ Item {
     property var scopeStyle: null
 
     signal backClicked()
+    signal settingsClicked()
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -245,9 +247,7 @@ Item {
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
-                        onTriggered: {
-                            root.backClicked();
-                        }
+                        onTriggered: root.backClicked()
                     }
 
                     actions: [
@@ -259,6 +259,12 @@ Item {
                                 headerContainer.showSearch = true;
                                 searchTextField.forceActiveFocus();
                             }
+                        },
+                        Action {
+                            objectName: "settings"
+                            iconName: "settings"
+                            visible: root.settingsEnabled
+                            onTriggered: root.settingsClicked()
                         }
                     ]
                 }

@@ -23,6 +23,7 @@ import "Previews" as Previews
 Item {
     id: root
 
+    property int initialIndex: -1
     property var scope: null
     property var scopeStyle: null
 
@@ -37,6 +38,8 @@ Item {
     readonly property bool processing: currentItem && (!currentItem.previewModel.loaded
                                                        || currentItem.previewModel.processingAction)
 
+    signal backClicked()
+
     PageHeader {
         id: header
         objectName: "pageHeader"
@@ -46,7 +49,7 @@ Item {
         searchEntryEnabled: false
         scopeStyle: root.scopeStyle
 
-        onBackClicked: root.open = false
+        onBackClicked: root.backClicked()
     }
 
     ListView  {
@@ -77,6 +80,13 @@ Item {
                 }
                 scope.cancelActivation();
                 model = undefined;
+            }
+        }
+
+        onCountChanged: {
+            if (count > 0 && initialIndex >= 0) {
+                currentIndex = initialIndex;
+                initialIndex = -1;
             }
         }
 

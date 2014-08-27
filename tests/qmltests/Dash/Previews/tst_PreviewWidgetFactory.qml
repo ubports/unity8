@@ -94,7 +94,7 @@ Rectangle {
             factory.widgetData = { type: data.type };
             factory.widgetType = data.type;
 
-            verify(("" + factory.source).indexOf(data.source) != -1);
+            verify((String(factory.source)).indexOf(data.source) != -1);
         }
     }
 }

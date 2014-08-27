@@ -27,8 +27,8 @@ Item {
     readonly property alias currentIndex: dashContentList.currentIndex
     readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
     readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-    readonly property bool previewShown: dashContentList.currentItem && dashContentList.currentItem.item ?
-                                            dashContentList.currentItem.item.previewShown : false
+    readonly property bool subPageShown: dashContentList.currentItem && dashContentList.currentItem.item ?
+                                            dashContentList.currentItem.item.subPageShown : false
     readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
                                        && dashContentList.currentItem.item.processing || false
     readonly property bool pageHeaderTotallyVisible: dashContentList.currentItem && dashContentList.currentItem.item
@@ -96,8 +96,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
-
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -137,6 +136,7 @@ Item {
 
                     readonly property bool moving: item ? item.moving : false
                     readonly property bool navigationShown: item ? item.navigationShown : false
+                    readonly property bool subPageShown: item ? item.subPageShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 

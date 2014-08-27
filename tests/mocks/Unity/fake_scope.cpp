@@ -22,6 +22,7 @@
 #include "fake_navigation.h"
 #include "fake_resultsmodel.h"
 #include "fake_scopes.h"
+#include "fake_settingsmodel.h"
 
 Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
 {
@@ -39,6 +40,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
+    , m_settings(new SettingsModel(this))
 {
 }
 
@@ -94,7 +96,7 @@ unity::shell::scopes::CategoriesInterface* Scope::categories() const
 
 unity::shell::scopes::SettingsModelInterface* Scope::settings() const
 {
-    return nullptr;
+    return m_settings;
 }
 
 QString Scope::noResultsHint() const
