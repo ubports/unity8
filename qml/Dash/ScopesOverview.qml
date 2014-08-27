@@ -395,6 +395,11 @@ Item {
                 }
             }
 
+            MouseArea {
+                // Just eat any other press since this parent is black opaque
+                anchors.fill: parent
+            }
+
             AbstractButton {
                 objectName: "scopesOverviewDoneButton"
                 width: Math.max(label.width + units.gu(2), units.gu(10))
