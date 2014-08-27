@@ -59,6 +59,7 @@ PreviewWidget {
                 root.triggered(widgetId, "purchaseCompleted", source);
             }
             onPurchaseError: {
+                paymentButton.opacity = 1;
                 root.triggered(widgetId, "purchaseError", source);
             }
         }
