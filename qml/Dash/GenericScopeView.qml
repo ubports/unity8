@@ -434,8 +434,7 @@ FocusScope {
 
                     bottomItem: DashNavigation {
                         scope: scopeView.scope
-                        width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                        anchors.right: parent.right
+                        anchors { left: parent.left; right: parent.right }
                         windowHeight: scopeView.height
                         windowWidth: scopeView.width
                         scopeStyle: scopeView.scopeStyle

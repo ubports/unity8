@@ -40,9 +40,6 @@ Item {
     property int paginationCount: 0
     property int paginationIndex: -1
 
-    // TODO We should use foreground for the icons
-    // of the toolbar but unfortunately Action does not have
-    // the keyColor property as Icon does :-/
     property var scopeStyle: null
 
     signal backClicked()
@@ -369,18 +366,30 @@ Item {
     }
 
     // FIXME this doesn't work with solid scope backgrounds due to z-ordering
-    Rectangle {
+    Item {
+        id: bottomHighlight
         visible: bottomBorder.visible
         anchors {
             top: bottomContainer.top
             left: parent.left
             right: parent.right
         }
+        z: 1
         height: units.dp(1)
         opacity: 0.6
-        color: scopeStyle ?
-                   Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2) :
-                   "#CCFFFFFF"
+
+        // FIXME this should be a shader when bottomItem exists
+        // to support image backgrounds
+        Rectangle {
+            anchors.fill: parent
+            color: if (bottomItem && bottomItem.background) {
+                       Qt.lighter(Qt.rgba(bottomItem.background.topColor.r,
+                                          bottomItem.background.topColor.g,
+                                          bottomItem.background.topColor.b, 1.0), 1.2);
+                   } else if (!bottomItem && scopeStyle) {
+                       Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2);
+                   } else "#CCFFFFFF"
+        }
     }
 
     Item {

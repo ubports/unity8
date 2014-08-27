@@ -23,16 +23,16 @@ Item {
     property var navigation: null
     property var currentNavigation: null
     property var scopeStyle: null
+    property color foregroundColor: Theme.palette.normal.baseText
     signal enterNavigation(var newNavigationId, bool hasChildren)
     signal goBackToParentClicked()
     signal allNavigationClicked()
 
     readonly property int itemHeight: units.gu(5)
-    readonly property color foregroundColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
     implicitHeight: flickable.contentHeight
 
     Background {
-        style: root.scopeStyle ? root.scopeStyle.navigationBackground : "color://white"
+        style: root.scopeStyle ? root.scopeStyle.navigationBackground : "color:///#f5f5f5"
         anchors.fill: parent
     }
 
@@ -87,10 +87,15 @@ Item {
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: backImage.right
+                        right: parent.right
                         leftMargin: units.gu(0.5)
+                        rightMargin: units.gu(2)
                     }
                     text: navigation ? navigation.parentLabel : ""
                     color: root.foregroundColor
+                    wrapMode: Text.Wrap
+                    maximumLineCount: 2
+                    elide: Text.ElideMiddle
                 }
 
                 Rectangle {
@@ -111,18 +116,23 @@ Item {
                 id: allButton
                 objectName: "allButton"
                 width: parent.width
-                visible: navigation && (!navigation.isRoot || (root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
+                visible: navigation && (!navigation.isRoot || (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
                 height: itemHeight
 
                 Label {
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
+                        right: parent.right
                         leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
                     }
                     text: navigation ? (navigation.allLabel != "" ? navigation.allLabel : navigation.label) : ""
                     font.bold: true
                     color: root.foregroundColor
+                    wrapMode: Text.Wrap
+                    maximumLineCount: 2
+                    elide: Text.ElideMiddle
                 }
 
                 Rectangle {
@@ -156,12 +166,18 @@ Item {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
                             leftMargin: units.gu(2)
+                            right: rightIcon.visible ? rightIcon.left : parent.right
+                            rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
                         }
                         text: label
                         color: root.foregroundColor
+                        wrapMode: Text.Wrap
+                        maximumLineCount: 2
+                        elide: Text.ElideMiddle
                     }
 
                     Icon {
+                        id: rightIcon
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right

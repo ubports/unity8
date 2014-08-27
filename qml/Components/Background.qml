@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 import Utils 0.1 as Utils
 
 Loader {
@@ -29,6 +30,9 @@ Loader {
         if (parsedStyle[1] === "color") return Utils.Style.luminance(parsedStyle[2]);
         else if (parsedStyle[1] === "gradient") return Utils.Style.luminance(parsedStyle[2], parsedStyle[3]);
     }
+
+    // FIXME this is only here for highlight purposes (see DashNavigation.qml, too)
+    readonly property color topColor: parsedStyle ? parsedStyle[2] : UbuntuColors.lightGrey
 
     sourceComponent: {
         if (style == "") return null;
