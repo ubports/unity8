@@ -36,7 +36,7 @@ StyledItem {
         property Palette palette: Qt.createQmlObject("import QtQuick 2.2; import Ubuntu.Components.Themes.%1 1.1; Palette {}".arg(theme.name), root, "dynamicPalette");
     }
 
-    // FIXME: should instead use to be created API from toolkit
+    // FIXME: should instead use future toolkit API:
     // style: theme.createStyleComponent("MainViewStyle.qml", root)
     style: Component { MainViewStyle {theme: root.theme} }
 
@@ -59,7 +59,7 @@ StyledItem {
             property var sections
         }
 
-        // FIXME: should instead use to be created API from toolkit:
+        // FIXME: should instead use future toolkit API:
         // style: theme.createStyleComponent("PageHeadStyle.qml", header)
         style: Component { PageHeadStyle {theme: root.theme} }
     }
@@ -73,6 +73,8 @@ StyledItem {
             height: 1024
         }
         source: root.image
+        asynchronous: true
+        cache: false
     }
 
     ActivityIndicator {
