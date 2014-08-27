@@ -40,7 +40,6 @@ Item {
     property int paginationCount: 0
     property int paginationIndex: -1
 
-    property var scope: null
     property var scopeStyle: null
 
     signal backClicked()
