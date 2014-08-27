@@ -30,7 +30,6 @@ Style.PageHeadStyle {
     textLeftMargin: units.gu(2)
 
     implicitHeight: headerStyle.contentHeight
-    property var theme
 
     Label {
         anchors {
@@ -57,6 +56,8 @@ Style.PageHeadStyle {
         }
         source: headerStyle.separatorSource
         height: styledItem.config.sections.model !== undefined ? units.gu(3) : units.gu(2)
+        asynchronous: true
+        cache: true
     }
 
     Image {
@@ -67,5 +68,7 @@ Style.PageHeadStyle {
             right: parent.right
         }
         source: headerStyle.separatorBottomSource
+        asynchronous: true
+        cache: true
     }
 }
