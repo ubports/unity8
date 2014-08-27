@@ -207,7 +207,7 @@ AbstractButton {
     InverseMouseArea {
         anchors.fill: navigationListView
         enabled: root.showList
-        onClicked: root.showList = false
+        onPressed: root.showList = false
     }
 
     Rectangle {
