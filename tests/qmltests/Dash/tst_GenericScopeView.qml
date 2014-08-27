@@ -76,18 +76,19 @@ Item {
                 spy.signalName = "";
             }
 
-            function scrollToCategory(category) {
+            function scrollToCategory(categoryName) {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 tryCompareFunction(function() {
-                    if (findChild(genericScopeView, category)) return true;
+                    var category = findChild(genericScopeView, categoryName);
+                    if (category && category.y > 0 && category.y < genericScopeView.height) return true;
                     mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
                                genericScopeView.width/2, genericScopeView.y)
                     tryCompare(categoryListView, "moving", false);
-                    return findChild(genericScopeView, category) !== null;
+                    return false;
                 }, true);
 
                 tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
-                return findChild(genericScopeView, category);
+                return findChild(genericScopeView, categoryName);
             }
 
             function test_isActive() {
@@ -262,7 +263,7 @@ Item {
                 if (category === undefined) category = 0;
                 if (delegate === undefined) delegate = 0;
                 tryCompareFunction(function() {
-                                        var cardGrid = findChild(genericScopeView, category);
+                                        var cardGrid = findChild(genericScopeView, "dashCategory"+category);
                                         if (cardGrid != null) {
                                             var tile = findChild(cardGrid, "delegate"+delegate);
                                             return tile != null;
@@ -270,7 +271,7 @@ Item {
                                         return false;
                                     },
                                     true);
-                var tile = findChild(findChild(genericScopeView, category), "delegate"+delegate);
+                var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.previewListView, "open", true);
                 tryCompare(testCase.previewListView, "x", 0);
