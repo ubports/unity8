@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-26 14:04+0200\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -250,7 +250,7 @@ msgstr ""
 msgid "Enter SIM PIN"
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:283
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
 msgstr ""
 
@@ -303,7 +303,11 @@ msgid "Sorry, incorrect passphrase"
 msgstr ""
 
 #: qml/Shell.qml:282
-msgid "Enter your PIN"
+msgid "Enter your passcode"
+msgstr ""
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
 msgstr ""
 
 #: qml/Shell.qml:286
