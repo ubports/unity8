@@ -67,8 +67,8 @@ Image {
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
                             readonly property int maxSize: Math.max(width, height) * 4; 
-                            property bool everShown: false;
-                            source: { if (root.visible) everShown = true; return everShown && cardData && cardData["mascot"] || ""; }
+                            property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                            source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; }
                             width: units.gu(6); 
                             height: units.gu(5.625); 
                             sourceSize { width: maxSize; height: maxSize } 

@@ -46,8 +46,8 @@ Item  {
                                     } 
                                     image: Image { 
                                         objectName: "artImage"; 
-                                        property bool everShown: false; 
-                                        source: { if (root.visible) everShown = true; return everShown && cardData && cardData["art"] || ""; }
+                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
                                         fillMode: Image.PreserveAspectCrop;
