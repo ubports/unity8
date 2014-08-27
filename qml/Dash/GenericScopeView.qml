@@ -106,7 +106,7 @@ FocusScope {
 
     onIsCurrentChanged: {
         if (pageHeaderLoader.item && showPageHeader) {
-             pageHeaderLoader.item.resetSearch();
+            pageHeaderLoader.item.resetSearch();
         }
         subPageLoader.closeSubPage();
     }
