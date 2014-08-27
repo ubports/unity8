@@ -31,7 +31,7 @@ Rectangle {
 
     Component.onCompleted: {
         root.fakeApplication = ApplicationManager.add("gallery-app");
-        root.fakeApplication.manualSessionCreation = true;
+        root.fakeApplication.manualSurfaceCreation = true;
         root.fakeApplication.setState(ApplicationInfoInterface.Starting);
     }
     property QtObject fakeApplication: null
@@ -84,7 +84,6 @@ Rectangle {
 
                         if (checked && !fakeApplication.session) {
                             fakeApplication.createSession();
-                            fakeSession.manualSurfaceCreation = true;
                             fakeSession.createSurface();
                         } else if (!checked && fakeApplication.session) {
                             fakeApplication.session.release();

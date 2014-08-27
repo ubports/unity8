@@ -31,11 +31,6 @@ class Session : public QObject
     Q_PROPERTY(Session* parentSession READ parentSession NOTIFY parentSessionChanged DESIGNABLE false)
     Q_PROPERTY(SessionModel* childSessions READ childSessions DESIGNABLE false CONSTANT)
 
-    // Only exists in this fake implementation
-
-    // whether the test code will explicitly control the creation of the application surface
-    Q_PROPERTY(bool manualSurfaceCreation READ manualSurfaceCreation WRITE setManualSurfaceCreation NOTIFY manualSurfaceCreationChanged)
-
 public:
     explicit Session(const QString &name,
                      const QUrl& screenshot,
@@ -58,15 +53,11 @@ public:
     void insertChildSession(uint index, Session* session);
     void removeChildSession(Session* session);
 
-    bool manualSurfaceCreation() const { return m_manualSurfaceCreation; }
-    void setManualSurfaceCreation(bool value);
-
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(Session*);
     void removed();
     void aboutToBeDestroyed();
-    void manualSurfaceCreationChanged(bool value);
 
 public Q_SLOTS:
     Q_INVOKABLE void createSurface();
@@ -81,8 +72,6 @@ private:
     MirSurfaceItem* m_surface;
     Session* m_parentSession;
     SessionModel* m_children;
-
-    bool m_manualSurfaceCreation;
 };
 
 Q_DECLARE_METATYPE(Session*)

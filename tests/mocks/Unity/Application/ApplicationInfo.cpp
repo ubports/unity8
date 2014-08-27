@@ -34,7 +34,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_session(0)
-    , m_manualSessionCreation(false)
+    , m_manualSurfaceCreation(false)
 {
 }
 
@@ -45,7 +45,7 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_session(0)
-    , m_manualSessionCreation(false)
+    , m_manualSurfaceCreation(false)
 {
 }
 
@@ -79,6 +79,10 @@ void ApplicationInfo::setSession(Session* session)
     if (m_session) {
         m_session->setApplication(this);
         m_session->setParent(this);
+
+        if (!m_manualSurfaceCreation) {
+            QTimer::singleShot(500, m_session, SLOT(createSurface()));
+        }
     }
 
     Q_EMIT sessionChanged(m_session);
@@ -137,8 +141,7 @@ void ApplicationInfo::setState(State value)
         m_state = value;
         Q_EMIT stateChanged(value);
 
-        if (!m_manualSessionCreation && m_state == ApplicationInfo::Running) {
-
+        if (!m_manualSurfaceCreation && m_state == ApplicationInfo::Running) {
             QTimer::singleShot(500, this, SLOT(createSession()));
         }
     }
@@ -160,10 +163,10 @@ void ApplicationInfo::setFullscreen(bool value)
     }
 }
 
-void ApplicationInfo::setManualSessionCreation(bool value)
+void ApplicationInfo::setManualSurfaceCreation(bool value)
 {
-    if (value != m_manualSessionCreation) {
-        m_manualSessionCreation = value;
-        Q_EMIT manualSessionCreationChanged(value);
+    if (value != m_manualSurfaceCreation) {
+        m_manualSurfaceCreation = value;
+        Q_EMIT manualSurfaceCreationChanged(value);
     }
 }

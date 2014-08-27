@@ -39,7 +39,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     // Only exists in this fake implementation
 
     // whether the test code will explicitly control the creation of the application surface
-    Q_PROPERTY(bool manualSessionCreation READ manualSessionCreation WRITE setManualSessionCreation NOTIFY manualSessionCreationChanged)
+    Q_PROPERTY(bool manualSurfaceCreation READ manualSurfaceCreation WRITE setManualSurfaceCreation NOTIFY manualSurfaceCreationChanged)
 
 public:
     ApplicationInfo(QObject *parent = nullptr);
@@ -73,8 +73,8 @@ public:
     void setFullscreen(bool value);
     bool fullscreen() const { return m_fullscreen; }
 
-    bool manualSessionCreation() const { return m_manualSessionCreation; }
-    void setManualSessionCreation(bool value);
+    bool manualSurfaceCreation() const { return m_manualSurfaceCreation; }
+    void setManualSurfaceCreation(bool value);
 
 public:
     void setSession(Session* session);
@@ -83,7 +83,7 @@ public:
 Q_SIGNALS:
     void sessionChanged(Session*);
     void fullscreenChanged(bool value);
-    void manualSessionCreationChanged(bool value);
+    void manualSurfaceCreationChanged(bool value);
 
 public Q_SLOTS:
     Q_INVOKABLE void createSession();
@@ -102,7 +102,7 @@ private:
     bool m_fullscreen;
     Session* m_session;
 
-    bool m_manualSessionCreation;
+    bool m_manualSurfaceCreation;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)

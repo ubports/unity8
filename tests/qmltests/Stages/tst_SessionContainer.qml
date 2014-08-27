@@ -73,7 +73,6 @@ Rectangle {
 
                         if (checked) {
                             var fakeSession = SessionManager.createSession("music-player", Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
-                            fakeSession.manualSurfaceCreation = true;
                             fakeSession.createSurface();
                             sessionContainerLoader.item.session = fakeSession;
                         } else {

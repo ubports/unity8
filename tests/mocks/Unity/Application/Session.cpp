@@ -32,7 +32,6 @@ Session::Session(const QString &name,
     , m_surface(nullptr)
     , m_parentSession(nullptr)
     , m_children(new SessionModel(this))
-    , m_manualSurfaceCreation(false)
 {
     qDebug() << "Session::Session() " << this->name();
 
@@ -78,22 +77,7 @@ void Session::setApplication(ApplicationInfo* application)
     if (m_application == application)
         return;
 
-    if (m_application) {
-        disconnect(m_application, 0, this, 0);
-    }
-
     m_application = application;
-
-    if (m_application) {
-        connect(m_application, &ApplicationInfo::stateChanged, this, [this](ApplicationInfo::State state) {
-            if (!m_manualSurfaceCreation && state == ApplicationInfo::Running) {
-                QTimer::singleShot(500, this, SLOT(createSurface()));
-            }
-        });
-        if (!m_manualSurfaceCreation && m_application->state() == ApplicationInfo::Running) {
-            QTimer::singleShot(500, this, SLOT(createSurface()));
-        }
-    }
 }
 
 void Session::setSurface(MirSurfaceItem* surface)
@@ -172,12 +156,4 @@ void Session::removeChildSession(Session* session)
 SessionModel* Session::childSessions() const
 {
     return m_children;
-}
-
-void Session::setManualSurfaceCreation(bool value)
-{
-    if (value != m_manualSurfaceCreation) {
-        m_manualSurfaceCreation = value;
-        Q_EMIT manualSurfaceCreationChanged(value);
-    }
 }
