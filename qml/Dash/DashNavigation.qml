@@ -61,7 +61,7 @@ Item {
     Background {
         id: backgroundItem
         anchors.fill: parent
-        style: scopeStyle ? scopeStyle.navigationBackground : "color:///f5f5f5"
+        style: scopeStyle ? scopeStyle.navigationBackground : "color:///#f5f5f5"
     }
 
     Image {
