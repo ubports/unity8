@@ -14,22 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIRTUALKEYBOARD_H
-#define VIRTUALKEYBOARD_H
+#include "plugin.h"
+#include "Connectivity.h"
 
-#include "MirSurfaceItem.h"
+#include <QtQml>
 
-class VirtualKeyboard : public MirSurfaceItem
+static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_OBJECT
-public:
-    VirtualKeyboard(State state,
-                    QQuickItem *parent = 0);
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Connectivity();
+}
 
-    void touchEvent(QTouchEvent * event) override;
+void BackendPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("Unity.Connectivity"));
 
-private:
-    bool hasTouchInsideKeyboard(QTouchEvent *event);
-};
-
-#endif // VIRTUALKEYBOARD_H
+    qmlRegisterSingletonType<Connectivity>(uri, 0, 1, "Connectivity", service_provider);
+}

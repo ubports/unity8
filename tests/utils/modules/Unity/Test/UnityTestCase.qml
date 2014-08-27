@@ -312,12 +312,15 @@ TestCase {
     }
 
     function tap(item, x, y) {
+        var root = fetchRootItem(item)
+        var rootPoint = item.mapToItem(root, x, y)
+
         var event = touchEvent()
-        event.press(0 /* touchId */, x, y)
+        event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
 
         event = touchEvent()
-        event.release(0 /* touchId */, x, y)
+        event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
 
