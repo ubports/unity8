@@ -16,7 +16,7 @@
 
 #include "SessionManager.h"
 
-#include "MirSurfaceItem.h"
+#include "Session.h"
 
 SessionManager *SessionManager::the_session_manager = nullptr;
 
@@ -34,12 +34,12 @@ SessionManager::SessionManager(QObject *parent) :
 }
 
 
-MirSessionItem *SessionManager::createSession(const QString& name,
-                                              const QUrl& screenshot)
+Session *SessionManager::createSession(const QString& name,
+                                       const QUrl& screenshot)
 {
-    MirSessionItem* session = new MirSessionItem(name, screenshot);
-    connect(session, &MirSessionItem::aboutToBeDestroyed, this, [&] {
-        Q_EMIT sessionStopping(qobject_cast<MirSessionItem*>(sender()));
+    Session* session = new Session(name, screenshot);
+    connect(session, &Session::aboutToBeDestroyed, this, [&] {
+        Q_EMIT sessionStopping(qobject_cast<Session*>(sender()));
     });
 
     Q_EMIT sessionStarting(session);

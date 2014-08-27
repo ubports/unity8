@@ -20,7 +20,7 @@
 #include <QtDBus/QtDBus>
 
 class ApplicationManager;
-class MirSessionItem;
+class Session;
 class MirSurfaceItem;
 
 class ApplicationTestInterface : public QDBusAbstractAdaptor
@@ -37,7 +37,7 @@ public Q_SLOTS:
     Q_INVOKABLE void removeSurface(quint32 surfaceId);
 
 private:
-    QHash<quint32, MirSessionItem*> m_childSessions;
+    QHash<quint32, Session*> m_childSessions;
     QHash<quint32, MirSurfaceItem*> m_childSurfaces;
 };
 

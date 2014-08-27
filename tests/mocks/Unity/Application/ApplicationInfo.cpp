@@ -15,7 +15,7 @@
  */
 
 #include "ApplicationInfo.h"
-#include "MirSessionItem.h"
+#include "Session.h"
 #include "SessionManager.h"
 
 #include <paths.h>
@@ -63,7 +63,7 @@ void ApplicationInfo::createSession()
     setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));
 }
 
-void ApplicationInfo::setSession(MirSessionItem* session)
+void ApplicationInfo::setSession(Session* session)
 {
     qDebug() << "Application::setSession - appId=" << appId() << "session=" << session;
     if (m_session == session)

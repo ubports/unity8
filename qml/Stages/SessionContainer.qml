@@ -20,7 +20,7 @@ import "Animations"
 Item {
     id: root
     objectName: "sessionContainer"
-    property Item session
+    property QtObject session
     property var childSessions: session ? session.childSessions : 0
     property bool removing: false
     property alias surface: _surfaceContainer.surface
@@ -32,15 +32,11 @@ Item {
             session.z = 1;
         }
     }
-    Binding {
-        target: session
-        property: "anchors.fill"; value: root
-    }
 
     readonly property alias surfaceContainer: _surfaceContainer
     SurfaceContainer {
         id: _surfaceContainer
-        anchors.fill: session
+        anchors.fill: parent
         z: 2
         surface: session ? session.surface : null
     }
@@ -92,7 +88,11 @@ Item {
     }
 
     function animateIn(animationComponent) {
-        var animation = animationComponent.createObject(root, { "session": root.session });
+        var animation = animationComponent.createObject(root,
+                                                        {
+                                                            "sessionContainer": root,
+                                                            "surfaceContainer": surfaceContainer
+                                                        });
         animation.start();
 
         var tmp = d.animations;

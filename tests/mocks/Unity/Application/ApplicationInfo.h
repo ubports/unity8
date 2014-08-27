@@ -34,7 +34,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT
 
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
-    Q_PROPERTY(MirSessionItem* session READ session NOTIFY sessionChanged)
+    Q_PROPERTY(Session* session READ session NOTIFY sessionChanged)
 
     // Only exists in this fake implementation
 
@@ -76,11 +76,11 @@ public:
     void setManualSessionCreation(bool value);
 
 public:
-    void setSession(MirSessionItem* session);
-    MirSessionItem* session() const { return m_session; }
+    void setSession(Session* session);
+    Session* session() const { return m_session; }
 
 Q_SIGNALS:
-    void sessionChanged(MirSessionItem*);
+    void sessionChanged(Session*);
     void fullscreenChanged(bool value);
     void manualSessionCreationChanged(bool value);
 
@@ -101,7 +101,7 @@ private:
     bool m_fullscreen;
 
     QQuickItem *m_parentItem;
-    MirSessionItem* m_session;
+    Session* m_session;
 
     bool m_manualSessionCreation;
 };

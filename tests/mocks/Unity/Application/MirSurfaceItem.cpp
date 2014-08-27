@@ -15,7 +15,7 @@
  */
 
 #include "MirSurfaceItem.h"
-#include "MirSessionItem.h"
+#include "Session.h"
 
 #include <paths.h>
 
@@ -122,7 +122,7 @@ void MirSurfaceItem::release()
     }
 }
 
-void MirSurfaceItem::setSession(MirSessionItem* session)
+void MirSurfaceItem::setSession(Session* session)
 {
     m_session = session;
 }

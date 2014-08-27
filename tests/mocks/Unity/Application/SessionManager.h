@@ -14,12 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SESSIONMANAGER_
-#define SESSIONMANAGER_
+#ifndef SESSIONMANAGER_H
+#define SESSIONMANAGER_H
 
 #include <QObject>
 
-#include "MirSessionItem.h"
+class Session;
 
 class SessionManager : public QObject
 {
@@ -29,14 +29,14 @@ public:
 
     static SessionManager *singleton();
 
-    Q_INVOKABLE MirSessionItem* createSession(const QString& name, const QUrl& screenshot);
+    Q_INVOKABLE Session* createSession(const QString& name, const QUrl& screenshot);
 
 Q_SIGNALS:
-    void sessionStarting(MirSessionItem *session);
-    void sessionStopping(MirSessionItem *session);
+    void sessionStarting(Session *session);
+    void sessionStopping(Session *session);
 
 private:
     static SessionManager *the_session_manager;
 };
 
-#endif // SESSIONMANAGER_
+#endif // SESSIONMANAGER_H

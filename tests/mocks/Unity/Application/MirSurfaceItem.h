@@ -22,7 +22,7 @@
 #include <QQuickItem>
 #include <QUrl>
 
-class MirSessionItem;
+class Session;
 
 class MirSurfaceItem : public QQuickItem
 {
@@ -60,13 +60,13 @@ public:
     ~MirSurfaceItem();
 
     //getters
-    MirSessionItem* session() const { return m_session; }
+    Session* session() const { return m_session; }
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
 
-    void setSession(MirSessionItem* item);
+    void setSession(Session* item);
     void setScreenshot(const QUrl& screenshot);
 
     Q_INVOKABLE void setState(State newState);
@@ -107,7 +107,7 @@ private:
     void createQmlContentItem();
     void printComponentErrors();
 
-    MirSessionItem* m_session;
+    Session* m_session;
     const QString m_name;
     const Type m_type;
     State m_state;

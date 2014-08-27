@@ -19,7 +19,7 @@
 #include "ApplicationManager.h"
 #include "SessionManager.h"
 #include "SurfaceManager.h"
-#include "MirSessionItem.h"
+#include "Session.h"
 #include "MirSurfaceItem.h"
 
 #include <paths.h>
@@ -44,7 +44,7 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
         return 0;
     }
 
-    MirSessionItem* parentSession = nullptr;
+    Session* parentSession = nullptr;
     if (m_childSessions.contains(existingSessionId)) {
         parentSession = m_childSessions[existingSessionId];
     } else if (application->session()) {
@@ -59,7 +59,7 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
             .arg(surfaceImage);
 
     quint32 sessionId = ++nextId;
-    MirSessionItem* session = SessionManager::singleton()->createSession(
+    Session* session = SessionManager::singleton()->createSession(
         QString("%1-Child%2").arg(parentSession->name())
                              .arg(sessionId),
         screenshotUrl);
@@ -78,7 +78,7 @@ void ApplicationTestInterface::removeSession(quint32 sessionId)
         qDebug() << "ApplicationTestInterface::removeSession - No added session for " << sessionId;
         return;
     }
-    MirSessionItem* session = m_childSessions.take(sessionId);
+    Session* session = m_childSessions.take(sessionId);
     Q_EMIT session->removed();
 }
 

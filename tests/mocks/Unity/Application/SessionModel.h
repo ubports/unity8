@@ -14,22 +14,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MIRSESSIONITEMMODEL_H
-#define MIRSESSIONITEMMODEL_H
+#ifndef SESSIONMODEL_H
+#define SESSIONMODEL_H
 
 // Local
-#include "MirItemModel.h"
+#include "MirObjectModel.h"
 
-class MirSessionItem;
-class MirSessionItemModel: public MirItemModel<MirSessionItem>
+class Session;
+class SessionModel: public MirObjectModel<Session>
 {
     Q_OBJECT
 public:
-    MirSessionItemModel(QObject *parent = 0): MirItemModel(parent) {}
+    SessionModel(QObject *parent = 0): MirObjectModel(parent) {}
 
     Q_INVOKABLE int count() const { return rowCount(); }
 };
 
-Q_DECLARE_METATYPE(MirSessionItemModel*)
+Q_DECLARE_METATYPE(SessionModel*)
 
-#endif // MIRSESSIONITEMMODEL_H
+#endif // SESSIONMODEL_H

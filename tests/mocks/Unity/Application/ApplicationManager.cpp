@@ -16,7 +16,7 @@
 
 #include "ApplicationManager.h"
 #include "ApplicationInfo.h"
-#include "MirSessionItem.h"
+#include "Session.h"
 #include "ApplicationTestInterface.h"
 
 #include <paths.h>

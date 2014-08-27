@@ -19,20 +19,20 @@ import QtQuick 2.0
 BaseSessionAnimation {
     id: animation
 
-    outChanges: [ AnchorChanges { target: animation.session; anchors.top: animation.parent.bottom } ]
+    outChanges: [ AnchorChanges { target: surfaceContainer; anchors.top: sessionContainer.bottom } ]
     outAnimations: [
         SequentialAnimation {
-            PropertyAction { target: animation.parent; property: "clip"; value: true }
+            PropertyAction { target: sessionContainer; property: "clip"; value: true }
             AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.session; property: "visible"; value: !animation.parent.removing }
-            PropertyAction { target: animation.parent; property: "clip"; value: false }
-            ScriptAction { script: { if (animation.parent.removing) animation.session.release(); } }
+            PropertyAction { target: surfaceContainer; property: "visible"; value: !sessionContainer.removing }
+            PropertyAction { target: sessionContainer; property: "clip"; value: false }
+            ScriptAction { script: { if (sessionContainer.removing) sessionContainer.session.release(); } }
         }
     ]
 
     inChanges: [
         AnchorChanges {
-            target: animation.session;
+            target: surfaceContainer;
             anchors.top: animation.parent.top
             anchors.right: undefined
             anchors.bottom: undefined
@@ -40,9 +40,9 @@ BaseSessionAnimation {
         } ]
     inAnimations: [
         SequentialAnimation {
-            PropertyAction { target: animation.parent; property: "clip"; value: true }
+            PropertyAction { target: sessionContainer; property: "clip"; value: true }
             AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.parent; property: "clip"; value: false }
+            PropertyAction { target: sessionContainer; property: "clip"; value: false }
         }
     ]
 }

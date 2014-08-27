@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MirSessionItem.h"
+#include "Session.h"
 #include "ApplicationInfo.h"
 #include "SurfaceManager.h"
 
@@ -22,29 +22,29 @@
 #include <QQmlEngine>
 #include <QTimer>
 
-MirSessionItem::MirSessionItem(const QString &name,
-                               const QUrl& screenshot,
-                               QQuickItem *parent)
-    : QQuickItem(parent)
+Session::Session(const QString &name,
+                 const QUrl& screenshot,
+                 QObject *parent)
+    : QObject(parent)
     , m_name(name)
     , m_screenshot(screenshot)
     , m_application(nullptr)
     , m_surface(nullptr)
     , m_parentSession(nullptr)
-    , m_children(new MirSessionItemModel(this))
+    , m_children(new SessionModel(this))
     , m_manualSurfaceCreation(false)
 {
-    qDebug() << "MirSessionItem::MirSessionItem() " << this->name();
+    qDebug() << "Session::Session() " << this->name();
 
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
-MirSessionItem::~MirSessionItem()
+Session::~Session()
 {
-    qDebug() << "MirSessionItem::~MirSessionItem() " << name();
+    qDebug() << "Session::~Session() " << name();
 
-    QList<MirSessionItem*> children(m_children->list());
-    for (MirSessionItem* child : children) {
+    QList<Session*> children(m_children->list());
+    for (Session* child : children) {
         delete child;
     }
     if (m_parentSession) {
@@ -57,9 +57,9 @@ MirSessionItem::~MirSessionItem()
     delete m_children;
 }
 
-void MirSessionItem::release()
+void Session::release()
 {
-    qDebug() << "MirSessionItem::release " << name();
+    qDebug() << "Session::release " << name();
     Q_EMIT aboutToBeDestroyed();
 
     if (m_parentSession) {
@@ -73,7 +73,7 @@ void MirSessionItem::release()
     }
 }
 
-void MirSessionItem::setApplication(ApplicationInfo* application)
+void Session::setApplication(ApplicationInfo* application)
 {
     if (m_application == application)
         return;
@@ -96,9 +96,9 @@ void MirSessionItem::setApplication(ApplicationInfo* application)
     }
 }
 
-void MirSessionItem::setSurface(MirSurfaceItem* surface)
+void Session::setSurface(MirSurfaceItem* surface)
 {
-    qDebug() << "MirSessionItem::setSurface - session=" << name() << "surface=" << surface;
+    qDebug() << "Session::setSurface - session=" << name() << "surface=" << surface;
     if (m_surface == surface)
         return;
 
@@ -117,7 +117,7 @@ void MirSessionItem::setSurface(MirSurfaceItem* surface)
     Q_EMIT surfaceChanged(m_surface);
 }
 
-void MirSessionItem::setScreenshot(const QUrl& screenshot)
+void Session::setScreenshot(const QUrl& screenshot)
 {
     if (screenshot != m_screenshot) {
         m_screenshot = screenshot;
@@ -127,7 +127,7 @@ void MirSessionItem::setScreenshot(const QUrl& screenshot)
     }
 }
 
-void MirSessionItem::setParentSession(MirSessionItem* session)
+void Session::setParentSession(Session* session)
 {
     if (m_parentSession == session || session == this)
         return;
@@ -136,7 +136,7 @@ void MirSessionItem::setParentSession(MirSessionItem* session)
     Q_EMIT parentSessionChanged(session);
 }
 
-void MirSessionItem::createSurface()
+void Session::createSurface()
 {
     if (m_surface) return;
 
@@ -146,22 +146,22 @@ void MirSessionItem::createSurface()
                                    m_screenshot));
 }
 
-void MirSessionItem::addChildSession(MirSessionItem* session)
+void Session::addChildSession(Session* session)
 {
     insertChildSession(m_children->rowCount(), session);
 }
 
-void MirSessionItem::insertChildSession(uint index, MirSessionItem* session)
+void Session::insertChildSession(uint index, Session* session)
 {
-    qDebug() << "MirSessionItem::insertChildSession - " << session->name() << " to " << name() << " @  " << index;
+    qDebug() << "Session::insertChildSession - " << session->name() << " to " << name() << " @  " << index;
 
     session->setParentSession(this);
     m_children->insert(index, session);
 }
 
-void MirSessionItem::removeChildSession(MirSessionItem* session)
+void Session::removeChildSession(Session* session)
 {
-    qDebug() << "MirSessionItem::removeChildSession - " << session->name() << " from " << name();
+    qDebug() << "Session::removeChildSession - " << session->name() << " from " << name();
 
     if (m_children->contains(session)) {
         m_children->remove(session);
@@ -169,12 +169,12 @@ void MirSessionItem::removeChildSession(MirSessionItem* session)
     }
 }
 
-MirSessionItemModel* MirSessionItem::childSessions() const
+SessionModel* Session::childSessions() const
 {
     return m_children;
 }
 
-void MirSessionItem::setManualSurfaceCreation(bool value)
+void Session::setManualSurfaceCreation(bool value)
 {
     if (value != m_manualSurfaceCreation) {
         m_manualSurfaceCreation = value;
