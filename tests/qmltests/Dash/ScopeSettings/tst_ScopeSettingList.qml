@@ -55,6 +55,7 @@ Rectangle {
         }
 
         function test_initialValue() {
+            // there's no initialIndex, so we workaround, testing is difficult too https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1362031
             var newObject = Qt.createQmlObject('import "../../../../qml/Dash/ScopeSettings" \n\
                                                 ScopeSettingList { initialValue: 2; }', root, "dynamicScopeSettingList");
             newObject.widgetData = settingData;
