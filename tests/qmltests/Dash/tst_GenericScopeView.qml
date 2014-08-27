@@ -94,6 +94,16 @@ Item {
                 return findChild(genericScopeView, category);
             }
 
+            function scrollToEnd()
+            {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                while (!categoryListView.atYEnd) {
+                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
+                               genericScopeView.width/2, genericScopeView.y)
+                    tryCompare(categoryListView, "moving", false);
+                }
+            }
+
             function test_isActive() {
                 tryCompare(genericScopeView.scope, "isActive", false)
                 genericScopeView.isCurrent = true
@@ -420,7 +430,7 @@ Item {
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
                 tryCompare(genericScopeView.categoryView, "contentY", units.gu(13.5));
 
-                scrollToCategory("dashCategory1");
+                scrollToEnd();
 
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory1") !== null; }, true);
                 var category1 = findChild(genericScopeView, "dashCategory1")
@@ -462,7 +472,7 @@ Item {
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
 
-                scrollToCategory("dashCategory1");
+                scrollToEnd();
 
                 var category1 = findChild(genericScopeView, "dashCategory1")
                 var seeAll1 = findChild(category1, "seeAll")
@@ -473,10 +483,7 @@ Item {
                 verify(!category0.expanded);
                 verify(category1.expanded);
                 tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
-                tryCompareFunction(function() {
-                    return category0.height + genericScopeView.categoryView.pageHeader.height + category1.y
-                           == genericScopeView.categoryView.contentY;}
-                    , true);
+                tryCompare(category1, "y", units.gu(5));
             }
         }
     }
