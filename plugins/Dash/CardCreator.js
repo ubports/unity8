@@ -274,6 +274,7 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
                             color: %2; \n\
+                            fontScale: root.fontScale; \n\
                             model: cardData && cardData["attributes"]; \n\
                           }\n';
 
