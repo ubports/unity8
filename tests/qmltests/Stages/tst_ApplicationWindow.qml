@@ -38,9 +38,9 @@ Rectangle {
     readonly property var fakeSession: fakeApplication ? fakeApplication.session : null
 
     Connections {
-        target: fakeSession
-        onSurfaceChanged: {
-            surfaceCheckbox.checked = fakeSession.surface !== null;
+        target: fakeApplication
+        onSessionChanged: {
+            surfaceCheckbox.checked = fakeApplication.session !== null
         }
     }
 
@@ -262,14 +262,14 @@ Rectangle {
 
             tryCompare(stateGroup, "state", "screenshot");
             waitUntilTransitionsEnd();
-            tryCompare(fakeSession, "surface", null);
+            tryCompare(fakeApplication, "session", null);
 
             // and restart it
             setApplicationState(appStarting);
 
             waitUntilTransitionsEnd();
             verify(stateGroup.state === "screenshot");
-            verify(fakeSession.surface === null);
+            verify(fakeSession === null);
 
             setApplicationState(appRunning);
 

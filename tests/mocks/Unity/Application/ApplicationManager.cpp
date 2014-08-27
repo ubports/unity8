@@ -336,104 +336,121 @@ void ApplicationManager::buildListOfAvailableApplications()
 {
     ApplicationInfo *application;
 
-    application = new ApplicationInfo("unity8-dash", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("unity8-dash");
     application->setName("Unity 8 Mock Dash");
     application->setScreenshotId("unity8-dash");
     application->setStage(ApplicationInfo::MainStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("dialer-app", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("dialer-app");
     application->setName("Dialer");
     application->setScreenshotId("dialer");
     application->setIconId("dialer-app");
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("camera-app", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("camera-app");
     application->setName("Camera");
     application->setScreenshotId("camera");
     application->setIconId("camera");
     application->setFullscreen(true);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("gallery-app", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("gallery-app");
     application->setName("Gallery");
     application->setScreenshotId("gallery");
     application->setIconId("gallery");
     application->setFullscreen(true);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("facebook-webapp", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("facebook-webapp");
     application->setName("Facebook");
     application->setScreenshotId("facebook");
     application->setIconId("facebook");
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("webbrowser-app", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("webbrowser-app");
     application->setFullscreen(true);
     application->setName("Browser");
     application->setScreenshotId("browser");
     application->setIconId("browser");
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("twitter-webapp", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("twitter-webapp");
     application->setName("Twitter");
     application->setScreenshotId("twitter");
     application->setIconId("twitter");
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("map", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("map");
     application->setName("Map");
     application->setIconId("map");
     application->setScreenshotId("map");
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("gmail-webapp", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("gmail-webapp");
     application->setName("GMail");
     application->setIconId("gmail");
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("ubuntu-weather-app", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("ubuntu-weather-app");
     application->setName("Weather");
     application->setIconId("weather");
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("notes-app", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("notes-app");
     application->setName("Notepad");
     application->setIconId("notepad");
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("calendar-app", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("calendar-app");
     application->setName("Calendar");
     application->setIconId("calendar");
     application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("evernote", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("evernote");
     application->setName("Evernote");
     application->setIconId("evernote");
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("pinterest", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("pinterest");
     application->setName("Pinterest");
     application->setIconId("pinterest");
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("soundcloud", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("soundcloud");
     application->setName("SoundCloud");
     application->setIconId("soundcloud");
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("wikipedia", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("wikipedia");
     application->setName("Wikipedia");
     application->setIconId("wikipedia");
     m_availableApplications.append(application);
 
-    application = new ApplicationInfo("youtube", this);
+    application = new ApplicationInfo(this);
+    application->setAppId("youtube");
     application->setName("YouTube");
     application->setIconId("youtube");
     m_availableApplications.append(application);

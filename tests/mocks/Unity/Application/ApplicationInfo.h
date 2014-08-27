@@ -49,6 +49,7 @@ public:
      void setIconId(const QString &iconId);
     void setScreenshotId(const QString &screenshotId);
 
+    void setAppId(const QString &value) { m_appId = value; }
     QString appId() const override { return m_appId; }
 
     void setName(const QString &value);
