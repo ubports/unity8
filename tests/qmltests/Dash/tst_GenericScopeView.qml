@@ -227,11 +227,15 @@ Item {
                 shell.width = units.gu(20)
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.contentY = units.gu(20);
-                var seeAll = findChild(category, "seeAll")
+                var seeAll = findChild(category, "seeAll");
+                var floatingSeeLess = findChild(genericScopeView, "floatingSeeLess");
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 tryCompare(category, "expanded", true);
-                tryCompareFunction(function() { return category.item.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
-                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                tryCompareFunction(function() {
+                    return category.item.height + floatingSeeLess.height ==
+                    genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd;
+                    }, true);
+                mouseClick(floatingSeeLess, floatingSeeLess.width / 2, floatingSeeLess.height / 2);
                 tryCompare(category, "expanded", false);
             }
 
