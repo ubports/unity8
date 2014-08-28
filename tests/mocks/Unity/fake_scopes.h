@@ -56,7 +56,7 @@ public:
     // This is used as part of implementation of the other C++ code, not API
     QList<Scope*> scopes() const;
     QList<Scope*> allScopes() const;
-    Scope* getScopeFromAll(const QString& scope_id) const;
+    Q_INVOKABLE Scope* getScopeFromAll(const QString& scope_id) const;
 
 private Q_SLOTS:
     void updateScopes();

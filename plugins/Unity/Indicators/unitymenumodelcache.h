@@ -31,7 +31,7 @@ class UNITYINDICATORS_EXPORT UnityMenuModelCache : public QObject
 {
     Q_OBJECT
 public:
-    UnityMenuModelCache(QObject*parent=NULL);
+    UnityMenuModelCache(QObject*parent=nullptr);
     ~UnityMenuModelCache();
 
     Q_INVOKABLE UnityMenuModel* model(const QByteArray& bus,

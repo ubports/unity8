@@ -34,7 +34,7 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     property bool showPageHeader: true
-    readonly property alias previewShown: previewListView.open
+    readonly property alias subPageShown: subPageLoader.subPageShown
     property int paginationCount: 0
     property int paginationIndex: 0
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
@@ -43,9 +43,13 @@ FocusScope {
         style: scope ? scope.customizations : {}
     }
 
-    readonly property bool processing: scope ? scope.searchInProgress || previewListView.processing : false
+    readonly property bool processing: scope ? scope.searchInProgress || subPageLoader.processing : false
 
     signal backClicked()
+
+    onScopeChanged: {
+        floatingSeeLess.companionBase = null;
+    }
 
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
@@ -56,7 +60,7 @@ FocusScope {
     }
 
     function closePreview() {
-        previewListView.open = false;
+        subPageLoader.closeSubPage()
     }
 
     function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
@@ -80,19 +84,19 @@ FocusScope {
         if (limitedCategoryItemCount > 0) {
             previewLimitModel.model = resultsModel;
             previewLimitModel.limit = limitedCategoryItemCount;
-            previewListView.model = previewLimitModel;
+            subPageLoader.model = previewLimitModel;
         } else {
-            previewListView.model = resultsModel;
+            subPageLoader.model = resultsModel;
         }
-        previewListView.currentIndex = -1;
-        previewListView.currentIndex = index;
-        previewListView.open = true;
+        subPageLoader.initialIndex = -1;
+        subPageLoader.initialIndex = index;
+        subPageLoader.openSubPage("preview");
     }
 
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !previewListView.open
+        value: isCurrent && !subPageLoader.open
     }
 
     SortFilterProxyModel {
@@ -105,10 +109,10 @@ FocusScope {
     }
 
     onIsCurrentChanged: {
-        if (showPageHeader) {
+        if (pageHeaderLoader.item && showPageHeader) {
             pageHeaderLoader.item.resetSearch();
         }
-        previewListView.open = false;
+        subPageLoader.closeSubPage();
     }
 
     Binding {
@@ -127,8 +131,8 @@ FocusScope {
 
     Connections {
         target: scopeView.scope
-        onShowDash: previewListView.open = false;
-        onHideDash: previewListView.open = false;
+        onShowDash: subPageLoader.closeSubPage()
+        onHideDash: subPageLoader.closeSubPage()
     }
 
     Rectangle {
@@ -141,13 +145,15 @@ FocusScope {
         id: categoryView
         objectName: "categoryListView"
 
-        x: previewListView.open ? -width : 0
+        x: subPageLoader.open ? -width : 0
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
-        height: parent.height
+        height: floatingSeeLess.visible ? parent.height - floatingSeeLess.height + floatingSeeLess.yOffset
+                                        : parent.height
+        clip: height != parent.height
 
         model: scopeView.categories
-        forceNoClip: previewListView.open
+        forceNoClip: subPageLoader.open
         pixelAligned: true
         interactive: !navigationShown
 
@@ -205,6 +211,8 @@ FocusScope {
             objectName: "dashCategory" + category
             highlightWhenPressed: false
             showDivider: false
+
+            property Item seeAllButton: seeAll
 
             readonly property bool expandable: {
                 if (categoryView.model.count === 1) return false;
@@ -301,7 +309,7 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (baseItem.expandable) {
-                        var shouldExpand = categoryId === categoryView.expandedCategoryId;
+                        var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
@@ -384,11 +392,12 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(6) : 0
+                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(4) : 0
 
                 onClicked: {
-                    if (categoryView.expandedCategoryId != baseItem.category) {
+                    if (categoryView.expandedCategoryId !== baseItem.category) {
                         categoryView.expandedCategoryId = baseItem.category;
+                        floatingSeeLess.companionBase = baseItem;
                     } else {
                         categoryView.expandedCategoryId = "";
                     }
@@ -462,22 +471,81 @@ FocusScope {
                     searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
+                    settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
+                    favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
+                    favorite: scopeView.scope && scopeView.scope.favorite
                     scopeStyle: scopeView.scopeStyle
                     paginationCount: scopeView.paginationCount
                     paginationIndex: scopeView.paginationIndex
 
                     bottomItem: DashNavigation {
                         scope: scopeView.scope
-                        width: parent.width <= units.gu(60) ? parent.width : units.gu(40)
-                        anchors.right: parent.right
+                        anchors { left: parent.left; right: parent.right }
                         windowHeight: scopeView.height
                         windowWidth: scopeView.width
                         scopeStyle: scopeView.scopeStyle
                     }
 
                     onBackClicked: scopeView.backClicked()
+                    onSettingsClicked: subPageLoader.openSubPage("settings")
+                    onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
                 }
             }
+        }
+    }
+
+    AbstractButton {
+        id: floatingSeeLess
+        objectName: "floatingSeeLess"
+
+        property Item companionTo: companionBase ? companionBase.seeAllButton : null
+        property Item companionBase: null
+        property bool showBecausePosition: false
+        property real yOffset: 0
+
+        anchors {
+            left: categoryView.left
+            right: categoryView.right
+        }
+        y: parent.height - height + yOffset
+        height: seeLessLabel.font.pixelSize + units.gu(4)
+        visible: companionTo && showBecausePosition
+
+        onClicked: categoryView.expandedCategoryId = "";
+
+        function updateVisibility() {
+            var companionPos = companionTo.mapToItem(floatingSeeLess, 0, 0);
+            showBecausePosition = companionPos.y > 0;
+
+            var posToBase = floatingSeeLess.mapToItem(companionBase, 0, -yOffset).y;
+            yOffset = Math.max(0, companionBase.item.collapsedHeight - posToBase);
+            yOffset = Math.min(yOffset, height);
+
+            if (!showBecausePosition && categoryView.expandedCategoryId === "") {
+                companionBase = null;
+            }
+        }
+
+        Label {
+            id: seeLessLabel
+            text: i18n.tr("See less")
+            anchors {
+                centerIn: parent
+                verticalCenterOffset: units.gu(-0.5)
+            }
+            fontSize: "small"
+            font.weight: Font.Bold
+            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
+        }
+
+        Connections {
+            target: floatingSeeLess.companionTo ? categoryView : null
+            onContentYChanged: floatingSeeLess.updateVisibility();
+        }
+
+        Connections {
+            target: floatingSeeLess.companionTo
+            onYChanged: floatingSeeLess.updateVisibility();
         }
     }
 
@@ -485,21 +553,60 @@ FocusScope {
         id: previewLimitModel
     }
 
-    PreviewListView {
-        id: previewListView
-        objectName: "previewListView"
+    Loader {
+        id: subPageLoader
+        objectName: "subPageLoader"
         visible: x != width
-        scope: scopeView.scope
-        scopeStyle: scopeView.scopeStyle
         width: parent.width
         height: parent.height
         anchors.left: categoryView.right
 
-        onOpenChanged: {
-            if (showPageHeader) {
-                pageHeaderLoader.item.unfocus();
+        property bool open: false
+        property var scope: scopeView.scope
+        property var scopeStyle: scopeView.scopeStyle
+        property int initialIndex: -1
+        property var model: null
+
+        readonly property bool processing: item && item.processing || false
+        readonly property int count: item && item.count || 0
+        readonly property int currentIndex: item && item.currentIndex || 0
+        readonly property var currentItem: item && item.currentItem || null
+
+        property string subPage: ""
+        readonly property bool subPageShown: visible && status === Loader.Ready
+
+        function openSubPage(page) {
+            subPage = page;
+        }
+
+        function closeSubPage() {
+            open = false;
+        }
+
+        source: switch(subPage) {
+            case "preview": return "PreviewListView.qml";
+            case "settings": return "ScopeSettingsPage.qml";
+            default: return "";
+        }
+
+        onLoaded: {
+            item.scope = Qt.binding(function() { return subPageLoader.scope; } )
+            item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle; } )
+            if (subPage == "preview") {
+                item.open = Qt.binding(function() { return subPageLoader.open; } )
+                item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
+                item.model = Qt.binding(function() { return subPageLoader.model; } )
             }
+            open = true;
+        }
+
+        onOpenChanged: pageHeaderLoader.item.unfocus()
+
+        onVisibleChanged: if (!visible) subPage = ""
+
+        Connections {
+            target: subPageLoader.item
+            onBackClicked: subPageLoader.closeSubPage()
         }
     }
-
 }

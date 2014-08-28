@@ -26,7 +26,8 @@ Item {
         [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
         [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3"}],
         [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3"},{"value":"text4"}],
-        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3","style":"highlighted"},{"value":"text4","icon":"image://theme/close","style":"highlighted"},{"value":"text5"}]
+        [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"},{"value":"text3","style":"highlighted"},{"value":"text4","icon":"image://theme/close","style":"highlighted"},{"value":"text5"}],
+        [{"value":"text1","icon":"image://theme/ok"},{},{},{},{"value":"text5", "icon": "image://theme/search"}],
     ]
 
     CardAttributes {
@@ -49,6 +50,8 @@ Item {
         function test_columns(data) {
             cardAttributes.model = data;
             compare(cardAttributes.columns, 2 + data.length % 2);
+            var rows = Math.ceil(data.length / 3);
+            tryCompare(cardAttributes, "height", rows * units.gu(2) + (rows - 1) * cardAttributes.rowSpacing);
         }
     }
 }

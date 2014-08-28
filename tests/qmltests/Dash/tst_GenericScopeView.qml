@@ -20,7 +20,7 @@ import Unity 0.2
 import ".."
 import "../../../qml/Dash"
 import "../../../qml/Components"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Unity.Test 0.1 as UT
 
 Item {
@@ -39,6 +39,8 @@ Item {
 
     Scopes {
         id: scopes
+        // for tryGenericScopeView
+        onLoadedChanged: if (loaded) genericScopeView.scope = scopes.getScope(2);
     }
 
     MockScope {
@@ -63,7 +65,7 @@ Item {
             name: "GenericScopeView"
             when: scopes.loaded && windowShown
 
-            property Item previewListView: findChild(genericScopeView, "previewListView")
+            property Item subPageLoader: findChild(genericScopeView, "subPageLoader")
             property Item header: findChild(genericScopeView, "scopePageHeader")
 
             function init() {
@@ -108,24 +110,24 @@ Item {
                 tryCompare(genericScopeView.scope, "isActive", false)
                 genericScopeView.isCurrent = true
                 tryCompare(genericScopeView.scope, "isActive", true)
-                testCase.previewListView.open = true
+                testCase.subPageLoader.open = true
                 tryCompare(genericScopeView.scope, "isActive", false)
-                testCase.previewListView.open = false
+                testCase.subPageLoader.open = false
                 tryCompare(genericScopeView.scope, "isActive", true)
                 genericScopeView.isCurrent = false
                 tryCompare(genericScopeView.scope, "isActive", false)
             }
 
             function test_showDash() {
-                testCase.previewListView.open = true;
+                testCase.subPageLoader.open = true;
                 genericScopeView.scope.showDash();
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
             }
 
             function test_hideDash() {
-                testCase.previewListView.open = true;
+                testCase.subPageLoader.open = true;
                 genericScopeView.scope.hideDash();
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
             }
 
             function test_searchQuery() {
@@ -228,7 +230,7 @@ Item {
 
                 openPreview(4, 0);
 
-                compare(testCase.previewListView.count, 12, "There should only be 12 items in preview.");
+                compare(testCase.subPageLoader.count, 12, "There should only be 12 items in preview.");
 
                 closePreview();
             }
@@ -241,11 +243,15 @@ Item {
                 shell.width = units.gu(20)
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.contentY = units.gu(20);
-                var seeAll = findChild(category, "seeAll")
+                var seeAll = findChild(category, "seeAll");
+                var floatingSeeLess = findChild(genericScopeView, "floatingSeeLess");
                 mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
                 tryCompare(category, "expanded", true);
-                tryCompareFunction(function() { return category.item.height == genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd; }, true);
-                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                tryCompareFunction(function() {
+                    return category.item.height + floatingSeeLess.height ==
+                    genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd;
+                    }, true);
+                mouseClick(floatingSeeLess, floatingSeeLess.width / 2, floatingSeeLess.height / 2);
                 tryCompare(category, "expanded", false);
             }
 
@@ -286,19 +292,21 @@ Item {
                                     true);
                 var tile = findChild(findChild(genericScopeView, category), "delegate"+delegate);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
-                tryCompare(testCase.previewListView, "open", true);
-                tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
             }
 
             function closePreview() {
-                var closePreviewMouseArea = findChild(genericScopeView, "innerPageHeader");
+                var closePreviewMouseArea = findChild(subPageLoader.item, "pageHeader");
                 mouseClick(closePreviewMouseArea, units.gu(2), units.gu(2));
 
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
             }
 
             function test_previewOpenClose() {
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
 
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
@@ -310,7 +318,7 @@ Item {
             function test_showPreviewCarousel() {
                 var category = scrollToCategory("dashCategory1");
 
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
 
                 var tile = findChild(category, "carouselDelegate1");
                 verify(tile, "Could not find delegate");
@@ -318,14 +326,14 @@ Item {
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(tile, "explicitlyScaled", true);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
-                tryCompare(testCase.previewListView, "open", true);
-                tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
 
                 closePreview();
 
                 mousePress(tile, tile.width / 2, tile.height / 2);
-                tryCompare(testCase.previewListView, "open", true);
-                tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
                 mouseRelease(tile, tile.width / 2, tile.height / 2);
 
                 closePreview();
@@ -334,20 +342,20 @@ Item {
             function test_showPreviewHorizontalList() {
                 var category = scrollToCategory("dashCategory18");
 
-                tryCompare(testCase.previewListView, "open", false);
+                tryCompare(testCase.subPageLoader, "open", false);
 
                 var tile = findChild(category, "delegate1");
                 verify(tile, "Could not find delegate");
 
                 mouseClick(tile, tile.width / 2, tile.height / 2);
-                tryCompare(testCase.previewListView, "open", true);
-                tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
 
                 closePreview();
 
                 mousePress(tile, tile.width / 2, tile.height / 2);
-                tryCompare(testCase.previewListView, "open", true);
-                tryCompare(testCase.previewListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompare(testCase.subPageLoader, "x", 0);
                 mouseRelease(tile, tile.width / 2, tile.height / 2);
 
                 closePreview();
@@ -357,30 +365,57 @@ Item {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
 
-                tryCompare(testCase.previewListView, "open", false);
-                var previewListViewList = findChild(previewListView, "listView");
+                tryCompare(testCase.subPageLoader, "open", false);
 
                 openPreview();
+                var previewListViewList = findChild(subPageLoader.item, "listView");
 
                 // flick to the next previews
-                tryCompare(testCase.previewListView, "count", 15);
-                for (var i = 1; i < testCase.previewListView.count; ++i) {
-                    mouseFlick(testCase.previewListView, testCase.previewListView.width - units.gu(1),
-                                                testCase.previewListView.height / 2,
+                tryCompare(testCase.subPageLoader, "count", 15);
+                for (var i = 1; i < testCase.subPageLoader.count; ++i) {
+                    mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.width - units.gu(1),
+                                                testCase.subPageLoader.height / 2,
                                                 units.gu(2),
-                                                testCase.previewListView.height / 2);
+                                                testCase.subPageLoader.height / 2);
                     tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.previewListView.currentItem, "objectName", "preview" + i);
-
+                    tryCompare(testCase.subPageLoader.currentItem, "objectName", "preview" + i);
                 }
                 closePreview();
             }
 
+            function test_settingsOpenClose() {
+                waitForRendering(genericScopeView);
+                verify(header, "Could not find the header.");
+                var innerHeader = findChild(header, "innerPageHeader");
+                verify(innerHeader, "Could not find the inner header");
+
+                // open
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+                var settings = findChild(innerHeader, "settings_header_button");
+                mouseClick(settings, settings.width / 2, settings.height / 2);
+                tryCompare(testCase.subPageLoader, "open", true);
+                tryCompareFunction(function() { return (String(subPageLoader.source)).indexOf("ScopeSettingsPage.qml") != -1; }, true);
+                tryCompare(genericScopeView, "subPageShown", true);
+                compare(testCase.subPageLoader.subPage, "settings");
+                tryCompare(testCase.subPageLoader, "x", 0);
+
+                // close
+                var settingsHeader = findChild(testCase.subPageLoader.item, "pageHeader");
+                mouseClick(settingsHeader, units.gu(2), units.gu(2));
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(genericScopeView, "subPageShown", false);
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                tryCompare(categoryListView, "x", 0);
+                tryCompare(testCase.subPageLoader, "visible", false);
+                tryCompare(testCase.subPageLoader, "source", "");
+            }
+
             function test_header_style_data() {
                 return [
-                    { tag: "Default", index: 0, foreground: Theme.palette.normal.baseText, background: "", logo: "" },
-                    { tag: "Foreground", index: 1, foreground: "yellow", background: "", logo: "" },
-                    { tag: "Logo+Background", index: 2, foreground: Theme.palette.normal.baseText, background: "gradient:///lightgrey/grey",
+                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Logo+Background", index: 2, foreground: UbuntuColors.darkGrey, background: "gradient:///lightgrey/grey",
                       logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
             }
@@ -405,6 +440,7 @@ Item {
                 compare(image.source, data.logo, "Title image has the wrong source");
             }
 
+<<<<<<< TREE
             function test_seeAllTwoCategoriesScenario1() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
@@ -446,8 +482,17 @@ Item {
                     return genericScopeView.categoryView.contentY + category1.y + category1.height + genericScopeView.categoryView.pageHeader.height
                            == genericScopeView.categoryView.contentHeight;}
                     , true);
+=======
+            function test_favorite_data() {
+                return [
+                    { tag: "People", id: "MockScope1", favorite: true },
+                    { tag: "Music", id: "MockScope2", favorite: false },
+                    { tag: "Apps", id: "clickscope", favorite: true },
+                ];
+>>>>>>> MERGE-SOURCE
             }
 
+<<<<<<< TREE
             function test_seeAllTwoCategoriesScenario2() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
@@ -484,6 +529,26 @@ Item {
                 verify(category1.expanded);
                 tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
                 tryCompare(category1, "y", units.gu(5));
+=======
+            function test_favorite(data) {
+                genericScopeView.scope = scopes.getScopeFromAll(data.id);
+                waitForRendering(genericScopeView);
+                verify(header, "Could not find the header.");
+
+                compare(genericScopeView.scope.favorite, data.favorite, "Unexpected initial favorite value");
+
+                var innerHeader = findChild(header, "innerPageHeader");
+                verify(innerHeader, "Could not find the inner header");
+
+                expectFail("Apps", "Click scope should not have a favorite button");
+                var favoriteAction = findChild(innerHeader, "favorite_header_button");
+                verify(favoriteAction, "Could not find the favorite action.");
+                mouseClick(favoriteAction, favoriteAction.width / 2, favoriteAction.height / 2);
+
+                tryCompare(genericScopeView.scope, "favorite", !data.favorite);
+
+                genericScopeView.scope = !genericScopeView.scope;
+>>>>>>> MERGE-SOURCE
             }
         }
     }

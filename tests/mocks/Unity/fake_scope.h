@@ -98,6 +98,7 @@ protected:
 
     unity::shell::scopes::CategoriesInterface* m_categories;
     unity::shell::scopes::ScopeInterface* m_openScope;
+    unity::shell::scopes::SettingsModelInterface* m_settings;
 };
 
 #endif // FAKE_SCOPE_H

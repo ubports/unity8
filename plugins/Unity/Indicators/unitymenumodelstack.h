@@ -40,7 +40,7 @@ class UNITYINDICATORS_EXPORT UnityMenuModelStack : public QObject
     Q_PROPERTY(UnityMenuModel* tail READ tail NOTIFY tailChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
-    UnityMenuModelStack(QObject*parent=NULL);
+    UnityMenuModelStack(QObject*parent=nullptr);
     ~UnityMenuModelStack();
 
     UnityMenuModel* head() const;
