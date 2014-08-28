@@ -72,6 +72,8 @@ private:
     MirSurfaceItem* m_surface;
     Session* m_parentSession;
     SessionModel* m_children;
+
+    friend class ApplicationTestInterface;
 };
 
 Q_DECLARE_METATYPE(Session*)

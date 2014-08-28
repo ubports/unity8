@@ -24,6 +24,8 @@
 
 #include <paths.h>
 
+#include <QtDBus/QtDBus>
+
 quint32 nextId = 0;
 
 ApplicationTestInterface::ApplicationTestInterface(QObject* parent)
@@ -32,6 +34,29 @@ ApplicationTestInterface::ApplicationTestInterface(QObject* parent)
     QDBusConnection connection = QDBusConnection::sessionBus();
     connection.registerService("com.canonical.Unity8");
     connection.registerObject("/com/canonical/Unity8/Mocks", parent);
+}
+
+Session* ApplicationTestInterface::addChildSession(Session* existingSession, const QString& surfaceImage)
+{
+    if (!existingSession) return nullptr;
+
+    QUrl screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+            .arg(qmlDirectory())
+            .arg(surfaceImage);
+
+    Session* session = SessionManager::singleton()->createSession(
+        QString("%1-Child%2").arg(existingSession->name())
+                             .arg(existingSession->childSessions()->count()),
+        screenshotUrl);
+    existingSession->addChildSession(session);
+    session->createSurface();
+
+    return session;
+}
+
+void ApplicationTestInterface::removeSession(Session* existingSession)
+{
+    Q_EMIT existingSession->removed();
 }
 
 quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage)
@@ -61,7 +86,7 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
     quint32 sessionId = ++nextId;
     Session* session = SessionManager::singleton()->createSession(
         QString("%1-Child%2").arg(parentSession->name())
-                             .arg(sessionId),
+                             .arg(parentSession->childSessions()->count()),
         screenshotUrl);
     parentSession->addChildSession(session);
     session->createSurface();

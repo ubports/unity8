@@ -14,7 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import Ubuntu.Components 0.1
@@ -24,11 +25,15 @@ import "../../../qml/Stages"
 Rectangle {
     color: "red"
     id: root
-    width: units.gu(70)
+    width: units.gu(80)
     height: units.gu(70)
 
-    property QtObject fakeApplication: null
-
+    Connections {
+        target: sessionContainerLoader.status === Loader.Ready ? sessionContainerLoader.item : null
+        onSessionChanged: {
+            sessionCheckbox.checked = sessionContainerLoader.item.session !== null
+        }
+    }
 
     Component {
         id: sessionContainerComponent
@@ -59,11 +64,13 @@ Rectangle {
             right: parent.right
         }
 
-        Column {
+        ColumnLayout {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
+
+            RowLayout {
+                Layout.fillWidth: true
+
                 CheckBox {
                     id: sessionCheckbox;
                     checked: false;
@@ -80,7 +87,30 @@ Rectangle {
                         }
                     }
                 }
-                Label { text: "session" }
+
+                Label {
+                    text: "session"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            Rectangle {
+                border {
+                    color: "black"
+                    width: 1
+                }
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                height: sessionChildrenControl.height
+
+                RecursingChildSessionControl {
+                    id: sessionChildrenControl
+                    anchors { left: parent.left; right: parent.right; }
+
+                    session: sessionContainerLoader.item.session
+                }
             }
         }
     }

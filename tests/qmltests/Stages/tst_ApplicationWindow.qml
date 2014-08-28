@@ -90,7 +90,10 @@ Rectangle {
                         }
                     }
                 }
-                Label { text: "Surface" }
+                Label {
+                    text: "Surface"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
             ListItem.ItemSelector {
                 id: appStateSelector
