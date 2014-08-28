@@ -31,6 +31,9 @@ Item {
     property string title
 
     property bool searchEntryEnabled: false
+    property bool settingsEnabled: false
+    property bool favoriteEnabled: false
+    property bool favorite: false
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
@@ -40,12 +43,11 @@ Item {
     property int paginationCount: 0
     property int paginationIndex: -1
 
-    // TODO We should use foreground for the icons
-    // of the toolbar but unfortunately Action does not have
-    // the keyColor property as Icon does :-/
     property var scopeStyle: null
 
     signal backClicked()
+    signal settingsClicked()
+    signal favoriteClicked()
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -240,6 +242,7 @@ Item {
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 separatorSource: ""
+                separatorBottomSource: ""
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
@@ -247,20 +250,33 @@ Item {
                     backAction: Action {
                         iconName: "back"
                         visible: root.showBackButton
-                        onTriggered: {
-                            root.backClicked();
-                        }
+                        onTriggered: root.backClicked()
                     }
 
                     actions: [
                         Action {
                             objectName: "search"
+                            text: i18n.tr("Search")
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
                                 headerContainer.showSearch = true;
                                 searchTextField.forceActiveFocus();
                             }
+                        },
+                        Action {
+                            objectName: "settings"
+                            text: i18n.tr("Settings")
+                            iconName: "settings"
+                            visible: root.settingsEnabled
+                            onTriggered: root.settingsClicked()
+                        },
+                        Action {
+                            objectName: "favorite"
+                            text: root.favorite ? i18n.tr("Remove from Favorites") : i18n.tr("Add to Favorites")
+                            iconName: root.favorite ? "starred" : "non-starred"
+                            visible: root.favoriteEnabled
+                            onTriggered: root.favoriteClicked()
                         }
                     ]
                 }
@@ -285,25 +301,6 @@ Item {
                     }
                 }
             }
-        }
-    }
-
-    Row {
-        spacing: units.gu(.5)
-        Repeater {
-            objectName: "paginationRepeater"
-            model: root.paginationCount
-            Image {
-                objectName: "paginationDots_" + index
-                height: units.gu(1)
-                width: height
-                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
-            }
-        }
-        anchors {
-            top: headerContainer.bottom
-            horizontalCenter: headerContainer.horizontalCenter
-            topMargin: units.gu(.5)
         }
     }
 
@@ -344,7 +341,7 @@ Item {
         }
     }
 
-    BorderImage {
+    Rectangle {
         id: bottomBorder
         visible: showSignatureLine
         anchors {
@@ -354,7 +351,64 @@ Item {
             bottom: bottomContainer.top
         }
 
-        source: "graphics/PageHeaderBaseDivider.sci"
+        color: scopeStyle ? scopeStyle.headerDividerColor : "#e0e0e0"
+
+        Rectangle {
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            height: units.dp(1)
+            color: Qt.darker(parent.color, 1.1)
+        }
+    }
+
+    Row {
+        visible: bottomBorder.visible
+        spacing: units.gu(.5)
+        Repeater {
+            objectName: "paginationRepeater"
+            model: root.paginationCount
+            Image {
+                objectName: "paginationDots_" + index
+                height: units.gu(1)
+                width: height
+                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
+            }
+        }
+        anchors {
+            top: headerContainer.bottom
+            horizontalCenter: headerContainer.horizontalCenter
+            topMargin: units.gu(.5)
+        }
+    }
+
+    // FIXME this doesn't work with solid scope backgrounds due to z-ordering
+    Item {
+        id: bottomHighlight
+        visible: bottomBorder.visible
+        anchors {
+            top: bottomContainer.top
+            left: parent.left
+            right: parent.right
+        }
+        z: 1
+        height: units.dp(1)
+        opacity: 0.6
+
+        // FIXME this should be a shader when bottomItem exists
+        // to support image backgrounds
+        Rectangle {
+            anchors.fill: parent
+            color: if (bottomItem && bottomItem.background) {
+                       Qt.lighter(Qt.rgba(bottomItem.background.topColor.r,
+                                          bottomItem.background.topColor.g,
+                                          bottomItem.background.topColor.b, 1.0), 1.2);
+                   } else if (!bottomItem && scopeStyle) {
+                       Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2);
+                   } else "#CCFFFFFF"
+        }
     }
 
     Item {

@@ -69,7 +69,7 @@ Loader {
                             sourceComponent: ShaderEffect { 
                                 id: overlay; 
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2);
-                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b;
+                                property real luminance: Style.luminance(overlayColor);
                                 property color overlayColor: cardData && cardData["overlayColor"] || "#99000000";
                                 property var source: ShaderEffectSource { 
                                     id: shaderSource; 
@@ -103,6 +103,7 @@ Label {
                         id: titleLabel;
                         objectName: "titleLabel"; 
                         anchors { right: parent.right; 
+                        rightMargin: units.gu(1); 
                         left: parent.left; 
                         leftMargin: units.gu(1); 
                         top: overlayLoader.top; 
@@ -113,7 +114,7 @@ Label {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
+                        color: root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader && overlayLoader.active; 
                         text: root.title; 
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -124,6 +125,7 @@ Label {
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
                             leftMargin: titleLabel.leftMargin; 
+                            rightMargin: units.gu(1); 
                             right: titleLabel.right; 
                             top: titleLabel.bottom; 
                             } 
@@ -131,7 +133,7 @@ Label {
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText);
+                            color: root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
