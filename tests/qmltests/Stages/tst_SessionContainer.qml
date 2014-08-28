@@ -80,8 +80,8 @@ Rectangle {
 
                         if (checked) {
                             var fakeSession = SessionManager.createSession("music-player", Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
-                            fakeSession.createSurface();
                             sessionContainerLoader.item.session = fakeSession;
+                            fakeSession.createSurface();
                         } else {
                             sessionContainerLoader.item.session.release();
                         }
@@ -163,7 +163,7 @@ Rectangle {
                 sessions[i].release();
                 tryCompareFunction(function() { return sessionContainer.childSessions.count(); }, i);
             }
-            tryCompare(sessionSpy, "count", data.count)
+            tryCompare(sessionSpy, "count", data.count);
         }
 
         function test_nestedChildSessions_data() {
@@ -200,7 +200,7 @@ Rectangle {
             }
 
             tryCompareFunction(function() { return sessionContainer.childSessions.count(); }, 0);
-            tryCompare(sessionSpy, "count", data.depth)
+            tryCompare(sessionSpy, "count", data.depth);
         }
     }
 }

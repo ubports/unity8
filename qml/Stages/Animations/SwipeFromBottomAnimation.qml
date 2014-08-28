@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 
 BaseSessionAnimation {
     id: animation
@@ -23,7 +24,7 @@ BaseSessionAnimation {
     outAnimations: [
         SequentialAnimation {
             PropertyAction { target: sessionContainer; property: "clip"; value: true }
-            AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
+            AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
             PropertyAction { target: surfaceContainer; property: "visible"; value: !sessionContainer.removing }
             PropertyAction { target: sessionContainer; property: "clip"; value: false }
             ScriptAction { script: { if (sessionContainer.removing) sessionContainer.session.release(); } }
@@ -41,7 +42,7 @@ BaseSessionAnimation {
     inAnimations: [
         SequentialAnimation {
             PropertyAction { target: sessionContainer; property: "clip"; value: true }
-            AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
+            AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
             PropertyAction { target: sessionContainer; property: "clip"; value: false }
         }
     ]

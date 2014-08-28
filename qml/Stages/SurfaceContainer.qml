@@ -15,15 +15,19 @@
 */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 import "Animations"
 
 Item {
     id: root
     objectName: "surfaceContainer"
     property Item surface: null
+    property bool surfaceRemoved: false
 
     onSurfaceChanged: {
         if (surface) {
+            surfaceRemoved = false;
+            surface.removed.connect(onRemoved);
             surface.parent = root;
             surface.z = 1;
         }
@@ -33,10 +37,25 @@ Item {
         property: "anchors.fill"; value: root
     }
 
-    Connections {
-        target: surface
-        onRemoved: {
-            surface.release();
-        }
+    function onRemoved() {
+        surfaceRemoved = true;
     }
+
+    states: [
+        State {
+            name: "removed"
+            when: surfaceRemoved
+        }
+    ]
+    transitions: [
+        Transition {
+            from: ""; to: "removed"
+            SequentialAnimation {
+                UbuntuNumberAnimation { target: surface; property: "opacity"; to: 0.0
+                                        duration: UbuntuAnimation.BriskDuration }
+                PropertyAction { target: surface; property: "visible"; value: false }
+                ScriptAction { script: { if (root.surface) { root.surface.release(); } } }
+            }
+        }
+    ]
 }

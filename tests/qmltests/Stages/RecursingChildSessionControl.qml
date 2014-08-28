@@ -28,7 +28,12 @@ ColumnLayout {
 
     property var screenshotIds: [ "gallery", "map", "facebook", "camera", "browser", "music", "twitter"]
 
+    onSessionChanged: {
+        if (!session) surfaceCheckbox.checked = false;
+    }
+
     Column {
+        id: column
         Layout.fillWidth: true
         visible: repeater.count
         spacing: units.gu(1)
@@ -42,8 +47,8 @@ ColumnLayout {
                     width: 1
                 }
                 anchors {
-                    left: parent.left
-                    right: parent.right
+                    left: column.left
+                    right: column.right
                     leftMargin: units.gu(1)
                     rightMargin: units.gu(1)
                 }
@@ -73,23 +78,53 @@ ColumnLayout {
         }
     }
 
-    Item {
+    ColumnLayout {
         Layout.fillWidth: true
-        Layout.preferredHeight: buttonLayout.height + units.gu(1)
+        spacing: units.gu(1)
+
+        RowLayout {
+            Layout.fillWidth: true
+
+            CheckBox {
+                id: surfaceCheckbox;
+                checked: false;
+                enabled: root.session
+                onClicked: {
+                    if (checked) {
+                        root.session.createSurface();
+                    } else if (root.session.surface) {
+                        root.session.surface.removed();
+                    }
+                }
+
+                Connections {
+                    target: root.session ? root.session : null
+                    onSurfaceChanged: {
+                        surfaceCheckbox.checked = root.session.surface !== null
+                    }
+                }
+            }
+
+            Label {
+                text: "surface"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
 
         RowLayout {
             id: buttonLayout
-            anchors {
-                top: parent.top; topMargin: units.gu(0.5)
-                left: parent.left; leftMargin: units.gu(1)
-            }
 
             Button {
                 enabled: root.session
                 text: removable ? "Remove" : "Release"
                 onClicked: {
-                    if (removable) root.session.removed();
-                    else root.session.release();
+                    if (removable) {
+                        // release the surface first. simulates mir app closing
+                        if (root.session.surface) root.session.surface.removed();
+                        root.session.removed();
+                    } else {
+                        root.session.release();
+                    }
                 }
             }
 
@@ -97,8 +132,7 @@ ColumnLayout {
                 enabled: root.session !== null
                 text: "Add Child"
                 onClicked: {
-                    var screenshot = Math.round(Math.random() * screenshotIds.length);
-                    console.log(screenshot)
+                    var screenshot = Math.round(Math.random()*100 % (screenshotIds.length-1));
                     var session = ApplicationTest.addChildSession(root.session, root.screenshotIds[screenshot]);
                 }
             }

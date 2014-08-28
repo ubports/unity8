@@ -123,5 +123,18 @@ Rectangle {
             compare(fakeSurface.width, surfaceContainerLoader.item.width);
             compare(fakeSurface.height, surfaceContainerLoader.item.height);
         }
+
+        function test_delayRelease() {
+            surfaceCheckbox.checked = true;
+            var surfaceContainer = surfaceContainerLoader.item;
+
+            verify(surfaceContainer.surface !== null);
+
+            surfaceContainer.surface.removed();
+            // should not be immediately removed
+            verify(surfaceContainer.surface !== null);
+            // but should eventually
+            tryCompare(surfaceContainer, "surface", null);
+        }
     }
 }
