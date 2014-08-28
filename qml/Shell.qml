@@ -271,6 +271,7 @@ Item {
         target: LightDM.Greeter
 
         onShowGreeter: greeter.show()
+        onHideGreeter: greeter.login()
 
         onShowPrompt: {
             if (greeter.narrowMode) {
@@ -313,7 +314,6 @@ Item {
             }
 
             if (LightDM.Greeter.authenticated) {
-                lockscreen.hide();
                 greeter.login();
             } else {
                 AccountsService.failedLogins++
