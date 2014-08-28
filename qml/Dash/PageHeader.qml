@@ -64,9 +64,12 @@ Item {
         }
     }
 
-    function closePopup() {
+    function closePopup(keepFocus) {
         if (headerContainer.popover != null) {
+            headerContainer.popover.unfocus = !keepFocus;
             PopupUtils.close(headerContainer.popover);
+        } else if (!keepFocus) {
+            unfocus();
         }
     }
 
@@ -74,11 +77,8 @@ Item {
         if (searchHistory) {
             searchHistory.addQuery(searchTextField.text);
         }
-        if (!keepFocus) {
-            unfocus();
-        }
         searchTextField.text = "";
-        closePopup();
+        closePopup(keepFocus);
     }
 
     function unfocus() {
@@ -119,11 +119,10 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: headerContainer.showSearch
         onPressed: {
-            closePopup();
+            closePopup(/* keepFocus */false);
             if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
-            searchTextField.focus = false;
             mouse.accepted = false;
         }
     }
@@ -228,7 +227,7 @@ Item {
 
                     onTextChanged: {
                         if (text != "") {
-                            closePopup();
+                            closePopup(/* keepFocus */true);
                         }
                     }
                 }
@@ -309,10 +308,14 @@ Item {
         Popover {
             id: popover
             autoClose: false
-            restoreFocusOnClose: false
+
+            property bool unfocus: false
 
             Component.onDestruction: {
                 headerContainer.popover = null;
+                if (unfocus) {
+                    root.unfocus();
+                }
             }
 
             Column {
@@ -333,8 +336,7 @@ Item {
                         onClicked: {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
-                            closePopup();
-                            unfocus();
+                            closePopup(/* keepFocus */false);
                         }
                     }
                 }
