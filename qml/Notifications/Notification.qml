@@ -204,7 +204,7 @@ Item {
                 right: parent.right
                 top: parent.top
                 margins: 0
-                topMargin: units.gu(2)
+                topMargin: fullscreen ? 0 : units.gu(2)
             }
 
             spacing: units.gu(2)
