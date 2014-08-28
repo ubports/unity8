@@ -4,7 +4,7 @@
 # Our goal here is to get an Ubuntu Touch device into a testable unlocked state.
 # This will include a reboot.
 
-WAIT_COMMAND="adb reboot; sleep 5; adb wait-for-device; sleep 20"
+WAIT_COMMAND="adb reboot; sleep 5; adb wait-for-device"
 
 while getopts s:w: opt; do
         case $opt in
@@ -18,6 +18,10 @@ while getopts s:w: opt; do
 done
 
 eval "$WAIT_COMMAND"
+
+# Force a sleep of twenty no matter what, since we may need to wait for unity8
+# to finish coming up (it's hard to tell when the greeter is actually rendered)
+sleep 20
 
 GDBUS_CMD="gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked"
 
