@@ -8,3 +8,6 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${DASH_APP}.desktop
     DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
     )
+
+# install url dispatcher files
+install(FILES unity8-dash.url-dispatcher DESTINATION ${CMAKE_INSTALL_DATADIR}/url-dispatcher/urls)

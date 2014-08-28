@@ -14,21 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "plugin.h"
-#include "Connectivity.h"
+import QtQuick 2.2
+import Ubuntu.Components 1.1
 
-#include <QtQml>
+/*! Interface for settings widgets. */
 
-static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new Connectivity();
-}
+Item {
+    //! The ScopeStyle component.
+    property var scopeStyle: null
 
-void BackendPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("Ubuntu.Connectivity"));
+    //! Variable used to contain widget's data
+    property var widgetData: null
 
-    qmlRegisterSingletonType<Connectivity>(uri, 0, 1, "Connectivity", service_provider);
+    /*! \brief This signal should be emitted when a setting action was updated.
+     *
+     *  \param value the new setting value.
+     */
+    signal updated(var value)
+
+    //! \internal
+    readonly property real settingMargins: units.gu(2)
 }

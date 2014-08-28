@@ -14,22 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIRTUALKEYBOARD_H
-#define VIRTUALKEYBOARD_H
+.pragma library
 
-#include "MirSurfaceItem.h"
+/*! \brief Calculate average luminance of the passed colors
 
-class VirtualKeyboard : public MirSurfaceItem
-{
-    Q_OBJECT
-public:
-    VirtualKeyboard(State state,
-                    QQuickItem *parent = 0);
+    \note If not fully opaque, luminance is dependant on blending.
+ */
+function luminance() {
+    var sum = 0;
+    // TODO this was originally
+    // for (var k in arguments) {
+    // but for some unkown reason was causing crashes in testDash/testDashContent
+    // investigate when we have some time
+    for (var k = 0; k < arguments.length; ++k) {
+        // only way to convert string to color
+        var c = Qt.lighter(arguments[k], 1.0);
 
-    void touchEvent(QTouchEvent * event) override;
+        sum += 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+    }
 
-private:
-    bool hasTouchInsideKeyboard(QTouchEvent *event);
-};
-
-#endif // VIRTUALKEYBOARD_H
+    return sum / arguments.length;
+}

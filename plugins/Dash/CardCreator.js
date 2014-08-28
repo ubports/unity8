@@ -29,7 +29,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                     gradientColor: getColor(1) || color; \n\
                                     anchors.fill: parent; \n\
                                     image: backgroundImage.source ? backgroundImage : null; \n\
-                                    property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b; \n\
+                                    property real luminance: Style.luminance(color); \n\
                                     property Image backgroundImage: Image { \n\
                                         objectName: "backgroundImage"; \n\
                                         source: { \n\
@@ -108,7 +108,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             sourceComponent: ShaderEffect { \n\
                                 id: overlay; \n\
                                 height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
-                                property real luminance: 0.2126 * overlayColor.r + 0.7152 * overlayColor.g + 0.0722 * overlayColor.b; \n\
+                                property real luminance: Style.luminance(overlayColor); \n\
                                 property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 property var source: ShaderEffectSource { \n\
                                     id: shaderSource; \n\
@@ -271,6 +271,7 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             objectName: "attributesRow"; \n\
                             anchors { %1 } \n\
                             color: %2; \n\
+                            fontScale: root.fontScale; \n\
                             model: cardData && cardData["attributes"]; \n\
                           }\n';
 
@@ -436,14 +437,14 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText)';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
 
     var hasTitleContainer = hasTitle && (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes)));
     var titleSubtitleCode = '';
     if (hasTitle) {
         var titleColor;
         if (headerAsOverlay) {
-            titleColor = 'overlayLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : Theme.palette.normal.baseText)';
+            titleColor = 'root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
         } else if (hasSummary) {
             titleColor = 'summary.color';
         } else if (hasBackground) {
@@ -463,6 +464,8 @@ function cardString(template, components) {
         if (!touchdownOnArtShape) {
             extraRightAnchor = 'rightMargin: units.gu(1); \n';
             extraLeftAnchor = 'leftMargin: units.gu(1); \n';
+        } else if (headerAsOverlay && !hasEmblem) {
+            extraRightAnchor = 'rightMargin: units.gu(1); \n';
         }
 
         if (hasMascot) {
@@ -649,7 +652,8 @@ function cardString(template, components) {
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 1.1; \n\
-                   import Dash 0.1;\n';
+                   import Dash 0.1;\n\
+                   import Utils 0.1;\n';
     var card = cardString(template, components);
     var code = imports + 'Component {\n' + card + '}\n';
 

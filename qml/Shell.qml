@@ -20,9 +20,9 @@ import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
-import Ubuntu.Connectivity 0.1
 import Ubuntu.Gestures 0.1
 import Ubuntu.SystemImage 0.1
+import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
 import LightDM 0.1 as LightDM
@@ -279,8 +279,8 @@ Item {
                         lockscreen.infoText = i18n.tr("Enter your passphrase")
                         lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase")
                     } else {
-                        lockscreen.infoText = i18n.tr("Enter your PIN")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect PIN")
+                        lockscreen.infoText = i18n.tr("Enter your passcode")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
                     }
                 } else {
                     lockscreen.infoText = i18n.tr("Enter your %1").arg(text.toLowerCase())
@@ -421,9 +421,10 @@ Item {
                 }
             }
 
+            /* TODO re-enable when the corresponding changes in the service land (LP: #1361074)
             Component.onCompleted: {
                 Connectivity.unlockAllModems()
-            }
+            } */
 
             onUnlocked: greeter.hide()
             onSelected: {

@@ -27,13 +27,13 @@
 
 ModelPrinter::ModelPrinter(QObject *parent)
     : QObject(parent)
-    , m_model(NULL)
+    , m_model(nullptr)
 {
 }
 
 void ModelPrinter::setSourceModel(UnityMenuModel * sourceModel)
 {
-    if (m_model != NULL) {
+    if (m_model != nullptr) {
         disconnect(m_model);
     }
     if (m_model != sourceModel) {
@@ -41,7 +41,7 @@ void ModelPrinter::setSourceModel(UnityMenuModel * sourceModel)
         Q_EMIT modelChanged();
         Q_EMIT textChanged();
     }
-    if (m_model != NULL) {
+    if (m_model != nullptr) {
         connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(textChanged()));
         connect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(textChanged()));
         connect(m_model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SIGNAL(textChanged()));

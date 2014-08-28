@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-21 11:36+0200\n"
-"PO-Revision-Date: 2014-08-18 14:14+0000\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-27 19:23+0000\n"
 "Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-23 07:17+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
@@ -30,17 +30,55 @@ msgstr "Fixar atalho"
 msgid "Unpin shortcut"
 msgstr "Desafixar atalho"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr "Você tem certeza de que deseja desligar?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr "Sair"
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr "Tem certeza de que deseja sair?"
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr "Não"
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr "Sim"
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr "Desligar"
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr "Tem certeza de que deseja desligar?"
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr "Reiniciar"
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr "Tem certeza de que deseja reiniciar?"
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr "Energia"
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
+"Tem certeza que você gostaria \n"
+"de desligar?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
 msgstr "Desligar"
-
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
@@ -133,6 +171,18 @@ msgstr "Ver todos"
 msgid "Search"
 msgstr "Pesquisar"
 
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr "Configurações"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr "Remover dos favoritos"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr "Adicionar aos favoritos"
+
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Mais..."
@@ -203,11 +253,11 @@ msgstr "Exibir senha"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "Digite o PIN do SIM"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "Desculpe, PIN incorreto"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -251,15 +301,19 @@ msgstr "Roaming"
 
 #: qml/Shell.qml:266
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Digite sua senha"
 
 #: qml/Shell.qml:267
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Desculpe, senha incorreta"
 
-#: qml/Shell.qml:269
-msgid "Enter your PIN"
-msgstr ""
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
+msgstr "Digite sua senha"
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
+msgstr "Desculpe, senha incorreta"
 
 #: qml/Shell.qml:273
 #, qt-format
@@ -269,7 +323,7 @@ msgstr "Digite o seu %1"
 #: qml/Shell.qml:274
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Desculpe, %1 incorreto"
 
 #: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
@@ -299,24 +353,11 @@ msgstr ""
 "Se o código de acesso for digitado incorretamente, o telefone será "
 "restaurado aos padrões de fábrica e todos os dados pessoais serão apagados."
 
-#~ msgid "Please enter SIM PIN"
-#~ msgstr "Por favor, digite o PIN do cartão SIM"
+#~ msgid "Restart"
+#~ msgstr "Reiniciar"
 
-#~ msgid "CANCEL"
-#~ msgstr "CANCELAR"
+#~ msgid "Are you sure you would like to turn power off?"
+#~ msgstr "Você tem certeza de que deseja desligar?"
 
-#~ msgid "DONE"
-#~ msgstr "FEITO"
-
-#~ msgid "passcode"
-#~ msgstr "código de acesso"
-
-#~ msgid "passphrase"
-#~ msgstr "senha"
-
-#, qt-format
-#~ msgid "Incorrect %1"
-#~ msgstr "%1 incorreto"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Por favor, digite novamente"
+#~ msgid "Enter your PIN"
+#~ msgstr "Digite o seu PIN"
