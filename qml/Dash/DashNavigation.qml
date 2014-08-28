@@ -16,195 +16,98 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+import Dash 0.1
+import "../Components"
 
-AbstractButton {
+Item {
     id: root
     objectName: "dashNavigation"
 
     property var scope: null
-
-    property bool showList: false
-
-    readonly property var currentNavigation: scope && scope.hasNavigation ? scope.getNavigation(scope.currentNavigationId) : null
+    property var scopeStyle: null
 
     property alias windowWidth: blackRect.width
     property alias windowHeight: blackRect.height
-    property var scopeStyle: null
+    readonly property var openList: {
+        if (navigationButton.showList) return navigationButton.listView;
+        if (altNavigationButton.showList) return altNavigationButton.listView;
+        return null;
+    }
 
-    // Are we drilling down the tree or up?
-    property bool isGoingBack: false
+    // FIXME this is only here for highlight purposes (see Background.qml, too)
+    readonly property var background: backgroundItem
 
-    visible: root.currentNavigation != null
+    visible: navigationButton.currentNavigation || altNavigationButton.currentNavigation
 
     height: visible ? units.gu(5) : 0
 
-    onClicked: {
-        navigationListView.updateMaxHeight();
-        root.showList = !root.showList;
+    QtObject {
+        id: d
+        readonly property color foregroundColor: root.scopeStyle
+                                                 ? root.scopeStyle.getTextColor(backgroundItem.luminance)
+                                                 : Theme.palette.normal.baseText
+        readonly property bool bothVisible: altNavigationButton.visible && navigationButton.visible
+        readonly property real navigationWidth: root.width >= units.gu(60) ? units.gu(40) : root.width
+        readonly property real buttonWidth: navigationWidth / (bothVisible ? 2 : 1)
     }
 
     Rectangle {
         id: blackRect
         color: "black"
-        opacity: navigationListView.currentItem && navigationListView.currentItem.visible ? 0.3 : 0
+        opacity: openList && openList.currentItem && openList.currentItem.visible ? 0.5 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-        anchors.top: navigationListView.top
-        anchors.right: parent.right
-        visible: opacity != 0
+        anchors { left: parent.left; right: parent.right }
+        visible: opacity > 0
     }
 
-    Image {
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/dash_divider_top_lightgrad.png"
-        z: -1
-    }
-
-    Image {
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/dash_divider_top_darkgrad.png"
-        z: -1
-    }
-
-    Label {
+    Background {
+        id: backgroundItem
         anchors.fill: parent
-        anchors.margins: units.gu(2)
-        verticalAlignment: Text.AlignVCenter
-        text: root.currentNavigation ? root.currentNavigation.label : ""
-        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+        style: scopeStyle ? scopeStyle.navigationBackground : "color:///#f5f5f5"
     }
 
-    Icon {
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        anchors.rightMargin: units.gu(2)
-        name: showList ? "up" : "down"
-        height: units.gu(2)
-        width: height
-        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+    Image {
+        fillMode: Image.Stretch
+        source: scopeStyle.backgroundLuminance > 0.2 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
+        anchors { top: parent.bottom; left: parent.left; right: parent.right }
     }
 
-    //  navigationListView is outside root
-    ListView {
-        id: navigationListView
-        objectName: "navigationListView"
-        orientation: ListView.Horizontal
-        interactive: false
-        clip: root.width != windowWidth
-        model: ListModel {
-            id: navigationModel
-            // We have two roles
-            // navigationId: the navigation id of the navigation the list represents
-            // nullifyNavigation: overrides navigationId to be null
-            //                    This is used to "clear" the delegate when going "right" on the tree
-        }
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: root.bottom
-        }
-        property int maxHeight: -1
-        Component.onCompleted: updateMaxHeight();
-        function updateMaxHeight()
-        {
-            maxHeight = (windowHeight - mapToItem(null, 0, 0).y) - units.gu(8);
-        }
-        property int prevHeight: maxHeight
-        height: currentItem ? currentItem.height : maxHeight
-        onHeightChanged: {
-            if (root.showList) {
-                prevHeight = currentItem.desiredHeight;
-            }
-        }
-        highlightMoveDuration: UbuntuAnimation.FastDuration
-        delegate: DashNavigationList {
-            objectName: "navigation" + index
-            visible: height != 0
-            width: navigationListView.width
-            scopeStyle: root.scopeStyle
-            property real desiredHeight: {
-                if (root.showList) {
-                    if (navigation && navigation.loaded && x == navigationListView.contentX)
-                    {
-                        navigationListView.updateMaxHeight();
-                        return Math.min(implicitHeight, navigationListView.maxHeight);
-                    } else {
-                        return navigationListView.prevHeight;
-                    }
-                } else {
-                    return 0;
-                }
-            }
-            height: desiredHeight
-            navigation: (nullifyNavigation || !scope) ? null : scope.getNavigation(navigationId)
-            currentNavigation: root.currentNavigation
-            onEnterNavigation: {
-                scope.setNavigationState(newNavigationId, false);
-                // We only need to add a new item to the model
-                // if we have children, otherwise just load it
-                if (hasChildren) {
-                    isGoingBack = false;
-                    navigationModel.append({"navigationId": newNavigationId, "nullifyNavigation": false});
-                    navigationListView.currentIndex++;
-                } else {
-                    showList = false;
-                }
-            }
-            onGoBackToParentClicked: {
-                scope.setNavigationState(navigation.parentNavigationId, false);
-                isGoingBack = true;
-                navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
-                navigationListView.currentIndex--;
-            }
-            onAllNavigationClicked: {
-                showList = false;
-                if (root.currentNavigation.parentNavigationId == navigation.navigationId) {
-                    // For leaves we have to go to the parent too
-                    scope.setNavigationState(root.currentNavigation.parentNavigationId, false);
-                }
-            }
-        }
-        onContentXChanged: {
-            if (contentX == width * navigationListView.currentIndex) {
-                if (isGoingBack) {
-                    navigationModel.remove(navigationListView.currentIndex + 1);
-                } else {
-                    navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", true);
-                }
-            }
-        }
+    DashNavigationButton {
+        id: altNavigationButton
+        objectName: "altNavigationButton"
+        height: root.height
+        width: d.buttonWidth
+        scope: root.scope
+        scopeStyle: root.scopeStyle
+        foregroundColor: d.foregroundColor
+        listView.width: d.navigationWidth
+        isAltNavigation: true
+        showDivider: navigationButton.visible || root.width > d.navigationWidth
+        // needed so that InverseMouseArea is above navigationButton
+        z: listView.height > 0 ? 1 : 0
     }
 
-    InverseMouseArea {
-        anchors.fill: navigationListView
-        enabled: root.showList
-        onClicked: root.showList = false
+    DashNavigationButton {
+        id: navigationButton
+        objectName: "navigationButton"
+        height: root.height
+        width: altNavigationButton.visible ? d.buttonWidth : d.navigationWidth
+        x: altNavigationButton.visible ? d.buttonWidth : 0
+        scope: root.scope
+        scopeStyle: root.scopeStyle
+        foregroundColor: d.foregroundColor
+        listView.width: d.navigationWidth
+        listView.x: -x
+        showDivider: root.width > d.navigationWidth
     }
 
-    onScopeChanged: {
-        navigationModel.clear();
-        if (scope && scope.hasNavigation) {
-            navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
-        }
-    }
-
-    Connections {
-        target: scope
-        onHasNavigationChanged: {
-            if (scope.hasNavigation) {
-                navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
-            } else {
-                navigationModel.clear();
-            }
-        }
+    Image {
+        fillMode: Image.Stretch
+        source: backgroundItem.luminance > 0.7 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
+        x: navigationButton.listView.height > 0 ? altNavigationButton.x : navigationButton.x
+        width: d.buttonWidth
+        rotation: 180
+        anchors.bottom: parent.bottom
+        visible: d.bothVisible && (navigationButton.listView.height > 0 || altNavigationButton.listView.height > 0)
     }
 }

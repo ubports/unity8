@@ -341,10 +341,10 @@ Showable {
         objectName: "overviewDragHandle"
         z: 1
         direction: Direction.Upwards
-        enabled: !dashContent.previewShown &&
+        enabled: !dashContent.subPageShown &&
                   dashContent.currentScope &&
                   dashContent.currentScope.searchQuery == "" &&
-                  !scopeItem.previewShown &&
+                  !scopeItem.subPageShown &&
                   (overviewController.progress == 0 || dragging)
 
         readonly property real fullMovement: units.gu(20)
