@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-21 11:36+0200\n"
-"PO-Revision-Date: 2014-08-26 17:37+0000\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-27 14:23+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-27 07:46+0000\n"
+"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
 "X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
@@ -30,17 +30,53 @@ msgstr "Enganxa la drecera"
 msgid "Unpin shortcut"
 msgstr "Desenganxa la drecera"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr "Segur que voleu apagar el dispositiu?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
 msgstr "Apaga'l"
-
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr "Reinicia'l"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
@@ -137,6 +173,18 @@ msgstr "Mostra-ho tot"
 msgid "Search"
 msgstr "Cerca"
 
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr ""
+
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Més..."
@@ -211,7 +259,7 @@ msgstr "Introduïu el PIN de la tarjeta SIM"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "El PIN no és correcte"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -255,14 +303,18 @@ msgstr "Itinerància"
 
 #: qml/Shell.qml:266
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Escriviu la contrasenya"
 
 #: qml/Shell.qml:267
 msgid "Sorry, incorrect passphrase"
+msgstr "La contrasenya no és correcta"
+
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
 msgstr ""
 
-#: qml/Shell.qml:269
-msgid "Enter your PIN"
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
 msgstr ""
 
 #: qml/Shell.qml:273
@@ -273,7 +325,7 @@ msgstr "Introduïu la %1"
 #: qml/Shell.qml:274
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Incorrecte (%1)"
 
 #: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
@@ -304,24 +356,11 @@ msgstr ""
 "Si la clau s'introdueix de manera incorrecta, el telèfon es reinicialitzarà "
 "a l'estat de fàbrica i se suprimiran totes les dades personals."
 
-#~ msgid "Please enter SIM PIN"
-#~ msgstr "Introduïu el PIN de la targeta SIM"
+#~ msgid "Are you sure you would like to turn power off?"
+#~ msgstr "Segur que voleu apagar el dispositiu?"
 
-#~ msgid "DONE"
-#~ msgstr "Fet"
+#~ msgid "Restart"
+#~ msgstr "Reinicia'l"
 
-#~ msgid "CANCEL"
-#~ msgstr "Cancel·la"
-
-#~ msgid "passphrase"
-#~ msgstr "contrasenya"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Torneu-la a introduir"
-
-#~ msgid "passcode"
-#~ msgstr "clau"
-
-#, qt-format
-#~ msgid "Incorrect %1"
-#~ msgstr "La %1 és incorrecta"
+#~ msgid "Enter your PIN"
+#~ msgstr "Escriviu el PIN"
