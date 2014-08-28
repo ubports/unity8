@@ -386,6 +386,7 @@ Item {
 
         Rectangle {
             id: bottomBar
+            objectName: "bottomBar"
             color: "black"
             height: units.gu(8)
             width: parent.width
