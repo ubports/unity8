@@ -33,8 +33,6 @@ class MirSurfaceItem : public QQuickItem
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged DESIGNABLE false)
-    Q_PROPERTY(MirSurfaceItemModel* childSurfaces READ childSurfaces DESIGNABLE false CONSTANT)
 
 public:
     enum Type {
@@ -64,17 +62,12 @@ public:
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
-    MirSurfaceItem* parentSurface() const { return m_parentSurface; }
 
     void setSession(Session* item);
     void setScreenshot(const QUrl& screenshot);
 
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
-
-    Q_INVOKABLE void addChildSurface(MirSurfaceItem* surface);
-    void insertChildSurface(uint index, MirSurfaceItem* surface);
-    void removeChildSurface(MirSurfaceItem* surface);
 
 Q_SIGNALS:
     void typeChanged(Type);
@@ -101,9 +94,6 @@ private:
                             const QString &qmlFilePath = QString(),
                             QQuickItem *parent = 0);
 
-    MirSurfaceItemModel* childSurfaces() const;
-    void setParentSurface(MirSurfaceItem* surface);
-
     void createQmlContentItem();
     void printComponentErrors();
 
@@ -111,9 +101,6 @@ private:
     const QString m_name;
     const Type m_type;
     State m_state;
-
-    MirSurfaceItem* m_parentSurface;
-    MirSurfaceItemModel* m_children;
 
     QQmlComponent *m_qmlContentComponent;
     QQuickItem *m_qmlItem;

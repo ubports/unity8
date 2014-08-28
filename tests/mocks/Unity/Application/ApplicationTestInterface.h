@@ -32,13 +32,10 @@ public:
 
 public Q_SLOTS:
     Q_INVOKABLE quint32 addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage);
-    Q_INVOKABLE quint32 addChildSurface(const QString& appId, quint32 existingSessionId, quint32 existingSurfaceId, const QString& surfaceImage);
     Q_INVOKABLE void removeSession(quint32 sessionId);
-    Q_INVOKABLE void removeSurface(quint32 surfaceId);
 
 private:
     QHash<quint32, Session*> m_childSessions;
-    QHash<quint32, MirSurfaceItem*> m_childSurfaces;
 };
 
 #endif // APPLICATIONTESTINTERFACE_H

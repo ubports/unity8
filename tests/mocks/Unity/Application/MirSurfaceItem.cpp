@@ -38,8 +38,6 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_name(name)
     , m_type(type)
     , m_state(state)
-    , m_parentSurface(nullptr)
-    , m_children(new MirSurfaceItemModel(this))
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
 {
@@ -86,17 +84,9 @@ MirSurfaceItem::~MirSurfaceItem()
     qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << name();
     Q_EMIT aboutToBeDestroyed();
 
-    QList<MirSurfaceItem*> children(m_children->list());
-    for (MirSurfaceItem* child : children) {
-        delete child;
-    }
-    if (m_parentSurface) {
-        m_parentSurface->removeChildSurface(this);
-    }
     if (m_session) {
         m_session->setSurface(nullptr);
     }
-    delete m_children;
 }
 
 void MirSurfaceItem::printComponentErrors()
@@ -111,9 +101,6 @@ void MirSurfaceItem::release()
 {
     qDebug() << "MirSurfaceItem::release " << name();
 
-    if (m_parentSurface) {
-        m_parentSurface->removeChildSurface(this);
-    }
     if (m_session) {
         m_session->setSurface(nullptr);
     }
@@ -134,43 +121,6 @@ void MirSurfaceItem::setScreenshot(const QUrl& screenshot)
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
     }
-}
-
-void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
-{
-    if (m_parentSurface == surface || surface == this)
-        return;
-
-    m_parentSurface = surface;
-    Q_EMIT parentSurfaceChanged(surface);
-}
-
-void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
-{
-    insertChildSurface(m_children->rowCount(), surface);
-}
-
-void MirSurfaceItem::insertChildSurface(uint index, MirSurfaceItem* surface)
-{
-    qDebug() << "MirSurfaceItem::insertChildSurface - " << surface->name() << " to " << name() << " @  " << index;
-
-    surface->setParentSurface(this);
-    m_children->insert(index, surface);
-}
-
-void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
-{
-    qDebug() << "MirSurfaceItem::removeChildSurface - " << surface->name() << " from " << name();
-
-    if (m_children->contains(surface)) {
-        m_children->remove(surface);
-        surface->setParentSurface(nullptr);
-    }
-}
-
-MirSurfaceItemModel* MirSurfaceItem::childSurfaces() const
-{
-    return m_children;
 }
 
 void MirSurfaceItem::onQmlWantInputMethodChanged()

@@ -21,7 +21,6 @@ Item {
     id: root
     objectName: "surfaceContainer"
     property Item surface: null
-    property var childSurfaces: surface ? surface.childSurfaces : 0
 
     onSurfaceChanged: {
         if (surface) {
@@ -38,22 +37,6 @@ Item {
         target: surface
         onRemoved: {
             surface.release();
-        }
-    }
-
-    Repeater {
-        model: root.childSurfaces
-
-        delegate: Loader {
-            objectName: "childDelegate" + index
-            anchors.fill: root
-            z: 2
-
-            // Only way to do recursive qml items.
-            source: Qt.resolvedUrl("SurfaceContainer.qml")
-            onLoaded: {
-                item.surface = modelData;
-            }
         }
     }
 }
