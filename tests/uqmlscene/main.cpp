@@ -495,7 +495,7 @@ int main(int argc, char ** argv)
             if (!window) {
                 QQuickItem *contentItem = qobject_cast<QQuickItem *>(topLevel);
                 if (contentItem) {
-                    qxView = new QQuickView(&engine, NULL);
+                    qxView = new QQuickView(&engine, nullptr);
                     window = qxView;
                     // Set window default properties; the qml can still override them
                     QString oname = contentItem->objectName();

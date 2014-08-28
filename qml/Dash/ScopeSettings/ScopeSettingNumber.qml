@@ -14,21 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "plugin.h"
-#include "MockConnectivity.h"
+import QtQuick 2.2
 
-#include <QtQml>
-
-static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new MockConnectivity();
-}
-
-void BackendPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("Ubuntu.Connectivity"));
-
-    qmlRegisterSingletonType<MockConnectivity>(uri, 0, 1, "Connectivity", service_provider);
+ScopeSettingString {
+    mode: "number"
 }

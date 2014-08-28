@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-21 11:36+0200\n"
-"PO-Revision-Date: 2014-08-14 19:34+0000\n"
-"Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-26 18:53+0000\n"
+"Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-23 07:17+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
@@ -30,17 +30,53 @@ msgstr "Fixează scurtătura"
 msgid "Unpin shortcut"
 msgstr "Eliberează scurtătura"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr "Sigur doriți să opriți dispozitivul?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
 msgstr "Oprire"
-
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr "Repornire"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
@@ -134,6 +170,18 @@ msgstr "Afișează tot"
 msgid "Search"
 msgstr "Căutare"
 
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr ""
+
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Mai mult ..."
@@ -204,7 +252,7 @@ msgstr "Arată parola"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "Introduceți codul PIN pentru SIM"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
 msgid "Sorry, incorrect PIN"
@@ -252,14 +300,18 @@ msgstr "Roaming"
 
 #: qml/Shell.qml:266
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Introduceți fraza dumneavoastră secretă"
 
 #: qml/Shell.qml:267
 msgid "Sorry, incorrect passphrase"
 msgstr ""
 
-#: qml/Shell.qml:269
-msgid "Enter your PIN"
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
+msgstr ""
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
 msgstr ""
 
 #: qml/Shell.qml:273
@@ -302,24 +354,8 @@ msgstr ""
 "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
 "șterse."
 
-#~ msgid "CANCEL"
-#~ msgstr "ANULEAZĂ"
+#~ msgid "Are you sure you would like to turn power off?"
+#~ msgstr "Sigur doriți să opriți dispozitivul?"
 
-#~ msgid "DONE"
-#~ msgstr "EFECTUAT"
-
-#~ msgid "Please enter SIM PIN"
-#~ msgstr "Introduceți PIN pentru SIM"
-
-#~ msgid "passphrase"
-#~ msgstr "frază parolă"
-
-#, qt-format
-#~ msgid "Incorrect %1"
-#~ msgstr "%1 greșit"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Vă rugăm să încercați din nou"
-
-#~ msgid "passcode"
-#~ msgstr "parolă"
+#~ msgid "Restart"
+#~ msgstr "Repornire"
