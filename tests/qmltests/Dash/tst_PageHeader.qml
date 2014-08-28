@@ -94,7 +94,7 @@ Item {
             typeString("humppa1")
             pageHeader.resetSearch()
 
-            compare(pageHeader.searchHistory.count, 1)
+            tryCompare(pageHeader.searchHistory, "count", 1)
             compare(pageHeader.searchHistory.get(0).query, "humppa1")
 
             pageHeader.triggerSearch()
@@ -155,6 +155,8 @@ Item {
             compare(searchTextField.focus, true);
 
             var recentSearches = findChild(headerContainer.popover, "recentSearches");
+            verify(recentSearches, "Could not find recent searches in the popover");
+            waitForRendering(recentSearches);
             mouseClick(recentSearches.itemAt(0), 0, 0);
 
             compare(pageHeader.searchQuery, "Search2");

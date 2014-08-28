@@ -27,7 +27,7 @@ class GSettingsSchemaQml: public QObject
     Q_PROPERTY(QByteArray id READ id WRITE setId)
 
 public:
-    GSettingsSchemaQml(QObject *parent = NULL);
+    GSettingsSchemaQml(QObject *parent = nullptr);
 
     QByteArray id() const;
     void setId(const QByteArray &id);
@@ -48,7 +48,7 @@ class GSettingsQml: public QObject
     Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
 
 public:
-    GSettingsQml(QObject *parent = NULL);
+    GSettingsQml(QObject *parent = nullptr);
     ~GSettingsQml();
 
     GSettingsSchemaQml * schema() const;

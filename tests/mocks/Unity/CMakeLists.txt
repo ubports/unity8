@@ -24,6 +24,7 @@ set(UnityQML_SOURCES
   fake_scope.cpp
   fake_scopes.cpp
   fake_scopesoverview.cpp
+  fake_settingsmodel.cpp
   fake_categories.cpp
   fake_navigation.cpp
   fake_resultsmodel.cpp
@@ -39,6 +40,7 @@ set(UnityQML_SOURCES
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ResultsModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopeInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopesInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/SettingsModelInterface.h
 )
 
 add_library(FakeUnityQml MODULE ${UnityQML_SOURCES})

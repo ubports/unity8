@@ -41,8 +41,8 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_PROPERTY(bool manualSurfaceCreation READ manualSurfaceCreation WRITE setManualSurfaceCreation NOTIFY manualSurfaceCreationChanged)
 
 public:
-    ApplicationInfo(QObject *parent = NULL);
-    ApplicationInfo(const QString &appId, QObject *parent = NULL);
+    ApplicationInfo(QObject *parent = nullptr);
+    ApplicationInfo(const QString &appId, QObject *parent = nullptr);
     ~ApplicationInfo();
 
     void setIconId(const QString &iconId);

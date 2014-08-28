@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-21 11:36+0200\n"
-"PO-Revision-Date: 2014-08-17 04:37+0000\n"
-"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-27 15:20+0000\n"
+"Last-Translator: Leo Arias <leo.arias@canonical.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-23 07:17+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
@@ -30,17 +30,53 @@ msgstr "Anclar"
 msgid "Unpin shortcut"
 msgstr "Desanclar"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr "¿Está seguro de que quiere apagarlo?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
 msgstr "Apagar"
-
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
@@ -134,6 +170,18 @@ msgstr "Ver todo"
 msgid "Search"
 msgstr "Buscar"
 
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr ""
+
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
 msgstr "Más…"
@@ -204,11 +252,11 @@ msgstr "Mostrar contraseña"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "Escriba el PIN de la SIM"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "El PIN es incorrecto"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -252,14 +300,18 @@ msgstr "Itinerancia"
 
 #: qml/Shell.qml:266
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Introudzca su contraseña"
 
 #: qml/Shell.qml:267
 msgid "Sorry, incorrect passphrase"
+msgstr "Lo sentimos, contraseña incorrecta"
+
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
 msgstr ""
 
-#: qml/Shell.qml:269
-msgid "Enter your PIN"
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
 msgstr ""
 
 #: qml/Shell.qml:273
@@ -270,7 +322,7 @@ msgstr "Introduzca su %1"
 #: qml/Shell.qml:274
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Lo sentimos, %1 incorrecto"
 
 #: qml/Shell.qml:310
 msgid "Sorry, incorrect passphrase."
@@ -300,24 +352,11 @@ msgstr ""
 "Si se introduce el código incorrectamente, el teléfono volverá a la "
 "configuración de fábrica y se perderán todos los datos personales."
 
-#~ msgid "Please enter SIM PIN"
-#~ msgstr "Escriba el PIN de la SIM"
+#~ msgid "Restart"
+#~ msgstr "Reiniciar"
 
-#~ msgid "DONE"
-#~ msgstr "HECHO"
+#~ msgid "Are you sure you would like to turn power off?"
+#~ msgstr "¿Está seguro de que quiere apagarlo?"
 
-#~ msgid "CANCEL"
-#~ msgstr "CANCELAR"
-
-#~ msgid "passphrase"
-#~ msgstr "frase de paso"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Vuelva a introducirla"
-
-#~ msgid "passcode"
-#~ msgstr "Código de paso"
-
-#, qt-format
-#~ msgid "Incorrect %1"
-#~ msgstr "%1 incorrecta"
+#~ msgid "Enter your PIN"
+#~ msgstr "Escriba el PIN"

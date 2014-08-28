@@ -48,7 +48,7 @@ static void hud_client_query_class_init(HudClientQueryClass * /*klass*/)
                                            HUD_CLIENT_TYPE_QUERY,
                                            G_SIGNAL_RUN_LAST,
                                            0, /* offset */
-                                           NULL, NULL, /* Accumulator */
+                                           nullptr, nullptr, /* Accumulator */
                                            g_cclosure_marshal_VOID__VOID,
                                            G_TYPE_NONE, 0, G_TYPE_NONE);
 }
@@ -56,7 +56,7 @@ static void hud_client_query_class_init(HudClientQueryClass * /*klass*/)
 HudClientQuery *hud_client_query_new(const gchar *query)
 {
     HudClientStub::m_lastSetQuery = QString::fromUtf8(query);
-    HudClientStub::m_query = HUD_CLIENT_QUERY(g_object_new(HUD_CLIENT_TYPE_QUERY, NULL));
+    HudClientStub::m_query = HUD_CLIENT_QUERY(g_object_new(HUD_CLIENT_TYPE_QUERY, nullptr));
     return HudClientStub::m_query;
 }
 
@@ -70,13 +70,13 @@ DeeModel *hud_client_query_get_results_model(HudClientQuery *cquery)
         GVariant * columns[G_N_ELEMENTS(results_model_schema) + 1];
         columns[0] = g_variant_new_variant(g_variant_new_uint64(0));
         columns[1] = g_variant_new_string("Help");
-        columns[2] = g_variant_new_array(G_VARIANT_TYPE("(ii)"), NULL, 0);
+        columns[2] = g_variant_new_array(G_VARIANT_TYPE("(ii)"), nullptr, 0);
         columns[3] = g_variant_new_string("Get Help");
-        columns[4] = g_variant_new_array(G_VARIANT_TYPE("(ii)"), NULL, 0);
+        columns[4] = g_variant_new_array(G_VARIANT_TYPE("(ii)"), nullptr, 0);
         columns[5] = g_variant_new_string("");
         columns[6] = g_variant_new_uint32(3);
         columns[7] = g_variant_new_boolean(false);
-        columns[8] = NULL;
+        columns[8] = nullptr;
         dee_model_append_row(resultsModel, columns);
 
         columns[0] = g_variant_new_variant(g_variant_new_uint64(1));
@@ -153,13 +153,13 @@ HudClientParam *hud_client_query_execute_param_command(HudClientQuery *cquery, G
                 HudClientStub::m_lastExecutedParametrizedCommandRow = i;
                 g_variant_unref(it_command);
                 // No need to create a real HudClientParam since it's always passed down to us
-                return (HudClientParam *)g_object_new(G_TYPE_OBJECT, NULL);
+                return (HudClientParam *)g_object_new(G_TYPE_OBJECT, nullptr);
             }
             g_variant_unref(it_command);
         }
     }
     HudClientStub::m_lastExecutedParametrizedCommandRow = -1;
-    return NULL;
+    return nullptr;
 }
 
 void hud_client_query_voice_query(HudClientQuery *cquery)
@@ -183,7 +183,7 @@ GMenuModel *hud_client_param_get_model(HudClientParam *param)
 
     if (!parametrizedActionModel) {
         GMenu *menu = g_menu_new();
-        GMenuItem *item = g_menu_item_new("Item1Label", NULL);
+        GMenuItem *item = g_menu_item_new("Item1Label", nullptr);
         g_menu_item_set_attribute_value(item, "parameter-type", g_variant_new_string("slider"));
         g_menu_item_set_attribute_value(item, "min", g_variant_new_double(10));
         g_menu_item_set_attribute_value(item, "max", g_variant_new_double(80));
@@ -220,7 +220,7 @@ GActionGroup *hud_client_param_get_actions(HudClientParam *param)
         GSimpleAction *action = g_simple_action_new("costAction", G_VARIANT_TYPE_DOUBLE);
         g_simple_action_group_insert(actionGroup, G_ACTION(action));
 
-        g_signal_connect (action, "activate", G_CALLBACK (on_signal_activated), NULL);
+        g_signal_connect (action, "activate", G_CALLBACK (on_signal_activated), nullptr);
 
 
         parametrizedActionGroup = G_ACTION_GROUP(actionGroup);
