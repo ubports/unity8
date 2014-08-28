@@ -45,7 +45,7 @@ public:
         m_baseIndex(0),
         m_delta(0),
         m_count(0),
-        m_timer(NULL),
+        m_timer(nullptr),
         q(parent)
     {}
 
@@ -55,7 +55,7 @@ public:
         m_content.clear();
     }
 
-    int findNextInactiveDelta(bool* finished = NULL);
+    int findNextInactiveDelta(bool* finished = nullptr);
 
     static int content_count(QQmlListProperty<MenuContentState> *prop);
     static MenuContentState* content_at(QQmlListProperty<MenuContentState> *prop, int index);

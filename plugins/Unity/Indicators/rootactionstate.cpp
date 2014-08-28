@@ -31,7 +31,7 @@ extern "C" {
 
 RootActionState::RootActionState(QObject *parent)
     : ActionStateParser(parent),
-      m_menu(NULL)
+      m_menu(nullptr)
 {
 }
 
@@ -95,7 +95,7 @@ void RootActionState::onModelDataChanged(const QModelIndex& topLeft, const QMode
 void RootActionState::reset()
 {
     m_cachedState.clear();
-    m_menu = NULL;
+    m_menu = nullptr;
 
     Q_EMIT menuChanged();
     Q_EMIT updated();
@@ -171,7 +171,7 @@ static QString iconUri(GIcon *icon)
         const gchar* const* iconNames = g_themed_icon_get_names (G_THEMED_ICON (icon));
 
         QStringList iconNameList;
-        for (uint index = 0; iconNames[index] != NULL; index++) {
+        for (uint index = 0; iconNames[index] != nullptr; index++) {
             iconNameList << iconNames[index];
         }
 
@@ -282,7 +282,7 @@ QVariant RootActionState::toQVariant(GVariant* state) const
         qmap["accessible-desc"] = accessible_name ? QString::fromUtf8(accessible_name) : "";
         qmap["visible"] = visible;
 
-        gicon = g_icon_new_for_string (icon, NULL);
+        gicon = g_icon_new_for_string (icon, nullptr);
         if (gicon) {
             qmap["icons"] = QStringList() << iconUri(gicon);
             g_object_unref (gicon);
