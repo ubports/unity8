@@ -309,6 +309,7 @@ Item {
         Popover {
             id: popover
             autoClose: false
+            restoreFocusOnClose: false
 
             Component.onDestruction: {
                 headerContainer.popover = null;
