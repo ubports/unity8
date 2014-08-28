@@ -72,6 +72,7 @@ void ApplicationInfo::setSession(Session* session)
         disconnect(this, 0, m_session, 0);
         m_session->setApplication(nullptr);
         m_session->setParent(nullptr);
+        Q_EMIT m_session->deregister();
     }
 
     m_session = session;
@@ -79,6 +80,7 @@ void ApplicationInfo::setSession(Session* session)
     if (m_session) {
         m_session->setApplication(this);
         m_session->setParent(this);
+        SessionManager::singleton()->registerSession(m_session);
 
         if (!m_manualSurfaceCreation) {
             QTimer::singleShot(500, m_session, SLOT(createSurface()));

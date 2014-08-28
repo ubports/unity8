@@ -82,8 +82,6 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
 MirSurfaceItem::~MirSurfaceItem()
 {
     qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << name();
-    Q_EMIT aboutToBeDestroyed();
-
     if (m_session) {
         m_session->setSurface(nullptr);
     }

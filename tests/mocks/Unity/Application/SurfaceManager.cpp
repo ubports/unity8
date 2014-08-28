@@ -44,16 +44,17 @@ MirSurfaceItem *SurfaceManager::createSurface(const QString& name,
                                        type,
                                        state,
                                        screenshot);
-    registerSurface(surface);
-    connect(surface, &MirSurfaceItem::aboutToBeDestroyed, this, [&] {
-        Q_EMIT surfaceDestroyed(qobject_cast<MirSurfaceItem*>(sender()));
-    });
     Q_EMIT surfaceCreated(surface);
     return surface;
 }
 
 void SurfaceManager::registerSurface(MirSurfaceItem *surface)
 {
+    connect(surface, &MirSurfaceItem::deregister, this, [this] {
+        MirSurfaceItem* surface = qobject_cast<MirSurfaceItem*>(sender());
+        disconnect(surface, 0, this, 0);
+        Q_EMIT surfaceDestroyed(surface);
+    });
     connect(surface, &MirSurfaceItem::inputMethodRequested,
             this, &SurfaceManager::showInputMethod);
     connect(surface, &MirSurfaceItem::inputMethodDismissed,

@@ -36,7 +36,6 @@ public:
 
     // Internal mock use
     void registerSurface(MirSurfaceItem *surface);
-    void unregisterSurface(MirSurfaceItem *surface);
 
     // To be used in the tests
     Q_INVOKABLE MirSurfaceItem *inputMethodSurface();

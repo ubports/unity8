@@ -233,6 +233,15 @@ Item {
             }
         }
     }
+    Connections {
+        target: SessionManager
+        onSessionStopping: {
+            if (!session.parent) {
+                // there's no one displaying it. delete it right away
+                session.release();
+            }
+        }
+    }
 
     Lockscreen {
         id: lockscreen

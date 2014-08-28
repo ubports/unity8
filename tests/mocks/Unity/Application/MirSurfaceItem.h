@@ -79,7 +79,8 @@ Q_SIGNALS:
     void inputMethodRequested();
     void inputMethodDismissed();
 
-    void aboutToBeDestroyed();
+    // internal mock use
+    void deregister();
 
 private Q_SLOTS:
     void onFocusChanged();

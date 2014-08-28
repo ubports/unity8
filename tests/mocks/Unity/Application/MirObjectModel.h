@@ -43,7 +43,7 @@ public:
 
         int existingIndex = m_items.indexOf(item);
         if (existingIndex != -1) {
-            move(existingIndex, index);
+            move(existingIndex, qMin(index, (uint)(m_items.count()-1)));
         } else {
             beginInsertRows(QModelIndex(), index, index);
             m_items.insert(index, item);

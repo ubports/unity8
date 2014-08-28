@@ -57,7 +57,8 @@ Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(Session*);
     void removed();
-    void aboutToBeDestroyed();
+    // internal mock use
+    void deregister();
 
 public Q_SLOTS:
     Q_INVOKABLE void createSurface();

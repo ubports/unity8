@@ -31,6 +31,8 @@ public:
 
     Q_INVOKABLE Session* createSession(const QString& name, const QUrl& screenshot);
 
+    void registerSession(Session *session);
+
 Q_SIGNALS:
     void sessionStarting(Session *session);
     void sessionStopping(Session *session);

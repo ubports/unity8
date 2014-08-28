@@ -38,10 +38,17 @@ Session *SessionManager::createSession(const QString& name,
                                        const QUrl& screenshot)
 {
     Session* session = new Session(name, screenshot);
-    connect(session, &Session::aboutToBeDestroyed, this, [&] {
-        Q_EMIT sessionStopping(qobject_cast<Session*>(sender()));
-    });
-
     Q_EMIT sessionStarting(session);
     return session;
 }
+
+void SessionManager::registerSession(Session *session)
+{
+    connect(session, &Session::deregister, this, [this] {
+        Session* session = qobject_cast<Session*>(sender());
+
+        disconnect(session, 0, this, 0);
+        Q_EMIT sessionStopping(session);
+    });
+}
+

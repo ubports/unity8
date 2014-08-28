@@ -16,6 +16,7 @@
 
 #include "Session.h"
 #include "ApplicationInfo.h"
+#include "SessionManager.h"
 #include "SurfaceManager.h"
 
 #include <QPainter>
@@ -59,7 +60,6 @@ Session::~Session()
 void Session::release()
 {
     qDebug() << "Session::release " << name();
-    Q_EMIT aboutToBeDestroyed();
 
     if (m_parentSession) {
         m_parentSession->removeChildSession(this);
@@ -89,6 +89,7 @@ void Session::setSurface(MirSurfaceItem* surface)
     if (m_surface) {
         m_surface->setSession(nullptr);
         m_surface->setParent(nullptr);
+        Q_EMIT m_surface->deregister();
     }
 
     m_surface = surface;
@@ -96,6 +97,7 @@ void Session::setSurface(MirSurfaceItem* surface)
     if (m_surface) {
         m_surface->setSession(this);
         m_surface->setParent(this);
+        SurfaceManager::singleton()->registerSurface(m_surface);
     }
 
     Q_EMIT surfaceChanged(m_surface);
@@ -141,6 +143,7 @@ void Session::insertChildSession(uint index, Session* session)
 
     session->setParentSession(this);
     m_children->insert(index, session);
+    SessionManager::singleton()->registerSession(session);
 }
 
 void Session::removeChildSession(Session* session)
@@ -150,6 +153,7 @@ void Session::removeChildSession(Session* session)
     if (m_children->contains(session)) {
         m_children->remove(session);
         session->setParentSession(nullptr);
+        Q_EMIT session->deregister();
     }
 }
 
