@@ -280,8 +280,8 @@ Item {
                         lockscreen.infoText = i18n.tr("Enter your passphrase")
                         lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase")
                     } else {
-                        lockscreen.infoText = i18n.tr("Enter your PIN")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect PIN")
+                        lockscreen.infoText = i18n.tr("Enter your passcode")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
                     }
                 } else {
                     lockscreen.infoText = i18n.tr("Enter your %1").arg(text.toLowerCase())

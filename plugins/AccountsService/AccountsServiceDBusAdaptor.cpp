@@ -24,7 +24,7 @@
 
 AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
   : QObject(parent),
-    m_accountsManager(NULL),
+    m_accountsManager(nullptr),
     m_users()
 {
     QDBusConnection connection = QDBusConnection::SM_BUSNAME();

@@ -220,10 +220,10 @@ Item {
             tryCompare(placeHolder, "text", "")
 
             enterPin("1111")
-            tryCompare(placeHolder, "text", "Sorry, incorrect PIN")
+            tryCompare(placeHolder, "text", "Sorry, incorrect passcode")
 
             enterPin("1111")
-            tryCompare(placeHolder, "text", "Sorry, incorrect PIN")
+            tryCompare(placeHolder, "text", "Sorry, incorrect passcode")
 
             enterPin("1111")
             tryCompare(placeHolder, "text", "Too many incorrect attempts")

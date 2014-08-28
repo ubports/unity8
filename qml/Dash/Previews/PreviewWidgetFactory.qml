@@ -58,6 +58,7 @@ Loader {
             case "payments": return "PreviewPayments.qml";
             case "rating-input": return "PreviewRatingInput.qml";
             case "reviews": return "PreviewRatingDisplay.qml";
+            case "table": return "PreviewTable.qml";
             case "text": return "PreviewTextSummary.qml";
             case "video": return "PreviewVideoPlayback.qml";
             default: return "";
@@ -70,7 +71,7 @@ Loader {
         item.widgetData = Qt.binding(function() { return root.widgetData } )
         item.isCurrentPreview = Qt.binding(function() { return root.isCurrentPreview } )
         item.expanded = Qt.binding(function() { return root.expanded } )
-        if (item.hasOwnProperty("scopeStyle")) item.scopeStyle = root.scopeStyle;
+        item.scopeStyle = Qt.binding(function() { return root.scopeStyle } )
     }
 
     Connections {
