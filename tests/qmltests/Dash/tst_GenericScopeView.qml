@@ -100,7 +100,7 @@ Item {
             {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 while (!categoryListView.atYEnd) {
-                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
+                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height - units.gu(8),
                                genericScopeView.width/2, genericScopeView.y)
                     tryCompare(categoryListView, "moving", false);
                 }
@@ -440,7 +440,6 @@ Item {
                 compare(image.source, data.logo, "Title image has the wrong source");
             }
 
-<<<<<<< TREE
             function test_seeAllTwoCategoriesScenario1() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
@@ -482,17 +481,8 @@ Item {
                     return genericScopeView.categoryView.contentY + category1.y + category1.height + genericScopeView.categoryView.pageHeader.height
                            == genericScopeView.categoryView.contentHeight;}
                     , true);
-=======
-            function test_favorite_data() {
-                return [
-                    { tag: "People", id: "MockScope1", favorite: true },
-                    { tag: "Music", id: "MockScope2", favorite: false },
-                    { tag: "Apps", id: "clickscope", favorite: true },
-                ];
->>>>>>> MERGE-SOURCE
             }
 
-<<<<<<< TREE
             function test_seeAllTwoCategoriesScenario2() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
@@ -529,7 +519,16 @@ Item {
                 verify(category1.expanded);
                 tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
                 tryCompare(category1, "y", units.gu(5));
-=======
+            }
+
+            function test_favorite_data() {
+                return [
+                    { tag: "People", id: "MockScope1", favorite: true },
+                    { tag: "Music", id: "MockScope2", favorite: false },
+                    { tag: "Apps", id: "clickscope", favorite: true },
+                ];
+            }
+
             function test_favorite(data) {
                 genericScopeView.scope = scopes.getScopeFromAll(data.id);
                 waitForRendering(genericScopeView);
@@ -548,7 +547,6 @@ Item {
                 tryCompare(genericScopeView.scope, "favorite", !data.favorite);
 
                 genericScopeView.scope = !genericScopeView.scope;
->>>>>>> MERGE-SOURCE
             }
         }
     }

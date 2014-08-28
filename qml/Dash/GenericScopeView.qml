@@ -174,7 +174,7 @@ FocusScope {
                     if (shouldExpand != baseItem.expanded) {
 
                         var animate = false;
-                        if (!previewListView.open) {
+                        if (!subPageLoader.open) {
                             var animateShrinking = !shouldExpand  && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAll.height < categoryView.height;
                             var animateGrowing = shouldExpand && baseItem.y + baseItem.height < categoryView.height;
                             animate = shrinkingAny || animateShrinking || animateGrowing;
@@ -185,7 +185,7 @@ FocusScope {
                             shrinkHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
                         }
 
-                        if (shouldExpand && !previewListView.open) {
+                        if (shouldExpand && !subPageLoader.open) {
                             if (!shrinkingAny) {
                                 categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAll.height);
                             } else {
