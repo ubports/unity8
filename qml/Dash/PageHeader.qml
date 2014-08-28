@@ -66,7 +66,7 @@ Item {
 
     function closePopup(keepFocus) {
         if (headerContainer.popover != null) {
-            headerContainer.popover.unfocus = !keepFocus;
+            headerContainer.popover.unfocusOnDestruction = !keepFocus;
             PopupUtils.close(headerContainer.popover);
         } else if (!keepFocus) {
             unfocus();
@@ -309,11 +309,11 @@ Item {
             id: popover
             autoClose: false
 
-            property bool unfocus: false
+            property bool unfocusOnDestruction: false
 
             Component.onDestruction: {
                 headerContainer.popover = null;
-                if (unfocus) {
+                if (unfocusOnDestruction) {
                     root.unfocus();
                 }
             }
