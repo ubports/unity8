@@ -82,7 +82,7 @@ HudClient::HudClient()
     m_results = new DeeListModel();
     m_clientQuery = hud_client_query_new("");
     m_toolBarModel = new HudToolBarModel(m_clientQuery);
-    m_currentActionParam = NULL;
+    m_currentActionParam = nullptr;
     m_results->setModel(hud_client_query_get_results_model(m_clientQuery));
 
     g_signal_connect(G_OBJECT(m_clientQuery), "voice-query-loading", G_CALLBACK(loadingCB), this);
@@ -151,13 +151,13 @@ void HudClient::executeParametrizedAction(const QVariant &values)
     updateParametrizedAction(values);
     hud_client_param_send_commit(m_currentActionParam);
     g_object_unref(m_currentActionParam);
-    m_currentActionParam = NULL;
+    m_currentActionParam = nullptr;
     Q_EMIT commandExecuted();
 }
 
 void HudClient::updateParametrizedAction(const QVariant &values)
 {
-    if (m_currentActionParam != NULL) {
+    if (m_currentActionParam != nullptr) {
         const QVariantMap map = values.value<QVariantMap>();
         GActionGroup *ag = hud_client_param_get_actions(m_currentActionParam);
 
@@ -179,10 +179,10 @@ void HudClient::updateParametrizedAction(const QVariant &values)
 
 void HudClient::cancelParametrizedAction()
 {
-    if (m_currentActionParam != NULL) {
+    if (m_currentActionParam != nullptr) {
         hud_client_param_send_cancel(m_currentActionParam);
         g_object_unref(m_currentActionParam);
-        m_currentActionParam = NULL;
+        m_currentActionParam = nullptr;
     }
 }
 
@@ -212,9 +212,9 @@ void HudClient::executeCommand(int index)
     GVariant *is_parametrized = dee_model_get_value(model, iter, 7);
     if (g_variant_get_boolean(is_parametrized)) {
         m_currentActionParam = hud_client_query_execute_param_command(m_clientQuery, command_key, /* timestamp */ 0);
-        if (m_currentActionParam != NULL) {
+        if (m_currentActionParam != nullptr) {
             GMenuModel *menuModel = hud_client_param_get_model (m_currentActionParam);
-            if (menuModel == NULL) {
+            if (menuModel == nullptr) {
                 g_signal_connect(m_currentActionParam, HUD_CLIENT_PARAM_SIGNAL_MODEL_READY, G_CALLBACK(modelReadyCB), this);
             } else {
                 modelReady(false);
@@ -244,9 +244,9 @@ void HudClient::modelReady(bool needDisconnect)
 }
 
 static void addAttribute(QVariantMap &properties, GMenuModel *menuModel, int item, const char *attribute) {
-    GVariant *v = g_menu_model_get_item_attribute_value(menuModel, item, attribute, NULL);
+    GVariant *v = g_menu_model_get_item_attribute_value(menuModel, item, attribute, nullptr);
 
-    if (v == NULL)
+    if (v == nullptr)
         return;
 
     properties.insert(attribute, DeeListModel::VariantForData(v));
@@ -264,10 +264,10 @@ void HudClient::modelReallyReady(bool needDisconnect)
     for (int i = 0; i < g_menu_model_get_n_items(menuModel); i++) {
         GVariant *v = g_menu_model_get_item_attribute_value(menuModel, i, "parameter-type", G_VARIANT_TYPE_STRING);
 
-        if (v == NULL)
+        if (v == nullptr)
             continue;
 
-        const QString type = QString::fromUtf8(g_variant_get_string(v, NULL));
+        const QString type = QString::fromUtf8(g_variant_get_string(v, nullptr));
         if (type == "slider") {
             const char *sliderAttributes[] = { "label", "min", "max", "step", "value", "live", "action" };
             QVariantMap properties;
@@ -283,7 +283,7 @@ void HudClient::modelReallyReady(bool needDisconnect)
     DeeModel *model = hud_client_query_get_results_model(m_clientQuery);
     DeeModelIter *iter = dee_model_get_iter_at_row(model, m_currentActionIndex);
     GVariant *actionTextVariant = dee_model_get_value(model, iter, 1);
-    const QString actionText = QString::fromUtf8(g_variant_get_string(actionTextVariant, NULL));
+    const QString actionText = QString::fromUtf8(g_variant_get_string(actionTextVariant, nullptr));
     g_variant_unref(actionTextVariant);
     Q_EMIT showParametrizedAction(actionText, QVariant::fromValue(items));
 }

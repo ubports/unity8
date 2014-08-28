@@ -42,18 +42,18 @@ void
 QLimitProxyModelQML::setModel(QAbstractItemModel *itemModel)
 {
     if (itemModel != sourceModel()) {
-        if (sourceModel() != NULL) {
+        if (sourceModel() != nullptr) {
             sourceModel()->disconnect(this);
         }
 
         setSourceModel(itemModel);
 
-        if (sourceModel() != NULL) {
+        if (sourceModel() != nullptr) {
             // Disconnect the QIdentityProxyModel handling for rows removed/added...
-            disconnect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this, NULL);
-            disconnect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, NULL);
-            disconnect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this, NULL);
-            disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, NULL);
+            disconnect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this, nullptr);
+            disconnect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, nullptr);
+            disconnect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this, nullptr);
+            disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, nullptr);
 
             // ... and use our own
             connect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),

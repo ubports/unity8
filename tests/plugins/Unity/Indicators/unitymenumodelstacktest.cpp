@@ -42,7 +42,7 @@ private Q_SLOTS:
     void cleanup()
     {
         delete m_model;
-        m_model = NULL;
+        m_model = nullptr;
     }
 
     void testHeadOnSetHead()

@@ -57,9 +57,9 @@ timedate1_properties_changed (GDBusConnection *connection,
     if (!g_variant_is_of_type (parameters, G_VARIANT_TYPE ("(sa{sv}as)")))
         return;
 
-    g_variant_get (parameters, "(s@a{sv}as)", NULL, &changed, &iter);
+    g_variant_get (parameters, "(s@a{sv}as)", nullptr, &changed, &iter);
 
-    if (g_variant_lookup (changed, "Timezone", "s", NULL)) {
+    if (g_variant_lookup (changed, "Timezone", "s", nullptr)) {
         priv->formatter->update();
     }
     else {
@@ -81,10 +81,10 @@ got_bus(GObject *object, GAsyncResult *result, gpointer user_data)
     Q_UNUSED(object);
 
     TimeFormatterPrivate *priv = (TimeFormatterPrivate *)user_data;
-    GError *error = NULL;
+    GError *error = nullptr;
 
     priv->system_bus = g_bus_get_finish (result, &error);
-    if (priv->system_bus == NULL) {
+    if (priv->system_bus == nullptr) {
         if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
             qWarning("TimeFormatter: cannot connect to the system bus: %s", error->message);
         g_error_free (error);
@@ -98,14 +98,14 @@ got_bus(GObject *object, GAsyncResult *result, gpointer user_data)
      * and keep the process alive.
      */
     priv->subscription_id = g_dbus_connection_signal_subscribe (priv->system_bus,
-                                                                NULL,   /* sender */
+                                                                nullptr,   /* sender */
                                                                 "org.freedesktop.DBus.Properties",
                                                                 "PropertiesChanged",
-                                                                NULL,
+                                                                nullptr,
                                                                 "org.freedesktop.timedate1",
                                                                 G_DBUS_SIGNAL_FLAGS_NONE,
                                                                 timedate1_properties_changed,
-                                                                priv, NULL);
+                                                                priv, nullptr);
 }
 
 TimeFormatter::TimeFormatter(QObject *parent): QObject(parent)
@@ -114,7 +114,7 @@ TimeFormatter::TimeFormatter(QObject *parent): QObject(parent)
     priv->formatter = this;
     priv->time = 0;
     priv->format = "yyyy-MM-dd hh:mm";
-    priv->system_bus = NULL;
+    priv->system_bus = nullptr;
     priv->subscription_id = 0;
     priv->cancellable = g_cancellable_new ();
 
