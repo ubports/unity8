@@ -23,7 +23,6 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QSettings>
-#include <QDebug>
 
 DesktopFileHandler::DesktopFileHandler(QObject *parent):
     QObject(parent)
@@ -89,8 +88,7 @@ QString DesktopFileHandler::icon(const QString &appId) const
     QSettings settings(desktopFile, QSettings::IniFormat);
     QString iconString = settings.value("Desktop Entry/Icon").toString();
     QString pathString = settings.value("Desktop Entry/Path").toString();
-    qDebug() << "checking icon" << iconString << pathString << desktopFile;
-    qDebug() << settings.allKeys();
+
     if (QFileInfo(iconString).exists()) {
         return QFileInfo(iconString).absoluteFilePath();
     } else if (QFileInfo(pathString + '/' + iconString).exists()) {
