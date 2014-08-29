@@ -129,6 +129,7 @@ Item {
         color: parent.color
         opacity: parent.opacity
         radius: "medium"
+        borderSource: "none"
     }
 
     Rectangle {
