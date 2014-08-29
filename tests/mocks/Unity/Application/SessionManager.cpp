@@ -48,6 +48,8 @@ void SessionManager::registerSession(Session *session)
         Session* session = qobject_cast<Session*>(sender());
 
         disconnect(session, 0, this, 0);
+
+        session->setLive(false);
         Q_EMIT sessionStopping(session);
     });
 }

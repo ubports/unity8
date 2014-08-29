@@ -38,6 +38,7 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_name(name)
     , m_type(type)
     , m_state(state)
+    , m_live(true)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
 {
@@ -118,6 +119,14 @@ void MirSurfaceItem::setScreenshot(const QUrl& screenshot)
     if (m_qmlItem) {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
+    }
+}
+
+void MirSurfaceItem::setLive(bool live)
+{
+    if (m_live != live) {
+        m_live = live;
+        Q_EMIT liveChanged(m_live);
     }
 }
 

@@ -53,6 +53,8 @@ void SurfaceManager::registerSurface(MirSurfaceItem *surface)
     connect(surface, &MirSurfaceItem::deregister, this, [this] {
         MirSurfaceItem* surface = qobject_cast<MirSurfaceItem*>(sender());
         disconnect(surface, 0, this, 0);
+
+        surface->setLive(false);
         Q_EMIT surfaceDestroyed(surface);
     });
     connect(surface, &MirSurfaceItem::inputMethodRequested,

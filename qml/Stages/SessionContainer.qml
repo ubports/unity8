@@ -22,7 +22,6 @@ Item {
     objectName: "sessionContainer"
     property QtObject session
     property var childSessions: session ? session.childSessions : 0
-    property bool removing: false
     property alias surface: _surfaceContainer.surface
     property bool interactive: true
 
@@ -58,6 +57,9 @@ Item {
             onLoaded: {
                 item.session = modelData;
                 item.interactive = Qt.binding(function() { return root.interactive; } );
+                if (!modelData.live) {
+                    modelData.release();
+                }
                 if (modelData.surface) {
                     item.animateIn(swipeFromBottom);
                 }
@@ -70,9 +72,10 @@ Item {
                         item.animateIn();
                     }
                 }
-                onRemoved: {
-                    item.removing = true;
-                    item.animateOut();
+                onLiveChanged: {
+                    if (!modelData.live) {
+                        item.animateOut();
+                    }
                 }
             }
         }

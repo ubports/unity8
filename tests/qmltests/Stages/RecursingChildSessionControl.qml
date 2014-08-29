@@ -94,7 +94,7 @@ ColumnLayout {
                     if (checked) {
                         root.session.createSurface();
                     } else if (root.session.surface) {
-                        root.session.surface.removed();
+                        ApplicationTest.removeSurface(root.session.surface);
                     }
                 }
 
@@ -121,8 +121,8 @@ ColumnLayout {
                 onClicked: {
                     if (removable) {
                         // release the surface first. simulates mir app closing
-                        if (root.session.surface) root.session.surface.removed();
-                        root.session.removed();
+                        if (root.session.surface) ApplicationTest.removeSurface(root.session.surface);
+                        ApplicationTest.removeSession(root.session);
                     } else {
                         root.session.release();
                     }

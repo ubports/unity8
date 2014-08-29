@@ -56,7 +56,18 @@ Session* ApplicationTestInterface::addChildSession(Session* existingSession, con
 
 void ApplicationTestInterface::removeSession(Session* existingSession)
 {
-    Q_EMIT existingSession->removed();
+    qDebug() << "ApplicationTestInterface::removeSession - " << existingSession;
+
+    if (existingSession)
+        existingSession->setLive(false);
+}
+
+void ApplicationTestInterface::removeSurface(MirSurfaceItem* existingSurface)
+{
+    qDebug() << "ApplicationTestInterface::removeSurface - " << existingSurface;
+
+    if (existingSurface)
+        existingSurface->setLive(false);
 }
 
 quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage)
@@ -97,12 +108,10 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
 
 void ApplicationTestInterface::removeSession(quint32 sessionId)
 {
-    qDebug() << "ApplicationTestInterface::removeSession - " << sessionId;
-
     if (!m_childSessions.contains(sessionId)) {
         qDebug() << "ApplicationTestInterface::removeSession - No added session for " << sessionId;
         return;
     }
     Session* session = m_childSessions.take(sessionId);
-    Q_EMIT session->removed();
+    removeSession(session);
 }

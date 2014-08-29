@@ -32,6 +32,7 @@ public:
 
     Q_INVOKABLE Session* addChildSession(Session* existingSession, const QString& surfaceImage);
     Q_INVOKABLE void removeSession(Session* existingSession);
+    Q_INVOKABLE void removeSurface(MirSurfaceItem* existingSurface);
 
 public Q_SLOTS:
     quint32 addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage);

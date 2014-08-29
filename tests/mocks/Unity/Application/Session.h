@@ -31,6 +31,7 @@ class Session : public QObject
     Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
     Q_PROPERTY(Session* parentSession READ parentSession NOTIFY parentSessionChanged DESIGNABLE false)
     Q_PROPERTY(SessionModel* childSessions READ childSessions DESIGNABLE false CONSTANT)
+    Q_PROPERTY(bool live READ live NOTIFY liveChanged)
 
 public:
     explicit Session(const QString &name,
@@ -42,6 +43,7 @@ public:
 
     //getters
     QString name() const { return m_name; }
+    bool live() const { return m_live; }
     ApplicationInfo* application() const { return m_application; }
     MirSurfaceItem* surface() const { return m_surface; }
     Session* parentSession() const { return m_parentSession; }
@@ -49,6 +51,7 @@ public:
     void setApplication(ApplicationInfo* item);
     void setSurface(MirSurfaceItem* surface);
     void setScreenshot(const QUrl& m_screenshot);
+    void setLive(bool live);
 
     Q_INVOKABLE void addChildSession(Session* session);
     void insertChildSession(uint index, Session* session);
@@ -57,7 +60,8 @@ public:
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(Session*);
-    void removed();
+    void liveChanged(bool isLive);
+
     // internal mock use
     void deregister();
 
@@ -69,6 +73,7 @@ private:
     void setParentSession(Session* session);
 
     QString m_name;
+    bool m_live;
     QUrl m_screenshot;
     ApplicationInfo* m_application;
     MirSurfaceItem* m_surface;

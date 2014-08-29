@@ -28,6 +28,7 @@ Session::Session(const QString &name,
                  QObject *parent)
     : QObject(parent)
     , m_name(name)
+    , m_live(true)
     , m_screenshot(screenshot)
     , m_application(nullptr)
     , m_surface(nullptr)
@@ -110,6 +111,14 @@ void Session::setScreenshot(const QUrl& screenshot)
         if (m_surface) {
             m_surface->setScreenshot(m_screenshot);
         }
+    }
+}
+
+void Session::setLive(bool live)
+{
+    if (m_live != live) {
+        m_live = live;
+        Q_EMIT liveChanged(m_live);
     }
 }
 

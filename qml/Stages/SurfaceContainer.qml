@@ -22,12 +22,9 @@ Item {
     id: root
     objectName: "surfaceContainer"
     property Item surface: null
-    property bool surfaceRemoved: false
 
     onSurfaceChanged: {
         if (surface) {
-            surfaceRemoved = false;
-            surface.removed.connect(onRemoved);
             surface.parent = root;
         }
     }
@@ -36,19 +33,15 @@ Item {
         property: "anchors.fill"; value: root
     }
 
-    function onRemoved() {
-        surfaceRemoved = true;
-    }
-
     states: [
         State {
-            name: "removed"
-            when: surfaceRemoved
+            name: "zombie"
+            when: surface && !surface.live
         }
     ]
     transitions: [
         Transition {
-            from: ""; to: "removed"
+            from: ""; to: "zombie"
             SequentialAnimation {
                 UbuntuNumberAnimation { target: surface; property: "opacity"; to: 0.0
                                         duration: UbuntuAnimation.BriskDuration }

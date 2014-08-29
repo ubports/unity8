@@ -33,6 +33,7 @@ class MirSurfaceItem : public QQuickItem
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(bool live READ live NOTIFY liveChanged)
 
 public:
     enum Type {
@@ -62,9 +63,11 @@ public:
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
+    bool live() const { return m_live; }
 
     void setSession(Session* item);
     void setScreenshot(const QUrl& screenshot);
+    void setLive(bool live);
 
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
@@ -72,9 +75,7 @@ public:
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
-    void parentSurfaceChanged(MirSurfaceItem*);
-
-    void removed();
+    void liveChanged(bool isLive);
 
     void inputMethodRequested();
     void inputMethodDismissed();
@@ -102,6 +103,7 @@ private:
     const QString m_name;
     const Type m_type;
     State m_state;
+    bool m_live;
 
     QQmlComponent *m_qmlContentComponent;
     QQuickItem *m_qmlItem;

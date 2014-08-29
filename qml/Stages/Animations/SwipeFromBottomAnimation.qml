@@ -27,7 +27,7 @@ BaseSessionAnimation {
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
             PropertyAction { target: surfaceContainer; property: "visible"; value: !sessionContainer.removing }
             PropertyAction { target: sessionContainer; property: "clip"; value: false }
-            ScriptAction { script: { if (sessionContainer.removing) sessionContainer.session.release(); } }
+            ScriptAction { script: { sessionContainer.session.release(); } }
         }
     ]
 
