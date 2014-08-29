@@ -100,6 +100,7 @@ Loader {
                     id: checkBox
 
                     checked: false
+                    activeFocusOnPress: false
                 }
 
                 Label {
