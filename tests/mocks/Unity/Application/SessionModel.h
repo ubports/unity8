@@ -18,14 +18,14 @@
 #define SESSIONMODEL_H
 
 // Local
-#include "MirObjectModel.h"
+#include "ObjectListModel.h"
 
 class Session;
-class SessionModel: public MirObjectModel<Session>
+class SessionModel: public ObjectListModel<Session>
 {
     Q_OBJECT
 public:
-    SessionModel(QObject *parent = 0): MirObjectModel(parent) {}
+    SessionModel(QObject *parent = 0): ObjectListModel(parent) {}
 
     Q_INVOKABLE int count() const { return rowCount(); }
 };

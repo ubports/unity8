@@ -6,12 +6,12 @@ set(FakeUnityApplicationQml_SOURCES
     ApplicationManager.cpp
     ApplicationScreenshotProvider.cpp
     ApplicationTestInterface.cpp
-    Session.cpp
     MirSurfaceItem.cpp
+    MirSurfaceItemModel.h
+    ObjectListModel.h
+    Session.cpp
     SessionManager.cpp
     SurfaceManager.cpp
-    MirObjectModel.h
-    MirSurfaceItemModel.h
     SessionModel.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h

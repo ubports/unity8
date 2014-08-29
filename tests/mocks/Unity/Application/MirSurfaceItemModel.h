@@ -17,15 +17,15 @@
 #ifndef MIRSURFACEITEMMODEL_H
 #define MIRSURFACEITEMMODEL_H
 
-// Llocal
-#include "MirObjectModel.h"
+// Local
+#include "ObjectListModel.h"
 
 class MirSurfaceItem;
-class MirSurfaceItemModel: public MirObjectModel<MirSurfaceItem>
+class MirSurfaceItemModel: public ObjectListModel<MirSurfaceItem>
 {
     Q_OBJECT
 public:
-    MirSurfaceItemModel(QObject *parent = 0): MirObjectModel(parent) {}
+    MirSurfaceItemModel(QObject *parent = 0): ObjectListModel(parent) {}
 
     Q_INVOKABLE int count() const { return rowCount(); }
 };

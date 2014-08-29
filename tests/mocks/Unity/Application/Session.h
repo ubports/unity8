@@ -22,6 +22,7 @@
 #include <QQuickItem>
 
 class ApplicationInfo;
+class MirSurfaceItem;
 
 class Session : public QObject
 {

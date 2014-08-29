@@ -14,19 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MIROBJECTMODEL_H
-#define MIROBJECTMODEL_H
+#ifndef OBJECTLISTMODEL_H
+#define OBJECTLISTMODEL_H
 
 // Qt
 #include <QAbstractListModel>
 
-class MirSurfaceItem;
-
 template<class TYPE>
-class MirObjectModel : public QAbstractListModel
+class ObjectListModel : public QAbstractListModel
 {
 public:
-    MirObjectModel(QObject *parent = 0)
+    ObjectListModel(QObject *parent = 0)
     : QAbstractListModel(parent)
     {}
 
@@ -105,4 +103,4 @@ protected:
     QList<TYPE*> m_items;
 };
 
-#endif // MIROBJECTMODEL_H
+#endif // OBJECTLISTMODEL_H
