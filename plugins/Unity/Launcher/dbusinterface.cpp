@@ -38,7 +38,6 @@ DBusInterface::DBusInterface(LauncherModel *parent):
     if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
         qWarning() << "Unable to register launcher object";
     }
-    qDebug() << "DBusInterface set up!";
 }
 
 DBusInterface::~DBusInterface()
