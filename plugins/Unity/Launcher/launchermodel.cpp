@@ -41,7 +41,6 @@ LauncherModel::LauncherModel(QObject *parent):
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
     Q_FOREACH (const QString &entry, m_settings->storedApplications()) {
-        qDebug() << "got stored item:" << entry;
         if (m_desktopFileHandler->findDesktopFile(entry).isEmpty()) {
             qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
             continue;
@@ -53,7 +52,6 @@ LauncherModel::LauncherModel(QObject *parent):
                                               this);
         item->setPinned(true);
         m_list.append(item);
-        qDebug() << "Loaded item" << item->name() << item->icon();
     }
 }
 
