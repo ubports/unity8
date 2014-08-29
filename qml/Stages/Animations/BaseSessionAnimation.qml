@@ -38,7 +38,7 @@ import QtQuick 2.0
 Item {
     id: base
     property var container
-
+    objectName: "sessionAnimation"
 
     // changes applied when state changes to "in"
     property list<QtObject> outChanges

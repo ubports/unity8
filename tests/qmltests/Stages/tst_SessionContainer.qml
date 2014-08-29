@@ -109,7 +109,7 @@ Rectangle {
                     id: sessionChildrenControl
                     anchors { left: parent.left; right: parent.right; }
 
-                    session: sessionContainerLoader.item.session
+                    session: sessionContainerLoader.item ? sessionContainerLoader.item.session : null
                 }
             }
         }
@@ -150,8 +150,8 @@ Rectangle {
             var i;
             var sessions = [];
             for (i = 0; i < data.count; i++) {
-                var session = SessionManager.createSession(sessionContainer.session.name + "-Child" + i,
-                                                           Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
+                var session = ApplicationTest.addChildSession(sessionContainer.session,
+                                                              "gallery");
                 session.createSurface();
                 sessionContainer.session.addChildSession(session);
                 compare(sessionContainer.childSessions.count(), i+1);
@@ -160,7 +160,7 @@ Rectangle {
             }
 
             for (i = data.count-1; i >= 0; i--) {
-                sessions[i].release();
+                ApplicationTest.removeSession(sessions[i]);
                 tryCompareFunction(function() { return sessionContainer.childSessions.count(); }, i);
             }
             tryCompare(sessionSpy, "count", data.count);
@@ -183,8 +183,8 @@ Rectangle {
             var delegate;
             var container = sessionContainer;
             for (i = 0; i < data.depth; i++) {
-                var session = SessionManager.createSession(lastSession.name + "-Child" + i,
-                                                           Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
+                var session = ApplicationTest.addChildSession(lastSession,
+                                                              "gallery");
                 session.createSurface();
                 lastSession.addChildSession(session);
                 compare(container.childSessions.count(), 1);
@@ -196,7 +196,7 @@ Rectangle {
             }
 
             for (i = data.depth-1; i >= 0; i--) {
-                sessions[i].release();
+                ApplicationTest.removeSession(sessions[i]);
             }
 
             tryCompareFunction(function() { return sessionContainer.childSessions.count(); }, 0);
@@ -207,10 +207,8 @@ Rectangle {
             sessionCheckbox.checked = true;
             var sessionContainer = sessionContainerLoader.item;
 
-            wait(2000);
-
-            var session = SessionManager.createSession(sessionContainer.session.name + "-Child0",
-                                                       Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
+            var session = ApplicationTest.addChildSession(sessionContainer.session,
+                                                          "gallery");
             session.createSurface();
             sessionContainer.session.addChildSession(session);
 
@@ -228,6 +226,43 @@ Rectangle {
             tryCompareFunction(function() { return childContainer.width === sessionContainer.width; }, true);
             tryCompareFunction(function() { return childContainer.x === 0; }, true);
             tryCompareFunction(function() { return childContainer.y === 0; }, true);
+        }
+
+        function isContainerAnimating(container) {
+            var animation = findInvisibleChild(container, "sessionAnimation");
+            if (!animation) return false;
+
+            var animating = false;
+            console.log(animation.state);
+            for (var i = 0; i < animation.transitions.length; ++i) {
+                if (animation.transitions[i].running) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function test_childrenAnimate() {
+            sessionCheckbox.checked = true;
+            var sessionContainer = sessionContainerLoader.item;
+
+            var session = ApplicationTest.addChildSession(sessionContainer.session,
+                                                          "gallery");
+
+            var delegate = findChild(sessionContainer, "childDelegate0");
+            var childContainer = findChild(delegate, "sessionContainer");
+
+            // wait for animation to begin
+            tryCompareFunction(function() { return isContainerAnimating(childContainer); }, true);
+            // wait for animation to end
+            tryCompareFunction(function() { return isContainerAnimating(childContainer); }, false);
+
+            ApplicationTest.removeSession(session);
+
+            // wait for animation to begin
+            tryCompareFunction(function() { return isContainerAnimating(childContainer); }, true);
+            // wait for animation to end
+            tryCompareFunction(function() { return isContainerAnimating(childContainer); }, false);
         }
     }
 }

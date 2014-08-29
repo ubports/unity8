@@ -74,7 +74,7 @@ Rectangle {
                                                                            Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
                             surfaceContainerLoader.item.surface = fakeSurface;
                         } else {
-                            surfaceContainerLoader.item.surface.release();
+                            ApplicationTest.removeSurface(surfaceContainerLoader.item.surface);
                         }
                     }
                 }
