@@ -62,6 +62,7 @@ Q_SIGNALS:
     void isAuthenticatedChanged();
     void promptlessChanged();
     void showGreeter();
+    void hideGreeter();
 
     // This signal is emitted by external agents like indicators, and the UI
     // should switch to this user if possible.

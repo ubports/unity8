@@ -38,6 +38,7 @@ public:
 
     bool isActive() const;
     Q_SCRIPTABLE void ShowGreeter(); // temporary, until we split the greeter again
+    Q_SCRIPTABLE void HideGreeter(); // temporary, until we split the greeter again
 
 Q_SIGNALS:
     void isActiveChanged();
