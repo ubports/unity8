@@ -29,7 +29,6 @@ Item {
             surfaceRemoved = false;
             surface.removed.connect(onRemoved);
             surface.parent = root;
-            surface.z = 1;
         }
     }
     Binding {

@@ -26,13 +26,6 @@ Item {
     property alias surface: _surfaceContainer.surface
     property bool interactive: true
 
-    onSessionChanged: {
-        if (session) {
-            session.parent = root;
-            session.z = 1;
-        }
-    }
-
     readonly property alias surfaceContainer: _surfaceContainer
     SurfaceContainer {
         id: _surfaceContainer
