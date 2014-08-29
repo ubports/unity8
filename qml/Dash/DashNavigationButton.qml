@@ -46,6 +46,8 @@ AbstractButton {
         }
     }
 
+    visible: root.currentNavigation != null
+
     onClicked: {
         navigationListView.updateMaxHeight();
         root.showList = !root.showList;
