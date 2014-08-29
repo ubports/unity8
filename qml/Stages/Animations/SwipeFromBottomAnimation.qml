@@ -20,12 +20,17 @@ import Ubuntu.Components 1.1
 BaseSessionAnimation {
     id: animation
 
-    outChanges: [ AnchorChanges { target: surfaceContainer; anchors.top: sessionContainer.bottom } ]
+    outChanges: [ AnchorChanges {
+            target: surfaceContainer;
+            anchors.top: sessionContainer.bottom
+            anchors.right: sessionContainer.right
+            anchors.left: sessionContainer.left
+        }
+    ]
     outAnimations: [
         SequentialAnimation {
             PropertyAction { target: sessionContainer; property: "clip"; value: true }
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
-            PropertyAction { target: surfaceContainer; property: "visible"; value: !sessionContainer.removing }
             PropertyAction { target: sessionContainer; property: "clip"; value: false }
             ScriptAction { script: { sessionContainer.session.release(); } }
         }
@@ -34,10 +39,8 @@ BaseSessionAnimation {
     inChanges: [
         AnchorChanges {
             target: surfaceContainer;
-            anchors.top: animation.parent.top
-            anchors.right: undefined
-            anchors.bottom: undefined
-            anchors.left: undefined
+            anchors.top: sessionContainer.top
+            anchors.bottom: sessionContainer.bottom
         } ]
     inAnimations: [
         SequentialAnimation {
