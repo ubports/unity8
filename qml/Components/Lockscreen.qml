@@ -80,10 +80,9 @@ Showable {
     }
 
     function showInfoPopup(title, text) {
-        PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
-        /// FIXME: calling infoPopupConfirmed() here to get the signaling right
-        ///        even though the popup it self does not work
-        infoPopupConfirmed()
+        var popup = PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
+        // FIXME: SDK will do this internally soonish
+        popup.z = Number.MAX_VALUE
     }
 
     Timer {
