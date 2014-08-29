@@ -136,9 +136,10 @@ void Session::createSurface()
     if (m_surface) return;
 
     setSurface(SurfaceManager::singleton()->createSurface(name(),
-                                   MirSurfaceItem::Normal,
-                                   m_application && m_application->fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   m_screenshot));
+           MirSurfaceItem::Normal,
+           m_application && m_application->fullscreen() ? MirSurfaceItem::Fullscreen :
+                                                          MirSurfaceItem::Maximized,
+           m_screenshot));
 }
 
 void Session::addChildSession(Session* session)
