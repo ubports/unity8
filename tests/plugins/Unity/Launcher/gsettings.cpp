@@ -17,21 +17,24 @@
  *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef DESKTOPFILEHANDLER_H
-#define DESKTOPFILEHANDLER_H
+#include "gsettings.h"
 
-#include <QObject>
+#include <QDebug>
 
-class DesktopFileHandler: public QObject
+// This is a mock implementation to not touch GSettings for real during tests
+
+GSettings::GSettings(QObject *parent):
+    QObject(parent)
 {
-    Q_OBJECT
-public:
-    DesktopFileHandler(QObject *parent = nullptr);
 
-    QString findDesktopFile(const QString &appId) const;
+}
 
-    QString displayName(const QString &appId) const;
-    QString icon(const QString &appId) const;
-};
+QStringList GSettings::storedApplications() const
+{
+    return QStringList();
+}
 
-#endif
+void GSettings::setStoredApplications(const QStringList &storedApplications)
+{
+    Q_UNUSED(storedApplications)
+}

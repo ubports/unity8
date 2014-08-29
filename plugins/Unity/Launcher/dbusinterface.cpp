@@ -1,3 +1,22 @@
+/*
+ * Copyright 2014 Canonical Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Michael Zanetti <michael.zanetti@canonical.com>
+ */
+
 #include "dbusinterface.h"
 #include "launchermodel.h"
 #include "launcheritem.h"
@@ -19,6 +38,7 @@ DBusInterface::DBusInterface(LauncherModel *parent):
     if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
         qWarning() << "Unable to register launcher object";
     }
+    qDebug() << "DBusInterface set up!";
 }
 
 DBusInterface::~DBusInterface()
@@ -31,7 +51,6 @@ DBusInterface::~DBusInterface()
 
 QString DBusInterface::introspect(const QString &path) const
 {
-    qDebug() << "introspecting" << path;
     /* This case we should just list the nodes */
     if (path == "/com/canonical/Unity/Launcher/" || path == "/com/canonical/Unity/Launcher") {
         QString nodes;
@@ -165,13 +184,13 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         }
     } else if (message.member() == "Set") {
         if (message.arguments()[1].toString() == "count") {
-            int newCount = message.arguments()[2].value<QDBusVariant>().variant().toInt();
+            int newCount = message.arguments()[2].toInt();
             if (!item || newCount != item->count()) {
                 Q_EMIT countChanged(appid, newCount);
                 emitPropChangedDbus(appid, "count", QVariant(newCount));
             }
         } else if (message.arguments()[1].toString() == "countVisible") {
-            bool newVisible = message.arguments()[2].value<QDBusVariant>().variant().toBool();
+            bool newVisible = message.arguments()[2].toBool();
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
                 emitPropChangedDbus(appid, "countVisible", newVisible);
@@ -181,7 +200,7 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         if (item) {
             QVariantMap all;
             all.insert("count", item->count());
-            all.insert("countVisible", item->count());
+            all.insert("countVisible", item->countVisible());
             retval.append(all);
         }
     } else {

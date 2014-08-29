@@ -6,7 +6,6 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend
     ${GSETTINGS_QT_INCLUDE_DIRS}
     )
 
@@ -15,17 +14,17 @@ add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelTest
-set(testModelCommand ${CMAKE_CURRENT_BINARY_DIR}/launchermodeltestExec
-      -o ${CMAKE_BINARY_DIR}/launchermodeltest.xml,xunitxml
-      -o -,txt)
+set(testModelCommand dbus-test-runner --task ${CMAKE_CURRENT_BINARY_DIR}/launchermodeltestExec
+      --parameter -o --parameter ${CMAKE_BINARY_DIR}/launchermodeltest.xml,xunitxml
+      --parameter -o --parameter -,txt)
 add_test(NAME launchermodeltest COMMAND ${testModelCommand})
 add_custom_target(launchermodeltest ${testModelCommand})
 add_executable(launchermodeltestExec
     launchermodeltest.cpp
+    gsettings.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launchermodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/gsettings.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/dbusinterface.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/desktopfilehandler.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistentry.cpp
@@ -36,7 +35,7 @@ add_executable(launchermodeltestExec
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS})
-qt5_use_modules(launchermodeltestExec Test Core DBus)
+qt5_use_modules(launchermodeltestExec Test Core DBus Xml)
 
 # copy .desktop files into build directory for shadow builds
 file(GLOB DESKTOP_FILES *.desktop)
