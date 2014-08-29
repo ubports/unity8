@@ -202,5 +202,32 @@ Rectangle {
             tryCompareFunction(function() { return sessionContainer.childSessions.count(); }, 0);
             tryCompare(sessionSpy, "count", data.depth);
         }
+
+        function test_childrenAdjustForParentSize() {
+            sessionCheckbox.checked = true;
+            var sessionContainer = sessionContainerLoader.item;
+
+            wait(2000);
+
+            var session = SessionManager.createSession(sessionContainer.session.name + "-Child0",
+                                                       Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
+            session.createSurface();
+            sessionContainer.session.addChildSession(session);
+
+            var delegate = findChild(sessionContainer, "childDelegate0");
+            var childContainer = findChild(delegate, "sessionContainer");
+
+            tryCompareFunction(function() { return childContainer.height === sessionContainer.height; }, true);
+            tryCompareFunction(function() { return childContainer.width === sessionContainer.width; }, true);
+            tryCompareFunction(function() { return childContainer.x === 0; }, true);
+            tryCompareFunction(function() { return childContainer.y === 0; }, true);
+
+            sessionContainer.anchors.margins = units.gu(2);
+
+            tryCompareFunction(function() { return childContainer.height === sessionContainer.height; }, true);
+            tryCompareFunction(function() { return childContainer.width === sessionContainer.width; }, true);
+            tryCompareFunction(function() { return childContainer.x === 0; }, true);
+            tryCompareFunction(function() { return childContainer.y === 0; }, true);
+        }
     }
 }

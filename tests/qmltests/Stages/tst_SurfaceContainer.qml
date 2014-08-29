@@ -124,16 +124,15 @@ Rectangle {
             compare(fakeSurface.height, surfaceContainerLoader.item.height);
         }
 
-        function test_delayRelease() {
+        function test_animateRemoval() {
             surfaceCheckbox.checked = true;
             var surfaceContainer = surfaceContainerLoader.item;
 
             verify(surfaceContainer.surface !== null);
 
-            surfaceContainer.surface.removed();
-            // should not be immediately removed
-            verify(surfaceContainer.surface !== null);
-            // but should eventually
+            ApplicationTest.removeSurface(surfaceContainer.surface);
+
+            compare(surfaceContainer.state, "zombie");
             tryCompare(surfaceContainer, "surface", null);
         }
     }
