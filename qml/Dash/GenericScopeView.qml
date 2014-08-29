@@ -38,6 +38,7 @@ FocusScope {
     property int paginationCount: 0
     property int paginationIndex: 0
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
+    property var holdingList: null
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
@@ -313,8 +314,16 @@ FocusScope {
                     target: scopeView
                     onIsCurrentChanged: rendererLoader.updateRanges();
                 }
+                Connections {
+                    target: holdingList
+                    onMovingChanged: if (!moving) rendererLoader.updateRanges();
+                }
 
                 function updateRanges() {
+                    if (holdingList && holdingList.moving) {
+                        return;
+                    }
+
                     if (categoryView.moving) {
                         // Do not update the range if we are overshooting up or down, since we'll come back
                         // to the stable position and delete/create items without any reason
