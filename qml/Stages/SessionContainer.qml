@@ -30,7 +30,6 @@ Item {
     SurfaceContainer {
         id: _surfaceContainer
         anchors.fill: parent
-        z: 2
         surface: session ? session.surface : null
     }
 
@@ -53,7 +52,6 @@ Item {
         delegate: Loader {
             objectName: "childDelegate" + index
             anchors.fill: surfaceContainer
-            z: 4
 
             // Only way to do recursive qml items.
             source: Qt.resolvedUrl("SessionContainer.qml")

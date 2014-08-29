@@ -25,6 +25,7 @@ ColumnLayout {
     property var session
     property var childSessions: session ? session.childSessions : 0
     property bool removable: false
+    property alias surfaceCheckbox: _surfaceCheckbox
 
     property var screenshotIds: [ "gallery", "map", "facebook", "camera", "browser", "music", "twitter"]
 
@@ -86,10 +87,10 @@ ColumnLayout {
             Layout.fillWidth: true
 
             CheckBox {
-                id: surfaceCheckbox;
+                id: _surfaceCheckbox;
                 checked: false;
                 enabled: root.session
-                onClicked: {
+                onCheckedChanged: {
                     if (checked) {
                         root.session.createSurface();
                     } else if (root.session.surface) {
@@ -106,7 +107,7 @@ ColumnLayout {
             }
 
             Label {
-                text: "surface"
+                text: "Surface"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }

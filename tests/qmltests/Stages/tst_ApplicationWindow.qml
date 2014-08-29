@@ -14,7 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
@@ -40,7 +41,7 @@ Rectangle {
     Connections {
         target: fakeApplication
         onSessionChanged: {
-            surfaceCheckbox.checked = fakeApplication.session !== null
+            sessionCheckbox.checked = fakeApplication.session !== null
         }
     }
 
@@ -71,30 +72,51 @@ Rectangle {
             right: parent.right
         }
 
-        Column {
+        ColumnLayout {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
+
+            RowLayout {
+                Layout.fillWidth: true
+
                 CheckBox {
-                    id: surfaceCheckbox; checked: false
+                    id: sessionCheckbox; checked: false
                     onCheckedChanged: {
                         if (applicationWindowLoader.status !== Loader.Ready)
                             return;
 
                         if (checked && !fakeApplication.session) {
                             fakeApplication.createSession();
-                            fakeSession.createSurface();
                         } else if (!checked && fakeApplication.session) {
                             fakeApplication.session.release();
                         }
                     }
                 }
                 Label {
-                    text: "Surface"
+                    text: "Session"
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
+
+            Rectangle {
+                border {
+                    color: "black"
+                    width: 1
+                }
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                Layout.preferredHeight: sessionControl.height
+
+                RecursingChildSessionControl {
+                    id: sessionControl
+                    anchors { left: parent.left; right: parent.right; }
+
+                    session: fakeSession
+                }
+            }
+
             ListItem.ItemSelector {
                 id: appStateSelector
                 anchors { left: parent.left; right: parent.right }
@@ -119,6 +141,7 @@ Rectangle {
                     fakeApplication.setState(selectedApplicationState);
                 }
             }
+
         }
     }
 
@@ -175,6 +198,14 @@ Rectangle {
             findInterestingApplicationWindowChildren();
         }
 
+        function initSession() {
+            sessionCheckbox.checked = true;
+            sessionControl.surfaceCheckbox.checked = true;
+        }
+        function cleanupSession() {
+            sessionCheckbox.checked = false;
+        }
+
         function cleanup() {
             forgetApplicationWindowChildren();
 
@@ -182,7 +213,7 @@ Rectangle {
             applicationWindowLoader.active = false;
 
             appStateSelector.selectedIndex = 0;
-            surfaceCheckbox.checked = false;
+            cleanupSession();
 
             if (fakeApplication.session)
                 fakeApplication.session.release();
@@ -202,7 +233,7 @@ Rectangle {
             verify(stateGroup.state === "splashScreen");
 
             if (data.swapInitOrder) {
-                surfaceCheckbox.checked = true;
+                initSession();
             } else {
                 setApplicationState(appRunning);
             }
@@ -212,14 +243,14 @@ Rectangle {
             if (data.swapInitOrder) {
                 setApplicationState(appRunning);
             } else {
-                surfaceCheckbox.checked = true;
+                initSession();
             }
 
             tryCompare(stateGroup, "state", "surface");
         }
 
         function test_suspendedAppShowsSurface() {
-            surfaceCheckbox.checked = true;
+            initSession();
             setApplicationState(appRunning);
 
             tryCompare(stateGroup, "state", "surface");
@@ -233,7 +264,7 @@ Rectangle {
         }
 
         function test_killedAppShowsScreenshot() {
-            surfaceCheckbox.checked = true;
+            initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
 
@@ -252,7 +283,7 @@ Rectangle {
         function test_restartApp() {
             var screenshotImage = findChild(applicationWindowLoader.item, "screenshotImage");
 
-            surfaceCheckbox.checked = true;
+            initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd();
@@ -278,14 +309,14 @@ Rectangle {
             waitUntilTransitionsEnd();
             verify(stateGroup.state === "screenshot");
 
-            surfaceCheckbox.checked = true;
+            initSession();
 
             tryCompare(stateGroup, "state", "surface");
             tryCompare(screenshotImage, "status", Image.Null);
         }
 
         function test_appCrashed() {
-            surfaceCheckbox.checked = true;
+            initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd();
@@ -298,7 +329,7 @@ Rectangle {
         }
 
         function test_keepSurfaceWhileInvisible() {
-            surfaceCheckbox.checked = true;
+            initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd();
@@ -319,7 +350,7 @@ Rectangle {
 
         function test_touchesReachSurfaceWhenItsShown() {
             setApplicationState(appRunning);
-            surfaceCheckbox.checked = true;
+            initSession();
 
             tryCompare(stateGroup, "state", "surface");
 
@@ -338,12 +369,12 @@ Rectangle {
         }
 
         function test_showNothingOnSuddenSurfaceLoss() {
-            surfaceCheckbox.checked = true;
+            initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd();
 
-            surfaceCheckbox.checked = false;
+            cleanupSession();
 
             verify(stateGroup.state === "void");
         }

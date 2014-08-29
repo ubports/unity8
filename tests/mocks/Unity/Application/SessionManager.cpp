@@ -51,4 +51,3 @@ void SessionManager::registerSession(Session *session)
         Q_EMIT sessionStopping(session);
     });
 }
-

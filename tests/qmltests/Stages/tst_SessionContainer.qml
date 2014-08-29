@@ -103,7 +103,7 @@ Rectangle {
                     left: parent.left
                     right: parent.right
                 }
-                height: sessionChildrenControl.height
+                Layout.preferredHeight: sessionChildrenControl.height
 
                 RecursingChildSessionControl {
                     id: sessionChildrenControl
