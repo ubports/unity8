@@ -21,32 +21,32 @@ BaseSessionAnimation {
     id: animation
 
     outChanges: [ AnchorChanges {
-            target: surfaceContainer;
-            anchors.top: sessionContainer.bottom
-            anchors.right: sessionContainer.right
-            anchors.left: sessionContainer.left
+            target: container;
+            anchors.top: container.parent.bottom
+            anchors.right: container.parent.right
+            anchors.left: container.parent.left
         }
     ]
     outAnimations: [
         SequentialAnimation {
-            PropertyAction { target: sessionContainer; property: "clip"; value: true }
+            PropertyAction { target: container.parent; property: "clip"; value: true }
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
-            PropertyAction { target: sessionContainer; property: "clip"; value: false }
-            ScriptAction { script: { sessionContainer.session.release(); } }
+            PropertyAction { target: container.parent; property: "clip"; value: false }
+            ScriptAction { script: { container.session.release(); } }
         }
     ]
 
     inChanges: [
         AnchorChanges {
-            target: surfaceContainer;
-            anchors.top: sessionContainer.top
-            anchors.bottom: sessionContainer.bottom
+            target: container;
+            anchors.top: container.parent.top
+            anchors.bottom: container.parent.bottom
         } ]
     inAnimations: [
         SequentialAnimation {
-            PropertyAction { target: sessionContainer; property: "clip"; value: true }
+            PropertyAction { target: container.parent; property: "clip"; value: true }
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
-            PropertyAction { target: sessionContainer; property: "clip"; value: false }
+            PropertyAction { target: container.parent; property: "clip"; value: false }
         }
     ]
 }

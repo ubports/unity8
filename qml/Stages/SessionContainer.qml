@@ -21,7 +21,7 @@ Item {
     id: root
     objectName: "sessionContainer"
     property QtObject session
-    property var childSessions: session ? session.childSessions : 0
+    property var childSessions: session ? session.childSessions : null
     property alias surface: _surfaceContainer.surface
     property bool interactive: true
 
@@ -82,11 +82,7 @@ Item {
     }
 
     function animateIn() {
-        var animation = swipeFromBottom.createObject(root,
-                                                        {
-                                                            "sessionContainer": root,
-                                                            "surfaceContainer": surfaceContainer
-                                                        });
+        var animation = swipeFromBottom.createObject(root, { "container": root, });
         animation.start();
 
         var tmp = d.animations;
