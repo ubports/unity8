@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-29 08:40+0000\n"
+"PO-Revision-Date: 2014-08-30 18:22+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-30 07:46+0000\n"
+"X-Launchpad-Export-Date: 2014-08-31 07:30+0000\n"
 "X-Generator: Launchpad (build 17176)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -252,7 +252,7 @@ msgstr "Wachtwoord tonen"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr "Voer SIM-pincode in"
+msgstr "Voer simpincode in"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
@@ -292,7 +292,7 @@ msgstr "Mislukt, tik om het opnieuw te proberen"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "SIM-kaart deblokkeren"
+msgstr "Simkaart deblokkeren"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
