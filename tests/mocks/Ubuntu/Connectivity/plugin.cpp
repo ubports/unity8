@@ -44,5 +44,3 @@ QmlConnectivityNetworkingPlugin::initializeEngine(QQmlEngine *engine, const char
   Q_UNUSED(uri);
   Q_UNUSED(engine);
 }
-
-

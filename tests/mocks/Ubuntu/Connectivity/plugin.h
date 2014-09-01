@@ -33,4 +33,3 @@ public:
 };
 
 #endif // QML_CONNECTIVITY_PLUGIN_H
-
