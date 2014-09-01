@@ -1,3 +1,61 @@
+unity8 (8.00+14.10.20140828.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Reverse default for the user option "allow launcher/panel in greeter
+    when locked." And allow that property to be controlled by an
+    AccountsService property. (LP: #1358340) (LP: #1358340)
+  * With recent password support, we want to be able to unlock the
+    device even with a password set. And we need to be able to do this
+    once the new adbd lands. So I've added a DBus command to hide the
+    greeter. This should be secure because all apps are constrained and
+    if you're on the local session bus unconstrained, you already have
+    access to anything you want.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 28 Aug 2014 20:06:41 +0000
+
+unity8 (8.00+14.10.20140827.2-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Implement scope header customization options
+  * Don't ignore empty attributes in CardAttributes.qml and improve its
+    encapsulation (LP: #1355901)
+  * Add support for preview button color customization. Deprecate
+    support for action icons.
+  * Add table preview widget
+  * Make "See Less" get stuck at the bottom of the view
+  * Support alternative navigation in the dash.
+  * Add scope settings UI
+  * Add scope favoriting support
+  * Passcode, not PIN (LP: #1361114)
+
+  [ Jussi Pakkanen ]
+  * Use nullptr instead of NULL.
+
+  [ Albert Astals ]
+  * Add table preview widget
+  * Make "See Less" get stuck at the bottom of the view
+  * Support alternative navigation in the dash.
+  * Make the PageHeaderLabelTest pass under valgrind
+
+  [ Benjamin Zeller ]
+  * Add support for scope:// url in the dash (LP: #1361349)
+
+  [ Marcus Tomlinson ]
+  * Handle the openScope signal in "tempScopeItem" (ScopesOverview.qml)
+    as is done with "scopeItem" (Dash.qml) (LP: #1356410)
+
+  [ Daniel d'Andrada ]
+  * Make "See Less" get stuck at the bottom of the view
+
+  [ Andrea Cimitan ]
+  * Fix right padding on overlay card
+  * Add scope settings UI
+
+  [ Michael Zanetti ]
+  * use a smaller asset for the app's dropshadow (LP: #1359157)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 27 Aug 2014 15:37:05 +0000
+
 unity8 (8.00+14.10.20140825.3-0ubuntu1) utopic; urgency=low
 
   [ Daniel d'Andrada ]

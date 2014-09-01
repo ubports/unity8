@@ -11,3 +11,4 @@ usr/share/unity8/Launcher
 usr/share/unity8/Panel
 usr/share/unity8/Shell.qml
 usr/share/unity8/Stages
+usr/share/url-dispatcher/urls/unity8-dash.url-dispatcher

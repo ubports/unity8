@@ -47,14 +47,10 @@ Item {
         BorderImage {
             anchors {
                 fill: appWindow
-                leftMargin: -units.gu(2)
-                rightMargin: -units.gu(2)
-                bottomMargin: -units.gu(2)
-                topMargin: -units.gu(2)
+                margins: -units.gu(2)
             }
-            source: "graphics/dropshadow.png"
-            border { left: 50; right: 50; top: 50; bottom: 50 }
-            opacity: root.dropShadow ? .4 : 0
+            source: "graphics/dropshadow2gu.sci"
+            opacity: root.dropShadow ? .3 : 0
             Behavior on opacity { UbuntuNumberAnimation {} }
         }
 

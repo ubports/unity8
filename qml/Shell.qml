@@ -271,6 +271,7 @@ Item {
         target: LightDM.Greeter
 
         onShowGreeter: greeter.show()
+        onHideGreeter: greeter.login()
 
         onShowPrompt: {
             if (greeter.narrowMode) {
@@ -279,8 +280,8 @@ Item {
                         lockscreen.infoText = i18n.tr("Enter your passphrase")
                         lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase")
                     } else {
-                        lockscreen.infoText = i18n.tr("Enter your PIN")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect PIN")
+                        lockscreen.infoText = i18n.tr("Enter your passcode")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
                     }
                 } else {
                     lockscreen.infoText = i18n.tr("Enter your %1").arg(text.toLowerCase())
@@ -313,7 +314,6 @@ Item {
             }
 
             if (LightDM.Greeter.authenticated) {
-                lockscreen.hide();
                 greeter.login();
             } else {
                 AccountsService.failedLogins++
@@ -506,7 +506,7 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && !shell.locked
+                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && greeter.fakeActiveForApp === ""
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
@@ -530,7 +530,7 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && !shell.locked
+            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -590,12 +590,6 @@ Item {
                 }
             ]
         }
-    }
-
-    Binding {
-        target: i18n
-        property: "domain"
-        value: "unity8"
     }
 
     Dialogs {

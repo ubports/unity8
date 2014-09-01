@@ -23,6 +23,9 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QSettings>
+#include <QLocale>
+
+#include <libintl.h>
 
 DesktopFileHandler::DesktopFileHandler(QObject *parent):
     QObject(parent)
@@ -75,7 +78,29 @@ QString DesktopFileHandler::displayName(const QString &appId) const
     }
 
     QSettings settings(desktopFile, QSettings::IniFormat);
-    return settings.value("Desktop Entry/Name").toString();
+    settings.beginGroup("Desktop Entry");
+
+    // First try to find Name[xx_YY] and Name[xx] in .desktop file
+    QString locale = QLocale::system().name();
+    QString shortLocale = locale.split('_').first();
+
+    if (locale != shortLocale && settings.contains(QString("Name[%1]").arg(locale))) {
+        return settings.value(QString("Name[%1]").arg(locale)).toString();
+    }
+
+    if (settings.contains(QString("Name[%1]").arg(shortLocale))) {
+        return settings.value(QString("Name[%1]").arg(shortLocale)).toString();
+    }
+
+    // No translation found in desktop file. Get the untranslated one and have a go with gettext.
+    QString displayName = settings.value("Name").toString();
+
+    if (settings.contains("X-Ubuntu-Gettext-Domain")) {
+        const QString domain = settings.value("X-Ubuntu-Gettext-Domain").toString();
+        return dgettext(domain.toUtf8().constData(), displayName.toUtf8().constData());
+    }
+
+    return displayName;
 }
 
 QString DesktopFileHandler::icon(const QString &appId) const
@@ -86,8 +111,9 @@ QString DesktopFileHandler::icon(const QString &appId) const
     }
 
     QSettings settings(desktopFile, QSettings::IniFormat);
-    QString iconString = settings.value("Desktop Entry/Icon").toString();
-    QString pathString = settings.value("Desktop Entry/Path").toString();
+    settings.beginGroup("Desktop Entry");
+    QString iconString = settings.value("Icon").toString();
+    QString pathString = settings.value("Path").toString();
 
     if (QFileInfo(iconString).exists()) {
         return QFileInfo(iconString).absoluteFilePath();
