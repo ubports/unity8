@@ -592,12 +592,6 @@ Item {
         }
     }
 
-    Binding {
-        target: i18n
-        property: "domain"
-        value: "unity8"
-    }
-
     Dialogs {
         id: dialogs
         anchors.fill: parent
