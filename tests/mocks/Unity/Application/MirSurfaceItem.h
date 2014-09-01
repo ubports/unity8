@@ -75,7 +75,7 @@ public:
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
-    void liveChanged(bool isLive);
+    void liveChanged(bool live);
 
     void inputMethodRequested();
     void inputMethodDismissed();

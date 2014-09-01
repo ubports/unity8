@@ -60,7 +60,7 @@ public:
 Q_SIGNALS:
     void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(Session*);
-    void liveChanged(bool isLive);
+    void liveChanged(bool live);
 
     // internal mock use
     void deregister();

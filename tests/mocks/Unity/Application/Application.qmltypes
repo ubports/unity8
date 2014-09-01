@@ -248,7 +248,7 @@ Module {
         }
         Signal {
             name: "liveChanged"
-            Parameter { name: "isLive"; type: "bool" }
+            Parameter { name: "live"; type: "bool" }
         }
         Signal { name: "inputMethodRequested" }
         Signal { name: "inputMethodDismissed" }
@@ -281,7 +281,7 @@ Module {
         }
         Signal {
             name: "liveChanged"
-            Parameter { name: "isLive"; type: "bool" }
+            Parameter { name: "live"; type: "bool" }
         }
         Signal { name: "deregister" }
         Method { name: "createSurface" }
