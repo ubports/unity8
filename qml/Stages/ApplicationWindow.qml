@@ -38,7 +38,7 @@ Item {
         readonly property int applicationState: root.application ? root.application.state : -1
 
         // Whether the Application had a surface before but lost it.
-        property bool hadSurface: false
+        property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
         property bool needToTakeScreenshot:
             sessionContainer.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
@@ -112,7 +112,6 @@ Item {
             if (sessionContainer.surface) {
                 surfaceInitTimer.start();
             } else {
-                d.hadSurface = true;
                 d.surfaceInitialized = false;
             }
         }

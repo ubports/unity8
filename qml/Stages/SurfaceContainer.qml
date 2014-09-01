@@ -22,10 +22,13 @@ Item {
     id: root
     objectName: "surfaceContainer"
     property Item surface: null
+    property bool hadSurface: false
 
     onSurfaceChanged: {
         if (surface) {
             surface.parent = root;
+        } else {
+            hadSurface = true;
         }
     }
     Binding {

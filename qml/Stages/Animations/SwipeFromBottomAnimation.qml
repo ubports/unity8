@@ -20,29 +20,28 @@ import Ubuntu.Components 1.1
 BaseSessionAnimation {
     id: animation
 
-    outChanges: [ AnchorChanges {
+    fromChanges: [
+        AnchorChanges {
             target: container;
             anchors.top: container.parent.bottom
-            anchors.right: container.parent.right
-            anchors.left: container.parent.left
         }
     ]
-    outAnimations: [
+    fromAnimations: [
         SequentialAnimation {
             PropertyAction { target: container.parent; property: "clip"; value: true }
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
             PropertyAction { target: container.parent; property: "clip"; value: false }
-            ScriptAction { script: { container.session.release(); } }
+            ScriptAction { script: { animation.completed(); } }
         }
     ]
 
-    inChanges: [
+    toChanges: [
         AnchorChanges {
             target: container;
             anchors.top: container.parent.top
-            anchors.bottom: container.parent.bottom
-        } ]
-    inAnimations: [
+        }
+    ]
+    toAnimations: [
         SequentialAnimation {
             PropertyAction { target: container.parent; property: "clip"; value: true }
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }

@@ -54,35 +54,66 @@ Item {
 
             // Only way to do recursive qml items.
             source: Qt.resolvedUrl("SessionContainer.qml")
-            onLoaded: {
-                item.session = modelData;
-                item.interactive = Qt.binding(function() { return root.interactive; } );
-                if (!modelData.live) {
-                    modelData.release();
-                }
-                if (modelData.surface) {
-                    item.animateIn(swipeFromBottom);
-                }
+
+            Binding {
+                target: item; when: item
+                property: "interactive"; value: root.interactive
             }
 
-            Connections {
-                target: modelData
-                onSurfaceChanged: {
-                    if (modelData.surface) {
-                        item.animateIn();
-                    }
-                }
-                onLiveChanged: {
-                    if (!modelData.live) {
-                        item.animateOut();
-                    }
-                }
+            Binding {
+                target: item; when: item
+                property: "session"; value: modelData
+            }
+
+            Binding {
+                target: item; when: item
+                property: "width"; value: root.width
+            }
+
+            Binding {
+                target: item; when: item
+                property: "height"; value: root.height
             }
         }
     }
 
-    function animateIn() {
-        var animation = swipeFromBottom.createObject(root, { "container": root, });
+    states: [
+        State {
+            name: "rootSession"
+            when: root.session && !root.session.parentSession
+        },
+
+        State {
+            name: "childSession"
+            when: root.session && root.session.parentSession !== null && root.session.live
+                    && !root.session.surface
+        },
+
+        State {
+            name: "childSessionReady"
+            when: root.session && root.session.parentSession !== null && root.session.live
+                    && root.session.surface !== null
+        },
+
+        State {
+            name: "childSessionZombie"
+            when: root.session && root.session.parentSession !== null && !root.session.live
+        }
+    ]
+
+    transitions: [
+        Transition {
+            to: "childSessionReady"
+            ScriptAction { script: { if (!surfaceContainer.hadSurface) { animateIn(swipeFromBottom); } } }
+        },
+        Transition {
+            to: "childSessionZombie"
+            ScriptAction { script: { animateOut(); } }
+        }
+    ]
+
+    function animateIn(component) {
+        var animation = component.createObject(root, { "container": root, });
         animation.start();
 
         var tmp = d.animations;
@@ -94,6 +125,7 @@ Item {
         if (d.animations.length > 0) {
             var tmp = d.animations;
             var popped = tmp.pop();
+            popped.completed.connect(function() { root.session.release(); } );
             popped.end();
             d.animations = tmp;
         }

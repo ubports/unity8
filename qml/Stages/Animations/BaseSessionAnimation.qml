@@ -40,24 +40,26 @@ Item {
     property var container
     objectName: "sessionAnimation"
 
-    // changes applied when state changes to "in"
-    property list<QtObject> outChanges
-    // transition animations when changing state to "in"
-    property list<QtObject> outAnimations
+    // changes applied when state changes to "from"
+    property list<QtObject> fromChanges
+    // transition animations when changing state to "from"
+    property list<QtObject> fromAnimations
 
-    // changes applied when state changes to "out"
-    property list<QtObject> inChanges
-    // transition animations when changing state to "out"
-    property list<QtObject> inAnimations
+    // changes applied when state changes to "to"
+    property list<QtObject> toChanges
+    // transition animations when changing state to "to"
+    property list<QtObject> toAnimations
 
     function start() {
-        // "prep" state forces outChanges without transition animations.
+        // "prep" state forces toChanges without transition animations.
         state = "prep"
-        state = "in";
+        state = "to";
     }
     function end() {
-        state = "out";
+        state = "from";
     }
+
+    signal completed()
 
     states: [
         State {
@@ -68,27 +70,27 @@ Item {
         State {
             name: "prep"
             extend: "baseAnimation"
-            changes: outChanges
+            changes: fromChanges
         },
         State {
-            name: "out"
+            name: "from"
             extend: "prep"
         },
         State {
             name: "in"
             extend: "baseAnimation"
-            changes: inChanges
+            changes: toChanges
         }
     ]
 
     transitions: [
         Transition {
-            to:  "out"
-            animations: outAnimations
+            to:  "from"
+            animations: fromAnimations
         },
         Transition {
-            to: "in"
-            animations: inAnimations
+            to: "to"
+            animations: toAnimations
         }
     ]
 }
