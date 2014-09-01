@@ -236,8 +236,8 @@ Item {
     Connections {
         target: SessionManager
         onSessionStopping: {
-            if (!session.parent) {
-                // there's no one displaying it. delete it right away
+            if (!session.parentSession && !session.application) {
+                // nothing is using it. delete it right away
                 session.release();
             }
         }

@@ -29,6 +29,7 @@ class Session : public QObject
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
+    Q_PROPERTY(ApplicationInfo* application READ application NOTIFY applicationChanged)
     Q_PROPERTY(Session* parentSession READ parentSession NOTIFY parentSessionChanged DESIGNABLE false)
     Q_PROPERTY(SessionModel* childSessions READ childSessions DESIGNABLE false CONSTANT)
     Q_PROPERTY(bool live READ live NOTIFY liveChanged)
@@ -58,6 +59,7 @@ public:
     void removeChildSession(Session* session);
 
 Q_SIGNALS:
+    void applicationChanged(ApplicationInfo*);
     void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(Session*);
     void liveChanged(bool live);

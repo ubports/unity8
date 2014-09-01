@@ -60,6 +60,7 @@ static QObject* applicationTestInterface(QQmlEngine* engine, QJSEngine* scriptEn
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
     qRegisterMetaType<Session*>("Session*");
+    qRegisterMetaType<ApplicationInfo*>("ApplicationInfo*");
     qRegisterMetaType<MirSurfaceItemModel*>("SessionModel*");
     qRegisterMetaType<MirSurfaceItem*>("MirSurfaceItem*");
     qRegisterMetaType<MirSurfaceItemModel*>("MirSurfaceItemModel*");
