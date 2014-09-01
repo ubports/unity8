@@ -28,6 +28,7 @@ BaseSessionAnimation {
     ]
     fromAnimations: [
         SequentialAnimation {
+            // clip so we don't go out of parent's bounds during spread
             PropertyAction { target: container.parent; property: "clip"; value: true }
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
             PropertyAction { target: container.parent; property: "clip"; value: false }
@@ -43,6 +44,7 @@ BaseSessionAnimation {
     ]
     toAnimations: [
         SequentialAnimation {
+            // clip so we don't go out of parent's bounds during spread
             PropertyAction { target: container.parent; property: "clip"; value: true }
             AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
             PropertyAction { target: container.parent; property: "clip"; value: false }
