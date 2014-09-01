@@ -34,7 +34,7 @@ NetworkingStatus::~NetworkingStatus()
 QVector<NetworkingStatus::Limitations>
 NetworkingStatus::limitations() const
 {
-    return QVector<NetworkingStatus::Limitations>();
+    return m_limitations;
 }
 
 NetworkingStatus::Status
@@ -53,4 +53,13 @@ bool
 NetworkingStatus::limitedBandwith() const
 {
     return limitations().contains(Limitations::Bandwith);
+}
+
+void NetworkingStatus::setLimitedBandwidth(bool limited)
+{
+    if (limited) {
+        m_limitations << Limitations::Bandwith;
+    } else if (limitedBandwith()) {
+        m_limitations.remove(m_limitations.indexOf(Limitations::Bandwith));
+    }
 }

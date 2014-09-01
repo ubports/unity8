@@ -32,7 +32,7 @@ class Q_DECL_EXPORT NetworkingStatus : public QObject
     Q_PROPERTY(QVector<Limitations> limitations READ limitations NOTIFY limitationsChanged)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
     Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
-    Q_PROPERTY(bool limitedBandwith READ limitedBandwith NOTIFY limitedBandwithChanged)
+    Q_PROPERTY(bool limitedBandwith READ limitedBandwith WRITE setLimitedBandwidth NOTIFY limitedBandwithChanged)
 
 public:
     explicit NetworkingStatus(QObject *parent = 0);
@@ -53,11 +53,17 @@ public:
     bool online() const;
     bool limitedBandwith() const;
 
+    // Only in the fake one
+    void setLimitedBandwidth(bool limited);
+
 Q_SIGNALS:
     void limitationsChanged();
     void statusChanged(Status value);
     void onlineChanged(bool value);
     void limitedBandwithChanged(bool value);
+
+private:
+    QVector<NetworkingStatus::Limitations> m_limitations;
 };
 
 Q_DECLARE_METATYPE(NetworkingStatus::Limitations)
