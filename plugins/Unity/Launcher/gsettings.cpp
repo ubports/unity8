@@ -21,7 +21,6 @@
 
 #include <QGSettings>
 #include <QVariant>
-#include <QDebug>
 
 GSettings::GSettings(QObject *parent):
     QObject(parent)
@@ -43,7 +42,6 @@ QStringList GSettings::storedApplications() const
     }
 
     Q_FOREACH(const QString &entry, gSettings.get(settingsKey).toStringList()) {
-        qDebug() << "got entry" << entry;
         if (entry.startsWith("application://")) {
             // convert legacy entries to new world appids
             QString appId = entry;
@@ -51,8 +49,7 @@ QStringList GSettings::storedApplications() const
             appId.remove(QRegExp("^application://"));
             appId.remove(QRegExp(".desktop$"));
             storedApps << appId;
-        }
-        if (entry.startsWith("appid://")) {
+        } else if (entry.startsWith("appid://")) {
             QString appId = entry;
             appId.remove("appid://");
             if (appId.split('/').count() == 3) {
