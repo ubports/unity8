@@ -52,15 +52,20 @@ Rectangle {
             application: fakeApplication
         }
     }
-    Loader {
-        id: applicationWindowLoader
+    FocusScope {
+        id: appFocus
         anchors {
             top: parent.top
             bottom: parent.bottom
             left: parent.left
         }
         width: units.gu(40)
-        sourceComponent: applicationWindowComponent
+
+        Loader {
+            id: applicationWindowLoader
+            anchors.fill: parent
+            sourceComponent: applicationWindowComponent
+        }
     }
 
     Rectangle {
@@ -68,7 +73,7 @@ Rectangle {
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: applicationWindowLoader.right
+            left: appFocus.right
             right: parent.right
         }
 
@@ -377,6 +382,17 @@ Rectangle {
             cleanupSession();
 
             verify(stateGroup.state === "void");
+        }
+
+        // should be forcing active focus when interactive changes,
+        // which will cause a FocusScope higher in the object hierarchy tp be given the focus
+        function test_forceActiveFocusFollowsInterative() {
+            fakeApplication.createSession();
+            applicationWindowLoader.item.interactive = false;
+            applicationWindowLoader.item.interactive = true;
+            fakeSession.createSurface();
+
+            compare(appFocus.focus, true);
         }
     }
 }
