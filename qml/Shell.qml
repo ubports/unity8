@@ -535,7 +535,7 @@ Item {
             onShowDashHome: showHome()
             onDash: showDash()
             onDashSwipeChanged: {
-                if (dashSwipe && ApplicationManager.focusedApplicationId !== "unity8-dash") {
+                if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
                 }
             }

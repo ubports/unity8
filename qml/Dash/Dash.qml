@@ -34,7 +34,13 @@ Showable {
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
-            dash.setCurrentScope(scopeId, animate, reset)
+            if (!isSwipe || !window.active || overviewController.progress != 0) {
+                dash.setCurrentScope(scopeId, animate, isSwipe)
+                if (overviewController.progress != 0) {
+                    overviewController.enableAnimation = false;
+                    overviewController.progress = 0;
+                }
+            }
         }
     }
 
