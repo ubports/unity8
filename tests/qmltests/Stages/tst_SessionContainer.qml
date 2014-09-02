@@ -233,7 +233,6 @@ Rectangle {
             if (!animation) return false;
 
             var animating = false;
-            console.log(animation.state);
             for (var i = 0; i < animation.transitions.length; ++i) {
                 if (animation.transitions[i].running) {
                     return true;

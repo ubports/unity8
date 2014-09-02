@@ -35,7 +35,7 @@ import QtQuick 2.0
  *     inAnimations: [ NumberAnimation { target: animation.surface; property: "opacity"; duration: 300 } ]
  * }
  */
-StateGroup {
+Item {
     id: base
     property var container
     objectName: "sessionAnimation"
