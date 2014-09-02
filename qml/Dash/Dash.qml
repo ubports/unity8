@@ -35,9 +35,13 @@ Showable {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
             if (!isSwipe || !window.active || overviewController.progress != 0) {
+                if (overviewController.progress != 0 && window.active) animate = false;
                 dash.setCurrentScope(scopeId, animate, isSwipe)
                 if (overviewController.progress != 0) {
-                    overviewController.enableAnimation = false;
+                    if (window.active) {
+                        dashContentCache.scheduleUpdate();
+                    }
+                    overviewController.enableAnimation = window.active;
                     overviewController.progress = 0;
                 }
             }
