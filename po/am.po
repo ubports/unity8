@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-31 17:24+0000\n"
+"PO-Revision-Date: 2014-09-02 01:51+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-01 07:33+0000\n"
-"X-Generator: Launchpad (build 17176)\n"
+"X-Launchpad-Export-Date: 2014-09-02 07:20+0000\n"
+"X-Generator: Launchpad (build 17192)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -129,6 +129,7 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"አሁን የ ጠርዝ  እንቅስቃሴን አውቀዋል እና መጀመር ይችላሉ ስልኩን መጠቀም <br><br>መመልከቻውን መታ ያድርጉ ለመጀመር"
 
 #: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
@@ -202,7 +203,7 @@ msgstr "መላኪያ"
 
 #: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr ""
+msgstr "የ ዳሽ አስተዳዳሪ"
 
 #: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
@@ -294,7 +295,7 @@ msgstr "ሲም መክፈቻ"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "ማዘዋወሪያ"
 
 #: qml/Shell.qml:279
 msgid "Enter your passphrase"
@@ -339,9 +340,13 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
+"ይጠፋል"
 
 #: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
+"ይጠፋል"
