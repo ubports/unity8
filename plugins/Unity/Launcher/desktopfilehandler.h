@@ -20,18 +20,15 @@
 #ifndef DESKTOPFILEHANDLER_H
 #define DESKTOPFILEHANDLER_H
 
-#include <QObject>
+#include <QString>
 
-class DesktopFileHandler: public QObject
+class DesktopFileHandler
 {
-    Q_OBJECT
 public:
-    DesktopFileHandler(QObject *parent = nullptr);
+    static QString findDesktopFile(const QString &appId);
 
-    QString findDesktopFile(const QString &appId) const;
-
-    QString displayName(const QString &appId) const;
-    QString icon(const QString &appId) const;
+    static QString displayName(const QString &appId);
+    static QString icon(const QString &appId);
 };
 
 #endif

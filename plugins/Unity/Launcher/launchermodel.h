@@ -78,7 +78,6 @@ private:
 
     GSettings *m_settings;
     DBusInterface *m_dbusIface;
-    DesktopFileHandler *m_desktopFileHandler;
 
     ApplicationManagerInterface *m_appManager;
 };

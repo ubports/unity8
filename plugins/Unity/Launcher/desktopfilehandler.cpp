@@ -27,13 +27,7 @@
 
 #include <libintl.h>
 
-DesktopFileHandler::DesktopFileHandler(QObject *parent):
-    QObject(parent)
-{
-
-}
-
-QString DesktopFileHandler::findDesktopFile(const QString &appId) const
+QString DesktopFileHandler::findDesktopFile(const QString &appId)
 {
     int dashPos = -1;
     QString helper = appId;
@@ -70,7 +64,7 @@ QString DesktopFileHandler::findDesktopFile(const QString &appId) const
     return QString();
 }
 
-QString DesktopFileHandler::displayName(const QString &appId) const
+QString DesktopFileHandler::displayName(const QString &appId)
 {
     QString desktopFile = findDesktopFile(appId);
     if (desktopFile.isEmpty()) {
@@ -103,7 +97,7 @@ QString DesktopFileHandler::displayName(const QString &appId) const
     return displayName;
 }
 
-QString DesktopFileHandler::icon(const QString &appId) const
+QString DesktopFileHandler::icon(const QString &appId)
 {
     QString desktopFile = findDesktopFile(appId);
     if (desktopFile.isEmpty()) {
