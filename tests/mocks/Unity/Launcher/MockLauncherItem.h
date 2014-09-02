@@ -32,35 +32,30 @@ class MockLauncherItem: public LauncherItemInterface
 public:
     MockLauncherItem(const QString &appId, const QString& desktopFile, const QString& name, const QString& icon, QObject* parent = 0);
 
-    QString appId() const;
+    QString appId() const override;
     QString desktopFile() const;
-    QString name() const;
-    QString icon() const;
+    QString name() const override;
+    QString icon() const override;
 
-    bool pinned() const;
-    void setPinned(bool pinned);
-
-    bool running() const;
-    void setRunning(bool running);
-
-    bool recent() const;
-    void setRecent(bool recent);
-
-    int progress() const;
-    void setProgress(int progress);
-
-    int count() const;
-    void setCount(int count);
-
-    bool countVisible() const;
-    void setCountVisible(bool countVisible);
-
+    bool pinned() const override;
+    bool running() const override;
+    bool recent() const override;
+    int progress() const override;
+    int count() const override;
+    bool countVisible() const override;
     bool focused() const;
-    void setFocused(bool focused);
 
     unity::shell::launcher::QuickListModelInterface *quickList() const;
 
 private:
+    void setPinned(bool pinned);
+    void setRunning(bool running);
+    void setRecent(bool recent);
+    void setProgress(int progress);
+    void setCount(int count);
+    void setCountVisible(bool countVisible);
+    void setFocused(bool focused);
+
     QString m_appId;
     QString m_desktopFile;
     QString m_name;
@@ -73,6 +68,8 @@ private:
     bool m_countVisible;
     bool m_focused;
     MockQuickListModel *m_quickList;
+
+    friend class MockLauncherModel;
 };
 
 #endif // MOCKLAUNCHERITEM_H

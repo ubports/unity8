@@ -34,18 +34,18 @@ class LauncherItem: public LauncherItemInterface
 public:
     LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent = 0);
 
-    QString appId() const;
-    QString name() const;
-    QString icon() const;
-    bool pinned() const;
-    bool running() const;
-    bool recent() const;
-    int progress() const;
-    int count() const;
-    bool countVisible() const;
-    bool focused() const;
+    QString appId() const override;
+    QString name() const override;
+    QString icon() const override;
+    bool pinned() const override;
+    bool running() const override;
+    bool recent() const override;
+    int progress() const override;
+    int count() const override;
+    bool countVisible() const override;
+    bool focused() const override;
 
-    unity::shell::launcher::QuickListModelInterface *quickList() const;
+    unity::shell::launcher::QuickListModelInterface *quickList() const override;
 
 private:
     void setName(const QString &name);
@@ -57,10 +57,6 @@ private:
     void setCount(int count);
     void setCountVisible(bool countVisible);
     void setFocused(bool focused);
-
-Q_SIGNALS:
-    void favoriteChanged(bool favorite);
-    void runningChanged(bool running);
 
 private:
     QString m_appId;
