@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-//import QtMultimedia 5.0
+import QtMultimedia 5.0
 import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
@@ -76,10 +76,10 @@ Item {
         return result;
     }
 
-    Item {
+    Audio {
         id: sound
         objectName: "sound"
-        //source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
+        source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
     // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
