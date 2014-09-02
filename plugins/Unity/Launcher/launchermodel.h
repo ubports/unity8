@@ -27,7 +27,6 @@
 
 class LauncherItem;
 class GSettings;
-class DesktopFileHandler;
 class DBusInterface;
 
 using namespace unity::shell::launcher;

@@ -22,13 +22,12 @@
 
 #include <QString>
 
-class DesktopFileHandler
+namespace DesktopFileHandler
 {
-public:
-    static QString findDesktopFile(const QString &appId);
+    QString findDesktopFile(const QString &appId);
 
-    static QString displayName(const QString &appId);
-    static QString icon(const QString &appId);
-};
+    QString displayName(const QString &appId);
+    QString icon(const QString &appId);
+}
 
 #endif
