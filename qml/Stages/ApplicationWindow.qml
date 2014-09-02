@@ -53,6 +53,14 @@ Item {
         // might show the UI accommodating due to surface resizes on startup.
         // Remove this when possible
         property bool surfaceInitialized: false
+
+        function forceSurfaceActiveFocusIfReady() {
+            if (sessionContainer.surface.focus &&
+                    sessionContainer.surface.parent === sessionContainer.surfaceContainer &&
+                    sessionContainer.surface.enabled) {
+                sessionContainer.surface.forceActiveFocus();
+            }
+        }
     }
 
     Timer {
@@ -65,14 +73,9 @@ Item {
         target: sessionContainer.surface
         // FIXME: I would rather not need to do this, but currently it doesn't get
         // active focus without it and I don't know why.
-        onFocusChanged: forceSurfaceActiveFocusIfReady();
-        onParentChanged: forceSurfaceActiveFocusIfReady();
-        onEnabledChanged: forceSurfaceActiveFocusIfReady();
-        function forceSurfaceActiveFocusIfReady() {
-            if (sessionContainer.surface.focus && sessionContainer.surface.parent === sessionContainer.surfaceContainer && sessionContainer.surface.enabled) {
-                sessionContainer.surface.forceActiveFocus();
-            }
-        }
+        onFocusChanged: d.forceSurfaceActiveFocusIfReady();
+        onParentChanged: d.forceSurfaceActiveFocusIfReady();
+        onEnabledChanged: d.forceSurfaceActiveFocusIfReady();
     }
 
     Image {
@@ -114,6 +117,7 @@ Item {
             } else {
                 d.surfaceInitialized = false;
             }
+            d.forceSurfaceActiveFocusIfReady();
         }
     }
 
