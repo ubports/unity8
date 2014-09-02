@@ -36,7 +36,7 @@ Rectangle {
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
 
     onInverseProgressChanged: {
-        // This can't be a simple binding because that would be triggered after this handler 
+        // This can't be a simple binding because that would be triggered after this handler
         // while we need it active before doing the anition left/right
         spreadView.animateX = (inverseProgress == 0)
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
