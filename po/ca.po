@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-17 03:42+0000\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-09-01 01:01+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-18 07:20+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-09-01 07:33+0000\n"
+"X-Generator: Launchpad (build 17176)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Contrasenya: "
 
@@ -30,19 +30,55 @@ msgstr "Enganxa la drecera"
 msgid "Unpin shortcut"
 msgstr "Desenganxa la drecera"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr "Segur que voleu apagar el dispositiu?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr "Surt"
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr "Segur que voleu sortir?"
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr "No"
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr "Sí"
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr "Reinicia"
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr "Segur que voleu reiniciar?"
 
 #: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr "Energia"
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Apaga'l"
 
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr "Reinicia'l"
-
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -100,19 +136,19 @@ msgstr ""
 "Ja heu après com utilitzar els gestos de les vores per fer servir el "
 "telèfon<br><br>Feu un toc a la pantalla per començar"
 
-#: qml/Components/Lockscreen.qml:161
-msgid "Too many incorrect attempts"
-msgstr "Massa intents incorrectes"
-
-#: qml/Components/Lockscreen.qml:163
+#: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
 msgstr "Espereu"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "Massa intents incorrectes"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Trucada d'emergència"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "D'acord"
 
@@ -125,25 +161,30 @@ msgstr "Hola %1"
 msgid "Hello"
 msgstr "Hola"
 
-#: qml/Components/PinLockscreen.qml:197
-msgid "CANCEL"
-msgstr "Cancel·la"
-
-#: qml/Components/PinLockscreen.qml:215
-msgid "DONE"
-msgstr "Fet"
-
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "Mostra'n menys"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "Mostra-ho tot"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Cerca"
+
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr "Paràmetres"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr "Suprimeix dels preferits"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr "Afegeix als preferits"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -169,11 +210,11 @@ msgstr "Envia"
 msgid "Manage Dash"
 msgstr "Gestiona el tauler"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
 msgstr "Fet"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
 msgstr "Botiga"
 
@@ -189,7 +230,7 @@ msgstr "Totes"
 msgid "Swipe to unlock"
 msgstr "Feu lliscar el dit per desbloquejar"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Confirma"
 
@@ -209,13 +250,17 @@ msgstr "Parleu..."
 msgid "Speaking..."
 msgstr "S'està parlant..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "Mostra la contrasenya"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
 msgstr "Introduïu el PIN de la targeta SIM"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
+msgid "Sorry, incorrect PIN"
+msgstr "El PIN no és correcte"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -257,41 +302,45 @@ msgstr "Desbloca la SIM"
 msgid "Roaming"
 msgstr "Itinerància"
 
-#: qml/Shell.qml:267
-msgid "passphrase"
-msgstr "contrasenya"
+#: qml/Shell.qml:279
+msgid "Enter your passphrase"
+msgstr "Escriviu la contrasenya"
 
-#: qml/Shell.qml:267
-msgid "passcode"
-msgstr "clau"
+#: qml/Shell.qml:280
+msgid "Sorry, incorrect passphrase"
+msgstr "La contrasenya no és correcta"
 
-#: qml/Shell.qml:269
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
+msgstr "Introduïu el codi d'accés"
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
+msgstr "El codi d'accés no és correcte"
+
+#: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
 msgstr "Introduïu la %1"
 
-#: qml/Shell.qml:270
+#: qml/Shell.qml:287
 #, qt-format
-msgid "Incorrect %1"
-msgstr "La %1 és incorrecta"
+msgid "Sorry, incorrect %1"
+msgstr "Incorrecte (%1)"
 
-#: qml/Shell.qml:272
-msgid "Please re-enter"
-msgstr "Torneu-la a introduir"
-
-#: qml/Shell.qml:306
+#: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
 msgstr "La contrasenya és incorrecta"
 
-#: qml/Shell.qml:307
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
 msgstr "La clau és incorrecta"
 
-#: qml/Shell.qml:308
+#: qml/Shell.qml:325
 msgid "This will be your last attempt."
 msgstr "Aquest serà el darrer intent."
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -300,7 +349,7 @@ msgstr ""
 "reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
 "personals."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

@@ -34,7 +34,7 @@ QSortFilterProxyModelQML::QSortFilterProxyModelQML(QObject *parent)
  */
 int QSortFilterProxyModelQML::mapRowToSource(int row)
 {
-    if (sourceModel() == NULL)
+    if (sourceModel() == nullptr)
         return -1;
 
     return QSortFilterProxyModel::mapToSource(index(row, 0)).row();
@@ -48,12 +48,12 @@ QHash<int, QByteArray> QSortFilterProxyModelQML::roleNames() const
 void
 QSortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
 {
-    if (itemModel == NULL) {
+    if (itemModel == nullptr) {
         return;
     }
 
     if (itemModel != sourceModel()) {
-        if (sourceModel() != NULL) {
+        if (sourceModel() != nullptr) {
             sourceModel()->disconnect(this);
         }
 
@@ -83,7 +83,7 @@ QSortFilterProxyModelQML::get(int row)
 QVariant
 QSortFilterProxyModelQML::data(int row, int role)
 {
-    if (sourceModel() == NULL) {
+    if (sourceModel() == nullptr) {
         return QVariant();
     }
 
@@ -93,7 +93,7 @@ QSortFilterProxyModelQML::data(int row, int role)
 int
 QSortFilterProxyModelQML::totalCount() const
 {
-    if (sourceModel() != NULL) {
+    if (sourceModel() != nullptr) {
         return sourceModel()->rowCount();
     } else {
         return 0;
@@ -149,7 +149,7 @@ QSortFilterProxyModelQML::findFirst(int role, const QVariant& value) const
 int
 QSortFilterProxyModelQML::mapFromSource(int row)
 {
-    if (sourceModel() != NULL) {
+    if (sourceModel() != nullptr) {
         return QSortFilterProxyModel::mapFromSource(sourceModel()->index(row, 0)).row();
     } else {
         return -1;
@@ -159,7 +159,7 @@ QSortFilterProxyModelQML::mapFromSource(int row)
 int
 QSortFilterProxyModelQML::mapToSource(int row)
 {
-    if (sourceModel() != NULL) {
+    if (sourceModel() != nullptr) {
         return QSortFilterProxyModel::mapToSource(index(row, 0)).row();
     } else {
         return -1;

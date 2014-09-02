@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0;
+#ifndef CONNECTIVITY_H
+#define CONNECTIVITY_H
 
-Item {
-}
+#include <QObject>
+
+class Connectivity : public QObject
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(Connectivity)
+
+public:
+    explicit Connectivity(QObject *parent = 0);
+
+    Q_INVOKABLE void unlockAllModems();
+};
+
+#endif // CONNECTIVITY_H

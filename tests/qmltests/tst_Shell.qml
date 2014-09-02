@@ -22,12 +22,14 @@ import QtTest 1.0
 import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Unity.Application 0.1
+import Unity.Connectivity 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
 import "../../qml"
 
 Item {
+    id: root
     width: shell.width
     height: shell.height
 
@@ -51,6 +53,11 @@ Item {
         id: shell
     }
 
+    Component {
+        id: shellComponent
+        Shell {}
+    }
+
     SignalSpy {
         id: sessionSpy
         signalName: "sessionStarted"
@@ -59,6 +66,12 @@ Item {
     SignalSpy {
         id: dashCommunicatorSpy
         signalName: "setCurrentScopeCalled"
+    }
+
+    SignalSpy {
+        id: unlockAllModemsSpy
+        target: Connectivity
+        signalName: "unlockingAllModems"
     }
 
     UT.UnityTestCase {
@@ -376,13 +389,14 @@ Item {
             tryCompare(indicators, "fullyClosed", true);
         }
 
-
-        function test_showGreeterDBusCall() {
+        function test_showAndHideGreeterDBusCalls() {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
             tryCompare(greeter, "showProgress", 1)
+            LightDM.Greeter.hideGreeter()
+            tryCompare(greeter, "showProgress", 0)
         }
 
         function test_login() {
@@ -403,11 +417,11 @@ Item {
             compare(panel.fullscreenMode, false);
             ApplicationManager.startApplication("camera-app");
             tryCompare(panel, "fullscreenMode", true);
-            ApplicationManager.startApplication("gallery-app");
+            ApplicationManager.startApplication("dialer-app");
             tryCompare(panel, "fullscreenMode", false);
             ApplicationManager.requestFocusApplication("camera-app");
             tryCompare(panel, "fullscreenMode", true);
-            ApplicationManager.requestFocusApplication("gallery-app");
+            ApplicationManager.requestFocusApplication("dialer-app");
             tryCompare(panel, "fullscreenMode", false);
         }
 
@@ -430,6 +444,27 @@ Item {
             tryCompare(panel, "fullscreenMode", false);
 
             touchRelease(shell);
+        }
+
+        function test_unlockedProperties() {
+            // Confirm that various properties have the correct values when unlocked
+            tryCompare(shell, "locked", false)
+
+            var launcher = findChild(shell, "launcher")
+            tryCompare(launcher, "available", true)
+
+            var indicators = findChild(shell, "indicators")
+            tryCompare(indicators, "available", true)
+        }
+
+        function test_unlockAllModemsOnBoot() {
+            unlockAllModemsSpy.clear()
+            // actually create an object so we notice the onCompleted signal
+            var greeter = shellComponent.createObject(root)
+            // TODO reenable when service ready (LP: #1361074)
+            expectFail("", "Unlock on boot temporarily disabled");
+            tryCompare(unlockAllModemsSpy, "count", 1)
+            greeter.destroy()
         }
     }
 }
