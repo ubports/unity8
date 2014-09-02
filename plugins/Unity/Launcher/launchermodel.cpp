@@ -40,14 +40,15 @@ LauncherModel::LauncherModel(QObject *parent):
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
     Q_FOREACH (const QString &entry, m_settings->storedApplications()) {
-        if (DesktopFileHandler::findDesktopFile(entry).isEmpty()) {
+        DesktopFileHandler desktopFile(entry);
+        if (!desktopFile.isValid()) {
             qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
             continue;
         }
 
         LauncherItem *item = new LauncherItem(entry,
-                                              DesktopFileHandler::displayName(entry),
-                                              DesktopFileHandler::icon(entry),
+                                              desktopFile.displayName(),
+                                              desktopFile.icon(),
                                               this);
         item->setPinned(true);
         m_list.append(item);
@@ -150,15 +151,16 @@ void LauncherModel::pin(const QString &appId, int index)
             index = m_list.count();
         }
 
-        if (DesktopFileHandler::findDesktopFile(appId).isEmpty()) {
+        DesktopFileHandler desktopFile(appId);
+        if (!desktopFile.isValid()) {
             qWarning() << "Can't pin this application, there is no .destkop file available.";
             return;
         }
 
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
-                                              DesktopFileHandler::displayName(appId),
-                                              DesktopFileHandler::icon(appId),
+                                              desktopFile.displayName(),
+                                              desktopFile.icon(),
                                               this);
         item->setPinned(true);
         m_list.insert(index, item);
@@ -342,10 +344,11 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
         }
     } else {
         // Need to create a new LauncherItem and show the highlight
-        if (countVisible && !DesktopFileHandler::findDesktopFile(appId).isEmpty()) {
+        DesktopFileHandler desktopFile(appId);
+        if (countVisible && desktopFile.isValid()) {
             LauncherItem *item = new LauncherItem(appId,
-                                                  DesktopFileHandler::displayName(appId),
-                                                  DesktopFileHandler::icon(appId));
+                                                  desktopFile.displayName(),
+                                                  desktopFile.icon());
             item->setCountVisible(true);
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(item);
@@ -358,12 +361,13 @@ void LauncherModel::refresh()
 {
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
-        if (DesktopFileHandler::findDesktopFile(item->appId()).isEmpty()) {
+        DesktopFileHandler desktopFile(item->appId());
+        if (!desktopFile.isValid()) {
             toBeRemoved << item;
         } else {
             int idx = m_list.indexOf(item);
-            item->setName(DesktopFileHandler::displayName(item->appId()));
-            item->setIcon(DesktopFileHandler::icon(item->appId()));
+            item->setName(desktopFile.displayName());
+            item->setIcon(desktopFile.icon());
             Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
         }
     }

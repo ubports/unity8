@@ -20,14 +20,37 @@
 #ifndef DESKTOPFILEHANDLER_H
 #define DESKTOPFILEHANDLER_H
 
-#include <QString>
+#include <QObject>
 
-namespace DesktopFileHandler
+/**
+ * When an object of this class is created or whenever setAppId(appId) is called,
+ * this will search for a .desktop file matching the give appId. If a file is
+ * found, isValid() will return true and the other methods return the contents
+ * of the .desktop file.
+ *
+ * Note that this class will consider the user's locale and do a best effort
+ * to return localized values.
+ */
+
+class DesktopFileHandler: public QObject
 {
-    QString findDesktopFile(const QString &appId);
+    Q_OBJECT
+public:
+    DesktopFileHandler(const QString &appId = QString(), QObject *parent = nullptr);
 
-    QString displayName(const QString &appId);
-    QString icon(const QString &appId);
-}
+    QString appId() const;
+    void setAppId(const QString &appId);
+
+    bool isValid() const;
+    QString filename() const;
+    QString displayName() const;
+    QString icon() const;
+
+private:
+    void load();
+
+    QString m_appId;
+    QString m_filename;
+};
 
 #endif

@@ -27,10 +27,46 @@
 
 #include <libintl.h>
 
-QString DesktopFileHandler::findDesktopFile(const QString &appId)
+DesktopFileHandler::DesktopFileHandler(const QString &appId, QObject *parent):
+    QObject(parent),
+    m_appId(appId)
 {
+    load();
+}
+
+QString DesktopFileHandler::appId() const
+{
+    return m_appId;
+}
+
+void DesktopFileHandler::setAppId(const QString &appId)
+{
+    if (m_appId != appId) {
+        m_appId = appId;
+        load();
+    }
+}
+
+QString DesktopFileHandler::filename() const
+{
+    return m_filename;
+}
+
+bool DesktopFileHandler::isValid() const
+{
+    return !m_filename.isEmpty();
+}
+
+void DesktopFileHandler::load()
+{
+    m_filename.clear();
+
+    if (m_appId.isEmpty()) {
+        return;
+    }
+
     int dashPos = -1;
-    QString helper = appId;
+    QString helper = m_appId;
 
     QStringList searchDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
 #ifdef LAUNCHER_TESTING
@@ -53,25 +89,23 @@ QString DesktopFileHandler::findDesktopFile(const QString &appId)
             Q_FOREACH(const QString &desktopFile, searchDir.entryList(QStringList() << "*.desktop")) {
                 if (desktopFile.startsWith(helper)) {
                     QFileInfo fileInfo(searchDir, desktopFile);
-                    return fileInfo.absoluteFilePath();
+                    m_filename = fileInfo.absoluteFilePath();
+                    return;
                 }
             }
         }
 
         dashPos = helper.indexOf("-");
     } while (dashPos != -1);
-
-    return QString();
 }
 
-QString DesktopFileHandler::displayName(const QString &appId)
+QString DesktopFileHandler::displayName() const
 {
-    QString desktopFile = findDesktopFile(appId);
-    if (desktopFile.isEmpty()) {
+    if (!isValid()) {
         return QString();
     }
 
-    QSettings settings(desktopFile, QSettings::IniFormat);
+    QSettings settings(m_filename, QSettings::IniFormat);
     settings.beginGroup("Desktop Entry");
 
     // First try to find Name[xx_YY] and Name[xx] in .desktop file
@@ -97,14 +131,13 @@ QString DesktopFileHandler::displayName(const QString &appId)
     return displayName;
 }
 
-QString DesktopFileHandler::icon(const QString &appId)
+QString DesktopFileHandler::icon() const
 {
-    QString desktopFile = findDesktopFile(appId);
-    if (desktopFile.isEmpty()) {
+    if (!isValid()) {
         return QString();
     }
 
-    QSettings settings(desktopFile, QSettings::IniFormat);
+    QSettings settings(m_filename, QSettings::IniFormat);
     settings.beginGroup("Desktop Entry");
     QString iconString = settings.value("Icon").toString();
     QString pathString = settings.value("Path").toString();
