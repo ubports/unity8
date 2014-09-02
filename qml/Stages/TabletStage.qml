@@ -36,6 +36,7 @@ Rectangle {
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
 
     onInverseProgressChanged: {
+        spreadView.animateX = (inverseProgress == 0)
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
             if (priv.oldInverseProgress > units.gu(22)) {
@@ -192,6 +193,8 @@ Rectangle {
         property int selectedIndex: -1
         property int draggedDelegateCount: 0
         property int closingIndex: -1
+
+        property bool animateX: true
 
         property bool sideStageDragging: sideStageDragHandle.dragging
         property real sideStageDragProgress: sideStageDragHandle.progress
