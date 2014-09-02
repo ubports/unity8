@@ -88,7 +88,6 @@ else
     echo "Unity8 is already running, please stop it first"
     exit 1
   fi
-  echo starting with $LD_LIBRARY_PATH
   /sbin/initctl start unity8 BINARY="`readlink -f $QML_PHONE_SHELL_PATH` $QML_PHONE_SHELL_ARGS $@" QML2_IMPORT_PATH=$QML2_IMPORT_PATH LD_LIBRARY_PATH=$LD_LIBRARY_PATH
   tailf -n 0 ~/.cache/upstart/unity8.log
 fi
