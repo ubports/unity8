@@ -44,6 +44,8 @@ Rectangle {
     }
 
     onInverseProgressChanged: {
+        // This can't be a simple binding because that would be triggered after this handler
+        // while we need it active before doing the anition left/right
         priv.animateX = (inverseProgress == 0)
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
