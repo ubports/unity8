@@ -146,6 +146,7 @@ Item {
                     lockscreen.show();
                 }
                 greeter.hide();
+                launcher.hide();
             }
 
             onFocusedApplicationIdChanged: {
@@ -164,6 +165,7 @@ Item {
                     // for an emergency call or accepted an incoming call.
                     setFakeActiveForApp(appId)
                 }
+                launcher.hide();
             }
         }
 
