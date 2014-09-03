@@ -86,6 +86,7 @@ Item {
 
             Label {
                 id: countLabel
+                objectName: "countLabel"
                 text: root.count
                 anchors.centerIn: parent
                 // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine

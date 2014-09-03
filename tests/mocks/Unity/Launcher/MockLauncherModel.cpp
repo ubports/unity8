@@ -76,6 +76,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
     LauncherItemInterface *item = m_list.at(index.row());
     switch(role)
     {
+    case RoleAppId:
+        return item->appId();
     case RoleName:
         return item->name();
     case RoleIcon:
@@ -90,6 +92,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
         return item->progress();
     case RoleCount:
         return item->count();
+    case RoleCountVisible:
+        return item->countVisible();
     case RoleFocused:
         return item->focused();
     }
