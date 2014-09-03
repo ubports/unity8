@@ -138,6 +138,8 @@ getDateProximity(GDateTime* now, GDateTime* time)
  * _ in addition, when presenting the times of upcoming events, the time should
  *   be followed by the timezone if it is different from the one the computer
  *   is currently set to. For example, “Wed 3:55 PM UTC−5”.
+ *
+ *   TODO - keep inline with indicator-datetime
  */
 char* generate_full_format_string_at_time (GDateTime* now,
                                            GDateTime* then)
