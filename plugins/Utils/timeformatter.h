@@ -48,6 +48,8 @@ Q_SIGNALS:
     void timeChanged(qint64 time);
 
 protected:
+    TimeFormatter(const QString &initialFormat, QObject *parent = 0);
+
     virtual QString formatTime() const;
 
 private:

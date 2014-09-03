@@ -121,6 +121,12 @@ TimeFormatter::TimeFormatter(QObject *parent): QObject(parent)
     g_bus_get (G_BUS_TYPE_SYSTEM, priv->cancellable, got_bus, priv);
 }
 
+TimeFormatter::TimeFormatter(const QString &initialFormat, QObject *parent): TimeFormatter(parent)
+{
+    priv->format = initialFormat;
+}
+
+
 TimeFormatter::~TimeFormatter()
 {
     if (priv->system_bus) {
@@ -177,7 +183,7 @@ QString TimeFormatter::formatTime() const
 }
 
 GDateTimeFormatter::GDateTimeFormatter(QObject* parent)
-: TimeFormatter(parent)
+: TimeFormatter("%d-%m-%Y %I:%M%p", parent)
 {
 }
 
