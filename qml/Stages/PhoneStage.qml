@@ -31,7 +31,7 @@ Rectangle {
     property bool interactive
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
-    property int orientation
+    property int orientation: Qt.PortraitOrientation
 
     color: "black"
 
@@ -369,6 +369,13 @@ Rectangle {
                         progress: appDelegate.progress - spreadView.positionMarker1
                     }
 
+                    Binding {
+                        target: appDelegate
+                        property: "orientation"
+                        when: appDelegate.interactive
+                        value: root.orientation
+                    }
+
                     onClicked: {
                         if (spreadView.phase == 2) {
                             if (ApplicationManager.focusedApplicationId == ApplicationManager.get(index).appId) {
@@ -390,14 +397,6 @@ Rectangle {
                     onClosed: {
                         spreadView.closingIndex = index;
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
-                    }
-
-                    onInteractiveChanged: {
-                        if (interactive) {
-                            appDelegate.orientation = Qt.binding( function() { return root.orientation; } );
-                        } else {
-                            appDelegate.orientation = root.orientation; // breaks the binding intentionally
-                        }
                     }
                 }
             }

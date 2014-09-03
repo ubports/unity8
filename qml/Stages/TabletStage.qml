@@ -34,7 +34,7 @@ Rectangle {
     property real maximizedAppTopMargin
     property bool interactive
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
-    property int orientation
+    property int orientation: Qt.PortraitOrientation
 
     onInverseProgressChanged: {
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
