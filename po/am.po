@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-16 20:11+0000\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-09-02 01:51+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-18 07:20+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-09-03 07:05+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "የ መግቢያ ቃል: "
 
@@ -30,19 +30,57 @@ msgstr "አቋራጭ ማጣበቂያ"
 msgid "Unpin shortcut"
 msgstr "አቋራጭ መለያያ"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr "በእርግጥ ሐይሉን ማጥፋት ይፈልጋሉ"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr "መውጫ"
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr "በእርግጥ መውጣት ይፈልጋሉ?"
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr "አይ"
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr "አዎ"
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr "ማጥፊያ"
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr "በእርግጥ ማጥፋት ይፈልጋሉ?"
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr "እንደገና ማስነሻ"
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr "በእርግጥ እንደገና ማስነሳት ይፈልጋሉ?"
 
 #: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr "ሐይል"
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
+"በእርግጥ ሐይሉን ማጥፋት\n"
+"ይፈልጋሉ?"
+
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "ማጥፊያ"
 
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr "እንደገና ማስጀመሪያ"
-
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
 msgstr "መሰረዣ"
 
@@ -91,20 +129,21 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"አሁን የ ጠርዝ  እንቅስቃሴን አውቀዋል እና መጀመር ይችላሉ ስልኩን መጠቀም <br><br>መመልከቻውን መታ ያድርጉ ለመጀመር"
 
-#: qml/Components/Lockscreen.qml:161
-msgid "Too many incorrect attempts"
-msgstr "በርካታ የተሳሳቱ ሙከራዎች"
-
-#: qml/Components/Lockscreen.qml:163
+#: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
 msgstr "እባክዎን ይቆዩ"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "በርካታ የተሳሳቱ ሙከራዎች"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "የ ድንገተኛ ጥሪ"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "እሺ"
 
@@ -117,25 +156,30 @@ msgstr "ሰላም %1"
 msgid "Hello"
 msgstr "ሰላም"
 
-#: qml/Components/PinLockscreen.qml:197
-msgid "CANCEL"
-msgstr "መሰረዣ"
-
-#: qml/Components/PinLockscreen.qml:215
-msgid "DONE"
-msgstr "ጨርሷል"
-
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "አነስተኛ መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "ሁሉንም መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "መፈለጊያ"
+
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr "ማሰናጃ"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr "ከምወዳቸው ማስወገጃ"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr "ወደምወዳቸው መጨመሪያ"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -159,13 +203,13 @@ msgstr "መላኪያ"
 
 #: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr ""
+msgstr "የ ዳሽ አስተዳዳሪ"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
 msgstr "ጨርሷል"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
 msgstr "ማስቀመጫ"
 
@@ -181,7 +225,7 @@ msgstr "ሁሉንም"
 msgid "Swipe to unlock"
 msgstr "ለመክፈት ይጥረጉ"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "ማረጋገጫ"
 
@@ -201,13 +245,17 @@ msgstr "አሁን ይናገሩ..."
 msgid "Speaking..."
 msgstr "በመናገር ላይ..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "የመግቢያ ቃል ማሳያ"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
-msgstr ""
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr "ሲም ፒን ያስገቡ"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
+msgid "Sorry, incorrect PIN"
+msgstr "አዝናለሁ የተሳሳተ ፒን"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -243,54 +291,62 @@ msgstr "አልተቻለም: እንደገና ለመሞከር መታ ያድርጉ"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "ሲም መክፈቻ"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "ማዘዋወሪያ"
 
-#: qml/Shell.qml:267
-msgid "passphrase"
-msgstr ""
+#: qml/Shell.qml:279
+msgid "Enter your passphrase"
+msgstr "የማለፊያ ሐረግ ያስገቡ"
 
-#: qml/Shell.qml:267
-msgid "passcode"
-msgstr ""
+#: qml/Shell.qml:280
+msgid "Sorry, incorrect passphrase"
+msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:269
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
+msgstr "የ እርስዎን የማለፊያ ኮድ ያስገቡ"
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
+msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
+
+#: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
 msgstr "ያስገቡ የ እርስዎን %1"
 
-#: qml/Shell.qml:270
+#: qml/Shell.qml:287
 #, qt-format
-msgid "Incorrect %1"
-msgstr "የተሳሳተ %1"
+msgid "Sorry, incorrect %1"
+msgstr "አዝናለሁ: የተሳሳተ%1"
 
-#: qml/Shell.qml:272
-msgid "Please re-enter"
-msgstr "እባክዎን እንደ ገና-ያስገቡ"
-
-#: qml/Shell.qml:306
+#: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:307
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Shell.qml:308
+#: qml/Shell.qml:325
 msgid "This will be your last attempt."
 msgstr "ይህ የመጨረሻ ሙከራዎ ነው"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
+"ይጠፋል"
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
+"ይጠፋል"

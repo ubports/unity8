@@ -50,7 +50,7 @@ private Q_SLOTS:
 
         QCOMPARE(rootState->menu(), menuModel);
         delete menuModel;
-        QVERIFY(rootState->menu() == NULL);
+        QVERIFY(rootState->menu() == nullptr);
         delete rootState;
     }
 
@@ -60,8 +60,8 @@ private Q_SLOTS:
         g_variant_builder_init(&builderIcons, G_VARIANT_TYPE("av"));
         for (int i = 0; i < 3; i ++) {
 
-            GIcon* icon = NULL;
-            icon = g_icon_new_for_string (QString("testIcon%1").arg(i).toUtf8().constData(), NULL);
+            GIcon* icon = nullptr;
+            icon = g_icon_new_for_string (QString("testIcon%1").arg(i).toUtf8().constData(), nullptr);
 
             g_variant_builder_add(&builderIcons,
                                   "v",
@@ -73,7 +73,7 @@ private Q_SLOTS:
         g_variant_builder_init(&builderParams, G_VARIANT_TYPE_ARRAY);
         GVariant* icons = g_variant_builder_end (&builderIcons);
         g_variant_ref_sink (icons);
-        g_variant_builder_add (&builderParams, "{sv}", g_strdup ("icons"), icons, NULL);
+        g_variant_builder_add (&builderParams, "{sv}", g_strdup ("icons"), icons, nullptr);
 
         GVariant* params = g_variant_builder_end (&builderParams);
 

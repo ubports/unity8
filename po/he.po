@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-07-25 16:26+0000\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-23 14:19+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "ססמה: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -30,21 +30,57 @@ msgstr "הצמדת קיצור דרך"
 msgid "Unpin shortcut"
 msgstr "הפרדת קיצור הדרך"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr ""
+msgstr "כיבוי"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -94,19 +130,19 @@ msgstr ""
 "ברגעים אלו סיימת את התמחותך בשימוש במחוות קצה והטלפון פתוח לשימושך<br><br>נא "
 "לגעת במסך כדי להתחיל"
 
-#: qml/Components/Lockscreen.qml:161
-msgid "Too many incorrect attempts"
-msgstr ""
-
-#: qml/Components/Lockscreen.qml:163
+#: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
-msgstr ""
+msgstr "נא להמתין"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "יותר מדי ניסיונות שגויים"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "שיחת חירום"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "אישור"
 
@@ -119,25 +155,29 @@ msgstr "שלום %1"
 msgid "Hello"
 msgstr "שלום"
 
-#: qml/Components/PinLockscreen.qml:197
-msgid "CANCEL"
-msgstr "ביטול"
-
-#: qml/Components/PinLockscreen.qml:215
-msgid "DONE"
-msgstr "בוצע"
-
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "לראות פחות"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "להציג הכול"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "חיפוש"
+
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -165,19 +205,19 @@ msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
-msgstr ""
+msgstr "סיימתי"
 
 #: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
-msgstr ""
+msgstr "אחסון"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "מועדפים"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "הכול"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -203,13 +243,17 @@ msgstr "יש לדבר כעת..."
 msgid "Speaking..."
 msgstr "הדיבור מושמע…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "הצגת הססמה"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
-msgstr "נא להזין את קוד ה־‏SIM"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+msgid "Sorry, incorrect PIN"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -249,50 +293,60 @@ msgstr ""
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "נדידה"
+
+#: qml/Shell.qml:266
+msgid "Enter your passphrase"
+msgstr "נא להזין את מילת הצופן שלך"
 
 #: qml/Shell.qml:267
-msgid "passphrase"
+msgid "Sorry, incorrect passphrase"
+msgstr "מילת הצופן שגויה, עמך הסליחה."
+
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
 msgstr ""
 
-#: qml/Shell.qml:267
-msgid "passcode"
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
 msgstr ""
 
-#: qml/Shell.qml:269
+#: qml/Shell.qml:273
 #, qt-format
 msgid "Enter your %1"
 msgstr ""
 
-#: qml/Shell.qml:270
+#: qml/Shell.qml:274
 #, qt-format
-msgid "Incorrect %1"
-msgstr ""
-
-#: qml/Shell.qml:272
-msgid "Please re-enter"
-msgstr ""
-
-#: qml/Shell.qml:306
-msgid "Sorry, incorrect passphrase."
-msgstr ""
-
-#: qml/Shell.qml:307
-msgid "Sorry, incorrect passcode."
-msgstr ""
-
-#: qml/Shell.qml:308
-msgid "This will be your last attempt."
+msgid "Sorry, incorrect %1"
 msgstr ""
 
 #: qml/Shell.qml:310
+msgid "Sorry, incorrect passphrase."
+msgstr "מילת הצופן שגויה, עמך הסליחה."
+
+#: qml/Shell.qml:311
+msgid "Sorry, incorrect passcode."
+msgstr "הצופן שגוי, עם הסליחה."
+
+#: qml/Shell.qml:312
+msgid "This will be your last attempt."
+msgstr "זה יהיה הניסיון האחרון שלך."
+
+#: qml/Shell.qml:314
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:315
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+
+#~ msgid "Restart"
+#~ msgstr "הפעלה מחדש"
+
+#~ msgid "Are you sure you would like to turn power off?"
+#~ msgstr "האם ברצונך לכבות את המכשיר?"

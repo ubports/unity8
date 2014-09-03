@@ -93,7 +93,6 @@ public:
         m_list.takeAt(index)->deleteLater();
         endRemoveRows();
     }
-    bool updateScreenshot(const QString &appId) { Q_UNUSED(appId); return true; }
     bool requestFocusApplication(const QString &appId) { Q_UNUSED(appId); return true; }
     bool suspended() const { return false; }
     void setSuspended(bool) {}

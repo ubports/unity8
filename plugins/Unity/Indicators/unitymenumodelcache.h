@@ -31,14 +31,16 @@ class UNITYINDICATORS_EXPORT UnityMenuModelCache : public QObject
 {
     Q_OBJECT
 public:
-    UnityMenuModelCache(QObject*parent=NULL);
+    UnityMenuModelCache(QObject*parent=nullptr);
     ~UnityMenuModelCache();
 
-    Q_INVOKABLE UnityMenuModel* model(const QString& path) const;
-    Q_INVOKABLE void registerModel(const QString& path, UnityMenuModel* menuModel);
+    Q_INVOKABLE UnityMenuModel* model(const QByteArray& bus,
+                                      const QByteArray& path,
+                                      const QVariantMap& actions);
+    Q_INVOKABLE bool contains(const QByteArray& path);
 
 private:
-    QHash<QString, UnityMenuModel*> m_menuModels;
+    QHash<QByteArray, UnityMenuModel*> m_registry;
 };
 
 #endif // UNITYMENUMODELCACHE_H

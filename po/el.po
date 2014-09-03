@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-13 14:09-0400\n"
-"PO-Revision-Date: 2014-08-08 13:03+0000\n"
-"Last-Translator: Simos Xenitellis <Unknown>\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-21 12:06+0000\n"
+"Last-Translator: Chris Taklis (aka Kailor) <ctaklis@gmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-15 06:28+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: plugins/LightDM/Greeter.cpp:129
 msgid "Password: "
-msgstr ""
+msgstr "Κωδικός πρόσβασης: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -30,21 +30,57 @@ msgstr "Καρφίτσωμα συντόμευσης"
 msgid "Unpin shortcut"
 msgstr "Ξεκαρφίτσωμα συντόμευσης"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr ""
+msgstr "Τερματισμός"
 
 #: qml/Components/Dialogs.qml:162
 msgid "Cancel"
-msgstr ""
+msgstr "Ακύρωση"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -96,19 +132,19 @@ msgstr ""
 "Πλέον γνωρίζετε τις χειρονομίες από τα άκρα και μπορείτε να ξεκινήσετε να "
 "χρησιμοποιείτε το τηλέφωνο<br><br>Αγγίξτε την οθόνη για να ξεκινήσετε"
 
-#: qml/Components/Lockscreen.qml:161
-msgid "Too many incorrect attempts"
-msgstr ""
-
-#: qml/Components/Lockscreen.qml:163
+#: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
-msgstr ""
+msgstr "Παρακαλώ περιμένετε"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "Πολλές άκυρες προσπάθειες"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Κλήση έκτακτης ανάγκης"
 
-#: qml/Components/Lockscreen.qml:268
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "OK"
 
@@ -121,25 +157,29 @@ msgstr "Γεια σας %1"
 msgid "Hello"
 msgstr "Γεια σας"
 
-#: qml/Components/PinLockscreen.qml:197
-msgid "CANCEL"
-msgstr "ΑΚΥΡΩΣΗ"
-
-#: qml/Components/PinLockscreen.qml:215
-msgid "DONE"
-msgstr "ΟΛΟΚΛΗΡΩΣΗ"
-
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "Λιγότερα"
 
-#: qml/Dash/GenericScopeView.qml:360
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "Εμφάνιση όλων"
 
-#: qml/Dash/GenericScopeView.qml:423 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Αναζήτηση"
+
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -167,19 +207,19 @@ msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
-msgstr ""
+msgstr "Ολοκληρώθηκε"
 
 #: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
-msgstr ""
+msgstr "Κατάστημα"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Αγαπημένα"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Όλα"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -205,13 +245,17 @@ msgstr "Μιλήστε τώρα..."
 msgid "Speaking..."
 msgstr "Ομιλία..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "Εμφάνιση κωδικού"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
-msgstr "Παρακαλώ εισάγετε το PIN της κάρτας SIM"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+msgid "Sorry, incorrect PIN"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -247,54 +291,61 @@ msgstr "Αποτυχία, πατήστε για να ξαναπροσπαθήσ�
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Ξεκλείδωμα SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
+msgstr "Περιαγωγή"
+
+#: qml/Shell.qml:266
+msgid "Enter your passphrase"
 msgstr ""
 
 #: qml/Shell.qml:267
-msgid "passphrase"
+msgid "Sorry, incorrect passphrase"
 msgstr ""
 
-#: qml/Shell.qml:267
-msgid "passcode"
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
 msgstr ""
 
-#: qml/Shell.qml:269
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
+msgstr ""
+
+#: qml/Shell.qml:273
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "Εισάγετε το %1"
 
-#: qml/Shell.qml:270
+#: qml/Shell.qml:274
 #, qt-format
-msgid "Incorrect %1"
-msgstr ""
-
-#: qml/Shell.qml:272
-msgid "Please re-enter"
-msgstr ""
-
-#: qml/Shell.qml:306
-msgid "Sorry, incorrect passphrase."
-msgstr ""
-
-#: qml/Shell.qml:307
-msgid "Sorry, incorrect passcode."
-msgstr ""
-
-#: qml/Shell.qml:308
-msgid "This will be your last attempt."
+msgid "Sorry, incorrect %1"
 msgstr ""
 
 #: qml/Shell.qml:310
+msgid "Sorry, incorrect passphrase."
+msgstr ""
+
+#: qml/Shell.qml:311
+msgid "Sorry, incorrect passcode."
+msgstr ""
+
+#: qml/Shell.qml:312
+msgid "This will be your last attempt."
+msgstr ""
+
+#: qml/Shell.qml:314
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:315
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+
+#~ msgid "Restart"
+#~ msgstr "Επανεκκίνηση"

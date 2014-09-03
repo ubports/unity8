@@ -63,6 +63,7 @@ IndicatorBase {
         }
 
         Row {
+            id: iconRow
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -73,7 +74,7 @@ IndicatorBase {
 
                 Item {
                     width: itemImage.width + units.gu(1)
-                    anchors { top: parent.top; bottom: parent.bottom }
+                    height: iconRow.height
 
                     StatusIcon {
                         id: itemImage

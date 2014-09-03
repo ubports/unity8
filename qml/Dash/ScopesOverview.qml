@@ -148,7 +148,12 @@ Item {
 
     ScopeStyle {
         id: overviewScopeStyle
-        style: { "foreground-color" : "white", "background-color" : "transparent" }
+        style: { "foreground-color" : "white",
+                 "background-color" : "transparent",
+                 "page-header": {
+                    "background": "color:///transparent"
+                 }
+        }
     }
 
     DashBackground {
@@ -458,10 +463,13 @@ Item {
         objectName: "scopesOverviewPreviewListView"
         scope: root.scope
         scopeStyle: overviewScopeStyle
+        showSignatureLine: false
         visible: x != width
         width: parent.width
         height: parent.height
         anchors.left: scopesOverviewContent.right
+
+        onBackClicked: open = false
     }
 
     Item {
@@ -534,6 +542,19 @@ Item {
                 }
                 scopesOverviewXYScaler.opacity = 0;
                 middleItems.overrideOpacity = -1;
+            }
+            // TODO Add tests for these connections
+            Connections {
+                target: tempScopeItem.scope
+                onOpenScope: {
+                    // TODO Animate the newly opened scope into the foreground (stacked on top of the current scope)
+                    tempScopeItem.scope = scope;
+                }
+                onGotoScope: {
+                    tempScopeItem.backClicked();
+                    root.currentTab = 0;
+                    root.scope.gotoScope(scopeId);
+                }
             }
         }
     }
