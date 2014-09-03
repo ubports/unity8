@@ -64,7 +64,7 @@ Item {
                 anchors { left: parent.left; right: parent.right }
                 text: "Stop Selected"
                 onClicked: {
-                    ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfo.Stopped);
+                    ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
                 }
             }
         }
