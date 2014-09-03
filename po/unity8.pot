@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"POT-Creation-Date: 2014-09-03 13:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,46 @@ msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:157
+msgid "Yesterday\\u2003%l:%M %p"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:164
+msgid "%l:%M %p"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:172
+msgid "Tomorrow\\u2003%l:%M %p"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:181
+msgid "%a\\u2003%l:%M %p"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:190
+msgid "%a %d %b\\u2003%l:%M %p"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:201
+msgid "Yesterday\\u2003%H:%M"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:208
+msgid "%H:%M"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:216
+msgid "Tomorrow\\u2003%H:%M"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:225
+msgid "%a\\u2003%H:%M"
+msgstr ""
+
+#: plugins/Utils/relativetimeformatter.cpp:234
+msgid "%a %d %b\\u2003%H:%M"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:70
@@ -153,36 +193,36 @@ msgstr ""
 msgid "Hello"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:365 qml/Dash/GenericScopeView.qml:484
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:365
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Dash/GenericScopeView.qml:428 qml/Dash/PageHeader.qml:259
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:269
 msgid "Settings"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:276
 msgid "Remove from Favorites"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:276
 msgid "Add to Favorites"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr ""
 
@@ -198,15 +238,15 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:201
+#: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Dash"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:417
+#: qml/Dash/ScopesOverview.qml:422
 msgid "Done"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:443
+#: qml/Dash/ScopesOverview.qml:448
 msgid "Store"
 msgstr ""
 
@@ -262,27 +302,27 @@ msgstr ""
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:735
 msgid "In queue…"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:739
 msgid "Downloading"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:741
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:743
 msgid "Canceled"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:745
 msgid "Finished"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:747
 msgid "Failed, tap to retry"
 msgstr ""
 
@@ -294,28 +334,28 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Shell.qml:279
+#: qml/Shell.qml:280
 msgid "Enter your passphrase"
 msgstr ""
 
-#: qml/Shell.qml:280
+#: qml/Shell.qml:281
 msgid "Sorry, incorrect passphrase"
 msgstr ""
 
-#: qml/Shell.qml:282
+#: qml/Shell.qml:283
 msgid "Enter your passcode"
 msgstr ""
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:284
 msgid "Sorry, incorrect passcode"
 msgstr ""
 
-#: qml/Shell.qml:286
+#: qml/Shell.qml:287
 #, qt-format
 msgid "Enter your %1"
 msgstr ""
 
-#: qml/Shell.qml:287
+#: qml/Shell.qml:288
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr ""
