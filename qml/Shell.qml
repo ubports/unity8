@@ -289,6 +289,7 @@ Item {
         target: LightDM.Greeter
 
         onShowGreeter: greeter.show()
+        onHideGreeter: greeter.login()
 
         onShowPrompt: {
             if (greeter.narrowMode) {
@@ -331,7 +332,6 @@ Item {
             }
 
             if (LightDM.Greeter.authenticated) {
-                lockscreen.hide();
                 greeter.login();
             } else {
                 AccountsService.failedLogins++
@@ -524,7 +524,7 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && !shell.locked
+                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && greeter.fakeActiveForApp === ""
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
@@ -548,7 +548,7 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && !shell.locked
+            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
             onDash: showDash()

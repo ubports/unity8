@@ -389,13 +389,14 @@ Item {
             tryCompare(indicators, "fullyClosed", true);
         }
 
-
-        function test_showGreeterDBusCall() {
+        function test_showAndHideGreeterDBusCalls() {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
             tryCompare(greeter, "showProgress", 1)
+            LightDM.Greeter.hideGreeter()
+            tryCompare(greeter, "showProgress", 0)
         }
 
         function test_login() {
