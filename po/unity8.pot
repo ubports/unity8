@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-03 13:16+0100\n"
+"POT-Creation-Date: 2014-09-03 14:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,46 +28,6 @@ msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:157
-msgid "Yesterday\\u2003%l:%M %p"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:164
-msgid "%l:%M %p"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:172
-msgid "Tomorrow\\u2003%l:%M %p"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:181
-msgid "%a\\u2003%l:%M %p"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:190
-msgid "%a %d %b\\u2003%l:%M %p"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:201
-msgid "Yesterday\\u2003%H:%M"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:208
-msgid "%H:%M"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:216
-msgid "Tomorrow\\u2003%H:%M"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:225
-msgid "%a\\u2003%H:%M"
-msgstr ""
-
-#: plugins/Utils/relativetimeformatter.cpp:234
-msgid "%a %d %b\\u2003%H:%M"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:70

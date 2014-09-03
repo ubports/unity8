@@ -126,6 +126,12 @@ getDateProximity(GDateTime* now, GDateTime* time)
     return prox;
 }
 
+const char*
+dgettext_datetime(const char *text)
+{
+  return dgettext("indicator-datetime", text);
+}
+
 /**
  * _ a time yesterday should be shown as (e.g. “Yesterday 3:55 PM”)
  * _ a time today should be shown as just the time (e.g. “3:55 PM”)
@@ -156,14 +162,14 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        This format string is used for showing, on a 12-hour clock, times that happen yesterday.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "Yesterday\u2003%l:%M %p"));
+                    g_string_assign (ret, dgettext_datetime("Yesterday\u2003%l:%M %p"));
                     break;
 
                 case DATE_PROXIMITY_TODAY:
                     /* Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
                        This format string is used for showing, on a 12-hour clock, times that happened today.
                        en_US example: "%l:%M %p" --> "1:00 PM" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "%l:%M %p"));
+                    g_string_assign (ret, dgettext_datetime("%l:%M %p"));
                     break;
 
                 case DATE_PROXIMITY_TOMORROW:
@@ -171,7 +177,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "Tomorrow\u2003%l:%M %p"));
+                    g_string_assign (ret, dgettext_datetime("Tomorrow\u2003%l:%M %p"));
                     break;
 
                 case DATE_PROXIMITY_LAST_WEEK:
@@ -180,7 +186,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        This format string is used for showing, on a 12-hour clock, times that happened in the last week.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "%a\u2003%l:%M %p"));
+                    g_string_assign (ret, dgettext_datetime("%a\u2003%l:%M %p"));
                     break;
 
                 case DATE_PROXIMITY_FAR:
@@ -189,7 +195,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
                        en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "%a %d %b\u2003%l:%M %p"));
+                    g_string_assign (ret, dgettext_datetime("%a %d %b\u2003%l:%M %p"));
                     break;
             }
         } else {
@@ -200,14 +206,14 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        This format string is used for showing, on a 24-hour clock, times that happen yesterday.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "Yesterday\u2003%H:%M"));
+                    g_string_assign (ret, dgettext_datetime("Yesterday\u2003%H:%M"));
                     break;
 
                 case DATE_PROXIMITY_TODAY:
                     /* Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
                        This format string is used for showing, on a 24-hour clock, times that happened today.
                        en_US example: "%H:%M" --> "13:00" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "%H:%M"));
+                    g_string_assign (ret, dgettext_datetime("%H:%M"));
                     break;
 
                 case DATE_PROXIMITY_TOMORROW:
@@ -215,7 +221,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "Tomorrow\u2003%H:%M"));
+                    g_string_assign (ret, dgettext_datetime("Tomorrow\u2003%H:%M"));
                     break;
 
                 case DATE_PROXIMITY_LAST_WEEK:
@@ -224,7 +230,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        This format string is used for showing, on a 24-hour clock, times that happened in the last week.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "%a\u2003%H:%M" --> "Fri  13:00" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "%a\u2003%H:%M"));
+                    g_string_assign (ret, dgettext_datetime("%a\u2003%H:%M"));
                     break;
 
                 case DATE_PROXIMITY_FAR:
@@ -233,7 +239,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
                        en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
                        en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00" */
-                    g_string_assign (ret, dgettext("indicator-datetime", "%a %d %b\u2003%H:%M"));
+                    g_string_assign (ret, dgettext_datetime("%a %d %b\u2003%H:%M"));
                     break;
             }
         }
