@@ -126,5 +126,6 @@ private:
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
 Q_DECLARE_METATYPE(QList<MirSurfaceItem*>)
+Q_DECLARE_METATYPE(Qt::ScreenOrientation)
 
 #endif // MIRSURFACEITEM_H

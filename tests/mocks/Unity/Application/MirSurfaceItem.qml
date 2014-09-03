@@ -27,6 +27,7 @@ Rectangle {
     implicitHeight: units.gu(70)
 
     property alias screenshotSource: screenshotImage.source
+    property int orientation: Qt.PortraitOrientation
 
     property bool wantInputMethod: false
 
@@ -47,6 +48,12 @@ Rectangle {
         fontSizeMode: Text.Fit
         minimumPixelSize: 10; font.pixelSize: 200
         verticalAlignment: Text.AlignVCenter
+        rotation: {
+            if (orientation == Qt.PortraitOrientation) return 0;
+            else if (orientation == Qt.LandscapeOrientation) return 90;
+            else if (orientation == Qt.InvertedPortraitOrientation) return 180;
+            else return 270;
+        }
     }
 
     MultiPointTouchArea {

@@ -128,6 +128,10 @@ void MirSurfaceItem::setOrientation(const Qt::ScreenOrientation orientation)
         return;
 
     m_orientation = orientation;
+
+    QQmlProperty orientationProp(m_qmlItem, "orientation");
+    orientationProp.write(QVariant::fromValue(orientation));
+
     Q_EMIT orientationChanged();
 }
 
