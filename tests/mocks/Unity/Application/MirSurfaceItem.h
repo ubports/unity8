@@ -32,6 +32,7 @@ class MirSurfaceItem : public QQuickItem
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(Qt::ScreenOrientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged DESIGNABLE false)
     Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged)
     Q_PROPERTY(QQmlListProperty<MirSurfaceItem> childSurfaces READ childSurfaces NOTIFY childSurfacesChanged DESIGNABLE false)
 
@@ -69,9 +70,11 @@ public:
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
+    Qt::ScreenOrientation orientation() const { return m_orientation; }
     MirSurfaceItem* parentSurface() const { return m_parentSurface; }
     QList<MirSurfaceItem*> childSurfaceList();
 
+    void setOrientation(const Qt::ScreenOrientation orientation);
     void setApplication(ApplicationInfo* item);
     void setParentSurface(MirSurfaceItem* item);
 
@@ -82,6 +85,7 @@ Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void nameChanged(QString);
+    void orientationChanged();
     void parentSurfaceChanged(MirSurfaceItem*);
     void childSurfacesChanged();
 
@@ -110,6 +114,7 @@ private:
     const QString m_name;
     const Type m_type;
     State m_state;
+    Qt::ScreenOrientation m_orientation;
 
     MirSurfaceItem* m_parentSurface;
     QList<MirSurfaceItem*> m_children;
