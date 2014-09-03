@@ -153,7 +153,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                     /* Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
                        This format string is used for showing, on a 12-hour clock, times that happen yesterday.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
-                       en_US example: "Yesterday\u2003%l:%M %p" --> "Tomorrow  1:00 PM" */
+                       en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM" */
                     g_string_assign (ret, dgettext("indicator-datetime", "Yesterday\u2003%l:%M %p"));
                     break;
 
@@ -197,7 +197,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
                     /* Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
                        This format string is used for showing, on a 24-hour clock, times that happen yesterday.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
-                       en_US example: "Yesterday\u2003%l:%M %p" --> "Tomorrow  13:00" */
+                       en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00" */
                     g_string_assign (ret, dgettext("indicator-datetime", "Yesterday\u2003%H:%M"));
                     break;
 

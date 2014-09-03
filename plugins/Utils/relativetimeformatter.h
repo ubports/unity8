@@ -20,6 +20,7 @@
 
 #include "timeformatter.h"
 
+// TODO - move this to the sdk
 class RelativeTimeFormatter : public GDateTimeFormatter
 {
     Q_OBJECT
