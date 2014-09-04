@@ -151,7 +151,6 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: subPageLoader.open
         pixelAligned: true
-        interactive: !navigationShown
 
         property Item expandedCategoryItem: null
 
