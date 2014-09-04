@@ -121,8 +121,8 @@ void RegistryTracker::runRegistry()
 
     if (!m_systemScopes) {
         // Disable OEM and Click scopes when system scopes are disabled
-        registry_ini += "OEM.InstallDir =\n";
-        registry_ini += "Click.InstallDir =\n";
+        registry_ini += "OEM.InstallDir = /unused\n";
+        registry_ini += "Click.InstallDir = /unused\n";
     }
 
     m_runtime_config.write(runtime_ini.toUtf8());
