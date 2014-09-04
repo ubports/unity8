@@ -25,8 +25,8 @@
 #include <QDBusConnectionInterface>
 #include <QDBusReply>
 
-AbstractDBusServiceMonitor::AbstractDBusServiceMonitor(QString service, QString path,
-                                                       QString interface, QObject *parent)
+AbstractDBusServiceMonitor::AbstractDBusServiceMonitor(const QString &service, const QString &path,
+                                                       const QString &interface, QObject *parent)
     : QObject(parent)
     , m_service(service)
     , m_path(path)

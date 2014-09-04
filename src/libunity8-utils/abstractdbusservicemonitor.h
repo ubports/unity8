@@ -32,8 +32,8 @@ class AbstractDBusServiceMonitor : public QObject
     Q_PROPERTY(bool serviceAvailable READ serviceAvailable NOTIFY serviceAvailableChanged)
 
 public:
-    explicit AbstractDBusServiceMonitor(QString service, QString path, QString interface,
-                                        QObject *parent = 0);
+    explicit AbstractDBusServiceMonitor(const QString &service, const QString &path,
+                                        const QString &interface, QObject *parent = 0);
     ~AbstractDBusServiceMonitor();
 
     QDBusInterface* dbusInterface() const;
@@ -48,9 +48,9 @@ private Q_SLOTS:
     void destroyInterface(const QString&);
 
 protected:
-    QString m_service;
-    QString m_path;
-    QString m_interface;
+    const QString m_service;
+    const QString m_path;
+    const QString m_interface;
     QDBusServiceWatcher* m_watcher;
     QDBusInterface* m_dbusInterface;
 };
