@@ -27,6 +27,7 @@ Module {
             name: "showPrompt"
             Parameter { name: "text"; type: "string" }
             Parameter { name: "isSecret"; type: "bool" }
+            Parameter { name: "isDefaultPrompt"; type: "bool" }
         }
         Signal { name: "authenticationComplete" }
         Signal {
@@ -34,6 +35,7 @@ Module {
             Parameter { name: "user"; type: "string" }
         }
         Signal { name: "isActiveChanged" }
+        Signal { name: "isAuthenticatedChanged" }
         Signal { name: "showGreeter" }
         Signal {
             name: "requestAuthenticationUser"

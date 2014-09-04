@@ -1,3 +1,10 @@
+unity8 (8.00+14.10.20140903.1-0ubuntu1) utopic; urgency=low
+
+  [ Nick Dedekind ]
+  * Support for nested prompt session. (LP: #1358388)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 03 Sep 2014 07:58:49 +0000
+
 unity8 (8.00+14.10.20140828.1-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]

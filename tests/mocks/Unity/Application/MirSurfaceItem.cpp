@@ -15,7 +15,7 @@
  */
 
 #include "MirSurfaceItem.h"
-#include "ApplicationInfo.h"
+#include "Session.h"
 
 #include <paths.h>
 
@@ -34,12 +34,12 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
                                const QString &qmlFilePath,
                                QQuickItem *parent)
     : QQuickItem(parent)
-    , m_application(nullptr)
+    , m_session(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)
+    , m_live(true)
     , m_orientation(Qt::PortraitOrientation)
-    , m_parentSurface(nullptr)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
 {
@@ -84,16 +84,9 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
 MirSurfaceItem::~MirSurfaceItem()
 {
     qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << name();
-
-    QList<MirSurfaceItem*> children(m_children);
-    for (MirSurfaceItem* child : children) {
-        child->setParentSurface(nullptr);
+    if (m_session) {
+        m_session->setSurface(nullptr);
     }
-    if (m_parentSurface)
-        m_parentSurface->removeChildSurface(this);
-
-    if (m_application)
-        m_application->removeSurface(this);
 }
 
 void MirSurfaceItem::printComponentErrors()
@@ -106,16 +99,10 @@ void MirSurfaceItem::printComponentErrors()
 
 void MirSurfaceItem::release()
 {
-    QList<MirSurfaceItem*> children(m_children);
-    for (MirSurfaceItem* child : children) {
-        child->release();
-    }
-    if (m_parentSurface) {
-        m_parentSurface->removeChildSurface(this);
-    }
+    qDebug() << "MirSurfaceItem::release " << name();
 
-    if (m_application) {
-        m_application->removeSurface(this);
+    if (m_session) {
+        m_session->setSurface(nullptr);
     }
     if (!parent()) {
         deleteLater();
@@ -135,74 +122,27 @@ void MirSurfaceItem::setOrientation(const Qt::ScreenOrientation orientation)
     Q_EMIT orientationChanged();
 }
 
-void MirSurfaceItem::setApplication(ApplicationInfo* application)
+void MirSurfaceItem::setSession(Session* session)
 {
-    m_application = application;
+    m_session = session;
 }
 
-void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
+void MirSurfaceItem::setScreenshot(const QUrl& screenshot)
 {
-    if (m_parentSurface == surface || surface == this)
-        return;
-
-    if (m_parentSurface) {
-        m_parentSurface->removeChildSurface(this);
-    }
-
-    m_parentSurface = surface;
-
-    if (m_parentSurface) {
-        m_parentSurface->addChildSurface(this);
-    }
-    Q_EMIT parentSurfaceChanged(surface);
-}
-
-void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
-{
-    qDebug() << "MirSurfaceItem::addChildSurface " << surface->name() << " to " << name();
-
-    m_children.append(surface);
-    Q_EMIT childSurfacesChanged();
-}
-
-void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
-{
-    qDebug() << "MirSurfaceItem::removeChildSurface " << surface->name() << " from " << name();
-
-    if (m_children.contains(surface)) {
-        m_children.removeOne(surface);
-        Q_EMIT childSurfacesChanged();
+    m_screenshotUrl = screenshot;
+    if (m_qmlItem) {
+        QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
+        screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
     }
 }
 
-QList<MirSurfaceItem*> MirSurfaceItem::childSurfaceList()
+void MirSurfaceItem::setLive(bool live)
 {
-    return m_children;
+    if (m_live != live) {
+        m_live = live;
+        Q_EMIT liveChanged(m_live);
+    }
 }
-
-QQmlListProperty<MirSurfaceItem> MirSurfaceItem::childSurfaces()
-{
-    return QQmlListProperty<MirSurfaceItem>(this,
-                                            0,
-                                            MirSurfaceItem::childSurfaceCount,
-                                            MirSurfaceItem::childSurfaceAt);
-}
-
-int MirSurfaceItem::childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
-{
-    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
-    return p->m_children.count();
-}
-
-MirSurfaceItem* MirSurfaceItem::childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
-{
-    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
-
-    if (index < 0 || index >= p->m_children.count())
-        return nullptr;
-    return p->m_children[index];
-}
-
 
 void MirSurfaceItem::onQmlWantInputMethodChanged()
 {

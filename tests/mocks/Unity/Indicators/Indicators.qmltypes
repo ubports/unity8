@@ -160,6 +160,26 @@ Module {
     }
     Component { name: "QIdentityProxyModel"; prototype: "QAbstractProxyModel" }
     Component {
+        name: "UnityMenuModelCache"
+        prototype: "QObject"
+        exports: ["Unity.Indicators/UnityMenuModelCache 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Method {
+            name: "model"
+            type: "UnityMenuModel*"
+            Parameter { name: "bus"; type: "QByteArray" }
+            Parameter { name: "path"; type: "QByteArray" }
+            Parameter { name: "actions"; type: "QVariantMap" }
+        }
+        Method {
+            name: "contains"
+            type: "bool"
+            Parameter { name: "path"; type: "QByteArray" }
+        }
+    }
+    Component {
         name: "UnityMenuModelStack"
         prototype: "QObject"
         exports: ["Unity.Indicators/UnityMenuModelStack 0.1"]
