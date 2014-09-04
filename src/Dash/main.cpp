@@ -84,7 +84,7 @@ int main(int argc, const char *argv[])
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Unity Dash");
+    view->setTitle("Scopes");
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
 
     // You will need this if you want to interact with touch-only components using a mouse

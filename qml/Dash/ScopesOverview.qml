@@ -203,7 +203,7 @@ Item {
             }
             width: parent.width
             clip: true
-            title: i18n.tr("Manage Dash")
+            title: i18n.tr("Manage Scopes")
             scopeStyle: overviewScopeStyle
             showSignatureLine: false
             searchEntryEnabled: true
