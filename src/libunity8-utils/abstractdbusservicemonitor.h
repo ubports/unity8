@@ -44,8 +44,8 @@ Q_SIGNALS:
     void serviceAvailableChanged(bool available);
 
 private Q_SLOTS:
-    void createInterface(const QString&);
-    void destroyInterface(const QString&);
+    void createInterface(const QString &service);
+    void destroyInterface(const QString &service);
 
 protected:
     const QString m_service;
