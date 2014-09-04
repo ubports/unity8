@@ -44,6 +44,9 @@ int main(int argc, char *argv[])
     setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
+    // ignore favorites in unity-scopes-shell plugin
+    setenv("UNITY_SCOPES_NO_FAVORITES", "1", 1);
+
     QGuiApplication::setApplicationName("Unity Scope Tool");
     QGuiApplication *application;
     application = new QGuiApplication(argc, argv);
