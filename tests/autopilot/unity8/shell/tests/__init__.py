@@ -34,7 +34,6 @@ import logging
 import os.path
 import subprocess
 import sys
-import fixtures
 from testtools.matchers import Equals
 from ubuntuuitoolkit import (
     fixture_setup as toolkit_fixtures,
@@ -467,5 +466,5 @@ class DashBaseTestCase(AutopilotTestCase):
                 self.app_width, self.app_height, self.grid_unit_px))
         self.environment['GRID_UNIT_PX'] = simulate_device_fixture.grid_unit_px
         self.environment['ARGS'] = '-windowgeometry {0}x{1}'\
-                                    .format(simulate_device_fixture.app_width,
-                                            simulate_device_fixture.app_height)
+            .format(simulate_device_fixture.app_width,
+                    simulate_device_fixture.app_height)
