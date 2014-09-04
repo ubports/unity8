@@ -338,9 +338,6 @@ Rectangle {
 
         function test_card_title_alignment(data) {
             selector.selectedIndex = data.index;
-            if (data.hasOwnProperty("layout_index")) {
-                layoutSelector.selectedIndex = data.layout_index;
-            }
 
             cardTool.components['title'] = { "field": "title", "align": "center" };
 
