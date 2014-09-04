@@ -32,7 +32,7 @@ AbstractDBusServiceMonitor::AbstractDBusServiceMonitor(const QString &service, c
     , m_path(path)
     , m_interface(interface)
     , m_watcher(new QDBusServiceWatcher(service, QDBusConnection::sessionBus()))
-    , m_dbusInterface(0)
+    , m_dbusInterface(nullptr)
 {
     connect(m_watcher, &QDBusServiceWatcher::serviceRegistered, this, &AbstractDBusServiceMonitor::createInterface);
     connect(m_watcher, &QDBusServiceWatcher::serviceUnregistered, this, &AbstractDBusServiceMonitor::destroyInterface);
