@@ -421,6 +421,16 @@ void ListViewWithPageHeader::showHeader()
     }
 }
 
+Q_INVOKABLE int ListViewWithPageHeader::firstCreatedIndex() const
+{
+    return m_firstVisibleIndex;
+}
+
+Q_INVOKABLE int ListViewWithPageHeader::createdItemCount() const
+{
+    return m_visibleItems.count();
+}
+
 QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
 {
     ListItem *item = itemAtIndex(modelIndex);

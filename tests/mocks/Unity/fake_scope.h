@@ -56,6 +56,8 @@ public:
     void setFormFactor(const QString& form_factor) override;
     void setActive(const bool) override;
     void setFavorite(const bool) override;
+    Q_INVOKABLE void setId(const QString &id); // This is not invokable in the Interface, here for testing benefits
+    Q_INVOKABLE void setName(const QString &name); // This is not invokable in the Interface, here for testing benefits
     Q_INVOKABLE void setSearchInProgress(const bool inProg); // This is not invokable in the Interface, here for testing benefits
 
     Q_INVOKABLE void activate(QVariant const& result) override;
