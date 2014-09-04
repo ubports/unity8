@@ -131,21 +131,21 @@ Item {
     property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
 
     /*!
-     \brief Desired alignment of header components.
+     \brief Desired alignment of title
      */
-    readonly property int headerAlignment: {
-        var subtitle = components["subtitle"];
-        var price = components["price"];
-        var summary = components["summary"];
+    readonly property int titleAlignment: {
+        if (template["card-layout"] === "horizontal"
+            || typeof components["title"] !== "object"
+            || components["title"]["align"] !== "center") return Text.AlignHCenter;
 
-        var hasSubtitle = subtitle && (typeof subtitle === "string" || subtitle["field"])
-        var hasPrice = price && (typeof price === "string" || subtitle["field"]);
-        var hasSummary = summary && (typeof summary === "string" || summary["field"])
+        var keys = ["mascot", "emblem", "subtitle", "attributes", "summary"];
 
-        var isOnlyTextComponent = !hasSubtitle && !hasPrice && !hasSummary;
-        if (!isOnlyTextComponent) return Text.AlignLeft;
+        for (var key in keys) {
+            if (typeof components[key] === "string"
+                || typeof components[key]["field"] === "string") return Text.AlignLeft;
+        }
 
-        return (template["card-layout"] === "horizontal") ? Text.AlignLeft : Text.AlignHCenter;
+        return Text.AlignHCenter;
     }
 
     QtObject {

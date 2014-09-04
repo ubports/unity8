@@ -215,18 +215,18 @@ var kTitleLabelCode = 'Label { \n\
                         elide: Text.ElideRight; \n\
                         fontSize: "small"; \n\
                         wrapMode: Text.Wrap; \n\
-                        maximumLineCount: 2; \n\
+                        maximumLineCount: horizontalAlignment === Text.AlighHCenter ? 1 : 2; \n\
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                         color: %2; \n\
                         visible: showHeader %3; \n\
                         text: root.title; \n\
-                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \n\
-                        horizontalAlignment: root.headerAlignment; \n\
+                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
+                        horizontalAlignment: root.titleAlignment; \n\
                     }\n';
 
 // %1 is used as extra anchors of emblemIcon
 // %2 is used as color of emblemIcon
-var kEmblemIconCode = 'Icon { \n\
+var kEmblemIconCode = 'StatusIcon { \n\
                             id: emblemIcon; \n\
                             objectName: "emblemIcon"; \n\
                             anchors { \n\
@@ -236,7 +236,6 @@ var kEmblemIconCode = 'Icon { \n\
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             color: %2; \n\
-                            width: height; \n\
                             height: source != "" ? titleLabel.font.pixelSize : 0; \n\
                         }\n';
 
@@ -258,13 +257,12 @@ var kSubtitleLabelCode = 'Label { \n\
                             anchors { %1 } \n\
                             anchors.topMargin: units.dp(2); \n\
                             elide: Text.ElideRight; \n\
-                            fontSize: "small"; \n\
+                            fontSize: "x-small"; \n\
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                             color: %2; \n\
                             visible: titleLabel.visible && titleLabel.text; \n\
                             text: cardData && cardData["subtitle"] || ""; \n\
                             font.weight: Font.Light; \n\
-                            horizontalAlignment: root.headerAlignment; \n\
                         }\n';
 
 // %1 is used as anchors of attributesRow
@@ -310,7 +308,7 @@ function cardString(template, components) {
                 property var artShapeBorderSource: undefined; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
-                property int headerAlignment: Text.AlignLeft; \n\
+                property int titleAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
@@ -655,6 +653,7 @@ function cardString(template, components) {
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 1.1; \n\
+                   import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
     var card = cardString(template, components);
