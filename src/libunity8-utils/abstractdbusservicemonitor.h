@@ -21,11 +21,10 @@
 #define ABSTRACTDBUSSERVICEMONITOR_H
 
 #include <QObject>
-
-#include <QDBusInterface>
-#include <QDBusServiceWatcher>
-#include <QObject>
 #include <QString>
+
+class QDBusInterface;
+class QDBusServiceWatcher;
 
 class AbstractDBusServiceMonitor : public QObject
 {
@@ -45,8 +44,8 @@ Q_SIGNALS:
     void serviceAvailableChanged(bool available);
 
 private Q_SLOTS:
-    void createInterface();
-    void destroyInterface();
+    void createInterface(const QString&);
+    void destroyInterface(const QString&);
 
 protected:
     QString m_service;

@@ -19,6 +19,8 @@
 
 #include "abstractdbusservicemonitor.h"
 
+#include <QDBusInterface>
+#include <QDBusServiceWatcher>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusReply>
@@ -32,14 +34,14 @@ AbstractDBusServiceMonitor::AbstractDBusServiceMonitor(QString service, QString 
     , m_watcher(new QDBusServiceWatcher(service, QDBusConnection::sessionBus()))
     , m_dbusInterface(0)
 {
-    connect(m_watcher, SIGNAL(serviceRegistered(QString)), SLOT(createInterface()));
-    connect(m_watcher, SIGNAL(serviceUnregistered(QString)), SLOT(destroyInterface()));
+    connect(m_watcher, &QDBusServiceWatcher::serviceRegistered, this, &AbstractDBusServiceMonitor::createInterface);
+    connect(m_watcher, &QDBusServiceWatcher::serviceUnregistered, this, &AbstractDBusServiceMonitor::destroyInterface);
 
     // Connect to the service if it's up already
     QDBusConnectionInterface* sessionBus = QDBusConnection::sessionBus().interface();
     QDBusReply<bool> reply = sessionBus->isServiceRegistered(m_service);
     if (reply.isValid() && reply.value()) {
-        createInterface();
+        createInterface(m_service);
     }
 }
 
@@ -51,11 +53,11 @@ AbstractDBusServiceMonitor::~AbstractDBusServiceMonitor()
     }
 }
 
-void AbstractDBusServiceMonitor::createInterface()
+void AbstractDBusServiceMonitor::createInterface(const QString &)
 {
-    if (m_dbusInterface != 0) {
+    if (m_dbusInterface != nullptr) {
         delete m_dbusInterface;
-        m_dbusInterface = 0;
+        m_dbusInterface = nullptr;
     }
 
     m_dbusInterface = new QDBusInterface(m_service, m_path, m_interface,
@@ -63,11 +65,11 @@ void AbstractDBusServiceMonitor::createInterface()
     Q_EMIT serviceAvailableChanged(true);
 }
 
-void AbstractDBusServiceMonitor::destroyInterface()
+void AbstractDBusServiceMonitor::destroyInterface(const QString &)
 {
-    if (m_dbusInterface != 0) {
+    if (m_dbusInterface != nullptr) {
         delete m_dbusInterface;
-        m_dbusInterface = 0;
+        m_dbusInterface = nullptr;
     }
 
     Q_EMIT serviceAvailableChanged(false);
@@ -80,5 +82,5 @@ QDBusInterface* AbstractDBusServiceMonitor::dbusInterface() const
 
 bool AbstractDBusServiceMonitor::serviceAvailable() const
 {
-    return m_dbusInterface != 0;
+    return m_dbusInterface != nullptr;
 }
