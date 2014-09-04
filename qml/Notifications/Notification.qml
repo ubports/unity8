@@ -37,6 +37,7 @@ Item {
     property var notification
     property color color
     property bool fullscreen: false
+    property bool draggable: notification.type == Notification.SnapDecision && state == "contracted"
     property int maxHeight
     property int margins
     property Gradient greenGradient : Gradient {
@@ -52,7 +53,7 @@ Item {
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
+    opacity: 1 - (x / notification.width) // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
 
     state: {
         var result = "";
@@ -86,6 +87,16 @@ Item {
     Component.onCompleted: {
         if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source) {
             sound.play();
+        }
+    }
+
+    Behavior on x {
+        id: normalXBehavior
+
+        enabled: draggable
+        UbuntuNumberAnimation {
+            duration: UbuntuAnimation.FastDuration
+            easing.type: Easing.OutBounce
         }
     }
 
@@ -142,6 +153,12 @@ Item {
         opacity: parent.opacity
     }
 
+    onXChanged: {
+        if (draggable && notification.x > 0.75 * notification.width) {
+            notification.notification.close()
+        }
+    }
+
     Item {
         id: contents
         anchors.fill: fullscreen ? nonShapedBack : shapedBack
@@ -189,11 +206,30 @@ Item {
 
             anchors.fill: parent
             objectName: "interactiveArea"
+
+            drag.target: draggable ? notification : undefined
+            drag.axis: Drag.XAxis
+            drag.minimumX: 0
+            drag.maximumX: notification.width
+
             onClicked: {
                 if (notification.type == Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
                 } else {
                     notificationList.currentIndex = index;
+                }
+            }
+            onPressed: {
+                if (draggable) {
+                    notification.anchors.left = undefined
+                    notification.anchors.right = undefined
+                }
+            }
+            onReleased: {
+                if (notification.x < notification.width / 2) {
+                    notification.x = 0
+                } else {
+                    notification.x = notification.width
                 }
             }
         }
