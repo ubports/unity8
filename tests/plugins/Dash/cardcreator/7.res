@@ -66,8 +66,9 @@ CroppedImageMinimumSourceSize {
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
-                            source: cardData && cardData["mascot"] || ""; 
-                            width: units.gu(6); 
+                            property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                            source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; }
+                            width: units.gu(6);
                             height: units.gu(5.625); 
                             horizontalAlignment: Image.AlignHCenter; 
                             verticalAlignment: Image.AlignVCenter; 

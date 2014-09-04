@@ -242,8 +242,7 @@ Item {
             var categoryListView = findChild(dashContentList.currentItem, "categoryListView");
             var dashCategory2 = findChild(categoryListView, "dashCategory2");
             tryCompareFunction(function() {
-                    var d = findChild(dashCategory2, "delegate2");
-                    if (d) return true;
+                    if (dashCategory2.y < 200) return true;
                     categoryListView.contentY += 100;
                     return false;
                 }, true);
