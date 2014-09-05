@@ -339,11 +339,12 @@ Rectangle {
         function test_card_title_alignment(data) {
             selector.selectedIndex = data.index;
 
-            cardTool.components['title'] = { "field": "title", "align": "center" };
+            tryCompare(cardTool, "titleAlignment", Text.AlignLeft);
 
-            if (data.hasOwnProperty("property")) {
-                tryCompare(cardTool, "titleAlignment", data.value);
-            }
+            cardTool.components['title'] = { "field": "title", "align": "center" };
+            cardTool.componentsChanged();
+
+            tryCompare(cardTool, "titleAlignment", data.value);
         }
 
         function test_categoryLayout_data() {

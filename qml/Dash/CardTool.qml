@@ -136,13 +136,18 @@ Item {
     readonly property int titleAlignment: {
         if (template["card-layout"] === "horizontal"
             || typeof components["title"] !== "object"
-            || components["title"]["align"] !== "center") return Text.AlignHCenter;
+            || components["title"]["align"] !== "center") return Text.AlignLeft;
 
         var keys = ["mascot", "emblem", "subtitle", "attributes", "summary"];
 
         for (var key in keys) {
-            if (typeof components[key] === "string"
-                || typeof components[key]["field"] === "string") return Text.AlignLeft;
+            key = keys[key];
+            try {
+                if (typeof components[key] === "string"
+                    || typeof components[key]["field"] === "string") return Text.AlignLeft;
+            } catch (e) {
+                continue;
+            }
         }
 
         return Text.AlignHCenter;
