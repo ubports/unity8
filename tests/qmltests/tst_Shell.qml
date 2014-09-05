@@ -144,7 +144,7 @@ Item {
             verify(mainAppId != "");
             var mainApp = ApplicationManager.findApplication(mainAppId);
             verify(mainApp);
-            tryCompare(mainApp, "state", ApplicationInfo.Running);
+            tryCompare(mainApp, "state", ApplicationInfoInterface.Running);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.Proximity);
@@ -157,7 +157,7 @@ Item {
             tryCompare(greeter, "showProgress", 1);
 
             tryCompare(ApplicationManager, "suspended", true);
-            compare(mainApp.state, ApplicationInfo.Suspended);
+            compare(mainApp.state, ApplicationInfoInterface.Suspended);
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
@@ -166,7 +166,7 @@ Item {
             // Swipe away greeter to focus app
             swipeAwayGreeter();
             tryCompare(ApplicationManager, "suspended", false);
-            compare(mainApp.state, ApplicationInfo.Running);
+            compare(mainApp.state, ApplicationInfoInterface.Running);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
@@ -237,9 +237,9 @@ Item {
         function test_surfaceLosesFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.surface != null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
 
-            tryCompare(app.surface, "focus", true);
+            tryCompare(app.session.surface, "focus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -250,7 +250,7 @@ Item {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.surface, "focus", false);
+            tryCompare(app.session.surface, "focus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -259,11 +259,11 @@ Item {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.surface, "focus", false);
+            tryCompare(app.session.surface, "focus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.surface, "focus", true);
+            tryCompare(app.session.surface, "focus", true);
         }
 
         // Wait for the whole UI to settle down
@@ -361,7 +361,7 @@ Item {
 
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.surface != null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
 
             // Minimize the application we just launched
             swipeFromLeftEdge(units.gu(26) + 1);
@@ -389,13 +389,14 @@ Item {
             tryCompare(indicators, "fullyClosed", true);
         }
 
-
-        function test_showGreeterDBusCall() {
+        function test_showAndHideGreeterDBusCalls() {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
             tryCompare(greeter, "showProgress", 1)
+            LightDM.Greeter.hideGreeter()
+            tryCompare(greeter, "showProgress", 0)
         }
 
         function test_login() {

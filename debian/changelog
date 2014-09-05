@@ -1,3 +1,25 @@
+unity8 (8.00+14.10.20140903.1-0ubuntu1) utopic; urgency=low
+
+  [ Nick Dedekind ]
+  * Support for nested prompt session. (LP: #1358388)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 03 Sep 2014 07:58:49 +0000
+
+unity8 (8.00+14.10.20140828.1-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Reverse default for the user option "allow launcher/panel in greeter
+    when locked." And allow that property to be controlled by an
+    AccountsService property. (LP: #1358340) (LP: #1358340)
+  * With recent password support, we want to be able to unlock the
+    device even with a password set. And we need to be able to do this
+    once the new adbd lands. So I've added a DBus command to hide the
+    greeter. This should be secure because all apps are constrained and
+    if you're on the local session bus unconstrained, you already have
+    access to anything you want.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 28 Aug 2014 20:06:41 +0000
+
 unity8 (8.00+14.10.20140827.2-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]

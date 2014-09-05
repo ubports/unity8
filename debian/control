@@ -85,7 +85,7 @@ Depends: gsettings-desktop-schemas,
          qmenumodel-qml (>= 0.2.8),
          qml-module-qtquick-xmllistmodel,
          qtdeclarative5-gsettings1.0,
-         qtdeclarative5-qtmir-plugin (>= 0.4.1),
+         qtdeclarative5-qtmir-plugin (>= 0.4.3),
          qtdeclarative5-ubuntu-telephony0.1,
          unity-launcher-impl-3,
          unity8-common (= ${source:Version}),
@@ -168,7 +168,7 @@ Package: unity8-private
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: accountsservice-ubuntu-schemas,
+Depends: accountsservice-ubuntu-schemas (>= 0.0.3),
          gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
          libunity-core-6.0-9,

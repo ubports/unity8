@@ -39,6 +39,11 @@ void DBusGreeter::ShowGreeter()
     return Q_EMIT m_greeter->showGreeter();
 }
 
+void DBusGreeter::HideGreeter()
+{
+    return Q_EMIT m_greeter->hideGreeter();
+}
+
 void DBusGreeter::isActiveChangedHandler()
 {
     notifyPropertyChanged("IsActive", isActive());
