@@ -16,28 +16,24 @@
 
 #include "dashcommunicator.h"
 
-#include <QObject>
 #include <QDBusConnection>
+#include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QDebug>
 
-DashCommunicator::DashCommunicator(QObject *parent):
-    QObject(parent)
+DashCommunicator::DashCommunicator(QObject *parent)
+    : AbstractDBusServiceMonitor("com.canonical.UnityDash",
+                                 "/com/canonical/UnityDash",
+                                 "", parent)
 {
 }
-
-DashCommunicator::~DashCommunicator()
-{
-}
-
 
 void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool reset)
 {
-    QDBusConnection connection = QDBusConnection::sessionBus();
-    QDBusInterface dashIface ("com.canonical.UnityDash",
-                           "/com/canonical/UnityDash",
-                           "",
-                           connection);
-
-    dashIface.call("SetCurrentScope", scopeId, animate, reset);
+    if (dbusInterface() == nullptr) {
+        qDebug() << "DashCommunicator - setCurrentScope failed as Dash DBus interface not available";
+        return;
+    } else {
+        dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, reset);
+    }
 }

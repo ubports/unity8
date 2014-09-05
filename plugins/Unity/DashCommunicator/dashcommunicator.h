@@ -17,16 +17,19 @@
 #ifndef DASHCOMMUNICATOR_H
 #define DASHCOMMUNICATOR_H
 
+// Qt
 #include <QObject>
 
-class DashCommunicator: public QObject
+// local
+#include "abstractdbusservicemonitor.h"
+
+class DashCommunicator: public AbstractDBusServiceMonitor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity.DashCommunicator")
 
 public:
-    DashCommunicator(QObject *parent = 0);
-    ~DashCommunicator();
+    explicit DashCommunicator(QObject *parent = 0);
+    ~DashCommunicator() = default;
 
 public Q_SLOTS:
     void setCurrentScope(const QString &scopeId, bool animate, bool reset);
