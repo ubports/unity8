@@ -68,7 +68,7 @@ Label {
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
-                        maximumLineCount: horizontalAlignment === Text.AlighHCenter ? 1 : 2; 
+                        maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                         visible: showHeader ; 

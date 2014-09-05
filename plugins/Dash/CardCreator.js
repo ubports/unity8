@@ -215,7 +215,7 @@ var kTitleLabelCode = 'Label { \n\
                         elide: Text.ElideRight; \n\
                         fontSize: "small"; \n\
                         wrapMode: Text.Wrap; \n\
-                        maximumLineCount: horizontalAlignment === Text.AlighHCenter ? 1 : 2; \n\
+                        maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; \n\
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                         color: %2; \n\
                         visible: showHeader %3; \n\

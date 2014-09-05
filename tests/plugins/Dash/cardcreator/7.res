@@ -93,7 +93,7 @@ Image {
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
-                        maximumLineCount: horizontalAlignment === Text.AlighHCenter ? 1 : 2; 
+                        maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader ; 

@@ -112,7 +112,7 @@ Label {
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
-                        maximumLineCount: horizontalAlignment === Text.AlighHCenter ? 1 : 2; 
+                        maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader && overlayLoader.active; 
