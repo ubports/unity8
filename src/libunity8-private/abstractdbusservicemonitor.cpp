@@ -26,12 +26,15 @@
 #include <QDBusReply>
 
 AbstractDBusServiceMonitor::AbstractDBusServiceMonitor(const QString &service, const QString &path,
-                                                       const QString &interface, QObject *parent)
+                                                       const QString &interface, const Bus bus,
+                                                       QObject *parent)
     : QObject(parent)
     , m_service(service)
     , m_path(path)
     , m_interface(interface)
-    , m_watcher(new QDBusServiceWatcher(service, QDBusConnection::sessionBus()))
+    , m_watcher(new QDBusServiceWatcher(service,
+                                        (bus == SystemBus) ? QDBusConnection::systemBus()
+                                                           : QDBusConnection::sessionBus()))
     , m_dbusInterface(nullptr)
 {
     connect(m_watcher, &QDBusServiceWatcher::serviceRegistered, this, &AbstractDBusServiceMonitor::createInterface);

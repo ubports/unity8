@@ -16,7 +16,6 @@
 
 #include "dashcommunicator.h"
 
-#include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QDebug>
@@ -24,7 +23,7 @@
 DashCommunicator::DashCommunicator(QObject *parent)
     : AbstractDBusServiceMonitor("com.canonical.UnityDash",
                                  "/com/canonical/UnityDash",
-                                 "", parent)
+                                 "", SessionBus, parent)
 {
 }
 

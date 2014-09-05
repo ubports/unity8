@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QDBusConnection>
 
 class QDBusInterface;
 class QDBusServiceWatcher;
@@ -29,11 +30,18 @@ class QDBusServiceWatcher;
 class AbstractDBusServiceMonitor : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(Bus)
     Q_PROPERTY(bool serviceAvailable READ serviceAvailable NOTIFY serviceAvailableChanged)
 
 public:
-    explicit AbstractDBusServiceMonitor(const QString &service, const QString &path,
-                                        const QString &interface, QObject *parent = 0);
+    enum Bus {
+        SessionBus,
+        SystemBus,
+    };
+
+    explicit AbstractDBusServiceMonitor(const QString &service, const QString &path, const QString &interface,
+                                        const Bus bus = SessionBus,
+                                        QObject *parent = 0);
     ~AbstractDBusServiceMonitor();
 
     QDBusInterface* dbusInterface() const;
