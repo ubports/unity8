@@ -20,6 +20,7 @@ import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Utils 0.1
 import "../Components"
+import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -142,7 +143,7 @@ Rectangle {
         }
     }
 
-    Flickable {
+    Flickables.Flickable {
         id: spreadView
         anchors.fill: parent
         interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)

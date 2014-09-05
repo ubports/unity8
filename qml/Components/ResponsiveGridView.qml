@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 0.1
+import "Flickables" as Flickables
 
 /*
    Essentially a GridView where you can specify the maximum number of columns it can have.
@@ -51,7 +52,7 @@ Item {
         return rows * height
     }
 
-    GridView {
+    Flickables.GridView {
         id: gridView
         objectName: "responsiveGridViewGrid"
         anchors {

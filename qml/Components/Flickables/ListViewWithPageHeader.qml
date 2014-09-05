@@ -14,7 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import "../Components/Flickables" as Flickables
+import Dash 0.1
+import Ubuntu.Components 0.1
 
-Flickables.ListViewWithPageHeader {
+ListViewWithPageHeader {
+    flickDeceleration: 1500 * units.gridUnit / 8
+    maximumFlickVelocity: 2500 * units.gridUnit / 8
 }

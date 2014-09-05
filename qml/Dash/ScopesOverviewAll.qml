@@ -16,8 +16,9 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../Components/Flickables" as Flickables
 
-Flickable {
+Flickables.Flickable {
     id: root
 
     property alias model: cardGrid.model
