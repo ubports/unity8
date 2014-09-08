@@ -1,3 +1,50 @@
+unity8 (8.00+14.10.20140908.1-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Use a single white pixel instead of the heavier checkers image.
+  * Add support to unlock-device for the new adbd coming down the
+    pipeline. Also fix autopilot tests and run scripts for that.
+  * Make LVWPH non interactive while on header animation
+  * Improve references to scope/scopeStyle in PreviewListView and
+    PageHeader, add tests.
+
+  [ Nick Dedekind ]
+  * Support for nested prompt session. (LP: #1358388)
+
+  [ Albert Astals ]
+  * Remove unused hasAttributes variable
+  * Disable dash overview if in temp scope preview
+  * Block mouse events under scope overview bottombar (LP: #1362206)
+  * Fix regression in focus handling due to SDK change
+  * Fix warning 'Background.qml:81:21: Unable to assign bool to QUrl'
+  * Fix launcher internationalization
+  * Make swipe and home button press in the launcher dismiss the
+    overview
+  * GSV: Use proper variable since altnav renames
+  * Fix some "Cannot read property 'luminance' of null" warnings
+  * Make LVWPH non interactive while on header animation
+
+  [ Mirco Müller ]
+  * Implemented the needed visual updates on notifications requested by
+    Design for RTM. (LP: #1348092)
+
+  [ Michael Terry ]
+  * Don't show greeter when screen turns off during a call, even if
+    proximity sensor isn't active. (LP: #1347001)
+  * Add support to unlock-device for the new adbd coming down the
+    pipeline. Also fix autopilot tests and run scripts for that.
+
+  [ Michael Zanetti ]
+  * open the application when clicking on the title entry in the
+    quicklist (LP: #1336380)
+  * Don't animate x while dragging apps from the left edge (LP:
+    #1360105)
+
+  [ Diego Sarmentero ]
+  * Reset button state on cancel (LP: #1362622)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 08 Sep 2014 14:16:42 +0000
+
 unity8 (8.00+14.10.20140903.1-0ubuntu1) utopic; urgency=low
 
   [ Nick Dedekind ]
