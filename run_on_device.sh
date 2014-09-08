@@ -30,7 +30,7 @@ usage() {
     echo "  -g Run with gdb"
     echo "  -p Enable a PIN lock screen when running"
     echo "  -k Enable a Keyboard lock screen when running"
-    echo ""
+    echo
     echo "IMPORTANT:"
     echo " * Make sure to have networking setup on the device beforehand."
     echo " * Execute that script from a directory containing unity8 code."
@@ -109,13 +109,13 @@ run() {
 
 while getopts "a:sgpkh" OPTION; do
     case "$OPTION" in
-       a|password) PASSWORD=$OPTARG;;
-       s|setup)   SETUP=true;;
-       g|gdb)     GDB=true;;
-       p|pinlock)     PINLOCK=true;;
-       k|keylock)     KEYLOCK=true;;
-       h|help)    usage;;
-       ?)         echo;usage;;
+       a) PASSWORD=$OPTARG;;
+       s) SETUP=true;;
+       g) GDB=true;;
+       p) PINLOCK=true;;
+       k) KEYLOCK=true;;
+       h) usage;;
+       ?) echo;usage;;
     esac
 done
 
