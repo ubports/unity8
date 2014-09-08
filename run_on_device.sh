@@ -119,7 +119,7 @@ do
        -p|--pinlock)     PINLOCK=true;;
        -k|--keylock)     KEYLOCK=true;;
        -h|--help)    usage;;
-       --) shift;break;;
+       --)           shift;break;;
     esac
     shift
 done
