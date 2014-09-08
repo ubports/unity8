@@ -335,7 +335,7 @@ Item {
             mouseFlick(dash, startX, startY, stopX, stopY);
             compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
-            dashCommunicatorService.mockSetCurrentScope("clickscope", true, true);
+            dashCommunicatorService.mockSetCurrentScope("clickscope", true, false);
             tryCompare(dashContentList, "currentIndex", 1)
         }
 
