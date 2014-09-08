@@ -20,6 +20,7 @@
 import logging
 import subprocess
 import sys
+import dbus
 
 # This has to work in both python 3 (ap 1.5) and py2 (ap legacy 1.4.1) so we
 # pick the correct location in each case. Remove the py2 branch once we no
@@ -82,22 +83,16 @@ def unlock_unity(unity_proxy_obj=None):
     if greeter.created is False:
         raise RuntimeWarning("Greeter appears to be already unlocked.")
 
-    # Because of potential input jerkiness under heavy load,
-    # retry unlocking the greeter two times.
-    # https://bugs.launchpad.net/ubuntu/+bug/1260113
-
-    retries = 3
-    while retries > 0:
-        try:
-            greeter.swipe()
-        except AssertionError:
-            retries -= 1
-            if retries == 0:
-                raise
-            logger.info("Failed to unlock greeter, trying again...")
-        else:
-            logger.info("Greeter unlocked, continuing.")
-            break
+    bus = dbus.SessionBus()
+    dbus_proxy = bus.get_object("com.canonical.UnityGreeter", "/")
+    try:
+        dbus_proxy.HideGreeter()
+    except dbus.DBusException:
+        logger.info("Failed to unlock greeter")
+        raise
+    else:
+        greeter.wait_unlocked()
+        logger.info("Greeter unlocked, continuing.")
 
 
 def lock_unity(unity_proxy_obj=None):
