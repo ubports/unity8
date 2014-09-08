@@ -66,8 +66,14 @@ setup_adb_forwarding() {
 }
 
 install_dependencies() {
-    adb_sudo apt-get update
-    adb_sudo apt-get -y --force-yes install build-essential rsync bzr ccache gdb ninja-build devscripts equivs unity-plugin-scopes
+    phablet-config writable-image --remotepassword ${PASSWORD} -p build-essential \
+                                                               -p rsync \
+                                                               -p bzr \
+                                                               -p ccache \
+                                                               -p gdb \
+                                                               -p ninja-build \
+                                                               -p devscripts \
+                                                               -p equivs
 }
 
 sync_code() {
