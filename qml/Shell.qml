@@ -562,7 +562,7 @@ Item {
             visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
             color: "#000000"
             anchors.fill: parent
-            opacity: 0.5
+            opacity: 0.9
 
             MouseArea {
                 anchors.fill: parent
