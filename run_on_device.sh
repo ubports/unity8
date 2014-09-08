@@ -25,11 +25,11 @@ usage() {
     echo "Script to setup a build environment for the shell and sync build and run it on the device"
     echo
     echo "OPTIONS:"
-    echo "  -a The sudo password to use"
-    echo "  -s Setup the build environment"
-    echo "  -g Run with gdb"
-    echo "  -p Enable a PIN lock screen when running"
-    echo "  -k Enable a Keyboard lock screen when running"
+    echo "  -a, --password  The sudo password to use"
+    echo "  -s, --setup     Setup the build environment"
+    echo "  -g, --gdb       Run with gdb"
+    echo "  -p, --pinlock   Enable a PIN lock screen when running"
+    echo "  -k, --keylock   Enable a Keyboard lock screen when running"
     echo
     echo "IMPORTANT:"
     echo " * Make sure to have networking setup on the device beforehand."
@@ -107,19 +107,22 @@ run() {
     exec_with_ssh "start unity8"
 }
 
-while getopts "a:sgpkh" OPTION; do
-    case "$OPTION" in
-       a) PASSWORD=$OPTARG;;
-       s) SETUP=true;;
-       g) GDB=true;;
-       p) PINLOCK=true;;
-       k) KEYLOCK=true;;
-       h) usage;;
-       ?) echo;usage;;
-    esac
-done
+set -- `getopt -n$0 -u -a --longoptions="password:,setup,gdb,pinlock,keylock,help" "a:sgpkh" "$@"`
 
-shift $((OPTIND - 1))
+# FIXME: giving incorrect arguments does not call usage and exit
+while [ $# -gt 0 ]
+do
+    case "$1" in
+       -a|--password)   PASSWORD=$2;;
+       -s|--setup)  SETUP=true;;
+       -g|--gdb)    GDB=true;;
+       -p|--pinlock)    PINLOCK=true;;
+       -k|--keylock)    KEYLOCK=true;;
+       -h|--help)   usage;;
+       --) shift;break;;
+    esac
+    shift
+done
 
 if [ -z "${PASSWORD}" ]; then
     echo "ERROR: You need to provide a sudo password..."
