@@ -344,6 +344,7 @@ Showable {
         enabled: !dashContent.subPageShown &&
                   dashContent.currentScope &&
                   dashContent.currentScope.searchQuery == "" &&
+                  !scopeItem.subPageShown &&
                   (overviewController.progress == 0 || dragging)
 
         readonly property real fullMovement: units.gu(20)
