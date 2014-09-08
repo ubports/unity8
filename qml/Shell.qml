@@ -22,6 +22,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
 import Ubuntu.SystemImage 0.1
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
@@ -457,18 +458,9 @@ Item {
         id: powerConnection
         target: Powerd
 
-        onDisplayPowerStateChange: {
-            // We ignore any display-off signals when the proximity sensor
-            // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
-                greeter.showNow();
-            }
-
-            // No reason to chew demo CPU when user isn't watching
-            if (status == Powerd.Off) {
-                edgeDemo.paused = true;
-            } else if (status == Powerd.On) {
-                edgeDemo.paused = false;
+        onStatusChanged: {
+            if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+                greeter.showNow()
             }
         }
     }
@@ -637,6 +629,7 @@ Item {
     EdgeDemo {
         id: edgeDemo
         z: alphaDisclaimerLabel.z + 10
+        paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
         indicators: panel.indicators
