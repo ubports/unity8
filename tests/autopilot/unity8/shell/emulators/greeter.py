@@ -25,7 +25,7 @@ from unity8.shell.emulators import UnityEmulatorBase
 class Greeter(UnityEmulatorBase):
     """An emulator that understands the greeter screen."""
 
-    def wait_unlocked(self):
+    def wait_swiped_away(self):
         self.showProgress.wait_for(0)
 
     def swipe(self):
@@ -40,7 +40,7 @@ class Greeter(UnityEmulatorBase):
         stop_y = start_y
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
 
-        self.wait_unlocked()
+        self.wait_swiped_away()
 
     def get_prompt(self):
         return self.select_single(

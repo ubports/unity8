@@ -91,7 +91,7 @@ def unlock_unity(unity_proxy_obj=None):
         logger.info("Failed to unlock greeter")
         raise
     else:
-        greeter.wait_unlocked()
+        greeter.created.wait_for(False)
         logger.info("Greeter unlocked, continuing.")
 
 
@@ -193,7 +193,7 @@ def get_job_status(name):
         ], universal_newlines=True)
     except subprocess.CalledProcessError as error:
         raise JobError(
-                "Unable to get {}'s status: {}".format(name, error)
+            "Unable to get {}'s status: {}".format(name, error)
         )
 
 
