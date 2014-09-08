@@ -113,12 +113,12 @@ set -- `getopt -n$0 -u -a --longoptions="password:,setup,gdb,pinlock,keylock,hel
 while [ $# -gt 0 ]
 do
     case "$1" in
-       -a|--password)   PASSWORD=$2;;
-       -s|--setup)  SETUP=true;;
-       -g|--gdb)    GDB=true;;
-       -p|--pinlock)    PINLOCK=true;;
-       -k|--keylock)    KEYLOCK=true;;
-       -h|--help)   usage;;
+       -a|--password)    PASSWORD=$2;;
+       -s|--setup)   SETUP=true;;
+       -g|--gdb)     GDB=true;;
+       -p|--pinlock)     PINLOCK=true;;
+       -k|--keylock)     KEYLOCK=true;;
+       -h|--help)    usage;;
        --) shift;break;;
     esac
     shift
