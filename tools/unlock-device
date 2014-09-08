@@ -19,13 +19,12 @@ done
 
 eval "$WAIT_COMMAND"
 
-# Force a sleep of twenty no matter what, since we may need to wait for unity8
+# Force a sleep no matter what, since we may need to wait for unity8
 # to finish coming up (it's hard to tell when the greeter is actually rendered)
-sleep 20
+sleep 30
 
-GDBUS_CMD="gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked"
-
-UNLOCK_OUTPUT=$(adb shell "if [ \"\$(id -u)\" = 0 ]; then sudo -u phablet -i $GDBUS_CMD; else $GDBUS_CMD; fi" 2>&1)
+# We need to go through sudo to get a proper environment for dbus set up
+UNLOCK_OUTPUT=$(adb shell "gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked" 2>&1)
 if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
     echo "I: Unlock passed"
     exit 0
