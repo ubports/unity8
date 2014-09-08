@@ -102,7 +102,7 @@ Item {
     }
 
     function refreshLogo() {
-        if (scopeStyle ? scopeStyle.headerLogo != "" : false) {
+        if (root.scopeStyle ? root.scopeStyle.headerLogo != "" : false) {
             header.contents = imageComponent.createObject();
         } else if (header.contents) {
             header.contents.destroy();
@@ -353,7 +353,7 @@ Item {
             bottom: bottomContainer.top
         }
 
-        color: scopeStyle ? scopeStyle.headerDividerColor : "#e0e0e0"
+        color: root.scopeStyle ? root.scopeStyle.headerDividerColor : "#e0e0e0"
 
         Rectangle {
             anchors {
@@ -407,8 +407,10 @@ Item {
                        Qt.lighter(Qt.rgba(bottomItem.background.topColor.r,
                                           bottomItem.background.topColor.g,
                                           bottomItem.background.topColor.b, 1.0), 1.2);
-                   } else if (!bottomItem && scopeStyle) {
-                       Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2);
+                   } else if (!bottomItem && root.scopeStyle) {
+                       Qt.lighter(Qt.rgba(root.scopeStyle.background.r,
+                                          root.scopeStyle.background.g,
+                                          root.scopeStyle.background.b, 1.0), 1.2);
                    } else "#CCFFFFFF"
         }
     }
