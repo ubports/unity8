@@ -24,7 +24,7 @@ eval "$WAIT_COMMAND"
 sleep 30
 
 # We need to go through sudo to get a proper environment for dbus set up
-UNLOCK_OUTPUT=$(adb shell "sudo -u phablet -i gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked" 2>&1)
+UNLOCK_OUTPUT=$(adb shell "gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked" 2>&1)
 if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
     echo "I: Unlock passed"
     exit 0
