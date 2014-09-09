@@ -108,6 +108,7 @@ Loader {
             // actions
             enabled: menuData && menuData.sensitive || false
             removable: !selected
+            confirmRemoval: true
             selected: messageFactoryItem.selected
 
             onIconActivated: {
@@ -152,6 +153,7 @@ Loader {
             replyEnabled: replyAction.valid && replyAction.enabled
             enabled: menuData && menuData.sensitive || false
             removable: !selected
+            confirmRemoval: true
             selected: messageFactoryItem.selected
             highlightWhenPressed: false
 
@@ -208,6 +210,7 @@ Loader {
             replyEnabled: replyAction.valid && replyAction.enabled
             enabled: menuData && menuData.sensitive || false
             removable: !selected
+            confirmRemoval: true
             selected: messageFactoryItem.selected
             highlightWhenPressed: false
 
