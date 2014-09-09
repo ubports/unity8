@@ -30,10 +30,10 @@ Module {
                 "On": 1
             }
         }
+        Property { name: "status"; type: "Status"; isReadonly: true }
         Signal {
-            name: "displayPowerStateChange"
-            Parameter { name: "status"; type: "int" }
-            Parameter { name: "reason"; type: "int" }
+            name: "statusChanged"
+            Parameter { name: "reason"; type: "DisplayStateChangeReason" }
         }
     }
 }
