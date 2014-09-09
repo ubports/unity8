@@ -97,7 +97,7 @@ Item {
                 var application = ApplicationManager.startApplication("dialer-app");
                 ApplicationManager.focusApplication("dialer-app");
                 tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
-                tryCompare(application, "state", ApplicationInfo.Running);
+                tryCompare(application, "state", ApplicationInfoInterface.Running);
 
                 if (!data.focused) { ApplicationManager.unfocusCurrentApplication(); }
             }

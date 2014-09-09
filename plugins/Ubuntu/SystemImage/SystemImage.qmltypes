@@ -11,6 +11,8 @@ Module {
         name: "SystemImage"
         prototype: "QObject"
         exports: ["Ubuntu.SystemImage/SystemImage 0.1"]
+        isCreatable: false
+        isSingleton: true
         exportMetaObjectRevisions: [0]
         Method { name: "factoryReset" }
     }

@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-14 18:22+0000\n"
-"Last-Translator: Erik Simmesgård <Unknown>\n"
+"PO-Revision-Date: 2014-09-08 15:57+0000\n"
+"Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"X-Launchpad-Export-Date: 2014-09-09 07:54+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 "Language: sv\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Lösenord: "
 
@@ -33,53 +33,55 @@ msgstr "Släpp genväg"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "Logga ut"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Är du säker på att du vill logga ut?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "Stäng av"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "Starta om"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Är du säker på att du vill starta om?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Ström"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Är du säker på att du vill \n"
+"stänga av?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr ""
+msgstr "Stäng av"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -137,7 +139,7 @@ msgstr "Var god vänta"
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "För många felaktiga försök"
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
@@ -164,21 +166,22 @@ msgstr "Visa mindre"
 msgid "See all"
 msgstr "Visa alla"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Sök"
 
 #: qml/Dash/PageHeader.qml:270
 msgid "Settings"
-msgstr ""
+msgstr "Inställningar"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Ta bort från Favoriter"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Lägg till Favoriter"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -202,15 +205,15 @@ msgstr "Skicka"
 
 #: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr ""
+msgstr "Hantera Dash"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
-msgstr ""
+msgstr "Klar"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
-msgstr ""
+msgstr "Butik"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
@@ -218,13 +221,13 @@ msgstr "Favoriter"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Alla"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
 msgstr "Svep för att låsa upp"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Bekräfta"
 
@@ -250,11 +253,11 @@ msgstr "Visa lösenord"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "Ange SIM PIN-kod"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "Felaktig PIN"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -296,55 +299,56 @@ msgstr "Lås upp SIM-kort"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:266
+#: qml/Shell.qml:279
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Ange din lösenfras"
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Felaktig lösenfras"
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
-msgstr ""
+msgstr "Ange din lösenkod"
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Felaktig lösenkod"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
 msgstr "Skriv in din %1"
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Felaktig %1"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Felaktig lösenfras."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Felaktig lösenkod."
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:325
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Detta är ditt sista försök."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Om lösenfrasen anges inkorrekt kommer telefonen att fabrikåterställas och "
+"all personlig data kommer att tas bort."
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-
-#~ msgid "Restart"
-#~ msgstr "Starta om"
+"Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och all "
+"personlig data kommer att tas bort."

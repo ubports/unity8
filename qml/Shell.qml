@@ -233,6 +233,15 @@ Item {
             }
         }
     }
+    Connections {
+        target: SessionManager
+        onSessionStopping: {
+            if (!session.parentSession && !session.application) {
+                // nothing is using it. delete it right away
+                session.release();
+            }
+        }
+    }
 
     Lockscreen {
         id: lockscreen
