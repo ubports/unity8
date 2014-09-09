@@ -34,14 +34,7 @@ QStringList GSettings::storedApplications() const
 
     QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
 
-    QString settingsKey = "items";
-
-    // If "items" doesn't contain anything yet, import unity7's "favorites"
-    if (gSettings.get(settingsKey).toStringList().isEmpty()) {
-        settingsKey = "favorites";
-    }
-
-    Q_FOREACH(const QString &entry, gSettings.get(settingsKey).toStringList()) {
+    Q_FOREACH(const QString &entry, gSettings.get("items").toStringList()) {
         if (entry.startsWith("application://")) {
             // convert legacy entries to new world appids
             QString appId = entry;
