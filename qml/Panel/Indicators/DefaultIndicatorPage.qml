@@ -86,8 +86,8 @@ IndicatorBase {
             }
         }
 
-        // Ensure all delegates are cached in order to improve smoothness of scrolling
-        cacheBuffer: height * 2
+        // Don't load all the delegates (only max of 3 pages worth -1/0/+1)
+        cacheBuffer: Math.max(height * 3, units.gu(70))
 
         // Only allow flicking if the content doesn't fit on the page
         interactive: contentHeight > height
