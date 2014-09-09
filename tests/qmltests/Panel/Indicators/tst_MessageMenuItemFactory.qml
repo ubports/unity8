@@ -90,16 +90,13 @@ Item {
             factory.menuData = menuData;
             timeFormatter.time = data.time.getTime()/1000;
 
-            var loader = findChild(factory, "loader");
-            verify(loader !== undefined);
-
-            tryCompare(loader.item, "objectName", "simpleTextMessage");
-            compare(loader.item.title, data.title, "Title does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
-            compare(loader.item.body, data.body, "Message does not match data");
-            compare(loader.item.avatar, data.avatar, "Avatar does not match data");
-            compare(loader.item.icon, data.icon, "App icon does not match data");
-            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            tryCompare(factory.item, "objectName", "simpleTextMessage");
+            compare(factory.item.title, data.title, "Title does not match data");
+            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.body, data.body, "Message does not match data");
+            compare(factory.item.avatar, data.avatar, "Avatar does not match data");
+            compare(factory.item.icon, data.icon, "App icon does not match data");
+            compare(factory.item.enabled, data.enabled, "Enabled does not match data");
         }
 
         function test_create_textmessage_data() {
@@ -128,16 +125,13 @@ Item {
             factory.menuData = menuData;
             timeFormatter.time = data.time.getTime()/1000;
 
-            var loader = findChild(factory, "loader");
-            verify(loader !== undefined);
-
-            tryCompare(loader.item, "objectName", "textMessage");
-            compare(loader.item.title, data.title, "Title does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
-            compare(loader.item.body, data.body, "Message does not match data");
-            compare(loader.item.avatar, data.avatar, "Avatar does not match data");
-            compare(loader.item.icon, data.icon, "App icon does not match data");
-            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            tryCompare(factory.item, "objectName", "textMessage");
+            compare(factory.item.title, data.title, "Title does not match data");
+            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.body, data.body, "Message does not match data");
+            compare(factory.item.avatar, data.avatar, "Avatar does not match data");
+            compare(factory.item.icon, data.icon, "App icon does not match data");
+            compare(factory.item.enabled, data.enabled, "Enabled does not match data");
         }
 
 
@@ -170,16 +164,13 @@ Item {
             factory.menuData = menuData;
             timeFormatter.time = data.time.getTime()/1000;
 
-            var loader = findChild(factory, "loader");
-            verify(loader !== undefined);
-
-            tryCompare(loader.item, "objectName", "snapDecision");
-            compare(loader.item.title, data.title, "Title does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
-            compare(loader.item.body, data.body, "Message does not match data");
-            compare(loader.item.avatar, data.avatar, "Avatar does not match data");
-            compare(loader.item.icon, data.icon, "App icon does not match data");
-            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            tryCompare(factory.item, "objectName", "snapDecision");
+            compare(factory.item.title, data.title, "Title does not match data");
+            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.body, data.body, "Message does not match data");
+            compare(factory.item.avatar, data.avatar, "Avatar does not match data");
+            compare(factory.item.icon, data.icon, "App icon does not match data");
+            compare(factory.item.enabled, data.enabled, "Enabled does not match data");
         }
 
     }

@@ -47,7 +47,6 @@ Item {
     MenuContent {
         id: menuContent
         indicatorsModel: indicatorsModel
-        contentReleaseInterval: 50
         height: parent.height - 50
     }
 
@@ -114,12 +113,6 @@ Item {
         name: "MenuContentTest"
         when: windowShown
 
-        function init() {
-            if (menuContent.__contentActive)
-                menuContent.releaseContent();
-            tryCompare(menuContent, "__contentActive", false);
-        }
-
         // Check that the correct menus are displayed for the requested item.
         function test_show_menu() {
             var menuCount = indicatorsModel.count;
@@ -136,41 +129,6 @@ Item {
                 testItemObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
                 compare(listView.currentIndex, menuIndex, "Current tab index does not match selected tab index");
                 tryCompareFunction(current_item_equals_test_item, true);
-            }
-        }
-
-        // Calling activateContent should call start on all menus
-        function test_activate_content() {
-            var menuCount = indicatorsModel.count;
-            verify(menuCount > 0, "Menu count should be greater than zero");
-
-            // Ensure all the menus are stopped first
-            menuContent.__contentActive = false;
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", false);
-            }
-
-            // activate content the content to call stop.
-            menuContent.activateContent();
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", true);
-            }
-        }
-
-        // Calling activateContent should call stop on all menus.
-        function test_release_content() {
-            var menuCount = indicatorsModel.count;
-            verify(menuCount > 0, "Menu count should be greater than zero");
-
-            // Ensure all the menus are started first
-            menuContent.__contentActive = true;
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", true);
-            }
-            // release the content to call stop.
-            menuContent.releaseContent();
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", false);
             }
         }
 
