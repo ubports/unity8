@@ -24,8 +24,9 @@ import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1 as QMenuModel
 import Utils 0.1 as Utils
 
-Item {
+Loader {
     id: messageFactoryItem
+    objectName: "messageItem"
     property var menuModel: null
     property QtObject menuData: null
     property int menuIndex: -1
@@ -49,169 +50,7 @@ Item {
         loadAttributes();
     }
 
-    function loadAttributes() {
-        if (!menuModel || menuIndex == -1) return;
-        menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-time': 'int64',
-                                                     'x-canonical-text': 'string',
-                                                     'x-canonical-message-actions': 'variant',
-                                                     'icon': 'icon',
-                                                     'x-canonical-app-icon': 'icon'});
-    }
-
-    function getExtendedProperty(object, propertyName, defaultValue) {
-        if (object && object.hasOwnProperty(propertyName)) {
-            return object[propertyName];
-        }
-        return defaultValue;
-    }
-
-    implicitHeight: contents.status == Loader.Ready ? contents.item.implicitHeight : 0
-
-    Loader {
-        id: contents
-        objectName: "loader"
-        anchors.fill: parent
-
-        sourceComponent: loadMessage(actionsDescription);
-
-        Component {
-            id: simpleMessage
-
-            Menus.SimpleMessageMenu {
-                id: message
-                objectName: "simpleTextMessage"
-                // text
-                title: menuData && menuData.label || ""
-                time: timeFormatter.timeString
-                body: getExtendedProperty(extendedData, "xCanonicalText", "")
-                // icons
-                avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
-                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
-                // actions
-                enabled: menuData && menuData.sensitive || false
-                removable: !selected
-                selected: messageFactoryItem.selected
-
-                onIconActivated: {
-                    menuModel.activate(menuIndex, true);
-                }
-                onDismissed: {
-                    menuModel.activate(menuIndex, false);
-                }
-                onTriggered: {
-                    if (selected) {
-                        menuDeselected();
-                    } else {
-                        menuSelected();
-                    }
-                }
-            }
-        }
-
-        Component {
-            id: textMessage
-
-            Menus.TextMessageMenu {
-                id: message
-                objectName: "textMessage"
-                property var replyActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
-
-                property var replyAction: QMenuModel.UnityMenuAction {
-                    model: menuModel
-                    index: menuIndex
-                    name: getExtendedProperty(replyActionDescription, "name", "")
-                }
-
-                // text
-                title: menuData && menuData.label || ""
-                time: timeFormatter.timeString
-                body: getExtendedProperty(extendedData, "xCanonicalText", "")
-                replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
-                // icons
-                avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
-                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
-                // actions
-                replyEnabled: replyAction.valid && replyAction.enabled
-                enabled: menuData && menuData.sensitive || false
-                removable: !selected
-                selected: messageFactoryItem.selected
-
-                onIconActivated: {
-                    menuModel.activate(menuIndex, true);
-                }
-                onDismissed: {
-                    menuModel.activate(menuIndex, false);
-                }
-                onReplied: {
-                    replyAction.activate(value);
-                }
-                onTriggered: {
-                    if (selected) {
-                        menuDeselected();
-                    } else {
-                        menuSelected();
-                    }
-                }
-            }
-        }
-        Component {
-            id: snapDecision
-
-            Menus.SnapDecisionMenu {
-                id: message
-                objectName: "snapDecision"
-                property var activateActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
-                property var replyActionDescription: actionsDescription && actionsDescription.length > 1 ? actionsDescription[1] : undefined
-
-                property var activateAction: QMenuModel.UnityMenuAction {
-                    model: menuModel
-                    index: menuIndex
-                    name: getExtendedProperty(activateActionDescription, "name", "")
-                }
-                property var replyAction: QMenuModel.UnityMenuAction {
-                    model: menuModel
-                    index: menuIndex
-                    name: getExtendedProperty(replyActionDescription, "name", "")
-                }
-
-                // text
-                title: menuData && menuData.label || ""
-                time: timeFormatter.timeString
-                body: getExtendedProperty(extendedData, "xCanonicalText", "")
-                actionButtonText: getExtendedProperty(activateActionDescription, "label", "Call back")
-                replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
-                // icons
-                avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
-                icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/missed-call")
-                // actions
-                actionEnabled: activateAction.valid && activateAction.enabled
-                replyEnabled: replyAction.valid && replyAction.enabled
-                enabled: menuData && menuData.sensitive || false
-                removable: !selected
-                selected: messageFactoryItem.selected
-
-                onIconActivated: {
-                    menuModel.activate(menuIndex, true);
-                }
-                onDismissed: {
-                    menuModel.activate(menuIndex, false);
-                }
-                onActionActivated: {
-                    activateAction.activate();
-                }
-                onReplied: {
-                    replyAction.activate(value);
-                }
-                onTriggered: {
-                    if (selected) {
-                        menuDeselected();
-                    } else {
-                        menuSelected();
-                    }
-                }
-            }
-        }
-    }
+    sourceComponent: loadMessage(actionsDescription)
 
     function loadMessage(actions)
     {
@@ -235,5 +74,162 @@ Item {
             console.debug("Unknown paramater type: " + parameterType);
         }
         return undefined;
+    }
+
+    function loadAttributes() {
+        if (!menuModel || menuIndex == -1) return;
+        menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-time': 'int64',
+                                                     'x-canonical-text': 'string',
+                                                     'x-canonical-message-actions': 'variant',
+                                                     'icon': 'icon',
+                                                     'x-canonical-app-icon': 'icon'});
+    }
+
+    function getExtendedProperty(object, propertyName, defaultValue) {
+        if (object && object.hasOwnProperty(propertyName)) {
+            return object[propertyName];
+        }
+        return defaultValue;
+    }
+
+    Component {
+        id: simpleMessage
+
+        Menus.SimpleMessageMenu {
+            id: message
+            objectName: "simpleTextMessage"
+            // text
+            title: menuData && menuData.label || ""
+            time: timeFormatter.timeString
+            body: getExtendedProperty(extendedData, "xCanonicalText", "")
+            // icons
+            avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
+            icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
+            // actions
+            enabled: menuData && menuData.sensitive || false
+            removable: !selected
+            selected: messageFactoryItem.selected
+
+            onIconActivated: {
+                menuModel.activate(menuIndex, true);
+            }
+            onDismissed: {
+                menuModel.activate(menuIndex, false);
+            }
+            onTriggered: {
+                if (selected) {
+                    menuDeselected();
+                } else {
+                    menuSelected();
+                }
+            }
+        }
+    }
+
+    Component {
+        id: textMessage
+
+        Menus.TextMessageMenu {
+            id: message
+            objectName: "textMessage"
+            property var replyActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
+
+            property var replyAction: QMenuModel.UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(replyActionDescription, "name", "")
+            }
+
+            // text
+            title: menuData && menuData.label || ""
+            time: timeFormatter.timeString
+            body: getExtendedProperty(extendedData, "xCanonicalText", "")
+            replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
+            // icons
+            avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
+            icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
+            // actions
+            replyEnabled: replyAction.valid && replyAction.enabled
+            enabled: menuData && menuData.sensitive || false
+            removable: !selected
+            selected: messageFactoryItem.selected
+            highlightWhenPressed: false
+
+            onIconActivated: {
+                menuModel.activate(menuIndex, true);
+            }
+            onDismissed: {
+                menuModel.activate(menuIndex, false);
+            }
+            onReplied: {
+                replyAction.activate(value);
+            }
+            onTriggered: {
+                if (selected) {
+                    menuDeselected();
+                } else {
+                    menuSelected();
+                }
+            }
+        }
+    }
+
+    Component {
+        id: snapDecision
+
+        Menus.SnapDecisionMenu {
+            id: message
+            objectName: "snapDecision"
+            property var activateActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
+            property var replyActionDescription: actionsDescription && actionsDescription.length > 1 ? actionsDescription[1] : undefined
+
+            property var activateAction: QMenuModel.UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(activateActionDescription, "name", "")
+            }
+            property var replyAction: QMenuModel.UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(replyActionDescription, "name", "")
+            }
+
+            // text
+            title: menuData && menuData.label || ""
+            time: timeFormatter.timeString
+            body: getExtendedProperty(extendedData, "xCanonicalText", "")
+            actionButtonText: getExtendedProperty(activateActionDescription, "label", "Call back")
+            replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
+            // icons
+            avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
+            icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/missed-call")
+            // actions
+            actionEnabled: activateAction.valid && activateAction.enabled
+            replyEnabled: replyAction.valid && replyAction.enabled
+            enabled: menuData && menuData.sensitive || false
+            removable: !selected
+            selected: messageFactoryItem.selected
+            highlightWhenPressed: false
+
+            onIconActivated: {
+                menuModel.activate(menuIndex, true);
+            }
+            onDismissed: {
+                menuModel.activate(menuIndex, false);
+            }
+            onActionActivated: {
+                activateAction.activate();
+            }
+            onReplied: {
+                replyAction.activate(value);
+            }
+            onTriggered: {
+                if (selected) {
+                    menuDeselected();
+                } else {
+                    menuSelected();
+                }
+            }
+        }
     }
 }
