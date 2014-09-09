@@ -107,6 +107,7 @@ Item {
                 return maximum;
             }
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -146,6 +147,7 @@ Item {
 
             buttonText: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -207,6 +209,7 @@ Item {
             iconSource: menuData && menuData.icon || ""
             value : menuData && menuData.actionState || 0.0
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
         }
     }
 
@@ -221,6 +224,7 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -228,7 +232,7 @@ Item {
 
             // FIXME : At the moment, the indicators aren't using
             // com.canonical.indicators.link for settings menu. Need to fudge it.
-            property bool settingsMenu: menuData.action.indexOf("settings") > -1
+            property bool settingsMenu: menuData && menuData.action.indexOf("settings") > -1 || false
             backColor: settingsMenu ? Qt.rgba(1,1,1,0.07) : "transparent"
             component: settingsMenu ? buttonForSettings : undefined
             Component {
@@ -254,6 +258,7 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -285,6 +290,7 @@ Item {
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
             checked: menuData && menuData.isToggled || false
+            highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -304,6 +310,7 @@ Item {
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
             checked: menuData && menuData.isToggled || false
+            highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -330,6 +337,7 @@ Item {
             iconSource: menuData && menuData.icon || "image://theme/alarm-clock"
             time: timeFormatter.timeString
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -369,6 +377,7 @@ Item {
             time: timeFormatter.timeString
             eventColor: getExtendedProperty(extendedData, "xCanonicalColor", Qt.rgba(0.0, 0.0, 0.0, 0.0))
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -438,6 +447,7 @@ Item {
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             signalStrength: strengthAction.valid ? strengthAction.state : 0
+            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -466,6 +476,7 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
+            highlightWhenPressed: false
 
             property var statusLabelAction: UnityMenuAction {
                 model: menuModel
@@ -554,6 +565,7 @@ Item {
             iconSource: getExtendedProperty(extendedData, "icon", "image://theme/message")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
             removable: true
 
             onMenuModelChanged: {
@@ -596,6 +608,7 @@ Item {
             running: getExtendedProperty(actionState, "running", false)
             state: getExtendedProperty(actionState, "state", "")
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
             showDivider: false
 
             onTriggered: {
@@ -635,6 +648,7 @@ Item {
             canGoNext: nextAction.valid
             canGoPrevious: previousAction.valid
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onPlay: {
                 playAction.activate();
@@ -677,6 +691,7 @@ Item {
             iconSource: menuData && menuData.icon || "image://theme/transfer-none"
             maximum: 1.0
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
             removable: true
             confirmRemoval: true
 
@@ -781,6 +796,7 @@ Item {
 
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
             text: menuData && menuData.label || ""
             foregroundColor: Theme.palette.normal.backgroundText
 
