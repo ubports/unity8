@@ -26,13 +26,12 @@ IndicatorBase {
     id: main
 
     //const
-    property bool contentActive: false
     property string title: rootActionState.title
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
 
     Indicators.UnityMenuModelStack {
         id: menuStack
-        head: contentActive ? main.menuModel : null
+        head: main.menuModel
 
         property var rootMenu: null
 
@@ -88,10 +87,11 @@ IndicatorBase {
         }
 
         // Ensure all delegates are cached in order to improve smoothness of scrolling
-        cacheBuffer: 10000
+        cacheBuffer: height * 2
 
         // Only allow flicking if the content doesn't fit on the page
         interactive: contentHeight > height
+        boundsBehavior: Flickable.StopAtBounds
 
         property int selectedIndex: -1
         property bool blockCurrentIndexChange: false
@@ -174,24 +174,8 @@ IndicatorBase {
         menuModel: mainMenu.model ? mainMenu.model : null
     }
 
-    function start()
-    {
-        reset()
-        if (!contentActive) {
-            contentActive = true;
-        }
-    }
-
-    function stop()
-    {
-        if (contentActive) {
-            contentActive = false;
-        }
-    }
-
     function reset()
     {
-        mainMenu.selectedIndex = -1;
         mainMenu.positionViewAtBeginning();
     }
 }

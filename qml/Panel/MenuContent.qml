@@ -26,10 +26,8 @@ Rectangle {
     id: content
 
     property QtObject indicatorsModel: null
-    property bool __contentActive: false
     readonly property alias currentMenuIndex: listViewHeader.currentIndex
     color: "#221e1c" // FIXME not in palette yet
-    property int contentReleaseInterval: 20000
     property real headerHeight: listViewHeader.height
 
     width: units.gu(40)
@@ -37,17 +35,6 @@ Rectangle {
 
     function setCurrentMenuIndex(index, animate) {
         listViewHeader.currentIndex = index;
-    }
-
-    function activateContent() {
-        contentReleaseTimer.stop();
-        __contentActive = true;
-    }
-
-    function releaseContent() {
-        if (__contentActive) {
-            contentReleaseTimer.restart();
-        }
     }
 
     ListView {
@@ -117,17 +104,6 @@ Rectangle {
             source: pageSource
             asynchronous: true
 
-            readonly property bool indexActive: index >= 0 && index < menuActivator.count && menuActivator.content[index].active
-            readonly property bool contentActive: content.__contentActive && indexActive
-
-            onContentActiveChanged: {
-                if (contentActive && item) {
-                    item.start()
-                } else if (!contentActive && item) {
-                    item.stop()
-                }
-            }
-
             onVisibleChanged: {
                 // Reset the indicator states
                 if (!visible && item && item["reset"]) {
@@ -141,9 +117,6 @@ Rectangle {
                         item[pName] = indicatorProperties[pName]
                     }
                 }
-                if (contentActive && listViewContent.visible) {
-                    item.start()
-                }
             }
 
             Binding {
@@ -152,22 +125,5 @@ Rectangle {
                 value: identifier + "-page"
             }
         }
-    }
-
-    Timer {
-        id: contentReleaseTimer
-
-        interval: contentReleaseInterval
-        onTriggered: {
-            content.__contentActive = false;
-            menuActivator.clear();
-        }
-    }
-
-    Indicators.MenuContentActivator {
-        id:  menuActivator
-        running: content.__contentActive
-        baseIndex: content.currentMenuIndex
-        count: indicatorsModel.count
     }
 }

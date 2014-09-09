@@ -84,10 +84,6 @@ Showable {
                 indicators.state = "locked";
             }
         }
-
-        if (enableRelease && revealProgress === 0) {
-            menuContent.releaseContent();
-        }
     }
 
     function calculateCurrentItem(xValue, useBuffer) {
@@ -356,12 +352,6 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: panelHeight
-
-        onStatusChanged: {
-            if (status === DirectionalDragArea.Recognized) {
-                menuContent.activateContent();
-            }
-        }
 
         onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
     }
