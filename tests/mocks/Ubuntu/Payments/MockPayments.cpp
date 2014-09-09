@@ -77,13 +77,16 @@ void MockPayments::setStoreItemId(const QString &store_item_id)
 
 void MockPayments::start()
 {
-    if (!m_store_item_id.isEmpty()) {
-        if (m_store_item_id == "com.example.invalid") {
-            Q_EMIT purchaseError("Purchase failed.");
-        } else {
-            Q_EMIT purchaseCompleted();
-        }
-    } else {
+    if (m_store_item_id.isEmpty()) {
         Q_EMIT purchaseError("No item ID supplied.");
+    }
+}
+
+void MockPayments::process()
+{
+    if (m_store_item_id == "com.example.invalid") {
+        Q_EMIT purchaseError("Purchase failed.");
+    } else {
+        Q_EMIT purchaseCompleted();
     }
 }

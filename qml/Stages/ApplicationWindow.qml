@@ -56,7 +56,8 @@ Item {
         property bool surfaceInitialized: false
 
         function forceSurfaceActiveFocusIfReady() {
-            if (sessionContainer.surface.focus &&
+            if (sessionContainer.surface !== null &&
+                    sessionContainer.surface.focus &&
                     sessionContainer.surface.parent === sessionContainer.surfaceContainer &&
                     sessionContainer.surface.enabled) {
                 sessionContainer.surface.forceActiveFocus();
@@ -116,10 +117,10 @@ Item {
             if (sessionContainer.surface) {
                 surface.orientation = Qt.binding( function() { return root.orientation; } );
                 surfaceInitTimer.start();
+                d.forceSurfaceActiveFocusIfReady();
             } else {
                 d.surfaceInitialized = false;
             }
-            d.forceSurfaceActiveFocusIfReady();
         }
     }
 

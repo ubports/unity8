@@ -23,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
 import Ubuntu.SystemImage 0.1
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
@@ -147,6 +148,7 @@ Item {
                     lockscreen.show();
                 }
                 greeter.hide();
+                launcher.hide();
             }
 
             onFocusedApplicationIdChanged: {
@@ -165,6 +167,7 @@ Item {
                     // for an emergency call or accepted an incoming call.
                     setFakeActiveForApp(appId)
                 }
+                launcher.hide();
             }
         }
 
@@ -475,18 +478,9 @@ Item {
         id: powerConnection
         target: Powerd
 
-        onDisplayPowerStateChange: {
-            // We ignore any display-off signals when the proximity sensor
-            // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
-                greeter.showNow();
-            }
-
-            // No reason to chew demo CPU when user isn't watching
-            if (status == Powerd.Off) {
-                edgeDemo.paused = true;
-            } else if (status == Powerd.On) {
-                edgeDemo.paused = false;
+        onStatusChanged: {
+            if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+                greeter.showNow()
             }
         }
     }
@@ -562,7 +556,7 @@ Item {
             onShowDashHome: showHome()
             onDash: showDash()
             onDashSwipeChanged: {
-                if (dashSwipe && ApplicationManager.focusedApplicationId !== "unity8-dash") {
+                if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
                 }
             }
@@ -586,7 +580,7 @@ Item {
             visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
             color: "#000000"
             anchors.fill: parent
-            opacity: 0.5
+            opacity: 0.9
 
             MouseArea {
                 anchors.fill: parent
@@ -619,12 +613,6 @@ Item {
         }
     }
 
-    Binding {
-        target: i18n
-        property: "domain"
-        value: "unity8"
-    }
-
     Dialogs {
         id: dialogs
         anchors.fill: parent
@@ -655,6 +643,7 @@ Item {
     EdgeDemo {
         id: edgeDemo
         z: alphaDisclaimerLabel.z + 10
+        paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
         indicators: panel.indicators

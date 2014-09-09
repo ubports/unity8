@@ -29,7 +29,7 @@ public:
     ~DashCommunicator();
 
 public Q_SLOTS:
-    void setCurrentScope(const QString &scopeId, bool animate, bool reset);
+    void setCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
 };
 
 #endif
