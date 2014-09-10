@@ -24,7 +24,7 @@
 #include "fake_scopes.h"
 #include "fake_settingsmodel.h"
 
-Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
+Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 

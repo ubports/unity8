@@ -17,8 +17,10 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include "SurfaceManager.h"
+#include "MirSurfaceItemModel.h"
+
 #include <QObject>
-#include <QQmlComponent>
 
 class QQuickItem;
 class MirSurfaceItem;
@@ -32,8 +34,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT
 
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
-    Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
-    Q_PROPERTY(QQmlListProperty<MirSurfaceItem> promptSurfaces READ promptSurfaces NOTIFY promptSurfacesChanged DESIGNABLE false)
+    Q_PROPERTY(Session* session READ session NOTIFY sessionChanged)
 
     // Only exists in this fake implementation
 
@@ -72,32 +73,23 @@ public:
     void setFullscreen(bool value);
     bool fullscreen() const { return m_fullscreen; }
 
-    void setSurface(MirSurfaceItem* surface);
-    MirSurfaceItem* surface() const { return m_surface; }
-
-    void removeSurface(MirSurfaceItem* surface);
-
-    void addPromptSurface(MirSurfaceItem* surface);
-    QList<MirSurfaceItem*> promptSurfaceList() const;
-    QQmlListProperty<MirSurfaceItem> promptSurfaces();
-
     bool manualSurfaceCreation() const { return m_manualSurfaceCreation; }
     void setManualSurfaceCreation(bool value);
 
+public:
+    void setSession(Session* session);
+    Session* session() const { return m_session; }
+
 Q_SIGNALS:
-    void surfaceChanged(MirSurfaceItem*);
-    void promptSurfacesChanged();
+    void sessionChanged(Session*);
     void fullscreenChanged(bool value);
     void manualSurfaceCreationChanged(bool value);
 
 public Q_SLOTS:
-    Q_INVOKABLE void createSurface();
+    Q_INVOKABLE void createSession();
 
 private:
-    static int promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
-    static MirSurfaceItem* promptSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
     void setIcon(const QUrl &value);
-    void setScreenshot(const QUrl &value);
 
     QString m_screenshotFileName;
 
@@ -108,15 +100,11 @@ private:
     State m_state;
     bool m_focused;
     bool m_fullscreen;
-    MirSurfaceItem* m_surface;
+    Session* m_session;
 
     bool m_manualSurfaceCreation;
-
-    QQuickItem *m_parentItem;
-    QList<MirSurfaceItem*> m_promptSurfaces;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)
-Q_DECLARE_METATYPE(QQmlListProperty<MirSurfaceItem>)
 
 #endif  // APPLICATION_H

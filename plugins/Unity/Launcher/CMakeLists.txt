@@ -32,6 +32,6 @@ add_library(UnityLauncher-qml MODULE
 
 target_link_libraries(UnityLauncher-qml ${GSETTINGS_QT_LDFLAGS})
 
-qt5_use_modules(UnityLauncher-qml DBus Qml)
+qt5_use_modules(UnityLauncher-qml DBus Qml Gui)
 
 add_unity8_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)

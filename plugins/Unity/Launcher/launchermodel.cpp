@@ -25,6 +25,7 @@
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
+#include <QDesktopServices>
 #include <QDebug>
 
 using namespace unity::shell::application;
@@ -210,6 +211,8 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
             } else {
                 pin(appId);
             }
+        } else if (actionId == "launch_item") {
+            QDesktopServices::openUrl(getUrlForAppId(appId));
 
         // Nope, we don't know this action, let the backend forward it to the application
         } else {

@@ -37,6 +37,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
+    nameAction.setActionId("launch_item");
     nameAction.setText(m_name);
     m_quickList->appendAction(nameAction);
     QuickListEntry pinningAction;
