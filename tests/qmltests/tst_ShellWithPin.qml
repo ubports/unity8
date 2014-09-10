@@ -168,7 +168,8 @@ Item {
 
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
 
-            tryCompare(greeter, "fakeActiveForApp", "dialer-app")
+            tryCompare(greeter, "lockedApp", "dialer-app")
+            tryCompare(greeter, "hasLockedApp", true)
             tryCompare(lockscreen, "shown", false)
             tryCompare(panel, "fullscreenMode", true)
             tryCompare(indicators, "available", false)
@@ -180,7 +181,8 @@ Item {
             LightDM.Greeter.showGreeter()
 
             tryCompare(greeter, "shown", true)
-            tryCompare(greeter, "fakeActiveForApp", "")
+            tryCompare(greeter, "lockedApp", "")
+            tryCompare(greeter, "hasLockedApp", false)
             tryCompare(lockscreen, "shown", true)
             tryCompare(panel, "fullscreenMode", false)
             tryCompare(indicators, "available", true)

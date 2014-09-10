@@ -70,9 +70,9 @@ Item {
         }
     }
 
-    function setFakeActiveForApp(app) {
+    function setLockedApp(app) {
         if (shell.locked) {
-            greeter.fakeActiveForApp = app
+            greeter.lockedApp = app
             lockscreen.hide()
         }
     }
@@ -142,8 +142,8 @@ Item {
                 if (appId === "dialer-app") {
                     // Always let the dialer-app through.  Either user asked
                     // for an emergency call or accepted an incoming call.
-                    setFakeActiveForApp(appId)
-                } else if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
+                    setLockedApp(appId)
+                } else if (greeter.hasLockedApp && greeter.lockedApp !== appId) {
                     lockscreen.show();
                 }
                 greeter.hide();
@@ -151,7 +151,7 @@ Item {
             }
 
             onFocusedApplicationIdChanged: {
-                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== ApplicationManager.focusedApplicationId) {
+                if (greeter.hasLockedApp && greeter.lockedApp !== ApplicationManager.focusedApplicationId) {
                     lockscreen.show();
                 }
                 panel.indicators.hide();
@@ -164,7 +164,7 @@ Item {
                 if (appId === "dialer-app") {
                     // Always let the dialer-app through.  Either user asked
                     // for an emergency call or accepted an incoming call.
-                    setFakeActiveForApp(appId)
+                    setLockedApp(appId)
                 }
                 launcher.hide();
             }
@@ -174,8 +174,8 @@ Item {
             id: applicationsDisplayLoader
             anchors.fill: parent
 
-            // When in the "fakeActiveForApp" mode, we only want to show that one app
-            source: (shell.sideStageEnabled && greeter.fakeActiveForApp !== "") ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            // When we have a locked app, we only want to show that one app
+            source: (shell.sideStageEnabled && !greeter.hasLockedApp) ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -201,7 +201,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: edgeDemo.stagesEnabled && greeter.fakeActiveForApp === "" // to support emergency dialer hack
+                value: edgeDemo.stagesEnabled && !greeter.hasLockedApp // to support emergency dialer hack
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -271,7 +271,7 @@ Item {
         onCancel: greeter.show()
         onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter fake-active mode
 
-        onShownChanged: if (shown) greeter.fakeActiveForApp = ""
+        onShownChanged: if (shown) greeter.lockedApp = ""
 
         Component.onCompleted: {
             if (greeter.narrowMode) {
@@ -359,7 +359,7 @@ Item {
     Binding {
         target: LightDM.Greeter
         property: "active"
-        value: greeter.shown || lockscreen.shown || greeter.fakeActiveForApp != ""
+        value: greeter.shown || lockscreen.shown || greeter.hasLockedApp
     }
 
     Rectangle {
@@ -399,7 +399,8 @@ Item {
 
             signal sessionStarted() // helpful for tests
 
-            property string fakeActiveForApp: ""
+            property string lockedApp: ""
+            property bool hasLockedApp: lockedApp !== ""
 
             available: true
             hides: [launcher, panel.indicators]
@@ -429,7 +430,7 @@ Item {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     }
-                    greeter.fakeActiveForApp = "";
+                    greeter.lockedApp = "";
                     greeter.forceActiveFocus();
                 }
             }
@@ -510,7 +511,7 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && greeter.fakeActiveForApp === ""
+                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
@@ -521,7 +522,7 @@ Item {
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
             fullscreenMode: (topmostApplicationIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
-                            || greeter.fakeActiveForApp !== ""
+                            || greeter.hasLockedApp
         }
 
         Launcher {
@@ -534,7 +535,7 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
+            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -544,7 +545,7 @@ Item {
                 }
             }
             onLauncherApplicationSelected: {
-                if (greeter.fakeActiveForApp !== "") {
+                if (greeter.hasLockedApp) {
                     lockscreen.show()
                 }
                 if (!edgeDemo.running)
