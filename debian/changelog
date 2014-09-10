@@ -1,3 +1,18 @@
+unity8 (8.00+14.10.20140910.1-0ubuntu1) utopic; urgency=low
+
+  [ Pete Woods ]
+  * Disable OEM and Click scopes when system scopes are disabled
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Pawel Stolowski ]
+  * Set UNITY_SCOPES_NO_FAVORITES environment variable to make scopes
+    plugin ignore favorite scopes and fix basic functionality of unity-
+    scope-tool.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 10 Sep 2014 08:53:57 +0000
+
 unity8 (8.00+14.10.20140908.1-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]
