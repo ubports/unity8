@@ -139,29 +139,35 @@ Item {
         Connections {
             target: ApplicationManager
             onFocusRequested: {
-                if (appId === "dialer-app") {
-                    // Always let the dialer-app through.  Either user asked
-                    // for an emergency call or accepted an incoming call.
-                    setLockedApp(appId)
-                } else if (greeter.hasLockedApp && greeter.lockedApp !== appId) {
-                    lockscreen.show();
+                if (greeter.narrowMode) {
+                    if (appId === "dialer-app") {
+                        // Always let the dialer-app through.  Either user asked
+                        // for an emergency call or accepted an incoming call.
+                        setLockedApp(appId)
+                    } else if (greeter.hasLockedApp && greeter.lockedApp !== appId) {
+                        greeter.startUnlock()
+                    }
+                    greeter.hide();
+                    launcher.hide();
+                } else {
+                    if (LightDM.Greeter.active) {
+                        greeter.startUnlock()
+                    }
                 }
-                greeter.hide();
-                launcher.hide();
             }
 
             onFocusedApplicationIdChanged: {
                 if (greeter.hasLockedApp && greeter.lockedApp !== ApplicationManager.focusedApplicationId) {
-                    lockscreen.show();
+                    greeter.startUnlock()
                 }
                 panel.indicators.hide();
             }
 
             onApplicationAdded: {
                 if (greeter.shown && appId != "unity8-dash") {
-                    greeter.hide();
+                    greeter.startUnlock()
                 }
-                if (appId === "dialer-app") {
+                if (greeter.narrowMode && appId === "dialer-app") {
                     // Always let the dialer-app through.  Either user asked
                     // for an emergency call or accepted an incoming call.
                     setLockedApp(appId)
@@ -306,11 +312,13 @@ Item {
         }
 
         onPromptlessChanged: {
-            if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
-                lockscreen.hide()
-            } else {
-                lockscreen.reset();
-                lockscreen.show();
+            if (greeter.narrowMode) {
+                if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
+                    lockscreen.hide()
+                } else {
+                    lockscreen.reset();
+                    lockscreen.show();
+                }
             }
         }
 
@@ -384,7 +392,7 @@ Item {
         property bool fullyShown: showProgress === 1.0
         onFullyShownChanged: {
             // Wait until the greeter is completely covering lockscreen before resetting it.
-            if (fullyShown && !LightDM.Greeter.authenticated) {
+            if (greeter.narrowMode && fullyShown && !LightDM.Greeter.authenticated) {
                 lockscreen.reset();
                 lockscreen.show();
             }
@@ -414,6 +422,18 @@ Item {
 
             dragHandleWidth: shell.edgeSize
 
+            function startUnlock() {
+                if (narrowMode) {
+                    if (!LightDM.Greeter.authenticated) {
+                        lockscreen.show()
+                    }
+                    hide()
+                } else {
+                    show()
+                    tryToUnlock()
+                }
+            }
+
             function login() {
                 enabled = false;
                 if (LightDM.Greeter.startSessionSync()) {
@@ -429,6 +449,8 @@ Item {
                 if (shown) {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    } else {
+                        reset()
                     }
                     greeter.lockedApp = "";
                     greeter.forceActiveFocus();
@@ -475,10 +497,7 @@ Item {
         }
 
         if (LightDM.Greeter.active) {
-            if (!LightDM.Greeter.authenticated) {
-                lockscreen.show()
-            }
-            greeter.hide()
+            greeter.startUnlock()
         }
 
         var animate = !LightDM.Greeter.active && !stages.shown
@@ -546,7 +565,7 @@ Item {
             }
             onLauncherApplicationSelected: {
                 if (greeter.hasLockedApp) {
-                    lockscreen.show()
+                    greeter.startUnlock()
                 }
                 if (!edgeDemo.running)
                     shell.activateApplication(appId)

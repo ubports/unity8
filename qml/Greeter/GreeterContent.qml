@@ -29,6 +29,18 @@ Item {
     signal selected(int uid)
     signal unlocked(int uid)
 
+    function tryToUnlock() {
+        if (loginLoader.item) {
+            loginLoader.item.tryToUnlock()
+        }
+    }
+
+    function reset() {
+        if (loginLoader.item) {
+            loginLoader.item.reset()
+        }
+    }
+
     Rectangle {
         // In case background fails to load
         id: backgroundBackup

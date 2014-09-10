@@ -57,6 +57,18 @@ Showable {
         }
     }
 
+    function tryToUnlock() {
+        if (created) {
+            greeterContentLoader.item.tryToUnlock()
+        }
+    }
+
+    function reset() {
+        if (created) {
+            greeterContentLoader.item.reset()
+        }
+    }
+
     onRequiredChanged: {
         // Reset hide animation to default once we're finished with it
         if (required) {
