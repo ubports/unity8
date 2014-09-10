@@ -115,12 +115,17 @@ Item {
 
         onSurfaceChanged: {
             if (sessionContainer.surface) {
-                surface.orientation = Qt.binding( function() { return root.orientation; } );
                 surfaceInitTimer.start();
                 d.forceSurfaceActiveFocusIfReady();
             } else {
                 d.surfaceInitialized = false;
             }
+        }
+
+        Binding {
+            target: sessionContainer.surface
+            property: "orientation"
+            value: root.orientation
         }
     }
 
