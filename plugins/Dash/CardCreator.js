@@ -245,7 +245,12 @@ var kTouchdownCode = 'UbuntuShape { \n\
                         id: touchdown; \n\
                         objectName: "touchdown"; \n\
                         anchors { %1 } \n\
-                        visible: root.pressed; \n\
+                        visible: { \n\
+                            if (root.template && root.template["non-interactive"]) { \n\
+                                return false; \n\
+                            } \n\
+                            return root.pressed; \n\
+                        } \n\
                         radius: "medium"; \n\
                         borderSource: "radius_pressed.sci" \n\
                     }\n';
