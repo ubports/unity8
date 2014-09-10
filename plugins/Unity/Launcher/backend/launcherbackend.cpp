@@ -28,6 +28,8 @@
 #include <QDebug>
 #include <QStandardPaths>
 
+#include <libintl.h>
+
 class LauncherBackendItem
 {
 public:
@@ -350,7 +352,12 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     QSettings settings(desktopFile, QSettings::IniFormat);
 
     LauncherBackendItem* item = new LauncherBackendItem();
+
     item->displayName = settings.value("Desktop Entry/Name").toString();
+    const QString domain  = settings.value("Desktop Entry/X-Ubuntu-Gettext-Domain").toString();
+    if (!domain.isEmpty()) {
+        item->displayName = dgettext(domain.toUtf8().constData(), item->displayName.toUtf8().constData());
+    }
 
     QString iconString = settings.value("Desktop Entry/Icon").toString();
     QString pathString = settings.value("Desktop Entry/Path").toString();

@@ -21,6 +21,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
 import LightDM 0.1 as LightDM
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
 import Unity.Test 0.1 as UT
@@ -72,6 +73,11 @@ Item {
         id: unlockAllModemsSpy
         target: Connectivity
         signalName: "unlockingAllModems"
+    }
+
+    Telephony.CallEntry {
+        id: phoneCall
+        phoneNumber: "+447812221111"
     }
 
     UT.UnityTestCase {
@@ -151,29 +157,30 @@ Item {
             verify(mainAppId != "");
             var mainApp = ApplicationManager.findApplication(mainAppId);
             verify(mainApp);
-            tryCompare(mainApp, "state", ApplicationInfo.Running);
+            tryCompare(mainApp, "state", ApplicationInfoInterface.Running);
 
-            // Try to suspend while proximity is engaged...
-            Powerd.displayPowerStateChange(Powerd.Off, Powerd.Proximity);
+            // Suspend while call is active...
+            callManager.foregroundCall = phoneCall;
+            Powerd.status = Powerd.Off;
             tryCompare(greeter, "showProgress", 0);
 
-            // Now really suspend
-            print("suspending")
-            Powerd.displayPowerStateChange(Powerd.Off, 0);
-            print("done suspending")
+            // Now try again after ending call
+            callManager.foregroundCall = null;
+            Powerd.status = Powerd.On;
+            Powerd.status = Powerd.Off;
             tryCompare(greeter, "showProgress", 1);
 
             tryCompare(ApplicationManager, "suspended", true);
-            compare(mainApp.state, ApplicationInfo.Suspended);
+            compare(mainApp.state, ApplicationInfoInterface.Suspended);
 
             // And wake up
-            Powerd.displayPowerStateChange(Powerd.On, 0);
+            Powerd.status = Powerd.On;
             tryCompare(greeter, "showProgress", 1);
 
             // Swipe away greeter to focus app
             swipeAwayGreeter();
             tryCompare(ApplicationManager, "suspended", false);
-            compare(mainApp.state, ApplicationInfo.Running);
+            compare(mainApp.state, ApplicationInfoInterface.Running);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
@@ -244,9 +251,9 @@ Item {
         function test_surfaceLosesFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.surface != null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
 
-            tryCompare(app.surface, "focus", true);
+            tryCompare(app.session.surface, "focus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -257,7 +264,7 @@ Item {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.surface, "focus", false);
+            tryCompare(app.session.surface, "focus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -266,11 +273,11 @@ Item {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.surface, "focus", false);
+            tryCompare(app.session.surface, "focus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.surface, "focus", true);
+            tryCompare(app.session.surface, "focus", true);
         }
 
         // Wait for the whole UI to settle down
@@ -368,7 +375,7 @@ Item {
 
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.surface != null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
 
             // Minimize the application we just launched
             swipeFromLeftEdge(units.gu(26) + 1);

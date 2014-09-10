@@ -52,9 +52,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     static ApplicationManager *singleton();
 
     enum MoreRoles {
-        RoleSurface = RoleFocused+1,
+        RoleSession = RoleFocused+1,
         RoleFullscreen,
-        RoleApplication,
     };
     enum Role {
         Dash, Default, Indicators, Notifications, Greeter, Launcher, OnScreenKeyboard,
