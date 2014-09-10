@@ -269,7 +269,7 @@ Item {
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
-        onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter fake-active mode
+        onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter locked-app mode
 
         onShownChanged: if (shown) greeter.lockedApp = ""
 
