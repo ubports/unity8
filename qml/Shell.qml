@@ -174,7 +174,8 @@ Item {
             id: applicationsDisplayLoader
             anchors.fill: parent
 
-            source: shell.sideStageEnabled ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            // When in the "fakeActiveForApp" mode, we only want to show that one app
+            source: (shell.sideStageEnabled && greeter.fakeActiveForApp !== "") ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
