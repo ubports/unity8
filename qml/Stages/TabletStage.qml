@@ -536,6 +536,13 @@ Rectangle {
                         return progress;
                     }
 
+                    Binding {
+                        target: appDelegate
+                        property: "orientation"
+                        when: appDelegate.interactive
+                        value: root.orientation
+                    }
+
                     onClicked: {
                         if (spreadView.phase == 2) {
                             spreadView.snapTo(index);
@@ -553,14 +560,6 @@ Rectangle {
                     onClosed: {
                         spreadView.closingIndex = index;
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
-                    }
-
-                    onInteractiveChanged: {
-                        if (interactive) {
-                            appDelegate.orientation = Qt.binding( function() { return root.orientation; } );
-                        } else {
-                            appDelegate.orientation = root.orientation; // breaks the binding intentionally
-                        }
                     }
 
                     EasingCurve {
