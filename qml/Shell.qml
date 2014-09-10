@@ -62,6 +62,22 @@ Item {
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property int failedLoginsDelaySeconds: 5 * 60 // seconds of forced waiting
 
+    property int orientation
+    readonly property int deviceOrientationAngle: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
+    onDeviceOrientationAngleChanged: {
+        if (!OrientationLock.enabled) {
+            orientation = Screen.orientation;
+        }
+    }
+    readonly property bool orientationLockEnabled: OrientationLock.enabled
+    onOrientationLockEnabledChanged: {
+        if (orientationLockEnabled) {
+            OrientationLock.savedOrientation = Screen.orientation;
+        } else {
+            orientation = Screen.orientation;
+        }
+    }
+
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
@@ -86,6 +102,9 @@ Item {
 
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        if (orientationLockEnabled) {
+            orientation = OrientationLock.savedOrientation;
+        }
     }
 
     GSettings {
@@ -169,18 +188,6 @@ Item {
                 }
                 launcher.hide();
             }
-        }
-
-        property int orientation
-        readonly property int deviceOrientation: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
-        onDeviceOrientationChanged: {
-            if (!OrientationLock.enabled)
-                orientation = Screen.orientation;
-        }
-        readonly property bool orientationLockEnabled: OrientationLock.enabled
-        onOrientationLockEnabledChanged: {
-            if (!OrientationLock.enabled)
-                orientation = Screen.orientation;
         }
 
         Loader {
