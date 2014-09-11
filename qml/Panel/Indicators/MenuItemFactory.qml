@@ -19,11 +19,10 @@
 
 import QtQuick 2.0
 import Ubuntu.Settings.Menus 0.1 as Menus
-import Ubuntu.Settings.Components 0.1 as SettingsComponents
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 Item {
     id: menuFactory
@@ -269,7 +268,7 @@ Item {
             component: menuData.icon ? icon : undefined
             Component {
                 id: icon
-                SettingsComponents.IconVisual {
+                Icon{
                     source: menuData.icon
                     height: units.gu(3)
                     width: height
