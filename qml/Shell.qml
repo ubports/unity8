@@ -178,10 +178,12 @@ Item {
 
         Loader {
             id: applicationsDisplayLoader
+            objectName: "applicationsDisplayLoader"
             anchors.fill: parent
 
             // When we have a locked app, we only want to show that one app
-            source: (shell.sideStageEnabled && !greeter.hasLockedApp) ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
+            source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -399,7 +401,7 @@ Item {
         }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
+        onShowProgressChanged: if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter

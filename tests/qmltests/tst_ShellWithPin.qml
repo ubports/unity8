@@ -87,6 +87,7 @@ Item {
         }
 
         function init() {
+            shell.tablet = false
             swipeAwayGreeter()
             shell.failedLoginsDelayAttempts = -1
             maxRetriesTextField.text = "-1"
@@ -252,6 +253,37 @@ Item {
             tryCompare(resetSpy, "count", 0)
             enterPin("1111")
             tryCompare(resetSpy, "count", 1)
+        }
+
+        function test_emergencyDialerLockOut() {
+            // This is a theoretical attack on the lockscreen: Enter emergency
+            // dialer mode on a phone, then plug into a larger screen,
+            // switching to a tablet interface.  This would in theory move the
+            // dialer to a side stage and give access to other apps.  So just
+            // confirm that such an attack doesn't work.
+
+            var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader")
+
+            // We start in phone mode
+            tryCompare(shell, "sideStageEnabled", false)
+            tryCompare(applicationsDisplayLoader, "tabletMode", false)
+
+            var app = ApplicationManager.startApplication("dialer-app")
+
+            var greeter = findChild(shell, "greeter")
+            tryCompare(greeter, "showProgress", 0)
+            tryCompare(greeter, "hasLockedApp", true)
+
+            // OK, we're in. Now try (but fail) to switch to tablet mode
+            shell.tablet = true
+            tryCompare(shell, "sideStageEnabled", true)
+            tryCompare(applicationsDisplayLoader, "tabletMode", false)
+
+            // And when we kill the app, we go back to locked tablet mode
+            killApps()
+            tryCompare(greeter, "showProgress", 1)
+            tryCompare(shell, "sideStageEnabled", true)
+            tryCompare(applicationsDisplayLoader, "tabletMode", true)
         }
     }
 }
