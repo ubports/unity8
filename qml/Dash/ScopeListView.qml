@@ -17,4 +17,5 @@
 import "../Components/Flickables" as Flickables
 
 Flickables.ListViewWithPageHeader {
+    cacheBuffer: Number.MAX_VALUE
 }

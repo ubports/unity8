@@ -44,6 +44,15 @@ void ResultsModel::setCategoryId(QString const& /*id*/)
     qFatal("Calling un-implemented ResultsModel::setCategoryId");
 }
 
+void ResultsModel::setResultCount(int result_count)
+{
+    if (m_result_count != result_count) {
+        beginResetModel(); // This is just for test setup so we can be lazy and reset
+        m_result_count = result_count;
+        endResetModel();
+    }
+}
+
 int ResultsModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
