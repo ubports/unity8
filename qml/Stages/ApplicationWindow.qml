@@ -55,7 +55,8 @@ Item {
         property bool surfaceInitialized: false
 
         function forceSurfaceActiveFocusIfReady() {
-            if (sessionContainer.surface.focus &&
+            if (sessionContainer.surface !== null &&
+                    sessionContainer.surface.focus &&
                     sessionContainer.surface.parent === sessionContainer.surfaceContainer &&
                     sessionContainer.surface.enabled) {
                 sessionContainer.surface.forceActiveFocus();
@@ -114,10 +115,10 @@ Item {
         onSurfaceChanged: {
             if (sessionContainer.surface) {
                 surfaceInitTimer.start();
+                d.forceSurfaceActiveFocusIfReady();
             } else {
                 d.surfaceInitialized = false;
             }
-            d.forceSurfaceActiveFocusIfReady();
         }
     }
 
