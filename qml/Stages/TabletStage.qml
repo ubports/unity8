@@ -537,9 +537,9 @@ Rectangle {
                     }
 
                     Binding {
-                        target: appDelegate
+                        target: spreadTile
                         property: "orientation"
-                        when: appDelegate.interactive
+                        when: spreadTile.interactive
                         value: root.orientation
                     }
 
