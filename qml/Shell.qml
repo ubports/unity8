@@ -207,7 +207,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: edgeDemo.stagesEnabled && !greeter.hasLockedApp // to support emergency dialer hack
+                value: edgeDemo.stagesEnabled && !greeter.hasLockedApp
             }
             Binding {
                 target: applicationsDisplayLoader.item
