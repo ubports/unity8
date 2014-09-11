@@ -21,6 +21,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
 import LightDM 0.1 as LightDM
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
 import Unity.Test 0.1 as UT
@@ -72,6 +73,11 @@ Item {
         id: unlockAllModemsSpy
         target: Connectivity
         signalName: "unlockingAllModems"
+    }
+
+    Telephony.CallEntry {
+        id: phoneCall
+        phoneNumber: "+447812221111"
     }
 
     UT.UnityTestCase {
@@ -146,21 +152,22 @@ Item {
             verify(mainApp);
             tryCompare(mainApp, "state", ApplicationInfoInterface.Running);
 
-            // Try to suspend while proximity is engaged...
-            Powerd.displayPowerStateChange(Powerd.Off, Powerd.Proximity);
+            // Suspend while call is active...
+            callManager.foregroundCall = phoneCall;
+            Powerd.status = Powerd.Off;
             tryCompare(greeter, "showProgress", 0);
 
-            // Now really suspend
-            print("suspending")
-            Powerd.displayPowerStateChange(Powerd.Off, 0);
-            print("done suspending")
+            // Now try again after ending call
+            callManager.foregroundCall = null;
+            Powerd.status = Powerd.On;
+            Powerd.status = Powerd.Off;
             tryCompare(greeter, "showProgress", 1);
 
             tryCompare(ApplicationManager, "suspended", true);
             compare(mainApp.state, ApplicationInfoInterface.Suspended);
 
             // And wake up
-            Powerd.displayPowerStateChange(Powerd.On, 0);
+            Powerd.status = Powerd.On;
             tryCompare(greeter, "showProgress", 1);
 
             // Swipe away greeter to focus app

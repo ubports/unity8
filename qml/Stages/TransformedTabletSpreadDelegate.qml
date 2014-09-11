@@ -138,7 +138,8 @@ SpreadDelegate {
             enabled: !spreadView.active &&
                      !snapAnimation.running &&
                      model.appId !== "unity8-dash" &&
-                     !spreadView.sideStageDragging
+                     !spreadView.sideStageDragging &&
+                     spreadView.animateX
             UbuntuNumberAnimation {
                 duration: UbuntuAnimation.FastDuration
             }

@@ -49,6 +49,7 @@ PreviewWidget {
 
         Payments {
             id: paymentClient
+            objectName: "paymentClient"
 
             property var source: widgetData["source"]
 
@@ -59,6 +60,7 @@ PreviewWidget {
                 root.triggered(widgetId, "purchaseCompleted", source);
             }
             onPurchaseError: {
+                paymentButton.opacity = 1;
                 root.triggered(widgetId, "purchaseError", source);
             }
         }

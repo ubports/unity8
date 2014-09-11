@@ -114,7 +114,7 @@ Label {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                        color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader && overlayLoader.active; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -133,7 +133,7 @@ Label {
                             elide: Text.ElideRight; 
                             fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                            color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
