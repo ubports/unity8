@@ -59,7 +59,7 @@ FocusScope {
         subPageLoader.closeSubPage()
     }
 
-    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
+    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount, cardTool) {
         if (cardTool.template && cardTool.template["non-interactive"]) {
             return;
         }
@@ -73,7 +73,7 @@ FocusScope {
         }
     }
 
-    function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
+    function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount, cardTool) {
         if (cardTool.template && cardTool.template["non-interactive"]) {
             return;
         }
@@ -211,6 +211,7 @@ FocusScope {
 
             Loader {
                 id: rendererLoader
+                objectName: "rendererLoader"
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -272,11 +273,11 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount());
+                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount(), rendererLoader.item.cardTool);
                     }
 
                     onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, itemModel, target.model, categoryItemCount());
+                        scopeView.itemPressedAndHeld(index, itemModel, target.model, categoryItemCount(), rendererLoader.item.cardTool);
                     }
 
                     function categoryItemCount() {

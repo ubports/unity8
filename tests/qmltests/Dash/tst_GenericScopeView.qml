@@ -453,6 +453,34 @@ Item {
 
                 genericScopeView.scope = !genericScopeView.scope;
             }
+
+            function test_item_noninteractive() {
+                waitForRendering(genericScopeView);
+
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                waitForRendering(categoryListView);
+
+                var category0 = findChild(categoryListView, "dashCategory0");
+                waitForRendering(category0);
+
+                var cardTool = findChild(category0, "cardTool");
+                var rendererLoader = findChild(category0, "rendererLoader");
+                var cardGrid = rendererLoader.item;
+
+                cardTool.template["non-interactive"] = true;
+                compare(cardGrid.cardTool.template["non-interactive"], true);
+
+                var item0 = findChild(cardGrid, "delegate0");
+                waitForRendering(item0);
+                var touchdown = findChild(item0, "touchdown");
+
+                compare(touchdown.visible, false);
+                mouseClick(item0, item0.width / 2, item0.height / 2);
+                compare(touchdown.visible, false);
+
+                cardTool.template["non-interactive"] = false;
+                compare(cardGrid.cardTool.template["non-interactive"], false);
+            }
         }
     }
 }

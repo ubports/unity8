@@ -25,7 +25,7 @@ Item  {
                                 objectName: "artShapeLoader"; 
                                 active: cardData && cardData["art"] || false; 
                                 asynchronous: root.asynchronous; 
-                                visible: status == Loader.Ready;
+                                visible: status == Loader.Ready; 
                                 sourceComponent: UbuntuShape { 
                                     id: artShape; 
                                     objectName: "artShape"; 
@@ -40,8 +40,8 @@ Item  {
                                             width = root.fixedArtShapeSize.width; 
                                             height = root.fixedArtShapeSize.height; 
                                         } else { 
-                                            width = Qt.binding(function() { return !visible ? 0 : image.width });
-                                            height = Qt.binding(function() { return !visible ? 0 : image.height });
+                                            width = Qt.binding(function() { return !visible ? 0 : image.width }); 
+                                            height = Qt.binding(function() { return !visible ? 0 : image.height }); 
                                         } 
                                     } 
                                     image: Image { 
@@ -49,7 +49,7 @@ Item  {
                                         source: cardData && cardData["art"] || ""; 
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
-                                        fillMode: Image.PreserveAspectCrop;
+                                        fillMode: Image.PreserveAspectCrop; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
@@ -60,17 +60,17 @@ readonly property int headerHeight: titleLabel.height + subtitleLabel.height + s
 Label { 
                         id: titleLabel; 
                         objectName: "titleLabel"; 
-                        anchors { right: parent.right;
-                        left: parent.left;
-                        top: artShapeHolder.bottom; 
-                        topMargin: units.gu(1);
-                        } 
+                        anchors { right: parent.right; 
+left: parent.left;
+top: artShapeHolder.bottom; 
+                                         topMargin: units.gu(1);
+ } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText; 
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -80,27 +80,32 @@ Label {
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
-                            leftMargin: titleLabel.leftMargin; 
-                            right: titleLabel.right; 
-                            top: titleLabel.bottom; 
-                            } 
-                            anchors.topMargin: units.dp(2);
+                               leftMargin: titleLabel.leftMargin; 
+right: titleLabel.right; 
+top: titleLabel.bottom;
+ } 
+                            anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText; 
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                             horizontalAlignment: root.headerAlignment; 
                         }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
-    anchors { fill: artShapeHolder }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
-}
+UbuntuShape { 
+                        id: touchdown; 
+                        objectName: "touchdown"; 
+                        anchors { fill: artShapeHolder } 
+                        visible: { 
+                            if (root.template && root.template["non-interactive"]) { 
+                                return false; 
+                            } 
+                            return root.pressed; 
+                        } 
+                        radius: "medium"; 
+                        borderSource: "radius_pressed.sci" 
+                    }
 implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
 }

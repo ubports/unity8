@@ -55,14 +55,14 @@ Row {
                         spacing: margins; 
                         height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; 
                         anchors { top: parent.top; 
-                        topMargin: units.gu(1);
-                        left: parent.left;
-                        } 
+                                     topMargin: units.gu(1);
+left: parent.left;
+ } 
                         anchors.right: parent.right; 
-                        anchors.margins: margins;
-                        anchors.rightMargin: 0;
+                        anchors.margins: margins; 
+                        anchors.rightMargin: 0; 
                         data: [ 
-Image { 
+                                Image { 
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
@@ -76,7 +76,6 @@ Image {
                             verticalAlignment: Image.AlignVCenter; 
                             visible: showHeader; 
                         }
-
 ,Item { 
                             id: headerTitleContainer; 
                             anchors { verticalCenter: parent.verticalCenter;  } 
@@ -87,15 +86,15 @@ Image {
                         id: titleLabel; 
                         objectName: "titleLabel"; 
                         anchors { right: parent.right; 
-                        rightMargin: units.gu(1); 
-                        left: parent.left; 
-                        top: parent.top; } 
+rightMargin: units.gu(1); 
+left: parent.left; 
+                             top: parent.top; } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                        color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white"); 
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -105,15 +104,15 @@ Image {
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { right: parent.right; 
-                            left: parent.left; 
-                            rightMargin: units.gu(1); 
-                            top: titleLabel.bottom; 
-                            } 
+                               left: parent.left; 
+rightMargin: units.gu(1); 
+top: titleLabel.bottom;
+ } 
                             anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                            color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white"); 
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
@@ -122,28 +121,33 @@ Image {
 ,CardAttributes { 
                             id: attributesRow; 
                             objectName: "attributesRow"; 
-                            anchors { right: parent.right;
-                            left: parent.left;
-                            rightMargin: units.gu(1);
-                            top: subtitleLabel.bottom; 
-                            } 
-                            color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                            anchors { right: parent.right; 
+                               left: parent.left; 
+rightMargin: units.gu(1); 
+top: subtitleLabel.bottom;
+ } 
+                            color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white"); 
                             fontScale: root.fontScale; 
                             model: cardData && cardData["attributes"]; 
                           }
  
-                    ]
-                }
+                            ]
+                        }
  
                                 ] 
                     }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
-    anchors { fill: backgroundLoader }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
-}
+UbuntuShape { 
+                        id: touchdown; 
+                        objectName: "touchdown"; 
+                        anchors { fill: backgroundLoader } 
+                        visible: { 
+                            if (root.template && root.template["non-interactive"]) { 
+                                return false; 
+                            } 
+                            return root.pressed; 
+                        } 
+                        radius: "medium"; 
+                        borderSource: "radius_pressed.sci" 
+                    }
 implicitHeight: row.y + row.height + units.gu(1);
 }
