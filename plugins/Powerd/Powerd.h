@@ -29,6 +29,7 @@ class Powerd: public QObject
     Q_OBJECT
     Q_ENUMS(Status)
     Q_ENUMS(DisplayStateChangeReason)
+    Q_PROPERTY(Status status READ status NOTIFY statusChanged)
 
 public:
     enum DisplayStateChangeReason {
@@ -46,12 +47,18 @@ public:
     explicit Powerd(QObject *parent = 0);
     ~Powerd();
 
+    Status status() const;
+
 Q_SIGNALS:
-    void displayPowerStateChange(int status, int reason);
+    void statusChanged(DisplayStateChangeReason reason);
+
+private Q_SLOTS:
+    void handleDisplayPowerStateChange(int status, int reason);
 
 private:
     QDBusInterface *unityScreen;
     GSettings *systemSettings;
+    Status cachedStatus;
 };
 
 #endif

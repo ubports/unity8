@@ -219,12 +219,14 @@ Module {
         Method {
             name: "model"
             type: "UnityMenuModel*"
-            Parameter { name: "path"; type: "string" }
+            Parameter { name: "bus"; type: "QByteArray" }
+            Parameter { name: "path"; type: "QByteArray" }
+            Parameter { name: "actions"; type: "QVariantMap" }
         }
         Method {
-            name: "registerModel"
-            Parameter { name: "path"; type: "string" }
-            Parameter { name: "menuModel"; type: "UnityMenuModel"; isPointer: true }
+            name: "contains"
+            type: "bool"
+            Parameter { name: "path"; type: "QByteArray" }
         }
     }
     Component {

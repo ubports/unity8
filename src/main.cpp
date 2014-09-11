@@ -108,6 +108,7 @@ Load the testability driver");
     }
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
+    textdomain("unity8");
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
