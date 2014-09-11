@@ -55,6 +55,7 @@ DashRenderer {
         delegate: Item {
             width: grid.cellWidth
             height: grid.cellHeight
+            visible: y + height >= root.visibleRangeBegin && y <= root.visibleRangeEnd
             Loader {
                 id: loader
                 sourceComponent: cardTool.cardComponent

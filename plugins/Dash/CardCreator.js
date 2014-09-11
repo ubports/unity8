@@ -84,7 +84,8 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     } \n\
                                     image: Image { \n\
                                         objectName: "artImage"; \n\
-                                        source: cardData && cardData["art"] || ""; \n\
+                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith; \n\
+                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; } \n\
                                         cache: true; \n\
                                         asynchronous: root.asynchronous; \n\
                                         fillMode: Image.PreserveAspectCrop; \n\
@@ -195,7 +196,8 @@ var kMascotImageCode = 'Image { \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
                             readonly property int maxSize: Math.max(width, height) * 4; \n\
-                            source: cardData && cardData["mascot"] || ""; \n\
+                            property bool doLoadSource: !NetworkingStatus.limitedBandwith; \n\
+                            source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; } \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             sourceSize { width: maxSize; height: maxSize } \n\
@@ -654,6 +656,7 @@ function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 1.1; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
+                   import Ubuntu.Connectivity 1.0; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
     var card = cardString(template, components);

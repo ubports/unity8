@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013, 2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,10 @@ Item {
         onLoadedChanged: if (loaded) genericScopeView.scope = scopes.getScope(2);
     }
 
+    MockScope {
+        id: mockScope
+    }
+
     SignalSpy {
         id: spy
     }
@@ -78,18 +82,29 @@ Item {
                 spy.signalName = "";
             }
 
-            function scrollToCategory(category) {
+            function scrollToCategory(categoryName) {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 tryCompareFunction(function() {
-                    if (findChild(genericScopeView, category)) return true;
+                    var category = findChild(genericScopeView, categoryName);
+                    if (category && category.y > 0 && category.y < genericScopeView.height) return true;
                     mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
                                genericScopeView.width/2, genericScopeView.y)
                     tryCompare(categoryListView, "moving", false);
-                    return findChild(genericScopeView, category) !== null;
+                    return false;
                 }, true);
 
                 tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
-                return findChild(genericScopeView, category);
+                return findChild(genericScopeView, categoryName);
+            }
+
+            function scrollToEnd()
+            {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                while (!categoryListView.atYEnd) {
+                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height - units.gu(8),
+                               genericScopeView.width/2, genericScopeView.y)
+                    tryCompare(categoryListView, "moving", false);
+                }
             }
 
             function test_isActive() {
@@ -268,7 +283,7 @@ Item {
                 if (category === undefined) category = 0;
                 if (delegate === undefined) delegate = 0;
                 tryCompareFunction(function() {
-                                        var cardGrid = findChild(genericScopeView, category);
+                                        var cardGrid = findChild(genericScopeView, "dashCategory"+category);
                                         if (cardGrid != null) {
                                             var tile = findChild(cardGrid, "delegate"+delegate);
                                             return tile != null;
@@ -276,7 +291,7 @@ Item {
                                         return false;
                                     },
                                     true);
-                var tile = findChild(findChild(genericScopeView, category), "delegate"+delegate);
+                var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
@@ -424,6 +439,87 @@ Item {
                 if (data.logo == "") expectFail(data.tag, "Title image should not exist.");
                 verify(image, "Could not find the title image.");
                 compare(image.source, data.logo, "Title image has the wrong source");
+            }
+
+            function test_seeAllTwoCategoriesScenario1() {
+                mockScope.setId("mockScope");
+                mockScope.setName("Mock Scope");
+                mockScope.categories.setCount(2);
+                mockScope.categories.resultModel(0).setResultCount(50);
+                mockScope.categories.resultModel(1).setResultCount(15);
+                mockScope.categories.setLayout(0, "grid");
+                mockScope.categories.setLayout(1, "grid");
+                mockScope.categories.setHeaderLink(0, "");
+                mockScope.categories.setHeaderLink(1, "");
+                genericScopeView.scope = mockScope;
+                waitForRendering(genericScopeView.categoryView);
+
+                var category0 = findChild(genericScopeView, "dashCategory0")
+                var seeAll0 = findChild(category0, "seeAll")
+
+                waitForRendering(seeAll0);
+                verify(category0.expandable);
+                verify(!category0.expanded);
+
+                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                verify(category0.expanded);
+                tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(13.5));
+
+                scrollToEnd();
+
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory1") !== null; }, true);
+                var category1 = findChild(genericScopeView, "dashCategory1")
+                var seeAll1 = findChild(category1, "seeAll")
+                verify(category1.expandable);
+                verify(!category1.expanded);
+
+                mouseClick(seeAll1, seeAll1.width / 2, seeAll1.height / 2);
+                verify(!category0.expanded);
+                verify(category1.expanded);
+                tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
+                tryCompareFunction(function() {
+                    return genericScopeView.categoryView.contentY + category1.y + category1.height + genericScopeView.categoryView.pageHeader.height
+                           == genericScopeView.categoryView.contentHeight;}
+                    , true);
+            }
+
+            function test_seeAllTwoCategoriesScenario2() {
+                mockScope.setId("mockScope");
+                mockScope.setName("Mock Scope");
+                mockScope.categories.setCount(2);
+                mockScope.categories.resultModel(0).setResultCount(15);
+                mockScope.categories.resultModel(1).setResultCount(50);
+                mockScope.categories.setLayout(0, "grid");
+                mockScope.categories.setLayout(1, "grid");
+                mockScope.categories.setHeaderLink(0, "");
+                mockScope.categories.setHeaderLink(1, "");
+                genericScopeView.scope = mockScope;
+                waitForRendering(genericScopeView.categoryView);
+
+                var category0 = findChild(genericScopeView, "dashCategory0")
+                var seeAll0 = findChild(category0, "seeAll")
+
+                waitForRendering(seeAll0);
+                verify(category0.expandable);
+                verify(!category0.expanded);
+
+                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                verify(category0.expanded);
+                tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
+
+                scrollToEnd();
+
+                var category1 = findChild(genericScopeView, "dashCategory1")
+                var seeAll1 = findChild(category1, "seeAll")
+                verify(category1.expandable);
+                verify(!category1.expanded);
+
+                mouseClick(seeAll1, seeAll1.width / 2, seeAll1.height / 2);
+                verify(!category0.expanded);
+                verify(category1.expanded);
+                tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
+                tryCompare(category1, "y", units.gu(5));
             }
 
             function test_favorite_data() {

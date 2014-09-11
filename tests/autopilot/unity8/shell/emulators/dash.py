@@ -93,7 +93,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        return loader.get_children()[0]
+        return loader.wait_select_single('GenericScopeView');
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -102,8 +102,8 @@ class Dash(emulators.UnityEmulatorBase):
             scroll()
             self.dash_content_list.moving.wait_for(False)
 
+        scope_loader.isCurrent.wait_for(True)
         scope = self._get_scope_from_loader(scope_loader)
-        scope.isCurrent.wait_for(True)
         return scope
 
     def _get_scroll_direction(self, scope_loader):

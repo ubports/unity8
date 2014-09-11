@@ -174,16 +174,19 @@ Item {
 
     Item {
         id: attributesModel
-        property int numOfAttributes: {
+        property int numOfAttributes: 0
+        property var model: []
+        property bool hasAttributes: {
             var attributes = components["attributes"];
-            if ((attributes != undefined) && attributes["field"]) {
+            var hasAttributesFlag = (attributes != undefined) && attributes["field"];
+
+            if (hasAttributesFlag) {
                 if (attributes["max-count"]) {
-                    return attributes["max-count"];
+                    numOfAttributes = attributes["max-count"];
                 }
             }
-            return 0;
+            return hasAttributesFlag
         }
-        property var model: []
 
         onNumOfAttributesChanged: {
             model = []
