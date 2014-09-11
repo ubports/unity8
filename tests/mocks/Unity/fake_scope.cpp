@@ -24,7 +24,7 @@
 #include "fake_scopes.h"
 #include "fake_settingsmodel.h"
 
-Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
+Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 
@@ -145,6 +145,23 @@ void Scope::setFavorite(const bool favorite)
         Q_EMIT favoriteChanged();
     }
 }
+
+void Scope::setId(const QString &id)
+{
+    if (id != m_id) {
+        m_id = id;
+        Q_EMIT idChanged();
+    }
+}
+
+void Scope::setName(const QString &name)
+{
+    if (name != m_name) {
+        m_name = name;
+        Q_EMIT nameChanged();
+    }
+}
+
 void Scope::setSearchInProgress(const bool inProg)
 {
     if (inProg != m_searching) {

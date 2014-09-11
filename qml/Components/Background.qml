@@ -78,7 +78,7 @@ Loader {
         Image {
             objectName: "image"
 
-            source: width > 0 && height > 0 && root.style
+            source: width > 0 && height > 0 && root.style || ""
 
             sourceSize.width: width
             sourceSize.height: height

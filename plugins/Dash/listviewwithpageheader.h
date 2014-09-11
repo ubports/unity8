@@ -90,6 +90,8 @@ public:
 
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
+    Q_INVOKABLE int firstCreatedIndex() const;
+    Q_INVOKABLE int createdItemCount() const;
     Q_INVOKABLE QQuickItem *item(int modelIndex) const;
 
     // The index has to be created for this to try to do something
@@ -123,7 +125,7 @@ private Q_SLOTS:
     void onContentWidthChanged();
     void onHeightChanged();
     void onModelUpdated(const QQmlChangeSet &changeSet, bool reset);
-    void onShowHeaderAnimationFinished();
+    void contentYAnimationRunningChanged(bool running);
 
 private:
     class ListItem
