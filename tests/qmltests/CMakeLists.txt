@@ -86,3 +86,4 @@ add_qml_test(Stages ApplicationWindow ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINAR
 add_qml_test(Stages PhoneStage ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Stages SpreadDelegate ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Stages SurfaceContainer ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
+add_qml_test(Stages SessionContainer ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")

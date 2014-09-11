@@ -50,7 +50,7 @@ add_executable(launchermodeltestExec
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS})
-qt5_use_modules(launchermodeltestExec Test Core DBus)
+qt5_use_modules(launchermodeltestExec Test Core DBus Gui)
 
 # copy .desktop files into build directory for shadow builds
 file(GLOB DESKTOP_FILES *.desktop)

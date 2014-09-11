@@ -119,6 +119,12 @@ void RegistryTracker::runRegistry()
     QString registry_ini = QString(REGISTRY_CONFIG).arg(m_mw_config.fileName()).arg(scopeInstallDir).arg(scopeRunnerBin);
     QString mw_ini = QString(MW_CONFIG).arg(m_endpoints_dir.path());
 
+    if (!m_systemScopes) {
+        // Disable OEM and Click scopes when system scopes are disabled
+        registry_ini += "OEM.InstallDir = /unused\n";
+        registry_ini += "Click.InstallDir = /unused\n";
+    }
+
     m_runtime_config.write(runtime_ini.toUtf8());
     m_registry_config.write(registry_ini.toUtf8());
     m_mw_config.write(mw_ini.toUtf8());

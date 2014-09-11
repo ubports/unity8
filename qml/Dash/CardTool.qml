@@ -195,8 +195,8 @@ Item {
         id: cardLoader
         property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
         property var maxData: {
-            "art": Qt.resolvedUrl("graphics/checkers.png"),
-            "mascot": Qt.resolvedUrl("graphics/checkers.png"),
+            "art": Qt.resolvedUrl("graphics/pixel.png"),
+            "mascot": Qt.resolvedUrl("graphics/pixel.png"),
             "title": "—\n—",
             "subtitle": "—",
             "summary": "—\n—\n—\n—\n—",

@@ -41,6 +41,7 @@ public:
     void setPrice(const double price);
     void setStoreItemId(const QString& store_item_id);
     Q_INVOKABLE void start();
+    Q_INVOKABLE void process(); // only available for testing
 
 Q_SIGNALS:
     void currencyChanged(const QString& currency);

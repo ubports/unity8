@@ -171,7 +171,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
-    connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+    connect(m_contentYAnimation, SIGNAL(runningChanged(bool)), this, SLOT(contentYAnimationRunningChanged(bool)));
 
     setFlickableDirection(VerticalFlick);
 }
@@ -1077,10 +1077,13 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     m_contentHeightDirty = true;
 }
 
-void ListViewWithPageHeader::onShowHeaderAnimationFinished()
+void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
 {
-    m_contentHeightDirty = true;
-    polish();
+    setInteractive(!running);
+    if (!running) {
+        m_contentHeightDirty = true;
+        polish();
+    }
 }
 
 void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
