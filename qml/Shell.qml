@@ -230,7 +230,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "orientation"
-                value: stages.orientation
+                value: shell.orientation
             }
         }
     }
