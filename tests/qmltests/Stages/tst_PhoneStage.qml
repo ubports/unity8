@@ -32,6 +32,7 @@ Item {
         dragAreaWidth: units.gu(2)
         maximizedAppTopMargin: units.gu(3) + units.dp(2)
         interactive: true
+        orientation: Qt.PortraitOrientation
     }
 
     Binding {
@@ -70,7 +71,7 @@ Item {
             }
             Button {
                 anchors { left: parent.left; right: parent.right }
-                text: "Rotate device \u27F2"
+                text: "Rotate device \u27F3"
                 onClicked: {
                     if (phoneStage.orientation == Qt.PortraitOrientation) {
                         phoneStage.orientation = Qt.LandscapeOrientation;

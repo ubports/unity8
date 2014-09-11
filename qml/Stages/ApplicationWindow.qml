@@ -112,6 +112,7 @@ Item {
         id: sessionContainer
         session: application ? application.session : null
         anchors.fill: parent
+        orientation: root.orientation
 
         onSurfaceChanged: {
             if (sessionContainer.surface) {
@@ -120,12 +121,6 @@ Item {
             } else {
                 d.surfaceInitialized = false;
             }
-        }
-
-        Binding {
-            target: sessionContainer.surface
-            property: "orientation"
-            value: root.orientation
         }
     }
 
