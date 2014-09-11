@@ -34,6 +34,8 @@ Rectangle {
     height: units.gu(42)
 
     function setCurrentMenuIndex(index, animate) {
+        // FIXME - https://bugreports.qt-project.org/browse/QTBUG-41229
+        listViewHeader.currentIndex = -1;
         listViewHeader.currentIndex = index;
     }
 
