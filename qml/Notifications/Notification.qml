@@ -228,7 +228,7 @@ Item {
                     width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
                     height: width
                     shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
-                    visible: iconSource !== undefined && iconSource != "" && type != Notification.Confirmation
+                    visible: iconSource !== undefined && iconSource !== "" && type !== Notification.Confirmation
                 }
 
                 Column {
@@ -293,7 +293,7 @@ Item {
                 height: width
                 shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
                 fileSource: icon.fileSource
-                visible: fileSource !== undefined && fileSource != "" && type == Notification.Confirmation
+                visible: fileSource !== undefined && fileSource !== "" && type === Notification.Confirmation
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
