@@ -302,7 +302,6 @@ Item {
             }
 
             function test_tryOpenNullPreview() {
-                var originalScopeId = genericScopeView.scope.id;
                 genericScopeView.scope = scopes.getScope("NullPreviewScope");
 
                 tryCompareFunction(function() {
@@ -324,7 +323,10 @@ Item {
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
 
-                genericScopeView.scope = scopes.getScope(originalScopeId)
+                mousePress(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+                mouseRelease(tile, tile.width / 2, tile.height / 2);
             }
 
             function test_showPreviewCarousel() {
