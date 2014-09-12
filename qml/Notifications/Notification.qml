@@ -309,6 +309,7 @@ Item {
                 anchors {
                     left: parent.left
                     right: parent.right
+                    margins: contentSpacing
                 }
             }
 
