@@ -35,6 +35,10 @@ Rectangle {
         id: mockResultsModel
     }
 
+    Unity.FakePreviewModel {
+        id: mockPreviewModel
+    }
+
     PreviewListView {
         id: listView
         anchors.fill: parent
@@ -58,6 +62,7 @@ Rectangle {
         function init() {
             listView.model = mockResultsModel;
             listView.currentIndex = 1;
+            listView.currentItem.previewModel = mockPreviewModel;
             listView.open = true;
             verify(testCase.mouseArea, "Can't find the processingMouseArea object.");
         }
