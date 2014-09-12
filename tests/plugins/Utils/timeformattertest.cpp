@@ -81,7 +81,7 @@ private Q_SLOTS:
         QCOMPARE(formatter.timeString(), time.toString("dd-MM-yyyy hh:mmAP"));
     }
 
-    void tesRelativeTimeFormatter_FarBack_data() { addTestData(QList<int>() << -200 << -7); }
+    void tesRelativeTimeFormatter_FarBack_data() { addTestData(QList<int>() << -200  << -20 << -7); }
     void tesRelativeTimeFormatter_FarBack()
     {
         QFETCH(QDateTime, time);
@@ -89,7 +89,7 @@ private Q_SLOTS:
         RelativeTimeFormatter formatter;
         formatter.setTime(time.toMSecsSinceEpoch() / 1000); // strftime in seconds since epoc
 
-        QCOMPARE(formatter.timeString(), time.toString("ddd d MMM\u2003HH:mm"));
+        QCOMPARE(formatter.timeString(), time.toString("ddd dd MMM\u2003HH:mm"));
     }
 
     void tesRelativeTimeFormatter_WeekBack_data() { addTestData(QList<int>() << -6 << -2); }
@@ -148,7 +148,7 @@ private Q_SLOTS:
         QCOMPARE(formatter.timeString(), time.toString("ddd\u2003HH:mm"));
     }
 
-    void tesRelativeTimeFormatter_FarForward_data() { addTestData(QList<int>() << 7 << 200); }
+    void tesRelativeTimeFormatter_FarForward_data() { addTestData(QList<int>() << 7 << 20 << 200); }
     void tesRelativeTimeFormatter_FarForward()
     {
         QFETCH(QDateTime, time);
@@ -156,7 +156,7 @@ private Q_SLOTS:
         RelativeTimeFormatter formatter;
         formatter.setTime(time.toMSecsSinceEpoch() / 1000); // strftime in seconds since epoc
 
-        QCOMPARE(formatter.timeString(), time.toString("ddd d MMM\u2003HH:mm"));
+        QCOMPARE(formatter.timeString(), time.toString("ddd dd MMM\u2003HH:mm"));
     }
 };
 
