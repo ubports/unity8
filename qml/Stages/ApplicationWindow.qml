@@ -103,7 +103,24 @@ Item {
         active: false
         anchors.fill: parent
         sourceComponent: Component {
-            Splash { name: d.name; image: d.icon }
+            Splash {
+                id: splash
+                title: d.splashTitle ? d.splashTitle : d.name
+                image: d.splashImage
+                showHeader: d.splashShowHeader
+
+                Component.onCompleted: {
+                    if (d.splashColor.a == 1.0) {
+                        splash.backgroundColor = d.splashColor
+                    }
+                    if (d.splashColorHeader.a == 1.0) {
+                        splash.headerColor = d.splashColorHeader
+                    }
+                    if (d.splashColorFooter.a == 1.0) {
+                        splash.footerColor = d.splashColorFooter
+                    }
+                }
+            }
         }
     }
 

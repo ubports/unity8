@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
@@ -318,7 +318,7 @@ Rectangle {
                                  !snapAnimation.running &&
                                  priv.animateX
                         UbuntuNumberAnimation {
-                            duration: UbuntuAnimation.FastDuration
+                            duration: UbuntuAnimation.BriskDuration
                             onRunningChanged: {
                                 if (!running && root.inverseProgress == 0) {
                                     spreadView.focusChanging = false;

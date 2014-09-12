@@ -14,50 +14,73 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.2
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes 0.1
 import "../Components"
 
-Rectangle {
+StyledItem {
     id: root
-    color: "black"
 
-    property string name: ""
-    property url image: ""
+    property string title: ""
+    property string image: ""
+    property bool showHeader: true
+    // mimic API of toolkit's MainView component required by MainViewStyle
+    property color backgroundColor: theme.palette.normal.background
+    property color headerColor: backgroundColor
+    property color footerColor: backgroundColor
 
-    UbuntuShape {
-        id: iconShape
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: -units.gu(4)
-        width: units.gu(8)
-        height: units.gu(7.5)
+    // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
+    property var theme: QtObject {
+        property string name: "Ambiance"
+        property Palette palette: Qt.createQmlObject("import QtQuick 2.2; import Ubuntu.Components.Themes.%1 1.1; Palette {}".arg(theme.name), root, "dynamicPalette");
+    }
 
-        radius: "medium"
-        borderSource: "none"
+    // FIXME: should instead use future toolkit API:
+    // style: theme.createStyleComponent("MainViewStyle.qml", root)
+    style: Component { MainViewStyle {theme: root.theme} }
 
-        image: Image {
-            id: iconImage
-            sourceSize.width: iconShape.width
-            sourceSize.height: iconShape.height
-            source: root.image
-            fillMode: Image.PreserveAspectCrop
+    StyledItem {
+        id: header
+        anchors {
+            left: parent.left
+            right: parent.right
         }
+
+        visible: root.showHeader
+
+        // mimic API of toolkit's AppHeader component required by PageHeadStyle
+        property Item pageStack
+        property Item contents
+        property string title: root.title
+        property var tabsModel
+        property var config: QtObject {
+            property color foregroundColor: theme.palette.selected.backgroundText
+            property var sections
+        }
+
+        // FIXME: should instead use future toolkit API:
+        // style: theme.createStyleComponent("PageHeadStyle.qml", header)
+        style: Component { PageHeadStyle {theme: root.theme} }
     }
 
-    Label {
-        text: root.name
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: iconShape.bottom
-        anchors.topMargin: units.gu(2)
-        fontSize: "large"
+    Image {
+        id: overlaidImage
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
+        sourceSize {
+            width: root.width
+            height: root.height
+        }
+        source: root.image
+        asynchronous: true
+        cache: false
     }
 
-    WaitingDots {
-        visible: parent.visible
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(12)
+    ActivityIndicator {
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
+        running: overlaidImage.status == Image.Error || overlaidImage.status == Image.Null
     }
 
     MouseArea {
