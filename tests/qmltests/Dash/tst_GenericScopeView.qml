@@ -301,6 +301,32 @@ Item {
                 closePreview();
             }
 
+            function test_tryOpenNullPreview() {
+                var originalScopeId = genericScopeView.scope.id;
+                genericScopeView.scope = scopes.getScope("NullPreviewScope");
+
+                tryCompareFunction(function() {
+                                        var cardGrid = findChild(genericScopeView, 0);
+                                        if (cardGrid != null) {
+                                            var tile = findChild(cardGrid, 0);
+                                            return tile != null;
+                                        }
+                                        return false;
+                                    },
+                                    true);
+                var tile = findChild(findChild(genericScopeView, 0), 0);
+
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+
+                genericScopeView.scope = scopes.getScope(originalScopeId)
+            }
+
             function test_showPreviewCarousel() {
                 var category = scrollToCategory("dashCategory1");
 

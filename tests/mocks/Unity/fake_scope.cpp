@@ -28,7 +28,7 @@ Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories)
+Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
@@ -41,6 +41,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
     , m_settings(new SettingsModel(this))
+    , m_returnNullPreview(returnNullPreview)
 {
 }
 
@@ -175,9 +176,16 @@ PreviewStack* Scope::preview(QVariant const& result)
 {
     Q_UNUSED(result);
 
-    // This probably leaks, do we don't care
-    // it's a  test after all
-    return new PreviewStack;
+    if (m_returnNullPreview)
+    {
+        return nullptr;
+    }
+    else
+    {
+        // This probably leaks, do we don't care
+        // it's a  test after all
+        return new PreviewStack;
+    }
 }
 
 void Scope::cancelActivation()
