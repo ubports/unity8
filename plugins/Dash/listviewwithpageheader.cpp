@@ -409,12 +409,12 @@ void ListViewWithPageHeader::showHeader()
     }
 }
 
-Q_INVOKABLE int ListViewWithPageHeader::firstCreatedIndex() const
+int ListViewWithPageHeader::firstCreatedIndex() const
 {
     return m_firstVisibleIndex;
 }
 
-Q_INVOKABLE int ListViewWithPageHeader::createdItemCount() const
+int ListViewWithPageHeader::createdItemCount() const
 {
     return m_visibleItems.count();
 }
