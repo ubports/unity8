@@ -114,6 +114,7 @@ Item {
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
+            waitForRendering(greeter)
             tryCompare(greeter, "showProgress", 1);
 
             var touchX = shell.width - (shell.edgeSize / 2);
