@@ -19,7 +19,8 @@
 
 #include "unitymenumodelcache.h"
 #include <unitymenumodel.h>
-#include <QDebug>
+
+#include <QQmlEngine>
 
 UnityMenuModelCache* UnityMenuModelCache::theCache = nullptr;
 
@@ -45,13 +46,14 @@ QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& bus,
         return m_registry[path];
 
     UnityMenuModel* model = new UnityMenuModel;
+    QQmlEngine::setObjectOwnership(model, QQmlEngine::CppOwnership);
+
     QSharedPointer<UnityMenuModel> menuModel(model);
     connect(model, &QObject::destroyed, this, [this] {
         QMutableHashIterator<QByteArray, QWeakPointer<UnityMenuModel>> iter(m_registry);
         while(iter.hasNext()) {
             auto keyVal = iter.next();
             if (keyVal.value().toStrongRef().isNull()) {
-                qDebug() << "BAH: destroyed model! " << keyVal.key();
                 iter.remove();
             }
         }
