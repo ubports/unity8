@@ -44,7 +44,7 @@ Item {
         id: header
         objectName: "pageHeader"
         width: parent.width
-        title: scope ? scope.name : ""
+        title: root.scope ? root.scope.name : ""
         showBackButton: true
         searchEntryEnabled: false
         scopeStyle: root.scopeStyle
@@ -78,7 +78,7 @@ Item {
                 if (previewListView.currentItem && previewListView.currentItem.previewData !== undefined) {
                     previewListView.currentItem.previewData.cancelAction();
                 }
-                scope.cancelActivation();
+                root.scope.cancelActivation();
                 model = undefined;
             }
         }
