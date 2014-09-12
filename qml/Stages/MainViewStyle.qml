@@ -27,7 +27,7 @@ Item {
       The background texture of the main view. The image will be drawn over the background color,
       so if it has (semi-)transparent pixels, in those pixels the background color will be visible.
      */
-    property url backgroundSource: "artwork/background_paper.png"
+    property url backgroundSource: "graphics/background_paper.png"
     property var theme
 
     Gradient {
@@ -47,10 +47,11 @@ Item {
     Image {
         id: backgroundTexture
         anchors.fill: parent
-        source: mainViewStyle.backgroundSource
+        source: mainViewStyle.theme.name === "Ambiance" ? mainViewStyle.backgroundSource : ""
         fillMode: Image.Tile
         asynchronous: true
         cache: false
+        visible: status === Image.Ready
     }
 
     QtObject {

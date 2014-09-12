@@ -19,26 +19,57 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.Themes 0.1
 import "../Components"
 
-StyledItem {
+import Ubuntu.Components.Themes.Ambiance 1.1 as Ambiance
+
+Item {
     id: root
 
-    property string title: ""
-    property string image: ""
-    property bool showHeader: true
-    // mimic API of toolkit's MainView component required by MainViewStyle
-    property color backgroundColor: theme.palette.normal.background
-    property color headerColor: backgroundColor
-    property color footerColor: backgroundColor
+    property color backgroundColor: d.undefinedColor
+    property color headerColor: d.undefinedColor
+    property color footerColor: d.undefinedColor
+    property alias imageSource: overlaidImage.source
+    property alias title: header.title
+    property alias showHeader: header.visible
 
-    // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
-    property var theme: QtObject {
-        property string name: "Ambiance"
-        property Palette palette: Qt.createQmlObject("import QtQuick 2.2; import Ubuntu.Components.Themes.%1 1.1; Palette {}".arg(theme.name), root, "dynamicPalette");
+    Ambiance.Palette {
+        id: ambiancePalette
     }
 
-    // FIXME: should instead use future toolkit API:
-    // style: theme.createStyleComponent("MainViewStyle.qml", root)
-    style: Component { MainViewStyle {theme: root.theme} }
+    QtObject {
+        id: d
+
+        // As specified in qtmir, it will set the color value to this for fields left undefined
+        // This is also the default value of a color property in QML.
+        readonly property color undefinedColor: "#00000000"
+
+        readonly property color defaultBackgroundColor: ambiancePalette.normal.background
+    }
+
+    StyledItem {
+        id: styledItem
+        anchors.fill: parent
+
+        // mimic API of toolkit's MainView component required by MainViewStyle
+        property color backgroundColor: Qt.colorEqual(root.backgroundColor, d.undefinedColor) ? d.defaultBackgroundColor
+                                                                                              : root.backgroundColor
+        property color headerColor: Qt.colorEqual(root.headerColor, d.undefinedColor) ? styledItem.backgroundColor
+                                                                                      : root.headerColor
+        property color footerColor: Qt.colorEqual(root.footerColor, d.undefinedColor) ? styledItem.backgroundColor
+                                                                                      : root.footerColor
+
+        // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
+        property var theme: QtObject {
+            property string name
+            property Palette palette: Qt.createQmlObject("import QtQuick 2.2;\
+                                                          import Ubuntu.Components.Themes.%1 1.1;\
+                                                          Palette {}".arg(styledItem.theme.name),
+                                                         styledItem, "dynamicPalette");
+        }
+
+        // FIXME: should instead use future toolkit API:
+        // style: theme.createStyleComponent("MainViewStyle.qml", styledItem)
+        style: Component { MainViewStyle {theme: styledItem.theme} }
+    }
 
     StyledItem {
         id: header
@@ -47,39 +78,36 @@ StyledItem {
             right: parent.right
         }
 
-        visible: root.showHeader
-
         // mimic API of toolkit's AppHeader component required by PageHeadStyle
         property Item pageStack
         property Item contents
-        property string title: root.title
+        property string title
         property var tabsModel
         property var config: QtObject {
-            property color foregroundColor: theme.palette.selected.backgroundText
-            property var sections
+            property color foregroundColor: styledItem.theme.palette.selected.backgroundText
+            property var sections: QtObject {}
         }
 
         // FIXME: should instead use future toolkit API:
         // style: theme.createStyleComponent("PageHeadStyle.qml", header)
-        style: Component { PageHeadStyle {theme: root.theme} }
+        style: Component { PageHeadStyle {theme: styledItem.theme} }
     }
 
     Image {
         id: overlaidImage
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
+        anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
         sourceSize {
             width: root.width
             height: root.height
         }
-        source: root.image
         asynchronous: true
         cache: false
     }
 
     ActivityIndicator {
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: root.showHeader ? header.height / 2 : 0
+        anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
         running: overlaidImage.status == Image.Error || overlaidImage.status == Image.Null
     }
 

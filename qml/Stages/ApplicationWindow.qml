@@ -36,6 +36,12 @@ Item {
         readonly property string name: root.application ? root.application.name : ""
         readonly property url icon: root.application ? root.application.icon : ""
         readonly property int applicationState: root.application ? root.application.state : -1
+        readonly property string splashTitle: root.application ? root.application.splashTitle : ""
+        readonly property url splashImage: root.application ? root.application.splashImage : ""
+        readonly property bool splashShowHeader: root.application ? root.application.splashShowHeader : true
+        readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
+        readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
+        readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
 
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
@@ -106,20 +112,11 @@ Item {
             Splash {
                 id: splash
                 title: d.splashTitle ? d.splashTitle : d.name
-                image: d.splashImage
+                imageSource: d.splashImage
                 showHeader: d.splashShowHeader
-
-                Component.onCompleted: {
-                    if (d.splashColor.a == 1.0) {
-                        splash.backgroundColor = d.splashColor
-                    }
-                    if (d.splashColorHeader.a == 1.0) {
-                        splash.headerColor = d.splashColorHeader
-                    }
-                    if (d.splashColorFooter.a == 1.0) {
-                        splash.footerColor = d.splashColorFooter
-                    }
-                }
+                backgroundColor: d.splashColor
+                headerColor: d.splashColorHeader
+                footerColor: d.splashColorFooter
             }
         }
     }
