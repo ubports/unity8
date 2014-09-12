@@ -34,21 +34,21 @@ Item {
         }
     }
 
-    SharedUnityMenuModel {
+    Indicators.SharedUnityMenuModel {
         id: timeModel
         objectName: "timeModel"
 
         busName: "com.canonical.indicator.datetime"
         actions: { "indicator": "/com/canonical/indicator/datetime" }
         menuObjectPath: clock.visible ? "/com/canonical/indicator/datetime/phone" : ""
+    }
 
-        Indicators.RootActionState {
-            menu: timeModel.model
-            onUpdated: {
-                if (timeLabel.text != rightLabel) {
-                    timeLabel.text = rightLabel;
-                    clock.currentDate = new Date();
-                }
+    Indicators.RootActionState {
+        menu: timeModel.model
+        onUpdated: {
+            if (timeLabel.text != rightLabel) {
+                timeLabel.text = rightLabel;
+                clock.currentDate = new Date();
             }
         }
     }

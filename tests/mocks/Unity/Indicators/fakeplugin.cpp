@@ -31,6 +31,8 @@
 #include "unitymenumodelstack.h"
 #include "visibleindicatorsmodel.h"
 
+#include <unitymenumodel.h>
+
 static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
   Q_UNUSED(scriptEngine);
@@ -40,6 +42,7 @@ static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEng
 void IndicatorsFakePlugin::registerTypes(const char * uri)
 {
     Q_INIT_RESOURCE(indicators_fake);
+    qRegisterMetaType<UnityMenuModel*>("UnityMenuModel*");
 
     // internal
     qmlRegisterType<FakeIndicatorsModel>(uri, 0, 1, "FakeIndicatorsModel");

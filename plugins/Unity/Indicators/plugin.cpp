@@ -35,6 +35,8 @@
 #include "unitymenumodelstack.h"
 #include "visibleindicatorsmodel.h"
 
+#include <unitymenumodel.h>
+
 static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
   Q_UNUSED(scriptEngine);
@@ -44,6 +46,7 @@ static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEng
 void Indicators2Plugin::registerTypes(const char *uri)
 {
     Q_INIT_RESOURCE(indicators);
+    qRegisterMetaType<UnityMenuModel*>("UnityMenuModel*");
 
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
