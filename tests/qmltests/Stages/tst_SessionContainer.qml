@@ -288,7 +288,7 @@ Rectangle {
                      { tag: "count=4", count: 4 } ];
         }
 
-        /* Text orientation changes are propagated to all children immediately */
+        /* Test orientation changes are propagated to all children immediately */
         function test_orientationPropagatedToChildren(data) {
             sessionCheckbox.checked = true;
             var rootSessionContainer = sessionContainerLoader.item;
