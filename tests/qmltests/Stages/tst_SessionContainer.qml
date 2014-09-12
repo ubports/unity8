@@ -291,34 +291,34 @@ Rectangle {
         /* Text orientation changes are propagated to all children immediately */
         function test_orientationPropagatedToChildren(data) {
             sessionCheckbox.checked = true;
-            var sessionContainer = sessionContainerLoader.item;
-            compare(sessionContainer.childSessions.count(), 0);
+            var rootSessionContainer = sessionContainerLoader.item;
+            compare(rootSessionContainer.childSessions.count(), 0);
 
             var i;
             var sessions = [];
             for (i = 0; i < data.count; i++) {
-                var session = ApplicationTest.addChildSession(sessionContainer.session,
+                var session = ApplicationTest.addChildSession(rootSessionContainer.session,
                                                               "gallery");
                 session.createSurface();
-                sessionContainer.session.addChildSession(session);
+                rootSessionContainer.session.addChildSession(session);
 
                 // Check child SessionContainer has orientation matching the parent
-                var delegate = findChild(sessionContainer, "childDelegate" + i);
-                var childContainer = findChild(delegate, "sessionContainer");
+                var delegate = findChild(rootSessionContainer, "childDelegate" + i);
+                var childSessionContainer = findChild(delegate, "sessionContainer");
 
-                tryCompare(sessionContainer, "orientation", sessionContainer.orientation);
+                tryCompare(rootSessionContainer, "orientation", childSessionContainer.orientation);
 
                 sessions.push(session);
             }
 
             // Change orientation and verify all children updated
-            sessionContainer.orientation = Qt.LandscapeOrientation;
+            rootSessionContainer.orientation = Qt.LandscapeOrientation;
 
             for (i = 0; i < data.count; i++) {
-                var delegate = findChild(sessionContainer, "childDelegate" + i);
-                var childContainer = findChild(delegate, "sessionContainer");
+                var delegate = findChild(rootSessionContainer, "childDelegate" + i);
+                var childSessionContainer = findChild(delegate, "sessionContainer");
 
-                tryCompare(sessionContainer, "orientation", sessionContainer.orientation);
+                tryCompare(rootSessionContainer, "orientation", childSessionContainer.orientation);
             }
 
             // Clean up
