@@ -175,7 +175,7 @@ FocusScope {
 
                         var animate = false;
                         if (!subPageLoader.open) {
-                            var animateShrinking = !shouldExpand  && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAll.height < categoryView.height;
+                            var animateShrinking = !shouldExpand  && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAllButton.height < categoryView.height;
                             var animateGrowing = shouldExpand && baseItem.y + baseItem.height < categoryView.height;
                             animate = shrinkingAny || animateShrinking || animateGrowing;
                         }
@@ -187,7 +187,7 @@ FocusScope {
 
                         if (shouldExpand && !subPageLoader.open) {
                             if (!shrinkingAny) {
-                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAll.height);
+                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
                             } else {
                                 // If the space that shrkinking is smaller than the one we need to grow we'll call maximizeVisibleArea
                                 // after the shrink/grow animation ends
@@ -224,7 +224,6 @@ FocusScope {
             readonly property string category: categoryId
             readonly property string headerLink: model.headerLink
             readonly property var item: rendererLoader.item
-            readonly property var seeAll: seeAll
 
             function expand(expand, animate) {
                 heightBehaviour.enabled = animate;
@@ -276,7 +275,7 @@ FocusScope {
                                         for (var i = 0; i < categoryView.createdItemCount(); ++i) {
                                             var baseItem = categoryView.item(firstCreated + i);
                                             if (baseItem.category === categoryView.expandedCategoryId) {
-                                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAll.height);
+                                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
                                                 break;
                                             }
                                         }
