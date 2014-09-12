@@ -34,27 +34,35 @@ class SharedUnityMenuModelTest : public QObject
         actions["test"] = QString("/com/canonical/%1/actions").arg(QString(testId));
         model->setActions(actions);
 
-//        QVERIFY(model->model() != nullptr);
         return model;
     }
 
 private Q_SLOTS:
 
-    void testDifferentDataCreatesDifferentModels() {
+    void testCreateModel()
+    {
+        QSharedPointer<SharedUnityMenuModel> model(createFullModel("test1"));
+        QVERIFY(model->model() != nullptr);
+    }
+
+    void testDifferentDataCreatesDifferentModels()
+    {
         QSharedPointer<SharedUnityMenuModel> model1(createFullModel("test1"));
         QSharedPointer<SharedUnityMenuModel> model2(createFullModel("test2"));
 
         QVERIFY(model1->model() != model2->model());
     }
 
-    void testSameDataCreatesSameModels() {
+    void testSameDataCreatesSameModels()
+    {
         QSharedPointer<SharedUnityMenuModel> model1(createFullModel("test1"));
         QSharedPointer<SharedUnityMenuModel> model2(createFullModel("test1"));
 
         QCOMPARE(model1->model(), model2->model());
     }
 
-    void testSharedOwnership() {
+    void testSharedOwnership()
+    {
         QSharedPointer<SharedUnityMenuModel> model1(createFullModel("test1"));
         QSharedPointer<SharedUnityMenuModel> model2(createFullModel("test1"));
 
@@ -66,7 +74,8 @@ private Q_SLOTS:
     }
 
     // Tests that changing cached model data does not change the model path of others
-    void testLP1328646() {
+    void testLP1328646()
+    {
         QSharedPointer<SharedUnityMenuModel> model1(createFullModel("test1"));
         QSharedPointer<SharedUnityMenuModel> model2(createFullModel("test1"));
 
