@@ -37,7 +37,8 @@ Item {
     property var notification
     property color color
     property bool fullscreen: false
-    property bool draggable: notification.type == Notification.SnapDecision && state == "contracted"
+    //property bool draggable: (notification.type == Notification.SnapDecision && state == "contracted") || notification.type == Notification.Interactive
+    property bool draggable: state == "contracted" || notification.type !== Notification.Confirmation
     property int maxHeight
     property int margins
     property Gradient greenGradient : Gradient {
