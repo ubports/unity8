@@ -27,21 +27,21 @@ Rectangle {
     height: units.gu(80)
 
     property var actionDataOneAction: {
-        "actions": [{"label": "Some Label", "icon": "../graphics/play_button.png", "id": "someid"}]
+        "actions": [{"label": "Some Label", "id": "someid"}]
     }
 
     property var actionDataTwoActions: {
-        "actions": [{"label": "Some Label A", "icon": "../graphics/icon_clear.png", "id": "someid1"},
-                    {"label": "Some Label B", "icon": "../graphics/play_button.png", "id": "someid2"}
+        "actions": [{"label": "Some Label A", "id": "someid1"},
+                    {"label": "Some Label B", "id": "someid2"}
         ]
     }
 
     property var actionDataFiveActions: {
-        "actions": [{"label": "Some Label C", "icon": "../graphics/play_button.png", "id": "someid3"},
-                    {"label": "Some Label D", "icon": "../graphics/icon_clear.png", "id": "someid4"},
-                    {"label": "Some Label E", "icon": "../graphics/play_button.png", "id": "someid5"},
-                    {"label": "Some Label F", "icon": "../graphics/icon_clear.png", "id": "someid6"},
-                    {"label": "Some Label G", "icon": "../graphics/play_button.png", "id": "someid7"}
+        "actions": [{"label": "Some Label C", "id": "someid3"},
+                    {"label": "Some Label D", "id": "someid4"},
+                    {"label": "Some Label E", "id": "someid5"},
+                    {"label": "Some Label F", "id": "someid6"},
+                    {"label": "Some Label G", "id": "someid7"}
         ]
     }
 

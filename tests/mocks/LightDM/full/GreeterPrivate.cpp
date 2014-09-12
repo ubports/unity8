@@ -54,7 +54,7 @@ void GreeterPrivate::handleAuthenticate()
         authenticated = true;
         Q_EMIT q->authenticationComplete();
     } else if (authenticationUser == "has-pin"){
-        Q_EMIT q->showPrompt("Password:", Greeter::PromptTypeSecret);
+        Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
     } else if (authenticationUser == "auth-error") {
         authenticated = false;
         Q_EMIT q->authenticationComplete();
@@ -78,11 +78,11 @@ void GreeterPrivate::handleRespond(const QString &response)
                 Q_EMIT q->showPrompt("otp", Greeter::PromptTypeQuestion);
             } else {
                 authenticated = false;
-                Q_EMIT q->authenticationComplete();
+                q->sendAuthenticationComplete();
             }
         } else {
             authenticated = (response == "otp");
-            Q_EMIT q->authenticationComplete();
+            q->sendAuthenticationComplete();
         }
         return;
     }
@@ -92,7 +92,7 @@ void GreeterPrivate::handleRespond(const QString &response)
     } else {
         authenticated = (response == "password");
     }
-    Q_EMIT q->authenticationComplete();
+    q->sendAuthenticationComplete();
 }
 
 }

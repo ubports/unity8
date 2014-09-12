@@ -135,10 +135,7 @@ class InteractiveNotificationBase(NotificationsBase):
         actions = [("action_id", "dummy")]
         hints = [
             ("x-canonical-switch-to-application", "true"),
-            (
-                "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/dialer-app.png')
-            )
+            ("x-canonical-secondary-icon","dialer")
         ]
 
         self._create_interactive_notification(
@@ -170,20 +167,19 @@ class InteractiveNotificationBase(NotificationsBase):
         body = "Frank Zappa\n+44 (0)7736 027340"
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
         hints = [
-            (
-                "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/dialer-app.png')
-            ),
+            ("x-canonical-secondary-icon", "incoming-call"),
             ("x-canonical-snap-decisions", "true"),
+            ("x-canonical-private-affirmative-tint", "true"),
+            ("x-canonical-private-rejection-tint", "true"),
         ]
 
         actions = [
             ('action_accept', 'Hold + Answer'),
             ('action_decline_1', 'End + Answer'),
             ('action_decline_2', 'Decline'),
-            ('action_decline_3', 'messages:I missed your call - can you call me now?'),
-            ('action_decline_4', 'messages:I\'m running late. I\'m on my way.'),
-            ('action_decline_5', 'messages:I\'m busy at the moment. I\'ll call later.'),
+            ('action_decline_3', 'message:I missed your call - can you call me now?'),
+            ('action_decline_4', 'message:I\'m running late. I\'m on my way.'),
+            ('action_decline_5', 'message:I\'m busy at the moment. I\'ll call later.'),
             ('action_decline_6', 'edit:Custom'),
         ]
 
@@ -204,12 +200,52 @@ class InteractiveNotificationBase(NotificationsBase):
         notification.pointing_device.click_object(
             notification.select_single(objectName="combobutton_dropdown"))
         self.assertThat(
-            notification.select_single(objectName="button2").expanded,
+            notification.select_single(objectName="notify_button2").expanded,
             Eventually(Equals(True)))
         time.sleep(2)
         notification.pointing_device.click_object(
-            notification.select_single(objectName="button4"))
+            notification.select_single(objectName="notify_button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
+
+
+    def test_sd_one_over_two_layout(self):
+        """Snap-decision with three actions should use one-over two button layout."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+
+        summary = "Theatre at Ferria Stadium"
+        body = "at Ferria Stadium in Bilbao, Spain\n07578545317"
+        hints = [
+            ("x-canonical-snap-decisions", "true"),
+            ("x-canonical-non-shaped-icon", "true"),
+            ("x-canonical-private-affirmative-tint", "true")
+        ]
+
+        actions = [
+            ('action_accept', 'Ok'),
+            ('action_decline_1', 'Snooze'),
+            ('action_decline_2', 'View'),
+        ]
+
+        self._create_interactive_notification(
+            summary,
+            body,
+            None,
+            "NORMAL",
+            actions,
+            hints
+        )
+
+        # verify and interact with the triggered snap-decision notification
+        notify_list = self._get_notifications_list()
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+        notification = get_notification()
+        self._assert_notification(
+            notification, summary, body, False, False, 1.0)
+        notification.pointing_device.click_object(
+            notification.select_single(objectName="notify_oot_button0"))
+        self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_without_greeter(self):
         """Snap-decision should block input to shell without greeter."""
@@ -222,6 +258,8 @@ class InteractiveNotificationBase(NotificationsBase):
         hints = [
             ("x-canonical-snap-decisions", "true"),
             ("x-canonical-non-shaped-icon", "true"),
+            ("x-canonical-private-affirmative-tint", "true"),
+            ("x-canonical-private-rejection-tint", "true"),
         ]
 
         actions = [
@@ -242,8 +280,8 @@ class InteractiveNotificationBase(NotificationsBase):
         # the shell)
         time.sleep(1)
         self.main_window.show_dash_swiping()
-        launcher = self.main_window.get_launcher()
-        self.assertThat(launcher.shown, Eventually(Equals(False)))
+        self.assertThat(
+            self.main_window.is_launcher_open, Eventually(Equals(False)))
 
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
@@ -253,7 +291,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self._assert_notification(
             notification, summary, body, True, False, 1.0)
         notification.pointing_device.click_object(
-            notification.select_single(objectName="button0"))
+            notification.select_single(objectName="notify_button0"))
         self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_with_greeter(self):
@@ -266,6 +304,8 @@ class InteractiveNotificationBase(NotificationsBase):
         hints = [
             ("x-canonical-snap-decisions", "true"),
             ("x-canonical-non-shaped-icon", "true"),
+            ("x-canonical-private-affirmative-tint", "true"),
+            ("x-canonical-private-rejection-tint", "true"),
         ]
 
         actions = [
@@ -296,7 +336,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self._assert_notification(
             notification, summary, body, True, False, 1.0)
         notification.pointing_device.click_object(
-            notification.select_single(objectName="button0"))
+            notification.select_single(objectName="notify_button0"))
         self.assert_notification_action_id_was_called("action_accept")
 
     def _create_interactive_notification(
@@ -438,10 +478,7 @@ class EphemeralNotificationsTests(NotificationsBase):
                "join me and Anna?"
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
         hints = [
-            (
-                "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/dialer-app.png')
-            )
+            ("x-canonical-secondary-icon", "message")
         ]
 
         notification = shell.create_ephemeral_notification(
@@ -474,17 +511,13 @@ class EphemeralNotificationsTests(NotificationsBase):
         notify_list = self._get_notifications_list()
 
         summary = "Upload of image completed"
-        hints = [
-            (
-                "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/facebook.png')
-            )
-        ]
+        icon_path = self._get_icon_path('applicationIcons/facebook.png')
+        hints=[]
 
         notification = shell.create_ephemeral_notification(
             summary,
             None,
-            None,
+            icon_path,
             hints,
             "NORMAL",
         )
@@ -497,8 +530,8 @@ class EphemeralNotificationsTests(NotificationsBase):
             notification(),
             summary,
             None,
-            False,
             True,
+            False,
             1.0
         )
 
@@ -683,7 +716,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         body = 'This bubble uses the icon-title-body layout with a ' \
             'secondary icon.'
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
-        hint_icon = self._get_icon_path('applicationIcons/dialer-app.png')
+        hint_icon = 'dialer'
 
         notification = shell.create_ephemeral_notification(
             summary,
@@ -718,72 +751,3 @@ class EphemeralNotificationsTests(NotificationsBase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(
             get_notification(), summary, body, False, False, 1.0)
-
-    def test_append_hint(self):
-        """Notification has to accumulate body-text using append-hint."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
-
-        notify_list = self._get_notifications_list()
-
-        summary = 'Cole Raby'
-        body = 'Hey Bro Coly!'
-        icon_path = self._get_icon_path('avatars/amanda.png')
-        body_sum = body
-        notification = shell.create_ephemeral_notification(
-            summary,
-            body,
-            icon_path,
-            hints=[('x-canonical-append', 'true')]
-        )
-
-        notification.show()
-
-        get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
-
-        notification = get_notification()
-        self._assert_notification(
-            notification,
-            summary,
-            body_sum,
-            True,
-            False,
-            1.0
-        )
-
-        bodies = [
-            'What\'s up dude?',
-            'Did you watch the air-race in Oshkosh last week?',
-            'Phil owned the place like no one before him!',
-            'Did really everything in the race work according to regulations?',
-            'Somehow I think to remember Burt Williams did cut corners and '
-            'was not punished for this.',
-            'Hopefully the referees will watch the videos of the race.',
-            'Burt could get fined with US$ 50000 for that rule-violation :)'
-        ]
-
-        for new_body in bodies:
-            body = new_body
-            body_sum += '\n' + body
-            notification = shell.create_ephemeral_notification(
-                summary,
-                body,
-                icon_path,
-                hints=[('x-canonical-append', 'true')]
-            )
-            notification.show()
-
-            get_notification = lambda: notify_list.wait_select_single(
-                'Notification',
-                objectName='notification1'
-            )
-            notification = get_notification()
-            self._assert_notification(
-                notification,
-                summary,
-                body_sum,
-                True,
-                False,
-                1.0
-            )

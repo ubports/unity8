@@ -30,6 +30,8 @@ Loader {
     property int maxHeight
     readonly property bool fullscreen: menuData.type === "com.canonical.snapdecision.pinlock"
 
+    signal accepted()
+
     property var _map:  {
         "com.canonical.snapdecision.textfield": textfield,
         "com.canonical.snapdecision.pinlock" : pinLock,
@@ -53,6 +55,7 @@ Loader {
             anchors {
                 left: parent.left
                 right: parent.right
+                margins: spacing
             }
 
             Component.onCompleted: {
@@ -63,6 +66,7 @@ Loader {
 
             Label {
                 text: menuData.label
+                color: notification.sdFontColor
             }
 
             TextField {
@@ -82,6 +86,9 @@ Loader {
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
                 }
+                onAccepted: {
+                    menuFactory.accepted()
+                }
             }
 
             Row {
@@ -93,11 +100,13 @@ Loader {
                     id: checkBox
 
                     checked: false
+                    activeFocusOnPress: false
                 }
 
                 Label {
                     anchors.verticalCenter: checkBox.verticalCenter
                     text: i18n.tr("Show password")
+                    color: notification.sdFontColor
                 }
             }
         }
@@ -112,16 +121,23 @@ Loader {
                 right: parent.right
             }
             height: menuFactory.maxHeight
-            placeholderText: i18n.tr("Please enter SIM PIN")
+            infoText: i18n.tr("Enter SIM PIN")
+            errorText: i18n.tr("Sorry, incorrect PIN")
+            minPinLength: 4
+            maxPinLength: 8
             background: shell.background
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
-                entryEnabled = false;
             }
 
             onCancel: {
                 menuModel.activate(menuIndex, false);
+            }
+
+            onEmergencyCall: {
+                shell.activateApplication("dialer-app")
+                menuModel.activate(menuIndex, false)
             }
         }
     }

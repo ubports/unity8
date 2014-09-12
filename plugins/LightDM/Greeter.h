@@ -35,7 +35,7 @@ class Greeter : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool active READ isActive WRITE setIsActive NOTIFY isActiveChanged)
-    Q_PROPERTY(bool authenticated READ isAuthenticated)
+    Q_PROPERTY(bool authenticated READ isAuthenticated NOTIFY isAuthenticatedChanged)
     Q_PROPERTY(QString authenticationUser READ authenticationUser NOTIFY authenticationUserChanged)
     Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
 
@@ -55,12 +55,14 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void showMessage(const QString &text, bool isError);
-    void showPrompt(const QString &text, bool isSecret);
+    void showPrompt(const QString &text, bool isSecret, bool isDefaultPrompt);
     void authenticationComplete();
     void authenticationUserChanged(const QString &user);
     void isActiveChanged();
+    void isAuthenticatedChanged();
     void promptlessChanged();
     void showGreeter();
+    void hideGreeter();
 
     // This signal is emitted by external agents like indicators, and the UI
     // should switch to this user if possible.

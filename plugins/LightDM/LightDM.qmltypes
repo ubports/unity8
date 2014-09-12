@@ -14,6 +14,7 @@ Module {
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [0]
+        Property { name: "active"; type: "bool" }
         Property { name: "authenticated"; type: "bool"; isReadonly: true }
         Property { name: "authenticationUser"; type: "string"; isReadonly: true }
         Property { name: "promptless"; type: "bool"; isReadonly: true }
@@ -26,12 +27,16 @@ Module {
             name: "showPrompt"
             Parameter { name: "text"; type: "string" }
             Parameter { name: "isSecret"; type: "bool" }
+            Parameter { name: "isDefaultPrompt"; type: "bool" }
         }
         Signal { name: "authenticationComplete" }
         Signal {
             name: "authenticationUserChanged"
             Parameter { name: "user"; type: "string" }
         }
+        Signal { name: "isActiveChanged" }
+        Signal { name: "isAuthenticatedChanged" }
+        Signal { name: "showGreeter" }
         Signal {
             name: "requestAuthenticationUser"
             Parameter { name: "user"; type: "string" }
@@ -51,6 +56,10 @@ Module {
             Parameter { name: "session"; type: "string" }
         }
         Method { name: "startSessionSync"; type: "bool" }
+        Method {
+            name: "setIsActive"
+            Parameter { name: "isActive"; type: "bool" }
+        }
     }
     Component {
         name: "QAbstractProxyModel"

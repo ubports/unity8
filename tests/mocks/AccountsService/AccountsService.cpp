@@ -22,8 +22,11 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
+    m_enableLauncherWhileLocked(true),
+    m_enableIndicatorsWhileLocked(true),
     m_backgroundFile(qmlDirectory() + "graphics/phone_background.jpg"),
-    m_statsWelcomeScreen(true)
+    m_statsWelcomeScreen(true),
+    m_failedLogins(0)
 {
 }
 
@@ -47,6 +50,28 @@ bool AccountsService::demoEdges() const
 void AccountsService::setDemoEdges(bool demoEdges)
 {
     Q_UNUSED(demoEdges)
+}
+
+bool AccountsService::enableLauncherWhileLocked() const
+{
+    return m_enableLauncherWhileLocked;
+}
+
+void AccountsService::setEnableLauncherWhileLocked(bool enableLauncherWhileLocked)
+{
+    m_enableLauncherWhileLocked = enableLauncherWhileLocked;
+    Q_EMIT enableLauncherWhileLockedChanged();
+}
+
+bool AccountsService::enableIndicatorsWhileLocked() const
+{
+    return m_enableIndicatorsWhileLocked;
+}
+
+void AccountsService::setEnableIndicatorsWhileLocked(bool enableIndicatorsWhileLocked)
+{
+    m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
+    Q_EMIT enableIndicatorsWhileLockedChanged();
 }
 
 QString AccountsService::backgroundFile() const
@@ -77,4 +102,15 @@ AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() cons
         return PasswordDisplayHint::Numeric;
     else
         return PasswordDisplayHint::Keyboard;
+}
+
+uint AccountsService::failedLogins() const
+{
+    return m_failedLogins;
+}
+
+void AccountsService::setFailedLogins(uint failedLogins)
+{
+    m_failedLogins = failedLogins;
+    failedLoginsChanged();
 }

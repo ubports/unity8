@@ -26,14 +26,11 @@ Item {
     width: units.gu(70)
     height: units.gu(70)
 
-    Rectangle {
-
-    }
-
     PhoneStage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
         dragAreaWidth: units.gu(2)
+        maximizedAppTopMargin: units.gu(3) + units.dp(2)
     }
 
     Binding {
@@ -46,6 +43,7 @@ Item {
         anchors { fill: parent; leftMargin: phoneStage.width }
 
         Column {
+            id: buttons
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
             Button {
@@ -57,9 +55,33 @@ Item {
             }
             Button {
                 anchors { left: parent.left; right: parent.right }
-                text: "Remove App"
+                text: "Remove Selected"
                 onClicked: {
-                    ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+                    ApplicationManager.stopApplication(ApplicationManager.get(appList.selectedAppIndex).appId);
+                }
+            }
+            Button {
+                anchors { left: parent.left; right: parent.right }
+                text: "Stop Selected"
+                onClicked: {
+                    ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
+                }
+            }
+        }
+        ListView {
+            id: appList
+            property int selectedAppIndex
+            anchors { left: parent.left; right: parent.right; top: buttons.bottom; bottom: parent.bottom }
+            boundsBehavior: Flickable.StopAtBounds
+            model: ApplicationManager
+            delegate: Rectangle {
+                anchors { left: parent.left; right: parent.right }
+                height: units.gu(2)
+                color: appList.selectedAppIndex === model.index ? "red" : "white"
+                Text { anchors.fill: parent; text: model.appId }
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: { appList.selectedAppIndex = model.index; }
                 }
             }
         }
@@ -84,7 +106,9 @@ Item {
         function goToSpread() {
             var spreadView = findChild(phoneStage, "spreadView");
 
-            var startX = phoneStage.width;
+            // Keep it inside the PhoneStage otherwise the controls on the right side will
+            // capture the press thus the "- 2"  on startX.
+            var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
             var endY = startY;
             var endX = units.gu(2);
@@ -132,7 +156,9 @@ Item {
 
             var spreadView = findChild(phoneStage, "spreadView");
 
-            var startX = phoneStage.width;
+            // Keep it inside the PhoneStage otherwise the controls on the right side will
+            // capture the press thus the "- 2"  on startX.
+            var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
             var endY = startY;
             var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset;

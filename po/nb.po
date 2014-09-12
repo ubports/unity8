@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-07-26 12:05+0000\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-28 16:54+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-30 07:46+0000\n"
+"X-Generator: Launchpad (build 17176)\n"
+
+#: plugins/LightDM/Greeter.cpp:130
+msgid "Password: "
+msgstr "Passord: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,21 +30,59 @@ msgstr "Fest snarvei"
 msgid "Unpin shortcut"
 msgstr "Fjern snarvei"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr ""
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr "Logg ut"
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr "Er du sikker på at du vil logge ut?"
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr "Nei"
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr "Ja"
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr "Slå av"
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr "Er du sikker på at du vil slå av?"
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr "Start på nytt"
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr "Er du sikker på at du vil starte på nytt?"
 
 #: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr "Strøm"
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
+"Er du sikker på at du vil \n"
+"skru av?"
+
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr ""
+msgstr "Slå av"
 
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -76,11 +118,11 @@ msgstr "Venstre kant"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Sveip fra venstre for å få tilgang til programoppstarteren"
+msgstr "Skyv fra venstre for å få tilgang til programoppstarteren"
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Bra jobba"
+msgstr "Godt jobba"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid ""
@@ -90,38 +132,55 @@ msgstr ""
 "Du har nå mestret kantbevegelsene, og er klar til å bruke "
 "telefonen<br><br>Trykk på skjermen for å begynne"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:167
+msgid "Please wait"
+msgstr "Vent litt"
+
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "Du har tastet feil for mange ganger"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Nødanrop"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "Hei, %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "Hei"
 
-#: qml/Components/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr "AVBRYT"
-
-#: qml/Components/PinLockscreen.qml:216
-msgid "DONE"
-msgstr "FERDIG"
-
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "Vis mindre"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "Vis alt"
+
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Søk"
+
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr "Innstillinger"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr "Fjern fra favoritter"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr "Legg til i favoritter"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -143,31 +202,31 @@ msgstr "Skriv en anmeldelse"
 msgid "Send"
 msgstr "Send"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr ""
+msgstr "Håndter dashbord"
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
-msgstr ""
+msgstr "Ferdig"
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
-msgstr ""
+msgstr "Butikk"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritter"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Alt"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr "Sveip for å låse opp"
+msgstr "Skyv for å låse opp"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Bekreft"
 
@@ -187,13 +246,17 @@ msgstr "Snakk nå …"
 msgid "Speaking..."
 msgstr "Snakker …"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "Vis passord"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
-msgstr "Skriv inn PIN-koden til SIM-kortet"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr "Tast SIM-kortets PIN-kode"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
+msgid "Sorry, incorrect PIN"
+msgstr "Feil PIN"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -229,17 +292,62 @@ msgstr "Feilet. Trykk for å prøve på nytt"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Lås opp SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Fremmednett"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Søk"
+#: qml/Shell.qml:279
+msgid "Enter your passphrase"
+msgstr "Skriv inn passordfrasen din"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:280
+msgid "Sorry, incorrect passphrase"
+msgstr "Feil passordfrase"
+
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
+msgstr "Tast koden din"
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
+msgstr "Feil kode"
+
+#: qml/Shell.qml:286
 #, qt-format
-msgid "Please enter %1"
+msgid "Enter your %1"
 msgstr "Skriv inn %1"
+
+#: qml/Shell.qml:287
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Feil %1"
+
+#: qml/Shell.qml:323
+msgid "Sorry, incorrect passphrase."
+msgstr "Feil passordfrase."
+
+#: qml/Shell.qml:324
+msgid "Sorry, incorrect passcode."
+msgstr "Feil kode."
+
+#: qml/Shell.qml:325
+msgid "This will be your last attempt."
+msgstr "Dette er ditt siste forsøk."
+
+#: qml/Shell.qml:327
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Hvis du skriver feil passordfrase en gang til, tilbakestilles telefonen til "
+"fabrikkinnstillinger, og alle personlige data slettes."
+
+#: qml/Shell.qml:328
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Hvis du skriver feil kode en gang til, tilbakestilles telefonen til "
+"fabrikkinnstillinger, og alle personlige data slettes."

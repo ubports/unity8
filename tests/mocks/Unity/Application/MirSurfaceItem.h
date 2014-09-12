@@ -17,12 +17,14 @@
 #ifndef MIRSURFACEITEM_H
 #define MIRSURFACEITEM_H
 
-#include <QQuickPaintedItem>
-#include <QImage>
+#include "MirSurfaceItemModel.h"
 
-class ApplicationInfo;
+#include <QQuickItem>
+#include <QUrl>
 
-class MirSurfaceItem : public QQuickPaintedItem
+class Session;
+
+class MirSurfaceItem : public QQuickItem
 {
     Q_OBJECT
     Q_ENUMS(Type)
@@ -30,9 +32,8 @@ class MirSurfaceItem : public QQuickPaintedItem
 
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged)
-    Q_PROPERTY(QQmlListProperty<MirSurfaceItem> childSurfaces READ childSurfaces NOTIFY childSurfacesChanged DESIGNABLE false)
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(bool live READ live NOTIFY liveChanged)
 
 public:
     enum Type {
@@ -55,65 +56,60 @@ public:
         Fullscreen,
     };
 
-    explicit MirSurfaceItem(const QString& name,
-                            Type type,
-                            State state,
-                            const QUrl& screenshot,
-                            QQuickItem *parent = 0);
     ~MirSurfaceItem();
 
     //getters
-    ApplicationInfo* application() const { return m_application; }
+    Session* session() const { return m_session; }
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
-    MirSurfaceItem* parentSurface() const { return m_parentSurface; }
-    QList<MirSurfaceItem*> childSurfaceList();
+    bool live() const { return m_live; }
 
-    void setApplication(ApplicationInfo* item);
-    void setParentSurface(MirSurfaceItem* item);
+    void setSession(Session* item);
+    void setScreenshot(const QUrl& screenshot);
+    void setLive(bool live);
 
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
 
-    void paint(QPainter * painter) override;
-    void touchEvent(QTouchEvent * event) override;
-
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
-    void nameChanged(QString);
-    void parentSurfaceChanged(MirSurfaceItem*);
-    void childSurfacesChanged();
-
-    void removed();
+    void liveChanged(bool live);
 
     void inputMethodRequested();
     void inputMethodDismissed();
 
+    // internal mock use
+    void deregister();
+
 private Q_SLOTS:
     void onFocusChanged();
-
-protected:
-    const QImage &screenshotImage() { return m_img; }
+    void onComponentStatusChanged(QQmlComponent::Status status);
+    void onQmlWantInputMethodChanged();
 
 private:
-    void addChildSurface(MirSurfaceItem* surface);
-    void removeChildSurface(MirSurfaceItem* surface);
+    explicit MirSurfaceItem(const QString& name,
+                            Type type,
+                            State state,
+                            const QUrl& screenshot,
+                            const QString &qmlFilePath = QString(),
+                            QQuickItem *parent = 0);
 
-    QQmlListProperty<MirSurfaceItem> childSurfaces();
-    static int childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
-    static MirSurfaceItem* childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
+    void createQmlContentItem();
+    void printComponentErrors();
 
-    ApplicationInfo* m_application;
+    Session* m_session;
     const QString m_name;
     const Type m_type;
     State m_state;
-    const QImage m_img;
+    bool m_live;
 
-    MirSurfaceItem* m_parentSurface;
-    QList<MirSurfaceItem*> m_children;
-    bool m_haveInputMethod;
+    QQmlComponent *m_qmlContentComponent;
+    QQuickItem *m_qmlItem;
+    QUrl m_screenshotUrl;
+
+    friend class SurfaceManager;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)

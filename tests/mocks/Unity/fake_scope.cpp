@@ -22,8 +22,9 @@
 #include "fake_navigation.h"
 #include "fake_resultsmodel.h"
 #include "fake_scopes.h"
+#include "fake_settingsmodel.h"
 
-Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
+Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 
@@ -39,6 +40,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
+    , m_settings(new SettingsModel(this))
 {
 }
 
@@ -94,7 +96,7 @@ unity::shell::scopes::CategoriesInterface* Scope::categories() const
 
 unity::shell::scopes::SettingsModelInterface* Scope::settings() const
 {
-    return nullptr;
+    return m_settings;
 }
 
 QString Scope::noResultsHint() const
@@ -224,9 +226,17 @@ QVariantMap Scope::customizations() const
         m["background-color"] = "red";
         m["foreground-color"] = "blue";
         m["page-header"] = h;
+    } else if (m_id == "MockScope4") {
+        h["navigation-background"] = QUrl("../../../tests/qmltests/Dash/artwork/background.png");
+        m["page-header"] = h;
     } else if (m_id == "MockScope5") {
         h["background"] = "gradient:///lightgrey/grey";
-        h["logo"] = QUrl("../../../tests/qmltests/Components/tst_PageHeader/logo-ubuntu-orange.svg");
+        h["logo"] = QUrl("../../../tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
+        h["divider-color"] = "red";
+        h["navigation-background"] = "color:///black";
+        m["page-header"] = h;
+    } else if (m_id == "MockScope6") {
+        h["navigation-background"] = "gradient:///blue/red";
         m["page-header"] = h;
     }
     return m;
@@ -261,11 +271,16 @@ unity::shell::scopes::NavigationInterface* Scope::getAltNavigation(QString const
 
     QString parentId;
     QString parentLabel;
-    if (id.startsWith("altmiddle")) {
+    if (id != "altroot") {
         parentId = "altroot";
         parentLabel = "altroot";
     }
-    return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
+    auto result = new Navigation(id, id, "all"+id, parentId, parentLabel, this);
+    if (id == "altroot") {
+        m_currentAltNavigationId = "altrootChild1";
+        Q_EMIT currentAltNavigationIdChanged();
+    }
+    return result;
 }
 
 void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation)

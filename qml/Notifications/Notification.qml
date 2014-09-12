@@ -40,20 +40,18 @@ Item {
     property bool fullscreen: false
     property int maxHeight
     property int margins
-    property Gradient greenGradient : Gradient {
-        GradientStop { position: 0.0; color: "#3fb24f" }
-        GradientStop { position: 1.0; color: "#3fb24f" }
-    }
-    property Gradient darkgreyGradient: Gradient {
-        GradientStop { position: 0.0; color: "#4d4745" }
-        GradientStop { position: 1.0; color: "#4d4745" }
-    }
+    readonly property color red: "#fc4949"
+    readonly property color green: "#3fb24f"
+    readonly property color sdLightGrey: "#eaeaea"
+    readonly property color sdDarkGrey: "#dddddd"
+    readonly property color sdFontColor: "#5d5d5d"
+    readonly property real contentSpacing: units.gu(2)
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + contentSpacing * 2) : 0
 
-    color: type == Notification.Confirmation && notificationList.useModal && !greeter.shown ? "#eaeaea" : Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 0
+    color: (type == Notification.Confirmation && notificationList.useModal && !greeter.shown) || (type == Notification.SnapDecision) ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
+    opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
 
     state: {
         var result = "";
@@ -83,7 +81,8 @@ Item {
         source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
-    onOpacityChanged: {
+    // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
+    Component.onCompleted: {
         if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source) {
             sound.play();
         }
@@ -107,7 +106,7 @@ Item {
     states:[
         State {
             name: "contracted"
-            PropertyChanges {target: notification; height: units.gu(8)}
+            PropertyChanges {target: notification; height: units.gu(10)}
         },
         State {
             name: "expanded"
@@ -131,6 +130,7 @@ Item {
         color: parent.color
         opacity: parent.opacity
         radius: "medium"
+        borderSource: "none"
     }
 
     Rectangle {
@@ -199,50 +199,41 @@ Item {
         }
 
         Column {
-            id: contentColumn
-            objectName: "contentColumn"
+            id: outterColumn
 
             anchors {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                margins: fullscreen ? 0 : spacing
+                margins: 0
+                topMargin: fullscreen ? 0 : units.gu(2)
             }
 
-            spacing: units.gu(1)
+            spacing: units.gu(2)
 
             Row {
                 id: topRow
 
-                spacing: contentColumn.spacing
+                spacing: contentSpacing
                 anchors {
                     left: parent.left
                     right: parent.right
+                    margins: contentSpacing
                 }
 
                 ShapedIcon {
                     id: icon
 
                     objectName: "icon"
-                    width: units.gu(6)
-                    height: units.gu(6)
+                    width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
+                    height: width
                     shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
                     visible: iconSource !== undefined && iconSource != "" && type != Notification.Confirmation
                 }
 
-                Image {
-                    id: secondaryIcon
-
-                    objectName: "secondaryIcon"
-                    width: units.gu(2)
-                    height: units.gu(2)
-                    visible: source !== undefined && source != ""
-                    fillMode: Image.PreserveAspectCrop
-                }
-
                 Column {
                     id: labelColumn
-                    width: parent.width - x
+                    width: secondaryIcon.visible ? parent.width - x - units.gu(4.5) : parent.width - x
 
                     anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
 
@@ -256,9 +247,9 @@ Item {
                         }
                         visible: type != Notification.Confirmation
                         fontSize: "medium"
-                        font.bold: true
-                        color: Theme.palette.selected.backgroundText
+                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
 
                     Label {
@@ -271,13 +262,27 @@ Item {
                         }
                         visible: body != ""
                         fontSize: "small"
-                        color: Theme.palette.selected.backgroundText
-                        opacity: 0.6
+                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
-                        maximumLineCount: 10
+                        maximumLineCount: 2
                         elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
                 }
+
+                Image {
+                    id: secondaryIcon
+
+                    objectName: "secondaryIcon"
+                    width: units.gu(3)
+                    height: units.gu(3)
+                    visible: status === Image.Ready
+                    fillMode: Image.PreserveAspectCrop
+                }
+            }
+
+            ListItem.ThinDivider {
+                visible: type == Notification.SnapDecision
             }
 
             ShapedIcon {
@@ -340,6 +345,77 @@ Item {
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
                         }
+                        onAccepted: {
+                            notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                        }
+                    }
+                }
+            }
+
+            Column {
+                id: oneOverTwoCase
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: contentSpacing
+                }
+
+                spacing: contentSpacing
+
+                visible: notification.type == Notification.SnapDecision && oneOverTwoRepeaterTop.count == 3
+
+                Repeater {
+                    id: oneOverTwoRepeaterTop
+
+                    model: notification.actions
+                    delegate: Loader {
+                        id: oneOverTwoLoaderTop
+
+                        property string actionId: id
+                        property string actionLabel: label
+
+                        Component {
+                            id: oneOverTwoButtonTop
+
+                            Button {
+                                objectName: "notify_oot_button" + index
+                                width: oneOverTwoCase.width
+                                text: oneOverTwoLoaderTop.actionLabel
+                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : sdDarkGrey
+                                onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
+                            }
+                        }
+                        sourceComponent: index == 0 ? oneOverTwoButtonTop : undefined
+                    }
+                }
+
+                Row {
+                    spacing: contentSpacing
+
+                    Repeater {
+                        id: oneOverTwoRepeaterBottom
+
+                        model: notification.actions
+                        delegate: Loader {
+                            id: oneOverTwoLoaderBottom
+
+                            property string actionId: id
+                            property string actionLabel: label
+
+                            Component {
+                                id: oneOverTwoButtonBottom
+
+                                Button {
+                                    objectName: "notify_oot_button" + index
+                                    width: oneOverTwoCase.width / 2 - spacing * 2
+                                    text: oneOverTwoLoaderBottom.actionLabel
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
+                                    onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
+                                }
+                            }
+                            sourceComponent:  (index == 1 || index == 2) ? oneOverTwoButtonBottom : undefined
+                        }
                     }
                 }
             }
@@ -351,9 +427,10 @@ Item {
                 anchors {
                     left: parent.left
                     right: parent.right
+                    margins: contentSpacing
                 }
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
-                spacing: units.gu(1)
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
+                spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 
                 Repeater {
@@ -370,10 +447,19 @@ Item {
                             id: actionButton
 
                             Button {
-                                objectName: "button" + index
-                                width: buttonRow.width / 2 - spacing
+                                objectName: "notify_button" + index
+                                width: buttonRow.width / 2 - spacing*2
                                 text: loader.actionLabel
-                                gradient: notification.hints["x-canonical-private-button-tint"] == "true" && index == 0 ? greenGradient : darkgreyGradient
+                                color: {
+                                    var result = sdDarkGrey;
+                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
+                                        result = green;
+                                    }
+                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
+                                        result = red;
+                                    }
+                                    return result;
+                                }
                                 onClicked: notification.notification.invokeAction(loader.actionId)
                             }
                         }
@@ -385,10 +471,16 @@ Item {
             ComboButton {
                 id: comboButton
 
-                objectName: "button2"
+                objectName: "notify_button2"
                 width: parent.width
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3
-                gradient: darkgreyGradient
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: contentSpacing
+                }
+
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
+                color: sdDarkGrey
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
                 expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
@@ -404,7 +496,7 @@ Item {
                             id: comboRepeater
 
                             onVisibleChanged: {
-                                comboButton.text = comboRepeater.itemAt(2).actionLabel
+                                comboButton.text = comboRepeater.count >= 3 ? comboRepeater.itemAt(2).actionLabel : ""
                             }
 
                             model: notification.actions
@@ -422,7 +514,7 @@ Item {
                                     MouseArea {
                                         id: comboInputArea
 
-                                        objectName: "button" + index
+                                        objectName: "notify_button" + index
                                         width: comboButton.width
                                         height: comboIcon.height + units.gu(2)
 
@@ -444,7 +536,7 @@ Item {
                                             }
                                             width: units.gu(2)
                                             height: units.gu(2)
-                                            color: "white"
+                                            color: sdFontColor
                                             name: splitLabel[2]
                                         }
 
@@ -457,7 +549,7 @@ Item {
                                                 verticalCenter: comboIcon.verticalCenter
                                             }
                                             fontSize: "small"
-                                            color: "white"
+                                            color: sdFontColor
                                             text: splitLabel[3]
                                         }
                                     }

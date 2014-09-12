@@ -30,15 +30,25 @@ Rectangle {
     property string longText2: "This is a very very very long text. 1 This is a very very very long text. 2 This is a very very very long text. 3 This is a very very very long text. 4 This is a very very very long text. 5 This is a very very very long text. 6 This is a very very very long text. 7 This is a very very very long text. 8 This is a very very very long text. 9 This is a very very very long text. 10 This is a very very very long text. 11 This is a very very very long text."
     property string shortText: "This is a short text :)"
 
+    property var tableData: {
+        "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
+    }
+
+    ListModel {
+        id: widgetsModel
+    }
+
     property var widgetData: {
         "title": "Title here",
         "collapsed-widgets": 2,
-        "widgets": [
-            { "type": "text", "widgetId" : "text1", "properties" : { "text": longText } },
-            { "type": "text", "widgetId" : "text2", "properties" : { "text": longText2 } },
-            { "type": "text", "widgetId" : "text3", "properties" : { "text": shortText } },
-            { "type": "text", "widgetId" : "text4", "properties" : { "text": longText } }
-        ]
+        "widgets": widgetsModel
+    }
+
+    Component.onCompleted: {
+        widgetsModel.append({"type": "text", "widgetId": "text1", "properties": { "text": longText }});
+        widgetsModel.append({"type": "text", "widgetId": "table1", "properties": { "text": tableData }});
+        widgetsModel.append({"type": "text", "widgetId": "text3", "properties": { "text": shortText }});
+        widgetsModel.append({"type": "text", "widgetId": "text4", "properties": { "text": longText }});
     }
 
     PreviewExpandable {

@@ -31,7 +31,7 @@ DashCommunicator::~DashCommunicator()
 }
 
 
-void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool reset)
+void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
 {
     QDBusConnection connection = QDBusConnection::sessionBus();
     QDBusInterface dashIface ("com.canonical.UnityDash",
@@ -39,5 +39,5 @@ void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, boo
                            "",
                            connection);
 
-    dashIface.call("SetCurrentScope", scopeId, animate, reset);
+    dashIface.call("SetCurrentScope", scopeId, animate, isSwipe);
 }

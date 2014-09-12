@@ -15,9 +15,12 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.0
 import QtTest 1.0
+import AccountsService 0.1
 import GSettings 1.0
 import LightDM 0.1 as LightDM
+import Ubuntu.SystemImage 0.1
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -25,7 +28,8 @@ import Powerd 0.1
 import "../../qml"
 
 Item {
-    width: shell.width
+    id: root
+    width: shell.width + units.gu(20)
     height: shell.height
 
     QtObject {
@@ -46,11 +50,31 @@ Item {
 
     Shell {
         id: shell
+        maxFailedLogins: maxRetriesTextField.text
+    }
+    Column {
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; margins:units.gu(1) }
+        width: units.gu(18)
+
+        Label {
+            text: "Max retries:"
+            color: "black"
+        }
+        TextField {
+            id: maxRetriesTextField
+            text: "-1"
+        }
     }
 
     SignalSpy {
         id: sessionSpy
         signalName: "sessionStarted"
+    }
+
+    SignalSpy {
+        id: resetSpy
+        target: SystemImage
+        signalName: "resettingDevice"
     }
 
     UT.UnityTestCase {
@@ -64,6 +88,10 @@ Item {
 
         function init() {
             swipeAwayGreeter()
+            shell.failedLoginsDelayAttempts = -1
+            maxRetriesTextField.text = "-1"
+            AccountsService.enableLauncherWhileLocked = true
+            AccountsService.enableIndicatorsWhileLocked = true
         }
 
         function cleanup() {
@@ -111,6 +139,7 @@ Item {
         }
 
         function test_login() {
+            sessionSpy.clear()
             tryCompare(sessionSpy, "count", 0)
             enterPin("1234")
             tryCompare(sessionSpy, "count", 1)
@@ -118,16 +147,20 @@ Item {
 
         function test_disabledEdges() {
             var launcher = findChild(shell, "launcher")
+            tryCompare(launcher, "available", true)
+            AccountsService.enableLauncherWhileLocked = false
             tryCompare(launcher, "available", false)
 
             var indicators = findChild(shell, "indicators")
+            tryCompare(indicators, "available", true)
+            AccountsService.enableIndicatorsWhileLocked = false
             tryCompare(indicators, "available", false)
         }
 
         function test_emergencyCall() {
             var greeter = findChild(shell, "greeter")
             var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             var panel = findChild(shell, "panel")
             var indicators = findChild(shell, "indicators")
             var launcher = findChild(shell, "launcher")
@@ -138,12 +171,9 @@ Item {
             tryCompare(greeter, "fakeActiveForApp", "dialer-app")
             tryCompare(lockscreen, "shown", false)
             tryCompare(panel, "fullscreenMode", true)
-            tryCompare(stage, "spreadEnabled", false)
-
-            // These are normally false anyway, but confirm they remain so in
-            // emergency mode.
-            tryCompare(launcher, "available", false)
             tryCompare(indicators, "available", false)
+            tryCompare(launcher, "available", false)
+            tryCompare(stage, "spreadEnabled", false)
 
             // Cancel emergency mode, and go back to normal
             waitForRendering(greeter)
@@ -153,12 +183,14 @@ Item {
             tryCompare(greeter, "fakeActiveForApp", "")
             tryCompare(lockscreen, "shown", true)
             tryCompare(panel, "fullscreenMode", false)
+            tryCompare(indicators, "available", true)
+            tryCompare(launcher, "available", true)
             tryCompare(stage, "spreadEnabled", true)
         }
 
         function test_emergencyCallCrash() {
             var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
 
             tryCompare(lockscreen, "shown", false)
@@ -168,12 +200,56 @@ Item {
 
         function test_emergencyCallAppLaunch() {
             var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
+            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
 
             tryCompare(lockscreen, "shown", false)
             ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
             tryCompare(lockscreen, "shown", true)
+        }
+
+        function test_failedLoginsCount() {
+            AccountsService.failedLogins = 0
+
+            enterPin("1111")
+            tryCompare(AccountsService, "failedLogins", 1)
+
+            enterPin("1234")
+            tryCompare(AccountsService, "failedLogins", 0)
+        }
+
+        function test_wrongEntries() {
+            shell.failedLoginsDelayAttempts = 3
+
+            var placeHolder = findChild(shell, "wrongNoticeLabel")
+            tryCompare(placeHolder, "text", "")
+
+            enterPin("1111")
+            tryCompare(placeHolder, "text", "Sorry, incorrect passcode")
+
+            enterPin("1111")
+            tryCompare(placeHolder, "text", "Sorry, incorrect passcode")
+
+            enterPin("1111")
+            tryCompare(placeHolder, "text", "Too many incorrect attempts")
+        }
+
+        function test_factoryReset() {
+            maxRetriesTextField.text = "3"
+            resetSpy.clear()
+
+            enterPin("1111")
+            enterPin("1111")
+            tryCompareFunction(function() {return findChild(root, "infoPopup") !== null}, true)
+
+            var dialog = findChild(root, "infoPopup")
+            var button = findChild(dialog, "infoPopupOkButton")
+            mouseClick(button, units.gu(1), units.gu(1))
+            tryCompareFunction(function() {return findChild(root, "infoPopup")}, null)
+
+            tryCompare(resetSpy, "count", 0)
+            enterPin("1111")
+            tryCompare(resetSpy, "count", 1)
         }
     }
 }

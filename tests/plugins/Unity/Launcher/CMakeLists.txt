@@ -1,6 +1,6 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=1)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=3)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -50,7 +50,7 @@ add_executable(launchermodeltestExec
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS})
-qt5_use_modules(launchermodeltestExec Test Core DBus)
+qt5_use_modules(launchermodeltestExec Test Core DBus Gui)
 
 # copy .desktop files into build directory for shadow builds
 file(GLOB DESKTOP_FILES *.desktop)

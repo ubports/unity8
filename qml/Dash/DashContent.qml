@@ -27,8 +27,8 @@ Item {
     readonly property alias currentIndex: dashContentList.currentIndex
     readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
     readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-    readonly property bool previewShown: dashContentList.currentItem && dashContentList.currentItem.item ?
-                                            dashContentList.currentItem.item.previewShown : false
+    readonly property bool subPageShown: dashContentList.currentItem && dashContentList.currentItem.item ?
+                                            dashContentList.currentItem.item.subPageShown : false
     readonly property bool processing: dashContentList.currentItem && dashContentList.currentItem.item
                                        && dashContentList.currentItem.item.processing || false
     readonly property bool pageHeaderTotallyVisible: dashContentList.currentItem && dashContentList.currentItem.item
@@ -50,6 +50,11 @@ Item {
                 set_current_index = undefined;
             }
         }
+    }
+
+    Connections {
+        target: UriHandler
+        onOpened: dashContentList.currentItem.theScope.performQuery(uris[0])
     }
 
     function setCurrentScopeAtIndex(index, animate, reset) {
@@ -96,8 +101,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown
-
+            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -110,6 +114,26 @@ Item {
             cacheBuffer: 1073741823
             onMovementStarted: currentItem.item.showHeader();
             clip: parent.x != 0
+
+            // TODO QTBUG-40846 and QTBUG-40848
+            // The remove transition doesn't happen when removing the last item
+            // And can't work around it because index is reset to -1 regardless of
+            // ListView.delayRemove
+
+            remove: Transition {
+                SequentialAnimation {
+                    PropertyAction { property: "layer.enabled"; value: true }
+                    PropertyAction { property: "ListView.delayRemove"; value: true }
+                    ParallelAnimation {
+                        PropertyAnimation { properties: "scale"; to: 0.25; duration: UbuntuAnimation.SnapDuration }
+                        PropertyAnimation { properties: "y"; to: dashContent.height; duration: UbuntuAnimation.SnapDuration }
+                    }
+                    PropertyAction { property: "ListView.delayRemove"; value: false }
+                }
+            }
+            removeDisplaced: Transition {
+                PropertyAnimation { property: "x"; duration: UbuntuAnimation.SnapDecision }
+            }
 
             // If the number of items is less than the current index, then need to reset to another item.
             onCountChanged: {
@@ -137,6 +161,7 @@ Item {
 
                     readonly property bool moving: item ? item.moving : false
                     readonly property bool navigationShown: item ? item.navigationShown : false
+                    readonly property bool subPageShown: item ? item.subPageShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
 

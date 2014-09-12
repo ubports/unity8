@@ -15,92 +15,41 @@
 */
 
 import QtQuick 2.0
-import "Animations"
+import Ubuntu.Components 1.1
 
 Item {
-    id: container
+    id: root
+    objectName: "surfaceContainer"
     property Item surface: null
-    property bool removing: false
+    property bool hadSurface: false
 
     onSurfaceChanged: {
         if (surface) {
-            surface.parent = container;
-            surface.z = 1;
-            state = "initial"
-        }
-    }
-
-    Connections {
-        target: surface
-        onRemoved: {
-            container.removing = true;
-
-            var childSurfaces = surface.childSurfaces;
-            for (var i=0; i<childSurfaces.length; i++) {
-                childSurfaces[i].removed();
-            }
-
-            animateOut();
-        }
-    }
-
-    Repeater {
-        model: surface.childSurfaces
-
-        delegate: Loader {
-            z: 2
-            anchors {
-                fill: container
-                topMargin: container.surface.anchors.topMargin
-                rightMargin: container.surface.anchors.rightMargin
-                bottomMargin: container.surface.anchors.bottomMargin
-                leftMargin: container.surface.anchors.leftMargin
-            }
-
-            // Only way to do recursive qml items.
-            source: Qt.resolvedUrl("SurfaceContainer.qml")
-            onLoaded: {
-                item.surface = modelData;
-                item.animateIn();
-            }
-        }
-    }
-
-    function animateIn() {
-        var animation = swipeFromBottom.createObject(container, { "surface": container.surface });
-        animation.start();
-
-        var tmp = d.animations;
-        tmp.push(animation);
-        d.animations = tmp;
-    }
-
-    function animateOut() {
-        if (d.animations.length > 0) {
-            var tmp = d.animations;
-            var popped = tmp.pop();
-            popped.end();
-            d.animations = tmp;
+            surface.parent = root;
         } else {
-            container.state = "initial";
+            hadSurface = true;
         }
     }
-
-    QtObject {
-        id: d
-        property var animations: []
-        property var currentAnimation: animations.length > 0 ? animations[animations.length-1] : undefined
-    }
-
-    Component {
-        id: swipeFromBottom
-        SwipeFromBottomAnimation {}
+    Binding {
+        target: surface
+        property: "anchors.fill"; value: root
     }
 
     states: [
         State {
-            name: "initial"
-            PropertyChanges { target: surface; anchors.fill: container }
+            name: "zombie"
+            when: surface && !surface.live
+        }
+    ]
+    transitions: [
+        Transition {
+            from: ""; to: "zombie"
+            SequentialAnimation {
+                UbuntuNumberAnimation { target: surface; property: "opacity"; to: 0.0
+                                        duration: UbuntuAnimation.BriskDuration }
+                PropertyAction { target: surface; property: "visible"; value: false }
+                ScriptAction { script: { if (root.surface) { root.surface.release(); } } }
+            }
         }
     ]
 }

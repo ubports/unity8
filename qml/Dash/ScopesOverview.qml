@@ -32,7 +32,7 @@ Item {
     property alias currentTab: tabBar.currentTab
 
     // Properties used by parent
-    readonly property bool processing: searchResultsViewer.processing || tempScopeItem.processing
+    readonly property bool processing: searchResultsViewer.processing || tempScopeItem.processing || previewListView.processing
     property bool growingDashFromPos: false
     readonly property bool searching: scope && scope.searchQuery == ""
     readonly property bool showingNonFavoriteScope: tempScopeItem.scope != null
@@ -148,7 +148,12 @@ Item {
 
     ScopeStyle {
         id: overviewScopeStyle
-        style: { "foreground-color" : "white", "background-color" : "transparent" }
+        style: { "foreground-color" : "white",
+                 "background-color" : "transparent",
+                 "page-header": {
+                    "background": "color:///transparent"
+                 }
+        }
     }
 
     DashBackground {
@@ -366,12 +371,22 @@ Item {
             }
 
             function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
-                // Do nothing
+                if (itemModel.uri.indexOf("scope://") === 0) {
+                    // Preview can call openScope so make sure restorePosition and restoreSize are set
+                    scopesOverviewXYScaler.restorePosition = undefined;
+                    scopesOverviewXYScaler.restoreSize = allCardSize;
+
+                    previewListView.model = resultsModel;
+                    previewListView.currentIndex = -1;
+                    previewListView.currentIndex = index;
+                    previewListView.open = true;
+                }
             }
         }
 
         Rectangle {
             id: bottomBar
+            objectName: "bottomBar"
             color: "black"
             height: units.gu(8)
             width: parent.width
@@ -384,6 +399,11 @@ Item {
                 } else {
                     return parent.height - (root.progress - 0.5) * height * 2;
                 }
+            }
+
+            MouseArea {
+                // Just eat any other press since this parent is black opaque
+                anchors.fill: parent
             }
 
             AbstractButton {
@@ -400,7 +420,7 @@ Item {
                     border.color: "white"
                     border.width: units.dp(1)
                     radius: units.dp(10)
-                    color: parent.pressed ? "gray" : "transparent"
+                    color: parent.pressed ? Theme.palette.normal.baseText : "transparent"
                 }
                 Label {
                     id: label
@@ -449,13 +469,14 @@ Item {
         objectName: "scopesOverviewPreviewListView"
         scope: root.scope
         scopeStyle: overviewScopeStyle
+        showSignatureLine: false
         visible: x != width
         width: parent.width
         height: parent.height
         anchors.left: scopesOverviewContent.right
+
+        onBackClicked: open = false
     }
-
-
 
     Item {
         id: scopesOverviewXYScaler
@@ -527,6 +548,19 @@ Item {
                 }
                 scopesOverviewXYScaler.opacity = 0;
                 middleItems.overrideOpacity = -1;
+            }
+            // TODO Add tests for these connections
+            Connections {
+                target: tempScopeItem.scope
+                onOpenScope: {
+                    // TODO Animate the newly opened scope into the foreground (stacked on top of the current scope)
+                    tempScopeItem.scope = scope;
+                }
+                onGotoScope: {
+                    tempScopeItem.backClicked();
+                    root.currentTab = 0;
+                    root.scope.gotoScope(scopeId);
+                }
             }
         }
     }

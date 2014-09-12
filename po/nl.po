@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
-"PO-Revision-Date: 2014-07-27 19:12+0000\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"PO-Revision-Date: 2014-08-30 18:22+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-31 07:30+0000\n"
+"X-Generator: Launchpad (build 17176)\n"
+
+#: plugins/LightDM/Greeter.cpp:130
+msgid "Password: "
+msgstr "Wachtwoord: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -26,21 +30,59 @@ msgstr "Snelkoppeling vastzetten"
 msgid "Unpin shortcut"
 msgstr "Snelkoppeling losmaken"
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
-msgstr ""
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr "Afmelden"
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr "Weet u zeker dat u zich wilt afmelden?"
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr "Nee"
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr "Ja"
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr "Uitschakelen"
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr "Weet u zeker dat u het apparaat wilt uitschakelen?"
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr "Herstarten"
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr "Weet u zeker dat u het apparaat wilt herstarten?"
 
 #: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr "Energie"
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
+"Weet u zeker dat u het apparaat\n"
+"wilt uitschakelen?"
+
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr ""
+msgstr "Uitschakelen"
 
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -90,38 +132,55 @@ msgstr ""
 "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
 "het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:167
+msgid "Please wait"
+msgstr "Even geduld a.u.b."
+
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr "Te veel mislukte pogingen"
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Noodoproep"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "Hallo"
 
-#: qml/Components/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr "ANNULEREN"
-
-#: qml/Components/PinLockscreen.qml:216
-msgid "DONE"
-msgstr "KLAAR"
-
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
 msgstr "Alles zien"
+
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Zoeken"
+
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr "Instellingen"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr "Verwijderen uit favorieten"
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
+msgstr "Toevoegen aan favorieten"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -143,31 +202,31 @@ msgstr "Voeg recensie toe"
 msgid "Send"
 msgstr "Versturen"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr ""
+msgstr "Snelzoeker-beheer"
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
-msgstr ""
+msgstr "Klaar"
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
-msgstr ""
+msgstr "Winkel"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Favorieten"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
 msgstr "Veeg om te ontgrendelen"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Bevestigen"
 
@@ -187,13 +246,17 @@ msgstr "Nu inspreken…"
 msgid "Speaking..."
 msgstr "Inspreken…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr "Wachtwoord tonen"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
-msgstr "Voer SIM-pincode in"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr "Voer simpincode in"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
+msgid "Sorry, incorrect PIN"
+msgstr "Sorry, onjuiste pincode"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -229,17 +292,62 @@ msgstr "Mislukt, tik om het opnieuw te proberen"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Simkaart deblokkeren"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Roaming"
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Zoeken"
+#: qml/Shell.qml:279
+msgid "Enter your passphrase"
+msgstr "Voer uw wachtwoordzin in"
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:280
+msgid "Sorry, incorrect passphrase"
+msgstr "Sorry, onjuiste wachtwoordzin"
+
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
+msgstr "Voer uw toegangscode in"
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
+msgstr "Sorry, onjuiste toegangscode"
+
+#: qml/Shell.qml:286
 #, qt-format
-msgid "Please enter %1"
-msgstr "Voer %1 in"
+msgid "Enter your %1"
+msgstr "Voer uw %1 in"
+
+#: qml/Shell.qml:287
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Sorry, onjuiste %1"
+
+#: qml/Shell.qml:323
+msgid "Sorry, incorrect passphrase."
+msgstr "Sorry, onjuiste wachtwoordzin."
+
+#: qml/Shell.qml:324
+msgid "Sorry, incorrect passcode."
+msgstr "Sorry, onjuiste toegangscode."
+
+#: qml/Shell.qml:325
+msgid "This will be your last attempt."
+msgstr "Dit zal uw laatste poging worden."
+
+#: qml/Shell.qml:327
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
+"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+
+#: qml/Shell.qml:328
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Wanneer de toegangscode nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
+"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."

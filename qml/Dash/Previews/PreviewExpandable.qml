@@ -41,7 +41,7 @@ PreviewWidget {
             right: expandButton.left
         }
         fontSize: "large"
-        color: root.scopeStyle ? root.scopeStyle.foreground : "grey"
+        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
         visible: text !== ""
         opacity: .8
         text: widgetData["title"] || ""
@@ -59,9 +59,10 @@ PreviewWidget {
         }
         Icon {
             anchors.fill: parent
-            width: 64
-            height: 64
+            width: units.gu(3)
+            height: units.gu(3)
             name: root.expanded ? "view-collapse" : "view-expand"
+            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
         }
     }
 
@@ -80,9 +81,9 @@ PreviewWidget {
             delegate: PreviewWidgetFactory {
                 height: visible ? implicitHeight : 0
                 width: parent.width
-                widgetId: modelData.widgetId
-                widgetType: modelData.type
-                widgetData: modelData.properties
+                widgetId: model.widgetId
+                widgetType: model.type
+                widgetData: model.properties
                 isCurrentPreview: root.isCurrentPreview
                 scopeStyle: root.scopeStyle
                 anchors {

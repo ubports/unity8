@@ -15,8 +15,10 @@
  */
 
 #include "ApplicationInfo.h"
-#include "MirSurfaceItem.h"
-#include "SurfaceManager.h"
+#include "Session.h"
+#include "SessionManager.h"
+
+#include <paths.h>
 
 #include <QGuiApplication>
 #include <QQuickItem>
@@ -31,10 +33,9 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_parentItem(0)
-    , m_surface(0)
+    , m_session(0)
+    , m_manualSurfaceCreation(false)
 {
-    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
@@ -43,111 +44,131 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_state(Starting)
     , m_focused(false)
     , m_fullscreen(false)
-    , m_parentItem(0)
-    , m_surface(0)
+    , m_session(0)
+    , m_manualSurfaceCreation(false)
 {
-    connect(this, &ApplicationInfo::stateChanged, this, &ApplicationInfo::onStateChanged);
 }
 
 ApplicationInfo::~ApplicationInfo()
 {
-    if (m_surface) {
-        Q_EMIT SurfaceManager::singleton()->surfaceDestroyed(m_surface);
-        m_surface->deleteLater();
-    }
+    delete m_session;
 }
 
-void ApplicationInfo::onStateChanged(State state)
+void ApplicationInfo::createSession()
 {
-    if (state == ApplicationInfo::Running) {
-        QTimer::singleShot(1000, this, SLOT(createSurface()));
-    } else if (state == ApplicationInfo::Stopped) {
-        setSurface(nullptr);
-    }
+    if (m_session || state() == ApplicationInfo::Stopped) { return; }
+
+    QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
+    setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));
 }
 
-void ApplicationInfo::createSurface()
+void ApplicationInfo::setSession(Session* session)
 {
-    if (m_surface || state() == ApplicationInfo::Stopped) return;
-
-    setSurface(new MirSurfaceItem(name(),
-                                   MirSurfaceItem::Normal,
-                                   fullscreen() ? MirSurfaceItem::Fullscreen : MirSurfaceItem::Maximized,
-                                   screenshot()));
-}
-
-void ApplicationInfo::setSurface(MirSurfaceItem* surface)
-{
-    qDebug() << "Application::setSurface - appId=" << appId() << "surface=" << surface;
-    if (m_surface == surface)
+    qDebug() << "Application::setSession - appId=" << appId() << "session=" << session;
+    if (m_session == session)
         return;
 
-    if (m_surface) {
-        m_surface->setApplication(nullptr);
-        m_surface->setParent(nullptr);
-        SurfaceManager::singleton()->unregisterSurface(m_surface);
+    if (m_session) {
+        disconnect(this, 0, m_session, 0);
+        m_session->setApplication(nullptr);
+        m_session->setParent(nullptr);
+        Q_EMIT m_session->deregister();
     }
 
-    m_surface = surface;
+    m_session = session;
 
-    if (m_surface) {
-        m_surface->setApplication(this);
-        m_surface->setParent(this);
-        SurfaceManager::singleton()->registerSurface(m_surface);
+    if (m_session) {
+        m_session->setApplication(this);
+        m_session->setParent(this);
+        SessionManager::singleton()->registerSession(m_session);
+
+        if (!m_manualSurfaceCreation) {
+            QTimer::singleShot(500, m_session, SLOT(createSurface()));
+        }
     }
 
-    Q_EMIT surfaceChanged(m_surface);
-    SurfaceManager::singleton()->registerSurface(m_surface);
+    Q_EMIT sessionChanged(m_session);
 }
 
-void ApplicationInfo::addPromptSurface(MirSurfaceItem* surface)
+void ApplicationInfo::setIconId(const QString &iconId)
 {
-    qDebug() << "ApplicationInfo::addPromptSurface " << surface->name() << " to " << name();
-    if (surface == m_surface || m_promptSurfaces.contains(surface)) return;
-
-    surface->setApplication(this);
-    m_promptSurfaces.append(surface);
-    Q_EMIT promptSurfacesChanged();
+    setIcon(QString("file://%1/graphics/applicationIcons/%2@18.png")
+            .arg(qmlDirectory())
+            .arg(iconId));
 }
 
-void ApplicationInfo::removeSurface(MirSurfaceItem* surface)
+void ApplicationInfo::setScreenshotId(const QString &screenshotId)
 {
-    if (m_surface == surface) {
-        setSurface(nullptr);
-    } else if (m_promptSurfaces.contains(surface)) {
-        qDebug() << "Application::removeSurface " << surface->name() << " from " << name();
+    QString screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2@12.png")
+            .arg(qmlDirectory())
+            .arg(screenshotId);
 
-        m_promptSurfaces.removeAll(surface);
-        surface->setApplication(nullptr);
+    if (screenshotFileName != m_screenshotFileName) {
+        m_screenshotFileName = screenshotFileName;
 
-        Q_EMIT promptSurfacesChanged();
+        QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
+        if (m_session) {
+            m_session->setScreenshot(screenshotUrl);
+        }
     }
 }
 
-QList<MirSurfaceItem*> ApplicationInfo::promptSurfaceList() const
+void ApplicationInfo::setName(const QString &value)
 {
-    return m_promptSurfaces;
+    if (value != m_name) {
+        m_name = value;
+        Q_EMIT nameChanged(value);
+    }
 }
 
-QQmlListProperty<MirSurfaceItem> ApplicationInfo::promptSurfaces()
+void ApplicationInfo::setIcon(const QUrl &value)
 {
-    return QQmlListProperty<MirSurfaceItem>(this,
-                                            0,
-                                            ApplicationInfo::promptSurfaceCount,
-                                            ApplicationInfo::promptSurfaceAt);
+    if (value != m_icon) {
+        m_icon = value;
+        Q_EMIT iconChanged(value);
+    }
 }
 
-int ApplicationInfo::promptSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
+void ApplicationInfo::setStage(Stage value)
 {
-    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
-    return p->m_promptSurfaces.count();
+    if (value != m_stage) {
+        m_stage = value;
+        Q_EMIT stageChanged(value);
+    }
 }
 
-MirSurfaceItem* ApplicationInfo::promptSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
+void ApplicationInfo::setState(State value)
 {
-    ApplicationInfo *p = qobject_cast<ApplicationInfo*>(prop->object);
+    if (value != m_state) {
+        m_state = value;
+        Q_EMIT stateChanged(value);
 
-    if (index < 0 || index >= p->m_promptSurfaces.count())
-        return nullptr;
-    return p->m_promptSurfaces[index];
+        if (!m_manualSurfaceCreation && m_state == ApplicationInfo::Running) {
+            QTimer::singleShot(500, this, SLOT(createSession()));
+        }
+    }
+}
+
+void ApplicationInfo::setFocused(bool value)
+{
+    if (value != m_focused) {
+        m_focused = value;
+        Q_EMIT focusedChanged(value);
+    }
+}
+
+void ApplicationInfo::setFullscreen(bool value)
+{
+    if (value != m_fullscreen) {
+        m_fullscreen = value;
+        Q_EMIT fullscreenChanged(value);
+    }
+}
+
+void ApplicationInfo::setManualSurfaceCreation(bool value)
+{
+    if (value != m_manualSurfaceCreation) {
+        m_manualSurfaceCreation = value;
+        Q_EMIT manualSurfaceCreationChanged(value);
+    }
 }

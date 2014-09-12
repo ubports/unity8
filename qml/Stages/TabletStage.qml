@@ -36,6 +36,9 @@ Rectangle {
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
 
     onInverseProgressChanged: {
+        // This can't be a simple binding because that would be triggered after this handler
+        // while we need it active before doing the anition left/right
+        spreadView.animateX = (inverseProgress == 0)
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
             if (priv.oldInverseProgress > units.gu(22)) {
@@ -145,7 +148,8 @@ Rectangle {
     Flickable {
         id: spreadView
         anchors.fill: parent
-        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1) && draggedIndex == -1
+        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
+                     && draggedDelegateCount === 0
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -189,8 +193,10 @@ Rectangle {
         readonly property real snapPosition: 0.75
 
         property int selectedIndex: -1
-        property int draggedIndex: -1
+        property int draggedDelegateCount: 0
         property int closingIndex: -1
+
+        property bool animateX: true
 
         property bool sideStageDragging: sideStageDragHandle.dragging
         property real sideStageDragProgress: sideStageDragHandle.progress
@@ -475,6 +481,8 @@ Rectangle {
                     swipeToCloseEnabled: spreadView.interactive
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 ? root.inverseProgress : 0
+                    application: ApplicationManager.get(index)
+                    closeable: !isDash
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
@@ -533,8 +541,15 @@ Rectangle {
                         }
                     }
 
+                    onDraggedChanged: {
+                        if (dragged) {
+                            spreadView.draggedDelegateCount++;
+                        } else {
+                            spreadView.draggedDelegateCount--;
+                        }
+                    }
+
                     onClosed: {
-                        spreadView.draggedIndex = -1;
                         spreadView.closingIndex = index;
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
                     }

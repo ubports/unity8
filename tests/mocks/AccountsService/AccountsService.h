@@ -36,6 +36,14 @@ class AccountsService: public QObject
                 READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
+    Q_PROPERTY (bool enableLauncherWhileLocked
+                READ enableLauncherWhileLocked
+                WRITE setEnableLauncherWhileLocked // only available in mock
+                NOTIFY enableLauncherWhileLockedChanged)
+    Q_PROPERTY (bool enableIndicatorsWhileLocked
+                READ enableIndicatorsWhileLocked
+                WRITE setEnableIndicatorsWhileLocked // only available in mock
+                NOTIFY enableIndicatorsWhileLockedChanged)
     Q_PROPERTY (QString backgroundFile
                 READ backgroundFile
                 WRITE setBackgroundFile // only available in mock
@@ -47,6 +55,10 @@ class AccountsService: public QObject
     Q_PROPERTY (PasswordDisplayHint passwordDisplayHint
                 READ passwordDisplayHint
                 NOTIFY passwordDisplayHintChanged)
+    Q_PROPERTY (uint failedLogins
+                READ failedLogins
+                WRITE setFailedLogins
+                NOTIFY failedLoginsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -60,23 +72,35 @@ public:
     void setUser(const QString &user);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
+    bool enableLauncherWhileLocked() const;
+    void setEnableLauncherWhileLocked(bool enableLauncherWhileLocked);
+    bool enableIndicatorsWhileLocked() const;
+    void setEnableIndicatorsWhileLocked(bool enableIndicatorsWhileLocked);
     QString backgroundFile() const;
     void setBackgroundFile(const QString &backgroundFile);
     bool statsWelcomeScreen() const;
     void setStatsWelcomeScreen(bool statsWelcomeScreen);
     PasswordDisplayHint passwordDisplayHint() const;
+    uint failedLogins() const;
+    void setFailedLogins(uint failedLogins);
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
+    void enableLauncherWhileLockedChanged();
+    void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
+    void failedLoginsChanged();
 
 private:
+    bool m_enableLauncherWhileLocked;
+    bool m_enableIndicatorsWhileLocked;
     QString m_backgroundFile;
     QString m_user;
     bool m_statsWelcomeScreen;
+    uint m_failedLogins;
 };
 
 #endif

@@ -71,7 +71,7 @@ class UNITYINDICATORS_EXPORT MenuContentActivator : public QObject
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(QQmlListProperty<MenuContentState> content READ content NOTIFY contentChanged DESIGNABLE false)
 public:
-    MenuContentActivator(QObject* parent = NULL);
+    MenuContentActivator(QObject* parent = nullptr);
     ~MenuContentActivator();
 
     Q_INVOKABLE void restart();

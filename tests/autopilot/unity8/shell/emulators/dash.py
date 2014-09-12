@@ -24,7 +24,6 @@ from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
-from testtools.matchers import MatchesAny, Equals
 from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
@@ -141,12 +140,12 @@ class Dash(emulators.UnityEmulatorBase):
 
     def enter_search_query(self, query):
         current_header = self._get_current_page_header()
-        self.pointing_device.move(current_header.globalRect.x +
-                                  current_header.width - current_header.height / 4,
-                                  current_header.globalRect.y +
-                                  current_header.height / 4)
+        search_button = current_header.select_single(objectName="search_header_button")
+        self.pointing_device.move(search_button.globalRect.x + search_button.width / 2,
+                                  search_button.globalRect.y + search_button.height / 2)
         self.pointing_device.click()
-        headerContainer = current_header.select_single(objectName="headerContainer")
+        headerContainer = current_header.select_single(
+            objectName="headerContainer")
         headerContainer.contentY.wait_for(0)
         search_text_field = self._get_search_text_field()
         search_text_field.write(query)
@@ -177,21 +176,32 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         """Open the preview of an application.
 
         :parameter category: The name of the category where the application is.
-        :app_name: The name of the application.
+        :parameter app_name: The name of the application.
         :return: The opened preview.
 
         """
-        category_element = self._get_category_element(category)
-        icon = category_element.select_single('AbstractButton', title=app_name)
         # FIXME some categories need a long press in order to see the preview.
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
-        self.pointing_device.click_object(icon)
+        self.click_scope_item(category, app_name)
         preview_list = self.wait_select_single(
-            'PreviewListView', objectName='previewListView')
+            'QQuickLoader', objectName='subPageLoader')
+        preview_list.subPageShown.wait_for(True)
         preview_list.x.wait_for(0)
         return preview_list.select_single(
             Preview, objectName='preview{}'.format(preview_list.currentIndex))
+
+    @autopilot_logging.log_action(logger.debug)
+    def click_scope_item(self, category, title):
+        """Click an item from the scope.
+
+        :parameter category: The name of the category where the item is.
+        :parameter title: The title of the item.
+
+        """
+        category_element = self._get_category_element(category)
+        icon = category_element.select_single('AbstractButton', title=title)
+        self.pointing_device.click_object(icon)
 
     def _get_category_element(self, category):
         try:

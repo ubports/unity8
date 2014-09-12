@@ -54,6 +54,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
+            tryCompare(dashContentList, "count", 6);
         }
 
         function get_scope_data() {
@@ -95,8 +96,10 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
-            var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true);
 
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
@@ -126,8 +129,9 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
+            tryCompareFunction(function() { return findChild(dash, "MockScope1 loader") != null; }, true);
             var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompare(mockScope1Loader, "status", Loader.Ready);
 
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
@@ -157,8 +161,10 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
-            var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true);
 
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
@@ -183,6 +189,14 @@ Item {
             var scopesOverviewAllView = findChild(dash, "scopesOverviewRepeaterChild1");
             tryCompare(scopesOverviewAllView, "enabled", true);
 
+            // Click in the middle of the black bar (nothing happens)
+            var bottomBar = findChild(scopesOverview, "bottomBar");
+            mouseClick(bottomBar, bottomBar.width / 2, bottomBar.height / 2);
+            // Check temp scope is not there
+            var scopesOverviewTempScopeItem = findChild(dash, "scopesOverviewTempScopeItem");
+            expectFailContinue("", "Clicking in the middle of bottom bar should not open a temp scope");
+            tryCompareFunction( function() { return scopesOverviewTempScopeItem.scope != null; }, true);
+
             // Click on a temp scope
             var tempScopeCard = findChild(scopesOverviewAllView, "delegate1");
             mouseClick(tempScopeCard, 0, 0);
@@ -192,7 +206,6 @@ Item {
             compare(overviewDragHandle.enabled, false);
 
             // Check temp scope is there
-            var scopesOverviewTempScopeItem = findChild(dash, "scopesOverviewTempScopeItem");
             tryCompareFunction( function() { return scopesOverviewTempScopeItem.scope != null; }, true);
             tryCompare(scopesOverviewTempScopeItem, "enabled", true);
 
@@ -222,8 +235,10 @@ Item {
             tryCompare(scopes, "loaded", true);
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 6);
-            var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompareFunction(function() { return mockScope1Loader.item != null; }, true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true);
 
             // Swipe right to Apps scope
             touchFlick(dash, dash.width - 1, units.gu(1), dash.width - units.gu(10), units.gu(1));
@@ -273,6 +288,8 @@ Item {
             // Click on a temp scope in the search
             var dashCategorysearchA = findChild(searchResultsViewer, "dashCategorysearchA");
             var cardTempScope = findChild(dashCategorysearchA, "delegate2");
+            verify(cardTempScope, "Could not find delegate2");
+
             waitForRendering(cardTempScope);
             mouseClick(cardTempScope, cardTempScope.width / 2, cardTempScope.height / 2);
 
@@ -313,15 +330,12 @@ Item {
             var startY = dash.height / 2;
             var stopX = units.gu(1)
             var stopY = startY;
-            var retry = 0;
-            while (dashContentList.currentIndex != 2 && retry <= 5) {
-                mouseFlick(dash, startX, startY, stopX, stopY)
-                waitForRendering(dashContentList)
-                retry++;
-            }
-            compare(dashContentList.currentIndex, 2);
+            waitForRendering(dashContentList)
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
-            dashCommunicatorService.mockSetCurrentScope("clickscope", true, true);
+            dashCommunicatorService.mockSetCurrentScope("clickscope", true, false);
             tryCompare(dashContentList, "currentIndex", 1)
         }
 

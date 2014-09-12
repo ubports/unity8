@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,22 +17,49 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from unity8.shell.emulators import UnityEmulatorBase
-from autopilot.input import Touch
+import logging
+
+import autopilot.logging
+
+from unity8.shell import emulators
 
 
-class Launcher(UnityEmulatorBase):
+logger = logging.getLogger(__name__)
+
+
+class Launcher(emulators.UnityEmulatorBase):
 
     """An emulator that understands the Launcher."""
 
+    @autopilot.logging.log_action(logger.debug)
     def show(self):
-        """Swipes open the launcher."""
-        touch = Touch.create()
+        """Show the launcher swiping it to the right."""
+        if not self.shown:
+            self._swipe_to_show_launcher()
+            self.shown.wait_for(True)
+        else:
+            logger.debug('The launcher is already opened.')
 
+    def _swipe_to_show_launcher(self):
         view = self.get_root_instance().select_single('QQuickView')
+        start_y = stop_y = view.y + view.height // 2
+
         start_x = view.x + 1
-        start_y = view.y + view.height / 2
-        stop_x = start_x + self.panelWidth + 1
-        stop_y = start_y
-        touch.drag(start_x, start_y, stop_x, stop_y)
-        self.shown.wait_for(True)
+        stop_x = start_x + self.panelWidth - 1
+
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+
+    @autopilot.logging.log_action(logger.debug)
+    def click_dash_icon(self):
+        if self.shown:
+            dash_icon = self.select_single(
+                'QQuickImage', objectName='dashItem')
+            self.pointing_device.click_object(dash_icon)
+        else:
+            raise emulators.UnityEmulatorException('The launcher is closed.')
+
+    @autopilot.logging.log_action(logger.debug)
+    def click_application_launcher_icon(self, application_name):
+        launcher_delegate = self.select_single(
+            'LauncherDelegate', appId=application_name)
+        self.pointing_device.click_object(launcher_delegate)

@@ -34,7 +34,17 @@ Showable {
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
-            dash.setCurrentScope(scopeId, animate, reset)
+            if (!isSwipe || !window.active || overviewController.progress != 0) {
+                if (overviewController.progress != 0 && window.active) animate = false;
+                dash.setCurrentScope(scopeId, animate, isSwipe)
+                if (overviewController.progress != 0) {
+                    if (window.active) {
+                        dashContentCache.scheduleUpdate();
+                    }
+                    overviewController.enableAnimation = window.active;
+                    overviewController.progress = 0;
+                }
+            }
         }
     }
 
@@ -341,9 +351,10 @@ Showable {
         objectName: "overviewDragHandle"
         z: 1
         direction: Direction.Upwards
-        enabled: !dashContent.previewShown &&
+        enabled: !dashContent.subPageShown &&
                   dashContent.currentScope &&
                   dashContent.currentScope.searchQuery == "" &&
+                  !scopeItem.subPageShown &&
                   (overviewController.progress == 0 || dragging)
 
         readonly property real fullMovement: units.gu(20)

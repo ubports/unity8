@@ -26,7 +26,7 @@ Loader {
                                     gradientColor: getColor(1) || color; 
                                     anchors.fill: parent; 
                                     image: backgroundImage.source ? backgroundImage : null; 
-                                    property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b; 
+                                    property real luminance: Style.luminance(color); 
                                     property Image backgroundImage: Image { 
                                         objectName: "backgroundImage"; 
                                         source: { 
@@ -94,7 +94,7 @@ Image {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
+                        color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -112,7 +112,7 @@ Image {
                             elide: Text.ElideRight; 
                             fontSize: "small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < (root.scopeStyle ? root.scopeStyle.threshold : 0.7) ? (root.scopeStyle ? root.scopeStyle.light : "white") : (root.scopeStyle ? root.scopeStyle.dark : "grey"); 
+                            color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 

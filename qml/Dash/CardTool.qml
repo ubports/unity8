@@ -91,6 +91,7 @@ Item {
                 }
                 return units.gu(18.5);
             case "carousel":
+            case "horizontal-list":
                 return carouselTool.minimumTileWidth;
             case undefined:
             case "organic-grid":
@@ -111,6 +112,7 @@ Item {
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
                 return units.gu(18.5);
             case "grid":
+            case "horizontal-list":
                 return cardLoader.item ? cardLoader.item.implicitHeight : 0
             case "carousel":
                 return cardWidth / (components ? components["art"]["aspect-ratio"] : 1)
@@ -167,19 +169,16 @@ Item {
 
     Item {
         id: attributesModel
-        property int numOfAttributes: 0
-        property var model: []
-        property bool hasAttributes: {
+        property int numOfAttributes: {
             var attributes = components["attributes"];
-            var hasAttributesFlag = (attributes != undefined) && attributes["field"];
-
-            if (hasAttributesFlag) {
+            if ((attributes != undefined) && attributes["field"]) {
                 if (attributes["max-count"]) {
-                    numOfAttributes = attributes["max-count"];
+                    return attributes["max-count"];
                 }
             }
-            return hasAttributesFlag
+            return 0;
         }
+        property var model: []
 
         onNumOfAttributesChanged: {
             model = []
@@ -193,8 +192,8 @@ Item {
         id: cardLoader
         property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
         property var maxData: {
-            "art": Qt.resolvedUrl("graphics/checkers.png"),
-            "mascot": Qt.resolvedUrl("graphics/checkers.png"),
+            "art": Qt.resolvedUrl("graphics/pixel.png"),
+            "mascot": Qt.resolvedUrl("graphics/pixel.png"),
             "title": "—\n—",
             "subtitle": "—",
             "summary": "—\n—\n—\n—\n—",

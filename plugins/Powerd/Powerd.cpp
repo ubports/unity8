@@ -25,9 +25,22 @@ void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface
     unityScreen->asyncCall("userAutobrightnessEnable", QVariant(value));
 }
 
+void activityTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+{
+    int value = g_settings_get_uint(settings, key);
+    unityScreen->asyncCall("setInactivityTimeouts", QVariant(value), QVariant(-1));
+}
+
+void dimTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+{
+    int value = g_settings_get_uint(settings, key);
+    unityScreen->asyncCall("setInactivityTimeouts", QVariant(-1), QVariant(value));
+}
+
 Powerd::Powerd(QObject* parent)
   : QObject(parent),
-    unityScreen(NULL)
+    unityScreen(nullptr),
+    cachedStatus(Status::On)
 {
     unityScreen = new QDBusInterface("com.canonical.Unity.Screen",
                                      "/com/canonical/Unity/Screen",
@@ -39,15 +52,32 @@ Powerd::Powerd(QObject* parent)
                                       "com.canonical.Unity.Screen",
                                       "DisplayPowerStateChange",
                                       this,
-                                      SIGNAL(displayPowerStateChange(int, int)));
+                                      SLOT(handleDisplayPowerStateChange(int, int)));
 
     systemSettings = g_settings_new("com.ubuntu.touch.system");
     g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), unityScreen);
+    g_signal_connect(systemSettings, "changed::activity-timeout", G_CALLBACK(activityTimeoutChanged), unityScreen);
+    g_signal_connect(systemSettings, "changed::dim-timeout", G_CALLBACK(dimTimeoutChanged), unityScreen);
     autoBrightnessChanged(systemSettings, "auto-brightness", unityScreen);
+    activityTimeoutChanged(systemSettings, "activity-timeout", unityScreen);
+    dimTimeoutChanged(systemSettings, "dim-timeout", unityScreen);
 }
 
 Powerd::~Powerd()
 {
     g_signal_handlers_disconnect_by_data(systemSettings, unityScreen);
     g_object_unref(systemSettings);
+}
+
+Powerd::Status Powerd::status() const
+{
+    return cachedStatus;
+}
+
+void Powerd::handleDisplayPowerStateChange(int status, int reason)
+{
+    if (cachedStatus != (Status)status) {
+        cachedStatus = (Status)status;
+        Q_EMIT statusChanged((DisplayStateChangeReason)reason);
+    }
 }

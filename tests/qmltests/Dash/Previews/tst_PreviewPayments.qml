@@ -48,17 +48,28 @@ Rectangle {
     UT.UnityTestCase {
         name: "PreviewPaymentsTest"
         when: windowShown
+        property var paymentClient
+
+        function init()
+        {
+            paymentClient = findInvisibleChild(previewPayments, "paymentClient");
+            verify(paymentClient, "Could not find the payment client object.");
+        }
 
         function cleanup()
         {
+            paymentClient = null;
+            previewPayments.widgetData = null;
             spy.clear();
+            var button = findChild(previewPayments, "paymentButton");
+            button.opacity = 1;
         }
 
         function test_purchase_text_display() {
             previewPayments.widgetData = jsonPurchase;
 
-            var button = findChild(root, "paymentButton");
-            verify(button != null, "Button not found.");
+            var button = findChild(previewPayments, "paymentButton");
+            verify(button, "Button not found.");
             compare(button.text, "0.99USD");
         }
 
@@ -66,11 +77,12 @@ Rectangle {
             // Exercise the purchaseCompleted signal here.
             previewPayments.widgetData = jsonPurchase;
 
-            var button = findChild(root, "paymentButton");
-            verify(button != null, "Button not found.");
+            var button = findChild(previewPayments, "paymentButton");
+            verify(button, "Button not found.");
 
             mouseClick(button, button.width / 2, button.height / 2);
 
+            paymentClient.process();
             spy.wait();
 
             var args = spy.signalArguments[0];
@@ -79,16 +91,68 @@ Rectangle {
             compare(args[2], jsonPurchase["source"]);
         }
 
+        function test_progress_show() {
+            // Make sure the progress bar is shown.
+            previewPayments.widgetData = jsonPurchase;
+
+            var button = findChild(previewPayments, "paymentButton");
+            var progress = findChild(previewPayments, "loadingBar");
+
+            tryCompare(progress, "visible", false);
+            tryCompare(progress, "opacity", 0);
+            tryCompare(button, "visible", true);
+            tryCompare(button, "opacity", 1);
+
+            mouseClick(button, button.width / 2, button.height / 2);
+
+            paymentClient.process();
+            spy.wait();
+
+            tryCompare(progress, "visible", true);
+            tryCompare(progress, "opacity", 1);
+            tryCompare(button, "visible", false);
+            tryCompare(button, "opacity", 0);
+        }
+
+        function test_progress_show_cancel() {
+            // Make sure the progress bar is shown.
+            previewPayments.widgetData = jsonPurchaseError;
+
+            var button = findChild(previewPayments, "paymentButton");
+            var progress = findChild(previewPayments, "loadingBar");
+
+            tryCompare(progress, "visible", false);
+            tryCompare(progress, "opacity", 0);
+            tryCompare(button, "visible", true);
+            tryCompare(button, "opacity", 1);
+
+            mouseClick(button, button.width / 2, button.height / 2);
+
+            tryCompare(progress, "visible", true);
+            tryCompare(progress, "opacity", 1);
+            tryCompare(button, "visible", false);
+            tryCompare(button, "opacity", 0);
+
+            paymentClient.process();
+            spy.wait();
+
+            tryCompare(progress, "visible", false);
+            tryCompare(progress, "opacity", 0);
+            tryCompare(button, "visible", true);
+            tryCompare(button, "opacity", 1);
+        }
+
         function test_purchase_error() {
             // The mock Payments triggers an error when com.example.invalid is
             // passed to it as store_item_id. Exercise it here
             previewPayments.widgetData = jsonPurchaseError;
 
-            var button = findChild(root, "paymentButton");
-            verify(button != null, "Button not found.");
+            var button = findChild(previewPayments, "paymentButton");
+            verify(button, "Button not found.");
 
             mouseClick(button, button.width / 2, button.height / 2);
 
+            paymentClient.process();
             spy.wait();
 
             var args = spy.signalArguments[0];

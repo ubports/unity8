@@ -7,16 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-08 11:17+0200\n"
+"POT-Creation-Date: 2014-08-26 18:24+0200\n"
 "PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Arun Kumar - அருண் குமார் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-12 06:44+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 "Language: ta\n"
+
+#: plugins/LightDM/Greeter.cpp:129
+msgid "Password: "
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -27,16 +31,52 @@ msgstr ""
 msgid "Unpin shortcut"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you would like to turn power off?"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power off"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:153
-msgid "Restart"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:162
@@ -91,37 +131,53 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:167
+msgid "Please wait"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "அவசர அழைப்பு"
 
-#: qml/Components/Lockscreen.qml:243
+#: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr "வணக்கம் %1"
 
-#: qml/Components/PassphraseLockscreen.qml:62
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr "வணக்கம்"
 
-#: qml/Components/PinLockscreen.qml:198
-msgid "CANCEL"
-msgstr ""
-
-#: qml/Components/PinLockscreen.qml:216
-msgid "DONE"
-msgstr ""
-
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:358
+#: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "தெடு"
+
+#: qml/Dash/PageHeader.qml:270
+msgid "Settings"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Remove from Favorites"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:279
+msgid "Add to Favorites"
 msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
@@ -144,15 +200,15 @@ msgstr "ஒரு பரிசீலனையை சேர்"
 msgid "Send"
 msgstr "அனுப்பு"
 
-#: qml/Dash/ScopesOverview.qml:200
+#: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:405
+#: qml/Dash/ScopesOverview.qml:408
 msgid "Done"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:431
+#: qml/Dash/ScopesOverview.qml:434
 msgid "Store"
 msgstr ""
 
@@ -188,12 +244,16 @@ msgstr "இப்பொது பேசு..."
 msgid "Speaking..."
 msgstr "பேசுகிறது..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:100
+#: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:115
-msgid "Please enter SIM PIN"
+#: qml/Notifications/NotificationMenuItemFactory.qml:120
+msgid "Enter SIM PIN"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+msgid "Sorry, incorrect PIN"
 msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
@@ -236,11 +296,52 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "தெடு"
+#: qml/Shell.qml:266
+msgid "Enter your passphrase"
+msgstr ""
 
-#: qml/Shell.qml:256
+#: qml/Shell.qml:267
+msgid "Sorry, incorrect passphrase"
+msgstr ""
+
+#: qml/Shell.qml:282
+msgid "Enter your passcode"
+msgstr ""
+
+#: qml/Shell.qml:283
+msgid "Sorry, incorrect passcode"
+msgstr ""
+
+#: qml/Shell.qml:273
 #, qt-format
-msgid "Please enter %1"
-msgstr "தயவுச்செய்து %1 உள்ளிடு"
+msgid "Enter your %1"
+msgstr ""
+
+#: qml/Shell.qml:274
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr ""
+
+#: qml/Shell.qml:310
+msgid "Sorry, incorrect passphrase."
+msgstr ""
+
+#: qml/Shell.qml:311
+msgid "Sorry, incorrect passcode."
+msgstr ""
+
+#: qml/Shell.qml:312
+msgid "This will be your last attempt."
+msgstr ""
+
+#: qml/Shell.qml:314
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+
+#: qml/Shell.qml:315
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""

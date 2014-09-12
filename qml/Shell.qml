@@ -19,7 +19,11 @@ import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
+import Ubuntu.SystemImage 0.1
+import Ubuntu.Telephony 0.1 as Telephony
+import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
 import LightDM 0.1 as LightDM
@@ -53,12 +57,23 @@ Item {
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
+    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
+    property int failedLoginsDelayAttempts: 7 // number of failed logins
+    property int failedLoginsDelaySeconds: 5 * 60 // seconds of forced waiting
+
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
+        }
+    }
+
+    function setFakeActiveForApp(app) {
+        if (shell.locked) {
+            greeter.fakeActiveForApp = app
+            lockscreen.hide()
         }
     }
 
@@ -124,10 +139,15 @@ Item {
         Connections {
             target: ApplicationManager
             onFocusRequested: {
-                if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
+                if (appId === "dialer-app") {
+                    // Always let the dialer-app through.  Either user asked
+                    // for an emergency call or accepted an incoming call.
+                    setFakeActiveForApp(appId)
+                } else if (greeter.fakeActiveForApp !== "" && greeter.fakeActiveForApp !== appId) {
                     lockscreen.show();
                 }
                 greeter.hide();
+                launcher.hide();
             }
 
             onFocusedApplicationIdChanged: {
@@ -141,6 +161,12 @@ Item {
                 if (greeter.shown && appId != "unity8-dash") {
                     greeter.hide();
                 }
+                if (appId === "dialer-app") {
+                    // Always let the dialer-app through.  Either user asked
+                    // for an emergency call or accepted an incoming call.
+                    setFakeActiveForApp(appId)
+                }
+                launcher.hide();
             }
         }
 
@@ -210,6 +236,15 @@ Item {
             }
         }
     }
+    Connections {
+        target: SessionManager
+        onSessionStopping: {
+            if (!session.parentSession && !session.application) {
+                // nothing is using it. delete it right away
+                session.release();
+            }
+        }
+    }
 
     Lockscreen {
         id: lockscreen
@@ -233,11 +268,7 @@ Item {
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
-        onEmergencyCall: {
-            greeter.fakeActiveForApp = "dialer-app"
-            shell.activateApplication("dialer-app")
-            lockscreen.hide()
-        }
+        onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter fake-active mode
 
         onShownChanged: if (shown) greeter.fakeActiveForApp = ""
 
@@ -252,16 +283,29 @@ Item {
         target: LightDM.Greeter
 
         onShowGreeter: greeter.show()
+        onHideGreeter: greeter.login()
 
         onShowPrompt: {
             if (greeter.narrowMode) {
-                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text.toLowerCase());
+                if (isDefaultPrompt) {
+                    if (lockscreen.alphaNumeric) {
+                        lockscreen.infoText = i18n.tr("Enter your passphrase")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase")
+                    } else {
+                        lockscreen.infoText = i18n.tr("Enter your passcode")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
+                    }
+                } else {
+                    lockscreen.infoText = i18n.tr("Enter your %1").arg(text.toLowerCase())
+                    lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
+                }
+
                 lockscreen.show();
             }
         }
 
         onPromptlessChanged: {
-            if (LightDM.Greeter.promptless) {
+            if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
                 lockscreen.hide()
             } else {
                 lockscreen.reset();
@@ -270,13 +314,39 @@ Item {
         }
 
         onAuthenticationComplete: {
+            if (LightDM.Greeter.authenticated) {
+                AccountsService.failedLogins = 0
+            }
+            // Else only penalize user for a failed login if they actually were
+            // prompted for a password.  We do this below after the promptless
+            // early exit.
+
             if (LightDM.Greeter.promptless) {
                 return;
             }
+
             if (LightDM.Greeter.authenticated) {
-                lockscreen.hide();
                 greeter.login();
             } else {
+                AccountsService.failedLogins++
+                if (maxFailedLogins >= 2) { // require at least a warning
+                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                        var title = lockscreen.alphaNumeric ?
+                                    i18n.tr("Sorry, incorrect passphrase.") :
+                                    i18n.tr("Sorry, incorrect passcode.")
+                        var text = i18n.tr("This will be your last attempt.") + " " +
+                                   (lockscreen.alphaNumeric ?
+                                    i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
+                                    i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
+                        lockscreen.showInfoPopup(title, text)
+                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                        SystemImage.factoryReset() // Ouch!
+                    }
+                }
+                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                    lockscreen.forceDelay(failedLoginsDelaySeconds * 1000)
+                }
+
                 lockscreen.clear(true);
                 if (greeter.narrowMode) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
@@ -311,8 +381,16 @@ Item {
         }
 
         property bool fullyShown: showProgress === 1.0
+        onFullyShownChanged: {
+            // Wait until the greeter is completely covering lockscreen before resetting it.
+            if (fullyShown && !LightDM.Greeter.authenticated) {
+                lockscreen.reset();
+                lockscreen.show();
+            }
+        }
+
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
+        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter
@@ -350,14 +428,15 @@ Item {
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     }
-                    if (!LightDM.Greeter.promptless) {
-                        lockscreen.reset();
-                        lockscreen.show();
-                    }
                     greeter.fakeActiveForApp = "";
                     greeter.forceActiveFocus();
                 }
             }
+
+            /* TODO re-enable when the corresponding changes in the service land (LP: #1361074)
+            Component.onCompleted: {
+                Connectivity.unlockAllModems()
+            } */
 
             onUnlocked: greeter.hide()
             onSelected: {
@@ -381,18 +460,9 @@ Item {
         id: powerConnection
         target: Powerd
 
-        onDisplayPowerStateChange: {
-            // We ignore any display-off signals when the proximity sensor
-            // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
-                greeter.showNow();
-            }
-
-            // No reason to chew demo CPU when user isn't watching
-            if (status == Powerd.Off) {
-                edgeDemo.paused = true;
-            } else if (status == Powerd.On) {
-                edgeDemo.paused = false;
+        onStatusChanged: {
+            if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+                greeter.showNow()
             }
         }
     }
@@ -403,7 +473,7 @@ Item {
         }
 
         if (LightDM.Greeter.active) {
-            if (!LightDM.Greeter.promptless) {
+            if (!LightDM.Greeter.authenticated) {
                 lockscreen.show()
             }
             greeter.hide()
@@ -439,7 +509,7 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && !shell.locked
+                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && greeter.fakeActiveForApp === ""
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
@@ -463,12 +533,12 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && !shell.locked
+            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
             onDash: showDash()
             onDashSwipeChanged: {
-                if (dashSwipe && ApplicationManager.focusedApplicationId !== "unity8-dash") {
+                if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
                 }
             }
@@ -492,7 +562,7 @@ Item {
             visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
             color: "#000000"
             anchors.fill: parent
-            opacity: 0.5
+            opacity: 0.9
 
             MouseArea {
                 anchors.fill: parent
@@ -525,12 +595,6 @@ Item {
         }
     }
 
-    Binding {
-        target: i18n
-        property: "domain"
-        value: "unity8"
-    }
-
     Dialogs {
         id: dialogs
         anchors.fill: parent
@@ -561,6 +625,7 @@ Item {
     EdgeDemo {
         id: edgeDemo
         z: alphaDisclaimerLabel.z + 10
+        paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
         indicators: panel.indicators
