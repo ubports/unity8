@@ -19,7 +19,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Settings.Components 0.1
 
 IndicatorBase {
     id: indicatorWidget
@@ -76,12 +75,11 @@ IndicatorBase {
                     width: itemImage.width + units.gu(1)
                     height: iconRow.height
 
-                    StatusIcon {
+                    Icon {
                         id: itemImage
                         height: indicatorWidget.iconSize
                         anchors.centerIn: parent
                         source: modelData
-                        sets: ["status", "actions"]
                         color: "#CCCCCC"
                     }
                 }
