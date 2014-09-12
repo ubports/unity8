@@ -34,12 +34,12 @@ Item {
         }
     }
 
-    CachedUnityMenuModel {
+    SharedUnityMenuModel {
         id: timeModel
         objectName: "timeModel"
 
         busName: "com.canonical.indicator.datetime"
-        actionsObjectPath: "/com/canonical/indicator/datetime"
+        actions: { "indicator": "/com/canonical/indicator/datetime" }
         menuObjectPath: clock.visible ? "/com/canonical/indicator/datetime/phone" : ""
 
         Indicators.RootActionState {
