@@ -68,7 +68,7 @@ Row {
     function addSnapDecisionNotification() {
         var n = {
             type: Notification.SnapDecision,
-            hints: {"x-canonical-private-button-tint": "true"},
+            hints: {"x-canonical-private-affirmative-tint": "true"},
             summary: "Tom Ato",
             body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             icon: "../graphics/avatars/funky.png",
@@ -78,6 +78,22 @@ Row {
                       { id: "notreally_id", label: "Not really"},
                       { id: "noway_id", label: "messages:No way"},
                       { id: "nada_id", label: "messages:Nada"}]
+        }
+
+        mockModel.append(n)
+    }
+
+    function add2over1SnapDecisionNotification() {
+        var n = {
+            type: Notification.SnapDecision,
+            hints: {"x-canonical-private-affirmative-tint": "true",},
+            summary: "Theatre at Ferria Stadium",
+            body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
+            icon: "",
+            secondaryIcon: "",
+            actions: [{ id: "ok_id", label: "Ok"},
+                      { id: "snooze_id", label: "Snooze"},
+                      { id: "view_id", label: "View"}]
         }
 
         mockModel.append(n)
@@ -187,6 +203,12 @@ Row {
 
             Button {
                 width: parent.width
+                text: "add a 2over1 snap-decision"
+                onClicked: add2over1SnapDecisionNotification()
+            }
+
+            Button {
+                width: parent.width
                 text: "add an ephemeral"
                 onClicked: addEphemeralNotification()
             }
@@ -233,7 +255,7 @@ Row {
             {
                 tag: "Snap Decision with secondary icon and button-tint",
                 type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "true"},
+                hints: {"x-canonical-private-affirmative-tint": "true"},
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 icon: "../graphics/avatars/funky.png",
@@ -254,9 +276,30 @@ Row {
                 hasSound: false
             },
             {
+                tag: "2-over-1 Snap Decision with button-tint",
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-affirmative-tint": "true"},
+                summary: "Theatre at Ferria Stadium",
+                body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
+                icon: "",
+                secondaryIcon: "",
+                actions: [{ id: "ok_id", label: "Ok"},
+                          { id: "snooze_id", label: "Snooze"},
+                          { id: "view_id", label: "View"}],
+                summaryVisible: true,
+                bodyVisible: true,
+                iconVisible: false,
+                shapedIcon: false,
+                nonShapedIcon: false,
+                secondaryIconVisible: false,
+                buttonRowVisible: false,
+                buttonTinted: true,
+                hasSound: false
+            },
+            {
                 tag: "Ephemeral notification - icon-summary layout",
                 type: Notification.Ephemeral,
-                hints: {"x-canonical-private-button-tint": "false"},
+                hints: {"x-canonical-private-affirmative-tint": "false"},
                 summary: "Photo upload completed",
                 body: "",
                 icon: "",
@@ -275,7 +318,7 @@ Row {
             {
                 tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
                 type: Notification.Ephemeral,
-                hints: {"x-canonical-private-button-tint": "false",
+                hints: {"x-canonical-private-affirmative-tint": "false",
                         "sound-file": "dummy.ogg",
                         "suppress-sound": "true"},
                 summary: "New comment successfully published",
@@ -297,7 +340,7 @@ Row {
             {
                 tag: "Interactive notification",
                 type: Notification.Interactive,
-                hints: {"x-canonical-private-button-tint": "false",
+                hints: {"x-canonical-private-affirmative-tint": "false",
                         "sound-file": "dummy.ogg"},
                 summary: "Interactive notification",
                 body: "This is a notification that can be clicked",
@@ -317,7 +360,7 @@ Row {
             {
                 tag: "Snap Decision without secondary icon and no button-tint",
                 type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "false",
+                hints: {"x-canonical-private-affirmative-tint": "false",
                         "sound-file": "dummy.ogg"},
                 summary: "Bro Coly",
                 body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
@@ -338,7 +381,7 @@ Row {
             {
                 tag: "Ephemeral notification",
                 type: Notification.Ephemeral,
-                hints: {"x-canonical-private-button-tint": "false",
+                hints: {"x-canonical-private-affirmative-tint": "false",
                         "sound-file": "dummy.ogg"},
                 summary: "Cole Raby",
                 body: "I did not expect it to be that late.",
@@ -358,9 +401,8 @@ Row {
             {
                 tag: "Ephemeral notification with non-shaped icon",
                 type: Notification.Ephemeral,
-                hints: {"x-canonical-private-button-tint": "false",
-                        "x-canonical-non-shaped-icon": "true",
-                        "sound-file": "dummy.ogg"},
+                hints: {"x-canonical-private-affirmative-tint": "false",
+                        "x-canonical-non-shaped-icon": "true"},
                 summary: "Contacts",
                 body: "Synchronised contacts-database with cloud-storage.",
                 icon: "../graphics/applicationIcons/contacts-app.png",
@@ -374,7 +416,7 @@ Row {
                 secondaryIconVisible: false,
                 buttonRowVisible: false,
                 buttonTinted: false,
-                hasSound: true
+                hasSound: false
             }
             ]
         }
@@ -441,8 +483,8 @@ Row {
             tryCompare(audioItem, "playbackState", data.hasSound ? Audio.PlayingState : Audio.StoppedState)
 
             if(data.buttonRowVisible) {
-                var buttonCancel = findChild(buttonRow, "button1")
-                var buttonAccept = findChild(buttonRow, "button0")
+                var buttonCancel = findChild(buttonRow, "notify_button1")
+                var buttonAccept = findChild(buttonRow, "notify_button0")
 
                 // only test the left/cancel-button if two actions have been passed in
                 if (data.actions.length == 2) {
@@ -452,7 +494,7 @@ Row {
                 }
 
                 // check the tinting of the positive/right button
-                verify(buttonAccept.gradient === data.buttonTinted ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient, "button has the wrong color-tint")
+                verify(buttonAccept.color === data.buttonTinted ? "#3fb24f" : "#dddddd", "button has the wrong color-tint")
 
                 // click the positive/right button
                 tryCompareFunction(function() { mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2); return actionSpy.signalArguments.length > 0; }, true);
@@ -462,19 +504,19 @@ Row {
 
                 // check if there's a ComboButton created due to more actions being passed
                 if (data.actions.length > 2) {
-                    var comboButton = findChild(notification, "button2")
+                    var comboButton = findChild(notification, "notify_button2")
                     tryCompareFunction(function() { return comboButton.expanded == false; }, true);
 
                     // click to expand
                     tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == true; }, true);
 
                     // try clicking on choices in expanded comboList
-                    var choiceButton1 = findChild(notification, "button3")
+                    var choiceButton1 = findChild(notification, "notify_button3")
                     tryCompareFunction(function() { mouseClick(choiceButton1, choiceButton1.width / 2, choiceButton1.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
                     actionSpy.clear()
 
-                    var choiceButton2 = findChild(notification, "button4")
+                    var choiceButton2 = findChild(notification, "notify_button4")
                     tryCompareFunction(function() { mouseClick(choiceButton2, choiceButton2.width / 2, choiceButton2.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
                     actionSpy.clear()

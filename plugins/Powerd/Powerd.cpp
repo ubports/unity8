@@ -39,7 +39,8 @@ void dimTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *un
 
 Powerd::Powerd(QObject* parent)
   : QObject(parent),
-    unityScreen(nullptr)
+    unityScreen(nullptr),
+    cachedStatus(Status::On)
 {
     unityScreen = new QDBusInterface("com.canonical.Unity.Screen",
                                      "/com/canonical/Unity/Screen",
@@ -51,7 +52,7 @@ Powerd::Powerd(QObject* parent)
                                       "com.canonical.Unity.Screen",
                                       "DisplayPowerStateChange",
                                       this,
-                                      SIGNAL(displayPowerStateChange(int, int)));
+                                      SLOT(handleDisplayPowerStateChange(int, int)));
 
     systemSettings = g_settings_new("com.ubuntu.touch.system");
     g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), unityScreen);
@@ -66,4 +67,17 @@ Powerd::~Powerd()
 {
     g_signal_handlers_disconnect_by_data(systemSettings, unityScreen);
     g_object_unref(systemSettings);
+}
+
+Powerd::Status Powerd::status() const
+{
+    return cachedStatus;
+}
+
+void Powerd::handleDisplayPowerStateChange(int status, int reason)
+{
+    if (cachedStatus != (Status)status) {
+        cachedStatus = (Status)status;
+        Q_EMIT statusChanged((DisplayStateChangeReason)reason);
+    }
 }
