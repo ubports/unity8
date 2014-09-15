@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.3 as QtQuick
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 QtQuick.Flickable {
     flickDeceleration: 1500 * units.gridUnit / 8

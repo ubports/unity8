@@ -15,7 +15,7 @@
  */
 
 import Dash 0.1
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 ListViewWithPageHeader {
     flickDeceleration: 1500 * units.gridUnit / 8
