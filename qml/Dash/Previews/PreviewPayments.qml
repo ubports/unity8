@@ -63,6 +63,10 @@ PreviewWidget {
                 paymentButton.opacity = 1;
                 root.triggered(widgetId, "purchaseError", source);
             }
+            onPurchaseCancelled: {
+                paymentButton.opacity = 1;
+                root.triggered(widgetId, "purchaseCancelled", source);
+            }
         }
     }
 

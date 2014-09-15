@@ -53,6 +53,7 @@ Q_SIGNALS:
 
     void purchaseError(const QString &error);
     void purchaseCompleted();
+    void purchaseCancelled();
 
 private:
     QString m_currency;
