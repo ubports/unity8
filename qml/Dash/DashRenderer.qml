@@ -27,6 +27,10 @@ Item {
 
     property int displayMarginEnd: 0
 
+    property int visibleRangeBegin: 0
+
+    property int visibleRangeEnd: 0
+
     property real originY: 0
 
     // The model to renderer

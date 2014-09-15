@@ -176,6 +176,7 @@ Item {
                         dashContent.scopeLoaded(item.scope.id)
                         item.paginationCount = Qt.binding(function() { return dashContentList.count } )
                         item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
+                        item.holdingList = dashContentList;
                     }
                     Connections {
                         target: isCurrent ? scope : null
