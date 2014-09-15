@@ -99,6 +99,7 @@ Item {
             function scrollToEnd()
             {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
+                waitForRendering(categoryListView);
                 while (!categoryListView.atYEnd) {
                     mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height - units.gu(8),
                                genericScopeView.width/2, genericScopeView.y)
@@ -478,7 +479,7 @@ Item {
                 verify(category1.expanded);
                 tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
                 tryCompareFunction(function() {
-                    return genericScopeView.categoryView.contentY + category1.y + category1.height + genericScopeView.categoryView.pageHeader.height
+                    return genericScopeView.categoryView.contentY + category1.y + category1.height
                            == genericScopeView.categoryView.contentHeight;}
                     , true);
             }
