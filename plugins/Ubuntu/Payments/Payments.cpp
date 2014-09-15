@@ -29,7 +29,6 @@ static void observer(PayPackage* /* package */, const char* itemid, PayPackageIt
     // http://qt-project.org/doc/qt-5/threads-qobject.html#signals-and-slots-across-threads
 
     Payments *self = static_cast<Payments*>(user_data);
-    static bool _purchasing = false;
 
     // If the item ID is different, ignore it.
     if (itemid != self->storeItemId()) {
@@ -43,11 +42,11 @@ static void observer(PayPackage* /* package */, const char* itemid, PayPackageIt
         Q_EMIT self->purchaseCompleted();
         break;
     case PAY_PACKAGE_ITEM_STATUS_PURCHASING:
-        _purchasing = true;
+        self->m_purchasing = true;
         break;
     case PAY_PACKAGE_ITEM_STATUS_NOT_PURCHASED:
-        if (_purchasing) {
-            _purchasing = false;
+        if (self->m_purchasing) {
+            self->m_purchasing = false;
             Q_EMIT self->purchaseCancelled();
         }
         break;

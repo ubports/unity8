@@ -55,6 +55,9 @@ Q_SIGNALS:
     void purchaseCompleted();
     void purchaseCancelled();
 
+public:
+    bool m_purchasing = false;
+
 private:
     QString m_currency;
     double m_price;
