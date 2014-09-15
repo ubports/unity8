@@ -70,7 +70,7 @@ public:
 
     QString splashTitle() const override { return QString(); }
     QUrl splashImage() const override { return QUrl(); }
-    bool splashShowHeader() const override { return true; }
+    bool splashShowHeader() const override { return false; }
     QColor splashColor() const override { return QColor(0,0,0,0); }
     QColor splashColorHeader() const override { return QColor(0,0,0,0); }
     QColor splashColorFooter() const override { return QColor(0,0,0,0); }

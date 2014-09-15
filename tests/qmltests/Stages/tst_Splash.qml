@@ -28,12 +28,20 @@ Rectangle {
     width: units.gu(70)
     height: units.gu(70)
 
+    Component.onCompleted: {
+        root.fakeApplication = ApplicationManager.add("gallery-app");
+        root.fakeApplication.manualSurfaceCreation = true;
+        root.fakeApplication.setState(ApplicationInfoInterface.Starting);
+    }
+    property QtObject fakeApplication
+
     Component {
         id: splashComponent
         Splash {
             anchors.fill: parent
             title: "Splash Title"
             showHeader: showHeaderCheckbox.checked
+            icon: fakeApplication ? fakeApplication.icon : ""
             imageSource: imageSourceCheckbox.checked ? "../UnityLogo.png" : ""
             backgroundColor: backgroundColorCheckbox.checked ? "darkorange" : "#00000000"
             headerColor: headerColorCheckbox.checked ? "mediumseagreen" : "#00000000"
@@ -66,7 +74,7 @@ Rectangle {
 
             Row {
                 anchors { left: parent.left; right: parent.right }
-                CheckBox {id: showHeaderCheckbox; checked: true; }
+                CheckBox {id: showHeaderCheckbox; checked: false; }
                 Label { text: "showHeader"; anchors.verticalCenter: parent.verticalCenter }
             }
             Row {

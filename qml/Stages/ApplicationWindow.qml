@@ -113,6 +113,7 @@ Item {
                 id: splash
                 title: d.splashTitle ? d.splashTitle : d.name
                 imageSource: d.splashImage
+                icon: d.icon
                 showHeader: d.splashShowHeader
                 backgroundColor: d.splashColor
                 headerColor: d.splashColorHeader

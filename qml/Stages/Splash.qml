@@ -28,6 +28,7 @@ Item {
     property color headerColor: d.undefinedColor
     property color footerColor: d.undefinedColor
     property alias imageSource: overlaidImage.source
+    property url icon
     property alias title: header.title
     property alias showHeader: header.visible
 
@@ -42,7 +43,10 @@ Item {
         // This is also the default value of a color property in QML.
         readonly property color undefinedColor: "#00000000"
 
-        readonly property color defaultBackgroundColor: ambiancePalette.normal.background
+        readonly property color defaultBackgroundColor: header.visible ? ambiancePalette.normal.background : "black"
+
+        // Splash screen that shows the application icon and splashTitle
+        readonly property bool showIcon: overlaidImage.status == Image.Null && !root.showHeader
     }
 
     StyledItem {
@@ -77,6 +81,7 @@ Item {
             left: parent.left
             right: parent.right
         }
+        visible: false
 
         // mimic API of toolkit's AppHeader component required by PageHeadStyle
         property Item pageStack
@@ -105,10 +110,48 @@ Item {
         cache: false
     }
 
+    UbuntuShape {
+        id: iconShape
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: -units.gu(4)
+        width: units.gu(8)
+        height: units.gu(7.5)
+
+        visible: d.showIcon
+
+        radius: "medium"
+        borderSource: "none"
+
+        image: Image {
+            id: iconImage
+            sourceSize.width: iconShape.width
+            sourceSize.height: iconShape.height
+            source: d.showIcon ? root.icon : ""
+            fillMode: Image.PreserveAspectCrop
+        }
+    }
+
+    Label {
+        text: root.title
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: iconShape.bottom
+        anchors.topMargin: units.gu(2)
+        fontSize: "large"
+
+        color: styledItem.theme.palette.selected.backgroundText
+        visible: d.showIcon
+    }
+
     ActivityIndicator {
-        anchors.centerIn: parent
+        anchors.centerIn: header.visible ? parent : undefined
         anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
-        running: overlaidImage.status == Image.Error || overlaidImage.status == Image.Null
+
+        anchors.horizontalCenter: header.visible ? undefined : parent.horizontalCenter
+        anchors.bottom: header.visible ? undefined : parent.bottom
+        anchors.bottomMargin: header.visible ? 0 : units.gu(12)
+
+        running: true//overlaidImage.status == Image.Error || overlaidImage.status == Image.Null
     }
 
     MouseArea {
