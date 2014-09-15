@@ -29,7 +29,7 @@ public:
     ~DashCommunicatorService();
 
 Q_SIGNALS:
-    void setCurrentScopeRequested(const QString &scopeId, bool animate, bool reset);
+    void setCurrentScopeRequested(const QString &scopeId, bool animate, bool isSwipe);
 
 private:
     DBusDashCommunicatorService *m_dbusService;

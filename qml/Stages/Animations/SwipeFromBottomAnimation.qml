@@ -15,34 +15,39 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 
-BaseSurfaceAnimation {
+BaseSessionAnimation {
     id: animation
 
-    outChanges: [ AnchorChanges { target: animation.surface; anchors.top: animation.parent.bottom } ]
-    outAnimations: [
+    fromChanges: [
+        AnchorChanges {
+            target: container;
+            anchors.top: container.parent.bottom
+        }
+    ]
+    fromAnimations: [
         SequentialAnimation {
-            PropertyAction { target: animation.parent; property: "clip"; value: true }
-            AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.surface; property: "visible"; value: !animation.parent.removing }
-            PropertyAction { target: animation.parent; property: "clip"; value: false }
-            ScriptAction { script: { if (animation.parent.removing) animation.surface.release(); } }
+            // clip so we don't go out of parent's bounds during spread
+            PropertyAction { target: container.parent; property: "clip"; value: true }
+            AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
+            PropertyAction { target: container.parent; property: "clip"; value: false }
+            ScriptAction { script: { animation.completed(); } }
         }
     ]
 
-    inChanges: [
+    toChanges: [
         AnchorChanges {
-            target: animation.surface;
-            anchors.top: animation.parent.top
-            anchors.right: undefined
-            anchors.bottom: undefined
-            anchors.left: undefined
-        } ]
-    inAnimations: [
+            target: container;
+            anchors.top: container.parent.top
+        }
+    ]
+    toAnimations: [
         SequentialAnimation {
-            PropertyAction { target: animation.parent; property: "clip"; value: true }
-            AnchorAnimation { easing.type: Easing.InOutQuad; duration: 400 }
-            PropertyAction { target: animation.parent; property: "clip"; value: false }
+            // clip so we don't go out of parent's bounds during spread
+            PropertyAction { target: container.parent; property: "clip"; value: true }
+            AnchorAnimation { easing: UbuntuAnimation.StandardEasing; duration: UbuntuAnimation.BriskDuration }
+            PropertyAction { target: container.parent; property: "clip"; value: false }
         }
     ]
 }
