@@ -21,11 +21,12 @@ import "../Components"
 
 Column {
     id: root
-    anchors.centerIn: parent
+    anchors.top: parent.top
+    anchors.topMargin: units.gu(4)
+    anchors.horizontalCenter: parent.horizontalCenter
     spacing: units.gu(2)
 
     property string infoText
-    property string retryText
     property string errorText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
@@ -132,14 +133,6 @@ Column {
                 onClicked: pinentryField.backspace()
             }
         }
-
-        Label {
-            objectName: "retryLabel"
-            fontSize: "x-small"
-            color: "#f3f3e7"
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: root.retryText || " "
-        }
     }
 
     ThinDivider {
@@ -193,19 +186,19 @@ Column {
         }
         PinPadButton {
             iconName: "close"
-            height: numbersGrid.buttonHeight
+            height: units.gu(5) // visual spec has this row a little closer in
             width: numbersGrid.buttonWidth
 
             onClicked: root.cancel()
         }
         Item {
-            height: numbersGrid.buttonHeight
+            height: units.gu(5)
             width: numbersGrid.buttonWidth
         }
         PinPadButton {
             iconName: "tick"
             objectName: "confirmButton"
-            height: numbersGrid.buttonHeight
+            height: units.gu(5)
             width: numbersGrid.buttonWidth
             enabled: root.enabled && pinentryField.text.length >= root.minPinLength
             visible: root.minPinLength == -1 || root.minPinLength !== root.maxPinLength
