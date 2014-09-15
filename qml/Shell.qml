@@ -355,8 +355,7 @@ Item {
                         SystemImage.factoryReset() // Ouch!
                     }
                 }
-
-                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins >= failedLoginsDelayAttempts) {
+                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
                     lockscreen.delayMinutes = failedLoginsDelayMinutes
                     forcedDelayTimer.start()
                 }

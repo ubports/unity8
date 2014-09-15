@@ -33,6 +33,7 @@ Item {
 
     function clear(playAnimation) {
         pinentryField.text = "";
+        pinentryField.incorrectOverride = false;
         pinentryField.forceActiveFocus();
         if (playAnimation) {
             wrongPasswordAnimation.start();
@@ -62,6 +63,9 @@ Item {
             TextInput {
                 id: pinentryField
                 objectName: "pinentryField"
+
+                property bool incorrectOverride: false
+
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -86,6 +90,11 @@ Item {
                 enabled: root.entryEnabled
                 clip: true
 
+                onTextChanged: incorrectOverride = true
+
+                onActiveFocusChanged: if (!activeFocus) pinentryField.forceActiveFocus()
+                onEnabledChanged: if (enabled) pinentryField.forceActiveFocus()
+
                 onAccepted: {
                     if (pinentryField.text) {
                         root.entered(pinentryField.text);
@@ -101,7 +110,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
                 text: root.errorText
-                visible: pinentryField.text.length == 0
+                visible: pinentryField.text.length == 0 && !pinentryField.incorrectOverride
             }
         }
     }
