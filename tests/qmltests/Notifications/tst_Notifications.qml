@@ -33,6 +33,10 @@ Row {
             function invokeAction(actionId) {
                 mockModel.actionInvoked(actionId)
             }
+
+            function close() {
+                mockModel.remove(1)
+            }
         }
     }
 
@@ -481,6 +485,17 @@ Row {
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                 }
+            }
+
+            // swipe-to-dismiss check
+            if (data.type !== Notification.SnapDecision && notification.state !== "expanded") {
+                var before = mockModel.count
+                var dragStart = notification.width * 0.25;
+                var dragEnd = notification.width;
+                var dragY = notification.height / 2;
+                touchFlick(notification, dragStart, dragY, dragEnd, dragY)
+                waitForRendering(notification)
+                tryCompare(mockModel, "count", before - 1)
             }
         }
     }
