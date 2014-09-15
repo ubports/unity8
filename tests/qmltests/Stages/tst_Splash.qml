@@ -107,4 +107,3 @@ Rectangle {
         // No automated tests so far. Used only for manual testing at the moment.
     }
 }
-
