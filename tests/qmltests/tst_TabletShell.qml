@@ -139,7 +139,7 @@ Row {
             tryCompare(shellLoader, "itemDestroyed", true)
 
             // kill all (fake) running apps
-            killApps(ApplicationManager)
+            killApps()
 
             unlockAllModemsSpy.clear()
 

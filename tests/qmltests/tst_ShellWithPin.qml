@@ -27,10 +27,9 @@ import Powerd 0.1
 
 import "../../qml"
 
-Item {
+Row {
     id: root
-    width: shell.width + units.gu(20)
-    height: shell.height
+    spacing: 0
 
     QtObject {
         id: applicationArguments
@@ -48,21 +47,55 @@ Item {
         }
     }
 
-    Shell {
-        id: shell
-        maxFailedLogins: maxRetriesTextField.text
-    }
-    Column {
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; margins:units.gu(1) }
-        width: units.gu(18)
+    Loader {
+        id: shellLoader
 
-        Label {
-            text: "Max retries:"
-            color: "black"
+        width: units.gu(40)
+        height: units.gu(71)
+
+        property bool itemDestroyed: false
+        sourceComponent: Component {
+            Shell {
+                Component.onDestruction: {
+                    shellLoader.itemDestroyed = true
+                }
+                maxFailedLogins: maxRetriesTextField.text
+            }
         }
-        TextField {
-            id: maxRetriesTextField
-            text: "-1"
+    }
+
+    Rectangle {
+        color: "white"
+        width: units.gu(30)
+        height: shellLoader.height
+
+        Column {
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+            spacing: units.gu(1)
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                Button {
+                    text: "Show Greeter"
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return
+
+                        var greeter = testCase.findChild(shellLoader.item, "greeter")
+                        if (!greeter.shown) {
+                            greeter.show()
+                        }
+                    }
+                }
+            }
+
+            Label {
+                text: "Max retries:"
+                color: "black"
+            }
+            TextField {
+                id: maxRetriesTextField
+                text: "-1"
+            }
         }
     }
 
@@ -81,13 +114,10 @@ Item {
         name: "ShellWithPin"
         when: windowShown
 
-        function initTestCase() {
-
-            sessionSpy.target = findChild(shell, "greeter")
-        }
+        property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
-            shell.tablet = false
+            sessionSpy.target = findChild(shell, "greeter")
             swipeAwayGreeter()
             shell.failedLoginsDelayAttempts = -1
             maxRetriesTextField.text = "-1"
@@ -96,12 +126,28 @@ Item {
         }
 
         function cleanup() {
-            LightDM.Greeter.showGreeter()
-            var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 1)
+            shellLoader.itemDestroyed = false
+
+            shellLoader.active = false
+
+            tryCompare(shellLoader, "status", Loader.Null)
+            tryCompare(shellLoader, "item", null)
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // item might still be alive. So if we set Loader.active back to true
+            // again right now we will get the very same Shell instance back. So no reload
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(shellLoader, "itemDestroyed", true)
 
             // kill all (fake) running apps
             killApps()
+
+            // reload our test subject to get it in a fresh state once again
+            shellLoader.active = true
+
+            tryCompare(shellLoader, "status", Loader.Ready)
+            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item)
         }
 
         function killApps() {
