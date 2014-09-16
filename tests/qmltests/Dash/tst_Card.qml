@@ -206,6 +206,11 @@ Rectangle {
         property Item backgroundImage: findChild(card, "backgroundImage")
         property Item mascotImage: findChild(card, "mascotImage");
 
+        function init() {
+            loader.visible = true;
+            NetworkingStatus.limitedBandwith = false;
+        }
+
         function cleanup() {
             selector.selectedIndex = -1;
         }
