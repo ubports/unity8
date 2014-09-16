@@ -151,7 +151,7 @@ Item {
         anchors.bottom: header.visible ? undefined : parent.bottom
         anchors.bottomMargin: header.visible ? 0 : units.gu(12)
 
-        running: true//overlaidImage.status == Image.Error || overlaidImage.status == Image.Null
+        running: true
     }
 
     MouseArea {
