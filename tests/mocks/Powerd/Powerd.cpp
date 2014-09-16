@@ -19,6 +19,20 @@
 #include "Powerd.h"
 
 Powerd::Powerd(QObject* parent)
-  : QObject(parent)
+  : QObject(parent),
+    m_status(Powerd::Status::On)
 {
+}
+
+void Powerd::setStatus(Powerd::Status status)
+{
+    if (m_status != status) {
+        m_status = status;
+        Q_EMIT statusChanged(DisplayStateChangeReason::Unknown);
+    }
+}
+
+Powerd::Status Powerd::status() const
+{
+    return m_status;
 }

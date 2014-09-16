@@ -1,360 +1,345 @@
-# Catalan translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Kurdish translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-09-07 04:05+0000\n"
-"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
-"Language-Team: Catalan <ca@li.org>\n"
+"PO-Revision-Date: 2014-09-10 13:14+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Kurdish <ku@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-08 06:58+0000\n"
+"X-Launchpad-Export-Date: 2014-09-11 07:27+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr "Contrasenya: "
+msgstr "Şîfre: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr "Enganxa la drecera"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr "Desenganxa la drecera"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr "Surt"
+msgstr "Derkeve"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr "Segur que voleu sortir?"
+msgstr "Ji dil dixwazî derkevî?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr "No"
+msgstr "Na"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr "Sí"
+msgstr "Erê"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr "Apaga"
+msgstr "Bigire"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr "Segur que voleu apagar?"
+msgstr "Ji dil dixwazî bigirî?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr "Reinicia"
+msgstr "Dîsdestpêkirin"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr "Segur que voleu reiniciar?"
+msgstr "Ji dil dixwazî bidî destpêkirin?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr "Energia"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Segur que voleu\n"
-"apagar?"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr "Apaga"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"
-msgstr "Cancel·la"
+msgstr "Betal bike"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "Omet la introducció"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Vora dreta"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
-"Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Vora superior"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
-"Proveu de lliscar el dit des de la vora superior per accedir als indicadors"
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Tanca"
+msgstr "Bigire"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr ""
-"Llisqueu el dit cap amunt una altra vegada per tancar la pantalla de "
-"configuració"
 
 #: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Vora esquerra"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
-"Llisqueu el dit des de la vora esquerra per mostrar el llançador i accedir "
-"ràpidament a les aplicacions"
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Enhorabona!"
+msgstr "Aferim"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
-"Ja heu après com utilitzar els gestos de les vores per fer servir el "
-"telèfon<br><br>Feu un toc a la pantalla per començar"
 
 #: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
-msgstr "Espereu"
+msgstr "Tika ye li bendê bimîne"
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
-msgstr "Massa intents incorrectes"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
-msgstr "Trucada d'emergència"
+msgstr "Lêgerîna Lezgîn"
 
 #: qml/Components/Lockscreen.qml:226
 msgid "OK"
-msgstr "D'acord"
+msgstr "BAŞ E"
 
 #: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
-msgstr "Hola %1"
+msgstr "Silav %1"
 
 #: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
-msgstr "Hola"
+msgstr "Silav"
 
 #: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
-msgstr "Mostra'n menys"
+msgstr "Hindiktir bibîne"
 
 #: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
-msgstr "Mostra-ho tot"
+msgstr "Tevî bibîne"
 
 #: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Cerca"
+msgstr "Lêgerîn"
 
 #: qml/Dash/PageHeader.qml:270
 msgid "Settings"
-msgstr "Paràmetres"
+msgstr "Eyar"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Remove from Favorites"
-msgstr "Suprimeix dels preferits"
+msgstr "Ji nav Bijareyan rake"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Add to Favorites"
-msgstr "Afegeix als preferits"
+msgstr "Li Bijareyan zêde bike"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr "Més..."
+msgstr "Zêdetir..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr "Menys..."
+msgstr "Hindiktir..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr "Puntueu-ho"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr "Afegiu una ressenya"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr "Envia"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr "Gestiona el tauler"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
-msgstr "Fet"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
-msgstr "Botiga"
+msgstr ""
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr "Preferides"
+msgstr ""
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr "Totes"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr "Feu lliscar el dit per desbloquejar"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
-msgstr "Confirma"
+msgstr ""
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Escriviu o pronuncieu una ordre"
+msgstr ""
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "S'està carregant. Espereu-vos un moment..."
+msgstr ""
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Parleu..."
+msgstr ""
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "S'està parlant..."
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
-msgstr "Mostra la contrasenya"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr "Introduïu el PIN de la targeta SIM"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
-msgstr "El PIN no és correcte"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr "Feu un toc per tornar a la trucada..."
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr "Conferència"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
-msgstr "A la cua..."
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
-msgstr "S'està baixant"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
-msgstr "En pausa, feu un toc per continuar"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
-msgstr "S'ha cancel·lat"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
-msgstr "S'ha finalitzat"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
-msgstr "Ha fallat, feu un toc per tornar-ho a intentar"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "Desbloca la SIM"
+msgstr ""
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr "Itinerància"
+msgstr ""
 
 #: qml/Shell.qml:279
 msgid "Enter your passphrase"
-msgstr "Escriviu la contrasenya"
+msgstr ""
 
 #: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
-msgstr "La contrasenya no és correcta"
+msgstr ""
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
-msgstr "Introduïu el codi d'accés"
+msgstr ""
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr "El codi d'accés no és correcte"
+msgstr ""
 
 #: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
-msgstr "Introduïu la %1"
+msgstr ""
 
 #: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "Incorrecte (%1)"
+msgstr ""
 
 #: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
-msgstr "La contrasenya és incorrecta"
+msgstr ""
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
-msgstr "La clau és incorrecta"
+msgstr ""
 
 #: qml/Shell.qml:325
 msgid "This will be your last attempt."
-msgstr "Aquest serà el darrer intent."
+msgstr ""
 
 #: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Si la contrasenya s'introdueix de manera incorrecta, el telèfon es "
-"reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
-"personals."
 
 #: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Si la clau s'introdueix de manera incorrecta, el telèfon es reinicialitzarà "
-"a l'estat de fàbrica i se suprimiran totes les dades personals."

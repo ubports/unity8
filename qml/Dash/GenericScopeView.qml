@@ -25,7 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].showList : false
+    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].openList : false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -160,7 +160,6 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: subPageLoader.open
         pixelAligned: true
-        interactive: !navigationShown
 
         property Item expandedCategoryItem: null
 

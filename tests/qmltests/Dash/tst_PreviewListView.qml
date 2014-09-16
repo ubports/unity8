@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
+import Ubuntu.Components 1.1
 import "../../../qml/Dash"
 import Unity.Test 0.1 as UT
 import Unity 0.2 as Unity
@@ -43,7 +44,9 @@ Rectangle {
         id: listView
         anchors.fill: parent
         scope: mockScope
-        scopeStyle: ScopeStyle { }
+        scopeStyle: ScopeStyle {
+             style: mockScope.customizations
+        }
     }
 
     UT.UnityTestCase {
@@ -87,6 +90,31 @@ Rectangle {
 
             mouseClick(listView, listView.width / 2, listView.height / 2);
             clickedSpy.wait();
+        }
+
+        function test_title() {
+            var header = findChild(listView, "innerPageHeader");
+            verify(header, "Could not find the preview header");
+
+            compare(header.title, "Mock Scope");
+        }
+
+        function test_header_style() {
+            var header = findChild(listView, "pageHeader");
+            verify(header, "Could not find the header");
+
+            var innerHeader = findChild(header, "innerPageHeader");
+            verify(innerHeader, "Could not find the inner header");
+            verify(Qt.colorEqual(innerHeader.textColor, UbuntuColors.darkGrey),
+                   "Foreground color not equal: %1 != %2".arg(innerHeader.textColor).arg(UbuntuColors.darkGrey));
+
+            var background = findChild(header, "headerBackground");
+            verify(background, "Could not find the background");
+            compare(background.style, "gradient:///lightgrey/grey");
+
+            var image = findChild(header, "titleImage");
+            verify(image, "Could not find the title image.");
+            compare(image.source, Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg"), "Title image has the wrong source");
         }
     }
 }
