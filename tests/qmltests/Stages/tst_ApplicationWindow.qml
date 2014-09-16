@@ -50,6 +50,7 @@ Rectangle {
         ApplicationWindow {
             anchors.fill: parent
             application: fakeApplication
+            orientation: Qt.PortraitOrientation
         }
     }
     FocusScope {
@@ -144,6 +145,24 @@ Rectangle {
                 onSelectedApplicationStateChanged: {
                     // state is a read-only property, thus we have to call the setter function
                     fakeApplication.setState(selectedApplicationState);
+                }
+            }
+
+            Button {
+                anchors { left: parent.left; right: parent.right }
+                text: "Rotate device \u27F3"
+                onClicked: {
+                    var orientation = applicationWindowLoader.item.orientation
+                    if (orientation == Qt.PortraitOrientation) {
+                        orientation = Qt.LandscapeOrientation;
+                    } else if (orientation == Qt.LandscapeOrientation) {
+                        orientation = Qt.InvertedPortraitOrientation;
+                    } else if (orientation == Qt.InvertedPortraitOrientation) {
+                        orientation = Qt.InvertedLandscapeOrientation;
+                    } else {
+                        orientation = Qt.PortraitOrientation;
+                    }
+                    applicationWindowLoader.item.orientation = orientation;
                 }
             }
 
