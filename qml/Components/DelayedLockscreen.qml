@@ -36,6 +36,8 @@ Item {
         spacing: units.gu(2)
 
         Label {
+            id: deviceLockedLabel
+            objectName: "deviceLockedLabel"
             anchors.left: parent.left
             anchors.right: parent.right
             horizontalAlignment: Text.AlignHCenter

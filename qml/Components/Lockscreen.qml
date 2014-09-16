@@ -51,12 +51,6 @@ Showable {
     signal emergencyCall()
     signal infoPopupConfirmed()
 
-    onRequiredChanged: {
-        if (required && pinPadLoader.item) {
-            clear(false)
-        }
-    }
-
     function reset() {
         // This causes the loader below to destry and recreate the source
         pinPadLoader.resetting = true;
@@ -118,6 +112,7 @@ Showable {
         onSourceChanged: {
             waiting = false
             showWrongText = false
+            clear(false)
         }
 
         Connections {
