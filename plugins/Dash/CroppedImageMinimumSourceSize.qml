@@ -17,9 +17,9 @@
 import QtQuick 2.3
 
 Image {
-    fillMode: Image.PreserveAspectCrop
     property bool resized: false
     property bool resizing: false
+    fillMode: Image.PreserveAspectCrop
     visible: resized
     onSourceSizeChanged: {
         if (!resized && !resizing) {
