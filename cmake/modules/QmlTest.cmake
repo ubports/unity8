@@ -34,6 +34,7 @@ macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
     set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
 
     cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
+    cmake_parse_arguments(qmltest_default "${options}" "" "${multi_value_keywords}" ${qmltest_DEFAULT_PROPERTIES})
 
     set(qmlscene_TARGET try${COMPONENT_NAME})
     set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
@@ -49,6 +50,10 @@ macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
             list(APPEND qmlscene_imports "-I")
             list(APPEND qmlscene_imports ${IMPORT_PATH})
         endforeach(IMPORT_PATH)
+    endif()
+
+    if("${qmltest_ENVIRONMENT}" STREQUAL "")
+        set(qmltest_ENVIRONMENT "${qmltest_default_ENVIRONMENT}")
     endif()
 
     set(qmlscene_command
