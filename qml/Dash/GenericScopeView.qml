@@ -25,7 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].showList : false
+    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].openList : false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -156,7 +156,6 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: subPageLoader.open
         pixelAligned: true
-        interactive: !navigationShown
 
         property string expandedCategoryId: ""
         property int runMaximizeAfterSizeChanges: 0
@@ -176,7 +175,7 @@ FocusScope {
 
                         var animate = false;
                         if (!subPageLoader.open) {
-                            var animateShrinking = !shouldExpand  && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAll.height < categoryView.height;
+                            var animateShrinking = !shouldExpand  && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAllButton.height < categoryView.height;
                             var animateGrowing = shouldExpand && baseItem.y + baseItem.height < categoryView.height;
                             animate = shrinkingAny || animateShrinking || animateGrowing;
                         }
@@ -188,7 +187,7 @@ FocusScope {
 
                         if (shouldExpand && !subPageLoader.open) {
                             if (!shrinkingAny) {
-                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAll.height);
+                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
                             } else {
                                 // If the space that shrkinking is smaller than the one we need to grow we'll call maximizeVisibleArea
                                 // after the shrink/grow animation ends
@@ -277,7 +276,7 @@ FocusScope {
                                         for (var i = 0; i < categoryView.createdItemCount(); ++i) {
                                             var baseItem = categoryView.item(firstCreated + i);
                                             if (baseItem.category === categoryView.expandedCategoryId) {
-                                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAll.height);
+                                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
                                                 break;
                                             }
                                         }

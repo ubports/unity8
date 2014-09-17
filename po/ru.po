@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-26 10:01+0000\n"
+"PO-Revision-Date: 2014-08-29 08:06+0000\n"
 "Last-Translator: Jay ZDLin <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"X-Launchpad-Export-Date: 2014-08-30 07:46+0000\n"
+"X-Generator: Launchpad (build 17176)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Пароль: "
 
@@ -32,53 +32,53 @@ msgstr "Изъять ярлык"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "Завершение сеанса"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Завершить сеанс?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "Нет"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "Выключение"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Выключить?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "Перезагрузка"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Перезагрузить систему?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Питание"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
+msgstr "Отключить питание?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Отключить"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -168,21 +168,22 @@ msgstr "Вкратце"
 msgid "See all"
 msgstr "Показать всё"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Поиск"
 
 #: qml/Dash/PageHeader.qml:270
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Удалить из избранного"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Добавить в избранное"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -208,11 +209,11 @@ msgstr "Отправить"
 msgid "Manage Dash"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
 msgstr "Готово"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
 msgstr ""
 
@@ -228,7 +229,7 @@ msgstr "Все"
 msgid "Swipe to unlock"
 msgstr "Смахните, чтобы разблокировать"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Подтвердить"
 
@@ -256,7 +257,7 @@ msgstr "Показать пароль"
 msgid "Enter SIM PIN"
 msgstr "Введите ПИН-код SIM-карты"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
 msgstr "Введён неверный ПИН-код"
 
@@ -300,45 +301,45 @@ msgstr "Разблокировать SIM-карту"
 msgid "Roaming"
 msgstr "Роуминг"
 
-#: qml/Shell.qml:266
+#: qml/Shell.qml:279
 msgid "Enter your passphrase"
 msgstr "Введите кодовую фразу"
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
 msgstr "Введена неверная кодовая фраза"
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
-msgstr ""
+msgstr "Введите секретный код"
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Секретный код введён неверно"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
 msgstr "Введите %1"
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Некорректный ввод %1"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
 msgstr "Неверная ключевая фраза."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
 msgstr "Неверный секретный код."
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:325
 msgid "This will be your last attempt."
 msgstr "Осталась последняя попытка."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -346,19 +347,10 @@ msgstr ""
 "Если ключевая фраза будет введена неверно, то телефон вернётся к заводским "
 "настройкам, а все личные данные будут удалены."
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Если секретный код будет введен неверно, то телефон вернётся к заводским "
 "настройкам, а все личные данные будут удалены."
-
-#~ msgid "Are you sure you would like to turn power off?"
-#~ msgstr "Отключить питание?"
-
-#~ msgid "Restart"
-#~ msgstr "Перезапустить"
-
-#~ msgid "Enter your PIN"
-#~ msgstr "Введите ПИН-код"

@@ -171,7 +171,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
-    connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+    connect(m_contentYAnimation, SIGNAL(runningChanged(bool)), this, SLOT(contentYAnimationRunningChanged(bool)));
 
     setFlickableDirection(VerticalFlick);
 }
@@ -421,12 +421,12 @@ void ListViewWithPageHeader::showHeader()
     }
 }
 
-Q_INVOKABLE int ListViewWithPageHeader::firstCreatedIndex() const
+int ListViewWithPageHeader::firstCreatedIndex() const
 {
     return m_firstVisibleIndex;
 }
 
-Q_INVOKABLE int ListViewWithPageHeader::createdItemCount() const
+int ListViewWithPageHeader::createdItemCount() const
 {
     return m_visibleItems.count();
 }
@@ -542,7 +542,7 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
             // (but the header was not shown by it's own position)
             // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
-            const bool notRebounding = contentY() + height() < contentHeight();
+            const bool notRebounding = qRound(contentY() + height()) < qRound(contentHeight());
             const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
@@ -1077,10 +1077,13 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     m_contentHeightDirty = true;
 }
 
-void ListViewWithPageHeader::onShowHeaderAnimationFinished()
+void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
 {
-    m_contentHeightDirty = true;
-    polish();
+    setInteractive(!running);
+    if (!running) {
+        m_contentHeightDirty = true;
+        polish();
+    }
 }
 
 void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
