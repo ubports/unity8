@@ -27,6 +27,10 @@ Showable {
     // Informational text. (e.g. some text to tell which domain this is pin is entered for)
     property string infoText: ""
 
+    // Retries text (e.g. 3 retries left)
+    // (This is not currently used, but will be necessary for SIM unlock screen)
+    property string retryText: ""
+
     // The text to be displayed in case the login failed
     property string errorText: ""
 
@@ -142,6 +146,11 @@ Showable {
             target: pinPadLoader.item
             property: "infoText"
             value: root.infoText
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "retryText"
+            value: root.retryText
         }
         Binding {
             target: pinPadLoader.item

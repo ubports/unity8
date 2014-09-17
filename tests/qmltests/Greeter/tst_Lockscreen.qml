@@ -26,7 +26,7 @@ import Unity.Test 0.1 as UT
 Rectangle {
     id: root
     width: units.gu(80)
-    height: units.gu(70)
+    height: units.gu(76)
     color: "orange"
 
     Lockscreen {
@@ -34,6 +34,7 @@ Rectangle {
         anchors.fill: parent
         anchors.rightMargin: units.gu(40)
         infoText: infoTextTextField.text
+        retryText: retryCountTextField.text
         errorText: errorTextTextField.text
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
@@ -116,6 +117,16 @@ Rectangle {
                 }
                 Label {
                     text: "Max PIN length"
+                }
+            }
+            Row {
+                TextField {
+                    id: retryCountTextField
+                    width: units.gu(7)
+                    text: "3 retries left"
+                }
+                Label {
+                    text: "Retries left"
                 }
             }
             Row {
@@ -409,6 +420,22 @@ Rectangle {
                     }
                 }
             }
+        }
+
+        function test_retryDisplay_data() {
+            return [
+                {tag: "empty", retryText: " "},
+                {tag: "3 retries left", retryText: "3 retries left"},
+            ]
+        }
+
+        function test_retryDisplay(data) {
+            pinPadCheckBox.checked = false
+            waitForLockscreenReady();
+
+            retryCountTextField.text = data.retryText;
+            var label = findChild(lockscreen, "retryLabel")
+            compare(label.text, data.retryText);
         }
 
         function test_infoPopup() {

@@ -27,6 +27,7 @@ Column {
     spacing: units.gu(2)
 
     property string infoText
+    property string retryText
     property string errorText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
@@ -50,7 +51,7 @@ Column {
         id: shakeContainer
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width
-        spacing: units.gu(2)
+        spacing: units.gu(1)
 
         Label {
             id: infoField
@@ -132,6 +133,14 @@ Column {
 
                 onClicked: pinentryField.backspace()
             }
+        }
+
+        Label {
+            objectName: "retryLabel"
+            fontSize: "x-small"
+            color: "#f3f3e7"
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: root.retryText || " "
         }
     }
 
