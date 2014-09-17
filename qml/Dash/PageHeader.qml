@@ -64,9 +64,12 @@ Item {
         }
     }
 
-    function closePopup() {
+    function closePopup(keepFocus) {
         if (headerContainer.popover != null) {
+            headerContainer.popover.unfocusOnDestruction = !keepFocus;
             PopupUtils.close(headerContainer.popover);
+        } else if (!keepFocus) {
+            unfocus();
         }
     }
 
@@ -74,11 +77,8 @@ Item {
         if (searchHistory) {
             searchHistory.addQuery(searchTextField.text);
         }
-        if (!keepFocus) {
-            unfocus();
-        }
         searchTextField.text = "";
-        closePopup();
+        closePopup(keepFocus);
     }
 
     function unfocus() {
@@ -102,7 +102,7 @@ Item {
     }
 
     function refreshLogo() {
-        if (scopeStyle ? scopeStyle.headerLogo != "" : false) {
+        if (root.scopeStyle ? root.scopeStyle.headerLogo != "" : false) {
             header.contents = imageComponent.createObject();
         } else if (header.contents) {
             header.contents.destroy();
@@ -119,11 +119,10 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
         visible: headerContainer.showSearch
         onPressed: {
-            closePopup();
+            closePopup(/* keepFocus */false);
             if (!searchTextField.text) {
                 headerContainer.showSearch = false;
             }
-            searchTextField.focus = false;
             mouse.accepted = false;
         }
     }
@@ -228,7 +227,7 @@ Item {
 
                     onTextChanged: {
                         if (text != "") {
-                            closePopup();
+                            closePopup(/* keepFocus */true);
                         }
                     }
                 }
@@ -310,8 +309,13 @@ Item {
             id: popover
             autoClose: false
 
+            property bool unfocusOnDestruction: false
+
             Component.onDestruction: {
                 headerContainer.popover = null;
+                if (unfocusOnDestruction) {
+                    root.unfocus();
+                }
             }
 
             Column {
@@ -332,8 +336,7 @@ Item {
                         onClicked: {
                             searchHistory.addQuery(text);
                             searchTextField.text = text;
-                            closePopup();
-                            unfocus();
+                            closePopup(/* keepFocus */false);
                         }
                     }
                 }
@@ -351,7 +354,7 @@ Item {
             bottom: bottomContainer.top
         }
 
-        color: scopeStyle ? scopeStyle.headerDividerColor : "#e0e0e0"
+        color: root.scopeStyle ? root.scopeStyle.headerDividerColor : "#e0e0e0"
 
         Rectangle {
             anchors {
@@ -405,8 +408,10 @@ Item {
                        Qt.lighter(Qt.rgba(bottomItem.background.topColor.r,
                                           bottomItem.background.topColor.g,
                                           bottomItem.background.topColor.b, 1.0), 1.2);
-                   } else if (!bottomItem && scopeStyle) {
-                       Qt.lighter(Qt.rgba(scopeStyle.background.r, scopeStyle.background.g, scopeStyle.background.b, 1.0), 1.2);
+                   } else if (!bottomItem && root.scopeStyle) {
+                       Qt.lighter(Qt.rgba(root.scopeStyle.background.r,
+                                          root.scopeStyle.background.g,
+                                          root.scopeStyle.background.b, 1.0), 1.2);
                    } else "#CCFFFFFF"
         }
     }

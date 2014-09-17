@@ -97,7 +97,8 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
         application_name = self.launch_fake_app()
-        self.assertThat(greeter.created, Eventually(Equals(False)))
+        greeter.wait_swiped_away()
+        process_helpers.unlock_unity()
         self.assert_current_focused_application(application_name)
 
     def test_greeter_hides_on_app_focus(self):
@@ -113,7 +114,8 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
         self.launch_upstart_application(application_name)
-        self.assertThat(greeter.created, Eventually(Equals(False)))
+        greeter.wait_swiped_away()
+        process_helpers.unlock_unity()
         self.assert_current_focused_application(application_name)
 
     def test_click_dash_icon_must_unfocus_application(self):

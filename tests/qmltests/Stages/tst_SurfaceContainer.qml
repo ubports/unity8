@@ -29,43 +29,6 @@ Rectangle {
     height: units.gu(70)
 
     Component {
-        id: fakeSurfaceComponent
-        Rectangle {
-            color: "green"
-
-            Rectangle {
-                color: "blue"
-                anchors.fill: parent
-                anchors.margins: units.gu(2)
-                Text {
-                    anchors.fill: parent
-                    text: "Surface"
-                    color: "green"
-                    font.bold: true
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 10; font.pixelSize: 200
-                    verticalAlignment: Text.AlignVCenter
-                }
-            }
-
-            width: units.gu(1)
-            height: units.gu(1)
-
-            property int type: MirSurfaceItem.Normal
-            property int state: MirSurfaceItem.Restored
-            property string name: "Fake Surface"
-            property Item parentSurface: null
-            property list<Item> childSurfaces
-            function release() {}
-            signal removed();
-        }
-    }
-
-    Item {
-        id: tempSurfaceHolder
-    }
-
-    Component {
         id: surfaceContainerComponent
         SurfaceContainer {
             anchors.fill: parent
@@ -98,19 +61,20 @@ Rectangle {
             Row {
                 anchors { left: parent.left; right: parent.right }
                 CheckBox {
-                    id: surfaceCheckbox; checked: false;
+                    id: surfaceCheckbox;
+                    checked: false;
                     onCheckedChanged: {
                         if (surfaceContainerLoader.status !== Loader.Ready)
                             return;
 
                         if (checked) {
-                            var fakeSurface = fakeSurfaceComponent.createObject(tempSurfaceHolder);
+                            var fakeSurface = SurfaceManager.createSurface("fake-surface",
+                                                                           MirSurfaceItem.Normal,
+                                                                           MirSurfaceItem.Restored,
+                                                                           Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
                             surfaceContainerLoader.item.surface = fakeSurface;
                         } else {
-                            var fakeSurface = surfaceContainerLoader.item.surface;
-                            surfaceContainerLoader.item.surface = null;
-                            fakeSurface.parent = null;
-                            fakeSurface.destroy();
+                            ApplicationTest.removeSurface(surfaceContainerLoader.item.surface);
                         }
                     }
                 }
@@ -124,6 +88,12 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: surfaceSpy
+        target: SurfaceManager
+        signalName: "surfaceDestroyed"
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "SurfaceContainer"
@@ -134,6 +104,9 @@ Rectangle {
             surfaceContainerLoader.active = false;
             surfaceCheckbox.checked = false;
             surfaceContainerLoader.active = true;
+
+            tryCompare(surfaceContainerLoader.item, "surface", null);
+            surfaceSpy.clear();
         }
 
         /*
@@ -149,6 +122,18 @@ Rectangle {
             var fakeSurface = surfaceContainerLoader.item.surface;
             compare(fakeSurface.width, surfaceContainerLoader.item.width);
             compare(fakeSurface.height, surfaceContainerLoader.item.height);
+        }
+
+        function test_animateRemoval() {
+            surfaceCheckbox.checked = true;
+            var surfaceContainer = surfaceContainerLoader.item;
+
+            verify(surfaceContainer.surface !== null);
+
+            ApplicationTest.removeSurface(surfaceContainer.surface);
+
+            compare(surfaceContainer.state, "zombie");
+            tryCompare(surfaceContainer, "surface", null);
         }
     }
 }

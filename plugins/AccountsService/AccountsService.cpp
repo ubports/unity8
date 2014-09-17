@@ -26,6 +26,8 @@ AccountsService::AccountsService(QObject* parent)
     m_service(new AccountsServiceDBusAdaptor(this)),
     m_user(qgetenv("USER")),
     m_demoEdges(false),
+    m_enableLauncherWhileLocked(false),
+    m_enableIndicatorsWhileLocked(false),
     m_statsWelcomeScreen(false),
     m_passwordDisplayHint(Keyboard),
     m_failedLogins(0)
@@ -47,6 +49,8 @@ void AccountsService::setUser(const QString &user)
     Q_EMIT userChanged();
 
     updateDemoEdges();
+    updateEnableLauncherWhileLocked();
+    updateEnableIndicatorsWhileLocked();
     updateBackgroundFile();
     updateStatsWelcomeScreen();
     updatePasswordDisplayHint();
@@ -62,6 +66,16 @@ void AccountsService::setDemoEdges(bool demoEdges)
 {
     m_demoEdges = demoEdges;
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+}
+
+bool AccountsService::enableLauncherWhileLocked() const
+{
+    return m_enableLauncherWhileLocked;
+}
+
+bool AccountsService::enableIndicatorsWhileLocked() const
+{
+    return m_enableIndicatorsWhileLocked;
 }
 
 QString AccountsService::backgroundFile() const
@@ -85,6 +99,24 @@ void AccountsService::updateDemoEdges()
     if (m_demoEdges != demoEdges) {
         m_demoEdges = demoEdges;
         Q_EMIT demoEdgesChanged();
+    }
+}
+
+void AccountsService::updateEnableLauncherWhileLocked()
+{
+    auto enableLauncherWhileLocked = m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableLauncherWhileLocked").toBool();
+    if (m_enableLauncherWhileLocked != enableLauncherWhileLocked) {
+        m_enableLauncherWhileLocked = enableLauncherWhileLocked;
+        Q_EMIT enableLauncherWhileLockedChanged();
+    }
+}
+
+void AccountsService::updateEnableIndicatorsWhileLocked()
+{
+    auto enableIndicatorsWhileLocked = m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableIndicatorsWhileLocked").toBool();
+    if (m_enableIndicatorsWhileLocked != enableIndicatorsWhileLocked) {
+        m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
+        Q_EMIT enableIndicatorsWhileLockedChanged();
     }
 }
 
@@ -156,6 +188,12 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
     } else if (interface == "com.ubuntu.AccountsService.SecurityPrivacy") {
         if (changed.contains("PasswordDisplayHint")) {
             updatePasswordDisplayHint();
+        }
+        if (changed.contains("EnableLauncherWhileLocked")) {
+            updateEnableLauncherWhileLocked();
+        }
+        if (changed.contains("EnableIndicatorsWhileLocked")) {
+            updateEnableIndicatorsWhileLocked();
         }
     }
 }

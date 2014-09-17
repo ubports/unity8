@@ -189,6 +189,14 @@ Item {
             var scopesOverviewAllView = findChild(dash, "scopesOverviewRepeaterChild1");
             tryCompare(scopesOverviewAllView, "enabled", true);
 
+            // Click in the middle of the black bar (nothing happens)
+            var bottomBar = findChild(scopesOverview, "bottomBar");
+            mouseClick(bottomBar, bottomBar.width / 2, bottomBar.height / 2);
+            // Check temp scope is not there
+            var scopesOverviewTempScopeItem = findChild(dash, "scopesOverviewTempScopeItem");
+            expectFailContinue("", "Clicking in the middle of bottom bar should not open a temp scope");
+            tryCompareFunction( function() { return scopesOverviewTempScopeItem.scope != null; }, true);
+
             // Click on a temp scope
             var tempScopeCard = findChild(scopesOverviewAllView, "delegate1");
             mouseClick(tempScopeCard, 0, 0);
@@ -198,7 +206,6 @@ Item {
             compare(overviewDragHandle.enabled, false);
 
             // Check temp scope is there
-            var scopesOverviewTempScopeItem = findChild(dash, "scopesOverviewTempScopeItem");
             tryCompareFunction( function() { return scopesOverviewTempScopeItem.scope != null; }, true);
             tryCompare(scopesOverviewTempScopeItem, "enabled", true);
 
@@ -328,7 +335,7 @@ Item {
             mouseFlick(dash, startX, startY, stopX, stopY);
             compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
-            dashCommunicatorService.mockSetCurrentScope("clickscope", true, true);
+            dashCommunicatorService.mockSetCurrentScope("clickscope", true, false);
             tryCompare(dashContentList, "currentIndex", 1)
         }
 

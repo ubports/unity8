@@ -44,6 +44,9 @@ Rectangle {
     }
 
     onInverseProgressChanged: {
+        // This can't be a simple binding because that would be triggered after this handler
+        // while we need it active before doing the anition left/right
+        priv.animateX = (inverseProgress == 0)
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
             if (priv.oldInverseProgress > units.gu(22)) {
@@ -92,6 +95,7 @@ Rectangle {
         property var focusedAppDelegate: null
 
         property real oldInverseProgress: 0
+        property bool animateX: true
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
@@ -311,7 +315,8 @@ Rectangle {
                     Behavior on x {
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
-                                 !snapAnimation.running
+                                 !snapAnimation.running &&
+                                 priv.animateX
                         UbuntuNumberAnimation {
                             duration: UbuntuAnimation.FastDuration
                             onRunningChanged: {
