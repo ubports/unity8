@@ -27,7 +27,7 @@ endif()
 
 set(qmlscene_exe ${CMAKE_BINARY_DIR}/tests/uqmlscene/uqmlscene)
 
-set(test_env UNITY_TESTING=1 LANGUAGE=C)
+set(test_env UNITY_TESTING=1)
 
 macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
     set(options NO_ADD_TEST NO_TARGETS)
@@ -52,7 +52,7 @@ macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
     endif()
 
     set(qmlscene_command
-        env ${qmltest_ENVIRONMENT} ${test_env}
+        env ${test_env} ${qmltest_ENVIRONMENT}
         ${qmlscene_exe} -qmljsdebugger=port:3768 ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmlscene_imports}
     )
@@ -73,6 +73,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
     set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
 
     cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
+    cmake_parse_arguments(qmltest_default "${options}" "" "${multi_value_keywords}" ${qmltest_DEFAULT_PROPERTIES})
 
     set(qmltest_TARGET test${COMPONENT_NAME})
     set(qmltest_xvfb_TARGET xvfbtest${COMPONENT_NAME})
@@ -104,8 +105,12 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
         set(ITERATIONS_STRING "")
     endif()
 
+    if("${qmltest_ENVIRONMENT}" STREQUAL "")
+        set(qmltest_ENVIRONMENT "${qmltest_default_ENVIRONMENT}")
+    endif()
+
     set(qmltest_command
-        env ${qmltest_ENVIRONMENT} ${test_env}
+        env ${test_env} ${qmltest_ENVIRONMENT}
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmltestrunner_imports}
             ${ITERATIONS_STRING}
@@ -119,7 +124,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
         set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
     endif()
     set(qmltest_xvfb_command
-        env ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH} ${test_env}
+        env ${test_env} ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH}
         xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
         ${qmltestrunner_imports}
