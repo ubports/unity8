@@ -66,8 +66,7 @@ FocusScope {
             // so it's not implemented
             scope.activate(result)
         } else {
-            if (scope.preview(result))
-            {
+            if (scope.preview(result)) {
                 openPreview(index, resultsModel, limitedCategoryItemCount);
             }
         }
@@ -75,8 +74,7 @@ FocusScope {
 
     function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") !== 0) {
-            if (scope.preview(result))
-            {
+            if (scope.preview(result)) {
                 openPreview(index, resultsModel, limitedCategoryItemCount);
             }
         }
