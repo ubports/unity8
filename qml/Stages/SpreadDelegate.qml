@@ -57,6 +57,7 @@ Item {
 
         ApplicationWindow {
             id: appWindow
+            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
             anchors {
                 fill: parent
                 topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin

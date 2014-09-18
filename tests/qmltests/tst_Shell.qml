@@ -21,6 +21,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
 import LightDM 0.1 as LightDM
+import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
@@ -29,10 +30,9 @@ import Powerd 0.1
 
 import "../../qml"
 
-Item {
+Row {
     id: root
-    width: shell.width
-    height: shell.height
+    spacing: 0
 
     QtObject {
         id: applicationArguments
@@ -50,13 +50,52 @@ Item {
         }
     }
 
-    Shell {
-        id: shell
+    Loader {
+        id: shellLoader
+
+        // Copied from Shell.qml
+        property bool tablet: false
+        width: tablet ? units.gu(160)
+                      : applicationArguments.hasGeometry() ? applicationArguments.width()
+                                                           : units.gu(40)
+        height: tablet ? units.gu(100)
+                       : applicationArguments.hasGeometry() ? applicationArguments.height()
+                                                            : units.gu(71)
+
+        property bool itemDestroyed: false
+        sourceComponent: Component {
+            Shell {
+                Component.onDestruction: {
+                    shellLoader.itemDestroyed = true;
+                }
+            }
+        }
     }
 
-    Component {
-        id: shellComponent
-        Shell {}
+    Rectangle {
+        color: "white"
+        width: units.gu(30)
+        height: shellLoader.height
+
+        Column {
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+            spacing: units.gu(1)
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                Button {
+                    text: "Show Greeter"
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return;
+
+                        var greeter = testCase.findChild(shellLoader.item, "greeter");
+                        if (!greeter.shown) {
+                            greeter.show();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     SignalSpy {
@@ -81,10 +120,13 @@ Item {
     }
 
     UT.UnityTestCase {
+        id: testCase
         name: "Shell"
         when: windowShown
 
-        function initTestCase() {
+        property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
+
+        function init() {
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
@@ -92,17 +134,30 @@ Item {
         }
 
         function cleanup() {
-            // If a test invoked the greeter, make sure we swipe it away again
-            var greeter = findChild(shell, "greeter");
-            if (greeter.shown) {
-                swipeAwayGreeter();
-            }
+            shellLoader.itemDestroyed = false;
+
+            shellLoader.active = false;
+
+            tryCompare(shellLoader, "status", Loader.Null);
+            tryCompare(shellLoader, "item", null);
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // item might still be alive. So if we set Loader.active back to true
+            // again right now we will get the very same Shell instance back. So no reload
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(shellLoader, "itemDestroyed", true);
 
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
-            waitForUIToSettle();
-            hideIndicators();
+            unlockAllModemsSpy.clear()
+
+            // reload our test subject to get it in a fresh state once again
+            shellLoader.active = true;
+
+            tryCompare(shellLoader, "status", Loader.Ready);
+            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
         }
 
         function killApps() {
@@ -241,10 +296,27 @@ Item {
             tryCompare(item, "visible", false);
         }
 
+        // wait until any transition animation has finished
+        function waitUntilTransitionsEnd(stateGroup) {
+            var transitions = stateGroup.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        // Wait until the ApplicationWindow for the given Application object is fully loaded
+        // (ie, the real surface has replaced the splash screen)
+        function waitUntilAppWindowIsFullyLoaded(app) {
+            var appWindow = findChild(shell, "appWindow_" + app.appId);
+            var appWindowStateGroup = findInvisibleChild(appWindow, "applicationWindowStateGroup");
+            tryCompareFunction(function() { return appWindowStateGroup.state === "surface" }, true);
+            waitUntilTransitionsEnd(appWindowStateGroup);
+        }
+
         function test_surfaceLosesFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
-            // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
+            waitUntilAppWindowIsFullyLoaded(app);
 
             tryCompare(app.session.surface, "focus", true);
 
@@ -465,13 +537,9 @@ Item {
         }
 
         function test_unlockAllModemsOnBoot() {
-            unlockAllModemsSpy.clear()
-            // actually create an object so we notice the onCompleted signal
-            var greeter = shellComponent.createObject(root)
             // TODO reenable when service ready (LP: #1361074)
             expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
-            greeter.destroy()
         }
     }
 }
