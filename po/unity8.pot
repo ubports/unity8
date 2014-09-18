@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid "Password: "
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:44
+#: plugins/Unity/Launcher/launcheritem.cpp:74
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:74
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -79,6 +79,10 @@ msgid "Power off"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr ""
 
@@ -153,36 +157,36 @@ msgstr ""
 msgid "Hello"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:364 qml/Dash/GenericScopeView.qml:483
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:364
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Dash/GenericScopeView.qml:427 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr ""
 
@@ -198,15 +202,15 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:201
+#: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Dash"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:417
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:443
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr ""
 
@@ -242,15 +246,15 @@ msgstr ""
 msgid "Speaking..."
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
 msgstr ""
 
@@ -294,51 +298,51 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Shell.qml:279
+#: qml/Shell.qml:292
 msgid "Enter your passphrase"
 msgstr ""
 
-#: qml/Shell.qml:280
+#: qml/Shell.qml:293
 msgid "Sorry, incorrect passphrase"
 msgstr ""
 
-#: qml/Shell.qml:282
+#: qml/Shell.qml:295
 msgid "Enter your passcode"
 msgstr ""
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:296
 msgid "Sorry, incorrect passcode"
 msgstr ""
 
-#: qml/Shell.qml:286
+#: qml/Shell.qml:299
 #, qt-format
 msgid "Enter your %1"
 msgstr ""
 
-#: qml/Shell.qml:287
+#: qml/Shell.qml:300
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr ""
 
-#: qml/Shell.qml:323
+#: qml/Shell.qml:335
 msgid "Sorry, incorrect passphrase."
 msgstr ""
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:336
 msgid "Sorry, incorrect passcode."
 msgstr ""
 
-#: qml/Shell.qml:325
+#: qml/Shell.qml:337
 msgid "This will be your last attempt."
 msgstr ""
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:339
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:340
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
