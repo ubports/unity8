@@ -37,7 +37,7 @@ Item {
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
-    property alias showSignatureLine: bottomBorder.visible
+    property bool showSignatureLine: true
 
     property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
@@ -346,6 +346,7 @@ Item {
 
     Rectangle {
         id: bottomBorder
+        visible: showSignatureLine
         anchors {
             top: headerContainer.bottom
             left: parent.left

@@ -295,6 +295,7 @@ Item {
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
+                tryCompare(findChild(genericScopeView, "categoryListView"), "visible", false);
             }
 
             function closePreview() {
@@ -303,6 +304,9 @@ Item {
 
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                tryCompare(categoryListView, "visible", true);
+                tryCompare(categoryListView, "x", 0);
             }
 
             function test_previewOpenClose() {
