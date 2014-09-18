@@ -1,3 +1,6 @@
+include(FindPkgConfig)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=3)
+
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
@@ -7,6 +10,7 @@ set(QMLDASHCOMMUNICATORPLUGIN_SRC
     dbusdashcommunicatorservice.cpp
     dashcommunicatorservice.cpp
     dashcommunicator.cpp
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     )
 
 add_library(DashCommunicator-qml MODULE

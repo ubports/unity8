@@ -103,6 +103,7 @@ Item {
     DashCommunicator {
         id: dash
         objectName: "dashCommunicator"
+        applicationManager: ApplicationManager
     }
 
     WindowKeysFilter {
