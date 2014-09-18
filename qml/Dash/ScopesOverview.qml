@@ -325,19 +325,14 @@ Item {
                         }
                     }
                     onPressAndHold: {
-                        var previewStack = root.scope.preview(result);
-                        if (previewStack)
-                        {
-                            // Preview can call openScope so make sure restorePosition and restoreSize are set
-                            scopesOverviewXYScaler.restorePosition = undefined;
-                            scopesOverviewXYScaler.restoreSize = allCardSize;
+                        // Preview can call openScope so make sure restorePosition and restoreSize are set
+                        scopesOverviewXYScaler.restorePosition = undefined;
+                        scopesOverviewXYScaler.restoreSize = allCardSize;
 
-                            previewListView.previewModel = previewStack.getPreviewModel(0);
-                            previewListView.model = target.model;
-                            previewListView.currentIndex = -1;
-                            previewListView.currentIndex = index;
-                            previewListView.open = true;
-                        }
+                        previewListView.model = target.model;
+                        previewListView.currentIndex = -1;
+                        previewListView.currentIndex = index;
+                        previewListView.open = true;
                     }
                 }
             }
