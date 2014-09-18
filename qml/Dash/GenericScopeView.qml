@@ -187,7 +187,7 @@ FocusScope {
                             if (!shrinkingAny) {
                                 categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
                             } else {
-                                // If the space that shrkinking is smaller than the one we need to grow we'll call maximizeVisibleArea
+                                // If the space that shrinking is smaller than the one we need to grow we'll call maximizeVisibleArea
                                 // after the shrink/grow animation ends
                                 var growHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
                                 if (growHeightDifference > shrinkHeightDifference) {
