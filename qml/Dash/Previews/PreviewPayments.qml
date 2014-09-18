@@ -65,7 +65,9 @@ PreviewWidget {
             }
             onPurchaseCancelled: {
                 paymentButton.opacity = 1;
-                root.triggered(widgetId, "purchaseCancelled", source);
+                // DO NOT emit the signal right now, as it causes a new
+                // preview to be requested, when that is not what we want.
+                //root.triggered(widgetId, "purchaseCancelled", source);
             }
         }
     }

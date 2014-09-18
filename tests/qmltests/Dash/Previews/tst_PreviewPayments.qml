@@ -183,12 +183,16 @@ Rectangle {
             tryCompare(button, "opacity", 0);
 
             paymentClient.process();
-            spy.wait();
 
-            var args = spy.signalArguments[0];
-            compare(args[0], "previewPayments");
-            compare(args[1], "purchaseCancelled");
-            compare(args[2], jsonPurchaseCancel["source"]);
+            // Signal is not used at the moment, to avoid preview refresh.
+            /*
+             *spy.wait();
+             *
+             * var args = spy.signalArguments[0];
+             * compare(args[0], "previewPayments");
+             * compare(args[1], "purchaseCancelled");
+             * compare(args[2], jsonPurchaseCancel["source"]);
+             */
 
             tryCompare(progress, "visible", false);
             tryCompare(progress, "opacity", 0);
