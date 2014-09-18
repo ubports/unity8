@@ -54,8 +54,8 @@ public:
     unity::shell::scopes::ScopeInterface* overviewScope() const override;
 
     // This is used as part of implementation of the other C++ code, not API
-    QList<Scope*> scopes() const;
-    QList<Scope*> allScopes() const;
+    QList<Scope*> favScopes() const;
+    QList<Scope*> nonFavScopes() const;
     Q_INVOKABLE Scope* getScopeFromAll(const QString& scope_id) const;
 
 private Q_SLOTS:

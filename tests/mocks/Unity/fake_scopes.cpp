@@ -164,14 +164,19 @@ unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
     return m_scopesOverview;
 }
 
-QList<Scope*> Scopes::scopes() const
+QList<Scope*> Scopes::favScopes() const
 {
     return m_scopes;
 }
 
-QList<Scope*> Scopes::allScopes() const
+QList<Scope*> Scopes::nonFavScopes() const
 {
-    return m_allScopes;
+    QList<Scope*> res;
+    for (Scope *scope : m_allScopes) {
+        if (!m_scopes.contains(scope))
+            res << scope;
+    }
+    return res;
 }
 
 void Scopes::addScope(Scope* scope)

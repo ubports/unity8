@@ -76,12 +76,12 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    const QString categoryId = index.row() == 0 ? "favorites" : "all";
+    const QString categoryId = index.row() == 0 ? "favorites" : "nonfavorites";
 
     unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewCategories*>(this);
-        QList<Scope*> scopes = index.row() == 0 ? m_scopes->scopes() : m_scopes->allScopes();
+        QList<Scope*> scopes = index.row() == 0 ? m_scopes->favScopes() : m_scopes->nonFavScopes();
         resultsModel = new ScopesOverviewResultsModel(scopes, categoryId, that);
         m_resultsModels[index.row()] = resultsModel;
     }
@@ -89,7 +89,7 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
         case RoleCategoryId:
             return categoryId;
         case RoleName:
-            return index.row() == 0 ? "Favorites" : "All";
+            return index.row() == 0 ? "Favorites" : "Non Favorites";
         case RoleIcon:
             return QVariant();
         case RoleRawRendererTemplate:
