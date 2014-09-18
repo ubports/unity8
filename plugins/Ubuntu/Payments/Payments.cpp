@@ -42,11 +42,11 @@ static void observer(PayPackage* /* package */, const char* itemid, PayPackageIt
         Q_EMIT self->purchaseCompleted();
         break;
     case PAY_PACKAGE_ITEM_STATUS_PURCHASING:
-        self->m_purchasing = true;
+        self->setPurchasing(true);
         break;
     case PAY_PACKAGE_ITEM_STATUS_NOT_PURCHASED:
-        if (self->m_purchasing) {
-            self->m_purchasing = false;
+        if (self->purchasing()) {
+            self->setPurchasing(false);
             Q_EMIT self->purchaseCancelled();
         }
         break;
@@ -56,7 +56,8 @@ static void observer(PayPackage* /* package */, const char* itemid, PayPackageIt
 }
 
 Payments::Payments(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_purchasing(false)
 {
     m_package = pay_package_new("click-scope");
     pay_package_item_observer_install(m_package, observer, this);
@@ -89,6 +90,11 @@ QString Payments::formattedPrice() const
     return locale.toCurrencyString(m_price, m_currency);
 }
 
+bool Payments::purchasing() const
+{
+    return m_purchasing;
+}
+
 void Payments::setCurrency(const QString &currency)
 {
     if(m_currency != currency) {
@@ -119,6 +125,11 @@ void Payments::setStoreItemId(const QString &store_item_id)
     }
 
     pay_package_item_start_verification(m_package, m_store_item_id.toLocal8Bit().data());
+}
+
+void Payments::setPurchasing(bool is_purchasing)
+{
+    m_purchasing = is_purchasing;
 }
 
 void Payments::start()

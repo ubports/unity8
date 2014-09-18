@@ -39,10 +39,12 @@ public:
     double price() const;
     QString storeItemId() const;
     QString formattedPrice() const;
+    bool purchasing() const;
 
     void setCurrency(const QString& currency);
     void setPrice(const double price);
     void setStoreItemId(const QString& store_item_id);
+    void setPurchasing(bool is_purchasing);
     Q_INVOKABLE void start();
 
 Q_SIGNALS:
@@ -55,13 +57,11 @@ Q_SIGNALS:
     void purchaseCompleted();
     void purchaseCancelled();
 
-public:
-    bool m_purchasing = false;
-
 private:
     QString m_currency;
     double m_price;
     QString m_store_item_id;
+    bool m_purchasing;
 
     PayPackage *m_package;
 };
