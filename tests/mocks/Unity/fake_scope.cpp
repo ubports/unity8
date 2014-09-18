@@ -178,8 +178,7 @@ PreviewStack* Scope::preview(QVariant const& result)
 
     if (m_returnNullPreview) {
         return nullptr;
-    }
-    else {
+    } else {
         // This probably leaks, do we don't care
         // it's a  test after all
         return new PreviewStack;
