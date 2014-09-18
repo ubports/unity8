@@ -35,11 +35,11 @@ QStringList GSettings::storedApplications() const
     QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
 
     Q_FOREACH(const QString &entry, gSettings.get("items").toStringList()) {
-        if (entry.startsWith("application://")) {
+        if (entry.startsWith("application:///")) {
             // convert legacy entries to new world appids
             QString appId = entry;
             // Transform "application://foobar.desktop" to "foobar"
-            appId.remove(QRegExp("^application://"));
+            appId.remove(QRegExp("^application:///"));
             appId.remove(QRegExp(".desktop$"));
             storedApps << appId;
         } else if (entry.startsWith("appid://")) {
