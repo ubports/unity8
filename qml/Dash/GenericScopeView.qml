@@ -70,13 +70,17 @@ FocusScope {
             // so it's not implemented
             scope.activate(result)
         } else {
-            openPreview(index, resultsModel, limitedCategoryItemCount);
+            if (scope.preview(result)) {
+                openPreview(index, resultsModel, limitedCategoryItemCount);
+            }
         }
     }
 
-    function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
+    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") !== 0) {
-            openPreview(index, resultsModel, limitedCategoryItemCount);
+            if (scope.preview(result)) {
+                openPreview(index, resultsModel, limitedCategoryItemCount);
+            }
         }
     }
 
@@ -331,7 +335,7 @@ FocusScope {
                     }
 
                     onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, itemModel, target.model, categoryItemCount());
+                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount());
                     }
 
                     function categoryItemCount() {

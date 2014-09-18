@@ -320,6 +320,34 @@ Item {
                 closePreview();
             }
 
+            function test_tryOpenNullPreview() {
+                genericScopeView.scope = scopes.getScope("NullPreviewScope");
+
+                tryCompareFunction(function() {
+                                        var cardGrid = findChild(genericScopeView, 0);
+                                        if (cardGrid != null) {
+                                            var tile = findChild(cardGrid, 0);
+                                            return tile != null;
+                                        }
+                                        return false;
+                                    },
+                                    true);
+                var tile = findChild(findChild(genericScopeView, 0), 0);
+
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+
+                mousePress(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+                mouseRelease(tile, tile.width / 2, tile.height / 2);
+            }
+
             function test_showPreviewCarousel() {
                 var category = scrollToCategory("dashCategory1");
 
