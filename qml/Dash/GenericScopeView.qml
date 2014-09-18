@@ -171,10 +171,9 @@ FocusScope {
                 if (baseItem.expandable) {
                     var shouldExpand = baseItem.category === expandedCategoryId;
                     if (shouldExpand != baseItem.expanded) {
-
                         var animate = false;
                         if (!subPageLoader.open) {
-                            var animateShrinking = !shouldExpand  && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAllButton.height < categoryView.height;
+                            var animateShrinking = !shouldExpand && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAllButton.height < categoryView.height;
                             var animateGrowing = shouldExpand && baseItem.y + baseItem.height < categoryView.height;
                             animate = shrinkingAny || animateShrinking || animateGrowing;
                         }
