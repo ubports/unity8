@@ -170,10 +170,11 @@ Row {
 
         function test_leftEdgeDrag_data() {
             return [
-                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true},
-                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true},
-                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false},
-                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true}
+                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
+                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
+                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false},
+                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
+                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false}
             ];
         }
 
@@ -181,16 +182,22 @@ Row {
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
+            ApplicationManager.focusApplication(data.focusedApp)
+            waitUntilApplicationWindowIsFullyVisible();
 
             if (data.revealLauncher) {
                 dragLauncherIntoView();
             }
 
             swipeFromLeftEdge(data.swipeLength);
-            if (data.appHides)
+            if (data.appHides) {
                 waitUntilDashIsFocused();
-            else
+            } else {
                 waitUntilApplicationWindowIsFullyVisible();
+            }
+
+            var launcher = findChild(shell, "launcherPanel");
+            tryCompare(launcher, "x", data.launcherHides ? -launcher.width : 0)
         }
 
         function test_suspend() {
