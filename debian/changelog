@@ -1,3 +1,20 @@
+unity8 (8.00+14.10.20140918-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * Focus first app if there are already some running when we're
+    starting up (LP: #1339883)
+
+  [ Michał Sawicz ]
+  * Don't play empty urls in Notification.qml
+
+  [ Daniel d'Andrada ]
+  * Improve tst_Shell
+  * Build without any warnings
+  * Make tst_Card work from outside the source tree (LP:1359201) (LP:
+    #1359201)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 18 Sep 2014 09:44:06 +0000
+
 unity8 (8.00+14.10.20140910.1-0ubuntu1) utopic; urgency=low
 
   [ Pete Woods ]
