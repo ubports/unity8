@@ -66,25 +66,23 @@ FocusScope {
             // so it's not implemented
             scope.activate(result)
         } else {
-            var previewStack = scope.preview(result);
-            if (previewStack)
+            if (scope.preview(result))
             {
-                openPreview(index, resultsModel, limitedCategoryItemCount, previewStack);
+                openPreview(index, resultsModel, limitedCategoryItemCount);
             }
         }
     }
 
     function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") !== 0) {
-            var previewStack = scope.preview(result);
-            if (previewStack)
+            if (scope.preview(result))
             {
-                openPreview(index, resultsModel, limitedCategoryItemCount, previewStack);
+                openPreview(index, resultsModel, limitedCategoryItemCount);
             }
         }
     }
 
-    function openPreview(index, resultsModel, limitedCategoryItemCount, previewStack) {
+    function openPreview(index, resultsModel, limitedCategoryItemCount) {
         if (limitedCategoryItemCount > 0) {
             previewLimitModel.model = resultsModel;
             previewLimitModel.limit = limitedCategoryItemCount;
@@ -94,7 +92,6 @@ FocusScope {
         }
         subPageLoader.initialIndex = -1;
         subPageLoader.initialIndex = index;
-        subPageLoader.previewModel = previewStack.getPreviewModel(0);
         subPageLoader.openSubPage("preview");
     }
 
@@ -527,7 +524,6 @@ FocusScope {
         property var scopeStyle: scopeView.scopeStyle
         property int initialIndex: -1
         property var model: null
-        property var previewModel: null
 
         readonly property bool processing: item && item.processing || false
         readonly property int count: item && item.count || 0
@@ -558,7 +554,6 @@ FocusScope {
                 item.open = Qt.binding(function() { return subPageLoader.open; } )
                 item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
                 item.model = Qt.binding(function() { return subPageLoader.model; } )
-                item.previewModel = Qt.binding(function() { return subPageLoader.previewModel; } )
             }
             open = true;
         }
