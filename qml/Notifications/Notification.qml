@@ -262,7 +262,7 @@ Item {
                         fontSize: "small"
                         color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
-                        maximumLineCount: 2
+                        maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
