@@ -409,6 +409,16 @@ void ListViewWithPageHeader::showHeader()
     }
 }
 
+int ListViewWithPageHeader::firstCreatedIndex() const
+{
+    return m_firstVisibleIndex;
+}
+
+int ListViewWithPageHeader::createdItemCount() const
+{
+    return m_visibleItems.count();
+}
+
 QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
 {
     ListItem *item = itemAtIndex(modelIndex);
@@ -520,7 +530,7 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
             // (but the header was not shown by it's own position)
             // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
-            const bool notRebounding = contentY() + height() < contentHeight();
+            const bool notRebounding = qRound(contentY() + height()) < qRound(contentHeight());
             const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 

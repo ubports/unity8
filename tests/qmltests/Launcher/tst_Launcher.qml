@@ -194,7 +194,9 @@ Item {
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "countEmblem").visible, LauncherModel.get(i).count > 0)
+                compare(findChild(delegate, "countEmblem").visible, LauncherModel.get(i).countVisible)
+                // Intentionally allow type coercion (string/number)
+                compare(findChild(delegate, "countLabel").text == LauncherModel.get(i).count, true)
             }
         }
 

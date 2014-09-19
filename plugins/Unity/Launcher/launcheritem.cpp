@@ -32,6 +32,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_recent(false),
     m_progress(-1),
     m_count(0),
+    m_countVisible(false),
     m_focused(false),
     m_quickList(new QuickListModel(this))
 {
@@ -55,9 +56,25 @@ QString LauncherItem::name() const
     return m_name;
 }
 
+void LauncherItem::setName(const QString &name)
+{
+    if (m_name != name) {
+        m_name = name;
+        Q_EMIT nameChanged(name);
+    }
+}
+
 QString LauncherItem::icon() const
 {
     return m_icon;
+}
+
+void LauncherItem::setIcon(const QString &icon)
+{
+    if (m_icon != icon) {
+        m_icon = icon;
+        Q_EMIT iconChanged(icon);
+    }
 }
 
 bool LauncherItem::pinned() const
@@ -126,6 +143,19 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
+    }
+}
+
+bool LauncherItem::countVisible() const
+{
+    return m_countVisible;
+}
+
+void LauncherItem::setCountVisible(bool countVisible)
+{
+    if (m_countVisible != countVisible) {
+        m_countVisible = countVisible;
+        Q_EMIT countVisibleChanged(countVisible);
     }
 }
 
