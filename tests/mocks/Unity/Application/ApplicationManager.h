@@ -102,6 +102,9 @@ class ApplicationManager : public ApplicationManagerInterface {
     bool suspended() const;
     void setSuspended(bool suspended);
 
+    bool dashActive() const;
+    void setDashActive(bool dashActive);
+
     // Only for testing
     Q_INVOKABLE QStringList availableApplications();
     Q_INVOKABLE ApplicationInfo* add(QString appId);
@@ -124,6 +127,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     void buildListOfAvailableApplications();
     void onWindowCreated();
     bool m_suspended;
+    bool m_dashActive;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QTimer m_windowCreatedTimer;
