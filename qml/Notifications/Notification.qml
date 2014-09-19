@@ -40,6 +40,7 @@ Item {
     property bool fullscreen: false
     property int maxHeight
     property int margins
+    property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
     readonly property color red: "#fc4949"
     readonly property color green: "#3fb24f"
     readonly property color sdLightGrey: "#eaeaea"
@@ -50,7 +51,7 @@ Item {
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + contentSpacing * 2) : 0
 
-    color: (type == Notification.Confirmation && notificationList.useModal && !greeter.shown) || (type == Notification.SnapDecision) ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
+    color: (type == Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
 
     state: {
@@ -247,7 +248,7 @@ Item {
                         }
                         visible: type != Notification.Confirmation
                         fontSize: "medium"
-                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -262,7 +263,7 @@ Item {
                         }
                         visible: body != ""
                         fontSize: "small"
-                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
                         maximumLineCount: 2
                         elide: Text.ElideRight
