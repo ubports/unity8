@@ -135,8 +135,8 @@ Item {
      */
     readonly property int titleAlignment: {
         if (template["card-layout"] === "horizontal"
-            || typeof components["title"] !== "object"
-            || components["title"]["align"] !== "center") return Text.AlignLeft;
+            || (typeof components["title"] !== "object" &&
+                components["title"]["align"] !== "center")) return Text.AlignLeft;
 
         var keys = ["mascot", "emblem", "subtitle", "attributes", "summary"];
 
