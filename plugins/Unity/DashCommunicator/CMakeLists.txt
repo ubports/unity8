@@ -1,5 +1,5 @@
 include(FindPkgConfig)
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=3)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=4)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
