@@ -39,11 +39,11 @@ gboolean
 is_locale_12h(void)
 {
     int i;
-    static const char *formats_24h[] = {"%H", "%R", "%T", "%OH", "%k", NULL};
+    static const char *formats_24h[] = {"%H", "%R", "%T", "%OH", "%k", nullptr};
     const char* t_fmt = nl_langinfo(T_FMT);
 
-    for (i=0; formats_24h[i]!=NULL; i++)
-        if (strstr(t_fmt, formats_24h[i]) != NULL)
+    for (i=0; formats_24h[i]!=nullptr; i++)
+        if (strstr(t_fmt, formats_24h[i]) != nullptr)
             return FALSE;
 
     return TRUE;
@@ -129,7 +129,7 @@ getDateProximity(GDateTime* now, GDateTime* time)
 const char*
 dgettext_datetime(const char *text)
 {
-  return dgettext("indicator-datetime", text);
+    return dgettext("indicator-datetime", text);
 }
 
 /**
@@ -150,9 +150,9 @@ dgettext_datetime(const char *text)
 char* generate_full_format_string_at_time (GDateTime* now,
                                            GDateTime* then)
 {
-    GString* ret = g_string_new (NULL);
+    GString* ret = g_string_new (nullptr);
 
-    if (then != NULL) {
+    if (then != nullptr) {
         const date_proximity_t prox = getDateProximity(now, then);
 
         if (is_locale_12h()) {

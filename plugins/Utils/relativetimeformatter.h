@@ -21,6 +21,7 @@
 #include "timeformatter.h"
 
 // TODO - move this to the sdk
+// https://blueprints.launchpad.net/ubuntu-ui-toolkit/+spec/time-formatter
 class RelativeTimeFormatter : public GDateTimeFormatter
 {
     Q_OBJECT

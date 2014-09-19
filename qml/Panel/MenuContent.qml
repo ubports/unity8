@@ -58,6 +58,7 @@ Rectangle {
         snapMode: ListView.SnapOneItem
         highlightRangeMode: ListView.StrictlyEnforceRange
         boundsBehavior: Flickable.StopAtBounds
+        // Load all the indicator menus (a big number)
         cacheBuffer: 1073741823
 
         delegate: Header {
@@ -95,6 +96,7 @@ Rectangle {
         interactive: false
         highlightMoveDuration: 0
         orientation: ListView.Horizontal
+        // Load all the indicator menus (a big number)
         cacheBuffer: 1073741823
 
         delegate: Loader {

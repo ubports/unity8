@@ -65,7 +65,6 @@ Item {
         }
     }
 
-
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
             return object[propertyName];
@@ -133,7 +132,6 @@ Item {
             }
         }
     }
-
 
     Component {
         id: buttonMenu;
@@ -268,7 +266,7 @@ Item {
             component: menuData.icon ? icon : undefined
             Component {
                 id: icon
-                Icon{
+                Icon {
                     source: menuData.icon
                     height: units.gu(3)
                     width: height

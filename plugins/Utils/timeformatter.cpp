@@ -126,7 +126,6 @@ TimeFormatter::TimeFormatter(const QString &initialFormat, QObject *parent): Tim
     priv->format = initialFormat;
 }
 
-
 TimeFormatter::~TimeFormatter()
 {
     if (priv->system_bus) {
