@@ -93,7 +93,7 @@ ColumnLayout {
                 onCheckedChanged: {
                     if (checked) {
                         root.session.createSurface();
-                    } else if (root.session.surface) {
+                    } else if (root.session && root.session.surface) {
                         ApplicationTest.removeSurface(root.session.surface);
                     }
                 }
