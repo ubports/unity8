@@ -7,6 +7,7 @@ Build-Depends: cmake,
                debhelper (>= 9),
                doxyqml,
                graphviz,
+               gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
 # We rely on C++11 features, and to prevent from ABI breaks
 # in libstdc++ causing us issues, we explicitly select a G++
 # version.
