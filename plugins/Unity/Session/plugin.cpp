@@ -18,17 +18,20 @@
 
 #include "plugin.h"
 #include "dbusunitysessionservice.h"
+#include "orientationlock.h"
 
 #include <QAbstractItemModel>
 #include <QDBusConnection>
 #include <QtQml/qqml.h>
 
-static QObject *dbusunitysessionservice_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *dbusunitysessionservice_provider(QQmlEngine */*engine*/, QJSEngine */*jsEngine*/)
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-
     return new DBusUnitySessionService();
+}
+
+static QObject *orientationlock_provider(QQmlEngine */*engine*/, QJSEngine */*jsEngine*/)
+{
+    return new OrientationLock();
 }
 
 void SessionPlugin::registerTypes(const char *uri)
@@ -37,4 +40,5 @@ void SessionPlugin::registerTypes(const char *uri)
 
     Q_ASSERT(uri == QLatin1String("Unity.Session"));
     qmlRegisterSingletonType<DBusUnitySessionService>(uri, 0, 1, "DBusUnitySessionService", dbusunitysessionservice_provider);
+    qmlRegisterSingletonType<OrientationLock>(uri, 0, 1, "OrientationLock", orientationlock_provider);
 }

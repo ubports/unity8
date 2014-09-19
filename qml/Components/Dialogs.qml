@@ -154,6 +154,16 @@ Item {
                 color: UbuntuColors.red
             }
             Button {
+                text: i18n.tr("Restart")
+                onClicked: {
+                    dBusUnitySessionServiceConnection.closeAllApps();
+                    DBusUnitySessionService.Reboot();
+                    PopupUtils.close(dialoguePower);
+                    d.dialogShown = false;
+                }
+                color: UbuntuColors.green
+            }
+            Button {
                 text: i18n.tr("Cancel")
                 onClicked: {
                     PopupUtils.close(dialoguePower);

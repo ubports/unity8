@@ -11,7 +11,6 @@ macro(run_tests)
               -o ${CMAKE_BINARY_DIR}/${_test}.xml,xunitxml
               -o -,txt)
         add_test(NAME ${_test} COMMAND ${testCommand})
-        set_tests_properties(${_test} PROPERTIES ENVIRONMENT "LC_ALL=C.UTF-8")
         add_custom_target(${_test} env "LC_ALL=C.UTF-8" ${testCommand})
         add_executable(${_test}Exec ${_test}.cpp modeltest.cpp)
         qt5_use_modules(${_test}Exec Test Core Qml)

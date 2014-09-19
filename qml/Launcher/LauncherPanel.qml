@@ -156,6 +156,7 @@ Rectangle {
                         height: itemHeight
                         iconName: model.icon
                         count: model.count
+                        countVisible: model.countVisible
                         progress: model.progress
                         clipCorner: model.pinned
                         itemFocused: model.focused

@@ -243,10 +243,9 @@ Item {
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
+                    root.switchToNextState("visible")
                     if (distance > minimizeDistance) {
                         root.dash();
-                    } else {
-                        root.switchToNextState("visible")
                     }
                 } else {
                     root.switchToNextState("")
