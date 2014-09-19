@@ -47,6 +47,8 @@ void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, boo
     }
 
     if (m_dashInterface && m_dashInterface->isValid()) {
+        // Using an async call just in case the Dash would fail to wake up from suspend
+        // We don't want to hang the whole shell waiting for reply.
         m_dashInterface->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
     }
 }
@@ -60,6 +62,7 @@ void DashCommunicator::connectToDash()
 
     if (m_applicationManager) {
         ApplicationInfoInterface *dash = m_applicationManager->findApplication("unity8-dash");
+        // Don't try to connect to the Dash while its suspended, it would hang the shell waiting for a reply.
         if (dash && dash->state() == ApplicationInfoInterface::Running) {
             QDBusConnection connection = QDBusConnection::sessionBus();
             m_dashInterface = new QDBusInterface("com.canonical.UnityDash",
@@ -85,9 +88,10 @@ void DashCommunicator::setApplicationManager(unity::shell::application::Applicat
 
         connect(m_applicationManager, &unity::shell::application::ApplicationManagerInterface::applicationAdded, this, &DashCommunicator::applicationAdded);
         connect(m_applicationManager, &unity::shell::application::ApplicationManagerInterface::applicationRemoved, this, &DashCommunicator::applicationRemoved);
-        
+
+        // If the Dash is around already, immediately try to connect
         if (m_applicationManager->findApplication("unity8-dash")) {
-            applicationAdded("unity8-dash");
+            connectToDash();
         }
     }
 }
@@ -99,7 +103,7 @@ void DashCommunicator::applicationAdded(const QString &appId)
     }
     ApplicationInfoInterface *app = m_applicationManager->findApplication(appId);
     if (!app) {
-        qWarning() << "DashCommunicator received an applicationAdded signal for dash, but there's no dash!";
+        qWarning() << "DashCommunicator received an applicationAdded signal for the dash, but there's no dash around!";
         return;
     }
     connectToDash();
@@ -110,6 +114,8 @@ void DashCommunicator::applicationRemoved(const QString &appId)
     if (appId != "unity8-dash") {
         return;
     }
-    m_dashInterface->deleteLater();
-    m_dashInterface = nullptr;
+    if (m_dashInterface) {
+        m_dashInterface->deleteLater();
+        m_dashInterface = nullptr;
+    }
 }
