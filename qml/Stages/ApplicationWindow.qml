@@ -27,6 +27,7 @@ Item {
 
     // to be set from outside
     property QtObject application
+    property int orientation
 
     QtObject {
         id: d
@@ -111,6 +112,7 @@ Item {
         id: sessionContainer
         session: application ? application.session : null
         anchors.fill: parent
+        orientation: root.orientation
 
         onSurfaceChanged: {
             if (sessionContainer.surface) {
