@@ -176,13 +176,6 @@ Showable {
         id: scopeItem
         objectName: "dashTempScopeItem"
 
-        readonly property real targetOverviewScale: {
-            if (scopesOverview.currentTab == 0) {
-                return 0.4;
-            } else {
-                return scopesOverview.allCardSize.width / scopeItem.width;
-            }
-        }
         x: dashContent.x + width
         y: dashContent.y
         width: parent.width
