@@ -69,13 +69,13 @@ Label {
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
-                        maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; 
+                        maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: lineCount === 2 ? Text.AlignLeft : root.titleAlignment; 
                     }
 Label { 
                             id: subtitleLabel; 

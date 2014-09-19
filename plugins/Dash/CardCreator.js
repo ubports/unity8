@@ -217,13 +217,13 @@ var kTitleLabelCode = 'Label { \n\
                         elide: Text.ElideRight; \n\
                         fontSize: "small"; \n\
                         wrapMode: Text.Wrap; \n\
-                        maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; \n\
+                        maximumLineCount: 2; \n\
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                         color: %2; \n\
                         visible: showHeader %3; \n\
                         text: root.title; \n\
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
-                        horizontalAlignment: root.titleAlignment; \n\
+                        horizontalAlignment: lineCount === 2 ? Text.AlignLeft : root.titleAlignment; \n\
                     }\n';
 
 // %1 is used as extra anchors of emblemIcon

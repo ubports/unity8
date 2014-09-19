@@ -68,13 +68,13 @@ Item {
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
-                        maximumLineCount: horizontalAlignment === Text.AlignHCenter ? 1 : 2; 
+                        maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: lineCount === 2 ? Text.AlignLeft : root.titleAlignment; 
                     }
 ,Label { 
                             id: subtitleLabel; 
