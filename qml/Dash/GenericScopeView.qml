@@ -345,27 +345,6 @@ FocusScope {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedCategoryItemChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    function collapseAllButExpandedCategory() {
-                        var item = rendererLoader.item;
-                        if (baseItem.expandable) {
-                            var shouldExpand = baseItem === categoryView.expandedCategoryItem;
-                            if (shouldExpand != baseItem.expanded) {
-                                // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
-                                var growingVisible = shouldExpand && y + height < categoryView.height;
-                                if (!subPageLoader.open || shouldExpand) {
-                                    var animate = shrinkingVisible || growingVisible;
-                                    baseItem.expand(shouldExpand, animate)
-                                    if (shouldExpand && !subPageLoader.open) {
-                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
-                                    }
-                                }
-                            }
-                        }
-                    }
                     onOriginYChanged: rendererLoader.updateRanges();
                     onContentYChanged: rendererLoader.updateRanges();
                     onHeightChanged: rendererLoader.updateRanges();
