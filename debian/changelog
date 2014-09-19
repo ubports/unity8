@@ -1,3 +1,63 @@
+unity8 (8.00+14.10.20140918.3-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Add -windowgeometry option to the Dash and drop any user-visible
+    mentions of Dash
+  * Dash: Fix issue when expanding a category and collapsing another one
+    at the same time.
+
+  [ Albert Astals ]
+  * Dash: Fix issue when expanding a category and collapsing another one
+    at the same time.
+  * Make the categoryView invisible when we are in the preview mode (LP:
+    #1341205)
+  * Pixel pushing in the dash header (LP: #1365929)
+
+  [ Ying-Chun Liu ]
+  * Re-add restart button for power menu. (LP: 1358197) (LP: #1358197)
+
+  [ Marcus Tomlinson ]
+  * Don't show a preview if a null response is returned from
+    scope.preview(result)
+
+  [ Mirco Müller ]
+  * Don't limit the number of text-lines for body-text. (LP: #1369438)
+
+  [ Michael Zanetti ]
+  * Don't hide launcher when nothing happens on long left edge swipes
+    (LP: #1357333)
+  * Rework LauncherBackend
+
+  [ Michael Terry ]
+  * When running qmluitests, make sure that they use LANGUAGE=C, fixing
+    a test failure when running locally in the US.
+
+  [ Daniel d'Andrada ]
+  * Some ApplicationWindow test improvements
+
+  [ Rodney Dawes ]
+  * Check purchase state to determine if purchase was cancelled and hide
+    progress. (LP: #1362622)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 18 Sep 2014 21:26:42 +0000
+
+unity8 (8.00+14.10.20140918-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * Focus first app if there are already some running when we're
+    starting up (LP: #1339883)
+
+  [ Michał Sawicz ]
+  * Don't play empty urls in Notification.qml
+
+  [ Daniel d'Andrada ]
+  * Improve tst_Shell
+  * Build without any warnings
+  * Make tst_Card work from outside the source tree (LP:1359201) (LP:
+    #1359201)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 18 Sep 2014 09:44:06 +0000
+
 unity8 (8.00+14.10.20140910.1-0ubuntu1) utopic; urgency=low
 
   [ Pete Woods ]
