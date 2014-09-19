@@ -21,6 +21,8 @@
 #include <unity/shell/scopes/ResultsModelInterface.h>
 
 class Scopes;
+class ScopesOverviewCategories;
+class ScopesOverviewResultsModel;
 
 class ScopesOverview : public Scope
 {
@@ -32,8 +34,11 @@ public:
     void setSearchQuery(const QString& search_query) override;
     Q_INVOKABLE void activate(QVariant const& result) override;
 
+    // This is implementation detail
+    void setFavorite(Scope *scope, bool favorite);
+
 private:
-    unity::shell::scopes::CategoriesInterface *m_scopesOverviewCategories;
+    ScopesOverviewCategories *m_scopesOverviewCategories;
     unity::shell::scopes::CategoriesInterface *m_searchCategories;
 };
 
@@ -50,8 +55,11 @@ public:
     Q_INVOKABLE void addSpecialCategory(QString const& categoryId, QString const& name, QString const& icon, QString const& rawTemplate, QObject* countObject) override;
     Q_INVOKABLE bool overrideCategoryJson(QString const& categoryId, QString const& json) override;
 
+    // This is implementation detail
+    void setFavorite(Scope *scope, bool favorite);
+
 private:
-    mutable QHash<int, unity::shell::scopes::ResultsModelInterface*> m_resultsModels;
+    mutable QHash<int, ScopesOverviewResultsModel*> m_resultsModels;
 
     Scopes *m_scopes;
 };
@@ -70,7 +78,7 @@ public:
     Q_INVOKABLE bool overrideCategoryJson(QString const& categoryId, QString const& json) override;
 
 private:
-    mutable QHash<int, unity::shell::scopes::ResultsModelInterface*> m_resultsModels;
+    mutable QHash<int, ScopesOverviewResultsModel*> m_resultsModels;
 
     Scopes *m_scopes;
 };
@@ -95,6 +103,10 @@ public:
     /* Special API */
     Q_INVOKABLE int scopeIndex(QString const& id) const;
     QHash<int, QByteArray> roleNames() const override;
+
+    // This is implementation detail
+    void appendScope(Scope *scope);
+    void removeScope(Scope *scope);
 
 private:
     QList<Scope *> m_scopes;

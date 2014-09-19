@@ -48,6 +48,11 @@ Q_INVOKABLE void ScopesOverview::activate(QVariant const& result)
     Q_EMIT openScope(m_openScope);
 }
 
+void ScopesOverview::setFavorite(Scope *scope, bool favorite)
+{
+    m_scopesOverviewCategories->setFavorite(scope, favorite);
+}
+
 ScopesOverviewCategories::ScopesOverviewCategories(Scopes *scopes, QObject* parent)
     : unity::shell::scopes::CategoriesInterface(parent)
     , m_scopes(scopes)
@@ -69,6 +74,24 @@ bool ScopesOverviewCategories::overrideCategoryJson(QString const& /* categoryId
     qFatal("Using un-implemented ScopesOverviewCategories::overrideCategoryJson");
 }
 
+void ScopesOverviewCategories::setFavorite(Scope *scope, bool favorite)
+{
+    if (m_resultsModels.value(0)) {
+        if (favorite) {
+            m_resultsModels[0]->appendScope(scope);
+        } else {
+            m_resultsModels[0]->removeScope(scope);
+        }
+    }
+    if (m_resultsModels.value(1)) {
+        if (favorite) {
+            m_resultsModels[1]->removeScope(scope);
+        } else {
+            m_resultsModels[1]->appendScope(scope);
+        }
+    }
+}
+
 QVariant
 ScopesOverviewCategories::data(const QModelIndex& index, int role) const
 {
@@ -78,7 +101,7 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
 
     const QString categoryId = index.row() == 0 ? "favorites" : "nonfavorites";
 
-    unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
+    ScopesOverviewResultsModel *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewCategories*>(this);
         QList<Scope*> scopes = index.row() == 0 ? m_scopes->favScopes() : m_scopes->nonFavScopes();
@@ -157,7 +180,7 @@ ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
 
     const QString categoryId = index.row() == 0 ? "searchA" : "searchB";
 
-    unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
+    ScopesOverviewResultsModel *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewSearchCategories*>(this);
         QList<Scope *> scopes;
@@ -256,8 +279,7 @@ int ScopesOverviewResultsModel::count() const
     return rowCount();
 }
 
-QVariant
-ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
+QVariant ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
 {
     unity::shell::scopes::ScopeInterface *scope = m_scopes[index.row()];
     switch (role) {
@@ -280,4 +302,22 @@ ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
         default:
             return QVariant();
     }
+}
+
+void ScopesOverviewResultsModel::appendScope(Scope *scope)
+{
+    Q_ASSERT(!m_scopes.contains(scope));
+    const int index = rowCount();
+    beginInsertRows(QModelIndex(), index, index);
+    m_scopes << scope;
+    endInsertRows();
+}
+
+void ScopesOverviewResultsModel::removeScope(Scope *scope)
+{
+    const int index = m_scopes.indexOf(scope);
+    Q_ASSERT(index != -1);
+    beginRemoveRows(QModelIndex(), index, index);
+    m_scopes.removeAt(index);
+    endRemoveRows();
 }

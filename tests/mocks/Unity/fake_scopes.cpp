@@ -165,6 +165,39 @@ unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
     return m_scopesOverview;
 }
 
+void Scopes::setFavorite(const QString& scopeId, bool favorite)
+{
+    if (favorite) {
+        for (Scope *scope : m_scopes) {
+            // Check it's not already there
+            Q_ASSERT(scope->id() != scopeId);
+        }
+        for (Scope *scope : m_allScopes) {
+            if (scope->id() == scopeId) {
+                const int index = rowCount();
+                beginInsertRows(QModelIndex(), index, index);
+                m_scopes << scope;
+                endInsertRows();
+                m_scopesOverview->setFavorite(scope, true);
+                return;
+            }
+        }
+        Q_ASSERT(false && "Unknown scopeId");
+    } else {
+        for (Scope *scope : m_scopes) {
+            if (scope->id() == scopeId) {
+                const int index = m_scopes.indexOf(scope);
+                beginRemoveRows(QModelIndex(), index, index);
+                m_scopes.removeAt(index);
+                endRemoveRows();
+                m_scopesOverview->setFavorite(scope, false);
+                return;
+            }
+        }
+        Q_ASSERT(false && "Unknown scopeId");
+    }
+}
+
 QList<Scope*> Scopes::favScopes() const
 {
     return m_scopes;
