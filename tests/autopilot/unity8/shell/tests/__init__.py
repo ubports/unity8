@@ -432,12 +432,6 @@ class DashBaseTestCase(AutopilotTestCase):
         binary_path = get_binary_path('unity8-dash')
         dash_proxy = self.launch_dash(binary_path, self.environment)
 
-        if self.should_simulate_device():
-            # XXX Currently we have no way to launch the application with a
-            # specific size, so we must resize it after it's launched.
-            # --elopio - 2014-06-25
-            self.resize_window()
-
         self.dash_app = dash_helpers.DashApp(dash_proxy)
         self.dash = self.dash_app.dash
         self.wait_for_dash()
@@ -470,18 +464,7 @@ class DashBaseTestCase(AutopilotTestCase):
         simulate_device_fixture = self.useFixture(
             toolkit_fixtures.SimulateDevice(
                 self.app_width, self.app_height, self.grid_unit_px))
-        self.app_width = simulate_device_fixture.app_width
-        self.app_height = simulate_device_fixture.app_height
-
-    def resize_window(self):
-        application = self.process_manager.get_running_applications()[0]
-        window = application.get_windows()[0]
-        window.resize(self.app_width, self.app_height)
-
-        def get_window_size():
-            _, _, window_width, window_height = window.geometry
-            return window_width, window_height
-
-        self.assertThat(
-            get_window_size,
-            Eventually(Equals((self.app_width, self.app_height))))
+        self.environment['GRID_UNIT_PX'] = simulate_device_fixture.grid_unit_px
+        self.environment['ARGS'] = '-windowgeometry {0}x{1}'\
+            .format(simulate_device_fixture.app_width,
+                    simulate_device_fixture.app_height)

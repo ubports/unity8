@@ -63,6 +63,7 @@ HudClientQuery *hud_client_query_new(const gchar *query)
 DeeModel *hud_client_query_get_results_model(HudClientQuery *cquery)
 {
     Q_ASSERT(cquery == HudClientStub::m_query);
+    Q_UNUSED(cquery);
     if (!resultsModel) {
         resultsModel = dee_sequence_model_new();
         dee_model_set_schema_full(resultsModel, results_model_schema, G_N_ELEMENTS(results_model_schema));
@@ -113,18 +114,21 @@ void hud_client_query_execute_toolbar_item(HudClientQuery *cquery, HudClientQuer
 {
     Q_ASSERT(cquery == HudClientStub::m_query);
     Q_UNUSED(timestamp);
+    Q_UNUSED(cquery);
     HudClientStub::m_lastExecutedToolbarItem = item;
 }
 
 void hud_client_query_set_query(HudClientQuery *cquery, const char *query)
 {
     Q_ASSERT(cquery == HudClientStub::m_query);
+    Q_UNUSED(cquery);
     HudClientStub::m_lastSetQuery = QString::fromUtf8(query);
 }
 
 void hud_client_query_execute_command(HudClientQuery *cquery, GVariant *command_key, guint timestamp)
 {
     Q_ASSERT(cquery == HudClientStub::m_query);
+    Q_UNUSED(cquery);
     Q_UNUSED(timestamp);
     for (uint i = 0; i < dee_model_get_n_rows(resultsModel); ++i) {
         DeeModelIter *iter = dee_model_get_iter_at_row(resultsModel, i);
@@ -144,6 +148,7 @@ void hud_client_query_execute_command(HudClientQuery *cquery, GVariant *command_
 HudClientParam *hud_client_query_execute_param_command(HudClientQuery *cquery, GVariant *command_key, guint timestamp)
 {
     Q_ASSERT(cquery == HudClientStub::m_query);
+    Q_UNUSED(cquery);
     Q_UNUSED(timestamp);
     for (uint i = 0; i < dee_model_get_n_rows(resultsModel); ++i) {
         DeeModelIter *iter = dee_model_get_iter_at_row(resultsModel, i);
@@ -165,12 +170,14 @@ HudClientParam *hud_client_query_execute_param_command(HudClientQuery *cquery, G
 void hud_client_query_voice_query(HudClientQuery *cquery)
 {
     Q_ASSERT(cquery == HudClientStub::m_query);
+    Q_UNUSED(cquery);
     // TODO We are not testing voice queries yet
 }
 
 gboolean hud_client_query_toolbar_item_active(HudClientQuery *cquery, HudClientQueryToolbarItems item)
 {
     Q_ASSERT(cquery == HudClientStub::m_query);
+    Q_UNUSED(cquery);
     if (item == HUD_CLIENT_QUERY_TOOLBAR_HELP)
         return HudClientStub::m_helpToolbarItemEnabled;
 
@@ -218,7 +225,7 @@ GActionGroup *hud_client_param_get_actions(HudClientParam *param)
     if (!parametrizedActionGroup) {
         GSimpleActionGroup *actionGroup = g_simple_action_group_new();
         GSimpleAction *action = g_simple_action_new("costAction", G_VARIANT_TYPE_DOUBLE);
-        g_simple_action_group_insert(actionGroup, G_ACTION(action));
+        g_action_map_add_action(G_ACTION_MAP(actionGroup), G_ACTION(action));
 
         g_signal_connect (action, "activate", G_CALLBACK (on_signal_activated), nullptr);
 

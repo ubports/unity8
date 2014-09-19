@@ -59,6 +59,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope7", "MS7", false, this));
     addScope(new Scope("MockScope8", "MS8", false, this));
     addScope(new Scope("MockScope9", "MS9", false, this));
+    addScope(new Scope("NullPreviewScope", "NPS", false, this, 1, true));
     m_scopesOverview = new ScopesOverview(this);
 
     if (!m_loaded) {
