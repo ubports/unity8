@@ -22,7 +22,7 @@ import "../Components/ListItems" as ListItems
 Item {
     id: root
 
-    property alias model: repeater.model
+    property alias model: list.model
     property var scopeStyle
     property bool isFavoriteFeeds: false
 
@@ -42,60 +42,62 @@ Item {
     property var myComponents: JSON.parse('{"art":{"aspect-ratio":1,"field":"art"},"title":{"field":"title"},"attributes":{}}')
 
 
-    Column {
-        anchors.top: header.bottom
-        Repeater {
-            id: repeater
+    ListView {
+        id: list
+        height: contentHeight
+        interactive: false
 
-            delegate: Loader {
-                asynchronous: true
+        anchors.top: header.bottom
+        delegate: Loader {
+            asynchronous: true
+            width: root.width
+            height: units.gu(6)
+            sourceComponent: Item {
+                height: units.gu(6)
                 width: root.width
-                sourceComponent: Item {
-                    height: units.gu(6)
-                    UbuntuShape {
-                        id: shape
-                        anchors {
-                            left: parent.left
-                            leftMargin: units.gu(1)
-                            verticalCenter: parent.verticalCenter
-                        }
-                        width: units.gu(5)
-                        height: units.gu(5)
-                        image: Image {
-                            source: model["art"] || ""
-                            cache: true
-                            fillMode: Image.PreserveAspectCrop
-                        }
+                UbuntuShape {
+                    id: shape
+                    anchors {
+                        left: parent.left
+                        leftMargin: units.gu(1)
+                        verticalCenter: parent.verticalCenter
                     }
-                    Label {
-                        id: titleLabel
-                        anchors {
-                            left: shape.right
-                            leftMargin: units.gu(1)
-                            right: star.right
-                            rightMargin: units.gu(1)
-                            verticalCenter: parent.verticalCenter
-                        }
-                        text: model["title"] || ""
-                        elide: Text.ElideRight
-                        wrapMode: Text.Wrap
-                        maximumLineCount: 1
-                        verticalAlignment: Text.AlignHCenter
+                    width: units.gu(5)
+                    height: units.gu(5)
+                    image: Image {
+                        source: model["art"] || ""
+                        cache: true
+                        fillMode: Image.PreserveAspectCrop
                     }
-                    Icon {
-                        id: star
-                        anchors {
-                            right: parent.right
-                            rightMargin: units.gu(1)
-                            verticalCenter: parent.verticalCenter
-                        }
-                        height: units.gu(2)
-                        width: units.gu(2)
-                        source: isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: root.requestFavorite(model.scopeId, !isFavoriteFeeds);
-                        }
+                }
+                Label {
+                    id: titleLabel
+                    anchors {
+                        left: shape.right
+                        leftMargin: units.gu(1)
+                        right: star.right
+                        rightMargin: units.gu(1)
+                        verticalCenter: parent.verticalCenter
+                    }
+                    text: model["title"] || ""
+                    elide: Text.ElideRight
+                    wrapMode: Text.Wrap
+                    maximumLineCount: 1
+                    verticalAlignment: Text.AlignHCenter
+                }
+                Icon {
+                    id: star
+                    anchors {
+                        right: parent.right
+                        rightMargin: units.gu(1)
+                        verticalCenter: parent.verticalCenter
+                    }
+                    height: units.gu(2)
+                    width: units.gu(2)
+                    source: isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: root.requestFavorite(model.scopeId, !isFavoriteFeeds);
                     }
                 }
             }
