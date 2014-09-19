@@ -32,7 +32,7 @@ class Scope : public unity::shell::scopes::ScopeInterface
 
 public:
     Scope(Scopes* parent = 0);
-    Scope(QString const& id, QString const& name, bool favorite, Scopes* parent = 0, int categories = 20);
+    Scope(QString const& id, QString const& name, bool favorite, Scopes* parent = 0, int categories = 20, bool returnNullPreview = false);
 
     /* getters */
     QString id() const override;
@@ -56,6 +56,8 @@ public:
     void setFormFactor(const QString& form_factor) override;
     void setActive(const bool) override;
     void setFavorite(const bool) override;
+    Q_INVOKABLE void setId(const QString &id); // This is not invokable in the Interface, here for testing benefits
+    Q_INVOKABLE void setName(const QString &name); // This is not invokable in the Interface, here for testing benefits
     Q_INVOKABLE void setSearchInProgress(const bool inProg); // This is not invokable in the Interface, here for testing benefits
 
     Q_INVOKABLE void activate(QVariant const& result) override;
@@ -97,6 +99,8 @@ protected:
     unity::shell::scopes::CategoriesInterface* m_categories;
     unity::shell::scopes::ScopeInterface* m_openScope;
     unity::shell::scopes::SettingsModelInterface* m_settings;
+
+    bool m_returnNullPreview;
 };
 
 #endif // FAKE_SCOPE_H

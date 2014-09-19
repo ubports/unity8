@@ -33,6 +33,10 @@ Rectangle {
         "source": { "price" : 0.99, "currency": "USD", "store_item_id": "com.example.invalid" }
     }
 
+    property var jsonPurchaseCancel: {
+        "source": { "price" : 0.99, "currency": "USD", "store_item_id": "com.example.cancel" }
+    }
+
     SignalSpy {
         id: spy
         target: previewPayments
@@ -159,6 +163,41 @@ Rectangle {
             compare(args[0], "previewPayments");
             compare(args[1], "purchaseError");
             compare(args[2], jsonPurchaseError["source"]);
+        }
+
+        function test_purchase_cancelled() {
+            // The mock Payments triggers cancellation when com.example.cancel
+            // is passed to it as store_item_id. Exercise it here
+            previewPayments.widgetData = jsonPurchaseCancel;
+
+            var button = findChild(previewPayments, "paymentButton");
+            var progress = findChild(previewPayments, "loadingBar");
+            verify(button, "Button not found.");
+            verify(progress, "Progress not found.");
+
+            mouseClick(button, button.width / 2, button.height / 2);
+
+            tryCompare(progress, "visible", true);
+            tryCompare(progress, "opacity", 1);
+            tryCompare(button, "visible", false);
+            tryCompare(button, "opacity", 0);
+
+            paymentClient.process();
+
+            // Signal is not used at the moment, to avoid preview refresh.
+            /*
+             *spy.wait();
+             *
+             * var args = spy.signalArguments[0];
+             * compare(args[0], "previewPayments");
+             * compare(args[1], "purchaseCancelled");
+             * compare(args[2], jsonPurchaseCancel["source"]);
+             */
+
+            tryCompare(progress, "visible", false);
+            tryCompare(progress, "opacity", 0);
+            tryCompare(button, "visible", true);
+            tryCompare(button, "opacity", 1);
         }
     }
 }

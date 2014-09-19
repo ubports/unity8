@@ -20,8 +20,7 @@
 #include <QtCore/QDebug>
 
 extern "C" {
-#include <hardware/hardware.h>
-#include <hardware/lights.h>
+#include "android-hardware.h"
 #include <string.h>
 }
 
