@@ -12,12 +12,13 @@ include_directories(
 
 set(IndicatorsFakeQml_SOURCES
     fakeplugin.cpp
+    fakeindicatorsmodel.cpp
+    fakeunitymenumodelcache.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/indicators.h
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/menucontentactivator.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelcache.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelstack.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/visibleindicatorsmodel.cpp
-    fakeindicatorsmodel.cpp
 )
 
 set(IndicatorsFakeQml_RESOURCES

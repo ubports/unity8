@@ -27,12 +27,15 @@ class ActionStateParser;
 class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
     Q_PROPERTY(QByteArray busName READ busName WRITE setBusName NOTIFY busNameChanged)
     Q_PROPERTY(QVariantMap actions READ actions WRITE setActions NOTIFY actionsChanged)
     Q_PROPERTY(QByteArray menuObjectPath READ menuObjectPath WRITE setMenuObjectPath NOTIFY menuObjectPathChanged)
     Q_PROPERTY(ActionStateParser* actionStateParser READ actionStateParser WRITE setActionStateParser NOTIFY actionStateParserChanged)
     Q_PROPERTY(QString nameOwner READ nameOwner NOTIFY nameOwnerChanged)
+
+    // internal mock properties
+    Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
+    Q_PROPERTY(QVariantMap rootProperties READ rootProperties WRITE setRootProperties NOTIFY rootPropertiesChanged)
 
 public:
     UnityMenuModel(QObject *parent = nullptr);
@@ -44,6 +47,9 @@ public:
 
     QVariant modelData() const;
     void setModelData(const QVariant& data);
+
+    QVariantMap rootProperties() const;
+    void setRootProperties(const QVariantMap& data);
 
     QByteArray busName() const;
     void setBusName(const QByteArray &busName);
@@ -81,8 +87,11 @@ Q_SIGNALS:
     void actionsChanged();
     void menuObjectPathChanged();
     void actionStateParserChanged();
-    void modelDataChanged();
     void nameOwnerChanged();
+
+    // Internal mock usage
+    void modelDataChanged();
+    void rootPropertiesChanged();
 
 private:
     QVariantMap rowData(int row) const;
@@ -90,6 +99,7 @@ private:
 
     class Row;
     QVariantList m_modelData;
+    QVariantMap m_rootProperties;
     QList<UnityMenuModel*> submenus;
 
     QByteArray m_busName;

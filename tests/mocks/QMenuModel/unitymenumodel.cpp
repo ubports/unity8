@@ -50,12 +50,22 @@ void UnityMenuModel::setModelData(const QVariant& data)
 {
     beginResetModel();
 
-    m_modelData.clear();
     m_modelData = data.toList();
+    Q_EMIT modelDataChanged();
 
     endResetModel();
 }
 
+QVariantMap UnityMenuModel::rootProperties() const
+{
+    return m_rootProperties;
+}
+
+void UnityMenuModel::setRootProperties(const QVariantMap& data)
+{
+    m_rootProperties = data;
+    Q_EMIT rootPropertiesChanged();
+}
 
 void UnityMenuModel::insertRow(int row, const QVariant& data)
 {

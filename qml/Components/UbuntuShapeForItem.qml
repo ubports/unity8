@@ -37,7 +37,7 @@ Item {
         hideSource: true
     }
 
-    Shape {
+    UbuntuShape {
         id: shape
         image: source
 

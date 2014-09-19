@@ -31,7 +31,6 @@ FakeIndicatorsModel::FakeIndicatorsModel(QObject *parent)
 /*! \internal */
 FakeIndicatorsModel::~FakeIndicatorsModel()
 {
-    qDeleteAll(m_indicators);
 }
 
 int FakeIndicatorsModel::count() const
@@ -47,8 +46,8 @@ void FakeIndicatorsModel::unload()
 {
     beginResetModel();
 
-    qDeleteAll(m_indicators);
-    m_indicators.clear();
+    m_indicatorData.clear();
+    Q_EMIT indicatorDataChanged();
 
     endResetModel();
 }
@@ -56,20 +55,24 @@ void FakeIndicatorsModel::unload()
 
 void FakeIndicatorsModel::append(const QVariantMap& row)
 {
-    Indicator* new_row = new QHash<int, QVariant>();
-    for (auto iter = row.begin(); iter != row.end(); ++iter )
-    {
-        int key = roleNames().key(iter.key().toUtf8(), -1);
-        if (key != -1) {
-            new_row->insert(key, iter.value());
-        }
-    }
+    QList<QVariant> data = m_indicatorData.toList();
+    beginInsertRows(QModelIndex(), data.count(), data.count());
 
-    beginInsertRows(QModelIndex(), m_indicators.count(), m_indicators.count());
-
-    m_indicators.append(new_row);
+    data.append(row);
+    m_indicatorData = data;
+    Q_EMIT indicatorDataChanged();
 
     endInsertRows();
+}
+
+void FakeIndicatorsModel::setIndicatorData(const QVariant& indicatorData)
+{
+    beginResetModel();
+
+    m_indicatorData = indicatorData;
+    Q_EMIT indicatorDataChanged();
+
+    endResetModel();
 }
 
 QHash<int, QByteArray> FakeIndicatorsModel::roleNames() const
@@ -91,18 +94,18 @@ int FakeIndicatorsModel::columnCount(const QModelIndex &) const
     return 1;
 }
 
-Q_INVOKABLE QVariant FakeIndicatorsModel::data(int row, int role) const
+QVariant FakeIndicatorsModel::data(int row, int role) const
 {
     return data(index(row, 0), role);
 }
 
 QVariant FakeIndicatorsModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_indicators.size())
+    QList<QVariant> dataList = m_indicatorData.toList();
+    if (!index.isValid() || index.row() >= dataList.size())
         return QVariant();
 
-    Indicator* indicator = m_indicators[index.row()];
-    return indicator->value(role, QVariant());
+    return dataList[index.row()].toMap()[roleNames()[role]];
 }
 
 QModelIndex FakeIndicatorsModel::parent(const QModelIndex&) const
@@ -112,5 +115,5 @@ QModelIndex FakeIndicatorsModel::parent(const QModelIndex&) const
 
 int FakeIndicatorsModel::rowCount(const QModelIndex&) const
 {
-    return m_indicators.count();
+    return m_indicatorData.toList().count();
 }

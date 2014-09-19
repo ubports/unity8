@@ -19,15 +19,15 @@
 
 import QtQuick 2.0
 
-QtObject {
+Item {
     property var menu
-    property bool valid: false
-    property string title
-    property string leftLabel
-    property string rightLabel
-    property var icons
-    property string accessibleName
-    property bool visible: true
+    property bool valid: true
+    property string title: menu && menu.rootProperties.hasOwnProperty("title") ? menu.rootProperties["title"] : ""
+    property string leftLabel: menu && menu.rootProperties.hasOwnProperty("pre-label") ? menu.rootProperties["pre-label"] : ""
+    property string rightLabel: menu && menu.rootProperties.hasOwnProperty("label") ? menu.rootProperties["label"] : ""
+    property var icons: menu && menu.rootProperties.hasOwnProperty("icons") ? menu.rootProperties["icons"] : []
+    property string accessibleName: menu && menu.rootProperties.hasOwnProperty("accessible-desc") ? menu.rootProperties["accessible-desc"] : ""
+    visible: menu && menu.rootProperties.hasOwnProperty("visible") ? menu.rootProperties["visible"] : false
 
     signal updated
 
