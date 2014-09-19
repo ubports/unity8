@@ -31,6 +31,7 @@ bool WindowKeysFilter::eventFilter(QObject *watched, QEvent *event)
 {
     Q_ASSERT(!m_filteredWindow.isNull());
     Q_ASSERT(watched == static_cast<QObject*>(m_filteredWindow.data()));
+    Q_UNUSED(watched);
 
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         // Let QML see this event and decide if it does not want it

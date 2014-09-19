@@ -36,6 +36,7 @@ Item {
     property alias swipeToCloseEnabled: dragArea.enabled
     property bool closeable
     property alias application: appWindow.application
+    property int orientation
 
     Item {
         objectName: "appWindowWithShadow"
@@ -56,12 +57,14 @@ Item {
 
         ApplicationWindow {
             id: appWindow
+            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
             anchors {
                 fill: parent
                 topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin
             }
 
             interactive: root.interactive
+            orientation: root.orientation
         }
     }
 
