@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-18 20:12+0800\n"
-"PO-Revision-Date: 2014-09-02 20:34+0000\n"
+"PO-Revision-Date: 2014-09-20 13:13+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-20 06:33+0000\n"
+"X-Launchpad-Export-Date: 2014-09-21 06:25+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -66,7 +66,7 @@ msgstr "Ziur berrabiarazi nahi duzula?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr "Energia"
+msgstr "Piztu/itzali"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
@@ -80,7 +80,7 @@ msgstr "Itzali"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr ""
+msgstr "Berrabiarazi"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"
