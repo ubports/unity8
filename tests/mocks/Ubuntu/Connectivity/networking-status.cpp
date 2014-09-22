@@ -22,7 +22,6 @@
 NetworkingStatus::NetworkingStatus(QObject *parent)
         : QObject(parent)
 {
-
     qRegisterMetaType<NetworkingStatus::Limitations>();
     qRegisterMetaType<QVector<NetworkingStatus::Limitations>>();
     qRegisterMetaType<NetworkingStatus::Status>();
