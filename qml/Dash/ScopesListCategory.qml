@@ -99,6 +99,7 @@ Item {
                     }
                     height: units.gu(2)
                     width: units.gu(2)
+                    visible: !isFavoriteFeeds || index != 0
                     source: isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
                     MouseArea {
                         anchors.fill: parent
