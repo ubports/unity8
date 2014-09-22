@@ -161,6 +161,12 @@ Showable {
             // TODO This is not yet implemented in the backend
             scopes.setFavorite(scopeId, favorite);
         }
+
+        Binding {
+            target: scopesList.scope
+            property: "isActive"
+            value: bottomEdgeController.progress === 1
+        }
     }
 
     DashBackground
