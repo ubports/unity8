@@ -28,6 +28,7 @@ Item {
     implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
 
     property bool showBackButton: false
+    property bool backIsClose: false
     property string title
 
     property bool storeEntryEnabled: false
@@ -249,7 +250,7 @@ Item {
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
-                        iconName: "back"
+                        iconName: backIsClose ? "close" : "back"
                         visible: root.showBackButton
                         onTriggered: root.backClicked()
                     }

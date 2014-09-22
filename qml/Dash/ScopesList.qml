@@ -31,6 +31,8 @@ Item {
     signal storeClicked()
     signal requestFavorite(string scopeId, bool favorite)
 
+    state: "browse"
+
     ScopeStyle {
         id: scopeStyle
         style: { "foreground-color" : "gray",
@@ -62,9 +64,16 @@ Item {
         title: i18n.tr("My Feeds")
         width: parent.width
         showBackButton: true
-        storeEntryEnabled: true
-        searchEntryEnabled: true
-        onBackClicked: root.backClicked()
+        backIsClose: root.state == "edit"
+        storeEntryEnabled: root.state == "browse"
+        searchEntryEnabled: root.state == "browse"
+        onBackClicked: {
+            if (backIsClose) {
+                root.state = "browse"
+            } else {
+                root.backClicked()
+            }
+        }
         onStoreClicked: root.storeClicked();
     }
 
@@ -91,10 +100,12 @@ Item {
                         item.isFavoriteFeeds = index == 0;
                         item.scopeStyle = scopeStyle;
                         item.model = Qt.binding(function() { return results });
+                        item.editMode = Qt.binding(function() { return root.state == "edit" });
                     }
                     Connections {
                         target: item
                         onRequestFavorite: root.requestFavorite(scopeId, favorite)
+                        onRequestEditMode: root.state = "edit";
                     }
                 }
             }

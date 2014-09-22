@@ -25,8 +25,10 @@ Item {
     property alias model: list.model
     property var scopeStyle
     property bool isFavoriteFeeds: false
+    property bool editMode: false
 
     signal requestFavorite(string scopeId, bool favorite)
+    signal requestEditMode()
 
     implicitHeight: childrenRect.height
 
@@ -58,7 +60,7 @@ Item {
             asynchronous: true
             width: root.width
             height: units.gu(6)
-            sourceComponent: Item {
+            sourceComponent: MouseArea {
                 width: root.width
                 UbuntuShape {
                     id: shape
@@ -100,12 +102,15 @@ Item {
                     height: units.gu(2)
                     width: units.gu(2)
                     visible: model.scopeId != "clickscope"
-                    source: isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
+                    // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
+                    source: editMode ? "image://theme/view-grid-symbolic" : isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
                     MouseArea {
                         anchors.fill: parent
                         onClicked: root.requestFavorite(model.scopeId, !isFavoriteFeeds);
                     }
                 }
+
+                onPressAndHold: root.requestEditMode();
             }
         }
     }
