@@ -45,6 +45,18 @@ Item {
         anchors.fill: parent
     }
 
+    Binding {
+        target: root.scope
+        property: "searchQuery"
+        value: header.searchQuery
+    }
+
+    Binding {
+        target: header
+        property: "searchQuery"
+        value: root.scope ? root.searchQuery : ""
+    }
+
     PageHeader {
         id: header
         title: i18n.tr("My Feeds")
@@ -69,7 +81,7 @@ Item {
         Column {
             id: column
             Repeater {
-                model: scope && scope.searchQuery == "" ? scope.categories : null
+                model: scope ? scope.categories : null
 
                 delegate: Loader {
                     source: "ScopesListCategory.qml";
