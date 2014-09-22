@@ -28,6 +28,7 @@ Item {
 
     // Signals
     signal backClicked()
+    signal storeClicked()
     signal requestFavorite(string scopeId, bool favorite)
 
     ScopeStyle {
@@ -49,8 +50,10 @@ Item {
         title: i18n.tr("My Feeds")
         width: parent.width
         showBackButton: true
+        storeEntryEnabled: true
         searchEntryEnabled: true
         onBackClicked: root.backClicked()
+        onStoreClicked: root.storeClicked();
     }
 
     Flickable {

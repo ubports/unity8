@@ -109,8 +109,6 @@ Showable {
         onOpenScope: {
             scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
-            scopesOverview.currentTab = 1;
-            scopesOverview.ensureAllScopeVisible(scope.id);
             x = -width;
         }
         onScopeLoaded: {
@@ -128,10 +126,6 @@ Showable {
                     if (!running && dashContent.x == 0) {
                         dashContent.scopeThatOpenedScope.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
-                        if (bottomEdgeController.progress == 0) {
-                            // Set tab to Favorites only if we are not showing the overview
-                            scopesOverview.currentTab = 0;
-                        }
                     }
                 }
             }
@@ -157,6 +151,11 @@ Showable {
         onBackClicked: {
             bottomEdgeController.enableAnimation = true;
             bottomEdgeController.progress = 0;
+        }
+        onStoreClicked: {
+            bottomEdgeController.enableAnimation = true;
+            bottomEdgeController.progress = 0;
+            dashContent.currentScope.performQuery("scope://com.canonical.scopes.clickstore");
         }
         onRequestFavorite: {
             // TODO This is not yet implemented in the backend

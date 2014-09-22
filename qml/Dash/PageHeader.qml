@@ -30,6 +30,7 @@ Item {
     property bool showBackButton: false
     property string title
 
+    property bool storeEntryEnabled: false
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
     property bool favoriteEnabled: false
@@ -46,6 +47,7 @@ Item {
     property var scopeStyle: null
 
     signal backClicked()
+    signal storeClicked()
     signal settingsClicked()
     signal favoriteClicked()
 
@@ -253,6 +255,13 @@ Item {
                     }
 
                     actions: [
+                        Action {
+                            objectName: "store"
+                            text: i18n.tr("Store")
+                            iconName: "ubuntu-store-symbolic"
+                            visible: root.storeEntryEnabled
+                            onTriggered: root.storeClicked();
+                        },
                         Action {
                             objectName: "search"
                             text: i18n.tr("Search")
