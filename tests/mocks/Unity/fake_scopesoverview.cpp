@@ -311,6 +311,7 @@ void ScopesOverviewResultsModel::appendScope(Scope *scope)
     beginInsertRows(QModelIndex(), index, index);
     m_scopes << scope;
     endInsertRows();
+    Q_EMIT countChanged();
 }
 
 void ScopesOverviewResultsModel::removeScope(Scope *scope)
@@ -320,4 +321,5 @@ void ScopesOverviewResultsModel::removeScope(Scope *scope)
     beginRemoveRows(QModelIndex(), index, index);
     m_scopes.removeAt(index);
     endRemoveRows();
+    Q_EMIT countChanged();
 }

@@ -153,6 +153,7 @@ Showable {
         height: dash.height
         scope: scopes.overviewScope
         y: dash.height * (1 - bottomEdgeController.progress)
+        visible: bottomEdgeController.progress != 0
         onBackClicked: {
             bottomEdgeController.enableAnimation = true;
             bottomEdgeController.progress = 0;

@@ -63,7 +63,6 @@ Item {
         clip: true
         contentWidth: root.width
         contentHeight: column.height
-        onContentHeightChanged: console.log("column.height", column.height);
         Column {
             id: column
             Repeater {
@@ -77,7 +76,6 @@ Item {
                         item.isFavoriteFeeds = index == 0;
                         item.scopeStyle = scopeStyle;
                         item.model = Qt.binding(function() { return results });
-                        console.log(results, renderer);
                     }
                     Connections {
                         target: item

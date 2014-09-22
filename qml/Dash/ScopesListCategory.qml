@@ -41,11 +41,17 @@ Item {
     property var myTemplate: JSON.parse('{"card-layout":"horizontal","card-size":"small","category-layout":"grid","collapsed-rows":2}')
     property var myComponents: JSON.parse('{"art":{"aspect-ratio":1,"field":"art"},"title":{"field":"title"},"attributes":{}}')
 
-
     ListView {
         id: list
-        height: contentHeight
+
+        readonly property double targetHeight: model.count * units.gu(6)
+        clip: height != targetHeight
+        height: targetHeight
+        Behavior on height { enabled: visible; UbuntuNumberAnimation { } }
+        width: parent.width
         interactive: false
+
+        removeDisplaced: Transition { UbuntuNumberAnimation { properties: "y" } }
 
         anchors.top: header.bottom
         delegate: Loader {
@@ -53,7 +59,6 @@ Item {
             width: root.width
             height: units.gu(6)
             sourceComponent: Item {
-                height: units.gu(6)
                 width: root.width
                 UbuntuShape {
                     id: shape
