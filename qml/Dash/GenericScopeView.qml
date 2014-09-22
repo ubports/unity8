@@ -228,7 +228,6 @@ FocusScope {
             readonly property string category: categoryId
             readonly property string headerLink: model.headerLink
             readonly property var item: rendererLoader.item
-            readonly property var seeAll: seeAll
 
             function expand(expand, animate) {
                 heightBehaviour.enabled = animate;
