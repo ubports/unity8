@@ -33,6 +33,13 @@ Item {
 
     state: "browse"
 
+    onStateChanged: {
+        if (state == "edit") {
+            // As per design entering edit mode clears the possible existing search
+            header.resetSearch(false /* false == unfocus */);
+        }
+    }
+
     ScopeStyle {
         id: scopeStyle
         style: { "foreground-color" : "gray",
