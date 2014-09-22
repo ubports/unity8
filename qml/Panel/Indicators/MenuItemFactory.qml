@@ -595,13 +595,13 @@ Item {
             property int menuIndex: -1
             property var actionState: menuData && menuData.actionState || undefined
 
-            playerIcon: menuData && menuData.icon || ""
+            playerIcon: menuData && menuData.icon || "image://theme/stock_music"
             playerName: menuData && menuData.label || ""
 
-            albumArt: getExtendedProperty(actionState, "art-url", "")
-            song: getExtendedProperty(actionState, "title", "unknown")
-            artist: getExtendedProperty(actionState, "artist", "unknown")
-            album: getExtendedProperty(actionState, "album", "unknown")
+            albumArt: getExtendedProperty(actionState, "art-url", "image://theme/stock_music")
+            song: getExtendedProperty(actionState, "title", "")
+            artist: getExtendedProperty(actionState, "artist", "")
+            album: getExtendedProperty(actionState, "album", "")
             running: getExtendedProperty(actionState, "running", false)
             state: getExtendedProperty(actionState, "state", "")
             enabled: menuData && menuData.sensitive || false
