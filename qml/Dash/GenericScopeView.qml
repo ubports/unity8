@@ -388,6 +388,8 @@ FocusScope {
                         // TODO do we need item.originY here, test 1300302 once we have a silo
                         // and we can run it on the phone
                         if (scopeView.isCurrent) {
+                            // 1073741823 is s^30 -1. A quite big number so that you have "infinite" display margin, but not so
+                            // big so that if you add if with itself you're outside the 2^31 int range
                             item.displayMarginBeginning = 1073741823;
                             item.displayMarginEnd = 1073741823;
                         } else if (baseItem.y + baseItem.height <= 0) {
