@@ -513,7 +513,7 @@ Item {
     }
 
     function showDash() {
-        if (greeter.fakeActiveForApp === "") { // just in case user gets here
+        if (greeter.fakeActiveForApp !== "") { // just in case user gets here
             return
         }
 
