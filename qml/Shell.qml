@@ -513,6 +513,10 @@ Item {
     }
 
     function showDash() {
+        if (greeter.fakeActiveForApp === "") { // just in case user gets here
+            return
+        }
+
         if (greeter.shown) {
             greeter.hideRight();
             launcher.fadeOut();
