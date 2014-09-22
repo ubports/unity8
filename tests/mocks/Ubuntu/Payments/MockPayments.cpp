@@ -84,7 +84,9 @@ void MockPayments::start()
 
 void MockPayments::process()
 {
-    if (m_store_item_id == "com.example.invalid") {
+    if (m_store_item_id == "com.example.cancel") {
+        Q_EMIT purchaseCancelled();
+    } else if (m_store_item_id == "com.example.invalid") {
         Q_EMIT purchaseError("Purchase failed.");
     } else {
         Q_EMIT purchaseCompleted();

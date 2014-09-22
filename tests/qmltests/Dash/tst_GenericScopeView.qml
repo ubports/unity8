@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 Canonical Ltd.
+ * Copyright 2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -296,6 +296,7 @@ Item {
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
+                tryCompare(findChild(genericScopeView, "categoryListView"), "visible", false);
             }
 
             function closePreview() {
@@ -304,6 +305,9 @@ Item {
 
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                tryCompare(categoryListView, "visible", true);
+                tryCompare(categoryListView, "x", 0);
             }
 
             function test_previewOpenClose() {
@@ -315,6 +319,34 @@ Item {
 
                 openPreview();
                 closePreview();
+            }
+
+            function test_tryOpenNullPreview() {
+                genericScopeView.scope = scopes.getScope("NullPreviewScope");
+
+                tryCompareFunction(function() {
+                                        var cardGrid = findChild(genericScopeView, 0);
+                                        if (cardGrid != null) {
+                                            var tile = findChild(cardGrid, 0);
+                                            return tile != null;
+                                        }
+                                        return false;
+                                    },
+                                    true);
+                var tile = findChild(findChild(genericScopeView, 0), 0);
+
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+
+                mousePress(tile, tile.width / 2, tile.height / 2);
+                tryCompare(testCase.subPageLoader, "open", false);
+                tryCompare(testCase.subPageLoader, "visible", false);
+                mouseRelease(tile, tile.width / 2, tile.height / 2);
             }
 
             function test_showPreviewCarousel() {

@@ -12,19 +12,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 1.0
-import Ubuntu.Thumbnailer 0.1 // Register support for image://thumbnailer/ and image://albumart/
+// The purpose of this header wrapper is just to avoid having warnings being reported on
+// code from external header files, as we can't do anything about them.
+#pragma GCC system_header
 
-MainView {
-    width: applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
-    height: applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(68)
-
-    useDeprecatedToolbar: false
-
-    Dash {
-        anchors.fill: parent
-    }
-}
+#include <hardware/hardware.h>
+#include <hardware/lights.h>

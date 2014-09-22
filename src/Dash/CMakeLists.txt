@@ -1,5 +1,6 @@
 set(DASH_SRCS
     main.cpp
+    ../ApplicationArguments.h
     ../MouseTouchAdaptor.cpp
     ../CachingNetworkManagerFactory.cpp
 )

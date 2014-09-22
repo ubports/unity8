@@ -50,22 +50,18 @@ Rectangle {
         ApplicationWindow {
             anchors.fill: parent
             application: fakeApplication
+            orientation: Qt.PortraitOrientation
         }
     }
-    FocusScope {
-        id: appFocus
+    Loader {
+        id: applicationWindowLoader
         anchors {
             top: parent.top
             bottom: parent.bottom
             left: parent.left
         }
         width: units.gu(40)
-
-        Loader {
-            id: applicationWindowLoader
-            anchors.fill: parent
-            sourceComponent: applicationWindowComponent
-        }
+        sourceComponent: applicationWindowComponent
     }
 
     Rectangle {
@@ -73,7 +69,7 @@ Rectangle {
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: appFocus.right
+            left: applicationWindowLoader.right
             right: parent.right
         }
 
@@ -144,6 +140,24 @@ Rectangle {
                 onSelectedApplicationStateChanged: {
                     // state is a read-only property, thus we have to call the setter function
                     fakeApplication.setState(selectedApplicationState);
+                }
+            }
+
+            Button {
+                anchors { left: parent.left; right: parent.right }
+                text: "Rotate device \u27F3"
+                onClicked: {
+                    var orientation = applicationWindowLoader.item.orientation
+                    if (orientation == Qt.PortraitOrientation) {
+                        orientation = Qt.LandscapeOrientation;
+                    } else if (orientation == Qt.LandscapeOrientation) {
+                        orientation = Qt.InvertedPortraitOrientation;
+                    } else if (orientation == Qt.InvertedPortraitOrientation) {
+                        orientation = Qt.InvertedLandscapeOrientation;
+                    } else {
+                        orientation = Qt.PortraitOrientation;
+                    }
+                    applicationWindowLoader.item.orientation = orientation;
                 }
             }
 
@@ -384,15 +398,19 @@ Rectangle {
             verify(stateGroup.state === "void");
         }
 
-        // should be forcing active focus when interactive changes,
-        // which will cause a FocusScope higher in the object hierarchy tp be given the focus
         function test_forceActiveFocusFollowsInterative() {
             fakeApplication.createSession();
             applicationWindowLoader.item.interactive = false;
             applicationWindowLoader.item.interactive = true;
             fakeSession.createSurface();
 
-            compare(appFocus.focus, true);
+            compare(fakeSession.surface.activeFocus, true);
+
+            applicationWindowLoader.item.interactive = false;
+            compare(fakeSession.surface.activeFocus, false);
+
+            applicationWindowLoader.item.interactive = true;
+            compare(fakeSession.surface.activeFocus, true);
         }
     }
 }

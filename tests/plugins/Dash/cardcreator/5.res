@@ -40,9 +40,9 @@ Item  {
                                             width = root.fixedArtShapeSize.width; 
                                             height = root.fixedArtShapeSize.height; 
                                         } else { 
-                                            width = Qt.binding(function() { return !visible ? 0 : image.width });
-                                            height = Qt.binding(function() { return !visible ? 0 : image.height });
-                                        } 
+                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width });
+                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
+                                        }
                                     } 
                                     image: CroppedImageMinimumSourceSize {
                                         objectName: "artImage"; 

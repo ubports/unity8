@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-09-10 16:35+0000\n"
+"PO-Revision-Date: 2014-09-12 16:34+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
-"Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
+"Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-11 07:27+0000\n"
+"X-Launchpad-Export-Date: 2014-09-13 08:40+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: gd\n"
 
@@ -37,7 +37,7 @@ msgstr "Clàraich a-mach"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "A bheil thu cinnteach gu bheil thu airson clàradh a-mach?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
@@ -55,7 +55,7 @@ msgstr "Dùin sìos"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "A bheil thu cinnteach gu bheil thu airson a dhùnadh sìos?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
@@ -63,7 +63,7 @@ msgstr "Ath-thòisich an siostam"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "A bheil thu cinnteach gu bheil thu airson tòiseachadh às ùr?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
@@ -74,6 +74,8 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"A bheil thu cinnteach gu bheil thu\n"
+"airson a' chumhachd a chur dheth?"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
@@ -143,7 +145,7 @@ msgstr "Fuirich ort"
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "Cus oidhirpean leis nach do shoirbhich"
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
@@ -181,11 +183,11 @@ msgstr "Roghainnean"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Thoir air falbh o na h-annsachdan"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Cuir ris na h-annsachdan"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -261,7 +263,7 @@ msgstr "Cuir a-steach PIN an t-SIM"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "Duilich ach tha a' PIN cearr"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -305,50 +307,56 @@ msgstr "Air fàrsan"
 
 #: qml/Shell.qml:279
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Cuir an abairt-fhaire agad a-steach"
 
 #: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Duilich ach tha an abairt-fhaire cearr"
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
-msgstr ""
+msgstr "Cuir an còd-faire agad a-steach"
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Duilich ach tha an còd-faire cearr"
 
 #: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
-msgstr ""
+msgstr "Cuir a-steach a' %1 agad"
 
 #: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Duilich ach tha a' %1 cearr"
 
 #: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Duilich ach tha an abairt-fhaire cearr."
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Duilich ach tha an còd-faire cearr."
 
 #: qml/Shell.qml:325
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Seo an oidhirp mu dheireadh agad."
 
 #: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn agad a "
+"ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
+"pearsanta a sguabadh às."
 
 #: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
+"shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
+"a sguabadh às."

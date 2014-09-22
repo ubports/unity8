@@ -37,9 +37,8 @@ Item {
     // FIXME this is only here for highlight purposes (see Background.qml, too)
     readonly property var background: backgroundItem
 
-    visible: navigationButton.currentNavigation || altNavigationButton.currentNavigation
-
-    height: visible ? units.gu(5) : 0
+    visible: height != 0
+    height: navigationButton.currentNavigation || altNavigationButton.currentNavigation ? units.gu(5) : 0
 
     QtObject {
         id: d
