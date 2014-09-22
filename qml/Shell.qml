@@ -513,16 +513,15 @@ Item {
     }
 
     function showDash() {
-        if (shell.locked) {
-            return;
-        }
         if (greeter.shown) {
             greeter.hideRight();
             launcher.fadeOut();
         }
 
-        ApplicationManager.requestFocusApplication("unity8-dash")
-        launcher.fadeOut();
+        if (ApplicationManager.focusedApplicationId != "unity8-dash") {
+            ApplicationManager.requestFocusApplication("unity8-dash")
+            launcher.fadeOut();
+        }
     }
 
     Item {
@@ -564,15 +563,7 @@ Item {
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
-            onDash: {
-                if (ApplicationManager.focusedApplicationId != "unity8-dash") {
-                    showDash()
-                }
-                if (greeter.shown) {
-                    launcher.fadeOut()
-                    greeter.hideRight()
-                }
-            }
+            onDash: showDash()
             onDashSwipeChanged: {
                 if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
