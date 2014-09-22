@@ -22,6 +22,7 @@ Item {
     objectName: "surfaceContainer"
     property Item surface: null
     property bool hadSurface: false
+    property int orientation
 
     onSurfaceChanged: {
         if (surface) {
@@ -33,6 +34,10 @@ Item {
     Binding {
         target: surface
         property: "anchors.fill"; value: root
+    }
+    Binding {
+        target: surface
+        property: "orientation"; value: root.orientation
     }
 
     states: [

@@ -24,11 +24,11 @@
 #include "fake_scopes.h"
 #include "fake_settingsmodel.h"
 
-Scope::Scope(Scopes* parent) : Scope(QString(), QString(), false, parent)
+Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories)
+Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
@@ -41,6 +41,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
     , m_settings(new SettingsModel(this))
+    , m_returnNullPreview(returnNullPreview)
 {
 }
 
@@ -145,6 +146,23 @@ void Scope::setFavorite(const bool favorite)
         Q_EMIT favoriteChanged();
     }
 }
+
+void Scope::setId(const QString &id)
+{
+    if (id != m_id) {
+        m_id = id;
+        Q_EMIT idChanged();
+    }
+}
+
+void Scope::setName(const QString &name)
+{
+    if (name != m_name) {
+        m_name = name;
+        Q_EMIT nameChanged();
+    }
+}
+
 void Scope::setSearchInProgress(const bool inProg)
 {
     if (inProg != m_searching) {
@@ -175,9 +193,13 @@ PreviewStack* Scope::preview(QVariant const& result)
 {
     Q_UNUSED(result);
 
-    // This probably leaks, do we don't care
-    // it's a  test after all
-    return new PreviewStack;
+    if (m_returnNullPreview) {
+        return nullptr;
+    } else {
+        // This probably leaks, do we don't care
+        // it's a  test after all
+        return new PreviewStack;
+    }
 }
 
 void Scope::cancelActivation()

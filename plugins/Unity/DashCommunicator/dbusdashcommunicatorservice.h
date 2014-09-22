@@ -29,10 +29,10 @@ public:
     ~DBusDashCommunicatorService();
 
 Q_SIGNALS:
-    void setCurrentScopeRequested(const QString &scopeId, bool animate, bool reset);
+    void setCurrentScopeRequested(const QString &scopeId, bool animate, bool isSwipe);
 
 public Q_SLOTS:
-    Q_SCRIPTABLE void SetCurrentScope(const QString &scopeId, bool animate, bool reset);
+    Q_SCRIPTABLE void SetCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
 
 };
 

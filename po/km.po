@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
 "PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sok Sophea <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"X-Launchpad-Export-Date: 2014-09-20 06:34+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "ពាក្យសម្ងាត់៖ "
 
@@ -32,53 +32,59 @@ msgstr "មិន​ភ្ជាប់ផ្លូវកាត់"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "ចេញ"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "តើ​អ្នក​ពិតជា​ចង់​ចេញ​មែន​ឬ?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "ទេ"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "បាទ/ចាស"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "បិទ"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "តើ​អ្នក​ពិតជា​ចង់​បិទ​មែន​ឬ?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "តើ​អ្នក​ពិតជា​ចង់​ចាប់ផ្ដើម​ឡើងវិញ​មែន​ឬ?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "បីទ/បើក"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"តើ​អ្នក​ពិតជា​ចង់\n"
+"បិទ​មែន​ឬ?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "បិទ"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
 msgstr "បោះបង់"
 
@@ -165,21 +171,22 @@ msgstr "មើល​តិច​ជាង"
 msgid "See all"
 msgstr "មើល​ទាំងអស់"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ស្វែង​រក"
 
 #: qml/Dash/PageHeader.qml:270
 msgid "Settings"
-msgstr ""
+msgstr "ការកំណត់"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "យក​ចេញពី​សំណព្វ"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Add to Favorites"
-msgstr ""
+msgstr "បន្ថែម​ទៅ​សណព្វ"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -205,11 +212,11 @@ msgstr "ផ្ញើ"
 msgid "Manage Dash"
 msgstr "គ្រប់គ្រង​ផ្ទាំង"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
 msgstr "ធ្វើរួច"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
 msgstr "រក្សាទុក"
 
@@ -225,7 +232,7 @@ msgstr "ទាំងអស់"
 msgid "Swipe to unlock"
 msgstr "អូស​ដើម្បី​ដោះសោ"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "បញ្ជាក់"
 
@@ -251,11 +258,11 @@ msgstr "បង្ហាញ​ពាក្យ​សម្ងាត់"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "បញ្ចូល​លេខ​កូដ PIN ស៊ីម"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "សូមទោស! លេខ​កូដ PIN មិន​ត្រឹមត្រូវ"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -297,45 +304,45 @@ msgstr "ដោះ​សោ​ស៊ីម"
 msgid "Roaming"
 msgstr "រ៉ូមីង"
 
-#: qml/Shell.qml:266
+#: qml/Shell.qml:279
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "បញ្ចូល​ឃ្លា​សម្ងាត់​របស់​អ្នក"
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ"
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
-msgstr ""
+msgstr "បញ្ចូល​កូដ​សម្ងាត់​របស់​អ្នក"
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
 msgstr "បញ្ចូល %1 របស់​អ្នក"
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "សូមទោស! %1 មិន​ត្រឹមត្រូវ"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
 msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
 msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:325
 msgid "This will be your last attempt."
 msgstr "នេះ​គឺ​ការ​ព្យាយាម​លើក​ចុងក្រោយ។"
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -344,7 +351,7 @@ msgstr ""
 "ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
 "ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -352,9 +359,3 @@ msgstr ""
 "បើ​បញ្ចូល​កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ "
 "ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
 "ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
-
-#~ msgid "Are you sure you would like to turn power off?"
-#~ msgstr "តើ​អ្នក​ពិតជា​ចង់​បិទ​មែន​ឬ?"
-
-#~ msgid "Restart"
-#~ msgstr "ចាប់ផ្ដើម​ឡើងវិញ"

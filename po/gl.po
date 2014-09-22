@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-22 15:16+0000\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"PO-Revision-Date: 2014-09-20 12:08+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"X-Launchpad-Export-Date: 2014-09-21 06:25+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Contrasinal : "
 
@@ -32,53 +32,57 @@ msgstr "Eliminar o atallo"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "Saír da sesión"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Está seguro de querer pechar a sesión?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "Apagar"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Está seguro de querer apagar?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Está seguro de querer reiniciar?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Enerxía"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
+msgstr "Está seguro de querer apagar?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Reiniciar"
+
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -165,21 +169,22 @@ msgstr "Ver menos"
 msgid "See all"
 msgstr "Ver todo"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Buscar"
 
 #: qml/Dash/PageHeader.qml:270
 msgid "Settings"
-msgstr ""
+msgstr "Axustes"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Eliminar dos favoritos"
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Engadir aos favoritos"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -205,11 +210,11 @@ msgstr "Enviar"
 msgid "Manage Dash"
 msgstr "Xestión do Panel"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
 msgstr "Feito"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
 msgstr "Tenda"
 
@@ -225,7 +230,7 @@ msgstr "Todos"
 msgid "Swipe to unlock"
 msgstr "Esvare o dedo para desbloquear"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -253,7 +258,7 @@ msgstr "Mostrar contrasinal"
 msgid "Enter SIM PIN"
 msgstr "Introduza o PIN da SIM"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
 msgstr "Sentímolo, o PIN é incorrecto"
 
@@ -297,45 +302,45 @@ msgstr "Desbloquear a SIM"
 msgid "Roaming"
 msgstr "Itinerancia"
 
-#: qml/Shell.qml:266
+#: qml/Shell.qml:279
 msgid "Enter your passphrase"
 msgstr "Introduza a frase de paso"
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
 msgstr "Sentímolo a frase é incorrecta"
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
-msgstr ""
+msgstr "Introduza a clave"
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Sentímolo, a clave é incorrecta"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
 msgstr "Introducir %1"
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sentímolo, %1 incorrecto"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
 msgstr "Sentímolo é incorrecta."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
 msgstr "Sentímolo, a clave é incorrecta."
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:325
 msgid "This will be your last attempt."
 msgstr "Este será o seu último intento."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -343,19 +348,10 @@ msgstr ""
 "Se a frase de paso introducida é incorrecta, o teléfono restabelecerá os "
 "valores de fábrica e perderá todos os datos persoais."
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Se a clave introducida é incorrecta, o teléfono restabelecerá os valores de "
 "fábrica e perderá todos os datos persoais."
-
-#~ msgid "Are you sure you would like to turn power off?"
-#~ msgstr "Está certo de apagar o aparato?"
-
-#~ msgid "Restart"
-#~ msgstr "Reiniciar"
-
-#~ msgid "Enter your PIN"
-#~ msgstr "Introduza o PIN"

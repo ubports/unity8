@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-29 13:00+0000\n"
-"Last-Translator: Martin Pitt <martin.pitt@ubuntu.com>\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"PO-Revision-Date: 2014-09-19 15:32+0000\n"
+"Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-30 07:46+0000\n"
-"X-Generator: Launchpad (build 17176)\n"
+"X-Launchpad-Export-Date: 2014-09-20 06:33+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -36,7 +36,7 @@ msgstr "Abmelden"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr "Sind Sie sicher dass Sie sich abmelden wollen?"
+msgstr "Sind Sie sicher, dass Sie sich abmelden wollen?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
@@ -54,7 +54,7 @@ msgstr "Herunterfahren"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr "Sind Sie sicher dass Sie ausschalten wollen?"
+msgstr "Sind Sie sicher, dass Sie herunterfahren wollen?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
@@ -62,7 +62,7 @@ msgstr "Neustart"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr "Sind Sie sicher dass Sie neu starten wollen?"
+msgstr "Sind Sie sicher, dass Sie neu starten wollen?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
@@ -73,12 +73,16 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Sind Sie sicher dass Sie\n"
-"ausschalten wollen?"
+"Sind Sie sicher, dass Sie das\n"
+"Gerät ausschalten wollen?"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Ausschalten"
+
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Neustarten"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"

@@ -27,6 +27,7 @@ Item {
 
     // to be set from outside
     property QtObject application
+    property int orientation
 
     QtObject {
         id: d
@@ -55,7 +56,8 @@ Item {
         property bool surfaceInitialized: false
 
         function forceSurfaceActiveFocusIfReady() {
-            if (sessionContainer.surface.focus &&
+            if (sessionContainer.surface !== null &&
+                    sessionContainer.surface.focus &&
                     sessionContainer.surface.parent === sessionContainer.surfaceContainer &&
                     sessionContainer.surface.enabled) {
                 sessionContainer.surface.forceActiveFocus();
@@ -110,14 +112,15 @@ Item {
         id: sessionContainer
         session: application ? application.session : null
         anchors.fill: parent
+        orientation: root.orientation
 
         onSurfaceChanged: {
             if (sessionContainer.surface) {
                 surfaceInitTimer.start();
+                d.forceSurfaceActiveFocusIfReady();
             } else {
                 d.surfaceInitialized = false;
             }
-            d.forceSurfaceActiveFocusIfReady();
         }
     }
 

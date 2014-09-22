@@ -27,12 +27,12 @@ DashCommunicator::DashCommunicator(QObject *parent)
 {
 }
 
-void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool reset)
+void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
 {
     if (dbusInterface() == nullptr) {
         qDebug() << "DashCommunicator - setCurrentScope failed as Dash DBus interface not available";
         return;
     } else {
-        dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, reset);
+        dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
     }
 }

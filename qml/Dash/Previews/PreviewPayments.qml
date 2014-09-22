@@ -49,6 +49,7 @@ PreviewWidget {
 
         Payments {
             id: paymentClient
+            objectName: "paymentClient"
 
             property var source: widgetData["source"]
 
@@ -59,7 +60,14 @@ PreviewWidget {
                 root.triggered(widgetId, "purchaseCompleted", source);
             }
             onPurchaseError: {
+                paymentButton.opacity = 1;
                 root.triggered(widgetId, "purchaseError", source);
+            }
+            onPurchaseCancelled: {
+                paymentButton.opacity = 1;
+                // DO NOT emit the signal right now, as it causes a new
+                // preview to be requested, when that is not what we want.
+                //root.triggered(widgetId, "purchaseCancelled", source);
             }
         }
     }

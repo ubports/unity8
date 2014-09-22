@@ -49,7 +49,7 @@ DashRenderer {
             objectName: "carouselDelegate" + index
 
             function clicked() { cardCarousel.clicked(index, model.result, loader.item, model) }
-            function pressAndHold() { cardCarousel.pressAndHold(index, model) }
+            function pressAndHold() { cardCarousel.pressAndHold(index, model.result, model) }
 
             sourceComponent: cardTool.cardComponent
             onLoaded: {
