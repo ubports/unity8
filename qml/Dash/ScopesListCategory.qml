@@ -99,7 +99,7 @@ Item {
                     }
                     height: units.gu(2)
                     width: units.gu(2)
-                    visible: !isFavoriteFeeds || index != 0
+                    visible: model.scopeId != "clickscope"
                     source: isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
                     MouseArea {
                         anchors.fill: parent
