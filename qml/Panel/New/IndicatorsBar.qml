@@ -34,6 +34,7 @@ Item {
         property var initialItem: null
         // the non-expanded distance from row offset to center of initial item
         property real originalDistanceFromRight: -1
+        property real originalItemWidth: -1
 
         // calculate the distance from row offset to center of initial item
         property real distanceFromRight: {
@@ -48,8 +49,10 @@ Item {
         onInitialItemChanged: {
             console.log("INITIAL CHANGED ", initialItem)
             if (initialItem) {
+                originalItemWidth = initialItem.width;
                 originalDistanceFromRight = row.width - initialItem.x - initialItem.width/2;
             } else {
+                originalItemWidth = -1;
                 originalDistanceFromRight = -1;
             }
         }
@@ -73,7 +76,7 @@ Item {
         anchors.fill: parent
         contentWidth: row.width
         interactive: expanded
-        clip: true
+//        clip: true
 
         rebound: Transition {
             NumberAnimation {
@@ -93,7 +96,7 @@ Item {
             }
         }
 
-        onContentXChanged: console.log("contentX: ", contentX)
+        Behavior on contentX { enabled: !expanded; NumberAnimation { duration: 1000 } }
     }
 
     states: [
@@ -122,8 +125,11 @@ Item {
                 rowOffset: {
                     if (!initialItem) return 0;
                     if (distanceFromRight - initialItem.width <= 0) return 0;
+                    if (originalDistanceFromRight + originalItemWidth/2 > flickable.width)
+                        return distanceFromRight - originalDistanceFromRight + initialItem.width/2;
 
                     var rowOffset = distanceFromRight - originalDistanceFromRight;
+                    console.log(originalDistanceFromRight + "    flickable.width: " +flickable.width)
                     return rowOffset;
                 }
             }
@@ -147,15 +153,6 @@ Item {
                     return rM;
                 }
             }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            to: "minimized"
-            PropertyAction { target: d; properties: "rowOffset" }
-            PropertyAnimation { target: flickable; properties: "contentX"; duration: 1000; easing: UbuntuAnimation.StandardEasing }
-            PropertyAnimation { target: row; properties: "anchors.rightMargin"; duration: 1000; easing: UbuntuAnimation.StandardEasing }
         }
     ]
 }
