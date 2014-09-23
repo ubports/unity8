@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
 "PO-Revision-Date: 2014-08-18 20:25+0000\n"
 "Last-Translator: Paweł Stroka <pawstr@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"X-Launchpad-Export-Date: 2014-09-20 06:34+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr ""
 
@@ -74,11 +74,15 @@ msgid ""
 "to power off?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:157
 msgid "Cancel"
 msgstr ""
 
@@ -165,7 +169,8 @@ msgstr "Zobacz mniej"
 msgid "See all"
 msgstr "Zobacz wszystko"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Szukaj"
 
@@ -205,11 +210,11 @@ msgstr "Wyślij"
 msgid "Manage Dash"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
 msgstr ""
 
@@ -225,7 +230,7 @@ msgstr ""
 msgid "Swipe to unlock"
 msgstr "Przeciągnij aby odblokować"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Potwierdź"
 
@@ -253,7 +258,7 @@ msgstr "Wyświetl hasło"
 msgid "Enter SIM PIN"
 msgstr ""
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
 msgstr ""
 
@@ -297,11 +302,11 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Shell.qml:266
+#: qml/Shell.qml:279
 msgid "Enter your passphrase"
 msgstr ""
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
 msgstr ""
 
@@ -313,35 +318,35 @@ msgstr ""
 msgid "Sorry, incorrect passcode"
 msgstr ""
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
 msgstr ""
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr ""
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
 msgstr "Niestety, błędne hasło"
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
 msgstr "Niestety, błędny kod"
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:325
 msgid "This will be your last attempt."
 msgstr ""
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
