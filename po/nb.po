@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-28 16:54+0000\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"PO-Revision-Date: 2014-09-20 12:02+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-30 07:46+0000\n"
-"X-Generator: Launchpad (build 17176)\n"
+"X-Launchpad-Export-Date: 2014-09-21 06:25+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -79,6 +79,10 @@ msgstr ""
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Slå av"
+
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Start på nytt"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"
