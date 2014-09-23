@@ -26,7 +26,7 @@ import Unity.Test 0.1 as UT
 Rectangle {
     id: root
     width: units.gu(80)
-    height: units.gu(70)
+    height: units.gu(76)
     color: "orange"
 
     Lockscreen {
@@ -39,7 +39,7 @@ Rectangle {
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
-        username: "Lola"
+        delayMinutes: delayMinutesTextField.text
         background: "../../../qml/graphics/phone_background.jpg"
     }
 
@@ -129,6 +129,16 @@ Rectangle {
                     text: "Retries left"
                 }
             }
+            Row {
+                TextField {
+                    id: delayMinutesTextField
+                    width: units.gu(7)
+                    text: "0"
+                }
+                Label {
+                    text: "Delay Minutes"
+                }
+            }
             Label {
                 id: pinLabel
                 anchors.verticalCenter: parent.verticalCenter
@@ -193,6 +203,7 @@ Rectangle {
 
         function cleanup() {
             lockscreen.clear(false);
+            delayMinutesTextField.text = "0"
         }
 
         function waitForLockscreenReady() {
@@ -237,8 +248,8 @@ Rectangle {
 
         function test_labels_data() {
             return [
-                {tag: "numeric", alphanumeric: false, infoText: "Please enter your PIN", username: "foobar" },
-                {tag: "alphanumeric", alphanumeric: true, infoText: "Please enter your password", username: "Lola" }
+                {tag: "numeric", alphanumeric: false, infoText: "Please enter your PIN" },
+                {tag: "alphanumeric", alphanumeric: true, infoText: "Please enter your password" }
             ]
         }
 
@@ -246,14 +257,8 @@ Rectangle {
             pinPadCheckBox.checked = data.alphanumeric
             lockscreen.infoText = data.infoText
             waitForLockscreenReady();
-            if (data.alphanumeric) {
-                compare(findChild(lockscreen, "pinentryField").placeholderText, data.infoText, "Placeholdertext is not what it should be")
-                compare(findChild(lockscreen, "greeterLabel").text, "Hello " + data.username, "Greeter is not set correctly")
-            } else {
-                compare(findChild(lockscreen, "infoTextLabel").text, data.infoText, "Placeholdertext is not what it should be")
-            }
+            compare(findChild(lockscreen, "infoTextLabel").text, data.infoText, "Placeholdertext is not what it should be")
         }
-
 
         function test_unlock_data() {
             return [
@@ -274,8 +279,7 @@ Rectangle {
 
             var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {
-                mouseClick(inputField, units.gu(1), units.gu(1))
-                tryCompare(inputField, "focus", true);
+                tryCompare(inputField, "activeFocus", true);
                 typeString(data.password)
                 keyClick(Qt.Key_Enter)
             } else {
@@ -305,7 +309,6 @@ Rectangle {
 
             var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {
-                mouseClick(inputField, units.gu(1), units.gu(1))
                 tryCompare(inputField, "activeFocus", true);
                 typeString("1")
             } else {
@@ -469,6 +472,13 @@ Rectangle {
             infoTextTextField.text = data.text;
             var label = findChild(lockscreen, "infoTextLabel")
             compare(label.text, data.text);
+        }
+
+        function test_delayMinutes() {
+            delayMinutesTextField.text = "4"
+            waitForLockscreenReady()
+            var label = findChild(lockscreen, "deviceLockedLabel")
+            compare(label.text, "Device Locked")
         }
     }
 

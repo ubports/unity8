@@ -21,7 +21,9 @@ import "../Components"
 
 Column {
     id: root
-    anchors.centerIn: parent
+    anchors.top: parent.top
+    anchors.topMargin: units.gu(4)
+    anchors.horizontalCenter: parent.horizontalCenter
     spacing: units.gu(2)
 
     property string infoText
@@ -50,7 +52,7 @@ Column {
         id: shakeContainer
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width
-        spacing: units.gu(2)
+        spacing: units.gu(1)
 
         Label {
             id: infoField
@@ -195,20 +197,20 @@ Column {
         }
         PinPadButton {
             iconName: "close"
-            height: numbersGrid.buttonHeight
+            height: units.gu(5) // visual spec has this row a little closer in
             width: numbersGrid.buttonWidth
 
             onClicked: root.cancel()
             visible: root.showCancelButton
         }
         Item {
-            height: numbersGrid.buttonHeight
+            height: units.gu(5)
             width: numbersGrid.buttonWidth
         }
         PinPadButton {
             iconName: "tick"
             objectName: "confirmButton"
-            height: numbersGrid.buttonHeight
+            height: units.gu(5)
             width: numbersGrid.buttonWidth
             enabled: root.enabled && pinentryField.text.length >= root.minPinLength
             visible: root.minPinLength == -1 || root.minPinLength !== root.maxPinLength
