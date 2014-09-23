@@ -71,6 +71,11 @@ Item {
             scopeLoadedSpy.clear();
             scopesModel.load();
             tryCompare(scopeLoadedSpy, "count", 6);
+            tryCompare(scopesModel, "loaded", true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(shell, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true, 15000);
         }
 
         function init() {
