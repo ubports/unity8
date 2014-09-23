@@ -83,15 +83,6 @@ Item {
             }
         }
 
-        contentX: {
-            var cX = row.width - flickable.width > 0 ? row.width - flickable.width : 0
-            if (cX !== 0) {
-                cX -= d.rowOffset;
-            }
-            return cX;
-        }
-        Behavior on contentX { enabled: !expanded; NumberAnimation { duration: 1000; easing: UbuntuAnimation.StandardEasing } }
-
         IndicatorsRow {
             id: row
             enabled: false
@@ -99,15 +90,10 @@ Item {
                 top: parent.top
                 bottom: parent.bottom
                 right: parent.right
-                rightMargin: {
-                    var rM = row.width - flickable.width < 0 ? row.width - flickable.width : 0;
-                    if (rM !== 0) {
-                        rM -= d.rowOffset;
-                    }
-                    return rM;
-                }
             }
         }
+
+        onContentXChanged: console.log("contentX: ", contentX)
     }
 
     states: [
@@ -118,10 +104,19 @@ Item {
                 target: d
                 rowOffset: 0
             }
+            PropertyChanges {
+                target: flickable
+                contentX: row.width - flickable.width > 0 ? row.width - flickable.width : 0
+            }
+            PropertyChanges {
+                target: row
+                anchors.rightMargin: row.width - flickable.width < 0 ? row.width - flickable.width : 0
+            }
         },
         State {
             name: "expanded"
             when: expanded
+
             PropertyChanges {
                 target: d
                 rowOffset: {
@@ -132,13 +127,35 @@ Item {
                     return rowOffset;
                 }
             }
+            PropertyChanges {
+                target: flickable
+                contentX: {
+                    var cX = row.width - flickable.width > 0 ? row.width - flickable.width : 0
+                    if (cX !== 0) {
+                        cX -= d.rowOffset;
+                    }
+                    return cX;
+                }
+            }
+            PropertyChanges {
+                target: row
+                anchors.rightMargin: {
+                    var rM = row.width - flickable.width < 0 ? row.width - flickable.width : 0;
+                    if (rM !== 0) {
+                        rM -= d.rowOffset;
+                    }
+                    return rM;
+                }
+            }
         }
     ]
 
     transitions: [
         Transition {
             to: "minimized"
-            PropertyAnimation { target: d; properties: "rowOffset"; duration: 1000; easing: UbuntuAnimation.StandardEasing }
+            PropertyAction { target: d; properties: "rowOffset" }
+            PropertyAnimation { target: flickable; properties: "contentX"; duration: 1000; easing: UbuntuAnimation.StandardEasing }
+            PropertyAnimation { target: row; properties: "anchors.rightMargin"; duration: 1000; easing: UbuntuAnimation.StandardEasing }
         }
     ]
 }
