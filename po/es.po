@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-09-02 08:16+0000\n"
-"Last-Translator: Víctor R. Ruiz <Unknown>\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"PO-Revision-Date: 2014-09-23 04:06+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-03 07:05+0000\n"
+"X-Launchpad-Export-Date: 2014-09-23 07:21+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -79,6 +79,10 @@ msgstr ""
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Apagar"
+
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"
@@ -303,11 +307,11 @@ msgstr "Itinerancia"
 
 #: qml/Shell.qml:279
 msgid "Enter your passphrase"
-msgstr "Introudzca su contraseña"
+msgstr "Escriba su contraseña"
 
 #: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
-msgstr "Lo sentimos, contraseña incorrecta"
+msgstr "La contraseña es incorrecta"
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
@@ -315,7 +319,7 @@ msgstr "Escriba su código de acceso"
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr "El código de acceso es incorrecto"
+msgstr "El código es incorrecto"
 
 #: qml/Shell.qml:286
 #, qt-format
@@ -325,11 +329,11 @@ msgstr "Introduzca su %1"
 #: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "Lo sentimos, %1 incorrecto"
+msgstr "Incorrecto (%1)"
 
 #: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
-msgstr "Frase de paso incorrecta"
+msgstr "La contraseña es incorrecta."
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
