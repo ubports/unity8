@@ -55,6 +55,11 @@ Item {
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
             tryCompare(dashContentList, "count", 6);
+            tryCompare(scopes, "loaded", true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true, 15000);
         }
 
         function get_scope_data() {
@@ -92,15 +97,6 @@ Item {
         }
 
         function test_dash_overview_show_select_same_favorite() {
-            // Wait for stuff to be loaded
-            tryCompare(scopes, "loaded", true);
-            var dashContentList = findChild(dash, "dashContentList");
-            tryCompare(dashContentList, "count", 6);
-            tryCompareFunction(function() {
-                var mockScope1Loader = findChild(dash, "MockScope1 loader");
-                return mockScope1Loader && mockScope1Loader.item != null; },
-                true, 15000);
-
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
             var overviewController = findInvisibleChild(dash, "overviewController");
@@ -121,18 +117,12 @@ Item {
 
             // Make sure animation went back
             tryCompare(overviewController, "progress", 0);
+
+            var dashContentList = findChild(dash, "dashContentList");
             compare(dashContentList.currentIndex, 0);
         }
 
         function test_dash_overview_show_select_different_favorite() {
-            // Wait for stuff to be loaded
-            tryCompare(scopes, "loaded", true);
-            var dashContentList = findChild(dash, "dashContentList");
-            tryCompare(dashContentList, "count", 6);
-            tryCompareFunction(function() { return findChild(dash, "MockScope1 loader") != null; }, true, 15000);
-            var mockScope1Loader = findChild(dash, "MockScope1 loader");
-            tryCompare(mockScope1Loader, "status", Loader.Ready);
-
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
             var overviewController = findInvisibleChild(dash, "overviewController");
@@ -153,19 +143,11 @@ Item {
 
             // Make sure animation went back
             tryCompare(overviewController, "progress", 0);
+            var dashContentList = findChild(dash, "dashContentList");
             compare(dashContentList.currentIndex, 1);
         }
 
         function test_dash_overview_all_temp_scope_done_from_all() {
-            // Wait for stuff to be loaded
-            tryCompare(scopes, "loaded", true);
-            var dashContentList = findChild(dash, "dashContentList");
-            tryCompare(dashContentList, "count", 6);
-            tryCompareFunction(function() {
-                var mockScope1Loader = findChild(dash, "MockScope1 loader");
-                return mockScope1Loader && mockScope1Loader.item != null; },
-                true, 15000);
-
             // Show the overview
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, dash.height - units.gu(18));
             var overviewController = findInvisibleChild(dash, "overviewController");
@@ -227,20 +209,13 @@ Item {
             tryCompare(overviewController, "progress", 0);
 
             // Original list is still on 0
+            var dashContentList = findChild(dash, "dashContentList");
             compare(dashContentList.currentIndex, 0);
         }
 
         function test_temp_scope_dash_overview_all_search_temp_scope_favorite_from_all() {
-            // Wait for stuff to be loaded
-            tryCompare(scopes, "loaded", true);
-            var dashContentList = findChild(dash, "dashContentList");
-            tryCompare(dashContentList, "count", 6);
-            tryCompareFunction(function() {
-                var mockScope1Loader = findChild(dash, "MockScope1 loader");
-                return mockScope1Loader && mockScope1Loader.item != null; },
-                true, 15000);
-
             // Swipe right to Apps scope
+            var dashContentList = findChild(dash, "dashContentList");
             touchFlick(dash, dash.width - 1, units.gu(1), dash.width - units.gu(10), units.gu(1));
             tryCompare(dashContentList, "contentX", dashContentList.width);
             tryCompare(dashContentList, "currentIndex", 1);
@@ -339,8 +314,6 @@ Item {
         }
 
         function test_processing_indicator() {
-            tryCompare(scopes, "loaded", true);
-
             var processingIndicator = findChild(dash, "processingIndicator");
             verify(processingIndicator, "Can't find the processing indicator.");
 
