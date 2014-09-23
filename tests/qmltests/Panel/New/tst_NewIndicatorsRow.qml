@@ -64,7 +64,6 @@ Rectangle {
                                                    "title": "Upcoming Events",
                                                    "label": "12:04",
                                                });
-        console.log("PLOP")
     }
 
     Indicators.FakeIndicatorsModel {

@@ -105,7 +105,7 @@ IndicatorBase {
                             if (!selected) return Theme.palette.selected.backgroundText;
                             return Theme.palette.normal.foregroundText;
                         }
-                        Behavior on color { ColorAnimation{ duration: 1 } }
+                        Behavior on color { ColorAnimation{ duration: UbuntuAnimation.SnapDuration } }
                     }
                 }
             }
@@ -179,7 +179,7 @@ IndicatorBase {
                 AnchorChanges { target: iconsItem; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
                 AnchorChanges { target: itemLeftLabel; anchors.left: undefined; anchors.right: iconsItem.left }
                 PropertyChanges { target: itemLeftLabel; opacity: 0 }
-                PropertyChanges { target: mainItems; width: Math.max(iconsItem.width, indicatorName.width); anchors.verticalCenterOffset: -units.gu(1) }
+                PropertyChanges { target: mainItems; width: Math.max(iconsItem.width, indicatorName.width) + units.gu(2); anchors.verticalCenterOffset: -units.gu(1) }
                 PropertyChanges { target: itemLeftLabel; opacity: 0 }
                 PropertyChanges { target: itemRightLabel; opacity: 0 }
             },
@@ -192,7 +192,7 @@ IndicatorBase {
                 AnchorChanges { target: iconsItem; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
                 AnchorChanges { target: itemLeftLabel; anchors.left: undefined; anchors.right: iconsItem.left }
                 PropertyChanges { target: itemLeftLabel; opacity: 0 }
-                PropertyChanges { target: mainItems; width: Math.max(iconsItem.width, indicatorName.width); anchors.verticalCenterOffset: -units.gu(1) }
+                PropertyChanges { target: mainItems; width: Math.max(iconsItem.width, indicatorName.width) + units.gu(2); anchors.verticalCenterOffset: -units.gu(1) }
                 PropertyChanges { target: itemLeftLabel; opacity: 0 }
                 PropertyChanges { target: itemRightLabel; opacity: 0 }
             },
@@ -202,7 +202,7 @@ IndicatorBase {
                 when: expanded && (!icons || icons.length === 0) && rightLabel !== ""
                 PropertyChanges { target: indicatorName; visible: true; opacity: 1}
                 AnchorChanges { target: itemRightLabel; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
-                PropertyChanges { target: mainItems; width: Math.max(itemRightLabel.width, indicatorName.width); anchors.verticalCenterOffset: -units.gu(1) }
+                PropertyChanges { target: mainItems; width: Math.max(itemRightLabel.width, indicatorName.width) + units.gu(2); anchors.verticalCenterOffset: -units.gu(1) }
                 PropertyChanges { target: iconsItem; opacity: 0 }
                 PropertyChanges { target: itemLeftLabel; opacity: 0 }
             },
@@ -212,7 +212,7 @@ IndicatorBase {
                 when: expanded && (!icons || icons.length === 0) && leftLabel !== ""
                 PropertyChanges { target: indicatorName; visible: true; opacity: 1}
                 AnchorChanges { target: itemLeftLabel; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
-                PropertyChanges { target: mainItems; width: Math.max(itemLeftLabel.width, indicatorName.width); anchors.verticalCenterOffset: -units.gu(1) }
+                PropertyChanges { target: mainItems; width: Math.max(itemLeftLabel.width, indicatorName.width) + units.gu(2); anchors.verticalCenterOffset: -units.gu(1) }
                 PropertyChanges { target: iconsItem; opacity: 0 }
                 PropertyChanges { target: itemRightLabel; opacity: 0 }
             }
@@ -223,12 +223,12 @@ IndicatorBase {
                 PropertyAction { target: d; property: "useFallbackIcon"}
                 AnchorAnimation {
                     targets: [ mainItems, iconsItem, itemLeftLabel, itemRightLabel ]
-                    duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                    duration: 1000; easing: UbuntuAnimation.StandardEasing
                 }
                 PropertyAnimation {
                     targets: [ mainItems, iconsItem, itemLeftLabel, itemRightLabel, indicatorName ]
                     properties: "width, opacity, anchors.verticalCenterOffset";
-                    duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                    duration: 1000; easing: UbuntuAnimation.StandardEasing
                 }
             }
         ]

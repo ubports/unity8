@@ -22,7 +22,7 @@ Item {
     id: indicatorRow
 
     property QtObject indicatorsModel: null
-    property int overFlowWidth: width
+    property real overFlowWidth: width
     property bool showAll: false
     property bool expanded: false
     property real currentItemOffset: 0.0
@@ -38,6 +38,15 @@ Item {
 
     function resetCurrentItem() {
         currentItem = null
+    }
+
+    function selectItemAt(lateralPosition) {
+        var item = indicatorAt(lateralPosition, 0);
+        if (item.opacity > 0) {
+            currentItem = item;
+        } else {
+            currentItem = null;
+        }
     }
 
     Timer {
