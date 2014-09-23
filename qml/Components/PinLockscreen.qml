@@ -109,6 +109,7 @@ Column {
                 fontSize: "x-large"
                 color: "#f3f3e7"
                 anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
                 text: root.errorText
                 visible: pinentryField.incorrectOverride
             }
