@@ -24,6 +24,12 @@ Showable {
     // Determine if a numeric or alphanumeric pad is used.
     property bool alphaNumeric: false
 
+    // Whether to show an emergency call button
+    property bool showEmergencyCallButton: true
+
+    // Whether to show a cancel button (not all lockscreen types normally do anyway)
+    property bool showCancelButton: true
+
     // Informational text. (e.g. some text to tell which domain this is pin is entered for)
     property string infoText: ""
 
@@ -89,10 +95,11 @@ Showable {
     }
 
     Rectangle {
-        // In case background fails to load or is undefined
+        // In case background fails to load
         id: backgroundBackup
         anchors.fill: parent
         color: "black"
+        visible: root.background.toString() !== ""
     }
 
     Image {
@@ -182,20 +189,18 @@ Showable {
             property: "entryEnabled"
             value: !pinPadLoader.waiting && !forcedDelayTimer.running
         }
+        Binding {
+            target: pinPadLoader.item
+            property: "showCancelButton"
+            value: root.showCancelButton
+        }
     }
 
     Label {
         id: emergencyCallLabel
         objectName: "emergencyCallLabel"
 
-        // FIXME: We *should* show emergency dialer if there is a SIM present,
-        // regardless of whether the side stage is enabled.  But right now,
-        // the assumption is that narrow screens are phones which have SIMs
-        // and wider screens are tablets which don't.  When we do allow this
-        // on devices with a side stage and a SIM, work should be done to
-        // ensure that the main stage is disabled while the dialer is present
-        // in the side stage.
-        visible: !shell.sideStageEnabled
+        visible: showEmergencyCallButton
 
         anchors {
             bottom: parent.bottom

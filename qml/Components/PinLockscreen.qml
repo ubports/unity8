@@ -31,6 +31,7 @@ Column {
     property int padHeight: units.gu(28)
     property int minPinLength: -1
     property int maxPinLength: -1
+    property bool showCancelButton: true
 
     signal entered(string passphrase)
     signal cancel()
@@ -197,6 +198,7 @@ Column {
             width: numbersGrid.buttonWidth
 
             onClicked: root.cancel()
+            visible: root.showCancelButton
         }
         Item {
             height: numbersGrid.buttonHeight
