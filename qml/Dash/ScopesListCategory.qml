@@ -101,7 +101,7 @@ Item {
                     }
                     height: units.gu(2)
                     width: units.gu(2)
-                    visible: model.scopeId != "clickscope"
+                    visible: model.scopeId != "clickscope" && (isFavoriteFeeds || !editMode)
                     // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
                     source: editMode ? "image://theme/view-grid-symbolic" : isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
                     MouseArea {
