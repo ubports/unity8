@@ -34,6 +34,7 @@ Showable {
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
+            print("*******************************++ dbus call")
             if (!isSwipe || !window.active || overviewController.progress != 0) {
                 if (overviewController.progress != 0 && window.active) animate = false;
                 dash.setCurrentScope(scopeId, animate, isSwipe)

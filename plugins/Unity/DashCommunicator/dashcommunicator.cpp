@@ -16,106 +16,31 @@
 
 #include "dashcommunicator.h"
 
-#include <unity/shell/application/ApplicationInfoInterface.h>
-#include <unity/shell/application/ApplicationManagerInterface.h>
 
 #include <QObject>
 #include <QDBusConnection>
+#include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QDebug>
 #include <QDBusPendingCall>
 
-using namespace unity::shell::application;
-
 DashCommunicator::DashCommunicator(QObject *parent):
-    QObject(parent),
-    m_dashInterface(nullptr),
-    m_applicationManager(nullptr),
-    m_dash(nullptr)
+    QThread(parent),
+    m_dashService(nullptr)
 {
-}
-
-DashCommunicator::~DashCommunicator()
-{
+    start();
 }
 
 void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
 {
-    // Connection not up... Try to connect
-    if (!m_dashInterface || !m_dashInterface->isValid()) {
-        connectToDash();
-    }
-
-    if (m_dashInterface && m_dashInterface->isValid()) {
-        // Using an async call just in case the Dash would fail to wake up from suspend
-        // We don't want to hang the whole shell waiting for reply.
-        m_dashInterface->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
-    }
+    m_dashService->dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
 }
 
-void DashCommunicator::connectToDash()
+void DashCommunicator::run()
 {
-    if (m_dashInterface) {
-        m_dashInterface->deleteLater();
-        m_dashInterface = nullptr;
-    }
+    m_dashService = new AbstractDBusServiceMonitor("com.canonical.UnityDash",
+                                 "/com/canonical/UnityDash",
+                                 "", AbstractDBusServiceMonitor::SessionBus, this);
 
-    if (m_applicationManager) {
-        ApplicationInfoInterface *dash = m_applicationManager->findApplication("unity8-dash");
-        // Don't try to connect to the Dash while its suspended, it would hang the shell waiting for a reply.
-        if (dash && dash->state() == ApplicationInfoInterface::Running) {
-            QDBusConnection connection = QDBusConnection::sessionBus();
-            m_dashInterface = new QDBusInterface("com.canonical.UnityDash",
-                                    "/com/canonical/UnityDash",
-                                    "",
-                                    connection);
-        } else {
-            qWarning() << "Dash is suspended or not running. Can't connect.";
-        }
-    }
-}
-
-unity::shell::application::ApplicationManagerInterface* DashCommunicator::applicationManager() const
-{
-    return m_applicationManager;
-}
-
-void DashCommunicator::setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager)
-{
-    if (m_applicationManager != appManager) {
-        m_applicationManager = appManager;
-        Q_EMIT applicationManagerChanged();
-
-        connect(m_applicationManager, &unity::shell::application::ApplicationManagerInterface::applicationAdded, this, &DashCommunicator::applicationAdded);
-        connect(m_applicationManager, &unity::shell::application::ApplicationManagerInterface::applicationRemoved, this, &DashCommunicator::applicationRemoved);
-
-        // If the Dash is around already, immediately try to connect
-        if (m_applicationManager->findApplication("unity8-dash")) {
-            connectToDash();
-        }
-    }
-}
-
-void DashCommunicator::applicationAdded(const QString &appId)
-{
-    if (appId != "unity8-dash") {
-        return;
-    }
-    ApplicationInfoInterface *app = m_applicationManager->findApplication(appId);
-    if (!app) {
-        qWarning() << "DashCommunicator received an applicationAdded signal for the dash, but there's no dash around!";
-        return;
-    }
-    connectToDash();
-}
-
-void DashCommunicator::applicationRemoved(const QString &appId)
-{
-    if (appId != "unity8-dash") {
-        return;
-    }
-    if (m_dashInterface) {
-        m_dashInterface->deleteLater();
-        m_dashInterface = nullptr;
-    }
+    exec();
 }

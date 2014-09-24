@@ -126,7 +126,6 @@ Item {
     DashCommunicator {
         id: dash
         objectName: "dashCommunicator"
-        applicationManager: ApplicationManager
     }
 
     Binding {

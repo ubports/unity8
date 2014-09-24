@@ -11,6 +11,8 @@ macro(add_unity8_plugin PLUGIN VERSION PATH)
     export_qmlplugin(${PLUGIN} ${VERSION} ${PATH} DESTINATION ${SHELL_INSTALL_QML} ${ARGN})
 endmacro()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+
 add_subdirectory(AccountsService)
 add_subdirectory(HudClient)
 add_subdirectory(LightDM)
