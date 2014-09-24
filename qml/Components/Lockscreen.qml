@@ -61,6 +61,8 @@ Showable {
     signal emergencyCall()
     signal infoPopupConfirmed()
 
+    onActiveFocusChanged: if (activeFocus && pinPadLoader.item) pinPadLoader.item.forceActiveFocus()
+
     function reset() {
         // This causes the loader below to destry and recreate the source
         pinPadLoader.resetting = true;
@@ -99,6 +101,10 @@ Showable {
 
     MouseArea {
         anchors.fill: root
+        onClicked: {
+            if (pinPadLoader.item)
+                pinPadLoader.item.forceActiveFocus()
+        }
     }
 
     FocusScope {
@@ -127,8 +133,8 @@ Showable {
             onSourceChanged: {
                 waiting = false
                 showWrongText = false
-                if (loaderScope.activeFocus)
-                    clear(false)
+                if (loaderScope.activeFocus && pinPadLoader.item)
+                    pinPadLoader.item.forceActiveFocus()
             }
 
             Connections {

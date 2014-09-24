@@ -40,6 +40,8 @@ Item {
         }
     }
 
+    onActiveFocusChanged: if (activeFocus) pinentryField.forceActiveFocus()
+
     Column {
         id: shakeContainer
         anchors.horizontalCenter: parent.horizontalCenter

@@ -18,8 +18,6 @@ import QtQuick 2.0
 import QtTest 1.0
 import ".."
 import "../../../qml/Components"
-import AccountsService 0.1
-import LightDM 0.1 as LightDM
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
@@ -50,24 +48,6 @@ Rectangle {
         onEntered: {
             enteredLabel.text = passphrase
             lockscreen.clear(true)
-        }
-    }
-
-    function setUser(username) {
-        AccountsService.user = username
-        LightDM.Greeter.authenticate(username)
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onShowPrompt: {
-            if (AccountsService.passwordDisplayHint === AccountsService.Numeric) {
-                pinPadCheckBox.checked = false
-            } else {
-                pinPadCheckBox.checked = true
-            }
-            lockscreen.infoText = text;
         }
     }
 
@@ -151,17 +131,6 @@ Rectangle {
                     id: enteredLabel
                 }
             }
-            Button {
-                text: "start auth (1234)"
-                width: parent.width
-                onClicked: setUser("has-pin")
-            }
-            Button {
-                text: "start auth (password)"
-                width: parent.width
-                onClicked: setUser("has-password")
-            }
-
             TextField {
                 id: infoTextTextField
                 width: parent.width
@@ -262,11 +231,11 @@ Rectangle {
 
         function test_unlock_data() {
             return [
-                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", minPinLength: 4, maxPinLength: 4},
-                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", minPinLength: -1, maxPinLength: -1},
-                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", minPinLength: 4, maxPinLength: 4},
-                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", minPinLength: -1, maxPinLength: -1},
-                {tag: "flexible length",  alphanumeric: false, username: "has-pin", password: "1234", minPinLength: -1, maxPinLength: -1},
+                {tag: "numeric", alphanumeric: false, password: "1234", minPinLength: 4, maxPinLength: 4},
+                {tag: "alphanumeric",  alphanumeric: true, password: "password", minPinLength: -1, maxPinLength: -1},
+                {tag: "numeric (wrong)",  alphanumeric: false, password: "4321", minPinLength: 4, maxPinLength: 4},
+                {tag: "alphanumeric (wrong)",  alphanumeric: true, password: "drowssap", minPinLength: -1, maxPinLength: -1},
+                {tag: "flexible length",  alphanumeric: false, password: "1234", minPinLength: -1, maxPinLength: -1},
             ]
         }
 
@@ -274,7 +243,8 @@ Rectangle {
             enteredLabel.text = ""
             minPinLengthTextField.text = data.minPinLength
             maxPinLengthTextField.text = data.maxPinLength
-            setUser(data.username)
+            pinPadCheckBox.checked = data.alphanumeric
+            infoTextTextField.text = "Enter " + (data.alphanumeric ? "passphrase" : "passcode")
             waitForLockscreenReady();
 
             var inputField = findChild(lockscreen, "pinentryField")
