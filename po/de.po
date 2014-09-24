@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-09-04 15:02+0000\n"
-"Last-Translator: Niklas Wenzel <nikwen.developer@gmail.com>\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"PO-Revision-Date: 2014-09-23 08:31+0000\n"
+"Last-Translator: Martin Pitt <martin.pitt@ubuntu.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-05 07:50+0000\n"
+"X-Launchpad-Export-Date: 2014-09-24 07:41+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -73,12 +73,16 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Sind Sie sicher dass Sie\n"
-"ausschalten wollen?"
+"Sind Sie sicher, dass Sie das\n"
+"Gerät ausschalten wollen?"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Ausschalten"
+
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Neustarten"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"
@@ -295,7 +299,7 @@ msgstr "Fehlgeschlagen, tippen Sie zum Wiederholen"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "SIM-Karte entsprerren"
+msgstr "SIM-Karte entsperren"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"

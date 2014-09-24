@@ -84,7 +84,7 @@ Item {
 
     // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
-        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source) {
+        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
             sound.play();
         }
     }
@@ -265,7 +265,7 @@ Item {
                         fontSize: "small"
                         color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
-                        maximumLineCount: 2
+                        maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
