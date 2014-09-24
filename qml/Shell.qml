@@ -30,6 +30,7 @@ import Utils 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
+import Screenshotter 0.1
 import "Greeter"
 import "Launcher"
 import "Panel"
@@ -128,12 +129,18 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    Screenshotter {
+        id: screenShotter
+        objectName: "screenShotter"
+    }
+
     WindowKeysFilter {
         // Handle but do not filter out volume keys
         Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
         Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
 
         Keys.onPressed: {
+            screenshotAnimation.onKeyPressed(event.key);
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyPressed();
                 event.accepted = true;
@@ -143,6 +150,7 @@ Item {
         }
 
         Keys.onReleased: {
+            screenshotAnimation.onKeyReleased(event.key);
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyReleased();
                 event.accepted = true;
@@ -684,6 +692,65 @@ Item {
             onStopped: {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
                     DBusUnitySessionService.Shutdown();
+                }
+            }
+        }
+     }
+
+     Rectangle {
+        id: screenshotAnimation
+        z: edgeDemo.z + 10
+        enabled: false
+        visible: false
+        color: "white"
+        anchors.fill: parent
+        opacity: 0.0
+
+        QtObject {
+            id: state
+            property bool volumeUp: false
+            property bool volumeDown: false
+        }
+
+        function onKeyPressed(key) {
+            if (key == Qt.Key_VolumeUp)
+                state.volumeUp = true;
+            else if (key == Qt.Key_VolumeDown)
+                state.volumeDown = true;
+            if (state.volumeDown && state.volumeUp) {
+                enabled = true;
+                visible = true;
+                screenshotFadeIn.start();
+            }
+        }
+
+        function onKeyReleased(key) {
+             if (key == Qt.Key_VolumeUp)
+                state.volumeUp = false;
+            else if (key == Qt.Key_VolumeDown)
+                state.volumeDown = false;
+        }
+
+        NumberAnimation on opacity {
+            id: screenshotFadeIn
+            from: 0.0
+            to: 1.0
+            onStopped: {
+                if (screenshotAnimation.enabled && screenshotAnimation.visible) {
+                    screenshotFadeOut.start()
+                }
+            }
+        }
+
+        NumberAnimation on opacity {
+            id: screenshotFadeOut
+            from: 1.0
+            to: 0.0
+            onStopped: {
+                if (screenshotAnimation.enabled && screenshotAnimation.visible) {
+                    screenShotter.takeScreenshot();
+                    screenshotAnimation.enabled = false
+                    screenshotAnimation.visible = false
                 }
             }
         }
