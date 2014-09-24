@@ -87,13 +87,12 @@ Item {
                         cursorPosition = length
                     }
                 }
-                enabled: root.entryEnabled
                 clip: true
 
-                onTextChanged: incorrectOverride = true
+                // simulate being disabled, but without removing OSK focus
+                maximumLength: root.entryEnabled ? 32767 : length
 
-                onActiveFocusChanged: if (!activeFocus) pinentryField.forceActiveFocus()
-                onEnabledChanged: if (enabled) pinentryField.forceActiveFocus()
+                onTextChanged: incorrectOverride = true
 
                 onAccepted: {
                     if (pinentryField.text) {
