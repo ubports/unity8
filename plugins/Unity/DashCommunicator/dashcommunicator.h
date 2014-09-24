@@ -19,9 +19,9 @@
 
 // Qt
 #include <QThread>
+#include <QMutex>
 
-// local
-#include "abstractdbusservicemonitor.h"
+class DashConnection;
 
 class DashCommunicator: public QThread
 {
@@ -37,7 +37,9 @@ protected:
     void run() override;
 
 private:
-    AbstractDBusServiceMonitor *m_dashService;
+    DashConnection *m_dashConnection;
+    bool m_created;
+    QMutex m_mutex;
 };
 
 #endif

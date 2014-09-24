@@ -15,32 +15,38 @@
  */
 
 #include "dashcommunicator.h"
-
+#include "dashconnection.h"
 
 #include <QObject>
-#include <QDBusConnection>
-#include <QDBusConnectionInterface>
-#include <QDBusInterface>
-#include <QDebug>
-#include <QDBusPendingCall>
 
 DashCommunicator::DashCommunicator(QObject *parent):
     QThread(parent),
-    m_dashService(nullptr)
+    m_dashConnection(nullptr),
+    m_created(false)
 {
     start();
 }
 
 void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
 {
-    m_dashService->dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
+    m_mutex.lock();
+    if (m_created) {
+        QMetaObject::invokeMethod(m_dashConnection, "setCurrentScope",
+                                  Q_ARG(QString, scopeId),
+                                  Q_ARG(bool, animate),
+                                  Q_ARG(bool, isSwipe));
+    }
+    m_mutex.unlock();
 }
 
 void DashCommunicator::run()
 {
-    m_dashService = new AbstractDBusServiceMonitor("com.canonical.UnityDash",
+    m_dashConnection = new DashConnection("com.canonical.UnityDash",
                                  "/com/canonical/UnityDash",
-                                 "", AbstractDBusServiceMonitor::SessionBus, this);
+                                 "", this);
+    m_mutex.lock();
+    m_created = true;
+    m_mutex.unlock();
 
     exec();
 }

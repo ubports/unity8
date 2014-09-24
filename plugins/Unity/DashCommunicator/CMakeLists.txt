@@ -8,6 +8,7 @@ set(QMLDASHCOMMUNICATORPLUGIN_SRC
     dbusdashcommunicatorservice.cpp
     dashcommunicatorservice.cpp
     dashcommunicator.cpp
+    dashconnection.cpp
 )
 
 add_library(DashCommunicator-qml MODULE
