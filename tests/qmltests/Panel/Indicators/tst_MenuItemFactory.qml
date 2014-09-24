@@ -638,7 +638,8 @@ Item {
                     album: "album1",
                     running: true,
                     state: "Playing",
-                    enabled: true
+                    enabled: true,
+                    showTrack: true
                 },{
                     label: "player2",
                     icon: "file:://icon2",
@@ -648,7 +649,19 @@ Item {
                     album: "album2",
                     running: false,
                     state: "Paused",
-                    enabled: false
+                    enabled: false,
+                    showTrack: false
+                },{
+                    label: "player3",
+                    icon: "file:://icon3",
+                    albumArt: "file:://art3",
+                    song: "song3",
+                    artist: "artist3",
+                    album: "album3",
+                    running: true,
+                    state: "Stopped",
+                    enabled: true,
+                    showTrack: false
                 }
             ];
         }
@@ -678,7 +691,7 @@ Item {
             compare(loader.item.song, data.song, "Song does not match data");
             compare(loader.item.artist, data.artist, "Artist does not match data");
             compare(loader.item.album, data.album, "Album does not match data");
-            compare(loader.item.running, data.running, "Running does not match data");
+            compare(loader.item.showTrack, data.showTrack, "Show track does not match data");
             compare(loader.item.state, data.state, "State does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }

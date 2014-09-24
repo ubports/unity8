@@ -594,15 +594,16 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var actionState: menuData && menuData.actionState || undefined
+            property bool running: getExtendedProperty(actionState, "running", false)
 
             playerIcon: menuData && menuData.icon || "image://theme/stock_music"
-            playerName: menuData && menuData.label || ""
+            playerName: menuData && menuData.label || i18n.tr("Nothing is playing")
 
             albumArt: getExtendedProperty(actionState, "art-url", "image://theme/stock_music")
             song: getExtendedProperty(actionState, "title", "")
             artist: getExtendedProperty(actionState, "artist", "")
             album: getExtendedProperty(actionState, "album", "")
-            running: getExtendedProperty(actionState, "running", false)
+            showTrack: running && (state == "Playing" || state == "Paused")
             state: getExtendedProperty(actionState, "state", "")
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
