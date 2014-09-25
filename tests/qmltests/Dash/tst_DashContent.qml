@@ -77,10 +77,10 @@ Item {
                 return mockScope1Loader && mockScope1Loader.item != null; },
                 true, 15000);
             tryCompareFunction(function() {
-                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                var mockScope1Loader = findChild(shell, "MockScope1 loader");
                 return mockScope1Loader && mockScope1Loader.status === Loader.Ready; },
                 true, 15000);
-            waitForRendering(findChild(dash, "MockScope1 loader").item);
+            waitForRendering(findChild(shell, "MockScope1 loader").item);
         }
 
         function init() {
