@@ -147,7 +147,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
 
     add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE ${qmltest_NO_ADD_TEST})
     add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS} TRUE)
-    add_qmltest_target(${qmltest_gdb_TARGET} "${qmltest_gdb_command}" TRUE ${qmltest_NO_ADD_TEST})
+    add_qmltest_target(${qmltest_gdb_TARGET} "${qmltest_gdb_command}" TRUE TRUE)
     add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test_internal)
 
