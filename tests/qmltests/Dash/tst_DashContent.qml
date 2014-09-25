@@ -477,6 +477,9 @@ Item {
             var navigationListView = findChild(dashAltNavigationButton, "navigationListView");
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
 
+            var blackRect = findChild(dashNavigation, "blackRect");
+            tryCompare(blackRect, "opacity", 0.5);
+
             mouseClick(dashNavigation, dashNavigationButton.x, 0);
             compare(dashNavigationButton.showList, false);
             compare(dashAltNavigationButton.showList, false);
