@@ -18,10 +18,8 @@
 
 #include "screenshotter.h"
 
-#include <QUuid>
-#include <QChar>
-#include <QString>
-#include <QStringList>
+#include <QDir>
+#include <QDateTime>
 #include <QStandardPaths>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickWindow>
@@ -30,15 +28,30 @@
 
 ScreenShotter::ScreenShotter(QObject *parent)
     : QObject(parent),
-      screenshotsDir(QStandardPaths::displayName(QStandardPaths::PicturesLocation)),
       screenshotQuality(90)
 {
+    QDir screenshotsDir(QStandardPaths::displayName(QStandardPaths::PicturesLocation));
     screenshotsDir.mkdir("Screenshots");
     screenshotsDir.cd("Screenshots");
+    if (screenshotsDir.exists())
+    {
+        fileNamePrefix = screenshotsDir.absolutePath();
+        fileNamePrefix.append("/screenshot");
+    }
+    else
+    {
+        qWarning() << "ScreenShotter: failed to create directory at: " << screenshotsDir.absolutePath();
+    }
 }
 
 void ScreenShotter::takeScreenshot()
 {
+    if (fileNamePrefix.isEmpty())
+    {
+        qWarning() << "ScreenShotter: no directory to save screenshot";
+        return;
+    }
+
     QWindowList windows = QGuiApplication::topLevelWindows();
     if (windows.empty())
     {
@@ -54,52 +67,21 @@ void ScreenShotter::takeScreenshot()
     }
 
     QImage snapshot = main_window->grabWindow();
-    if (!snapshot.save(generateName(), "JPG", screenshotQuality))
+    if (!snapshot.save(makeFileName(), getFormat().toLatin1().data(), screenshotQuality))
         qWarning() << "ScreenShotter: failed to save snapshot!";
 }
 
-QString ScreenShotter::generateUniqueNum()
+QString ScreenShotter::makeFileName()
 {
-    // First lets look for existing files using our numbering pattern
-    QStringList nameFilter;
-    nameFilter << "screenshot????.jpg";
-    QStringList fileList = screenshotsDir.entryList(nameFilter, QDir::Files, QDir::Name | QDir::Reversed);
-
-    if (!fileList.empty())
-    {
-        Q_FOREACH(QString const& fileName, fileList)
-        {
-            // Just the the four digit number
-            QString fileNumber = fileName.mid(10, 4);
-            bool ok = false;
-            int num = fileNumber.toInt(&ok) + 1;
-            if (!ok)
-                continue;
-
-            // OK it's an actual number
-            if (num <= 9999)
-            {
-                // Produce a string that has the next sequential number, appending 0's when necessary
-                return QString("%1").arg(num, 4, 10, QChar('0'));
-            }
-            else
-            {
-                // 10000 screenshots huh? ummm, well let's start using uuids then...
-                QString uuid = QUuid::createUuid().toString();
-                // Remove the curly brackets
-                return uuid.mid(1, 36);
-            }
-        }
-    }
-    //No files exist using our numbering scheme
-    return QString("0000");
+    QString fileName(fileNamePrefix);
+    fileName.append(QDateTime::currentDateTime().toString("yyyymmdd_hhmmsszzz"));
+    fileName.append(".");
+    fileName.append(getFormat());
+    return fileName;
 }
 
-QString ScreenShotter::generateName()
+QString ScreenShotter::getFormat()
 {
-    QString fileName = screenshotsDir.absolutePath();
-    fileName.append("/screenshot");
-    fileName.append(generateUniqueNum());
-    fileName.append(".jpg");
-    return fileName;
+    //TODO: Maybe this could be configurable
+    return "jpg";
 }

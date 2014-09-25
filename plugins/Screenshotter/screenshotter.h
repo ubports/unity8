@@ -20,7 +20,7 @@
 #define SNAPSHOTTER_H
 
 #include <QObject>
-#include <QDir>
+#include <QString>
 
 class ScreenShotter: public QObject
 {
@@ -33,9 +33,9 @@ public Q_SLOTS:
     void takeScreenshot();
 
 private:
-    QString generateName();
-    QString generateUniqueNum();
-    QDir screenshotsDir;
+    QString makeFileName();
+    QString getFormat();
+    QString fileNamePrefix;
     int screenshotQuality;
 };
 
