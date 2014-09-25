@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"POT-Creation-Date: 2014-09-18 20:12+0800\n"
 "PO-Revision-Date: 2014-08-29 10:31+0000\n"
 "Last-Translator: Sébastien Maes <nautilussebastien@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-30 07:46+0000\n"
-"X-Generator: Launchpad (build 17176)\n"
+"X-Launchpad-Export-Date: 2014-09-20 06:33+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -66,17 +66,23 @@ msgstr "Êtes-vous sûr de vouloir redémarrer ?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Alimentation"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Êtes-vous sûr de vouloir\n"
+"couper l'alimentation ?"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Éteindre"
+
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"
@@ -217,7 +223,7 @@ msgstr "Terminé"
 
 #: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
-msgstr ""
+msgstr "Logithèque"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"

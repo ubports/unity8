@@ -1,4 +1,4 @@
-# Basque translation for unity8
+# Belarusian translation for unity8
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -8,351 +8,342 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-18 20:12+0800\n"
-"PO-Revision-Date: 2014-09-20 13:13+0000\n"
-"Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
-"Language-Team: Basque <eu@li.org>\n"
+"PO-Revision-Date: 2014-09-24 17:12+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-21 06:25+0000\n"
+"X-Launchpad-Export-Date: 2014-09-25 06:48+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr "Pasahitza: "
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Pin shortcut"
-msgstr "Ainguratu lasterbidea"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unpin shortcut"
-msgstr "Askatu lasterbidea"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr "Amaitu saioa"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr "Ziur saioa amaitu nahi duzula?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr "Ez"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr "Bai"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr "Itzali"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr "Ziur itzali nahi duzula?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr "Berrabiarazi"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr "Ziur berrabiarazi nahi duzula?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr "Piztu/itzali"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr "Ziur itzali nahi duzula?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr "Itzali"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr "Berrabiarazi"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:157
 msgid "Cancel"
-msgstr "Utzi"
+msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "Saltatu aurkezpena"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Eskuineko ertza"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
-"Pasatu hatza eskuineko ertzetik ezkerrerantz telefonoa desblokeatzeko"
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Goiko ertza"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Pasatu hatza goiko ertzetik beherantz adierazleak ikusteko"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Itxi"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr "Pasatu hatza berriro gora ezarpenen leihoa ixteko"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Ezkerreko ertza"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
-"Pasatu hatza ezkerretik abiarazlea erakutsi eta aplikazioak eskura berehala "
-"izateko"
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Bikain"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
-"Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
-"zaitezke<br><br>Sakatu pantailan hasteko"
 
 #: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
-msgstr "Itxaron"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
-msgstr "Okerreko saiakera gehiegi"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
-msgstr "Larrialdi-deia"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:226
 msgid "OK"
-msgstr "Ados"
+msgstr ""
 
 #: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
-msgstr "Kaixo %1"
+msgstr ""
 
 #: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
-msgstr "Kaixo"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:361
 msgid "See less"
-msgstr "Ikusi gutxiago"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:361
 msgid "See all"
-msgstr "Ikusi guztiak"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Bilatu"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:270
 msgid "Settings"
-msgstr "Ezarpenak"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Remove from Favorites"
-msgstr "Kendu gogokoetatik"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:279
 msgid "Add to Favorites"
-msgstr "Gehitu gogokoetara"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr "Gehiago..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr "Gutxiago..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr "Puntuatu hau"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr "Gehitu kritika"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr "Bidali"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:201
 msgid "Manage Dash"
-msgstr "Kudeatu abio-leihoa"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:417
 msgid "Done"
-msgstr "Eginda"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:443
 msgid "Store"
-msgstr "Denda"
+msgstr ""
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr "Gogokoak"
+msgstr ""
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr "Guztiak"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr "Pasatu hatza desblokeatzeko"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
-msgstr "Baieztatu"
+msgstr ""
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Idatzi edo esan agindu bat"
+msgstr ""
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Kargatzen. Itxaron, mesedez..."
+msgstr ""
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Hitz egin orain..."
+msgstr ""
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Hitz egiten..."
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:105
 msgid "Show password"
-msgstr "Erakutsi pasahitza"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:120
 msgid "Enter SIM PIN"
-msgstr "Sartu SIM PINa"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:121
 msgid "Sorry, incorrect PIN"
-msgstr "Sentitzen dugu, PINa okerrekoa da"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr "Sakatu deia itzultzeko..."
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr "Konferentzia"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
-msgstr "Ilaran..."
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:655
 msgid "Downloading"
-msgstr "Deskargatzen"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:657
 msgid "Paused, tap to resume"
-msgstr "Pausatuta, sakatu jarraitzeko"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:659
 msgid "Canceled"
-msgstr "Utzita"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:661
 msgid "Finished"
-msgstr "Amaituta"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:663
 msgid "Failed, tap to retry"
-msgstr "Huts egin du, sakatu berriro saiatzeko"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "Desblokeatu SIMa"
+msgstr ""
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr "Ibiltaritza"
+msgstr ""
 
 #: qml/Shell.qml:279
 msgid "Enter your passphrase"
-msgstr "Sartu pasaesaldia"
+msgstr ""
 
 #: qml/Shell.qml:280
 msgid "Sorry, incorrect passphrase"
-msgstr "Sentitzen dugu, pasaesaldia okerrekoa da"
+msgstr ""
 
 #: qml/Shell.qml:282
 msgid "Enter your passcode"
-msgstr "Sartu pasakodea"
+msgstr ""
 
 #: qml/Shell.qml:283
 msgid "Sorry, incorrect passcode"
-msgstr "Sentitzen dugu, pasakodea okerrekoa da"
+msgstr ""
 
 #: qml/Shell.qml:286
 #, qt-format
 msgid "Enter your %1"
-msgstr "Sartu %1"
+msgstr ""
 
 #: qml/Shell.qml:287
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "Sentitzen dugu, %1 okerrekoa da"
+msgstr ""
 
 #: qml/Shell.qml:323
 msgid "Sorry, incorrect passphrase."
-msgstr "Sentitzen dugu, pasaesaldia okerrekoa da."
+msgstr ""
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode."
-msgstr "Sentitzen dugu, pasakodea okerrekoa da."
+msgstr ""
 
 #: qml/Shell.qml:325
 msgid "This will be your last attempt."
-msgstr "Hau duzu azken saiakera."
+msgstr ""
 
 #: qml/Shell.qml:327
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Okerreko pasaesaldia sartzen baduzu, telefonoaren jatorrizko ezarpenak "
-"berrezarri eta datu pertsonal guztiak ezabatuko dira."
 
 #: qml/Shell.qml:328
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
-"berrezarri eta datu pertsonal guztiak ezabatuko dira."
