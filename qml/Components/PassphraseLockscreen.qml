@@ -91,6 +91,11 @@ Item {
                 }
                 clip: true
 
+                // This is so that we can draw our own dots, for we want
+                // complete control over the pixel sizes.  (The ubuntu font
+                // has oddly sized password characters that don't scale right)
+                opacity: 0
+
                 // simulate being disabled, but without removing OSK focus
                 maximumLength: root.entryEnabled ? 32767 : length
 
@@ -99,6 +104,24 @@ Item {
                 onAccepted: {
                     if (pinentryField.text) {
                         root.entered(pinentryField.text);
+                    }
+                }
+            }
+
+            Row {
+                id: dotRow
+                anchors.centerIn: entryContainer
+
+                property real dotSize: Math.min(units.gu(2), entryContainer.width / pinentryField.length)
+                spacing: Math.min(units.gu(2), Math.max(0, (entryContainer.width / pinentryField.length) - dotSize))
+
+                Repeater {
+                    model: pinentryField.length
+                    delegate: Rectangle {
+                        color: "#f3f3e7"
+                        width: dotRow.dotSize
+                        height: width
+                        radius: width / 2
                     }
                 }
             }
