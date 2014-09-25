@@ -197,7 +197,6 @@ Row {
             }
 
             var launcher = findChild(shell, "launcherPanel");
-
             tryCompare(launcher, "x", data.launcherHides ? -launcher.width : 0)
 
             // Make sure the helper for sliding out the launcher wasn't touched. We want to fade it out here.
