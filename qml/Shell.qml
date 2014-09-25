@@ -170,7 +170,6 @@ Item {
                     lockscreen.show();
                 }
                 greeter.hide();
-                launcher.hide();
             }
 
             onFocusedApplicationIdChanged: {
