@@ -24,6 +24,8 @@ MouseArea {
     property alias text: titleLabel.text
     property alias showStar: star.visible
 
+    property bool isFavorite: false
+
     UbuntuShape {
         id: shape
         anchors {
@@ -63,10 +65,10 @@ MouseArea {
         height: units.gu(2)
         width: units.gu(2)
         // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
-        source: editMode ? "image://theme/view-grid-symbolic" : isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
+        source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
         MouseArea {
             anchors.fill: parent
-            onClicked: root.requestFavorite(model.scopeId, !isFavoriteFeeds);
+            onClicked: root.requestFavorite(model.scopeId, !isFavorite);
         }
     }
 }

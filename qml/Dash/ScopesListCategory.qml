@@ -26,6 +26,9 @@ Item {
     property var scopeStyle
     property bool editMode: false
 
+    readonly property bool isFavoritesFeed: root.model.categoryId == "favorites"
+    readonly property bool isOtherFeed: root.model.categoryId == "other"
+
     visible: !editMode || categoryId == "favorites"
 
     signal requestFavorite(string scopeId, bool favorite)
@@ -40,8 +43,8 @@ Item {
         width: root.width
         height: units.gu(5)
         text: {
-            if (categoryId == "favorites") return i18n.tr("Favourite Feeds");
-            else if (categoryId == "other") return i18n.tr("Other Subscribed Feeds");
+            if (isFavoritesFeed) return i18n.tr("Favourite Feeds");
+            else if (isOtherFeed) return i18n.tr("Other Subscribed Feeds");
             else return name;
         }
         color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
@@ -76,7 +79,8 @@ Item {
 
                 icon: model.art || ""
                 text: model.title || ""
-                showStar: model.scopeId != "clickscope" && (categoryId == "favorites" || categoryId == "other")
+                showStar: model.scopeId != "clickscope" && (root.isFavoritesFeed || root.isOtherFeed)
+                isFavorite: root.isFavoritesFeed
 
                 onClicked: root.requestActivate(result);
                 onRequestFavorite: root.requestFavorite(model.scopeId, favorite);

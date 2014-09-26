@@ -108,7 +108,7 @@ QVariant ScopesOverviewCategories::data(const QModelIndex& index, int role) cons
         return QVariant();
     }
 
-    const QString categoryId = index.row() == 0 ? "favorites" : "nonfavorites";
+    const QString categoryId = index.row() == 0 ? "favorites" : "other";
 
     ScopesOverviewResultsModel *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
