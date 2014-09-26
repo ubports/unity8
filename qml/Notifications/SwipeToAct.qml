@@ -4,6 +4,9 @@ import Ubuntu.Components 1.1
 Item {
 	id: swipeToAct
 
+	width: parent.width
+	height: childrenRect.height
+
     property alias leftText: leftLabel.text
     property alias rightText: rightLabel.text
 
@@ -24,7 +27,7 @@ Item {
     Row {
     	id: row
 
-    	width: swipeToAct.width
+    	width: parent.width
     	clip: true
 
 	    UbuntuShape {
