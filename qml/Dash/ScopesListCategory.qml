@@ -39,7 +39,11 @@ Item {
         id: header
         width: root.width
         height: units.gu(5)
-        text: isFavoriteFeeds ? i18n.tr("Favourite Feeds") : i18n.tr("Other Subscribed Feeds")
+        text: {
+            if (categoryId == "favorites") return i18n.tr("Favourite Feeds");
+            else if (categoryId == "other") return i18n.tr("Other Subscribed Feeds");
+            else return name;
+        }
         color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
     }
 
