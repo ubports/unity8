@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid "Password: "
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:44
-#: plugins/Unity/Launcher/launcheritem.cpp:74
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:74
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -157,15 +157,15 @@ msgstr ""
 msgid "Hello"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:364 qml/Dash/GenericScopeView.qml:483
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:364
+#: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:427 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr ""
@@ -203,7 +203,7 @@ msgid "Send"
 msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:206
-msgid "Manage Dash"
+msgid "Manage Scopes"
 msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:428
@@ -266,27 +266,31 @@ msgstr ""
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr ""
 
@@ -298,51 +302,51 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Shell.qml:292
+#: qml/Shell.qml:320
 msgid "Enter your passphrase"
 msgstr ""
 
-#: qml/Shell.qml:293
+#: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
 msgstr ""
 
-#: qml/Shell.qml:295
+#: qml/Shell.qml:323
 msgid "Enter your passcode"
 msgstr ""
 
-#: qml/Shell.qml:296
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
 msgstr ""
 
-#: qml/Shell.qml:299
+#: qml/Shell.qml:327
 #, qt-format
 msgid "Enter your %1"
 msgstr ""
 
-#: qml/Shell.qml:300
+#: qml/Shell.qml:328
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr ""
 
-#: qml/Shell.qml:335
+#: qml/Shell.qml:363
 msgid "Sorry, incorrect passphrase."
 msgstr ""
 
-#: qml/Shell.qml:336
+#: qml/Shell.qml:364
 msgid "Sorry, incorrect passcode."
 msgstr ""
 
-#: qml/Shell.qml:337
+#: qml/Shell.qml:365
 msgid "This will be your last attempt."
 msgstr ""
 
-#: qml/Shell.qml:339
+#: qml/Shell.qml:367
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:368
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
