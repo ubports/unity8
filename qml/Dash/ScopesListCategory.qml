@@ -59,6 +59,8 @@ Item {
         interactive: false
 
         removeDisplaced: Transition { UbuntuNumberAnimation { properties: "y" } }
+        move: Transition { UbuntuNumberAnimation { properties: "y" } }
+        moveDisplaced: Transition { UbuntuNumberAnimation { properties: "y" } }
 
         anchors.top: header.bottom
         delegate: Loader {
