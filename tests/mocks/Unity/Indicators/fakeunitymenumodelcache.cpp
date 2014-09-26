@@ -21,6 +21,14 @@
 #include <unitymenumodel.h>
 #include <QDebug>
 
+UnityMenuModelCache* FakeUnityMenuModelCache::singleton()
+{
+    if (!theCache) {
+        theCache = new UnityMenuModelCache();
+    }
+    return theCache;
+}
+
 FakeUnityMenuModelCache::FakeUnityMenuModelCache(QObject* parent)
     : UnityMenuModelCache(parent)
 {
@@ -31,6 +39,9 @@ void FakeUnityMenuModelCache::setCachedModelData(const QByteArray& bus,
                                                  const QVariantMap& actions,
                                                  const QVariantMap& properties)
 {
-    UnityMenuModel* menuModel = model(bus, path, actions);
-    menuModel->setRootProperties(properties);
+    // keep a ref forever!
+    if (!m_models.contains(path)) {
+        m_models[path] = model(bus, path, actions);
+    }
+    m_models[path]->setRootProperties(properties);
 }

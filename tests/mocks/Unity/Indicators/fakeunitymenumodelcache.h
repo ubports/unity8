@@ -22,16 +22,23 @@
 
 #include "unitymenumodelcache.h"
 
+#include <QHash>
+
 class FakeUnityMenuModelCache : public UnityMenuModelCache
 {
     Q_OBJECT
 public:
     FakeUnityMenuModelCache(QObject*parent=nullptr);
 
+    static UnityMenuModelCache* singleton();
+
     Q_INVOKABLE void setCachedModelData(const QByteArray& bus,
                                         const QByteArray& path,
                                         const QVariantMap& actions,
                                         const QVariantMap& properties);
+
+private:
+    QHash<QByteArray, QSharedPointer<UnityMenuModel>> m_models;
 };
 
 #endif // FAKEUNITYMENUMODELCACHE_H

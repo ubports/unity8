@@ -26,14 +26,17 @@
 #include "fakeindicatorsmodel.h"
 #include "indicators.h"
 #include "menucontentactivator.h"
+#include "sharedunitymenumodel.h"
 #include "fakeunitymenumodelcache.h"
 #include "unitymenumodelstack.h"
 #include "visibleindicatorsmodel.h"
 
+#include <unitymenumodel.h>
+
 static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
   Q_UNUSED(scriptEngine);
-  return new FakeUnityMenuModelCache;
+  return FakeUnityMenuModelCache::singleton();
 }
 
 void IndicatorsFakePlugin::registerTypes(const char * uri)
@@ -42,11 +45,13 @@ void IndicatorsFakePlugin::registerTypes(const char * uri)
 
     // internal
     qmlRegisterType<FakeIndicatorsModel>(uri, 0, 1, "FakeIndicatorsModel");
+    qRegisterMetaType<UnityMenuModel*>("UnityMenuModel*");
 
     // external
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
     qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
     qmlRegisterType<VisibleIndicatorsModel>(uri, 0, 1, "VisibleIndicatorsModel");
+    qmlRegisterType<SharedUnityMenuModel>(uri, 0, 1, "SharedUnityMenuModel");
 
     qmlRegisterSingletonType<FakeUnityMenuModelCache>(uri, 0, 1, "UnityMenuModelCache", menuModelCacheSingleton);
 

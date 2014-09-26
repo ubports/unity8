@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QWeakPointer>
 
 class UnityMenuModel;
 
@@ -32,15 +33,19 @@ class UNITYINDICATORS_EXPORT UnityMenuModelCache : public QObject
     Q_OBJECT
 public:
     UnityMenuModelCache(QObject*parent=nullptr);
-    ~UnityMenuModelCache();
 
-    Q_INVOKABLE UnityMenuModel* model(const QByteArray& bus,
-                                      const QByteArray& path,
-                                      const QVariantMap& actions);
+    static UnityMenuModelCache* singleton();
+
+    QSharedPointer<UnityMenuModel> model(const QByteArray& bus,
+                                         const QByteArray& path,
+                                         const QVariantMap& actions);
+
+    // for tests use
     Q_INVOKABLE bool contains(const QByteArray& path);
 
-private:
-    QHash<QByteArray, UnityMenuModel*> m_registry;
+protected:
+    QHash<QByteArray, QWeakPointer<UnityMenuModel>> m_registry;
+    static UnityMenuModelCache* theCache;
 };
 
 #endif // UNITYMENUMODELCACHE_H

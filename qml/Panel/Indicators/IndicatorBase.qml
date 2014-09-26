@@ -36,10 +36,10 @@ Item {
     property alias menuModel: cachedModel.model
     property alias rootActionState: rootAction
 
-    CachedUnityMenuModel {
+    SharedUnityMenuModel {
         id: cachedModel
         busName: indicatorItem.busName
-        actionsObjectPath: indicatorItem.actionsObjectPath
+        actions: { "indicator": indicatorItem.actionsObjectPath }
         menuObjectPath: indicatorItem.deviceMenuObjectPath
     }
 
