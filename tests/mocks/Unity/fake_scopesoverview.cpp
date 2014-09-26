@@ -44,8 +44,12 @@ void ScopesOverview::setSearchQuery(const QString& search_query)
 Q_INVOKABLE void ScopesOverview::activate(QVariant const& result)
 {
     Scopes *scopes = dynamic_cast<Scopes*>(parent());
-    m_openScope = scopes->getScopeFromAll(result.toString());
-    Q_EMIT openScope(m_openScope);
+    if (scopes->getScope(result.toString())) {
+        Q_EMIT gotoScope(result.toString());
+    } else {
+        m_openScope = scopes->getScopeFromAll(result.toString());
+        Q_EMIT openScope(m_openScope);
+    }
 }
 
 void ScopesOverview::setFavorite(Scope *scope, bool favorite)
