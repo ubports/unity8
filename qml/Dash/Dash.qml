@@ -119,7 +119,6 @@ Showable {
         clip: scale != 1.0 || scopeItem.visible || bottomEdgeController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
-                duration: bottomEdgeController.progress != 0 ? 0 : UbuntuAnimation.FastDuration
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
                         scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
