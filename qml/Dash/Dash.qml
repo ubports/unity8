@@ -158,8 +158,10 @@ Showable {
             dashContent.currentScope.performQuery("scope://com.canonical.scopes.clickstore");
         }
         onRequestFavorite: {
-            // TODO This is not yet implemented in the backend
             scopes.setFavorite(scopeId, favorite);
+        }
+        onRequestFavoriteMoveTo: {
+            scopes.moveFavoriteTo(scopeId, index);
         }
 
         Binding {

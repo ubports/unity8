@@ -30,6 +30,7 @@ Item {
     signal backClicked()
     signal storeClicked()
     signal requestFavorite(string scopeId, bool favorite)
+    signal requestFavoriteMoveTo(string scopeId, int index)
 
     state: "browse"
 
@@ -111,8 +112,9 @@ Item {
                     }
                     Connections {
                         target: item
-                        onRequestFavorite: root.requestFavorite(scopeId, favorite)
+                        onRequestFavorite: root.requestFavorite(scopeId, favorite);
                         onRequestEditMode: root.state = "edit";
+                        onRequestScopeMoveTo: root.requestFavoriteMoveTo(scopeId, index);
                     }
                 }
             }

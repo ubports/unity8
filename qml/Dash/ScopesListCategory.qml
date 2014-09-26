@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 1.1;
+import Ubuntu.Components 1.1
 import Dash 0.1
 import "../Components/ListItems" as ListItems
 
@@ -27,8 +27,11 @@ Item {
     property bool isFavoriteFeeds: false
     property bool editMode: false
 
+    visible: !editMode || isFavoriteFeeds
+
     signal requestFavorite(string scopeId, bool favorite)
     signal requestEditMode()
+    signal requestScopeMoveTo(string scopeId, int index)
 
     implicitHeight: childrenRect.height
 
@@ -43,10 +46,12 @@ Item {
     property var myTemplate: JSON.parse('{"card-layout":"horizontal","card-size":"small","category-layout":"grid","collapsed-rows":2}')
     property var myComponents: JSON.parse('{"art":{"aspect-ratio":1,"field":"art"},"title":{"field":"title"},"attributes":{}}')
 
+    readonly property double listItemHeight: units.gu(6)
+
     ListView {
         id: list
 
-        readonly property double targetHeight: model.count * units.gu(6)
+        readonly property double targetHeight: model.count * listItemHeight
         clip: height != targetHeight
         height: targetHeight
         Behavior on height { enabled: visible; UbuntuNumberAnimation { } }
@@ -59,59 +64,63 @@ Item {
         delegate: Loader {
             asynchronous: true
             width: root.width
-            height: units.gu(6)
-            sourceComponent: MouseArea {
+            height: listItemHeight
+            sourceComponent: ScopesListCategoryItem {
                 width: root.width
-                UbuntuShape {
-                    id: shape
-                    anchors {
-                        left: parent.left
-                        leftMargin: units.gu(1)
-                        verticalCenter: parent.verticalCenter
-                    }
-                    width: units.gu(5)
-                    height: units.gu(5)
-                    image: Image {
-                        source: model["art"] || ""
-                        cache: true
-                        fillMode: Image.PreserveAspectCrop
-                    }
-                }
-                Label {
-                    id: titleLabel
-                    anchors {
-                        left: shape.right
-                        leftMargin: units.gu(1)
-                        right: star.right
-                        rightMargin: units.gu(1)
-                        verticalCenter: parent.verticalCenter
-                    }
-                    text: model["title"] || ""
-                    elide: Text.ElideRight
-                    wrapMode: Text.Wrap
-                    maximumLineCount: 1
-                    verticalAlignment: Text.AlignHCenter
-                }
-                Icon {
-                    id: star
-                    anchors {
-                        right: parent.right
-                        rightMargin: units.gu(1)
-                        verticalCenter: parent.verticalCenter
-                    }
-                    height: units.gu(2)
-                    width: units.gu(2)
-                    visible: model.scopeId != "clickscope" && (isFavoriteFeeds || !editMode)
-                    // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
-                    source: editMode ? "image://theme/view-grid-symbolic" : isFavoriteFeeds ? "image://theme/starred" : "image://theme/non-starred"
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: root.requestFavorite(model.scopeId, !isFavoriteFeeds);
-                    }
-                }
 
-                onPressAndHold: root.requestEditMode();
+                icon: model.art || ""
+                text: model.title || ""
+                showStar: model.scopeId != "clickscope"
+
+                onRequestFavorite: root.requestFavorite(model.scopeId, favorite);
+                onPressAndHold: {
+                    if (!editMode) {
+                        root.requestEditMode();
+                    } else {
+                        dragItem.icon = icon;
+                        dragItem.text = text;
+                        dragItem.x = units.gu(1)
+                        dragItem.y = mapToItem(root, 0, 0).y + units.gu(1)
+                        drag.target = dragItem;
+                        dragItem.visible = true;
+                    }
+                }
+                onReleased: {
+                    if (dragItem.visible) {
+                        dragItem.visible = false;
+                        if (dragMarker.index != index && dragMarker.index != index + 1) {
+                            var targetIndex = dragMarker.index > index ? dragMarker.index - 1 : dragMarker.index;
+                            root.requestScopeMoveTo(model.scopeId, targetIndex);
+                        }
+                    }
+                }
             }
         }
+    }
+
+    Rectangle {
+        id: dragMarker
+        color: "black"
+        opacity: 0.3
+        height: units.dp(2)
+        width: root.width
+        visible: dragItem.visible
+        property int index: {
+            var i = Math.round((dragItem.y - list.y) / listItemHeight);
+            if (i <= 0) i = 1;
+            if (i >= model.count) i = model.count;
+            return i;
+        }
+        y: list.y + index * listItemHeight
+    }
+
+    ScopesListCategoryItem {
+        id: dragItem
+        objectName: "dragItem"
+        visible: false
+        showStar: false
+        width: root.width
+        height: listItemHeight
+        opacity: 0.9
     }
 }
