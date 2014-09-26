@@ -333,11 +333,11 @@ void ScopesOverviewResultsModel::removeScope(Scope *scope)
     Q_EMIT countChanged();
 }
 
-void ScopesOverviewResultsModel::moveScopeTo(Scope *scope, int index)
+void ScopesOverviewResultsModel::moveScopeTo(Scope *scope, int to)
 {
-    const int origIndex = m_scopes.indexOf(scope);
-    Q_ASSERT(origIndex != -1);
-    beginMoveRows(QModelIndex(), origIndex, origIndex, QModelIndex(), index);
-    m_scopes.move(origIndex, index);
+    const int from = m_scopes.indexOf(scope);
+    Q_ASSERT(from!= -1);
+    beginMoveRows(QModelIndex(), from, from, QModelIndex(), to + (to > from ? 1 : 0));
+    m_scopes.move(from, to);
     endMoveRows();
 }

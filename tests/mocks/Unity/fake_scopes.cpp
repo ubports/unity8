@@ -198,20 +198,20 @@ void Scopes::setFavorite(const QString& scopeId, bool favorite)
     }
 }
 
-void Scopes::moveFavoriteTo(const QString& scopeId, int index)
+void Scopes::moveFavoriteTo(const QString& scopeId, int to)
 {
-    int origIndex = -1;
+    int from = -1;
     for (int i = 0; i < m_scopes.count(); ++i) {
         if (m_scopes[i]->id() == scopeId) {
-            origIndex = i;
+            from = i;
             break;
         }
     }
-    Q_ASSERT(origIndex != -1);
-    beginMoveRows(QModelIndex(), origIndex, origIndex, QModelIndex(), index);
-    m_scopes.move(origIndex, index);
+    Q_ASSERT(from != -1);
+    beginMoveRows(QModelIndex(), from, from, QModelIndex(), to + (to > from ? 1 : 0));
+    m_scopes.move(from, to);
     endMoveRows();
-    m_scopesOverview->moveFavoriteTo(m_scopes[index], index);
+    m_scopesOverview->moveFavoriteTo(m_scopes[to], to);
 }
 
 QList<Scope*> Scopes::favScopes() const
