@@ -108,6 +108,9 @@ Item {
                         model: results
                         editMode: root.state == "edit"
 
+                        isFavoritesFeed: categoryId == "favorites"
+                        isOtherFeed: categoryId == "other"
+
                         onRequestFavorite: root.requestFavorite(scopeId, favorite);
                         onRequestEditMode: root.state = "edit";
                         onRequestScopeMoveTo: root.requestFavoriteMoveTo(scopeId, index);

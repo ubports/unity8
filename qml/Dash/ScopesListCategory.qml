@@ -25,11 +25,10 @@ Item {
     property alias model: list.model
     property var scopeStyle
     property bool editMode: false
+    property bool isFavoritesFeed: false
+    property bool isOtherFeed: false
 
-    readonly property bool isFavoritesFeed: root.model.categoryId == "favorites"
-    readonly property bool isOtherFeed: root.model.categoryId == "other"
-
-    visible: !editMode || categoryId == "favorites"
+    visible: !editMode || isFavoritesFeed
 
     signal requestFavorite(string scopeId, bool favorite)
     signal requestEditMode()
