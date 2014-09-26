@@ -417,7 +417,7 @@ Item {
                         Component {
                             id: actionButton
 
-                            Button {
+                            /*Button {
                                 objectName: "notify_button" + index
                                 width: buttonRow.width / 2 - spacing*2
                                 text: loader.actionLabel
@@ -432,9 +432,25 @@ Item {
                                     return result;
                                 }
                                 onClicked: notification.notification.invokeAction(loader.actionId)
+                            }*/
+
+                            SwipeToAct {
+                                objectName: "notify_button" + index
+
+                                leftText: loader.actionLabel
+                                rightText: loader.actionLabel
+                                width: buttonRow.width
+
+                                onLeftTriggered: {
+                                    notification.notification.invokeAction(loader.actionId)
+                                }
+
+                                onRightTriggered: {
+                                    notification.notification.invokeAction(loader.actionId)
+                                }
                             }
                         }
-                        sourceComponent: (index == 0 || index == 1) ? actionButton : undefined
+                        sourceComponent: (index == 0) ? actionButton : undefined
                     }
                 }
             }
