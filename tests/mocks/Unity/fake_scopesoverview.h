@@ -36,6 +36,7 @@ public:
 
     // This is implementation detail
     void setFavorite(Scope *scope, bool favorite);
+    void moveFavoriteTo(Scope *scope, int index);
 
 private:
     ScopesOverviewCategories *m_scopesOverviewCategories;
@@ -57,6 +58,7 @@ public:
 
     // This is implementation detail
     void setFavorite(Scope *scope, bool favorite);
+    void moveFavoriteTo(Scope *scope, int index);
 
 private:
     mutable QHash<int, ScopesOverviewResultsModel*> m_resultsModels;
@@ -107,6 +109,7 @@ public:
     // This is implementation detail
     void appendScope(Scope *scope);
     void removeScope(Scope *scope);
+    void moveScopeTo(Scope *scope, int index);
 
 private:
     QList<Scope *> m_scopes;

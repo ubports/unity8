@@ -53,6 +53,11 @@ void ScopesOverview::setFavorite(Scope *scope, bool favorite)
     m_scopesOverviewCategories->setFavorite(scope, favorite);
 }
 
+void ScopesOverview::moveFavoriteTo(Scope *scope, int index)
+{
+    m_scopesOverviewCategories->moveFavoriteTo(scope, index);
+}
+
 ScopesOverviewCategories::ScopesOverviewCategories(Scopes *scopes, QObject* parent)
     : unity::shell::scopes::CategoriesInterface(parent)
     , m_scopes(scopes)
@@ -92,8 +97,12 @@ void ScopesOverviewCategories::setFavorite(Scope *scope, bool favorite)
     }
 }
 
-QVariant
-ScopesOverviewCategories::data(const QModelIndex& index, int role) const
+void ScopesOverviewCategories::moveFavoriteTo(Scope *scope, int index)
+{
+    m_resultsModels[0]->moveScopeTo(scope, index);
+}
+
+QVariant ScopesOverviewCategories::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
@@ -322,4 +331,13 @@ void ScopesOverviewResultsModel::removeScope(Scope *scope)
     m_scopes.removeAt(index);
     endRemoveRows();
     Q_EMIT countChanged();
+}
+
+void ScopesOverviewResultsModel::moveScopeTo(Scope *scope, int index)
+{
+    const int origIndex = m_scopes.indexOf(scope);
+    Q_ASSERT(origIndex != -1);
+    beginMoveRows(QModelIndex(), origIndex, origIndex, QModelIndex(), index);
+    m_scopes.move(origIndex, index);
+    endMoveRows();
 }

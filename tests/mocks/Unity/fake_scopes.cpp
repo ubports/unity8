@@ -49,9 +49,9 @@ Scopes::~Scopes()
 void Scopes::updateScopes()
 {
     clear();
-    addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
+    addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
     addScope(new Scope("SingleCategoryScope", "Single", true, this, 1));
     addScope(new Scope("MockScope4", "MS4", true, this));
@@ -196,6 +196,22 @@ void Scopes::setFavorite(const QString& scopeId, bool favorite)
         }
         Q_ASSERT(false && "Unknown scopeId");
     }
+}
+
+void Scopes::moveFavoriteTo(const QString& scopeId, int index)
+{
+    int origIndex = -1;
+    for (int i = 0; i < m_scopes.count(); ++i) {
+        if (m_scopes[i]->id() == scopeId) {
+            origIndex = i;
+            break;
+        }
+    }
+    Q_ASSERT(origIndex != -1);
+    beginMoveRows(QModelIndex(), origIndex, origIndex, QModelIndex(), index);
+    m_scopes.move(origIndex, index);
+    endMoveRows();
+    m_scopesOverview->moveFavoriteTo(m_scopes[index], index);
 }
 
 QList<Scope*> Scopes::favScopes() const
