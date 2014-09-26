@@ -101,20 +101,17 @@ Item {
                 model: scope ? scope.categories : null
 
                 delegate: Loader {
-                    source: "ScopesListCategory.qml";
                     asynchronous: true
                     width: root.width
-                    onLoaded: {
-                        item.isFavoriteFeeds = index == 0;
-                        item.scopeStyle = scopeStyle;
-                        item.model = Qt.binding(function() { return results });
-                        item.editMode = Qt.binding(function() { return root.state == "edit" });
-                    }
-                    Connections {
-                        target: item
+                    sourceComponent: ScopesListCategory {
+                        scopeStyle: scopeStyle;
+                        model: results
+                        editMode: root.state == "edit"
+
                         onRequestFavorite: root.requestFavorite(scopeId, favorite);
                         onRequestEditMode: root.state = "edit";
                         onRequestScopeMoveTo: root.requestFavoriteMoveTo(scopeId, index);
+                        onRequestActivate: root.scope.activate(result);
                     }
                 }
             }

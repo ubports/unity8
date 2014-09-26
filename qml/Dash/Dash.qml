@@ -96,8 +96,6 @@ Showable {
     DashContent {
         id: dashContent
 
-        property var scopeThatOpenedScope: null
-
         objectName: "dashContent"
         width: dash.width
         height: dash.height
@@ -107,7 +105,7 @@ Showable {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
-            scopeThatOpenedScope = currentScope;
+            scopeItem.scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
             x = -width;
         }
@@ -124,7 +122,7 @@ Showable {
                 duration: bottomEdgeController.progress != 0 ? 0 : UbuntuAnimation.FastDuration
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        dashContent.scopeThatOpenedScope.closeScope(scopeItem.scope);
+                        scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }
                 }
@@ -169,6 +167,22 @@ Showable {
             property: "isActive"
             value: bottomEdgeController.progress === 1
         }
+
+        Connections {
+            target: scopesList.scope
+            onOpenScope: {
+                bottomEdgeController.enableAnimation = true;
+                bottomEdgeController.progress = 0;
+                scopeItem.scopeThatOpenedScope = scopesList.scope;
+                scopeItem.scope = scope;
+                dashContent.x = -dashContent.width;
+            }
+            onGotoScope: {
+                bottomEdgeController.enableAnimation = true;
+                bottomEdgeController.progress = 0;
+                dashContent.gotoScope(scopeId);
+            }
+        }
     }
 
     DashBackground
@@ -183,6 +197,8 @@ Showable {
     GenericScopeView {
         id: scopeItem
         objectName: "dashTempScopeItem"
+
+        property var scopeThatOpenedScope: null
 
         x: dashContent.x + width
         y: dashContent.y
@@ -295,7 +311,7 @@ Showable {
         enabled: !dashContent.subPageShown &&
                   dashContent.currentScope &&
                   dashContent.currentScope.searchQuery == "" &&
-                  !scopeItem.subPageShown &&
+                  !scopeItem.scope &&
                   (bottomEdgeController.progress == 0 || dragging)
 
         readonly property real fullMovement: dash.height

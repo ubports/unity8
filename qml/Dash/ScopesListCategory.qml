@@ -24,14 +24,14 @@ Item {
 
     property alias model: list.model
     property var scopeStyle
-    property bool isFavoriteFeeds: false
     property bool editMode: false
 
-    visible: !editMode || isFavoriteFeeds
+    visible: !editMode || categoryId == "favorites"
 
     signal requestFavorite(string scopeId, bool favorite)
     signal requestEditMode()
     signal requestScopeMoveTo(string scopeId, int index)
+    signal requestActivate(var result)
 
     implicitHeight: childrenRect.height
 
@@ -76,8 +76,9 @@ Item {
 
                 icon: model.art || ""
                 text: model.title || ""
-                showStar: model.scopeId != "clickscope"
+                showStar: model.scopeId != "clickscope" && (categoryId == "favorites" || categoryId == "other")
 
+                onClicked: root.requestActivate(result);
                 onRequestFavorite: root.requestFavorite(model.scopeId, favorite);
                 onPressAndHold: {
                     if (!editMode) {
