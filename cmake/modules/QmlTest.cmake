@@ -12,7 +12,7 @@
 # Two targets will be created:
 #   - testComponentName - Runs the test with qmltestrunner
 #   - tryComponentName - Runs the test with uqmlscene, for manual interaction
-#   - gdbTestComponentName - Runs the test with qmltestrunner under gdb
+#   - gdbtestComponentName - Runs the test with qmltestrunner under gdb
 #
 # To change/set a default value for the whole test suite, prior to calling add_qml_test, set:
 # qmltest_DEFAULT_NO_ADD_TEST (default: FALSE)
@@ -82,7 +82,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
     cmake_parse_arguments(qmltest_default "${options}" "" "${multi_value_keywords}" ${qmltest_DEFAULT_PROPERTIES})
 
     set(qmltest_TARGET test${COMPONENT_NAME})
-    set(qmltest_gdb_TARGET gdbTest${COMPONENT_NAME})
+    set(qmltest_gdb_TARGET gdbtest${COMPONENT_NAME})
     set(qmltest_xvfb_TARGET xvfbtest${COMPONENT_NAME})
     set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
 

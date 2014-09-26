@@ -156,7 +156,7 @@ $ make testDragHandle
 
 To run the tests for a single component/class under gdb (so you can catch SEGFAULTS)
 
-$ make gdbTestComponentName
+$ make gdbtestComponentName
 
 To run a test application that allow you to manually test or to simply try out
 a given component:
