@@ -24,6 +24,7 @@
 #include <QtGui/QImage>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickWindow>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <QDebug>
 
@@ -74,7 +75,7 @@ void ScreenGrabber::captureAndSave()
     }
 
     QImage screenshot = main_window->grabWindow();
-    saveScreenshot(screenshot, makeFileName(), getFormat(), screenshotQuality);
+    QtConcurrent::run(saveScreenshot, screenshot, makeFileName(), getFormat(), screenshotQuality);
 }
 
 QString ScreenGrabber::makeFileName()
