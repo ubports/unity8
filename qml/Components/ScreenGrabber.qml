@@ -29,6 +29,7 @@ Rectangle {
         id: keyState
         property bool volumeUp: false
         property bool volumeDown: false
+        property bool ignoreKeyPresses: false
     }
 
     ScreenGrabber {
@@ -36,11 +37,20 @@ Rectangle {
         objectName: "screenGrabber"
     }
 
+    function enable(flag)
+    {
+        keyState.ignoreKeyPresses = !flag;
+    }
+
     function onKeyPressed(key) {
+        if (keyState.ignoreKeyPresses)
+            return;
+
         if (key == Qt.Key_VolumeUp)
             keyState.volumeUp = true;
         else if (key == Qt.Key_VolumeDown)
             keyState.volumeDown = true;
+
         if (keyState.volumeDown && keyState.volumeUp) {
             enabled = true;
             visible = true;
@@ -49,7 +59,7 @@ Rectangle {
     }
 
     function onKeyReleased(key) {
-         if (key == Qt.Key_VolumeUp)
+        if (key == Qt.Key_VolumeUp)
             keyState.volumeUp = false;
         else if (key == Qt.Key_VolumeDown)
             keyState.volumeDown = false;

@@ -127,7 +127,7 @@ Item {
         id: dash
         objectName: "dashCommunicator"
     }
-    
+
     ScreenGrabber {
         id: screenGrabber
         z: edgeDemo.z + 10
@@ -496,6 +496,7 @@ Item {
         target: Powerd
 
         onStatusChanged: {
+            screenGrabber.enable(Powerd.status === Powerd.On)
             if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
                 greeter.showNow()
             }
