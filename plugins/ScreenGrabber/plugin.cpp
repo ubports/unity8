@@ -16,27 +16,13 @@
  * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-#ifndef SNAPSHOTTER_H
-#define SNAPSHOTTER_H
+#include "plugin.h"
+#include "screengrabber.h"
 
-#include <QObject>
-#include <QString>
+#include <QtQml/qqml.h>
 
-class ScreenShotter: public QObject
+void ScreenGrabberPlugin::registerTypes(const char *uri)
 {
-    Q_OBJECT
-
-public:
-    explicit ScreenShotter(QObject *parent = 0);
-
-public Q_SLOTS:
-    void takeScreenshot();
-
-private:
-    QString makeFileName();
-    QString getFormat();
-    QString fileNamePrefix;
-    int screenshotQuality;
-};
-
-#endif
+    Q_ASSERT(uri == QLatin1String("ScreenGrabber"));
+    qmlRegisterType<ScreenGrabber>(uri, 0, 1, "ScreenGrabber");
+}

@@ -16,13 +16,18 @@
  * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-#include "plugin.h"
-#include "screenshotter.h"
+#ifndef SCREENGRABBER_PLUGIN_H
+#define SCREENGRABBER_PLUGIN_H
 
-#include <QtQml/qqml.h>
+#include <QtQml/QQmlExtensionPlugin>
 
-void ScreenshotterPlugin::registerTypes(const char *uri)
+class ScreenGrabberPlugin : public QQmlExtensionPlugin
 {
-    Q_ASSERT(uri == QLatin1String("Screenshotter"));
-    qmlRegisterType<ScreenShotter>(uri, 0, 1, "Screenshotter");
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri);
+};
+
+#endif // SCREENGRABBER_PLUGIN_H

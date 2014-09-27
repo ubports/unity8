@@ -16,18 +16,27 @@
  * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-#ifndef SCREENSHOTTER_PLUGIN_H
-#define SCREENSHOTTER_PLUGIN_H
+#ifndef SNAPSHOTTER_H
+#define SNAPSHOTTER_H
 
-#include <QtQml/QQmlExtensionPlugin>
+#include <QObject>
+#include <QString>
 
-class ScreenshotterPlugin : public QQmlExtensionPlugin
+class ScreenGrabber: public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    void registerTypes(const char *uri);
+    explicit ScreenGrabber(QObject *parent = 0);
+
+public Q_SLOTS:
+    void captureAndSave();
+
+private:
+    QString makeFileName();
+    QString getFormat();
+    QString fileNamePrefix;
+    int screenshotQuality;
 };
 
-#endif // SCREENSHOTTER_PLUGIN_H
+#endif

@@ -16,17 +16,24 @@
  * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-#include "screenshotter.h"
+#include "screengrabber.h"
 
 #include <QDir>
 #include <QDateTime>
 #include <QStandardPaths>
+#include <QtGui/QImage>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickWindow>
 
 #include <QDebug>
 
-ScreenShotter::ScreenShotter(QObject *parent)
+void saveScreenshot(QImage screenshot, QString filename, QString format, int quality)
+{
+    if (!screenshot.save(filename, format.toLatin1().data(), quality))
+        qWarning() << "ScreenShotter: failed to save snapshot!";
+}
+
+ScreenGrabber::ScreenGrabber(QObject *parent)
     : QObject(parent),
       screenshotQuality(90)
 {
@@ -44,7 +51,7 @@ ScreenShotter::ScreenShotter(QObject *parent)
     }
 }
 
-void ScreenShotter::takeScreenshot()
+void ScreenGrabber::captureAndSave()
 {
     if (fileNamePrefix.isEmpty())
     {
@@ -66,12 +73,11 @@ void ScreenShotter::takeScreenshot()
         return;
     }
 
-    QImage snapshot = main_window->grabWindow();
-    if (!snapshot.save(makeFileName(), getFormat().toLatin1().data(), screenshotQuality))
-        qWarning() << "ScreenShotter: failed to save snapshot!";
+    QImage screenshot = main_window->grabWindow();
+    saveScreenshot(screenshot, makeFileName(), getFormat(), screenshotQuality);
 }
 
-QString ScreenShotter::makeFileName()
+QString ScreenGrabber::makeFileName()
 {
     QString fileName(fileNamePrefix);
     fileName.append(QDateTime::currentDateTime().toString("yyyymmdd_hhmmsszzz"));
@@ -80,8 +86,8 @@ QString ScreenShotter::makeFileName()
     return fileName;
 }
 
-QString ScreenShotter::getFormat()
+QString ScreenGrabber::getFormat()
 {
-    //TODO: Maybe this could be configurable
+    //TODO: This should be configurable (perhaps through gsettings?)
     return "jpg";
 }

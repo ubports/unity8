@@ -1,3 +1,0 @@
-module Screenshotter
-plugin Screenshotter-qml
-typeinfo Screenshotter.qmltypes
