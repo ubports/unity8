@@ -576,6 +576,10 @@ Item {
                 if (ApplicationManager.focusedApplicationId != "unity8-dash") {
                     showDash()
                 }
+                if (greeter.shown) {
+                    launcher.fadeOut()
+                    greeter.hideRight()
+                }
             }
             onDashSwipeChanged: {
                 if (dashSwipe) {
