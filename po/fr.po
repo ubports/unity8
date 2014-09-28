@@ -7,26 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
 "PO-Revision-Date: 2014-08-29 10:31+0000\n"
 "Last-Translator: Sébastien Maes <nautilussebastien@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-20 06:33+0000\n"
+"X-Launchpad-Export-Date: 2014-09-28 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Mot de passe : "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Épingler le raccourci"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Détacher le raccourci"
 
@@ -84,7 +84,7 @@ msgstr "Éteindre"
 msgid "Restart"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -168,36 +168,36 @@ msgstr "Bonjour %1"
 msgid "Hello"
 msgstr "Bonjour"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
 msgstr "Voir moins"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
 msgstr "Tout voir"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Rechercher"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
 msgstr "Paramètres"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
 msgstr "Retirer des favoris"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
 msgstr "Ajouter aux favoris"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Plus..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "Moins..."
 
@@ -213,15 +213,15 @@ msgstr "Ajouter un avis"
 msgid "Send"
 msgstr "Envoyer"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "Gérer le tableau de bord"
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:417
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "Terminé"
 
-#: qml/Dash/ScopesOverview.qml:443
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "Logithèque"
 
@@ -257,15 +257,15 @@ msgstr "Parlez maintenant…"
 msgid "Speaking..."
 msgstr "En cours d'écoute..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
 msgstr "Afficher le mot de passe"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
 msgstr "Entrez le code PIN de la SIM"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
 msgstr "Désolé, code PIN incorrect"
 
@@ -277,27 +277,31 @@ msgstr "Appuyez pour revenir à l'appel…"
 msgid "Conference"
 msgstr "Conférence"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr "Dans la file d'attente..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "Téléchargement en cours"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr "En pause, appuyez pour reprendre"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr "Annulé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr "Terminé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr "Échec, appuyez pour réessayer"
 
@@ -309,45 +313,45 @@ msgstr "Déverrouiller la carte SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:279
+#: qml/Shell.qml:320
 msgid "Enter your passphrase"
 msgstr "Entrez votre phrase secrète"
 
-#: qml/Shell.qml:280
+#: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
 msgstr "Désolé, phrase secrète incorrecte"
 
-#: qml/Shell.qml:282
+#: qml/Shell.qml:323
 msgid "Enter your passcode"
 msgstr "Entrez votre code"
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
 msgstr "Désolé, code incorrect"
 
-#: qml/Shell.qml:286
+#: qml/Shell.qml:327
 #, qt-format
 msgid "Enter your %1"
 msgstr "Saisissez votre %1"
 
-#: qml/Shell.qml:287
+#: qml/Shell.qml:328
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Désolé, %1 incorrect"
 
-#: qml/Shell.qml:323
+#: qml/Shell.qml:363
 msgid "Sorry, incorrect passphrase."
 msgstr "Désolé, phrase secrète incorrecte."
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:364
 msgid "Sorry, incorrect passcode."
 msgstr "Désolé, code incorrect."
 
-#: qml/Shell.qml:325
+#: qml/Shell.qml:365
 msgid "This will be your last attempt."
 msgstr "Ceci sera votre dernière tentative."
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:367
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -356,7 +360,7 @@ msgstr ""
 "effectuera une réinitialisation aux paramètres d'usine et toutes les données "
 "personnelles seront supprimées."
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:368
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -364,3 +368,6 @@ msgstr ""
 "Si le code est saisi de manière incorrecte, votre téléphone effectuera une "
 "réinitialisation aux paramètres d'usine et toutes les données personnelles "
 "seront supprimées."
+
+#~ msgid "Manage Dash"
+#~ msgstr "Gérer le tableau de bord"

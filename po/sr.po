@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
 "PO-Revision-Date: 2014-09-24 13:29+0000\n"
 "Last-Translator: Данило Шеган <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-27 06:34+0000\n"
+"X-Launchpad-Export-Date: 2014-09-28 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -207,8 +207,8 @@ msgid "Send"
 msgstr "Пошаљи"
 
 #: qml/Dash/ScopesOverview.qml:206
-msgid "Manage Dash"
-msgstr "Управљај Полицом"
+msgid "Manage Scopes"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -269,6 +269,10 @@ msgstr "Тапните да одговорите на позив"
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
 msgstr "Конференција"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -355,3 +359,6 @@ msgid ""
 msgstr ""
 "Ако се унесе погрешан код, ваш телефон ће се ресетовати и сви лични подаци "
 "ће бити обрисани."
+
+#~ msgid "Manage Dash"
+#~ msgstr "Управљај Полицом"

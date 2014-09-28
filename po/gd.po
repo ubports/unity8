@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-18 20:12+0800\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
 "PO-Revision-Date: 2014-09-25 12:40+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-27 06:34+0000\n"
+"X-Launchpad-Export-Date: 2014-09-28 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: gd\n"
 
@@ -214,8 +214,8 @@ msgid "Send"
 msgstr "Cuir"
 
 #: qml/Dash/ScopesOverview.qml:206
-msgid "Manage Dash"
-msgstr "Stiùirich an deas-bhòrd"
+msgid "Manage Scopes"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -276,6 +276,10 @@ msgstr "Gnog gus tilleadh dhan ghairm..."
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
 msgstr "Gairm co-labhairt"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -364,3 +368,6 @@ msgstr ""
 "Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
 "shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
 "a sguabadh às."
+
+#~ msgid "Manage Dash"
+#~ msgstr "Stiùirich an deas-bhòrd"
