@@ -223,7 +223,7 @@ var kTitleLabelCode = 'Label { \n\
                         visible: showHeader %3; \n\
                         text: root.title; \n\
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
-                        horizontalAlignment: lineCount === 2 ? Text.AlignLeft : root.titleAlignment; \n\
+                        horizontalAlignment: root.titleAlignment; \n\
                     }\n';
 
 // %1 is used as extra anchors of emblemIcon

@@ -100,7 +100,7 @@ Image {
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: lineCount === 2 ? Text.AlignLeft : root.titleAlignment; 
+                        horizontalAlignment: root.titleAlignment; 
                     }
 ,Label { 
                             id: subtitleLabel; 
