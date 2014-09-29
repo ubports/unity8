@@ -105,8 +105,8 @@ public:
     bool requestFocusApplication(const QString &appId) { Q_UNUSED(appId); return true; }
     bool suspended() const { return false; }
     void setSuspended(bool) {}
-    bool dashActive() const { return false; }
-    void setDashActive(bool) {}
+    bool forceDashActive() const { return false; }
+    void setForceDashActive(bool) {}
 
 private:
     QList<MockApp*> m_list;
