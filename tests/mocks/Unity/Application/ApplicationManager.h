@@ -99,11 +99,11 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
 
     QString focusedApplicationId() const override;
-    bool suspended() const;
-    void setSuspended(bool suspended);
+    bool suspended() const override;
+    void setSuspended(bool suspended) override;
 
-    bool dashActive() const;
-    void setDashActive(bool dashActive);
+    bool dashActive() const override;
+    void setDashActive(bool dashActive) override;
 
     // Only for testing
     Q_INVOKABLE QStringList availableApplications();

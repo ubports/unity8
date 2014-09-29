@@ -27,7 +27,7 @@
 class QDBusInterface;
 class QDBusServiceWatcher;
 
-class AbstractDBusServiceMonitor : public QObject
+class Q_DECL_EXPORT AbstractDBusServiceMonitor : public QObject
 {
     Q_OBJECT
     Q_ENUMS(Bus)
