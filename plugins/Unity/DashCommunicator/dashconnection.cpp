@@ -27,5 +27,7 @@ DashConnection::DashConnection(const QString &service, const QString &path, cons
 
 void DashConnection::setCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
 {
-    dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
+    if (dbusInterface()) {
+        dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
+    }
 }
