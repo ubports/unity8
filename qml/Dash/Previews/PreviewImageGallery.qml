@@ -26,6 +26,8 @@ PreviewWidget {
     id: root
     implicitHeight: units.gu(22)
 
+    property Item rootItem: QuickUtils.rootItem(root)
+
     ListView {
         id: previewImageListView
         spacing: units.gu(1)
@@ -34,24 +36,6 @@ PreviewWidget {
         cacheBuffer: width * 3
         model: root.widgetData["sources"]
         clip: true
-
-        // FIXME: Because of ListViews inside ListViews inside Flickables inside ListViews (and some more)
-        // we finally reached the point where this ListView doesn't correctly get swipe input any more but
-        // instead the parent ListView is the one that is swiped. This MouseArea sort of creates a blocking
-        // layer to make sure this ListView can be swiped, regardless of what's behind it.
-        MouseArea {
-            anchors.fill: parent
-            enabled: parent.contentWidth > parent.width
-        }
-
-        // FIXME: Because of ListViews inside ListViews inside Flickables inside ListViews (and some more)
-        // we finally reached the point where this ListView doesn't correctly get swipe input any more but
-        // instead the parent ListView is the one that is swiped. This MouseArea sort of creates a blocking
-        // layer to make sure this ListView can be swiped, regardless of what's behind it.
-        MouseArea {
-            anchors.fill: parent
-            enabled: parent.contentWidth > parent.width
-        }
 
         LazyImage {
             objectName: "placeholderScreenshot"
@@ -73,6 +57,119 @@ PreviewWidget {
             source: modelData ? modelData : ""
             scaleTo: "height"
             initialWidth: units.gu(13)
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    slideShowListView.currentIndex = index;
+                    slideShow.initialX = rootItem.mapFromItem(parent, 0, 0).x
+                    slideShow.initialY = rootItem.mapFromItem(parent, 0, 0).y
+                    slideShow.visible = true;
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        id: slideShow
+        objectName: "slideShow"
+
+        readonly property real initialScale: previewImageListView.height / rootItem.height
+        readonly property real scaleProgress: (scale - initialScale) / (1.0 - initialScale)
+        property real initialX: 0
+        property real initialY: 0
+
+        parent: rootItem
+        width: parent.width
+        height: parent.height
+        visible: false
+        clip: visible && scale < 1.0
+        scale: visible ? 1.0 : initialScale
+        transformOrigin: Item.TopLeft
+        transform: Translate {
+            x: slideShow.initialX - slideShow.initialX * slideShow.scaleProgress
+            y: slideShow.initialY - slideShow.initialY * slideShow.scaleProgress
+        }
+        color: "black"
+
+        Behavior on scale {
+            enabled: !slideShow.visible
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+        }
+
+        ListView  {
+            id: slideShowListView
+            anchors.fill: parent
+            orientation: ListView.Horizontal
+            highlightRangeMode: ListView.StrictlyEnforceRange
+            highlightMoveDuration: 0
+            snapMode: ListView.SnapOneItem
+            boundsBehavior: Flickable.DragAndOvershootBounds
+            model: root.widgetData["sources"]
+
+            delegate: Image {
+                id: screenshot
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                width: slideShow.width
+                source: modelData ? modelData : ""
+                fillMode: Image.PreserveAspectFit
+                sourceSize { width: screenshot.width; height: screenshot.height }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: slideShowHeader.shown = !slideShowHeader.shown
+            }
+        }
+
+        Rectangle {
+            id: slideShowHeader
+
+            property bool shown: true
+
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            height: units.gu(7)
+            visible: opacity > 0
+            opacity: shown ? 0.8 : 0
+            color: "black"
+
+            Behavior on opacity {
+                UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+            }
+
+            AbstractButton {
+                id: slideShowBackButton
+                objectName: "slideShowBackButton"
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                width: units.gu(8)
+                height: width
+
+                onClicked: slideShow.visible = false
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: Qt.rgba(1.0, 1.0, 1.0, 0.3)
+                    visible: slideShowBackButton.pressed
+                }
+
+                Icon {
+                    id: icon
+                    anchors.centerIn: parent
+                    width: units.gu(2.5)
+                    height: width
+                    color: Theme.palette.normal.foregroundText
+                    name: "back"
+                }
+            }
         }
     }
 }
