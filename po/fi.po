@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-28 06:37+0000\n"
+"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -208,7 +208,7 @@ msgstr "Lähetä"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Näkymien hallinta"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -272,7 +272,7 @@ msgstr "Ryhmäpuhelu"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Mitään ei toisteta juuri nyt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"

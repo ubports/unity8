@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-20 11:45+0000\n"
-"Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
+"PO-Revision-Date: 2014-09-28 13:24+0000\n"
+"Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-28 06:37+0000\n"
+"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -211,7 +211,7 @@ msgstr "Trimite"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Administrare domenii"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -275,7 +275,7 @@ msgstr "Conferință"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Nu se redă nimic"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
