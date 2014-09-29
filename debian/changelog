@@ -1,3 +1,41 @@
+unity8 (8.00+14.10.20140926-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Nick Dedekind ]
+  * Visual changes for indicator RTM polishing (LP: #1329289)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 26 Sep 2014 19:12:39 +0000
+
+unity8 (8.00+14.10.20140923-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * fix swiping away the launcher from the left edge
+  * fix indicators AP test
+
+  [ Florian Boucault ]
+  * New Splash screen implementation that fakes real app
+
+  [ Albert Astals ]
+  * We need this in build-depends so that qmluitests pass in CI
+
+  [ Daniel d'Andrada ]
+  * New Splash screen implementation that fakes real app
+
+  [ Michael Terry ]
+  * Fix LC_ALL and test harder by making both manual runs of
+    timeformattertest and the whole test suite use the same locale
+    settings.
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 23 Sep 2014 09:26:18 +0000
+
 unity8 (8.00+14.10.20140918.3-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]

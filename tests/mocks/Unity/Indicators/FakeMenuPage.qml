@@ -19,16 +19,6 @@ import QtQuick 2.0
 Flickable {
     objectName: "fakeMenuPlugin"
     // Make it compatible with the PluginItem interface
-    function start() {
-        if (shell != undefined && shell.indicator_status != undefined) {
-            shell.indicator_status[objectName].started = true;
-        }
-    }
-    function stop() {
-        if (shell != undefined && shell.indicator_status != undefined) {
-            shell.indicator_status[objectName].started = false;
-        }
-    }
     function reset() {
         if (shell != undefined && shell.indicator_status != undefined) {
             shell.indicator_status[objectName].reset++;

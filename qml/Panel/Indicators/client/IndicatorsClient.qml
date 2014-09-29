@@ -25,6 +25,10 @@ Rectangle {
     color: "black"
     id: root
 
+    Component.onCompleted: {
+        Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+    }
+
     PageStack {
         id: pages
         anchors.fill: parent
