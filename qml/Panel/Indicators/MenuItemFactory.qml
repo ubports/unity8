@@ -19,11 +19,10 @@
 
 import QtQuick 2.0
 import Ubuntu.Settings.Menus 0.1 as Menus
-import Ubuntu.Settings.Components 0.1 as SettingsComponents
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 Item {
     id: menuFactory
@@ -32,32 +31,38 @@ Item {
     property var menuModel: null
 
     property var _map:  {
-        "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
-        "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
+        "default": {
+            "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
+            "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
 
-        "com.canonical.indicator.button"         : buttonMenu,
-        "com.canonical.indicator.div"            : separatorMenu,
-        "com.canonical.indicator.section"        : sectionMenu,
-        "com.canonical.indicator.progress"       : progressMenu,
-        "com.canonical.indicator.slider"         : sliderMenu,
-        "com.canonical.indicator.switch"         : switchMenu,
-        "com.canonical.indicator.alarm"          : alarmMenu,
-        "com.canonical.indicator.appointment"    : appointmentMenu,
-        "com.canonical.indicator.transfer"       : transferMenu,
-        "com.canonical.indicator.button-section" : buttonSectionMenu,
+            "com.canonical.indicator.button"         : buttonMenu,
+            "com.canonical.indicator.div"            : separatorMenu,
+            "com.canonical.indicator.section"        : sectionMenu,
+            "com.canonical.indicator.progress"       : progressMenu,
+            "com.canonical.indicator.slider"         : sliderMenu,
+            "com.canonical.indicator.switch"         : switchMenu,
+            "com.canonical.indicator.alarm"          : alarmMenu,
+            "com.canonical.indicator.appointment"    : appointmentMenu,
+            "com.canonical.indicator.transfer"       : transferMenu,
+            "com.canonical.indicator.button-section" : buttonSectionMenu,
+            "com.canonical.indicator.link"           : linkMenu,
 
-        "com.canonical.indicator.messages.messageitem"  : messageItem,
-        "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
+            "com.canonical.indicator.messages.messageitem"  : messageItem,
+            "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
 
-        "com.canonical.unity.slider"    : sliderMenu,
-        "com.canonical.unity.switch"    : switchMenu,
+            "com.canonical.unity.slider"    : sliderMenu,
+            "com.canonical.unity.switch"    : switchMenu,
 
-        "com.canonical.unity.media-player"    : mediaPayerMenu,
-        "com.canonical.unity.playback-item"   : playbackItemMenu,
+            "com.canonical.unity.media-player"    : mediaPayerMenu,
+            "com.canonical.unity.playback-item"   : playbackItemMenu,
 
-        "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
-        "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
-        "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
+            "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
+            "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
+            "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
+        },
+        "indicator-messages" : {
+            "com.canonical.indicator.button"         : messagesButtonMenu
+        }
     }
 
     function getExtendedProperty(object, propertyName, defaultValue) {
@@ -100,6 +105,7 @@ Item {
                 return maximum;
             }
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -138,12 +144,43 @@ Item {
 
             buttonText: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
         }
     }
+
+    Component {
+        id: messagesButtonMenu;
+
+        Item {
+            objectName: "messagesButtonMenu"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+
+            implicitHeight: units.gu(5)
+            enabled: menuData && menuData.sensitive || false
+
+            Label {
+                id: buttonMenuLabel
+                text: menuData && menuData.label || ""
+                anchors.centerIn: parent
+                font.bold: true
+            }
+
+            MouseArea {
+                anchors {
+                    fill: buttonMenuLabel
+                    margins: units.gu(-1)
+                }
+                onClicked: menuModel.activate(menuIndex);
+            }
+        }
+    }
+
     Component {
         id: sectionMenu;
 
@@ -169,6 +206,7 @@ Item {
             iconSource: menuData && menuData.icon || ""
             value : menuData && menuData.actionState || 0.0
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
         }
     }
 
@@ -183,9 +221,57 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
+            }
+
+            // FIXME : At the moment, the indicators aren't using
+            // com.canonical.indicators.link for settings menu. Need to fudge it.
+            property bool settingsMenu: menuData && menuData.action.indexOf("settings") > -1 || false
+            backColor: settingsMenu ? Qt.rgba(1,1,1,0.07) : "transparent"
+            component: settingsMenu ? buttonForSettings : undefined
+            Component {
+                id: buttonForSettings
+                Icon {
+                    name: "settings"
+                    height: units.gu(3)
+                    width: height
+                    color: Theme.palette.selected.backgroundText
+                }
+            }
+        }
+    }
+
+    Component {
+        id: linkMenu;
+
+        Menus.StandardMenu {
+            objectName: "linkMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
+
+            onTriggered: {
+                menuModel.activate(menuIndex);
+            }
+
+            backColor: Qt.rgba(1,1,1,0.07)
+
+            component: menuData.icon ? icon : undefined
+            Component {
+                id: icon
+                Icon {
+                    source: menuData.icon
+                    height: units.gu(3)
+                    width: height
+                    color: Theme.palette.selected.backgroundText
+                }
             }
         }
     }
@@ -201,6 +287,7 @@ Item {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onServerCheckedChanged: {
                 // value can be changed by menu, so a binding won't work.
@@ -211,7 +298,6 @@ Item {
             }
         }
     }
-
 
     Component {
         id: switchMenu;
@@ -225,6 +311,7 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onServerCheckedChanged: {
                 // value can be changed by menu, so a binding won't work.
@@ -255,6 +342,7 @@ Item {
             iconSource: menuData && menuData.icon || "image://theme/alarm-clock"
             time: timeFormatter.timeString
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -294,6 +382,7 @@ Item {
             time: timeFormatter.timeString
             eventColor: getExtendedProperty(extendedData, "xCanonicalColor", Qt.rgba(0.0, 0.0, 0.0, 0.0))
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -363,10 +452,11 @@ Item {
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             signalStrength: strengthAction.valid ? strengthAction.state : 0
+            highlightWhenPressed: false
 
             onServerCheckedChanged: {
                 // value can be changed by menu, so a binding won't work.
-                checked = serverChecked;
+                active = serverChecked;
             }
             onMenuModelChanged: {
                 loadAttributes();
@@ -395,6 +485,7 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
+            highlightWhenPressed: false
 
             property var statusLabelAction: UnityMenuAction {
                 model: menuModel
@@ -480,9 +571,10 @@ Item {
             property var extendedData: menuData && menuData.ext || undefined
 
             text: menuData && menuData.label || ""
-            iconSource: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
+            iconSource: getExtendedProperty(extendedData, "icon", "image://theme/message")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
             removable: true
 
             onMenuModelChanged: {
@@ -514,17 +606,20 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var actionState: menuData && menuData.actionState || undefined
+            property bool running: getExtendedProperty(actionState, "running", false)
 
-            playerIcon: menuData && menuData.icon || ""
-            playerName: menuData && menuData.label || ""
+            playerIcon: menuData && menuData.icon || "image://theme/stock_music"
+            playerName: menuData && menuData.label || i18n.tr("Nothing is playing")
 
-            albumArt: getExtendedProperty(actionState, "art-url", "")
-            song: getExtendedProperty(actionState, "title", "unknown")
-            artist: getExtendedProperty(actionState, "artist", "unknown")
-            album: getExtendedProperty(actionState, "album", "unknown")
-            running: getExtendedProperty(actionState, "running", false)
+            albumArt: getExtendedProperty(actionState, "art-url", "image://theme/stock_music")
+            song: getExtendedProperty(actionState, "title", "")
+            artist: getExtendedProperty(actionState, "artist", "")
+            album: getExtendedProperty(actionState, "album", "")
+            showTrack: running && (state == "Playing" || state == "Paused")
             state: getExtendedProperty(actionState, "state", "")
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
+            showDivider: false
 
             onTriggered: {
                 model.activate(modelIndex);
@@ -563,6 +658,7 @@ Item {
             canGoNext: nextAction.valid
             canGoPrevious: previousAction.valid
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
 
             onPlay: {
                 playAction.activate();
@@ -602,9 +698,10 @@ Item {
             property var uid: getExtendedProperty(extendedData, "xCanonicalUid", undefined)
 
             text: menuData && menuData.label || ""
-            iconSource: menuData && menuData.icon || ""
+            iconSource: menuData && menuData.icon || "image://theme/transfer-none"
             maximum: 1.0
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
             removable: true
             confirmRemoval: true
 
@@ -700,7 +797,7 @@ Item {
     Component {
         id: buttonSectionMenu;
 
-        ListItems.Standard {
+        Menus.StandardMenu {
             objectName: "buttonSectionMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -709,8 +806,9 @@ Item {
 
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
             text: menuData && menuData.label || ""
-            showDivider: false
+            foregroundColor: Theme.palette.normal.backgroundText
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -723,22 +821,35 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
             }
 
-            control: Button {
-                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
+            component: Component {
+                Button {
+                    objectName: "buttonSectionMenuControl"
+                    text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
-                onClicked: {
-                    menuModel.activate(menuIndex);
+                    onClicked: {
+                        menuModel.activate(menuIndex);
+                    }
                 }
             }
         }
     }
 
-    function load(modelData) {
+    function load(modelData, context) {
         if (modelData.type !== undefined) {
-            var component = _map[modelData.type];
+            var component = undefined;
+
+            var contextComponents = _map[context];
+            if (contextComponents !== undefined) {
+                component = contextComponents[modelData.type];
+            }
+
+            if (component === undefined) {
+                component = _map["default"][modelData.type];
+            }
             if (component !== undefined) {
                 return component;
             }
+            console.debug("Don't know how to make " + modelData.type + " for " + context);
         }
         if (modelData.isCheck || modelData.isRadio) {
             return checkableMenu;

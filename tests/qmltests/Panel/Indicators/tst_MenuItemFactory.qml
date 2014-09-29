@@ -373,9 +373,9 @@ Item {
         function test_create_alarmMenu_data() {
             return [
                 {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(0, 0, 0, 0),
-                            time: new Date(2014, 04, 14).getTime()*1000, timeFormat: "%a %d %b %l:%M %p"},
+                            time: new Date(2014, 04, 14), timeFormat: "%a %d %b %l:%M %p"},
                 {label: "testLabel2", enabled: false, icon: "file:///testIcon2", color: Qt.rgba(1, 0, 0, 0),
-                            time: new Date(2015, 12, 31).getTime()*1000, timeFormat: "%A" },
+                            time: new Date(2015, 11, 31), timeFormat: "%A" },
             ];
         }
 
@@ -385,11 +385,11 @@ Item {
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
             menuData.ext = {
-                'xCanonicalTime': data.time,
+                'xCanonicalTime': data.time.getTime() / 1000,
                 'xCanonicalTimeFormat': data.timeFormat
             };
             timeFormatter.format = data.timeFormat;
-            timeFormatter.time = data.time;
+            timeFormatter.time = data.time.getTime() / 1000;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -405,9 +405,9 @@ Item {
         function test_create_appointmentMenu_data() {
             return [
                 {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(0, 0, 0, 0),
-                            time: new Date(2014, 04, 14).getTime()*1000, timeFormat: "%a %d %b %l:%M %p"},
+                            time: new Date(2014, 04, 14), timeFormat: "%a %d %b %l:%M %p"},
                 {label: "testLabel2", enabled: false, icon: "file:///testIcon2", color: Qt.rgba(1, 0, 0, 0),
-                            time: new Date(2015, 12, 31).getTime()*1000, timeFormat: "%A" },
+                            time: new Date(2015, 11, 31), timeFormat: "%A" },
             ];
         }
 
@@ -418,11 +418,11 @@ Item {
             menuData.icon = data.icon;
             menuData.ext = {
                 'xCanonicalColor': data.colour,
-                'xCanonicalTime': data.time,
+                'xCanonicalTime': data.time.getTime() / 1000,
                 'xCanonicalTimeFormat': data.timeFormat
             };
             timeFormatter.format = data.timeFormat;
-            timeFormatter.time = data.time;
+            timeFormatter.time = data.time.getTime() / 1000;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -493,7 +493,10 @@ Item {
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
-            compare(loader.item.control.text, data.buttonText, "Button text does not match data");
+
+            var button = findChild(loader.item, "buttonSectionMenuControl");
+            verify(button !== null);
+            compare(button.text, data.buttonText, "Button text does not match data");
         }
 
         function test_create_wifiSection_data() {
@@ -519,8 +522,8 @@ Item {
 
         function test_create_accessPoint_data() {
             return [
-                {label: "testLabel1", enabled: true, checked: false, secure: true, adHoc: false },
-                {label: "testLabel2", enabled: false, checked: true, secure: false, adHoc: true },
+                {label: "testLabel1", enabled: true, active: false, secure: true, adHoc: false },
+                {label: "testLabel2", enabled: false, active: true, secure: false, adHoc: true },
             ];
         }
 
@@ -528,7 +531,7 @@ Item {
             menuData.type = "unity.widgets.systemsettings.tablet.accesspoint";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
-            menuData.isToggled = data.checked;
+            menuData.isToggled = data.active;
             menuData.ext = {
                 'xCanonicalWifiApStrengthAction': "action::strength",
                 'xCanonicalWifiApIsSecure': data.secure,
@@ -544,7 +547,7 @@ Item {
             compare(loader.item.strengthAction.name, "action::strength", "Strength action incorrect");
             compare(loader.item.secure, data.secure, "Secure does not match data");
             compare(loader.item.adHoc, data.adHoc, "AdHoc does not match data");
-            compare(loader.item.checked, data.checked, "Checked does not match data");
+            compare(loader.item.active, data.active, "Checked does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
@@ -640,7 +643,8 @@ Item {
                     album: "album1",
                     running: true,
                     state: "Playing",
-                    enabled: true
+                    enabled: true,
+                    showTrack: true
                 },{
                     label: "player2",
                     icon: "file:://icon2",
@@ -650,7 +654,19 @@ Item {
                     album: "album2",
                     running: false,
                     state: "Paused",
-                    enabled: false
+                    enabled: false,
+                    showTrack: false
+                },{
+                    label: "player3",
+                    icon: "file:://icon3",
+                    albumArt: "file:://art3",
+                    song: "song3",
+                    artist: "artist3",
+                    album: "album3",
+                    running: true,
+                    state: "Stopped",
+                    enabled: true,
+                    showTrack: false
                 }
             ];
         }
@@ -680,7 +696,7 @@ Item {
             compare(loader.item.song, data.song, "Song does not match data");
             compare(loader.item.artist, data.artist, "Artist does not match data");
             compare(loader.item.album, data.album, "Album does not match data");
-            compare(loader.item.running, data.running, "Running does not match data");
+            compare(loader.item.showTrack, data.showTrack, "Show track does not match data");
             compare(loader.item.state, data.state, "State does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
