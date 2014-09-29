@@ -26,6 +26,7 @@ Item {
     enabled: menuObjectPath != ""
 
     //const
+    property string identifier
     property string busName
     property string actionsObjectPath
     property string menuObjectPath
