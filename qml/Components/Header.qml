@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes.Ambiance 1.1
 
-Flickable {
-    objectName: "fakeMenuPlugin"
-    // Make it compatible with the PluginItem interface
-    function reset() {
-        if (shell != undefined && shell.indicator_status != undefined) {
-            shell.indicator_status[objectName].reset++;
-        }
-    }
+PageHeadStyle {
+    id: root
+
+    property var styledItem: root
+    property string title
+    property var config: PageHeadConfiguration {}
+    property var contents: null
 }

@@ -1,16 +1,16 @@
-# Latvian translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Belarusian translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-08-21 09:46+0000\n"
-"Last-Translator: Jānis-Marks Gailis <jm-gailis@fai-vianet.fr>\n"
-"Language-Team: Latvian <lv@li.org>\n"
+"PO-Revision-Date: 2014-09-24 17:12+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr "Parole: "
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:91
@@ -32,7 +32,7 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr "Iziet"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
@@ -41,16 +41,16 @@ msgstr ""
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr "Nē"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr "Jā"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr "Izslēgt"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr "Pārstartēt"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr "Barošana"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
@@ -76,7 +76,7 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr "Izslēgt"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
@@ -84,31 +84,31 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
-msgstr "Atcelt"
+msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "Izlaist Intro"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Labā mala"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Mēģiniet iesvelt no labās malas, lai atbloķētu tālruni"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Augšējā mala"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Mēģiniet iesvelt no augšējās malas, lai piekļūt pie indikatoriem"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Aizvērt"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
@@ -116,7 +116,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Kreisā mala"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
@@ -124,7 +124,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Ļoti labi!"
+msgstr ""
 
 #: qml/Components/EdgeDemo.qml:227
 msgid ""
@@ -134,7 +134,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
-msgstr "Lūdzu, uzgaidiet"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
@@ -142,65 +142,65 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
-msgstr "Neatliekamās Palīdzības zvans"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:226
 msgid "OK"
-msgstr "LABI"
+msgstr ""
 
 #: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
-msgstr "Sveiki, %1"
+msgstr ""
 
 #: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
-msgstr "Sveiki"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
-msgstr "Redzēt mazāk"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
-msgstr "Skatīt visus"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Meklēt"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:268
 msgid "Settings"
-msgstr "Iestatījumi"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr "Izņemt no izlases"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr "Pievienot izlasei"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr "Vairāk..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr "Mazāk..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr "Novērtēt šo"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr "Komentēt"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr "Sūtīt"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -208,19 +208,19 @@ msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
-msgstr "Pabeigts"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
-msgstr "Veikals"
+msgstr ""
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr "Iecienītās"
+msgstr ""
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr "Visi"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
@@ -228,31 +228,31 @@ msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
-msgstr "Apstiprināt"
+msgstr ""
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Ievadiet vai pasakiet komandu"
+msgstr ""
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Ladejas. Ludzu Uzgaidiet..."
+msgstr ""
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Runajiet Tagad"
+msgstr ""
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Runa..."
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
-msgstr "Rādīt paroli"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
-msgstr "Ievadiet SIM PIN"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
@@ -264,7 +264,7 @@ msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr "Konference"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
@@ -272,11 +272,11 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
-msgstr "Sarakstā..."
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
-msgstr "Lejupielādē"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
@@ -284,23 +284,23 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
-msgstr "Atcelts"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
-msgstr "Pabeigts"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
-msgstr "Neizdevās, spiest lai mēģināt vēlreiz"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "Atbloķēt SIM"
+msgstr ""
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr "Viesabonēšana"
+msgstr ""
 
 #: qml/Shell.qml:320
 msgid "Enter your passphrase"
@@ -321,7 +321,7 @@ msgstr ""
 #: qml/Shell.qml:327
 #, qt-format
 msgid "Enter your %1"
-msgstr "Ievadiet jūsu %1"
+msgstr ""
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -338,7 +338,7 @@ msgstr ""
 
 #: qml/Shell.qml:365
 msgid "This will be your last attempt."
-msgstr "Šīs būs jūs pēdējais mēģinājums."
+msgstr ""
 
 #: qml/Shell.qml:367
 msgid ""
