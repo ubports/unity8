@@ -86,7 +86,7 @@ Item {
                 onPressAndHold: {
                     if (!editMode) {
                         root.requestEditMode();
-                    } else {
+                    } else if (model.scopeId != "clickscope") {
                         dragItem.icon = icon;
                         dragItem.text = text;
                         dragItem.x = units.gu(1)
