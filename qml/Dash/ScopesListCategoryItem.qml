@@ -67,6 +67,7 @@ MouseArea {
         // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
         source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
         MouseArea {
+            enabled: !editMode
             anchors.fill: parent
             onClicked: root.requestFavorite(model.scopeId, !isFavorite);
         }
