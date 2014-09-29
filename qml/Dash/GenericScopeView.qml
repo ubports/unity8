@@ -403,7 +403,7 @@ FocusScope {
                         } else {
                             item.displayMarginBeginning = Math.round(-Math.max(-baseItem.y, 0));
                             item.displayMarginEnd = -Math.round(Math.max(baseItem.height - seeAll.height
-                                                              - categoryView.height + baseItem.y, 0));
+                                                                         - categoryView.height + baseItem.y, 0));
                         }
                     }
                 }
