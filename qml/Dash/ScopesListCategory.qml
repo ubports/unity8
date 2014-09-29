@@ -87,16 +87,17 @@ Item {
                     if (!editMode) {
                         root.requestEditMode();
                     } else if (model.scopeId != "clickscope") {
+                        drag.target = dragItem;
                         dragItem.icon = icon;
                         dragItem.text = text;
                         dragItem.x = units.gu(1)
                         dragItem.y = mapToItem(root, 0, 0).y + units.gu(1)
-                        drag.target = dragItem;
                         dragItem.visible = true;
                     }
                 }
                 onReleased: {
                     if (dragItem.visible) {
+                        drag.target = undefined;
                         dragItem.visible = false;
                         if (dragMarker.index != index && dragMarker.index != index + 1) {
                             var targetIndex = dragMarker.index > index ? dragMarker.index - 1 : dragMarker.index;
