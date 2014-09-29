@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/indicators">
-        <file>artwork/messaging/default_contact.png</file>
-        <file>artwork/messaging/default_app.svg</file>
-    </qresource>
-</RCC>
