@@ -30,6 +30,7 @@ PreviewWidget {
 
     ListView {
         id: previewImageListView
+        objectName: "previewImageListView"
         spacing: units.gu(1)
         anchors.fill: parent
         orientation: ListView.Horizontal
@@ -50,6 +51,7 @@ PreviewWidget {
         }
 
         delegate: LazyImage {
+            objectName: "previewImage" + index
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -99,6 +101,7 @@ PreviewWidget {
 
         ListView  {
             id: slideShowListView
+            objectName: "slideShowListView"
             anchors.fill: parent
             orientation: ListView.Horizontal
             highlightRangeMode: ListView.StrictlyEnforceRange
@@ -144,8 +147,8 @@ PreviewWidget {
             }
 
             AbstractButton {
-                id: slideShowBackButton
-                objectName: "slideShowBackButton"
+                id: slideShowCloseButton
+                objectName: "slideShowCloseButton"
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
@@ -158,7 +161,7 @@ PreviewWidget {
                 Rectangle {
                     anchors.fill: parent
                     color: Qt.rgba(1.0, 1.0, 1.0, 0.3)
-                    visible: slideShowBackButton.pressed
+                    visible: slideShowCloseButton.pressed
                 }
 
                 Icon {
@@ -167,7 +170,7 @@ PreviewWidget {
                     width: units.gu(2.5)
                     height: width
                     color: Theme.palette.normal.foregroundText
-                    name: "back"
+                    name: "close"
                 }
             }
         }

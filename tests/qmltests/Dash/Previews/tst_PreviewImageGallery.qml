@@ -21,7 +21,7 @@ import Unity.Test 0.1 as UT
 
 Rectangle {
     id: root
-    width: units.gu(60)
+    width: units.gu(80)
     height: units.gu(80)
     color: "lightgrey"
 
@@ -44,13 +44,62 @@ Rectangle {
     }
 
     UT.UnityTestCase {
+        id: testCase
         name: "PreviewImageGalleryTest"
         when: windowShown
+
+        property Item slideShow: findChild(imageGallery.rootItem, "slideShow")
+        property Item slideShowCloseButton: findChild(slideShow, "slideShowCloseButton")
+        property Item slideShowListView: findChild(slideShow, "slideShowListView")
+
+        function cleanup() {
+            imageGallery.widgetData = sourcesModel1;
+            slideShow.visible = false;
+        }
 
         function test_changeEmptyModel() {
             imageGallery.widgetData = sourcesModel0;
             var placeholderScreenshot = findChild(imageGallery, "placeholderScreenshot");
             compare(placeholderScreenshot.visible, true);
+        }
+
+        function test_slideShowOpenClose() {
+            var image0 = findChild(imageGallery, "previewImage0");
+            mouseClick(image0, image0.width / 2, image0.height / 2);
+            tryCompare(slideShow, "visible", true);
+            tryCompare(slideShow, "scale", 1.0);
+            tryCompare(slideShowCloseButton, "visible", true);
+            mouseClick(slideShowCloseButton, slideShowCloseButton.width / 2, slideShowCloseButton.height / 2);
+            tryCompare(slideShow, "visible", false);
+        }
+
+        function test_slideShowShowHideHeader() {
+            var image0 = findChild(imageGallery, "previewImage0");
+            mouseClick(image0, image0.width / 2, image0.height / 2);
+            tryCompare(slideShow, "visible", true);
+            tryCompare(slideShow, "scale", 1.0);
+            tryCompare(slideShowCloseButton, "visible", true);
+            mouseClick(slideShow, slideShow.width / 2, slideShow.height / 2);
+            tryCompare(slideShowCloseButton, "visible", false);
+            mouseClick(slideShow, slideShow.width / 2, slideShow.height / 2);
+            tryCompare(slideShowCloseButton, "visible", true);
+        }
+
+        function test_slideShowOpenCorrectImage_data() {
+            return [
+                { tag: "Image 0", index: 0 },
+                { tag: "Image 1", index: 1 },
+                { tag: "Image 2", index: 2 },
+            ];
+        }
+
+        function test_slideShowOpenCorrectImage(data) {
+            var image = findChild(imageGallery, "previewImage" + data.index);
+            mouseClick(image, image.width / 2, image.height / 2);
+            tryCompare(slideShow, "visible", true);
+            tryCompare(slideShow, "scale", 1.0);
+            tryCompare(slideShowListView, "currentIndex", data.index);
+            verify(image.source === slideShowListView.currentItem.source);
         }
     }
 }
