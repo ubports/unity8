@@ -51,9 +51,7 @@ AbstractDBusServiceMonitor::AbstractDBusServiceMonitor(const QString &service, c
 AbstractDBusServiceMonitor::~AbstractDBusServiceMonitor()
 {
     delete m_watcher;
-    if (m_dbusInterface) {
-        delete m_dbusInterface;
-    }
+    delete m_dbusInterface;
 }
 
 void AbstractDBusServiceMonitor::createInterface(const QString &)
