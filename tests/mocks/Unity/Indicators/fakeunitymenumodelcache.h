@@ -28,9 +28,16 @@ class FakeUnityMenuModelCache : public UnityMenuModelCache
 {
     Q_OBJECT
 public:
-    FakeUnityMenuModelCache(QObject*parent=nullptr);
+    FakeUnityMenuModelCache(QObject* parent = nullptr);
 
-    static UnityMenuModelCache* singleton();
+    static FakeUnityMenuModelCache* singleton();
+
+    QSharedPointer<UnityMenuModel> model(const QByteArray& bus,
+                                             const QByteArray& path,
+                                             const QVariantMap& actions) override;
+    bool contains(const QByteArray& path) override;
+
+
 
     Q_INVOKABLE void setCachedModelData(const QByteArray& bus,
                                         const QByteArray& path,
@@ -38,6 +45,7 @@ public:
                                         const QVariantMap& properties);
 
 private:
+    static FakeUnityMenuModelCache* theFakeCache;
     QHash<QByteArray, QSharedPointer<UnityMenuModel>> m_models;
 };
 

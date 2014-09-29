@@ -37,6 +37,8 @@ public:
     Q_INVOKABLE void unload();
 
     Q_INVOKABLE void append(const QVariantMap& row);
+    Q_INVOKABLE void insert(int row, const QVariantMap& data);
+    Q_INVOKABLE void remove(int row);
 
     Q_INVOKABLE QVariant data(int row, int role) const;
 

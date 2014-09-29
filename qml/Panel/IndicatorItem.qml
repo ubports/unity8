@@ -1,47 +1,253 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright 2013 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Unity.Indicators 0.1 as Indicators
-import "../Components"
+import QtQuick 2.1
+import Ubuntu.Components 1.1
+import Ubuntu.Settings.Components 0.1
+import "Indicators"
 
-Loader {
+IndicatorDelegate {
     id: root
 
-    property alias widgetSource: root.source
-    property bool dimmed: false
-    property var indicatorProperties: undefined
-    property bool indicatorVisible: item ? item.enabled : false
     property string identifier
+    property string title: indicatorName.text
+    property alias leftLabel: leftLabelItem.text
+    property alias rightLabel: rightLabelItem.text
+    property var icons: undefined
+    property bool expanded: false
+    property bool selected: false
+    property real iconHeight: units.gu(2)
+    readonly property color color: {
+        if (!expanded) return Theme.palette.normal.foregroundText;
+        if (!selected) return Theme.palette.selected.backgroundText;
+        return Theme.palette.normal.foregroundText;
+    }
 
-    opacity: dimmed ? 0.4 : 1
-    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
+    signal clicked()
 
-    onLoaded: {
-        for(var pName in indicatorProperties) {
-            if (item.hasOwnProperty(pName)) {
-                item[pName] = indicatorProperties[pName];
+    width: mainItems.width
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: parent.clicked()
+    }
+
+    // FIXME: For now we will enable led indicator support only for messaging indicator
+    // in the future we should export a led API insted of doing that,
+    Loader {
+        id: indicatorLed
+        // only load source Component if the icons contains the new message icon
+        source: (root.icons && (String(root.icons).indexOf("indicator-messages-new") != -1)) ? Qt.resolvedUrl("Indicators/IndicatorsLight.qml") : ""
+    }
+
+    Item {
+        id: mainItems
+        anchors.centerIn: parent
+
+        width: leftLabelItem.width + iconsItem.width + rightLabelItem.width
+        implicitHeight: units.gu(2)
+
+        Label {
+            id: leftLabelItem
+            objectName: "leftLabel"
+
+            anchors {
+                left: mainItems.left
+                verticalCenter: parent.verticalCenter
             }
+            width: contentWidth > 0 ? contentWidth + units.gu(1) : 0
+            horizontalAlignment: Text.AlignHCenter
+
+            opacity: 1.0
+            font.family: "Ubuntu"
+            fontSize: "medium"
+            color: root.color
+            Behavior on color { ColorAnimation { duration: UbuntuAnimation.SnapDuration } }
+        }
+
+        Item {
+            id: iconsItem
+            objectName: "icons"
+
+            width: iconRow.width > 0 ? iconRow.width + units.gu(1) : 0
+            anchors {
+                left: leftLabelItem.right
+                verticalCenter: parent.verticalCenter
+            }
+
+            Row {
+                id: iconRow
+                anchors.centerIn: iconsItem
+                spacing: units.gu(1)
+
+                Repeater {
+                    id: iconRepeater
+                    objectName: "iconRepeater"
+
+                    model: d.useFallbackIcon ? [ "image://theme/settings" ] : root.icons
+
+                    StatusIcon {
+                        id: itemImage
+                        height: iconHeight
+                        source: modelData
+                        sets: ["status", "actions"]
+                        color: root.color
+                        Behavior on color { ColorAnimation{ duration: UbuntuAnimation.SnapDuration } }
+                    }
+                }
+            }
+        }
+
+        Label {
+            id: rightLabelItem
+            objectName: "rightLabel"
+
+            anchors {
+                left: iconsItem.right
+                verticalCenter: parent.verticalCenter
+            }
+            width: contentWidth > 0 ? contentWidth + units.gu(1) : 0
+            horizontalAlignment: Text.AlignHCenter
+
+            opacity: 1.0
+            font.family: "Ubuntu"
+            fontSize: "medium"
+            color: root.color
+            Behavior on color { ColorAnimation{ duration: UbuntuAnimation.SnapDuration } }
         }
     }
 
-    Binding {
-        target: item
-        property: "objectName"
-        value: identifier + "-widget"
+    Label {
+        id: indicatorName
+        objectName: "indicatorName"
+
+        anchors.top: mainItems.bottom
+        anchors.topMargin: units.gu(0.5)
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: contentWidth > 0 ? contentWidth + units.gu(1) : 0
+
+        text: title !== "" ? title : identifier
+        fontSize: "x-small"
+        horizontalAlignment: Text.AlignHCenter
+        opacity: 0
+        color: root.color
+        Behavior on color { ColorAnimation{ duration: UbuntuAnimation.SnapDuration } }
+    }
+
+    StateGroup {
+        id: d
+        property bool useFallbackIcon: false
+
+        states: [
+            State {
+                name: "minimised"
+                when: !expanded && ((icons && icons.length > 0) || leftLabel !== "" || rightLabel !== "")
+                PropertyChanges { target: indicatorName; opacity: 0}
+            },
+
+            State {
+                name: "minimised_fallback"
+                when: !expanded && (!icons || icons.length === 0) && leftLabel == "" && rightLabel == ""
+                PropertyChanges { target: indicatorName; opacity: 0}
+                PropertyChanges { target: d; useFallbackIcon: true }
+            },
+
+            State {
+                name: "expanded"
+                PropertyChanges { target: indicatorName; visible: true; opacity: 1}
+                PropertyChanges { target: mainItems; anchors.verticalCenterOffset: -units.gu(1) }
+            },
+
+            State {
+                name: "expanded_icon"
+                extend: "expanded"
+                when: expanded && (icons && icons.length > 0)
+                AnchorChanges { target: iconsItem; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
+                AnchorChanges { target: leftLabelItem; anchors.left: undefined; anchors.right: iconsItem.left }
+                PropertyChanges { target: leftLabelItem; opacity: 0 }
+                PropertyChanges { target: leftLabelItem; opacity: 0 }
+                PropertyChanges { target: rightLabelItem; opacity: 0 }
+                PropertyChanges { target: root; width: Math.max(units.gu(10), Math.max(iconsItem.width, indicatorName.width)) }
+            },
+
+            State {
+                name: "expanded_fallback"
+                extend: "expanded"
+                when: expanded && (!icons || icons.length === 0) && leftLabel == "" && rightLabel == ""
+                PropertyChanges { target: d; useFallbackIcon: true }
+                AnchorChanges { target: iconsItem; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
+                AnchorChanges { target: leftLabelItem; anchors.left: undefined; anchors.right: iconsItem.left }
+                PropertyChanges { target: leftLabelItem; opacity: 0 }
+                PropertyChanges { target: leftLabelItem; opacity: 0 }
+                PropertyChanges { target: rightLabelItem; opacity: 0 }
+                PropertyChanges { target: root; width: Math.max(units.gu(10), Math.max(iconsItem.width, indicatorName.width)) }
+            },
+
+            State {
+                name: "expanded_rightLabel"
+                extend: "expanded"
+                when: expanded && (!icons || icons.length === 0) && rightLabel !== ""
+                AnchorChanges { target: rightLabelItem; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
+                PropertyChanges { target: iconsItem; opacity: 0 }
+                PropertyChanges { target: leftLabelItem; opacity: 0 }
+                PropertyChanges { target: root; width: Math.max(units.gu(10), Math.max(rightLabelItem.width, indicatorName.width)) }
+            },
+
+            State {
+                name: "expanded_leftLabel"
+                extend: "expanded"
+                when: expanded && (!icons || icons.length === 0) && leftLabel !== ""
+                AnchorChanges { target: leftLabelItem; anchors.left: undefined; anchors.horizontalCenter: parent.horizontalCenter }
+                PropertyChanges { target: iconsItem; opacity: 0 }
+                PropertyChanges { target: rightLabelItem; opacity: 0 }
+                PropertyChanges { target: root; width: Math.max(units.gu(10), Math.max(leftLabelItem.width, indicatorName.width)) }
+            }
+        ]
+
+        transitions: [
+            Transition {
+                PropertyAction { target: d; property: "useFallbackIcon" }
+                AnchorAnimation {
+                    targets: [ mainItems, iconsItem, leftLabelItem, rightLabelItem ]
+                    duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                }
+                PropertyAnimation {
+                    targets: [ root, mainItems, iconsItem, leftLabelItem, rightLabelItem, indicatorName ]
+                    properties: "width, opacity, anchors.verticalCenterOffset";
+                    duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                }
+            }
+        ]
+    }
+
+    onRootActionStateChanged: {
+        if (rootActionState == undefined) {
+            title = "";
+            leftLabel = "";
+            rightLabel = "";
+            icons = undefined;
+            return;
+        }
+
+        title = rootActionState.title ? rootActionState.title : "";
+        leftLabel = rootActionState.leftLabel ? rootActionState.leftLabel : "";
+        rightLabel = rootActionState.rightLabel ? rootActionState.rightLabel : "";
+        icons = rootActionState.icons;
     }
 }

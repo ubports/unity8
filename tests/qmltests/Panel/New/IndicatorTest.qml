@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright 2013 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
+import QtTest 1.0
+import "../../../../qml/Panel"
+import Ubuntu.Components 0.1
+import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.FakeIndicatorsModel {
+Rectangle {
+    id: root
+    color: "white"
 
     Component.onCompleted: {
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake1",
@@ -57,62 +64,90 @@ Indicators.FakeIndicatorsModel {
                                                });
     }
 
-    function load(profile) {
-        unload();
-
-        append({
+    property var indicatorData: [
+        {
             "identifier": "fake-indicator-bluetooth",
-            "pageSource": "qrc:/tests/indciators/qml/fake_menu_page1.qml",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake1",
                 "menuObjectPath": "/com/canonical/indicators/fake1",
                 "actionsObjectPath": "/com/canonical/indicators/fake1"
             }
-        });
-
-        append({
-        "identifier": "fake-indicator-network",
-            "pageSource": "qrc:/tests/indciators/qml/fake_menu_page2.qml",
-        "indicatorProperties": {
-            "enabled": true,
-            "busName": "com.canonical.indicators.fake2",
-            "menuObjectPath": "/com/canonical/indicators/fake2",
-            "actionsObjectPath": "/com/canonical/indicators/fake2"
+        },
+        {
+            "identifier": "fake-indicator-network",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake2",
+                "menuObjectPath": "/com/canonical/indicators/fake2",
+                "actionsObjectPath": "/com/canonical/indicators/fake2"
             }
-        });
-
-        append({
+        },
+        {
             "identifier": "fake-indicator-sound",
-            "pageSource": "qrc:/tests/indciators/qml/fake_menu_page3.qml",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake3",
                 "menuObjectPath": "/com/canonical/indicators/fake3",
                 "actionsObjectPath": "/com/canonical/indicators/fake3"
             }
-        });
-
-        append({
+        },
+        {
             "identifier": "fake-indicator-battery",
-            "pageSource": "qrc:/tests/indciators/qml/fake_menu_page4.qml",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake4",
                 "menuObjectPath": "/com/canonical/indicators/fake4",
                 "actionsObjectPath": "/com/canonical/indicators/fake4"
             }
-        });
-
-        append({
+        },
+        {
             "identifier": "fake-indicator-datetime",
-            "pageSource": "qrc:/tests/indciators/qml/fake_menu_page5.qml",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake5",
                 "menuObjectPath": "/com/canonical/indicators/fake5",
                 "actionsObjectPath": "/com/canonical/indicators/fake5"
             }
-        });
+        }
+    ]
+
+    property alias indicatorsModel: __indicatorsModel
+    Indicators.FakeIndicatorsModel {
+        id: __indicatorsModel
+        indicatorData: root.indicatorData
+    }
+
+    function insertIndicator(index) {
+        var i;
+        var insertIndex = 0;
+        var done = false;
+        for (i = index; !done && i >= 1; i--) {
+
+            var lookFor = root.indicatorData[i-1]["identifier"]
+
+            var j;
+            for (j = indicatorsModel.indicatorData.length-1; !done && j >= 0; j--) {
+                if (indicatorsModel.indicatorData[j]["identifier"] === lookFor) {
+                    insertIndex = j+1;
+                    done = true;
+                }
+            }
+        }
+        indicatorsModel.insert(insertIndex, root.indicatorData[index]);
+    }
+
+    function removeIndicator(index) {
+        var i;
+        for (i = 0; i < indicatorsModel.indicatorData.length; i++) {
+            if (indicatorsModel.indicatorData[i]["identifier"] === root.indicatorData[index]["identifier"]) {
+                indicatorsModel.remove(i);
+                break;
+            }
+        }
+    }
+
+    function resetData() {
+        indicatorsModel.indicatorData = root.indicatorData;
     }
 }

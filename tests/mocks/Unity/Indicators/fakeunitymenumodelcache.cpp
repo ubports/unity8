@@ -19,19 +19,32 @@
 
 #include "fakeunitymenumodelcache.h"
 #include <unitymenumodel.h>
-#include <QDebug>
 
-UnityMenuModelCache* FakeUnityMenuModelCache::singleton()
+FakeUnityMenuModelCache* FakeUnityMenuModelCache::theFakeCache = nullptr;
+
+FakeUnityMenuModelCache* FakeUnityMenuModelCache::singleton()
 {
-    if (!theCache) {
-        theCache = new UnityMenuModelCache();
+    if (!theFakeCache) {
+        theFakeCache = new FakeUnityMenuModelCache();
     }
-    return theCache;
+    return theFakeCache;
 }
 
 FakeUnityMenuModelCache::FakeUnityMenuModelCache(QObject* parent)
     : UnityMenuModelCache(parent)
 {
+}
+
+QSharedPointer<UnityMenuModel> FakeUnityMenuModelCache::model(const QByteArray& bus,
+                                                              const QByteArray& path,
+                                                              const QVariantMap& actions)
+{
+    return UnityMenuModelCache::singleton()->model(bus, path, actions);
+}
+
+bool FakeUnityMenuModelCache::contains(const QByteArray& path)
+{
+    return UnityMenuModelCache::singleton()->contains(path);
 }
 
 void FakeUnityMenuModelCache::setCachedModelData(const QByteArray& bus,

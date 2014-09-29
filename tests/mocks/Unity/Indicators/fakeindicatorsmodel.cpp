@@ -53,16 +53,44 @@ void FakeIndicatorsModel::unload()
 }
 
 
-void FakeIndicatorsModel::append(const QVariantMap& row)
+void FakeIndicatorsModel::append(const QVariantMap& data)
 {
-    QList<QVariant> data = m_indicatorData.toList();
-    beginInsertRows(QModelIndex(), data.count(), data.count());
+    QList<QVariant> allData = m_indicatorData.toList();
+    beginInsertRows(QModelIndex(), allData.count(), allData.count());
 
-    data.append(row);
-    m_indicatorData = data;
+    allData.append(data);
+    m_indicatorData = allData;
     Q_EMIT indicatorDataChanged();
 
     endInsertRows();
+}
+
+void FakeIndicatorsModel::insert(int row, const QVariantMap& data)
+{
+    QList<QVariant> allData = m_indicatorData.toList();
+    row = qMax(0, qMin(row, allData.count()));
+
+    beginInsertRows(QModelIndex(), row, row);
+
+    allData.insert(row, data);
+    m_indicatorData = allData;
+    Q_EMIT indicatorDataChanged();
+
+    endInsertRows();
+}
+
+void FakeIndicatorsModel::remove(int row)
+{
+    QList<QVariant> allData = m_indicatorData.toList();
+    row = qMax(0, qMin(row, allData.count()));
+
+    beginRemoveRows(QModelIndex(), row, row);
+
+    allData.removeAt(row);
+    m_indicatorData = allData;
+    Q_EMIT indicatorDataChanged();
+
+    endRemoveRows();
 }
 
 void FakeIndicatorsModel::setIndicatorData(const QVariant& indicatorData)

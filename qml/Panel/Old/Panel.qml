@@ -19,7 +19,6 @@ import Ubuntu.Components 0.1
 import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems"
-import ".."
 
 Item {
     id: root
@@ -54,9 +53,7 @@ Item {
 
         anchors.fill: parent
 
-        Behavior on anchors.topMargin {
-            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
-        }
+        Behavior on anchors.topMargin { StandardAnimation {} }
 
         BorderImage {
             id: dropShadow
@@ -65,7 +62,7 @@ Item {
                 leftMargin: -units.gu(1)
                 bottomMargin: -units.gu(1)
             }
-            visible: !indicators.fullyClosed
+            visible: indicators.height > indicators.panelHeight
             source: "graphics/rectangular_dropshadow.sci"
         }
 
@@ -97,7 +94,7 @@ Item {
         }
 
         PanelSeparatorLine {
-            id: orangeLine
+            id: nonIndicatorAreaSeparatorLine
             anchors {
                 top: indicatorAreaBackground.bottom
                 left: parent.left
@@ -117,7 +114,7 @@ Item {
             onClicked: callHint.showLiveCall()
         }
 
-        IndicatorsMenu {
+        Indicators {
             id: __indicators
             objectName: "indicators"
 
@@ -126,21 +123,19 @@ Item {
                 right: parent.right
             }
 
-            shown: false
             width: root.width
-            minimuzedPanelHeight: units.gu(3)
-            expandedPanelHeight: units.gu(7)
+            shown: false
+            panelHeight: units.gu(3)
             openedHeight: root.height
-
             overFlowWidth: {
                 if (callHint.visible) {
                     return Math.max(root.width - (callHint.width + units.gu(2)), 0)
                 }
                 return root.width
             }
+
             enableHint: !callHint.active && !fullscreenMode
-            showHintBottomMargin: fullscreenMode ? -minimuzedPanelHeight : 0
-            panelColor: indicatorAreaBackground.color
+            showHintBottomMargin: fullscreenMode ? -panelHeight : 0
 
             onShowTapped: {
                 if (callHint.active) {
@@ -155,14 +150,24 @@ Item {
                 top: parent.top
                 left: parent.left
             }
-            height: indicators.minimuzedPanelHeight
+            height: indicators.panelHeight
             visible: active && indicators.state == "initial"
+        }
+
+        PanelSeparatorLine {
+            id: indicatorsSeparatorLine
+            visible: true
+            anchors {
+                top: indicators.bottom
+                left: indicatorDividor.left
+                right: indicators.right
+            }
         }
     }
 
     QtObject {
         id: d
-        readonly property real indicatorHeight: indicators.minimuzedPanelHeight + orangeLine.height
+        readonly property real indicatorHeight: indicators.panelHeight + indicatorsSeparatorLine.height
     }
 
     states: [

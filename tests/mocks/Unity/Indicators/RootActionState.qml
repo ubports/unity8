@@ -27,7 +27,7 @@ Item {
     property string rightLabel: menu && menu.rootProperties.hasOwnProperty("label") ? menu.rootProperties["label"] : ""
     property var icons: menu && menu.rootProperties.hasOwnProperty("icons") ? menu.rootProperties["icons"] : []
     property string accessibleName: menu && menu.rootProperties.hasOwnProperty("accessible-desc") ? menu.rootProperties["accessible-desc"] : ""
-    visible: menu && menu.rootProperties.hasOwnProperty("visible") ? menu.rootProperties["visible"] : false
+    visible: menu && menu.rootProperties.hasOwnProperty("visible") ? menu.rootProperties["visible"] : true
 
     signal updated
 

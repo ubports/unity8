@@ -540,7 +540,9 @@ Item {
                 available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && greeter.fakeActiveForApp === ""
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-                panelHeight: units.gu(3)
+
+                minimuzedPanelHeight: units.gu(3)
+                expandedPanelHeight: units.gu(7)
             }
 
             property bool topmostApplicationIsFullscreen:

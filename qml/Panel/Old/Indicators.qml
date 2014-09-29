@@ -137,6 +137,7 @@ Showable {
         if (currentItem) {
             itemCoordinates = indicatorRow.row.mapToItem(currentItem, rowCoordinates.x, 0);
             distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width);
+            console.log(distanceFromRightEdge);
             if (currentItem != indicatorRow.currentItem) {
                 if (Math.abs(currentItem.ownIndex - indicatorRow.currentItemIndex) > 1) {
                     bufferExceeded = true;

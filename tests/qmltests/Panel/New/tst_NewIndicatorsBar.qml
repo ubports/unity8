@@ -17,222 +17,158 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import ".."
-import "../../../../qml/Panel/New"
+import "../../../../qml/Panel"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
 
-Rectangle {
+IndicatorTest {
+    id: root
     width: units.gu(100)
     height: units.gu(30)
-    color: "white"
 
-    Component.onCompleted: {
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake1",
-                                                "/com/canonical/indicators/fake1",
-                                                "/com/canonical/indicators/fake1",
-                                                {
-                                                    "title": "Bluetooth",
-                                                    "icons": [ "image://theme/bluetooth-active" ],
-                                                });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake2",
-                                                "/com/canonical/indicators/fake2",
-                                                "/com/canonical/indicators/fake2",
-                                                {
-                                                    "title": "Network",
-                                                    "icons": [ "image://theme/simcard-error", "image://theme/wifi-high" ],
-                                                });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake3",
-                                                "/com/canonical/indicators/fake3",
-                                                "/com/canonical/indicators/fake3",
-                                                {
-                                                    "title": "Sound",
-                                                    "icons": [ "image://theme/audio-volume-high" ],
-                                                });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake4",
-                                                "/com/canonical/indicators/fake4",
-                                                "/com/canonical/indicators/fake4",
-                                                {
-                                                    "title": "Battery",
-                                                    "icons": [ "image://theme/battery-020" ],
-                                                });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake5",
-                                                "/com/canonical/indicators/fake5",
-                                                "/com/canonical/indicators/fake5",
-                                                {
-                                                    "title": "Location",
-                                                    "icons": [ "image://theme/gps" ],
-                                                });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake6",
-                                                "/com/canonical/indicators/fake6",
-                                                "/com/canonical/indicators/fake6",
-                                                {
-                                                    "title": "Notifications",
-                                                    "icons": [ "image://theme/messages-new" ],
-                                                });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake7",
-                                                "/com/canonical/indicators/fake7",
-                                                "/com/canonical/indicators/fake7",
-                                                {
-                                                    "title": "Upcoming Events",
-                                                    "label": "12:04",
-                                                });
-    }
 
-    Indicators.FakeIndicatorsModel {
-        id: indicatorsModel
-
-        indicatorData: [
-            {
-                "identifier": "indicator-fake1",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake1",
-                    "menuObjectPath": "/com/canonical/indicators/fake1",
-                    "actionsObjectPath": "/com/canonical/indicators/fake1"
-                }
-            },
-            {
-                "identifier": "indicator-fake2",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake2",
-                    "menuObjectPath": "/com/canonical/indicators/fake2",
-                    "actionsObjectPath": "/com/canonical/indicators/fake2"
-                }
-            },
-            {
-                "identifier": "indicator-fake3",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake3",
-                    "menuObjectPath": "/com/canonical/indicators/fake3",
-                    "actionsObjectPath": "/com/canonical/indicators/fake3"
-                }
-            },
-            {
-                "identifier": "indicator-fake4",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake4",
-                    "menuObjectPath": "/com/canonical/indicators/fake4",
-                    "actionsObjectPath": "/com/canonical/indicators/fake4"
-                }
-            },
-            {
-                "identifier": "indicator-fake5",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake5",
-                    "menuObjectPath": "/com/canonical/indicators/fake5",
-                    "actionsObjectPath": "/com/canonical/indicators/fake5"
-                }
-            },
-            {
-                "identifier": "indicator-fake6",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake6",
-                    "menuObjectPath": "/com/canonical/indicators/fake6",
-                    "actionsObjectPath": "/com/canonical/indicators/fake6"
-                }
-            },
-            {
-                "identifier": "indicator-fake7",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake7",
-                    "menuObjectPath": "/com/canonical/indicators/fake7",
-                    "actionsObjectPath": "/com/canonical/indicators/fake7"
-                }
-            },
-            {
-                "identifier": "indicator-fake8",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake1",
-                    "menuObjectPath": "/com/canonical/indicators/fake1",
-                    "actionsObjectPath": "/com/canonical/indicators/fake1"
-                }
-            },
-            {
-                "identifier": "indicator-fake9",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake1",
-                    "menuObjectPath": "/com/canonical/indicators/fake1",
-                    "actionsObjectPath": "/com/canonical/indicators/fake1"
-                }
-            },
-            {
-                "identifier": "indicator-fake10",
-                "indicatorProperties": {
-                    "enabled": true,
-                    "busName": "com.canonical.indicators.fake1",
-                    "menuObjectPath": "/com/canonical/indicators/fake1",
-                    "actionsObjectPath": "/com/canonical/indicators/fake1"
-                }
-            },
-        ]
-    }
-
-    Rectangle {
-        id: itemArea
-        color: "blue"
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-        }
-        width: units.gu(50)
+    RowLayout {
+        anchors.fill: parent
+        anchors.margins: units.gu(1)
 
         Rectangle {
-            color: "black"
-            anchors.fill: indicatorsBar
+            id: itemArea
+            color: "blue"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            Rectangle {
+                color: "black"
+                anchors.fill: indicatorsBar
+            }
+
+            IndicatorsBar {
+                id: indicatorsBar
+                height: expanded ? units.gu(7) : units.gu(3)
+                width: units.gu(30)
+                anchors.centerIn: parent
+                indicatorsModel: root.indicatorsModel
+
+                Behavior on height {
+                    NumberAnimation {
+                        id: heightAnimation
+                        duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: !indicatorsBar.expanded
+                    onPressed: {
+                        indicatorsBar.selectItemAt(mouse.x);
+                        indicatorsBar.expanded = true
+                    }
+                }
+            }
         }
 
-        IndicatorsBar {
-            id: indicatorsBar
-            height: expanded ? units.gu(7) : units.gu(3)
-            width: units.gu(30)
-            anchors.centerIn: parent
-            indicatorsModel: indicatorsModel
+        ColumnLayout {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: false
 
-            Behavior on height { NumberAnimation { duration: 1000; easing: UbuntuAnimation.StandardEasing } }
+            Button {
+                Layout.fillWidth: true
+                text: indicatorsBar.expanded ? "Collapse" : "Expand"
+                onClicked: indicatorsBar.expanded = !indicatorsBar.expanded
+            }
 
-            MouseArea {
-                anchors.fill: parent
-                enabled: !indicatorsBar.expanded
-                onPressed: {
-                    console.log("click")
-                    indicatorsBar.selectItemAt(mouse.x);
-                    indicatorsBar.expanded = true
+            Rectangle {
+                Layout.preferredHeight: units.dp(1);
+                Layout.fillWidth: true;
+                color: "black"
+            }
+
+            Repeater {
+                model: root.indicatorData
+                RowLayout {
+                    CheckBox {
+                        checked: true
+                        onCheckedChanged: checked ? insertIndicator(index) : removeIndicator(index);
+                    }
+                    Label { text: modelData["identifier"] }
                 }
             }
         }
     }
 
-    ColumnLayout {
-        anchors {
-            top: parent.top
-            bottom: button.top
-            left: itemArea.right
-            right: parent.right
-        }
-    }
-
-    Button {
-        id: button
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-        text: indicatorsBar.expanded ? "Collapse" : "Expand"
-        onClicked: indicatorsBar.expanded = !indicatorsBar.expanded
-    }
-
     UT.UnityTestCase {
-        name: "IndicatorsRow"
+        name: "IndicatorsBar"
+        when: windowShown
+
+        function init() {
+            indicatorsBar.expanded = false;
+            tryCompare(heightAnimation, "running", false);
+        }
+
+        function test_expandSelectedItem_data() {
+            return [
+                { index: 0 },
+                { index: 2 },
+                { index: 4 }
+            ];
+        }
+
+        // Rough check that expanding a selected item keeps it within the area of the original item.
+        function test_expandSelectedItem(data) {
+            var dataItem = findChild(indicatorsBar, root.indicatorData[data.index]["identifier"]+"-panelItem");
+            verify(dataItem !== null);
+
+            var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
+
+            indicatorsBar.selectItemAt(mappedPosition.x);
+            indicatorsBar.expanded = true;
+
+            // wait for animations to finish
+            tryCompare(heightAnimation, "running", false);
+
+            var mappedRect = indicatorsBar.mapFromItem(dataItem, 0, 0, dataItem.width, dataItem.height);
+
+            // mappedPosition contained within mappedRect
+            verify(mappedRect.x <= mappedPosition.x)
+            verify(mappedRect.x + mappedRect.width >= mappedPosition.x)
+        }
+
+        function test_scrollOffset() {
+            indicatorsBar.expanded = true;
+            tryCompare(heightAnimation, "running", false);
+
+            var dataItem = findChild(indicatorsBar, root.indicatorData[root.indicatorData.length-1]["identifier"]+"-panelItem");
+            verify(dataItem !== null);
+
+            var row = findChild(indicatorsBar, "indicatorRow");
+            // test will not work without these conditions
+            verify(row.width >= indicatorsBar.width + dataItem.width);
+
+            var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
+            indicatorsBar.addScrollOffset(-dataItem.width);
+            var newMappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
+
+            compare(mappedPosition.x, newMappedPosition.x - dataItem.width);
+        }
+
+        function test_selectItemWhenExpanded_data() {
+            return [
+                { index: 3 },
+                { index: 4 }
+            ];
+        }
+
+        function test_selectItemWhenExpanded(data) {
+            indicatorsBar.expanded = true;
+            tryCompare(heightAnimation, "running", false);
+
+            var dataItem = findChild(indicatorsBar, root.indicatorData[data.index]["identifier"]+"-panelItem");
+            if (indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2).x < 0) {
+                skip("Out of bounds");
+            }
+            mouseClick(dataItem, dataItem.width/2, dataItem.height/2);
+            verify(dataItem.selected === true);
+        }
     }
 }
