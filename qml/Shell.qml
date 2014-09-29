@@ -130,7 +130,7 @@ Item {
 
     Binding {
         target: ApplicationManager
-        property: "dashActive"
+        property: "forceDashActive"
         value: launcher.shown || launcher.dashSwipe
     }
 

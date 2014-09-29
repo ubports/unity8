@@ -102,8 +102,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     bool suspended() const override;
     void setSuspended(bool suspended) override;
 
-    bool dashActive() const override;
-    void setDashActive(bool dashActive) override;
+    bool forceDashActive() const override;
+    void setForceDashActive(bool forceDashActive) override;
 
     // Only for testing
     Q_INVOKABLE QStringList availableApplications();
@@ -127,7 +127,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     void buildListOfAvailableApplications();
     void onWindowCreated();
     bool m_suspended;
-    bool m_dashActive;
+    bool m_forceDashActive;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QTimer m_windowCreatedTimer;
