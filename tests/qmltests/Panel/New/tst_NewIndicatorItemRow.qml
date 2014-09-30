@@ -25,7 +25,7 @@ import Unity.Indicators 0.1 as Indicators
 IndicatorTest {
     id: root
     width: units.gu(100)
-    height: units.gu(30)
+    height: units.gu(40)
     color: "white"
 
     RowLayout {
@@ -88,7 +88,7 @@ IndicatorTest {
             }
 
             Repeater {
-                model: root.indicatorData
+                model: indicatorsModel.originalModelData
                 RowLayout {
                     CheckBox {
                         checked: true
@@ -130,9 +130,9 @@ IndicatorTest {
             var item;
             var itemsToRemove = [0, 2];
 
-            verify(root.indicatorData.length > 0);
-            for (i = 0; i < root.indicatorData.length; i++) {
-                item = findChild(indicatorsRow, root.indicatorData[i]["identifier"]+"-panelItem");
+            verify(indicatorsModel.originalModelData.length > 0);
+            for (i = 0; i < indicatorsModel.originalModelData.length; i++) {
+                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"]+"-panelItem");
                 verify(item);
 
                 compare(item.ownIndex, i, "Item at incorrect index");
@@ -143,8 +143,8 @@ IndicatorTest {
             }
 
             // test removals
-            for (i = 0; i < root.indicatorData.length; i++) {
-                item = findChild(indicatorsRow, root.indicatorData[i]["identifier"]+"-panelItem");
+            for (i = 0; i < indicatorsModel.originalModelData.length; i++) {
+                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"]+"-panelItem");
 
                 verify(data.remove.indexOf(i) !== -1 ? (item === null) : (item !== null));
             }
@@ -154,8 +154,8 @@ IndicatorTest {
                 insertIndicator(data.remove[i]);
             }
 
-            for (i = 0; i < root.indicatorData.length; i++) {
-                item = findChild(indicatorsRow, root.indicatorData[i]["identifier"]+"-panelItem");
+            for (i = 0; i < indicatorsModel.originalModelData.length; i++) {
+                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"]+"-panelItem");
                 verify(item);
 
                 compare(item.ownIndex, i, "Item at incorrect index");
@@ -172,7 +172,7 @@ IndicatorTest {
 
         // test selecting the item at it's position sets the current item of the row.
         function test_validCurrentItem(data) {
-            var dataItem = findChild(indicatorsRow, root.indicatorData[data.index]["identifier"]+"-panelItem");
+            var dataItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
             verify(dataItem !== null);
 
             indicatorsRow.selectItemAt(dataItem.x + dataItem.width/2);
@@ -182,7 +182,8 @@ IndicatorTest {
         // tests item default selection (no item at position X)
         function test_invalidCurrentItem() {
             indicatorsRow.selectItemAt(-100);
-            compare(indicatorsRow.currentItem, findChild(indicatorsRow, root.indicatorData[0]["identifier"]+"-panelItem"));
+            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[0]["identifier"]+"-panelItem");
+            compare(indicatorsRow.currentItem, item);
         }
 
         // testing that changing the lateral position offset of the row changes the current item.
@@ -197,10 +198,10 @@ IndicatorTest {
             indicatorsRow.expanded = true;
             tryCompare(heightAnimation, "running", false);
 
-            var fromItem = findChild(indicatorsRow, root.indicatorData[data.from]["identifier"]+"-panelItem");
+            var fromItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.from]["identifier"]+"-panelItem");
             verify(fromItem !== null);
 
-            var toItem = findChild(indicatorsRow, root.indicatorData[data.to]["identifier"]+"-panelItem");
+            var toItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.to]["identifier"]+"-panelItem");
             verify(toItem !== null);
 
             var fromPosition = indicatorsRow.mapFromItem(fromItem, fromItem.width/2, fromItem.height/2);
@@ -222,7 +223,7 @@ IndicatorTest {
             tryCompare(heightAnimation, "running", false);
 
             var highlight = findChild(indicatorsRow, "highlight");
-            var item = findChild(indicatorsRow, root.indicatorData[2]["identifier"]+"-panelItem");
+            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"]+"-panelItem");
             verify(item !== null);
             var mappedPosition = indicatorsRow.mapFromItem(item, item.width/2, item.height/2);
 
@@ -247,7 +248,7 @@ IndicatorTest {
             tryCompare(heightAnimation, "running", false);
 
             var highlight = findChild(indicatorsRow, "highlight");
-            var item = findChild(indicatorsRow, root.indicatorData[2]["identifier"]+"-panelItem");
+            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"]+"-panelItem");
             verify(item !== null);
             var mappedPosition = indicatorsRow.mapFromItem(item, item.width/2, item.height/2);
 

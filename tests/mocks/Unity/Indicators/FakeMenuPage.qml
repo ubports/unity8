@@ -15,20 +15,41 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 
 Flickable {
+    id: root
     objectName: "fakeMenuPlugin"
+
+    property string identifier
+    property color color: "transparent"
+
+    Label {
+        text: identifier
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: contents.top
+            bottomMargin: units.gu(3)
+        }
+        color: Theme.palette.normal.foregroundText
+        fontSize: "x-large"
+
+    }
+
+    Rectangle {
+        id: contents
+        color: root.color
+
+        height: 150
+        width: 150
+
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            verticalCenter: parent.verticalCenter
+        }
+    }
+
     // Make it compatible with the PluginItem interface
-    function start() {
-        if (shell != undefined && shell.indicator_status != undefined) {
-            shell.indicator_status[objectName].started = true;
-        }
-    }
-    function stop() {
-        if (shell != undefined && shell.indicator_status != undefined) {
-            shell.indicator_status[objectName].started = false;
-        }
-    }
     function reset() {
         if (shell != undefined && shell.indicator_status != undefined) {
             shell.indicator_status[objectName].reset++;

@@ -41,11 +41,10 @@ static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEng
 
 void IndicatorsFakePlugin::registerTypes(const char * uri)
 {
-    Q_INIT_RESOURCE(indicators_fake);
+    qRegisterMetaType<UnityMenuModel*>("UnityMenuModel*");
 
     // internal
     qmlRegisterType<FakeIndicatorsModel>(uri, 0, 1, "FakeIndicatorsModel");
-    qRegisterMetaType<UnityMenuModel*>("UnityMenuModel*");
 
     // external
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");

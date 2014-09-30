@@ -25,7 +25,7 @@ import Unity.Indicators 0.1 as Indicators
 IndicatorTest {
     id: root
     width: units.gu(100)
-    height: units.gu(30)
+    height: units.gu(40)
 
 
     RowLayout {
@@ -85,7 +85,7 @@ IndicatorTest {
             }
 
             Repeater {
-                model: root.indicatorData
+                model: indicatorsModel.originalModelData
                 RowLayout {
                     CheckBox {
                         checked: true
@@ -116,7 +116,7 @@ IndicatorTest {
 
         // Rough check that expanding a selected item keeps it within the area of the original item.
         function test_expandSelectedItem(data) {
-            var dataItem = findChild(indicatorsBar, root.indicatorData[data.index]["identifier"]+"-panelItem");
+            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
             verify(dataItem !== null);
 
             var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
@@ -138,10 +138,10 @@ IndicatorTest {
             indicatorsBar.expanded = true;
             tryCompare(heightAnimation, "running", false);
 
-            var dataItem = findChild(indicatorsBar, root.indicatorData[root.indicatorData.length-1]["identifier"]+"-panelItem");
+            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[indicatorsModel.originalModelData.length-1]["identifier"]+"-panelItem");
             verify(dataItem !== null);
 
-            var row = findChild(indicatorsBar, "indicatorRow");
+            var row = findChild(indicatorsBar, "indicatorItemRow");
             // test will not work without these conditions
             verify(row.width >= indicatorsBar.width + dataItem.width);
 
@@ -163,7 +163,7 @@ IndicatorTest {
             indicatorsBar.expanded = true;
             tryCompare(heightAnimation, "running", false);
 
-            var dataItem = findChild(indicatorsBar, root.indicatorData[data.index]["identifier"]+"-panelItem");
+            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
             if (indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2).x < 0) {
                 skip("Out of bounds");
             }

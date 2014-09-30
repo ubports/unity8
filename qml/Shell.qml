@@ -36,6 +36,7 @@ import "Panel"
 import "Components"
 import "Notifications"
 import "Stages"
+import "Panel/Indicators"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
@@ -541,8 +542,14 @@ Item {
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
-                minimuzedPanelHeight: units.gu(3)
+                minimizedPanelHeight: units.gu(3)
                 expandedPanelHeight: units.gu(7)
+
+                indicatorsModel: visibleIndicators.model
+            }
+
+            VisibleIndicators {
+                id: visibleIndicators
             }
 
             property bool topmostApplicationIsFullscreen:
@@ -569,6 +576,10 @@ Item {
             onDash: {
                 if (ApplicationManager.focusedApplicationId != "unity8-dash") {
                     showDash()
+                }
+                if (greeter.shown) {
+                    launcher.fadeOut()
+                    greeter.hideRight()
                 }
             }
             onDashSwipeChanged: {

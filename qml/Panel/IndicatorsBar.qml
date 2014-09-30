@@ -26,6 +26,7 @@ Item {
     property real lateralPosition: -1
     property alias enableLateralChanges: row.enableLateralChanges
     property alias overFlowWidth: row.overFlowWidth
+    readonly property alias currentItemIndex: row.currentItemIndex
 
     function selectItemAt(lateralPosition) {
         if (!expanded) {
@@ -110,7 +111,7 @@ Item {
         width: parent.width
         anchors.bottom: parent.bottom
 
-        color: Theme.palette.selected.backgroundText
+        color: "#4c4c4c"
         opacity: expanded ? 1.0 : 0.0
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
@@ -122,7 +123,7 @@ Item {
 
         IndicatorItemRow {
             id: row
-            objectName: "indicatorRow"
+            objectName: "indicatorItemRow"
             anchors {
                 top: parent.top
                 bottom: parent.bottom

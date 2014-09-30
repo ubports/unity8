@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes.Ambiance 1.1
 
-Indicators.FakeMenuPage {
-    id: menu_plugin2
+PageHeadStyle {
+    id: root
 
-    Rectangle {
-        id: contents
-        color: "blue"
-
-        height: 150
-        width: 150
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
-    }
+    property var styledItem: root
+    property string title
+    property var config: PageHeadConfiguration {}
+    property var contents: null
 }

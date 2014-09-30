@@ -34,8 +34,8 @@ IndicatorDelegate {
     property bool selected: false
     property real iconHeight: units.gu(2)
     readonly property color color: {
-        if (!expanded) return Theme.palette.normal.foregroundText;
-        if (!selected) return Theme.palette.selected.backgroundText;
+        if (!expanded) return "#CCCCCC";
+        if (!selected) return "#4c4c4c";
         return Theme.palette.normal.foregroundText;
     }
 

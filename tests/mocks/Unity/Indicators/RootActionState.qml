@@ -20,7 +20,7 @@
 import QtQuick 2.0
 
 Item {
-    property var menu
+    property var menu: null
     property bool valid: true
     property string title: menu && menu.rootProperties.hasOwnProperty("title") ? menu.rootProperties["title"] : ""
     property string leftLabel: menu && menu.rootProperties.hasOwnProperty("pre-label") ? menu.rootProperties["pre-label"] : ""

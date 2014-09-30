@@ -26,18 +26,9 @@ Item {
     width: units.gu(40)
     height: units.gu(70)
 
-    property var indicator_status: {
-        'indicator-fake1-page': { 'started': false, 'reset': 0 },
-        'indicator-fake2-page': { 'started': false, 'reset': 0 },
-        'indicator-fake3-page': { 'started': false, 'reset': 0 },
-        'indicator-fake4-page': { 'started': false, 'reset': 0 },
-        'indicator-fake5-page': { 'started': false, 'reset': 0 }
-    }
-
     // Dummy objects
     Item { id: greeter }
     Item { id: handle }
-
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
@@ -47,7 +38,6 @@ Item {
     MenuContent {
         id: menuContent
         indicatorsModel: indicatorsModel
-        contentReleaseInterval: 50
         height: parent.height - 50
     }
 
@@ -91,22 +81,22 @@ Item {
         return "indicator-fake" + (index + 1) + "-page";
     }
 
-    property string testTabObjectName : ""
+    property string testItemObjectName : ""
 
-    function selected_tab_equals_test_tab() {
-        var currentTab = menu_content_test.findChild(menuContent, "tabs").selectedTab
-        if (currentTab === null) {
-            console.log("selected tab undefined");
+    function current_item_equals_test_item() {
+        var currentItem = menu_content_test.findChild(menuContent, "indicatorsContentListView").currentItem
+        if (currentItem === null) {
+            console.log("current item undefined");
             return false;
         }
 
-        var testTab = menu_content_test.findChild(menuContent, testTabObjectName);
-        if (testTab === null) {
-            console.log("test_tab " + testTabObjectName + " undefined");
+        var testItem = menu_content_test.findChild(menuContent, testItemObjectName);
+        if (testItem === null) {
+            console.log("testItem " + testItemObjectName + " undefined");
             return false;
         }
 
-        return testTab == currentTab;
+        return testItem === currentItem;
     }
 
     UT.UnityTestCase {
@@ -114,63 +104,22 @@ Item {
         name: "MenuContentTest"
         when: windowShown
 
-        function init() {
-            if (menuContent.__contentActive)
-                menuContent.releaseContent();
-            tryCompare(menuContent, "__contentActive", false);
-        }
-
         // Check that the correct menus are displayed for the requested item.
         function test_show_menu() {
             var menuCount = indicatorsModel.count;
             verify(menuCount > 0, "Menu count should be greater than zero");
 
-            var tabs = menu_content_test.findChild(menuContent, "tabs")
+            var listView = menu_content_test.findChild(menuContent, "indicatorsContentListView")
+            verify(listView !== null)
 
             // Loop over twice to test jump between last and first.
             for (var i = 0; i < menuCount*2; i++) {
-
                 var menuIndex = i%menuCount;
 
                 activate_content(menuIndex);
-                testTabObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
-                compare(tabs.selectedTabIndex, menuIndex, "Current tab index does not match selected tab index");
-                tryCompareFunction(selected_tab_equals_test_tab, true);
-            }
-        }
-
-        // Calling activateContent should call start on all menus
-        function test_activate_content() {
-            var menuCount = indicatorsModel.count;
-            verify(menuCount > 0, "Menu count should be greater than zero");
-
-            // Ensure all the menus are stopped first
-            menuContent.__contentActive = false;
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", false);
-            }
-
-            // activate content the content to call stop.
-            menuContent.activateContent();
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", true);
-            }
-        }
-
-        // Calling activateContent should call stop on all menus.
-        function test_release_content() {
-            var menuCount = indicatorsModel.count;
-            verify(menuCount > 0, "Menu count should be greater than zero");
-
-            // Ensure all the menus are started first
-            menuContent.__contentActive = true;
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", true);
-            }
-            // release the content to call stop.
-            menuContent.releaseContent();
-            for (var i = 0; i < menuCount; i++) {
-                tryCompare(indicator_status[get_test_menu_objecName(i)], "started", false);
+                testItemObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
+                compare(listView.currentIndex, menuIndex, "Current tab index does not match selected tab index");
+                tryCompareFunction(current_item_equals_test_item, true);
             }
         }
 

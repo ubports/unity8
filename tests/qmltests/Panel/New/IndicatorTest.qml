@@ -26,96 +26,10 @@ Rectangle {
     id: root
     color: "white"
 
-    Component.onCompleted: {
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake1",
-                                               "/com/canonical/indicators/fake1",
-                                               "/com/canonical/indicators/fake1",
-                                               {
-                                                   "title": "Bluetooth (F)",
-                                                   "icons": [ "image://theme/bluetooth-active" ],
-                                               });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake2",
-                                               "/com/canonical/indicators/fake2",
-                                               "/com/canonical/indicators/fake2",
-                                               {
-                                                   "title": "Network (F)",
-                                                   "icons": [ "image://theme/simcard-error", "image://theme/wifi-high" ],
-                                               });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake3",
-                                               "/com/canonical/indicators/fake3",
-                                               "/com/canonical/indicators/fake3",
-                                               {
-                                                   "title": "Sound (F)",
-                                                   "icons": [ "image://theme/audio-volume-high" ],
-                                               });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake4",
-                                               "/com/canonical/indicators/fake4",
-                                               "/com/canonical/indicators/fake4",
-                                               {
-                                                   "title": "Battery (F)",
-                                                   "icons": [ "image://theme/battery-020" ],
-                                               });
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake5",
-                                               "/com/canonical/indicators/fake5",
-                                               "/com/canonical/indicators/fake5",
-                                               {
-                                                   "title": "Upcoming Events (F)",
-                                                   "label": "12:04",
-                                               });
-    }
-
-    property var indicatorData: [
-        {
-            "identifier": "fake-indicator-bluetooth",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake1",
-                "menuObjectPath": "/com/canonical/indicators/fake1",
-                "actionsObjectPath": "/com/canonical/indicators/fake1"
-            }
-        },
-        {
-            "identifier": "fake-indicator-network",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake2",
-                "menuObjectPath": "/com/canonical/indicators/fake2",
-                "actionsObjectPath": "/com/canonical/indicators/fake2"
-            }
-        },
-        {
-            "identifier": "fake-indicator-sound",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake3",
-                "menuObjectPath": "/com/canonical/indicators/fake3",
-                "actionsObjectPath": "/com/canonical/indicators/fake3"
-            }
-        },
-        {
-            "identifier": "fake-indicator-battery",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake4",
-                "menuObjectPath": "/com/canonical/indicators/fake4",
-                "actionsObjectPath": "/com/canonical/indicators/fake4"
-            }
-        },
-        {
-            "identifier": "fake-indicator-datetime",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake5",
-                "menuObjectPath": "/com/canonical/indicators/fake5",
-                "actionsObjectPath": "/com/canonical/indicators/fake5"
-            }
-        }
-    ]
-
     property alias indicatorsModel: __indicatorsModel
-    Indicators.FakeIndicatorsModel {
+    Indicators.IndicatorsModel {
         id: __indicatorsModel
-        indicatorData: root.indicatorData
+        Component.onCompleted: load()
     }
 
     function insertIndicator(index) {
@@ -124,23 +38,23 @@ Rectangle {
         var done = false;
         for (i = index; !done && i >= 1; i--) {
 
-            var lookFor = root.indicatorData[i-1]["identifier"]
+            var lookFor = indicatorsModel.originalModelData[i-1]["identifier"]
 
             var j;
-            for (j = indicatorsModel.indicatorData.length-1; !done && j >= 0; j--) {
-                if (indicatorsModel.indicatorData[j]["identifier"] === lookFor) {
+            for (j = indicatorsModel.modelData.length-1; !done && j >= 0; j--) {
+                if (indicatorsModel.modelData[j]["identifier"] === lookFor) {
                     insertIndex = j+1;
                     done = true;
                 }
             }
         }
-        indicatorsModel.insert(insertIndex, root.indicatorData[index]);
+        indicatorsModel.insert(insertIndex, indicatorsModel.originalModelData[index]);
     }
 
     function removeIndicator(index) {
         var i;
-        for (i = 0; i < indicatorsModel.indicatorData.length; i++) {
-            if (indicatorsModel.indicatorData[i]["identifier"] === root.indicatorData[index]["identifier"]) {
+        for (i = 0; i < indicatorsModel.modelData.length; i++) {
+            if (indicatorsModel.modelData[i]["identifier"] === indicatorsModel.originalModelData[index]["identifier"]) {
                 indicatorsModel.remove(i);
                 break;
             }
@@ -148,6 +62,6 @@ Rectangle {
     }
 
     function resetData() {
-        indicatorsModel.indicatorData = root.indicatorData;
+        indicatorsModel.load();
     }
 }

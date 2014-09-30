@@ -22,16 +22,7 @@ set(IndicatorsFakeQml_SOURCES
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/visibleindicatorsmodel.cpp
 )
 
-set(IndicatorsFakeQml_RESOURCES
-    indicators_fake.qrc
-)
-
-qt5_add_resources(IndicatorsFakeQml_RESOURCES_RCC
-    ${IndicatorsFakeQml_RESOURCES}
-)
-
 add_library(IndicatorsFakeQml SHARED
-    ${IndicatorsFakeQml_RESOURCES_RCC}
     ${IndicatorsFakeQml_SOURCES}
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)

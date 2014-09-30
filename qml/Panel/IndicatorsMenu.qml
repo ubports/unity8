@@ -29,12 +29,14 @@ Showable {
     property alias overFlowWidth: bar.overFlowWidth
     property bool enableHint: true
     property real showHintBottomMargin: 0
+    property bool contentEnabled: true
     readonly property bool fullyOpened: unitProgress >= 1
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
-    readonly property real unitProgress: Math.max(0, (height - minimizedPanelHeight - orangeLine.height) /
-                                                     (openedHeight - minimizedPanelHeight - orangeLine.height))
+    readonly property real unitProgress: Math.max(0, (height - minimizedPanelHeight) /
+                                                     (openedHeight - minimizedPanelHeight))
     property color panelColor: "black"
+    // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
 
     signal showTapped(point position)
 
@@ -49,14 +51,14 @@ Showable {
 
     hideAnimation: StandardAnimation {
         property: "height"
-        to: minimizedPanelHeight + orangeLine.height
+        to: minimizedPanelHeight
         duration: UbuntuAnimation.SlowDuration
         easing.type: Easing.OutCubic
     }
 
-    height: minimizedPanelHeight + orangeLine.height
+    height: minimizedPanelHeight
     onHeightChanged: {
-        var revealProgress = root.height - minimizedPanelHeight - orangeLine.height - showHintBottomMargin;
+        var revealProgress = root.height - minimizedPanelHeight - showHintBottomMargin;
 
         if (!showAnimation.running && !hideAnimation.running) {
             if (revealProgress === 0) {
@@ -69,16 +71,34 @@ Showable {
         }
     }
 
-    Rectangle {
+    MenuContent {
         id: content
-        visible: !fullyClosed
-        color: "#221e1c"
+        objectName: "menuContent"
+
         anchors {
             left: parent.left
             right: parent.right
             bottom: handle.top
         }
-        height: openedHeight - bar.height - handle.height - orangeLine.height
+        height: openedHeight - bar.height - handle.height
+        indicatorsModel: root.indicatorsModel
+        visible: root.unitProgress > 0
+        enabled: contentEnabled
+
+        //small shadow gradient at bottom of menu
+        Rectangle {
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            height: units.gu(0.5)
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "transparent" }
+                GradientStop { position: 1.0; color: "black" }
+            }
+            opacity: 0.4
+        }
     }
 
     Handle {
@@ -86,7 +106,7 @@ Showable {
         anchors {
             left: parent.left
             right: parent.right
-            bottom: orangeLine.top
+            bottom: parent.bottom
         }
         height: units.gu(2)
         active: d.activeDragHandle ? true : false
@@ -99,6 +119,8 @@ Showable {
 
     IndicatorsBar {
         id: bar
+        objectName: "indicatorsBar"
+
         anchors {
             left: parent.left
             right: parent.right
@@ -139,12 +161,6 @@ Showable {
         onScroll: bar.addScrollOffset(scrollAmount);
     }
 
-    PanelSeparatorLine {
-        id: orangeLine
-        width: parent.width
-        anchors.bottom: parent.bottom
-    }
-
     DragHandle {
         id: showDragHandle
         anchors.bottom: parent.bottom
@@ -160,8 +176,8 @@ Showable {
         distanceThreshold: minimizedPanelHeight
 
         // using hint regulates minimum to hint displacement, but in fullscreen mode, we need to do it manually.
-        overrideStartValue: enableHint ? undefined : expandedPanelHeight + d.handleHeight
-        maxTotalDragDistance: openedHeight - (enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height) - orangeLine.height
+        overrideStartValue: enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height
+        maxTotalDragDistance: openedHeight - (enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height)
         hintDisplacement: enableHint ? expandedPanelHeight - minimizedPanelHeight + handle.height : 0
         onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
     }
@@ -174,7 +190,7 @@ Showable {
         hintDisplacement: units.gu(3)
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true
-        maxTotalDragDistance: openedHeight - expandedPanelHeight - d.handleHeight
+        maxTotalDragDistance: openedHeight - expandedPanelHeight - handle.height
         distanceThreshold: 0
     }
 
@@ -200,11 +216,36 @@ Showable {
         }
     }
 
+    Connections {
+        target: content
+        onCurrentMenuIndexChanged: {
+            var oldActive = d.enableIndexChangeSignal;
+            if (!oldActive) return;
+            d.enableIndexChangeSignal = false;
+
+            bar.setCurrentItemIndex(content.currentMenuIndex);
+
+            d.enableIndexChangeSignal = oldActive;
+        }
+    }
+
+    Connections {
+        target: bar
+        onCurrentItemIndexChanged: {
+            var oldActive = d.enableIndexChangeSignal;
+            if (!oldActive) return;
+            d.enableIndexChangeSignal = false;
+
+            content.setCurrentMenuIndex(bar.currentItemIndex, fullyOpened || partiallyOpened);
+
+            d.enableIndexChangeSignal = oldActive;
+        }
+    }
+
     QtObject {
         id: d
         property bool enableIndexChangeSignal: true
         property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
-        property real handleHeight: handle.height + orangeLine.height
 
         property real rowMappedLateralPosition: {
             if (!d.activeDragHandle) return -1;

@@ -69,20 +69,6 @@ Item {
             source: "graphics/rectangular_dropshadow.sci"
         }
 
-        VerticalThinDivider {
-            id: indicatorDividor
-            anchors {
-                top: indicators.top
-                bottom: indicators.bottom
-                right: indicators.left
-
-                topMargin: indicatorArea.anchors.topMargin + indicators.panelHeight
-            }
-
-            width: units.dp(2)
-            source: "graphics/VerticalDivider.png"
-        }
-
         Rectangle {
             id: indicatorAreaBackground
             color: callHint.visible ? "green" : "black"
@@ -91,7 +77,7 @@ Item {
                 left: parent.left
                 right: parent.right
             }
-            height: indicators.panelHeight
+            height: indicators.minimizedPanelHeight
 
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
         }
@@ -106,13 +92,27 @@ Item {
             saturation: 1 - indicators.unitProgress
         }
 
+        VerticalThinDivider {
+            id: indicatorDividor
+            anchors {
+                top: indicators.top
+                bottom: indicators.bottom
+                right: indicators.left
+
+                topMargin: indicatorArea.anchors.topMargin + indicators.minimizedPanelHeight
+            }
+
+            width: units.dp(2)
+            source: "graphics/VerticalDivider.png"
+        }
+
         MouseArea {
             anchors {
                 top: parent.top
                 left: parent.left
                 right: indicators.left
             }
-            height: indicators.panelHeight
+            height: indicators.minimizedPanelHeight
             enabled: callHint.visible
             onClicked: callHint.showLiveCall()
         }
@@ -128,9 +128,9 @@ Item {
 
             shown: false
             width: root.width
-            minimuzedPanelHeight: units.gu(3)
+            minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
-            openedHeight: root.height
+            openedHeight: root.height - indicatorOrangeLine.height
 
             overFlowWidth: {
                 if (callHint.visible) {
@@ -139,7 +139,7 @@ Item {
                 return root.width
             }
             enableHint: !callHint.active && !fullscreenMode
-            showHintBottomMargin: fullscreenMode ? -minimuzedPanelHeight : 0
+            showHintBottomMargin: fullscreenMode ? -minimizedPanelHeight : 0
             panelColor: indicatorAreaBackground.color
 
             onShowTapped: {
@@ -149,20 +149,29 @@ Item {
             }
         }
 
+        PanelSeparatorLine {
+            id: indicatorOrangeLine
+            anchors {
+                top: indicators.bottom
+                left: indicators.left
+                right: indicators.right
+            }
+        }
+
         ActiveCallHint {
             id: __callHint
             anchors {
                 top: parent.top
                 left: parent.left
             }
-            height: indicators.minimuzedPanelHeight
+            height: indicators.minimizedPanelHeight
             visible: active && indicators.state == "initial"
         }
     }
 
     QtObject {
         id: d
-        readonly property real indicatorHeight: indicators.minimuzedPanelHeight + orangeLine.height
+        readonly property real indicatorHeight: indicators.minimizedPanelHeight + indicatorOrangeLine.height
     }
 
     states: [

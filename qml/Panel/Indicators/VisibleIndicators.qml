@@ -22,7 +22,13 @@ import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 
 Item {
+    id: root
     property SortFilterProxyModel model: filterModel
+    property string profile: indicatorProfile
+
+    function initialise() {
+        indicatorsModel.load(profile);
+    }
 
     SortFilterProxyModel {
         id: filterModel
@@ -36,9 +42,9 @@ Item {
         }
     }
 
-
     Indicators.IndicatorsModel {
         id: indicatorsModel
+        Component.onCompleted: root.initialise();
     }
 
     Repeater {
@@ -56,6 +62,7 @@ Item {
             id: item
             objectName: model.identifier + "-delegate"
             Component.onCompleted: {
+                console.log("FEK " + identifier)
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
                         item[pName] = indicatorProperties[pName];
@@ -76,9 +83,5 @@ Item {
                 repeater.visibleIndicatorsChanged();
             }
         }
-    }
-
-    function load(profile) {
-        indicatorsModel.load(profile);
     }
 }

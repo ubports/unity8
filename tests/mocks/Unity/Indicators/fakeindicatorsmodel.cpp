@@ -46,8 +46,8 @@ void FakeIndicatorsModel::unload()
 {
     beginResetModel();
 
-    m_indicatorData.clear();
-    Q_EMIT indicatorDataChanged();
+    m_modelData.clear();
+    Q_EMIT modelDataChanged();
 
     endResetModel();
 }
@@ -55,50 +55,50 @@ void FakeIndicatorsModel::unload()
 
 void FakeIndicatorsModel::append(const QVariantMap& data)
 {
-    QList<QVariant> allData = m_indicatorData.toList();
+    QList<QVariant> allData = m_modelData.toList();
     beginInsertRows(QModelIndex(), allData.count(), allData.count());
 
     allData.append(data);
-    m_indicatorData = allData;
-    Q_EMIT indicatorDataChanged();
+    m_modelData = allData;
+    Q_EMIT modelDataChanged();
 
     endInsertRows();
 }
 
 void FakeIndicatorsModel::insert(int row, const QVariantMap& data)
 {
-    QList<QVariant> allData = m_indicatorData.toList();
+    QList<QVariant> allData = m_modelData.toList();
     row = qMax(0, qMin(row, allData.count()));
 
     beginInsertRows(QModelIndex(), row, row);
 
     allData.insert(row, data);
-    m_indicatorData = allData;
-    Q_EMIT indicatorDataChanged();
+    m_modelData = allData;
+    Q_EMIT modelDataChanged();
 
     endInsertRows();
 }
 
 void FakeIndicatorsModel::remove(int row)
 {
-    QList<QVariant> allData = m_indicatorData.toList();
+    QList<QVariant> allData = m_modelData.toList();
     row = qMax(0, qMin(row, allData.count()));
 
     beginRemoveRows(QModelIndex(), row, row);
 
     allData.removeAt(row);
-    m_indicatorData = allData;
-    Q_EMIT indicatorDataChanged();
+    m_modelData = allData;
+    Q_EMIT modelDataChanged();
 
     endRemoveRows();
 }
 
-void FakeIndicatorsModel::setIndicatorData(const QVariant& indicatorData)
+void FakeIndicatorsModel::setModelData(const QVariant& modelData)
 {
     beginResetModel();
 
-    m_indicatorData = indicatorData;
-    Q_EMIT indicatorDataChanged();
+    m_modelData = modelData;
+    Q_EMIT modelDataChanged();
 
     endResetModel();
 }
@@ -129,7 +129,7 @@ QVariant FakeIndicatorsModel::data(int row, int role) const
 
 QVariant FakeIndicatorsModel::data(const QModelIndex &index, int role) const
 {
-    QList<QVariant> dataList = m_indicatorData.toList();
+    QList<QVariant> dataList = m_modelData.toList();
     if (!index.isValid() || index.row() >= dataList.size())
         return QVariant();
 
@@ -143,5 +143,5 @@ QModelIndex FakeIndicatorsModel::parent(const QModelIndex&) const
 
 int FakeIndicatorsModel::rowCount(const QModelIndex&) const
 {
-    return m_indicatorData.toList().count();
+    return m_modelData.toList().count();
 }

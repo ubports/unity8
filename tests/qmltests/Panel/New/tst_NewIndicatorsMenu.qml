@@ -28,6 +28,8 @@ IndicatorTest {
     height: units.gu(71)
     color: "white"
 
+    property string indicatorProfile: "phone"
+
     RowLayout {
         anchors.fill: parent
         anchors.margins: units.gu(1)
@@ -77,7 +79,7 @@ IndicatorTest {
             }
 
             Repeater {
-                model: root.indicatorData
+                model: indicatorsModel.originalModelData
                 RowLayout {
                     CheckBox {
                         checked: true
@@ -98,6 +100,13 @@ IndicatorTest {
             indicatorsMenu.hide();
             tryCompare(indicatorsMenu.hideAnimation, "running", false);
             compare(indicatorsMenu.state, "initial");
+        }
+
+        function get_indicator_item(index) {
+            var indicatorItem = findChild(indicatorsMenu, indicatorsModel.originalModelData[index]["identifier"]+"-panelItem");
+            verify(indicatorItem !== null);
+
+            return indicatorItem;
         }
 
         // Showing the indicators should fully open the indicator panel.
@@ -135,29 +144,43 @@ IndicatorTest {
             compare(indicatorsMenu.fullyOpened, true, "Indicator should not show as fully opened");
         }
 
+        // Pressing on the indicator panel should activate the indicator hints
+        // and expose the header
+        function test_hint() {
+            var indicatorItem = get_indicator_item(0);
+            var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
+
+            touchPress(indicatorsMenu, mappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2);
+
+            // hint animation should be run, meaning that indicators will move downwards
+            // by hintValue pixels without any drag taking place
+            tryCompareFunction(function() { return indicatorsMenu.height }, indicatorsMenu.expandedPanelHeight + units.gu(2));
+            tryCompare(indicatorsMenu, "partiallyOpened", true);
+
+            touchRelease(indicatorsMenu, mappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2);
+        }
+
         // tests swiping on an indicator item activates the correct item.
         function test_swipeForCurrentItem()
         {
-            var indicatorRow = findChild(indicatorsMenu, "indicatorRow")
-            verify(indicatorRow !== null);
+            var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow")
+            verify(indicatorItemRow !== null);
 
-            for (var i = 0; i < root.indicatorData.length; i++) {
-                var indicatorItem = findChild(indicatorsMenu, root.indicatorData[i]["identifier"]+"-panelItem");
+            for (var i = 0; i < indicatorsModel.originalModelData.length; i++) {
+                var indicatorItem = get_indicator_item(i);
 
                 var mappedPosition = root.mapFromItem(indicatorItem,
                         indicatorItem.width/2, indicatorItem.height/2);
-
-                console.log(mappedPosition.x, mappedPosition.y)
 
                 touchFlick(indicatorsMenu,
                            mappedPosition.x, mappedPosition.y,
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
                            true /* beginTouch */, false /* endTouch */);
 
-                compare(indicatorRow.currentItem, indicatorItem,
+                compare(indicatorItemRow.currentItem, indicatorItem,
                         "Incorrect item activated at position " + i);
 
-                touchFlick(indicatorsMenu,
+                touchFlick(indicatorItemRow,
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
                            mappedPosition.x, mappedPosition.y,
                            false /* beginTouch */, true /* endTouch */);
@@ -167,5 +190,39 @@ IndicatorTest {
             }
         }
 
+        // Test the vertical velocity check when flicking the indicators open at an angle.
+        // If the vertical velocity is above a specific point, we shouldnt change active indicators
+        // if the x position changes
+        function test_verticalVelocityDetector() {
+            verify(indicatorsModel.originalModelData.length >= 2);
+
+            var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");
+            verify(indicatorItemRow !== null);
+
+            // Get the first indicator
+            var firstItem = get_indicator_item(0);
+            var firstItemMappedPosition = root.mapFromItem(firstItem, firstItem.width/2, firstItem.height/2);
+
+            // 1) Drag the mouse down to hint a bit
+            touchFlick(indicatorsMenu,
+                       firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2,
+                       firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 2,
+                       true /* beginTouch */, false /* endTouch */);
+
+            tryCompare(indicatorItemRow, "currentItem", firstItem)
+
+            // next time position will have moved.
+            var nextItem = get_indicator_item(1);
+            var nextItemMappedPosition = root.mapFromItem(nextItem, nextItem.width/2, nextItem.height/2);
+
+            // 1) Flick mouse down to bottom
+            touchFlick(indicatorsMenu,
+                       firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 2,
+                       nextItemMappedPosition.x, indicatorsMenu.openedHeight / 3,
+                       false /* beginTouch */, true /* endTouch */,
+                       units.gu(5) /* speed */, 30 /* iterations */); // more samples needed for accurate velocity
+
+            compare(indicatorItemRow.currentItem, firstItem, "First indicator should still be the current item");
+        }
     }
 }

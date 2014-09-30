@@ -65,6 +65,7 @@ Row {
         property bool itemDestroyed: false
         sourceComponent: Component {
             Shell {
+                property string indicatorProfile: "phone"
                 Component.onDestruction: {
                     shellLoader.itemDestroyed = true;
                 }
@@ -547,6 +548,25 @@ Row {
             // TODO reenable when service ready (LP: #1361074)
             expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
+        }
+
+        function test_leftEdgeDragOnGreeter_data() {
+            return [
+                {tag: "short swipe", targetX: shell.width / 3, unlocked: false},
+                {tag: "long swipe", targetX: shell.width / 3 * 2, unlocked: true}
+            ]
+        }
+
+        function test_leftEdgeDragOnGreeter(data) {
+            var greeter = findChild(shell, "greeter");
+            greeter.show();
+            tryCompare(greeter, "showProgress", 1);
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
+
+            tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
         }
     }
 }

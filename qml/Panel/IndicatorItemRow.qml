@@ -86,8 +86,8 @@ Item {
 
     function setCurrentItemIndex(index) {
         for (var i = 0; i < row.children.length; i++) {
-            if (row.children[i].hasOwnProperty("ownIndex") &&
-                row.children[i].ownIndex === index) {
+            var item = row.children[i];
+            if (item.hasOwnProperty("ownIndex") && item.ownIndex === index) {
                 currentItem = item;
                 break;
             }
@@ -204,7 +204,7 @@ Item {
         anchors.bottom: row.bottom
         height: units.dp(2)
         width: currentItem ? currentItem.width : 0
-        color: Theme.palette.normal.foregroundText
+        color: "white"
         visible: root.currentItem !== null
         opacity: 0.0
 
