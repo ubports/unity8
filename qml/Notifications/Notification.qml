@@ -37,7 +37,7 @@ Item {
     property var notification
     property color color
     property bool fullscreen: false
-    property bool draggable: state == "contracted" || notification.type !== Notification.Confirmation
+    readonly property bool draggable: state == "contracted" || notification.type !== Notification.Confirmation
     property int maxHeight
     property int margins
     readonly property color red: "#fc4949"
