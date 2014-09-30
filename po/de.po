@@ -7,26 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-18 20:12+0800\n"
-"PO-Revision-Date: 2014-09-19 15:32+0000\n"
-"Last-Translator: Tobias Bannert <Unknown>\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"PO-Revision-Date: 2014-09-29 06:33+0000\n"
+"Last-Translator: Niklas Wenzel <nikwen.developer@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-20 06:33+0000\n"
+"X-Launchpad-Export-Date: 2014-09-30 07:10+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Passwort: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:44
+#: plugins/Unity/Launcher/launcheritem.cpp:74
 msgid "Pin shortcut"
 msgstr "Verknüpfung anheften"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:74
 msgid "Unpin shortcut"
 msgstr "Verknüpfung entfernen"
 
@@ -84,7 +84,7 @@ msgstr "Ausschalten"
 msgid "Restart"
 msgstr "Neustarten"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -164,36 +164,36 @@ msgstr "Hallo %1"
 msgid "Hello"
 msgstr "Hallo"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:364 qml/Dash/GenericScopeView.qml:483
 msgid "See less"
 msgstr "Weniger ansehen"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:364
 msgid "See all"
 msgstr "Alle anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Dash/GenericScopeView.qml:427 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Suchen"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
 msgstr "Aus den Favoriten entfernen"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Mehr …"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "Weniger …"
 
@@ -209,15 +209,15 @@ msgstr "Bewertung hinzufügen"
 msgid "Send"
 msgstr "Senden"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "Dash verwalten"
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "Filter verwalten"
 
-#: qml/Dash/ScopesOverview.qml:417
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "Erledigt"
 
-#: qml/Dash/ScopesOverview.qml:443
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "Store"
 
@@ -253,15 +253,15 @@ msgstr "Sprechen Sie jetzt …"
 msgid "Speaking..."
 msgstr "Sprechen Sie …"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
 msgstr "Passwort anzeigen"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
 msgstr "Geben Sie die SIM-PIN ein"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
 msgstr "Die PIN ist nicht korrekt"
 
@@ -272,6 +272,10 @@ msgstr "Tippen um zum Anruf zurückzugehen"
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
 msgstr "Konferenz"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "Nichts wird abgespielt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:651
 msgid "In queue…"
@@ -299,51 +303,51 @@ msgstr "Fehlgeschlagen, tippen Sie zum Wiederholen"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "SIM-Karte entsprerren"
+msgstr "SIM-Karte entsperren"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:279
+#: qml/Shell.qml:292
 msgid "Enter your passphrase"
 msgstr "Geben Sie Ihr Passwort ein"
 
-#: qml/Shell.qml:280
+#: qml/Shell.qml:293
 msgid "Sorry, incorrect passphrase"
 msgstr "Das Passwort ist nicht korrekt"
 
-#: qml/Shell.qml:282
+#: qml/Shell.qml:295
 msgid "Enter your passcode"
 msgstr "Passwort eingeben"
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:296
 msgid "Sorry, incorrect passcode"
 msgstr "Falsches Passwort"
 
-#: qml/Shell.qml:286
+#: qml/Shell.qml:299
 #, qt-format
 msgid "Enter your %1"
 msgstr "%1 eingeben"
 
-#: qml/Shell.qml:287
+#: qml/Shell.qml:300
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "%1 falsch"
 
-#: qml/Shell.qml:323
+#: qml/Shell.qml:335
 msgid "Sorry, incorrect passphrase."
 msgstr "Falsches Passwort."
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:336
 msgid "Sorry, incorrect passcode."
 msgstr "Falsche PIN"
 
-#: qml/Shell.qml:325
+#: qml/Shell.qml:337
 msgid "This will be your last attempt."
 msgstr "Dies ist Ihr letzter Versuch."
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:339
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -351,10 +355,13 @@ msgstr ""
 "Wird das Passwort falsch eingegeben, wird das Telefon auf den Werkszustand "
 "zurückgesetzt und alle Daten werden gelöscht."
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:340
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Wird die PIN falsch eingegeben, wird das Telefon auf den Werkszustand "
 "zurückgesetzt und alle Daten werden gelöscht."
+
+#~ msgid "Manage Dash"
+#~ msgstr "Dash verwalten"
