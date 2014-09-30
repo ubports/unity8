@@ -419,13 +419,6 @@ private Q_SLOTS:
         QDir::setCurrent(oldCurrent);
     }
 
-    void testSettings_data() {
-        QTest::addColumn<QStringList>("storedList");
-
-        QTest::newRow("2 stored") << (QStringList() << "abs-icon" << "no-icon");
-        QTest::newRow("1 stored") << (QStringList() << "abs-icon");
-    }
-
     void testSettings() {
         GSettings *settings = launcherModel->m_settings;
 
@@ -453,10 +446,11 @@ private Q_SLOTS:
         // Check if it disappeared from the frontend too
         QCOMPARE(launcherModel->rowCount(), 1);
 
-        // Add them back:
-        settings->setStoredApplications(QStringList() << "abs-icon" << "no-icon");
+        // Add them back but in reverse order
+        settings->setStoredApplications(QStringList() << "no-icon" << "abs-icon");
         QCOMPARE(launcherModel->rowCount(), 2);
-
+        QCOMPARE(launcherModel->get(0)->appId(), QString("no-icon"));
+        QCOMPARE(launcherModel->get(1)->appId(), QString("abs-icon"));
     }
 };
 

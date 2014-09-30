@@ -24,7 +24,6 @@
 #include <QDir>
 #include <QSettings>
 #include <QLocale>
-#include <QDebug>
 
 #include <libintl.h>
 
