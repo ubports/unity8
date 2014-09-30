@@ -496,14 +496,13 @@ FocusScope {
         }
     }
 
-    Rectangle {
-        id: pullToRefreshClippingRectangle
+    Item {
+        id: pullToRefreshClippingItem
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         height: parent.height - pullToRefresh.contentY + (pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].height - pageHeaderLoader.item.height : 0)
         clip: true
-        color: "#00000000"
 
         PullToRefresh {
             id: pullToRefresh
