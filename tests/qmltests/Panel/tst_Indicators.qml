@@ -173,7 +173,7 @@ Item {
         function test_row_visible_menuContent_visible(data) {
             indicators.show();
 
-            var indicatorTabs = findChild(indicators, "tabs");
+            var contentListView = findChild(indicators, "indicatorsContentListView");
             var indicatorRowItems = findChild(indicators, "indicatorRowItems");
 
             var count = data.visible.length
@@ -194,19 +194,19 @@ Item {
                 tryCompareFunction(function() { return findChild(indicatorRowItems, widgetName) !== null }, data.visible[i]);
 
                 // check for tab
-                tryCompareFunction(function() { return findChild(indicatorTabs, pageName) !== null }, data.visible[i]);
+                tryCompareFunction(function() { return findChild(contentListView, pageName) !== null }, data.visible[i]);
             }
         }
 
-        function test_indicator_visible_correct_tabs_data() { return [
-            {tag: "current-first", currentIndex: 0, visible: [false, true, true, true, true], expectedIndex: 0, expectedTab: "indicator-fake2"  },
-            {tag: "current-last", currentIndex: 4, visible: [true, true, true, true, false], expectedIndex: 3, expectedTab: "indicator-fake4" },
-            {tag: "after", currentIndex: 0, visible: [true, false, true, true, true], expectedIndex: 0, expectedTab: "indicator-fake1" },
-            {tag: "before", currentIndex: 1, visible: [false, true, true, true, true], expectedIndex: 1, expectedTab: "indicator-fake2" }];
+        function test_indicator_visible_correct_menu_data() { return [
+            {tag: "current-first", currentIndex: 0, visible: [false, true, true, true, true], expectedIndex: 0, expextedMenu: "indicator-fake2"  },
+            {tag: "current-last", currentIndex: 4, visible: [true, true, true, true, false], expectedIndex: 3, expextedMenu: "indicator-fake4" },
+            {tag: "after", currentIndex: 0, visible: [true, false, true, true, true], expectedIndex: 0, expextedMenu: "indicator-fake1" },
+            {tag: "before", currentIndex: 1, visible: [false, true, true, true, true], expectedIndex: 1, expextedMenu: "indicator-fake2" }];
         }
 
-        function test_indicator_visible_correct_tabs(data) {
-            var indicatorTabs = findChild(indicators, "tabs");
+        function test_indicator_visible_correct_menu(data) {
+            var contentListView = findChild(indicators, "indicatorsContentListView");
             var indicatorRow = findChild(indicators, "indicatorRow");
 
             indicators.show();
@@ -223,7 +223,7 @@ Item {
             tryCompare(indicatorRow, "currentItemIndex", data.expectedIndex);
 
             // check for current selected tab
-            tryCompareFunction(function() { return findChild(indicatorTabs, data.expectedTab) === indicatorTabs.selectedTab }, true);
+            tryCompareFunction(function() { return findChild(contentListView, data.expextedMenu) === contentListView.currentItem }, true);
 
         }
     }

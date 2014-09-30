@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Canonical Ltd.
+ * Copyright © 2014 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version 3,
@@ -22,7 +22,6 @@
 NetworkingStatus::NetworkingStatus(QObject *parent)
         : QObject(parent)
 {
-
     qRegisterMetaType<NetworkingStatus::Limitations>();
     qRegisterMetaType<QVector<NetworkingStatus::Limitations>>();
     qRegisterMetaType<NetworkingStatus::Status>();

@@ -34,33 +34,29 @@ class LauncherItem: public LauncherItemInterface
 public:
     LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent = 0);
 
-    QString appId() const;
-    QString name() const;
-    QString icon() const;
+    QString appId() const override;
+    QString name() const override;
+    QString icon() const override;
+    bool pinned() const override;
+    bool running() const override;
+    bool recent() const override;
+    int progress() const override;
+    int count() const override;
+    bool countVisible() const override;
+    bool focused() const override;
 
-    bool pinned() const;
+    unity::shell::launcher::QuickListModelInterface *quickList() const override;
+
+private:
+    void setName(const QString &name);
+    void setIcon(const QString &icon);
     void setPinned(bool pinned);
-
-    bool running() const;
     void setRunning(bool running);
-
-    bool recent() const;
     void setRecent(bool recent);
-
-    int progress() const;
     void setProgress(int progress);
-
-    int count() const;
     void setCount(int count);
-
-    bool focused() const;
+    void setCountVisible(bool countVisible);
     void setFocused(bool focused);
-
-    unity::shell::launcher::QuickListModelInterface *quickList() const;
-
-Q_SIGNALS:
-    void favoriteChanged(bool favorite);
-    void runningChanged(bool running);
 
 private:
     QString m_appId;
@@ -71,8 +67,11 @@ private:
     bool m_recent;
     int m_progress;
     int m_count;
+    bool m_countVisible;
     bool m_focused;
     QuickListModel *m_quickList;
+
+    friend class LauncherModel;
 };
 
 #endif // LAUNCHERITEM_H

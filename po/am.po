@@ -7,26 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-09-02 01:51+0000\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"PO-Revision-Date: 2014-09-28 14:37+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-03 07:05+0000\n"
+"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "የ መግቢያ ቃል: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "አቋራጭ ማጣበቂያ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "አቋራጭ መለያያ"
 
@@ -81,6 +81,10 @@ msgid "Power off"
 msgstr "ማጥፊያ"
 
 #: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "እንደገና ማስጀመሪያ"
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "መሰረዣ"
 
@@ -156,36 +160,36 @@ msgstr "ሰላም %1"
 msgid "Hello"
 msgstr "ሰላም"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
 msgstr "አነስተኛ መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
 msgstr "ሁሉንም መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "መፈለጊያ"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
 msgstr "ማሰናጃ"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
 msgstr "ከምወዳቸው ማስወገጃ"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
 msgstr "ወደምወዳቸው መጨመሪያ"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "ተጨማሪ..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "አነስተኛ..."
 
@@ -201,15 +205,15 @@ msgstr "ግምገማ መጨመሪያ"
 msgid "Send"
 msgstr "መላኪያ"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "የ ዳሽ አስተዳዳሪ"
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "የ ክልል አስተዳዳሪ"
 
-#: qml/Dash/ScopesOverview.qml:417
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "ጨርሷል"
 
-#: qml/Dash/ScopesOverview.qml:443
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "ማስቀመጫ"
 
@@ -245,15 +249,15 @@ msgstr "አሁን ይናገሩ..."
 msgid "Speaking..."
 msgstr "በመናገር ላይ..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
 msgstr "የመግቢያ ቃል ማሳያ"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
 msgstr "ሲም ፒን ያስገቡ"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
 msgstr "አዝናለሁ የተሳሳተ ፒን"
 
@@ -265,27 +269,31 @@ msgstr "ወደ ጥሪው ለመመለስ መታ ያድርጉ..."
 msgid "Conference"
 msgstr "ስብሰባ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "ምንም አይጫወትም"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr "ወረፋ በመጠበቅ ላይ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "በማውረድ ላይ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr "ማስቆሚያ: ለመቀጠል መታ ያድርጉ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr "ተሰርዟል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr "ጨርሷል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr "አልተቻለም: እንደገና ለመሞከር መታ ያድርጉ"
 
@@ -297,45 +305,45 @@ msgstr "ሲም መክፈቻ"
 msgid "Roaming"
 msgstr "ማዘዋወሪያ"
 
-#: qml/Shell.qml:279
+#: qml/Shell.qml:320
 msgid "Enter your passphrase"
 msgstr "የማለፊያ ሐረግ ያስገቡ"
 
-#: qml/Shell.qml:280
+#: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:282
+#: qml/Shell.qml:323
 msgid "Enter your passcode"
 msgstr "የ እርስዎን የማለፊያ ኮድ ያስገቡ"
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Shell.qml:286
+#: qml/Shell.qml:327
 #, qt-format
 msgid "Enter your %1"
 msgstr "ያስገቡ የ እርስዎን %1"
 
-#: qml/Shell.qml:287
+#: qml/Shell.qml:328
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "አዝናለሁ: የተሳሳተ%1"
 
-#: qml/Shell.qml:323
+#: qml/Shell.qml:363
 msgid "Sorry, incorrect passphrase."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:364
 msgid "Sorry, incorrect passcode."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Shell.qml:325
+#: qml/Shell.qml:365
 msgid "This will be your last attempt."
 msgstr "ይህ የመጨረሻ ሙከራዎ ነው"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:367
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -343,10 +351,13 @@ msgstr ""
 "የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:368
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
+
+#~ msgid "Manage Dash"
+#~ msgstr "የ ዳሽ አስተዳዳሪ"
