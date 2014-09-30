@@ -130,11 +130,10 @@ if [ -z "${PASSWORD}" ]; then
     usage
 fi
 
-PASSFILE=$( adb shell "FILE=\`mktemp\`
-                       echo \"#!/bin/sh\" > \$FILE
-                       echo \"echo \\\"${PASSWORD}\\\"\" >> \$FILE
-                       chmod +x \$FILE
-                       echo \$FILE" | tr -d '\r' )
+PASSFILE=$(adb shell 'mktemp')
+adb shell "echo '#!/bin/sh' > ${PASSFILE}"
+adb shell "echo \"echo \\\"${PASSWORD}\\\"\" >> ${PASSFILE}"
+adb shell "chmod +x ${PASSFILE}"
 
 setup_adb_forwarding
 
