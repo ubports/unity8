@@ -31,8 +31,6 @@ Page {
     property string actionsObjectPath
     property string menuObjectPath
 
-    property string deviceMenuObjectPath: menuObjectPath
-
     function start() {
     }
 
@@ -40,7 +38,7 @@ Page {
         id: unityModel
         busName: page.busName
         actions: { "indicator": page.actionsObjectPath }
-        menuObjectPath: page.deviceMenuObjectPath
+        menuObjectPath: page.menuObjectPath
     }
 
     Indicators.RootActionState {

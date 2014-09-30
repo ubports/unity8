@@ -36,7 +36,7 @@ Item {
         menuModel: UnityMenuModel {}
         busName: "test"
         actionsObjectPath: "test"
-        deviceMenuObjectPath: "test"
+        menuObjectPath: "test"
 
         rootMenuType: ""
 

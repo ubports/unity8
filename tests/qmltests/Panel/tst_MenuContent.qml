@@ -17,8 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
-import ".."
-import "../../../qml/Panel"
+import "../../qml/Panel"
 import Unity.Indicators 0.1 as Indicators
 
 Item {

@@ -17,7 +17,7 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import "../../../../qml/Panel"
+import "../../../qml/Panel"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
