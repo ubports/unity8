@@ -95,6 +95,7 @@ PreviewWidget {
             y: slideShow.initialY - slideShow.initialY * slideShow.scaleProgress
         }
         color: "black"
+        radius: units.gu(1) - units.gu(1) * slideShow.scaleProgress
 
         Behavior on scale {
             enabled: !slideShow.visible
@@ -141,7 +142,7 @@ PreviewWidget {
             }
             height: units.gu(7)
             visible: opacity > 0
-            opacity: shown ? 0.8 : 0
+            opacity: slideShow.scaleProgress > 0.6 && shown ? 0.8 : 0
             color: "black"
 
             Behavior on opacity {
