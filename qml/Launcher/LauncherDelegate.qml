@@ -21,7 +21,8 @@ Item {
     id: root
 
     property string iconName
-    property int count: -1
+    property int count: 0
+    property bool countVisible: false
     property int progress: -1
     property bool itemFocused: false
     property real maxAngle: 0
@@ -80,11 +81,12 @@ Item {
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
             color: UbuntuColors.orange
-            visible: root.count > 0
+            visible: root.countVisible
             borderSource: "none"
 
             Label {
                 id: countLabel
+                objectName: "countLabel"
                 text: root.count
                 anchors.centerIn: parent
                 // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine

@@ -34,6 +34,7 @@ class MirSurfaceItem : public QQuickItem
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(bool live READ live NOTIFY liveChanged)
+    Q_PROPERTY(Qt::ScreenOrientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged DESIGNABLE false)
 
 public:
     enum Type {
@@ -64,6 +65,9 @@ public:
     State state() const { return m_state; }
     QString name() const { return m_name; }
     bool live() const { return m_live; }
+    Qt::ScreenOrientation orientation() const { return m_orientation; }
+
+    void setOrientation(const Qt::ScreenOrientation orientation);
 
     void setSession(Session* item);
     void setScreenshot(const QUrl& screenshot);
@@ -76,6 +80,7 @@ Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void liveChanged(bool live);
+    void orientationChanged();
 
     void inputMethodRequested();
     void inputMethodDismissed();
@@ -104,6 +109,7 @@ private:
     const Type m_type;
     State m_state;
     bool m_live;
+    Qt::ScreenOrientation m_orientation;
 
     QQmlComponent *m_qmlContentComponent;
     QQuickItem *m_qmlItem;
@@ -114,5 +120,6 @@ private:
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
 Q_DECLARE_METATYPE(QList<MirSurfaceItem*>)
+Q_DECLARE_METATYPE(Qt::ScreenOrientation)
 
 #endif // MIRSURFACEITEM_H

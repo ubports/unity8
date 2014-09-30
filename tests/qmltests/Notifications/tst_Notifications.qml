@@ -480,7 +480,7 @@ Row {
             compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
 
             var audioItem = findInvisibleChild(notification, "sound")
-            tryCompare(audioItem, "playbackState", data.hasSound ? Audio.PlayingState : Audio.StoppedState)
+            compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
 
             if(data.buttonRowVisible) {
                 var buttonCancel = findChild(buttonRow, "notify_button1")

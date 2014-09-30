@@ -23,8 +23,12 @@
 
 #include "launcheritem.h"
 #include "launchermodel.h"
+#include "dbusinterface.h"
 
 #include <QtTest>
+#include <QDBusInterface>
+#include <QDBusReply>
+#include <QDomDocument>
 
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
@@ -39,7 +43,12 @@ public:
     ApplicationInfoInterface::Stage stage() const { return ApplicationInfoInterface::MainStage; }
     ApplicationInfoInterface::State state() const { return ApplicationInfoInterface::Running; }
     bool focused() const { return m_focused; }
-    QUrl screenshot() const { return QUrl(); }
+    QString splashTitle() const override { return QString(); }
+    QUrl splashImage() const override { return QUrl(); }
+    bool splashShowHeader() const override { return true; }
+    QColor splashColor() const override { return QColor(0,0,0,0); }
+    QColor splashColorHeader() const override { return QColor(0,0,0,0); }
+    QColor splashColorFooter() const override { return QColor(0,0,0,0); }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -287,9 +296,85 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->getUrlForAppId(QString()), QString());
         QCOMPARE(launcherModel->getUrlForAppId(""), QString());
         QCOMPARE(launcherModel->getUrlForAppId("no-name"), QString("application:///no-name.desktop"));
-        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("appid://com.test.good/first-listed-app/current-user-version"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("application:///com.test.good.desktop"));
         QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application"), QString("appid://com.test.good/application/current-user-version"));
         QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application_1.2.3"), QString("appid://com.test.good/application/current-user-version"));
+    }
+
+    void testIntrospection() {
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher", "org.freedesktop.DBus.Introspectable");
+        QDBusReply<QString> reply = interface.call("Introspect");
+        QStringList nodes = extractNodes(reply.value());
+        QCOMPARE(nodes.count(), launcherModel->rowCount());
+
+        appManager->addApplication(new MockApp("foobar"));
+        reply = interface.call("Introspect");
+        nodes = extractNodes(reply.value());
+        QCOMPARE(nodes.contains("foobar"), true);
+
+        appManager->removeApplication(2);
+        reply = interface.call("Introspect");
+        nodes = extractNodes(reply.value());
+        QCOMPARE(nodes.contains("foobar"), false);
+    }
+
+    QStringList extractNodes(const QString &introspectionXml) {
+        QXmlStreamReader introspectReply(introspectionXml);
+
+        QStringList ret;
+        while (!introspectReply.atEnd() && !introspectReply.hasError()) {
+            QXmlStreamReader::TokenType token = introspectReply.readNext();
+
+            if (token == QXmlStreamReader::StartElement) {
+                if (introspectReply.name() == "node" && introspectReply.attributes().count() > 0) {
+                    ret  << introspectReply.attributes().value("name").toString();
+                }
+            }
+        }
+        return ret;
+    }
+
+    void testCountEmblems() {
+        // Call GetAll on abs-icon
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
+        QDBusReply<QVariantMap> reply = interface.call("GetAll");
+        QVariantMap map = reply.value();
+
+        // Make sure GetAll returns a map with count and countVisible props
+        QCOMPARE(map.contains("count"), true);
+        QCOMPARE(map.contains("countVisible"), true);
+
+        // Make sure count is intitilized to 0 and non-visible
+        QCOMPARE(map.value("count").toInt(), 0);
+        QCOMPARE(map.value("countVisible").toBool(), false);
+
+        // Now make it visible and set it to 55 through D-Bus
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", 55);
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", true);
+
+        // Fetch it again using GetAll
+        reply = interface.call("GetAll");
+        map = reply.value();
+
+        // Make sure values have changed on the D-Bus interface
+        QCOMPARE(map.value("count").toInt(), 55);
+        QCOMPARE(map.value("countVisible").toBool(), true);
+
+        // Now the item on the upper side of the API
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+
+        // And make sure values have changed there as well
+        QCOMPARE(launcherModel->get(index)->countVisible(), true);
+        QCOMPARE(launcherModel->get(index)->count(), 55);
+    }
+
+    void testRefresh() {
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher", "com.canonical.Unity.Launcher");
+        QDBusReply<void> reply = interface.call("Refresh");
+
+        // Make sure the call to Refresh returned without error.
+        QCOMPARE(reply.isValid(), true);
     }
 };
 
