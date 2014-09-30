@@ -53,8 +53,9 @@ Rectangle {
         property Item slideShowListView: findChild(slideShow, "slideShowListView")
 
         function cleanup() {
-            imageGallery.widgetData = sourcesModel1;
             slideShow.visible = false;
+            imageGallery.widgetData = sourcesModel1;
+            waitForRendering(imageGallery);
         }
 
         function test_changeEmptyModel() {
