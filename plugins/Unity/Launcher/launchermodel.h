@@ -79,6 +79,8 @@ private:
     DBusInterface *m_dbusIface;
 
     ApplicationManagerInterface *m_appManager;
+
+    friend class LauncherModelTest;
 };
 
 #endif // LAUNCHERMODEL_H

@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QStringList>
-
+#include <QGSettings>
 
 class GSettings: public QObject
 {
@@ -32,6 +32,15 @@ public:
 
     QStringList storedApplications() const;
     void setStoredApplications(const QStringList &storedApplications);
+
+Q_SIGNALS:
+    void changed();
+
+private Q_SLOTS:
+    void settingsChanged(const QString &key);
+
+private:
+    QGSettings *m_gSettings;
 };
 
 #endif

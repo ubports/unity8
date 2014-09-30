@@ -33,6 +33,12 @@ public:
 
     QStringList storedApplications() const;
     void setStoredApplications(const QStringList &storedApplications);
+
+Q_SIGNALS:
+    void changed();
+
+private:
+    QStringList m_entries;
 };
 
 #endif

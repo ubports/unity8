@@ -24,6 +24,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QLocale>
+#include <QDebug>
 
 #include <libintl.h>
 
@@ -70,7 +71,7 @@ void DesktopFileHandler::load()
 
     QStringList searchDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
 #ifdef LAUNCHER_TESTING
-    searchDirs << "";
+    searchDirs << ".";
 #endif
 
     QString path;

@@ -24,6 +24,7 @@
 #include "launcheritem.h"
 #include "launchermodel.h"
 #include "dbusinterface.h"
+#include "gsettings.h"
 
 #include <QtTest>
 #include <QDBusInterface>
@@ -81,7 +82,15 @@ public:
         return nullptr;
     }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) { return nullptr; }
-    bool stopApplication(const QString &) { return false; }
+    bool stopApplication(const QString &appId) {
+        Q_FOREACH(MockApp* app, m_list) {
+            if (app->appId() == appId) {
+                removeApplication(m_list.indexOf(app));
+                return true;
+            }
+        }
+        return false;
+    }
     bool focusApplication(const QString &appId) {
         Q_FOREACH(MockApp* app, m_list) {
             app->setFocused(app->appId() == appId);
@@ -135,6 +144,8 @@ private Q_SLOTS:
 
         appManager->addApplication(new MockApp("no-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+
+        launcherModel->m_settings->setStoredApplications(QStringList());
     }
 
     // Removing apps from appmanager and launcher as pinned ones would stick
@@ -170,14 +181,15 @@ private Q_SLOTS:
         launcherModel->pin(launcherModel->get(0)->appId());
         QCOMPARE(launcherModel->get(0)->pinned(), true);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
-        QCOMPARE(spy.count(), 1);
+        QCOMPARE(spy.count() > 0, true);
         QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
 
+        spy.clear();
         launcherModel->requestRemove(launcherModel->get(0)->appId());
         QCOMPARE(launcherModel->get(0)->pinned(), false);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
-        QCOMPARE(spy.count(), 2);
-        QCOMPARE(spy.at(1).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+        QCOMPARE(spy.count(), 1);
+        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
     }
 
     void testRemove_data() {
@@ -186,7 +198,7 @@ private Q_SLOTS:
         QTest::addColumn<bool>("running");
 
         QTest::newRow("non-pinned, running") << false << true;
-        QTest::newRow("pinned, running") << true << false;
+        QTest::newRow("pinned, running") << true << true;
         QTest::newRow("pinned, non-running") << true << false;
     }
 
@@ -199,23 +211,24 @@ private Q_SLOTS:
 
         // pin one if required
         if (pinned) {
-            launcherModel->pin(launcherModel->get(1)->appId());
+            launcherModel->pin("abs-icon");
         }
 
         // stop it if required
         if (!running) {
-            appManager->removeApplication(1);
+            appManager->stopApplication("abs-icon");
         }
 
         // Now remove it
-        launcherModel->requestRemove(launcherModel->get(1)->appId());
+        launcherModel->requestRemove("abs-icon");
 
         if (running) {
             // both apps are running, both apps must still be here
             QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
            // Item must be unpinned now
-           QCOMPARE(launcherModel->get(1)->pinned(), false);
+           int index = launcherModel->findApplication("abs-icon");
+           QCOMPARE(launcherModel->get(index)->pinned(), false);
 
         } else if (pinned) {
            // Item 1 must go away, item 0 is here to stay
@@ -224,7 +237,7 @@ private Q_SLOTS:
 
         // done our checks. now stop the app if was still running
         if (running) {
-            appManager->removeApplication(1);
+            appManager->stopApplication("abs-icon");
         }
 
         // It needs to go away in any case now
@@ -369,12 +382,81 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(index)->count(), 55);
     }
 
-    void testRefresh() {
+    void testRefreshAfterDeletedDesktopFiles_data() {
+        QTest::addColumn<bool>("deleted");
+        QTest::newRow("have .desktop files") << false;
+        QTest::newRow("deleted .desktop files") << true;
+    }
+
+    void testRefreshAfterDeletedDesktopFiles() {
+        QFETCH(bool, deleted);
+
+        // pin both apps
+        launcherModel->pin("abs-icon");
+        launcherModel->pin("no-icon");
+        // close both apps
+        appManager->removeApplication(0);
+        appManager->removeApplication(0);
+
+        // "delete" the .desktop files
+        QString oldCurrent = QDir::currentPath();
+        if (deleted) {
+            // In testing mode, the launcher searches the current dir for the sample .desktop file
+            // We can make that fail by changing the current dir
+            QDir::setCurrent("..");
+        }
+
+        // Call refresh
         QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher", "com.canonical.Unity.Launcher");
         QDBusReply<void> reply = interface.call("Refresh");
 
         // Make sure the call to Refresh returned without error.
         QCOMPARE(reply.isValid(), true);
+
+        QCOMPARE(launcherModel->rowCount(), deleted ? 0 : 2);
+
+        // Restoring current dir
+        QDir::setCurrent(oldCurrent);
+    }
+
+    void testSettings_data() {
+        QTest::addColumn<QStringList>("storedList");
+
+        QTest::newRow("2 stored") << (QStringList() << "abs-icon" << "no-icon");
+        QTest::newRow("1 stored") << (QStringList() << "abs-icon");
+    }
+
+    void testSettings() {
+        GSettings *settings = launcherModel->m_settings;
+
+        // Nothing pinned at startup
+        QCOMPARE(settings->storedApplications().count(), 0);
+
+        // pin both apps
+        launcherModel->pin("abs-icon");
+        launcherModel->pin("no-icon");
+
+        // Now settings should have 2 apps
+        QCOMPARE(settings->storedApplications().count(), 2);
+
+        // close both apps
+        appManager->removeApplication(0);
+        appManager->removeApplication(0);
+
+        // Now settings should have 2 apps
+        QCOMPARE(settings->storedApplications().count(), 2);
+
+        // Now remove 1 app through the backend, make sure one is still there
+        settings->setStoredApplications(QStringList() << "abs-icon");
+        QCOMPARE(settings->storedApplications().count(), 1);
+
+        // Check if it disappeared from the frontend too
+        QCOMPARE(launcherModel->rowCount(), 1);
+
+        // Add them back:
+        settings->setStoredApplications(QStringList() << "abs-icon" << "no-icon");
+        QCOMPARE(launcherModel->rowCount(), 2);
+
     }
 };
 
