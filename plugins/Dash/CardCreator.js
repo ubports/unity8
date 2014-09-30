@@ -78,8 +78,8 @@ var kArtShapeHolderCode = 'Item  { \n\
                                             width = root.fixedArtShapeSize.width; \n\
                                             height = root.fixedArtShapeSize.height; \n\
                                         } else { \n\
-                                            width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
-                                            height = Qt.binding(function() { return !visible ? 0 : image.height }); \n\
+                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width }); \n\
+                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); \n\
                                         } \n\
                                     } \n\
                                     image: Image { \n\

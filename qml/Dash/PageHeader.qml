@@ -38,7 +38,7 @@ Item {
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
-    property alias showSignatureLine: bottomBorder.visible
+    property bool showSignatureLine: true
 
     property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
@@ -133,7 +133,7 @@ Item {
         objectName: "headerContainer"
         clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: units.gu(6.5)
+        height: units.gu(7)
         contentHeight: headersColumn.height
         interactive: false
         contentY: showSearch ? 0 : height
@@ -288,7 +288,7 @@ Item {
                     id: imageComponent
 
                     Item {
-                        anchors { fill: parent; topMargin: units.gu(1); bottomMargin: units.gu(1) }
+                        anchors { fill: parent; topMargin: units.gu(1.5); bottomMargin: units.gu(1.5) }
                         clip: true
                         Image {
                             objectName: "titleImage"
@@ -347,6 +347,7 @@ Item {
 
     Rectangle {
         id: bottomBorder
+        visible: showSignatureLine
         anchors {
             top: headerContainer.bottom
             left: parent.left

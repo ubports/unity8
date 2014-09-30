@@ -39,6 +39,7 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_type(type)
     , m_state(state)
     , m_live(true)
+    , m_orientation(Qt::PortraitOrientation)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
 {
@@ -106,6 +107,19 @@ void MirSurfaceItem::release()
     if (!parent()) {
         deleteLater();
     }
+}
+
+void MirSurfaceItem::setOrientation(const Qt::ScreenOrientation orientation)
+{
+    if (m_orientation == orientation)
+        return;
+
+    m_orientation = orientation;
+
+    QQmlProperty orientationProp(m_qmlItem, "orientation");
+    orientationProp.write(QVariant::fromValue(orientation));
+
+    Q_EMIT orientationChanged();
 }
 
 void MirSurfaceItem::setSession(Session* session)

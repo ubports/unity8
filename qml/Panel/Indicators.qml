@@ -84,10 +84,6 @@ Showable {
                 indicators.state = "locked";
             }
         }
-
-        if (enableRelease && revealProgress === 0) {
-            menuContent.releaseContent();
-        }
     }
 
     function calculateCurrentItem(xValue, useBuffer) {
@@ -189,8 +185,7 @@ Showable {
         }
         indicatorsModel: visibleIndicators.model
         visible: indicators.partiallyOpened || indicators.fullyOpened
-        clip: !indicators.fullyOpened
-        activeHeader: indicators.state == "hint" || indicators.state == "reveal"
+        clip: indicators.partiallyOpened
         enabled: contentEnabled
 
         //small shadow gradient at bottom of menu
@@ -212,7 +207,7 @@ Showable {
     Rectangle {
         id: handle
 
-        color:  menuContent.backgroundColor
+        color:  menuContent.color
 
         anchors {
             left: parent.left
@@ -357,12 +352,6 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: panelHeight
-
-        onStatusChanged: {
-            if (status === DirectionalDragArea.Recognized) {
-                menuContent.activateContent();
-            }
-        }
 
         onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
     }

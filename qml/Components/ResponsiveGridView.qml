@@ -35,7 +35,11 @@ Item {
     readonly property int cellWidth: gridView.cellWidth
     readonly property int cellHeight: gridView.cellHeight
     readonly property int totalContentHeight: {
-        return contentHeightForRows(Math.ceil(gridView.model.count / columns), cellHeight)
+        if (gridView.model) {
+            return contentHeightForRows(Math.ceil(gridView.model.count / columns), cellHeight)
+        } else {
+            return 0;
+        }
     }
     property alias interactive: gridView.interactive
     readonly property alias flicking: gridView.flicking

@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Name=Unity 8 Dash
-Comment=The converged Unity shell dash
+Name=Scopes
+Comment=An interface for using the Scopes system
 Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-dash
 Terminal=false
-Icon=unity8
+Icon=
 NoDisplay=true
 X-Ubuntu-Touch=true

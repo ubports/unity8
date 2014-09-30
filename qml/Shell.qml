@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
@@ -61,6 +62,22 @@ Item {
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property int failedLoginsDelaySeconds: 5 * 60 // seconds of forced waiting
 
+    property int orientation
+    readonly property int deviceOrientationAngle: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
+    onDeviceOrientationAngleChanged: {
+        if (!OrientationLock.enabled) {
+            orientation = Screen.orientation;
+        }
+    }
+    readonly property bool orientationLockEnabled: OrientationLock.enabled
+    onOrientationLockEnabledChanged: {
+        if (orientationLockEnabled) {
+            OrientationLock.savedOrientation = Screen.orientation;
+        } else {
+            orientation = Screen.orientation;
+        }
+    }
+
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
@@ -85,6 +102,12 @@ Item {
 
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        if (ApplicationManager.count > 0) {
+            ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
+        }
+        if (orientationLockEnabled) {
+            orientation = OrientationLock.savedOrientation;
+        }
     }
 
     GSettings {
@@ -206,6 +229,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
                 value: launcher.progress
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "orientation"
+                value: shell.orientation
             }
         }
     }
@@ -536,7 +564,15 @@ Item {
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
-            onDash: showDash()
+            onDash: {
+                if (ApplicationManager.focusedApplicationId != "unity8-dash") {
+                    showDash()
+                }
+                if (greeter.shown) {
+                    launcher.fadeOut()
+                    greeter.hideRight()
+                }
+            }
             onDashSwipeChanged: {
                 if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
