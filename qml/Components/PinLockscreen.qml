@@ -33,6 +33,7 @@ Column {
     property int padHeight: units.gu(28)
     property int minPinLength: -1
     property int maxPinLength: -1
+    property bool showCancelButton: true
 
     signal entered(string passphrase)
     signal cancel()
@@ -110,6 +111,7 @@ Column {
                 fontSize: "x-large"
                 color: "#f3f3e7"
                 anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
                 text: root.errorText
                 visible: pinentryField.incorrectOverride
             }
@@ -199,6 +201,7 @@ Column {
             width: numbersGrid.buttonWidth
 
             onClicked: root.cancel()
+            visible: root.showCancelButton
         }
         Item {
             height: units.gu(5)
