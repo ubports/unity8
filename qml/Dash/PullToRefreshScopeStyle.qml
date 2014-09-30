@@ -27,8 +27,20 @@ PullToRefreshStyle {
     releaseToRefresh: styledItem.target.originY - styledItem.target.contentY > activationThreshold
 
     Connections {
+        property bool willRefresh: false
+
         target: styledItem.target
-        onDraggingChanged: if (!styledItem.target.dragging && releaseToRefresh) styledItem.refresh()
+        onDraggingChanged: {
+            if (!styledItem.target.dragging && releaseToRefresh) {
+                willRefresh = true
+            }
+        }
+        onContentYChanged: {
+            if (styledItem.target.originY - styledItem.target.contentY == 0 && willRefresh) {
+                styledItem.refresh()
+                willRefresh = false
+            }
+        }
     }
 
     Label {
