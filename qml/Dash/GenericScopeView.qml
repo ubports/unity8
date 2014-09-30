@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.1
-import Ubuntu.Components.Styles 1.1
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
@@ -526,52 +525,9 @@ FocusScope {
                 onProcessingChanged: if (!scopeView.processing) pullToRefresh.refreshing = false
             }
 
-            style: PullToRefreshStyle {
+            style: PullToRefreshScopeStyle {
                 anchors.fill: parent
                 activationThreshold: units.gu(14)
-                releaseToRefresh: -pullToRefresh.contentY > activationThreshold
-
-                Connections {
-                    target: categoryView
-                    onDraggingChanged: if (!categoryView.dragging && releaseToRefresh) pullToRefresh.refresh()
-                }
-
-                Label {
-                    id: pullLabel
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    states: [
-                        State {
-                            name: "pulling"
-                            when: categoryView.dragging && !releaseToRefresh
-                            PropertyChanges { target: pullLabel; text: i18n.tr("Pull to refresh…") }
-                        },
-                        State {
-                            name: "releasable"
-                            when: categoryView.dragging && releaseToRefresh
-                            PropertyChanges { target: pullLabel; text: i18n.tr("Release to refresh…") }
-                        }
-                    ]
-                    transitions: Transition {
-                        SequentialAnimation {
-                            UbuntuNumberAnimation {
-                                target: pullLabel
-                                property: "opacity"
-                                to: 0.0
-                            }
-                            PropertyAction {
-                                target: pullLabel
-                                property: "text"
-                            }
-                            UbuntuNumberAnimation {
-                                target: pullLabel
-                                property: "opacity"
-                                to: 1.0
-                            }
-                        }
-                    }
-                }
             }
         }
     }
