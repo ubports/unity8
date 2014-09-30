@@ -132,8 +132,10 @@ class TestLockscreen(UnityTestCase):
             )
 
         pin_entry_field = self.main_window.get_pinentryField()
-        pin_entry_field.write(passphrase)
+        # pinentryField should automatically have focus
+        self.keyboard.type(passphrase)
         logger.debug("Typed passphrase: %s", pin_entry_field.text)
+        self.assertEqual(pin_entry_field.text, passphrase)
         self.keyboard.type("\n")
 
     def _enter_prompt_passphrase(self, passphrase):
