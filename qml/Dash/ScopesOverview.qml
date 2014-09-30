@@ -98,6 +98,14 @@ Item {
         value: progress === 1
     }
 
+    function closeTempScope() {
+        if (tempScopeItem.scope) {
+            root.scope.closeScope(tempScopeItem.scope);
+            tempScopeItem.scope = null;
+            tempScopeItem.backClicked()
+        }
+    }
+
     function animateDashFromAll(scopeId) {
         var currentScopePos = allScopeCardPosition(scopeId);
         if (currentScopePos) {

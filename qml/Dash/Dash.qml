@@ -38,6 +38,7 @@ Showable {
                 if (overviewController.progress != 0 && window.active) animate = false;
                 dash.setCurrentScope(scopeId, animate, isSwipe)
                 if (overviewController.progress != 0) {
+                    scopesOverview.closeTempScope();
                     if (window.active) {
                         dashContentCache.scheduleUpdate();
                     }
