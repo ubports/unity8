@@ -62,7 +62,6 @@ Item {
             id: item
             objectName: model.identifier + "-delegate"
             Component.onCompleted: {
-                console.log("FEK " + identifier)
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
                         item[pName] = indicatorProperties[pName];
