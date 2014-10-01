@@ -91,13 +91,6 @@ IndicatorDelegate {
                 verticalCenter: parent.verticalCenter
             }
 
-            opacity: {
-                if (!expanded) return 1.0;
-                if (!selected) return 0.6;
-                return 1.0;
-            }
-            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
-
             Row {
                 id: iconRow
                 anchors.centerIn: iconsItem
@@ -111,11 +104,19 @@ IndicatorDelegate {
 
                     StatusIcon {
                         id: itemImage
+                        objectName: "icon"+index
                         height: iconHeight
                         source: modelData
                         sets: ["status", "actions"]
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
+
+                        opacity: {
+                            if (!expanded) return 1.0;
+                            if (!selected) return 0.6;
+                            return 1.0;
+                        }
+                        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
                     }
                 }
             }
@@ -230,13 +231,12 @@ IndicatorDelegate {
         transitions: [
             Transition {
                 PropertyAction { target: d; property: "useFallbackIcon" }
-                PropertyAction { target: iconsItem; property: "opacity" }
                 AnchorAnimation {
                     targets: [ mainItems, iconsItem, leftLabelItem, rightLabelItem ]
                     duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
                 }
                 PropertyAnimation {
-                    targets: [ root, mainItems, leftLabelItem, rightLabelItem, indicatorName ]
+                    targets: [ root, mainItems, iconsItem, leftLabelItem, rightLabelItem, indicatorName ]
                     properties: "width, opacity, anchors.verticalCenterOffset";
                     duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
                 }

@@ -127,7 +127,7 @@ Rectangle {
             indicatorItem.selected = false;
             indicatorItem.expanded = false;
             indicatorItem.rootActionState.title = "Test Title";
-            indicatorItem.rootActionState.leftLabel = "TestRightLabel";
+            indicatorItem.rootActionState.leftLabel = "TestLeftLabel";
             indicatorItem.rootActionState.rightLabel = "TestRightLabel";
             indicatorItem.rootActionState.icons = [ "image://theme/audio-volume-high" ];
 
@@ -148,7 +148,7 @@ Rectangle {
             compare(findChild(indicatorItem, "indicatorName").opacity, 0.0);
         }
 
-        function test_expandcon() {
+        function test_expandIcon() {
             indicatorItem.expanded = true;
 
             tryCompare(findChild(indicatorItem, "leftLabel"), "opacity", 0.0);
@@ -181,16 +181,25 @@ Rectangle {
         }
 
         function test_select() {
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", Theme.palette.normal.foregroundText);
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", Theme.palette.normal.foregroundText);
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
 
             indicatorItem.expanded = true;
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", Theme.palette.selected.backgroundText);
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", Theme.palette.selected.backgroundText);
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 0.6);
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#4c4c4c");
 
             indicatorItem.selected = true;
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", Theme.palette.normal.foregroundText);
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", Theme.palette.normal.foregroundText);
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
         }
     }
 }

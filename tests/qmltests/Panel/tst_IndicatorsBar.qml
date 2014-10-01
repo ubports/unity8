@@ -128,9 +128,7 @@ IndicatorTest {
 
             indicatorsBar.selectItemAt(mappedPosition.x);
             indicatorsBar.expanded = true;
-
-            // wait for animations to finish
-            tryCompare(heightAnimation, "running", false);
+            wait_for_expansion_to_settle();
 
             var mappedRect = indicatorsBar.mapFromItem(dataItem, 0, 0, dataItem.width, dataItem.height);
 
@@ -141,6 +139,8 @@ IndicatorTest {
 
         function test_scrollOffset() {
             indicatorsBar.expanded = true;
+            wait_for_expansion_to_settle();
+
             var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[indicatorsModel.originalModelData.length-1]["identifier"]+"-panelItem");
             verify(dataItem !== null);
 

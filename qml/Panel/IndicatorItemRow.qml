@@ -181,6 +181,7 @@ Item {
 
         width: currentItem ? currentItem.width : 0
         Behavior on width {
+            enabled: !d.firstItemSwitch && expanded
             UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
 
@@ -209,7 +210,7 @@ Item {
             return shiftPercentageOffset * units.gu(1);
         }
         Behavior on highlightCenterOffset {
-            SmoothedAnimation { duration:UbuntuAnimation.FastDuration; velocity: 50; easing: UbuntuAnimation.StandardEasin }
+            SmoothedAnimation { duration:UbuntuAnimation.FastDuration; velocity: 50; easing: UbuntuAnimation.StandardEasing }
         }
 
         property real currentItemX: currentItem ? currentItem.x : 0 // having Behavior

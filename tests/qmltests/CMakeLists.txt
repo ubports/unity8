@@ -74,7 +74,6 @@ add_qml_test(Panel IndicatorItemRow ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_
 add_qml_test(Panel IndicatorsBar ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel IndicatorsMenu ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel Panel ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
-add_qml_test(Panel/Indicators DefaultIndicatorWidget ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel/Indicators DefaultIndicatorPage ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 # These MenuItemFactory tests need the test/mocks/ to come before plugins/
 add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
