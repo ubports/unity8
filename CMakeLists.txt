@@ -87,7 +87,7 @@ endif()
 # "signals" and "slots"
 add_definitions(-DQT_NO_KEYWORDS)
 
-# Save a few container detach and conversions 
+# Save a few container detach and conversions
 add_definitions(-DQT_STRICT_ITERATORS)
 
 # Tests
