@@ -404,7 +404,7 @@ void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
     const QList<QTouchEvent::TouchPoint> &touchPoints = event->touchPoints();
 
     const QTouchEvent::TouchPoint *newTouchPoint = nullptr;
-    for (int i = 0; i < touchPoints.count(); ++i) {
+    for (int i = 0; i < touchPoints.count() && allGood; ++i) {
         const QTouchEvent::TouchPoint &touchPoint = touchPoints.at(i);
         if (touchPoint.state() == Qt::TouchPointPressed) {
             if (newTouchPoint) {
