@@ -34,9 +34,9 @@ IndicatorDelegate {
     property bool selected: false
     property real iconHeight: units.gu(2)
     readonly property color color: {
-        if (!expanded) return "#CCCCCC";
+        if (!expanded) return "#ededed";
         if (!selected) return "#4c4c4c";
-        return Theme.palette.normal.foregroundText;
+        return "#ededed";
     }
 
     signal clicked()
@@ -78,7 +78,7 @@ IndicatorDelegate {
             font.family: "Ubuntu"
             fontSize: "medium"
             color: root.color
-            Behavior on color { ColorAnimation { duration: UbuntuAnimation.SnapDuration } }
+            Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
         }
 
         Item {
@@ -90,6 +90,13 @@ IndicatorDelegate {
                 left: leftLabelItem.right
                 verticalCenter: parent.verticalCenter
             }
+
+            opacity: {
+                if (!expanded) return 1.0;
+                if (!selected) return 0.6;
+                return 1.0;
+            }
+            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
 
             Row {
                 id: iconRow
@@ -108,7 +115,7 @@ IndicatorDelegate {
                         source: modelData
                         sets: ["status", "actions"]
                         color: root.color
-                        Behavior on color { ColorAnimation{ duration: UbuntuAnimation.SnapDuration } }
+                        Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
                     }
                 }
             }
@@ -129,7 +136,7 @@ IndicatorDelegate {
             font.family: "Ubuntu"
             fontSize: "medium"
             color: root.color
-            Behavior on color { ColorAnimation{ duration: UbuntuAnimation.SnapDuration } }
+            Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
         }
     }
 
@@ -147,7 +154,7 @@ IndicatorDelegate {
         horizontalAlignment: Text.AlignHCenter
         opacity: 0
         color: root.color
-        Behavior on color { ColorAnimation{ duration: UbuntuAnimation.SnapDuration } }
+        Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
     }
 
     StateGroup {
@@ -223,12 +230,13 @@ IndicatorDelegate {
         transitions: [
             Transition {
                 PropertyAction { target: d; property: "useFallbackIcon" }
+                PropertyAction { target: iconsItem; property: "opacity" }
                 AnchorAnimation {
                     targets: [ mainItems, iconsItem, leftLabelItem, rightLabelItem ]
                     duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
                 }
                 PropertyAnimation {
-                    targets: [ root, mainItems, iconsItem, leftLabelItem, rightLabelItem, indicatorName ]
+                    targets: [ root, mainItems, leftLabelItem, rightLabelItem, indicatorName ]
                     properties: "width, opacity, anchors.verticalCenterOffset";
                     duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
                 }

@@ -173,6 +173,17 @@ Item {
         id: highlight
         objectName: "highlight"
 
+        anchors.bottom: row.bottom
+        height: units.dp(2)
+        color: "#ededed"
+        visible: root.currentItem !== null
+        opacity: 0.0
+
+        width: currentItem ? currentItem.width : 0
+        Behavior on width {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+        }
+
         // micromovements of the highlight line when user moves the finger across the items while pulling
         // the handle downwards.
         property real highlightCenterOffset: {
@@ -190,7 +201,7 @@ Item {
 
             if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
                 return 0;
-            } else if (currentItem && currentItem.ownIndex == repeater.count-1 & distanceFromCenter > 0) {
+            } else if (currentItem && currentItem.ownIndex === repeater.count-1 & distanceFromCenter > 0) {
                 return 0;
             }
 
@@ -198,24 +209,14 @@ Item {
             return shiftPercentageOffset * units.gu(1);
         }
         Behavior on highlightCenterOffset {
-            SmoothedAnimation {duration:UbuntuAnimation.FastDuration; velocity: 50}
+            SmoothedAnimation { duration:UbuntuAnimation.FastDuration; velocity: 50; easing: UbuntuAnimation.StandardEasin }
         }
 
-        anchors.bottom: row.bottom
-        height: units.dp(2)
-        width: currentItem ? currentItem.width : 0
-        color: "white"
-        visible: root.currentItem !== null
-        opacity: 0.0
-
         property real currentItemX: currentItem ? currentItem.x : 0 // having Behavior
-        Behavior on x {
+        Behavior on currentItemX {
             id: currentItemXBehavior
             enabled: !d.firstItemSwitch && expanded
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.FastDuration;
-                easing: UbuntuAnimation.StandardEasing
-            }
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
         x: currentItemX + highlightCenterOffset
     }

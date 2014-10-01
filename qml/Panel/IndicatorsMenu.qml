@@ -24,7 +24,7 @@ Showable {
     property int minimizedPanelHeight: units.gu(3)
     property int expandedPanelHeight: units.gu(7)
     property real openedHeight: units.gu(71)
-    readonly property int lockThreshold: openedHeight / 2
+    readonly property int lockThreshold: openedHeight * (2 / 3)
     property alias indicatorsModel: bar.indicatorsModel
     property alias overFlowWidth: bar.overFlowWidth
     property bool enableHint: true
@@ -45,14 +45,14 @@ Showable {
     showAnimation: StandardAnimation {
         property: "height"
         to: openedHeight
-        duration: UbuntuAnimation.SlowDuration
+        duration: UbuntuAnimation.BriskDuration
         easing.type: Easing.OutCubic
     }
 
     hideAnimation: StandardAnimation {
         property: "height"
         to: minimizedPanelHeight
-        duration: UbuntuAnimation.SlowDuration
+        duration: UbuntuAnimation.BriskDuration
         easing.type: Easing.OutCubic
     }
 
@@ -70,6 +70,7 @@ Showable {
             }
         }
     }
+    clip: root.partiallyOpened
 
     MenuContent {
         id: content
@@ -78,7 +79,7 @@ Showable {
         anchors {
             left: parent.left
             right: parent.right
-            bottom: handle.top
+            top: bar.bottom
         }
         height: openedHeight - bar.height - handle.height
         indicatorsModel: root.indicatorsModel
@@ -279,7 +280,7 @@ Showable {
                     if (!d.activeDragHandle.dragging) return false;
 
                     yVelocityCalculator.trackedPosition = d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
-                    return Math.abs(yVelocityCalculator.calculate()) < 0.1;
+                    return Math.abs(yVelocityCalculator.calculate()) < 0.2;
                 }
             }
             // left scroll bar handling
