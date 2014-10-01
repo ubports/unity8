@@ -473,7 +473,6 @@ void DirectionalDragArea::touchEvent_undecided(QTouchEvent *event)
         TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
 
         setStatus(WaitingForTouch);
-        return;
     }
 }
 
