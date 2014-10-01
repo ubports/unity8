@@ -24,64 +24,62 @@ Indicators.FakeIndicatorsModel {
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake1",
                                            "/com/canonical/indicators/fake1",
                                            "/com/canonical/indicators/fake1",
-                                           {
-                                               "title": "Bluetooth (F)",
-                                               "icons": [ "image://theme/bluetooth-active" ],
-                                           },
-                                           getUnityMenuModelData("fake-indicator-bluetooth"));
+                                           getUnityMenuModelData("fake-indicator-bluetooth",
+                                                                 "Bluetooth (F)",
+                                                                 "",
+                                                                 [ "image://theme/bluetooth-active" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake2",
                                            "/com/canonical/indicators/fake2",
                                            "/com/canonical/indicators/fake2",
-                                           {
-                                               "title": "Network (F)",
-                                               "icons": [ "image://theme/simcard-error", "image://theme/wifi-high" ],
-                                           },
-                                           getUnityMenuModelData("fake-indicator-network"));
+                                           getUnityMenuModelData("fake-indicator-network",
+                                                                 "Network (F)",
+                                                                 "",
+                                                                 [ "image://theme/simcard-error", "image://theme/wifi-high" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake3",
                                            "/com/canonical/indicators/fake3",
                                            "/com/canonical/indicators/fake3",
-                                           {
-                                               "title": "Messages (F)",
-                                               "icons": [ "image://theme/messages-new" ],
-                                           },
-                                           getUnityMenuModelData("fake-indicator-sound"));
+                                           getUnityMenuModelData("fake-indicator-sound",
+                                                                 "Messages (F)",
+                                                                 "",
+                                                                 [ "image://theme/messages-new" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake4",
                                            "/com/canonical/indicators/fake4",
                                            "/com/canonical/indicators/fake4",
-                                           {
-                                               "title": "Sound (F)",
-                                               "icons": [ "image://theme/audio-volume-high" ],
-                                           },
-                                           getUnityMenuModelData("fake-indicator-power"));
+                                           getUnityMenuModelData("fake-indicator-power",
+                                                                 "Sound (F)",
+                                                                 "",
+                                                                 [ "image://theme/audio-volume-high" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake5",
                                            "/com/canonical/indicators/fake5",
                                            "/com/canonical/indicators/fake5",
-                                            {
-                                                "title": "Battery (F)",
-                                                "icons": [ "image://theme/battery-020" ],
-                                            },
-                                            getUnityMenuModelData("fake-indicator-bluetooth"));
+                                           getUnityMenuModelData("fake-indicator-power",
+                                                                 "Battery (F)",
+                                                                 "",
+                                                                 [ "image://theme/battery-020" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake6",
                                            "/com/canonical/indicators/fake6",
                                            "/com/canonical/indicators/fake6",
-                                           {
-                                               "title": "Upcoming Events (F)",
-                                               "label": "12:04",
-                                           },
-                                           getUnityMenuModelData("fake-indicator-datetime"));
+                                           getUnityMenuModelData("fake-indicator-datetime",
+                                                                 "Upcoming Events (F)",
+                                                                 "12:04",
+                                                                 []));
     }
 
-    function getUnityMenuModelData(identifier) {
+    function getUnityMenuModelData(identifier, title, label, icons) {
         var root = [{
             "rowData": {                // 1
-                "label": "root",
+                "label": "",
                 "sensitive": true,
                 "isSeparator": false,
                 "icon": "",
                 "type": "com.canonical.indicator.root",
                 "ext": {},
                 "action": "",
-                "actionState": {},
+                "actionState": {
+                    "title": title,
+                    "label": label,
+                    "icons": icons
+                },
                 "isCheck": false,
                 "isRadio": false,
                 "isToggled": false,

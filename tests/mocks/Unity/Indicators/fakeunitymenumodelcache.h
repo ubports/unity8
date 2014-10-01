@@ -43,7 +43,6 @@ public:
     Q_INVOKABLE void setCachedModelData(const QByteArray& bus,
                                         const QByteArray& path,
                                         const QVariantMap& actions,
-                                        const QVariantMap& properties = QVariantMap(),
                                         const QVariant& data = QVariant());
 
 private:

@@ -35,7 +35,6 @@ class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
 
     // internal mock properties
     Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
-    Q_PROPERTY(QVariantMap rootProperties READ rootProperties WRITE setRootProperties NOTIFY rootPropertiesChanged)
 
 public:
     UnityMenuModel(QObject *parent = nullptr);
@@ -47,9 +46,6 @@ public:
 
     QVariant modelData() const;
     void setModelData(const QVariant& data);
-
-    QVariantMap rootProperties() const;
-    void setRootProperties(const QVariantMap& data);
 
     QByteArray busName() const;
     void setBusName(const QByteArray &busName);
@@ -91,7 +87,6 @@ Q_SIGNALS:
 
     // Internal mock usage
     void modelDataChanged();
-    void rootPropertiesChanged();
 
 private:
     QVariantMap rowData(int row) const;

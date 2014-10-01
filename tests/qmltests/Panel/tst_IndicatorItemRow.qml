@@ -116,6 +116,11 @@ IndicatorTest {
             wait(1); // row seems to take a bit of time for item x values to update.
         }
 
+        function wait_for_expansion_to_settle() {
+            tryCompare(heightAnimation, "running", false);
+            wait(200); // put a little extra wait in for things to settle
+        }
+
         function test_indicatorRowChanges_data() {
             return [
                 { remove: [0, 2] },
@@ -196,7 +201,7 @@ IndicatorTest {
 
         function test_lateralPositionChangesCurrentItem(data) {
             indicatorsRow.expanded = true;
-            tryCompare(heightAnimation, "running", false);
+            wait_for_expansion_to_settle();
 
             var fromItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.from]["identifier"]+"-panelItem");
             verify(fromItem !== null);
@@ -220,7 +225,7 @@ IndicatorTest {
         // testing that positive changes to the lateral position offset shifts the highlight offset to the right
         function test_positiveLateralPositionChangesHighlightOffset() {
             indicatorsRow.expanded = true;
-            tryCompare(heightAnimation, "running", false);
+            wait_for_expansion_to_settle();
 
             var highlight = findChild(indicatorsRow, "highlight");
             var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"]+"-panelItem");
@@ -245,7 +250,7 @@ IndicatorTest {
         // testing that negative changes to the lateral position offset shifts the highlight offset to the left
         function test_negativeLateralPositionChangesHighlightOffset() {
             indicatorsRow.expanded = true;
-            tryCompare(heightAnimation, "running", false);
+            wait_for_expansion_to_settle();
 
             var highlight = findChild(indicatorsRow, "highlight");
             var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"]+"-panelItem");

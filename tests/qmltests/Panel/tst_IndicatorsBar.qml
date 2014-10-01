@@ -114,6 +114,11 @@ IndicatorTest {
             ];
         }
 
+        function wait_for_expansion_to_settle() {
+            tryCompare(heightAnimation, "running", false);
+            wait(200); // put a little extra wait in for things to settle
+        }
+
         // Rough check that expanding a selected item keeps it within the area of the original item.
         function test_expandSelectedItem(data) {
             var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
@@ -136,8 +141,6 @@ IndicatorTest {
 
         function test_scrollOffset() {
             indicatorsBar.expanded = true;
-            tryCompare(heightAnimation, "running", false);
-
             var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[indicatorsModel.originalModelData.length-1]["identifier"]+"-panelItem");
             verify(dataItem !== null);
 
@@ -161,7 +164,7 @@ IndicatorTest {
 
         function test_selectItemWhenExpanded(data) {
             indicatorsBar.expanded = true;
-            tryCompare(heightAnimation, "running", false);
+            wait_for_expansion_to_settle();
 
             var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
             if (indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2).x < 0) {

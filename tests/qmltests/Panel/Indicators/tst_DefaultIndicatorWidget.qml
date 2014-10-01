@@ -33,7 +33,6 @@ Item {
             top: parent.top
         }
 
-        menuModel: UnityMenuModel {}
         busName: "test"
         actionsObjectPath: "test"
         menuObjectPath: "test"

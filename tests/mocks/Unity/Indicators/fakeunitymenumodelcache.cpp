@@ -50,13 +50,11 @@ bool FakeUnityMenuModelCache::contains(const QByteArray& path)
 void FakeUnityMenuModelCache::setCachedModelData(const QByteArray& bus,
                                                  const QByteArray& path,
                                                  const QVariantMap& actions,
-                                                 const QVariantMap& properties,
                                                  const QVariant& data)
 {
     // keep a ref forever!
     if (!m_models.contains(path)) {
         m_models[path] = model(bus, path, actions);
     }
-    m_models[path]->setRootProperties(properties);
     m_models[path]->setModelData(data);
 }

@@ -56,17 +56,6 @@ void UnityMenuModel::setModelData(const QVariant& data)
     endResetModel();
 }
 
-QVariantMap UnityMenuModel::rootProperties() const
-{
-    return m_rootProperties;
-}
-
-void UnityMenuModel::setRootProperties(const QVariantMap& data)
-{
-    m_rootProperties = data;
-    Q_EMIT rootPropertiesChanged();
-}
-
 void UnityMenuModel::insertRow(int row, const QVariant& data)
 {
     row = qMin(row, rowCount());
