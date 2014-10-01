@@ -51,6 +51,7 @@ Rectangle {
             anchors.fill: parent
             application: fakeApplication
             orientation: Qt.PortraitOrientation
+            interactive: true
         }
     }
     Loader {
