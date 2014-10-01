@@ -159,7 +159,7 @@ QString TouchGate::oldestPendingTouchIdsString()
 
     QString str;
 
-    auto touchPoints = m_storedEvents.first()->touchPoints();
+    const auto &touchPoints = m_storedEvents.first().touchPoints;
     for (int i = 0; i < touchPoints.count(); ++i) {
         if (!isTouchPointOwned(touchPoints[i].id())) {
             if (!str.isEmpty()) {
