@@ -65,7 +65,6 @@ private:
         QEvent::Type eventType;
         QTouchDevice *device;
         Qt::KeyboardModifiers modifiers;
-        Qt::TouchPointStates touchPointStates;
         QList<QTouchEvent::TouchPoint> touchPoints;
         QObject *target;
         QWindow *window;
