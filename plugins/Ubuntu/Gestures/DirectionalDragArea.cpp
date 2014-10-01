@@ -652,8 +652,6 @@ void DirectionalDragArea::setStatus(DirectionalDragArea::Status newStatus)
     switch (newStatus) {
         case WaitingForTouch:
             Q_EMIT draggingChanged(false);
-            if (oldStatus == Undecided) {
-            }
             break;
         case Undecided:
             m_recognitionTimer->start();
