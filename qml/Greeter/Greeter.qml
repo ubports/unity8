@@ -166,7 +166,7 @@ Showable {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: units.gu(5)
-        text: i18n.tr("Swipe to unlock")
+        text: "《    " + i18n.tr("Unlock") + "    》"
         color: "white"
         font.weight: Font.Light
 

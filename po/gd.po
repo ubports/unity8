@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-09-10 16:35+0000\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"PO-Revision-Date: 2014-09-30 11:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
-"Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
+"Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-11 07:27+0000\n"
+"X-Launchpad-Export-Date: 2014-10-01 06:25+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: gd\n"
 
@@ -22,12 +22,12 @@ msgstr ""
 msgid "Password: "
 msgstr "Facal-faire: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Prìnich ath-ghoirid"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Neo-phrìnich an ath-ghoirid"
 
@@ -37,7 +37,7 @@ msgstr "Clàraich a-mach"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "A bheil thu cinnteach gu bheil thu airson clàradh a-mach?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
@@ -55,7 +55,7 @@ msgstr "Dùin sìos"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "A bheil thu cinnteach gu bheil thu airson a dhùnadh sìos?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
@@ -63,7 +63,7 @@ msgstr "Ath-thòisich an siostam"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "A bheil thu cinnteach gu bheil thu airson tòiseachadh às ùr?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
@@ -74,12 +74,18 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"A bheil thu cinnteach gu bheil thu\n"
+"airson a' chumhachd a chur dheth?"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Cuir a' chumhachd dheth"
 
 #: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Ath-thòisich"
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Sguir dheth"
 
@@ -143,7 +149,7 @@ msgstr "Fuirich ort"
 
 #: qml/Components/Lockscreen.qml:172
 msgid "Too many incorrect attempts"
-msgstr ""
+msgstr "Cus oidhirpean leis nach do shoirbhich"
 
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
@@ -162,36 +168,36 @@ msgstr "Shin thu, %1"
 msgid "Hello"
 msgstr "Shin thu"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Dash/PageHeader.qml:260
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Lorg"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
 msgstr "Roghainnean"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Thoir air falbh o na h-annsachdan"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Cuir ris na h-annsachdan"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Barrachd..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "Nas lugha..."
 
@@ -207,15 +213,15 @@ msgstr "Cuir lèirmheas ris"
 msgid "Send"
 msgstr "Cuir"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "Stiùirich an deas-bhòrd"
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "Stiùirich na sgòpaichean"
 
-#: qml/Dash/ScopesOverview.qml:417
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "Deiseil"
 
-#: qml/Dash/ScopesOverview.qml:443
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "Am bùth"
 
@@ -251,17 +257,17 @@ msgstr "Can rud a-nis..."
 msgid "Speaking..."
 msgstr "A' bruidhinn..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
 msgstr "Seall am facal-faire"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
 msgstr "Cuir a-steach PIN an t-SIM"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "Duilich ach tha a' PIN cearr"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -271,27 +277,31 @@ msgstr "Gnog gus tilleadh dhan ghairm..."
 msgid "Conference"
 msgstr "Gairm co-labhairt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "Chan eil dad 'ga chluich"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr "Air a' chiudha…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "'Ga luchdadh a-nuas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr "'Na stad, thoir gnogag gus leantainn air"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr "Air a sgur dheth"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr "Coileanta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 
@@ -303,52 +313,61 @@ msgstr "Thoir a' ghlas far an SIM"
 msgid "Roaming"
 msgstr "Air fàrsan"
 
-#: qml/Shell.qml:279
+#: qml/Shell.qml:320
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "Cuir an abairt-fhaire agad a-steach"
 
-#: qml/Shell.qml:280
+#: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
-msgstr ""
-
-#: qml/Shell.qml:282
-msgid "Enter your passcode"
-msgstr ""
-
-#: qml/Shell.qml:283
-msgid "Sorry, incorrect passcode"
-msgstr ""
-
-#: qml/Shell.qml:286
-#, qt-format
-msgid "Enter your %1"
-msgstr ""
-
-#: qml/Shell.qml:287
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Duilich ach tha an abairt-fhaire cearr"
 
 #: qml/Shell.qml:323
-msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgid "Enter your passcode"
+msgstr "Cuir an còd-faire agad a-steach"
 
 #: qml/Shell.qml:324
-msgid "Sorry, incorrect passcode."
-msgstr ""
-
-#: qml/Shell.qml:325
-msgid "This will be your last attempt."
-msgstr ""
+msgid "Sorry, incorrect passcode"
+msgstr "Duilich ach tha an còd-faire cearr"
 
 #: qml/Shell.qml:327
+#, qt-format
+msgid "Enter your %1"
+msgstr "Cuir a-steach a' %1 agad"
+
+#: qml/Shell.qml:328
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Duilich ach tha a' %1 cearr"
+
+#: qml/Shell.qml:363
+msgid "Sorry, incorrect passphrase."
+msgstr "Duilich ach tha an abairt-fhaire cearr."
+
+#: qml/Shell.qml:364
+msgid "Sorry, incorrect passcode."
+msgstr "Duilich ach tha an còd-faire cearr."
+
+#: qml/Shell.qml:365
+msgid "This will be your last attempt."
+msgstr "Seo an oidhirp mu dheireadh agad."
+
+#: qml/Shell.qml:367
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn agad a "
+"ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
+"pearsanta a sguabadh às."
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:368
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
+"shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
+"a sguabadh às."
+
+#~ msgid "Manage Dash"
+#~ msgstr "Stiùirich an deas-bhòrd"

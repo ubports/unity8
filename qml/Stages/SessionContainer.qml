@@ -24,12 +24,14 @@ Item {
     readonly property var childSessions: session ? session.childSessions : null
     readonly property alias surface: _surfaceContainer.surface
     property bool interactive: true
+    property int orientation
 
     readonly property alias surfaceContainer: _surfaceContainer
     SurfaceContainer {
         id: _surfaceContainer
         anchors.fill: parent
         surface: session ? session.surface : null
+        orientation: root.orientation
     }
 
     Binding {
@@ -73,6 +75,11 @@ Item {
             Binding {
                 target: item; when: item
                 property: "height"; value: root.height
+            }
+
+            Binding {
+                target: item; when: item
+                property: "orientation"; value: root.orientation
             }
         }
     }

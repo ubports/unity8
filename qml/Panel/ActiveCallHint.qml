@@ -117,7 +117,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
             text: {
-                var m = Math.round(d.callTime/60);
+                var m = Math.floor(d.callTime/60);
                 var ss = d.callTime % 60;
                 if (ss >= 10) {
                     return m + ":" + ss;

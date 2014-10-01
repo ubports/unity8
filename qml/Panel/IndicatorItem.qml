@@ -41,6 +41,12 @@ Loader {
 
     Binding {
         target: item
+        property: "identifier"
+        value: identifier
+    }
+
+    Binding {
+        target: item
         property: "objectName"
         value: identifier + "-widget"
     }

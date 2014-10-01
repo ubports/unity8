@@ -30,16 +30,7 @@ set(IndicatorsQML_SOURCES
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 
-set(IndicatorsQML_RESOURCES
-    resources/indicators.qrc
-)
-
-qt5_add_resources(IndicatorsQML_RESOURCES_RCC
-    ${IndicatorsQML_RESOURCES}
-)
-
 add_library(IndicatorsQml SHARED
-    ${IndicatorsQML_RESOURCES_RCC}
     ${IndicatorsQML_SOURCES}
 )
 

@@ -77,7 +77,7 @@ void Audio::pause()
 
 void Audio::play()
 {
-    if (m_playbackState != PlayingState && m_source.isValid()) {
+    if (m_playbackState != PlayingState) {
         m_playbackState = PlayingState;
         Q_EMIT playbackStateChanged(m_playbackState);
 

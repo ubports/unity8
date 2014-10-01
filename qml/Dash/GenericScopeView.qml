@@ -47,6 +47,10 @@ FocusScope {
 
     signal backClicked()
 
+    onScopeChanged: {
+        floatingSeeLess.companionBase = null;
+    }
+
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
     }
@@ -66,13 +70,17 @@ FocusScope {
             // so it's not implemented
             scope.activate(result)
         } else {
-            openPreview(index, resultsModel, limitedCategoryItemCount);
+            if (scope.preview(result)) {
+                openPreview(index, resultsModel, limitedCategoryItemCount);
+            }
         }
     }
 
-    function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
+    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") !== 0) {
-            openPreview(index, resultsModel, limitedCategoryItemCount);
+            if (scope.preview(result)) {
+                openPreview(index, resultsModel, limitedCategoryItemCount);
+            }
         }
     }
 
@@ -142,6 +150,7 @@ FocusScope {
         objectName: "categoryListView"
 
         x: subPageLoader.open ? -width : 0
+        visible: x != -width
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
         height: floatingSeeLess.visible ? parent.height - floatingSeeLess.height + floatingSeeLess.yOffset
@@ -152,10 +161,53 @@ FocusScope {
         forceNoClip: subPageLoader.open
         pixelAligned: true
 
-        property Item expandedCategoryItem: null
+        property string expandedCategoryId: ""
+        property int runMaximizeAfterSizeChanges: 0
 
         readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
             ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
+
+        onExpandedCategoryIdChanged: {
+            var firstCreated = firstCreatedIndex();
+            var shrinkingAny = false;
+            var shrinkHeightDifference = 0;
+            for (var i = 0; i < createdItemCount(); ++i) {
+                var baseItem = item(firstCreated + i);
+                if (baseItem.expandable) {
+                    var shouldExpand = baseItem.category === expandedCategoryId;
+                    if (shouldExpand != baseItem.expanded) {
+                        var animate = false;
+                        if (!subPageLoader.open) {
+                            var animateShrinking = !shouldExpand && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAllButton.height < categoryView.height;
+                            var animateGrowing = shouldExpand && baseItem.y + baseItem.height < categoryView.height;
+                            animate = shrinkingAny || animateShrinking || animateGrowing;
+                        }
+
+                        if (!shouldExpand) {
+                            shrinkingAny = true;
+                            shrinkHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
+                        }
+
+                        if (shouldExpand && !subPageLoader.open) {
+                            if (!shrinkingAny) {
+                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
+                            } else {
+                                // If the space that shrinking is smaller than the one we need to grow we'll call maximizeVisibleArea
+                                // after the shrink/grow animation ends
+                                var growHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
+                                if (growHeightDifference > shrinkHeightDifference) {
+                                    runMaximizeAfterSizeChanges = 2;
+                                } else {
+                                    runMaximizeAfterSizeChanges = 0;
+                                }
+                            }
+                        }
+
+                        baseItem.expand(shouldExpand, animate);
+                    }
+                }
+            }
+        }
 
         delegate: ListItems.Base {
             id: baseItem
@@ -194,7 +246,7 @@ FocusScope {
                 // This can happen with the VJ that doesn't know how height it will be on creation
                 // so doesn't set expandable until a bit too late for onLoaded
                 if (expandable) {
-                    var shouldExpand = baseItem === categoryView.expandedCategoryItem;
+                    var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
                     baseItem.expand(shouldExpand, false /*animate*/);
                 }
             }
@@ -215,9 +267,23 @@ FocusScope {
                     id: heightBehaviour
                     enabled: false
                     animation: UbuntuNumberAnimation {
+                        duration: UbuntuAnimation.FastDuration
                         onRunningChanged: {
                             if (!running) {
                                 heightBehaviour.enabled = false
+                                if (categoryView.runMaximizeAfterSizeChanges > 0) {
+                                    categoryView.runMaximizeAfterSizeChanges--;
+                                    if (categoryView.runMaximizeAfterSizeChanges == 0) {
+                                        var firstCreated = categoryView.firstCreatedIndex();
+                                        for (var i = 0; i < categoryView.createdItemCount(); ++i) {
+                                            var baseItem = categoryView.item(firstCreated + i);
+                                            if (baseItem.category === categoryView.expandedCategoryId) {
+                                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -245,7 +311,7 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (baseItem.expandable) {
-                        var shouldExpand = baseItem === categoryView.expandedCategoryItem;
+                        var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateDelegateCreationRange();
@@ -269,7 +335,7 @@ FocusScope {
                     }
 
                     onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, itemModel, target.model, categoryItemCount());
+                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount());
                     }
 
                     function categoryItemCount() {
@@ -282,27 +348,6 @@ FocusScope {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedCategoryItemChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    function collapseAllButExpandedCategory() {
-                        var item = rendererLoader.item;
-                        if (baseItem.expandable) {
-                            var shouldExpand = baseItem === categoryView.expandedCategoryItem;
-                            if (shouldExpand != baseItem.expanded) {
-                                // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
-                                var growingVisible = shouldExpand && y + height < categoryView.height;
-                                if (!subPageLoader.open || shouldExpand) {
-                                    var animate = shrinkingVisible || growingVisible;
-                                    baseItem.expand(shouldExpand, animate)
-                                    if (shouldExpand && !subPageLoader.open) {
-                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
-                                    }
-                                }
-                            }
-                        }
-                    }
                     onOriginYChanged: rendererLoader.updateDelegateCreationRange();
                     onContentYChanged: rendererLoader.updateDelegateCreationRange();
                     onHeightChanged: rendererLoader.updateDelegateCreationRange();
@@ -349,13 +394,15 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(4) : 0
+                height: baseItem.expandable && !baseItem.headerLink ? seeAllLabel.font.pixelSize + units.gu(4) : 0
+                visible: height != 0
 
                 onClicked: {
-                    if (categoryView.expandedCategoryItem !== baseItem) {
-                        categoryView.expandedCategoryItem = baseItem;
+                    if (categoryView.expandedCategoryId !== baseItem.category) {
+                        categoryView.expandedCategoryId = baseItem.category;
+                        floatingSeeLess.companionBase = baseItem;
                     } else {
-                        categoryView.expandedCategoryItem = null;
+                        categoryView.expandedCategoryId = "";
                     }
                 }
 
@@ -369,7 +416,6 @@ FocusScope {
                     fontSize: "small"
                     font.weight: Font.Bold
                     color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
-                    visible: baseItem.expandable && !baseItem.headerLink
                 }
             }
 
@@ -455,7 +501,7 @@ FocusScope {
         objectName: "floatingSeeLess"
 
         property Item companionTo: companionBase ? companionBase.seeAllButton : null
-        property Item companionBase: categoryView.expandedCategoryItem
+        property Item companionBase: null
         property bool showBecausePosition: false
         property real yOffset: 0
 
@@ -467,7 +513,7 @@ FocusScope {
         height: seeLessLabel.font.pixelSize + units.gu(4)
         visible: companionTo && showBecausePosition
 
-        onClicked: categoryView.expandedCategoryItem = null;
+        onClicked: categoryView.expandedCategoryId = "";
 
         function updateVisibility() {
             var companionPos = companionTo.mapToItem(floatingSeeLess, 0, 0);
@@ -476,6 +522,10 @@ FocusScope {
             var posToBase = floatingSeeLess.mapToItem(companionBase, 0, -yOffset).y;
             yOffset = Math.max(0, companionBase.item.collapsedHeight - posToBase);
             yOffset = Math.min(yOffset, height);
+
+            if (!showBecausePosition && categoryView.expandedCategoryId === "") {
+                companionBase = null;
+            }
         }
 
         Label {

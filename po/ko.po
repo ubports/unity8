@@ -7,78 +7,82 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr "열쇠글: "
+msgstr "암호: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
-msgstr "바로가기를 고정하기"
+msgstr "바로 가기를 고정"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
-msgstr "바로가기를 고정 해제하기"
+msgstr "바로 가기를 고정 해제"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "로그아웃"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "정말 로그아웃하시겠습니까?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "아니요"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "예"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "컴퓨터 끄기"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "정말 컴퓨터를 끄시겠습니까?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "다시 시작"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "정말 컴퓨터를 다시 시작하시겠습니까?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "전원"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
+msgstr "정말 컴퓨터를 끄시겠습니까?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "전원 끄기"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "다시 시작"
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "취소"
 
@@ -92,15 +96,15 @@ msgstr "오른쪽 끝"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "휴대 전화를 잠금 해제하려면 오른쪽에서부터 끌어보세요."
+msgstr "오른쪽 가장자리에서 쓸면 휴대 전화의 잠금을 해제합니다."
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "윗쪽 끝"
+msgstr "윗쪽 가장자리"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "알림을 보려면 위쪽에서 끌어보세요."
+msgstr "위쪽 가장자리에서 쓸면 알림에 접근할 수 있습니다."
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
@@ -108,15 +112,15 @@ msgstr "닫기"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr "환경설정 창을 닫으려면 위로 다시 끌어보세요."
+msgstr "위쪽으로 쓸면 설정 화면을 닫습니다."
 
 #: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "왼쪽 끝"
+msgstr "왼쪽 가장자리"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "애플리케이션을 빠르게 열기 위해 런처를 보려면 왼쪽에서 끌어보세요."
+msgstr "왼쪽에서 쓸면 런처를 표시해 프로그램에 빠르게 접근할 수 있습니다."
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
@@ -127,8 +131,7 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
-"여러분은 끝에서 끌어오기 제스쳐를 완벽히 익히셨기 때문에 휴대 전화를 사용하기 시작할 수 있습니다. <br><br> 스크린을 터치해서 "
-"시작하세요."
+"여러분은 가장자리에서 끌어오기 제스쳐를 완벽히 익히셨고 휴대 전화를 사용할 수 있습니다. <br><br> 스크린을 터치해서 시작하세요."
 
 #: qml/Components/Lockscreen.qml:167
 msgid "Please wait"
@@ -155,59 +158,60 @@ msgstr "안녕하세요 %1"
 msgid "Hello"
 msgstr "안녕하세요"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
-msgstr "간단히 표시하기"
+msgstr "간단히 표시"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
 msgstr "모두 보기"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "검색"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
-msgstr ""
+msgstr "설정"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "즐겨찾기에서 제거"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr ""
+msgstr "즐겨찾기에 추가"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "더 보기..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "간단하게..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr "이 애플리케이션 평가하기"
+msgstr "이 프로그램 평가"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr "평가 제출하기"
+msgstr "평가 추가"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "보내기"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "대시 관리"
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "스코프 관리"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "완료"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "장터"
 
@@ -221,9 +225,9 @@ msgstr "모두"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Swipe to unlock"
-msgstr "휴대전화를 잠금 해제하려면 움직이세요."
+msgstr "쓸어서 잠금 해제"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "확인"
 
@@ -233,7 +237,7 @@ msgstr "명령을 입력하거나 말하세요."
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "준비 중.. 잠시만 기다려 주세요..."
+msgstr "불러오는 중 입니다. 짐시 기다려주십시오..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
@@ -243,17 +247,17 @@ msgstr "지금 말하세요..."
 msgid "Speaking..."
 msgstr "말하는 중..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
-msgstr "비밀 번호 보기"
+msgstr "암호 표시"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
-msgstr ""
+msgstr "심 카드의 개인 식별 번호 입력"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
-msgstr ""
+msgstr "죄송합니다. 개인 식별 번호가 올바르지 않습니다."
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -263,92 +267,91 @@ msgstr "통화로 돌아가려면 터치하세요..."
 msgid "Conference"
 msgstr "회의"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
-msgid "In queue…"
-msgstr "재생 중..."
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "연주하는 항목 없음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
+msgid "In queue…"
+msgstr "대기 중..."
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
-msgstr "일시 중지 되었습니다. 계속하려면 누르세요."
+msgstr "일시 중지하였습니다. 계속하려면 눌러주세요."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
-msgstr "취소됨"
+msgstr "취소함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
-msgstr "완료됨"
+msgstr "완료함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
-msgstr "실패하였습니다. 재시도하려면 누르세요."
+msgstr "실패, 누르면 다시 시도합니다."
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "SIM 카드 보안 해제"
+msgstr "심 카드 잠금 해제"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
 msgstr "로밍"
 
-#: qml/Shell.qml:266
+#: qml/Shell.qml:320
 msgid "Enter your passphrase"
-msgstr ""
+msgstr "패스프레이즈를 입력해주십시오."
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "죄송합니다. 패스프레이즈가 올바르지 않습니다."
 
-#: qml/Shell.qml:282
+#: qml/Shell.qml:323
 msgid "Enter your passcode"
-msgstr ""
+msgstr "패스코드를 입력해주십시오."
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "죄송합니다. 패스코드가 올바르지 않습니다."
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:327
 #, qt-format
 msgid "Enter your %1"
-msgstr "%1를 입력하세요"
+msgstr "%1을(를) 입력해주십시오."
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:328
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "죄송합니다. %1이(가) 올바르지 않습니다."
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:363
 msgid "Sorry, incorrect passphrase."
-msgstr "잘못된 비밀번호입니다."
+msgstr "올바르지 않은 패스프레이즈입니다."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:364
 msgid "Sorry, incorrect passcode."
-msgstr "잘못된 비밀번호입니다."
+msgstr "최송합니다. 패스코드가 올바르지 않습니다."
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:365
 msgid "This will be your last attempt."
 msgstr "마지막 시도입니다."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:367
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
-msgstr ""
-"만약 이번 시도에서 잘못 입력하면, 보안을 위해 휴대 전화가 공장 초기화 과정을 거쳐 모든 사용자 데이터를 삭제할 것입니다."
+msgstr "이번에도 올바르지 않은 패스프레이즈를 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:368
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
-msgstr ""
-"만약 이번 시도에서 잘못 입력하면, 보안을 위해 휴대 전화가 공장 초기화 과정을 거쳐 모든 사용자 데이터를 삭제할 것입니다."
+msgstr "이번에도 올바르지 않은 패스코드를 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
 
-#~ msgid "Are you sure you would like to turn power off?"
-#~ msgstr "정말로 전원을 끌까요?"
-
-#~ msgid "Restart"
-#~ msgstr "재시작"
+#~ msgid "Manage Dash"
+#~ msgstr "대시 관리"
