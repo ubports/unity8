@@ -61,7 +61,7 @@ Item {
 
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
-    property int failedLoginsDelaySeconds: 5 * 60 // seconds of forced waiting
+    property int failedLoginsDelayMinutes: 5 // minutes of forced waiting
 
     property int orientation
     readonly property int deviceOrientationAngle: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
@@ -279,8 +279,6 @@ Item {
         id: lockscreen
         objectName: "lockscreen"
 
-        readonly property int backgroundTopMargin: -panel.panelHeight
-
         hides: [launcher, panel.indicators]
         shown: false
         enabled: true
@@ -295,11 +293,33 @@ Item {
         minPinLength: 4
         maxPinLength: 4
 
+        // FIXME: We *should* show emergency dialer if there is a SIM present,
+        // regardless of whether the side stage is enabled.  But right now,
+        // the assumption is that narrow screens are phones which have SIMs
+        // and wider screens are tablets which don't.  When we do allow this
+        // on devices with a side stage and a SIM, work should be done to
+        // ensure that the main stage is disabled while the dialer is present
+        // in the side stage.
+        showEmergencyCallButton: !shell.sideStageEnabled
+
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
         onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter fake-active mode
 
         onShownChanged: if (shown) greeter.fakeActiveForApp = ""
+
+        Timer {
+            id: forcedDelayTimer
+            interval: 1000 * 60
+            onTriggered: {
+                if (lockscreen.delayMinutes > 0) {
+                    lockscreen.delayMinutes -= 1
+                    if (lockscreen.delayMinutes > 0) {
+                        start() // go again
+                    }
+                }
+            }
+        }
 
         Component.onCompleted: {
             if (greeter.narrowMode) {
@@ -318,14 +338,15 @@ Item {
             if (greeter.narrowMode) {
                 if (isDefaultPrompt) {
                     if (lockscreen.alphaNumeric) {
-                        lockscreen.infoText = i18n.tr("Enter your passphrase")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase")
+                        lockscreen.infoText = i18n.tr("Enter passphrase")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase") + "\n" +
+                                               i18n.tr("Please re-enter")
                     } else {
-                        lockscreen.infoText = i18n.tr("Enter your passcode")
+                        lockscreen.infoText = i18n.tr("Enter passcode")
                         lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
                     }
                 } else {
-                    lockscreen.infoText = i18n.tr("Enter your %1").arg(text.toLowerCase())
+                    lockscreen.infoText = i18n.tr("Enter %1").arg(text.toLowerCase())
                     lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
                 }
 
@@ -373,7 +394,8 @@ Item {
                     }
                 }
                 if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
-                    lockscreen.forceDelay(failedLoginsDelaySeconds * 1000)
+                    lockscreen.delayMinutes = failedLoginsDelayMinutes
+                    forcedDelayTimer.start()
                 }
 
                 lockscreen.clear(true);
@@ -419,7 +441,15 @@ Item {
         }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
+        onShowProgressChanged: {
+            if (showProgress === 0) {
+                if (LightDM.Greeter.authenticated) {
+                    greeter.login()
+                } else if (greeter.narrowMode) {
+                    lockscreen.clear(false) // to reset focus if necessary
+                }
+            }
+        }
 
         Greeter {
             id: greeter
@@ -514,16 +544,19 @@ Item {
     }
 
     function showDash() {
-        if (shell.locked) {
-            return;
+        if (greeter.fakeActiveForApp !== "") { // just in case user gets here
+            return
         }
+
         if (greeter.shown) {
             greeter.hideRight();
             launcher.fadeOut();
         }
 
-        ApplicationManager.requestFocusApplication("unity8-dash")
-        launcher.fadeOut();
+        if (ApplicationManager.focusedApplicationId != "unity8-dash") {
+            ApplicationManager.requestFocusApplication("unity8-dash")
+            launcher.fadeOut();
+        }
     }
 
     Item {
@@ -576,10 +609,6 @@ Item {
             onDash: {
                 if (ApplicationManager.focusedApplicationId != "unity8-dash") {
                     showDash()
-                }
-                if (greeter.shown) {
-                    launcher.fadeOut()
-                    greeter.hideRight()
                 }
             }
             onDashSwipeChanged: {

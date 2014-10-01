@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-25 12:40+0000\n"
+"PO-Revision-Date: 2014-09-30 11:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"X-Launchpad-Export-Date: 2014-10-01 06:25+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: gd\n"
 
@@ -215,7 +215,7 @@ msgstr "Cuir"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Stiùirich na sgòpaichean"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -279,7 +279,7 @@ msgstr "Gairm co-labhairt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Chan eil dad 'ga chluich"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"

@@ -61,6 +61,7 @@ Item {
         delegate: IndicatorDelegate {
             id: item
             objectName: model.identifier + "-delegate"
+            identifier: model.identifier
             Component.onCompleted: {
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
