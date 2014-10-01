@@ -56,25 +56,55 @@ Q_SIGNALS:
 protected:
     void touchEvent(QTouchEvent *event) override;
 private:
+    class TouchEvent {
+    public:
+        TouchEvent(const QTouchEvent *event);
+
+        bool removeTouch(int touchId);
+
+        QEvent::Type eventType;
+        QTouchDevice *device;
+        Qt::KeyboardModifiers modifiers;
+        Qt::TouchPointStates touchPointStates;
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        QObject *target;
+        QWindow *window;
+        ulong timestamp;
+    };
+
     void touchOwnershipEvent(TouchOwnershipEvent *event);
     bool isTouchPointOwned(int touchId) const;
     void storeTouchEvent(const QTouchEvent *event);
     void removeTouchFromStoredEvents(int touchId);
     void dispatchFullyOwnedEvents();
-    bool removeTouchFromEvent(int touchId, QTouchEvent *event);
-    bool eventIsFullyOwned(const QTouchEvent *event) const;
+    bool eventIsFullyOwned(const TouchEvent &event) const;
+
+    void dispatchTouchEventToTarget(const TouchEvent &event);
     void dispatchTouchEventToTarget(QTouchEvent* event);
+    void dispatchTouchEventToTarget(
+        QEvent::Type eventType,
+        QTouchDevice *device,
+        Qt::KeyboardModifiers modifiers,
+        const QList<QTouchEvent::TouchPoint> &touchPoints,
+        QObject *target,
+        QWindow *window,
+        ulong timestamp);
+
     void transformTouchPoints(QList<QTouchEvent::TouchPoint> &touchPoints, const QTransform &transform);
-    QTouchEvent *touchEventWithPoints(const QTouchEvent &event,
-                                      const QList<QTouchEvent::TouchPoint> &newPoints);
-    void removeTouchInfoForEndedTouches(QTouchEvent *event);
+    static QTouchEvent *createQTouchEvent(QEvent::Type eventType,
+            QTouchDevice *device,
+            Qt::KeyboardModifiers modifiers,
+            const QList<QTouchEvent::TouchPoint> &touchPoints,
+            QObject *target,
+            QWindow *window,
+            ulong timestamp);
+    void removeTouchInfoForEndedTouches(const QList<QTouchEvent::TouchPoint> &touchPoints);
 
     #if TOUCHGATE_DEBUG
     QString oldestPendingTouchIdsString();
     #endif
 
-    // TODO: Optimize storage of buffered events
-    QList<QTouchEvent*> m_storedEvents;
+    QList<TouchEvent> m_storedEvents;
 
     enum {
         OwnershipUndefined,

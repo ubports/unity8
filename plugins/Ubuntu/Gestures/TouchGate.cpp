@@ -125,23 +125,18 @@ void TouchGate::storeTouchEvent(const QTouchEvent *event)
     qDebug() << "[TouchGate] Storing" << qPrintable(touchEventToString(event));
     #endif
 
-    QTouchEvent *clonedEvent = new QTouchEvent(event->type(),
-            event->device(),
-            event->modifiers(),
-            event->touchPointStates(),
-            event->touchPoints());
-
-    m_storedEvents.append(clonedEvent);
+    TouchEvent clonedEvent(event);
+    m_storedEvents.append(std::move(clonedEvent));
 }
 
 void TouchGate::removeTouchFromStoredEvents(int touchId)
 {
     int i = 0;
     while (i < m_storedEvents.count()) {
-        QTouchEvent *event = m_storedEvents[i];
-        bool removed = removeTouchFromEvent(touchId, event);
+        TouchEvent &event = m_storedEvents[i];
+        bool removed = event.removeTouch(touchId);
 
-        if (removed && event->touchPoints().isEmpty()) {
+        if (removed && event.touchPoints.isEmpty()) {
             m_storedEvents.removeAt(i);
         } else {
             ++i;
@@ -149,33 +144,11 @@ void TouchGate::removeTouchFromStoredEvents(int touchId)
     }
 }
 
-bool TouchGate::removeTouchFromEvent(int touchId, QTouchEvent *event)
-{
-    const QList<QTouchEvent::TouchPoint> &eventTouchPoints = event->touchPoints();
-
-    int indexToRemove = -1;
-    for (int i = 0; i < eventTouchPoints.count() && indexToRemove < 0; ++i) {
-        if (eventTouchPoints[i].id() == touchId) {
-            indexToRemove = i;
-        }
-    }
-
-    if (indexToRemove >= 0) {
-        QList<QTouchEvent::TouchPoint> newTouchPointsList = eventTouchPoints;
-        newTouchPointsList.removeAt(indexToRemove);
-        event->setTouchPoints(newTouchPointsList);
-        return true;
-    } else {
-        return false;
-    }
-}
-
 void TouchGate::dispatchFullyOwnedEvents()
 {
     while (!m_storedEvents.isEmpty() && eventIsFullyOwned(m_storedEvents.first())) {
-        QTouchEvent *event = m_storedEvents.takeFirst();
+        TouchEvent event = m_storedEvents.takeFirst();
         dispatchTouchEventToTarget(event);
-        delete event;
     }
 }
 
@@ -200,11 +173,10 @@ QString TouchGate::oldestPendingTouchIdsString()
 }
 #endif
 
-bool TouchGate::eventIsFullyOwned(const QTouchEvent *event) const
+bool TouchGate::eventIsFullyOwned(const TouchGate::TouchEvent &event) const
 {
-    auto touchPoints = event->touchPoints();
-    for (int i = 0; i < touchPoints.count(); ++i) {
-        if (!isTouchPointOwned(touchPoints[i].id())) {
+    for (int i = 0; i < event.touchPoints.count(); ++i) {
+        if (!isTouchPointOwned(event.touchPoints[i].id())) {
             return false;
         }
     }
@@ -224,9 +196,37 @@ void TouchGate::setTargetItem(QQuickItem *item)
     Q_EMIT targetItemChanged(item);
 }
 
+void TouchGate::dispatchTouchEventToTarget(const TouchEvent &event)
+{
+    dispatchTouchEventToTarget(event.eventType,
+            event.device,
+            event.modifiers,
+            event.touchPoints,
+            event.target,
+            event.window,
+            event.timestamp);
+}
+
 void TouchGate::dispatchTouchEventToTarget(QTouchEvent* event)
 {
-    removeTouchInfoForEndedTouches(event);
+    dispatchTouchEventToTarget(event->type(),
+            event->device(),
+            event->modifiers(),
+            event->touchPoints(),
+            event->target(),
+            event->window(),
+            event->timestamp());
+}
+
+void TouchGate::dispatchTouchEventToTarget(QEvent::Type eventType,
+        QTouchDevice *device,
+        Qt::KeyboardModifiers modifiers,
+        const QList<QTouchEvent::TouchPoint> &touchPoints,
+        QObject *target,
+        QWindow *window,
+        ulong timestamp)
+{
+    removeTouchInfoForEndedTouches(touchPoints);
 
     if (m_targetItem.isNull()) {
         qWarning("[TouchGate] Cannot dispatch touch event because target item is null");
@@ -244,9 +244,10 @@ void TouchGate::dispatchTouchEventToTarget(QTouchEvent* event)
     }
 
     // Map touch points to targetItem coordinates
-    QList<QTouchEvent::TouchPoint> touchPoints = event->touchPoints();
-    transformTouchPoints(touchPoints, QQuickItemPrivate::get(targetItem)->windowToItemTransform());
-    QTouchEvent *eventForTargetItem = touchEventWithPoints(*event, touchPoints);
+    QList<QTouchEvent::TouchPoint> targetTouchPoints = touchPoints;
+    transformTouchPoints(targetTouchPoints, QQuickItemPrivate::get(targetItem)->windowToItemTransform());
+    QTouchEvent *eventForTargetItem = createQTouchEvent(eventType, device, modifiers, targetTouchPoints,
+            target, window, timestamp);
 
     #if TOUCHGATE_DEBUG
     qDebug() << "[TouchGate] dispatching" << qPrintable(touchEventToString(eventForTargetItem))
@@ -271,15 +272,18 @@ void TouchGate::transformTouchPoints(QList<QTouchEvent::TouchPoint> &touchPoints
     }
 }
 
-// NB: From QQuickWindow
-QTouchEvent *TouchGate::touchEventWithPoints(const QTouchEvent &event,
-                                             const QList<QTouchEvent::TouchPoint> &newPoints)
+QTouchEvent *TouchGate::createQTouchEvent(QEvent::Type eventType,
+        QTouchDevice *device,
+        Qt::KeyboardModifiers modifiers,
+        const QList<QTouchEvent::TouchPoint> &touchPoints,
+        QObject *target,
+        QWindow *window,
+        ulong timestamp)
 {
     Qt::TouchPointStates eventStates = 0;
-    for (int i=0; i<newPoints.count(); i++)
-        eventStates |= newPoints[i].state();
+    for (int i = 0; i < touchPoints.count(); i++)
+        eventStates |= touchPoints[i].state();
     // if all points have the same state, set the event type accordingly
-    QEvent::Type eventType = event.type();
     switch (eventStates) {
         case Qt::TouchPointPressed:
             eventType = QEvent::TouchBegin;
@@ -293,21 +297,19 @@ QTouchEvent *TouchGate::touchEventWithPoints(const QTouchEvent &event,
     }
 
     QTouchEvent *touchEvent = new QTouchEvent(eventType);
-    touchEvent->setWindow(event.window());
-    touchEvent->setTarget(event.target());
-    touchEvent->setDevice(event.device());
-    touchEvent->setModifiers(event.modifiers());
-    touchEvent->setTouchPoints(newPoints);
+    touchEvent->setWindow(window);
+    touchEvent->setTarget(target);
+    touchEvent->setDevice(device);
+    touchEvent->setModifiers(modifiers);
+    touchEvent->setTouchPoints(touchPoints);
     touchEvent->setTouchPointStates(eventStates);
-    touchEvent->setTimestamp(event.timestamp());
+    touchEvent->setTimestamp(timestamp);
     touchEvent->accept();
     return touchEvent;
 }
 
-void TouchGate::removeTouchInfoForEndedTouches(QTouchEvent *event)
+void TouchGate::removeTouchInfoForEndedTouches(const QList<QTouchEvent::TouchPoint> &touchPoints)
 {
-    const QList<QTouchEvent::TouchPoint> &touchPoints = event->touchPoints();
-
     for (int i = 0; i < touchPoints.size(); ++i) {\
         const QTouchEvent::TouchPoint &touchPoint = touchPoints.at(i);
 
@@ -318,4 +320,28 @@ void TouchGate::removeTouchInfoForEndedTouches(QTouchEvent *event)
             m_touchInfoMap.remove(touchPoint.id());
         }
     }
+}
+
+TouchGate::TouchEvent::TouchEvent(const QTouchEvent *event)
+    : eventType(event->type())
+    , device(event->device())
+    , modifiers(event->modifiers())
+    , touchPoints(event->touchPoints())
+    , target(event->target())
+    , window(event->window())
+    , timestamp(event->timestamp())
+{
+}
+
+bool TouchGate::TouchEvent::removeTouch(int touchId)
+{
+    bool removed = false;
+    for (int i = 0; i < touchPoints.count() && !removed; ++i) {
+        if (touchPoints[i].id() == touchId) {
+            touchPoints.removeAt(i);
+            removed = true;
+        }
+    }
+
+    return removed;
 }
