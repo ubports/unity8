@@ -173,8 +173,7 @@ bool TouchGate::removeTouchFromEvent(int touchId, QTouchEvent *event)
 void TouchGate::dispatchFullyOwnedEvents()
 {
     while (!m_storedEvents.isEmpty() && eventIsFullyOwned(m_storedEvents.first())) {
-        QTouchEvent *event = m_storedEvents.first();
-        m_storedEvents.removeFirst();
+        QTouchEvent *event = m_storedEvents.takeFirst();
         dispatchTouchEventToTarget(event);
         delete event;
     }
