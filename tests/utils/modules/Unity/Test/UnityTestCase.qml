@@ -20,7 +20,15 @@ import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 TestCase {
+    id: testCase
     TestUtil {id:util}
+
+    WaitingDots {
+        visible: testCase.running
+        anchors.centerIn: parent
+        Component.onCompleted: parent = testCase.parent
+        z: 100
+    }
 
     // Fake implementation to be provided to items under test
     property var fakeDateTime: new function() {
