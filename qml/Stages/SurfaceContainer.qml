@@ -29,6 +29,7 @@ Item {
     onSurfaceChanged: {
         if (surface) {
             surface.parent = root;
+            d.forceSurfaceActiveFocusIfReady();
         } else {
             hadSurface = true;
         }
@@ -42,7 +43,7 @@ Item {
     TouchGate {
         targetItem: surface
         anchors.fill: root
-        enabled: surface.enabled
+        enabled: root.surface ? root.surface.enabled : false
         z: 2
     }
 
@@ -50,6 +51,9 @@ Item {
         target: root.surface
         // FIXME: I would rather not need to do this, but currently it doesn't get
         // active focus without it and I don't know why.
+        // Possibly because if an item get focus=true before it has a parent, once
+        // it gets a parent QQuickWindow won't check its focus and update its activeFocus
+        // accordingly. Unlike when you focus=true after the item already has a parent.
         onFocusChanged: d.forceSurfaceActiveFocusIfReady();
         onParentChanged: d.forceSurfaceActiveFocusIfReady();
         onEnabledChanged: d.forceSurfaceActiveFocusIfReady();

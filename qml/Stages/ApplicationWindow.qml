@@ -115,7 +115,6 @@ Item {
         onSurfaceChanged: {
             if (sessionContainer.surface) {
                 surfaceInitTimer.start();
-                d.forceSurfaceActiveFocusIfReady();
             } else {
                 d.surfaceInitialized = false;
             }
