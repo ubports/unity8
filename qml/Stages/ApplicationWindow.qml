@@ -61,29 +61,12 @@ Item {
         // Remove this when possible
         property bool surfaceInitialized: false
 
-        function forceSurfaceActiveFocusIfReady() {
-            if (sessionContainer.surface !== null &&
-                    sessionContainer.surface.focus &&
-                    sessionContainer.surface.parent === sessionContainer.surfaceContainer &&
-                    sessionContainer.surface.enabled) {
-                sessionContainer.surface.forceActiveFocus();
-            }
-        }
     }
 
     Timer {
         id: surfaceInitTimer
         interval: 100
         onTriggered: { if (sessionContainer.surface) {d.surfaceInitialized = true;} }
-    }
-
-    Connections {
-        target: sessionContainer.surface
-        // FIXME: I would rather not need to do this, but currently it doesn't get
-        // active focus without it and I don't know why.
-        onFocusChanged: d.forceSurfaceActiveFocusIfReady();
-        onParentChanged: d.forceSurfaceActiveFocusIfReady();
-        onEnabledChanged: d.forceSurfaceActiveFocusIfReady();
     }
 
     Image {

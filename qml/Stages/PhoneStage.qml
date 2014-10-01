@@ -410,6 +410,7 @@ Rectangle {
 
     EdgeDragArea {
         id: spreadDragArea
+        objectName: "spreadDragArea"
         direction: Direction.Leftwards
         enabled: spreadView.phase != 2 && root.spreadEnabled
 

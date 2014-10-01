@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtCore/QtGlobal>
+#include "TouchOwnershipEvent.h"
 
-#if defined(UBUNTUGESTURES_LIBRARY)
-#  define UBUNTUGESTURES_EXPORT Q_DECL_EXPORT
-#else
-#  define UBUNTUGESTURES_EXPORT Q_DECL_IMPORT
-#endif
+QEvent::Type TouchOwnershipEvent::m_touchOwnershipType = (QEvent::Type)-1;
+
+TouchOwnershipEvent::TouchOwnershipEvent(int touchId, bool gained)
+    : QEvent(touchOwnershipEventType())
+    , m_touchId(touchId)
+    , m_gained(gained)
+{
+}
+
+QEvent::Type TouchOwnershipEvent::touchOwnershipEventType()
+{
+    if (m_touchOwnershipType == (QEvent::Type)-1) {
+        m_touchOwnershipType = (QEvent::Type)registerEventType();
+    }
+
+    return m_touchOwnershipType;
+}

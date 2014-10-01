@@ -1,1 +1,3 @@
-Qt's qmlscene tool modified to use MouseTouchAdaptor. That way we can interact with touch-only components
+Qt's qmlscene tool with the following modifications:
+  - Added MouseTouchAdaptor. That way we can interact with touch-only components
+  - Added TouchRegistry. So that DirectionalDragArea, TouchGate and others can negotiate touch ownership etc.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * Authors:
  *   Daniel d'Andrada <daniel.dandrada@canonical.com>
@@ -566,6 +566,47 @@ Row {
             touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
 
             tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
+        }
+
+        function test_tapOnRightEdgeReachesApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var tapPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            tap(shell, tapPoint.x, tapPoint.y);
+
+            tryCompare(topmostSurface, "touchPressCount", 1);
+            tryCompare(topmostSurface, "touchReleaseCount", 1);
+        }
+
+        /*
+            Perform a right edge drag over an application surface and check
+            that no touch event was sent to it (ie, they were all consumed
+            by the right-edge drag area)
+         */
+        function test_rightEdgeDragDoesNotReachApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var gestureStartPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            touchFlick(shell,
+                    gestureStartPoint.x /* fromX */, gestureStartPoint.y /* fromY */,
+                    units.gu(1) /* toX */, gestureStartPoint.y /* toY */);
+
+            tryCompare(topmostSurface, "touchPressCount", 0);
+            tryCompare(topmostSurface, "touchReleaseCount", 0);
         }
     }
 }
