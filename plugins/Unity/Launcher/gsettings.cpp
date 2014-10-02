@@ -25,7 +25,7 @@ GSettings::GSettings(QObject *parent):
     QObject(parent)
 {
     m_gSettings = new QGSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/", this);
-    connect(m_gSettings, &QGSettings::changed, this, &GSettings::settingsChanged);
+    connect(m_gSettings, &QGSettings::changed, this, &GSettings::onSettingsChanged);
 }
 
 QStringList GSettings::storedApplications() const
@@ -62,7 +62,7 @@ void GSettings::setStoredApplications(const QStringList &storedApplications)
     m_gSettings->set("items", gSettingsList);
 }
 
-void GSettings::settingsChanged(const QString &key)
+void GSettings::onSettingsChanged(const QString &key)
 {
     if (key == "items") {
         Q_EMIT changed();

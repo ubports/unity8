@@ -37,7 +37,7 @@ Q_SIGNALS:
     void changed();
 
 private Q_SLOTS:
-    void settingsChanged(const QString &key);
+    void onSettingsChanged(const QString &key);
 
 private:
     QGSettings *m_gSettings;
