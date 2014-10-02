@@ -154,6 +154,7 @@ IndicatorTest {
         // Dragging from a indicator item in the panel will gradually expose the
         // indicators, first by running the hint animation, then after dragging down will
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
+        // Tested from first Y pixel to check for swipe from offscreen.
         function test_drag_show(data) {
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
@@ -173,11 +174,13 @@ IndicatorTest {
 
             for (var i = 0; i < indicatorsModel.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
-                var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width / 2, indicatorItem.height / 2);
+
+                var startXPosition = root.mapFromItem(indicatorItem, indicatorItem.width / 2, 0).x;
+                var startYPosition = root.mapFromItem(panel, 0, 0).y;
 
                 touchFlick(panel,
-                           mappedPosition.x, panel.indicators.minimizedPanelHeight / 2,
-                           mappedPosition.x, panel.height,
+                           startXPosition, startYPosition,
+                           startXPosition, panel.height,
                            true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
 
                 // Indicators height should follow the drag, and therefore increase accordingly.
@@ -186,7 +189,7 @@ IndicatorTest {
                     function() {return panel.indicators.height >= panel.height * 0.5},
                     true);
 
-                touchRelease(panel, mappedPosition.x, panel.height);
+                touchRelease(panel, startXPosition, panel.height);
 
                 compare(indicatorRow.currentItemIndex, i,  "Indicator item should be activated at position " + i);
                 compare(menuContent.currentMenuIndex, i, "Menu conetent should be activated for item at position " + i);
@@ -196,6 +199,64 @@ IndicatorTest {
                 tryCompare(panel.indicators.hideAnimation, "running", false);
                 tryCompare(panel.indicators, "state", "initial");
             }
+        }
+
+        function test_drag_hide_data() {
+            return [
+                { tag: "pinned", fullscreen: false, call: null,
+                            indicatorY: 0 },
+                { tag: "fullscreen", fullscreen: true, call: null,
+                            indicatorY: -panel.panelAndSeparatorHeight },
+                { tag: "pinned-callActive", fullscreen: false, call: phoneCall,
+                            indicatorY: 0},
+                { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall,
+                            indicatorY: -panel.panelAndSeparatorHeight }
+            ];
+        }
+
+        // Dragging the shown indicators up from bottom of panel will hide the indicators
+        // Tested from last Y pixel to check for swipe from offscreen.
+        function test_drag_hide(data) {
+            panel.fullscreenMode = data.fullscreen;
+            callManager.foregroundCall = data.call;
+
+            var indicatorRow = findChild(panel.indicators, "indicatorItemRow");
+            verify(indicatorRow !== null);
+
+            var menuContent = findChild(panel.indicators, "menuContent");
+            verify(menuContent !== null);
+
+            var indicatorArea = findChild(panel, "indicatorArea");
+            verify(indicatorArea !== null);
+
+            // Wait for the indicators to get into position.
+            // (switches between normal and fullscreen modes are animated)
+            tryCompareFunction(function() { return indicatorArea.y }, data.indicatorY);
+
+            var startXPosition = root.mapFromItem(panel.indicators, panel.indicators.width / 2, 0).x;
+            var startYPosition = root.mapFromItem(panel, 0, panel.height).y;
+
+            panel.indicators.show();
+            tryCompare(panel.indicators.showAnimation, "running", false);
+            tryCompare(panel.indicators, "unitProgress", 1);
+
+
+            touchFlick(panel.indicators,
+                       startXPosition, startYPosition,
+                       startXPosition, 0,
+                       true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
+
+            // Indicators height should follow the drag, and therefore increase accordingly.
+            // They should be at least half-way through the screen
+            tryCompareFunction(
+                function() {return panel.indicators.height <= panel.height * 0.5},
+                true);
+
+            touchRelease(panel.indicators, startXPosition, 0);
+
+            tryCompare(panel.indicators.hideAnimation, "running", true);
+            tryCompare(panel.indicators.hideAnimation, "running", false);
+            tryCompare(panel.indicators, "state", "initial");
         }
 
         function test_hint_data() {

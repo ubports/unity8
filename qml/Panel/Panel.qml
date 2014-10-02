@@ -139,13 +139,20 @@ Item {
                 return root.width
             }
             enableHint: !callHint.active && !fullscreenMode
-            showHintBottomMargin: fullscreenMode ? -minimizedPanelHeight : 0
             panelColor: indicatorAreaBackground.color
 
             onShowTapped: {
                 if (callHint.active) {
                     callHint.showLiveCall();
                 }
+            }
+
+            showDragHandle {
+                anchors.bottomMargin: fullscreenMode ? -minimizedPanelHeight : 0
+            }
+
+            hideDragHandle {
+                anchors.bottomMargin: -indicatorOrangeLine.height
             }
         }
 

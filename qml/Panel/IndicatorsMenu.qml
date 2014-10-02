@@ -40,6 +40,9 @@ Showable {
 
     signal showTapped(point position)
 
+    property alias showDragHandle: __showDragHandle
+    property alias hideDragHandle: __hideDragHandle
+
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
     showAnimation: StandardAnimation {
@@ -58,7 +61,7 @@ Showable {
 
     height: minimizedPanelHeight
     onHeightChanged: {
-        var revealProgress = root.height - minimizedPanelHeight - showHintBottomMargin;
+        var revealProgress = root.height - minimizedPanelHeight;
 
         if (!showAnimation.running && !hideAnimation.running) {
             if (revealProgress === 0) {
@@ -163,10 +166,8 @@ Showable {
     }
 
     DragHandle {
-        id: showDragHandle
+        id: __showDragHandle
         anchors.bottom: parent.bottom
-        // go beyond parent so that it stays reachable, at the top of the screen.
-        anchors.bottomMargin: showHintBottomMargin
         anchors.left: parent.left
         anchors.right: parent.right
         height: minimizedPanelHeight
@@ -184,7 +185,7 @@ Showable {
     }
 
     DragHandle {
-        id: hideDragHandle
+        id: __hideDragHandle
         anchors.fill: handle
         direction: Direction.Upwards
         enabled: root.shown && root.available

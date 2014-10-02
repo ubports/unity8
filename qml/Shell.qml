@@ -214,7 +214,7 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "maximizedAppTopMargin"
                 // Not just using panel.panelHeight as that changes depending on the focused app.
-                value: panel.indicators.panelHeight
+                value: panel.indicators.minimizedPanelHeight + units.dp(2) // dp(2) for orange line
             }
             Binding {
                 target: applicationsDisplayLoader.item
