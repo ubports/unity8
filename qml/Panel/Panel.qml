@@ -147,10 +147,6 @@ Item {
                 }
             }
 
-            showDragHandle {
-                anchors.bottomMargin: fullscreenMode ? -minimizedPanelHeight : 0
-            }
-
             hideDragHandle {
                 anchors.bottomMargin: -indicatorOrangeLine.height
             }
@@ -196,6 +192,10 @@ Item {
             PropertyChanges {
                 target: indicatorArea;
                 anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0
+            }
+            PropertyChanges {
+                target: indicators.showDragHandle;
+                anchors.bottomMargin: -units.gu(1)
             }
         }
     ]
