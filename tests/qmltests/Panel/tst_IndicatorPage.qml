@@ -18,14 +18,14 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
-import "../../../../qml/Panel/Indicators"
+import "../../../qml/Panel"
 
 Item {
     id: testView
     width: units.gu(40)
     height: units.gu(70)
 
-   DefaultIndicatorPage {
+   IndicatorPage {
         id: page
         anchors.fill: parent
 
@@ -117,7 +117,7 @@ Item {
    }
 
     UT.UnityTestCase {
-        name: "DefaultIndicatorPage"
+        name: "IndicatorPage"
 
         function init() {
             initMenuData([]);

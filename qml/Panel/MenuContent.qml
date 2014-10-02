@@ -20,7 +20,6 @@ import Ubuntu.Components 1.1
 import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 import "../Components"
-import "Indicators"
 
 Rectangle {
     id: content
@@ -54,38 +53,26 @@ Rectangle {
 
         delegate: Loader {
             id: loader
+
             width: ListView.view.width
             height: ListView.view.height
             objectName: identifier
-
-            source: pageSource !== undefined && pageSource !== "" ? pageSource : Qt.resolvedUrl("Indicators/DefaultIndicatorPage.qml")
             asynchronous: true
+
+            sourceComponent: IndicatorPage {
+                objectName: identifier + "-page"
+
+                identifier: model.identifier
+                busName: indicatorProperties.busName
+                actionsObjectPath: indicatorProperties.actionsObjectPath
+                menuObjectPath: indicatorProperties.menuObjectPath
+            }
 
             onVisibleChanged: {
                 // Reset the indicator states
-                if (!visible && item && item["reset"]) {
-                    item.reset()
+                if (!visible && status == Loader.Ready) {
+                    item.reset();
                 }
-            }
-
-            onLoaded: {
-                for(var pName in indicatorProperties) {
-                    if (item.hasOwnProperty(pName)) {
-                        item[pName] = indicatorProperties[pName]
-                    }
-                }
-            }
-
-            Binding {
-                target: loader.item
-                property: "identifier"
-                value: identifier
-            }
-
-            Binding {
-                target: loader.item
-                property: "objectName"
-                value: identifier + "-page"
             }
         }
     }

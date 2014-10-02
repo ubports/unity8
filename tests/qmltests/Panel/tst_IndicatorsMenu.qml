@@ -220,7 +220,7 @@ IndicatorTest {
                        firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 2,
                        nextItemMappedPosition.x, indicatorsMenu.openedHeight / 3,
                        false /* beginTouch */, true /* endTouch */,
-                       units.gu(5) /* speed */, 30 /* iterations */); // more samples needed for accurate velocity
+                       units.gu(5) /* speed */, 10 /* iterations */); // more samples needed for accurate velocity
 
             compare(indicatorItemRow.currentItem, firstItem, "First indicator should still be the current item");
         }

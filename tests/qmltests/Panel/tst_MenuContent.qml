@@ -17,11 +17,11 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
-import "../../qml/Panel"
+import "../../../qml/Panel"
 import Unity.Indicators 0.1 as Indicators
 
-Item {
-    id: shell
+IndicatorTest {
+    id: root
     width: units.gu(40)
     height: units.gu(70)
 
@@ -29,14 +29,9 @@ Item {
     Item { id: greeter }
     Item { id: handle }
 
-    Indicators.IndicatorsModel {
-        id: indicatorsModel
-        Component.onCompleted: load("test1")
-    }
-
     MenuContent {
         id: menuContent
-        indicatorsModel: indicatorsModel
+        indicatorsModel: root.indicatorsModel
         height: parent.height - 50
     }
 
@@ -105,7 +100,7 @@ Item {
 
         // Check that the correct menus are displayed for the requested item.
         function test_show_menu() {
-            var menuCount = indicatorsModel.count;
+            var menuCount = root.indicatorsModel.count;
             verify(menuCount > 0, "Menu count should be greater than zero");
 
             var listView = menu_content_test.findChild(menuContent, "indicatorsContentListView")
@@ -124,14 +119,13 @@ Item {
 
         // Tests QTBUG-30632 - asynchronous loader crashes when changing index quickly.
         function test_multi_activate() {
-            var menuCount = indicatorsModel.count;
+            var menuCount = root.indicatorsModel.count;
             verify(menuCount > 0, "Menu count should be greater than zero");
 
             for (var i = 0; i < 100; i++) {
                 activate_content(i % menuCount);
                 compare(menuContent.currentMenuIndex, i%menuCount);
             }
-            wait(100);
         }
     }
 }
