@@ -89,6 +89,7 @@ Item {
             } else {
                 root.allFavoriteSelected(scopeId);
             }
+            previewListView.open = false;
         }
     }
 
