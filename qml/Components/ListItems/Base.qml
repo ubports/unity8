@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-AbstractButton {
+Item {
     id: emptyListItem
     width: parent ? parent.width : units.gu(31)
     height: body.height + bottomDividerLine.height
