@@ -100,7 +100,6 @@ PreviewWidget {
                     font.weight: Font.Normal
                     fontSize: "large"
                     wrapMode: Text.Wrap
-                    maximumLineCount: 2
                     color: headerRoot.fontColor
                     text: headerRoot.title
                 }
