@@ -42,15 +42,12 @@ Item {
         width: root.width
         height: units.gu(5)
         text: {
-            if (isFavoritesFeed) return i18n.tr("Favourite Feeds");
-            else if (isOtherFeed) return i18n.tr("Other Subscribed Feeds");
+            if (isFavoritesFeed) return i18n.tr("Home");
+            else if (isOtherFeed) return i18n.tr("Others");
             else return name;
         }
         color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
     }
-
-    property var myTemplate: JSON.parse('{"card-layout":"horizontal","card-size":"small","category-layout":"grid","collapsed-rows":2}')
-    property var myComponents: JSON.parse('{"art":{"aspect-ratio":1,"field":"art"},"title":{"field":"title"},"attributes":{}}')
 
     readonly property double listItemHeight: units.gu(6)
 

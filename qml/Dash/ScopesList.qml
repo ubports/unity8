@@ -69,7 +69,7 @@ Item {
 
     PageHeader {
         id: header
-        title: i18n.tr("My Feeds")
+        title: i18n.tr("Manage")
         width: parent.width
         showBackButton: true
         backIsClose: root.state == "edit"
