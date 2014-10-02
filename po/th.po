@@ -1,220 +1,353 @@
-# Thai translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Thai translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-26 22:58+0200\n"
-"PO-Revision-Date: 2013-06-28 15:34+0000\n"
+"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"PO-Revision-Date: 2014-10-02 04:55+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-30 07:12+0000\n"
-"X-Generator: Launchpad (build 16692)\n"
+"X-Launchpad-Export-Date: 2014-10-02 06:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: Applications/applications.js:23
-msgid "Phone"
+#: plugins/LightDM/Greeter.cpp:130
+msgid "Password: "
 msgstr ""
 
-#: Applications/applications.js:29
-msgid "Camera"
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
+msgid "Pin shortcut"
 msgstr ""
 
-#: Applications/applications.js:35
-msgid "Gallery"
+#: plugins/Unity/Launcher/launcheritem.cpp:91
+msgid "Unpin shortcut"
 msgstr ""
 
-#: Applications/applications.js:40
-msgid "Facebook"
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
 msgstr ""
 
-#: Applications/applications.js:46
-msgid "Browser"
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
 msgstr ""
 
-#: Applications/applications.js:51
-msgid "Twitter"
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
 msgstr ""
 
-#: Applications/applications.js:57
-msgid "GMail"
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
 msgstr ""
 
-#: Applications/applications.js:62
-msgid "Weather"
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
 msgstr ""
 
-#: Applications/applications.js:68
-msgid "Notepad"
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
 msgstr ""
 
-#: Applications/applications.js:74
-msgid "Calendar"
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
 msgstr ""
 
-#: Applications/applications.js:80
-msgid "Media Player"
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
 msgstr ""
 
-#: Applications/applications.js:86
-msgid "Evernote"
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
 msgstr ""
 
-#: Applications/applications.js:91
-msgid "Map"
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
 msgstr ""
 
-#: Applications/applications.js:96
-msgid "Pinterest"
+#: qml/Components/Dialogs.qml:147
+msgid "Power off"
 msgstr ""
 
-#: Applications/applications.js:101
-msgid "SoundCloud"
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
 msgstr ""
 
-#: Applications/applications.js:106
-msgid "Wikipedia"
+#: qml/Components/Dialogs.qml:167
+msgid "Cancel"
 msgstr ""
 
-#: Applications/applications.js:111
-msgid "YouTube"
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
 msgstr ""
 
-#: Components/PageHeader.qml:300
-msgid "Recent searches"
+#: qml/Components/EdgeDemo.qml:112
+msgid "Right edge"
 msgstr ""
 
-#: Dash/DashApps.qml:65
-msgid "Running apps"
+#: qml/Components/EdgeDemo.qml:113
+msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
 
-#: Dash/DashApps.qml:68
-msgid "Frequently used"
+#: qml/Components/EdgeDemo.qml:144
+msgid "Top edge"
 msgstr ""
 
-#: Dash/DashApps.qml:71
-msgid "Installed"
+#: qml/Components/EdgeDemo.qml:145
+msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 
-#: Dash/DashApps.qml:74
-msgid "Available for download"
+#: qml/Components/EdgeDemo.qml:170
+msgid "Close"
 msgstr ""
 
-#: Dash/DashApps.qml:178
-msgid "Apps"
+#: qml/Components/EdgeDemo.qml:171
+msgid "Swipe up again to close the settings screen"
 msgstr ""
 
-#: Dash/DashHome.qml:40
-msgid "Frequent Apps"
+#: qml/Components/EdgeDemo.qml:198
+msgid "Left edge"
 msgstr ""
 
-#: Dash/DashHome.qml:43
-msgid "Recent Music"
+#: qml/Components/EdgeDemo.qml:199
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 
-#: Dash/DashHome.qml:46
-msgid "Videos Popular Online"
+#: qml/Components/EdgeDemo.qml:226
+msgid "Well done"
 msgstr ""
 
-#: Dash/DashHome.qml:175
-msgid "Home"
+#: qml/Components/EdgeDemo.qml:227
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
+#: qml/Components/Lockscreen.qml:167
+msgid "Please wait"
 msgstr ""
 
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
+#: qml/Components/Lockscreen.qml:172
+msgid "Too many incorrect attempts"
 msgstr ""
 
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
+#: qml/Components/Lockscreen.qml:206
+msgid "Emergency Call"
 msgstr ""
 
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
+#: qml/Components/Lockscreen.qml:226
+msgid "OK"
 msgstr ""
 
-#: Dash/DashMusic.qml:99
-msgid "Music"
-msgstr ""
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr ""
-
-#: Dash/DashVideos.qml:155
-msgid "Videos"
-msgstr ""
-
-#: Dash/Video/VideoPreview.qml:98
-msgid "Directed by:"
-msgstr ""
-
-#: Dash/Video/VideoPreview.qml:121
-msgid "Starring:"
-msgstr ""
-
-#: Dash/Video/VideoPreview.qml:144
-msgid "Author:"
-msgstr ""
-
-#: Greeter/Lockscreen.qml:133
-msgid "Emergency call"
-msgstr ""
-
-#: Greeter/PassphraseLockscreen.qml:59
+#: qml/Components/PassphraseLockscreen.qml:61
 #, qt-format
 msgid "Hello %1"
 msgstr ""
 
-#: Greeter/PassphraseLockscreen.qml:59
+#: qml/Components/PassphraseLockscreen.qml:61
 msgid "Hello"
 msgstr ""
 
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+msgid "See less"
 msgstr ""
 
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
+#: qml/Dash/GenericScopeView.qml:411
+msgid "See all"
 msgstr ""
 
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr ""
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr ""
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr ""
-
-#: Panel/MenuContent.qml:192
-msgid "Device"
-msgstr ""
-
-#: Panel/Menus/Overview/FlightModeWidget.qml:42
-msgid "Flight mode"
-msgstr ""
-
-#: Panel/SearchIndicator.qml:26
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr ""
 
-#: plugins/Unity/scope.cpp:268
-msgid "Sorry, there is nothing that matches your search."
+#: qml/Dash/PageHeader.qml:268
+msgid "Settings"
 msgstr ""
 
-#: Shell.qml:383
+#: qml/Dash/PageHeader.qml:275
+msgid "Remove from Favorites"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:275
+msgid "Add to Favorites"
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
+msgid "Add a review"
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
+msgid "Send"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:428
+msgid "Done"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:454
+msgid "Store"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr ""
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr ""
+
+#: qml/Greeter/Greeter.qml:157
+msgid "Swipe to unlock"
+msgstr ""
+
+#: qml/Hud/HudParametrizedActionsPage.qml:139
+msgid "Confirm"
+msgstr ""
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr ""
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr ""
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr ""
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
+msgid "Show password"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
+msgid "Enter SIM PIN"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
+msgid "Sorry, incorrect PIN"
+msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr ""
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
+msgid "In queue…"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
+msgid "Downloading"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
+msgid "Paused, tap to resume"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
+msgid "Canceled"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
+msgid "Finished"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
+msgid "Failed, tap to retry"
+msgstr ""
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr ""
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr ""
+
+#: qml/Shell.qml:320
+msgid "Enter your passphrase"
+msgstr ""
+
+#: qml/Shell.qml:321
+msgid "Sorry, incorrect passphrase"
+msgstr ""
+
+#: qml/Shell.qml:323
+msgid "Enter your passcode"
+msgstr ""
+
+#: qml/Shell.qml:324
+msgid "Sorry, incorrect passcode"
+msgstr ""
+
+#: qml/Shell.qml:327
 #, qt-format
-msgid "Please enter %1"
+msgid "Enter your %1"
+msgstr ""
+
+#: qml/Shell.qml:328
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr ""
+
+#: qml/Shell.qml:363
+msgid "Sorry, incorrect passphrase."
+msgstr ""
+
+#: qml/Shell.qml:364
+msgid "Sorry, incorrect passcode."
+msgstr ""
+
+#: qml/Shell.qml:365
+msgid "This will be your last attempt."
+msgstr ""
+
+#: qml/Shell.qml:367
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+
+#: qml/Shell.qml:368
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
 msgstr ""
