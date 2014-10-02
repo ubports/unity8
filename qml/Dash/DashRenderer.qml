@@ -17,9 +17,9 @@
 import QtQuick 2.0
 
 Item {
-    property int collapsedHeight
+    property real collapsedHeight
 
-    property int expandedHeight
+    property real expandedHeight
 
     property int collapsedItemCount: -1
 
