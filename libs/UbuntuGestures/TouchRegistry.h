@@ -92,6 +92,8 @@ class UBUNTUGESTURES_EXPORT TouchRegistry : public QObject
     Q_OBJECT
 public:
     TouchRegistry(QObject *parent = nullptr);
+    // Useful for tests, where you should feed a fake timer
+    TouchRegistry(QObject *parent, UbuntuGestures::AbstractTimerFactory *timerFactory);
 
     virtual ~TouchRegistry();
 
@@ -128,9 +130,6 @@ private Q_SLOTS:
     void rejectCandidateOwnerForTouch(int id, QQuickItem *candidate);
 
 private:
-    // Useful for tests, where you should feed a fake timer
-    TouchRegistry(QObject *parent, UbuntuGestures::AbstractTimerFactory *timerFactory);
-
     class CandidateInfo {
     public:
         bool undecided;

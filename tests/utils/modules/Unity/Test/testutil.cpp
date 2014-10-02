@@ -23,6 +23,9 @@
 
 // UbuntuGestures lib
 #include <TouchRegistry.h>
+#include <Timer.h>
+
+using namespace UbuntuGestures;
 
 TestUtil::TestUtil(QObject *parent)
     : QObject(parent)
@@ -85,8 +88,9 @@ void TestUtil::ensureTouchRegistryInstalled()
 
     TouchRegistry *touchRegistry;
     if (TouchRegistry::instance() == nullptr) {
-        touchRegistry = new TouchRegistry;
-        touchRegistry->setParent(this);
+        // Tests can be *very* slow to run and we don't want things timing out because
+        // of that. So give it fake timers to use (they will never time out)
+        touchRegistry = new TouchRegistry(this, new FakeTimerFactory);
     } else {
         touchRegistry = TouchRegistry::instance();
         if (touchRegistry->parent() != this) {
