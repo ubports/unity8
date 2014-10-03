@@ -430,9 +430,10 @@ Rectangle {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
-            if (dragging && attachedToView) {
+            if (dragging && status == DirectionalDragArea.Recognized && attachedToView) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                spreadView.contentX = -touchX + spreadDragArea.width - spreadView.shift;
+                var finalX = Math.min(touchX + width, width);
+                spreadView.contentX = -finalX + spreadDragArea.width - spreadView.shift;
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 // We passed positionMarker3. Detach from spreadView and snap it.
@@ -442,7 +443,13 @@ Rectangle {
             gesturePoints.push(touchX);
         }
 
+        property int previousStatus: -1
+        property int currentStatus: DirectionalDragArea.WaitingForTouch
+
         onStatusChanged: {
+            previousStatus = currentStatus;
+            currentStatus = status;
+
             if (status == DirectionalDragArea.Recognized) {
                 attachedToView = true;
             }
@@ -450,7 +457,7 @@ Rectangle {
 
         onDraggingChanged: {
             if (dragging) {
-                // Gesture recognized. Start recording this gesture
+                // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
                 return;
             }
@@ -467,7 +474,8 @@ Rectangle {
             }
             gesturePoints = [];
 
-            if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
+            if (previousStatus == DirectionalDragArea.Recognized &&
+                oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
                     spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
                 // If it was a short one-way movement, do the Alt+Tab switch
                 // no matter if we didn't cross positionMarker1 yet.
