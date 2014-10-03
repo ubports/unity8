@@ -238,6 +238,7 @@ Module {
         Property { name: "state"; type: "State"; isReadonly: true }
         Property { name: "name"; type: "string"; isReadonly: true }
         Property { name: "live"; type: "bool"; isReadonly: true }
+        Property { name: "orientation"; type: "Qt::ScreenOrientation" }
         Signal {
             name: "typeChanged"
             Parameter { type: "Type" }
@@ -268,9 +269,14 @@ Module {
         exportMetaObjectRevisions: [0]
         Property { name: "name"; type: "string"; isReadonly: true }
         Property { name: "surface"; type: "MirSurfaceItem"; isReadonly: true; isPointer: true }
+        Property { name: "application"; type: "ApplicationInfo"; isReadonly: true; isPointer: true }
         Property { name: "parentSession"; type: "Session"; isReadonly: true; isPointer: true }
         Property { name: "childSessions"; type: "SessionModel"; isReadonly: true; isPointer: true }
         Property { name: "live"; type: "bool"; isReadonly: true }
+        Signal {
+            name: "applicationChanged"
+            Parameter { type: "ApplicationInfo"; isPointer: true }
+        }
         Signal {
             name: "surfaceChanged"
             Parameter { type: "MirSurfaceItem"; isPointer: true }
@@ -368,6 +374,12 @@ Module {
         Property { name: "stage"; type: "Stage"; isReadonly: true }
         Property { name: "state"; type: "State"; isReadonly: true }
         Property { name: "focused"; type: "bool"; isReadonly: true }
+        Property { name: "splashTitle"; type: "string"; isReadonly: true }
+        Property { name: "splashImage"; type: "QUrl"; isReadonly: true }
+        Property { name: "splashShowHeader"; type: "bool"; isReadonly: true }
+        Property { name: "splashColor"; type: "QColor"; isReadonly: true }
+        Property { name: "splashColorHeader"; type: "QColor"; isReadonly: true }
+        Property { name: "splashColorFooter"; type: "QColor"; isReadonly: true }
         Signal {
             name: "nameChanged"
             Parameter { name: "name"; type: "string" }

@@ -30,6 +30,25 @@ Module {
             Parameter { name: "row"; type: "int" }
             Parameter { name: "role"; type: "int" }
         }
+        Method {
+            name: "setCount"
+            Parameter { name: "count"; type: "int" }
+        }
+        Method {
+            name: "resultModel"
+            type: "ResultsModel*"
+            Parameter { name: "row"; type: "int" }
+        }
+        Method {
+            name: "setLayout"
+            Parameter { name: "row"; type: "int" }
+            Parameter { name: "layout"; type: "string" }
+        }
+        Method {
+            name: "setHeaderLink"
+            Parameter { name: "row"; type: "int" }
+            Parameter { name: "headerLink"; type: "string" }
+        }
     }
     Component {
         name: "PreviewModel"
@@ -66,6 +85,10 @@ Module {
         exports: ["Unity/FakeResultsModel 0.2", "Unity/ResultsModel 0.2"]
         isCreatable: false
         exportMetaObjectRevisions: [0, 0]
+        Method {
+            name: "setResultCount"
+            Parameter { name: "result_count"; type: "int" }
+        }
     }
     Component {
         name: "Scope"
@@ -75,6 +98,14 @@ Module {
         Signal {
             name: "performQuery"
             Parameter { name: "query"; type: "string" }
+        }
+        Method {
+            name: "setId"
+            Parameter { name: "id"; type: "string" }
+        }
+        Method {
+            name: "setName"
+            Parameter { name: "name"; type: "string" }
         }
         Method {
             name: "setSearchInProgress"

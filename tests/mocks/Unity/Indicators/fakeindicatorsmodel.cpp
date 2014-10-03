@@ -110,8 +110,6 @@ QHash<int, QByteArray> FakeIndicatorsModel::roleNames() const
     {
         roles[IndicatorsModelRole::Identifier] = "identifier";
         roles[IndicatorsModelRole::Position] = "position";
-        roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
-        roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
     }
     return roles;
