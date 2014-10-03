@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"POT-Creation-Date: 2014-10-02 10:35+0200\n"
 "PO-Revision-Date: 2014-09-27 12:47+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-03 06:21+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -29,6 +30,25 @@ msgstr "Ainguratu lasterbidea"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Askatu lasterbidea"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -137,14 +157,6 @@ msgstr ""
 "Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
 "zaitezke<br><br>Sakatu pantailan hasteko"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Itxaron"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Okerreko saiakera gehiegi"
-
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Larrialdi-deia"
@@ -152,15 +164,6 @@ msgstr "Larrialdi-deia"
 #: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "Ados"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Kaixo %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Kaixo"
 
 #: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
@@ -228,8 +231,8 @@ msgid "All"
 msgstr "Guztiak"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Pasatu hatza desblokeatzeko"
+msgid "Unlock"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -307,26 +310,30 @@ msgstr "Desblokeatu SIMa"
 msgid "Roaming"
 msgstr "Ibiltaritza"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Sartu pasaesaldia"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr ""
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
 msgstr "Sentitzen dugu, pasaesaldia okerrekoa da"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Sartu pasakodea"
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr ""
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
 msgstr "Sentitzen dugu, pasakodea okerrekoa da"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
-msgstr "Sartu %1"
+msgid "Enter %1"
+msgstr ""
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -361,5 +368,31 @@ msgstr ""
 "Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
 "berrezarri eta datu pertsonal guztiak ezabatuko dira."
 
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Kaixo %1"
+
+#~ msgid "Hello"
+#~ msgstr "Kaixo"
+
+#~ msgid "Swipe to unlock"
+#~ msgstr "Pasatu hatza desblokeatzeko"
+
+#~ msgid "Please wait"
+#~ msgstr "Itxaron"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "Okerreko saiakera gehiegi"
+
 #~ msgid "Manage Dash"
 #~ msgstr "Kudeatu abio-leihoa"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Sartu pasaesaldia"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Sartu pasakodea"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "Sartu %1"
