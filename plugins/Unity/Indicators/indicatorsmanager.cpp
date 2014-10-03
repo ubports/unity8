@@ -57,7 +57,7 @@ IndicatorsManager::~IndicatorsManager()
 void IndicatorsManager::load(const QString& profile)
 {
     unload();
-    m_profile = profile;
+    setProfile(profile);
 
     QStringList xdgLocations = shellDataDirs();//QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
 
@@ -216,6 +216,19 @@ void IndicatorsManager::setLoaded(bool loaded)
     }
 }
 
+QString IndicatorsManager::profile() const
+{
+    return m_profile;
+}
+
+void IndicatorsManager::setProfile(const QString& profile)
+{
+    if (m_profile != profile) {
+        m_profile = profile;
+        Q_EMIT profileChanged(m_profile);
+    }
+}
+
 void IndicatorsManager::startVerify(const QString& path)
 {
     QHashIterator<QString, IndicatorData*> iter(m_indicatorsData);
@@ -269,6 +282,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     data->m_indicator = new_indicator;
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
     new_indicator->init(m_profile, data->m_fileInfo.fileName(), settings);
+    QObject::connect(this, SIGNAL(profileChanged(const QString&)), new_indicator.data(), SLOT(setProfile(const QString&)));
     return new_indicator;
 }
 

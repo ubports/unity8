@@ -31,11 +31,19 @@ Loader {
     opacity: dimmed ? 0.4 : 1
     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
 
-    onLoaded: {
+    function updateProperties() {
         for(var pName in indicatorProperties) {
             if (item.hasOwnProperty(pName)) {
                 item[pName] = indicatorProperties[pName];
             }
+        }
+    }
+
+    onLoaded: updateProperties()
+
+    onIndicatorPropertiesChanged: {
+        if (status === Loader.Ready) {
+            updateProperties()
         }
     }
 

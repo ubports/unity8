@@ -36,13 +36,12 @@ UnityMenuModel* UnityMenuModelCache::model(const QByteArray& bus,
     if (m_registry.contains(path))
         return m_registry[path];
 
-    UnityMenuModel* menuModel = new UnityMenuModel;
-    connect(menuModel, &QObject::destroyed, this, [menuModel, this](QObject*) {
-        QList<QByteArray> keys = m_registry.keys(menuModel);
-        Q_FOREACH(const QByteArray& key, keys) {
-            m_registry.remove(key);
-        }
-    });
+    // Parent the model to us, so it is not deleted by Qml.  We want to keep
+    // all models cached, because when we switch indicator profiles, we will
+    // be switching paths often.  And we want to keep the old model around,
+    // ready to be used.  Otherwise the UI might momentarily wait as we
+    // populate the model from DBus yet again.
+    UnityMenuModel* menuModel = new UnityMenuModel(this);
     m_registry[path] = menuModel;
 
     menuModel->setBusName(bus);

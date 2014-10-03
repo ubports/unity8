@@ -113,7 +113,8 @@ IndicatorBase {
 
         leftLabel = rootActionState.leftLabel ? rootActionState.leftLabel : "";
         rightLabel = rootActionState.rightLabel ? rootActionState.rightLabel : "";
-        icons = rootActionState.icons;
+        if (icons !== rootActionState.icons) // don't reset visual unless we need to
+            icons = rootActionState.icons;
         enabled = rootActionState.visible;
     }
 }

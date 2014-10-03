@@ -34,6 +34,7 @@ class UNITYINDICATORS_EXPORT IndicatorsModel : public QAbstractListModel
     Q_OBJECT
     Q_ENUMS(Roles)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
 
 public:
 
@@ -45,6 +46,9 @@ public:
 
     Q_INVOKABLE QVariant data(int row, int role) const;
 
+    QString profile() const;
+    void setProfile(const QString& profile);
+
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -55,6 +59,7 @@ public:
 
 Q_SIGNALS:
     void countChanged();
+    void profileChanged();
     void indicatorDataChanged(const QVariant& data);
 
 private Q_SLOTS:

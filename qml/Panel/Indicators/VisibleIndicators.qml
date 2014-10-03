@@ -23,6 +23,7 @@ import Utils 0.1
 
 Item {
     property SortFilterProxyModel model: filterModel
+    property alias profile: indicatorsModel.profile
 
     SortFilterProxyModel {
         id: filterModel
@@ -56,13 +57,23 @@ Item {
             id: item
             objectName: model.identifier + "-delegate"
             identifier: model.identifier
-            Component.onCompleted: {
+
+            function updateProperties() {
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
                         item[pName] = indicatorProperties[pName];
                     }
                 }
-                updateVisibility();
+            }
+
+            Component.onCompleted: {
+                updateProperties()
+                updateVisibility()
+            }
+
+            Connections {
+                target: indicatorsModel
+                onDataChanged: item.updateProperties()
             }
 
             onEnabledChanged: {

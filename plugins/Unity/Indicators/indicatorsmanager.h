@@ -32,12 +32,16 @@ class UNITYINDICATORS_EXPORT IndicatorsManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)
+    Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
 public:
     explicit IndicatorsManager(QObject* parent = 0);
     ~IndicatorsManager();
 
     Q_INVOKABLE void load(const QString& profile);
     Q_INVOKABLE void unload();
+
+    QString profile() const;
+    void setProfile(const QString& profile);
 
     Indicator::Ptr indicator(const QString& indicator_name);
 
@@ -47,6 +51,7 @@ public:
 
 Q_SIGNALS:
     void loadedChanged(bool);
+    void profileChanged(const QString&);
 
     void indicatorLoaded(const QString& indicator_name);
     void indicatorAboutToBeUnloaded(const QString& indicator_name);

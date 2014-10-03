@@ -69,12 +69,19 @@ Rectangle {
 
             IndicatorDelegate {
                 id: indicatorDelegate
-                Component.onCompleted: {
+
+                function updateProperties() {
                     for(var pName in indicatorProperties) {
                         if (indicatorDelegate.hasOwnProperty(pName)) {
                             indicatorDelegate[pName] = indicatorProperties[pName];
                         }
                     }
+                }
+
+                Component.onCompleted: updateProperties()
+                Connections {
+                    target: content.indicatorsModel
+                    onDataChanged: indicatorDelegate.updateProperties()
                 }
             }
         }
@@ -115,12 +122,18 @@ Rectangle {
                 }
             }
 
-            onLoaded: {
+            function updateProperties() {
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
                         item[pName] = indicatorProperties[pName]
                     }
                 }
+            }
+
+            onLoaded: updateProperties()
+            Connections {
+                target: content.indicatorsModel
+                onDataChanged: if (loader.status === Loader.Ready) loader.updateProperties()
             }
 
             Binding {

@@ -41,6 +41,9 @@ public:
     int position() const;
     QVariant indicatorProperties() const;
 
+public Q_SLOTS:
+    void setProfile(const QString& profile);
+
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
     void positionChanged(int position);
@@ -55,6 +58,7 @@ private:
     QString m_identifier;
     int m_position;
     QVariant m_properties;
+    QVariantMap m_settings;
 };
 
 #endif // INDICATOR_H

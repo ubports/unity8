@@ -110,9 +110,11 @@ void RootActionState::updateActionState()
         m_cachedState = m_menu->get(0, "actionState").toMap();
 
         m_menu->setActionStateParser(oldParser);
-    } else {
+    } else if (!m_menu) {
         m_cachedState.clear();
     }
+    // else if m_menu->rowCount() == 0, let's leave existing cache in place
+    // until the new menu comes in, to avoid flashing the UI empty for a moment
     Q_EMIT updated();
 }
 
