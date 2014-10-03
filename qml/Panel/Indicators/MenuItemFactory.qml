@@ -835,7 +835,7 @@ Item {
     }
 
     function load(modelData, context) {
-        if (modelData.type !== undefined) {
+        if (modelData.type !== undefined && modelData.type !== "") {
             var component = undefined;
 
             var contextComponents = _map[context];

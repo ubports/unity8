@@ -130,7 +130,7 @@ IndicatorBase {
             visible: status == Loader.Ready
 
             property int modelIndex: index
-            sourceComponent: factory.load(model, identifier)
+            sourceComponent: factory.load(model, main.identifier)
 
             onLoaded: {
                 if (item.hasOwnProperty("selected")) {

@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"POT-Creation-Date: 2014-10-02 10:35+0200\n"
 "PO-Revision-Date: 2014-09-29 00:52+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -29,6 +30,25 @@ msgstr "تېزلەتمىنى قوي"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "تېزلەتمىنى ئېلىۋەت"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -136,14 +156,6 @@ msgstr ""
 "ئېكراننى چېكىپ باشلاڭ<br><br>سىز ھازىر گىرۋەك بارماق ئىشارەتلىرىنى ئىگىلەپ "
 "بولدىڭىز،ئەمدى تېلېفوننى ئىشلىتىشنى باشلىسىڭىز بولىدۇ"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "سەل ساقلاڭ"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "مەغلۇپ بولۇش سانى چەكتىن ئېشىپ كەتتى"
-
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "جىددىي تېلېفون"
@@ -151,15 +163,6 @@ msgstr "جىددىي تېلېفون"
 #: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "تامام"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "سالام %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "ئەسسالامۇئەلەيكۇم"
 
 #: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
@@ -227,8 +230,8 @@ msgid "All"
 msgstr "ھەممىسى"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "سىيرىسىڭىز قۇلۇپسىزلىنىدۇ"
+msgid "Unlock"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -306,26 +309,30 @@ msgstr "SIM نى قۇلۇپسىزلاش"
 msgid "Roaming"
 msgstr "كەزمە"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "ئىمىڭىزنى كىرگۈزۈڭ"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr ""
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "ئىمىڭىزنى كىرگۈزۈڭ"
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr ""
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
-msgstr "%1 نى كىرگۈزۈڭ"
+msgid "Enter %1"
+msgstr ""
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -360,5 +367,31 @@ msgstr ""
 "ئەگەر ئىم كودى توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن "
 "چىققان ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
 
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "سالام %1"
+
+#~ msgid "Swipe to unlock"
+#~ msgstr "سىيرىسىڭىز قۇلۇپسىزلىنىدۇ"
+
+#~ msgid "Hello"
+#~ msgstr "ئەسسالامۇئەلەيكۇم"
+
+#~ msgid "Please wait"
+#~ msgstr "سەل ساقلاڭ"
+
 #~ msgid "Manage Dash"
 #~ msgstr "باش تاختىنى باشقۇرۇش"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "ئىمىڭىزنى كىرگۈزۈڭ"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "ئىمىڭىزنى كىرگۈزۈڭ"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "مەغلۇپ بولۇش سانى چەكتىن ئېشىپ كەتتى"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "%1 نى كىرگۈزۈڭ"
