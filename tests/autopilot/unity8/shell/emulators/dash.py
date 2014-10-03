@@ -86,7 +86,7 @@ class Dash(emulators.UnityEmulatorBase):
 
     def _get_scope_loader(self, scope_id):
         try:
-            return self.dash_content_list.select_single(
+            return self.dash_content_list.wait_select_single(
                 'QQuickLoader', scopeId=scope_id)
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
