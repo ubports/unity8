@@ -7,28 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-27 19:23+0000\n"
+"POT-Creation-Date: 2014-10-02 10:35+0200\n"
+"PO-Revision-Date: 2014-09-30 17:37+0000\n"
 "Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Senha: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Fixar atalho"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Desafixar atalho"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -76,11 +96,15 @@ msgstr ""
 "Tem certeza que você gostaria \n"
 "de desligar?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Desligar"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Reiniciar"
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -134,14 +158,6 @@ msgstr ""
 "Agora você já domina os gestos das bordas e pode começar a usar o "
 "telefone<br><br>Toque na tela para iniciar"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Por favor, aguarde"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Muitas tentativas incorretas"
-
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Chamada de emergência"
@@ -150,44 +166,36 @@ msgstr "Chamada de emergência"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Olá %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Olá"
-
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
 msgstr "Ver todos"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Pesquisar"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
 msgstr "Configurações"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
 msgstr "Remover dos favoritos"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
 msgstr "Adicionar aos favoritos"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Mais..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "Menos..."
 
@@ -203,15 +211,15 @@ msgstr "Adicionar uma análise"
 msgid "Send"
 msgstr "Enviar"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "Gerencia painel"
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "Gerenciar Plugins"
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "Concluído"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "Loja"
 
@@ -224,10 +232,10 @@ msgid "All"
 msgstr "Tudo"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Deslizar para desbloquear"
+msgid "Unlock"
+msgstr ""
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -247,15 +255,15 @@ msgstr "Fale agora..."
 msgid "Speaking..."
 msgstr "Falando..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
 msgstr "Exibir senha"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
 msgstr "Digite o PIN do SIM"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
 msgstr "Desculpe, PIN incorreto"
 
@@ -267,27 +275,31 @@ msgstr "Toque para retornar para a chamada..."
 msgid "Conference"
 msgstr "Conferência"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "Nada está tocando"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr "Em fila..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "Baixando"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr "Em pausa, toque para continuar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr "Finalizado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr "Falhou, toque para tentar novamente"
 
@@ -299,45 +311,49 @@ msgstr "Desbloquear SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:266
-msgid "Enter your passphrase"
-msgstr "Digite sua senha"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr ""
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
 msgstr "Desculpe, senha incorreta"
 
-#: qml/Shell.qml:282
-msgid "Enter your passcode"
-msgstr "Digite sua senha"
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr ""
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr ""
+
+#: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
 msgstr "Desculpe, senha incorreta"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
-msgstr "Digite o seu %1"
+msgid "Enter %1"
+msgstr ""
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:328
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Desculpe, %1 incorreto"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:363
 msgid "Sorry, incorrect passphrase."
 msgstr "Desculpe, senha incorreta."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:364
 msgid "Sorry, incorrect passcode."
 msgstr "Desculpe, código de acesso incorreto."
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:365
 msgid "This will be your last attempt."
 msgstr "Esta será a sua última tentativa."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:367
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -345,7 +361,7 @@ msgstr ""
 "Se a senha for digitada incorretamente, o telefone será restaurado aos "
 "padrões de fábrica e todos os dados pessoais serão apagados."
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:368
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -353,11 +369,31 @@ msgstr ""
 "Se o código de acesso for digitado incorretamente, o telefone será "
 "restaurado aos padrões de fábrica e todos os dados pessoais serão apagados."
 
-#~ msgid "Restart"
-#~ msgstr "Reiniciar"
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Olá %1"
 
-#~ msgid "Are you sure you would like to turn power off?"
-#~ msgstr "Você tem certeza de que deseja desligar?"
+#~ msgid "Hello"
+#~ msgstr "Olá"
 
-#~ msgid "Enter your PIN"
-#~ msgstr "Digite o seu PIN"
+#~ msgid "Swipe to unlock"
+#~ msgstr "Deslizar para desbloquear"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "Muitas tentativas incorretas"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "Digite o seu %1"
+
+#~ msgid "Please wait"
+#~ msgstr "Por favor, aguarde"
+
+#~ msgid "Manage Dash"
+#~ msgstr "Gerencia painel"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Digite sua senha"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Digite sua senha"

@@ -39,6 +39,7 @@ Item {
     Telephony.CallEntry {
         id: call3
         phoneNumber: "+447812221113"
+        elapsedTimerRunning: true
     }
 
     ActiveCallHint {
@@ -69,6 +70,7 @@ Item {
             callManager.foregroundCall = null;
             callManager.backgroundCall = null;
             callHint.labelSwitchInterval = 300;
+            call1.elapsedTime = 0;
 
             ApplicationManager.stopApplication("dialer-app");
         }
@@ -139,16 +141,27 @@ Item {
             compare(contactLabel.text, "Freddy", "Contact label does not match call");
         }
 
-        function test_timeLapse() {
-            callManager.backgroundCall = call3;
+        function test_timeElapsed_data() {
+            return [
+                { tag: "0:00->0:01", elpasedTime: 0, initial: "0:00", expected: "0:01" },
+                { tag: "0:29->0:30", elpasedTime: 29, initial: "0:29", expected: "0:30" },
+                { tag: "0:59->1:00", elpasedTime: 59, initial: "0:59", expected: "1:00" },
+
+                { tag: "01:59->02:00", elpasedTime: 119, initial: "1:59", expected: "2:00" },
+                { tag: "59:59->60:00", elpasedTime: 3599, initial: "59:59", expected: "60:00" }
+            ];
+        }
+
+        function test_timeElapsed(data) {
+            callManager.backgroundCall = call1;
+            call1.elapsedTime = data.elpasedTime;
 
             var timeLabel = findChild(callHint, "timeLabel");
             verify(timeLabel !== null);
 
-            var currentLabel = timeLabel.text;
-            tryCompareFunction(function() { return timeLabel.text !== currentLabel }, true);
-            currentLabel = timeLabel.text;
-            tryCompareFunction(function() { return timeLabel.text !== currentLabel }, true);
+            compare(timeLabel.text, data.initial);
+            call1.elapsedTime = call1.elapsedTime + 1;
+            compare(timeLabel.text, data.expected);
         }
 
         function test_displayedLabelChangesOverTime() {

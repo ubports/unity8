@@ -41,6 +41,9 @@ public:
     /* setters */
     void setCategoryId(QString const& id) override;
 
+    // For testing purposes
+    Q_INVOKABLE void setResultCount(int result_count);
+
 private:
     int m_result_count;
     int m_categoryId;

@@ -1,12 +1,11 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=3)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=4)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=4)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend
     ${GSETTINGS_QT_INCLUDE_DIRS}
     )
 
@@ -14,35 +13,21 @@ add_definitions(-DSM_BUSNAME=sessionBus)
 add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DLAUNCHER_TESTING)
 
-### LauncherBackendTest
-set(testBackendCommand dbus-test-runner --task ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
-      --parameter -o --parameter ${CMAKE_BINARY_DIR}/launcherbackendtest.xml,xunitxml
-      --parameter -o --parameter -,txt)
-add_test(NAME launcherbackendtest COMMAND ${testBackendCommand})
-add_custom_target(launcherbackendtest ${testBackendCommand})
-add_executable(launcherbackendtestExec
-    launcherbackendtest.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
-    )
-target_link_libraries(launcherbackendtestExec ${GSETTINGS_QT_LDFLAGS})
-qt5_use_modules(launcherbackendtestExec Test Core DBus)
-
 ### LauncherModelTest
-set(testModelCommand ${CMAKE_CURRENT_BINARY_DIR}/launchermodeltestExec
-      -o ${CMAKE_BINARY_DIR}/launchermodeltest.xml,xunitxml
-      -o -,txt)
+set(testModelCommand dbus-test-runner --task ${CMAKE_CURRENT_BINARY_DIR}/launchermodeltestExec
+      --parameter -o --parameter ${CMAKE_BINARY_DIR}/launchermodeltest.xml,xunitxml
+      --parameter -o --parameter -,txt)
 add_test(NAME launchermodeltest COMMAND ${testModelCommand})
 add_custom_target(launchermodeltest ${testModelCommand})
 add_executable(launchermodeltestExec
     launchermodeltest.cpp
+    gsettings.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launchermodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/dbusinterface.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/desktopfilehandler.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistentry.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
@@ -50,7 +35,7 @@ add_executable(launchermodeltestExec
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS})
-qt5_use_modules(launchermodeltestExec Test Core DBus Gui)
+qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui)
 
 # copy .desktop files into build directory for shadow builds
 file(GLOB DESKTOP_FILES *.desktop)
