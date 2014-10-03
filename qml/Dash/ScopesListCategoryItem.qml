@@ -46,7 +46,7 @@ MouseArea {
         anchors {
             left: shape.right
             leftMargin: units.gu(1)
-            right: star.right
+            right: starArea.right
             rightMargin: units.gu(1)
             verticalCenter: parent.verticalCenter
         }
@@ -55,21 +55,20 @@ MouseArea {
         maximumLineCount: 1
         verticalAlignment: Text.AlignHCenter
     }
-    Icon {
-        id: star
-        anchors {
-            right: parent.right
-            rightMargin: units.gu(1)
-            verticalCenter: parent.verticalCenter
-        }
-        height: units.gu(2)
-        width: units.gu(2)
-        // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
-        source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
-        MouseArea {
-            enabled: !editMode
-            anchors.fill: parent
-            onClicked: root.requestFavorite(model.scopeId, !isFavorite);
+    MouseArea {
+        id: starArea
+        height: parent.height
+        width: height
+        anchors.right: parent.right
+        enabled: !editMode
+        onClicked: root.requestFavorite(model.scopeId, !isFavorite);
+        Icon {
+            id: star
+            anchors.centerIn: parent
+            height: units.gu(2)
+            width: units.gu(2)
+            // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
+            source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
         }
     }
 }
