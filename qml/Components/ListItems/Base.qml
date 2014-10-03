@@ -30,15 +30,6 @@ Item {
 
     /*!
       \preliminary
-      Highlight the list item when it is pressed.
-      This is used to disable the highlighting of the full list item
-      when custom highlighting needs to be implemented (for example in
-      ListItem.Standard which can have a split).
-    */
-    property bool highlightWhenPressed: true
-
-    /*!
-      \preliminary
       Set to show or hide the thin bottom divider line (drawn by the \l ThinDivider component).
       This line is shown by default except in cases where this item is the delegate of a ListView.
      */
@@ -119,7 +110,7 @@ Item {
                 right: parent.right
                 bottom: bottomDividerLine.top
             }
-            pressed: (emptyListItem.selected || (emptyListItem.highlightWhenPressed && emptyListItem.pressed)) ? "pressed" : ""
+            pressed: emptyListItem.selected
         }
     }
 }
