@@ -364,16 +364,32 @@ Showable {
         height: units.gu(2)
 
         onSceneDistanceChanged: {
-            if (overviewController.enableAnimation) {
-                dashContentCache.scheduleUpdate();
+            if (status == DirectionalDragArea.Recognized && initialSceneDistance != -1) {
+                if (overviewController.enableAnimation) {
+                    dashContentCache.scheduleUpdate();
+                }
+                overviewController.enableAnimation = false;
+                var deltaDistance = sceneDistance - initialSceneDistance;
+                overviewController.progress = Math.max(0, Math.min(1, deltaDistance / fullMovement));
             }
-            overviewController.enableAnimation = false;
-            overviewController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
         }
 
-        onDraggingChanged: {
-            overviewController.enableAnimation = true;
-            overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
+        property int previousStatus: -1
+        property int currentStatus: DirectionalDragArea.WaitingForTouch
+        property real initialSceneDistance: -1
+
+        onStatusChanged: {
+            previousStatus = currentStatus;
+            currentStatus = status;
+
+            if (status == DirectionalDragArea.Recognized) {
+                initialSceneDistance = sceneDistance;
+            } else if (status == DirectionalDragArea.WaitingForTouch &&
+                    previousStatus == DirectionalDragArea.Recognized) {
+                overviewController.enableAnimation = true;
+                overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
+                initialSceneDistance = -1;
+            }
         }
     }
 
