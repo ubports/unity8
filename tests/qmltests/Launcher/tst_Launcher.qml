@@ -111,6 +111,11 @@ Item {
 
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
+
+            // Tests can be run in a reaaaaally slow environment or machine. Thus ensure
+            // the dismissTimer doesn't time out inadvertently.
+            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+            dismissTimer.interval = 60 * 60 * 1000; // one hour
         }
 
         function dragLauncherIntoView() {
@@ -255,10 +260,21 @@ Item {
         function test_clickFlick_data() {
             var listView = findChild(launcher, "launcherListView");
             return [
-                {tag: "unfolded top", flickSpeed: units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: false},
-                {tag: "folded top", flickSpeed: -units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: true},
-                {tag: "unfolded bottom", flickSpeed: -units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: false},
-                {tag: "folded bottom", flickSpeed: units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: true},
+                {tag: "unfolded top", positionViewAtBeginning: false,
+                                      clickY: listView.topMargin + units.gu(2),
+                                      expectFlick: false},
+
+                {tag: "folded top", positionViewAtBeginning: true,
+                                    clickY: listView.topMargin + units.gu(2),
+                                    expectFlick: true},
+
+                {tag: "unfolded bottom", positionViewAtBeginning: true,
+                                         clickY: listView.height - listView.topMargin - units.gu(1),
+                                         expectFlick: false},
+
+                {tag: "folded bottom", positionViewAtBeginning: false,
+                                       clickY: listView.height - listView.topMargin - units.gu(1),
+                                       expectFlick: true},
             ];
         }
 
@@ -267,7 +283,15 @@ Item {
             dragLauncherIntoView();
             var listView = findChild(launcher, "launcherListView");
 
-            listView.flick(0, data.flickSpeed);
+            // flicking is unreliable. sometimes it works, sometimes the
+            // list view moves just a tiny bit or not at all, making tests fail.
+            // So for stability's sake we just put the listView in the position
+            // we want to to actually start doing what this tests intends to check.
+            if (data.positionViewAtBeginning) {
+                listView.positionViewAtBeginning();
+            } else {
+                listView.positionViewAtEnd();
+            }
             tryCompare(listView, "flicking", false);
 
             var oldY = listView.contentY;
