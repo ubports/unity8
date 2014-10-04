@@ -65,6 +65,7 @@ Row {
         property bool itemDestroyed: false
         sourceComponent: Component {
             Shell {
+                property string indicatorProfile: "phone"
                 Component.onDestruction: {
                     shellLoader.itemDestroyed = true;
                 }
@@ -440,6 +441,18 @@ Row {
                 && itemRectInShell.y >= 0
                 && itemRectInShell.x + itemRectInShell.width <= shell.width
                 && itemRectInShell.y + itemRectInShell.height <= shell.height;
+        }
+
+        function test_greeterChangesIndicatorProfile() {
+            var visibleIndicators = findChild(shell, "visibleIndicators")
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile)
+
+            var greeter = findChild(shell, "greeter")
+            greeter.show()
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter")
+
+            greeter.hide()
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile)
         }
 
         function test_focusRequestedHidesGreeter() {

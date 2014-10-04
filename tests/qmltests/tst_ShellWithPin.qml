@@ -51,6 +51,7 @@ Item {
     Shell {
         id: shell
         maxFailedLogins: maxRetriesTextField.text
+        property string indicatorProfile: "phone"
     }
     Column {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom; margins:units.gu(1) }

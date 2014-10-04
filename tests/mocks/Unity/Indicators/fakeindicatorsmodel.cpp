@@ -21,7 +21,8 @@
 #include "indicators.h"
 
 FakeIndicatorsModel::FakeIndicatorsModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : QAbstractListModel(parent),
+      m_profile("phone")
 {
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
@@ -37,6 +38,17 @@ FakeIndicatorsModel::~FakeIndicatorsModel()
 int FakeIndicatorsModel::count() const
 {
     return rowCount();
+}
+
+QString FakeIndicatorsModel::profile() const
+{
+    return m_profile;
+}
+
+void FakeIndicatorsModel::setProfile(const QString& profile)
+{
+    m_profile = profile;
+    Q_EMIT profileChanged();
 }
 
 void FakeIndicatorsModel::load(const QString&)

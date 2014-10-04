@@ -170,6 +170,7 @@ Showable {
 
     VisibleIndicators {
         id: visibleIndicators
+        objectName: "visibleIndicators"
     }
 
     MenuContent {
