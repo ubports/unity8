@@ -120,7 +120,7 @@ void RootActionState::updateActionState()
 
 bool RootActionState::isValid() const
 {
-    return m_menu && m_menu->rowCount() > 0;
+    return !m_cachedState.empty();
 }
 
 QString RootActionState::title() const
