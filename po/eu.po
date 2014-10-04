@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-09-27 12:47+0000\n"
+"PO-Revision-Date: 2014-10-04 01:50+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:21+0000\n"
+"X-Launchpad-Export-Date: 2014-10-04 06:28+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -33,22 +33,25 @@ msgstr "Askatu lasterbidea"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Gailua blokeatuta"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Gailua blokeatu da, pasaesaldia sartzeko saiakera gehiegi hutsegin "
+"dituzulako."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Gailua blokeatu da, pasakodea sartzeko saiakera gehiegi hutsegin dituzulako."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Itxaron minutu %1ez eta saiatu berriro…"
+msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -232,7 +235,7 @@ msgstr "Guztiak"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Desblokeatu"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -312,7 +315,7 @@ msgstr "Ibiltaritza"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Sartu pasaesaldia"
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
@@ -320,11 +323,11 @@ msgstr "Sentitzen dugu, pasaesaldia okerrekoa da"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Errepikatu"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Sartu pasakodea"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
@@ -333,7 +336,7 @@ msgstr "Sentitzen dugu, pasakodea okerrekoa da"
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Sartu %1"
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -383,9 +386,6 @@ msgstr ""
 
 #~ msgid "Too many incorrect attempts"
 #~ msgstr "Okerreko saiakera gehiegi"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Kudeatu abio-leihoa"
 
 #~ msgid "Enter your passphrase"
 #~ msgstr "Sartu pasaesaldia"

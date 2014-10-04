@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-08-26 19:06+0000\n"
+"PO-Revision-Date: 2014-10-03 12:44+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-04 06:28+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -34,22 +34,27 @@ msgstr "Розблокувати кнопку"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Пристрій заблоковано"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Ваш пристрій було заблоковано через перевищення граничної кількості спроб "
+"введення пароля."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Ваш пристрій було заблоковано через перевищення граничної кількості спроб "
+"введення коду-пароля."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Зачекайте %1 хвилину і повторіть спробу…"
+msgstr[1] "Зачекайте %1 хвилини і повторіть спробу…"
+msgstr[2] "Зачекайте %1 хвилин і повторіть спробу…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -235,7 +240,7 @@ msgstr "Все"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Розблокувати"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -315,7 +320,7 @@ msgstr "Роумінг"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Введіть пароль"
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
@@ -323,11 +328,11 @@ msgstr "Вибачте, помилковий пароль"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Ввведіть ще раз"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Введіть код"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
@@ -336,7 +341,7 @@ msgstr "Вибачте, помилковий код-пароль"
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Введіть %1"
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -380,9 +385,6 @@ msgstr ""
 
 #~ msgid "Swipe to unlock"
 #~ msgstr "Проведіть пальцем, щоб розблокувати"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Керування панеллю"
 
 #~ msgid "Please wait"
 #~ msgstr "Будь ласка, зачекайте"
