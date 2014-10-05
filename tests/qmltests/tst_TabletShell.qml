@@ -228,9 +228,9 @@ Row {
 
         function test_login_data() {
             return [
-                //{tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
-                //{tag: "without password", user: "no-password", loggedIn: true, password: ""},
+                {tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
                 {tag: "with password", user: "has-password", loggedIn: true, password: "password"},
+                {tag: "without password", user: "no-password", loggedIn: true, password: ""},
             ]
         }
 

@@ -475,6 +475,8 @@ Item {
             shown: true
             loadContent: required || lockscreen.required // keeps content in memory for quick show()
 
+            locked: shell.locked
+
             defaultBackground: shell.background
 
             width: parent.width
@@ -566,7 +568,7 @@ Item {
     }
 
     function showDash() {
-        if (greeter.fakeActiveForApp !== "") { // just in case user gets here
+        if (greeter.hasLockedApp) { // just in case user gets here
             return
         }
 
@@ -620,11 +622,7 @@ Item {
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
 
             onShowDashHome: showHome()
-            onDash: {
-                if (ApplicationManager.focusedApplicationId != "unity8-dash") {
-                    showDash()
-                }
-            }
+            onDash: showDash()
             onDashSwipeChanged: {
                 if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
