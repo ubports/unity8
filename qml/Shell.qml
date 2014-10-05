@@ -53,7 +53,9 @@ Item {
     property url background
     readonly property real panelHeight: panel.panelHeight
 
-    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated
+    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+    readonly property bool forcedUnlock: edgeDemo.running
+    onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
@@ -316,6 +318,12 @@ Item {
 
         onShownChanged: if (shown) greeter.lockedApp = ""
 
+        function maybeShow() {
+            if (!shell.forcedUnlock) {
+                show()
+            }
+        }
+
         Timer {
             id: forcedDelayTimer
             interval: 1000 * 60
@@ -358,7 +366,7 @@ Item {
                     lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
                 }
 
-                lockscreen.show();
+                lockscreen.maybeShow();
             }
         }
 
@@ -368,7 +376,7 @@ Item {
                     lockscreen.hide()
                 } else {
                     lockscreen.reset();
-                    lockscreen.show();
+                    lockscreen.maybeShow();
                 }
             }
         }
@@ -446,14 +454,14 @@ Item {
             // Wait until the greeter is completely covering lockscreen before resetting it.
             if (greeter.narrowMode && fullyShown && !LightDM.Greeter.authenticated) {
                 lockscreen.reset();
-                lockscreen.show();
+                lockscreen.maybeShow();
             }
         }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
         onShowProgressChanged: {
             if (showProgress === 0) {
-                if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
+                if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || shell.forcedUnlock) {
                     greeter.login()
                 } else if (greeter.narrowMode) {
                     lockscreen.clear(false) // to reset focus if necessary
@@ -487,7 +495,7 @@ Item {
             function startUnlock() {
                 if (narrowMode) {
                     if (!LightDM.Greeter.authenticated) {
-                        lockscreen.show()
+                        lockscreen.maybeShow()
                     }
                     hide()
                 } else {
@@ -710,6 +718,7 @@ Item {
 
     EdgeDemo {
         id: edgeDemo
+        objectName: "edgeDemo"
         z: alphaDisclaimerLabel.z + 10
         paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
