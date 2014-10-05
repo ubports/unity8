@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-09-28 13:24+0000\n"
+"PO-Revision-Date: 2014-10-04 11:36+0000\n"
 "Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-05 06:38+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -34,22 +34,26 @@ msgstr "Eliberează scurtătura"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Dispozitiv blocat"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Dispozitivul este blocat din cauza utilizării mai multor fraze parolă "
+"greșite."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Dispozitivul este blocat din cauza utilizării mai multor parole greșite."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Așteptați %1 minut și apoi încercați din nou..."
+msgstr[1] "Așteptați %1 minute și apoi încercați din nou..."
+msgstr[2] "Așteptați %1 de minute și apoi încercați din nou..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -235,7 +239,7 @@ msgstr "Tot"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Deblocare"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -315,7 +319,7 @@ msgstr "Roaming"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Introduceți fraza parolă"
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
@@ -323,11 +327,11 @@ msgstr "Frază secretă incorectă"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Introduceți din nou"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Introduceți parola"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
@@ -382,9 +386,6 @@ msgstr ""
 
 #~ msgid "Swipe to unlock"
 #~ msgstr "Glisați pentru deblocare"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Administrare Panou principal"
 
 #~ msgid "Please wait"
 #~ msgstr "Așteptați"
