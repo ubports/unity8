@@ -6,7 +6,7 @@ AbstractButton {
                 property var artShapeBorderSource: undefined;
                 property real fontScale: 1.0;
                 property var scopeStyle: null;
-                property int headerAlignment: Text.AlignLeft;
+                property int titleAlignment: Text.AlignLeft;
                 property int fixedHeaderHeight: -1;
                 property size fixedArtShapeSize: Qt.size(-1, -1);
                 readonly property string title: cardData && cardData["title"] || "";
@@ -73,8 +73,8 @@ Item {
                         color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader ; 
                         text: root.title; 
-                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.headerAlignment; 
+                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        horizontalAlignment: root.titleAlignment; 
                     }
 ,Label { 
                             id: subtitleLabel; 
@@ -86,15 +86,14 @@ Item {
                             } 
                             anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
-                            fontSize: "small"; 
+                            fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                             color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
-                            horizontalAlignment: root.headerAlignment; 
                         }
-,Icon { 
+,StatusIcon { 
                             id: emblemIcon; 
                             objectName: "emblemIcon"; 
                             anchors { 
@@ -104,7 +103,6 @@ Item {
                             } 
                             source: cardData && cardData["emblem"] || ""; 
                             color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
-                            width: height; 
                             height: source != "" ? titleLabel.font.pixelSize : 0; 
                         }
  

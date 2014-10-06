@@ -32,7 +32,7 @@ macro(add_lvwph_test FILENAME TESTNAME)
     qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
     target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 
-    add_binary_qml_test(${TESTNAME} "" "Dash-qml")
+    add_binary_qml_test(${TESTNAME} "" "Dash-qml" "")
 endmacro()
 
 add_lvwph_test(listviewwithpageheader ListViewWithPageHeader)
@@ -48,7 +48,7 @@ macro(add_dashview_try_test FILENAME TESTNAME)
     qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
     target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 
-    add_binary_qml_test(${TESTNAME} "" "Dash-qml")
+    add_binary_qml_test(${TESTNAME} "" "Dash-qml" "")
 
     add_executable(${TESTNAME}tryExec
         ${FILENAME}try.cpp
@@ -71,7 +71,7 @@ add_dashview_try_test(organicgrid OrganicGrid)
 add_executable(CardCreatorTestExec cardcreatortest.cpp)
 qt5_use_modules(CardCreatorTestExec Test Core Qml)
 target_link_libraries(CardCreatorTestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
-add_binary_qml_test(CardCreator "" "Dash-qml")
+add_binary_qml_test(CardCreator "" "Dash-qml" "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks/")
 
 # plain qml test
 set(qmltest_DEFAULT_TARGETS qmluitests)
