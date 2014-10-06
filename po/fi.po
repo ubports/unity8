@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-08-28 13:47+0000\n"
-"Last-Translator: Timo Jyrinki <timo.jyrinki@canonical.com>\n"
+"PO-Revision-Date: 2014-10-04 08:00+0000\n"
+"Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:21+0000\n"
+"X-Launchpad-Export-Date: 2014-10-05 06:38+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -33,22 +33,24 @@ msgstr "Poista pikakuvakkeen kiinnitys"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Laite on lukittu"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Laite on lukittu liian monen virheellisen tunnuslauseyrityksen jälkeen."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Laite on lukittu liian monen virheellisen suojakoodiyrityksen jälkeen."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Odota %1 minuutti ja yritä sitten uudelleen…"
+msgstr[1] "Odota %1 minuuttia ja yritä sitten uudelleen…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -231,7 +233,7 @@ msgstr "Kaikki"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Avaa lukitus"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -311,7 +313,7 @@ msgstr "Verkkovierailu"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Anna tunnuslause"
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
@@ -319,11 +321,11 @@ msgstr "Virheellinen tunnuslause"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Anna uudelleen"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Anna suojakoodi"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
@@ -332,7 +334,7 @@ msgstr "Väärä suojakoodi"
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Anna %1"
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -386,9 +388,6 @@ msgstr ""
 #, qt-format
 #~ msgid "Enter your %1"
 #~ msgstr "Anna %1"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Unityn hallinta"
 
 #~ msgid "Enter your passphrase"
 #~ msgstr "Anna tunnuslause"

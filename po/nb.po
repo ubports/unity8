@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-09-29 05:32+0000\n"
+"PO-Revision-Date: 2014-10-03 08:44+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-04 06:28+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -33,22 +33,24 @@ msgstr "Fjern snarvei"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Enheten er låst"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Du har skrevet inn feil passordfrase for mange ganger, og er derfor "
+"utestengt."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "Du har tastet feil kode for mange ganger, og er derfor utestengt."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vent i %1 minutt, og prøv deretter på nytt …"
+msgstr[1] "Vent i %1 minutter, og prøv deretter på nytt …"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -231,7 +233,7 @@ msgstr "Alt"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Lås opp"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -311,7 +313,7 @@ msgstr "Fremmednett"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Skriv inn passordfrase"
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
@@ -319,11 +321,11 @@ msgstr "Feil passordfrase"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Skriv inn på nytt"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Tast kode"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
@@ -332,7 +334,7 @@ msgstr "Feil kode"
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Skriv inn %1"
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -373,9 +375,6 @@ msgstr ""
 #, qt-format
 #~ msgid "Hello %1"
 #~ msgstr "Hei, %1"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Håndter dashbord"
 
 #~ msgid "Please wait"
 #~ msgstr "Vent litt"
