@@ -603,11 +603,7 @@ Item {
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
-            onDash: {
-                if (ApplicationManager.focusedApplicationId != "unity8-dash") {
-                    showDash()
-                }
-            }
+            onDash: showDash()
             onDashSwipeChanged: {
                 if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
