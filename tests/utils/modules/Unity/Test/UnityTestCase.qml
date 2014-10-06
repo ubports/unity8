@@ -23,11 +23,12 @@ TestCase {
     id: testCase
     TestUtil {id:util}
 
-    WaitingDots {
+    ActivityIndicator {
         visible: testCase.running
         anchors.centerIn: parent
         Component.onCompleted: parent = testCase.parent
         z: 100
+        running: visible
     }
 
     // Fake implementation to be provided to items under test
