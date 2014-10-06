@@ -29,9 +29,9 @@ Item {
     readonly property bool areaActive: lateralPosition >= 0
     onAreaActiveChanged: {
         if (areaActive) {
-            handleEnter()
+            handleEnter();
         } else {
-            handleExit()
+            handleExit();
         }
     }
 
@@ -44,37 +44,39 @@ Item {
     rotation: direction == Qt.LeftToRight ? 0 : 180
 
     function handleEnter() {
-        d.threasholdAreaX = -scrollArea.thresholdAreaWidth
-        scrollTimer.restart()
+        d.threasholdAreaX = -scrollArea.thresholdAreaWidth;
+        scrollTimer.restart();
     }
     onLateralPositionChanged: {
         if (scrollArea.areaActive) {
 
             if (lateralPosition > width * (1 - forceScrollingPercentage)) {
-                d.threasholdAreaX = width * (1 - forceScrollingPercentage)
-                if (!scrollTimer.running) scrollTimer.restart()
+                d.threasholdAreaX = width * (1 - forceScrollingPercentage);
+                if (!scrollTimer.running) scrollTimer.restart();
             } else if (lateralPosition > d.threasholdAreaX + scrollArea.thresholdAreaWidth) {
-                d.threasholdAreaX = lateralPosition - scrollArea.thresholdAreaWidth
-                if (!scrollTimer.running) scrollTimer.restart()
+                d.threasholdAreaX = lateralPosition - scrollArea.thresholdAreaWidth;
+                if (!scrollTimer.running) scrollTimer.restart();
             } else if (lateralPosition < d.threasholdAreaX) {
-                d.threasholdAreaX = lateralPosition
-                scrollTimer.stop()
+                d.threasholdAreaX = lateralPosition;
+                scrollTimer.stop();
             }
 
-            d.progression = lateralPosition / width
+            d.progression = lateralPosition / width;
         }
     }
 
     function handleExit() {
-        d.threasholdAreaX = -scrollArea.thresholdAreaWidth
-        scrollTimer.stop()
+        d.threasholdAreaX = -scrollArea.thresholdAreaWidth;
+        scrollTimer.stop();
     }
 
     Timer {
         id: scrollTimer
         interval: 5
         repeat: true
-        onTriggered: scrollArea.scroll(scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression)
+        onTriggered: {
+            scrollArea.scroll(scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression);
+        }
     }
 
     QtObject {

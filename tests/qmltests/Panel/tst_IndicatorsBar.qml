@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -121,7 +121,7 @@ IndicatorTest {
 
         // Rough check that expanding a selected item keeps it within the area of the original item.
         function test_expandSelectedItem(data) {
-            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
+            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"] + "-panelItem");
             verify(dataItem !== null);
 
             var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
@@ -133,15 +133,16 @@ IndicatorTest {
             var mappedRect = indicatorsBar.mapFromItem(dataItem, 0, 0, dataItem.width, dataItem.height);
 
             // mappedPosition contained within mappedRect
-            verify(mappedRect.x <= mappedPosition.x)
-            verify(mappedRect.x + mappedRect.width >= mappedPosition.x)
+            verify(mappedRect.x <= mappedPosition.x);
+            verify(mappedRect.x + mappedRect.width >= mappedPosition.x);
         }
 
         function test_scrollOffset() {
             indicatorsBar.expanded = true;
             wait_for_expansion_to_settle();
 
-            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[indicatorsModel.originalModelData.length-1]["identifier"]+"-panelItem");
+            var lastItemIndex = indicatorsModel.originalModelData.length-1;
+            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[lastItemIndex]["identifier"] + "-panelItem");
             verify(dataItem !== null);
 
             var row = findChild(indicatorsBar, "indicatorItemRow");
@@ -166,7 +167,7 @@ IndicatorTest {
             indicatorsBar.expanded = true;
             wait_for_expansion_to_settle();
 
-            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
+            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"] + "-panelItem");
             if (indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2).x < 0) {
                 skip("Out of bounds");
             }

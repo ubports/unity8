@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ Rectangle {
     width: units.gu(40)
     height: units.gu(42)
 
-    function setCurrentMenuIndex(index, animate) {
+    function setCurrentMenuIndex(index) {
         // FIXME - https://bugreports.qt-project.org/browse/QTBUG-41229
         listViewContent.currentIndex = -1;
         listViewContent.currentIndex = index;

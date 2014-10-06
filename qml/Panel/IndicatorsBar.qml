@@ -45,13 +45,13 @@ Item {
 
     function addScrollOffset(scrollAmmout) {
         var proposedScrollOffset = d.scrollOffset + scrollAmmout;
-        var proposedCombinedOffset = d.combinedOffset - scrollAmmout
+        var proposedCombinedOffset = d.combinedOffset - scrollAmmout;
 
         if (scrollAmmout < 0 && d.combinedOffset > (row.width - rowContainer.width)) return;
 
         if (scrollAmmout > 0 && proposedCombinedOffset < 0) {
             // get the combined offset back to 0
-            proposedScrollOffset = proposedScrollOffset + proposedCombinedOffset
+            proposedScrollOffset = proposedScrollOffset + proposedCombinedOffset;
         } else if (scrollAmmout < 0 && proposedCombinedOffset > row.width - rowContainer.width) {
             // get the combined offset back to max
             proposedScrollOffset = proposedScrollOffset + (proposedCombinedOffset - (row.width - rowContainer.width));
@@ -148,7 +148,9 @@ Item {
             interactive: root.expanded
 
             property bool moved: false
-            onMovingChanged: { moved = true }
+            onMovingChanged: {
+                moved = true;
+            }
 
             rebound: Transition {
                 NumberAnimation {
@@ -201,7 +203,7 @@ Item {
             // keep flickable inline with row
             PropertyChanges {
                 target: flickable
-                contentX: (flickable.contentWidth - flickable.width) - d.combinedOffset;
+                contentX: (flickable.contentWidth - flickable.width) - d.combinedOffset
                 restoreEntryValues: false
             }
         },
@@ -227,13 +229,11 @@ Item {
         Transition {
             from: "expanded"
             to: "minimized"
-            SequentialAnimation {
-                PropertyAnimation {
-                    target: d;
-                    properties: "rowOffset, scrollOffset";
-                    duration: UbuntuAnimation.SnapDuration;
-                    easing: UbuntuAnimation.StandardEasing
-                }
+            PropertyAnimation {
+                target: d;
+                properties: "rowOffset, scrollOffset"
+                duration: UbuntuAnimation.SnapDuration
+                easing: UbuntuAnimation.StandardEasing
             }
         },
         Transition {
@@ -243,8 +243,8 @@ Item {
                 PropertyAction { target: d; properties: "rowOffset, rowOffsetAdjustment, scrollOffset" }
                 PropertyAnimation {
                     target: row;
-                    properties: "anchors.rightMargin";
-                    duration: UbuntuAnimation.SnapDuration;
+                    properties: "anchors.rightMargin"
+                    duration: UbuntuAnimation.SnapDuration
                     easing: UbuntuAnimation.StandardEasing
                 }
             }

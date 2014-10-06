@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,9 @@ IndicatorTest {
                 MouseArea {
                     id: ma
                     anchors.fill: parent
-                    onPositionChanged: { indicatorsRow.lateralPosition = mouse.x }
+                    onPositionChanged: {
+                        indicatorsRow.lateralPosition = mouse.x;
+                    }
                     onPressed: {
                         if (pressed) {
                             indicatorsRow.selectItemAt(mouse.x);
@@ -137,7 +139,7 @@ IndicatorTest {
 
             verify(indicatorsModel.originalModelData.length > 0);
             for (i = 0; i < indicatorsModel.originalModelData.length; i++) {
-                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"]+"-panelItem");
+                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"] + "-panelItem");
                 verify(item);
 
                 compare(item.ownIndex, i, "Item at incorrect index");
@@ -149,7 +151,7 @@ IndicatorTest {
 
             // test removals
             for (i = 0; i < indicatorsModel.originalModelData.length; i++) {
-                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"]+"-panelItem");
+                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"] + "-panelItem");
 
                 verify(data.remove.indexOf(i) !== -1 ? (item === null) : (item !== null));
             }
@@ -160,7 +162,7 @@ IndicatorTest {
             }
 
             for (i = 0; i < indicatorsModel.originalModelData.length; i++) {
-                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"]+"-panelItem");
+                item = findChild(indicatorsRow, indicatorsModel.originalModelData[i]["identifier"] + "-panelItem");
                 verify(item);
 
                 compare(item.ownIndex, i, "Item at incorrect index");
@@ -177,7 +179,7 @@ IndicatorTest {
 
         // test selecting the item at it's position sets the current item of the row.
         function test_validCurrentItem(data) {
-            var dataItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.index]["identifier"]+"-panelItem");
+            var dataItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.index]["identifier"] + "-panelItem");
             verify(dataItem !== null);
 
             indicatorsRow.selectItemAt(dataItem.x + dataItem.width/2);
@@ -187,7 +189,7 @@ IndicatorTest {
         // tests item default selection (no item at position X)
         function test_invalidCurrentItem() {
             indicatorsRow.selectItemAt(-100);
-            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[0]["identifier"]+"-panelItem");
+            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[0]["identifier"] + "-panelItem");
             compare(indicatorsRow.currentItem, item);
         }
 
@@ -203,10 +205,10 @@ IndicatorTest {
             indicatorsRow.expanded = true;
             wait_for_expansion_to_settle();
 
-            var fromItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.from]["identifier"]+"-panelItem");
+            var fromItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.from]["identifier"] + "-panelItem");
             verify(fromItem !== null);
 
-            var toItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.to]["identifier"]+"-panelItem");
+            var toItem = findChild(indicatorsRow, indicatorsModel.originalModelData[data.to]["identifier"] + "-panelItem");
             verify(toItem !== null);
 
             var fromPosition = indicatorsRow.mapFromItem(fromItem, fromItem.width/2, fromItem.height/2);
@@ -228,12 +230,12 @@ IndicatorTest {
             wait_for_expansion_to_settle();
 
             var highlight = findChild(indicatorsRow, "highlight");
-            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"]+"-panelItem");
+            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"] + "-panelItem");
             verify(item !== null);
             var mappedPosition = indicatorsRow.mapFromItem(item, item.width/2, item.height/2);
 
             mousePress(indicatorsRow, mappedPosition.x, mappedPosition.y);
-            var originalHightlightX = highlight.x
+            var originalHightlightX = highlight.x;
             var offset = 1;
             while((highlight.x - originalHightlightX) <= units.gu(0.5) && offset < units.gu(10)) {
                 mouseMove(indicatorsRow, mappedPosition.x + offset, mappedPosition.y, 10);
@@ -253,12 +255,12 @@ IndicatorTest {
             wait_for_expansion_to_settle();
 
             var highlight = findChild(indicatorsRow, "highlight");
-            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"]+"-panelItem");
+            var item = findChild(indicatorsRow, indicatorsModel.originalModelData[2]["identifier"] + "-panelItem");
             verify(item !== null);
             var mappedPosition = indicatorsRow.mapFromItem(item, item.width/2, item.height/2);
 
             mousePress(indicatorsRow, mappedPosition.x, mappedPosition.y);
-            var originalHightlightX = highlight.x
+            var originalHightlightX = highlight.x;
             var offset = 1;
             while((highlight.x - originalHightlightX) >= -units.gu(0.5) && offset < units.gu(10)) {
                 mouseMove(indicatorsRow, mappedPosition.x - offset, mappedPosition.y, 10);

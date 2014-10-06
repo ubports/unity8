@@ -24,9 +24,8 @@ import Utils 0.1
 Item {
     id: root
     property SortFilterProxyModel model: filterModel
-    property string profile: indicatorProfile
 
-    function initialise() {
+    function initialise(profile) {
         indicatorsModel.load(profile);
     }
 
@@ -44,7 +43,6 @@ Item {
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
-        Component.onCompleted: root.initialise();
     }
 
     Repeater {

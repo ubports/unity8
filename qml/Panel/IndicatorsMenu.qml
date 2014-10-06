@@ -33,10 +33,8 @@ Showable {
     readonly property bool fullyOpened: unitProgress >= 1
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
-    readonly property real unitProgress: Math.max(0, (height - minimizedPanelHeight) /
-                                                     (openedHeight - minimizedPanelHeight))
+    readonly property real unitProgress: Math.max(0, (height - minimizedPanelHeight) / (openedHeight - minimizedPanelHeight))
     property color panelColor: "black"
-    // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
 
     signal showTapped(point position)
 
@@ -88,21 +86,6 @@ Showable {
         indicatorsModel: root.indicatorsModel
         visible: root.unitProgress > 0
         enabled: contentEnabled
-
-        //small shadow gradient at bottom of menu
-        Rectangle {
-            anchors {
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-            }
-            height: units.gu(0.5)
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 1.0; color: "black" }
-            }
-            opacity: 0.4
-        }
     }
 
     Handle {
@@ -114,6 +97,21 @@ Showable {
         }
         height: units.gu(2)
         active: d.activeDragHandle ? true : false
+
+        //small shadow gradient at bottom of menu
+        Rectangle {
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.top
+            }
+            height: units.gu(0.5)
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "transparent" }
+                GradientStop { position: 1.0; color: "black" }
+            }
+            opacity: 0.3
+        }
     }
 
     Rectangle {
@@ -176,12 +174,12 @@ Showable {
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
         distanceThreshold: minimizedPanelHeight
+        onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
 
         // using hint regulates minimum to hint displacement, but in fullscreen mode, we need to do it manually.
         overrideStartValue: enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height
         maxTotalDragDistance: openedHeight - (enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height)
         hintDisplacement: enableHint ? expandedPanelHeight - minimizedPanelHeight + handle.height : 0
-        onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
     }
 
     DragHandle {
@@ -238,7 +236,7 @@ Showable {
             if (!oldActive) return;
             d.enableIndexChangeSignal = false;
 
-            content.setCurrentMenuIndex(bar.currentItemIndex, fullyOpened || partiallyOpened);
+            content.setCurrentMenuIndex(bar.currentItemIndex);
 
             d.enableIndexChangeSignal = oldActive;
         }
@@ -265,7 +263,6 @@ Showable {
             StateChangeScript {
                 script: {
                     yVelocityCalculator.reset();
-
                     // initial item selection
                     bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchX : -1);
                 }
@@ -280,7 +277,7 @@ Showable {
                     if (!d.activeDragHandle) return false;
                     if (!d.activeDragHandle.dragging) return false;
 
-                    yVelocityCalculator.trackedPosition = d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
+                    yVelocityCalculator.trackedPosition = d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0;
                     return Math.abs(yVelocityCalculator.calculate()) < 0.2;
                 }
             }

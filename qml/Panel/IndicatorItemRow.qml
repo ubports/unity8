@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,11 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
+    width: row.width
+    height: units.gu(3)
 
     property QtObject indicatorsModel: null
     property real overFlowWidth: width
-    property bool showAll: false
     property bool expanded: false
     property var currentItem: null
     readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
@@ -30,6 +31,7 @@ Item {
     property real unitProgress: 0.0
     property real selectionChangeBuffer: units.gu(2)
     property bool enableLateralChanges: false
+    property color hightlightColor: "#ededed"
 
     property real lateralPosition: -1
     onLateralPositionChanged: {
@@ -53,11 +55,11 @@ Item {
                 } else {
                     var currentItemLateralPosition = root.mapToItem(proposedItem, lateralPosition, 0).x;
 
-                    // is the distance into proposed item greater than max buffer?
-                    // proposed item is before current item
+                    // Is the distance into proposed item greater than max buffer?
+                    // Poposed item is before current item
                     if (proposedItem.x < currentItem.x) {
                         bufferExceeded = (proposedItem.width - currentItemLateralPosition) > maximumBufferOffset;
-                    } else { // after
+                    } else { // After
                         bufferExceeded = currentItemLateralPosition > maximumBufferOffset;
                     }
                 }
@@ -70,12 +72,9 @@ Item {
         }
     }
 
-    width: row.width
-    height: units.gu(3)
-
     function indicatorAt(x, y) {
         var item = row.childAt(x, y);
-        return item && item.hasOwnProperty("ownIndex") ? item : null
+        return item && item.hasOwnProperty("ownIndex") ? item : null;
     }
 
     function resetCurrentItem() {
@@ -99,11 +98,11 @@ Item {
         if (item && item.opacity > 0) {
             currentItem = item;
         } else {
+            // Select default item.
             var searchIndex = lateralPosition > width ? repeater.count-1 : 0;
 
             for (var i = 0; i < row.children.length; i++) {
-                if (row.children[i].hasOwnProperty("ownIndex") &&
-                    row.children[i].ownIndex === searchIndex) {
+                if (row.children[i].hasOwnProperty("ownIndex") && row.children[i].ownIndex === searchIndex) {
                     item = row.children[i];
                     break;
                 }
@@ -123,15 +122,6 @@ Item {
             d.firstItemSwitch = false;
         }
         d.previousItem = currentItem;
-    }
-
-    Timer {
-        id: allVisible
-        interval: 1000
-
-        onTriggered: {
-            showAll = false;
-        }
     }
 
     Row {
@@ -175,7 +165,7 @@ Item {
 
         anchors.bottom: row.bottom
         height: units.dp(2)
-        color: "#ededed"
+        color: root.hightlightColor
         visible: root.currentItem !== null
         opacity: 0.0
 
@@ -193,11 +183,11 @@ Item {
 
             var itemMapped = root.mapToItem(currentItem, lateralPosition, 0);
 
-            var distanceFromCenter = itemMapped.x - currentItem.width/2;
+            var distanceFromCenter = itemMapped.x - currentItem.width / 2;
             if (distanceFromCenter > 0) {
-                distanceFromCenter = Math.max(0, distanceFromCenter-currentItem.width/8);
+                distanceFromCenter = Math.max(0, distanceFromCenter-currentItem.width / 8);
             } else {
-                distanceFromCenter = Math.min(0, distanceFromCenter+currentItem.width/8);
+                distanceFromCenter = Math.min(0, distanceFromCenter+currentItem.width / 8);
             }
 
             if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
@@ -206,7 +196,7 @@ Item {
                 return 0;
             }
 
-            var shiftPercentageOffset = (distanceFromCenter / (currentItem.width/4));
+            var shiftPercentageOffset = (distanceFromCenter / (currentItem.width / 4));
             return shiftPercentageOffset * units.gu(1);
         }
         Behavior on highlightCenterOffset {

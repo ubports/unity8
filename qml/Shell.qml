@@ -583,6 +583,8 @@ Item {
 
             VisibleIndicators {
                 id: visibleIndicators
+                // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
+                Component.onCompleted: initialise(indicatorProfile)
             }
 
             property bool topmostApplicationIsFullscreen:

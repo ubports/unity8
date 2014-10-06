@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ Item {
             "submenu": []
         }]; // end row 1
 
-   function initMenuData(data) {
+   function initializeMenuData(data) {
        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicator.test",
                                                          "/com/canonical/indicator/test",
                                                          "/com/canonical/indicator/test",
@@ -120,7 +120,7 @@ Item {
         name: "IndicatorPage"
 
         function init() {
-            initMenuData([]);
+            initializeMenuData([]);
         }
 
         function test_reloadData() {
@@ -128,10 +128,10 @@ Item {
 
             tryCompare(mainMenu, "count", 0);
 
-            initMenuData(fullMenuData);
+            initializeMenuData(fullMenuData);
             tryCompare(mainMenu, "count", 3);
 
-            initMenuData([]);
+            initializeMenuData([]);
             tryCompare(mainMenu, "count", 0);
         }
 
@@ -144,7 +144,7 @@ Item {
 
         function test_traverse_rootMenuType(data) {
             page.rootMenuType = data.rootMenuType;
-            initMenuData(fullMenuData);
+            initializeMenuData(fullMenuData);
 
             var mainMenu = findChild(page, "mainMenu");
             tryCompare(mainMenu, "count", data.expectedCount);

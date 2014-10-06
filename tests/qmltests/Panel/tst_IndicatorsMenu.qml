@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -103,7 +103,7 @@ IndicatorTest {
         }
 
         function get_indicator_item(index) {
-            var indicatorItem = findChild(indicatorsMenu, indicatorsModel.originalModelData[index]["identifier"]+"-panelItem");
+            var indicatorItem = findChild(indicatorsMenu, indicatorsModel.originalModelData[index]["identifier"] + "-panelItem");
             verify(indicatorItem !== null);
 
             return indicatorItem;
@@ -163,14 +163,13 @@ IndicatorTest {
         // tests swiping on an indicator item activates the correct item.
         function test_swipeForCurrentItem()
         {
-            var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow")
+            var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");
             verify(indicatorItemRow !== null);
 
             for (var i = 0; i < indicatorsModel.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
 
-                var mappedPosition = root.mapFromItem(indicatorItem,
-                        indicatorItem.width/2, indicatorItem.height/2);
+                var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
 
                 touchFlick(indicatorsMenu,
                            mappedPosition.x, mappedPosition.y,
