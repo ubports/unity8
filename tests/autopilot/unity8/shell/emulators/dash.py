@@ -66,7 +66,7 @@ class Dash(emulators.UnityEmulatorBase):
         return resp_grid.select_single('Tile', text=text)
 
     def get_scope(self, scope_name='clickscope'):
-        return self.dash_content_list.select_single(
+        return self.dash_content_list.wait_select_single(
             'QQuickLoader', scopeId=scope_name)
 
     @autopilot_logging.log_action(logger.info)
@@ -86,7 +86,7 @@ class Dash(emulators.UnityEmulatorBase):
 
     def _get_scope_loader(self, scope_id):
         try:
-            return self.dash_content_list.select_single(
+            return self.dash_content_list.wait_select_single(
                 'QQuickLoader', scopeId=scope_id)
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
