@@ -82,13 +82,13 @@ var kArtShapeHolderCode = 'Item  { \n\
                                             height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); \n\
                                         } \n\
                                     } \n\
-                                    image: Image { \n\
+                                    image: CroppedImageMinimumSourceSize { \n\
                                         objectName: "artImage"; \n\
                                         property bool doLoadSource: !NetworkingStatus.limitedBandwith; \n\
                                         source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; } \n\
                                         cache: true; \n\
                                         asynchronous: root.asynchronous; \n\
-                                        fillMode: Image.PreserveAspectCrop; \n\
+                                        visible: false; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                     } \n\
@@ -191,17 +191,14 @@ var kMascotShapeLoaderCode = 'Loader { \n\
 
 // %1 is used as anchors of mascotImage
 // %2 is used as visible of mascotImage
-var kMascotImageCode = 'Image { \n\
+var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
                             id: mascotImage; \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
-                            readonly property int maxSize: Math.max(width, height) * 4; \n\
                             property bool doLoadSource: !NetworkingStatus.limitedBandwith; \n\
                             source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; } \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
-                            sourceSize { width: maxSize; height: maxSize } \n\
-                            fillMode: Image.PreserveAspectCrop; \n\
                             horizontalAlignment: Image.AlignHCenter; \n\
                             verticalAlignment: Image.AlignVCenter; \n\
                             visible: %2; \n\
@@ -436,7 +433,7 @@ function cardString(template, components) {
             mascotShapeCode = kMascotShapeLoaderCode.arg(mascotAnchors);
         }
 
-        var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
+        var mascotImageVisible = useMascotShape ? 'false' : 'showHeader && resized';
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
     }
 

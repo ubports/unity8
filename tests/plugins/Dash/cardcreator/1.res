@@ -44,13 +44,13 @@ Item  {
                                             height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
                                         } 
                                     } 
-                                    image: Image { 
+                                    image: CroppedImageMinimumSourceSize {
                                         objectName: "artImage"; 
                                         property bool doLoadSource: !NetworkingStatus.limitedBandwith;
                                         source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
-                                        fillMode: Image.PreserveAspectCrop;
+                                        visible: false; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 

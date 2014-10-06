@@ -41,17 +41,14 @@ Loader {
                         anchors { verticalCenter: parent.verticalCenter; }
                     }
 
-,Image { 
+,CroppedImageMinimumSourceSize {
                     id: mascotImage; 
                     objectName: "mascotImage"; 
                     anchors { verticalCenter: parent.verticalCenter; }
-                    readonly property int maxSize: Math.max(width, height) * 4; 
                     property bool doLoadSource: !NetworkingStatus.limitedBandwith;
                     source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; }
                     width: units.gu(6);
                     height: units.gu(5.625); 
-                    sourceSize { width: maxSize; height: maxSize } 
-                    fillMode: Image.PreserveAspectCrop; 
                     horizontalAlignment: Image.AlignHCenter; 
                     verticalAlignment: Image.AlignVCenter; 
                     visible: false; 
