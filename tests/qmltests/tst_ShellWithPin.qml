@@ -209,8 +209,9 @@ Row {
             swipeAwayGreeter()
             tryCompare(sessionSpy, "count", 1)
 
-            // Lockscreen is only hidden by right edge demo, which we got rid
-            // of above, so if we show greeter again, lockscreen should appear
+            // Lockscreen is only hidden by the edge demo, so if we turn that
+            // off and show greeter again, lockscreen should appear
+            AccountsService.demoEdges = false
             LightDM.Greeter.showGreeter()
             tryCompare(lockscreen, "shown", true)
         }
