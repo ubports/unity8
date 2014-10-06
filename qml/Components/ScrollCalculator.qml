@@ -19,9 +19,6 @@ import QtQuick 2.0
 Item {
     id: scrollArea
 
-    property real __previousMouseX: -1
-    property real __progression: 0
-    property real __previousMouseXHelper: -1
     property real thresholdAreaWidth: units.gu(1)
     property bool showDebugRectangles: false
     property int direction: Qt.LeftToRight
@@ -47,33 +44,29 @@ Item {
     rotation: direction == Qt.LeftToRight ? 0 : 180
 
     function handleEnter() {
-        thresholdRect.x = -scrollArea.thresholdAreaWidth
+        d.threasholdAreaX = -scrollArea.thresholdAreaWidth
         scrollTimer.restart()
     }
     onLateralPositionChanged: {
         if (scrollArea.areaActive) {
 
-            // store the previous x value
-            __previousMouseX = __previousMouseXHelper
-            __previousMouseXHelper = lateralPosition
-
             if (lateralPosition > width * (1 - forceScrollingPercentage)) {
-                thresholdRect.x = width * (1 - forceScrollingPercentage)
+                d.threasholdAreaX = width * (1 - forceScrollingPercentage)
                 if (!scrollTimer.running) scrollTimer.restart()
-            } else if (lateralPosition > thresholdRect.x + thresholdRect.width) {
-                thresholdRect.x = lateralPosition - thresholdRect.width
+            } else if (lateralPosition > d.threasholdAreaX + scrollArea.thresholdAreaWidth) {
+                d.threasholdAreaX = lateralPosition - scrollArea.thresholdAreaWidth
                 if (!scrollTimer.running) scrollTimer.restart()
-            } else if (lateralPosition < thresholdRect.x) {
-                thresholdRect.x = lateralPosition
+            } else if (lateralPosition < d.threasholdAreaX) {
+                d.threasholdAreaX = lateralPosition
                 scrollTimer.stop()
             }
 
-            __progression = lateralPosition / width
+            d.progression = lateralPosition / width
         }
     }
 
     function handleExit() {
-        thresholdRect.x = -scrollArea.thresholdAreaWidth
+        d.threasholdAreaX = -scrollArea.thresholdAreaWidth
         scrollTimer.stop()
     }
 
@@ -81,31 +74,13 @@ Item {
         id: scrollTimer
         interval: 5
         repeat: true
-        onTriggered: scrollArea.scroll(scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount*scrollArea.__progression)
+        onTriggered: scrollArea.scroll(scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression)
     }
 
-    Rectangle {
-        color: "yellow"
-        opacity: 0.2
-        anchors.fill: scrollArea
-        visible: showDebugRectangles
-    }
+    QtObject {
+        id: d
 
-    Rectangle {
-        color: "red"
-        opacity: 0.2
-        height: scrollArea.height
-        width: scrollArea.width * forceScrollingPercentage
-        anchors.right: parent.right
-        visible: showDebugRectangles
-    }
-
-    Rectangle {
-        id: thresholdRect
-        opacity: 0.4
-        height: parent.height
-        width: scrollArea.thresholdAreaWidth
-        x: -scrollArea.thresholdAreaWidth
-        color: showDebugRectangles ? "blue" : "transparent"
+        property real progression: 0
+        property real threasholdAreaX: -scrollArea.thresholdAreaWidth
     }
 }
