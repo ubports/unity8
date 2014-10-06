@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-10-01 15:04+0000\n"
-"Last-Translator: Leo Arias <leo.arias@canonical.com>\n"
+"PO-Revision-Date: 2014-10-05 08:50+0000\n"
+"Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-06 07:00+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -33,22 +33,26 @@ msgstr "Desanclar"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Dispositivo bloqueado"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Se ha proporcionado una contraseña errónea demasiadas veces. Se ha bloqueado "
+"el dispositivo."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Se ha bloqueado el dispositivo debido al gran número de intentos fallidos de "
+"desbloqueo."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Espere %1 minuto e inténtelo de nuevo..."
+msgstr[1] "Espere %1 minutos e inténtelo de nuevo..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -234,7 +238,7 @@ msgstr "Todo"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -314,7 +318,7 @@ msgstr "Itinerancia"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Introduzca la contraseña"
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
@@ -322,11 +326,11 @@ msgstr "La contraseña es incorrecta"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Reintroduzca"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Introduzca el código"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
@@ -335,7 +339,7 @@ msgstr "El código es incorrecto"
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Introduzca %1"
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -385,9 +389,6 @@ msgstr ""
 
 #~ msgid "Too many incorrect attempts"
 #~ msgstr "Demasiados intentos incorrectos"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Gestionar tablero"
 
 #, qt-format
 #~ msgid "Enter your %1"

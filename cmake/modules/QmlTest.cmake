@@ -151,7 +151,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
     add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test_internal)
 
-macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
+macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS ENVVAR)
     set(testCommand
           LD_LIBRARY_PATH=${LD_PATH}
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
@@ -168,6 +168,7 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
     endif()
     set(xvfbtestCommand
           ${LD_PRELOAD_PATH}
+          ${ENVVAR}
           LD_LIBRARY_PATH=${LD_PATH}
           xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec

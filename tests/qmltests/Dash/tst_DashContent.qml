@@ -70,7 +70,17 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 6);
+            tryCompare(scopeLoadedSpy, "count", 6, 15000);
+            tryCompare(scopesModel, "loaded", true);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(shell, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.item != null; },
+                true, 15000);
+            tryCompareFunction(function() {
+                var mockScope1Loader = findChild(shell, "MockScope1 loader");
+                return mockScope1Loader && mockScope1Loader.status === Loader.Ready; },
+                true, 15000);
+            waitForRendering(findChild(shell, "MockScope1 loader").item);
         }
 
         function init() {
@@ -466,6 +476,9 @@ Item {
 
             var navigationListView = findChild(dashAltNavigationButton, "navigationListView");
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
+
+            var blackRect = findChild(dashNavigation, "blackRect");
+            tryCompare(blackRect, "opacity", 0.5);
 
             mouseClick(dashNavigation, dashNavigationButton.x, 0);
             compare(dashNavigationButton.showList, false);
