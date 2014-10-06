@@ -122,10 +122,10 @@ Item {
             return cachedObject2;
         }
 
-        function test_destroyAllDeletesModel() {
+        function test_destroyAllKeepsModel() {
             createAndDestroy("test6");
             doGC();
-            compare(Indicators.UnityMenuModelCache.contains("/com/canonical/test6"), false);
+            compare(Indicators.UnityMenuModelCache.contains("/com/canonical/test6"), true);
         }
 
         function test_destroyPartialKeepsModel() {
