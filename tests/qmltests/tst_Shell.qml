@@ -99,6 +99,11 @@ Row {
     }
 
     SignalSpy {
+        id: launcherShowDashHomeSpy
+        signalName: "showDashHome"
+    }
+
+    SignalSpy {
         id: sessionSpy
         signalName: "sessionStarted"
     }
@@ -131,9 +136,13 @@ Row {
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
+
+            launcherShowDashHomeSpy.target = findChild(shell, "launcher");
         }
 
         function cleanup() {
+            launcherShowDashHomeSpy.target = null;
+
             shellLoader.itemDestroyed = false;
 
             shellLoader.active = false;
@@ -607,6 +616,71 @@ Row {
 
             tryCompare(topmostSurface, "touchPressCount", 0);
             tryCompare(topmostSurface, "touchReleaseCount", 0);
+        }
+
+        function waitUntilFocusedApplicationIsShowingItsSurface()
+        {
+            var spreadDelegate = findChild(shell, "appDelegate0");
+            var appState = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
+            tryCompare(appState, "state", "surface");
+            var transitions = appState.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        function swipeFromRightEdgeToShowAppSpread()
+        {
+            // perform a right-edge drag to show the spread
+            var touchStartX = shell.width - (shell.edgeSize / 2)
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, units.gu(1) /* endX */, touchStartY /* endY */);
+
+            // check if it's indeed showing the spread
+            var stage = findChild(shell, "stage");
+            var spreadView = findChild(stage, "spreadView");
+            tryCompare(spreadView, "phase", 2);
+        }
+
+        function test_tapUbuntuIconInLauncherOverAppSpread() {
+
+            waitUntilFocusedApplicationIsShowingItsSurface();
+
+            swipeFromRightEdgeToShowAppSpread();
+
+            var launcher = findChild(shell, "launcher");
+
+            // ensure the launcher dimissal timer never gets triggered during the test run
+            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+            dismissTimer.interval = 60 * 60 * 1000; 
+
+            dragLauncherIntoView();
+
+            // Emulate a tap with a finger, where the touch position drifts during the tap.
+            {
+                var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
+                var startPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.2,
+                        buttonShowDashHome.height * 0.2);
+                var endPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.height * 0.8);
+                touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
+            }
+
+            compare(launcherShowDashHomeSpy.count, 1);
+
+            // check that the stage has left spread mode.
+            {
+                var stage = findChild(shell, "stage");
+                var spreadView = findChild(stage, "spreadView");
+                tryCompare(spreadView, "phase", 0);
+            }
+
+            // check that the launcher got dismissed
+            var launcherPanel = findChild(shell, "launcherPanel");
+            tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
     }
 }
