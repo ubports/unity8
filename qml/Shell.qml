@@ -128,6 +128,13 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    Binding {
+        target: ApplicationManager
+        property: "forceDashActive"
+        value: launcher.shown || launcher.dashSwipe
+    }
+
+
     WindowKeysFilter {
         // Handle but do not filter out volume keys
         Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
@@ -171,7 +178,6 @@ Item {
                         greeter.startUnlock()
                     }
                     greeter.hide();
-                    launcher.hide();
                 } else {
                     if (LightDM.Greeter.active) {
                         greeter.startUnlock()
