@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-30 06:25+0000\n"
+"POT-Creation-Date: 2014-10-02 10:35+0200\n"
+"PO-Revision-Date: 2014-10-03 06:52+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-10-01 06:25+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-10-04 06:28+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -29,6 +30,29 @@ msgstr "Spilhennañ ar verradenn"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Dispilhennañ ar verradenn"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Benveg prennet"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Prennet eo bet ho penveg abalamour da re a daolioù-esae c'hwitet evit merkañ "
+"ho frazenn-dremen."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Prennet eo bet ho penveg abalamour da re a daolioù-esae evit merkañ ho kod-"
+"tremen."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Gortozit %1 vunutenn, mar plij, hag esaeit en-dro..."
+msgstr[1] "Gortozit %1 a vunutoù, mar plij, hag esaeit en-dro..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -141,14 +165,6 @@ msgstr ""
 "Mestroniañ a rit ar jestroù ha gallout a rit kregiñ da implijout ar "
 "pellgomzer<br><br>Touchit d'ar skramm evit kregiñ ganti"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Gortozit, mar plij"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Re a daolioù-esae direizh"
-
 #: qml/Components/Lockscreen.qml:206
 msgid "Emergency Call"
 msgstr "Pellgomzadenn vallus"
@@ -156,15 +172,6 @@ msgstr "Pellgomzadenn vallus"
 #: qml/Components/Lockscreen.qml:226
 msgid "OK"
 msgstr "Mat eo"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Demat %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Demat"
 
 #: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
 msgid "See less"
@@ -232,8 +239,8 @@ msgid "All"
 msgstr "An holl anezho"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Riklañ evit dibrennañ"
+msgid "Unlock"
+msgstr "Dibrennañ"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -311,26 +318,30 @@ msgstr "Dibrennañ ar gartenn SIM"
 msgid "Roaming"
 msgstr "O kantren"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Ebarzhit ho frazenn-dremen"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr "Merkañ ar frazenn-dremen"
 
 #: qml/Shell.qml:321
 msgid "Sorry, incorrect passphrase"
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Ebarzhit ho kod-tremen"
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr "Adverkañ, mar plij"
+
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr "Merkañ ar c'hod-tremen"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
 msgstr "Digarezit, kod-tremen direizh"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
-msgstr "Ebarzhit ho %1"
+msgid "Enter %1"
+msgstr "Merkañ  %1"
 
 #: qml/Shell.qml:328
 #, qt-format
@@ -365,5 +376,28 @@ msgstr ""
 "Ma vez ebarzhet ur c'hod-tremen direizh, e vo adderaouekaet ho pellgomzer "
 "gant arventennoù al labouradeg hag e vo diverket an holl roadennoù personel."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Merañ an daolenn-vourzh"
+#~ msgid "Hello"
+#~ msgstr "Demat"
+
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Demat %1"
+
+#~ msgid "Swipe to unlock"
+#~ msgstr "Riklañ evit dibrennañ"
+
+#~ msgid "Please wait"
+#~ msgstr "Gortozit, mar plij"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "Re a daolioù-esae direizh"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Ebarzhit ho frazenn-dremen"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "Ebarzhit ho %1"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Ebarzhit ho kod-tremen"

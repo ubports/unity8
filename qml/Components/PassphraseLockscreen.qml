@@ -20,10 +20,12 @@ import "../Components"
 
 Item {
     id: root
-    height: highlightItem.height
+    anchors.top: parent.top
+    anchors.topMargin: units.gu(4)
+    height: shakeContainer.height
 
     property string infoText
-    property string username: ""
+    property string errorText
     property bool entryEnabled: true
 
     signal entered(string passphrase)
@@ -31,57 +33,108 @@ Item {
 
     function clear(playAnimation) {
         pinentryField.text = "";
+        pinentryField.incorrectOverride = false;
+        pinentryField.forceActiveFocus();
         if (playAnimation) {
             wrongPasswordAnimation.start();
-            pinentryField.forceActiveFocus();
-        } else {
-            pinentryField.focus = false
         }
     }
 
-    Rectangle {
-        id: highlightItem
-        width: units.gu(32)
-        height: units.gu(10)
-        anchors.centerIn: parent
-        color: Qt.rgba(0.1, 0.1, 0.1, 0.4)
-        border.color: Qt.rgba(0.4, 0.4, 0.4, 0.4)
-        border.width: units.dp(1)
-        radius: units.gu(1.5)
-        antialiasing: true
+    onActiveFocusChanged: if (activeFocus) pinentryField.forceActiveFocus()
+
+    Column {
+        id: shakeContainer
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width
+        spacing: units.gu(2)
 
         Label {
-            objectName: "greeterLabel"
-            anchors {
-                left: parent.left
-                top: parent.top
-                right: parent.right
-                margins: units.gu(1.5)
-            }
-            text: root.username.length > 0 ? i18n.tr("Hello %1").arg(root.username) : i18n.tr("Hello")
-            color: "white"
+            id: infoField
+            objectName: "infoTextLabel"
+            fontSize: "x-large"
+            color: "#f3f3e7"
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: root.infoText
         }
 
-        TextField {
-            id: pinentryField
-            objectName: "pinentryField"
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                margins: units.gu(1)
-            }
-            height: units.gu(4.5)
-            width: parent.width - units.gu(2)
-            echoMode: TextInput.Password
-            opacity: 0.9
-            hasClearButton: false
-            enabled: root.entryEnabled
-            placeholderText: root.infoText
+        Item {
+            id: entryContainer
+            anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
+            height: units.gu(4)
 
-            onAccepted: {
-                if (pinentryField.text) {
-                    root.entered(pinentryField.text);
+            TextInput {
+                id: pinentryField
+                objectName: "pinentryField"
+
+                property bool incorrectOverride: false
+
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
                 }
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: FontUtils.sizeToPixels("large")
+                echoMode: TextInput.Password
+                inputMethodHints: Qt.ImhHiddenText | Qt.ImhSensitiveData |
+                                  Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
+                color: "#f3f3e7"
+                cursorDelegate: Item {} // disable cursor
+                onCursorPositionChanged: {
+                    // And because we don't show the cursor, always position the
+                    // cursor at the end of the string (so backspace works like
+                    // the user expects, even if they've clicked on us and
+                    // thus accidentally moved the cursor)
+                    if (cursorPosition !== length) {
+                        cursorPosition = length
+                    }
+                }
+                clip: true
+
+                // This is so that we can draw our own dots, for we want
+                // complete control over the pixel sizes.  (The ubuntu font
+                // has oddly sized password characters that don't scale right)
+                opacity: 0
+
+                // simulate being disabled, but without removing OSK focus
+                maximumLength: root.entryEnabled ? 32767 : length
+
+                onTextChanged: incorrectOverride = true
+
+                onAccepted: {
+                    if (pinentryField.text) {
+                        root.entered(pinentryField.text);
+                    }
+                }
+            }
+
+            Row {
+                id: dotRow
+                anchors.centerIn: entryContainer
+
+                property real dotSize: Math.min(units.gu(2), entryContainer.width / pinentryField.length)
+                spacing: Math.min(units.gu(2), Math.max(0, (entryContainer.width / pinentryField.length) - dotSize))
+
+                Repeater {
+                    model: pinentryField.length
+                    delegate: Rectangle {
+                        color: "#f3f3e7"
+                        width: dotRow.dotSize
+                        height: width
+                        radius: width / 2
+                    }
+                }
+            }
+
+            Label {
+                id: wrongNoticeLabel
+                objectName: "wrongNoticeLabel"
+                fontSize: "large"
+                color: "#f3f3e7"
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: root.errorText
+                visible: pinentryField.text.length == 0 && !pinentryField.incorrectOverride
             }
         }
     }
@@ -89,6 +142,6 @@ Item {
     WrongPasswordAnimation {
         id: wrongPasswordAnimation
         objectName: "wrongPasswordAnimation"
-        target: pinentryField
+        target: shakeContainer
     }
 }

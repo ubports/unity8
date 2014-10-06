@@ -1,0 +1,2 @@
+module Ubuntu.Connectivity
+plugin connectivity-qml

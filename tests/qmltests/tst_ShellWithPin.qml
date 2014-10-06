@@ -230,8 +230,10 @@ Item {
             enterPin("1111")
             tryCompare(placeHolder, "text", "Sorry, incorrect passcode")
 
+            var lockscreen = findChild(shell, "lockscreen")
+            tryCompare(lockscreen, "delayMinutes", 0)
             enterPin("1111")
-            tryCompare(placeHolder, "text", "Too many incorrect attempts")
+            tryCompare(lockscreen, "delayMinutes", shell.failedLoginsDelayMinutes)
         }
 
         function test_factoryReset() {

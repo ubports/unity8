@@ -28,6 +28,8 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
+#include <limits>
+
 // TODO Think on how doing a test for lost items
 // particullary making sure that lost items are culled
 // and then removed in the next updatePolish cycle
@@ -1897,6 +1899,43 @@ private Q_SLOTS:
         // On the next polish the item will be readded
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
         QTRY_COMPARE(lvwph->m_firstVisibleIndex, 0);
+    }
+
+    void testNoCacheBuffer()
+    {
+        lvwph->setCacheBuffer(0);
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 150., false);
+        verifyItem(1, 200., 200., false);
+        verifyItem(2, 400., 350., false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
+    void testAllCacheBuffer()
+    {
+        lvwph->setCacheBuffer(std::numeric_limits<qreal>::max());
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 6);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 150., false);
+        verifyItem(1, 200., 200., false);
+        verifyItem(2, 400., 350., false);
+        verifyItem(3, 750., 350., true);
+        verifyItem(4, 1100., 350., true);
+        verifyItem(5, 1450., 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
 private:
