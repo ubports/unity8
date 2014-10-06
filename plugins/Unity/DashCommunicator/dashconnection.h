@@ -14,32 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DASHCOMMUNICATOR_H
-#define DASHCOMMUNICATOR_H
+#ifndef THREADEDDASHCONNECTION_H
+#define THREADEDDASHCONNECTION_H
 
-// Qt
-#include <QThread>
-#include <QMutex>
+// local
+#include "abstractdbusservicemonitor.h"
 
-class DashConnection;
 
-class DashCommunicator: public QThread
+class DashConnection: public AbstractDBusServiceMonitor
 {
     Q_OBJECT
 public:
-    explicit DashCommunicator(QObject *parent = 0);
-    ~DashCommunicator() = default;
+    DashConnection(const QString &service, const QString &path, const QString &interface, QObject *parent = 0);
 
 public Q_SLOTS:
     void setCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
-
-protected:
-    void run() override;
-
-private:
-    DashConnection *m_dashConnection;
-    bool m_created;
-    QMutex m_mutex;
 };
 
 #endif

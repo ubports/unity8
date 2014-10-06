@@ -14,32 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DASHCOMMUNICATOR_H
-#define DASHCOMMUNICATOR_H
+#include "dashconnection.h"
 
-// Qt
-#include <QThread>
-#include <QMutex>
+#include <QDBusInterface>
+#include <QDBusPendingCall>
 
-class DashConnection;
-
-class DashCommunicator: public QThread
+DashConnection::DashConnection(const QString &service, const QString &path, const QString &interface, QObject *parent):
+    AbstractDBusServiceMonitor(service, path, interface, SessionBus, parent)
 {
-    Q_OBJECT
-public:
-    explicit DashCommunicator(QObject *parent = 0);
-    ~DashCommunicator() = default;
 
-public Q_SLOTS:
-    void setCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
+}
 
-protected:
-    void run() override;
-
-private:
-    DashConnection *m_dashConnection;
-    bool m_created;
-    QMutex m_mutex;
-};
-
-#endif
+void DashConnection::setCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
+{
+    if (dbusInterface()) {
+        dbusInterface()->asyncCall("SetCurrentScope", scopeId, animate, isSwipe);
+    }
+}
