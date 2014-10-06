@@ -207,6 +207,10 @@ Row {
 
             var launcher = findChild(shell, "launcherPanel");
             tryCompare(launcher, "x", data.launcherHides ? -launcher.width : 0)
+
+            // Make sure the helper for sliding out the launcher wasn't touched. We want to fade it out here.
+            var animateTimer = findInvisibleChild(shell, "animateTimer");
+            compare(animateTimer.nextState, "visible");
         }
 
         function test_suspend() {

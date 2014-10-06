@@ -42,3 +42,4 @@ install(TARGETS ${SHELL_APP}
 
 add_subdirectory(Panel)
 add_subdirectory(Dash)
+add_subdirectory(libunity8-private)

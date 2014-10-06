@@ -14,6 +14,8 @@ set_target_properties(unity8-dash PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREF
 
 target_link_libraries(unity8-dash UbuntuGestures)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+
 # install binaries
 install(TARGETS ${DASH_APP}
      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

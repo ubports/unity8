@@ -79,6 +79,9 @@ public:
 
     Q_INVOKABLE void refresh() override;
 
+Q_SIGNALS:
+    void refreshed(); // This is not in the Interface, here for testing benefits
+
 protected:
 
     QString m_id;

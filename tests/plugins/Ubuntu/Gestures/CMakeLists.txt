@@ -20,7 +20,7 @@ macro(add_gesture_ui_test CLASSNAME)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml UbuntuGestures)
 
-    add_binary_qml_test(${CLASSNAME} ${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures UbuntuGesturesTestQmlFiles)
+    add_binary_qml_test(${CLASSNAME} ${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures UbuntuGesturesTestQmlFiles "")
     add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro(add_gesture_ui_test)
 
