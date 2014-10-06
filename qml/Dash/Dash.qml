@@ -276,6 +276,7 @@ Showable {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+            bottomMargin: Qt.inputMethod.keyboardRectangle.height
         }
         height: units.dp(3)
         color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"

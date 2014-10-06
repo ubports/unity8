@@ -19,7 +19,6 @@
 
 #include <gio/gio.h>
 #include <QtCore/QObject>
-#include <QtDBus/QDBusInterface>
 
 /**
  * @brief The OrientationLock class exports orientation lock related properties to QML
@@ -52,8 +51,7 @@ private Q_SLOTS:
     void onEnabledChanged();
 
 private:
-    QDBusInterface *dbusInterface;
-    GSettings *systemSettings;
+    GSettings *m_systemSettings;
 
     bool m_enabled;
     Qt::ScreenOrientation m_savedOrientation;

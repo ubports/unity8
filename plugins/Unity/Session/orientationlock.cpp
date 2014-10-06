@@ -24,16 +24,16 @@ OrientationLock::OrientationLock(QObject *parent)
     , m_enabled(false)
     , m_savedOrientation(Qt::PortraitOrientation)
 {
-    systemSettings = g_settings_new("com.ubuntu.touch.system");
-    g_signal_connect(systemSettings, "changed::rotation-lock",
+    m_systemSettings = g_settings_new("com.ubuntu.touch.system");
+    g_signal_connect(m_systemSettings, "changed::rotation-lock",
                      G_CALLBACK(OrientationLock::onEnabledChangedProxy), this);
-    m_enabled = g_settings_get_boolean(systemSettings, "rotation-lock");
+    m_enabled = g_settings_get_boolean(m_systemSettings, "rotation-lock");
 }
 
 OrientationLock::~OrientationLock()
 {
-    g_signal_handlers_disconnect_by_data(systemSettings, this);
-    g_object_unref(systemSettings);
+    g_signal_handlers_disconnect_by_data(m_systemSettings, this);
+    g_object_unref(m_systemSettings);
 }
 
 bool OrientationLock::enabled() const
@@ -54,7 +54,7 @@ void OrientationLock::onEnabledChangedProxy(GSettings */*settings*/, const gchar
 
 void OrientationLock::onEnabledChanged()
 {
-    const bool enabled = g_settings_get_boolean(systemSettings, "rotation-lock");
+    const bool enabled = g_settings_get_boolean(m_systemSettings, "rotation-lock");
     if (m_enabled != enabled) {
         m_enabled = enabled;
         Q_EMIT enabledChanged();

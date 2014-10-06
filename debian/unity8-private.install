@@ -1,3 +1,4 @@
+usr/lib/*/libunity8-private.*
 usr/lib/*/unity8/qml/AccountsService
 usr/lib/*/unity8/qml/Dash
 usr/lib/*/unity8/qml/HudClient

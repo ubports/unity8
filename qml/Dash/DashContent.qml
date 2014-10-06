@@ -111,6 +111,8 @@ Item {
             highlightMoveDuration: 250
             highlightRangeMode: ListView.StrictlyEnforceRange
             // TODO Investigate if we can switch to a smaller cache buffer when/if UbuntuShape gets more performant
+            // 1073741823 is s^30 -1. A quite big number so that you have "infinite" cache, but not so
+            // big so that if you add if with itself you're outside the 2^31 int range
             cacheBuffer: 1073741823
             onMovementStarted: currentItem.item.showHeader();
             clip: parent.x != 0
@@ -177,6 +179,7 @@ Item {
                         dashContent.scopeLoaded(item.scope.id)
                         item.paginationCount = Qt.binding(function() { return dashContentList.count } )
                         item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
+                        item.holdingList = dashContentList;
                     }
                     Connections {
                         target: isCurrent ? scope : null
