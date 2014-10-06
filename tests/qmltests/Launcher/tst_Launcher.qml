@@ -189,6 +189,21 @@ Item {
             launcher.available = true;
         }
 
+        function test_hintLauncherOnChange() {
+            var launcherPanel = findChild(launcher, "launcherPanel")
+            // Make sure we start hidden
+            tryCompare(launcherPanel, "x", -launcher.panelWidth)
+            // reset our measurement property
+            launcher.maxPanelX = -launcher.panelWidth
+            // change it
+            LauncherModel.move(0, 1)
+            LauncherModel.emitHintChanged();
+
+            // make sure it opened fully and hides again without delay
+            tryCompare(launcher, "maxPanelX", 0)
+            tryCompare(launcherPanel, "x", -launcher.panelWidth, 1000)
+        }
+
         function test_countEmblems() {
             revealer.dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");

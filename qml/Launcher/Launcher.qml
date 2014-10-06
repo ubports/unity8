@@ -79,7 +79,7 @@ Item {
 
     Timer {
         id: teaseTimer
-        interval: 200
+        interval: mode == "teasing" ? 200 : 300
         property string mode: "teasing"
     }
 
@@ -113,9 +113,7 @@ Item {
 
     Connections {
         target: LauncherModel
-        onRowsRemoved: hint();
-        onRowsInserted: hint();
-        onRowsMoved: hint();
+        onHintChanged: hint();
     }
 
     SequentialAnimation {

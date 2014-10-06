@@ -344,6 +344,7 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(item);
             endInsertRows();
+            Q_EMIT hintChanged();
         }
     }
 }
@@ -371,6 +372,8 @@ void LauncherModel::refresh()
     Q_FOREACH (LauncherItem* item, toBeRemoved) {
         requestRemove(item->appId());
     }
+
+    bool changed = toBeRemoved.count() > 0;
 
     // This brings the Launcher into sync with the settings backend again. There's an issue though:
     // If we can't find a .desktop file for an entry we need to skip it. That makes our settingsIndex
@@ -406,17 +409,23 @@ void LauncherModel::refresh()
             beginInsertRows(QModelIndex(), addedIndex, addedIndex);
             m_list.insert(addedIndex, item);
             endInsertRows();
+            changed = true;
         } else if (itemIndex != addedIndex) {
-            // The item is already there, but it is in a different place then in the settings.
+            // The item is already there, but it is in a different place than in the settings.
             // Move it to the addedIndex
             beginMoveRows(QModelIndex(), itemIndex, itemIndex, QModelIndex(), addedIndex);
             m_list.move(itemIndex, addedIndex);
             endMoveRows();
+            changed = true;
         }
 
         // Just like settingsIndex, this will increase with every item, except the ones we
         // skipped with the "continue" call above.
         addedIndex++;
+    }
+
+    if (changed) {
+        Q_EMIT hintChanged();
     }
 }
 
