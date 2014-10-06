@@ -6,7 +6,7 @@ AbstractButton {
                 property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int headerAlignment: Text.AlignLeft; 
+                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
@@ -74,8 +74,8 @@ Label {
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                         visible: showHeader ; 
                         text: root.title; 
-                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.headerAlignment; 
+                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        horizontalAlignment: root.titleAlignment; 
                     }
 UbuntuShape {
     id: touchdown;
