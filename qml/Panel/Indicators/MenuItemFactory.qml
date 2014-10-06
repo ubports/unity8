@@ -287,6 +287,7 @@ Item {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            checked: serverChecked
             highlightWhenPressed: false
 
             onServerCheckedChanged: {
@@ -311,6 +312,7 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            checked: serverChecked
             highlightWhenPressed: false
 
             onServerCheckedChanged: {
@@ -449,6 +451,7 @@ Item {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            active: serverChecked
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             signalStrength: strengthAction.valid ? strengthAction.state : 0
