@@ -14,7 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 
 MouseArea {
@@ -22,6 +23,7 @@ MouseArea {
 
     property alias icon: shapeImage.source
     property alias text: titleLabel.text
+    property alias subtext: subtitleLabel.text
     property alias showStar: star.visible
 
     property bool isFavorite: false
@@ -41,8 +43,8 @@ MouseArea {
             fillMode: Image.PreserveAspectCrop
         }
     }
-    Label {
-        id: titleLabel
+
+    ColumnLayout {
         anchors {
             left: shape.right
             leftMargin: units.gu(1)
@@ -50,10 +52,22 @@ MouseArea {
             rightMargin: units.gu(1)
             verticalCenter: parent.verticalCenter
         }
-        elide: Text.ElideRight
-        wrapMode: Text.Wrap
-        maximumLineCount: 1
-        verticalAlignment: Text.AlignHCenter
+        Label {
+            id: titleLabel
+            elide: Text.ElideRight
+            wrapMode: Text.Wrap
+            maximumLineCount: 1
+            verticalAlignment: Text.AlignHCenter
+        }
+        Label {
+            id: subtitleLabel
+            elide: Text.ElideRight
+            fontSize: "xx-small"
+            wrapMode: Text.Wrap
+            maximumLineCount: 1
+            verticalAlignment: Text.AlignHCenter
+            visible: text != ""
+        }
     }
     MouseArea {
         id: starArea

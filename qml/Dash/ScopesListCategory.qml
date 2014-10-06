@@ -75,6 +75,7 @@ Item {
 
                 icon: model.art || ""
                 text: model.title || ""
+                subtext: model.subtitle || ""
                 showStar: model.scopeId != "clickscope" && (root.isFavoritesFeed || root.isOtherFeed)
                 isFavorite: root.isFavoritesFeed
 
