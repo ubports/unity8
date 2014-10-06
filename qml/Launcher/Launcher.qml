@@ -65,6 +65,14 @@ Item {
 
     function tease() {
         if (available) {
+            teaseTimer.mode = "teasing"
+            teaseTimer.start();
+        }
+    }
+
+    function hint() {
+        if (available && root.state == "") {
+            teaseTimer.mode = "hinting"
             teaseTimer.start();
         }
     }
@@ -72,6 +80,7 @@ Item {
     Timer {
         id: teaseTimer
         interval: 200
+        property string mode: "teasing"
     }
 
     Timer {
@@ -100,6 +109,13 @@ Item {
             root.state = "tmp"
             root.state = nextState
         }
+    }
+
+    Connections {
+        target: LauncherModel
+        onRowsRemoved: hint();
+        onRowsInserted: hint();
+        onRowsMoved: hint();
     }
 
     SequentialAnimation {
@@ -271,10 +287,18 @@ Item {
         },
         State {
             name: "teasing"
-            when: teaseTimer.running
+            when: teaseTimer.running && teaseTimer.mode == "teasing"
             PropertyChanges {
                 target: panel
                 x: -root.panelWidth + units.gu(2)
+            }
+        },
+        State {
+            name: "hinting"
+            when: teaseTimer.running && teaseTimer.mode == "hinting"
+            PropertyChanges {
+                target: panel
+                x: 0
             }
         }
     ]
