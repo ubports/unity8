@@ -582,6 +582,27 @@ Item {
 
                 genericScopeView.scope = !genericScopeView.scope;
             }
+
+            function test_pullToRefresh() {
+                waitForRendering(genericScopeView)
+
+                mouseFlick(genericScopeView,
+                           genericScopeView.width/2, units.gu(10),
+                           genericScopeView.width/2, units.gu(80),
+                           true, false)
+
+                var pullToRefresh = findChild(genericScopeView, "pullToRefresh")
+                tryCompare(pullToRefresh, "releaseToRefresh", true)
+
+                spy.target = genericScopeView.scope
+                spy.signalName = "refreshed"
+
+                mouseRelease(genericScopeView)
+                tryCompare(pullToRefresh, "releaseToRefresh", false)
+
+                spy.wait()
+                compare(spy.count, 1)
+            }
         }
     }
 }
