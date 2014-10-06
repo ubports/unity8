@@ -1,3 +1,43 @@
+unity8 (8.00+14.10.20141006-0ubuntu1) utopic; urgency=low
+
+  [ Andrea Cimitan ]
+  * Tweak card header to match the spec
+  * Add preview image slideshow (LP: #1351537)
+
+  [ Michał Sawicz ]
+  * Cache more things in memory, so flicking scopes should be faster
+    (LP: #1336724)
+  * Tweak card header to match the spec
+  * Save texture memory by limiting sourceSize (LP: #1338430)
+
+  [ Ying-Chun Liu ]
+  * Add attributes to Preview. (LP: #1282460)
+
+  [ Albert Astals ]
+  * Update pot
+  * Cache more things in memory, so flicking scopes should be faster
+    (LP: #1336724)
+  * Save texture memory by limiting sourceSize (LP: #1338430)
+  * Clip the settings list
+  * Fix unlocking from the left again
+  * Add wait_ makes tests more reliable
+
+  [ Michael Zanetti ]
+  * fix fading out the launcher instead of sliding it out on left-edge
+    minimizing an app.
+  * Make the DashCommunicator async and more flexible to handle a
+    lifecycle-suspended dash (LP: #1339883)
+
+  [ Michael Terry ]
+  * Retry unlock-device script if it fails, as there is always a risk of
+    a small race with boot-up. (LP: #1370644)
+  * Add pull-to-refresh functionality to scopes. (LP: #1368336)
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 06 Oct 2014 08:03:23 +0000
+
 unity8 (8.00+14.10.20140930.2-0ubuntu1) utopic; urgency=low
 
   [ Alexandros Frantzis ]

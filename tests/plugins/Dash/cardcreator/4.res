@@ -6,7 +6,7 @@ AbstractButton {
                 property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
-                property int headerAlignment: Text.AlignLeft;
+                property int titleAlignment: Text.AlignLeft;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
@@ -41,16 +41,14 @@ Loader {
                         anchors { verticalCenter: parent.verticalCenter; }
                     }
 
-,Image { 
+,CroppedImageMinimumSourceSize {
                     id: mascotImage; 
                     objectName: "mascotImage"; 
                     anchors { verticalCenter: parent.verticalCenter; }
-                    readonly property int maxSize: Math.max(width, height) * 4; 
-                    source: cardData && cardData["mascot"] || ""; 
-                    width: units.gu(6); 
+                    property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                    source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; }
+                    width: units.gu(6);
                     height: units.gu(5.625); 
-                    sourceSize { width: maxSize; height: maxSize } 
-                    fillMode: Image.PreserveAspectCrop; 
                     horizontalAlignment: Image.AlignHCenter; 
                     verticalAlignment: Image.AlignVCenter; 
                     visible: false; 
@@ -77,8 +75,8 @@ Label {
                     color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                     visible: showHeader ; 
                     text: root.title; 
-                    font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
-                    horizontalAlignment: root.headerAlignment; 
+                    font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                    horizontalAlignment: root.titleAlignment; 
                 }
 ,Label { 
                         id: subtitleLabel; 
@@ -90,13 +88,12 @@ Label {
                         }
                         anchors.topMargin: units.dp(2);
                         elide: Text.ElideRight; 
-                        fontSize: "small"; 
+                        fontSize: "x-small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                         visible: titleLabel.visible && titleLabel.text; 
                         text: cardData && cardData["subtitle"] || ""; 
                         font.weight: Font.Light; 
-                        horizontalAlignment: root.headerAlignment; 
                     }
 ]
 }

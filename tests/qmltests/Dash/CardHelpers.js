@@ -16,7 +16,7 @@
 
 .pragma library
 
-var components = ["title", "art", "subtitle", "mascot", "emblem", "old-price", "price", "alt-price", "rating", "alt-rating", "summary", "attributes", "overlayColor"]
+var components = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "overlayColor"]
 
 var defaultLayout = ' \
 { \
@@ -37,17 +37,6 @@ var defaultLayout = ' \
     "overlayColor": null, \
     "mascot": null, \
     "emblem": null, \
-    "old-price": null, \
-    "price": null, \
-    "alt-price": null, \
-    "rating": { \
-      "type": "stars", \
-      "range": [0, 5], \
-      "full": "image://theme/rating-star-full", \
-      "half": "image://theme/rating-star-half", \
-      "empty": "image://theme/rating-star-empty" \
-    }, \
-    "alt-rating": null, \
     "summary": null, \
     "attributes": { "max-count": 2 } \
   }, \

@@ -20,4 +20,5 @@ import Dash 0.1
 ListViewWithPageHeader {
     maximumFlickVelocity: height * 10
     flickDeceleration: height * 2
+    cacheBuffer: Number.MAX_VALUE
 }

@@ -51,6 +51,7 @@ install_dependencies() {
                          qtdeclarative5-ubuntu-settings-components \
                          qtdeclarative5-ubuntu-telephony0.1 \
                          qtdeclarative5-ubuntu-thumbnailer0.1 \
+                         qml-module-ubuntu-connectivity \
                          unity-notifications-impl \
                          ubuntu-mobile-icons \
                          unity-scope-home \
