@@ -87,11 +87,13 @@ Item {
         }
     }
 
-    function setLockedApp(app) {
-        if (shell.locked) {
-            greeter.lockedApp = app
-            lockscreen.hide()
+    function startLockedApp(app) {
+        if (!shell.locked) {
+            console.warn("Called startLockedApp(%1) when not locked, ignoring".arg(app))
+            return
         }
+        greeter.lockedApp = app
+        shell.activateApplication(app)
     }
 
     Binding {
@@ -170,12 +172,12 @@ Item {
             target: ApplicationManager
             onFocusRequested: {
                 if (greeter.narrowMode) {
-                    if (appId === "dialer-app") {
-                        // Always let the dialer-app through.  Either user asked
-                        // for an emergency call or accepted an incoming call.
-                        setLockedApp(appId)
-                    } else if (greeter.hasLockedApp && greeter.lockedApp !== appId) {
-                        greeter.startUnlock()
+                    if (greeter.hasLockedApp) {
+                        if (appId === greeter.lockedApp) {
+                            lockscreen.hide() // show locked app
+                        } else {
+                            greeter.startUnlock() // show lockscreen if necessary
+                        }
                     }
                     greeter.hide();
                 } else {
@@ -196,10 +198,8 @@ Item {
                 if (greeter.shown && appId != "unity8-dash") {
                     greeter.startUnlock()
                 }
-                if (greeter.narrowMode && appId === "dialer-app") {
-                    // Always let the dialer-app through.  Either user asked
-                    // for an emergency call or accepted an incoming call.
-                    setLockedApp(appId)
+                if (greeter.narrowMode && greeter.hasLockedApp && appId === greeter.lockedApp) {
+                    lockscreen.hide() // show locked app
                 }
                 launcher.hide();
             }
@@ -318,7 +318,7 @@ Item {
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
-        onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter locked-app mode
+        onEmergencyCall: startLockedApp("dialer-app")
 
         onShownChanged: if (shown) greeter.lockedApp = ""
 
@@ -544,6 +544,25 @@ Item {
                 target: ApplicationManager
                 property: "suspended"
                 value: greeter.shown && greeterWrapper.showProgress == 1
+            }
+        }
+    }
+
+    Connections {
+        id: callConnection
+        target: callManager
+
+        onHasCallsChanged: {
+            if (shell.locked && callManager.hasCalls) {
+                // We just received an incoming call while locked.  The
+                // indicator will have already launched dialer-app for us, but
+                // there is a race between "hasCalls" changing and the dialer
+                // starting up.  So in case we lose that race, we'll start/
+                // focus the dialer ourselves here too.  Even if the indicator
+                // didn't launch the dialer for some reason (or maybe a call
+                // started via some other means), if an active call is
+                // happening, we want to be in the dialer.
+                startLockedApp("dialer-app")
             }
         }
     }
