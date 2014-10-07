@@ -129,6 +129,13 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    Binding {
+        target: ApplicationManager
+        property: "forceDashActive"
+        value: launcher.shown || launcher.dashSwipe
+    }
+
+
     WindowKeysFilter {
         // Handle but do not filter out volume keys
         Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
@@ -171,7 +178,6 @@ Item {
                     lockscreen.show();
                 }
                 greeter.hide();
-                launcher.hide();
             }
 
             onFocusedApplicationIdChanged: {
@@ -608,11 +614,7 @@ Item {
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
-            onDash: {
-                if (ApplicationManager.focusedApplicationId != "unity8-dash") {
-                    showDash()
-                }
-            }
+            onDash: showDash()
             onDashSwipeChanged: {
                 if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
