@@ -19,8 +19,14 @@
 
 #include "DirectionalDragArea.h"
 
+#include <QQuickWindow>
 #include <QtCore/qmath.h>
 #include <QDebug>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-pedantic"
+#include <private/qquickwindow_p.h>
+#pragma GCC diagnostic pop
 
 // local
 #include "TouchOwnershipEvent.h"
@@ -248,6 +254,16 @@ void DirectionalDragArea::touchOwnershipEvent(TouchOwnershipEvent *event)
         QVector<int> ids;
         ids.append(event->touchId());
         grabTouchPoints(ids);
+
+        // Work around for Qt bug. If we grab a touch that is being used for mouse pointer
+        // emulation it will cause the emulation logic to go nuts.
+        // Thus we have to also grab the mouse in this case.
+        if (window()) {
+            QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(window());
+            if (windowPrivate->touchMouseId == event->touchId()) {
+                grabMouse();
+            }
+        }
     } else {
         // We still wanna know when it ends for keeping the composition time window up-to-date
         TouchRegistry::instance()->addTouchWatcher(m_touchId, this);

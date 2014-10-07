@@ -222,7 +222,7 @@ Item {
 
         direction: Direction.Rightwards
 
-        enabled: root.available
+        enabled: root.available && root.state == ""
         width: root.dragAreaWidth
         height: root.height
 

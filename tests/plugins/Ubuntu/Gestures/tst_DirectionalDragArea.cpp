@@ -19,6 +19,7 @@
 #include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>
 #include <QPointer>
+#include <private/qquickmousearea_p.h>
 
 // C++ std lib
 #include <functional>
@@ -87,6 +88,30 @@ public:
     qint64 m_msecsSinceReference;
 };
 
+/*
+    QQuickMouseArea::canceled() signal is not registered in the meta object system.
+    So using a QSignalSpy to track it won't work. Thus the only way to connect to it
+    is using its method address directly.
+ */
+class MouseAreaSpy : public QObject
+{
+    Q_OBJECT
+public:
+    MouseAreaSpy(QQuickMouseArea *mouseArea)
+        : canceledCount(0)
+    {
+        connect(mouseArea, &QQuickMouseArea::canceled,
+                this, &MouseAreaSpy::onMouseAreaCanceled);
+    }
+
+    int canceledCount;
+
+private Q_SLOTS:
+    void onMouseAreaCanceled() {
+        ++canceledCount;
+    }
+};
+
 class tst_DirectionalDragArea: public GestureTest
 {
     Q_OBJECT
@@ -120,6 +145,7 @@ private Q_SLOTS:
     void withdrawTouchOwnershipCandidacyIfDisabledDuringRecognition_data();
     void tappedSignal();
     void tappedSignal_data();
+    void gettingTouchOwnershipMakesMouseAreaBehindGetCanceled();
 
 private:
     void passTime(qint64 timeSpanMs);
@@ -1211,6 +1237,56 @@ void tst_DirectionalDragArea::tappedSignal_data()
 
     QTest::newRow("immediate gesture recognition") << true;
     QTest::newRow("default gesture recognition") << false;
+}
+
+void tst_DirectionalDragArea::gettingTouchOwnershipMakesMouseAreaBehindGetCanceled()
+{
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != nullptr);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QQuickMouseArea *mouseArea =
+        m_view->rootObject()->findChild<QQuickMouseArea*>("mouseArea");
+    QVERIFY(mouseArea != nullptr);
+
+    MouseAreaSpy mouseAreaSpy(mouseArea);
+
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
+    QPointF touchPoint = initialTouchPos;
+
+    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2;
+    QPointF dragDirectionVector(1.0f, 0.0f); // rightwards
+    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    QPointF touchMovement = dragDirectionVector * movementStepDistance;
+    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
+    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+
+    QCOMPARE(mouseArea->pressed(), false);
+
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+
+    // The TouchBegin passes through the DirectionalDragArea and reaches the MouseArea behind it,
+    // where it's converted to a MouseEvent by QQuickWindow and sent to the MouseArea which then
+    // accepts it. Making it get pressed.
+    QCOMPARE(mouseArea->pressed(), true);
+    QCOMPARE(mouseAreaSpy.canceledCount, 0);
+
+    for (int i = 0; i < totalMovementSteps; ++i) {
+        touchPoint += touchMovement;
+        passTime(movementTimeStepMs);
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+    }
+
+    // As the DirectionalDragArea recognizes the gesture, it grabs the touch from the MouseArea,
+    // which should make the MouseArea get a cancelation event, which will then cause it to
+    // reset its state (going back to "unpressed"/"released").
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE(mouseArea->pressed(), false);
+    QCOMPARE(mouseAreaSpy.canceledCount, 1);
+
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 }
 
 ////////////////////////// TouchMemento /////////////////////////////
