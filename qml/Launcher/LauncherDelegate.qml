@@ -85,13 +85,17 @@ Item {
         }
 
         UbuntuShape {
+            id: countEmblem
             objectName: "countEmblem"
+
+            readonly property real pinMargin: pin.visible ? pin.width + units.gu(1) - anchors.leftMargin : 0
+
             anchors {
                 right: parent.right
                 top: parent.top
                 margins: units.dp(3)
             }
-            width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
+            width: Math.min(root.itemWidth - pinMargin, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
             color: UbuntuColors.orange
             visible: root.countVisible
@@ -105,7 +109,7 @@ Item {
                 // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine
                 // property for Text: https://bugreports.qt-project.org/browse/QTBUG-40479
                 anchors.verticalCenterOffset: -units.dp(.5)
-                width: root.itemWidth - units.gu(1)
+                width: root.itemWidth - units.gu(1) - countEmblem.pinMargin
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
@@ -215,7 +219,6 @@ Item {
             uniform sampler2D source;
             uniform lowp float brightness;
             uniform lowp float itemOpacity;
-            uniform bool clipCorner;
             void main(void)
             {
                 highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
