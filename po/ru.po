@@ -7,14 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
 "PO-Revision-Date: 2014-08-29 08:06+0000\n"
 "Last-Translator: Jay ZDLin <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -29,6 +31,25 @@ msgstr "Закрепить ярлык"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Изъять ярлык"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -80,7 +101,7 @@ msgstr "Отключить"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr ""
+msgstr "Перезагрузить"
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
@@ -139,32 +160,15 @@ msgstr ""
 "Вы научились пользоваться Ubuntu и можете начать использовать свой "
 "телефон<br><br>Нажмите на экран"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Подождите"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Слишком много ошибок ввода"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Экстренный вызов"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "ОК"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Привет, %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Привет"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Вкратце"
 
@@ -209,6 +213,14 @@ msgstr "Добавьте отзыв"
 msgid "Send"
 msgstr "Отправить"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr ""
@@ -230,8 +242,8 @@ msgid "All"
 msgstr "Все"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Смахните, чтобы разблокировать"
+msgid "Unlock"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -309,45 +321,49 @@ msgstr "Разблокировать SIM-карту"
 msgid "Roaming"
 msgstr "Роуминг"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Введите кодовую фразу"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr ""
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Введена неверная кодовая фраза"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Введите секретный код"
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr ""
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr ""
+
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
 msgstr "Секретный код введён неверно"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
-msgstr "Введите %1"
+msgid "Enter %1"
+msgstr ""
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Некорректный ввод %1"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Неверная ключевая фраза."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
 msgstr "Неверный секретный код."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "Осталась последняя попытка."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -355,10 +371,36 @@ msgstr ""
 "Если ключевая фраза будет введена неверно, то телефон вернётся к заводским "
 "настройкам, а все личные данные будут удалены."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Если секретный код будет введен неверно, то телефон вернётся к заводским "
 "настройкам, а все личные данные будут удалены."
+
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Привет, %1"
+
+#~ msgid "Hello"
+#~ msgstr "Привет"
+
+#~ msgid "Swipe to unlock"
+#~ msgstr "Смахните, чтобы разблокировать"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "Введите %1"
+
+#~ msgid "Please wait"
+#~ msgstr "Подождите"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "Слишком много ошибок ввода"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Введите кодовую фразу"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Введите секретный код"

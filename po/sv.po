@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
 "PO-Revision-Date: 2014-09-23 08:37+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: sv\n"
 
@@ -30,6 +31,25 @@ msgstr "Fäst genväg"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Släpp genväg"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -137,32 +157,15 @@ msgstr ""
 "Du har nu bemästrat kantgesterna och kan börja använda "
 "telefonen<br><br>Tryck på skärmen för att starta"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Var god vänta"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "För många felaktiga försök"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Nödsamtal"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Hej %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Hej"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Visa mindre"
 
@@ -207,6 +210,14 @@ msgstr "Lägg till en recension"
 msgid "Send"
 msgstr "Skicka"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Hantera vyer"
@@ -228,8 +239,8 @@ msgid "All"
 msgstr "Alla"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Svep för att låsa upp"
+msgid "Unlock"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -307,45 +318,49 @@ msgstr "Lås upp SIM-kort"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Ange din lösenfras"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr ""
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Felaktig lösenfras"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Ange din lösenkod"
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr ""
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr ""
+
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
 msgstr "Felaktig lösenkod"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
-msgstr "Skriv in din %1"
+msgid "Enter %1"
+msgstr ""
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Felaktig %1"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Felaktig lösenfras."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
 msgstr "Felaktig lösenkod."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "Detta är ditt sista försök."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -353,7 +368,7 @@ msgstr ""
 "Om lösenfrasen anges inkorrekt kommer telefonen att fabrikåterställas och "
 "all personlig data kommer att tas bort."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -361,5 +376,28 @@ msgstr ""
 "Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och all "
 "personlig data kommer att tas bort."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Hantera Dash"
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Hej %1"
+
+#~ msgid "Hello"
+#~ msgstr "Hej"
+
+#~ msgid "Swipe to unlock"
+#~ msgstr "Svep för att låsa upp"
+
+#~ msgid "Please wait"
+#~ msgstr "Var god vänta"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "Skriv in din %1"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "För många felaktiga försök"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Ange din lösenfras"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Ange din lösenkod"

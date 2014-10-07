@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-28 09:02+0000\n"
-"Last-Translator: ivarela <ivarela@ubuntu.com>\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"PO-Revision-Date: 2014-10-03 22:20+0000\n"
+"Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:58+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -29,6 +30,25 @@ msgstr "Anclar"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Desanclar"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Preséu bloquiáu"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Espera %1 minutu y vuelvi a intentalo…"
+msgstr[1] "Espera %1 minutos y vuelvi a intentalo…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -138,32 +158,15 @@ msgstr ""
 "Agora yá domines los xestos de los berbesos y pues entamar a usar el "
 "teléfonu<br><br>Toca la pantalla pa comenzar"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Espera un segundu"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Munchos intentos incorreutos"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Llamada d'emerxencia"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "Aceutar"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Hola %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Hola"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Ver menos"
 
@@ -208,6 +211,14 @@ msgstr "Amestar una reseña"
 msgid "Send"
 msgstr "Unviar"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Xestionar ámbitos"
@@ -229,8 +240,8 @@ msgid "All"
 msgstr "Too"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Esliza pa desbloquiar"
+msgid "Unlock"
+msgstr "Desbloquiar"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -308,45 +319,49 @@ msgstr "Desbloquiar SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Introduz contraseña"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr ""
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Sentímoslo, contraseña incorreuta"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Introduz códigu de pasu"
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr "Vuelvi a escribila"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr ""
+
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
 msgstr "Sentímoslo, códigu de pasu incorreutu"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
-msgstr "Introduz %1"
+msgid "Enter %1"
+msgstr "Escribi %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sentímoslo, %1 incorreutu"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Fras de pasu incorreuta"
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
 msgstr "Códigu de pasu incorreutu"
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "Esti ye'l caberu intentu."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -354,7 +369,7 @@ msgstr ""
 "Si s'inxerta la fras incorreutamente, el teléfonu va volver a la "
 "configuración de fábrica y van perdese tolos datos personales."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -362,5 +377,28 @@ msgstr ""
 "Si s'inxerta'l códigu incorreutamente, el teléfonu va volver a la "
 "configuración de fábrica y van perdese tolos datos personales."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Xestionar tableru"
+#~ msgid "Hello"
+#~ msgstr "Hola"
+
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Hola %1"
+
+#~ msgid "Swipe to unlock"
+#~ msgstr "Esliza pa desbloquiar"
+
+#~ msgid "Please wait"
+#~ msgstr "Espera un segundu"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "Introduz %1"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Introduz contraseña"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Introduz códigu de pasu"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "Munchos intentos incorreutos"
