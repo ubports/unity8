@@ -32,6 +32,10 @@ Item {
     signal requestFavorite(string scopeId, bool favorite)
     signal requestFavoriteMoveTo(string scopeId, int index)
 
+    function closePopup() {
+        header.closePopup();
+    }
+
     state: "browse"
 
     onStateChanged: {
