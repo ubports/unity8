@@ -94,7 +94,6 @@ private:
 
     class Row;
     QVariantList m_modelData;
-    QVariantMap m_rootProperties;
     QList<UnityMenuModel*> submenus;
 
     QByteArray m_busName;

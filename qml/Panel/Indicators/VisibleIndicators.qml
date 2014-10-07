@@ -22,7 +22,6 @@ import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 
 Item {
-    id: root
     property SortFilterProxyModel model: filterModel
 
     function initialise(profile) {
