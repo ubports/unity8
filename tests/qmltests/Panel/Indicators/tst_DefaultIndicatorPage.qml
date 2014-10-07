@@ -25,7 +25,7 @@ Item {
     width: units.gu(40)
     height: units.gu(70)
 
-   DefaultIndicatorPage {
+    DefaultIndicatorPage {
         id: page
         anchors.fill: parent
 
@@ -35,23 +35,36 @@ Item {
         menuObjectPath: "/com/canonical/indicator/test"
     }
 
-   property var fullMenuData: [{
-           "rowData": {                // 1
-               "label": "root",
-               "sensitive": true,
-               "isSeparator": false,
-               "icon": "",
-               "type": "com.canonical.indicator.root",
-               "ext": {},
-               "action": "",
-               "actionState": {},
-               "isCheck": false,
-               "isRadio": false,
-               "isToggled": false,
-           },
-           "submenu": [{
-               "rowData": {                // 1.1
-                   "label": "menu1",
+    property var fullMenuData: [{
+            "rowData": {                // 1
+                "label": "root",
+                "sensitive": true,
+                "isSeparator": false,
+                "icon": "",
+                "type": "com.canonical.indicator.root",
+                "ext": {},
+                "action": "",
+                "actionState": {},
+                "isCheck": false,
+                "isRadio": false,
+                "isToggled": false,
+            },
+            "submenu": [{
+                "rowData": {                // 1.1
+                    "label": "menu1",
+                    "sensitive": true,
+                    "isSeparator": false,
+                    "icon": "",
+                    "type": "",
+                    "ext": {},
+                    "action": "",
+                    "actionState": {},
+                    "isCheck": false,
+                    "isRadio": false,
+                    "isToggled": false,
+                }}, {
+               "rowData": {                // 1.2
+                   "label": "menu2",
                    "sensitive": true,
                    "isSeparator": false,
                    "icon": "",
@@ -63,58 +76,45 @@ Item {
                    "isRadio": false,
                    "isToggled": false,
                }}, {
-              "rowData": {                // 1.2
-                  "label": "menu2",
-                  "sensitive": true,
-                  "isSeparator": false,
-                  "icon": "",
-                  "type": "",
-                  "ext": {},
-                  "action": "",
-                  "actionState": {},
-                  "isCheck": false,
-                  "isRadio": false,
-                  "isToggled": false,
-              }}, {
-              "rowData": {                // row 1.2
-                  "label": "menu3",
-                  "sensitive": true,
-                  "isSeparator": false,
-                  "icon": "",
-                  "type": "",
-                  "ext": {},
-                  "action": "",
-                  "actionState": {},
-                  "isCheck": false,
-                  "isRadio": false,
-                  "isToggled": false,
-              }}
-           ]
-       }]; // end row 1
+               "rowData": {                // row 1.2
+                   "label": "menu3",
+                   "sensitive": true,
+                   "isSeparator": false,
+                   "icon": "",
+                   "type": "",
+                   "ext": {},
+                   "action": "",
+                   "actionState": {},
+                   "isCheck": false,
+                   "isRadio": false,
+                   "isToggled": false,
+               }}
+            ]
+        }]; // end row 1
 
-   property var emptySubMenuData: [{
-           "rowData": {                // 1
-               "label": "root",
-               "sensitive": true,
-               "isSeparator": false,
-               "icon": "",
-               "type": "com.canonical.indicator.root",
-               "ext": {},
-               "action": "",
-               "actionState": {},
-               "isCheck": false,
-               "isRadio": false,
-               "isToggled": false,
-           },
-           "submenu": []
-       }]; // end row 1
+    property var emptySubMenuData: [{
+            "rowData": {                // 1
+                "label": "root",
+                "sensitive": true,
+                "isSeparator": false,
+                "icon": "",
+                "type": "com.canonical.indicator.root",
+                "ext": {},
+                "action": "",
+                "actionState": {},
+                "isCheck": false,
+                "isRadio": false,
+                "isToggled": false,
+            },
+            "submenu": []
+        }]; // end row 1
 
-   function initializeMenuData(data) {
-       Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicator.test",
-                                                         "/com/canonical/indicator/test",
-                                                         "/com/canonical/indicator/test",
-                                                         data);
-   }
+    function initializeMenuData(data) {
+        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicator.test",
+                                                          "/com/canonical/indicator/test",
+                                                          "/com/canonical/indicator/test",
+                                                          data);
+    }
 
     UT.UnityTestCase {
         name: "DefaultIndicatorPage"
