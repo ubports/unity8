@@ -426,6 +426,7 @@ Module {
         Property { name: "count"; type: "int"; isReadonly: true }
         Property { name: "focusedApplicationId"; type: "string"; isReadonly: true }
         Property { name: "suspended"; type: "bool" }
+        Property { name: "forceDashActive"; type: "bool" }
         Signal {
             name: "focusRequested"
             Parameter { name: "appId"; type: "string" }

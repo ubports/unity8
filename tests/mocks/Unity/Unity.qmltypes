@@ -99,6 +99,7 @@ Module {
             name: "performQuery"
             Parameter { name: "query"; type: "string" }
         }
+        Signal { name: "refreshed" }
         Method {
             name: "setId"
             Parameter { name: "id"; type: "string" }
