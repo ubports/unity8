@@ -69,9 +69,9 @@ Item {
 
         function get_scope_data() {
             return [
-                        { tag: "MockScope1", visualIndex: 0 },
+                        { tag: "clickscope", visualIndex: 0 },
                         { tag: "MockScope2", visualIndex: -1 },
-                        { tag: "clickscope", visualIndex: 1 },
+                        { tag: "MockScope1", visualIndex: 1 },
                         { tag: "MockScope5", visualIndex: 2 },
             ]
         }
@@ -314,7 +314,7 @@ Item {
             mouseFlick(dash, startX, startY, stopX, stopY);
             compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
-            dashCommunicatorService.mockSetCurrentScope("clickscope", true, false);
+            dashCommunicatorService.mockSetCurrentScope("MockScope1", true, false);
             tryCompare(dashContentList, "currentIndex", 1)
         }
 
