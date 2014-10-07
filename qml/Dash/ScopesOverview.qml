@@ -531,7 +531,6 @@ Item {
 
             width: parent.width
             height: parent.height
-            scale: dash.contentScale
             clip: scale != 1.0
             visible: scope != null
             hasBackAction: true
