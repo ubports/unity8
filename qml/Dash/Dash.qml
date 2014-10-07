@@ -170,7 +170,6 @@ Showable {
         Connections {
             target: scopesList.scope
             onOpenScope: {
-                scopesList.closePopup();
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = 0;
                 scopeItem.scopeThatOpenedScope = scopesList.scope;
@@ -178,7 +177,6 @@ Showable {
                 dashContent.x = -dashContent.width;
             }
             onGotoScope: {
-                scopesList.closePopup();
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = 0;
                 dashContent.gotoScope(scopeId);

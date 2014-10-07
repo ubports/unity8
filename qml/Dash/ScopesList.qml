@@ -87,6 +87,7 @@ Item {
             }
         }
         onStoreClicked: root.storeClicked();
+        z: 1
     }
 
     Flickable {
