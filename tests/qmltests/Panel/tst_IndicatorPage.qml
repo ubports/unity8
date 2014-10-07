@@ -25,7 +25,7 @@ Item {
     width: units.gu(40)
     height: units.gu(70)
 
-   IndicatorPage {
+    IndicatorPage {
         id: page
         anchors.fill: parent
 
@@ -109,12 +109,12 @@ Item {
             "submenu": []
         }]; // end row 1
 
-   function initializeMenuData(data) {
-       Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicator.test",
-                                                         "/com/canonical/indicator/test",
-                                                         "/com/canonical/indicator/test",
-                                                         data);
-   }
+    function initializeMenuData(data) {
+        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicator.test",
+                                                          "/com/canonical/indicator/test",
+                                                          "/com/canonical/indicator/test",
+                                                          data);
+    }
 
     UT.UnityTestCase {
         name: "IndicatorPage"
