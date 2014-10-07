@@ -180,7 +180,7 @@ Item {
             var count = data.visible.length
             for (var i = 0; i< data.visible.length; i++) {
                 if (data.visible[i] === false) {
-                    init_invisible_indicator("fake-indicator-" + (i + 1));
+                    init_invisible_indicator("indicator-fake" + (i + 1));
                     count--;
                 }
             }
@@ -188,8 +188,8 @@ Item {
             tryCompare(indicatorRowItems, "count", count);
 
             for (i = 0; i < data.visible.length; i++) {
-                var widgetName = "fake-indicator-" + (i + 1 + "-widget");
-                var pageName = "fake-indicator-" + (i + 1 + "-page");
+                var widgetName = "indicator-fake" + (i + 1 + "-widget");
+                var pageName = "indicator-fake" + (i + 1 + "-page");
 
                 // check for item
                 tryCompareFunction(function() { return findChild(indicatorRowItems, widgetName) !== null }, data.visible[i]);
@@ -200,10 +200,10 @@ Item {
         }
 
         function test_indicator_visible_correct_menu_data() { return [
-            {tag: "current-first", currentIndex: 0, visible: [false, true, true, true, true], expectedIndex: 0, expextedMenu: "fake-indicator-2"  },
-            {tag: "current-last", currentIndex: 4, visible: [true, true, true, true, false], expectedIndex: 3, expextedMenu: "fake-indicator-4" },
-            {tag: "after", currentIndex: 0, visible: [true, false, true, true, true], expectedIndex: 0, expextedMenu: "fake-indicator-1" },
-            {tag: "before", currentIndex: 1, visible: [false, true, true, true, true], expectedIndex: 1, expextedMenu: "fake-indicator-2" }];
+            {tag: "current-first", currentIndex: 0, visible: [false, true, true, true, true], expectedIndex: 0, expextedMenu: "indicator-fake2"  },
+            {tag: "current-last", currentIndex: 4, visible: [true, true, true, true, false], expectedIndex: 3, expextedMenu: "indicator-fake4" },
+            {tag: "after", currentIndex: 0, visible: [true, false, true, true, true], expectedIndex: 0, expextedMenu: "indicator-fake1" },
+            {tag: "before", currentIndex: 1, visible: [false, true, true, true, true], expectedIndex: 1, expextedMenu: "indicator-fake2" }];
         }
 
         function test_indicator_visible_correct_menu(data) {
@@ -216,7 +216,7 @@ Item {
 
             for (var i = 0; i< data.visible.length; i++) {
                 if (data.visible[i] === false) {
-                    init_invisible_indicator("fake-indicator-" + (i + 1));
+                    init_invisible_indicator("indicator-fake" + (i + 1));
                 }
             }
 

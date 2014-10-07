@@ -105,7 +105,7 @@ Indicators.FakeIndicatorsModel {
 
     property var originalModelData: [
         {
-            "identifier": "fake-indicator-1",
+            "identifier": "indicator-fake1",
             "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
             "pageSource": "Indicators/DefaultIndicatorPage.qml",
             "indicatorProperties": {
@@ -116,7 +116,7 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-2",
+            "identifier": "indicator-fake2",
             "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
             "pageSource": "Indicators/DefaultIndicatorPage.qml",
             "indicatorProperties": {
@@ -127,7 +127,7 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-3",
+            "identifier": "indicator-fake3",
             "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
             "pageSource": "Indicators/DefaultIndicatorPage.qml",
             "indicatorProperties": {
@@ -138,7 +138,7 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-4",
+            "identifier": "indicator-fake4",
             "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
             "pageSource": "Indicators/DefaultIndicatorPage.qml",
             "indicatorProperties": {
@@ -149,7 +149,7 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-5",
+            "identifier": "indicator-fake5",
             "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
             "pageSource": "Indicators/DefaultIndicatorPage.qml",
             "indicatorProperties": {

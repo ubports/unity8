@@ -69,17 +69,17 @@ Item {
         function test_set_current_item() {
             indicatorRow.setCurrentItemIndex(0);
             compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier),
-                    "fake-indicator-1",
+                    "indicator-fake1",
                     "Incorrect item at position 0");
 
             indicatorRow.setCurrentItemIndex(1);
             compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier),
-                    "fake-indicator-2",
+                    "indicator-fake2",
                     "Incorrect item at position 1");
 
             indicatorRow.setCurrentItemIndex(2);
             compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier),
-                    "fake-indicator-3",
+                    "indicator-fake3",
                     "Incorrect item at position 2");
         }
 
