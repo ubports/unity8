@@ -30,15 +30,6 @@ Item {
     width: units.gu(40)
     height: units.gu(60)
 
-    function init_test()
-    {
-        indicatorModel.load("test1");
-
-        indicatorRow.state = "initial";
-        indicatorRow.setCurrentItemIndex(-1);
-        indicatorRow.unitProgress = 0.0;
-    }
-
     PanelBackground {
         anchors.fill: indicatorRow
     }
@@ -63,20 +54,33 @@ Item {
         name: "IndicatorRow"
         when: windowShown
 
+        function init() {
+            indicatorModel.load("test1");
+
+            indicatorRow.state = "initial";
+            indicatorRow.setCurrentItemIndex(-1);
+            indicatorRow.unitProgress = 0.0;
+        }
+
         function get_indicator_item(index) {
             return findChild(indicatorRow.row, "item" + index);
         }
 
         function test_set_current_item() {
-            init_test();
             indicatorRow.setCurrentItemIndex(0);
-            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake1", "Incorrect item at position 0");
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier),
+                    "fake-indicator-1",
+                    "Incorrect item at position 0");
 
             indicatorRow.setCurrentItemIndex(1);
-            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake2", "Incorrect item at position 1");
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier),
+                    "fake-indicator-2",
+                    "Incorrect item at position 1");
 
             indicatorRow.setCurrentItemIndex(2);
-            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake3", "Incorrect item at position 2");
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier),
+                    "fake-indicator-3",
+                    "Incorrect item at position 2");
         }
 
         function test_highlight_data() {
@@ -93,8 +97,6 @@ Item {
         }
 
         function test_highlight(data) {
-            init_test();
-
             indicatorRow.unitProgress = data.progress;
             indicatorRow.setCurrentItemIndex(data.index);
 
@@ -119,8 +121,6 @@ Item {
         }
 
         function test_opacity(data) {
-            init_test();
-
             indicatorRow.unitProgress = data.progress;
             indicatorRow.setCurrentItemIndex(data.index);
 
@@ -145,8 +145,6 @@ Item {
         }
 
         function test_dimmed(data) {
-            init_test();
-
             indicatorRow.unitProgress = data.progress;
             indicatorRow.setCurrentItemIndex(data.index);
 

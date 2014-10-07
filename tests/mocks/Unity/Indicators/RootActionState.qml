@@ -19,15 +19,23 @@
 
 import QtQuick 2.0
 
-QtObject {
-    property var menu
-    property bool valid: false
-    property string title
-    property string leftLabel
-    property string rightLabel
-    property var icons
-    property string accessibleName
-    property bool visible: true
+Item {
+    property var menu: null
+    property bool valid: cachedState !== undefined
+    property string title: cachedState && cachedState.hasOwnProperty("title") ? cachedState["title"] : ""
+    property string leftLabel: cachedState && cachedState.hasOwnProperty("pre-label") ? cachedState["pre-label"] : ""
+    property string rightLabel: cachedState && cachedState.hasOwnProperty("label") ? cachedState["label"] : ""
+    property var icons: cachedState && cachedState.hasOwnProperty("icons") ? cachedState["icons"] : []
+    property string accessibleName: cachedState && cachedState.hasOwnProperty("accessible-desc") ? cachedState["accessible-desc"] : ""
+    visible: cachedState && cachedState.hasOwnProperty("visible") ? cachedState["visible"] : true
+
+    property var cachedState: menu ? menu.get(0, "actionState") : undefined
+    Connections {
+        target: menu
+        onModelDataChanged: {
+            cachedState = menu.get(0, "actionState");
+        }
+    }
 
     signal updated
 

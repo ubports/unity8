@@ -24,7 +24,6 @@
 
 UnityMenuModelCache* UnityMenuModelCache::theCache = nullptr;
 
-
 UnityMenuModelCache* UnityMenuModelCache::singleton()
 {
     if (!theCache) {

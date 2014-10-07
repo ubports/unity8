@@ -43,7 +43,7 @@ static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEng
   return UnityMenuModelCache::singleton();
 }
 
-void Indicators2Plugin::registerTypes(const char *uri)
+void IndicatorsPlugin::registerTypes(const char *uri)
 {
     qRegisterMetaType<UnityMenuModel*>("UnityMenuModel*");
 
