@@ -21,6 +21,7 @@ import AccountsService 0.1
 import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.SystemImage 0.1
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -110,6 +111,11 @@ Row {
         signalName: "resettingDevice"
     }
 
+    Telephony.CallEntry {
+        id: phoneCall
+        phoneNumber: "+447812221111"
+    }
+
     UT.UnityTestCase {
         name: "ShellWithPin"
         when: windowShown
@@ -184,6 +190,16 @@ Row {
                 var button = findChild(shell, "pinPadButton" + character)
                 mouseClick(button, units.gu(1), units.gu(1))
             }
+        }
+
+        function confirmLockedApp(app) {
+            var greeter = findChild(shell, "greeter")
+            var lockscreen = findChild(shell, "lockscreen")
+            tryCompare(greeter, "shown", false)
+            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "hasLockedApp", true)
+            tryCompare(greeter, "lockedApp", app)
+            tryCompare(ApplicationManager, "focusedApplicationId", app)
         }
 
         function test_login() {
@@ -317,11 +333,9 @@ Row {
             tryCompare(shell, "sideStageEnabled", false)
             tryCompare(applicationsDisplayLoader, "tabletMode", false)
 
-            var app = ApplicationManager.startApplication("dialer-app")
-
-            var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 0)
-            tryCompare(greeter, "hasLockedApp", true)
+            var lockscreen = findChild(shell, "lockscreen")
+            lockscreen.emergencyCall()
+            confirmLockedApp("dialer-app")
 
             // OK, we're in. Now try (but fail) to switch to tablet mode
             shell.tablet = true
@@ -330,9 +344,15 @@ Row {
 
             // And when we kill the app, we go back to locked tablet mode
             killApps()
+            var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 1)
             tryCompare(shell, "sideStageEnabled", true)
             tryCompare(applicationsDisplayLoader, "tabletMode", true)
+        }
+
+        function test_emergencyDialerIncoming() {
+            callManager.foregroundCall = phoneCall
+            confirmLockedApp("dialer-app")
         }
     }
 }
