@@ -81,7 +81,6 @@ Item {
             width: units.gu(1)
             height: width
             radius: width / 2
-            antialiasing: true
             color: "white"
         }
 
