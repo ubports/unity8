@@ -131,7 +131,7 @@ Item {
         function test_show_header_on_list_movement() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);
-            var scope = findChild(dashContent, "MockScope1 loader");
+            var scope = findChild(dashContent, "clickscope loader");
             waitForRendering(scope);
 
             var categoryListView = findChild(scope, "categoryListView");
@@ -149,19 +149,19 @@ Item {
         function test_set_current_scope_reset() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList, "Couldn't find dashContentList");
-            var scope = findChild(dashContent, "MockScope1 loader");
+            var scope = findChild(dashContent, "clickscope loader");
 
             tryCompare(scope, "status", Loader.Ready);
 
             var categoryListView = findChild(dashContentList, "categoryListView");
             categoryListView.contentY = units.gu(10);
 
-            compare(dashContentList.currentItem.item.objectName,  "MockScope1")
+            compare(dashContentList.currentItem.item.objectName,  "clickscope")
             compare(categoryListView.contentY, units.gu(10));
 
             dashContent.setCurrentScopeAtIndex(0, false, true);
 
-            compare(dashContentList.currentItem.item.objectName,  "MockScope1")
+            compare(dashContentList.currentItem.item.objectName,  "clickscope")
             compare(categoryListView.contentY,  0);
         }
 
@@ -199,8 +199,8 @@ Item {
 
         function test_scope_mapping_data() {
             return [
-                {tag: "index0", index: 0, objectName: "MockScope1"},
-                {tag: "index1", index: 1, objectName: "clickscope"},
+                {tag: "index0", index: 0, objectName: "clickscope"},
+                {tag: "index1", index: 1, objectName: "MockScope1"},
                 {tag: "index2", index: 2, objectName: "MockScope5"},
                 {tag: "index3", index: 3, objectName: "SingleCategoryScope"}
             ]
