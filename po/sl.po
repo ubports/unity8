@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-09-23 12:35+0000\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"PO-Revision-Date: 2014-10-03 17:37+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -34,22 +34,24 @@ msgstr "Odpni bližnjico"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Naprava je zaklenjena"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov šifrirnih rekel."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Počakajte %1 minut ter poskusite ponovno ..."
+msgstr[1] "Počakajte %1 minuto ter poskusite ponovno ..."
+msgstr[2] "Počakajte %1 minuti ter poskusite ponovno ..."
+msgstr[3] "Počakajte %1 minute ter poskusite ponovno ..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -159,15 +161,15 @@ msgstr ""
 "Sedaj, ko ste osvojili poteze robov, lahko začnete uporabljati "
 "telefon<br><br>Tapnite na zaslon za začetek"
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Klic v sili"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "V REDU"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Pokaži manj"
 
@@ -212,6 +214,14 @@ msgstr "Dodaj oceno"
 msgid "Send"
 msgstr "Pošlji"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr ""
@@ -234,7 +244,7 @@ msgstr "Vse"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Odkleni"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -278,7 +288,7 @@ msgstr "Konferenca"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Nič se ne predvaja"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -314,47 +324,47 @@ msgstr "Gostovanje"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Vnesite šifrirno reklo"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Oprostite, napačno šifrirno reklo"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Ponovno vnesite"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Vnesite geslo"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
 msgstr "Nepravilno geslo"
 
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Vnesite %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Oprostite, napačen %1"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Nepravilno geslo."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
 msgstr "Nepravilno geslo."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "To je vaš zadnji poskus"
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -362,7 +372,7 @@ msgstr ""
 "Če je vneseno nepravilno šifrirno reklo, bo telefon ponastavljen na "
 "tovarniške nastavitve ter vsi osebni podatki bodo izbrisani."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -385,9 +395,6 @@ msgstr ""
 
 #~ msgid "Too many incorrect attempts"
 #~ msgstr "Preveč nepravilnih poskusov"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Upravljaj s pregledno ploščo"
 
 #, qt-format
 #~ msgid "Enter your %1"

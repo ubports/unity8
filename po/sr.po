@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
 "PO-Revision-Date: 2014-09-24 13:29+0000\n"
 "Last-Translator: Данило Шеган <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -157,15 +157,15 @@ msgstr ""
 "Сада сте савладали превлачења са ивица и можете да користите "
 "телефон<br><br>Тапните на екран да почнете"
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Хитан позив"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "У реду"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Сажетије"
 
@@ -209,6 +209,14 @@ msgstr "Напиши оцену"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Пошаљи"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -314,7 +322,7 @@ msgstr "Роминг"
 msgid "Enter passphrase"
 msgstr ""
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Жао ми је, погрешна лозинка"
 
@@ -326,7 +334,7 @@ msgstr ""
 msgid "Enter passcode"
 msgstr ""
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
 msgstr "Жао ми је, погрешан код"
 
@@ -335,24 +343,24 @@ msgstr "Жао ми је, погрешан код"
 msgid "Enter %1"
 msgstr ""
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Жао ми је, погрешан %1"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Жао ми је, погрешна лозинка."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
 msgstr "Жао ми је, погрешан код."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "Ово је ваш последњи покушај."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -360,7 +368,7 @@ msgstr ""
 "Ако се унесе погрешна лозинка, ваш телефон ће се ресетовати и сви лични "
 "подаци ће бити обрисани."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -380,9 +388,6 @@ msgstr ""
 
 #~ msgid "Hello"
 #~ msgstr "Здраво"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Управљај Полицом"
 
 #~ msgid "Enter your passphrase"
 #~ msgstr "Унесите вашу лозинку"

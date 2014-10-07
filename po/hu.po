@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-09-28 09:02+0000\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"PO-Revision-Date: 2014-10-03 10:57+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:21+0000\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:58+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -33,22 +33,22 @@ msgstr "Indító feloldása"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Eszköz lezárva"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "A túl sok hibás jelmondat próbálkozás miatt le lett zárva az eszköz."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "A túl sok hibás jelkód próbálkozás miatt le lett zárva az eszköz."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kérjük várjon %1 percet és próbálja újra…"
+msgstr[1] "Kérjük várjon %1 percet és próbálja újra…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -158,15 +158,15 @@ msgstr ""
 "Elsajátította a gesztusokat, és megkezdheti a telefon "
 "használatát.<br><br>Koppintson a képernyőre a kezdéshez."
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Vészhívás"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Kevesebb"
 
@@ -211,6 +211,14 @@ msgstr "Értékelés hozzáadása"
 msgid "Send"
 msgstr "Küldés"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Lencsék kezelése"
@@ -233,7 +241,7 @@ msgstr "Összes"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Feloldás"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -313,47 +321,47 @@ msgstr "Barangolás"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Jelmondat megadása"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Sajnáljuk, helytelen jelmondat"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Kérjük adja meg újra"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Jelkód megadása"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
 msgstr "Sajnáljuk, helytelen jelkód"
 
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Adja meg: %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sajnáljuk, helytelen %1"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Sajnáljuk, helytelen jelmondat."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
 msgstr "Sajnáljuk, helytelen jelkód."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "Ez az utolsó próbálkozási lehetősége."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -361,7 +369,7 @@ msgstr ""
 "Ha helytelen jelmondatot ad meg, a telefonja visszaállítja a gyári "
 "beállításokat és törli minden személyes adatát."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -384,9 +392,6 @@ msgstr ""
 
 #~ msgid "Too many incorrect attempts"
 #~ msgstr "Túl sok sikertelen kísérlet"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Dash kezelése"
 
 #~ msgid "Enter your passphrase"
 #~ msgstr "Adja meg a jelmondatot"

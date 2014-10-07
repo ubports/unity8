@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-10-02 13:17+0000\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"PO-Revision-Date: 2014-10-03 19:54+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:21+0000\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:58+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: gd\n"
 
@@ -35,22 +35,28 @@ msgstr "Neo-phrìnich an ath-ghoirid"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Tha glas air an uidheam"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Chaidh do glasadh a-mach às an uidheam on a chuir thu abairt-fhaire chearr a-"
+"steach cus tursan."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Chaidh do glasadh a-mach às an uidheam on a chuir thu còd-faire cearr a-"
+"steach cus tursan."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
+msgstr[1] "Fuirich ort %1 dhiog 's feuch ris a-rithist an uairsin…"
+msgstr[2] "Fuirich ort %1 diogan 's feuch ris a-rithist an uairsin…"
+msgstr[3] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -164,15 +170,15 @@ msgstr ""
 "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
 "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Gairm èiginn"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "Ceart ma-thà"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Seall nas lugha"
 
@@ -216,6 +222,14 @@ msgstr "Cuir lèirmheas ris"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Cuir"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -319,47 +333,47 @@ msgstr "Air fàrsan"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Cuir abairt-fhaire a-steach"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Duilich ach tha an abairt-fhaire cearr"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "Cuir a-steach e a-rithist"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "Cuir còd-faire a-steach"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
 msgstr "Duilich ach tha an còd-faire cearr"
 
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Cuir a-steach %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Duilich ach tha a' %1 cearr"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Duilich ach tha an abairt-fhaire cearr."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
 msgstr "Duilich ach tha an còd-faire cearr."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "Seo an oidhirp mu dheireadh agad."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -368,7 +382,7 @@ msgstr ""
 "ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
 "pearsanta a sguabadh às."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -386,9 +400,6 @@ msgstr ""
 
 #~ msgid "Swipe to unlock"
 #~ msgstr "Dèan grad-shlaighdeadh gus a' ghlas a thoirt dheth"
-
-#~ msgid "Manage Dash"
-#~ msgstr "Stiùirich an deas-bhòrd"
 
 #~ msgid "Please wait"
 #~ msgstr "Fuirich ort"
