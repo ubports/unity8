@@ -203,7 +203,7 @@ Item {
             }
             width: parent.width
             clip: true
-            title: i18n.tr("Manage Dash")
+            title: i18n.tr("Manage Scopes")
             scopeStyle: overviewScopeStyle
             showSignatureLine: false
             searchEntryEnabled: true
@@ -386,6 +386,7 @@ Item {
 
         Rectangle {
             id: bottomBar
+            objectName: "bottomBar"
             color: "black"
             height: units.gu(8)
             width: parent.width
@@ -398,6 +399,11 @@ Item {
                 } else {
                     return parent.height - (root.progress - 0.5) * height * 2;
                 }
+            }
+
+            MouseArea {
+                // Just eat any other press since this parent is black opaque
+                anchors.fill: parent
             }
 
             AbstractButton {

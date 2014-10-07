@@ -21,7 +21,9 @@ import "../Components"
 
 Column {
     id: root
-    anchors.centerIn: parent
+    anchors.top: parent.top
+    anchors.topMargin: units.gu(4)
+    anchors.horizontalCenter: parent.horizontalCenter
     spacing: units.gu(2)
 
     property string infoText
@@ -31,6 +33,7 @@ Column {
     property int padHeight: units.gu(28)
     property int minPinLength: -1
     property int maxPinLength: -1
+    property bool showCancelButton: true
 
     signal entered(string passphrase)
     signal cancel()
@@ -49,7 +52,7 @@ Column {
         id: shakeContainer
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width
-        spacing: units.gu(2)
+        spacing: units.gu(1)
 
         Label {
             id: infoField
@@ -108,6 +111,7 @@ Column {
                 fontSize: "x-large"
                 color: "#f3f3e7"
                 anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
                 text: root.errorText
                 visible: pinentryField.incorrectOverride
             }
@@ -193,19 +197,20 @@ Column {
         }
         PinPadButton {
             iconName: "close"
-            height: numbersGrid.buttonHeight
+            height: units.gu(5) // visual spec has this row a little closer in
             width: numbersGrid.buttonWidth
 
             onClicked: root.cancel()
+            visible: root.showCancelButton
         }
         Item {
-            height: numbersGrid.buttonHeight
+            height: units.gu(5)
             width: numbersGrid.buttonWidth
         }
         PinPadButton {
             iconName: "tick"
             objectName: "confirmButton"
-            height: numbersGrid.buttonHeight
+            height: units.gu(5)
             width: numbersGrid.buttonWidth
             enabled: root.enabled && pinentryField.text.length >= root.minPinLength
             visible: root.minPinLength == -1 || root.minPinLength !== root.maxPinLength

@@ -27,10 +27,10 @@ public:
     ~DashCommunicatorService();
 
 Q_SIGNALS:
-    void setCurrentScopeRequested(const QString &scopeId, bool animate, bool reset);
+    void setCurrentScopeRequested(const QString &scopeId, bool animate, bool isSwipe);
 
 public Q_SLOTS:
-    void mockSetCurrentScope(const QString &scopeId, bool animate, bool reset);
+    void mockSetCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
 };
 
 #endif // DBUSUNITYSESSIONSERVICE_H

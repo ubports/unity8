@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import AccountsService 0.1
 import GSettings 1.0
 import Unity.Application 0.1
@@ -22,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
 import Ubuntu.SystemImage 0.1
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
@@ -58,7 +60,23 @@ Item {
 
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
-    property int failedLoginsDelaySeconds: 5 * 60 // seconds of forced waiting
+    property int failedLoginsDelayMinutes: 5 // minutes of forced waiting
+
+    property int orientation
+    readonly property int deviceOrientationAngle: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
+    onDeviceOrientationAngleChanged: {
+        if (!OrientationLock.enabled) {
+            orientation = Screen.orientation;
+        }
+    }
+    readonly property bool orientationLockEnabled: OrientationLock.enabled
+    onOrientationLockEnabledChanged: {
+        if (orientationLockEnabled) {
+            OrientationLock.savedOrientation = Screen.orientation;
+        } else {
+            orientation = Screen.orientation;
+        }
+    }
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
@@ -84,6 +102,12 @@ Item {
 
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        if (ApplicationManager.count > 0) {
+            ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
+        }
+        if (orientationLockEnabled) {
+            orientation = OrientationLock.savedOrientation;
+        }
     }
 
     GSettings {
@@ -103,6 +127,13 @@ Item {
         id: dash
         objectName: "dashCommunicator"
     }
+
+    Binding {
+        target: ApplicationManager
+        property: "forceDashActive"
+        value: launcher.shown || launcher.dashSwipe
+    }
+
 
     WindowKeysFilter {
         // Handle but do not filter out volume keys
@@ -164,6 +195,7 @@ Item {
                     // for an emergency call or accepted an incoming call.
                     setFakeActiveForApp(appId)
                 }
+                launcher.hide();
             }
         }
 
@@ -204,6 +236,11 @@ Item {
                 property: "inverseProgress"
                 value: launcher.progress
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "orientation"
+                value: shell.orientation
+            }
         }
     }
 
@@ -233,12 +270,19 @@ Item {
             }
         }
     }
+    Connections {
+        target: SessionManager
+        onSessionStopping: {
+            if (!session.parentSession && !session.application) {
+                // nothing is using it. delete it right away
+                session.release();
+            }
+        }
+    }
 
     Lockscreen {
         id: lockscreen
         objectName: "lockscreen"
-
-        readonly property int backgroundTopMargin: -panel.panelHeight
 
         hides: [launcher, panel.indicators]
         shown: false
@@ -254,11 +298,33 @@ Item {
         minPinLength: 4
         maxPinLength: 4
 
+        // FIXME: We *should* show emergency dialer if there is a SIM present,
+        // regardless of whether the side stage is enabled.  But right now,
+        // the assumption is that narrow screens are phones which have SIMs
+        // and wider screens are tablets which don't.  When we do allow this
+        // on devices with a side stage and a SIM, work should be done to
+        // ensure that the main stage is disabled while the dialer is present
+        // in the side stage.
+        showEmergencyCallButton: !shell.sideStageEnabled
+
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
         onEmergencyCall: shell.activateApplication("dialer-app") // will automatically enter fake-active mode
 
         onShownChanged: if (shown) greeter.fakeActiveForApp = ""
+
+        Timer {
+            id: forcedDelayTimer
+            interval: 1000 * 60
+            onTriggered: {
+                if (lockscreen.delayMinutes > 0) {
+                    lockscreen.delayMinutes -= 1
+                    if (lockscreen.delayMinutes > 0) {
+                        start() // go again
+                    }
+                }
+            }
+        }
 
         Component.onCompleted: {
             if (greeter.narrowMode) {
@@ -271,19 +337,21 @@ Item {
         target: LightDM.Greeter
 
         onShowGreeter: greeter.show()
+        onHideGreeter: greeter.login()
 
         onShowPrompt: {
             if (greeter.narrowMode) {
                 if (isDefaultPrompt) {
                     if (lockscreen.alphaNumeric) {
-                        lockscreen.infoText = i18n.tr("Enter your passphrase")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase")
+                        lockscreen.infoText = i18n.tr("Enter passphrase")
+                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase") + "\n" +
+                                               i18n.tr("Please re-enter")
                     } else {
-                        lockscreen.infoText = i18n.tr("Enter your passcode")
+                        lockscreen.infoText = i18n.tr("Enter passcode")
                         lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
                     }
                 } else {
-                    lockscreen.infoText = i18n.tr("Enter your %1").arg(text.toLowerCase())
+                    lockscreen.infoText = i18n.tr("Enter %1").arg(text.toLowerCase())
                     lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
                 }
 
@@ -313,7 +381,6 @@ Item {
             }
 
             if (LightDM.Greeter.authenticated) {
-                lockscreen.hide();
                 greeter.login();
             } else {
                 AccountsService.failedLogins++
@@ -332,7 +399,8 @@ Item {
                     }
                 }
                 if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
-                    lockscreen.forceDelay(failedLoginsDelaySeconds * 1000)
+                    lockscreen.delayMinutes = failedLoginsDelayMinutes
+                    forcedDelayTimer.start()
                 }
 
                 lockscreen.clear(true);
@@ -378,7 +446,15 @@ Item {
         }
 
         readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
-        onShowProgressChanged: if (LightDM.Greeter.authenticated && showProgress === 0) greeter.login()
+        onShowProgressChanged: {
+            if (showProgress === 0) {
+                if (LightDM.Greeter.authenticated) {
+                    greeter.login()
+                } else if (greeter.narrowMode) {
+                    lockscreen.clear(false) // to reset focus if necessary
+                }
+            }
+        }
 
         Greeter {
             id: greeter
@@ -448,18 +524,9 @@ Item {
         id: powerConnection
         target: Powerd
 
-        onDisplayPowerStateChange: {
-            // We ignore any display-off signals when the proximity sensor
-            // is active.  This usually indicates something like a phone call.
-            if (status == Powerd.Off && reason != Powerd.Proximity && !edgeDemo.running) {
-                greeter.showNow();
-            }
-
-            // No reason to chew demo CPU when user isn't watching
-            if (status == Powerd.Off) {
-                edgeDemo.paused = true;
-            } else if (status == Powerd.On) {
-                edgeDemo.paused = false;
+        onStatusChanged: {
+            if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+                greeter.showNow()
             }
         }
     }
@@ -482,16 +549,19 @@ Item {
     }
 
     function showDash() {
-        if (shell.locked) {
-            return;
+        if (greeter.fakeActiveForApp !== "") { // just in case user gets here
+            return
         }
+
         if (greeter.shown) {
             greeter.hideRight();
             launcher.fadeOut();
         }
 
-        ApplicationManager.requestFocusApplication("unity8-dash")
-        launcher.fadeOut();
+        if (ApplicationManager.focusedApplicationId != "unity8-dash") {
+            ApplicationManager.requestFocusApplication("unity8-dash")
+            launcher.fadeOut();
+        }
     }
 
     Item {
@@ -506,7 +576,7 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && !shell.locked
+                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && greeter.fakeActiveForApp === ""
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
@@ -530,12 +600,12 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && !shell.locked
+            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && greeter.fakeActiveForApp === ""
 
             onShowDashHome: showHome()
             onDash: showDash()
             onDashSwipeChanged: {
-                if (dashSwipe && ApplicationManager.focusedApplicationId !== "unity8-dash") {
+                if (dashSwipe) {
                     dash.setCurrentScope("clickscope", false, true)
                 }
             }
@@ -559,7 +629,7 @@ Item {
             visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
             color: "#000000"
             anchors.fill: parent
-            opacity: 0.5
+            opacity: 0.9
 
             MouseArea {
                 anchors.fill: parent
@@ -592,12 +662,6 @@ Item {
         }
     }
 
-    Binding {
-        target: i18n
-        property: "domain"
-        value: "unity8"
-    }
-
     Dialogs {
         id: dialogs
         anchors.fill: parent
@@ -628,6 +692,7 @@ Item {
     EdgeDemo {
         id: edgeDemo
         z: alphaDisclaimerLabel.z + 10
+        paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
         indicators: panel.indicators

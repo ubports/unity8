@@ -14,10 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
+import Unity.Session 0.1
 import Utils 0.1
 import "../Components"
 
@@ -30,6 +31,7 @@ Rectangle {
     property bool interactive
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
+    property int orientation: Qt.PortraitOrientation
 
     color: "black"
 
@@ -44,6 +46,9 @@ Rectangle {
     }
 
     onInverseProgressChanged: {
+        // This can't be a simple binding because that would be triggered after this handler
+        // while we need it active before doing the anition left/right
+        priv.animateX = (inverseProgress == 0)
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
             if (priv.oldInverseProgress > units.gu(22)) {
@@ -92,6 +97,7 @@ Rectangle {
         property var focusedAppDelegate: null
 
         property real oldInverseProgress: 0
+        property bool animateX: true
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
@@ -311,9 +317,10 @@ Rectangle {
                     Behavior on x {
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
-                                 !snapAnimation.running
+                                 !snapAnimation.running &&
+                                 priv.animateX
                         UbuntuNumberAnimation {
-                            duration: UbuntuAnimation.FastDuration
+                            duration: UbuntuAnimation.BriskDuration
                             onRunningChanged: {
                                 if (!running && root.inverseProgress == 0) {
                                     spreadView.focusChanging = false;
@@ -365,6 +372,13 @@ Rectangle {
                         type: EasingCurve.Linear
                         period: 0.05
                         progress: appDelegate.progress - spreadView.positionMarker1
+                    }
+
+                    Binding {
+                        target: appDelegate
+                        property: "orientation"
+                        when: appDelegate.interactive
+                        value: root.orientation
                     }
 
                     onClicked: {

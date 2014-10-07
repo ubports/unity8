@@ -1,0 +1,401 @@
+# Kurdish translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unity8\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"PO-Revision-Date: 2014-09-10 13:14+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Kurdish <ku@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
+
+#: plugins/LightDM/Greeter.cpp:130
+msgid "Password: "
+msgstr "Şîfre: "
+
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
+msgid "Pin shortcut"
+msgstr "Kurteriyê pêveke"
+
+#: plugins/Unity/Launcher/launcheritem.cpp:91
+msgid "Unpin shortcut"
+msgstr "Derzîdanka kurteriyê rake"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qml/Components/Dialogs.qml:70
+msgid "Log out"
+msgstr "Derkeve"
+
+#: qml/Components/Dialogs.qml:71
+msgid "Are you sure you want to log out?"
+msgstr "Ji dil dixwazî derkevî?"
+
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
+msgid "No"
+msgstr "Na"
+
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
+msgid "Yes"
+msgstr "Erê"
+
+#: qml/Components/Dialogs.qml:94
+msgid "Shut down"
+msgstr "Bigire"
+
+#: qml/Components/Dialogs.qml:95
+msgid "Are you sure you want to shut down?"
+msgstr "Ji dil dixwazî bigirî?"
+
+#: qml/Components/Dialogs.qml:119
+msgid "Reboot"
+msgstr "Dîsdestpêkirin"
+
+#: qml/Components/Dialogs.qml:120
+msgid "Are you sure you want to reboot?"
+msgstr "Ji dil dixwazî bidî destpêkirin?"
+
+#: qml/Components/Dialogs.qml:144
+msgid "Power"
+msgstr "Hêz"
+
+#: qml/Components/Dialogs.qml:145
+msgid ""
+"Are you sure you would like\n"
+"to power off?"
+msgstr ""
+"Ji dil dixwazî\n"
+"kompîturê bigirî?"
+
+#: qml/Components/Dialogs.qml:147
+msgid "Power off"
+msgstr "Bigire"
+
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:167
+msgid "Cancel"
+msgstr "Betal bike"
+
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Danasînê derbas bike"
+
+#: qml/Components/EdgeDemo.qml:112
+msgid "Right edge"
+msgstr "Kêleka rastê"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Ji bo kilîdê vekî ji kêleka rastê kaş bike"
+
+#: qml/Components/EdgeDemo.qml:144
+msgid "Top edge"
+msgstr "Kêleka jorê"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "JI bo xwe bigihînî danezanan ji kêleka jorê kaş bike"
+
+#: qml/Components/EdgeDemo.qml:170
+msgid "Close"
+msgstr "Bigire"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Swipe up again to close the settings screen"
+msgstr "Ji bo girtina ekrana eyaran dîsa bi jorê ve kaş bike"
+
+#: qml/Components/EdgeDemo.qml:198
+msgid "Left edge"
+msgstr "Kêleka çepê"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr "Ji bo vekirina gihînera lezgîn ya bernamokan ji kêleka çepê kaş bike"
+
+#: qml/Components/EdgeDemo.qml:226
+msgid "Well done"
+msgstr "Aferim"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+"Tu tevgerên kêlekê fêr bûyî<br><br>Ji bo destpêkirinê ekranê bipelîne"
+
+#: qml/Components/Lockscreen.qml:218
+msgid "Emergency Call"
+msgstr "Lêgerîna Lezgîn"
+
+#: qml/Components/Lockscreen.qml:250
+msgid "OK"
+msgstr "BAŞ E"
+
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
+msgid "See less"
+msgstr "Hindiktir bibîne"
+
+#: qml/Dash/GenericScopeView.qml:411
+msgid "See all"
+msgstr "Tevî bibîne"
+
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Lêgerîn"
+
+#: qml/Dash/PageHeader.qml:268
+msgid "Settings"
+msgstr "Eyar"
+
+#: qml/Dash/PageHeader.qml:275
+msgid "Remove from Favorites"
+msgstr "Ji nav Bijareyan rake"
+
+#: qml/Dash/PageHeader.qml:275
+msgid "Add to Favorites"
+msgstr "Li Bijareyan zêde bike"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
+msgid "More..."
+msgstr "Zêdetir..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
+msgid "Less..."
+msgstr "Hindiktir..."
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr "Deng bidê"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
+msgid "Add a review"
+msgstr "Binirxîne"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
+msgid "Send"
+msgstr "Bişîne"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:428
+msgid "Done"
+msgstr "Qediya"
+
+#: qml/Dash/ScopesOverview.qml:454
+msgid "Store"
+msgstr "Firoşgeh"
+
+#: qml/Dash/ScopesOverviewTab.qml:36
+msgid "Favorites"
+msgstr "Bijare"
+
+#: qml/Dash/ScopesOverviewTab.qml:54
+msgid "All"
+msgstr "Hemû"
+
+#: qml/Greeter/Greeter.qml:157
+msgid "Unlock"
+msgstr ""
+
+#: qml/Hud/HudParametrizedActionsPage.qml:139
+msgid "Confirm"
+msgstr "Erê bike"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Fermanekê bêje yan binivîse"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Bar dike. Tika ye li bendê bî..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Niha biaxive..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Diaxive..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
+msgid "Show password"
+msgstr "Şîfreyê nîşan bide"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
+msgid "Enter SIM PIN"
+msgstr "PINa SIMê binivîse"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
+msgid "Sorry, incorrect PIN"
+msgstr "Bibore, PIN çewt e"
+
+#: qml/Panel/ActiveCallHint.qml:77
+msgid "Tap to return to call..."
+msgstr "Ji bo vegerî lêgerînê bipelîne..."
+
+#: qml/Panel/ActiveCallHint.qml:90
+msgid "Conference"
+msgstr "Konferans"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
+msgid "In queue…"
+msgstr "Li bendê ye..."
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
+msgid "Downloading"
+msgstr "Jêbar dibe..."
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
+msgid "Paused, tap to resume"
+msgstr "Hat rawestandin, ji bo dewam bike bipelîne"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
+msgid "Canceled"
+msgstr "Hat betalkirin"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
+msgid "Finished"
+msgstr "Qediya"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
+msgid "Failed, tap to retry"
+msgstr "Bi ser neket, ji bo dewam bike bipelîne"
+
+#: qml/Panel/Indicators/ModemInfoItem.qml:105
+msgid "Unlock SIM"
+msgstr "Kilîda SIMê veke"
+
+#: qml/Panel/Indicators/RoamingIndication.qml:27
+msgid "Roaming"
+msgstr "Geriyan"
+
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
+msgstr ""
+
+#: qml/Shell.qml:341
+msgid "Sorry, incorrect passphrase"
+msgstr "Bibore, parola çewt e"
+
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr ""
+
+#: qml/Shell.qml:345
+msgid "Sorry, incorrect passcode"
+msgstr "Bibore, parola çewrt e"
+
+#: qml/Shell.qml:348
+#, qt-format
+msgid "Enter %1"
+msgstr ""
+
+#: qml/Shell.qml:349
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Bibore, %1 çewt e"
+
+#: qml/Shell.qml:384
+msgid "Sorry, incorrect passphrase."
+msgstr "Bibore, parola çewt e."
+
+#: qml/Shell.qml:385
+msgid "Sorry, incorrect passcode."
+msgstr "Bibore, parola çewt e."
+
+#: qml/Shell.qml:386
+msgid "This will be your last attempt."
+msgstr "Ev ê ceribandina dawiyê be."
+
+#: qml/Shell.qml:388
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Eger parola çewt bê nivîsandin, telefona te dê vegere eyarên fabrîkayê û "
+"hemû daneyên te yên taybet dê bên jêbirin."
+
+#: qml/Shell.qml:389
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Eger parola çewt bê nivîsandin, telefona te dê vegere eyarên fabrîkayê û "
+"hemû daneyên te yên taybet dê bên jêbirin."
+
+#~ msgid "Please wait"
+#~ msgstr "Tika ye li bendê bimîne"
+
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Silav %1"
+
+#~ msgid "Hello"
+#~ msgstr "Silav"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "Te gelek caran ceribandinên çewt kirin"
+
+#~ msgid "Swipe to unlock"
+#~ msgstr "Ji bo vekirinê kaş bike"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Parolaya xwe binivîse"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "%1a xwe binivîse"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Parolaya xwe binivîse"

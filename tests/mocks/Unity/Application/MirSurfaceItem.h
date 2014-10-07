@@ -17,11 +17,12 @@
 #ifndef MIRSURFACEITEM_H
 #define MIRSURFACEITEM_H
 
+#include "MirSurfaceItemModel.h"
+
 #include <QQuickItem>
-#include <QQmlComponent>
 #include <QUrl>
 
-class ApplicationInfo;
+class Session;
 
 class MirSurfaceItem : public QQuickItem
 {
@@ -31,9 +32,9 @@ class MirSurfaceItem : public QQuickItem
 
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(MirSurfaceItem* parentSurface READ parentSurface NOTIFY parentSurfaceChanged)
-    Q_PROPERTY(QQmlListProperty<MirSurfaceItem> childSurfaces READ childSurfaces NOTIFY childSurfacesChanged DESIGNABLE false)
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(bool live READ live NOTIFY liveChanged)
+    Q_PROPERTY(Qt::ScreenOrientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged DESIGNABLE false)
 
 public:
     enum Type {
@@ -56,24 +57,21 @@ public:
         Fullscreen,
     };
 
-    explicit MirSurfaceItem(const QString& name,
-                            Type type,
-                            State state,
-                            const QUrl& screenshot,
-                            const QString &qmlFilePath = QString(),
-                            QQuickItem *parent = 0);
     ~MirSurfaceItem();
 
     //getters
-    ApplicationInfo* application() const { return m_application; }
+    Session* session() const { return m_session; }
     Type type() const { return m_type; }
     State state() const { return m_state; }
     QString name() const { return m_name; }
-    MirSurfaceItem* parentSurface() const { return m_parentSurface; }
-    QList<MirSurfaceItem*> childSurfaceList();
+    bool live() const { return m_live; }
+    Qt::ScreenOrientation orientation() const { return m_orientation; }
 
-    void setApplication(ApplicationInfo* item);
-    void setParentSurface(MirSurfaceItem* item);
+    void setOrientation(const Qt::ScreenOrientation orientation);
+
+    void setSession(Session* item);
+    void setScreenshot(const QUrl& screenshot);
+    void setLive(bool live);
 
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
@@ -81,14 +79,14 @@ public:
 Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
-    void nameChanged(QString);
-    void parentSurfaceChanged(MirSurfaceItem*);
-    void childSurfacesChanged();
-
-    void removed();
+    void liveChanged(bool live);
+    void orientationChanged();
 
     void inputMethodRequested();
     void inputMethodDismissed();
+
+    // internal mock use
+    void deregister();
 
 private Q_SLOTS:
     void onFocusChanged();
@@ -96,30 +94,32 @@ private Q_SLOTS:
     void onQmlWantInputMethodChanged();
 
 private:
-    void addChildSurface(MirSurfaceItem* surface);
-    void removeChildSurface(MirSurfaceItem* surface);
-
-    QQmlListProperty<MirSurfaceItem> childSurfaces();
-    static int childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop);
-    static MirSurfaceItem* childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index);
+    explicit MirSurfaceItem(const QString& name,
+                            Type type,
+                            State state,
+                            const QUrl& screenshot,
+                            const QString &qmlFilePath = QString(),
+                            QQuickItem *parent = 0);
 
     void createQmlContentItem();
     void printComponentErrors();
 
-    ApplicationInfo* m_application;
+    Session* m_session;
     const QString m_name;
     const Type m_type;
     State m_state;
-
-    MirSurfaceItem* m_parentSurface;
-    QList<MirSurfaceItem*> m_children;
+    bool m_live;
+    Qt::ScreenOrientation m_orientation;
 
     QQmlComponent *m_qmlContentComponent;
     QQuickItem *m_qmlItem;
     QUrl m_screenshotUrl;
+
+    friend class SurfaceManager;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
 Q_DECLARE_METATYPE(QList<MirSurfaceItem*>)
+Q_DECLARE_METATYPE(Qt::ScreenOrientation)
 
 #endif // MIRSURFACEITEM_H

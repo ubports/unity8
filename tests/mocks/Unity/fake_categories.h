@@ -39,22 +39,17 @@ public:
 
     Q_INVOKABLE QVariant data(int row, int role) const;
 
-private Q_SLOTS:
-    void countChanged();
+    // For testing purposes
+    Q_INVOKABLE void setCount(int count);
+    Q_INVOKABLE ResultsModel* resultModel(int row) const;
+    Q_INVOKABLE void setLayout(int row, const QString &layout);
+    Q_INVOKABLE void setHeaderLink(int row, const QString &headerLink);
 
 private:
     mutable QHash<int, ResultsModel*> m_resultsModels;
+    QHash<int, QString> m_layouts;
+    QHash<int, QString> m_headerLinks;
     int m_category_count;
-
-    struct CategoryData {
-        QString categoryId;
-        QString name;
-        QString icon;
-        QString rawTemplate;
-        QObject* countObject;
-    };
-
-    QList<CategoryData> m_specialCategories;
 };
 
 #endif // FAKE_CATEGORIES_H

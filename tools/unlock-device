@@ -17,24 +17,19 @@ while getopts s:w: opt; do
         esac
 done
 
-UNLOCK_SCRIPT='
-import dbus, logging;
-from unity8 import process_helpers as helpers;
-logging.basicConfig(level=logging.INFO);
-bus = dbus.SystemBus().get_object("com.canonical.powerd", "/com/canonical/powerd");
-cookie = bus.requestSysState("unlock-device-hold", 1, dbus_interface="com.canonical.powerd");
-helpers.restart_unity_with_testability();
-bus.clearSysState(cookie, dbus_interface="com.canonical.powerd");
-helpers.unlock_unity()
-'
-
 eval "$WAIT_COMMAND"
 
-UNLOCK_OUTPUT=$(adb shell "sudo -u phablet -i python3 -c '$UNLOCK_SCRIPT'" 2>&1)
-if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
-    echo "I: Unlock passed"
-    exit 0
-else
-    echo "I: Unlock failed, script output: '$UNLOCK_OUTPUT'"
-    exit 1
-fi
+for i in `seq 1 5`; do
+    # We need to go through sudo to get a proper environment for dbus set up
+    UNLOCK_OUTPUT=$(adb shell "gdbus call --session --dest com.canonical.UnityGreeter --object-path / --method com.canonical.UnityGreeter.HideGreeter && echo Greeter unlocked" 2>&1)
+    if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
+        echo "I: Unlock passed"
+        exit 0
+    else
+        echo "I: Unlock attempt $i failed, script output: '$UNLOCK_OUTPUT'"
+        sleep 20
+    fi
+done
+
+echo "I: Too many unlock failures, giving up"
+exit 1

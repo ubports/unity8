@@ -13,58 +13,24 @@ Module {
         exports: ["Unity.Application/ApplicationInfo 0.1"]
         exportMetaObjectRevisions: [0]
         Property { name: "fullscreen"; type: "bool" }
-        Property { name: "stage"; type: "Stage" }
-        Property { name: "surface"; type: "MirSurfaceItem"; isReadonly: true; isPointer: true }
-        Property { name: "promptSurfaces"; type: "MirSurfaceItem"; isList: true; isReadonly: true }
-        Property { name: "imageQml"; type: "string" }
-        Property { name: "windowQml"; type: "string" }
+        Property { name: "session"; type: "Session"; isReadonly: true; isPointer: true }
+        Property { name: "manualSurfaceCreation"; type: "bool" }
         Signal {
-            name: "appIdChanged"
-            Parameter { type: "string" }
-        }
-        Signal {
-            name: "nameChanged"
-            Parameter { type: "string" }
-        }
-        Signal {
-            name: "commentChanged"
-            Parameter { type: "string" }
-        }
-        Signal {
-            name: "iconChanged"
-            Parameter { type: "QUrl" }
-        }
-        Signal {
-            name: "stageChanged"
-            Parameter { type: "Stage" }
-        }
-        Signal {
-            name: "stateChanged"
-            Parameter { type: "State" }
-        }
-        Signal {
-            name: "focusedChanged"
-            Parameter { type: "bool" }
+            name: "sessionChanged"
+            Parameter { type: "Session"; isPointer: true }
         }
         Signal {
             name: "fullscreenChanged"
-            Parameter { type: "bool" }
+            Parameter { name: "value"; type: "bool" }
         }
         Signal {
-            name: "imageQmlChanged"
-            Parameter { type: "string" }
+            name: "manualSurfaceCreationChanged"
+            Parameter { name: "value"; type: "bool" }
         }
-        Signal {
-            name: "windowQmlChanged"
-            Parameter { type: "string" }
-        }
-        Signal {
-            name: "screenshotChanged"
-            Parameter { type: "QUrl" }
-        }
-        Signal {
-            name: "surfaceChanged"
-            Parameter { type: "MirSurfaceItem"; isPointer: true }
+        Method { name: "createSession" }
+        Method {
+            name: "setState"
+            Parameter { name: "value"; type: "State" }
         }
     }
     Component {
@@ -198,17 +164,50 @@ Module {
             type: "bool"
             Parameter { name: "appId"; type: "string" }
         }
+        Method { name: "availableApplications"; type: "QStringList" }
         Method {
-            name: "updateScreenshot"
-            type: "bool"
+            name: "add"
+            type: "ApplicationInfo*"
             Parameter { name: "appId"; type: "string" }
         }
-        Method { name: "availableApplications"; type: "QStringList" }
+    }
+    Component {
+        name: "ApplicationTestInterface"
+        prototype: "QDBusAbstractAdaptor"
+        exports: ["Unity.Application/ApplicationTest 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Method {
+            name: "addChildSession"
+            type: "uint"
+            Parameter { name: "appId"; type: "string" }
+            Parameter { name: "existingSessionId"; type: "uint" }
+            Parameter { name: "surfaceImage"; type: "string" }
+        }
+        Method {
+            name: "removeSession"
+            Parameter { name: "sessionId"; type: "uint" }
+        }
+        Method {
+            name: "addChildSession"
+            type: "Session*"
+            Parameter { name: "existingSession"; type: "Session"; isPointer: true }
+            Parameter { name: "surfaceImage"; type: "string" }
+        }
+        Method {
+            name: "removeSession"
+            Parameter { name: "existingSession"; type: "Session"; isPointer: true }
+        }
+        Method {
+            name: "removeSurface"
+            Parameter { name: "existingSurface"; type: "MirSurfaceItem"; isPointer: true }
+        }
     }
     Component {
         name: "MirSurfaceItem"
         defaultProperty: "data"
-        prototype: "QQuickPaintedItem"
+        prototype: "QQuickItem"
         exports: ["Unity.Application/MirSurfaceItem 0.1"]
         isCreatable: false
         exportMetaObjectRevisions: [0]
@@ -238,8 +237,7 @@ Module {
         Property { name: "type"; type: "Type"; isReadonly: true }
         Property { name: "state"; type: "State"; isReadonly: true }
         Property { name: "name"; type: "string"; isReadonly: true }
-        Property { name: "parentSurface"; type: "MirSurfaceItem"; isReadonly: true; isPointer: true }
-        Property { name: "childSurfaces"; type: "MirSurfaceItem"; isList: true; isReadonly: true }
+        Property { name: "live"; type: "bool"; isReadonly: true }
         Signal {
             name: "typeChanged"
             Parameter { type: "Type" }
@@ -249,21 +247,71 @@ Module {
             Parameter { type: "State" }
         }
         Signal {
-            name: "nameChanged"
-            Parameter { type: "string" }
+            name: "liveChanged"
+            Parameter { name: "live"; type: "bool" }
         }
-        Signal {
-            name: "parentSurfaceChanged"
-            Parameter { type: "MirSurfaceItem"; isPointer: true }
-        }
-        Signal { name: "removed" }
         Signal { name: "inputMethodRequested" }
         Signal { name: "inputMethodDismissed" }
+        Signal { name: "deregister" }
         Method {
             name: "setState"
             Parameter { name: "newState"; type: "State" }
         }
         Method { name: "release" }
+    }
+    Component { name: "QDBusAbstractAdaptor"; prototype: "QObject" }
+    Component {
+        name: "Session"
+        prototype: "QObject"
+        exports: ["Unity.Application/Session 0.1"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "name"; type: "string"; isReadonly: true }
+        Property { name: "surface"; type: "MirSurfaceItem"; isReadonly: true; isPointer: true }
+        Property { name: "parentSession"; type: "Session"; isReadonly: true; isPointer: true }
+        Property { name: "childSessions"; type: "SessionModel"; isReadonly: true; isPointer: true }
+        Property { name: "live"; type: "bool"; isReadonly: true }
+        Signal {
+            name: "surfaceChanged"
+            Parameter { type: "MirSurfaceItem"; isPointer: true }
+        }
+        Signal {
+            name: "parentSessionChanged"
+            Parameter { type: "Session"; isPointer: true }
+        }
+        Signal {
+            name: "liveChanged"
+            Parameter { name: "live"; type: "bool" }
+        }
+        Signal { name: "deregister" }
+        Method { name: "createSurface" }
+        Method { name: "release" }
+        Method {
+            name: "addChildSession"
+            Parameter { name: "session"; type: "Session"; isPointer: true }
+        }
+    }
+    Component {
+        name: "SessionManager"
+        prototype: "QObject"
+        exports: ["Unity.Application/SessionManager 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Signal {
+            name: "sessionStarting"
+            Parameter { name: "session"; type: "Session"; isPointer: true }
+        }
+        Signal {
+            name: "sessionStopping"
+            Parameter { name: "session"; type: "Session"; isPointer: true }
+        }
+        Method {
+            name: "createSession"
+            type: "Session*"
+            Parameter { name: "name"; type: "string" }
+            Parameter { name: "screenshot"; type: "QUrl" }
+        }
     }
     Component {
         name: "SurfaceManager"
@@ -280,6 +328,14 @@ Module {
         Signal {
             name: "surfaceDestroyed"
             Parameter { name: "surface"; type: "MirSurfaceItem"; isPointer: true }
+        }
+        Method {
+            name: "createSurface"
+            type: "MirSurfaceItem*"
+            Parameter { name: "name"; type: "string" }
+            Parameter { name: "type"; type: "MirSurfaceItem::Type" }
+            Parameter { name: "state"; type: "MirSurfaceItem::State" }
+            Parameter { name: "screenshot"; type: "QUrl" }
         }
         Method { name: "inputMethodSurface"; type: "MirSurfaceItem*" }
     }
@@ -312,7 +368,6 @@ Module {
         Property { name: "stage"; type: "Stage"; isReadonly: true }
         Property { name: "state"; type: "State"; isReadonly: true }
         Property { name: "focused"; type: "bool"; isReadonly: true }
-        Property { name: "screenshot"; type: "QUrl"; isReadonly: true }
         Signal {
             name: "nameChanged"
             Parameter { name: "name"; type: "string" }
@@ -337,10 +392,6 @@ Module {
             name: "focusedChanged"
             Parameter { name: "focused"; type: "bool" }
         }
-        Signal {
-            name: "screenshotChanged"
-            Parameter { name: "screenshot"; type: "QUrl" }
-        }
     }
     Component {
         name: "unity::shell::application::ApplicationManagerInterface"
@@ -357,8 +408,7 @@ Module {
                 "RoleIcon": 259,
                 "RoleStage": 260,
                 "RoleState": 261,
-                "RoleFocused": 262,
-                "RoleScreenshot": 263
+                "RoleFocused": 262
             }
         }
         Property { name: "count"; type: "int"; isReadonly: true }
@@ -405,11 +455,6 @@ Module {
         }
         Method {
             name: "stopApplication"
-            type: "bool"
-            Parameter { name: "appId"; type: "string" }
-        }
-        Method {
-            name: "updateScreenshot"
             type: "bool"
             Parameter { name: "appId"; type: "string" }
         }

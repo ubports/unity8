@@ -23,10 +23,11 @@ Item {
 
     // to be read from outside
     readonly property bool fullscreen: application ? application.fullscreen : false
+    property alias interactive: sessionContainer.interactive
 
     // to be set from outside
-    property bool interactive: true
     property QtObject application
+    property int orientation
 
     QtObject {
         id: d
@@ -35,16 +36,20 @@ Item {
         // (in order to avoid breaking qml binding due to a javascript exception)
         readonly property string name: root.application ? root.application.name : ""
         readonly property url icon: root.application ? root.application.icon : ""
-        readonly property Item surface: root.application ? root.application.surface : null
         readonly property int applicationState: root.application ? root.application.state : -1
-        readonly property var promptSurfaces: root.application ? root.application.promptSurfaces : null
+        readonly property string splashTitle: root.application ? root.application.splashTitle : ""
+        readonly property url splashImage: root.application ? root.application.splashImage : ""
+        readonly property bool splashShowHeader: root.application ? root.application.splashShowHeader : true
+        readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
+        readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
+        readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
 
         // Whether the Application had a surface before but lost it.
-        property bool hadSurface: false
+        property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
         property bool needToTakeScreenshot:
-            d.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
-            && d.applicationState === ApplicationInfo.Stopped
+            sessionContainer.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
+            && d.applicationState === ApplicationInfoInterface.Stopped
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
                 screenshotImage.take();
@@ -55,12 +60,13 @@ Item {
         // might show the UI accommodating due to surface resizes on startup.
         // Remove this when possible
         property bool surfaceInitialized: false
-        onSurfaceChanged: {
-            if (surface) {
-                surfaceInitTimer.start();
-            } else {
-                hadSurface = true;
-                surfaceInitialized = false;
+
+        function forceSurfaceActiveFocusIfReady() {
+            if (sessionContainer.surface !== null &&
+                    sessionContainer.surface.focus &&
+                    sessionContainer.surface.parent === sessionContainer.surfaceContainer &&
+                    sessionContainer.surface.enabled) {
+                sessionContainer.surface.forceActiveFocus();
             }
         }
     }
@@ -68,40 +74,16 @@ Item {
     Timer {
         id: surfaceInitTimer
         interval: 100
-        onTriggered: { if (d.surface) {d.surfaceInitialized = true;} }
+        onTriggered: { if (sessionContainer.surface) {d.surfaceInitialized = true;} }
     }
 
-    Binding {
-        target: d.surface
-        when: d.surface
-        property: "enabled"
-        value: root.interactive
-    }
-    Binding {
-        target: d.surface
-        when: d.surface
-        property: "focus"
-        value: root.interactive
-    }
     Connections {
-        target: d.surface
+        target: sessionContainer.surface
         // FIXME: I would rather not need to do this, but currently it doesn't get
         // active focus without it and I don't know why.
-        onFocusChanged: forceSurfaceActiveFocusIfReady();
-        onParentChanged: forceSurfaceActiveFocusIfReady();
-        onEnabledChanged: forceSurfaceActiveFocusIfReady();
-        function forceSurfaceActiveFocusIfReady() {
-            if (d.surface.focus && d.surface.parent === surfaceContainer && d.surface.enabled) {
-                d.surface.forceActiveFocus();
-            }
-        }
-    }
-
-    SurfaceContainer {
-        id: surfaceContainer
-        objectName: "surfaceContainer"
-        anchors.fill: parent
-        surface: d.surface
+        onFocusChanged: d.forceSurfaceActiveFocusIfReady();
+        onParentChanged: d.forceSurfaceActiveFocusIfReady();
+        onEnabledChanged: d.forceSurfaceActiveFocusIfReady();
     }
 
     Image {
@@ -126,24 +108,33 @@ Item {
         id: splashLoader
         visible: active
         active: false
-        anchors.fill: surfaceContainer
+        anchors.fill: parent
         sourceComponent: Component {
-            Splash { name: d.name; image: d.icon }
+            Splash {
+                id: splash
+                title: d.splashTitle ? d.splashTitle : d.name
+                imageSource: d.splashImage
+                icon: d.icon
+                showHeader: d.splashShowHeader
+                backgroundColor: d.splashColor
+                headerColor: d.splashColorHeader
+                footerColor: d.splashColorFooter
+            }
         }
     }
 
-    Repeater {
-        model: d.promptSurfaces
+    SessionContainer {
+        id: sessionContainer
+        session: application ? application.session : null
+        anchors.fill: parent
+        orientation: root.orientation
 
-        delegate: SurfaceContainer {
-            anchors {
-                fill: surfaceContainer
-            }
-
-            surface: modelData
-
-            Component.onCompleted: {
-                animateIn();
+        onSurfaceChanged: {
+            if (sessionContainer.surface) {
+                surfaceInitTimer.start();
+                d.forceSurfaceActiveFocusIfReady();
+            } else {
+                d.surfaceInitialized = false;
             }
         }
     }
@@ -154,23 +145,23 @@ Item {
             State {
                 name: "void"
                 when:
-                     d.hadSurface && (!d.surface || !d.surfaceInitialized)
+                     d.hadSurface && (!sessionContainer.surface || !d.surfaceInitialized)
                      &&
                      screenshotImage.status !== Image.Ready
             },
             State {
                 name: "splashScreen"
                 when:
-                     !d.hadSurface && (!d.surface || !d.surfaceInitialized)
+                     !d.hadSurface && (!sessionContainer.surface || !d.surfaceInitialized)
                      &&
                      screenshotImage.status !== Image.Ready
             },
             State {
                 name: "surface"
                 when:
-                      (d.surface && d.surfaceInitialized)
+                      (sessionContainer.surface && d.surfaceInitialized)
                       &&
-                      (d.applicationState !== ApplicationInfo.Stopped
+                      (d.applicationState !== ApplicationInfoInterface.Stopped
                        || screenshotImage.status !== Image.Ready)
             },
             State {
@@ -178,8 +169,8 @@ Item {
                 when:
                       screenshotImage.status === Image.Ready
                       &&
-                      (d.applicationState === ApplicationInfo.Stopped
-                       || !d.surface || !d.surfaceInitialized)
+                      (d.applicationState === ApplicationInfoInterface.Stopped
+                       || !sessionContainer.surface || !d.surfaceInitialized)
             }
         ]
 
@@ -187,14 +178,18 @@ Item {
             Transition {
                 from: ""; to: "splashScreen"
                 PropertyAction { target: splashLoader; property: "active"; value: true }
+                PropertyAction { target: sessionContainer.surfaceContainer
+                                 property: "visible"; value: false }
             },
             Transition {
                 from: "splashScreen"; to: "surface"
                 SequentialAnimation {
-                    PropertyAction { target: surfaceContainer
+                    PropertyAction { target: sessionContainer.surfaceContainer
+                                     property: "opacity"; value: 0.0 }
+                    PropertyAction { target: sessionContainer.surfaceContainer
                                      property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: splashLoader; property: "opacity";
-                                            from: 1.0; to: 0.0
+                    UbuntuNumberAnimation { target: sessionContainer.surfaceContainer; property: "opacity";
+                                            from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
                     PropertyAction { target: splashLoader; property: "active"; value: false }
                 }
@@ -203,11 +198,13 @@ Item {
                 from: "surface"; to: "splashScreen"
                 SequentialAnimation {
                     PropertyAction { target: splashLoader; property: "active"; value: true }
-                    PropertyAction { target: surfaceContainer
+                    PropertyAction { target: sessionContainer.surfaceContainer
                                      property: "visible"; value: true }
                     UbuntuNumberAnimation { target: splashLoader; property: "opacity";
                                             from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
+                    PropertyAction { target: sessionContainer.surfaceContainer
+                                     property: "visible"; value: false }
                 }
             },
             Transition {
@@ -218,15 +215,15 @@ Item {
                     UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
                                             from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: surfaceContainer
+                    PropertyAction { target: sessionContainer.surfaceContainer
                                      property: "visible"; value: false }
-                    ScriptAction { script: { if (d.surface) { d.surface.release(); } } }
+                    ScriptAction { script: { if (sessionContainer.session) { sessionContainer.session.release(); } } }
                 }
             },
             Transition {
                 from: "screenshot"; to: "surface"
                 SequentialAnimation {
-                    PropertyAction { target: surfaceContainer
+                    PropertyAction { target: sessionContainer.surfaceContainer
                                      property: "visible"; value: true }
                     UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
                                             from: 1.0; to: 0.0
@@ -238,16 +235,16 @@ Item {
             Transition {
                 from: "surface"; to: "void"
                 SequentialAnimation {
-                    PropertyAction { target: surfaceContainer; property: "visible"; value: false }
-                    ScriptAction { script: { if (d.surface) { d.surface.release(); } } }
+                    PropertyAction { target: sessionContainer.surfaceContainer; property: "visible"; value: false }
+                    ScriptAction { script: { if (sessionContainer.session) { sessionContainer.session.release(); } } }
                 }
             },
             Transition {
                 from: "void"; to: "surface"
                 SequentialAnimation {
-                    PropertyAction { target: surfaceContainer; property: "opacity"; value: 0.0 }
-                    PropertyAction { target: surfaceContainer; property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
+                    PropertyAction { target: sessionContainer.surfaceContainer; property: "opacity"; value: 0.0 }
+                    PropertyAction { target: sessionContainer.surfaceContainer; property: "visible"; value: true }
+                    UbuntuNumberAnimation { target: sessionContainer.surfaceContainer; property: "opacity";
                                             from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
                 }

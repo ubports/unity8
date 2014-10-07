@@ -7,78 +7,106 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-26 18:32+0000\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"PO-Revision-Date: 2014-10-04 08:00+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:58+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Salasana: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Kiinnitä pikakuvake"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Poista pikakuvakkeen kiinnitys"
 
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Laite on lukittu"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Laite on lukittu liian monen virheellisen tunnuslauseyrityksen jälkeen."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Laite on lukittu liian monen virheellisen suojakoodiyrityksen jälkeen."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Odota %1 minuutti ja yritä sitten uudelleen…"
+msgstr[1] "Odota %1 minuuttia ja yritä sitten uudelleen…"
+
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "Kirjaudu ulos"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Haluatko varmasti kirjautua ulos?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "Sammuta"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Haluatko varmasti sammuttaa laitteen?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "Käynnistä uudelleen"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Haluatko varmasti käynnistää laitteen uudelleen?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Virran katkaisu"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Haluatko varmasti\n"
+"sammuttaa laitteen?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Sammuta"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Käynnistä uudelleen"
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Peru"
 
@@ -130,60 +158,44 @@ msgstr ""
 "Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
 "käytön<br><br>Napauta näyttöä aloittaaksesi"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Odota hetki"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Liian monta virheellistä yritystä"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "Hätäpuhelu"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Hei %1!"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Hei"
-
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "Näytä vähemmän"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:411
 msgid "See all"
 msgstr "Näytä kaikki"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Hae"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
-msgstr ""
+msgstr "Asetukset"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Poista suosikeista"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Lisää suosikkeihin"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Lisää..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "Vähemmän..."
 
@@ -199,15 +211,23 @@ msgstr "Lisää arvostelu"
 msgid "Send"
 msgstr "Lähetä"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "Unityn hallinta"
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "Näkymien hallinta"
+
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "Valmis"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "Kauppa"
 
@@ -220,10 +240,10 @@ msgid "All"
 msgstr "Kaikki"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Avaa pyyhkäisemällä"
+msgid "Unlock"
+msgstr "Avaa lukitus"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Hyväksy"
 
@@ -243,15 +263,15 @@ msgstr "Puhu nyt..."
 msgid "Speaking..."
 msgstr "Puhutaan..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:108
 msgid "Show password"
 msgstr "Näytä salasana"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Enter SIM PIN"
 msgstr "Anna SIM-kortin PIN-koodi"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
+#: qml/Notifications/NotificationMenuItemFactory.qml:125
 msgid "Sorry, incorrect PIN"
 msgstr "Väärä PIN-koodi"
 
@@ -263,27 +283,31 @@ msgstr "Napauta palataksesi puheluun..."
 msgid "Conference"
 msgstr "Ryhmäpuhelu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "Mitään ei toisteta juuri nyt"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr "Jonossa…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "Ladataan"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr "Keskeytetty, napauta palauttaaksesi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr "Peruttu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr "Valmistunut"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr "Epäonnistunut, napauta yrittääksesi uudelleen"
 
@@ -295,45 +319,49 @@ msgstr "Avaa SIM-kortin lukitus"
 msgid "Roaming"
 msgstr "Verkkovierailu"
 
-#: qml/Shell.qml:266
-msgid "Enter your passphrase"
+#: qml/Shell.qml:340
+msgid "Enter passphrase"
 msgstr "Anna tunnuslause"
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "Virheellinen tunnuslause"
 
-#: qml/Shell.qml:282
-msgid "Enter your passcode"
-msgstr ""
+#: qml/Shell.qml:342
+msgid "Please re-enter"
+msgstr "Anna uudelleen"
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:344
+msgid "Enter passcode"
+msgstr "Anna suojakoodi"
+
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Väärä suojakoodi"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:348
 #, qt-format
-msgid "Enter your %1"
+msgid "Enter %1"
 msgstr "Anna %1"
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Väärä %1"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "Virheellinen tunnuslause."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
-msgstr "Virheellinen tunnuskoodi."
+msgstr "Virheellinen suojakoodi."
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "Tämä on viimeinen yritys."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -341,19 +369,36 @@ msgstr ""
 "Jos kirjoitat tunnuslauseen virheellisesti, puhelimesi palautetaan "
 "tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Jos kirjoitat tunnuskoodin virheellisesti, puhelimesi palautetaan "
+"Jos kirjoitat suojakoodin virheellisesti, puhelimesi palautetaan "
 "tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
 
-#~ msgid "Are you sure you would like to turn power off?"
-#~ msgstr "Haluatko varmasti sammuttaa laitteen?"
+#~ msgid "Hello"
+#~ msgstr "Hei"
 
-#~ msgid "Restart"
-#~ msgstr "Käynnistä uudelleen"
+#, qt-format
+#~ msgid "Hello %1"
+#~ msgstr "Hei %1!"
 
-#~ msgid "Enter your PIN"
-#~ msgstr "Anna PIN-koodi"
+#~ msgid "Swipe to unlock"
+#~ msgstr "Avaa pyyhkäisemällä"
+
+#~ msgid "Please wait"
+#~ msgstr "Odota hetki"
+
+#~ msgid "Too many incorrect attempts"
+#~ msgstr "Liian monta virheellistä yritystä"
+
+#, qt-format
+#~ msgid "Enter your %1"
+#~ msgstr "Anna %1"
+
+#~ msgid "Enter your passphrase"
+#~ msgstr "Anna tunnuslause"
+
+#~ msgid "Enter your passcode"
+#~ msgstr "Anna suojakoodi"

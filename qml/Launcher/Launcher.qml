@@ -92,6 +92,7 @@ Item {
     // machine and switch to the final state in the next event loop run
     Timer {
         id: animateTimer
+        objectName: "animateTimer"
         interval: 1
         property string nextState: ""
         onTriggered: {
@@ -243,10 +244,9 @@ Item {
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
+                    root.switchToNextState("visible")
                     if (distance > minimizeDistance) {
                         root.dash();
-                    } else {
-                        root.switchToNextState("visible")
                     }
                 } else {
                     root.switchToNextState("")

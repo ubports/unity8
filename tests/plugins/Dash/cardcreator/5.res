@@ -6,7 +6,7 @@ AbstractButton {
                 property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int headerAlignment: Text.AlignLeft; 
+                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
@@ -40,16 +40,17 @@ Item  {
                                             width = root.fixedArtShapeSize.width; 
                                             height = root.fixedArtShapeSize.height; 
                                         } else { 
-                                            width = Qt.binding(function() { return !visible ? 0 : image.width });
-                                            height = Qt.binding(function() { return !visible ? 0 : image.height });
-                                        } 
+                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width });
+                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
+                                        }
                                     } 
-                                    image: Image { 
+                                    image: CroppedImageMinimumSourceSize {
                                         objectName: "artImage"; 
-                                        source: cardData && cardData["art"] || ""; 
-                                        cache: true; 
+                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
+                                        cache: true;
                                         asynchronous: root.asynchronous; 
-                                        fillMode: Image.PreserveAspectCrop;
+                                        visible: false; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
@@ -114,11 +115,11 @@ Label {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                        color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader && overlayLoader.active; 
                         text: root.title; 
-                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.headerAlignment; 
+                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        horizontalAlignment: root.titleAlignment; 
                     }
 Label { 
                             id: subtitleLabel; 
@@ -131,13 +132,12 @@ Label {
                             } 
                             anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
-                            fontSize: "small"; 
+                            fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: root.scopeStyle ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
+                            color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
-                            horizontalAlignment: root.headerAlignment; 
                         }
 UbuntuShape { 
     id: touchdown; 

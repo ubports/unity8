@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
@@ -25,7 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].showList : false
+    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].openList : false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -38,6 +38,7 @@ FocusScope {
     property int paginationCount: 0
     property int paginationIndex: 0
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
+    property var holdingList: null
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
@@ -46,6 +47,10 @@ FocusScope {
     readonly property bool processing: scope ? scope.searchInProgress || subPageLoader.processing : false
 
     signal backClicked()
+
+    onScopeChanged: {
+        floatingSeeLess.companionBase = null;
+    }
 
     function positionAtBeginning() {
         categoryView.positionAtBeginning()
@@ -66,13 +71,17 @@ FocusScope {
             // so it's not implemented
             scope.activate(result)
         } else {
-            openPreview(index, resultsModel, limitedCategoryItemCount);
+            if (scope.preview(result)) {
+                openPreview(index, resultsModel, limitedCategoryItemCount);
+            }
         }
     }
 
-    function itemPressedAndHeld(index, itemModel, resultsModel, limitedCategoryItemCount) {
+    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") !== 0) {
-            openPreview(index, resultsModel, limitedCategoryItemCount);
+            if (scope.preview(result)) {
+                openPreview(index, resultsModel, limitedCategoryItemCount);
+            }
         }
     }
 
@@ -142,6 +151,7 @@ FocusScope {
         objectName: "categoryListView"
 
         x: subPageLoader.open ? -width : 0
+        visible: x != -width
         Behavior on x { UbuntuNumberAnimation { } }
         width: parent.width
         height: floatingSeeLess.visible ? parent.height - floatingSeeLess.height + floatingSeeLess.yOffset
@@ -151,12 +161,54 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: subPageLoader.open
         pixelAligned: true
-        interactive: !navigationShown
 
-        property Item expandedCategoryItem: null
+        property string expandedCategoryId: ""
+        property int runMaximizeAfterSizeChanges: 0
 
         readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
             ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
+
+        onExpandedCategoryIdChanged: {
+            var firstCreated = firstCreatedIndex();
+            var shrinkingAny = false;
+            var shrinkHeightDifference = 0;
+            for (var i = 0; i < createdItemCount(); ++i) {
+                var baseItem = item(firstCreated + i);
+                if (baseItem.expandable) {
+                    var shouldExpand = baseItem.category === expandedCategoryId;
+                    if (shouldExpand != baseItem.expanded) {
+                        var animate = false;
+                        if (!subPageLoader.open) {
+                            var animateShrinking = !shouldExpand && baseItem.y + baseItem.item.collapsedHeight + baseItem.seeAllButton.height < categoryView.height;
+                            var animateGrowing = shouldExpand && baseItem.y + baseItem.height < categoryView.height;
+                            animate = shrinkingAny || animateShrinking || animateGrowing;
+                        }
+
+                        if (!shouldExpand) {
+                            shrinkingAny = true;
+                            shrinkHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
+                        }
+
+                        if (shouldExpand && !subPageLoader.open) {
+                            if (!shrinkingAny) {
+                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
+                            } else {
+                                // If the space that shrinking is smaller than the one we need to grow we'll call maximizeVisibleArea
+                                // after the shrink/grow animation ends
+                                var growHeightDifference = baseItem.item.expandedHeight - baseItem.item.collapsedHeight;
+                                if (growHeightDifference > shrinkHeightDifference) {
+                                    runMaximizeAfterSizeChanges = 2;
+                                } else {
+                                    runMaximizeAfterSizeChanges = 0;
+                                }
+                            }
+                        }
+
+                        baseItem.expand(shouldExpand, animate);
+                    }
+                }
+            }
+        }
 
         delegate: ListItems.Base {
             id: baseItem
@@ -195,13 +247,13 @@ FocusScope {
                 // This can happen with the VJ that doesn't know how height it will be on creation
                 // so doesn't set expandable until a bit too late for onLoaded
                 if (expandable) {
-                    var shouldExpand = baseItem === categoryView.expandedCategoryItem;
+                    var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
                     baseItem.expand(shouldExpand, false /*animate*/);
                 }
             }
 
-            onHeightChanged: rendererLoader.updateDelegateCreationRange();
-            onYChanged: rendererLoader.updateDelegateCreationRange();
+            onHeightChanged: rendererLoader.updateRanges();
+            onYChanged: rendererLoader.updateRanges();
 
             Loader {
                 id: rendererLoader
@@ -216,9 +268,23 @@ FocusScope {
                     id: heightBehaviour
                     enabled: false
                     animation: UbuntuNumberAnimation {
+                        duration: UbuntuAnimation.FastDuration
                         onRunningChanged: {
                             if (!running) {
                                 heightBehaviour.enabled = false
+                                if (categoryView.runMaximizeAfterSizeChanges > 0) {
+                                    categoryView.runMaximizeAfterSizeChanges--;
+                                    if (categoryView.runMaximizeAfterSizeChanges == 0) {
+                                        var firstCreated = categoryView.firstCreatedIndex();
+                                        for (var i = 0; i < categoryView.createdItemCount(); ++i) {
+                                            var baseItem = categoryView.item(firstCreated + i);
+                                            if (baseItem.category === categoryView.expandedCategoryId) {
+                                                categoryView.maximizeVisibleArea(firstCreated + i, baseItem.item.expandedHeight + baseItem.seeAllButton.height);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -246,10 +312,10 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (baseItem.expandable) {
-                        var shouldExpand = baseItem === categoryView.expandedCategoryItem;
+                        var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
-                    updateDelegateCreationRange();
+                    updateRanges();
                     if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
                         // Yeah, hackish :/
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
@@ -270,7 +336,7 @@ FocusScope {
                     }
 
                     onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, itemModel, target.model, categoryItemCount());
+                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount());
                     }
 
                     function categoryItemCount() {
@@ -283,34 +349,25 @@ FocusScope {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedCategoryItemChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    function collapseAllButExpandedCategory() {
-                        var item = rendererLoader.item;
-                        if (baseItem.expandable) {
-                            var shouldExpand = baseItem === categoryView.expandedCategoryItem;
-                            if (shouldExpand != baseItem.expanded) {
-                                // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
-                                var growingVisible = shouldExpand && y + height < categoryView.height;
-                                if (!subPageLoader.open || shouldExpand) {
-                                    var animate = shrinkingVisible || growingVisible;
-                                    baseItem.expand(shouldExpand, animate)
-                                    if (shouldExpand && !subPageLoader.open) {
-                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    onOriginYChanged: rendererLoader.updateDelegateCreationRange();
-                    onContentYChanged: rendererLoader.updateDelegateCreationRange();
-                    onHeightChanged: rendererLoader.updateDelegateCreationRange();
-                    onContentHeightChanged: rendererLoader.updateDelegateCreationRange();
+                    onOriginYChanged: rendererLoader.updateRanges();
+                    onContentYChanged: rendererLoader.updateRanges();
+                    onHeightChanged: rendererLoader.updateRanges();
+                    onContentHeightChanged: rendererLoader.updateRanges();
+                }
+                Connections {
+                    target: scopeView
+                    onIsCurrentChanged: rendererLoader.updateRanges();
+                }
+                Connections {
+                    target: holdingList
+                    onMovingChanged: if (!moving) rendererLoader.updateRanges();
                 }
 
-                function updateDelegateCreationRange() {
+                function updateRanges() {
+                    if (holdingList && holdingList.moving) {
+                        return;
+                    }
+
                     if (categoryView.moving) {
                         // Do not update the range if we are overshooting up or down, since we'll come back
                         // to the stable position and delete/create items without any reason
@@ -322,10 +379,20 @@ FocusScope {
                         }
                     }
 
+                    if (item && item.hasOwnProperty("visibleRangeBegin")) {
+                        item.visibleRangeBegin = Math.max(-baseItem.y, 0)
+                        item.visibleRangeEnd = item.visibleRangeBegin + Math.min(categoryView.height, rendererLoader.height)
+                    }
+
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
                         // TODO do we need item.originY here, test 1300302 once we have a silo
                         // and we can run it on the phone
-                        if (baseItem.y + baseItem.height <= 0) {
+                        if (scopeView.isCurrent) {
+                            // 1073741823 is s^30 -1. A quite big number so that you have "infinite" display margin, but not so
+                            // big so that if you add if with itself you're outside the 2^31 int range
+                            item.displayMarginBeginning = 1073741823;
+                            item.displayMarginEnd = 1073741823;
+                        } else if (baseItem.y + baseItem.height <= 0) {
                             // Not visible (item at top of the list viewport)
                             item.displayMarginBeginning = -baseItem.height;
                             item.displayMarginEnd = 0;
@@ -334,9 +401,9 @@ FocusScope {
                             item.displayMarginBeginning = 0;
                             item.displayMarginEnd = -baseItem.height;
                         } else {
-                            item.displayMarginBeginning = -Math.max(-baseItem.y, 0);
-                            item.displayMarginEnd = -Math.max(baseItem.height - seeAll.height
-                                                              - categoryView.height + baseItem.y, 0)
+                            item.displayMarginBeginning = Math.round(-Math.max(-baseItem.y, 0));
+                            item.displayMarginEnd = -Math.round(Math.max(baseItem.height - seeAll.height -
+                                                                         categoryView.height + baseItem.y, 0));
                         }
                     }
                 }
@@ -350,13 +417,15 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                height: seeAllLabel.visible ? seeAllLabel.font.pixelSize + units.gu(4) : 0
+                height: baseItem.expandable && !baseItem.headerLink ? seeAllLabel.font.pixelSize + units.gu(4) : 0
+                visible: height != 0
 
                 onClicked: {
-                    if (categoryView.expandedCategoryItem !== baseItem) {
-                        categoryView.expandedCategoryItem = baseItem;
+                    if (categoryView.expandedCategoryId !== baseItem.category) {
+                        categoryView.expandedCategoryId = baseItem.category;
+                        floatingSeeLess.companionBase = baseItem;
                     } else {
-                        categoryView.expandedCategoryItem = null;
+                        categoryView.expandedCategoryId = "";
                     }
                 }
 
@@ -370,7 +439,6 @@ FocusScope {
                     fontSize: "small"
                     font.weight: Font.Bold
                     color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
-                    visible: baseItem.expandable && !baseItem.headerLink
                 }
             }
 
@@ -451,12 +519,47 @@ FocusScope {
         }
     }
 
+    Item {
+        id: pullToRefreshClippingItem
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: parent.height - pullToRefresh.contentY + (pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].height - pageHeaderLoader.item.height : 0)
+        clip: true
+
+        PullToRefresh {
+            id: pullToRefresh
+            objectName: "pullToRefresh"
+            target: categoryView
+
+            readonly property real contentY: categoryView.contentY - categoryView.originY
+            y: -contentY - units.gu(5)
+
+            onRefresh: {
+                refreshing = true
+                scopeView.scope.refresh()
+            }
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            Connections {
+                target: scopeView
+                onProcessingChanged: if (!scopeView.processing) pullToRefresh.refreshing = false
+            }
+
+            style: PullToRefreshScopeStyle {
+                anchors.fill: parent
+                activationThreshold: units.gu(14)
+            }
+        }
+    }
+
     AbstractButton {
         id: floatingSeeLess
         objectName: "floatingSeeLess"
 
         property Item companionTo: companionBase ? companionBase.seeAllButton : null
-        property Item companionBase: categoryView.expandedCategoryItem
+        property Item companionBase: null
         property bool showBecausePosition: false
         property real yOffset: 0
 
@@ -468,7 +571,7 @@ FocusScope {
         height: seeLessLabel.font.pixelSize + units.gu(4)
         visible: companionTo && showBecausePosition
 
-        onClicked: categoryView.expandedCategoryItem = null;
+        onClicked: categoryView.expandedCategoryId = "";
 
         function updateVisibility() {
             var companionPos = companionTo.mapToItem(floatingSeeLess, 0, 0);
@@ -477,6 +580,10 @@ FocusScope {
             var posToBase = floatingSeeLess.mapToItem(companionBase, 0, -yOffset).y;
             yOffset = Math.max(0, companionBase.item.collapsedHeight - posToBase);
             yOffset = Math.min(yOffset, height);
+
+            if (!showBecausePosition && categoryView.expandedCategoryId === "") {
+                companionBase = null;
+            }
         }
 
         Label {
