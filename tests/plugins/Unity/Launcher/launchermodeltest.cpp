@@ -43,7 +43,12 @@ public:
     ApplicationInfoInterface::Stage stage() const { return ApplicationInfoInterface::MainStage; }
     ApplicationInfoInterface::State state() const { return ApplicationInfoInterface::Running; }
     bool focused() const { return m_focused; }
-    QUrl screenshot() const { return QUrl(); }
+    QString splashTitle() const override { return QString(); }
+    QUrl splashImage() const override { return QUrl(); }
+    bool splashShowHeader() const override { return true; }
+    QColor splashColor() const override { return QColor(0,0,0,0); }
+    QColor splashColorHeader() const override { return QColor(0,0,0,0); }
+    QColor splashColorFooter() const override { return QColor(0,0,0,0); }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -100,6 +105,8 @@ public:
     bool requestFocusApplication(const QString &appId) { Q_UNUSED(appId); return true; }
     bool suspended() const { return false; }
     void setSuspended(bool) {}
+    bool forceDashActive() const { return false; }
+    void setForceDashActive(bool) {}
 
 private:
     QList<MockApp*> m_list;

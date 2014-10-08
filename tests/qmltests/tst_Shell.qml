@@ -198,6 +198,10 @@ Row {
 
             var launcher = findChild(shell, "launcherPanel");
             tryCompare(launcher, "x", data.launcherHides ? -launcher.width : 0)
+
+            // Make sure the helper for sliding out the launcher wasn't touched. We want to fade it out here.
+            var animateTimer = findInvisibleChild(shell, "animateTimer");
+            compare(animateTimer.nextState, "visible");
         }
 
         function test_suspend() {
@@ -547,6 +551,25 @@ Row {
             // TODO reenable when service ready (LP: #1361074)
             expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
+        }
+
+        function test_leftEdgeDragOnGreeter_data() {
+            return [
+                {tag: "short swipe", targetX: shell.width / 3, unlocked: false},
+                {tag: "long swipe", targetX: shell.width / 3 * 2, unlocked: true}
+            ]
+        }
+
+        function test_leftEdgeDragOnGreeter(data) {
+            var greeter = findChild(shell, "greeter");
+            greeter.show();
+            tryCompare(greeter, "showProgress", 1);
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
+
+            tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
         }
     }
 }

@@ -59,7 +59,7 @@ GridLayout {
                 text: "value" in modelData && modelData["value"] || "";
                 elide: Text.ElideRight
                 maximumLineCount: 1
-                font.weight: "style" in modelData && modelData["style"] == "highlighted" ? Font.DemiBold : Font.Light
+                font.weight: "style" in modelData && modelData["style"] === "highlighted" ? Font.Bold : Font.Light
                 fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 color: grid.color

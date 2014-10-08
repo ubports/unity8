@@ -42,8 +42,6 @@ static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEng
 
 void Indicators2Plugin::registerTypes(const char *uri)
 {
-    Q_INIT_RESOURCE(indicators);
-
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");

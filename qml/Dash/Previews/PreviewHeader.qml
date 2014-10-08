@@ -16,12 +16,14 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Dash 0.1
 import "../"
 
 /*! This preview widget shows a header
  *  The title comes in widgetData["title"]
  *  The mascot comes in widgetData["mascot"]
  *  The subtitle comes in widgetData["subtitle"]
+ *  The attributes comes in widgetData["attributes"]
  */
 
 PreviewWidget {
@@ -35,6 +37,7 @@ PreviewWidget {
         readonly property url mascot: root.widgetData["mascot"] || ""
         readonly property string title: root.widgetData["title"] || ""
         readonly property string subtitle: root.widgetData["subtitle"] || ""
+        readonly property var attributes: root.widgetData["attributes"] || null
         readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
 
         implicitHeight: row.height + row.margins * 2
@@ -97,7 +100,6 @@ PreviewWidget {
                     font.weight: Font.Normal
                     fontSize: "large"
                     wrapMode: Text.Wrap
-                    maximumLineCount: 2
                     color: headerRoot.fontColor
                     text: headerRoot.title
                 }
@@ -113,6 +115,16 @@ PreviewWidget {
                         font.weight: Font.Light
                         color: headerRoot.fontColor
                         text: headerRoot.subtitle
+                    }
+                }
+
+                Loader {
+                    active: titleLabel.text && headerRoot.attributes
+                    anchors { left: parent.left; right: parent.right }
+                    sourceComponent: CardAttributes {
+                        id: previewAttributes
+                        objectName: "previewAttributes"
+                        model: headerRoot.attributes
                     }
                 }
             }

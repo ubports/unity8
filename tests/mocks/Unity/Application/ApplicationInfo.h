@@ -68,6 +68,13 @@ public:
     void setFocused(bool value);
     bool focused() const override { return m_focused; }
 
+    QString splashTitle() const override { return QString(); }
+    QUrl splashImage() const override { return QUrl(); }
+    bool splashShowHeader() const override { return false; }
+    QColor splashColor() const override { return QColor(0,0,0,0); }
+    QColor splashColorHeader() const override { return QColor(0,0,0,0); }
+    QColor splashColorFooter() const override { return QColor(0,0,0,0); }
+
     QString screenshot() const { return m_screenshotFileName; }
 
     void setFullscreen(bool value);

@@ -12,6 +12,7 @@
 # Two targets will be created:
 #   - testComponentName - Runs the test with qmltestrunner
 #   - tryComponentName - Runs the test with uqmlscene, for manual interaction
+#   - gdbtestComponentName - Runs the test with qmltestrunner under gdb
 #
 # To change/set a default value for the whole test suite, prior to calling add_qml_test, set:
 # qmltest_DEFAULT_NO_ADD_TEST (default: FALSE)
@@ -81,6 +82,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
     cmake_parse_arguments(qmltest_default "${options}" "" "${multi_value_keywords}" ${qmltest_DEFAULT_PROPERTIES})
 
     set(qmltest_TARGET test${COMPONENT_NAME})
+    set(qmltest_gdb_TARGET gdbtest${COMPONENT_NAME})
     set(qmltest_xvfb_TARGET xvfbtest${COMPONENT_NAME})
     set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
 
@@ -138,12 +140,18 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
             ${function_ARGS}
     )
 
+    set(qmltest_gdb_command
+        env ${test_env} ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH}
+        gdb -e ${qmltestrunner_exe} -ex \"run -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml ${qmltestrunner_imports} ${ITERATIONS_STRING}\"
+    )
+
     add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE ${qmltest_NO_ADD_TEST})
     add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS} TRUE)
+    add_qmltest_target(${qmltest_gdb_TARGET} "${qmltest_gdb_command}" TRUE TRUE)
     add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test_internal)
 
-macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
+macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS ENVVAR)
     set(testCommand
           LD_LIBRARY_PATH=${LD_PATH}
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
@@ -160,6 +168,7 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
     endif()
     set(xvfbtestCommand
           ${LD_PRELOAD_PATH}
+          ${ENVVAR}
           LD_LIBRARY_PATH=${LD_PATH}
           xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec

@@ -32,9 +32,8 @@ Item {
         menuIndex: 0
     }
 
-    Utils.TimeFormatter {
+    Utils.RelativeTimeFormatter {
         id: timeFormatter
-        format: "hh:mm - MMM dd"
     }
 
     UT.UnityTestCase {
@@ -73,8 +72,8 @@ Item {
 
         function test_create_simpleTextmessage_data() {
             return [
-                { title: "Title1", time: new Date(2013, 10, 10).getTime()*1000, message: "This is a text message 1", avatar: "file:///avatar1", appIcon: "file:///appIcon1", enabled: true},
-                { title: "Title2", time: new Date(2014, 12, 10).getTime()*1000, message: "This is a text message 2", avatar: "file:///avatar2", appIcon: "file:///appIcon2", enabled: false},
+                { title: "Title1", time: new Date(2013, 10, 10), body: "This is a text message 1", avatar: "file:///avatar1", icon: "file:///appIcon1", enabled: true},
+                { title: "Title2", time: new Date(2014, 12, 10), body: "This is a text message 2", avatar: "file:///avatar2", icon: "file:///appIcon2", enabled: false},
             ];
         }
 
@@ -83,30 +82,27 @@ Item {
             menuData.label = data.title;
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalTime': data.time,
-                'xCanonicalText': data.message,
+                'xCanonicalTime': data.time.getTime()*1000,
+                'xCanonicalText': data.body,
                 'icon': data.avatar,
-                'xCanonicalAppIcon': data.appIcon,
+                'xCanonicalAppIcon': data.icon,
             };
             factory.menuData = menuData;
-            timeFormatter.time = data.time;
+            timeFormatter.time = data.time.getTime()/1000;
 
-            var loader = findChild(factory, "loader");
-            verify(loader !== undefined);
-
-            tryCompare(loader.item, "objectName", "simpleTextMessage");
-            compare(loader.item.title, data.title, "Title does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
-            compare(loader.item.message, data.message, "Message does not match data");
-            compare(loader.item.avatar, data.avatar, "Avatar does not match data");
-            compare(loader.item.appIcon, data.appIcon, "App icon does not match data");
-            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            tryCompare(factory.item, "objectName", "simpleTextMessage");
+            compare(factory.item.title, data.title, "Title does not match data");
+            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.body, data.body, "Message does not match data");
+            compare(factory.item.avatar, data.avatar, "Avatar does not match data");
+            compare(factory.item.icon, data.icon, "App icon does not match data");
+            compare(factory.item.enabled, data.enabled, "Enabled does not match data");
         }
 
         function test_create_textmessage_data() {
             return [
-                { title: "Title1", time: new Date(2013, 10, 10).getTime()*1000, message: "This is a text message 1", avatar: "file:///avatar1", appIcon: "file:///appIcon1", enabled: true},
-                { title: "Title2", time: new Date(2014, 12, 10).getTime()*1000, message: "This is a text message 2", avatar: "file:///avatar2", appIcon: "file:///appIcon2", enabled: false},
+                { title: "Title1", time: new Date(2013, 10, 10), body: "This is a text message 1", avatar: "file:///avatar1", icon: "file:///appIcon1", enabled: true},
+                { title: "Title2", time: new Date(2014, 12, 10), body: "This is a text message 2", avatar: "file:///avatar2", icon: "file:///appIcon2", enabled: false},
             ];
         }
 
@@ -115,10 +111,10 @@ Item {
             menuData.label = data.title;
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalTime': data.time,
-                'xCanonicalText': data.message,
+                'xCanonicalTime': data.time.getTime()*1000,
+                'xCanonicalText': data.body,
                 'icon': data.avatar,
-                'xCanonicalAppIcon': data.appIcon,
+                'xCanonicalAppIcon': data.icon,
                 'xCanonicalMessageActions': [{
                         'parameter-type': "s",
                         'name': "action::reply",
@@ -127,25 +123,22 @@ Item {
                 ]
             };
             factory.menuData = menuData;
-            timeFormatter.time = data.time;
+            timeFormatter.time = data.time.getTime()/1000;
 
-            var loader = findChild(factory, "loader");
-            verify(loader !== undefined);
-
-            tryCompare(loader.item, "objectName", "textMessage");
-            compare(loader.item.title, data.title, "Title does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
-            compare(loader.item.message, data.message, "Message does not match data");
-            compare(loader.item.avatar, data.avatar, "Avatar does not match data");
-            compare(loader.item.appIcon, data.appIcon, "App icon does not match data");
-            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            tryCompare(factory.item, "objectName", "textMessage");
+            compare(factory.item.title, data.title, "Title does not match data");
+            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.body, data.body, "Message does not match data");
+            compare(factory.item.avatar, data.avatar, "Avatar does not match data");
+            compare(factory.item.icon, data.icon, "App icon does not match data");
+            compare(factory.item.enabled, data.enabled, "Enabled does not match data");
         }
 
 
         function test_create_snapDecision_data() {
             return [
-                { title: "Title1", time: new Date(2013, 10, 10).getTime()*1000, message: "This is a text message 1", avatar: "file:///avatar1", appIcon: "file:///appIcon1", enabled: true},
-                { title: "Title2", time: new Date(2014, 12, 10).getTime()*1000, message: "This is a text message 2", avatar: "file:///avatar2", appIcon: "file:///appIcon2", enabled: false},
+                { title: "Title1", time: new Date(2013, 10, 10), body: "This is a text message 1", avatar: "file:///avatar1", icon: "file:///appIcon1", enabled: true},
+                { title: "Title2", time: new Date(2014, 12, 10), body: "This is a text message 2", avatar: "file:///avatar2", icon: "file:///appIcon2", enabled: false},
             ];
         }
 
@@ -154,10 +147,10 @@ Item {
             menuData.label = data.title;
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalTime': data.time,
-                'xCanonicalText': data.message,
+                'xCanonicalTime': data.time.getTime()*1000,
+                'xCanonicalText': data.body,
                 'icon': data.avatar,
-                'xCanonicalAppIcon': data.appIcon,
+                'xCanonicalAppIcon': data.icon,
                 'xCanonicalMessageActions': [{
                         'name': "action::callback",
                         'label': "Callback1"
@@ -169,18 +162,15 @@ Item {
                 ]
             };
             factory.menuData = menuData;
-            timeFormatter.time = data.time;
+            timeFormatter.time = data.time.getTime()/1000;
 
-            var loader = findChild(factory, "loader");
-            verify(loader !== undefined);
-
-            tryCompare(loader.item, "objectName", "snapDecision");
-            compare(loader.item.title, data.title, "Title does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
-            compare(loader.item.message, data.message, "Message does not match data");
-            compare(loader.item.avatar, data.avatar, "Avatar does not match data");
-            compare(loader.item.appIcon, data.appIcon, "App icon does not match data");
-            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            tryCompare(factory.item, "objectName", "snapDecision");
+            compare(factory.item.title, data.title, "Title does not match data");
+            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.body, data.body, "Message does not match data");
+            compare(factory.item.avatar, data.avatar, "Avatar does not match data");
+            compare(factory.item.icon, data.icon, "App icon does not match data");
+            compare(factory.item.enabled, data.enabled, "Enabled does not match data");
         }
 
     }
