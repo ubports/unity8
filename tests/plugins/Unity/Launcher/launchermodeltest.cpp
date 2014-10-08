@@ -124,6 +124,7 @@ private Q_SLOTS:
 
     void initTestCase() {
         launcherModel = new LauncherModel(this);
+        QCoreApplication::processEvents(); // to let the model register on DBus
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 0);
 
         appManager = new MockAppManager(this);

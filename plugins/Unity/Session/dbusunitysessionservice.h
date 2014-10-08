@@ -134,6 +134,8 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void RequestShutdown();
 
+private Q_SLOTS:
+    void registerDBus();
 };
 
 #endif // DBUSUNITYSESSIONSERVICE_H

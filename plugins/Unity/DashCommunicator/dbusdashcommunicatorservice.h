@@ -34,6 +34,8 @@ Q_SIGNALS:
 public Q_SLOTS:
     Q_SCRIPTABLE void SetCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
 
+private Q_SLOTS:
+    void registerDBus();
 };
 
 #endif // DBUSUNITYSESSIONSERVICE_H

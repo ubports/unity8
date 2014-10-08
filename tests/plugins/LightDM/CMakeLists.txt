@@ -1,5 +1,7 @@
 add_executable(test-lightdm-dbus
     dbus.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeterList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     )
 qt5_use_modules(test-lightdm-dbus Core DBus Quick Test)

@@ -45,6 +45,7 @@ private Q_SLOTS:
         QFETCH(QString, method);
 
         DBusUnitySessionService dbusUnitySessionService;
+        QCoreApplication::processEvents(); // to let the service register on DBus
 
         QDBusConnection con = QDBusConnection::sessionBus();
         QDBusInterface interface ("com.canonical.Unity",

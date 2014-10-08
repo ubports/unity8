@@ -19,14 +19,13 @@
 #include <QDBusConnection>
 #include <QDBusInterface>
 #include <QDebug>
+#include <QTimer>
 
 DBusDashCommunicatorService::DBusDashCommunicatorService(QObject *parent):
     QObject(parent)
 {
-    QDBusConnection connection = QDBusConnection::sessionBus();
-
-    connection.registerService("com.canonical.UnityDash");
-    connection.registerObject("/com/canonical/UnityDash", this, QDBusConnection::ExportScriptableSlots);
+    // Use a zero-timer to let Qml finish loading before we announce on DBus
+    QTimer::singleShot(0, this, SLOT(registerDBus()));
 }
 
 DBusDashCommunicatorService::~DBusDashCommunicatorService()
@@ -36,4 +35,12 @@ DBusDashCommunicatorService::~DBusDashCommunicatorService()
 void DBusDashCommunicatorService::SetCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
 {
     Q_EMIT setCurrentScopeRequested(scopeId, animate, isSwipe);
+}
+
+void DBusDashCommunicatorService::registerDBus()
+{
+    QDBusConnection connection = QDBusConnection::sessionBus();
+
+    connection.registerService("com.canonical.UnityDash");
+    connection.registerObject("/com/canonical/UnityDash", this, QDBusConnection::ExportScriptableSlots);
 }

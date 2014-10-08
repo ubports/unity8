@@ -16,9 +16,17 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
+#include "DBusGreeter.h"
+#include "DBusGreeterList.h"
 #include "Greeter.h"
 #include <libintl.h>
 #include <QLightDM/Greeter>
+#include <QTimer>
+
+static const char* GREETER_DBUS_PATH = "/";
+static const char* GREETER_LIST_DBUS_PATH = "/list";
+static const char* GREETER_DBUS_SERVICE = "com.canonical.UnityGreeter";
+
 
 class GreeterPrivate
 {
@@ -61,6 +69,9 @@ Greeter::Greeter(QObject* parent)
             this, SLOT(authenticationCompleteFilter()));
 
     d->m_greeter->connectSync();
+
+    // Use a zero-timer to let Qml finish loading before we announce on DBus
+    QTimer::singleShot(0, this, SLOT(registerDBus()));
 }
 
 bool Greeter::isActive() const
@@ -153,4 +164,14 @@ void Greeter::authenticationCompleteFilter()
 
     Q_EMIT isAuthenticatedChanged();
     Q_EMIT authenticationComplete();
+}
+
+void Greeter::registerDBus()
+{
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    DBusGreeter *root = new DBusGreeter(this, connection, GREETER_DBUS_PATH);
+    connection.registerObject(GREETER_DBUS_PATH, root, QDBusConnection::ExportScriptableContents);
+    DBusGreeterList *list = new DBusGreeterList(this, connection, GREETER_LIST_DBUS_PATH);
+    connection.registerObject(GREETER_LIST_DBUS_PATH, list, QDBusConnection::ExportScriptableContents);
+    connection.registerService(GREETER_DBUS_SERVICE);
 }

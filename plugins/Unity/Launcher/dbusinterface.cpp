@@ -25,19 +25,14 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
+#include <QTimer>
 
 DBusInterface::DBusInterface(LauncherModel *parent):
     QDBusVirtualObject(parent),
     m_launcherModel(parent)
 {
-    /* Set up ourselves on DBus */
-    QDBusConnection con = QDBusConnection::sessionBus();
-    if (!con.registerService("com.canonical.Unity.Launcher")) {
-        qWarning() << "Unable to register launcher name";
-    }
-    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
-        qWarning() << "Unable to register launcher object";
-    }
+    // Use a zero-timer to let Qml finish loading before we announce on DBus
+    QTimer::singleShot(0, this, SLOT(registerDBus()));
 }
 
 DBusInterface::~DBusInterface()
@@ -229,4 +224,16 @@ void DBusInterface::emitPropChangedDbus(const QString& appId, const QString& pro
 
     QDBusConnection con = QDBusConnection::sessionBus();
     con.send(message);
+}
+
+void DBusInterface::registerDBus()
+{
+    /* Set up ourselves on DBus */
+    QDBusConnection con = QDBusConnection::sessionBus();
+    if (!con.registerService("com.canonical.Unity.Launcher")) {
+        qWarning() << "Unable to register launcher name";
+    }
+    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
+        qWarning() << "Unable to register launcher object";
+    }
 }

@@ -47,4 +47,6 @@ private:
 
     LauncherModel *m_launcherModel;
 
+private Q_SLOTS:
+    void registerDBus();
 };
