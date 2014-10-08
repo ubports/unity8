@@ -640,6 +640,9 @@ Item {
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
                 panelHeight: units.gu(3)
             }
+            callHint {
+                greeterShown: greeter.shown || lockscreen.shown
+            }
 
             property bool topmostApplicationIsFullscreen:
                 ApplicationManager.focusedApplicationId &&
