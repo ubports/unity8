@@ -130,7 +130,7 @@ if [ -z "${PASSWORD}" ]; then
     usage
 fi
 
-PASSFILE=$(adb shell 'mktemp')
+PASSFILE=$(adb shell 'mktemp' | tr -d '\r')
 adb shell "echo '#!/bin/sh' > ${PASSFILE}"
 adb shell "echo \"echo \\\"${PASSWORD}\\\"\" >> ${PASSFILE}"
 adb shell "chmod +x ${PASSFILE}"
