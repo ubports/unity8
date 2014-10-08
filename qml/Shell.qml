@@ -444,6 +444,7 @@ Item {
     Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
         id: greeterWrapper
+        objectName: "greeterWrapper"
         x: greeter.narrowMode ? launcher.progress : 0
         y: panel.panelHeight
         width: parent.width

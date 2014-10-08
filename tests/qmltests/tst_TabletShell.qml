@@ -112,7 +112,7 @@ Row {
 
     UT.UnityTestCase {
         id: testCase
-        name: "Shell"
+        name: "TabletShell"
         when: windowShown
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
@@ -204,8 +204,8 @@ Row {
         }
 
         function confirmLoggedIn(loggedIn) {
-            var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", loggedIn ? 0 : 1)
+            var greeterWrapper = findChild(shell, "greeterWrapper")
+            tryCompare(greeterWrapper, "showProgress", loggedIn ? 0 : 1)
             tryCompare(sessionSpy, "count", loggedIn ? 1 : 0)
         }
 
@@ -282,6 +282,7 @@ Row {
         function test_leftEdgeDrag(data) {
             selectUser(data.user)
             swipeFromLeftEdge(shell.width * 0.75)
+            wait(500) // to give time to handle dash() signal from Launcher
             confirmLoggedIn(data.loggedIn)
         }
     }
