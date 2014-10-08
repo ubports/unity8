@@ -288,7 +288,6 @@ Item {
 
             ShapedIcon {
                 id: centeredIcon
-
                 objectName: "centeredIcon"
                 width: units.gu(6)
                 height: width
