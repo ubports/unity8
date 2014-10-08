@@ -192,9 +192,12 @@ Row {
             return i
         }
 
-        function clickPasswordInput() {
+        function clickPasswordInput(isButton) {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 1)
+
+            var passwordMouseArea = findChild(shell, "passwordMouseArea")
+            tryCompare(passwordMouseArea, "enabled", isButton)
 
             var passwordInput = findChild(shell, "passwordInput")
             mouseClick(passwordInput, passwordInput.width / 2, passwordInput.height / 2)
@@ -237,7 +240,7 @@ Row {
         function test_login(data) {
             selectUser(data.user)
 
-            clickPasswordInput()
+            clickPasswordInput(data.password === "")
 
             if (data.password !== "") {
                 typeString(data.password)
