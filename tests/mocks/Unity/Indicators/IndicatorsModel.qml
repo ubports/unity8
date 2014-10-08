@@ -38,14 +38,14 @@ Indicators.FakeIndicatorsModel {
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake3",
                                            "/com/canonical/indicators/fake3",
                                            "/com/canonical/indicators/fake3",
-                                           getUnityMenuModelData("fake-indicator-sound",
+                                           getUnityMenuModelData("fake-indicator-messages",
                                                                  "Messages (F)",
                                                                  "",
                                                                  [ "image://theme/messages-new" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake4",
                                            "/com/canonical/indicators/fake4",
                                            "/com/canonical/indicators/fake4",
-                                           getUnityMenuModelData("fake-indicator-power",
+                                           getUnityMenuModelData("fake-indicator-sound",
                                                                  "Sound (F)",
                                                                  "",
                                                                  [ "image://theme/audio-volume-high" ]));
