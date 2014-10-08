@@ -448,15 +448,15 @@ Row {
         }
 
         function test_greeterChangesIndicatorProfile() {
-            var visibleIndicators = findChild(shell, "visibleIndicators")
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile)
+            var visibleIndicators = findChild(shell, "visibleIndicators");
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
 
-            var greeter = findChild(shell, "greeter")
-            greeter.show()
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter")
+            var greeter = findChild(shell, "greeter");
+            greeter.show();
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter");
 
-            greeter.hide()
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile)
+            greeter.hide();
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
         }
 
         function test_focusRequestedHidesGreeter() {

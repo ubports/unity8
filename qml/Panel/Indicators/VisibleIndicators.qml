@@ -67,8 +67,8 @@ Item {
             }
 
             Component.onCompleted: {
-                updateProperties()
-                updateVisibility()
+                updateProperties();
+                updateVisibility();
             }
 
             Connections {

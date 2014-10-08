@@ -43,7 +43,7 @@ Loader {
 
     onIndicatorPropertiesChanged: {
         if (status === Loader.Ready) {
-            updateProperties()
+            updateProperties();
         }
     }
 
