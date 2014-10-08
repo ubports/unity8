@@ -43,6 +43,7 @@ ApplicationManager *ApplicationManager::singleton()
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
     , m_suspended(false)
+    , m_forceDashActive(false)
 {
     m_roleNames.insert(RoleSession, "session");
     m_roleNames.insert(RoleFullscreen, "fullscreen");
@@ -290,6 +291,31 @@ void ApplicationManager::setSuspended(bool suspended)
     }
     m_suspended = suspended;
     Q_EMIT suspendedChanged();
+}
+
+bool ApplicationManager::forceDashActive() const
+{
+    return m_forceDashActive;
+}
+
+void ApplicationManager::setForceDashActive(bool forceDashActive)
+{
+    if (m_forceDashActive == forceDashActive) {
+        return;
+    }
+
+    ApplicationInfo *dash = findApplication("unity8-dash");
+    if (dash) {
+        if (forceDashActive) {
+            dash->setState(ApplicationInfo::Running);
+        } else {
+            if (!dash->focused()) {
+                dash->setState(ApplicationInfo::Suspended);
+            }
+        }
+    }
+    m_forceDashActive = forceDashActive;
+    Q_EMIT forceDashActiveChanged();
 }
 
 bool ApplicationManager::focusApplication(const QString &appId)

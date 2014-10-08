@@ -49,6 +49,7 @@ Item {
             right: parent.right
         }
         model: root.scope ? root.scope.settings : null
+        clip: true
 
         delegate: ScopeSettingsWidgetFactory {
             objectName: "scopeSettingItem" + index

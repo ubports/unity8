@@ -1,3 +1,122 @@
+unity8 (8.00+14.10.20141006-0ubuntu1) utopic; urgency=low
+
+  [ Andrea Cimitan ]
+  * Tweak card header to match the spec
+  * Add preview image slideshow (LP: #1351537)
+
+  [ Michał Sawicz ]
+  * Cache more things in memory, so flicking scopes should be faster
+    (LP: #1336724)
+  * Tweak card header to match the spec
+  * Save texture memory by limiting sourceSize (LP: #1338430)
+
+  [ Ying-Chun Liu ]
+  * Add attributes to Preview. (LP: #1282460)
+
+  [ Albert Astals ]
+  * Update pot
+  * Cache more things in memory, so flicking scopes should be faster
+    (LP: #1336724)
+  * Save texture memory by limiting sourceSize (LP: #1338430)
+  * Clip the settings list
+  * Fix unlocking from the left again
+  * Add wait_ makes tests more reliable
+
+  [ Michael Zanetti ]
+  * fix fading out the launcher instead of sliding it out on left-edge
+    minimizing an app.
+  * Make the DashCommunicator async and more flexible to handle a
+    lifecycle-suspended dash (LP: #1339883)
+
+  [ Michael Terry ]
+  * Retry unlock-device script if it fails, as there is always a risk of
+    a small race with boot-up. (LP: #1370644)
+  * Add pull-to-refresh functionality to scopes. (LP: #1368336)
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 06 Oct 2014 08:03:23 +0000
+
+unity8 (8.00+14.10.20140930.2-0ubuntu1) utopic; urgency=low
+
+  [ Alexandros Frantzis ]
+  * Remove stale trusted socket before starting unity8 from upstart (LP:
+    #1371597) (LP: #1371597)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Andrea Cimitan ]
+  * Move activity indicator on top of keyboard (LP: #1354519)
+
+  [ Gerry Boland ]
+  * Cleanup: Remove unused member and fix small syntax error in
+    OrientationLock
+
+  [ josharenson ]
+  * Fix lp:1367894 by correcting how the minute value is calculated in
+    the panel. (LP: #1367894)
+
+  [ Nick Dedekind ]
+  * Fixed DefaultIndicatorPage test. Fixed warnings from test.
+
+  [ Ying-Chun Liu ]
+  * Remove maxLineCount in preview. (LP: 1328513) (LP: #1328513)
+
+  [ Michael Terry ]
+  * Fix some code that accidentally landed in trunk before it got
+    cleaned up. The current code just has some duplication to it that
+    should be unified.
+  * Implement latest visual designs for passphrase lockscreen.
+  * Make it easier to use the Lockscreen component from the welcome
+    wizard.
+  * Limit how much memory we reserve for the greeter background image,
+    allowing giant images to appear correctly.
+
+  [ Daniel d'Andrada ]
+  * Add gdbTestComponentName build targets
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 30 Sep 2014 16:57:28 +0000
+
+unity8 (8.00+14.10.20140926-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Nick Dedekind ]
+  * Visual changes for indicator RTM polishing (LP: #1329289)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 26 Sep 2014 19:12:39 +0000
+
+unity8 (8.00+14.10.20140923-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * fix swiping away the launcher from the left edge
+  * fix indicators AP test
+
+  [ Florian Boucault ]
+  * New Splash screen implementation that fakes real app
+
+  [ Albert Astals ]
+  * We need this in build-depends so that qmluitests pass in CI
+
+  [ Daniel d'Andrada ]
+  * New Splash screen implementation that fakes real app
+
+  [ Michael Terry ]
+  * Fix LC_ALL and test harder by making both manual runs of
+    timeformattertest and the whole test suite use the same locale
+    settings.
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 23 Sep 2014 09:26:18 +0000
+
 unity8 (8.00+14.10.20140918.3-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]
