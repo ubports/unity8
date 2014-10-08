@@ -29,7 +29,6 @@ Showable {
     visible: shown
 
     property string showScopeOnLoaded: "clickscope"
-    property real contentScale: 1.0
 
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
@@ -100,7 +99,7 @@ Showable {
         width: dash.width
         height: dash.height
         scopes: scopes
-        visible: x != -width
+        visible: x != -width && bottomEdgeController.progress != 1
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
         }
@@ -115,8 +114,6 @@ Showable {
                 dash.showScopeOnLoaded = ""
             }
         }
-        scale: dash.contentScale
-        clip: scale != 1.0 || scopeItem.visible || bottomEdgeController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
                 onRunningChanged: {
@@ -188,9 +185,6 @@ Showable {
     {
         anchors.fill: scopeItem
         visible: scopeItem.visible
-        parent: scopeItem.parent
-        scale: scopeItem.scale
-        opacity: scopeItem.opacity
     }
 
     GenericScopeView {
@@ -203,8 +197,6 @@ Showable {
         y: dashContent.y
         width: parent.width
         height: parent.height
-        scale: dash.contentScale
-        clip: scale != 1.0
         visible: scope != null
         hasBackAction: true
         isCurrent: visible
