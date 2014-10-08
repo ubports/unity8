@@ -574,7 +574,8 @@ Item {
     }
 
     function showDash() {
-        if (greeter.hasLockedApp) { // just in case user gets here
+        if (greeter.hasLockedApp || // just in case user gets here
+            (!greeter.narrowMode && shell.locked)) {
             return
         }
 
