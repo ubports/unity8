@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
+"POT-Creation-Date: 2014-10-03 08:13-0400\n"
 "PO-Revision-Date: 2014-07-26 16:21+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -33,7 +33,7 @@ msgstr "取消捷徑釘選"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "裝置已鎖定"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
@@ -47,8 +47,7 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "請等候 %1 分鐘再試…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -100,7 +99,7 @@ msgstr "關閉電源"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr ""
+msgstr "重新啟動"
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
@@ -152,15 +151,15 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:218
 msgid "Emergency Call"
 msgstr "緊急通話"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:250
 msgid "OK"
 msgstr "確定"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
 msgid "See less"
 msgstr "縮減查看"
 
@@ -205,6 +204,14 @@ msgstr "新增評論"
 msgid "Send"
 msgstr "發送"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr ""
@@ -227,7 +234,7 @@ msgstr "全部"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "解鎖"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -307,57 +314,57 @@ msgstr "漫遊"
 
 #: qml/Shell.qml:340
 msgid "Enter passphrase"
-msgstr ""
+msgstr "輸入密語"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:341
 msgid "Sorry, incorrect passphrase"
 msgstr "抱歉，密語不對"
 
 #: qml/Shell.qml:342
 msgid "Please re-enter"
-msgstr ""
+msgstr "請再輸入"
 
 #: qml/Shell.qml:344
 msgid "Enter passcode"
-msgstr ""
+msgstr "輸入 passcode"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:345
 msgid "Sorry, incorrect passcode"
-msgstr "抱歉，密碼不對"
+msgstr "抱歉，passcode 不對"
 
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "輸入 %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:349
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "抱歉，%1不對"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:384
 msgid "Sorry, incorrect passphrase."
 msgstr "抱歉，密語不對"
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:385
 msgid "Sorry, incorrect passcode."
-msgstr "抱歉，密碼不對。"
+msgstr "抱歉，passcode 不對。"
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:386
 msgid "This will be your last attempt."
 msgstr "這將會是您最後一次嘗試的機會。"
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:388
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:389
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
-msgstr "如輸入的密碼不對，本電話會進行重設，所有個人資料都會刪除。"
+msgstr "如輸入的 passcode 不對，本電話會進行重設，所有個人資料都會刪除。"
 
 #, qt-format
 #~ msgid "Hello %1"
@@ -378,9 +385,6 @@ msgstr "如輸入的密碼不對，本電話會進行重設，所有個人資料
 
 #~ msgid "Too many incorrect attempts"
 #~ msgstr "錯得太多次"
-
-#~ msgid "Manage Dash"
-#~ msgstr "管理 Dash"
 
 #~ msgid "Enter your passphrase"
 #~ msgstr "輸入密語"

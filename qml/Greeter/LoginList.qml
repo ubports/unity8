@@ -245,6 +245,8 @@ Item {
     }
 
     MouseArea {
+        id: passwordMouseArea
+        objectName: "passwordMouseArea"
         anchors.fill: passwordInput
         enabled: LightDM.Greeter.promptless
         onClicked: root.tryToUnlock()

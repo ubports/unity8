@@ -112,7 +112,7 @@ Row {
 
     UT.UnityTestCase {
         id: testCase
-        name: "Shell"
+        name: "TabletShell"
         when: windowShown
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
@@ -192,17 +192,20 @@ Row {
             return i
         }
 
-        function clickPasswordInput() {
+        function clickPasswordInput(isButton) {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 1)
+
+            var passwordMouseArea = findChild(shell, "passwordMouseArea")
+            tryCompare(passwordMouseArea, "enabled", isButton)
 
             var passwordInput = findChild(shell, "passwordInput")
             mouseClick(passwordInput, passwordInput.width / 2, passwordInput.height / 2)
         }
 
         function confirmLoggedIn(loggedIn) {
-            var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", loggedIn ? 0 : 1)
+            var greeterWrapper = findChild(shell, "greeterWrapper")
+            tryCompare(greeterWrapper, "showProgress", loggedIn ? 0 : 1)
             tryCompare(sessionSpy, "count", loggedIn ? 1 : 0)
         }
 
@@ -237,7 +240,7 @@ Row {
         function test_login(data) {
             selectUser(data.user)
 
-            clickPasswordInput()
+            clickPasswordInput(data.password === "")
 
             if (data.password !== "") {
                 typeString(data.password)
@@ -279,6 +282,7 @@ Row {
         function test_leftEdgeDrag(data) {
             selectUser(data.user)
             swipeFromLeftEdge(shell.width * 0.75)
+            wait(500) // to give time to handle dash() signal from Launcher
             confirmLoggedIn(data.loggedIn)
         }
     }
