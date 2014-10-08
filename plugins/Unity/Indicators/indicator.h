@@ -35,7 +35,7 @@ public:
     Indicator(QObject *parent = 0);
     virtual ~Indicator();
 
-    void init(const QString &profile, const QString& busName, const QSettings& settings);
+    void init(const QString& busName, const QSettings& settings);
 
     QString identifier() const;
     int position() const;

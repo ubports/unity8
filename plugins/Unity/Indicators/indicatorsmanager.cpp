@@ -281,7 +281,8 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     Indicator::Ptr new_indicator(new Indicator(this));
     data->m_indicator = new_indicator;
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
-    new_indicator->init(m_profile, data->m_fileInfo.fileName(), settings);
+    new_indicator->init(data->m_fileInfo.fileName(), settings);
+    new_indicator->setProfile(m_profile);
     QObject::connect(this, SIGNAL(profileChanged(const QString&)), new_indicator.data(), SLOT(setProfile(const QString&)));
     return new_indicator;
 }

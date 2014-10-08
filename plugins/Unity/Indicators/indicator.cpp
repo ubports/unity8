@@ -31,7 +31,7 @@ Indicator::~Indicator()
 {
 }
 
-void Indicator::init(const QString &profile, const QString& busName, const QSettings& settings)
+void Indicator::init(const QString& busName, const QSettings& settings)
 {
     // Save all keys we care about from the QSettings object.  It's annoying
     // that we can't just copy the object.
@@ -51,9 +51,7 @@ void Indicator::init(const QString &profile, const QString& busName, const QSett
     properties.insert("busType", 1);
     properties.insert("busName", busName);
     properties.insert("actionsObjectPath", actionObjectPath);
-
-    m_properties = properties;
-    setProfile(profile); // will emit changed signals for us and set position
+    setIndicatorProperties(properties);
 }
 
 QString Indicator::identifier() const
