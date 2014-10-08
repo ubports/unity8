@@ -43,6 +43,12 @@ Item {
         row.setCurrentItemIndex(index);
     }
 
+    function alignLeft() {
+        if (row.x > 0) {
+            d.rowOffsetAdjustment = -row.x;
+        }
+    }
+
     function addScrollOffset(scrollAmmout) {
         var proposedScrollOffset = d.scrollOffset + scrollAmmout;
         var proposedCombinedOffset = d.combinedOffset - scrollAmmout;
@@ -90,7 +96,9 @@ Item {
             }
         }
 
-        Behavior on rowOffsetAdjustment { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing} }
+        Behavior on rowOffsetAdjustment {
+            NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing}
+        }
     }
 
     onExpandedChanged: {
@@ -137,7 +145,7 @@ Item {
                 var dummyvar = d.scrollOffset + row.width;
 
                 var mapped = root.mapToItem(row, root.lateralPosition, 0);
-                return mapped.x;
+                return Math.min(Math.max(mapped.x, 0), row.width);
             }
         }
 

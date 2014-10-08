@@ -62,16 +62,19 @@ Showable {
         var revealProgress = root.height - minimizedPanelHeight;
 
         if (!showAnimation.running && !hideAnimation.running) {
-            if (revealProgress === 0) {
+            if (revealProgress <= 0) {
                 root.state = "initial";
-            } else if ((revealProgress > 0) && revealProgress < lockThreshold) {
-                root.state = "reveal";
             } else {
-                root.state = "locked";
+                root.state = "reveal";
             }
         }
     }
     clip: root.partiallyOpened
+
+    // eater
+    MouseArea {
+        anchors.fill: parent
+    }
 
     MenuContent {
         id: content
@@ -203,6 +206,7 @@ Showable {
         onRunningChanged: {
             if (showAnimation.running) {
                 root.state = "commit";
+                bar.alignLeft();
             }
         }
     }
@@ -278,7 +282,7 @@ Showable {
                     if (!d.activeDragHandle.dragging) return false;
 
                     yVelocityCalculator.trackedPosition = d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0;
-                    return Math.abs(yVelocityCalculator.calculate()) < 0.2;
+                    return Math.abs(yVelocityCalculator.calculate()) < 0.4;
                 }
             }
             // left scroll bar handling
@@ -305,12 +309,8 @@ Showable {
             }
         },
         State {
-            name: "locked"
-            PropertyChanges { target: bar; expanded: true }
-        },
-        State {
             name: "commit"
-            extend: "locked"
+            PropertyChanges { target: bar; expanded: true }
         }
     ]
     state: "initial"

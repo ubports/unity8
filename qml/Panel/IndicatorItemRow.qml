@@ -200,14 +200,15 @@ Item {
             return shiftPercentageOffset * units.gu(1);
         }
         Behavior on highlightCenterOffset {
-            SmoothedAnimation { duration:UbuntuAnimation.FastDuration; velocity: 50; easing: UbuntuAnimation.StandardEasing }
+            id: highlightCetnerOffsetBehavior
+            SmoothedAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
 
         property real currentItemX: currentItem ? currentItem.x : 0 // having Behavior
         Behavior on currentItemX {
             id: currentItemXBehavior
             enabled: !d.firstItemSwitch && expanded
-            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            SmoothedAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
         x: currentItemX + highlightCenterOffset
     }

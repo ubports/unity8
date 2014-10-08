@@ -84,5 +84,9 @@ Item {
 
         property real progression: 0
         property real threasholdAreaX: -scrollArea.thresholdAreaWidth
+
+        Behavior on progression {
+            SmoothedAnimation { velocity: 2.0 }
+        }
     }
 }
