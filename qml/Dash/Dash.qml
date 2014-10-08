@@ -208,6 +208,12 @@ Showable {
             }
         }
 
+        // This is to avoid the situation where a bottom-edge swipe would bring up the dash overview
+        // (as expected) but would also cause the dash content flickable to move a bit, because
+        // that flickable was getting the touch events while overviewDragHandle was still undecided
+        // about whether that touch was indeed performing a directional drag gesture.
+        forceNonInteractive: overviewDragHandle.status != DirectionalDragArea.WaitingForTouch
+
         enabled: overviewController.progress == 0
         opacity: enabled ? 1 : 0
     }
