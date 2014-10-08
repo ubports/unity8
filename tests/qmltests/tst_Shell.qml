@@ -25,6 +25,7 @@ import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
+import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
@@ -168,6 +169,83 @@ Row {
             compare(ApplicationManager.count, 1)
         }
 
+        Component {
+            id: mockNotification
+
+            QtObject {
+                function invokeAction(actionId) {
+                    mockNotificationsModel.actionInvoked(actionId)
+                }
+            }
+        }
+
+        ListModel {
+            id: mockNotificationsModel
+
+            signal actionInvoked(string actionId)
+
+            function getRaw(id) {
+                return mockNotification.createObject(mockNotificationsModel)
+            }
+        }
+
+        SignalSpy {
+            id: notificationActionSpy
+
+            target: mockNotificationsModel
+            signalName: "actionInvoked"
+        }
+
+        function test_snapDecisionDismissalReturnsFocus() {
+            var notifications = findChild(shell, "notificationList");
+            var app = ApplicationManager.startApplication("camera-app");
+
+            // Open an application and focus
+            waitUntilApplicationWindowIsFullyVisible(app);
+            ApplicationManager.focusApplication(app);
+            compare(app.session.surface.activeFocus, true, "Focused application didn't have activeFocus");
+
+            // Pop-up a notification
+            addSnapDecisionNotification();
+            notifications.model = mockNotificationsModel;
+
+            var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
+            verify(notification !== undefined, "notification wasn't found");
+
+            var buttonRow = findChild(notification, "buttonRow");
+            verify(buttonRow !== undefined, "notification buttonRow wasn't found");
+
+            var buttonAccept = findChild(buttonRow, "notify_button0");
+            verify(buttonAccept !== undefined, "notification accept button wasn't found");
+
+            // Pressing the button should give focus to the notification
+            mousePress(buttonAccept, 0, 0);
+            compare(app.session.surface.activeFocus, false, "Notification didn't take active focus");
+            mouseRelease(buttonAccept);
+
+            // Clicking the button should dismiss the notification and return focus
+            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+            //compare(app.session.surface.activeFocus, true, "App didn't take active focus after snap notification was dismissed");
+        }
+
+        function addSnapDecisionNotification() {
+		    var n = {
+		        type: Notification.SnapDecision,
+		        hints: {"x-canonical-private-affirmative-tint": "true"},
+		        summary: "Tom Ato",
+		        body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+		        icon: "../graphics/avatars/funky.png",
+		        secondaryIcon: "../graphics/applicationIcons/facebook.png",
+		        actions: [{ id: "ok_id", label: "Ok"},
+		                  { id: "cancel_id", label: "Cancel"},
+		                  { id: "notreally_id", label: "Not really"},
+		                  { id: "noway_id", label: "messages:No way"},
+		                  { id: "nada_id", label: "messages:Nada"}]
+		    }
+
+        	mockNotificationsModel.append(n)
+    	}
+
         function test_leftEdgeDrag_data() {
             return [
                 {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
@@ -178,7 +256,7 @@ Row {
             ];
         }
 
-        function test_leftEdgeDrag(data) {
+        /*function test_leftEdgeDrag(data) {
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
@@ -202,9 +280,9 @@ Row {
             // Make sure the helper for sliding out the launcher wasn't touched. We want to fade it out here.
             var animateTimer = findInvisibleChild(shell, "animateTimer");
             compare(animateTimer.nextState, "visible");
-        }
+        }*/
 
-        function test_suspend() {
+        /*function test_suspend() {
             var greeter = findChild(shell, "greeter");
 
             // Launch an app from the launcher
@@ -241,7 +319,7 @@ Row {
             tryCompare(ApplicationManager, "suspended", false);
             compare(mainApp.state, ApplicationInfoInterface.Running);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
-        }
+        }*/
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
@@ -267,7 +345,7 @@ Row {
           - perform long left edge swipe to go minimize the app and go back to the dash.
           - verify the setCurrentScope() D-Bus call to the dash has been called for the correct scope id.
          */
-        function test_minimizingAppTakesToDashApps() {
+        /*function test_minimizingAppTakesToDashApps() {
             dragLauncherIntoView();
 
             // Launch an app from the launcher
@@ -285,9 +363,9 @@ Row {
 
             compare(dashCommunicatorSpy.count, 1);
             compare(dashCommunicatorSpy.signalArguments[0][0], "clickscope");
-        }
+        }*/
 
-        function test_showInputMethod() {
+        /*function test_showInputMethod() {
             var item = findChild(shell, "inputMethod");
             var surface = SurfaceManager.inputMethodSurface();
 
@@ -305,7 +383,7 @@ Row {
 
             surface.setState(MirSurfaceItem.Minimized);
             tryCompare(item, "visible", false);
-        }
+        }*/
 
         // wait until any transition animation has finished
         function waitUntilTransitionsEnd(stateGroup) {
@@ -446,7 +524,7 @@ Row {
                 && itemRectInShell.y + itemRectInShell.height <= shell.height;
         }
 
-        function test_focusRequestedHidesGreeter() {
+        /*function test_focusRequestedHidesGreeter() {
             var greeter = findChild(shell, "greeter");
 
             var app = ApplicationManager.startApplication("dialer-app");
@@ -465,9 +543,9 @@ Row {
             ApplicationManager.requestFocusApplication("dialer-app");
             tryCompare(greeter, "showProgress", 0);
             waitForRendering(greeter);
-        }
+        }*/
 
-        function test_focusRequestedHidesIndicators() {
+        /*function test_focusRequestedHidesIndicators() {
             var indicators = findChild(shell, "indicators");
 
             showIndicators();
@@ -477,9 +555,9 @@ Row {
             tryCompare(ApplicationManager, "count", oldCount + 1);
 
             tryCompare(indicators, "fullyClosed", true);
-        }
+        }*/
 
-        function test_showAndHideGreeterDBusCalls() {
+        /*function test_showAndHideGreeterDBusCalls() {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
@@ -487,9 +565,9 @@ Row {
             tryCompare(greeter, "showProgress", 1)
             LightDM.Greeter.hideGreeter()
             tryCompare(greeter, "showProgress", 0)
-        }
+        }*/
 
-        function test_login() {
+        /*function test_login() {
             sessionSpy.clear()
 
             var greeter = findChild(shell, "greeter")
@@ -500,9 +578,9 @@ Row {
             tryCompare(sessionSpy, "count", 0)
             swipeAwayGreeter()
             tryCompare(sessionSpy, "count", 1)
-        }
+        }*/
 
-        function test_fullscreen() {
+        /*function test_fullscreen() {
             var panel = findChild(shell, "panel");
             compare(panel.fullscreenMode, false);
             ApplicationManager.startApplication("camera-app");
@@ -513,9 +591,9 @@ Row {
             tryCompare(panel, "fullscreenMode", true);
             ApplicationManager.requestFocusApplication("dialer-app");
             tryCompare(panel, "fullscreenMode", false);
-        }
+        }*/
 
-        function test_leftEdgeDragFullscreen() {
+        /*function test_leftEdgeDragFullscreen() {
             var panel = findChild(shell, "panel");
             tryCompare(panel, "fullscreenMode", false)
 
@@ -534,9 +612,9 @@ Row {
             tryCompare(panel, "fullscreenMode", false);
 
             touchRelease(shell);
-        }
+        }*/
 
-        function test_unlockedProperties() {
+        /*function test_unlockedProperties() {
             // Confirm that various properties have the correct values when unlocked
             tryCompare(shell, "locked", false)
 
@@ -545,22 +623,22 @@ Row {
 
             var indicators = findChild(shell, "indicators")
             tryCompare(indicators, "available", true)
-        }
+        }*/
 
-        function test_unlockAllModemsOnBoot() {
+        /*function test_unlockAllModemsOnBoot() {
             // TODO reenable when service ready (LP: #1361074)
             expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
-        }
+        }*/
 
-        function test_leftEdgeDragOnGreeter_data() {
+        /*function test_leftEdgeDragOnGreeter_data() {
             return [
                 {tag: "short swipe", targetX: shell.width / 3, unlocked: false},
                 {tag: "long swipe", targetX: shell.width / 3 * 2, unlocked: true}
             ]
-        }
+        }*/
 
-        function test_leftEdgeDragOnGreeter(data) {
+        /*function test_leftEdgeDragOnGreeter(data) {
             var greeter = findChild(shell, "greeter");
             greeter.show();
             tryCompare(greeter, "showProgress", 1);
@@ -570,6 +648,6 @@ Row {
             touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
 
             tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
-        }
+        }*/
     }
 }
