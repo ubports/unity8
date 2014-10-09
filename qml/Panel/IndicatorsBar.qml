@@ -36,6 +36,11 @@ Item {
         row.selectItemAt(mapped.x);
     }
 
+    function updateItemFromLateralPosition(position) {
+        var mapped = root.mapToItem(row, position, 0);
+        row.updateItemFromLateralPosition(mapped.x);
+    }
+
     function setCurrentItemIndex(index) {
         if (!expanded) {
             row.resetCurrentItem();
@@ -43,10 +48,8 @@ Item {
         row.setCurrentItemIndex(index);
     }
 
-    function alignLeft() {
-        if (row.x > 0) {
-            d.rowOffsetAdjustment = -row.x;
-        }
+    function alignIndicatorsToLeft() {
+        alignmentTimer.start()
     }
 
     function addScrollOffset(scrollAmmout) {
@@ -172,6 +175,17 @@ Item {
                 anchors.fill: parent
                 enabled: root.expanded
                 onClicked: row.selectItemAt(mouse.x);
+            }
+        }
+    }
+
+    Timer {
+        id: alignmentTimer
+        interval: UbuntuAnimation.SnapDuration // enough for row animation.
+        repeat: false
+        onTriggered: {
+            if (expanded && row.x > 0) {
+                d.rowOffsetAdjustment = -row.x;
             }
         }
     }

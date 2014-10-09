@@ -35,14 +35,18 @@ Item {
 
     property real lateralPosition: -1
     onLateralPositionChanged: {
-        if (lateralPosition == -1) return;
+        if (currentItem && !enableLateralChanges) return;
+        updateItemFromLateralPosition(lateralPosition);
+        highlight.updateHighlightOffset();
+    }
+
+    function updateItemFromLateralPosition(lateralPosition) {
+        if (lateralPosition === -1) return;
 
         if (!currentItem) {
             selectItemAt(lateralPosition);
             return;
         }
-
-        if (!enableLateralChanges) return;
 
         var maximumBufferOffset = selectionChangeBuffer * unitProgress;
         var proposedItem = indicatorAt(lateralPosition, 0);
@@ -177,9 +181,11 @@ Item {
 
         // micromovements of the highlight line when user moves the finger across the items while pulling
         // the handle downwards.
-        property real highlightCenterOffset: {
-            if (!currentItem || lateralPosition == -1) return 0;
-            if (!enableLateralChanges) return 0;
+        function updateHighlightOffset() {
+            if (!currentItem || lateralPosition == -1) {
+                highlightCenterOffset = 0;
+                return;
+            }
 
             var itemMapped = root.mapToItem(currentItem, lateralPosition, 0);
 
@@ -191,24 +197,25 @@ Item {
             }
 
             if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
-                return 0;
+                highlightCenterOffset = 0;
             } else if (currentItem && currentItem.ownIndex === repeater.count-1 & distanceFromCenter > 0) {
-                return 0;
+                highlightCenterOffset = 0;
+            } else {
+                var shiftPercentageOffset = (distanceFromCenter / (currentItem.width / 4));
+                highlightCenterOffset = shiftPercentageOffset * units.gu(1);
             }
 
-            var shiftPercentageOffset = (distanceFromCenter / (currentItem.width / 4));
-            return shiftPercentageOffset * units.gu(1);
         }
+        property real highlightCenterOffset: 0
         Behavior on highlightCenterOffset {
-            id: highlightCetnerOffsetBehavior
-            SmoothedAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
 
         property real currentItemX: currentItem ? currentItem.x : 0 // having Behavior
         Behavior on currentItemX {
             id: currentItemXBehavior
             enabled: !d.firstItemSwitch && expanded
-            SmoothedAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
         x: currentItemX + highlightCenterOffset
     }
