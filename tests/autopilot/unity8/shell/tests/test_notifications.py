@@ -207,41 +207,6 @@ class InteractiveNotificationBase(NotificationsBase):
             notification.select_single(objectName="notify_button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
-
-    def test_sd_and_app_active_focus_behavior(self):
-        """ FOO BAR BAZ """
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
-
-        summary = "Incoming call"
-        body = "Frank Zappa\n+44 (0)7736 027340"
-        icon_path = self._get_icon_path('avatars/anna_olsson.png')
-        hints = [
-            ("x-canonical-secondary-icon", "incoming-call"),
-            ("x-canonical-snap-decisions", "true"),
-            ("x-canonical-private-affirmative-tint", "true"),
-            ("x-canonical-private-rejection-tint", "true"),
-        ]
-
-        actions = [
-            ('action_accept', 'Hold + Answer'),
-            ('action_decline_1', 'End + Answer'),
-            ('action_decline_2', 'Decline'),
-            ('action_decline_3', 'message:I missed your call - can you call me now?'),
-            ('action_decline_4', 'message:I\'m running late. I\'m on my way.'),
-            ('action_decline_5', 'message:I\'m busy at the moment. I\'ll call later.'),
-            ('action_decline_6', 'edit:Custom'),
-        ]
-
-        self._create_interactive_notification(
-            summary,
-            body,
-            icon_path,
-            "NORMAL",
-            actions,
-            hints
-        )
-
     def test_sd_one_over_two_layout(self):
         """Snap-decision with three actions should use one-over two button layout."""
         unity_proxy = self.launch_unity()
