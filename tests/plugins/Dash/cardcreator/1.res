@@ -33,21 +33,21 @@ Item  {
                                     visible: image.status == Image.Ready; 
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; 
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; 
-                                    Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } 
+                                    Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
                                     function updateWidthHeightBindings() { 
                                         if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { 
                                             width = root.fixedArtShapeSize.width; 
                                             height = root.fixedArtShapeSize.height; 
                                         } else { 
-                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width }); 
-                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); 
+                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width });
+                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
                                         } 
                                     } 
-                                    image: CroppedImageMinimumSourceSize { 
+                                    image: CroppedImageMinimumSourceSize {
                                         objectName: "artImage"; 
-                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith; 
-                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; } 
+                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
                                         cache: true; 
                                         asynchronous: root.asynchronous; 
                                         visible: false; 
@@ -61,34 +61,34 @@ readonly property int headerHeight: titleLabel.height;
 Label { 
                         id: titleLabel; 
                         objectName: "titleLabel"; 
-                        anchors { right: parent.right; 
-left: parent.left;
-top: artShapeHolder.bottom; 
-                                         topMargin: units.gu(1);
- } 
+                        anchors { right: parent.right;
+                        left: parent.left;
+                        top: artShapeHolder.bottom; 
+                        topMargin: units.gu(1);
+                        } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText; 
+                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.titleAlignment; 
                     }
-UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: artShapeHolder } 
-                        visible: { 
-                            if (root.template && root.template["non-interactive"]) { 
-                                return false; 
-                            } 
-                            return root.pressed; 
-                        } 
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
+UbuntuShape {
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: artShapeHolder }
+    visible: { 
+        if (root.template && root.template["non-interactive"]) { 
+            return false; 
+        } 
+        return root.pressed; 
+    }
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);
 }

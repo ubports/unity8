@@ -25,7 +25,7 @@ Item  {
                                 objectName: "artShapeLoader"; 
                                 active: cardData && cardData["art"] || false; 
                                 asynchronous: root.asynchronous; 
-                                visible: status == Loader.Ready; 
+                                visible: status == Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     id: artShape; 
                                     objectName: "artShape"; 
@@ -40,22 +40,22 @@ Item  {
                                             width = root.fixedArtShapeSize.width; 
                                             height = root.fixedArtShapeSize.height; 
                                         } else { 
-                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width }); 
-                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); 
-                                        } 
+                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width });
+                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
+                                        }
                                     } 
-                                    image: CroppedImageMinimumSourceSize { 
+                                    image: CroppedImageMinimumSourceSize {
                                         objectName: "artImage"; 
-                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith; 
-                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; } 
-                                        cache: true; 
+                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
+                                        cache: true;
                                         asynchronous: root.asynchronous; 
                                         visible: false; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
                                 } 
-                            } 
+                            }
                         }
 Loader { 
                             id: overlayLoader; 
@@ -64,14 +64,14 @@ Loader {
                                 right: artShapeHolder.right; 
                                 bottom: artShapeHolder.bottom; 
                             } 
-                            active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; 
+                            active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false;
                             asynchronous: root.asynchronous; 
                             visible: showHeader && status == Loader.Ready; 
                             sourceComponent: ShaderEffect { 
                                 id: overlay; 
-                                height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); 
-                                property real luminance: Style.luminance(overlayColor); 
-                                property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; 
+                                height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2);
+                                property real luminance: Style.luminance(overlayColor);
+                                property color overlayColor: cardData && cardData["overlayColor"] || "#99000000";
                                 property var source: ShaderEffectSource { 
                                     id: shaderSource; 
                                     sourceItem: artShapeLoader.item; 
@@ -92,7 +92,7 @@ Loader {
                                     varying highp vec2 coord; 
                                     uniform sampler2D source; 
                                     uniform lowp float qt_Opacity; 
-                                    uniform highp vec4 overlayColor; 
+                                    uniform highp vec4 overlayColor;
                                     void main() { 
                                         lowp vec4 tex = texture2D(source, coord); 
                                         gl_FragColor = vec4(overlayColor.r, overlayColor.g, overlayColor.b, 1) * qt_Opacity * overlayColor.a * tex.a; 
@@ -101,21 +101,21 @@ Loader {
                         }
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Label { 
-                        id: titleLabel; 
+                        id: titleLabel;
                         objectName: "titleLabel"; 
                         anchors { right: parent.right; 
-rightMargin: units.gu(1); 
-left: parent.left; 
-                                 leftMargin: units.gu(1); 
-                                 top: overlayLoader.top; 
-                                 topMargin: units.gu(1);
- } 
+                        rightMargin: units.gu(1); 
+                        left: parent.left; 
+                        leftMargin: units.gu(1); 
+                        top: overlayLoader.top; 
+                        topMargin: units.gu(1);
+                        } 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white"); 
+                        color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader && overlayLoader.active; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
@@ -125,32 +125,32 @@ Label {
                             id: subtitleLabel; 
                             objectName: "subtitleLabel"; 
                             anchors { left: titleLabel.left; 
-                               leftMargin: titleLabel.leftMargin; 
-rightMargin: units.gu(1); 
-right: titleLabel.right; 
-top: titleLabel.bottom;
- } 
+                            leftMargin: titleLabel.leftMargin; 
+                            rightMargin: units.gu(1); 
+                            right: titleLabel.right; 
+                            top: titleLabel.bottom; 
+                            } 
                             anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
                             fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white"); 
+                            color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
 UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: artShapeHolder } 
-                        visible: { 
-                            if (root.template && root.template["non-interactive"]) { 
-                                return false; 
-                            } 
-                            return root.pressed; 
-                        } 
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
+    id: touchdown; 
+    objectName: "touchdown"; 
+    anchors { fill: artShapeHolder } 
+    visible: { 
+        if (root.template && root.template["non-interactive"]) { 
+            return false; 
+        } 
+        return root.pressed; 
+    } 
+    radius: "medium"; 
+    borderSource: "radius_pressed.sci" 
+}
 implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
 }
