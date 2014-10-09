@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-10-03 04:55+0000\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-07 10:01+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-04 06:28+0000\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -156,23 +156,23 @@ msgstr ""
 "Agora xa domina os xestos dos bordos e pode comezar a usar o "
 "teléfono<br><br>Toque na pantalla para comezar"
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Chamada de emerxencia"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Aceptar"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Ver todo"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Buscar"
@@ -208,6 +208,14 @@ msgstr "Engadir unha opinión"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Enviar"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Tirar para actualizar..."
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Soltar para actualizar"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -253,17 +261,9 @@ msgstr "Fale agora…"
 msgid "Speaking..."
 msgstr "Falando…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Mostrar contrasinal"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Introduza o PIN da SIM"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Sentímolo, o PIN é incorrecto"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -309,49 +309,49 @@ msgstr "Desbloquear a SIM"
 msgid "Roaming"
 msgstr "Itinerancia"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
 msgstr "Introduza a frase secreta"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Sentímolo a frase é incorrecta"
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
 msgstr "Introducir de novo"
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
 msgstr "Introduza a clave"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Sentímolo, a clave é incorrecta"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
 msgstr "Introducir %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sentímolo, %1 non coincide"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Sentímolo a frase é incorrecta."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Sentímolo, a clave é incorrecta."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Este será o seu último intento."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -359,7 +359,7 @@ msgstr ""
 "Se a frase de paso introducida é incorrecta, o teléfono restabelecerá os "
 "valores de fábrica e perderá todos os datos persoais."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -367,28 +367,8 @@ msgstr ""
 "Se a clave introducida é incorrecta, o teléfono restabelecerá os valores de "
 "fábrica e perderá todos os datos persoais."
 
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "Ola %1"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Sentímolo, o PIN é incorrecto"
 
-#~ msgid "Hello"
-#~ msgstr "Ola"
-
-#~ msgid "Swipe to unlock"
-#~ msgstr "Esvare o dedo para desbloquear"
-
-#~ msgid "Please wait"
-#~ msgstr "Agarde"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "Demasiados erros"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "Introducir %1"
-
-#~ msgid "Enter your passcode"
-#~ msgstr "Introduza a clave"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "Introduza a frase secreta"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Introduza o PIN da SIM"

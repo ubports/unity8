@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-03 06:22+0000\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -33,22 +33,21 @@ msgstr "바로 가기를 고정 해제"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "장치가 잠김"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "올바르지 않은 패스프레이즈를 너무 많이 입력해 장치가 잠겼습니다."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "올바르지 않은 패스코드를 너무 많이 입력해 장치가 잠겼습니다."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1분 정도 기다린 후 다시 시독해주십시오..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -153,23 +152,23 @@ msgid ""
 msgstr ""
 "여러분은 가장자리에서 끌어오기 제스쳐를 완벽히 익히셨고 휴대 전화를 사용할 수 있습니다. <br><br> 스크린을 터치해서 시작하세요."
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "긴급 통화"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "확인"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "간단히 표시"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "모두 보기"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "검색"
@@ -206,6 +205,14 @@ msgstr "평가 추가"
 msgid "Send"
 msgstr "보내기"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "당기면 새로 고침..."
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "놓으면 새로 고침..."
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "스코프 관리"
@@ -228,7 +235,7 @@ msgstr "모두"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "잠금 해제"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -250,17 +257,9 @@ msgstr "지금 말하세요..."
 msgid "Speaking..."
 msgstr "말하는 중..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "암호 표시"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "심 카드의 개인 식별 번호 입력"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "죄송합니다. 개인 식별 번호가 올바르지 않습니다."
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -306,85 +305,62 @@ msgstr "심 카드 잠금 해제"
 msgid "Roaming"
 msgstr "로밍"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
-msgstr ""
+msgstr "패스프레이즈를 입력해주십시오."
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "죄송합니다. 패스프레이즈가 올바르지 않습니다."
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
-msgstr ""
+msgstr "다시 입력해주십시오."
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
-msgstr ""
+msgstr "패스코드를 입력해주십시오."
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "죄송합니다. 패스코드가 올바르지 않습니다."
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "%1 입력"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "죄송합니다. %1이(가) 올바르지 않습니다."
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "올바르지 않은 패스프레이즈입니다."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "최송합니다. 패스코드가 올바르지 않습니다."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "마지막 시도입니다."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr "이번에도 올바르지 않은 패스프레이즈를 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr "이번에도 올바르지 않은 패스코드를 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
 
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "안녕하세요 %1"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "죄송합니다. 개인 식별 번호가 올바르지 않습니다."
 
-#~ msgid "Hello"
-#~ msgstr "안녕하세요"
-
-#~ msgid "Please wait"
-#~ msgstr "기다려주십시오"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "너무 많이 틀리셨습니다"
-
-#~ msgid "Manage Dash"
-#~ msgstr "대시 관리"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "패스프레이즈를 입력해주십시오."
-
-#~ msgid "Enter your passcode"
-#~ msgstr "패스코드를 입력해주십시오."
-
-#~ msgid "Swipe to unlock"
-#~ msgstr "쓸어서 잠금 해제"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "%1을(를) 입력해주십시오."
+#~ msgid "Enter SIM PIN"
+#~ msgstr "심 카드의 개인 식별 번호 입력"
