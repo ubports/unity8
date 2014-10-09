@@ -207,6 +207,7 @@ class InteractiveNotificationBase(NotificationsBase):
             notification.select_single(objectName="notify_button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
+
     def test_sd_one_over_two_layout(self):
         """Snap-decision with three actions should use one-over two button layout."""
         unity_proxy = self.launch_unity()
