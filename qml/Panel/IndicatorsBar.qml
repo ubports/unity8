@@ -87,9 +87,9 @@ Item {
 
         // offset to the intially selected expanded item
         property real rowOffset: 0
-        property real rowOffsetAdjustment: 0
+        property real alignmentAdjustment: 0
         property real scrollOffset: 0
-        property real combinedOffset: rowOffset + rowOffsetAdjustment - scrollOffset
+        property real combinedOffset: rowOffset + alignmentAdjustment - scrollOffset
 
         onInitialItemChanged: {
             if (initialItem) {
@@ -101,7 +101,7 @@ Item {
             }
         }
 
-        Behavior on rowOffsetAdjustment {
+        Behavior on alignmentAdjustment {
             NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing}
         }
     }
@@ -187,7 +187,7 @@ Item {
         repeat: false
         onTriggered: {
             if (expanded && row.x > 0) {
-                d.rowOffsetAdjustment = -row.x;
+                d.alignmentAdjustment = -row.x;
             }
         }
     }
@@ -199,7 +199,7 @@ Item {
             PropertyChanges {
                 target: d
                 rowOffset: 0
-                rowOffsetAdjustment: 0
+                alignmentAdjustment: 0
                 scrollOffset: 0
                 restoreEntryValues: false
             }
@@ -215,13 +215,10 @@ Item {
                     if (distanceFromRight - initialItem.width <= 0) return 0;
 
                     var rowOffset = distanceFromRight - originalDistanceFromRight;
-                    return rowOffset;
-                }
-                rowOffsetAdjustment: {
                     if (originalDistanceFromRight + originalItemWidth/2 > rowContainer.width) {
-                        return originalItemWidth;
+                        rowOffset = rowOffset + originalItemWidth;
                     }
-                    return 0;
+                    return rowOffset;
                 }
             }
             // keep flickable inline with row
@@ -264,7 +261,7 @@ Item {
             from: "moved"
             to: "minimized"
             SequentialAnimation {
-                PropertyAction { target: d; properties: "rowOffset, rowOffsetAdjustment, scrollOffset" }
+                PropertyAction { target: d; properties: "rowOffset, alignmentAdjustment, scrollOffset" }
                 PropertyAnimation {
                     target: row;
                     properties: "anchors.rightMargin"
