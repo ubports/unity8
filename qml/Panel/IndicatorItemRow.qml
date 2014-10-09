@@ -54,7 +54,7 @@ Item {
 
             if (proposedItem !== currentItem) {
                 // Proposed item is not directly adjacent to current?
-                if (Math.abs(currentItem.ownIndex - currentItem.ownIndex) > 1) {
+                if (Math.abs(proposedItem.ownIndex - currentItem.ownIndex) > 1) {
                     bufferExceeded = true;
                 } else { // no
                     var currentItemLateralPosition = root.mapToItem(proposedItem, lateralPosition, 0).x;
