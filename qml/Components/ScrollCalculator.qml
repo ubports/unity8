@@ -76,9 +76,6 @@ Item {
 
     QtObject {
         id: d
-
-        property real lastLateralPosition: lateralPosition
-
         property real progression: 0
         property real threasholdAreaX: -scrollArea.stopScrollThreshold
     }
