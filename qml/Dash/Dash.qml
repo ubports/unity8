@@ -29,7 +29,6 @@ Showable {
     visible: shown
 
     property string showScopeOnLoaded: "clickscope"
-    property real contentScale: 1.0
 
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
@@ -191,7 +190,6 @@ Showable {
                 dash.showScopeOnLoaded = ""
             }
         }
-        scale: dash.contentScale
         clip: scale != 1.0 || scopeItem.visible || overviewController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
@@ -246,7 +244,7 @@ Showable {
         y: overviewController.progress == 0 ? dashContent.y : overviewProgressY
         width: parent.width
         height: parent.height
-        scale: dash.contentScale * overviewProgressScale
+        scale: overviewProgressScale
         enabled: opacity == 1
         opacity: 1 - overviewController.progress
         clip: scale != 1.0
