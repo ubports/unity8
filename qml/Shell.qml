@@ -212,7 +212,14 @@ Item {
             objectName: "applicationsDisplayLoader"
             anchors.fill: parent
 
-            // When we have a locked app, we only want to show that one app
+            // When we have a locked app, we only want to show that one app.
+            // FIXME: do this in a less traumatic way.  We currently only allow
+            // locked apps in phone mode (see FIXME in Lockscreen component in
+            // this same file).  When that changes, we need to do something
+            // nicer here.  But this code is currently just to prevent a
+            // theoretical attack where user enters lockedApp mode, then makes
+            // the screen larger (maybe connects to monitor) and tries to enter
+            // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
             source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
@@ -315,7 +322,7 @@ Item {
         // and wider screens are tablets which don't.  When we do allow this
         // on devices with a side stage and a SIM, work should be done to
         // ensure that the main stage is disabled while the dialer is present
-        // in the side stage.
+        // in the side stage.  See the FIXME in the stage loader in this file.
         showEmergencyCallButton: !shell.sideStageEnabled
 
         onEntered: LightDM.Greeter.respond(passphrase);
@@ -445,6 +452,7 @@ Item {
     Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
         id: greeterWrapper
+        objectName: "greeterWrapper"
         x: greeter.narrowMode ? launcher.progress : 0
         y: panel.panelHeight
         width: parent.width
@@ -582,7 +590,8 @@ Item {
     }
 
     function showDash() {
-        if (greeter.hasLockedApp) { // just in case user gets here
+        if (greeter.hasLockedApp || // just in case user gets here
+            (!greeter.narrowMode && shell.locked)) {
             return
         }
 
