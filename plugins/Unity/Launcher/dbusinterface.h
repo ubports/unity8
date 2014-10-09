@@ -18,12 +18,13 @@
  */
 
 #include "launcheritem.h"
+#include "unitydbusvirtualobject.h"
 
 #include <QDBusVirtualObject>
 
 class LauncherModel;
 
-class DBusInterface: public QDBusVirtualObject
+class DBusInterface: public UnityDBusVirtualObject
 {
     Q_OBJECT
 public:
@@ -43,10 +44,5 @@ private:
     static QString decodeAppId(const QString& path);
     static QString encodeAppId(const QString& appId);
 
-    void emitPropChangedDbus(const QString& appId, const QString& property, const QVariant &value);
-
     LauncherModel *m_launcherModel;
-
-private Q_SLOTS:
-    void registerDBus();
 };

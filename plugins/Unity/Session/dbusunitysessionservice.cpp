@@ -22,10 +22,9 @@
 #include <QDBusInterface>
 #include <QTimer>
 
-DBusUnitySessionService::DBusUnitySessionService() : QObject()
+DBusUnitySessionService::DBusUnitySessionService()
+    : UnityDBusObject("/com/canonical/Unity/Session", "com.canonical.Unity")
 {
-    // Use a zero-timer to let Qml finish loading before we announce on DBus
-    QTimer::singleShot(0, this, SLOT(registerDBus()));
 }
 
 DBusUnitySessionService::~DBusUnitySessionService()
@@ -72,15 +71,4 @@ void DBusUnitySessionService::Shutdown()
 void DBusUnitySessionService::RequestShutdown()
 {
   Q_EMIT shutdownRequested(false);
-}
-
-void DBusUnitySessionService::registerDBus()
-{
-    QDBusConnection connection = QDBusConnection::sessionBus();
-
-    connection.registerService("com.canonical.Unity");
-    connection.registerObject("/com/canonical/Unity/Session", this,
-                              QDBusConnection::ExportScriptableSignals
-                              | QDBusConnection::ExportScriptableSlots
-                              | QDBusConnection::ExportScriptableInvokables);
 }

@@ -18,6 +18,8 @@
  */
 
 #include "plugin.h"
+#include "DBusGreeter.h"
+#include "DBusGreeterList.h"
 #include "Greeter.h"
 #include "UsersModel.h"
 #include <libusermetricsoutput/ColorTheme.h>
@@ -32,7 +34,12 @@ static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new Greeter();
+
+    Greeter *greeter = new Greeter();
+    new DBusGreeter(greeter, "/");
+    new DBusGreeterList(greeter, "/list");
+
+    return greeter;
 }
 
 static QObject *users_provider(QQmlEngine *engine, QJSEngine *scriptEngine)

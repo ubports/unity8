@@ -14,40 +14,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_DBUSGREETER_H
-#define UNITY_DBUSGREETER_H
+#ifndef UNITYDBUSOBJECT_H
+#define UNITYDBUSOBJECT_H
 
-#include "unitydbusobject.h"
 #include <QDBusConnection>
 #include <QObject>
 
-class Greeter;
-
-/** This is an internal class used to talk with the indicators.
-  */
-
-class DBusGreeter : public UnityDBusObject
+class Q_DECL_EXPORT UnityDBusObject : public QObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.UnityGreeter")
-
-    Q_PROPERTY(bool IsActive READ isActive NOTIFY isActiveChanged) // since 14.10
 
 public:
-    explicit DBusGreeter(Greeter *greeter, const QString &path);
+    explicit UnityDBusObject(const QString &path, const QString &service = QString(), QObject *parent = 0);
+    ~UnityDBusObject();
 
-    bool isActive() const;
-    Q_SCRIPTABLE void ShowGreeter(); // temporary, until we split the greeter again
-    Q_SCRIPTABLE void HideGreeter(); // temporary, until we split the greeter again
+    QDBusConnection connection() const;
+    QString path() const;
 
-Q_SIGNALS:
-    void isActiveChanged();
+protected:
+    void notifyPropertyChanged(const QString& propertyName, const QVariant &value);
 
 private Q_SLOTS:
-    void isActiveChangedHandler();
+    void registerObject();
 
 private:
-    Greeter *m_greeter;
+    QDBusConnection m_connection;
+    QString m_path;
+    QString m_service;
 };
 
-#endif
+#endif // UNITYDBUSOBJECT_H

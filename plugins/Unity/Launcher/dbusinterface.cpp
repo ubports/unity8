@@ -28,19 +28,13 @@
 #include <QTimer>
 
 DBusInterface::DBusInterface(LauncherModel *parent):
-    QDBusVirtualObject(parent),
+    UnityDBusVirtualObject("/com/canonical/Unity/Launcher", "com.canonical.Unity.Launcher", parent),
     m_launcherModel(parent)
 {
-    // Use a zero-timer to let Qml finish loading before we announce on DBus
-    QTimer::singleShot(0, this, SLOT(registerDBus()));
 }
 
 DBusInterface::~DBusInterface()
 {
-    /* Remove oursevles from DBus */
-    QDBusConnection con = QDBusConnection::sessionBus();
-    con.unregisterService("com.canonical.Unity.Launcher");
-    con.unregisterObject("/com/canonical/Unity/Launcher");
 }
 
 QString DBusInterface::introspect(const QString &path) const
@@ -181,13 +175,13 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             int newCount = message.arguments()[2].toInt();
             if (!item || newCount != item->count()) {
                 Q_EMIT countChanged(appid, newCount);
-                emitPropChangedDbus(appid, "count", QVariant(newCount));
+                notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "count", QVariant(newCount));
             }
         } else if (message.arguments()[1].toString() == "countVisible") {
             bool newVisible = message.arguments()[2].toBool();
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
-                emitPropChangedDbus(appid, "countVisible", newVisible);
+                notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "countVisible", newVisible);
             }
         }
     } else if (message.member() == "GetAll") {
@@ -203,37 +197,4 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
 
     QDBusMessage reply = message.createReply(retval);
     return connection.send(reply);
-}
-
-void DBusInterface::emitPropChangedDbus(const QString& appId, const QString& property, const QVariant &value)
-{
-    QString path("/com/canonical/Unity/Launcher/");
-    path.append(encodeAppId(appId));
-
-    QDBusMessage message = QDBusMessage::createSignal(path, "org.freedesktop.DBus.Properties", "PropertiesChanged");
-
-    QList<QVariant> arguments;
-    QVariantHash changedprops;
-    changedprops[property] = QVariant::fromValue(QDBusVariant(value));
-    QVariantList deletedprops;
-
-    arguments.append(changedprops);
-    arguments.append(deletedprops);
-
-    message.setArguments(arguments);
-
-    QDBusConnection con = QDBusConnection::sessionBus();
-    con.send(message);
-}
-
-void DBusInterface::registerDBus()
-{
-    /* Set up ourselves on DBus */
-    QDBusConnection con = QDBusConnection::sessionBus();
-    if (!con.registerService("com.canonical.Unity.Launcher")) {
-        qWarning() << "Unable to register launcher name";
-    }
-    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
-        qWarning() << "Unable to register launcher object";
-    }
 }
