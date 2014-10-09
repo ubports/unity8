@@ -35,7 +35,7 @@ Item {
 
     property real lateralPosition: -1
     onLateralPositionChanged: {
-        if (currentItem || !enableLateralChanges) return;
+        if (currentItem && !enableLateralChanges) return;
         updateItemFromLateralPosition(lateralPosition);
     }
 
