@@ -61,7 +61,7 @@ class IndicatorExistsTestCase(IndicatorTestCase):
             self.skipTest('Nexus 10 does not have bluetooth at the moment.')
 
     def test_indicator_exists(self):
-        self.main_window._get_indicator_widget(
+        self.main_window._get_indicator_panel_item(
             self.indicator_name
         )
 
