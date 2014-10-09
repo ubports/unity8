@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-09-10 13:14+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -29,6 +30,25 @@ msgstr "Kurteriyê pêveke"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Derzîdanka kurteriyê rake"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -135,40 +155,23 @@ msgid ""
 msgstr ""
 "Tu tevgerên kêlekê fêr bûyî<br><br>Ji bo destpêkirinê ekranê bipelîne"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Tika ye li bendê bimîne"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Te gelek caran ceribandinên çewt kirin"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Lêgerîna Lezgîn"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "BAŞ E"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Silav %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Silav"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Hindiktir bibîne"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Tevî bibîne"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Lêgerîn"
@@ -205,6 +208,14 @@ msgstr "Binirxîne"
 msgid "Send"
 msgstr "Bişîne"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr ""
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr ""
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr ""
@@ -226,8 +237,8 @@ msgid "All"
 msgstr "Hemû"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Ji bo vekirinê kaş bike"
+msgid "Unlock"
+msgstr ""
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -249,17 +260,9 @@ msgstr "Niha biaxive..."
 msgid "Speaking..."
 msgstr "Diaxive..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Şîfreyê nîşan bide"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "PINa SIMê binivîse"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Bibore, PIN çewt e"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -305,45 +308,49 @@ msgstr "Kilîda SIMê veke"
 msgid "Roaming"
 msgstr "Geriyan"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Parolaya xwe binivîse"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
+msgstr ""
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Bibore, parola çewt e"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Parolaya xwe binivîse"
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr ""
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:350
+msgid "Enter passcode"
+msgstr ""
+
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Bibore, parola çewrt e"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
-msgstr "%1a xwe binivîse"
+msgid "Enter %1"
+msgstr ""
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Bibore, %1 çewt e"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Bibore, parola çewt e."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Bibore, parola çewt e."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Ev ê ceribandina dawiyê be."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -351,10 +358,16 @@ msgstr ""
 "Eger parola çewt bê nivîsandin, telefona te dê vegere eyarên fabrîkayê û "
 "hemû daneyên te yên taybet dê bên jêbirin."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Eger parola çewt bê nivîsandin, telefona te dê vegere eyarên fabrîkayê û "
 "hemû daneyên te yên taybet dê bên jêbirin."
+
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Bibore, PIN çewt e"
+
+#~ msgid "Enter SIM PIN"
+#~ msgstr "PINa SIMê binivîse"

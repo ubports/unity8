@@ -37,6 +37,7 @@ Item {
     property alias horizontalAlignment: image.horizontalAlignment
     property alias verticalAlignment: image.verticalAlignment
     property alias sourceImage: image
+    property alias borderSource: shape.borderSource
 
     state: "default"
 
