@@ -1,3 +1,60 @@
+unity8 (8.00+14.10.20141009.4-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Rename datetime indicator in test
+
+  [ Albert Astals ]
+  * Close overview temp scope on show dash (LP: #1373819)
+  * Enable QT_STRICT_ITERATORS
+  * Make Base not clickable, since we don't use it in anywhere clickable
+    (we only use it for Category delegates in the LVWPH) (LP: #1300709)
+  * Hide preview if it was visible when going to a scope (LP: #1374548)
+  * Remove contentScale variable
+
+  [ Andrea Cimitan ]
+  * Fix card implicitHeight when summary is declared, but its text is
+    empty. Also fixes vertical journal height and clipping (LP:
+    #1362160)
+  * Redesign for pinned apps. Remove thindivider on top of ubuntu dash
+    button (not needed anymore) (LP: #1377100)
+
+  [ Ying-Chun Liu ]
+  * Fix run_on_device.sh to let it run again.
+
+  [ Nick Dedekind ]
+  * Fixed indicator menu bindings to server toggle value broken by user
+    interaction. (LP: #1336715)
+  * Force rendering so we don't get stuck in "waitForRendering" loop in
+    tests.
+
+  [ Daniel d'Andrada ]
+  * PhoneStage: focus the new topmost app after the current one closes
+    itself (LP: #1375267)
+
+  [ Michael Terry ]
+  * Fix some security issues with the tablet greeter, which allowed the
+    lockscreen to be bypassed. (LP: #1367715) (LP: #1367715)
+
+  [ Michael Zanetti ]
+  * scale down errorText label if necessary (LP: #1378848)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 09 Oct 2014 14:05:54 +0000
+
+unity8 (8.00+14.10.20141008-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * Dual SIM pin unlocking. Hook up the UI to the backend. (LP:
+    #1267135)
+
+  [ Antti Kaijanmäki ]
+  * Dual SIM pin unlocking. Hook up the UI to the backend. (LP:
+    #1267135)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 08 Oct 2014 09:41:32 +0000
+
 unity8 (8.00+14.10.20141006-0ubuntu1) utopic; urgency=low
 
   [ Andrea Cimitan ]

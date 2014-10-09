@@ -29,6 +29,7 @@ Item {
     Greeter {
         id: greeter
         anchors.fill: parent
+        locked: !LightDM.Greeter.authenticated
     }
 
     Component {
@@ -115,8 +116,7 @@ Item {
             var waitForSignal = data.uid != 0 && userList.currentIndex != data.uid
             select_index(data.uid)
             tryCompare(userList, "currentIndex", data.uid)
-            tryCompare(greeter, "locked", data.tag !== "no-password" &&
-                                          data.tag !== "auth-error")
+            tryCompare(greeter, "locked", data.tag !== "no-password")
             if (waitForSignal) {
                 selectionSpy.wait()
                 tryCompare(selectionSpy, "count", 1)

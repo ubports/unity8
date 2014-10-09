@@ -139,9 +139,16 @@ Rectangle {
             if (priv.sideStageAppId == appId) {
                 priv.sideStageAppId = "";
             }
+
             if (ApplicationManager.count == 0) {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
+            } else if (spreadView.closingIndex == -1) {
+                // Unless we're closing the app ourselves in the spread,
+                // lets make sure the spread doesn't mess up by the changing app list.
+                spreadView.phase = 0;
+                spreadView.contentX = -spreadView.shift;
+                ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }
         }
     }

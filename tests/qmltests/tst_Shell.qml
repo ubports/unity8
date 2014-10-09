@@ -484,6 +484,7 @@ Row {
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
+            waitForRendering(greeter)
             tryCompare(greeter, "showProgress", 1)
             LightDM.Greeter.hideGreeter()
             tryCompare(greeter, "showProgress", 0)
