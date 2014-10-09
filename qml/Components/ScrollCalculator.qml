@@ -23,8 +23,8 @@ Item {
     readonly property bool areaActive: lateralPosition >= 0
     property real stopScrollThreshold: units.gu(2)
     property int direction: Qt.LeftToRight
-    property real baseScrollAmount: units.dp(2)
-    property real maximumScrollAmount: units.dp(6)
+    property real baseScrollAmount: units.dp(3)
+    property real maximumScrollAmount: units.dp(8)
     property real lateralPosition: -1
     property real forceScrollingPercentage: 0.4
 
