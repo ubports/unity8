@@ -144,8 +144,8 @@ Showable {
         anchors.left: bar.left
         height: bar.height
 
-        forceScrollingPercentage: 0.3
-        thresholdAreaWidth: units.gu(0.5)
+        forceScrollingPercentage: 0.33
+        stopScrollThreshold: units.gu(0.75)
         direction: Qt.RightToLeft
         lateralPosition: -1
 
@@ -158,8 +158,8 @@ Showable {
         anchors.right: bar.right
         height: bar.height
 
-        forceScrollingPercentage: 0.3
-        thresholdAreaWidth: units.gu(0.5)
+        forceScrollingPercentage: 0.33
+        stopScrollThreshold: units.gu(0.75)
         direction: Qt.LeftToRight
         lateralPosition: -1
 
@@ -197,8 +197,12 @@ Showable {
         distanceThreshold: 0
     }
 
-    AxisVelocityCalculator {
+    PanelVelocityCalculator {
         id: yVelocityCalculator
+        velocityThreashold: 0.5
+        trackedValue: d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
+
+        onVelocityThreasholdTriggered: bar.updateItemFromLateralPosition(bar.lateralPosition);
     }
 
     Connections {
@@ -206,7 +210,7 @@ Showable {
         onRunningChanged: {
             if (showAnimation.running) {
                 root.state = "commit";
-                bar.alignLeft();
+                bar.alignIndicatorsToLeft();
             }
         }
     }
@@ -281,8 +285,7 @@ Showable {
                     if (!d.activeDragHandle) return false;
                     if (!d.activeDragHandle.dragging) return false;
 
-                    yVelocityCalculator.trackedPosition = d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0;
-                    return Math.abs(yVelocityCalculator.calculate()) < 0.4;
+                    return !yVelocityCalculator.stopLateralChanges;
                 }
             }
             // left scroll bar handling
@@ -293,7 +296,7 @@ Showable {
                     if (!d.activeDragHandle.dragging) return -1;
 
                     var mapped = d.activeDragHandle.mapToItem(leftScroller, d.activeDragHandle.touchX, 0);
-                    return mapped.x
+                    return mapped.x;
                 }
             }
             // right scroll bar handling
@@ -304,7 +307,7 @@ Showable {
                     if (!d.activeDragHandle.dragging) return -1;
 
                     var mapped = d.activeDragHandle.mapToItem(rightScroller, d.activeDragHandle.touchX, 0);
-                    return mapped.x
+                    return mapped.x;
                 }
             }
         },

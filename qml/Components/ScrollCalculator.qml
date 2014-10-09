@@ -19,8 +19,7 @@ import QtQuick 2.0
 Item {
     id: scrollArea
 
-    property real thresholdAreaWidth: units.gu(1)
-    property bool showDebugRectangles: false
+    property real stopScrollThreshold: units.gu(2)
     property int direction: Qt.LeftToRight
     property real baseScrollAmount:  units.dp(2)
     property real maximumScrollAmount: units.dp(6)
@@ -44,17 +43,16 @@ Item {
     rotation: direction == Qt.LeftToRight ? 0 : 180
 
     function handleEnter() {
-        d.threasholdAreaX = -scrollArea.thresholdAreaWidth;
+        d.threasholdAreaX = -scrollArea.stopScrollThreshold;
         scrollTimer.restart();
     }
     onLateralPositionChanged: {
         if (scrollArea.areaActive) {
-
             if (lateralPosition > width * (1 - forceScrollingPercentage)) {
                 d.threasholdAreaX = width * (1 - forceScrollingPercentage);
                 if (!scrollTimer.running) scrollTimer.restart();
-            } else if (lateralPosition > d.threasholdAreaX + scrollArea.thresholdAreaWidth) {
-                d.threasholdAreaX = lateralPosition - scrollArea.thresholdAreaWidth;
+            } else if (lateralPosition > d.threasholdAreaX + scrollArea.stopScrollThreshold) {
+                d.threasholdAreaX = lateralPosition - scrollArea.stopScrollThreshold;
                 if (!scrollTimer.running) scrollTimer.restart();
             } else if (lateralPosition < d.threasholdAreaX) {
                 d.threasholdAreaX = lateralPosition;
@@ -66,7 +64,7 @@ Item {
     }
 
     function handleExit() {
-        d.threasholdAreaX = -scrollArea.thresholdAreaWidth;
+        d.threasholdAreaX = -scrollArea.stopScrollThreshold;
         scrollTimer.stop();
     }
 
@@ -74,19 +72,44 @@ Item {
         id: scrollTimer
         interval: 5
         repeat: true
+
+        property int iter: 0
         onTriggered: {
-            scrollArea.scroll(scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression);
+            var scrollAmount = scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression;
+            scrollArea.scroll(scrollAmount);
         }
     }
 
     QtObject {
         id: d
 
-        property real progression: 0
-        property real threasholdAreaX: -scrollArea.thresholdAreaWidth
+        property real lastLateralPosition: lateralPosition
 
-        Behavior on progression {
-            SmoothedAnimation { velocity: 2.0 }
-        }
+        property real progression: 0
+        property real threasholdAreaX: -scrollArea.stopScrollThreshold
     }
+
+//    // Debugging Rectangles.
+//    Rectangle {
+//        color: "yellow"
+//        opacity: 0.2
+//        anchors.fill: scrollArea
+//    }
+
+//    Rectangle {
+//        color: "red"
+//        opacity: 0.2
+//        height: scrollArea.height
+//        width: scrollArea.width * forceScrollingPercentage
+//        anchors.right: parent.right
+//    }
+
+//    Rectangle {
+//        id: thresholdRect
+//        opacity: 0.4
+//        height: parent.height
+//        width: scrollArea.stopScrollThreshold
+//        x: d.threasholdAreaX
+//        color: "blue"
+//    }
 }
