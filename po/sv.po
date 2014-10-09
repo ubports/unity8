@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-10-07 14:28+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-08 07:39+0000\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: sv\n"
 
@@ -157,23 +157,23 @@ msgstr ""
 "Du har nu bemästrat kantgesterna och kan börja använda "
 "telefonen<br><br>Tryck på skärmen för att starta"
 
-#: qml/Components/Lockscreen.qml:218
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Nödsamtal"
 
-#: qml/Components/Lockscreen.qml:250
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Visa mindre"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Visa alla"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Sök"
@@ -262,17 +262,9 @@ msgstr "Tala nu…"
 msgid "Speaking..."
 msgstr "Talar…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Visa lösenord"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Ange SIM PIN-kod"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Felaktig PIN"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -318,49 +310,49 @@ msgstr "Lås upp SIM-kort"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
 msgstr "Ange lösenfras"
 
-#: qml/Shell.qml:341
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Felaktig lösenfras"
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
 msgstr "Ange igen"
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
 msgstr "Ange lösenkod"
 
-#: qml/Shell.qml:345
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Felaktig lösenkod"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
 msgstr "Ange %1"
 
-#: qml/Shell.qml:349
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Felaktig %1"
 
-#: qml/Shell.qml:384
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Felaktig lösenfras."
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Felaktig lösenkod."
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Detta är ditt sista försök."
 
-#: qml/Shell.qml:388
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -368,7 +360,7 @@ msgstr ""
 "Om lösenfrasen anges inkorrekt kommer telefonen att fabrikåterställas och "
 "all personlig data kommer att tas bort."
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -376,28 +368,8 @@ msgstr ""
 "Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och all "
 "personlig data kommer att tas bort."
 
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "Hej %1"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Ange SIM PIN-kod"
 
-#~ msgid "Hello"
-#~ msgstr "Hej"
-
-#~ msgid "Swipe to unlock"
-#~ msgstr "Svep för att låsa upp"
-
-#~ msgid "Please wait"
-#~ msgstr "Var god vänta"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "Skriv in din %1"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "För många felaktiga försök"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "Ange din lösenfras"
-
-#~ msgid "Enter your passcode"
-#~ msgstr "Ange din lösenkod"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Felaktig PIN"

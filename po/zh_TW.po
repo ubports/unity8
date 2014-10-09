@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-03 08:13-0400\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-07-26 16:21+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -151,23 +151,23 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
 
-#: qml/Components/Lockscreen.qml:218
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "緊急通話"
 
-#: qml/Components/Lockscreen.qml:250
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "確定"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "縮減查看"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "查看全部"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "搜尋"
@@ -256,17 +256,9 @@ msgstr "請說..."
 msgid "Speaking..."
 msgstr "說話中..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "顯示密碼"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "輸入 SIM 卡 PIN 碼"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "抱歉，PIN 碼不對"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -312,82 +304,62 @@ msgstr "為 SIM 卡解鎖"
 msgid "Roaming"
 msgstr "漫遊"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
 msgstr "輸入密語"
 
-#: qml/Shell.qml:341
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "抱歉，密語不對"
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
 msgstr "請再輸入"
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
 msgstr "輸入 passcode"
 
-#: qml/Shell.qml:345
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "抱歉，passcode 不對"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
 msgstr "輸入 %1"
 
-#: qml/Shell.qml:349
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "抱歉，%1不對"
 
-#: qml/Shell.qml:384
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "抱歉，密語不對"
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "抱歉，passcode 不對。"
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "這將會是您最後一次嘗試的機會。"
 
-#: qml/Shell.qml:388
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr "如輸入的 passcode 不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "%1 您好"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "輸入 SIM 卡 PIN 碼"
 
-#~ msgid "Hello"
-#~ msgstr "您好"
-
-#~ msgid "Swipe to unlock"
-#~ msgstr "滑開解除鎖定"
-
-#~ msgid "Please wait"
-#~ msgstr "請稍候"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "輸入您的 %1"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "錯得太多次"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "輸入密語"
-
-#~ msgid "Enter your passcode"
-#~ msgstr "輸入密碼"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "抱歉，PIN 碼不對"
