@@ -219,6 +219,7 @@ Item {
 
     EdgeDragArea {
         id: dragArea
+        objectName: "launcherDragArea"
 
         direction: Direction.Rightwards
 
