@@ -72,7 +72,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',
                            title='Bluetooth')),
         ('Datetime', dict(indicator_name='indicator-datetime',
-                          title='Upcoming events')),
+                          title='Time & Date')),
         ('Location', dict(indicator_name='indicator-location',
                           title='Location')),
         ('Messaging', dict(indicator_name='indicator-messages',
