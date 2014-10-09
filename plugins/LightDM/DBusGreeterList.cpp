@@ -21,7 +21,7 @@
 #include <QStringList>
 
 DBusGreeterList::DBusGreeterList(Greeter *greeter, const QString &path)
- : UnityDBusObject(path, "com.canonical.UnityGreeter", greeter),
+ : UnityDBusObject(path, "com.canonical.UnityGreeter", true, greeter),
    m_greeter(greeter)
 {
     connect(m_greeter, SIGNAL(authenticationUserChanged(const QString &)), this, SLOT(authenticationUserChangedHandler(const QString &)));
