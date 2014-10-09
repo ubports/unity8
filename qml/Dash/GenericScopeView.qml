@@ -348,7 +348,6 @@ FocusScope {
 
                     function categoryItemCount() {
                         var categoryItemCount = -1;
-
                         if (!rendererLoader.expanded && !seeAllLabel.visible && target.collapsedItemCount > 0) {
                             categoryItemCount = target.collapsedItemCount;
                         }
