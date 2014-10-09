@@ -60,7 +60,7 @@ Item {
                     var currentItemLateralPosition = root.mapToItem(proposedItem, lateralPosition, 0).x;
 
                     // Is the distance into proposed item greater than max buffer?
-                    // Poposed item is before current item
+                    // Proposed item is before current item
                     if (proposedItem.x < currentItem.x) {
                         bufferExceeded = (proposedItem.width - currentItemLateralPosition) > maximumBufferOffset;
                     } else { // After

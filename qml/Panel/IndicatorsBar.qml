@@ -91,6 +91,9 @@ Item {
         property real scrollOffset: 0
         property real combinedOffset: rowOffset + alignmentAdjustment - scrollOffset
 
+        // when the scroll offset changes, we need to reclaculate the relative lateral position
+        onScrollOffsetChanged: root.lateralPositionChanged()
+
         onInitialItemChanged: {
             if (initialItem) {
                 originalItemWidth = initialItem.width;
@@ -146,8 +149,6 @@ Item {
 
             lateralPosition: {
                 if (root.lateralPosition == -1) return -1;
-                // just to automatically invoke this calculation when scrolling offset changes
-                var dummyvar = d.scrollOffset + row.width;
 
                 var mapped = root.mapToItem(row, root.lateralPosition, 0);
                 return Math.min(Math.max(mapped.x, 0), row.width);

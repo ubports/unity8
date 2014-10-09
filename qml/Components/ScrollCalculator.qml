@@ -67,7 +67,6 @@ Item {
         interval: 16
         repeat: true
 
-        property int iter: 0
         onTriggered: {
             var scrollAmount = scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression;
             scrollArea.scroll(scrollAmount);

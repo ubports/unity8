@@ -26,7 +26,6 @@ Showable {
     property alias hideDragHandle: __hideDragHandle
     property alias overFlowWidth: bar.overFlowWidth
     property alias verticalVelocityThreashold: yVelocityCalculator.velocityThreashold
-
     property int minimizedPanelHeight: units.gu(3)
     property int expandedPanelHeight: units.gu(7)
     property real openedHeight: units.gu(71)
@@ -34,13 +33,11 @@ Showable {
     readonly property bool fullyOpened: unitProgress >= 1
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
-
     property bool enableHint: true
     property bool contentEnabled: true
     property color panelColor: "black"
 
     signal showTapped(point position)
-
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
