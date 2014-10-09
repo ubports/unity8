@@ -28,6 +28,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         model: model
+        cacheBuffer: height * 0.5
         delegate: Rectangle {
             property bool timerDone: false
             width: parent.width - 20

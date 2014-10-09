@@ -114,6 +114,8 @@ public:
     bool requestFocusApplication(const QString &appId) { Q_UNUSED(appId); return true; }
     bool suspended() const { return false; }
     void setSuspended(bool) {}
+    bool forceDashActive() const { return false; }
+    void setForceDashActive(bool) {}
 
 private:
     QList<MockApp*> m_list;
@@ -182,6 +184,13 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(0)->pinned(), true);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
         QCOMPARE(spy.count() > 0, true);
+        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+
+        spy.clear();
+        launcherModel->requestRemove(launcherModel->get(0)->appId());
+        QCOMPARE(launcherModel->get(0)->pinned(), false);
+        QCOMPARE(launcherModel->get(1)->pinned(), false);
+        QCOMPARE(spy.count(), 1);
         QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
 
         spy.clear();

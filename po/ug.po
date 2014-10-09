@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-02 10:35+0200\n"
-"PO-Revision-Date: 2014-10-06 00:47+0000\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-07 09:00+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-06 07:00+0000\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -155,23 +155,23 @@ msgstr ""
 "ئېكراننى چېكىپ باشلاڭ<br><br>سىز ھازىر گىرۋەك بارماق ئىشارەتلىرىنى ئىگىلەپ "
 "بولدىڭىز،ئەمدى تېلېفوننى ئىشلىتىشنى باشلىسىڭىز بولىدۇ"
 
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "جىددىي تېلېفون"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "تامام"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "ئازراق كۆرۈش"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "ھەممىنى كۆرۈش…"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ئىزدە"
@@ -207,6 +207,14 @@ msgstr "باھا قوشۇش"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "يوللا"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "تارتسا يېڭىلىنىدۇ…"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "قويۇۋەتسە يېڭىلىنىدۇ…"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -252,17 +260,9 @@ msgstr "ئەمدى سۆزلەڭ…"
 msgid "Speaking..."
 msgstr "سۆزلەۋاتىسىز…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "ئىم كۆرسەت"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "SIM نىڭ ئىمى(PIN) نى كىرگۈزۈڭ"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "كەچۈرۈڭ، PIN توغرا ئەمەس"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -308,49 +308,49 @@ msgstr "SIM نى قۇلۇپسىزلاش"
 msgid "Roaming"
 msgstr "كەزمە"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
 msgstr "ئىم كىرگۈزۈڭ"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
 msgstr "قايتا كىرگۈزۈڭ"
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
 msgstr "ئىم كودى(passcode)نى كىرگۈزۈڭ"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 نى كىرگۈزۈڭ"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "كەچۈرۈڭ، %1 توغرا ئەمەس"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "كەچۈرۈڭ، ئىم كودى ئەمەس"
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "بۇ سىزنىڭ ئەڭ ئاخىرقى پۇرسىتىڭىز"
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -358,7 +358,7 @@ msgstr ""
 "ئەگەر ئىم توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن چىققان "
 "ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -366,28 +366,8 @@ msgstr ""
 "ئەگەر ئىم كودى توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن "
 "چىققان ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
 
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "سالام %1"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "SIM نىڭ ئىمى(PIN) نى كىرگۈزۈڭ"
 
-#~ msgid "Swipe to unlock"
-#~ msgstr "سىيرىسىڭىز قۇلۇپسىزلىنىدۇ"
-
-#~ msgid "Hello"
-#~ msgstr "ئەسسالامۇئەلەيكۇم"
-
-#~ msgid "Please wait"
-#~ msgstr "سەل ساقلاڭ"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "ئىمىڭىزنى كىرگۈزۈڭ"
-
-#~ msgid "Enter your passcode"
-#~ msgstr "ئىمىڭىزنى كىرگۈزۈڭ"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "مەغلۇپ بولۇش سانى چەكتىن ئېشىپ كەتتى"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "%1 نى كىرگۈزۈڭ"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "كەچۈرۈڭ، PIN توغرا ئەمەس"
