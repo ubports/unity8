@@ -26,7 +26,7 @@ class Q_DECL_EXPORT UnityDBusVirtualObject : public QDBusVirtualObject
     Q_OBJECT
 
 public:
-    explicit UnityDBusVirtualObject(const QString &path, const QString &service = QString(), QObject *parent = 0);
+    explicit UnityDBusVirtualObject(const QString &path, const QString &service = QString(), bool async = true, QObject *parent = 0);
     ~UnityDBusVirtualObject();
 
     QDBusConnection connection() const;

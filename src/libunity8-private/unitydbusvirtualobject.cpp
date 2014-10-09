@@ -20,14 +20,18 @@
 #include <QDBusMessage>
 #include <QTimer>
 
-UnityDBusVirtualObject::UnityDBusVirtualObject(const QString &path, const QString &service, QObject *parent)
+UnityDBusVirtualObject::UnityDBusVirtualObject(const QString &path, const QString &service, bool async, QObject *parent)
     : QDBusVirtualObject(parent)
     , m_connection(QDBusConnection::sessionBus())
     , m_path(path)
     , m_service(service)
 {
-    // Use a zero-timer to let Qml finish loading before we announce on DBus
-    QTimer::singleShot(0, this, SLOT(registerObject()));
+    if (async) {
+        // Use a zero-timer to let Qml finish loading before we announce on DBus
+        QTimer::singleShot(0, this, SLOT(registerObject()));
+    } else {
+        registerObject();
+    }
 }
 
 UnityDBusVirtualObject::~UnityDBusVirtualObject()
