@@ -139,17 +139,6 @@ Row {
 
             var launcher = findChild(shell, "launcher");
             launcherShowDashHomeSpy.target = launcher;
-
-            // For some reason, grabbing touches cause MouseArea.mouseX and mouseY
-            // to contain wrong info during test runs, which then makes tests fail.
-            // Therefore we have to avoid grabbing touches to work around this bug
-            // (still to be further investigated and reported).
-            //
-            // Make the left-edge drag area immediately recognize touches that land on it
-            // thus avoing the DirectionalDragArea from grabbing the touch later on.
-            var launcherDragArea = findChild(launcher, "launcherDragArea");
-            launcherDragArea.distanceThreshold = 0
-            launcherDragArea.compositionTime = 0
         }
 
         function cleanup() {

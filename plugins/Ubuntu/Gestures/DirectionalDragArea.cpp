@@ -253,6 +253,7 @@ void DirectionalDragArea::touchOwnershipEvent(TouchOwnershipEvent *event)
     if (event->gained()) {
         QVector<int> ids;
         ids.append(event->touchId());
+        DDA_DEBUG("grabbing touch");
         grabTouchPoints(ids);
 
         // Work around for Qt bug. If we grab a touch that is being used for mouse pointer
@@ -261,8 +262,9 @@ void DirectionalDragArea::touchOwnershipEvent(TouchOwnershipEvent *event)
         // TODO: Report bug to Qt
         if (window()) {
             QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(window());
-            if (windowPrivate->touchMouseId == event->touchId()) {
-                grabMouse();
+            if (windowPrivate->touchMouseId == event->touchId() && window()->mouseGrabberItem()) {
+                DDA_DEBUG("removing mouse grabber");
+                window()->mouseGrabberItem()->ungrabMouse();
             }
         }
     } else {
