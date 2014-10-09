@@ -1,7 +1,5 @@
 add_executable(test-lightdm-dbus
     dbus.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeter.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeterList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     )
 qt5_use_modules(test-lightdm-dbus Core DBus Quick Test)
@@ -11,14 +9,12 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
     ${LIBLIGHTDM_INCLUDE_DIRS}
-    ${libunity8-private_SOURCE_DIR}
     )
 
 add_dependencies(test-lightdm-dbus MockLightDM-full)
 target_link_libraries(test-lightdm-dbus
     -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full
     -llightdm-qt5-2
-    unity8-private
     )
 
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

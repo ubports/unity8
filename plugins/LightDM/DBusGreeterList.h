@@ -19,7 +19,6 @@
 
 #include "unitydbusobject.h"
 #include <QDBusConnection>
-#include <QObject>
 
 class Greeter;
 

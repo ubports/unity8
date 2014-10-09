@@ -18,7 +18,6 @@
 #define DBUSDASHCOMMUNICATORSERVICE_H
 
 #include "unitydbusobject.h"
-#include <QObject>
 
 class DBusDashCommunicatorService: public UnityDBusObject
 {

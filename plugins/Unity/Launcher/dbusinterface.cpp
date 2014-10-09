@@ -25,7 +25,6 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
-#include <QTimer>
 
 DBusInterface::DBusInterface(LauncherModel *parent):
     UnityDBusVirtualObject("/com/canonical/Unity/Launcher", "com.canonical.Unity.Launcher", parent),

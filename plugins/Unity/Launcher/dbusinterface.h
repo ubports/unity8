@@ -20,8 +20,6 @@
 #include "launcheritem.h"
 #include "unitydbusvirtualobject.h"
 
-#include <QDBusVirtualObject>
-
 class LauncherModel;
 
 class DBusInterface: public UnityDBusVirtualObject
@@ -45,4 +43,5 @@ private:
     static QString encodeAppId(const QString& appId);
 
     LauncherModel *m_launcherModel;
+
 };

@@ -19,7 +19,6 @@
 #include <QDBusConnection>
 #include <QDBusInterface>
 #include <QDebug>
-#include <QTimer>
 
 DBusDashCommunicatorService::DBusDashCommunicatorService(QObject *parent):
     UnityDBusObject("/com/canonical/UnityDash", "com.canonical.UnityDash", parent)

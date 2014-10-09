@@ -20,7 +20,6 @@
 // Qt
 #include <QDBusConnection>
 #include <QDBusInterface>
-#include <QTimer>
 
 DBusUnitySessionService::DBusUnitySessionService()
     : UnityDBusObject("/com/canonical/Unity/Session", "com.canonical.Unity")

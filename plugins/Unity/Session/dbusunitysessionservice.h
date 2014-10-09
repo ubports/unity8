@@ -18,7 +18,6 @@
 #define DBUSUNITYSESSIONSERVICE_H
 
 #include "unitydbusobject.h"
-#include <QObject>
 
 /**
  * DBusUnitySessionService provides com.canonical.Unity.Session dbus
