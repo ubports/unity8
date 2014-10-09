@@ -25,7 +25,7 @@ Item {
     property QtObject indicatorsModel: null
     property real overFlowWidth: width
     property bool expanded: false
-    property var currentItem: null
+    property var currentItem
     readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
 
     property real unitProgress: 0.0
@@ -82,16 +82,16 @@ Item {
     }
 
     function resetCurrentItem() {
-        currentItem = null;
-        d.previousItem = null;
         d.firstItemSwitch = true;
+        d.previousItem = undefined;
+        currentItem = undefined;
     }
 
     function setCurrentItemIndex(index) {
         for (var i = 0; i < row.children.length; i++) {
             var item = row.children[i];
             if (item.hasOwnProperty("ownIndex") && item.ownIndex === index) {
-                currentItem = item;
+                if (currentItem !== item) currentItem = item;
                 break;
             }
         }
@@ -111,14 +111,14 @@ Item {
                     break;
                 }
             }
-            currentItem = item;
+            if (currentItem !== item) currentItem = item;
         }
     }
 
     QtObject {
         id: d
         property bool firstItemSwitch: true
-        property var previousItem: null
+        property var previousItem
     }
 
     onCurrentItemChanged: {
@@ -170,7 +170,7 @@ Item {
         anchors.bottom: row.bottom
         height: units.dp(2)
         color: root.hightlightColor
-        visible: currentItem !== null
+        visible: currentItem !== undefined
         opacity: 0.0
 
         width: currentItem ? currentItem.width : 0

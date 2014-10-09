@@ -53,6 +53,9 @@ IndicatorTest {
                 openedHeight: parent.height
                 indicatorsModel: root.indicatorsModel
                 shown: false
+
+                // no vertical movement allowed while dragging
+                verticalVelocityThreashold: 0
             }
         }
 
@@ -120,12 +123,10 @@ IndicatorTest {
 
         function test_progress_changes_state_to_reveal() {
             indicatorsMenu.height = indicatorsMenu.openedHeight / 2;
-            compare(indicatorsMenu.state, "reveal", "Indicators should be locked when fully opened.");
-        }
+            compare(indicatorsMenu.state, "reveal", "Indicators should be revealing when partially opened.");
 
-        function test_progress_changes_state_to_locked() {
             indicatorsMenu.height = indicatorsMenu.openedHeight;
-            compare(indicatorsMenu.state, "locked", "Indicators should be locked when fully opened.");
+            compare(indicatorsMenu.state, "reveal", "Indicators should still be revealing when fully opened.");
         }
 
         function test_open_state() {
@@ -218,10 +219,14 @@ IndicatorTest {
             touchFlick(indicatorsMenu,
                        firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 2,
                        nextItemMappedPosition.x, indicatorsMenu.openedHeight / 3,
-                       false /* beginTouch */, true /* endTouch */,
-                       units.gu(5) /* speed */, 10 /* iterations */); // more samples needed for accurate velocity
+                       false /* beginTouch */, false /* endTouch */,
+                       units.gu(50) /* speed */, 5 /* iterations */); // more samples needed for accurate velocity
 
             compare(indicatorItemRow.currentItem, firstItem, "First indicator should still be the current item");
+            // after waiting in the same spot with touch down, it should update to the next item.
+            tryCompare(indicatorItemRow, "currentItem", nextItem);
+
+            touchRelease(indicatorsMenu, nextItemMappedPosition.x, indicatorsMenu.openedHeight / 3);
         }
     }
 }

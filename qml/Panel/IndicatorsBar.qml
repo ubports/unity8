@@ -73,7 +73,7 @@ Item {
 
     QtObject {
         id: d
-        property var initialItem: null
+        property var initialItem
         // the non-expanded distance from row offset to center of initial item
         property real originalDistanceFromRight: -1
         property real originalItemWidth: -1
@@ -113,7 +113,7 @@ Item {
     Connections {
         target: row
         onCurrentItemChanged: {
-            if (!row.currentItem) d.initialItem = null;
+            if (!row.currentItem) d.initialItem = undefined;
             else if (!d.initialItem) d.initialItem = row.currentItem;
         }
     }
