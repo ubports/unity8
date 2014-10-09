@@ -322,5 +322,22 @@ Item {
             }
             phoneStage.orientation = Qt.PortraitOrientation;
         }
+
+        function test_focusNewTopMostAppAfterFocusedOneClosesItself() {
+            addApps(2);
+
+            var secondApp = ApplicationManager.get(0);
+            tryCompare(secondApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(secondApp, "focused", true);
+
+            var firstApp = ApplicationManager.get(1);
+            tryCompare(firstApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(firstApp, "focused", false);
+
+            ApplicationManager.stopApplication(secondApp.appId);
+
+            tryCompare(firstApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(firstApp, "focused", true);
+        }
     }
 }
