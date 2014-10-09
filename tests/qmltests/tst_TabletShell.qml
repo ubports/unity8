@@ -287,7 +287,7 @@ Row {
 
             AccountsService.demoEdges = data.demo
             var edgeDemo = findChild(shell, "edgeDemo")
-            tryCompare(edgeDemo, "greeterDemoRunning", data.demo)
+            tryCompare(edgeDemo, "running", data.demo)
 
             swipeFromLeftEdge(shell.width * 0.75)
             wait(500) // to give time to handle dash() signal from Launcher
