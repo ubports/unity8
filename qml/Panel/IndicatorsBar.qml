@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.2
+import Ubuntu.Components 1.1
 import "../Components"
 
 Item {
@@ -23,10 +23,10 @@ Item {
     property alias expanded: row.expanded
     property alias indicatorsModel: row.indicatorsModel
     property alias unitProgress: row.unitProgress
-    property real lateralPosition: -1
     property alias enableLateralChanges: row.enableLateralChanges
     property alias overFlowWidth: row.overFlowWidth
     readonly property alias currentItemIndex: row.currentItemIndex
+    property real lateralPosition: -1
 
     function selectItemAt(lateralPosition) {
         if (!expanded) {
@@ -37,6 +37,8 @@ Item {
     }
 
     function updateItemFromLateralPosition(position) {
+        if (position === -1) return;
+
         var mapped = root.mapToItem(row, position, 0);
         row.updateItemFromLateralPosition(mapped.x);
     }

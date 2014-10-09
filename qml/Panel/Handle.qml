@@ -14,7 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.2
+import Ubuntu.Components 1.1
 
 Rectangle {
     id: handle
@@ -25,7 +26,7 @@ Rectangle {
     Row {
         id: dots
         width: childrenRect.width
-        height: children.height
+        height: childrenRect.height
         anchors.centerIn: parent
         spacing: units.gu(0.5)
         Repeater {

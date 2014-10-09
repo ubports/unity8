@@ -14,33 +14,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.2
+import Ubuntu.Components 1.1
 
 Item {
     id: scrollArea
 
+    readonly property bool areaActive: lateralPosition >= 0
     property real stopScrollThreshold: units.gu(2)
     property int direction: Qt.LeftToRight
-    property real baseScrollAmount:  units.dp(2)
+    property real baseScrollAmount: units.dp(2)
     property real maximumScrollAmount: units.dp(6)
-
     property real lateralPosition: -1
-    readonly property bool areaActive: lateralPosition >= 0
-    onAreaActiveChanged: {
-        if (areaActive) {
-            handleEnter();
-        } else {
-            handleExit();
-        }
-    }
-
-    // from 0 to 1
     property real forceScrollingPercentage: 0.4
+
     signal scroll(real scrollAmount)
 
-    width: 200
-    height: 200
-    rotation: direction == Qt.LeftToRight ? 0 : 180
+    onAreaActiveChanged: areaActive ? handleEnter() : handleExit()
+
+    width: units.gu(5)
+    rotation: direction === Qt.LeftToRight ? 0 : 180
 
     function handleEnter() {
         d.threasholdAreaX = -scrollArea.stopScrollThreshold;
@@ -70,7 +63,7 @@ Item {
 
     Timer {
         id: scrollTimer
-        interval: 5
+        interval: 16
         repeat: true
 
         property int iter: 0

@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
-import Ubuntu.Components 0.1
+import QtQuick 2.2
+import Ubuntu.Components 1.1
 
 Item {
     id: root
@@ -35,9 +35,8 @@ Item {
 
     property real lateralPosition: -1
     onLateralPositionChanged: {
-        if (currentItem && !enableLateralChanges) return;
+        if (currentItem || !enableLateralChanges) return;
         updateItemFromLateralPosition(lateralPosition);
-        highlight.updateHighlightOffset();
     }
 
     function updateItemFromLateralPosition(lateralPosition) {
@@ -54,9 +53,10 @@ Item {
             var bufferExceeded = false;
 
             if (proposedItem !== currentItem) {
+                // Proposed item is not directly adjacent to current?
                 if (Math.abs(currentItem.ownIndex - currentItem.ownIndex) > 1) {
                     bufferExceeded = true;
-                } else {
+                } else { // no
                     var currentItemLateralPosition = root.mapToItem(proposedItem, lateralPosition, 0).x;
 
                     // Is the distance into proposed item greater than max buffer?
@@ -103,7 +103,7 @@ Item {
             currentItem = item;
         } else {
             // Select default item.
-            var searchIndex = lateralPosition > width ? repeater.count-1 : 0;
+            var searchIndex = lateralPosition > width ? repeater.count - 1 : 0;
 
             for (var i = 0; i < row.children.length; i++) {
                 if (row.children[i].hasOwnProperty("ownIndex") && row.children[i].ownIndex === searchIndex) {
@@ -170,7 +170,7 @@ Item {
         anchors.bottom: row.bottom
         height: units.dp(2)
         color: root.hightlightColor
-        visible: root.currentItem !== null
+        visible: currentItem !== null
         opacity: 0.0
 
         width: currentItem ? currentItem.width : 0
@@ -181,31 +181,34 @@ Item {
 
         // micromovements of the highlight line when user moves the finger across the items while pulling
         // the handle downwards.
-        function updateHighlightOffset() {
-            if (!currentItem || lateralPosition == -1) {
-                highlightCenterOffset = 0;
-                return;
+        Connections {
+            target: root
+            onLateralPositionChanged: {
+                if (!currentItem || lateralPosition == -1) {
+                    highlight.highlightCenterOffset = 0;
+                    return;
+                }
+                if (!enableLateralChanges) return;
+
+                var itemMapped = root.mapToItem(currentItem, lateralPosition, 0);
+
+                var distanceFromCenter = itemMapped.x - currentItem.width / 2;
+                if (distanceFromCenter > 0) {
+                    distanceFromCenter = Math.max(0, distanceFromCenter - currentItem.width / 8);
+                } else {
+                    distanceFromCenter = Math.min(0, distanceFromCenter + currentItem.width / 8);
+                }
+
+                if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
+                    highlight.highlightCenterOffset = 0;
+                } else if (currentItem && currentItem.ownIndex === repeater.count-1 & distanceFromCenter > 0) {
+                    highlight.highlightCenterOffset = 0;
+                } else {
+                    highlight.highlightCenterOffset = (distanceFromCenter / (currentItem.width / 4)) * units.gu(1);
+                }
             }
-
-            var itemMapped = root.mapToItem(currentItem, lateralPosition, 0);
-
-            var distanceFromCenter = itemMapped.x - currentItem.width / 2;
-            if (distanceFromCenter > 0) {
-                distanceFromCenter = Math.max(0, distanceFromCenter-currentItem.width / 8);
-            } else {
-                distanceFromCenter = Math.min(0, distanceFromCenter+currentItem.width / 8);
-            }
-
-            if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
-                highlightCenterOffset = 0;
-            } else if (currentItem && currentItem.ownIndex === repeater.count-1 & distanceFromCenter > 0) {
-                highlightCenterOffset = 0;
-            } else {
-                var shiftPercentageOffset = (distanceFromCenter / (currentItem.width / 4));
-                highlightCenterOffset = shiftPercentageOffset * units.gu(1);
-            }
-
         }
+
         property real highlightCenterOffset: 0
         Behavior on highlightCenterOffset {
             NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
@@ -236,7 +239,7 @@ Item {
         Transition {
             PropertyAnimation {
                 properties: "opacity";
-                duration: UbuntuAnimation.SnapDuration;
+                duration: UbuntuAnimation.SnapDuration
                 easing: UbuntuAnimation.StandardEasing
             }
         }
