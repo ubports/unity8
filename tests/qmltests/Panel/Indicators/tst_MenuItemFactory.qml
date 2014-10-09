@@ -37,6 +37,11 @@ Item {
         property int modelIndex: 0
         property var data
 
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+
         onLoaded: {
             if (item.hasOwnProperty("menuData")) {
                 item.menuData = data;
@@ -733,6 +738,25 @@ Item {
             compare(loader.item.canGoNext, false, "CanGoNext should be false");
             compare(loader.item.canGoPrevious, false, "CanGoPrevious should be false");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_lp1336715_broken_checkbox_bindings() {
+            menuData.type = "com.canonical.indicator.switch";
+            menuData.sensitive = true;
+            menuData.isToggled = false;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+
+            compare(loader.item.checked, false, "Loader did not load check state");
+            mouseClick(loader.item,
+                       loader.item.width / 2, loader.item.height / 2);
+            compare(loader.item.checked, true, "Clicking switch menu should toggle check");
+
+            menuData.isToggled = true; // toggled will not update in mock
+            menuData.isToggled = false;
+
+            compare(loader.item.checked, false, "Server updates no longer working");
         }
     }
 }
