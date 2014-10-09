@@ -181,40 +181,31 @@ Item {
 
         // micromovements of the highlight line when user moves the finger across the items while pulling
         // the handle downwards.
-        Connections {
-            target: root
-            onLateralPositionChanged: {
-                if (!currentItem || lateralPosition == -1) {
-                    highlight.highlightCenterOffset = 0;
-                    return;
-                }
-                if (!enableLateralChanges) return;
 
-                var itemMapped = root.mapToItem(currentItem, lateralPosition, 0);
+        property real highlightCenterOffset: {
+            if (!currentItem || lateralPosition == -1 || !enableLateralChanges) return 0;
 
-                var distanceFromCenter = itemMapped.x - currentItem.width / 2;
-                if (distanceFromCenter > 0) {
-                    distanceFromCenter = Math.max(0, distanceFromCenter - currentItem.width / 8);
-                } else {
-                    distanceFromCenter = Math.min(0, distanceFromCenter + currentItem.width / 8);
-                }
+            var itemMapped = root.mapToItem(currentItem, lateralPosition, 0);
 
-                if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
-                    highlight.highlightCenterOffset = 0;
-                } else if (currentItem && currentItem.ownIndex === repeater.count-1 & distanceFromCenter > 0) {
-                    highlight.highlightCenterOffset = 0;
-                } else {
-                    highlight.highlightCenterOffset = (distanceFromCenter / (currentItem.width / 4)) * units.gu(1);
-                }
+            var distanceFromCenter = itemMapped.x - currentItem.width / 2;
+            if (distanceFromCenter > 0) {
+                distanceFromCenter = Math.max(0, distanceFromCenter - currentItem.width / 8);
+            } else {
+                distanceFromCenter = Math.min(0, distanceFromCenter + currentItem.width / 8);
             }
-        }
 
-        property real highlightCenterOffset: 0
+            if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
+                return 0;
+            } else if (currentItem && currentItem.ownIndex === repeater.count-1 & distanceFromCenter > 0) {
+                return 0;
+            }
+            return (distanceFromCenter / (currentItem.width / 4)) * units.gu(1);
+        }
         Behavior on highlightCenterOffset {
             NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
 
-        property real currentItemX: currentItem ? currentItem.x : 0 // having Behavior
+        property real currentItemX: currentItem ? currentItem.x : 0
         Behavior on currentItemX {
             id: currentItemXBehavior
             enabled: !d.firstItemSwitch && expanded
