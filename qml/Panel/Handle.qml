@@ -33,7 +33,7 @@ Rectangle {
             model: 3
             delegate: Rectangle {
                 id: dot
-                width: units.gu(0.33)
+                width: units.dp(3)
                 height: width
                 color: handle.active ? "#de4814" : "#717171"
                 radius: units.dp(1)
