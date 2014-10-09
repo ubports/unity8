@@ -283,12 +283,17 @@ Item {
             objectName: "checkableMenu"
             property QtObject menuData: null
             property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
-            checked: menuData && menuData.isToggled || false
+            checked: serverChecked
             highlightWhenPressed: false
 
+            onServerCheckedChanged: {
+                // value can be changed by menu, so a binding won't work.
+                checked = serverChecked;
+            }
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
@@ -302,13 +307,18 @@ Item {
             objectName: "switchMenu"
             property QtObject menuData: null
             property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
-            checked: menuData && menuData.isToggled || false
+            checked: serverChecked
             highlightWhenPressed: false
 
+            onServerCheckedChanged: {
+                // value can be changed by menu, so a binding won't work.
+                checked = serverChecked;
+            }
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
@@ -431,6 +441,7 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
+            property bool serverChecked: menuData && menuData.isToggled || false
 
             property var strengthAction: UnityMenuAction {
                 model: menuModel
@@ -440,12 +451,16 @@ Item {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
-            active: menuData && menuData.isToggled || false
+            active: serverChecked
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             signalStrength: strengthAction.valid ? strengthAction.state : 0
             highlightWhenPressed: false
 
+            onServerCheckedChanged: {
+                // value can be changed by menu, so a binding won't work.
+                active = serverChecked;
+            }
             onMenuModelChanged: {
                 loadAttributes();
             }
