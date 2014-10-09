@@ -81,28 +81,4 @@ Item {
         property real progression: 0
         property real threasholdAreaX: -scrollArea.stopScrollThreshold
     }
-
-//    // Debugging Rectangles.
-//    Rectangle {
-//        color: "yellow"
-//        opacity: 0.2
-//        anchors.fill: scrollArea
-//    }
-
-//    Rectangle {
-//        color: "red"
-//        opacity: 0.2
-//        height: scrollArea.height
-//        width: scrollArea.width * forceScrollingPercentage
-//        anchors.right: parent.right
-//    }
-
-//    Rectangle {
-//        id: thresholdRect
-//        opacity: 0.4
-//        height: parent.height
-//        width: scrollArea.stopScrollThreshold
-//        x: d.threasholdAreaX
-//        color: "blue"
-//    }
 }
