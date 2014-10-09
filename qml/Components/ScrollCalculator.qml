@@ -30,15 +30,21 @@ Item {
 
     signal scroll(real scrollAmount)
 
-    onAreaActiveChanged: areaActive ? handleEnter() : handleExit()
-
     width: units.gu(5)
     rotation: direction === Qt.LeftToRight ? 0 : 180
+
+    onAreaActiveChanged: areaActive ? handleEnter() : handleExit()
 
     function handleEnter() {
         d.threasholdAreaX = -scrollArea.stopScrollThreshold;
         scrollTimer.restart();
     }
+
+    function handleExit() {
+        d.threasholdAreaX = -scrollArea.stopScrollThreshold;
+        scrollTimer.stop();
+    }
+
     onLateralPositionChanged: {
         if (scrollArea.areaActive) {
             if (lateralPosition > width * (1 - forceScrollingPercentage)) {
@@ -54,11 +60,6 @@ Item {
 
             d.progression = lateralPosition / width;
         }
-    }
-
-    function handleExit() {
-        d.threasholdAreaX = -scrollArea.stopScrollThreshold;
-        scrollTimer.stop();
     }
 
     Timer {
