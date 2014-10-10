@@ -483,7 +483,7 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.95 : 0
+        opacity: quickList.state === "open" ? 0.96 : 0
         visible: opacity > 0
         rotation: root.rotation
 
@@ -554,6 +554,11 @@ Rectangle {
                     objectName: "quickListEntry" + index
                     text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
                     highlightWhenPressed: model.clickable
+
+                    // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
+                    // ListItems don't know that they are sitting in a themed Popover where the color
+                    // needs to be inverted.
+                    __foregroundColor: Theme.palette.normal.highlightText
 
                     onClicked: {
                         if (!model.clickable) {

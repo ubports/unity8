@@ -402,9 +402,9 @@ Item {
 
         function test_quicklist_positioning(data) {
             revealer.dragLauncherIntoView();
-            var quickList = findChild(launcher, "quickList")
-            var draggedItem = findChild(launcher, "launcherDelegate" + data.itemIndex)
-            var quickListShape = findChild(launcher, "quickListShape")
+            var quickList = findChild(launcher, "quickList");
+            var draggedItem = findChild(launcher, "launcherDelegate" + data.itemIndex);
+            var quickListShape = findChild(launcher, "quickListShape");
 
             // Position launcher to where we need it
             var listView = findChild(launcher, "launcherListView");
@@ -415,20 +415,20 @@ Item {
             }
 
             // Doing longpress
-            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
-            tryCompare(quickListShape, "opacity", 0.95)
+            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2);
+            tryCompare(quickListShape, "opacity", 0.96);
             mouseRelease(draggedItem);
 
-            verify(quickList.y >= units.gu(1))
-            verify(quickList.y + quickList.height + units.gu(1) <= launcher.height)
+            verify(quickList.y >= units.gu(1));
+            verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
 
             // Click somewhere in the empty space to dismiss the quicklist
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            tryCompare(quickListShape, "visible", false)
+            tryCompare(quickListShape, "visible", false);
 
             // Click somewhere in the empty space to dismiss the launcher
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            revealer.waitUntilLauncherDisappears()
+            revealer.waitUntilLauncherDisappears();
         }
 
         function test_quicklist_click_data() {
