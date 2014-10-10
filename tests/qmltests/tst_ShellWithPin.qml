@@ -218,7 +218,7 @@ Item {
             var launcher = findChild(shell, "launcher")
             var stage = findChild(shell, "stage")
 
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(greeter, "lockedApp", "dialer-app")
             tryCompare(greeter, "hasLockedApp", true)
@@ -245,7 +245,7 @@ Item {
         function test_emergencyCallCrash() {
             var lockscreen = findChild(shell, "lockscreen")
             var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(lockscreen, "shown", false)
             killApps() // kill dialer-app, as if it crashed
@@ -255,7 +255,7 @@ Item {
         function test_emergencyCallAppLaunch() {
             var lockscreen = findChild(shell, "lockscreen")
             var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(lockscreen, "shown", false)
             ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
@@ -300,7 +300,7 @@ Item {
 
             var dialog = findChild(root, "infoPopup")
             var button = findChild(dialog, "infoPopupOkButton")
-            mouseClick(button, button.width / 2, button.height / 2)
+            tap(button)
             tryCompareFunction(function() {return findChild(root, "infoPopup")}, null)
 
             tryCompare(resetSpy, "count", 0)
