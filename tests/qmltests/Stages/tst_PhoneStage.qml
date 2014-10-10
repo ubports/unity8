@@ -313,6 +313,16 @@ Item {
             tryCompare(app, "orientation", Qt.LandscapeOrientation);
         }
 
+        function test_backgroundClickCancelsSpread() {
+            addApps(3)
+            goToSpread();
+
+            mouseClick(phoneStage, units.gu(1), units.gu(1))
+
+            var spreadView = findChild(phoneStage, "spreadView");
+            tryCompare(spreadView, "contentX", -spreadView.shift)
+        }
+
         function cleanup() {
             while (ApplicationManager.count > 1) {
                 var oldCount = ApplicationManager.count;
