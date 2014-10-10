@@ -4,3 +4,4 @@ typeinfo Dash.qmltypes
 singleton CardCreatorCache 0.1 CardCreatorCache.qml
 ScopeStyle 0.1 ScopeStyle.qml
 CardAttributes 0.1 CardAttributes.qml
+CroppedImageMinimumSourceSize 0.1 CroppedImageMinimumSourceSize.qml

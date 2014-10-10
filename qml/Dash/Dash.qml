@@ -29,7 +29,6 @@ Showable {
     visible: shown
 
     property string showScopeOnLoaded: "clickscope"
-    property real contentScale: 1.0
 
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
@@ -41,8 +40,9 @@ Showable {
                     if (window.active) {
                         dashContentCache.scheduleUpdate();
                     }
-                    overviewController.enableAnimation = window.active;
+                    overviewController.enableAnimation = window.active && !scopesOverview.showingNonFavoriteScope;
                     overviewController.progress = 0;
+                    scopesOverview.closeTempScope();
                 }
             }
         }
@@ -190,7 +190,6 @@ Showable {
                 dash.showScopeOnLoaded = ""
             }
         }
-        scale: dash.contentScale
         clip: scale != 1.0 || scopeItem.visible || overviewController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
@@ -245,7 +244,7 @@ Showable {
         y: overviewController.progress == 0 ? dashContent.y : overviewProgressY
         width: parent.width
         height: parent.height
-        scale: dash.contentScale * overviewProgressScale
+        scale: overviewProgressScale
         enabled: opacity == 1
         opacity: 1 - overviewController.progress
         clip: scale != 1.0
@@ -275,6 +274,7 @@ Showable {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+            bottomMargin: Qt.inputMethod.keyboardRectangle.height
         }
         height: units.dp(3)
         color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"

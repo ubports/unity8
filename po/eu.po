@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-27 12:47+0000\n"
+"PO-Revision-Date: 2014-10-07 19:21+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
+"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -96,8 +98,7 @@ msgstr "Eskuineko ertza"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Pasatu hatza eskuineko ertzetik ezkerrerantz telefonoa desblokeatzeko"
+msgstr "Pasatu hatza eskuineko ertzetik ezkerrerantz telefonoa desblokeatzeko"
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
@@ -361,5 +362,41 @@ msgstr ""
 "Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
 "berrezarri eta datu pertsonal guztiak ezabatuko dira."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Kudeatu abio-leihoa"
+#~ msgid "Device Locked"
+#~ msgstr "Gailua blokeatuta"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Gailua blokeatu da, pasaesaldia sartzeko saiakera gehiegi hutsegin "
+#~ "dituzulako."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Gailua blokeatu da, pasakodea sartzeko saiakera gehiegi hutsegin "
+#~ "dituzulako."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Itxaron minutu %1ez eta saiatu berriro…"
+#~ msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tiratu freskatzeko…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Askatu freskatzeko…"
+
+#~ msgid "Unlock"
+#~ msgstr "Desblokeatu"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Sartu pasaesaldia"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Errepikatu"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Sartu pasakodea"
+
+#~ msgid "Enter %1"
+#~ msgstr "Sartu %1"

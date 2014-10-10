@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-23 08:37+0000\n"
+"PO-Revision-Date: 2014-10-07 14:28+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
-"Language: sv\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -361,5 +362,37 @@ msgstr ""
 "Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och all "
 "personlig data kommer att tas bort."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Hantera Dash"
+#~ msgid "Device Locked"
+#~ msgstr "Enhet låst"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr "Du har blivit utlåst efter för många misslyckade lösenfrasförsök."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "Du har blivit utlåst efter för många misslyckade lösenkodsförsök."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Vänta %1 minut och prova sedan igen..."
+#~ msgstr[1] "Vänta %1 minuter och prova sedan igen..."
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Dra för att uppdatera..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Släpp för uppdatera..."
+
+#~ msgid "Unlock"
+#~ msgstr "Lås upp"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Ange lösenfras"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Ange igen"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Ange lösenkod"
+
+#~ msgid "Enter %1"
+#~ msgstr "Ange %1"

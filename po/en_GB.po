@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-08-23 13:48+0000\n"
-"Last-Translator: Alan Pope (﻿ ͡° ͜ʖ ͡°) <alan@ubuntu.com>\n"
+"PO-Revision-Date: 2014-10-03 12:46+0000\n"
+"Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -360,5 +362,38 @@ msgstr ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Manage Dash"
+#~ msgid "Device Locked"
+#~ msgstr "Device Locked"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "You have been locked out due to too many failed passphrase attempts."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "You have been locked out due to too many failed passcode attempts."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Please wait %1 minute and then try again…"
+#~ msgstr[1] "Please wait %1 minutes and then try again…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Pull to refresh…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Release to refresh…"
+
+#~ msgid "Unlock"
+#~ msgstr "Unlock"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Enter passphrase"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Please re-enter"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Enter passcode"
+
+#~ msgid "Enter %1"
+#~ msgstr "Enter %1"

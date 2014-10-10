@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-23 04:06+0000\n"
+"PO-Revision-Date: 2014-10-09 07:43+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-10 05:23+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -66,7 +68,7 @@ msgstr "¿Esta seguro de que quiere reiniciar?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr "Encendido"
+msgstr "Apagar"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
@@ -106,8 +108,7 @@ msgstr "Borde superior"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Deslice el dedo desde el borde superior para acceder a los indicadores"
+msgstr "Deslice el dedo desde el borde superior para acceder a los indicadores"
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
@@ -211,7 +212,7 @@ msgstr "Enviar"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Administrar ámbitos"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -275,7 +276,7 @@ msgstr "Conferencia"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Ningún contenido en reproducción"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -363,5 +364,41 @@ msgstr ""
 "Si se introduce el código incorrectamente, el teléfono volverá a la "
 "configuración de fábrica y se perderán todos los datos personales."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Gestionar tablero"
+#~ msgid "Device Locked"
+#~ msgstr "Dispositivo bloqueado"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Se ha proporcionado una contraseña errónea demasiadas veces. Se ha "
+#~ "bloqueado el dispositivo."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Se ha bloqueado el dispositivo debido al gran número de intentos fallidos "
+#~ "de desbloqueo."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Espere %1 minuto e inténtelo de nuevo..."
+#~ msgstr[1] "Espere %1 minutos e inténtelo de nuevo..."
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Deslice para actualizar…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Suelte para actualizar…"
+
+#~ msgid "Unlock"
+#~ msgstr "Desbloquear"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Introduzca la contraseña"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Reintroduzca"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Introduzca el código"
+
+#~ msgid "Enter %1"
+#~ msgstr "Introduzca %1"

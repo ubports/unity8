@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-23 06:27+0000\n"
+"PO-Revision-Date: 2014-10-07 10:51+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -98,8 +100,7 @@ msgstr "Vora dreta"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
+msgstr "Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
@@ -214,7 +215,7 @@ msgstr "Envia"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Gestioneu les lents"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -278,7 +279,7 @@ msgstr "Conferència"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "No s'està reproduint res"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -344,7 +345,7 @@ msgstr "La contrasenya és incorrecta"
 
 #: qml/Shell.qml:364
 msgid "Sorry, incorrect passcode."
-msgstr "La clau és incorrecta"
+msgstr "El codi d'accés no és correcte"
 
 #: qml/Shell.qml:365
 msgid "This will be your last attempt."
@@ -364,8 +365,45 @@ msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Si la clau s'introdueix de manera incorrecta, el telèfon es reinicialitzarà "
-"a l'estat de fàbrica i se suprimiran totes les dades personals."
+"Si el codi d'accés s'introdueix de manera incorrecta, el telèfon es "
+"reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
+"personals."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Gestiona el tauler"
+#~ msgid "Device Locked"
+#~ msgstr "Dispositiu bloquejat"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+#~ "d'intents d'introducció de la contrasenya."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+#~ "d'intents d'introducció del codi d'accés."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Espereu %1 minut i torneu-ho a intentar..."
+#~ msgstr[1] "Espereu %1 minuts i torneu-ho a intentar..."
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Estireu per actualitzar..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Deixeu anar per actualitzar..."
+
+#~ msgid "Unlock"
+#~ msgstr "Desbloca"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Introduïu la contrasenya"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Torneu-ho a introduir"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Introduïu el codi d'accés"
+
+#~ msgid "Enter %1"
+#~ msgstr "Introduïu: %1"

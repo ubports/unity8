@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
 "PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Arun Kumar - அருண் குமார் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
+"Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
-"Language: ta\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -122,8 +123,7 @@ msgstr "இடது விளிம்பு"
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
-"பயன்பாடுகளின் விரைவான அணுகலை பெறத்தேவையான தொடக்கியை இடமிருந்து தேய்த்தால் "
-"வெளிப்படும்"
+"பயன்பாடுகளின் விரைவான அணுகலை பெறத்தேவையான தொடக்கியை இடமிருந்து தேய்த்தால் வெளிப்படும்"
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"

@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-28 14:37+0000\n"
+"PO-Revision-Date: 2014-10-08 00:48+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
+"Language: am\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -359,5 +361,37 @@ msgstr ""
 "የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
 
-#~ msgid "Manage Dash"
-#~ msgstr "የ ዳሽ አስተዳዳሪ"
+#~ msgid "Device Locked"
+#~ msgstr "አካሉ ተቆልፏል"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr "ብዙ ጊዜ የተሳሳተ የ ማለፊያ ሀረግ ለማስገባት በ መሞከር ምክንያት  ስልኩ ተቆልፏል"
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "ብዙ ጊዜ የተሳሳተ የ ማለፊያ ኮድ ለማስገባት በ መሞከር ምክንያት  ስልኩ ተቆልፏል"
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "እባክዎን ይቆዩ %1 ደቂቃ እና ከዛ እንደ ገና ይምክሩ…"
+#~ msgstr[1] "እባክዎን ይቆዩ %1 ደቂቃዎች እና ከዛ እንደ ገና ይምክሩ…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "ይሳቡ ለማነቃቃት…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "ይልቀቁ ለማነቃቃት…"
+
+#~ msgid "Unlock"
+#~ msgstr "መክፈቻ"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "የ ማለፊያ ሀረግ ያስገቡ"
+
+#~ msgid "Please re-enter"
+#~ msgstr "እባክዎን እንደገና-ያስገቡ"
+
+#~ msgid "Enter passcode"
+#~ msgstr "የ ማለፊያ ኮድ ያስገቡ"
+
+#~ msgid "Enter %1"
+#~ msgstr "ማስገቢያ %1"

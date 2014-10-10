@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-08-27 19:23+0000\n"
+"PO-Revision-Date: 2014-09-30 17:37+0000\n"
 "Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -82,7 +84,7 @@ msgstr "Desligar"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr ""
+msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
@@ -210,7 +212,7 @@ msgstr "Enviar"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Gerenciar Plugins"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -274,7 +276,7 @@ msgstr "Conferência"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Nada está tocando"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -361,6 +363,3 @@ msgid ""
 msgstr ""
 "Se o código de acesso for digitado incorretamente, o telefone será "
 "restaurado aos padrões de fábrica e todos os dados pessoais serão apagados."
-
-#~ msgid "Manage Dash"
-#~ msgstr "Gerencia painel"

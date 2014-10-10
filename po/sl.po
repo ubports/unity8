@@ -6,15 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-23 12:35+0000\n"
+"PO-Revision-Date: 2014-10-07 09:28+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -274,7 +277,7 @@ msgstr "Konferenca"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Nič se ne predvaja"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -362,5 +365,40 @@ msgstr ""
 "Če je vneseno nepravilno geslo, bo telefon ponastavljen na tovarniške "
 "nastavitve ter vsi osebni podatki bodo izbrisani."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Upravljaj s pregledno ploščo"
+#~ msgid "Device Locked"
+#~ msgstr "Naprava je zaklenjena"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Telefon ste zaklenili zaradi preveč napačnih vnosov šifrirnih rekel."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Počakajte %1 minut ter poskusite ponovno ..."
+#~ msgstr[1] "Počakajte %1 minuto ter poskusite ponovno ..."
+#~ msgstr[2] "Počakajte %1 minuti ter poskusite ponovno ..."
+#~ msgstr[3] "Počakajte %1 minute ter poskusite ponovno ..."
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Povlecite za osvežitev ..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Spustite za osvežitev ..."
+
+#~ msgid "Unlock"
+#~ msgstr "Odkleni"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Vnesite šifrirno reklo"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Ponovno vnesite"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Vnesite geslo"
+
+#~ msgid "Enter %1"
+#~ msgstr "Vnesite %1"

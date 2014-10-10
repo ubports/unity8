@@ -86,6 +86,14 @@ Rectangle {
             if (spreadView.closingIndex == -1) {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
+                focusTopMostApp();
+            }
+        }
+
+        function focusTopMostApp() {
+            if (ApplicationManager.count > 0) {
+                var topmostApp = ApplicationManager.get(0);
+                ApplicationManager.focusApplication(topmostApp.appId);
             }
         }
     }

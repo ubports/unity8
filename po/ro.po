@@ -6,15 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-28 13:24+0000\n"
+"PO-Revision-Date: 2014-10-07 15:54+0000\n"
 "Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
+"== 0) && (n != 0))) ? 2: 1));\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -106,8 +109,7 @@ msgstr "Marginea de sus"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Glisați de la marginea de sus a ecranului pentru a accesa indicatorii"
+msgstr "Glisați de la marginea de sus a ecranului pentru a accesa indicatorii"
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
@@ -365,5 +367,41 @@ msgstr ""
 "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
 "șterse."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Administrare Panou principal"
+#~ msgid "Device Locked"
+#~ msgstr "Dispozitiv blocat"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Dispozitivul este blocat din cauza utilizării mai multor fraze parolă "
+#~ "greșite."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Dispozitivul este blocat din cauza utilizării mai multor parole greșite."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Așteptați %1 minut și apoi încercați din nou..."
+#~ msgstr[1] "Așteptați %1 minute și apoi încercați din nou..."
+#~ msgstr[2] "Așteptați %1 de minute și apoi încercați din nou..."
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Trageți pentru a actualiza..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Eliberați pentru a actualiza..."
+
+#~ msgid "Unlock"
+#~ msgstr "Deblocare"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Introduceți fraza parolă"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Introduceți din nou"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Introduceți parola"
+
+#~ msgid "Enter %1"
+#~ msgstr "Introducere %1"

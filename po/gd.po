@@ -6,17 +6,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-25 12:40+0000\n"
+"PO-Revision-Date: 2014-10-09 18:09+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
+"Language: gd\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
+"(n > 2 && n < 20) ? 2 : 3;\n"
+"X-Launchpad-Export-Date: 2014-10-10 05:23+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
-"Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -215,7 +217,7 @@ msgstr "Cuir"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Stiùirich na sgòpaichean"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -279,7 +281,7 @@ msgstr "Gairm co-labhairt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Chan eil dad 'ga chluich"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -369,5 +371,43 @@ msgstr ""
 "shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
 "a sguabadh às."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Stiùirich an deas-bhòrd"
+#~ msgid "Device Locked"
+#~ msgstr "Tha glas air an uidheam"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Chaidh do glasadh a-mach às an uidheam on a chuir thu abairt-fhaire "
+#~ "chearr a-steach cus tursan."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Chaidh do glasadh a-mach às an uidheam on a chuir thu còd-faire cearr a-"
+#~ "steach cus tursan."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
+#~ msgstr[1] "Fuirich ort %1 dhiog 's feuch ris a-rithist an uairsin…"
+#~ msgstr[2] "Fuirich ort %1 diogan 's feuch ris a-rithist an uairsin…"
+#~ msgstr[3] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tarraing airson ath-nuadhachadh…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Leig às airson ath-nuadhachadh…"
+
+#~ msgid "Unlock"
+#~ msgstr "Thoir a' ghlas dheth"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Cuir abairt-fhaire a-steach"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Cuir a-steach e a-rithist"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Cuir còd-faire a-steach"
+
+#~ msgid "Enter %1"
+#~ msgstr "Cuir a-steach %1"

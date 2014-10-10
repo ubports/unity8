@@ -29,6 +29,18 @@ Item {
     signal selected(int uid)
     signal unlocked(int uid)
 
+    function tryToUnlock() {
+        if (loginLoader.item) {
+            loginLoader.item.tryToUnlock()
+        }
+    }
+
+    function reset() {
+        if (loginLoader.item) {
+            loginLoader.item.reset()
+        }
+    }
+
     Rectangle {
         // In case background fails to load
         id: backgroundBackup
@@ -47,6 +59,9 @@ Item {
             topMargin: backgroundTopMargin
         }
         fillMode: Image.PreserveAspectCrop
+        // Limit how much memory we'll reserve for this image
+        sourceSize.height: height
+        sourceSize.width: width
     }
 
     // See Shell.qml's backgroundSettings treatment for why we need a separate

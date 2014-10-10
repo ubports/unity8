@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-28 09:02+0000\n"
+"PO-Revision-Date: 2014-10-09 09:49+0000\n"
 "Last-Translator: ivarela <ivarela@ubuntu.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
+"Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-10 05:23+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -362,5 +364,39 @@ msgstr ""
 "Si s'inxerta'l códigu incorreutamente, el teléfonu va volver a la "
 "configuración de fábrica y van perdese tolos datos personales."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Xestionar tableru"
+#~ msgid "Device Locked"
+#~ msgstr "Preséu bloquiáu"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Quedasti bloquiáu polos escesivos intentos fallíos de frase de pasu."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Quedasti bloquiáu polos escesivos intentos fallíos de códigu de pasu."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Espera %1 minutu y vuelvi a intentalo…"
+#~ msgstr[1] "Espera %1 minutos y vuelvi a intentalo…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tirar p'anovar..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Soltar p'anovar..."
+
+#~ msgid "Unlock"
+#~ msgstr "Desbloquiar"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Escribi la frase contraseña"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Vuelvi a escribila"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Escribi'l códigu de pasu"
+
+#~ msgid "Enter %1"
+#~ msgstr "Escribi %1"

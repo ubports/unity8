@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-29 00:52+0000\n"
+"PO-Revision-Date: 2014-10-07 09:00+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -360,5 +362,36 @@ msgstr ""
 "ئەگەر ئىم كودى توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن "
 "چىققان ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
 
-#~ msgid "Manage Dash"
-#~ msgstr "باش تاختىنى باشقۇرۇش"
+#~ msgid "Device Locked"
+#~ msgstr "ئۈسكۈنە قۇلۇپلانغان"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr "خاتا ئىم جۈملىسى كۆپ قېتىم كىرگۈزۈلگەنلىكى ئۈچۈن قۇلۇپلاندى."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "خاتا ئىم كودى(passcode) كۆپ قېتىم كىرگۈزۈلگەنلىكى ئۈچۈن قۇلۇپلاندى."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "%1 مىنۇت كۈتۈپ ئاندىن قايتا سىناڭ…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "تارتسا يېڭىلىنىدۇ…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "قويۇۋەتسە يېڭىلىنىدۇ…"
+
+#~ msgid "Unlock"
+#~ msgstr "قۇلۇپسىزلا"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "ئىم كىرگۈزۈڭ"
+
+#~ msgid "Please re-enter"
+#~ msgstr "قايتا كىرگۈزۈڭ"
+
+#~ msgid "Enter passcode"
+#~ msgstr "ئىم كودى(passcode)نى كىرگۈزۈڭ"
+
+#~ msgid "Enter %1"
+#~ msgstr "%1 نى كىرگۈزۈڭ"

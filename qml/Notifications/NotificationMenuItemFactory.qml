@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import QMenuModel 0.1
 import "../Components"
 
 Loader {
@@ -26,7 +27,7 @@ Loader {
 
     property QtObject menuModel: null
     property QtObject menuData: null
-    property int menuIndex
+    property int menuIndex : -1
     property int maxHeight
     readonly property bool fullscreen: menuData.type === "com.canonical.snapdecision.pinlock"
 
@@ -44,6 +45,13 @@ Loader {
                 return component;
             }
         }
+    }
+
+    function getExtendedProperty(object, propertyName, defaultValue) {
+        if (object && object.hasOwnProperty(propertyName)) {
+            return object[propertyName];
+        }
+        return defaultValue;
     }
 
     Component {
@@ -121,14 +129,14 @@ Loader {
                 right: parent.right
             }
             height: menuFactory.maxHeight
-            infoText: i18n.tr("Enter SIM PIN")
-            errorText: i18n.tr("Sorry, incorrect PIN")
-            minPinLength: 4
-            maxPinLength: 8
+            infoText: notification.summary
+            errorText: errorAction.valid ? errorAction.state : ""
+            retryText: notification.body
             background: shell.background
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
+                clear(false);
             }
 
             onCancel: {
@@ -138,6 +146,70 @@ Loader {
             onEmergencyCall: {
                 shell.activateApplication("dialer-app")
                 menuModel.activate(menuIndex, false)
+            }
+
+            property var extendedData: menuData && menuData.ext || undefined
+
+            property var pinMinMaxAction : UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalPinMinMax", "")
+
+                onStateChanged: {
+                    var min = pinMinMaxAction.state[0];
+                    var max =  pinMinMaxAction.state[1];
+
+                    if (min === 0) min = -1;
+                    if (max === 0) max = -1;
+
+                    minPinLength = min
+                    maxPinLength = max
+                }
+            }
+
+            property var popupAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalPinPopup", "")
+                onStateChanged: {
+                    if (state !== "")
+                        showInfoPopup("", state);
+                }
+            }
+            onInfoPopupConfirmed: {
+                popupAction.activate();
+            }
+
+            Timer {
+                id: errorTimer
+                interval: 4000;
+                running: false;
+                repeat: false
+                onTriggered: {
+                    errorAction.activate();
+                }
+            }
+            property var errorAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalPinError", "")
+                onStateChanged: {
+                    errorText = state;
+                    if (state !== "") {
+                        clear(true);
+                        errorTimer.running = true;
+                    }
+                }
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-pin-min-max': 'string',
+                                                             'x-canonical-pin-popup': 'string',
+                                                             'x-canonical-pin-error': 'string'});
+            }
+            Component.onCompleted: {
+                loadAttributes();
             }
         }
     }

@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
@@ -213,7 +213,6 @@ FocusScope {
         delegate: ListItems.Base {
             id: baseItem
             objectName: "dashCategory" + category
-            highlightWhenPressed: false
             showDivider: false
 
             property Item seeAllButton: seeAll
@@ -349,27 +348,6 @@ FocusScope {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedCategoryItemChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    function collapseAllButExpandedCategory() {
-                        var item = rendererLoader.item;
-                        if (baseItem.expandable) {
-                            var shouldExpand = baseItem === categoryView.expandedCategoryItem;
-                            if (shouldExpand != baseItem.expanded) {
-                                // If the filter animation will be seen start it, otherwise, just flip the switch
-                                var shrinkingVisible = !shouldExpand && y + item.collapsedHeight + seeAll.height < categoryView.height;
-                                var growingVisible = shouldExpand && y + height < categoryView.height;
-                                if (!subPageLoader.open || shouldExpand) {
-                                    var animate = shrinkingVisible || growingVisible;
-                                    baseItem.expand(shouldExpand, animate)
-                                    if (shouldExpand && !subPageLoader.open) {
-                                        categoryView.maximizeVisibleArea(index, item.expandedHeight + seeAll.height);
-                                    }
-                                }
-                            }
-                        }
-                    }
                     onOriginYChanged: rendererLoader.updateRanges();
                     onContentYChanged: rendererLoader.updateRanges();
                     onHeightChanged: rendererLoader.updateRanges();
@@ -536,6 +514,41 @@ FocusScope {
                     onSettingsClicked: subPageLoader.openSubPage("settings")
                     onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
                 }
+            }
+        }
+    }
+
+    Item {
+        id: pullToRefreshClippingItem
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: parent.height - pullToRefresh.contentY + (pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].height - pageHeaderLoader.item.height : 0)
+        clip: true
+
+        PullToRefresh {
+            id: pullToRefresh
+            objectName: "pullToRefresh"
+            target: categoryView
+
+            readonly property real contentY: categoryView.contentY - categoryView.originY
+            y: -contentY - units.gu(5)
+
+            onRefresh: {
+                refreshing = true
+                scopeView.scope.refresh()
+            }
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            Connections {
+                target: scopeView
+                onProcessingChanged: if (!scopeView.processing) pullToRefresh.refreshing = false
+            }
+
+            style: PullToRefreshScopeStyle {
+                anchors.fill: parent
+                activationThreshold: units.gu(14)
             }
         }
     }

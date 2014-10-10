@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-08-26 08:28+0000\n"
+"PO-Revision-Date: 2014-10-07 07:03+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
+"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -82,7 +84,7 @@ msgstr "Lazhañ"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr ""
+msgstr "Adloc'hañ"
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
@@ -213,7 +215,7 @@ msgstr "Kas"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Merañ ar c'hefluskerioù enklask"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -277,7 +279,7 @@ msgstr "Kendiviz"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Ne lenner netra bremañ"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -365,5 +367,41 @@ msgstr ""
 "Ma vez ebarzhet ur c'hod-tremen direizh, e vo adderaouekaet ho pellgomzer "
 "gant arventennoù al labouradeg hag e vo diverket an holl roadennoù personel."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Merañ an daolenn-vourzh"
+#~ msgid "Device Locked"
+#~ msgstr "Benveg prennet"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Prennet eo bet ho penveg abalamour da re a daolioù-esae c'hwitet evit "
+#~ "merkañ ho frazenn-dremen."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Prennet eo bet ho penveg abalamour da re a daolioù-esae evit merkañ ho "
+#~ "kod-tremen."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Gortozit %1 vunutenn, mar plij, hag esaeit en-dro..."
+#~ msgstr[1] "Gortozit %1 a vunutoù, mar plij, hag esaeit en-dro..."
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tennañ evit freskaat..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Lezel da vont evit freskaat..."
+
+#~ msgid "Unlock"
+#~ msgstr "Dibrennañ"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Merkañ ar frazenn-dremen"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Adverkañ, mar plij"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Merkañ ar c'hod-tremen"
+
+#~ msgid "Enter %1"
+#~ msgstr "Merkañ  %1"

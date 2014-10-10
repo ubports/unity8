@@ -126,6 +126,12 @@ Rectangle {
 
             Binding {
                 target: loader.item
+                property: "identifier"
+                value: identifier
+            }
+
+            Binding {
+                target: loader.item
                 property: "objectName"
                 value: identifier + "-page"
             }

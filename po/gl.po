@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-28 13:57+0000\n"
+"PO-Revision-Date: 2014-10-07 10:01+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -360,5 +362,37 @@ msgstr ""
 "Se a clave introducida é incorrecta, o teléfono restabelecerá os valores de "
 "fábrica e perderá todos os datos persoais."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Xestión do Panel"
+#~ msgid "Device Locked"
+#~ msgstr "Dispositivo bloqueado"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr "Bloqueouse o dispositivo polos intentos fallidos da frase secreta."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "Bloqueouse o dispositivo polos intentos fallidos da clave."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Agarde %1 minuto e ténteo de novo…"
+#~ msgstr[1] "Agarde %1 minutos e ténteo de novo…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tirar para actualizar..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Soltar para actualizar"
+
+#~ msgid "Unlock"
+#~ msgstr "Desbloquear"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Introduza a frase secreta"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Introducir de novo"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Introduza a clave"
+
+#~ msgid "Enter %1"
+#~ msgstr "Introducir %1"

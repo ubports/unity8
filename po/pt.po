@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-28 18:52+0000\n"
+"PO-Revision-Date: 2014-10-07 08:31+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -361,5 +363,37 @@ msgstr ""
 "Se a senha for introduzida incorretamente, o seu telemóvel vai apagar todos "
 "os seus dados pessoais."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Gerir o Dash"
+#~ msgid "Device Locked"
+#~ msgstr "Dispositivo bloqueado"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr "Foi bloqueado devido a muitas tentativas falhadas da frase-senha."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "Foi bloqueado devido a muitas tentativas falhadas da senha."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Por favor, aguarde %1 minuto e tente novamente…"
+#~ msgstr[1] "Por favor, aguarde %1 minutos e tente novamente…"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Puxe para atualizar..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Solte para atualizar..."
+
+#~ msgid "Unlock"
+#~ msgstr "Desbloquear"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Indique a frase-senha"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Por favor, volte a introduzir"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Introduza senha"
+
+#~ msgid "Enter %1"
+#~ msgstr "Introduziu %1"

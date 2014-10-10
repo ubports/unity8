@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-20 12:02+0000\n"
+"PO-Revision-Date: 2014-10-07 10:32+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -208,7 +210,7 @@ msgstr "Send"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Håndter virkefelt"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -272,7 +274,7 @@ msgstr "Konferanse"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Ingenting spilles nå"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -360,5 +362,39 @@ msgstr ""
 "Hvis du skriver feil kode en gang til, tilbakestilles telefonen til "
 "fabrikkinnstillinger, og alle personlige data slettes."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Håndter dashbord"
+#~ msgid "Device Locked"
+#~ msgstr "Enheten er låst"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Du har skrevet inn feil passordfrase for mange ganger, og er derfor "
+#~ "utestengt."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr "Du har tastet feil kode for mange ganger, og er derfor utestengt."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Vent i %1 minutt, og prøv deretter på nytt …"
+#~ msgstr[1] "Vent i %1 minutter, og prøv deretter på nytt …"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Dra for å oppdatere …"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Slipp for å oppdatere …"
+
+#~ msgid "Unlock"
+#~ msgstr "Lås opp"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Skriv inn passordfrase"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Skriv inn på nytt"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Tast kode"
+
+#~ msgid "Enter %1"
+#~ msgstr "Skriv inn %1"

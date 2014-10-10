@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
 "PO-Revision-Date: 2014-07-26 16:21+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:20+0000\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -80,7 +82,7 @@ msgstr "關閉電源"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr ""
+msgstr "重新啟動"
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
@@ -316,7 +318,7 @@ msgstr "輸入密碼"
 
 #: qml/Shell.qml:324
 msgid "Sorry, incorrect passcode"
-msgstr "抱歉，密碼不對"
+msgstr "抱歉，passcode 不對"
 
 #: qml/Shell.qml:327
 #, qt-format
@@ -334,7 +336,7 @@ msgstr "抱歉，密語不對"
 
 #: qml/Shell.qml:364
 msgid "Sorry, incorrect passcode."
-msgstr "抱歉，密碼不對。"
+msgstr "抱歉，passcode 不對。"
 
 #: qml/Shell.qml:365
 msgid "This will be your last attempt."
@@ -350,7 +352,26 @@ msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
-msgstr "如輸入的密碼不對，本電話會進行重設，所有個人資料都會刪除。"
+msgstr "如輸入的 passcode 不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#~ msgid "Manage Dash"
-#~ msgstr "管理 Dash"
+#~ msgid "Device Locked"
+#~ msgstr "裝置已鎖定"
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "請等候 %1 分鐘再試…"
+
+#~ msgid "Unlock"
+#~ msgstr "解鎖"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "輸入密語"
+
+#~ msgid "Please re-enter"
+#~ msgstr "請再輸入"
+
+#~ msgid "Enter passcode"
+#~ msgstr "輸入 passcode"
+
+#~ msgid "Enter %1"
+#~ msgstr "輸入 %1"

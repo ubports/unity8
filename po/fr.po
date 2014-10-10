@@ -6,15 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-08-29 10:31+0000\n"
-"Last-Translator: Sébastien Maes <nautilussebastien@gmail.com>\n"
+"PO-Revision-Date: 2014-10-09 19:00+0000\n"
+"Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-10-10 05:23+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -98,8 +100,7 @@ msgstr "Bord droit"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Faites glisser votre doigt à partir du bord droit pour déverrouiller."
+msgstr "Faites glisser votre doigt à partir du bord droit pour déverrouiller."
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
@@ -215,7 +216,7 @@ msgstr "Envoyer"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Gérer les moteurs de recherche"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
@@ -279,7 +280,7 @@ msgstr "Conférence"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Rien n'est en cours de lecture"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
@@ -369,5 +370,41 @@ msgstr ""
 "réinitialisation aux paramètres d'usine et toutes les données personnelles "
 "seront supprimées."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Gérer le tableau de bord"
+#~ msgid "Device Locked"
+#~ msgstr "Périphérique verrouillé"
+
+#~ msgid "You have been locked out due to too many failed passphrase attempts."
+#~ msgstr ""
+#~ "Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
+#~ "d'une phrase de passe erronée."
+
+#~ msgid "You have been locked out due to too many failed passcode attempts."
+#~ msgstr ""
+#~ "Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
+#~ "d'un mot de passe erroné."
+
+#~ msgid "Please wait %1 minute and then try again…"
+#~ msgid_plural "Please wait %1 minutes and then try again…"
+#~ msgstr[0] "Veuillez patienter %1 minute et réessayer..."
+#~ msgstr[1] "Veuillez patienter %1 minutes et réessayer..."
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tirer pour actualiser..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Relâcher pour actualiser..."
+
+#~ msgid "Unlock"
+#~ msgstr "Déverrouiller"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Saisissez la phrase de passe"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Veuillez ressaisir"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Saisissez le mot de passe"
+
+#~ msgid "Enter %1"
+#~ msgstr "Saisissez %1"
