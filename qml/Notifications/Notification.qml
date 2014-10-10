@@ -49,7 +49,7 @@ Item {
     readonly property real contentSpacing: units.gu(2)
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + contentSpacing * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - (type === Notification.Confirmation ? units.gu(1) : 0) + contentSpacing * 2) : 0
 
     color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
@@ -207,10 +207,10 @@ Item {
                 right: parent.right
                 top: parent.top
                 margins: 0
-                topMargin: fullscreen ? 0 : units.gu(2)
+                topMargin: fullscreen ? 0 : type === Notification.Confirmation ? units.gu(1) : units.gu(2)
             }
 
-            spacing: units.gu(2)
+            spacing: type === Notification.Confirmation ? units.gu(1) : units.gu(2)
 
             Row {
                 id: topRow
@@ -261,7 +261,7 @@ Item {
                             left: parent.left
                             right: parent.right
                         }
-                        visible: body != ""
+                        visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
                         color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
@@ -289,7 +289,7 @@ Item {
             ShapedIcon {
                 id: centeredIcon
                 objectName: "centeredIcon"
-                width: units.gu(6)
+                width: units.gu(5)
                 height: width
                 shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
                 fileSource: icon.fileSource
@@ -297,19 +297,42 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
-            ProgressBar {
+            Label {
+                text: body
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: type === Notification.Confirmation && body !== ""
+                fontSize: "medium"
+                color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                wrapMode: Text.WordWrap
+                maximumLineCount: 1
+                elide: Text.ElideRight
+                textFormat: Text.PlainText
+            }
+
+            UbuntuShape {
                 id: valueIndicator
                 objectName: "valueIndicator"
                 visible: type === Notification.Confirmation
-                minimumValue: 0.0
-                maximumValue: 100.0
-                height: units.gu(1)
-                showProgressPercentage: false
+                property double value
 
                 anchors {
                     left: parent.left
                     right: parent.right
                     margins: contentSpacing
+                }
+
+                height: units.gu(1)
+                color: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
+                borderSource: "none"
+                radius: "small"
+
+                UbuntuShape {
+                    id: innerBar
+                    width: valueIndicator.width * valueIndicator.value / 100
+                    height: units.gu(1)
+                    color: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
+                    borderSource: "none"
+                    radius: "small"                    
                 }
             }
 
