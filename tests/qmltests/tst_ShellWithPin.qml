@@ -186,7 +186,7 @@ Item {
             for (var i = 0; i < pin.length; ++i) {
                 var character = pin.charAt(i)
                 var button = findChild(shell, "pinPadButton" + character)
-                mouseClick(button, units.gu(1), units.gu(1))
+                tap(button)
             }
         }
 
