@@ -257,7 +257,7 @@ Rectangle {
             x: spreadView.contentX
 
             onClicked: {
-                spreadView.snapTo(0)
+                spreadView.snapTo(0);
             }
 
             Repeater {
