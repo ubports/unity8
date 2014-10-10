@@ -558,7 +558,7 @@ Rectangle {
                     // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
                     // ListItems don't know that they are sitting in a themed Popover where the color
                     // needs to be inverted.
-                    __foregroundColor: Theme.palette.normal.highlightText
+                    __foregroundColor: "black"
 
                     onClicked: {
                         if (!model.clickable) {
