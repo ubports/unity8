@@ -210,37 +210,34 @@ Row {
             ApplicationManager.focusApplication(app);
             compare(app.session.surface.activeFocus, true, "Focused application didn't have activeFocus");
 
-            // Pop-up a notification
-            addSnapDecisionNotification();
             notifications.model = mockNotificationsModel;
 
+            // FIXME: Hack: SortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // for mocking here (RoleType can't be found in the QML model). As we only need to show
+            // one SnapDecision lets just disable the filtering and make appear any notification as a
+            // SnapDecision.
+            var snapDecisionProxyModel = findInvisibleChild(shell, "snapDecisionProxyModel");
+            snapDecisionProxyModel.filterRegExp = RegExp("");
+
+            // Pop-up a notification
+            addSnapDecisionNotification();
+            waitForRendering(shell);
+
+            // Make sure the notification really opened
             var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
-            verify(notification !== undefined, "notification wasn't found");
+            verify(notification !== undefined && notification != null, "notification wasn't found");
 
-            var buttonRow = findChild(notification, "buttonRow");
-            verify(buttonRow !== undefined, "notification buttonRow wasn't found");
-
-            var buttonAccept = findChild(buttonRow, "notify_button0");
-            verify(buttonAccept !== undefined, "notification accept button wasn't found");
-
-            var buttonCancel = findChild(buttonRow, "notify_button1");
-            verify(buttonCancel !== undefined, "notification cancel button wasn't found");
-
-
-            // Pressing the button should give focus to the notification
-            // The cancel button is pressed, as  pressing Ok would cause
-            // the notification to close. This is only due to the mock object
-            mousePress(buttonCancel, 0, 0);
-            stage.interactive = false;
+            // Make sure activeFocus went away from the app window
             compare(app.session.surface.activeFocus, false, "Notification didn't take active focus");
-            mouseRelease(buttonCancel);
             compare(stage.interactive, false, "the stage is interactive with a notification showing")
 
             // Clicking the button should dismiss the notification and return focus
-            mouseClick(buttonAccept, 0, 0);
-            ApplicationManager.focusApplication(app);
-            stage.interactive = true;
+            var buttonAccept = findChild(notification, "notify_button0");
+            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+
+            // Make sure we're back to normal
             compare(app.session.surface.activeFocus, true, "App didn't take active focus after snap notification was dismissed");
+            compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
         }
 
         function addSnapDecisionNotification() {
