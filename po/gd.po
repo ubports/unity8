@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-07 11:37+0300\n"
-"PO-Revision-Date: 2014-10-03 19:54+0000\n"
+"PO-Revision-Date: 2014-10-09 18:09+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
+"X-Launchpad-Export-Date: 2014-10-10 05:23+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: gd\n"
 
@@ -225,11 +225,11 @@ msgstr "Cuir"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "Tarraing airson ath-nuadhachadh…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "Leig às airson ath-nuadhachadh…"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"

@@ -213,7 +213,6 @@ FocusScope {
         delegate: ListItems.Base {
             id: baseItem
             objectName: "dashCategory" + category
-            highlightWhenPressed: false
             showDivider: false
 
             property Item seeAllButton: seeAll

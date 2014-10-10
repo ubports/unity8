@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-AbstractButton {
+Item {
     id: emptyListItem
     width: parent ? parent.width : units.gu(31)
     height: body.height + bottomDividerLine.height
@@ -27,15 +27,6 @@ AbstractButton {
       Specifies whether the list item is selected.
      */
     property bool selected: false
-
-    /*!
-      \preliminary
-      Highlight the list item when it is pressed.
-      This is used to disable the highlighting of the full list item
-      when custom highlighting needs to be implemented (for example in
-      ListItem.Standard which can have a split).
-    */
-    property bool highlightWhenPressed: true
 
     /*!
       \preliminary
@@ -119,7 +110,7 @@ AbstractButton {
                 right: parent.right
                 bottom: bottomDividerLine.top
             }
-            pressed: (emptyListItem.selected || (emptyListItem.highlightWhenPressed && emptyListItem.pressed)) ? "pressed" : ""
+            pressed: emptyListItem.selected
         }
     }
 }
