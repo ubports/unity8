@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-10-08 19:53+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,6 +30,29 @@ msgstr "Snelkoppeling vastzetten"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Snelkoppeling losmaken"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Apparaat vergrendeld"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"U werd de toegang geweigerd omdat u te vaak een onjuiste wachtwoordzin heeft "
+"ingevoerd."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"U werd de toegang geweigerd omdat u te vaak een onjuiste toegangscode heeft "
+"ingevoerd."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Wacht a.u.b. %1 minuut en probeer het dan opnieuw…"
+msgstr[1] "Wacht a.u.b. %1 minuten en probeer het dan opnieuw…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -138,40 +160,23 @@ msgstr ""
 "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
 "het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Even geduld a.u.b."
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Te veel mislukte pogingen"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Noodoproep"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Hallo %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Hallo"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Alles zien"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Zoeken"
@@ -208,6 +213,14 @@ msgstr "Voeg recensie toe"
 msgid "Send"
 msgstr "Versturen"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Trekken om te verversen…"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Loslaten om te verversen…"
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Scopes-beheer"
@@ -229,8 +242,8 @@ msgid "All"
 msgstr "Alles"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Veeg om te ontgrendelen"
+msgid "Unlock"
+msgstr "Ontgrendelen"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -252,17 +265,9 @@ msgstr "Nu inspreken…"
 msgid "Speaking..."
 msgstr "Inspreken…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Wachtwoord tonen"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Voer simpincode in"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Sorry, onjuiste pincode"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -308,45 +313,49 @@ msgstr "Simkaart deblokkeren"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Voer uw wachtwoordzin in"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
+msgstr "Voer wachtwoordzin in"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Sorry, onjuiste wachtwoordzin"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Voer uw toegangscode in"
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Herhaal deze a.u.b."
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:350
+msgid "Enter passcode"
+msgstr "Voer toegangscode in"
+
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Sorry, onjuiste toegangscode"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
-msgstr "Voer uw %1 in"
+msgid "Enter %1"
+msgstr "Voer %1 in"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sorry, onjuiste %1"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Sorry, onjuiste wachtwoordzin."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Sorry, onjuiste toegangscode."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Dit zal uw laatste poging worden."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -354,7 +363,7 @@ msgstr ""
 "Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
 "teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -362,41 +371,8 @@ msgstr ""
 "Wanneer de toegangscode nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
 "teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
 
-#~ msgid "Device Locked"
-#~ msgstr "Apparaat vergrendeld"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Sorry, onjuiste pincode"
 
-#~ msgid "You have been locked out due to too many failed passphrase attempts."
-#~ msgstr ""
-#~ "U werd de toegang geweigerd omdat u te vaak een onjuiste wachtwoordzin "
-#~ "heeft ingevoerd."
-
-#~ msgid "You have been locked out due to too many failed passcode attempts."
-#~ msgstr ""
-#~ "U werd de toegang geweigerd omdat u te vaak een onjuiste toegangscode "
-#~ "heeft ingevoerd."
-
-#~ msgid "Please wait %1 minute and then try again…"
-#~ msgid_plural "Please wait %1 minutes and then try again…"
-#~ msgstr[0] "Wacht a.u.b. %1 minuut en probeer het dan opnieuw…"
-#~ msgstr[1] "Wacht a.u.b. %1 minuten en probeer het dan opnieuw…"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Trekken om te verversen…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Loslaten om te verversen…"
-
-#~ msgid "Unlock"
-#~ msgstr "Ontgrendelen"
-
-#~ msgid "Enter passphrase"
-#~ msgstr "Voer wachtwoordzin in"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Herhaal deze a.u.b."
-
-#~ msgid "Enter passcode"
-#~ msgstr "Voer toegangscode in"
-
-#~ msgid "Enter %1"
-#~ msgstr "Voer %1 in"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Voer simpincode in"

@@ -6,17 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-10-08 12:02+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
@@ -32,6 +31,30 @@ msgstr "Заблокувати кнопку"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Розблокувати кнопку"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Пристрій заблоковано"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Ваш пристрій було заблоковано через перевищення граничної кількості спроб "
+"введення пароля."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Ваш пристрій було заблоковано через перевищення граничної кількості спроб "
+"введення коду-пароля."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Зачекайте %1 хвилину і повторіть спробу…"
+msgstr[1] "Зачекайте %1 хвилини і повторіть спробу…"
+msgstr[2] "Зачекайте %1 хвилин і повторіть спробу…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -142,40 +165,23 @@ msgstr ""
 "Вами налаштовано дії у відповідь на дотики на краях екрана. Тепер телефоном "
 "можна користуватися.<br><br>Торкніться екрана, щоб розпочати."
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Будь ласка, зачекайте"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Забагато помилкових спроб"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Терміновий виклик"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Гаразд"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Привіт, %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Привіт!"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Стисліше"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Детальніше"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Пошук"
@@ -212,6 +218,14 @@ msgstr "Додати рецензію"
 msgid "Send"
 msgstr "Надіслати"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Потягніть для оновлення…"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Відпустіть для оновлення…"
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Керування областями"
@@ -233,8 +247,8 @@ msgid "All"
 msgstr "Все"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Проведіть пальцем, щоб розблокувати"
+msgid "Unlock"
+msgstr "Розблокувати"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -256,17 +270,9 @@ msgstr "Можна говорити…"
 msgid "Speaking..."
 msgstr "Мовлення…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Показати пароль"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Введіть PIN-код SIM-картки"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Вибачте, помилковий PIN-код"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -312,45 +318,49 @@ msgstr "Розблокувати SIM"
 msgid "Roaming"
 msgstr "Роумінг"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Введіть ваш пароль"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
+msgstr "Введіть пароль"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Вибачте, помилковий пароль"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Введіть ваш код-пароль"
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Ввведіть ще раз"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:350
+msgid "Enter passcode"
+msgstr "Введіть код"
+
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Вибачте, помилковий код-пароль"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
-msgstr "Вкажіть ваш %1"
+msgid "Enter %1"
+msgstr "Введіть %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Вибачте, помилковий %1"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Вибачте, помилковий пароль."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Вибачте, помилковий код-пароль."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Ця спроба буде останньою."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -358,7 +368,7 @@ msgstr ""
 "Якщо пароль буде вказано неправильно, телефон повернеться до початкового "
 "стану, усі особисті дані буде вилучено."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -366,42 +376,8 @@ msgstr ""
 "Якщо код-пароль буде вказано неправильно, телефон повернеться до початкового "
 "стану, усі особисті дані буде вилучено."
 
-#~ msgid "Device Locked"
-#~ msgstr "Пристрій заблоковано"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Вибачте, помилковий PIN-код"
 
-#~ msgid "You have been locked out due to too many failed passphrase attempts."
-#~ msgstr ""
-#~ "Ваш пристрій було заблоковано через перевищення граничної кількості спроб "
-#~ "введення пароля."
-
-#~ msgid "You have been locked out due to too many failed passcode attempts."
-#~ msgstr ""
-#~ "Ваш пристрій було заблоковано через перевищення граничної кількості спроб "
-#~ "введення коду-пароля."
-
-#~ msgid "Please wait %1 minute and then try again…"
-#~ msgid_plural "Please wait %1 minutes and then try again…"
-#~ msgstr[0] "Зачекайте %1 хвилину і повторіть спробу…"
-#~ msgstr[1] "Зачекайте %1 хвилини і повторіть спробу…"
-#~ msgstr[2] "Зачекайте %1 хвилин і повторіть спробу…"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Потягніть для оновлення…"
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Відпустіть для оновлення…"
-
-#~ msgid "Unlock"
-#~ msgstr "Розблокувати"
-
-#~ msgid "Enter passphrase"
-#~ msgstr "Введіть пароль"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Ввведіть ще раз"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Введіть код"
-
-#~ msgid "Enter %1"
-#~ msgstr "Введіть %1"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Введіть PIN-код SIM-картки"

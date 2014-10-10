@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-10-07 10:51+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,6 +30,29 @@ msgstr "Enganxa la drecera"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Desenganxa la drecera"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Dispositiu bloquejat"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+"d'intents d'introducció de la contrasenya."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+"d'intents d'introducció del codi d'accés."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Espereu %1 minut i torneu-ho a intentar..."
+msgstr[1] "Espereu %1 minuts i torneu-ho a intentar..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -100,7 +122,8 @@ msgstr "Vora dreta"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
+msgstr ""
+"Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
@@ -143,40 +166,23 @@ msgstr ""
 "Ja heu après com utilitzar els gestos de les vores per fer servir el "
 "telèfon<br><br>Feu un toc a la pantalla per començar"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Espereu"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Massa intents incorrectes"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Trucada d'emergència"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "D'acord"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Hola %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Hola"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Mostra'n menys"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Mostra-ho tot"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Cerca"
@@ -213,6 +219,14 @@ msgstr "Afegiu una ressenya"
 msgid "Send"
 msgstr "Envia"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Estireu per actualitzar..."
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Deixeu anar per actualitzar..."
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Gestioneu les lents"
@@ -234,8 +248,8 @@ msgid "All"
 msgstr "Totes"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Feu lliscar el dit per desbloquejar"
+msgid "Unlock"
+msgstr "Desbloca"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -257,17 +271,9 @@ msgstr "Parleu..."
 msgid "Speaking..."
 msgstr "S'està parlant..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Mostra la contrasenya"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Introduïu el PIN de la targeta SIM"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "El PIN no és correcte"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -313,45 +319,49 @@ msgstr "Desbloca la SIM"
 msgid "Roaming"
 msgstr "Itinerància"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Escriviu la contrasenya"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
+msgstr "Introduïu la contrasenya"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "La contrasenya no és correcta"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Torneu-ho a introduir"
+
+#: qml/Shell.qml:350
+msgid "Enter passcode"
 msgstr "Introduïu el codi d'accés"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "El codi d'accés no és correcte"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
-msgstr "Introduïu la %1"
+msgid "Enter %1"
+msgstr "Introduïu: %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Incorrecte (%1)"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "La contrasenya és incorrecta"
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "El codi d'accés no és correcte"
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Aquest serà el darrer intent."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -360,7 +370,7 @@ msgstr ""
 "reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
 "personals."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -369,41 +379,8 @@ msgstr ""
 "reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
 "personals."
 
-#~ msgid "Device Locked"
-#~ msgstr "Dispositiu bloquejat"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "El PIN no és correcte"
 
-#~ msgid "You have been locked out due to too many failed passphrase attempts."
-#~ msgstr ""
-#~ "Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
-#~ "d'intents d'introducció de la contrasenya."
-
-#~ msgid "You have been locked out due to too many failed passcode attempts."
-#~ msgstr ""
-#~ "Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
-#~ "d'intents d'introducció del codi d'accés."
-
-#~ msgid "Please wait %1 minute and then try again…"
-#~ msgid_plural "Please wait %1 minutes and then try again…"
-#~ msgstr[0] "Espereu %1 minut i torneu-ho a intentar..."
-#~ msgstr[1] "Espereu %1 minuts i torneu-ho a intentar..."
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Estireu per actualitzar..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Deixeu anar per actualitzar..."
-
-#~ msgid "Unlock"
-#~ msgstr "Desbloca"
-
-#~ msgid "Enter passphrase"
-#~ msgstr "Introduïu la contrasenya"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Torneu-ho a introduir"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Introduïu el codi d'accés"
-
-#~ msgid "Enter %1"
-#~ msgstr "Introduïu: %1"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Introduïu el PIN de la targeta SIM"

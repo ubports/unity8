@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-10-09 19:00+0000\n"
 "Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,6 +30,29 @@ msgstr "Épingler le raccourci"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Détacher le raccourci"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Périphérique verrouillé"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
+"d'une phrase de passe erronée."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
+"d'un mot de passe erroné."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Veuillez patienter %1 minute et réessayer..."
+msgstr[1] "Veuillez patienter %1 minutes et réessayer..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -100,7 +122,8 @@ msgstr "Bord droit"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Faites glisser votre doigt à partir du bord droit pour déverrouiller."
+msgstr ""
+"Faites glisser votre doigt à partir du bord droit pour déverrouiller."
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
@@ -144,40 +167,23 @@ msgstr ""
 "Vous maîtrisez maintenant les différents gestes et pouvez commencer à "
 "utiliser le téléphone<br><br>Appuyez sur l'écran pour commencer"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Veuillez patienter"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Trop de tentatives incorrectes"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Appel d'urgence"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "OK"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Bonjour %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Bonjour"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Voir moins"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Tout voir"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Rechercher"
@@ -214,6 +220,14 @@ msgstr "Ajouter un avis"
 msgid "Send"
 msgstr "Envoyer"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Tirer pour actualiser..."
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Relâcher pour actualiser..."
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Gérer les moteurs de recherche"
@@ -235,8 +249,8 @@ msgid "All"
 msgstr "Toutes"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Faites glisser pour déverrouiller"
+msgid "Unlock"
+msgstr "Déverrouiller"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -258,17 +272,9 @@ msgstr "Parlez maintenant…"
 msgid "Speaking..."
 msgstr "En cours d'écoute..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Afficher le mot de passe"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Entrez le code PIN de la SIM"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Désolé, code PIN incorrect"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -314,45 +320,49 @@ msgstr "Déverrouiller la carte SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
-msgstr "Entrez votre phrase secrète"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
+msgstr "Saisissez la phrase de passe"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Désolé, phrase secrète incorrecte"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
-msgstr "Entrez votre code"
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Veuillez ressaisir"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:350
+msgid "Enter passcode"
+msgstr "Saisissez le mot de passe"
+
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Désolé, code incorrect"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
-msgstr "Saisissez votre %1"
+msgid "Enter %1"
+msgstr "Saisissez %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Désolé, %1 incorrect"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Désolé, phrase secrète incorrecte."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Désolé, code incorrect."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Ceci sera votre dernière tentative."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -361,7 +371,7 @@ msgstr ""
 "effectuera une réinitialisation aux paramètres d'usine et toutes les données "
 "personnelles seront supprimées."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -370,41 +380,8 @@ msgstr ""
 "réinitialisation aux paramètres d'usine et toutes les données personnelles "
 "seront supprimées."
 
-#~ msgid "Device Locked"
-#~ msgstr "Périphérique verrouillé"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Désolé, code PIN incorrect"
 
-#~ msgid "You have been locked out due to too many failed passphrase attempts."
-#~ msgstr ""
-#~ "Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
-#~ "d'une phrase de passe erronée."
-
-#~ msgid "You have been locked out due to too many failed passcode attempts."
-#~ msgstr ""
-#~ "Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
-#~ "d'un mot de passe erroné."
-
-#~ msgid "Please wait %1 minute and then try again…"
-#~ msgid_plural "Please wait %1 minutes and then try again…"
-#~ msgstr[0] "Veuillez patienter %1 minute et réessayer..."
-#~ msgstr[1] "Veuillez patienter %1 minutes et réessayer..."
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirer pour actualiser..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Relâcher pour actualiser..."
-
-#~ msgid "Unlock"
-#~ msgstr "Déverrouiller"
-
-#~ msgid "Enter passphrase"
-#~ msgstr "Saisissez la phrase de passe"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Veuillez ressaisir"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Saisissez le mot de passe"
-
-#~ msgid "Enter %1"
-#~ msgstr "Saisissez %1"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Entrez le code PIN de la SIM"

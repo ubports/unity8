@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
 "PO-Revision-Date: 2014-10-07 10:01+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
-"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,6 +30,25 @@ msgstr "Fixar o atallo"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Eliminar o atallo"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Dispositivo bloqueado"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr "Bloqueouse o dispositivo polos intentos fallidos da frase secreta."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr "Bloqueouse o dispositivo polos intentos fallidos da clave."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Agarde %1 minuto e ténteo de novo…"
+msgstr[1] "Agarde %1 minutos e ténteo de novo…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -138,40 +156,23 @@ msgstr ""
 "Agora xa domina os xestos dos bordos e pode comezar a usar o "
 "teléfono<br><br>Toque na pantalla para comezar"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Agarde"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Demasiados erros"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Chamada de emerxencia"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Aceptar"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Ola %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Ola"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Ver todo"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Buscar"
@@ -208,6 +209,14 @@ msgstr "Engadir unha opinión"
 msgid "Send"
 msgstr "Enviar"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Tirar para actualizar..."
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Soltar para actualizar"
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Xestionar os Ámbitos"
@@ -229,8 +238,8 @@ msgid "All"
 msgstr "Todos"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Esvare o dedo para desbloquear"
+msgid "Unlock"
+msgstr "Desbloquear"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -252,17 +261,9 @@ msgstr "Fale agora…"
 msgid "Speaking..."
 msgstr "Falando…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Mostrar contrasinal"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Introduza o PIN da SIM"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Sentímolo, o PIN é incorrecto"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -308,45 +309,49 @@ msgstr "Desbloquear a SIM"
 msgid "Roaming"
 msgstr "Itinerancia"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
 msgstr "Introduza a frase secreta"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Sentímolo a frase é incorrecta"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Introducir de novo"
+
+#: qml/Shell.qml:350
+msgid "Enter passcode"
 msgstr "Introduza a clave"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Sentímolo, a clave é incorrecta"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
+msgid "Enter %1"
 msgstr "Introducir %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sentímolo, %1 non coincide"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Sentímolo a frase é incorrecta."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Sentímolo, a clave é incorrecta."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Este será o seu último intento."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -354,7 +359,7 @@ msgstr ""
 "Se a frase de paso introducida é incorrecta, o teléfono restabelecerá os "
 "valores de fábrica e perderá todos os datos persoais."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -362,37 +367,8 @@ msgstr ""
 "Se a clave introducida é incorrecta, o teléfono restabelecerá os valores de "
 "fábrica e perderá todos os datos persoais."
 
-#~ msgid "Device Locked"
-#~ msgstr "Dispositivo bloqueado"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Sentímolo, o PIN é incorrecto"
 
-#~ msgid "You have been locked out due to too many failed passphrase attempts."
-#~ msgstr "Bloqueouse o dispositivo polos intentos fallidos da frase secreta."
-
-#~ msgid "You have been locked out due to too many failed passcode attempts."
-#~ msgstr "Bloqueouse o dispositivo polos intentos fallidos da clave."
-
-#~ msgid "Please wait %1 minute and then try again…"
-#~ msgid_plural "Please wait %1 minutes and then try again…"
-#~ msgstr[0] "Agarde %1 minuto e ténteo de novo…"
-#~ msgstr[1] "Agarde %1 minutos e ténteo de novo…"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "Tirar para actualizar..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "Soltar para actualizar"
-
-#~ msgid "Unlock"
-#~ msgstr "Desbloquear"
-
-#~ msgid "Enter passphrase"
-#~ msgstr "Introduza a frase secreta"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Introducir de novo"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Introduza a clave"
-
-#~ msgid "Enter %1"
-#~ msgstr "Introducir %1"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Introduza o PIN da SIM"
