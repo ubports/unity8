@@ -237,7 +237,7 @@ FocusScope {
             CardTool {
                 id: cardTool
                 objectName: "cardTool"
-                count: results.count
+                count: results ? results.count : 0
                 template: model.renderer
                 components: model.components
                 viewWidth: parent.width
