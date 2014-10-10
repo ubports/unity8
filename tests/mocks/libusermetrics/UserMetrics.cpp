@@ -238,7 +238,7 @@ void UserMetricsPrivate::setUsername(const QString &username)
     m_username = username;
 
     m_dataIndex = m_fakeData.constFind(m_username);
-    if (m_dataIndex == m_fakeData.end())
+    if (m_dataIndex == m_fakeData.constEnd())
     {
         m_dataIndex = m_fakeData.constFind("");
     }
@@ -383,7 +383,7 @@ void UserMetricsPrivate::finishSetFakeData()
 void UserMetricsPrivate::nextFakeData()
 {
     ++m_dataIndex;
-    if (m_dataIndex == m_fakeData.end() || m_dataIndex.key() != m_username)
+    if (m_dataIndex == m_fakeData.constEnd() || m_dataIndex.key() != m_username)
     {
         m_dataIndex = m_fakeData.constFind(m_username);
     }

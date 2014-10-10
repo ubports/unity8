@@ -20,7 +20,16 @@ import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 TestCase {
+    id: testCase
     TestUtil {id:util}
+
+    ActivityIndicator {
+        visible: testCase.running
+        anchors.centerIn: parent
+        Component.onCompleted: parent = testCase.parent
+        z: 100
+        running: visible
+    }
 
     // Fake implementation to be provided to items under test
     property var fakeDateTime: new function() {
@@ -178,9 +187,10 @@ TestCase {
     // Keeps executing a given parameter-less function until it returns the given
     // expected result or the timemout is reached (in which case a test failure
     // is generated)
-    function tryCompareFunction(func, expectedResult) {
+    function tryCompareFunction(func, expectedResult, timeout) {
         var timeSpent = 0
-        var timeout = 5000
+        if (timeout === undefined)
+            timeout = 5000;
         var success = false
         var actualResult
         while (timeSpent < timeout && !success) {

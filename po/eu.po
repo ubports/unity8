@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-24 10:43+0100\n"
-"PO-Revision-Date: 2014-09-27 12:47+0000\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-07 19:21+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-29 05:19+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -29,6 +30,28 @@ msgstr "Ainguratu lasterbidea"
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Askatu lasterbidea"
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Gailua blokeatuta"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Gailua blokeatu da, pasaesaldia sartzeko saiakera gehiegi hutsegin "
+"dituzulako."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Gailua blokeatu da, pasakodea sartzeko saiakera gehiegi hutsegin dituzulako."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Itxaron minutu %1ez eta saiatu berriro…"
+msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -137,40 +160,23 @@ msgstr ""
 "Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
 "zaitezke<br><br>Sakatu pantailan hasteko"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Itxaron"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Okerreko saiakera gehiegi"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Larrialdi-deia"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Ados"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Kaixo %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Kaixo"
-
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Ikusi gutxiago"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Ikusi guztiak"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Bilatu"
@@ -207,6 +213,14 @@ msgstr "Gehitu kritika"
 msgid "Send"
 msgstr "Bidali"
 
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Tiratu freskatzeko…"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Askatu freskatzeko…"
+
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
 msgstr "Kudeatu eremuak"
@@ -228,8 +242,8 @@ msgid "All"
 msgstr "Guztiak"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Pasatu hatza desblokeatzeko"
+msgid "Unlock"
+msgstr "Desblokeatu"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -251,17 +265,9 @@ msgstr "Hitz egin orain..."
 msgid "Speaking..."
 msgstr "Hitz egiten..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Erakutsi pasahitza"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Sartu SIMaren PINa"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Sentitzen dugu, PINa okerrekoa da"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -307,45 +313,49 @@ msgstr "Desblokeatu SIMa"
 msgid "Roaming"
 msgstr "Ibiltaritza"
 
-#: qml/Shell.qml:320
-msgid "Enter your passphrase"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
 msgstr "Sartu pasaesaldia"
 
-#: qml/Shell.qml:321
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Sentitzen dugu, pasaesaldia okerrekoa da"
 
-#: qml/Shell.qml:323
-msgid "Enter your passcode"
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Errepikatu"
+
+#: qml/Shell.qml:350
+msgid "Enter passcode"
 msgstr "Sartu pasakodea"
 
-#: qml/Shell.qml:324
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Sentitzen dugu, pasakodea okerrekoa da"
 
-#: qml/Shell.qml:327
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
+msgid "Enter %1"
 msgstr "Sartu %1"
 
-#: qml/Shell.qml:328
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sentitzen dugu, %1 okerrekoa da"
 
-#: qml/Shell.qml:363
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Sentitzen dugu, pasaesaldia okerrekoa da."
 
-#: qml/Shell.qml:364
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Sentitzen dugu, pasakodea okerrekoa da."
 
-#: qml/Shell.qml:365
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Hau duzu azken saiakera."
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -353,7 +363,7 @@ msgstr ""
 "Okerreko pasaesaldia sartzen baduzu, telefonoaren jatorrizko ezarpenak "
 "berrezarri eta datu pertsonal guztiak ezabatuko dira."
 
-#: qml/Shell.qml:368
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -361,5 +371,8 @@ msgstr ""
 "Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
 "berrezarri eta datu pertsonal guztiak ezabatuko dira."
 
-#~ msgid "Manage Dash"
-#~ msgstr "Kudeatu abio-leihoa"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Sentitzen dugu, PINa okerrekoa da"
+
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Sartu SIMaren PINa"

@@ -52,6 +52,7 @@ Item {
 
     Rectangle {
         id: blackRect
+        objectName: "blackRect"
         color: "black"
         opacity: openList && openList.currentItem && openList.currentItem.visible ? 0.5 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }

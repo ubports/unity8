@@ -114,6 +114,7 @@ Column {
                 horizontalAlignment: Text.AlignHCenter
                 text: root.errorText
                 visible: pinentryField.incorrectOverride
+                scale: Math.min(1, parent.width / width)
             }
 
             AbstractButton {
