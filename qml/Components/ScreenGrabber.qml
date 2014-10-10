@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtMultimedia 5.0
 import ScreenGrabber 0.1
 
 Rectangle {
@@ -37,6 +38,11 @@ Rectangle {
         id: screenGrabber
         objectName: "screenGrabber"
     }
+    
+    Audio {
+        id: shutterSound
+        source: "/system/media/audio/ui/camera_click.ogg"
+    }
 
     function enable(flag)
     {
@@ -57,6 +63,8 @@ Rectangle {
             keyState.ignoreKeyRepeats = true;
             enabled = true;
             visible = true;
+            shutterSound.stop();
+            shutterSound.play();
             fadeIn.start();
         }
     }
