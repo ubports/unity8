@@ -304,8 +304,8 @@ Item {
                 }
             }
 
-            // Server value is not garenteed to change to what we expect from an activation.
-            // In this case, we need to re-assert that we are presenting the UI with the correct backend value.
+            // Server value is not guaranteed to change to what we expect from an activation.
+            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
             Timer {
                 id: resyncTimer
                 interval: 1500
@@ -343,8 +343,8 @@ Item {
                 }
             }
 
-            // Server value is not garenteed to change to what we expect from an activation.
-            // In this case, we need to re-assert that we are presenting the UI with the correct backend value.
+            // Server value is not guaranteed to change to what we expect from an activation.
+            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
             Timer {
                 id: resyncTimer
                 interval: 1500
