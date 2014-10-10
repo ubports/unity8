@@ -38,9 +38,10 @@ Rectangle {
         id: screenGrabber
         objectName: "screenGrabber"
     }
-    
+
     Audio {
         id: shutterSound
+        audioRole: MediaPlayer.alert
         source: "/system/media/audio/ui/camera_click.ogg"
     }
 
