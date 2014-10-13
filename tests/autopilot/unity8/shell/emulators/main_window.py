@@ -98,7 +98,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         end_x = start_x
         end_y = self.height
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
-        self.wait_select_single('Indicators', fullyOpened=True)
+        self.wait_select_single('IndicatorsMenu', fullyOpened=True)
         return self._get_indicator_page(indicator_name)
 
     @autopilot_logging.log_action(logger.info)
