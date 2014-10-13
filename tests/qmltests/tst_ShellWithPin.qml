@@ -28,9 +28,10 @@ import Powerd 0.1
 
 import "../../qml"
 
-Row {
+Item {
     id: root
-    spacing: 0
+    width: contentRow.width
+    height: contentRow.height
 
     QtObject {
         id: applicationArguments
@@ -48,34 +49,36 @@ Row {
         }
     }
 
-    Loader {
-        id: shellLoader
+    Row {
+        id: contentRow
 
-        width: units.gu(40)
-        height: units.gu(71)
+        Loader {
+            id: shellLoader
 
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            Shell {
-                Component.onDestruction: {
-                    shellLoader.itemDestroyed = true
+            width: units.gu(40)
+            height: units.gu(71)
+
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true
+                    }
+                    maxFailedLogins: maxRetriesTextField.text
                 }
-                maxFailedLogins: maxRetriesTextField.text
             }
         }
-    }
 
-    Rectangle {
-        color: "white"
-        width: units.gu(30)
-        height: shellLoader.height
+        Rectangle {
+            color: "white"
+            width: units.gu(30)
+            height: shellLoader.height
 
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
                 Button {
+                    anchors { left: parent.left; right: parent.right }
                     text: "Show Greeter"
                     onClicked: {
                         if (shellLoader.status !== Loader.Ready)
@@ -87,15 +90,15 @@ Row {
                         }
                     }
                 }
-            }
 
-            Label {
-                text: "Max retries:"
-                color: "black"
-            }
-            TextField {
-                id: maxRetriesTextField
-                text: "-1"
+                Label {
+                    text: "Max retries:"
+                    color: "black"
+                }
+                TextField {
+                    id: maxRetriesTextField
+                    text: "-1"
+                }
             }
         }
     }
@@ -117,6 +120,7 @@ Row {
     }
 
     UT.UnityTestCase {
+        id: testCase
         name: "ShellWithPin"
         when: windowShown
 
@@ -192,7 +196,7 @@ Row {
             for (var i = 0; i < pin.length; ++i) {
                 var character = pin.charAt(i)
                 var button = findChild(shell, "pinPadButton" + character)
-                mouseClick(button, units.gu(1), units.gu(1))
+                tap(button)
             }
         }
 
@@ -253,7 +257,7 @@ Row {
             var launcher = findChild(shell, "launcher")
             var stage = findChild(shell, "stage")
 
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(greeter, "lockedApp", "dialer-app")
             tryCompare(greeter, "hasLockedApp", true)
@@ -280,7 +284,7 @@ Row {
         function test_emergencyCallCrash() {
             var lockscreen = findChild(shell, "lockscreen")
             var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(lockscreen, "shown", false)
             killApps() // kill dialer-app, as if it crashed
@@ -290,7 +294,7 @@ Row {
         function test_emergencyCallAppLaunch() {
             var lockscreen = findChild(shell, "lockscreen")
             var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(lockscreen, "shown", false)
             ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
@@ -335,7 +339,7 @@ Row {
 
             var dialog = findChild(root, "infoPopup")
             var button = findChild(dialog, "infoPopupOkButton")
-            mouseClick(button, units.gu(1), units.gu(1))
+            tap(button)
             tryCompareFunction(function() {return findChild(root, "infoPopup")}, null)
 
             tryCompare(resetSpy, "count", 0)
