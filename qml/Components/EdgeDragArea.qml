@@ -34,6 +34,7 @@ DirectionalDragArea {
     distanceThreshold: defaultDistanceThreshold
     minSpeed: defaultMinSpeed
     maxSilenceTime: defaultMaxSilenceTime
+    compositionTime: defaultCompositionTime
 
     readonly property real defaultMaxDeviation: units.gu(3)
     readonly property real defaultWideningAngle: 50
@@ -41,4 +42,5 @@ DirectionalDragArea {
     // some people were getting false negatives with it enabled.
     readonly property real defaultMinSpeed: units.gu(0)
     readonly property int defaultMaxSilenceTime: 200
+    readonly property int defaultCompositionTime: 60
 }

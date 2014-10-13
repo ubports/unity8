@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 
 Item {
     id: root
@@ -24,6 +25,18 @@ Item {
     property var surface: null
 
     property int transitionDuration: UbuntuAnimation.FastDuration
+
+    Binding { target: surface; property: "z"; value: 0 }
+
+    TouchGate {
+        x: UbuntuKeyboardInfo.x
+        y: UbuntuKeyboardInfo.y
+        z: 1
+        width: UbuntuKeyboardInfo.width
+        height: UbuntuKeyboardInfo.height
+
+        targetItem: root.surface
+    }
 
     state: {
         if (surface && surface.state != MirSurfaceItem.Minimized) {

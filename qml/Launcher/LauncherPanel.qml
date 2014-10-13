@@ -46,6 +46,7 @@ Rectangle {
         }
 
         Rectangle {
+            objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
             color: UbuntuColors.orange

@@ -207,6 +207,12 @@ Showable {
             }
         }
 
+        // This is to avoid the situation where a bottom-edge swipe would bring up the dash overview
+        // (as expected) but would also cause the dash content flickable to move a bit, because
+        // that flickable was getting the touch events while overviewDragHandle was still undecided
+        // about whether that touch was indeed performing a directional drag gesture.
+        forceNonInteractive: overviewDragHandle.status != DirectionalDragArea.WaitingForTouch
+
         enabled: overviewController.progress == 0
         opacity: enabled ? 1 : 0
     }
@@ -363,16 +369,32 @@ Showable {
         height: units.gu(2)
 
         onSceneDistanceChanged: {
-            if (overviewController.enableAnimation) {
-                dashContentCache.scheduleUpdate();
+            if (status == DirectionalDragArea.Recognized && initialSceneDistance != -1) {
+                if (overviewController.enableAnimation) {
+                    dashContentCache.scheduleUpdate();
+                }
+                overviewController.enableAnimation = false;
+                var deltaDistance = sceneDistance - initialSceneDistance;
+                overviewController.progress = Math.max(0, Math.min(1, deltaDistance / fullMovement));
             }
-            overviewController.enableAnimation = false;
-            overviewController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
         }
 
-        onDraggingChanged: {
-            overviewController.enableAnimation = true;
-            overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
+        property int previousStatus: -1
+        property int currentStatus: DirectionalDragArea.WaitingForTouch
+        property real initialSceneDistance: -1
+
+        onStatusChanged: {
+            previousStatus = currentStatus;
+            currentStatus = status;
+
+            if (status == DirectionalDragArea.Recognized) {
+                initialSceneDistance = sceneDistance;
+            } else if (status == DirectionalDragArea.WaitingForTouch &&
+                    previousStatus == DirectionalDragArea.Recognized) {
+                overviewController.enableAnimation = true;
+                overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
+                initialSceneDistance = -1;
+            }
         }
     }
 

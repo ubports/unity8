@@ -24,6 +24,7 @@ import "../Components/Flickables" as Flickables
 Item {
     id: dashContent
 
+    property bool forceNonInteractive: false
     property alias scopes: dashContentList.model
     readonly property alias currentIndex: dashContentList.currentIndex
     readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
@@ -102,7 +103,8 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
+            interactive: !dashContent.forceNonInteractive && dashContent.scopes.loaded && currentItem
+                      && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -179,6 +181,7 @@ Item {
                         item.paginationCount = Qt.binding(function() { return dashContentList.count } )
                         item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
                         item.holdingList = dashContentList;
+                        item.forceNonInteractive = Qt.binding(function() { return dashContent.forceNonInteractive } )
                     }
                     Connections {
                         target: isCurrent ? scope : null
