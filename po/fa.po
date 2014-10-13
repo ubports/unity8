@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-03 08:13-0400\n"
-"PO-Revision-Date: 2014-10-02 23:07+0000\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-11 23:41+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
+"X-Launchpad-Export-Date: 2014-10-12 06:55+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -156,23 +156,23 @@ msgstr ""
 "هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید استفاده "
 "از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
 
-#: qml/Components/Lockscreen.qml:218
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "تماس اضطراری"
 
-#: qml/Components/Lockscreen.qml:250
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "قبول"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "کم‌تر ببینید"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "دیدن همه"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "جست‌وجو"
@@ -211,11 +211,11 @@ msgstr "ارسال"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "برای تازه‌سازی بکشید…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "برای تازه‌سازی رها کنید…"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -261,17 +261,9 @@ msgstr "اکنون صحبت کنید…"
 msgid "Speaking..."
 msgstr "در حال صحبت کردن…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "نمایش گذرواژه"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "PIN سیم‌کارت را وارد کنید"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "متأسّفیم، PIN نادرست بود"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -317,49 +309,49 @@ msgstr "باز کردن قفل سیم‌کارت"
 msgid "Roaming"
 msgstr "رومینگ"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
 msgstr "عبارت‌عبور را وارد کنید"
 
-#: qml/Shell.qml:341
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "متأسّفیم، عبارت‌عبور نادرست بود"
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
 msgstr "لطفاً دوباره وارد کنید"
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
 msgstr "رمزعبور را وارد کنید"
 
-#: qml/Shell.qml:345
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "متأسّفیم، رمزعبور نادرست بود"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 را وارد کنید"
 
-#: qml/Shell.qml:349
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "متأسّفیم، %1 نادرست بود"
 
-#: qml/Shell.qml:384
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "متأسّفیم، عبارت‌عبور نادرست است."
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "متأسّفیم، رمزعبور نادرست است."
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "این آخرین تلاش شما خواهد بود."
 
-#: qml/Shell.qml:388
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -367,36 +359,10 @@ msgstr ""
 "اگر عبارت‌عبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
 "اطّلاعات شخصی حذف خواهند شد."
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "اگر رمزعبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
 "اطّلاعات شخصی حذف خواهند شد."
-
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "سلام %1"
-
-#~ msgid "Hello"
-#~ msgstr "سلام"
-
-#~ msgid "Swipe to unlock"
-#~ msgstr "برای باز کردن قفل بکشد"
-
-#~ msgid "Please wait"
-#~ msgstr "لطفاً صبر کنید"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "تلاش‌های ناموفّق زیاد"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "%1 خود را وارد کنید"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "عبارت‌عبورتان را وارد کنید"
-
-#~ msgid "Enter your passcode"
-#~ msgstr "رمزعبورتان را وارد کنید"

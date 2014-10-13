@@ -78,7 +78,9 @@ Showable {
     }
 
     function showInfoPopup(title, text) {
-        PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
+        var popup = PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
+        // FIXME: SDK will do this internally soonish
+        popup.z = Number.MAX_VALUE
     }
 
     Rectangle {

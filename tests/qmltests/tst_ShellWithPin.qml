@@ -27,10 +27,9 @@ import Powerd 0.1
 
 import "../../qml"
 
-Item {
+Row {
     id: root
-    width: shell.width + units.gu(20)
-    height: shell.height
+    spacing: 0
 
     QtObject {
         id: applicationArguments
@@ -48,23 +47,57 @@ Item {
         }
     }
 
-    Shell {
-        id: shell
-        maxFailedLogins: maxRetriesTextField.text
+    Loader {
+        id: shellLoader
 
-        property string indicatorProfile: "phone"
-    }
-    Column {
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; margins:units.gu(1) }
-        width: units.gu(18)
+        width: units.gu(40)
+        height: units.gu(71)
 
-        Label {
-            text: "Max retries:"
-            color: "black"
+        property bool itemDestroyed: false
+        sourceComponent: Component {
+            Shell {
+                property string indicatorProfile: "phone"
+
+                Component.onDestruction: {
+                    shellLoader.itemDestroyed = true
+                }
+                maxFailedLogins: maxRetriesTextField.text
+            }
         }
-        TextField {
-            id: maxRetriesTextField
-            text: "-1"
+    }
+
+    Rectangle {
+        color: "white"
+        width: units.gu(30)
+        height: shellLoader.height
+
+        Column {
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+            spacing: units.gu(1)
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                Button {
+                    text: "Show Greeter"
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return
+
+                        var greeter = testCase.findChild(shellLoader.item, "greeter")
+                        if (!greeter.shown) {
+                            greeter.show()
+                        }
+                    }
+                }
+            }
+
+            Label {
+                text: "Max retries:"
+                color: "black"
+            }
+            TextField {
+                id: maxRetriesTextField
+                text: "-1"
+            }
         }
     }
 
@@ -83,12 +116,10 @@ Item {
         name: "ShellWithPin"
         when: windowShown
 
-        function initTestCase() {
-
-            sessionSpy.target = findChild(shell, "greeter")
-        }
+        property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            sessionSpy.target = findChild(shell, "greeter")
             swipeAwayGreeter()
             shell.failedLoginsDelayAttempts = -1
             maxRetriesTextField.text = "-1"
@@ -97,12 +128,28 @@ Item {
         }
 
         function cleanup() {
-            LightDM.Greeter.showGreeter()
-            var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 1)
+            shellLoader.itemDestroyed = false
+
+            shellLoader.active = false
+
+            tryCompare(shellLoader, "status", Loader.Null)
+            tryCompare(shellLoader, "item", null)
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // item might still be alive. So if we set Loader.active back to true
+            // again right now we will get the very same Shell instance back. So no reload
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(shellLoader, "itemDestroyed", true)
 
             // kill all (fake) running apps
             killApps()
+
+            // reload our test subject to get it in a fresh state once again
+            shellLoader.active = true
+
+            tryCompare(shellLoader, "status", Loader.Ready)
+            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item)
         }
 
         function killApps() {
@@ -115,6 +162,7 @@ Item {
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
+            waitForRendering(greeter)
             tryCompare(greeter, "showProgress", 1);
 
             var touchX = shell.width - (shell.edgeSize / 2);
@@ -170,7 +218,8 @@ Item {
 
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
 
-            tryCompare(greeter, "fakeActiveForApp", "dialer-app")
+            tryCompare(greeter, "lockedApp", "dialer-app")
+            tryCompare(greeter, "hasLockedApp", true)
             tryCompare(lockscreen, "shown", false)
             tryCompare(panel, "fullscreenMode", true)
             tryCompare(indicators, "available", false)
@@ -182,7 +231,8 @@ Item {
             LightDM.Greeter.showGreeter()
 
             tryCompare(greeter, "shown", true)
-            tryCompare(greeter, "fakeActiveForApp", "")
+            tryCompare(greeter, "lockedApp", "")
+            tryCompare(greeter, "hasLockedApp", false)
             tryCompare(lockscreen, "shown", true)
             tryCompare(panel, "fullscreenMode", false)
             tryCompare(indicators, "available", true)
@@ -254,6 +304,37 @@ Item {
             tryCompare(resetSpy, "count", 0)
             enterPin("1111")
             tryCompare(resetSpy, "count", 1)
+        }
+
+        function test_emergencyDialerLockOut() {
+            // This is a theoretical attack on the lockscreen: Enter emergency
+            // dialer mode on a phone, then plug into a larger screen,
+            // switching to a tablet interface.  This would in theory move the
+            // dialer to a side stage and give access to other apps.  So just
+            // confirm that such an attack doesn't work.
+
+            var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader")
+
+            // We start in phone mode
+            tryCompare(shell, "sideStageEnabled", false)
+            tryCompare(applicationsDisplayLoader, "tabletMode", false)
+
+            var app = ApplicationManager.startApplication("dialer-app")
+
+            var greeter = findChild(shell, "greeter")
+            tryCompare(greeter, "showProgress", 0)
+            tryCompare(greeter, "hasLockedApp", true)
+
+            // OK, we're in. Now try (but fail) to switch to tablet mode
+            shell.tablet = true
+            tryCompare(shell, "sideStageEnabled", true)
+            tryCompare(applicationsDisplayLoader, "tabletMode", false)
+
+            // And when we kill the app, we go back to locked tablet mode
+            killApps()
+            tryCompare(greeter, "showProgress", 1)
+            tryCompare(shell, "sideStageEnabled", true)
+            tryCompare(applicationsDisplayLoader, "tabletMode", true)
         }
     }
 }

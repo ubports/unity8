@@ -20,6 +20,7 @@ set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LC_ALL=C")
 
 add_qml_test(. Shell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(. ShellWithPin ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single-pin:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
+add_qml_test(. TabletShell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Components Background)
 add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
@@ -77,6 +78,7 @@ add_qml_test(Panel IndicatorsBar ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR
 add_qml_test(Panel IndicatorsMenu ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel MenuContent ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel Panel ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
+add_qml_test(Panel SearchIndicator)
 # These MenuItemFactory tests need the test/mocks/ to come before plugins/
 add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel/Indicators MessageMenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
