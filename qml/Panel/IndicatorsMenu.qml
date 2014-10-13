@@ -139,7 +139,7 @@ Showable {
 
     ScrollCalculator {
         id: leftScroller
-        width: units.gu(2)//units.gu(5)
+        width: units.gu(5)
         anchors.left: bar.left
         height: bar.height
 
@@ -153,7 +153,7 @@ Showable {
 
     ScrollCalculator {
         id: rightScroller
-        width: units.gu(2)//units.gu(5)
+        width: units.gu(5)
         anchors.right: bar.right
         height: bar.height
 
