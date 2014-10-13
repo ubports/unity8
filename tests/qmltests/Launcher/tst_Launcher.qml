@@ -417,7 +417,7 @@ Item {
         }
 
         function test_quicklist_positioning(data) {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var quickList = findChild(launcher, "quickList")
             var draggedItem = findChild(launcher, "launcherDelegate" + data.itemIndex)
             var quickListShape = findChild(launcher, "quickListShape")
@@ -444,7 +444,7 @@ Item {
 
             // Click somewhere in the empty space to dismiss the launcher
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            revealer.waitUntilLauncherDisappears();
+            waitUntilLauncherDisappears();
         }
 
         function test_quicklist_click_data() {
