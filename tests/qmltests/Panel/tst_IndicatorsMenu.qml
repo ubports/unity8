@@ -101,7 +101,7 @@ IndicatorTest {
             tryCompare(indicatorsMenu.hideAnimation, "running", false);
             compare(indicatorsMenu.state, "initial");
 
-            indicatorsMenu.verticalVelocityThreashold = 0.5
+            indicatorsMenu.verticalVelocityThreshold = 0.5
         }
 
         function get_indicator_item(index) {
@@ -208,7 +208,7 @@ IndicatorTest {
         // If the vertical velocity is above a specific point, we shouldnt change active indicators
         // if the x position changes
         function test_verticalVelocityDetector() {
-            indicatorsMenu.verticalVelocityThreashold = 0;
+            indicatorsMenu.verticalVelocityThreshold = 0;
             verify(indicatorsModel.originalModelData.length >= 2);
 
             var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");

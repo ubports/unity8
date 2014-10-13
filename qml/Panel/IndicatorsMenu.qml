@@ -25,7 +25,7 @@ Showable {
     property alias showDragHandle: __showDragHandle
     property alias hideDragHandle: __hideDragHandle
     property alias overFlowWidth: bar.overFlowWidth
-    property alias verticalVelocityThreashold: yVelocityCalculator.velocityThreashold
+    property alias verticalVelocityThreshold: yVelocityCalculator.velocityThreshold
     property int minimizedPanelHeight: units.gu(3)
     property int expandedPanelHeight: units.gu(7)
     property real openedHeight: units.gu(71)
@@ -198,10 +198,10 @@ Showable {
 
     PanelVelocityCalculator {
         id: yVelocityCalculator
-        velocityThreashold: 0.5
+        velocityThreshold: 0.5
         trackedValue: d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
 
-        onVelocityThreasholdTriggered: bar.updateItemFromLateralPosition(bar.lateralPosition);
+        onVelocityThresholdTriggered: bar.updateItemFromLateralPosition(bar.lateralPosition);
     }
 
     Connections {

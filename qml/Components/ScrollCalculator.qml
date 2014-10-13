@@ -36,25 +36,25 @@ Item {
     onAreaActiveChanged: areaActive ? handleEnter() : handleExit()
 
     function handleEnter() {
-        d.threasholdAreaX = -scrollArea.stopScrollThreshold;
+        d.thresholdAreaX = -scrollArea.stopScrollThreshold;
         scrollTimer.restart();
     }
 
     function handleExit() {
-        d.threasholdAreaX = -scrollArea.stopScrollThreshold;
+        d.thresholdAreaX = -scrollArea.stopScrollThreshold;
         scrollTimer.stop();
     }
 
     onLateralPositionChanged: {
         if (scrollArea.areaActive) {
             if (lateralPosition > width * (1 - forceScrollingPercentage)) {
-                d.threasholdAreaX = width * (1 - forceScrollingPercentage);
+                d.thresholdAreaX = width * (1 - forceScrollingPercentage);
                 if (!scrollTimer.running) scrollTimer.restart();
-            } else if (lateralPosition > d.threasholdAreaX + scrollArea.stopScrollThreshold) {
-                d.threasholdAreaX = lateralPosition - scrollArea.stopScrollThreshold;
+            } else if (lateralPosition > d.thresholdAreaX + scrollArea.stopScrollThreshold) {
+                d.thresholdAreaX = lateralPosition - scrollArea.stopScrollThreshold;
                 if (!scrollTimer.running) scrollTimer.restart();
-            } else if (lateralPosition < d.threasholdAreaX) {
-                d.threasholdAreaX = lateralPosition;
+            } else if (lateralPosition < d.thresholdAreaX) {
+                d.thresholdAreaX = lateralPosition;
                 scrollTimer.stop();
             }
 
@@ -76,6 +76,6 @@ Item {
     QtObject {
         id: d
         property real progression: 0
-        property real threasholdAreaX: -scrollArea.stopScrollThreshold
+        property real thresholdAreaX: -scrollArea.stopScrollThreshold
     }
 }

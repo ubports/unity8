@@ -21,9 +21,9 @@ Item {
     id: root
     property real trackedValue: 0
     property bool stopLateralChanges: false
-    property real velocityThreashold: 0.4
+    property real velocityThreshold: 0.4
 
-    signal velocityThreasholdTriggered
+    signal velocityThresholdTriggered
 
     function reset() {
         stopLateralChanges = false;
@@ -31,7 +31,7 @@ Item {
     }
 
     function calculate() {
-        stopLateralChanges = Math.abs(calc.calculate()) > velocityThreashold;
+        stopLateralChanges = Math.abs(calc.calculate()) > velocityThreshold;
     }
 
     onTrackedValueChanged: {
@@ -55,7 +55,7 @@ Item {
             if (root.stopLateralChanges) {
                 velocityTimer.start();
             } else {
-                velocityThreasholdTriggered();
+                velocityThresholdTriggered();
             }
         }
     }
