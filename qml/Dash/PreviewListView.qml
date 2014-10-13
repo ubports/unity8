@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.2
 import "../Components"
+import "../Components/Flickables" as Flickables
 import "Previews" as Previews
 
 Item {
@@ -52,7 +53,7 @@ Item {
         onBackClicked: root.backClicked()
     }
 
-    ListView  {
+    Flickables.ListView {
         id: previewListView
         objectName: "listView"
         anchors {
@@ -66,8 +67,6 @@ Item {
         snapMode: ListView.SnapOneItem
         boundsBehavior: Flickable.DragAndOvershootBounds
         highlightMoveDuration: 250
-        flickDeceleration: units.gu(625)
-        maximumFlickVelocity: width * 5
         cacheBuffer: 0
 
         property bool open: false

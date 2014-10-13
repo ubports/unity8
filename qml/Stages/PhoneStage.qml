@@ -21,6 +21,7 @@ import Unity.Application 0.1
 import Unity.Session 0.1
 import Utils 0.1
 import "../Components"
+import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -120,7 +121,7 @@ Rectangle {
 
     }
 
-    Flickable {
+    Flickables.Flickable {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent

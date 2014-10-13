@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Unity 0.2
 import Utils 0.1
 import "../Components"
+import "../Components/Flickables" as Flickables
 
 Item {
     id: dashContent
@@ -97,7 +98,7 @@ Item {
             anchors.fill: parent
         }
 
-        ListView {
+        Flickables.ListView {
             id: dashContentList
             objectName: "dashContentList"
 
@@ -105,8 +106,6 @@ Item {
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
-            flickDeceleration: units.gu(625)
-            maximumFlickVelocity: width * 5
             snapMode: ListView.SnapOneItem
             highlightMoveDuration: 250
             highlightRangeMode: ListView.StrictlyEnforceRange
