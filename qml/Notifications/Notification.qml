@@ -298,6 +298,8 @@ Item {
             }
 
             Label {
+                id: valueLabel
+                objectName: "valueLabel"
                 text: body
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
@@ -328,6 +330,7 @@ Item {
 
                 UbuntuShape {
                     id: innerBar
+                    objectName: "innerBar"
                     width: valueIndicator.width * valueIndicator.value / 100
                     height: units.gu(1)
                     color: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"

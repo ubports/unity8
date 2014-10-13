@@ -165,6 +165,22 @@ Row {
         mockModel.append(n)
     }
 
+    function add2ndConfirmationNotification() {
+        var n = {
+            type: Notification.Confirmation,
+            hints: {"x-canonical-non-shaped-icon": "true",
+                    "x-canonical-value-bar-tint": "true"},
+            summary: "Confirmation notification",
+            body: "High Volume",
+            icon: "image://theme/audio-volume-high",
+            secondaryIcon: "",
+            value: 85,
+            actions: [],
+        }
+
+        mockModel.append(n)
+    }
+
     function clearNotifications() {
         while(mockModel.count > 1) {
             remove1stNotification()
@@ -180,7 +196,7 @@ Row {
         id: notificationsRect
 
         width: units.gu(40)
-        height: units.gu(90)
+        height: units.gu(115)
 
         MouseArea{
             id: clickThroughCatcher
@@ -202,7 +218,7 @@ Row {
         id: interactiveControls
 
         width: units.gu(30)
-        height: units.gu(90)
+        height: units.gu(115)
         color: "grey"
 
         Column {
@@ -254,6 +270,12 @@ Row {
 
             Button {
                 width: parent.width
+                text: "add a 2nd confirmation"
+                onClicked: add2ndConfirmationNotification()
+            }
+
+            Button {
+                width: parent.width
                 text: "remove 1st notification"
                 onClicked: remove1stNotification()
             }
@@ -296,7 +318,9 @@ Row {
                 buttonRowVisible: true,
                 buttonTinted: true,
                 hasSound: false,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "2-over-1 Snap Decision with button-tint",
@@ -318,7 +342,9 @@ Row {
                 buttonRowVisible: false,
                 buttonTinted: true,
                 hasSound: false,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "Ephemeral notification - icon-summary layout",
@@ -338,7 +364,9 @@ Row {
                 buttonRowVisible: false,
                 buttonTinted: false,
                 hasSound: false,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
@@ -361,7 +389,9 @@ Row {
                 buttonRowVisible: false,
                 buttonTinted: false,
                 hasSound: false,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "Interactive notification",
@@ -382,7 +412,9 @@ Row {
                 buttonRowVisible: false,
                 buttonTinted: false,
                 hasSound: true,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "Snap Decision without secondary icon and no button-tint",
@@ -404,7 +436,9 @@ Row {
                 buttonRowVisible: true,
                 buttonTinted: false,
                 hasSound: true,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "Ephemeral notification",
@@ -425,7 +459,9 @@ Row {
                 buttonRowVisible: false,
                 buttonTinted: false,
                 hasSound: true,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "Ephemeral notification with non-shaped icon",
@@ -446,7 +482,9 @@ Row {
                 buttonRowVisible: false,
                 buttonTinted: false,
                 hasSound: false,
-                valueVisible: false
+                valueVisible: false,
+                valueLabelVisible: false,
+                valueTinted: false
             },
             {
                 tag: "Confirmation notification with value",
@@ -467,7 +505,33 @@ Row {
                 buttonRowVisible: false,
                 buttonTinted: false,
                 hasSound: false,
-                valueVisible: true
+                valueVisible: true,
+                valueLabelVisible: false,
+                valueTinted: false
+            },
+            {
+                tag: "Confirmation notification with value, label and tint",
+                type: Notification.Confirmation,
+                hints: {"x-canonical-non-shaped-icon": "true",
+                        "x-canonical-value-bar-tint" : "true"},
+                summary: "",
+                body: "High Volume",
+                icon: "image://theme/audio-volume-high",
+                secondaryIcon: "",
+                value: 85,
+                actions: [],
+                summaryVisible: false,
+                bodyVisible: false,
+                iconVisible: false,
+                centeredIconVisible: true,
+                shaped: false,
+                secondaryIconVisible: false,
+                buttonRowVisible: false,
+                buttonTinted: false,
+                hasSound: false,
+                valueVisible: true,
+                valueLabelVisible: true,
+                valueTinted: true
             }
             ]
         }
@@ -512,6 +576,8 @@ Row {
             var bodyLabel = findChild(notification, "bodyLabel")
             var buttonRow = findChild(notification, "buttonRow")
             var valueIndicator = findChild(notification, "valueIndicator")
+            var valueLabel = findChild(notification, "valueLabel")
+            var innerBar = findChild(notification, "innerBar")
 
             compare(icon.visible, data.iconVisible, "avatar-icon visibility is incorrect")
             if (icon.visible) {
@@ -522,6 +588,10 @@ Row {
                 compare(centeredIcon.shaped, data.shaped, "shaped-status is incorrect")
             }
             compare(valueIndicator.visible, data.valueVisible, "value-indicator visibility is incorrect")
+            if (valueIndicator.visible) {
+                verify(innerBar.color === data.valueTinted ? UbuntuColors.orange : "white", "value-bar has the wrong color-tint")                    
+            }
+            compare(valueLabel.visible, data.valueLabelVisible, "value-label visibility is incorrect")
 
             // test input does not fall through
             mouseClick(notification, notification.width / 2, notification.height / 2)
