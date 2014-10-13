@@ -21,6 +21,7 @@ set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LC_ALL=C")
 
 add_qml_test(. Shell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(. ShellWithPin ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single-pin:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
+add_qml_test(. TabletShell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Components Background)
 add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
