@@ -73,31 +73,31 @@ Row {
         }
     }
 
-	Component {
-            id: mockNotification
+    Component {
+        id: mockNotification
 
-            QtObject {
-                function invokeAction(actionId) {
-                    mockNotificationsModel.actionInvoked(actionId)
-                }
+        QtObject {
+            function invokeAction(actionId) {
+                mockNotificationsModel.actionInvoked(actionId)
             }
         }
+    }
 
-	ListModel {
-            id: mockNotificationsModel
+    ListModel {
+        id: mockNotificationsModel
 
-            signal actionInvoked(string actionId)
+        signal actionInvoked(string actionId)
 
-            function getRaw(id) {
-                return mockNotification.createObject(mockNotificationsModel)
-            }
+        function getRaw(id) {
+            return mockNotification.createObject(mockNotificationsModel)
+        }
 
-            onActionInvoked: {
-                if(actionId == "ok_id") {
-                    mockNotificationsModel.clear()
-                }
+        onActionInvoked: {
+            if(actionId == "ok_id") {
+                mockNotificationsModel.clear()
             }
         }
+    }
 
     Rectangle {
         color: "white"
@@ -141,10 +141,10 @@ Row {
         signalName: "unlockingAllModems"
     }
 
-	SignalSpy {
-            id: notificationActionSpy
-            target: mockNotificationsModel
-            signalName: "actionInvoked"
+    SignalSpy {
+        id: notificationActionSpy
+        target: mockNotificationsModel
+        signalName: "actionInvoked"
     }
 
     Telephony.CallEntry {
@@ -241,22 +241,22 @@ Row {
         }
 
         function addSnapDecisionNotification() {
-		    var n = {
-		        type: Notification.SnapDecision,
-		        hints: {"x-canonical-private-affirmative-tint": "true"},
-		        summary: "Tom Ato",
-		        body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-		        icon: "../graphics/avatars/funky.png",
-		        secondaryIcon: "../graphics/applicationIcons/facebook.png",
-		        actions: [{ id: "ok_id", label: "Ok"},
-		                  { id: "cancel_id", label: "Cancel"},
-		                  { id: "notreally_id", label: "Not really"},
-		                  { id: "noway_id", label: "messages:No way"},
-		                  { id: "nada_id", label: "messages:Nada"}]
-		    }
+            var n = {
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-affirmative-tint": "true"},
+                summary: "Tom Ato",
+                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+                icon: "../graphics/avatars/funky.png",
+                secondaryIcon: "../graphics/applicationIcons/facebook.png",
+                actions: [{ id: "ok_id", label: "Ok"},
+                    { id: "cancel_id", label: "Cancel"},
+                    { id: "notreally_id", label: "Not really"},
+                    { id: "noway_id", label: "messages:No way"},
+                    { id: "nada_id", label: "messages:Nada"}]
+            }
 
-        	mockNotificationsModel.append(n)
-    	}
+            mockNotificationsModel.append(n)
+        }
 
         function test_leftEdgeDrag_data() {
             return [
