@@ -30,6 +30,10 @@ Item {
         calc.reset();
     }
 
+    function calculate() {
+        stopLateralChanges = Math.abs(calc.calculate()) > velocityThreashold;
+    }
+
     onTrackedValueChanged: {
         calc.trackedPosition = trackedValue;
         velocityTimer.start();
@@ -37,18 +41,17 @@ Item {
 
     AxisVelocityCalculator {
         id: calc
-        onTrackedPositionChanged: {
-            var velocity = Math.abs(calc.calculate());
-            stopLateralChanges = velocity > velocityThreashold;
-        }
+        onTrackedPositionChanged: calculate();
     }
 
     Timer {
         id: velocityTimer
         interval: 50
         onTriggered: {
+            var recalculate = calc.trackedPosition == trackedValue;
             calc.trackedPosition = trackedValue;
-            root.stopLateralChanges = Math.abs(calc.calculate()) > velocityThreashold;
+            if (recalculate) calculate();
+
             if (root.stopLateralChanges) {
                 velocityTimer.start();
             } else {
