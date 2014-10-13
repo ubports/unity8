@@ -50,25 +50,21 @@ Item {
         row.setCurrentItemIndex(index);
     }
 
-    function alignIndicatorsToLeft() {
-        alignmentTimer.start()
+    function alignIndicators() {
+        alignmentTimer.start();
     }
 
     function addScrollOffset(scrollAmmout) {
-        var proposedScrollOffset = d.scrollOffset + scrollAmmout;
-        var proposedCombinedOffset = d.combinedOffset - scrollAmmout;
-
-        if (scrollAmmout < 0 && d.combinedOffset > (row.width - rowContainer.width)) return;
-
-        if (scrollAmmout > 0 && proposedCombinedOffset < 0) {
-            // get the combined offset back to 0
-            proposedScrollOffset = proposedScrollOffset + proposedCombinedOffset;
-        } else if (scrollAmmout < 0 && proposedCombinedOffset > row.width - rowContainer.width) {
-            // get the combined offset back to max
-            proposedScrollOffset = proposedScrollOffset + (proposedCombinedOffset - (row.width - rowContainer.width));
+        if (scrollAmmout < 0) { // left scroll
+            if (flickable.contentX < 0) return; // already off the left.
+            if (flickable.contentX + scrollAmmout < 0) scrollAmmout = -flickable.contentX; // going to be off the left
+        } else { // right scroll
+            if (flickable.contentX + flickable.width > row.width) return; // already off the right.
+            if (flickable.contentX + flickable.width + scrollAmmout > row.width) { // going to be off the right
+                scrollAmmout = row.width - (flickable.contentX + flickable.width);
+            }
         }
-
-        d.scrollOffset = proposedScrollOffset;
+        d.scrollOffset = d.scrollOffset + scrollAmmout;
     }
 
     QtObject {
@@ -76,7 +72,6 @@ Item {
         property var initialItem
         // the non-expanded distance from row offset to center of initial item
         property real originalDistanceFromRight: -1
-        property real originalItemWidth: -1
 
         // calculate the distance from row offset to center of initial item
         property real distanceFromRight: {
@@ -87,37 +82,19 @@ Item {
 
         // offset to the intially selected expanded item
         property real rowOffset: 0
-        property real alignmentAdjustment: 0
         property real scrollOffset: 0
-        property real combinedOffset: rowOffset + alignmentAdjustment - scrollOffset
+        property real alignmentAdjustment: 0
+        property real combinedOffset: 0
 
         // when the scroll offset changes, we need to reclaculate the relative lateral position
         onScrollOffsetChanged: root.lateralPositionChanged()
 
         onInitialItemChanged: {
-            if (initialItem) {
-                originalItemWidth = initialItem.width;
-                originalDistanceFromRight = row.width - initialItem.x - initialItem.width/2;
-            } else {
-                originalItemWidth = -1;
-                originalDistanceFromRight = -1;
-            }
+            originalDistanceFromRight = initialItem ? (row.width - initialItem.x - initialItem.width/2) : -1;
         }
 
         Behavior on alignmentAdjustment {
-            NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing}
-        }
-    }
-
-    onExpandedChanged: {
-        if (!expanded) flickable.moved = false;
-    }
-
-    Connections {
-        target: row
-        onCurrentItemChanged: {
-            if (!row.currentItem) d.initialItem = undefined;
-            else if (!d.initialItem) d.initialItem = row.currentItem;
+            NumberAnimation { duration: UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing}
         }
     }
 
@@ -137,34 +114,15 @@ Item {
         anchors.fill: parent
         clip: expanded || row.width > rowContainer.width
 
-        IndicatorItemRow {
-            id: row
-            objectName: "indicatorItemRow"
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-                right: parent.right
-                rightMargin: -d.combinedOffset
-            }
-
-            lateralPosition: {
-                if (root.lateralPosition == -1) return -1;
-
-                var mapped = root.mapToItem(row, root.lateralPosition, 0);
-                return Math.min(Math.max(mapped.x, 0), row.width);
-            }
-        }
-
         Flickable {
             id: flickable
+            objectName: "flickable"
+
             anchors.fill: parent
             contentWidth: row.width
             interactive: root.expanded
-
-            property bool moved: false
-            onMovingChanged: {
-                moved = true;
-            }
+            // align right + offset from row selection + scrolling
+            contentX: row.width - flickable.width - d.combinedOffset
 
             rebound: Transition {
                 NumberAnimation {
@@ -174,21 +132,46 @@ Item {
                 }
             }
 
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.expanded
-                onClicked: row.selectItemAt(mouse.x);
+            IndicatorItemRow {
+                id: row
+                objectName: "indicatorItemRow"
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+
+                lateralPosition: {
+                    if (root.lateralPosition == -1) return -1;
+
+                    var mapped = root.mapToItem(row, root.lateralPosition, 0);
+                    return Math.min(Math.max(mapped.x, 0), row.width);
+                }
+
+                onCurrentItemChanged: {
+                    if (!currentItem) d.initialItem = undefined;
+                    else if (!d.initialItem) d.initialItem = currentItem;
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: root.expanded
+                    onClicked: {
+                        row.selectItemAt(mouse.x);
+                        alignIndicators();
+                    }
+                }
             }
+
         }
     }
 
     Timer {
         id: alignmentTimer
-        interval: UbuntuAnimation.SnapDuration // enough for row animation.
+        interval: UbuntuAnimation.FastDuration // enough for row animation.
         repeat: false
         onTriggered: {
-            if (expanded && row.x > 0) {
-                d.alignmentAdjustment = -row.x;
+            if (expanded && !flickable.moving && row.width > flickable.width && flickable.contentX < 0) { // off the left.
+                d.alignmentAdjustment += flickable.contentX;
             }
         }
     }
@@ -200,14 +183,19 @@ Item {
             PropertyChanges {
                 target: d
                 rowOffset: 0
-                alignmentAdjustment: 0
                 scrollOffset: 0
+                alignmentAdjustment: 0
                 restoreEntryValues: false
             }
         },
         State {
             name: "expanded"
-            when: expanded && !flickable.moved
+            when: expanded
+
+            PropertyChanges {
+                target: d
+                combinedOffset: rowOffset + alignmentAdjustment - scrollOffset
+            }
 
             PropertyChanges {
                 target: d
@@ -216,33 +204,9 @@ Item {
                     if (distanceFromRight - initialItem.width <= 0) return 0;
 
                     var rowOffset = distanceFromRight - originalDistanceFromRight;
-                    if (originalDistanceFromRight + originalItemWidth/2 > rowContainer.width) {
-                        rowOffset = rowOffset + originalItemWidth;
-                    }
                     return rowOffset;
                 }
-            }
-            // keep flickable inline with row
-            PropertyChanges {
-                target: flickable
-                contentX: (flickable.contentWidth - flickable.width) - d.combinedOffset
                 restoreEntryValues: false
-            }
-        },
-        State {
-            name: "moved"
-            when: expanded && flickable.moved
-
-            StateChangeScript {
-                script: {
-                    // unbind contentX
-                    flickable.contentX = flickable.contentX;
-                    d.scrollOffset = 0;
-                }
-            }
-            PropertyChanges {
-                target: row
-                anchors.rightMargin: - (flickable.contentWidth - flickable.width) + (flickable.contentX) + d.scrollOffset
             }
         }
     ]
@@ -251,24 +215,16 @@ Item {
         Transition {
             from: "expanded"
             to: "minimized"
+            PropertyAction {
+                target: d
+                properties: "rowOffset, scrollOffset, alignmentAdjustment"
+                value: 0
+            }
             PropertyAnimation {
-                target: d;
-                properties: "rowOffset, scrollOffset"
+                target: d
+                properties: "combinedOffset"
                 duration: UbuntuAnimation.SnapDuration
                 easing: UbuntuAnimation.StandardEasing
-            }
-        },
-        Transition {
-            from: "moved"
-            to: "minimized"
-            SequentialAnimation {
-                PropertyAction { target: d; properties: "rowOffset, alignmentAdjustment, scrollOffset" }
-                PropertyAnimation {
-                    target: row;
-                    properties: "anchors.rightMargin"
-                    duration: UbuntuAnimation.SnapDuration
-                    easing: UbuntuAnimation.StandardEasing
-                }
             }
         }
     ]

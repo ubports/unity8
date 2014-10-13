@@ -53,9 +53,6 @@ IndicatorTest {
                 openedHeight: parent.height
                 indicatorsModel: root.indicatorsModel
                 shown: false
-
-                // no vertical movement allowed while dragging
-                verticalVelocityThreashold: 0
             }
         }
 
@@ -103,6 +100,8 @@ IndicatorTest {
             indicatorsMenu.hide();
             tryCompare(indicatorsMenu.hideAnimation, "running", false);
             compare(indicatorsMenu.state, "initial");
+
+            indicatorsMenu.verticalVelocityThreashold = 0.5
         }
 
         function get_indicator_item(index) {
@@ -119,6 +118,21 @@ IndicatorTest {
 
             indicatorsMenu.hide();
             tryCompare(indicatorsMenu, "fullyClosed", true);
+        }
+
+        // Test that closing the indicators ends up in the correct position.
+        function test_hideEndsInCorrectPosition() {
+            var indicatorsBar = findChild(indicatorsMenu, "indicatorsBar");
+            var flickable = findChild(indicatorsBar, "flickable");
+
+            var originalContentX = flickable.contentX;
+
+            indicatorsMenu.show();
+            indicatorsBar.setCurrentItemIndex(0);
+            tryCompare(indicatorsMenu, "fullyOpened", true);
+
+            indicatorsMenu.hide();
+            tryCompare(flickable, "contentX", originalContentX);
         }
 
         function test_progress_changes_state_to_reveal() {
@@ -194,6 +208,7 @@ IndicatorTest {
         // If the vertical velocity is above a specific point, we shouldnt change active indicators
         // if the x position changes
         function test_verticalVelocityDetector() {
+            indicatorsMenu.verticalVelocityThreashold = 0;
             verify(indicatorsModel.originalModelData.length >= 2);
 
             var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");
