@@ -23,7 +23,7 @@ Item {
     property QtObject session
     readonly property var childSessions: session ? session.childSessions : null
     readonly property alias surface: _surfaceContainer.surface
-    property bool interactive: true
+    property alias interactive: _surfaceContainer.interactive
     property int orientation
 
     readonly property alias surfaceContainer: _surfaceContainer
@@ -34,18 +34,6 @@ Item {
         orientation: root.orientation
     }
 
-    Binding {
-        target: surfaceContainer.surface
-        when: surfaceContainer.surface
-        property: "enabled"
-        value: root.interactive
-    }
-    Binding {
-        target: surfaceContainer.surface
-        when: surfaceContainer.surface
-        property: "focus"
-        value: root.interactive
-    }
 
     Repeater {
         model: root.childSessions

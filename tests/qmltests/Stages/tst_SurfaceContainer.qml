@@ -99,6 +99,9 @@ Rectangle {
         name: "SurfaceContainer"
         when: windowShown
 
+        property var surfaceContainer:
+                surfaceContainerLoader.status === Loader.Ready ? surfaceContainerLoader.item : null
+
         function cleanup() {
             // reload our test subject to get it in a fresh state once again
             surfaceContainerLoader.active = false;
@@ -126,7 +129,6 @@ Rectangle {
 
         function test_animateRemoval() {
             surfaceCheckbox.checked = true;
-            var surfaceContainer = surfaceContainerLoader.item;
 
             verify(surfaceContainer.surface !== null);
 
@@ -134,6 +136,29 @@ Rectangle {
 
             compare(surfaceContainer.state, "zombie");
             tryCompare(surfaceContainer, "surface", null);
+        }
+
+        function test_surfaceGetsNoTouchesWhenContainerNotInteractive() {
+            surfaceCheckbox.checked = true;
+            verify(surfaceContainer.surface !== null);
+
+            surfaceContainer.surface.touchPressCount = 0;
+            surfaceContainer.surface.touchReleaseCount = 0;
+
+            surfaceContainer.interactive = true;
+            tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
+
+            // surface got touches as the surfaceContainer is interactive
+            compare(surfaceContainer.surface.touchPressCount, 1)
+            compare(surfaceContainer.surface.touchReleaseCount, 1);
+
+            surfaceContainer.interactive = false;
+            tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
+
+            // surface shouldn't get the touches from the second tap as the surfaceContainer
+            // was *not* interactive when it happened.
+            compare(surfaceContainer.surface.touchPressCount, 1)
+            compare(surfaceContainer.surface.touchReleaseCount, 1);
         }
     }
 }

@@ -26,6 +26,7 @@ FocusScope {
     id: scopeView
 
     readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].openList : false
+    property bool forceNonInteractive: false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -149,6 +150,7 @@ FocusScope {
     ScopeListView {
         id: categoryView
         objectName: "categoryListView"
+        interactive: !forceNonInteractive
 
         x: subPageLoader.open ? -width : 0
         visible: x != -width

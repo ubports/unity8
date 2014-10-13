@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,25 +28,49 @@ Item {
     width: units.gu(50)
     height: units.gu(55)
 
-    Launcher {
-        id: launcher
-        x: 0
-        y: 0
-        width: units.gu(40)
-        height: parent.height
+    Loader {
+        id: launcherLoader
+        anchors.fill: parent
+        property bool itemDestroyed: false
+        sourceComponent: Component {
+            Launcher {
+                id: launcher
+                x: 0
+                y: 0
+                width: units.gu(40)
+                height: root.height
 
-        property string lastSelectedApplication
+                property string lastSelectedApplication
 
-        onLauncherApplicationSelected: {
-            lastSelectedApplication = appId
+                onLauncherApplicationSelected: {
+                    lastSelectedApplication = appId
+                }
+
+                property int showDashHome_count: 0
+                onShowDashHome: {
+                    showDashHome_count++;
+                }
+
+                property int maxPanelX: 0
+
+                Connections {
+                    target: testCase.findChild(launcher, "launcherPanel")
+
+                    onXChanged: {
+                        if (target.x > launcher.maxPanelX) {
+                            launcher.maxPanelX = target.x;
+                        }
+                    }
+                }
+
+                Component.onCompleted: {
+                    launcherLoader.itemDestroyed = false;
+                }
+                Component.onDestruction: {
+                    launcherLoader.itemDestroyed = true;
+                }
+            }
         }
-
-        property int showDashHome_count: 0
-        onShowDashHome: {
-            showDashHome_count++;
-        }
-
-        property int maxPanelX: 0
     }
 
     SignalSpy {
@@ -54,19 +78,45 @@ Item {
         target: LauncherModel
     }
 
-    Connections {
-        target: testCase.findChild(launcher, "launcherPanel")
-
-        onXChanged: {
-            if (target.x > launcher.maxPanelX) {
-                launcher.maxPanelX = target.x;
-            }
-        }
-    }
-
     UT.UnityTestCase {
-        id: revealer
+        id: testCase
+        name: "Launcher"
         when: windowShown
+
+        property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
+        function cleanup() {
+            launcherLoader.active = false;
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // item might still be alive. So if we set Loader.active back to true
+            // again right now we will get the very same Shell instance back. So no reload
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(launcherLoader, "itemDestroyed", true);
+            launcherLoader.active = true;
+        }
+        function init() {
+            var listView = findChild(launcher, "launcherListView");
+            // wait for it to settle before doing the flick. Otherwise the flick
+            // might fail.
+            // On startup that listView is already moving. maybe because of its contents
+            // growing while populating it with icons etc.
+            tryCompare(listView, "flicking", false);
+
+            // Make sure noone changed the height of the window. The issue this test case
+            // is verifying only happens on certain heights of the Launcher
+            compare(root.height, units.gu(55));
+
+            compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
+
+            // Now do check that snapping is in fact enabled
+            compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
+
+            // Tests can be run in a reaaaaally slow environment or machine. Thus ensure
+            // the dismissTimer doesn't time out inadvertently.
+            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+            dismissTimer.interval = 60 * 60 * 1000; // one hour
+        }
 
         function dragLauncherIntoView() {
             var startX = launcher.dragAreaWidth/2;
@@ -87,22 +137,11 @@ Item {
             var panel = findChild(launcher, "launcherPanel");
             tryCompare(panel, "x", -panel.width, 1000);
         }
-    }
-
-    UT.UnityTestCase {
-        id: testCase
-        name: "Launcher"
-        when: windowShown && initTestCase.completed
-
-        function cleanup() {
-            mouseClick(root, root.width / 2, root.height / 2);
-            revealer.waitUntilLauncherDisappears();
-        }
 
         // Drag from the left edge of the screen rightwards and check that the launcher
         // appears (as if being dragged by the finger/pointer)
         function test_dragLeftEdgeToRevealLauncherAndTapCenterToDismiss() {
-            revealer.waitUntilLauncherDisappears();
+            waitUntilLauncherDisappears();
 
             var panel = findChild(launcher, "launcherPanel")
             verify(panel != undefined)
@@ -110,7 +149,7 @@ Item {
             // it starts out hidden just left of the left launcher edge
             compare(panel.x, -panel.width)
 
-            revealer.dragLauncherIntoView()
+            dragLauncherIntoView()
 
             // tapping on the center of the screen should dismiss the launcher
             mouseClick(launcher, launcher.width/2, launcher.height/2)
@@ -124,7 +163,7 @@ Item {
            corresponding desktop file. E.g. clicking on phone icon should yield
            launcherApplicationSelected("[...]dialer-app.desktop") */
         function test_clickingOnAppIconCausesSignalEmission() {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             launcher.lastSelectedApplication = ""
 
             var listView = findChild(launcher, "launcherListView");
@@ -140,7 +179,7 @@ Item {
                        "dialer-app")
 
             // Tapping on an application icon also dismisses the launcher
-            revealer.waitUntilLauncherDisappears()
+            waitUntilLauncherDisappears()
         }
 
         /* If I click on the dash icon on the launcher
@@ -148,7 +187,7 @@ Item {
         function test_clickingOnDashIconCausesSignalEmission() {
             launcher.showDashHome_count = 0
 
-            revealer.dragLauncherIntoView()
+            dragLauncherIntoView()
 
             var dashIcon = findChild(launcher, "dashItem")
             verify(dashIcon != undefined)
@@ -158,7 +197,7 @@ Item {
             tryCompare(launcher, "showDashHome_count", 1)
 
             // Tapping on the dash icon also dismisses the launcher
-            revealer.waitUntilLauncherDisappears()
+            waitUntilLauncherDisappears()
         }
 
         function test_teaseLauncher_data() {
@@ -185,12 +224,12 @@ Item {
                 wait(100)
                 compare(launcher.maxPanelX, -launcher.panelWidth, "Launcher moved even if it shouldn't")
             }
-            revealer.waitUntilLauncherDisappears();
+            waitUntilLauncherDisappears();
             launcher.available = true;
         }
 
         function test_countEmblems() {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
@@ -201,7 +240,7 @@ Item {
         }
 
         function test_progressOverlays() {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
@@ -210,35 +249,49 @@ Item {
         }
 
         function test_focusedHighlight() {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
             }
         }
-    }
-
-    UT.UnityTestCase {
-        id: clickFlickTestCase
-        when: windowShown && testCase.completed
 
         function test_clickFlick_data() {
             var listView = findChild(launcher, "launcherListView");
             return [
-                {tag: "unfolded top", flickSpeed: units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: false},
-                {tag: "folded top", flickSpeed: -units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: true},
-                {tag: "unfolded bottom", flickSpeed: -units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: false},
-                {tag: "folded bottom", flickSpeed: units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: true},
+                {tag: "unfolded top", positionViewAtBeginning: false,
+                                      clickY: listView.topMargin + units.gu(2),
+                                      expectFlick: false},
+
+                {tag: "folded top", positionViewAtBeginning: true,
+                                    clickY: listView.topMargin + units.gu(2),
+                                    expectFlick: true},
+
+                {tag: "unfolded bottom", positionViewAtBeginning: true,
+                                         clickY: listView.height - listView.topMargin - units.gu(1),
+                                         expectFlick: false},
+
+                {tag: "folded bottom", positionViewAtBeginning: false,
+                                       clickY: listView.height - listView.topMargin - units.gu(1),
+                                       expectFlick: true},
             ];
         }
 
         function test_clickFlick(data) {
             launcher.lastSelectedApplication = "";
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var listView = findChild(launcher, "launcherListView");
 
-            listView.flick(0, data.flickSpeed);
+            // flicking is unreliable. sometimes it works, sometimes the
+            // list view moves just a tiny bit or not at all, making tests fail.
+            // So for stability's sake we just put the listView in the position
+            // we want to to actually start doing what this tests intends to check.
+            if (data.positionViewAtBeginning) {
+                listView.positionViewAtBeginning();
+            } else {
+                listView.positionViewAtEnd();
+            }
             tryCompare(listView, "flicking", false);
 
             var oldY = listView.contentY;
@@ -253,44 +306,7 @@ Item {
                 verify(launcher.lastSelectedApplication != "");
                 compare(listView.contentY, oldY, "Launcher was flicked even though it should only launch an app");
             }
-
-            // Restore position on top
-            listView.flick(0, units.gu(200));
-            tryCompare(listView, "flicking", false)
-            // Click somewhere in the empty space to make it hide in case it isn't
-            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            revealer.waitUntilLauncherDisappears();
         }
-    }
-
-    UT.UnityTestCase {
-        id: initTestCase
-        name: "LauncherInit"
-        when: windowShown
-
-        function initTestCase() {
-            var listView = findChild(launcher, "launcherListView");
-            tryCompare(listView, "flicking", false)
-        }
-
-        function test_initFirstUnfolded() {
-
-            // Make sure noone changed the height of the window. The issue this test case
-            // is verifying only happens on certain heights of the Launcher
-            compare(root.height, units.gu(55));
-
-            var listView = findChild(launcher, "launcherListView");
-            compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
-
-            // Now do check that snapping is in fact enabled
-            compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
-        }
-    }
-
-    UT.UnityTestCase {
-        id: dndTestCase
-        name: "Drag and Drop"
-        when: windowShown && initTestCase.completed
 
         function test_dragndrop_data() {
             return [
@@ -301,7 +317,7 @@ Item {
         }
 
         function test_dragndrop(data) {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var draggedItem = findChild(launcher, "launcherDelegate4")
             var item0 = findChild(launcher, "launcherDelegate0")
             var fakeDragItem = findChild(launcher, "fakeDragItem")
@@ -366,11 +382,11 @@ Item {
 
             // Click somewhere in the empty space to make it hide in case it isn't
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            revealer.waitUntilLauncherDisappears();
+            waitUntilLauncherDisappears();
         }
 
         function test_quicklist_dismiss() {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var draggedItem = findChild(launcher, "launcherDelegate5")
             var item0 = findChild(launcher, "launcherDelegate0")
             var fakeDragItem = findChild(launcher, "fakeDragItem")
@@ -402,9 +418,9 @@ Item {
 
         function test_quicklist_positioning(data) {
             revealer.dragLauncherIntoView();
-            var quickList = findChild(launcher, "quickList");
-            var draggedItem = findChild(launcher, "launcherDelegate" + data.itemIndex);
-            var quickListShape = findChild(launcher, "quickListShape");
+            var quickList = findChild(launcher, "quickList")
+            var draggedItem = findChild(launcher, "launcherDelegate" + data.itemIndex)
+            var quickListShape = findChild(launcher, "quickListShape")
 
             // Position launcher to where we need it
             var listView = findChild(launcher, "launcherListView");
@@ -439,7 +455,7 @@ Item {
         }
 
         function test_quicklist_click(data) {
-            revealer.dragLauncherIntoView();
+            dragLauncherIntoView();
             var clickedItem = findChild(launcher, "launcherDelegate5")
             var quickList = findChild(launcher, "quickList")
             var quickListShape = findChild(launcher, "quickListShape")
