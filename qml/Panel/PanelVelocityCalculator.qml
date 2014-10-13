@@ -32,16 +32,20 @@ Item {
     }
 
     function update() {
+        var previouslyStopped = stopLateralChanges;
+
         calc.trackedPosition = trackedValue;
         stopLateralChanges = Math.abs(calc.calculate()) > velocityThreshold;
-    }
 
-    onTrackedValueChanged: {
-        update(); // initial calculation
-        if (root.stopLateralChanges) { // only start timer if we're above the threshold.
+        if (stopLateralChanges) { // only start timer if we're above the threshold.
             velocityTimer.start();
+        } else if (previouslyStopped) { // if we have previously been stopped, then trigger the signal
+            velocityTimer.stop();
+            velocityThresholdTriggered();
         }
     }
+
+    onTrackedValueChanged: update();
 
     AxisVelocityCalculator {
         id: calc
@@ -50,13 +54,6 @@ Item {
     Timer {
         id: velocityTimer
         interval: 50
-        onTriggered: {
-            update();
-            if (root.stopLateralChanges) {
-                velocityTimer.start();
-            } else {
-                velocityThresholdTriggered();
-            }
-        }
+        onTriggered: update();
     }
 }
