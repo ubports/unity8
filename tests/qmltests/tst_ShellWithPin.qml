@@ -119,10 +119,9 @@ Row {
         function init() {
             sessionSpy.target = findChild(shell, "greeter")
             swipeAwayGreeter()
+            waitForLockscreen()
             shell.failedLoginsDelayAttempts = -1
             maxRetriesTextField.text = "-1"
-            AccountsService.enableLauncherWhileLocked = true
-            AccountsService.enableIndicatorsWhileLocked = true
         }
 
         function cleanup() {
@@ -142,6 +141,10 @@ Row {
 
             // kill all (fake) running apps
             killApps()
+
+            AccountsService.enableLauncherWhileLocked = true
+            AccountsService.enableIndicatorsWhileLocked = true
+            AccountsService.demoEdges = false
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
@@ -169,8 +172,9 @@ Row {
 
             // wait until the animation has finished
             tryCompare(greeter, "showProgress", 0);
+        }
 
-            // and for pin to be ready
+        function waitForLockscreen() {
             var lockscreen = findChild(shell, "lockscreen");
             var pinPadLoader = findChild(lockscreen, "pinPadLoader");
             tryCompare(pinPadLoader, "status", Loader.Ready)
@@ -191,6 +195,25 @@ Row {
             tryCompare(sessionSpy, "count", 0)
             enterPin("1234")
             tryCompare(sessionSpy, "count", 1)
+        }
+
+        function test_edgeDemoHidesLockscreen() {
+            LightDM.Greeter.showGreeter()
+            sessionSpy.clear()
+            var lockscreen = findChild(shell, "lockscreen")
+
+            tryCompare(lockscreen, "shown", true)
+            AccountsService.demoEdges = true
+            tryCompare(lockscreen, "shown", false)
+
+            swipeAwayGreeter()
+            tryCompare(sessionSpy, "count", 1)
+
+            // Lockscreen is only hidden by the edge demo, so if we turn that
+            // off and show greeter again, lockscreen should appear
+            AccountsService.demoEdges = false
+            LightDM.Greeter.showGreeter()
+            tryCompare(lockscreen, "shown", true)
         }
 
         function test_disabledEdges() {
