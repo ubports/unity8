@@ -52,7 +52,7 @@ QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& bus,
         QMutableHashIterator<QByteArray, QWeakPointer<UnityMenuModel>> iter(m_registry);
         while(iter.hasNext()) {
             auto keyVal = iter.next();
-            if (keyVal.value().toStrongRef().isNull()) {
+            if (keyVal.value().isNull()) {
                 iter.remove();
             }
         }
