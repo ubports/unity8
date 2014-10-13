@@ -54,6 +54,7 @@ QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& bus,
             auto keyVal = iter.next();
             if (keyVal.value().isNull()) {
                 iter.remove();
+                break;
             }
         }
     });
