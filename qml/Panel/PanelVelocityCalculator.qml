@@ -26,32 +26,32 @@ Item {
     signal velocityThresholdTriggered
 
     function reset() {
+        velocityTimer.stop();
         stopLateralChanges = false;
         calc.reset();
     }
 
-    function calculate() {
+    function update() {
+        calc.trackedPosition = trackedValue;
         stopLateralChanges = Math.abs(calc.calculate()) > velocityThreshold;
     }
 
     onTrackedValueChanged: {
-        calc.trackedPosition = trackedValue;
-        velocityTimer.start();
+        update(); // initial calculation
+        if (root.stopLateralChanges) { // only start timer if we're above the threshold.
+            velocityTimer.start();
+        }
     }
 
     AxisVelocityCalculator {
         id: calc
-        onTrackedPositionChanged: calculate();
     }
 
     Timer {
         id: velocityTimer
         interval: 50
         onTriggered: {
-            var recalculate = calc.trackedPosition == trackedValue;
-            calc.trackedPosition = trackedValue;
-            if (recalculate) calculate();
-
+            update();
             if (root.stopLateralChanges) {
                 velocityTimer.start();
             } else {
