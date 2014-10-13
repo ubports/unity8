@@ -171,6 +171,7 @@ void LauncherModel::requestRemove(const QString &appId)
         m_list.at(index)->setPinned(false);
         QModelIndex modelIndex = this->index(index);
         Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+        storeAppList();
         return;
     }
 
@@ -350,6 +351,7 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
 
 void LauncherModel::refresh()
 {
+    qDebug() << "calling refresh";
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
@@ -368,8 +370,18 @@ void LauncherModel::refresh()
         }
     }
 
+    // If running, just unpin, otherwise really remove
     Q_FOREACH (LauncherItem* item, toBeRemoved) {
-        requestRemove(item->appId());
+        int index = m_list.indexOf(item);
+        if (m_appManager->findApplication(item->appId())) {
+            item->setPinned(false);
+            QModelIndex modelIndex = this->index(index);
+            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+        } else {
+            beginRemoveRows(QModelIndex(), index, index);
+            m_list.takeAt(index)->deleteLater();
+            endRemoveRows();
+        }
     }
 
     // This brings the Launcher into sync with the settings backend again. There's an issue though:

@@ -442,14 +442,14 @@ private Q_SLOTS:
         QCOMPARE(settings->storedApplications().count(), 2);
 
         // Now remove 1 app through the backend, make sure one is still there
-        settings->setStoredApplications(QStringList() << "abs-icon");
+        settings->simulateDConfChanged(QStringList() << "abs-icon");
         QCOMPARE(settings->storedApplications().count(), 1);
 
         // Check if it disappeared from the frontend too
         QCOMPARE(launcherModel->rowCount(), 1);
 
         // Add them back but in reverse order
-        settings->setStoredApplications(QStringList() << "no-icon" << "abs-icon");
+        settings->simulateDConfChanged(QStringList() << "no-icon" << "abs-icon");
         QCOMPARE(launcherModel->rowCount(), 2);
         QCOMPARE(launcherModel->get(0)->appId(), QString("no-icon"));
         QCOMPARE(launcherModel->get(1)->appId(), QString("abs-icon"));
