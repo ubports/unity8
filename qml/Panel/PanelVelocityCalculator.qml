@@ -20,28 +20,25 @@ import Ubuntu.Gestures 0.1
 Item {
     id: root
     property real trackedValue: 0
-    property bool stopLateralChanges: false
+    property bool velocityAboveThreshold: false
     property real velocityThreshold: 0.4
-
-    signal velocityThresholdTriggered
 
     function reset() {
         velocityTimer.stop();
-        stopLateralChanges = false;
+        velocityAboveThreshold = false;
         calc.reset();
     }
 
     function update() {
-        var previouslyStopped = stopLateralChanges;
+        var previouslyStopped = velocityAboveThreshold;
 
         calc.trackedPosition = trackedValue;
-        stopLateralChanges = Math.abs(calc.calculate()) > velocityThreshold;
+        velocityAboveThreshold = Math.abs(calc.calculate()) > velocityThreshold;
 
-        if (stopLateralChanges) { // only start timer if we're above the threshold.
+        if (velocityAboveThreshold) { // only start timer if we're above the threshold.
             velocityTimer.start();
         } else if (previouslyStopped) { // if we have previously been stopped, then trigger the signal
             velocityTimer.stop();
-            velocityThresholdTriggered();
         }
     }
 

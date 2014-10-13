@@ -35,11 +35,15 @@ Item {
 
     property real lateralPosition: -1
     onLateralPositionChanged: {
-        if (currentItem && !enableLateralChanges) return;
-        updateItemFromLateralPosition(lateralPosition);
+        updateItemFromLateralPosition();
     }
 
-    function updateItemFromLateralPosition(lateralPosition) {
+    onEnableLateralChangesChanged: {
+        updateItemFromLateralPosition();
+    }
+
+    function updateItemFromLateralPosition() {
+        if (currentItem && !enableLateralChanges) return;
         if (lateralPosition === -1) return;
 
         if (!currentItem) {

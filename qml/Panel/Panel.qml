@@ -18,7 +18,6 @@ import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components"
-import "../Components/ListItems"
 import ".."
 
 Item {
@@ -92,16 +91,13 @@ Item {
             saturation: 1 - indicators.unitProgress
         }
 
-        VerticalThinDivider {
-            id: indicatorDividor
+        Image {
             anchors {
                 top: indicators.top
                 bottom: indicators.bottom
                 right: indicators.left
-
                 topMargin: indicatorArea.anchors.topMargin + indicators.minimizedPanelHeight
             }
-
             width: units.dp(2)
             source: "graphics/VerticalDivider.png"
         }

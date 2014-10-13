@@ -36,13 +36,6 @@ Item {
         row.selectItemAt(mapped.x);
     }
 
-    function updateItemFromLateralPosition(position) {
-        if (position === -1) return;
-
-        var mapped = root.mapToItem(row, position, 0);
-        row.updateItemFromLateralPosition(mapped.x);
-    }
-
     function setCurrentItemIndex(index) {
         if (!expanded) {
             row.resetCurrentItem();

@@ -200,8 +200,6 @@ Showable {
         id: yVelocityCalculator
         velocityThreshold: 0.5
         trackedValue: d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
-
-        onVelocityThresholdTriggered: bar.updateItemFromLateralPosition(bar.lateralPosition);
     }
 
     Connections {
@@ -256,7 +254,6 @@ Showable {
 
         property real rowMappedLateralPosition: {
             if (!d.activeDragHandle) return -1;
-            if (!d.activeDragHandle.dragging) return -1;
             return d.activeDragHandle.mapToItem(bar, d.activeDragHandle.touchX, 0).x;
         }
     }
@@ -280,20 +277,14 @@ Showable {
                 // changes to lateral touch position effect which indicator is selected
                 lateralPosition: d.rowMappedLateralPosition
                 // vertical velocity determines if changes in lateral position has an effect
-                enableLateralChanges: {
-                    if (!d.activeDragHandle) return false;
-                    if (!d.activeDragHandle.dragging) return false;
-
-                    return !yVelocityCalculator.stopLateralChanges;
-                }
+                enableLateralChanges: d.activeDragHandle &&
+                                      !yVelocityCalculator.velocityAboveThreshold
             }
             // left scroll bar handling
             PropertyChanges {
                 target: leftScroller
                 lateralPosition: {
                     if (!d.activeDragHandle) return -1;
-                    if (!d.activeDragHandle.dragging) return -1;
-
                     var mapped = d.activeDragHandle.mapToItem(leftScroller, d.activeDragHandle.touchX, 0);
                     return mapped.x;
                 }
@@ -303,8 +294,6 @@ Showable {
                 target: rightScroller
                 lateralPosition: {
                     if (!d.activeDragHandle) return -1;
-                    if (!d.activeDragHandle.dragging) return -1;
-
                     var mapped = d.activeDragHandle.mapToItem(rightScroller, d.activeDragHandle.touchX, 0);
                     return mapped.x;
                 }
