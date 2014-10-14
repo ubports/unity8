@@ -21,14 +21,14 @@
 #ifndef UBUNTUGESTURES_TIMESOURCE_H
 #define UBUNTUGESTURES_TIMESOURCE_H
 
-#include "UbuntuGesturesGlobal.h"
+#include "UbuntuGesturesQmlGlobal.h"
 #include <QSharedPointer>
 
 namespace UbuntuGestures {
 /*
     Interface for a time source.
  */
-class UBUNTUGESTURES_EXPORT TimeSource {
+class UBUNTUGESTURESQML_EXPORT TimeSource {
 public:
     virtual ~TimeSource() {}
     /* Returns the current time in milliseconds since some reference time in the past. */

@@ -17,14 +17,14 @@
 #ifndef DIRECTION_H
 #define DIRECTION_H
 
-#include "UbuntuGesturesGlobal.h"
+#include "UbuntuGesturesQmlGlobal.h"
 #include <QObject>
 
 /*
     A Direction enum wrapper so that we can do things like "direction: Direction.Righwards"
     from QML.
  */
-class UBUNTUGESTURES_EXPORT Direction : public QObject {
+class UBUNTUGESTURESQML_EXPORT Direction : public QObject {
     Q_OBJECT
     Q_ENUMS(Type)
 

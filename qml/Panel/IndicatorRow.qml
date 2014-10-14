@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import "../Components"
+import "../Components/Flickables" as Flickables
 
 Item {
     id: indicatorRow
@@ -60,7 +61,7 @@ Item {
         }
     }
 
-    ListView {
+    Flickables.ListView {
         id: itemView
         objectName: "indicatorRowItems"
         interactive: false

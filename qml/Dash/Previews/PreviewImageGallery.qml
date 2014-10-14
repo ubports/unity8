@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
 import "../../Components"
+import "../../Components/Flickables" as Flickables
 
 /*! This preview widget shows a horizontal list of images.
  *  The URIs for the images should be an array in widgetData["sources"].
@@ -28,7 +29,7 @@ PreviewWidget {
 
     property Item rootItem: QuickUtils.rootItem(root)
 
-    ListView {
+    Flickables.ListView {
         id: previewImageListView
         objectName: "previewImageListView"
         spacing: units.gu(1)
@@ -102,7 +103,7 @@ PreviewWidget {
             UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
         }
 
-        ListView  {
+        Flickables.ListView {
             id: slideShowListView
             objectName: "slideShowListView"
             anchors.fill: parent
