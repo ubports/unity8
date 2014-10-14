@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.1
+import Ubuntu.Gestures 0.1 // For TouchGate
 
 Item {
     id: root
@@ -23,21 +24,51 @@ Item {
     property Item surface: null
     property bool hadSurface: false
     property int orientation
+    property bool interactive
 
     onSurfaceChanged: {
         if (surface) {
             surface.parent = root;
+            d.forceSurfaceActiveFocusIfReady();
         } else {
             hadSurface = true;
         }
     }
-    Binding {
-        target: surface
-        property: "anchors.fill"; value: root
+    Binding { target: surface; property: "anchors.fill"; value: root }
+    Binding { target: surface; property: "orientation"; value: root.orientation }
+    Binding { target: surface; property: "z"; value: 1 }
+    Binding { target: surface; property: "enabled"; value: root.interactive; when: surface }
+    Binding { target: surface; property: "focus"; value: root.interactive; when: surface }
+
+    TouchGate {
+        targetItem: surface
+        anchors.fill: root
+        enabled: root.surface ? root.surface.enabled : false
+        z: 2
     }
-    Binding {
-        target: surface
-        property: "orientation"; value: root.orientation
+
+    Connections {
+        target: root.surface
+        // FIXME: I would rather not need to do this, but currently it doesn't get
+        // active focus without it and I don't know why.
+        // Possibly because if an item get focus=true before it has a parent, once
+        // it gets a parent QQuickWindow won't check its focus and update its activeFocus
+        // accordingly. Unlike when you focus=true after the item already has a parent.
+        onFocusChanged: d.forceSurfaceActiveFocusIfReady();
+        onParentChanged: d.forceSurfaceActiveFocusIfReady();
+        onEnabledChanged: d.forceSurfaceActiveFocusIfReady();
+    }
+
+    QtObject {
+        id: d
+        function forceSurfaceActiveFocusIfReady() {
+            if (root.surface !== null &&
+                    root.surface.focus &&
+                    root.surface.parent === root &&
+                    root.surface.enabled) {
+                root.surface.forceActiveFocus();
+            }
+        }
     }
 
     states: [

@@ -63,7 +63,7 @@ PreviewWidget {
         lineHeight: 1.2
         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
         opacity: .8
-        text: widgetData["text"]
+        text: widgetData["text"] || ""
         wrapMode: Text.Wrap
 
         Behavior on height {

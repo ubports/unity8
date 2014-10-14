@@ -21,6 +21,7 @@ import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
 import "../Components/"
+import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -45,6 +46,7 @@ Rectangle {
         }
 
         Rectangle {
+            objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
             color: UbuntuColors.orange
@@ -74,7 +76,7 @@ Rectangle {
                 anchors.fill: parent
                 clip: true
 
-                ListView {
+                Flickables.ListView {
                     id: launcherListView
                     objectName: "launcherListView"
                     anchors {

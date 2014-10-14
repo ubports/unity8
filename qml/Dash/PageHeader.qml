@@ -21,6 +21,7 @@ import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import "../Components"
 import "../Components/SearchHistoryModel"
+import "../Components/Flickables" as Flickables
 
 Item {
     id: root
@@ -130,7 +131,7 @@ Item {
         }
     }
 
-    Flickable {
+    Flickables.Flickable {
         id: headerContainer
         objectName: "headerContainer"
         clip: contentY < height

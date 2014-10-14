@@ -87,7 +87,7 @@ Item {
 
         function test_teasingArea(data) {
             teaseSpy.clear()
-            mouseClick(greeter, data.posX, greeter.height - units.gu(1))
+            tap(greeter, data.posX, greeter.height - units.gu(1))
             teaseSpy.wait()
             tryCompare(teaseSpy, "count", 1)
         }

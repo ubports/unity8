@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, 2013 Canonical, Ltd.
+ * Copyright (C) 2012, 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,11 +19,19 @@
 
 #include <qpa/qwindowsysteminterface.h>
 #include <QtGui/QGuiApplication>
+#include <QQuickView>
+
+// UbuntuGestures lib
+#include <TouchRegistry.h>
+#include <Timer.h>
+
+using namespace UbuntuGestures;
 
 TestUtil::TestUtil(QObject *parent)
     : QObject(parent)
     , m_targetWindow(0)
     , m_touchDevice(0)
+    , m_installedTouchRegistry(false)
 {
 }
 
@@ -52,6 +60,7 @@ TouchEventSequenceWrapper *TestUtil::touchEvent()
 {
     ensureTargetWindow();
     ensureTouchDevice();
+    ensureTouchRegistryInstalled();
 
     return new TouchEventSequenceWrapper(
             QTest::touchEvent(m_targetWindow, m_touchDevice, /* autoCommit */ false));
@@ -59,7 +68,7 @@ TouchEventSequenceWrapper *TestUtil::touchEvent()
 
 void TestUtil::ensureTargetWindow()
 {
-    if (!m_targetWindow)
+    if (!m_targetWindow && !QGuiApplication::topLevelWindows().isEmpty())
         m_targetWindow = QGuiApplication::topLevelWindows()[0];
 }
 
@@ -69,5 +78,35 @@ void TestUtil::ensureTouchDevice()
         m_touchDevice = new QTouchDevice;
         m_touchDevice->setType(QTouchDevice::TouchScreen);
         QWindowSystemInterface::registerTouchDevice(m_touchDevice);
+    }
+}
+
+void TestUtil::ensureTouchRegistryInstalled()
+{
+    if (m_installedTouchRegistry)
+        return;
+
+    TouchRegistry *touchRegistry;
+    if (TouchRegistry::instance() == nullptr) {
+        // Tests can be *very* slow to run and we don't want things timing out because
+        // of that. So give it fake timers to use (they will never time out)
+        touchRegistry = new TouchRegistry(this, new FakeTimerFactory);
+    } else {
+        touchRegistry = TouchRegistry::instance();
+        if (touchRegistry->parent() != this) {
+            // someone else created it. leave it alone
+            m_installedTouchRegistry = true;
+        }
+    }
+
+    ensureTargetWindow();
+
+    if (m_targetWindow) {
+        QQuickView *view = qobject_cast<QQuickView*>(m_targetWindow);
+        if (view) {
+            view->installEventFilter(touchRegistry);
+            touchRegistry->setParent(view);
+            m_installedTouchRegistry = true;
+        }
     }
 }
