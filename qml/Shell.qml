@@ -642,9 +642,9 @@ Item {
             model: NotificationBackend.Model
             margin: units.gu(1)
 
-            y: panel.panelHeight + margin
+            y: panel.panelHeight
             width: parent.width
-            height: parent.height - panel.panelHeight - margin
+            height: parent.height - panel.panelHeight
 
             states: [
                 State {
