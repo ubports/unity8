@@ -14,8 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import "../Components/Flickables" as Flickables
+import QtQuick 2.3 as QtQuick
+import Ubuntu.Components 1.1
 
-Flickables.ListViewWithPageHeader {
-    cacheBuffer: Number.MAX_VALUE
+QtQuick.Flickable {
+    flickDeceleration: 1500 * units.gridUnit / 8
+    maximumFlickVelocity: 2500 * units.gridUnit / 8
 }

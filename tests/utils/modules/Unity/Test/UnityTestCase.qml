@@ -321,7 +321,16 @@ TestCase {
         event.commit()
     }
 
+    /*! \brief Tap the item with a touch event.
+
+      \param item The item to be tapped
+      \param x The x coordinate of the tap, defaults to horizontal center
+      \param y The y coordinate of the tap, defaults to vertical center
+     */
     function tap(item, x, y) {
+        if (typeof x !== "number") x = item.width / 2;
+        if (typeof y !== "number") y = item.height / 2;
+
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
