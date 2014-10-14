@@ -22,6 +22,7 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import QMenuModel 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import "../../../Components/Flickables" as Flickables
 
 Page {
     id: page
@@ -52,7 +53,7 @@ Page {
         model: unityModel
     }
 
-    Flickable {
+    Flickables.Flickable {
         anchors.fill: parent
         contentHeight: all_data.height
         clip:true

@@ -1,3 +1,87 @@
+unity8 (8.00+14.10.20141013.2-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Don't show initial lockscreen during the edge demo. The user just
+    set up their phone with a password, it's pointless to ask them
+    again. (LP: #1358283)
+  * Distinguish between incoming calls and other dialer-app opens. (LP:
+    #1378218) (LP: #1378218)
+
+  [ Andrea Cimitan ]
+  * Fix flickable speed to be resolution independent, by subclassing
+    components (LP: #1348557)
+
+  [ Michał Sawicz ]
+  * Fix the ShellWithPin test and some functionality.
+
+  [ Albert Astals ]
+  * Move Base.qml to DashCategoryBase
+  * Fix first item positioning when m_clipItem->y() is not 0 (LP:
+    #1251597)
+  * Fix some small qml warnings
+
+  [ Daniel d'Andrada ]
+  * Add touch ownership logic on top of qt input handling
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 13 Oct 2014 15:43:03 +0000
+
+unity8 (8.00+14.10.20141009.4-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Rename datetime indicator in test
+
+  [ Albert Astals ]
+  * Close overview temp scope on show dash (LP: #1373819)
+  * Enable QT_STRICT_ITERATORS
+  * Make Base not clickable, since we don't use it in anywhere clickable
+    (we only use it for Category delegates in the LVWPH) (LP: #1300709)
+  * Hide preview if it was visible when going to a scope (LP: #1374548)
+  * Remove contentScale variable
+
+  [ Andrea Cimitan ]
+  * Fix card implicitHeight when summary is declared, but its text is
+    empty. Also fixes vertical journal height and clipping (LP:
+    #1362160)
+  * Redesign for pinned apps. Remove thindivider on top of ubuntu dash
+    button (not needed anymore) (LP: #1377100)
+
+  [ Ying-Chun Liu ]
+  * Fix run_on_device.sh to let it run again.
+
+  [ Nick Dedekind ]
+  * Fixed indicator menu bindings to server toggle value broken by user
+    interaction. (LP: #1336715)
+  * Force rendering so we don't get stuck in "waitForRendering" loop in
+    tests.
+
+  [ Daniel d'Andrada ]
+  * PhoneStage: focus the new topmost app after the current one closes
+    itself (LP: #1375267)
+
+  [ Michael Terry ]
+  * Fix some security issues with the tablet greeter, which allowed the
+    lockscreen to be bypassed. (LP: #1367715) (LP: #1367715)
+
+  [ Michael Zanetti ]
+  * scale down errorText label if necessary (LP: #1378848)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 09 Oct 2014 14:05:54 +0000
+
+unity8 (8.00+14.10.20141008-0ubuntu1) utopic; urgency=low
+
+  [ Michael Zanetti ]
+  * Dual SIM pin unlocking. Hook up the UI to the backend. (LP:
+    #1267135)
+
+  [ Antti Kaijanmäki ]
+  * Dual SIM pin unlocking. Hook up the UI to the backend. (LP:
+    #1267135)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 08 Oct 2014 09:41:32 +0000
+
 unity8 (8.00+14.10.20141006-0ubuntu1) utopic; urgency=low
 
   [ Andrea Cimitan ]

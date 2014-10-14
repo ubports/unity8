@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-03 08:13-0400\n"
-"PO-Revision-Date: 2014-10-05 08:44+0000\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-09 10:49+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-07 06:59+0000\n"
+"X-Launchpad-Export-Date: 2014-10-10 05:23+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: is\n"
 
@@ -36,7 +36,7 @@ msgstr "Losa flýtilykil"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Tæki læst"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
@@ -50,8 +50,8 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bíddu í %1 mínútu og reyndu svo aftur"
+msgstr[1] "Bíddu í %1 mínútur og reyndu svo aftur"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -160,23 +160,23 @@ msgstr ""
 "Þú ert núna með æfingu í að nota skjáhreyfingar og getur því farið að nota "
 "símann<br><br>Sláðu létt á skjáinn til að byrja"
 
-#: qml/Components/Lockscreen.qml:218
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Neyðarsímtal"
 
-#: qml/Components/Lockscreen.qml:250
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Í lagi"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Sjá minna"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Sjá allt"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Leita"
@@ -219,7 +219,7 @@ msgstr ""
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "Slepptu til að endurlesa..."
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -243,7 +243,7 @@ msgstr "Allt"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Aflæsa"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -265,17 +265,9 @@ msgstr "Tala núna..."
 msgid "Speaking..."
 msgstr "Tala..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Birta lykilorð"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "Settu inn PIN-númer SIM-kortsins"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "Því miður, rangt PIN-númer"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -321,49 +313,49 @@ msgstr "Aflæsa SIM-korti"
 msgid "Roaming"
 msgstr "Ráphamur"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
 msgstr ""
 
-#: qml/Shell.qml:341
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Því miður, rangt lykilorð"
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
-msgstr ""
+msgstr "Settu aftur inn"
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
 msgstr ""
 
-#: qml/Shell.qml:345
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "Því miður, rangur aðgangskóði"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Settu inn %1"
 
-#: qml/Shell.qml:349
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Því miður, rangt %1"
 
-#: qml/Shell.qml:384
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Því miður, rangt lykilorð."
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Því miður, rangur aðgangskóði."
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Þetta mun verða síðasta tilraunin þín."
 
-#: qml/Shell.qml:388
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -371,7 +363,7 @@ msgstr ""
 "Ef lykilorð er rangt, mun síminn frumstilla allt á verksmiðjustillingar og "
 "öllum einkagögnum verður eytt."
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -379,28 +371,8 @@ msgstr ""
 "Ef aðgangskóði er rangur, mun síminn frumstilla allt á verksmiðjustillingar "
 "og öllum einkagögnum verður eytt."
 
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "Hæ %1"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Því miður, rangt PIN-númer"
 
-#~ msgid "Hello"
-#~ msgstr "Hæ"
-
-#~ msgid "Swipe to unlock"
-#~ msgstr "Strjúka til að aflæsa"
-
-#~ msgid "Please wait"
-#~ msgstr "Bíddu aðeins"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "Of margar rangar tilraunir"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "Sláðu inn lykilorðið þitt"
-
-#~ msgid "Enter your passcode"
-#~ msgstr "Settu inn aðgangskóðann þinn"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "Settu inn %1"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Settu inn PIN-númer SIM-kortsins"

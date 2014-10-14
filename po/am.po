@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-03 08:13-0400\n"
-"PO-Revision-Date: 2014-10-04 15:36+0000\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-08 00:48+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2014-10-07 06:58+0000\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -155,23 +155,23 @@ msgid ""
 msgstr ""
 "አሁን የ ጠርዝ  እንቅስቃሴን አውቀዋል እና መጀመር ይችላሉ ስልኩን መጠቀም <br><br>መመልከቻውን መታ ያድርጉ ለመጀመር"
 
-#: qml/Components/Lockscreen.qml:218
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "የ ድንገተኛ ጥሪ"
 
-#: qml/Components/Lockscreen.qml:250
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "እሺ"
 
-#: qml/Dash/GenericScopeView.qml:411 qml/Dash/GenericScopeView.qml:568
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "አነስተኛ መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:411
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "ሁሉንም መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:473 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "መፈለጊያ"
@@ -210,11 +210,11 @@ msgstr "መላኪያ"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "ይሳቡ ለማነቃቃት…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "ይልቀቁ ለማነቃቃት…"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -260,17 +260,9 @@ msgstr "አሁን ይናገሩ..."
 msgid "Speaking..."
 msgstr "በመናገር ላይ..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:108
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "የመግቢያ ቃል ማሳያ"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:124
-msgid "Enter SIM PIN"
-msgstr "ሲም ፒን ያስገቡ"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:125
-msgid "Sorry, incorrect PIN"
-msgstr "አዝናለሁ የተሳሳተ ፒን"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -316,49 +308,49 @@ msgstr "ሲም መክፈቻ"
 msgid "Roaming"
 msgstr "ማዘዋወሪያ"
 
-#: qml/Shell.qml:340
+#: qml/Shell.qml:346
 msgid "Enter passphrase"
 msgstr "የ ማለፊያ ሀረግ ያስገቡ"
 
-#: qml/Shell.qml:341
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:342
+#: qml/Shell.qml:348
 msgid "Please re-enter"
 msgstr "እባክዎን እንደገና-ያስገቡ"
 
-#: qml/Shell.qml:344
+#: qml/Shell.qml:350
 msgid "Enter passcode"
 msgstr "የ ማለፊያ ኮድ ያስገቡ"
 
-#: qml/Shell.qml:345
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
 msgstr "ማስገቢያ %1"
 
-#: qml/Shell.qml:349
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "አዝናለሁ: የተሳሳተ%1"
 
-#: qml/Shell.qml:384
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "ይህ የመጨረሻ ሙከራዎ ነው"
 
-#: qml/Shell.qml:388
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -366,7 +358,7 @@ msgstr ""
 "የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -374,28 +366,8 @@ msgstr ""
 "የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
 
-#, qt-format
-#~ msgid "Hello %1"
-#~ msgstr "ሰላም %1"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "አዝናለሁ የተሳሳተ ፒን"
 
-#~ msgid "Hello"
-#~ msgstr "ሰላም"
-
-#~ msgid "Swipe to unlock"
-#~ msgstr "ለመክፈት ይጥረጉ"
-
-#~ msgid "Please wait"
-#~ msgstr "እባክዎን ይቆዩ"
-
-#~ msgid "Too many incorrect attempts"
-#~ msgstr "በርካታ የተሳሳቱ ሙከራዎች"
-
-#, qt-format
-#~ msgid "Enter your %1"
-#~ msgstr "ያስገቡ የ እርስዎን %1"
-
-#~ msgid "Enter your passphrase"
-#~ msgstr "የማለፊያ ሐረግ ያስገቡ"
-
-#~ msgid "Enter your passcode"
-#~ msgstr "የ እርስዎን የማለፊያ ኮድ ያስገቡ"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "ሲም ፒን ያስገቡ"

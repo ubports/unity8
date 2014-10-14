@@ -20,6 +20,7 @@ import Ubuntu.Components 1.1
 import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 import "../Components"
+import "../Components/Flickables" as Flickables
 import "Indicators"
 
 Rectangle {
@@ -39,7 +40,7 @@ Rectangle {
         listViewHeader.currentIndex = index;
     }
 
-    ListView {
+    Flickables.ListView {
         id: listViewHeader
         objectName: "indicatorsHeaderListView"
         model: content.indicatorsModel
@@ -80,7 +81,7 @@ Rectangle {
         }
     }
 
-    ListView {
+    Flickables.ListView {
         id: listViewContent
         objectName: "indicatorsContentListView"
         anchors {
