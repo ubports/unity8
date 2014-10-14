@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,64 +14,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define ACTIVETOUCHESINFO_DEBUG 0
+#define DIRECTIONALDRAGAREA_DEBUG 0
+
 #include "DirectionalDragArea.h"
 
+#include <QQuickWindow>
 #include <QtCore/qmath.h>
-#include <QtCore/QTimer>
 #include <QDebug>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-pedantic"
+#include <private/qquickwindow_p.h>
+#pragma GCC diagnostic pop
+
+// local
+#include "TouchOwnershipEvent.h"
+#include "TouchRegistry.h"
+#include "UnownedTouchEvent.h"
 
 using namespace UbuntuGestures;
 
-#define DIRECTIONALDRAGAREA_DEBUG 0
-
 #if DIRECTIONALDRAGAREA_DEBUG
 #define DDA_DEBUG(msg) qDebug("[DDA] " msg)
+#include "DebugHelpers.h"
+
 namespace {
-QString touchPointStateToString(Qt::TouchPointState state) {
-    switch (state) {
-    case Qt::TouchPointPressed:
-        return QString("pressed");
-    case Qt::TouchPointMoved:
-        return QString("moved");
-    case Qt::TouchPointStationary:
-        return QString("stationary");
-    default: // Qt::TouchPointReleased:
-        return QString("released");
-    }
-}
-QString touchEventToString(QTouchEvent *ev)
-{
-    QString message;
-
-    switch (ev->type()) {
-    case QEvent::TouchBegin:
-        message.append("TouchBegin ");
-        break;
-    case QEvent::TouchUpdate:
-        message.append("TouchUpdate ");
-        break;
-    case QEvent::TouchEnd:
-        message.append("TouchEnd ");
-        break;
-    default: //QEvent::TouchCancel
-        message.append("TouchCancel ");
-    }
-
-    for (int i=0; i < ev->touchPoints().size(); ++i) {
-
-        const QTouchEvent::TouchPoint& touchPoint = ev->touchPoints().at(i);
-        message.append(
-            QString("(id:%1, state:%2, scenePos:(%3,%4)) ")
-                .arg(touchPoint.id())
-                .arg(touchPointStateToString(touchPoint.state()))
-                .arg(touchPoint.scenePos().x())
-                .arg(touchPoint.scenePos().y())
-            );
-    }
-
-    return message;
-}
-
 const char *statusToString(DirectionalDragArea::Status status)
 {
     if (status == DirectionalDragArea::WaitingForTouch) {
@@ -88,23 +56,6 @@ const char *statusToString(DirectionalDragArea::Status status)
 #define DDA_DEBUG(msg) do{}while(0)
 #endif // DIRECTIONALDRAGAREA_DEBUG
 
-// Essentially a QTimer wrapper
-class RecognitionTimer : public UbuntuGestures::AbstractTimer
-{
-    Q_OBJECT
-public:
-    RecognitionTimer(QObject *parent) : UbuntuGestures::AbstractTimer(parent) {
-        m_timer.setSingleShot(false);
-        connect(&m_timer, &QTimer::timeout,
-                this, &UbuntuGestures::AbstractTimer::timeout);
-    }
-    virtual int interval() const { return m_timer.interval(); }
-    virtual void setInterval(int msecs) { m_timer.setInterval(msecs); }
-    virtual void start() { m_timer.start(); UbuntuGestures::AbstractTimer::start(); }
-    virtual void stop() { m_timer.stop(); UbuntuGestures::AbstractTimer::stop(); }
-private:
-    QTimer m_timer;
-};
 
 DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     : QQuickItem(parent)
@@ -126,12 +77,14 @@ DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     , m_timeSource(new RealTimeSource)
     , m_activeTouches(m_timeSource)
 {
-    setRecognitionTimer(new RecognitionTimer(this));
+    setRecognitionTimer(new Timer(this));
     m_recognitionTimer->setInterval(60);
+    m_recognitionTimer->setSingleShot(false);
 
     m_velocityCalculator = new AxisVelocityCalculator(this);
 
-    connect(this, &QQuickItem::enabledChanged, this, &DirectionalDragArea::onEnabledChanged);
+    connect(this, &QQuickItem::enabledChanged, this, &DirectionalDragArea::giveUpIfDisabledOrInvisible);
+    connect(this, &QQuickItem::visibleChanged, this, &DirectionalDragArea::giveUpIfDisabledOrInvisible);
 }
 
 Direction::Type DirectionalDragArea::direction() const
@@ -214,6 +167,7 @@ void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *tim
 {
     int interval = 0;
     bool timerWasRunning = false;
+    bool wasSingleShot = false;
 
     // can be null when called from the constructor
     if (m_recognitionTimer) {
@@ -226,6 +180,7 @@ void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *tim
 
     m_recognitionTimer = timer;
     timer->setInterval(interval);
+    timer->setSingleShot(wasSingleShot);
     connect(timer, &UbuntuGestures::AbstractTimer::timeout,
             this, &DirectionalDragArea::checkSpeed);
     if (timerWasRunning) {
@@ -280,8 +235,144 @@ qreal DirectionalDragArea::touchSceneY() const
     return m_previousScenePos.y();
 }
 
+bool DirectionalDragArea::event(QEvent *event)
+{
+    if (event->type() == TouchOwnershipEvent::touchOwnershipEventType()) {
+        touchOwnershipEvent(static_cast<TouchOwnershipEvent *>(event));
+        return true;
+    } else if (event->type() == UnownedTouchEvent::unownedTouchEventType()) {
+        unownedTouchEvent(static_cast<UnownedTouchEvent *>(event));
+        return true;
+    } else {
+        return QQuickItem::event(event);
+    }
+}
+
+void DirectionalDragArea::touchOwnershipEvent(TouchOwnershipEvent *event)
+{
+    if (event->gained()) {
+        QVector<int> ids;
+        ids.append(event->touchId());
+        DDA_DEBUG("grabbing touch");
+        grabTouchPoints(ids);
+
+        // Work around for Qt bug. If we grab a touch that is being used for mouse pointer
+        // emulation it will cause the emulation logic to go nuts.
+        // Thus we have to also grab the mouse in this case.
+        // TODO: Report bug to Qt
+        if (window()) {
+            QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(window());
+            if (windowPrivate->touchMouseId == event->touchId() && window()->mouseGrabberItem()) {
+                DDA_DEBUG("removing mouse grabber");
+                window()->mouseGrabberItem()->ungrabMouse();
+            }
+        }
+    } else {
+        // We still wanna know when it ends for keeping the composition time window up-to-date
+        TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
+
+        setStatus(WaitingForTouch);
+    }
+}
+
+void DirectionalDragArea::unownedTouchEvent(UnownedTouchEvent *unownedTouchEvent)
+{
+    QTouchEvent *event = unownedTouchEvent->touchEvent();
+
+    Q_ASSERT(!event->touchPointStates().testFlag(Qt::TouchPointPressed));
+
+    #if DIRECTIONALDRAGAREA_DEBUG
+    // TODO Consider using qCDebug() when available (Qt 5.2)
+    qDebug() << "[DDA] Unowned" << m_timeSource->msecsSinceReference()
+        << qPrintable(touchEventToString(event));
+    #endif
+
+    switch (m_status) {
+        case WaitingForTouch:
+            // do nothing
+            break;
+        case Undecided:
+            Q_ASSERT(isEnabled() && isVisible());
+            unownedTouchEvent_undecided(unownedTouchEvent);
+            break;
+        default: // Recognized:
+            // do nothing
+            break;
+    }
+
+    m_activeTouches.update(event);
+}
+
+void DirectionalDragArea::unownedTouchEvent_undecided(UnownedTouchEvent *unownedTouchEvent)
+{
+    const QTouchEvent::TouchPoint *touchPoint = fetchTargetTouchPoint(unownedTouchEvent->touchEvent());
+    if (!touchPoint) {
+        qCritical() << "DirectionalDragArea[status=Undecided]: touch " << m_touchId
+            << "missing from UnownedTouchEvent without first reaching state Qt::TouchPointReleased. "
+               "Considering it as released.";
+
+        TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+        setStatus(WaitingForTouch);
+        return;
+    }
+
+    const QPointF &touchScenePos = touchPoint->scenePos();
+
+    if (touchPoint->state() == Qt::TouchPointReleased) {
+        // touch has ended before recognition concluded
+        DDA_DEBUG("Touch has ended before recognition concluded");
+        TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+        emitSignalIfTapped();
+        setStatus(WaitingForTouch);
+        return;
+    }
+
+    m_previousDampedScenePos.setX(m_dampedScenePos.x());
+    m_previousDampedScenePos.setY(m_dampedScenePos.y());
+    m_dampedScenePos.update(touchScenePos);
+    updateVelocityCalculator(touchScenePos);
+
+    if (!pointInsideAllowedArea()) {
+        DDA_DEBUG("Rejecting gesture because touch point is outside allowed area.");
+        TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+        // We still wanna know when it ends for keeping the composition time window up-to-date
+        TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
+        setStatus(WaitingForTouch);
+        return;
+    }
+
+    if (!movingInRightDirection()) {
+        DDA_DEBUG("Rejecting gesture because touch point is moving in the wrong direction.");
+        TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+        // We still wanna know when it ends for keeping the composition time window up-to-date
+        TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
+        setStatus(WaitingForTouch);
+        return;
+    }
+
+    setPreviousPos(touchPoint->pos());
+    setPreviousScenePos(touchScenePos);
+
+    if (isWithinTouchCompositionWindow()) {
+        // There's still time for some new touch to appear and ruin our party as it would be combined
+        // with our m_touchId one and therefore deny the possibility of a single-finger gesture.
+        DDA_DEBUG("Sill within composition window. Let's wait more.");
+        return;
+    }
+
+    if (movedFarEnough(touchScenePos)) {
+        TouchRegistry::instance()->requestTouchOwnership(m_touchId, this);
+        setStatus(Recognized);
+    } else {
+        DDA_DEBUG("Didn't move far enough yet. Let's wait more.");
+    }
+}
+
 void DirectionalDragArea::touchEvent(QTouchEvent *event)
 {
+    // TODO: Consider when more than one touch starts in the same event (although it's not possible
+    //       with Mir's android-input). Have to track them all. Consider it a plus/bonus.
+
     #if DIRECTIONALDRAGAREA_DEBUG
     // TODO Consider using qCDebug() when available (Qt 5.2)
     qDebug() << "[DDA]" << m_timeSource->msecsSinceReference()
@@ -310,10 +401,15 @@ void DirectionalDragArea::touchEvent(QTouchEvent *event)
 
 void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
 {
+    // TODO: accept/reject is for the whole event, not per touch id. See how that affects us.
+
     if (!event->touchPointStates().testFlag(Qt::TouchPointPressed)) {
         // Nothing to see here. No touch starting in this event.
         return;
     }
+
+    // to be proven wrong, if that's the case
+    bool allGood = true;
 
     if (isWithinTouchCompositionWindow()) {
         // too close to the last touch start. So we consider them as starting roughly at the same time.
@@ -321,18 +417,18 @@ void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
         #if DIRECTIONALDRAGAREA_DEBUG
         qDebug("[DDA] A new touch point came in but we're still within time composition window. Ignoring it.");
         #endif
-        return;
+        allGood = false;
     }
 
     const QList<QTouchEvent::TouchPoint> &touchPoints = event->touchPoints();
 
     const QTouchEvent::TouchPoint *newTouchPoint = nullptr;
-    for (int i = 0; i < touchPoints.count(); ++i) {
+    for (int i = 0; i < touchPoints.count() && allGood; ++i) {
         const QTouchEvent::TouchPoint &touchPoint = touchPoints.at(i);
         if (touchPoint.state() == Qt::TouchPointPressed) {
             if (newTouchPoint) {
                 // more than one touch starting in this QTouchEvent. Can't be a single-touch gesture
-                return;
+                allGood = false;
             } else {
                 // that's our candidate
                 m_touchId = touchPoint.id();
@@ -341,85 +437,61 @@ void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
         }
     }
 
-    Q_ASSERT(newTouchPoint);
+    if (allGood) {
+        Q_ASSERT(newTouchPoint);
 
-    // If we have made this far, we are good to go to the next status.
+        m_startPos = newTouchPoint->pos();
+        m_startScenePos = newTouchPoint->scenePos();
+        m_touchId = newTouchPoint->id();
+        m_dampedScenePos.reset(m_startScenePos);
+        m_velocityCalculator->setTrackedPosition(0.);
+        m_velocityCalculator->reset();
+        m_numSamplesOnLastSpeedCheck = 0;
+        m_silenceTime = 0;
+        setPreviousPos(m_startPos);
+        setPreviousScenePos(m_startScenePos);
+        updateSceneDirectionVector();
 
-    m_startPos = newTouchPoint->pos();
-    m_startScenePos = newTouchPoint->scenePos();
-    m_touchId = newTouchPoint->id();
-    m_dampedScenePos.reset(m_startScenePos);
-    m_velocityCalculator->setTrackedPosition(0.);
-    m_velocityCalculator->reset();
-    m_numSamplesOnLastSpeedCheck = 0;
-    m_silenceTime = 0;
-    setPreviousPos(m_startPos);
-    setPreviousScenePos(m_startScenePos);
-    updateSceneDirectionVector();
+        if (recognitionIsDisabled()) {
+            // Behave like a dumb TouchArea
+            TouchRegistry::instance()->requestTouchOwnership(m_touchId, this);
+            setStatus(Recognized);
+            event->accept();
+        } else {
+            // just monitor the touch points for now.
+            TouchRegistry::instance()->addCandidateOwnerForTouch(m_touchId, this);
 
-    setStatus(Undecided);
+            setStatus(Undecided);
+            // Let the item below have it. We will monitor it and grab it later if a gesture
+            // gets recognized.
+            event->ignore();
+        }
+    } else {
+        watchPressedTouchPoints(touchPoints);
+        event->ignore();
+    }
 }
 
 void DirectionalDragArea::touchEvent_undecided(QTouchEvent *event)
 {
-    const QTouchEvent::TouchPoint *touchPoint = fetchTargetTouchPoint(event);
+    Q_ASSERT(event->type() == QEvent::TouchBegin);
+    Q_ASSERT(fetchTargetTouchPoint(event) == nullptr);
 
-    if (!touchPoint) {
-        qCritical() << "DirectionalDragArea[status=Undecided]: touch " << m_touchId
-            << "missing from QTouchEvent without first reaching state Qt::TouchPointReleased. "
-               "Considering it as released.";
-        setStatus(WaitingForTouch);
-        return;
-    }
-
-    const QPointF &touchScenePos = touchPoint->scenePos();
-
-    if (touchPoint->state() == Qt::TouchPointReleased) {
-        // touch has ended before recognition concluded
-        DDA_DEBUG("Touch has ended before recognition concluded");
-        setStatus(WaitingForTouch);
-        Q_EMIT tapped();
-        return;
-    }
+    // We're not interested in new touch points. We already have our candidate (m_touchId).
+    // But we do want to know when those new touches end for keeping the composition time
+    // window up-to-date
+    event->ignore();
+    watchPressedTouchPoints(event->touchPoints());
 
     if (event->touchPointStates().testFlag(Qt::TouchPointPressed) && isWithinTouchCompositionWindow()) {
         // multi-finger drags are not accepted
         DDA_DEBUG("Multi-finger drags are not accepted");
+
+        TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+        // We still wanna know when it ends for keeping the composition time window up-to-date
+        TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
+
         setStatus(WaitingForTouch);
-        return;
-    }
-
-    m_previousDampedScenePos.setX(m_dampedScenePos.x());
-    m_previousDampedScenePos.setY(m_dampedScenePos.y());
-    m_dampedScenePos.update(touchScenePos);
-    updateVelocityCalculator(touchScenePos);
-
-    if (!pointInsideAllowedArea()) {
-        DDA_DEBUG("Rejecting gesture because touch point is outside allowed area.");
-        setStatus(WaitingForTouch);
-        return;
-    }
-
-    if (!movingInRightDirection()) {
-        DDA_DEBUG("Rejecting gesture becauuse touch point is moving in the wrong direction.");
-        setStatus(WaitingForTouch);
-        return;
-    }
-
-    setPreviousPos(touchPoint->pos());
-    setPreviousScenePos(touchScenePos);
-
-    if (isWithinTouchCompositionWindow()) {
-        // There's still time for some new touch to appear and ruin our party as it would be combined
-        // with our m_touchId one and therefore deny the possibility of a single-finger gesture.
-        DDA_DEBUG("Sill within composition window. Let's wait more.");
-        return;
-    }
-
-    if (movedFarEnough(touchScenePos)) {
-        setStatus(Recognized);
-    } else {
-        DDA_DEBUG("Didn't move far enough yet. Let's wait more.");
     }
 }
 
@@ -437,8 +509,32 @@ void DirectionalDragArea::touchEvent_recognized(QTouchEvent *event)
         setPreviousScenePos(touchPoint->scenePos());
 
         if (touchPoint->state() == Qt::TouchPointReleased) {
+            emitSignalIfTapped();
             setStatus(WaitingForTouch);
         }
+    }
+}
+
+void DirectionalDragArea::watchPressedTouchPoints(const QList<QTouchEvent::TouchPoint> &touchPoints)
+{
+    for (int i = 0; i < touchPoints.count(); ++i) {
+        const QTouchEvent::TouchPoint &touchPoint = touchPoints.at(i);
+        if (touchPoint.state() == Qt::TouchPointPressed) {
+            TouchRegistry::instance()->addTouchWatcher(touchPoint.id(), this);
+        }
+    }
+}
+
+bool DirectionalDragArea::recognitionIsDisabled() const
+{
+    return distanceThreshold() <= 0 && compositionTime() <= 0;
+}
+
+void DirectionalDragArea::emitSignalIfTapped()
+{
+    qint64 touchDuration = m_timeSource->msecsSinceReference() - m_activeTouches.touchStartTime(m_touchId);
+    if (touchDuration <= maxTapDuration()) {
+        Q_EMIT tapped();
     }
 }
 
@@ -509,12 +605,16 @@ bool DirectionalDragArea::movedFarEnough(const QPointF &point) const
 
 void DirectionalDragArea::checkSpeed()
 {
+    Q_ASSERT(m_status == Undecided);
+
     if (m_velocityCalculator->numSamples() >= AxisVelocityCalculator::MIN_SAMPLES_NEEDED) {
         qreal speed = qFabs(m_velocityCalculator->calculate());
         qreal minSpeedMsecs = m_minSpeed / 1000.0;
 
         if (speed < minSpeedMsecs) {
             DDA_DEBUG("Rejecting gesture because it's below minimum speed.");
+            TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+            TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
             setStatus(WaitingForTouch);
         }
     }
@@ -523,7 +623,9 @@ void DirectionalDragArea::checkSpeed()
         m_silenceTime += m_recognitionTimer->interval();
 
         if (m_silenceTime > m_maxSilenceTime) {
-            DDA_DEBUG("Rejecting gesture because it's silence time has been exceeded.");
+            DDA_DEBUG("Rejecting gesture because its silence time has been exceeded.");
+            TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+            TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
             setStatus(WaitingForTouch);
         }
     } else {
@@ -532,10 +634,19 @@ void DirectionalDragArea::checkSpeed()
     m_numSamplesOnLastSpeedCheck = m_velocityCalculator->numSamples();
 }
 
-void DirectionalDragArea::onEnabledChanged()
+void DirectionalDragArea::giveUpIfDisabledOrInvisible()
 {
-    if (!isEnabled() && m_status != WaitingForTouch) {
-        setStatus(WaitingForTouch);
+    if (!isEnabled() || !isVisible()) {
+        if (m_status == Undecided) {
+            TouchRegistry::instance()->removeCandidateOwnerForTouch(m_touchId, this);
+            // We still wanna know when it ends for keeping the composition time window up-to-date
+            TouchRegistry::instance()->addTouchWatcher(m_touchId, this);
+        }
+
+        if (m_status != WaitingForTouch) {
+            DDA_DEBUG("Resetting status because got disabled or made invisible");
+            setStatus(WaitingForTouch);
+        }
     }
 }
 
@@ -631,7 +742,9 @@ void DirectionalDragArea::updateVelocityCalculator(const QPointF &scenePos)
 
 bool DirectionalDragArea::isWithinTouchCompositionWindow()
 {
-    return !m_activeTouches.isEmpty() &&
+    return
+        compositionTime() > 0 &&
+        !m_activeTouches.isEmpty() &&
         m_timeSource->msecsSinceReference() <=
             m_activeTouches.mostRecentStartTime() + (qint64)compositionTime();
 }
@@ -639,18 +752,17 @@ bool DirectionalDragArea::isWithinTouchCompositionWindow()
 //**************************  ActiveTouchesInfo **************************
 
 DirectionalDragArea::ActiveTouchesInfo::ActiveTouchesInfo(const SharedTimeSource &timeSource)
-    : m_timeSource(timeSource), m_lastUsedIndex(-1)
+    : m_timeSource(timeSource)
 {
-    // Estimate of the maximum number of active touches we might reach.
-    // Not a problem if it ends up being an underestimate as this is just
-    // an optimization.
-    m_vector.resize(3);
 }
 
 void DirectionalDragArea::ActiveTouchesInfo::update(QTouchEvent *event)
 {
     if (!(event->touchPointStates() & (Qt::TouchPointPressed | Qt::TouchPointReleased))) {
         // nothing to update
+        #if ACTIVETOUCHESINFO_DEBUG
+        qDebug("[DDA::ActiveTouchesInfo] Nothing to Update");
+        #endif
         return;
     }
 
@@ -658,74 +770,88 @@ void DirectionalDragArea::ActiveTouchesInfo::update(QTouchEvent *event)
     for (int i = 0; i < touchPoints.count(); ++i) {
         const QTouchEvent::TouchPoint &touchPoint = touchPoints.at(i);
         if (touchPoint.state() == Qt::TouchPointPressed) {
-            addTouchPoint(touchPoint);
+            addTouchPoint(touchPoint.id());
         } else if (touchPoint.state() == Qt::TouchPointReleased) {
-            removeTouchPoint(touchPoint);
+            removeTouchPoint(touchPoint.id());
         }
     }
 }
 
-void DirectionalDragArea::ActiveTouchesInfo::addTouchPoint(const QTouchEvent::TouchPoint &touchPoint)
+#if ACTIVETOUCHESINFO_DEBUG
+QString DirectionalDragArea::ActiveTouchesInfo::toString()
 {
-    ActiveTouchInfo &activeTouchInfo = getEmptySlot();
-    activeTouchInfo.id = touchPoint.id();
+    QString string = "(";
+
+    {
+        QTextStream stream(&string);
+        m_touchInfoPool.forEach([&](Pool<ActiveTouchInfo>::Iterator &touchInfo) {
+            stream << "(id=" << touchInfo->id << ",startTime=" << touchInfo->startTime << ")";
+            return true;
+        });
+    }
+
+    string.append(")");
+
+    return string;
+}
+#endif // ACTIVETOUCHESINFO_DEBUG
+
+void DirectionalDragArea::ActiveTouchesInfo::addTouchPoint(int touchId)
+{
+    ActiveTouchInfo &activeTouchInfo = m_touchInfoPool.getEmptySlot();
+    activeTouchInfo.id = touchId;
     activeTouchInfo.startTime = m_timeSource->msecsSinceReference();
+
+    #if ACTIVETOUCHESINFO_DEBUG
+    qDebug() << "[DDA::ActiveTouchesInfo]" << qPrintable(toString());
+    #endif
 }
 
-void DirectionalDragArea::ActiveTouchesInfo::removeTouchPoint(const QTouchEvent::TouchPoint &touchPoint)
+qint64 DirectionalDragArea::ActiveTouchesInfo::touchStartTime(int touchId)
 {
-    for (int i = 0; i <= m_lastUsedIndex; ++i) {
-        if (touchPoint.id() == m_vector.at(i).id) {
-            freeSlot(i);
-            return;
+    qint64 result = -1;
+
+    m_touchInfoPool.forEach([&](Pool<ActiveTouchInfo>::Iterator &touchInfo) {
+        if (touchId == touchInfo->id) {
+            result = touchInfo->startTime;
+            return false;
+        } else {
+            return true;
         }
-    }
-    Q_ASSERT(false); // shouldn't reach this point
+    });
+
+    Q_ASSERT(result != -1);
+    return result;
 }
 
-DirectionalDragArea::ActiveTouchInfo &DirectionalDragArea::ActiveTouchesInfo::getEmptySlot()
+void DirectionalDragArea::ActiveTouchesInfo::removeTouchPoint(int touchId)
 {
-    Q_ASSERT(m_lastUsedIndex < m_vector.size());
-
-    // Look for an in-between vacancy first
-    for (int i = 0; i < m_lastUsedIndex; ++i) {
-        ActiveTouchInfo &activeTouchInfo = m_vector[i];
-        if (!activeTouchInfo.isValid()) {
-            return activeTouchInfo;
+    m_touchInfoPool.forEach([&](Pool<ActiveTouchInfo>::Iterator &touchInfo) {
+        if (touchId == touchInfo->id) {
+            m_touchInfoPool.freeSlot(touchInfo);
+            return false;
+        } else {
+            return true;
         }
-    }
+    });
 
-    ++m_lastUsedIndex;
-    if (m_lastUsedIndex >= m_vector.size()) {
-        m_vector.resize(m_lastUsedIndex + 1);
-    }
-
-    return m_vector[m_lastUsedIndex];
-}
-
-void DirectionalDragArea::ActiveTouchesInfo::freeSlot(int index)
-{
-    m_vector[index].reset();
-    if (index == m_lastUsedIndex) {
-        do {
-            --m_lastUsedIndex;
-        } while (m_lastUsedIndex >= 0 && !m_vector.at(m_lastUsedIndex).isValid());
-    }
+    #if ACTIVETOUCHESINFO_DEBUG
+    qDebug() << "[DDA::ActiveTouchesInfo]" << qPrintable(toString());
+    #endif
 }
 
 qint64 DirectionalDragArea::ActiveTouchesInfo::mostRecentStartTime()
 {
-    Q_ASSERT(m_lastUsedIndex >= 0);
+    Q_ASSERT(!m_touchInfoPool.isEmpty());
 
-    qint64 highestStartTime = m_vector.at(0).startTime;
-    int i = 1;
-    do {
-        const ActiveTouchInfo &activeTouchInfo = m_vector.at(i);
-        if (activeTouchInfo.isValid() && activeTouchInfo.startTime > highestStartTime) {
-            highestStartTime = activeTouchInfo.startTime;
+    qint64 highestStartTime = -1;
+
+    m_touchInfoPool.forEach([&](Pool<ActiveTouchInfo>::Iterator &activeTouchInfo) {
+        if (activeTouchInfo->startTime > highestStartTime) {
+            highestStartTime = activeTouchInfo->startTime;
         }
-        ++i;
-    } while (i < m_lastUsedIndex);
+        return true;
+    });
 
     return highestStartTime;
 }

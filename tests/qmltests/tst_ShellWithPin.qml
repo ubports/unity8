@@ -21,15 +21,17 @@ import AccountsService 0.1
 import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.SystemImage 0.1
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
 import "../../qml"
 
-Row {
+Item {
     id: root
-    spacing: 0
+    width: contentRow.width
+    height: contentRow.height
 
     QtObject {
         id: applicationArguments
@@ -47,35 +49,37 @@ Row {
         }
     }
 
-    Loader {
-        id: shellLoader
+    Row {
+        id: contentRow
 
-        width: units.gu(40)
-        height: units.gu(71)
+        Loader {
+            id: shellLoader
 
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            Shell {
-                Component.onDestruction: {
-                    shellLoader.itemDestroyed = true
+            width: units.gu(40)
+            height: units.gu(71)
+
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true
+                    }
+                    maxFailedLogins: maxRetriesTextField.text
+                    property string indicatorProfile: "phone"
                 }
-                maxFailedLogins: maxRetriesTextField.text
-                property string indicatorProfile: "phone"
             }
         }
-    }
 
-    Rectangle {
-        color: "white"
-        width: units.gu(30)
-        height: shellLoader.height
+        Rectangle {
+            color: "white"
+            width: units.gu(30)
+            height: shellLoader.height
 
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
                 Button {
+                    anchors { left: parent.left; right: parent.right }
                     text: "Show Greeter"
                     onClicked: {
                         if (shellLoader.status !== Loader.Ready)
@@ -87,15 +91,15 @@ Row {
                         }
                     }
                 }
-            }
 
-            Label {
-                text: "Max retries:"
-                color: "black"
-            }
-            TextField {
-                id: maxRetriesTextField
-                text: "-1"
+                Label {
+                    text: "Max retries:"
+                    color: "black"
+                }
+                TextField {
+                    id: maxRetriesTextField
+                    text: "-1"
+                }
             }
         }
     }
@@ -111,7 +115,13 @@ Row {
         signalName: "resettingDevice"
     }
 
+    Telephony.CallEntry {
+        id: phoneCall
+        phoneNumber: "+447812221111"
+    }
+
     UT.UnityTestCase {
+        id: testCase
         name: "ShellWithPin"
         when: windowShown
 
@@ -120,10 +130,9 @@ Row {
         function init() {
             sessionSpy.target = findChild(shell, "greeter")
             swipeAwayGreeter()
+            waitForLockscreen()
             shell.failedLoginsDelayAttempts = -1
             maxRetriesTextField.text = "-1"
-            AccountsService.enableLauncherWhileLocked = true
-            AccountsService.enableIndicatorsWhileLocked = true
         }
 
         function cleanup() {
@@ -143,6 +152,10 @@ Row {
 
             // kill all (fake) running apps
             killApps()
+
+            AccountsService.enableLauncherWhileLocked = true
+            AccountsService.enableIndicatorsWhileLocked = true
+            AccountsService.demoEdges = false
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
@@ -170,8 +183,9 @@ Row {
 
             // wait until the animation has finished
             tryCompare(greeter, "showProgress", 0);
+        }
 
-            // and for pin to be ready
+        function waitForLockscreen() {
             var lockscreen = findChild(shell, "lockscreen");
             var pinPadLoader = findChild(lockscreen, "pinPadLoader");
             tryCompare(pinPadLoader, "status", Loader.Ready)
@@ -183,8 +197,18 @@ Row {
             for (var i = 0; i < pin.length; ++i) {
                 var character = pin.charAt(i)
                 var button = findChild(shell, "pinPadButton" + character)
-                mouseClick(button, units.gu(1), units.gu(1))
+                tap(button)
             }
+        }
+
+        function confirmLockedApp(app) {
+            var greeter = findChild(shell, "greeter")
+            var lockscreen = findChild(shell, "lockscreen")
+            tryCompare(greeter, "shown", false)
+            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "hasLockedApp", true)
+            tryCompare(greeter, "lockedApp", app)
+            tryCompare(ApplicationManager, "focusedApplicationId", app)
         }
 
         function test_login() {
@@ -192,6 +216,25 @@ Row {
             tryCompare(sessionSpy, "count", 0)
             enterPin("1234")
             tryCompare(sessionSpy, "count", 1)
+        }
+
+        function test_edgeDemoHidesLockscreen() {
+            LightDM.Greeter.showGreeter()
+            sessionSpy.clear()
+            var lockscreen = findChild(shell, "lockscreen")
+
+            tryCompare(lockscreen, "shown", true)
+            AccountsService.demoEdges = true
+            tryCompare(lockscreen, "shown", false)
+
+            swipeAwayGreeter()
+            tryCompare(sessionSpy, "count", 1)
+
+            // Lockscreen is only hidden by the edge demo, so if we turn that
+            // off and show greeter again, lockscreen should appear
+            AccountsService.demoEdges = false
+            LightDM.Greeter.showGreeter()
+            tryCompare(lockscreen, "shown", true)
         }
 
         function test_disabledEdges() {
@@ -215,7 +258,7 @@ Row {
             var launcher = findChild(shell, "launcher")
             var stage = findChild(shell, "stage")
 
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(greeter, "lockedApp", "dialer-app")
             tryCompare(greeter, "hasLockedApp", true)
@@ -242,7 +285,7 @@ Row {
         function test_emergencyCallCrash() {
             var lockscreen = findChild(shell, "lockscreen")
             var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(lockscreen, "shown", false)
             killApps() // kill dialer-app, as if it crashed
@@ -252,7 +295,7 @@ Row {
         function test_emergencyCallAppLaunch() {
             var lockscreen = findChild(shell, "lockscreen")
             var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
-            mouseClick(emergencyButton, units.gu(1), units.gu(1))
+            tap(emergencyButton)
 
             tryCompare(lockscreen, "shown", false)
             ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
@@ -297,7 +340,7 @@ Row {
 
             var dialog = findChild(root, "infoPopup")
             var button = findChild(dialog, "infoPopupOkButton")
-            mouseClick(button, units.gu(1), units.gu(1))
+            tap(button)
             tryCompareFunction(function() {return findChild(root, "infoPopup")}, null)
 
             tryCompare(resetSpy, "count", 0)
@@ -318,11 +361,9 @@ Row {
             tryCompare(shell, "sideStageEnabled", false)
             tryCompare(applicationsDisplayLoader, "tabletMode", false)
 
-            var app = ApplicationManager.startApplication("dialer-app")
-
-            var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 0)
-            tryCompare(greeter, "hasLockedApp", true)
+            var lockscreen = findChild(shell, "lockscreen")
+            lockscreen.emergencyCall()
+            confirmLockedApp("dialer-app")
 
             // OK, we're in. Now try (but fail) to switch to tablet mode
             shell.tablet = true
@@ -331,9 +372,15 @@ Row {
 
             // And when we kill the app, we go back to locked tablet mode
             killApps()
+            var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "showProgress", 1)
             tryCompare(shell, "sideStageEnabled", true)
             tryCompare(applicationsDisplayLoader, "tabletMode", true)
+        }
+
+        function test_emergencyDialerIncoming() {
+            callManager.foregroundCall = phoneCall
+            confirmLockedApp("dialer-app")
         }
     }
 }

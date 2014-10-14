@@ -65,6 +65,9 @@
 
 #include <MouseTouchAdaptor.h>
 
+// UbuntuGestures lib
+#include <TouchRegistry.h>
+
 #ifdef QML_RUNTIME_TESTING
 class RenderStatistics
 {
@@ -496,6 +499,12 @@ int main(int argc, char ** argv)
                 QQuickItem *contentItem = qobject_cast<QQuickItem *>(topLevel);
                 if (contentItem) {
                     qxView = new QQuickView(&engine, nullptr);
+                    if (TouchRegistry::instance() == nullptr) {
+                        new TouchRegistry(qxView);
+                    } else {
+                        TouchRegistry::instance()->setParent(qxView);
+                    }
+                    qxView->installEventFilter(TouchRegistry::instance());
                     window = qxView;
                     // Set window default properties; the qml can still override them
                     QString oname = contentItem->objectName();

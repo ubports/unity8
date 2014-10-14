@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,6 +76,7 @@ Item {
 
     Timer {
         id: dismissTimer
+        objectName: "dismissTimer"
         interval: 5000
         onTriggered: {
             if (!panel.preventHiding) {
@@ -218,6 +219,7 @@ Item {
 
     EdgeDragArea {
         id: dragArea
+        objectName: "launcherDragArea"
 
         direction: Direction.Rightwards
 
