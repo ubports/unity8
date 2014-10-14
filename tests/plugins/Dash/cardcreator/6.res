@@ -13,6 +13,7 @@ AbstractButton {
                 property bool asynchronous: true;
                 property bool showHeader: true;
                 implicitWidth: childrenRect.width;
+                enabled: template == null || (template["non-interactive"] !== undefined ? !template["non-interactive"] : true);
 Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 

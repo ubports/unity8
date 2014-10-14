@@ -13,6 +13,7 @@ AbstractButton {
                 property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
+                enabled: template == null || (template["non-interactive"] !== undefined ? !template["non-interactive"] : true);
 onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } 
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
