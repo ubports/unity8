@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1 as Components
 import Unity.Indicators 0.1 as Indicators
 import "Indicators"
+import "../../Components/Flickables" as Flickables
 
 IndicatorBase {
     id: main
@@ -62,7 +63,7 @@ IndicatorBase {
         }
     }
 
-    ListView {
+    Flickables.ListView {
         id: mainMenu
         objectName: "mainMenu"
         model: menuStack.rootMenu

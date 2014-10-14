@@ -1,3 +1,30 @@
+unity8 (8.00+14.10.20141013.2-0ubuntu1) utopic; urgency=low
+
+  [ Michael Terry ]
+  * Don't show initial lockscreen during the edge demo. The user just
+    set up their phone with a password, it's pointless to ask them
+    again. (LP: #1358283)
+  * Distinguish between incoming calls and other dialer-app opens. (LP:
+    #1378218) (LP: #1378218)
+
+  [ Andrea Cimitan ]
+  * Fix flickable speed to be resolution independent, by subclassing
+    components (LP: #1348557)
+
+  [ Michał Sawicz ]
+  * Fix the ShellWithPin test and some functionality.
+
+  [ Albert Astals ]
+  * Move Base.qml to DashCategoryBase
+  * Fix first item positioning when m_clipItem->y() is not 0 (LP:
+    #1251597)
+  * Fix some small qml warnings
+
+  [ Daniel d'Andrada ]
+  * Add touch ownership logic on top of qt input handling
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 13 Oct 2014 15:43:03 +0000
+
 unity8 (8.00+14.10.20141009.4-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]

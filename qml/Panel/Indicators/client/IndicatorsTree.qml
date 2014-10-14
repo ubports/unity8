@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import ".."
+import "../../../Components/Flickables" as Flickables
 
 IndicatorBase {
     id: root
@@ -30,7 +31,7 @@ IndicatorBase {
         model: root.menuModel
     }
 
-    Flickable {
+    Flickables.Flickable {
         anchors.fill: parent
         contentHeight: all_data.height
         clip:true

@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
+import AccountsService 0.1
 import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
@@ -144,6 +145,7 @@ Row {
             killApps()
 
             unlockAllModemsSpy.clear()
+            AccountsService.demoEdges = false
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
@@ -276,13 +278,19 @@ Row {
 
         function test_leftEdgeDrag_data() {
             return [
-                {tag: "without password", user: "no-password", loggedIn: true},
-                {tag: "with password", user: "has-password", loggedIn: false},
+                {tag: "without password", user: "no-password", loggedIn: true, demo: false},
+                {tag: "with password", user: "has-password", loggedIn: false, demo: false},
+                {tag: "with demo", user: "has-password", loggedIn: true, demo: true},
             ]
         }
 
         function test_leftEdgeDrag(data) {
             selectUser(data.user)
+
+            AccountsService.demoEdges = data.demo
+            var edgeDemo = findChild(shell, "edgeDemo")
+            tryCompare(edgeDemo, "running", data.demo)
+
             swipeFromLeftEdge(shell.width * 0.75)
             wait(500) // to give time to handle dash() signal from Launcher
             confirmLoggedIn(data.loggedIn)
