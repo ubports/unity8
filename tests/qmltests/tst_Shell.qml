@@ -212,7 +212,7 @@ Item {
             // Open an application and focus
             waitUntilApplicationWindowIsFullyVisible(app);
             ApplicationManager.focusApplication(app);
-            compare(app.session.surface.activeFocus, true, "Focused application didn't have activeFocus");
+            tryCompare(app.session.surface, "activeFocus", true);
 
             notifications.model = mockNotificationsModel;
 
@@ -232,16 +232,15 @@ Item {
             verify(notification !== undefined && notification != null, "notification wasn't found");
 
             // Make sure activeFocus went away from the app window
-            compare(app.session.surface.activeFocus, false, "Notification didn't take active focus");
+            tryCompare(app.session.surface, "activeFocus", false);
             compare(stage.interactive, false, "the stage is interactive with a notification showing")
 
             // Clicking the button should dismiss the notification and return focus
             var buttonAccept = findChild(notification, "notify_button0");
             mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
-            waitForRendering(shell)
 
             // Make sure we're back to normal
-            compare(app.session.surface.activeFocus, true, "App didn't take active focus after snap notification was dismissed");
+            tryCompare(app.session.surface, "activeFocus", true);
             compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
         }
 
