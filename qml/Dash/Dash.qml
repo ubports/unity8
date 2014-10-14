@@ -319,9 +319,9 @@ Showable {
 
         onSceneDistanceChanged: {
             if (status == DirectionalDragArea.Recognized && initialSceneDistance != -1) {
-                overviewController.enableAnimation = false;
+                bottomEdgeController.enableAnimation = false;
                 var deltaDistance = sceneDistance - initialSceneDistance;
-                overviewController.progress = Math.max(0, Math.min(1, deltaDistance / fullMovement));
+                bottomEdgeController.progress = Math.max(0, Math.min(1, deltaDistance / fullMovement));
             }
         }
 
@@ -337,8 +337,8 @@ Showable {
                 initialSceneDistance = sceneDistance;
             } else if (status == DirectionalDragArea.WaitingForTouch &&
                     previousStatus == DirectionalDragArea.Recognized) {
-                overviewController.enableAnimation = true;
-                overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
+                bottomEdgeController.enableAnimation = true;
+                bottomEdgeController.progress = (bottomEdgeController.progress > 0.7)  ? 1 : 0;
                 initialSceneDistance = -1;
             }
         }
