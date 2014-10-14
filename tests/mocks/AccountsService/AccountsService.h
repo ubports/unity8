@@ -101,6 +101,7 @@ private:
     QString m_user;
     bool m_statsWelcomeScreen;
     uint m_failedLogins;
+    bool m_demoEdges;
 };
 
 #endif
