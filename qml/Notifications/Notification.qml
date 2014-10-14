@@ -49,7 +49,7 @@ Item {
     readonly property real contentSpacing: units.gu(2)
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - (type === Notification.Confirmation ? units.gu(.5) : 0) + contentSpacing * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
 
     color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
