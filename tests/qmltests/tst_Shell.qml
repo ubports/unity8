@@ -230,10 +230,11 @@ Item {
             // Make sure the notification really opened
             var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
             verify(notification !== undefined && notification != null, "notification wasn't found");
+            waitForRendering(notification);
 
             // Make sure activeFocus went away from the app window
             tryCompare(app.session.surface, "activeFocus", false);
-            compare(stage.interactive, false, "the stage is interactive with a notification showing")
+            tryCompare(stage, "interactive", false);
 
             // Clicking the button should dismiss the notification and return focus
             var buttonAccept = findChild(notification, "notify_button0");
