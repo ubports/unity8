@@ -17,14 +17,14 @@
 #include "fakeunitymenumodelcache.h"
 #include <unitymenumodel.h>
 
-FakeUnityMenuModelCache* FakeUnityMenuModelCache::theFakeCache = nullptr;
+QPointer<FakeUnityMenuModelCache> FakeUnityMenuModelCache::theFakeCache = nullptr;
 
 FakeUnityMenuModelCache* FakeUnityMenuModelCache::singleton()
 {
-    if (!theFakeCache) {
+    if (theFakeCache.isNull()) {
         theFakeCache = new FakeUnityMenuModelCache();
     }
-    return theFakeCache;
+    return theFakeCache.data();
 }
 
 FakeUnityMenuModelCache::FakeUnityMenuModelCache(QObject* parent)

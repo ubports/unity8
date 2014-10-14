@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QPointer>
 #include <QWeakPointer>
 
 class UnityMenuModel;
@@ -45,7 +46,7 @@ public:
 
 protected:
     QHash<QByteArray, QWeakPointer<UnityMenuModel>> m_registry;
-    static UnityMenuModelCache* theCache;
+    static QPointer<UnityMenuModelCache> theCache;
 };
 
 #endif // UNITYMENUMODELCACHE_H

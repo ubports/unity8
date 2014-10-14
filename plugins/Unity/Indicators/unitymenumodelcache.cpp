@@ -22,14 +22,14 @@
 
 #include <QQmlEngine>
 
-UnityMenuModelCache* UnityMenuModelCache::theCache = nullptr;
+QPointer<UnityMenuModelCache> UnityMenuModelCache::theCache = nullptr;
 
 UnityMenuModelCache* UnityMenuModelCache::singleton()
 {
-    if (!theCache) {
+    if (theCache.isNull()) {
         theCache = new UnityMenuModelCache();
     }
-    return theCache;
+    return theCache.data();
 }
 
 UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
