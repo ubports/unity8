@@ -30,14 +30,12 @@ Item {
     }
 
     function update() {
-        var previouslyStopped = velocityAboveThreshold;
-
         calc.trackedPosition = trackedValue;
         velocityAboveThreshold = Math.abs(calc.calculate()) > velocityThreshold;
 
         if (velocityAboveThreshold) { // only start timer if we're above the threshold.
             velocityTimer.start();
-        } else if (previouslyStopped) { // if we have previously been stopped, then trigger the signal
+        } else {
             velocityTimer.stop();
         }
     }
