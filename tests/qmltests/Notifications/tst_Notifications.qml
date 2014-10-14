@@ -589,7 +589,7 @@ Row {
             }
             compare(valueIndicator.visible, data.valueVisible, "value-indicator visibility is incorrect")
             if (valueIndicator.visible) {
-                verify(innerBar.color === data.valueTinted ? UbuntuColors.orange : "white", "value-bar has the wrong color-tint")                    
+                verify(innerBar.color === data.valueTinted ? UbuntuColors.orange : "white", "value-bar has the wrong color-tint")
             }
             compare(valueLabel.visible, data.valueLabelVisible, "value-label visibility is incorrect")
 

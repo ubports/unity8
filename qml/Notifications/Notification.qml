@@ -336,7 +336,7 @@ Item {
                     height: units.gu(1)
                     color: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
                     borderSource: "none"
-                    radius: "small"                    
+                    radius: "small"
                 }
             }
 
