@@ -20,17 +20,17 @@ import ScreenGrabber 0.1
 
 Rectangle {
     id: root
-    enabled: false
+    enabled: true
     visible: false
     color: "white"
     anchors.fill: parent
     opacity: 0.0
 
+
     QtObject {
         id: keyState
         property bool volumeUpPressed: false
         property bool volumeDownPressed: false
-        property bool ignoreKeyPresses: false
         property bool ignoreKeyRepeats: false
     }
 
@@ -46,7 +46,7 @@ Rectangle {
     }
 
     function onKeyPressed(key) {
-        if (keyState.ignoreKeyPresses || keyState.ignoreKeyRepeats)
+        if (!enabled || keyState.ignoreKeyRepeats)
             return;
 
         if (key == Qt.Key_VolumeUp)
@@ -57,7 +57,6 @@ Rectangle {
         if (keyState.volumeDownPressed && keyState.volumeUpPressed) {
             // Only take one screenshot if both keys are held
             keyState.ignoreKeyRepeats = true;
-            enabled = true;
             visible = true;
             shutterSound.stop();
             shutterSound.play();
@@ -80,7 +79,7 @@ Rectangle {
         from: 0.0
         to: 1.0
         onStopped: {
-            if (enabled && visible) {
+            if (visible) {
                 fadeOut.start();
             }
         }
@@ -91,9 +90,8 @@ Rectangle {
         from: 1.0
         to: 0.0
         onStopped: {
-            if (enabled && visible) {
+            if (visible) {
                 screenGrabber.captureAndSave();
-                enabled = false;
                 visible = false;
             }
         }

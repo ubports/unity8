@@ -135,12 +135,7 @@ Item {
     ScreenGrabber {
         id: screenGrabber
         z: edgeDemo.z + 10
-    }
-
-    Binding {
-        target: screenGrabber
-        property: keyState.ignoreKeyPresses
-        value: Powerd.status === Powerd.Off
+        enabled: Powerd.status === Powerd.On
     }
 
     Binding {
