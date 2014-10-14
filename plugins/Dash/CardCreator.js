@@ -318,7 +318,8 @@ function cardString(template, components) {
                 readonly property string title: cardData && cardData["title"] || ""; \n\
                 property bool asynchronous: true; \n\
                 property bool showHeader: true; \n\
-                implicitWidth: childrenRect.width; \n';
+                implicitWidth: childrenRect.width; \n\
+                enabled: template == null || (template["non-interactive"] !== undefined ? !template["non-interactive"] : true); \n';
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;

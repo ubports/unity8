@@ -65,10 +65,7 @@ FocusScope {
         subPageLoader.closeSubPage()
     }
 
-    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount, cardTool) {
-        if (cardTool.template && cardTool.template["non-interactive"]) {
-            return;
-        }
+    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope") {
             // TODO Technically it is possible that calling activate() will make the scope emit
             // previewRequested so that we show a preview but there's no scope that does that yet
@@ -81,10 +78,7 @@ FocusScope {
         }
     }
 
-    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount, cardTool) {
-        if (cardTool.template && cardTool.template["non-interactive"]) {
-            return;
-        }
+    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") !== 0) {
             if (scope.preview(result)) {
                 openPreview(index, resultsModel, limitedCategoryItemCount);
@@ -339,11 +333,11 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount(), rendererLoader.item.cardTool);
+                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount());
                     }
 
                     onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount(), rendererLoader.item.cardTool);
+                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount());
                     }
 
                     function categoryItemCount() {
