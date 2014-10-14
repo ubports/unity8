@@ -134,6 +134,12 @@ Item {
     }
 
     Binding {
+        target: screenGrabber
+        property: keyState.ignoreKeyPresses
+        value: Powerd.status === Powerd.Off
+    }
+
+    Binding {
         target: ApplicationManager
         property: "forceDashActive"
         value: launcher.shown || launcher.dashSwipe
@@ -568,7 +574,6 @@ Item {
         target: Powerd
 
         onStatusChanged: {
-            screenGrabber.enable(Powerd.status === Powerd.On)
             if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
                 greeter.showNow()
             }

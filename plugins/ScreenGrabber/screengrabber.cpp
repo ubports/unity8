@@ -60,7 +60,7 @@ void ScreenGrabber::captureAndSave()
         return;
     }
 
-    QWindowList windows = QGuiApplication::topLevelWindows();
+    const QWindowList windows = QGuiApplication::topLevelWindows();
     if (windows.empty())
     {
         qWarning() << "ScreenShotter: no top level windows found!";

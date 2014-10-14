@@ -45,11 +45,6 @@ Rectangle {
         source: "/system/media/audio/ui/camera_click.ogg"
     }
 
-    function enable(flag)
-    {
-        keyState.ignoreKeyPresses = !flag;
-    }
-
     function onKeyPressed(key) {
         if (keyState.ignoreKeyPresses || keyState.ignoreKeyRepeats)
             return;
@@ -74,8 +69,7 @@ Rectangle {
         if (key == Qt.Key_VolumeUp) {
             keyState.volumeUpPressed = false;
             keyState.ignoreKeyRepeats = false;
-        }
-        else if (key == Qt.Key_VolumeDown) {
+        } else if (key == Qt.Key_VolumeDown) {
             keyState.volumeDownPressed = false;
             keyState.ignoreKeyRepeats = false;
         }
@@ -87,7 +81,7 @@ Rectangle {
         to: 1.0
         onStopped: {
             if (enabled && visible) {
-                fadeOut.start()
+                fadeOut.start();
             }
         }
     }
@@ -99,8 +93,8 @@ Rectangle {
         onStopped: {
             if (enabled && visible) {
                 screenGrabber.captureAndSave();
-                enabled = false
-                visible = false
+                enabled = false;
+                visible = false;
             }
         }
     }
