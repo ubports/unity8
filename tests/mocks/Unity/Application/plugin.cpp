@@ -24,6 +24,7 @@
 #include "SurfaceManager.h"
 #include "SessionManager.h"
 #include "ApplicationTestInterface.h"
+#include "UbuntuKeyboardInfo.h"
 
 #include <qqml.h>
 #include <QQmlEngine>
@@ -45,6 +46,11 @@ static QObject* sessionManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEng
     Q_UNUSED(scriptEngine);
     return SessionManager::singleton();
 }
+
+static QObject* ubuntuKeyboardInfoSingleton(QQmlEngine*, QJSEngine*) {
+    return UbuntuKeyboardInfo::singleton();
+}
+
 
 ApplicationTestInterface* s_appTestInterface = nullptr;
 
@@ -76,6 +82,7 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
     qmlRegisterSingletonType<SessionManager>(uri, 0, 1, "SessionManager", sessionManagerSingleton);
     qmlRegisterSingletonType<ApplicationTestInterface>(uri, 0, 1, "ApplicationTest", applicationTestInterface);
+    qmlRegisterSingletonType<UbuntuKeyboardInfo>(uri, 0, 1, "UbuntuKeyboardInfo", ubuntuKeyboardInfoSingleton);
 
     qRegisterMetaType<MirSurfaceItem::Type>("MirSurfaceItem::Type");
     qRegisterMetaType<MirSurfaceItem::State>("MirSurfaceItem::State");

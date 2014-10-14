@@ -20,7 +20,16 @@ import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 TestCase {
+    id: testCase
     TestUtil {id:util}
+
+    ActivityIndicator {
+        visible: testCase.running
+        anchors.centerIn: parent
+        Component.onCompleted: parent = testCase.parent
+        z: 100
+        running: visible
+    }
 
     // Fake implementation to be provided to items under test
     property var fakeDateTime: new function() {
@@ -312,7 +321,16 @@ TestCase {
         event.commit()
     }
 
+    /*! \brief Tap the item with a touch event.
+
+      \param item The item to be tapped
+      \param x The x coordinate of the tap, defaults to horizontal center
+      \param y The y coordinate of the tap, defaults to vertical center
+     */
     function tap(item, x, y) {
+        if (typeof x !== "number") x = item.width / 2;
+        if (typeof y !== "number") y = item.height / 2;
+
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
@@ -326,6 +344,8 @@ TestCase {
     }
 
     Component.onCompleted: {
+        UT.Util.ensureTouchRegistryInstalled();
+
         var rootItem = parent;
         while (rootItem.parent != undefined) {
             rootItem = rootItem.parent;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * Authors:
  *   Daniel d'Andrada <daniel.dandrada@canonical.com>
@@ -31,9 +31,10 @@ import Powerd 0.1
 
 import "../../qml"
 
-Row {
+Item {
     id: root
-    spacing: 0
+    width: units.gu(60)
+    height: units.gu(71)
 
     QtObject {
         id: applicationArguments
@@ -51,23 +52,43 @@ Row {
         }
     }
 
-    Loader {
-        id: shellLoader
+    Row {
+        anchors.fill: parent
+        Loader {
+            id: shellLoader
 
-        // Copied from Shell.qml
-        property bool tablet: false
-        width: tablet ? units.gu(160)
-                      : applicationArguments.hasGeometry() ? applicationArguments.width()
-                                                           : units.gu(40)
-        height: tablet ? units.gu(100)
-                       : applicationArguments.hasGeometry() ? applicationArguments.height()
-                                                            : units.gu(71)
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true;
+                    }
+                }
+            }
+        }
 
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            Shell {
-                Component.onDestruction: {
-                    shellLoader.itemDestroyed = true;
+        Rectangle {
+            color: "white"
+            width: units.gu(30)
+            height: shellLoader.height
+
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    Button {
+                        text: "Show Greeter"
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
+
+                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            if (!greeter.shown) {
+                                greeter.show();
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -82,7 +103,6 @@ Row {
             }
         }
     }
-
     ListModel {
         id: mockNotificationsModel
 
@@ -99,30 +119,9 @@ Row {
         }
     }
 
-    Rectangle {
-        color: "white"
-        width: units.gu(30)
-        height: shellLoader.height
-
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return;
-
-                        var greeter = testCase.findChild(shellLoader.item, "greeter");
-                        if (!greeter.shown) {
-                            greeter.show();
-                        }
-                    }
-                }
-            }
-        }
+    SignalSpy {
+        id: launcherShowDashHomeSpy
+        signalName: "showDashHome"
     }
 
     SignalSpy {
@@ -164,9 +163,14 @@ Row {
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
+
+            var launcher = findChild(shell, "launcher");
+            launcherShowDashHomeSpy.target = launcher;
         }
 
         function cleanup() {
+            launcherShowDashHomeSpy.target = null;
+
             shellLoader.itemDestroyed = false;
 
             shellLoader.active = false;
@@ -208,7 +212,7 @@ Row {
             // Open an application and focus
             waitUntilApplicationWindowIsFullyVisible(app);
             ApplicationManager.focusApplication(app);
-            compare(app.session.surface.activeFocus, true, "Focused application didn't have activeFocus");
+            compare(app.session.surface.focus, true, "Focused application didn't have activeFocus");
 
             notifications.model = mockNotificationsModel;
 
@@ -228,7 +232,7 @@ Row {
             verify(notification !== undefined && notification != null, "notification wasn't found");
 
             // Make sure activeFocus went away from the app window
-            compare(app.session.surface.activeFocus, false, "Notification didn't take active focus");
+            compare(app.session.surface.focus, false, "Notification didn't take active focus");
             compare(stage.interactive, false, "the stage is interactive with a notification showing")
 
             // Clicking the button should dismiss the notification and return focus
@@ -236,7 +240,7 @@ Row {
             mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
 
             // Make sure we're back to normal
-            compare(app.session.surface.activeFocus, true, "App didn't take active focus after snap notification was dismissed");
+            compare(app.session.surface.focus, true, "App didn't take active focus after snap notification was dismissed");
             compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
         }
 
@@ -494,8 +498,7 @@ Row {
             touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
             tryCompare(launcherPanel, "moving", false);
 
-            // NB tapping (i.e., using touch events) doesn't activate the icon... go figure...
-            mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
+            tap(appIcon, appIcon.width / 2, appIcon.height / 2);
         }
 
         function showIndicators() {
@@ -574,6 +577,7 @@ Row {
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
+            waitForRendering(greeter)
             tryCompare(greeter, "showProgress", 1)
             LightDM.Greeter.hideGreeter()
             tryCompare(greeter, "showProgress", 0)
@@ -660,6 +664,112 @@ Row {
             touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
 
             tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
+        }
+
+        function test_tapOnRightEdgeReachesApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var tapPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            tap(shell, tapPoint.x, tapPoint.y);
+
+            tryCompare(topmostSurface, "touchPressCount", 1);
+            tryCompare(topmostSurface, "touchReleaseCount", 1);
+        }
+
+        /*
+            Perform a right edge drag over an application surface and check
+            that no touch event was sent to it (ie, they were all consumed
+            by the right-edge drag area)
+         */
+        function test_rightEdgeDragDoesNotReachApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var gestureStartPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            touchFlick(shell,
+                    gestureStartPoint.x /* fromX */, gestureStartPoint.y /* fromY */,
+                    units.gu(1) /* toX */, gestureStartPoint.y /* toY */);
+
+            tryCompare(topmostSurface, "touchPressCount", 0);
+            tryCompare(topmostSurface, "touchReleaseCount", 0);
+        }
+
+        function waitUntilFocusedApplicationIsShowingItsSurface()
+        {
+            var spreadDelegate = findChild(shell, "appDelegate0");
+            var appState = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
+            tryCompare(appState, "state", "surface");
+            var transitions = appState.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        function swipeFromRightEdgeToShowAppSpread()
+        {
+            // perform a right-edge drag to show the spread
+            var touchStartX = shell.width - (shell.edgeSize / 2)
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, units.gu(1) /* endX */, touchStartY /* endY */);
+
+            // check if it's indeed showing the spread
+            var stage = findChild(shell, "stage");
+            var spreadView = findChild(stage, "spreadView");
+            tryCompare(spreadView, "phase", 2);
+        }
+
+        function test_tapUbuntuIconInLauncherOverAppSpread() {
+
+            waitUntilFocusedApplicationIsShowingItsSurface();
+
+            swipeFromRightEdgeToShowAppSpread();
+
+            var launcher = findChild(shell, "launcher");
+
+            // ensure the launcher dimissal timer never gets triggered during the test run
+            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+            dismissTimer.interval = 60 * 60 * 1000;
+
+            dragLauncherIntoView();
+
+            // Emulate a tap with a finger, where the touch position drifts during the tap.
+            {
+                var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
+                var startPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.2,
+                        buttonShowDashHome.height * 0.2);
+                var endPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.height * 0.8);
+                touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
+            }
+
+            compare(launcherShowDashHomeSpy.count, 1);
+
+            // check that the stage has left spread mode.
+            {
+                var stage = findChild(shell, "stage");
+                var spreadView = findChild(stage, "spreadView");
+                tryCompare(spreadView, "phase", 0);
+            }
+
+            // check that the launcher got dismissed
+            var launcherPanel = findChild(shell, "launcherPanel");
+            tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
     }
 }

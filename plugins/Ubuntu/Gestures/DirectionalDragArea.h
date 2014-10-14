@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,27 +19,16 @@
 
 #include <QtQuick/QQuickItem>
 #include "AxisVelocityCalculator.h"
-#include "UbuntuGesturesGlobal.h"
+#include "UbuntuGesturesQmlGlobal.h"
 #include "Damper.h"
 #include "Direction.h"
 
-namespace UbuntuGestures {
-/* Defines an interface for a Timer. */
-class UBUNTUGESTURES_EXPORT AbstractTimer : public QObject {
-    Q_OBJECT
-public:
-    AbstractTimer(QObject *parent) : QObject(parent), m_isRunning(false) {}
-    virtual int interval() const = 0;
-    virtual void setInterval(int msecs) = 0;
-    virtual void start() { m_isRunning = true; };
-    virtual void stop() { m_isRunning = false; }
-    bool isRunning() const { return m_isRunning; }
-Q_SIGNALS:
-    void timeout();
-private:
-    bool m_isRunning;
-};
-}
+// lib UbuntuGestures
+#include <Pool.h>
+#include <Timer.h>
+
+class TouchOwnershipEvent;
+class UnownedTouchEvent;
 
 /*
  An area that detects axis-aligned single-finger drag gestures
@@ -50,7 +39,7 @@ private:
 
  See doc/DirectionalDragArea.svg
  */
-class UBUNTUGESTURES_EXPORT DirectionalDragArea : public QQuickItem {
+class UBUNTUGESTURESQML_EXPORT DirectionalDragArea : public QQuickItem {
     Q_OBJECT
 
     // The direction in which the gesture should move in order to be recognized.
@@ -196,6 +185,12 @@ public:
     // Useful for testing, where a fake time source can be supplied
     void setTimeSource(const UbuntuGestures::SharedTimeSource &timeSource);
 
+    bool event(QEvent *e) override;
+
+    // Maximum time, in milliseconds, between a press and a release, for a touch
+    // sequence to be considered a tap.
+    int maxTapDuration() const { return 300; }
+
 Q_SIGNALS:
     void directionChanged(Direction::Type direction);
     void statusChanged(Status value);
@@ -212,6 +207,10 @@ Q_SIGNALS:
     void touchYChanged(qreal value);
     void touchSceneXChanged(qreal value);
     void touchSceneYChanged(qreal value);
+
+    // TODO: I would rather not have such signal as it has nothing to do with drag gestures.
+    // Remove when no longer used or move its implementation to the QML code that uses it
+    // See maxTapDuration()
     void tapped();
 
 protected:
@@ -219,7 +218,7 @@ protected:
 
 private Q_SLOTS:
     void checkSpeed();
-    void onEnabledChanged();
+    void giveUpIfDisabledOrInvisible();
 
 private:
     void touchEvent_absent(QTouchEvent *event);
@@ -238,6 +237,12 @@ private:
     // returns the scalar projection between the given vector (in scene coordinates)
     // and m_sceneDirectionVector
     qreal projectOntoDirectionVector(const QPointF &sceneVector) const;
+    void touchOwnershipEvent(TouchOwnershipEvent *event);
+    void unownedTouchEvent(UnownedTouchEvent *event);
+    void unownedTouchEvent_undecided(UnownedTouchEvent *unownedTouchEvent);
+    void watchPressedTouchPoints(const QList<QTouchEvent::TouchPoint> &touchPoints);
+    bool recognitionIsDisabled() const;
+    void emitSignalIfTapped();
 
     Status m_status;
 
@@ -283,18 +288,21 @@ private:
     public:
         ActiveTouchesInfo(const UbuntuGestures::SharedTimeSource &timeSource);
         void update(QTouchEvent *event);
-        ActiveTouchInfo &touchInfo(int id);
+        qint64 touchStartTime(int id);
+        bool isEmpty() const { return m_touchInfoPool.isEmpty(); }
         qint64 mostRecentStartTime();
         UbuntuGestures::SharedTimeSource m_timeSource;
-        bool isEmpty() const { return m_lastUsedIndex == -1; }
     private:
-        void addTouchPoint(const QTouchEvent::TouchPoint &touchPoint);
-        ActiveTouchInfo &getEmptySlot();
-        void freeSlot(int index);
-        void removeTouchPoint(const QTouchEvent::TouchPoint &touchPoint);
-        QVector<struct ActiveTouchInfo> m_vector;
-        int m_lastUsedIndex;
+        void addTouchPoint(int touchId);
+        void removeTouchPoint(int touchId);
+        #if ACTIVETOUCHESINFO_DEBUG
+        QString toString();
+        #endif
+
+        Pool<ActiveTouchInfo> m_touchInfoPool;
     } m_activeTouches;
+
+    friend class tst_DirectionalDragArea;
 };
 
 #endif // DIRECTIONAL_DRAG_AREA_H
