@@ -126,7 +126,6 @@ IndicatorBase {
         delegate: Loader {
             id: loader
             objectName: "menuItem" + index
-            asynchronous: true
             width: ListView.view.width
             visible: status == Loader.Ready
 
