@@ -51,6 +51,7 @@ Rectangle {
             anchors.fill: parent
             application: fakeApplication
             orientation: Qt.PortraitOrientation
+            interactive: true
         }
     }
     Loader {
@@ -375,8 +376,7 @@ Rectangle {
 
             waitUntilTransitionsEnd();
 
-            // Because doing stuff in C++ is a PITA we keep the counter in the interal qml impl.
-            var fakeSurface = findChild(fakeSession.surface, "fakeSurfaceQML");
+            var fakeSurface = fakeSession.surface;
             fakeSurface.touchPressCount = 0;
             fakeSurface.touchReleaseCount = 0;
 

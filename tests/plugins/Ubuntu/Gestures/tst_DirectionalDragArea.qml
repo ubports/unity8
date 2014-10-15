@@ -24,6 +24,7 @@ Rectangle {
 
     MouseArea {
         id: mouseArea
+        objectName: "mouseArea"
         anchors.fill: parent
         onClicked: {
             hpLauncher.reset()

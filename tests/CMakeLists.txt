@@ -7,6 +7,7 @@ add_custom_target(qmluitests)
 add_custom_target(qmltests)
 add_dependencies(qmltests qmlunittests qmluitests)
 
+add_subdirectory(libs)
 add_subdirectory(qmltests)
 add_subdirectory(mocks)
 add_subdirectory(whitespace)

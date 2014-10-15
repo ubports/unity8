@@ -46,6 +46,9 @@ Item {
         id: dragArea
         objectName: "hpDragArea"
 
+        // give some room for items to be dynamically stacked right behind him
+        z: 10.0
+
         width: units.gu(5)
 
         direction: Direction.Rightwards
