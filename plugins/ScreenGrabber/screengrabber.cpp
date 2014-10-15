@@ -36,7 +36,7 @@ void saveScreenshot(QImage screenshot, QString filename, QString format, int qua
 
 ScreenGrabber::ScreenGrabber(QObject *parent)
     : QObject(parent),
-      screenshotQuality(90)
+      screenshotQuality(0)
 {
     QDir screenshotsDir(QStandardPaths::displayName(QStandardPaths::PicturesLocation));
     screenshotsDir.mkdir("Screenshots");
@@ -90,5 +90,5 @@ QString ScreenGrabber::makeFileName()
 QString ScreenGrabber::getFormat()
 {
     //TODO: This should be configurable (perhaps through gsettings?)
-    return "jpg";
+    return "png";
 }
