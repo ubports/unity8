@@ -230,7 +230,6 @@ Item {
             // Make sure the notification really opened
             var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
             verify(notification !== undefined && notification != null, "notification wasn't found");
-            var behavior = findInvisibleChild(notification, "notificationHeightBehavior");
             tryCompare(notification, "height", notification.implicitHeight)
             waitForRendering(notification);
 
