@@ -162,23 +162,7 @@ void LauncherModel::pin(const QString &appId, int index)
 
 void LauncherModel::requestRemove(const QString &appId)
 {
-    int index = findApplication(appId);
-    if (index < 0) {
-        return;
-    }
-
-    if (m_appManager->findApplication(appId)) {
-        m_list.at(index)->setPinned(false);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
-        storeAppList();
-        return;
-    }
-
-    beginRemoveRows(QModelIndex(), index, index);
-    m_list.takeAt(index)->deleteLater();
-    endRemoveRows();
-
+    unpin(appId);
     storeAppList();
 }
 
@@ -289,6 +273,24 @@ void LauncherModel::storeAppList()
     m_settings->setStoredApplications(appIds);
 }
 
+void LauncherModel::unpin(const QString &appId)
+{
+    int index = findApplication(appId);
+    if (index < 0) {
+        return;
+    }
+
+    if (m_appManager->findApplication(appId)) {
+        m_list.at(index)->setPinned(false);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+    } else {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_list.takeAt(index)->deleteLater();
+        endRemoveRows();
+    }
+}
+
 int LauncherModel::findApplication(const QString &appId)
 {
     for (int i = 0; i < m_list.count(); ++i) {
@@ -370,18 +372,8 @@ void LauncherModel::refresh()
         }
     }
 
-    // If running, just unpin, otherwise really remove
     Q_FOREACH (LauncherItem* item, toBeRemoved) {
-        int index = m_list.indexOf(item);
-        if (m_appManager->findApplication(item->appId())) {
-            item->setPinned(false);
-            QModelIndex modelIndex = this->index(index);
-            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
-        } else {
-            beginRemoveRows(QModelIndex(), index, index);
-            m_list.takeAt(index)->deleteLater();
-            endRemoveRows();
-        }
+        unpin(item->appId());
     }
 
     // This brings the Launcher into sync with the settings backend again. There's an issue though:
