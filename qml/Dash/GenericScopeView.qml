@@ -215,10 +215,6 @@ FocusScope {
         delegate: DashCategoryBase {
             id: baseItem
             objectName: "dashCategory" + category
-<<<<<<< TREE
-            showDivider: false
-=======
->>>>>>> MERGE-SOURCE
 
             property Item seeAllButton: seeAll
 
