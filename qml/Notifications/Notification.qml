@@ -89,6 +89,12 @@ Item {
         }
     }
 
+    onHintsChanged: {
+        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
+            sound.play();
+        }
+    }
+
     Behavior on height {
         id: normalHeightBehavior
 
