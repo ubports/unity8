@@ -558,8 +558,6 @@ Row {
         }
 
         function test_unlockAllModemsOnBoot() {
-            // TODO reenable when service ready (LP: #1361074)
-            expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
         }
 
