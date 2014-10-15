@@ -66,6 +66,7 @@ IndicatorTest {
                     }
                     onPressed: {
                         if (pressed) {
+                            indicatorsRow.lateralPosition = mouse.x;
                             indicatorsRow.selectItemAt(mouse.x);
                         }
                     }

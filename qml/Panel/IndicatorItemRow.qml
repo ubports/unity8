@@ -144,6 +144,21 @@ Item {
             model: indicatorsModel
             visible: false
 
+            onItemRemoved: {
+                // current item removed.
+                if (currentItem === item) {
+                    var i = 0;
+                    while (i < row.children.length) {
+                        var childItem = row.children[i];
+                        if (childItem !== item) {
+                            setCurrentItemIndex(i);
+                            break;
+                        }
+                        i++;
+                    }
+                }
+            }
+
             delegate: IndicatorItem {
                 id: item
                 objectName: identifier+"-panelItem"
@@ -185,7 +200,6 @@ Item {
 
         // micromovements of the highlight line when user moves the finger across the items while pulling
         // the handle downwards.
-
         property real highlightCenterOffset: {
             if (!currentItem || lateralPosition == -1 || !enableLateralChanges) return 0;
 

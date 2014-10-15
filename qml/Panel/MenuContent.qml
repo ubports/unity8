@@ -26,16 +26,14 @@ Rectangle {
     id: content
 
     property QtObject indicatorsModel: null
-    readonly property alias currentMenuIndex: listViewContent.currentIndex
+    property int currentMenuIndex: -1
     color: "#221e1c" // FIXME not in palette yet
 
     width: units.gu(40)
     height: units.gu(42)
 
-    function setCurrentMenuIndex(index) {
-        // FIXME - https://bugreports.qt-project.org/browse/QTBUG-41229
-        listViewContent.currentIndex = -1;
-        listViewContent.currentIndex = index;
+    onCurrentMenuIndexChanged: {
+        listViewContent.currentIndex = currentMenuIndex;
     }
 
     Flickables.ListView {
@@ -51,6 +49,11 @@ Rectangle {
         orientation: ListView.Horizontal
         // Load all the indicator menus (a big number)
         cacheBuffer: 1073741823
+
+        // for additions/removals.
+        onCountChanged: {
+            listViewContent.currentIndex = content.currentMenuIndex;
+        }
 
         delegate: Loader {
             id: loader

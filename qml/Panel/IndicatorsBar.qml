@@ -21,6 +21,7 @@ import "../Components"
 Item {
     id: root
     property alias expanded: row.expanded
+    property alias interactive: flickable.interactive
     property alias indicatorsModel: row.indicatorsModel
     property alias unitProgress: row.unitProgress
     property alias enableLateralChanges: row.enableLateralChanges
@@ -41,10 +42,6 @@ Item {
             row.resetCurrentItem();
         }
         row.setCurrentItemIndex(index);
-    }
-
-    function alignIndicators() {
-        alignmentTimer.start();
     }
 
     function addScrollOffset(scrollAmmout) {
@@ -89,6 +86,23 @@ Item {
         Behavior on alignmentAdjustment {
             NumberAnimation { duration: UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing}
         }
+
+        function alignIndicators() {
+            flickable.resetContentXComponents();
+
+            if (expanded && !flickable.moving) {
+                 // gap between left and row?
+                if (row.width > flickable.width && flickable.contentX < 0) {
+                    d.alignmentAdjustment += flickable.contentX;
+                // current item overlap on left
+                } else if (row.currentItem.x < flickable.contentX) {
+                    d.alignmentAdjustment -= (row.currentItem.x - flickable.contentX);
+                // current item overlap on right
+                } else if (row.currentItem.x + row.currentItem.width > flickable.contentX + flickable.width) {
+                    d.alignmentAdjustment -= ((row.currentItem.x + row.currentItem.width) - (flickable.contentX + flickable.width));
+                }
+            }
+        }
     }
 
     Rectangle {
@@ -113,9 +127,15 @@ Item {
 
             anchors.fill: parent
             contentWidth: row.width
-            interactive: root.expanded
+            interactive: false
             // align right + offset from row selection + scrolling
             contentX: row.width - flickable.width - d.combinedOffset
+
+            // contentX can change by user interaction as well as user offset changes
+            // This function re-aligns the offsets so that the offsets match the contentX
+            function resetContentXComponents() {
+                d.scrollOffset += (flickable.contentX - (row.width - flickable.width - d.combinedOffset));
+            }
 
             rebound: Transition {
                 NumberAnimation {
@@ -150,7 +170,7 @@ Item {
                     enabled: root.expanded
                     onClicked: {
                         row.selectItemAt(mouse.x);
-                        alignIndicators();
+                        d.alignIndicators();
                     }
                 }
             }
@@ -162,11 +182,8 @@ Item {
         id: alignmentTimer
         interval: UbuntuAnimation.FastDuration // enough for row animation.
         repeat: false
-        onTriggered: {
-            if (expanded && !flickable.moving && row.width > flickable.width && flickable.contentX < 0) { // off the left.
-                d.alignmentAdjustment += flickable.contentX;
-            }
-        }
+
+        onTriggered: d.alignIndicators();
     }
 
     states: [
@@ -178,18 +195,18 @@ Item {
                 rowOffset: 0
                 scrollOffset: 0
                 alignmentAdjustment: 0
+                combinedOffset: 0
                 restoreEntryValues: false
             }
         },
         State {
             name: "expanded"
-            when: expanded
+            when: expanded && !interactive
 
             PropertyChanges {
                 target: d
                 combinedOffset: rowOffset + alignmentAdjustment - scrollOffset
             }
-
             PropertyChanges {
                 target: d
                 rowOffset: {
@@ -199,6 +216,25 @@ Item {
                     var rowOffset = distanceFromRight - originalDistanceFromRight;
                     return rowOffset;
                 }
+                restoreEntryValues: false
+            }
+        }
+        , State {
+            name: "interactive"
+            when: expanded && interactive
+
+            StateChangeScript {
+                script: {
+                    // don't use row offset anymore.
+                    d.scrollOffset -= d.rowOffset;
+                    d.rowOffset = 0;
+                    d.initialItem = undefined;
+                    alignmentTimer.start();
+                }
+            }
+            PropertyChanges {
+                target: d
+                combinedOffset: rowOffset + alignmentAdjustment - scrollOffset
                 restoreEntryValues: false
             }
         }

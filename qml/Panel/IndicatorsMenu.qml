@@ -87,6 +87,7 @@ Showable {
         indicatorsModel: root.indicatorsModel
         visible: root.unitProgress > 0
         enabled: contentEnabled
+        currentMenuIndex: bar.currentItemIndex
     }
 
     Handle {
@@ -207,7 +208,6 @@ Showable {
         onRunningChanged: {
             if (showAnimation.running) {
                 root.state = "commit";
-                bar.alignIndicators();
             }
         }
     }
@@ -221,35 +221,8 @@ Showable {
         }
     }
 
-    Connections {
-        target: content
-        onCurrentMenuIndexChanged: {
-            var oldActive = d.enableIndexChangeSignal;
-            if (!oldActive) return;
-            d.enableIndexChangeSignal = false;
-
-            bar.setCurrentItemIndex(content.currentMenuIndex);
-
-            d.enableIndexChangeSignal = oldActive;
-        }
-    }
-
-    Connections {
-        target: bar
-        onCurrentItemIndexChanged: {
-            var oldActive = d.enableIndexChangeSignal;
-            if (!oldActive) return;
-            d.enableIndexChangeSignal = false;
-
-            content.setCurrentMenuIndex(bar.currentItemIndex);
-
-            d.enableIndexChangeSignal = oldActive;
-        }
-    }
-
     QtObject {
         id: d
-        property bool enableIndexChangeSignal: true
         property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
 
         property real rowMappedLateralPosition: {
@@ -301,7 +274,11 @@ Showable {
         },
         State {
             name: "commit"
-            PropertyChanges { target: bar; expanded: true }
+            PropertyChanges {
+                target: bar
+                expanded: true
+                interactive: true
+            }
         }
     ]
     state: "initial"
