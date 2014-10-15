@@ -79,6 +79,7 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
+        audioRole: MediaPlayer.alert
         source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
