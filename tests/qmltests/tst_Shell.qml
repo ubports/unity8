@@ -127,6 +127,8 @@ Row {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
@@ -134,6 +136,8 @@ Row {
         }
 
         function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+
             shellLoader.itemDestroyed = false;
 
             shellLoader.active = false;

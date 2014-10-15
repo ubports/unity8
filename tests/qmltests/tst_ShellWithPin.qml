@@ -117,6 +117,7 @@ Row {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
             sessionSpy.target = findChild(shell, "greeter")
             swipeAwayGreeter()
             shell.failedLoginsDelayAttempts = -1
@@ -126,6 +127,8 @@ Row {
         }
 
         function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+
             shellLoader.itemDestroyed = false
 
             shellLoader.active = false
