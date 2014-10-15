@@ -43,7 +43,7 @@ Rectangle {
 
         function test_empty() {
             compare(indicatorItem.indicatorVisible, false, "IndicatorItem should not be visible.");
-            indicatorItem.widgetSource = "qrc:/tests/indciators/qml/fake_menu_widget1.qml";
+            indicatorItem.widgetSource = "../../../qml/Panel/Indicators/DefaultIndicatorWidget.qml";
             tryCompare(indicatorItem, "indicatorVisible", true);
         }
     }

@@ -59,6 +59,8 @@ Item {
 
             property bool itemDestroyed: false
             sourceComponent: Component {
+                property string indicatorProfile: "phone"
+
                 Shell {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;

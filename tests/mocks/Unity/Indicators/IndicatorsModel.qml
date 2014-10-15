@@ -18,43 +18,151 @@ import QtQuick 2.0
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.FakeIndicatorsModel {
+    id: root
+
+    Component.onCompleted: {
+        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake1",
+                                           "/com/canonical/indicators/fake1",
+                                           "/com/canonical/indicators/fake1",
+                                           getUnityMenuModelData("fake-indicator-bluetooth",
+                                                                 "Bluetooth (F)",
+                                                                 "",
+                                                                 [ "image://theme/bluetooth-active" ]));
+        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake2",
+                                           "/com/canonical/indicators/fake2",
+                                           "/com/canonical/indicators/fake2",
+                                           getUnityMenuModelData("fake-indicator-network",
+                                                                 "Network (F)",
+                                                                 "",
+                                                                 [ "image://theme/simcard-error", "image://theme/wifi-high" ]));
+        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake3",
+                                           "/com/canonical/indicators/fake3",
+                                           "/com/canonical/indicators/fake3",
+                                           getUnityMenuModelData("fake-indicator-sound",
+                                                                 "Messages (F)",
+                                                                 "",
+                                                                 [ "image://theme/messages-new" ]));
+        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake4",
+                                           "/com/canonical/indicators/fake4",
+                                           "/com/canonical/indicators/fake4",
+                                           getUnityMenuModelData("fake-indicator-power",
+                                                                 "Sound (F)",
+                                                                 "",
+                                                                 [ "image://theme/audio-volume-high" ]));
+        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake5",
+                                           "/com/canonical/indicators/fake5",
+                                           "/com/canonical/indicators/fake5",
+                                           getUnityMenuModelData("fake-indicator-power",
+                                                                 "Battery (F)",
+                                                                 "",
+                                                                 [ "image://theme/battery-020" ]));
+    }
+
+    function getUnityMenuModelData(identifier, title, label, icons) {
+        var root = [{
+            "rowData": {                // 1
+                "label": "",
+                "sensitive": true,
+                "isSeparator": false,
+                "icon": "",
+                "type": "com.canonical.indicator.root",
+                "ext": {},
+                "action": "",
+                "actionState": {
+                    "title": title,
+                    "label": label,
+                    "icons": icons
+                },
+                "isCheck": false,
+                "isRadio": false,
+                "isToggled": false,
+            },
+            "submenu": []
+        }];
+
+        var submenus = [];
+        for (var i = 0; i < 8; i++) {
+            var submenu = {
+                "rowData": {                 // 1.1
+                    "label": identifier,
+                    "sensitive": true,
+                    "isSeparator": false,
+                    "icon": "",
+                    "type": undefined,
+                    "ext": {},
+                    "action": "",
+                    "actionState": {},
+                    "isCheck": false,
+                    "isRadio": false,
+                    "isToggled": false,
+            }};
+            submenus.push(submenu);
+        }
+        root[0]["submenu"] = submenus;
+
+        return root;
+    }
+
+    property var originalModelData: [
+        {
+            "identifier": "indicator-fake1",
+            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
+            "pageSource": "Indicators/DefaultIndicatorPage.qml",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake1",
+                "menuObjectPath": "/com/canonical/indicators/fake1",
+                "actionsObjectPath": "/com/canonical/indicators/fake1"
+            }
+        },
+        {
+            "identifier": "indicator-fake2",
+            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
+            "pageSource": "Indicators/DefaultIndicatorPage.qml",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake2",
+                "menuObjectPath": "/com/canonical/indicators/fake2",
+                "actionsObjectPath": "/com/canonical/indicators/fake2"
+            }
+        },
+        {
+            "identifier": "indicator-fake3",
+            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
+            "pageSource": "Indicators/DefaultIndicatorPage.qml",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake3",
+                "menuObjectPath": "/com/canonical/indicators/fake3",
+                "actionsObjectPath": "/com/canonical/indicators/fake3"
+            }
+        },
+        {
+            "identifier": "indicator-fake4",
+            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
+            "pageSource": "Indicators/DefaultIndicatorPage.qml",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake4",
+                "menuObjectPath": "/com/canonical/indicators/fake4",
+                "actionsObjectPath": "/com/canonical/indicators/fake4"
+            }
+        },
+        {
+            "identifier": "indicator-fake5",
+            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
+            "pageSource": "Indicators/DefaultIndicatorPage.qml",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake5",
+                "menuObjectPath": "/com/canonical/indicators/fake5",
+                "actionsObjectPath": "/com/canonical/indicators/fake5"
+            }
+        }
+    ]
 
     function load(profile) {
         unload();
-
-        append({    "identifier": "indicator-fake1",
-                    "position": 0,
-                    "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget1.qml",
-                    "pageSource": "qrc:/tests/indciators/qml/fake_menu_page1.qml",
-                    "indicatorProperties": { enabled: true }
-        });
-
-        append({    "identifier": "indicator-fake2",
-                    "position": 1,
-                    "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget2.qml",
-                    "pageSource": "qrc:/tests/indciators/qml/fake_menu_page2.qml",
-                    "indicatorProperties": { enabled: true }
-        });
-
-        append({    "identifier": "indicator-fake3",
-                    "position": 2,
-                    "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget3.qml",
-                    "pageSource": "qrc:/tests/indciators/qml/fake_menu_page3.qml",
-                    "indicatorProperties": { enabled: true }
-        });
-
-        append({    "identifier": "indicator-fake4",
-                    "position": 3,
-                    "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget4.qml",
-                    "pageSource": "qrc:/tests/indciators/qml/fake_menu_page4.qml",
-                    "indicatorProperties": { enabled: true }
-        });
-
-        append({    "identifier": "indicator-fake5",
-                    "position": 4,
-                    "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget5.qml",
-                    "pageSource": "qrc:/tests/indciators/qml/fake_menu_page5.qml",
-                    "indicatorProperties": { enabled: true }
-        });
+        root.modelData = originalModelData;
     }
 }
