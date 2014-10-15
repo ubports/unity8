@@ -353,7 +353,6 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
 
 void LauncherModel::refresh()
 {
-    qDebug() << "calling refresh";
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
