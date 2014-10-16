@@ -299,6 +299,11 @@ Showable {
             UbuntuNumberAnimation {}
         }
         y: parent.height - height * (1 - bottomEdgeController.progress * 4)
+        MouseArea {
+            // Eat direct presses on the overview hint so that they do not end up in the card below
+            anchors.fill: parent
+            enabled: parent.opacity != 0
+        }
     }
 
     EdgeDragArea {
