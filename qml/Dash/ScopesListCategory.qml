@@ -84,9 +84,10 @@ Item {
                 onPressed: {
                     if (editMode) {
                         drag.target = dragItem;
+                        drag.maximumX = 0;
+                        drag.minimumX = 0;
                         dragItem.icon = icon;
                         dragItem.text = text;
-                        dragItem.x = units.gu(1)
                         dragItem.y = mapToItem(root, 0, 0).y + units.gu(1)
                         dragItem.visible = true;
                     }
