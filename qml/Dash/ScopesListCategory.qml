@@ -90,6 +90,7 @@ Item {
                         drag.maximumY = list.y + list.height - dragItem.height / 2
                         dragItem.icon = icon;
                         dragItem.text = text;
+                        dragItem.subtext = subtext;
                         dragItem.y = mapToItem(root, 0, 0).y + units.gu(1)
                         dragItem.visible = true;
                     }
