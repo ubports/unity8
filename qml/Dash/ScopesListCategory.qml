@@ -79,7 +79,11 @@ Item {
                 showStar: root.isFavoritesFeed || root.isOtherFeed
                 isFavorite: root.isFavoritesFeed
 
-                onClicked: root.requestActivate(result);
+                onClicked: {
+                    if (!editMode) {
+                        root.requestActivate(result);
+                    }
+                }
                 onRequestFavorite: root.requestFavorite(model.scopeId, favorite);
                 onPressed: {
                     if (editMode) {
