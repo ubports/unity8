@@ -81,16 +81,19 @@ Item {
 
                 onClicked: root.requestActivate(result);
                 onRequestFavorite: root.requestFavorite(model.scopeId, favorite);
-                onPressAndHold: {
-                    if (!editMode) {
-                        root.requestEditMode();
-                    } else if (model.scopeId != "clickscope") {
+                onPressed: {
+                    if (editMode && model.scopeId != "clickscope") {
                         drag.target = dragItem;
                         dragItem.icon = icon;
                         dragItem.text = text;
                         dragItem.x = units.gu(1)
                         dragItem.y = mapToItem(root, 0, 0).y + units.gu(1)
                         dragItem.visible = true;
+                    }
+                }
+                onPressAndHold: {
+                    if (!editMode) {
+                        root.requestEditMode();
                     }
                 }
                 onReleased: {
