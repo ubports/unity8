@@ -27,6 +27,7 @@ MouseArea {
     property alias showStar: star.visible
 
     property bool isFavorite: false
+    property bool hideChildren: false
 
     UbuntuShape {
         id: shape
@@ -37,6 +38,7 @@ MouseArea {
         }
         width: units.gu(5)
         height: units.gu(5)
+        visible: !hideChildren
         image: Image {
             id: shapeImage
             cache: true
@@ -45,6 +47,7 @@ MouseArea {
     }
 
     ColumnLayout {
+        visible: !hideChildren
         anchors {
             left: shape.right
             leftMargin: units.gu(1)
@@ -75,6 +78,7 @@ MouseArea {
         width: height
         anchors.right: parent.right
         enabled: !editMode
+        visible: !hideChildren
         onClicked: root.requestFavorite(model.scopeId, !isFavorite);
         Icon {
             id: star

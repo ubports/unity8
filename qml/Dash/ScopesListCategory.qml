@@ -61,15 +61,14 @@ Item {
         width: parent.width
         interactive: false
 
-        removeDisplaced: Transition { UbuntuNumberAnimation { properties: "y" } }
-        move: Transition { UbuntuNumberAnimation { properties: "y" } }
-        moveDisplaced: Transition { UbuntuNumberAnimation { properties: "y" } }
-
         anchors.top: header.bottom
         delegate: Loader {
+            id: loader
             asynchronous: true
             width: root.width
             height: listItemHeight
+            clip: height != listItemHeight
+            Behavior on height { enabled: visible; UbuntuNumberAnimation { } }
             sourceComponent: ScopesListCategoryItem {
                 width: root.width
 
@@ -78,6 +77,8 @@ Item {
                 subtext: model.subtitle || ""
                 showStar: root.isFavoritesFeed || root.isOtherFeed
                 isFavorite: root.isFavoritesFeed
+
+                hideChildren: dragItem.loaderToShrink == loader
 
                 onClicked: {
                     if (!editMode) {
@@ -88,15 +89,18 @@ Item {
                 onPressed: {
                     if (editMode) {
                         drag.target = dragItem;
-                        drag.maximumX = 0;
-                        drag.minimumX = 0;
+                        drag.maximumX = units.gu(1);
+                        drag.minimumX = units.gu(1);
                         drag.minimumY = list.y - dragItem.height / 2;
                         drag.maximumY = list.y + list.height - dragItem.height / 2
                         dragItem.icon = icon;
                         dragItem.text = text;
                         dragItem.subtext = subtext;
-                        dragItem.y = mapToItem(root, 0, 0).y + units.gu(1)
+                        dragItem.originalY = mapToItem(root, 0, 0).y;
+                        dragItem.y = dragItem.originalY;
+                        dragItem.x = units.gu(1);
                         dragItem.visible = true;
+                        dragItem.loaderToShrink = loader;
                     }
                 }
                 onPressAndHold: {
@@ -108,10 +112,12 @@ Item {
                     if (dragItem.visible) {
                         drag.target = undefined;
                         dragItem.visible = false;
-                        if (dragMarker.index != index && dragMarker.index != index + 1) {
-                            var targetIndex = dragMarker.index > index ? dragMarker.index - 1 : dragMarker.index;
-                            root.requestScopeMoveTo(model.scopeId, targetIndex);
+                        dragMarker.visible = false;
+                        if (dragMarker.index != index) {
+                            root.requestScopeMoveTo(model.scopeId, dragMarker.index);
                         }
+                        dragItem.loaderToShrink.height = listItemHeight;
+                        dragItem.loaderToShrink = null;
                     }
                 }
             }
@@ -124,11 +130,11 @@ Item {
         opacity: 0.3
         height: units.dp(2)
         width: root.width
-        visible: dragItem.visible
+        visible: false
         property int index: {
-            var i = Math.round((dragItem.y - list.y) / listItemHeight);
+            var i = Math.round((dragItem.y - list.y + dragItem.height/2) / listItemHeight);
             if (i < 0) i = 0;
-            if (i >= model.count) i = model.count;
+            if (i >= model.count - 1) i = model.count - 1;
             return i;
         }
         y: list.y + index * listItemHeight
@@ -136,11 +142,22 @@ Item {
 
     ScopesListCategoryItem {
         id: dragItem
+
+        property real originalY
+        property var loaderToShrink: null
+
         objectName: "dragItem"
         visible: false
         showStar: false
         width: root.width
         height: listItemHeight
         opacity: 0.9
+
+        onYChanged: {
+            if (!dragMarker.visible && Math.abs(y - originalY) > height / 2) {
+                dragMarker.visible = true;
+                loaderToShrink.height = 0;
+            }
+        }
     }
 }
