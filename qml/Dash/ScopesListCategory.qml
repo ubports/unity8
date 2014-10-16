@@ -86,6 +86,8 @@ Item {
                         drag.target = dragItem;
                         drag.maximumX = 0;
                         drag.minimumX = 0;
+                        drag.minimumY = list.y - dragItem.height / 2;
+                        drag.maximumY = list.y + list.height - dragItem.height / 2
                         dragItem.icon = icon;
                         dragItem.text = text;
                         dragItem.y = mapToItem(root, 0, 0).y + units.gu(1)
