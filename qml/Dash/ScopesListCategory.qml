@@ -76,13 +76,13 @@ Item {
                 icon: model.art || ""
                 text: model.title || ""
                 subtext: model.subtitle || ""
-                showStar: model.scopeId != "clickscope" && (root.isFavoritesFeed || root.isOtherFeed)
+                showStar: root.isFavoritesFeed || root.isOtherFeed
                 isFavorite: root.isFavoritesFeed
 
                 onClicked: root.requestActivate(result);
                 onRequestFavorite: root.requestFavorite(model.scopeId, favorite);
                 onPressed: {
-                    if (editMode && model.scopeId != "clickscope") {
+                    if (editMode) {
                         drag.target = dragItem;
                         dragItem.icon = icon;
                         dragItem.text = text;
@@ -119,7 +119,7 @@ Item {
         visible: dragItem.visible
         property int index: {
             var i = Math.round((dragItem.y - list.y) / listItemHeight);
-            if (i <= 0) i = 1;
+            if (i < 0) i = 0;
             if (i >= model.count) i = model.count;
             return i;
         }
