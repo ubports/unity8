@@ -53,6 +53,7 @@ Item {
 
     ListView {
         id: list
+        objectName: "scopesListCategoryInnerList"
 
         readonly property double targetHeight: model.count * listItemHeight
         clip: height != targetHeight
@@ -70,6 +71,8 @@ Item {
             clip: height != listItemHeight
             Behavior on height { enabled: visible; UbuntuNumberAnimation { } }
             sourceComponent: ScopesListCategoryItem {
+                objectName: "delegate" + index
+
                 width: root.width
 
                 icon: model.art || ""

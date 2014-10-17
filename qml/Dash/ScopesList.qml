@@ -32,26 +32,12 @@ Item {
     signal requestFavorite(string scopeId, bool favorite)
     signal requestFavoriteMoveTo(string scopeId, int index)
 
-    function closePopup() {
-        header.closePopup();
-    }
-
     state: "browse"
 
     onStateChanged: {
         if (state == "edit") {
             // As per design entering edit mode clears the possible existing search
             header.resetSearch(false /* false == unfocus */);
-        }
-    }
-
-    ScopeStyle {
-        id: scopeStyle
-        style: { "foreground-color" : "gray",
-                 "background-color" : "transparent",
-                 "page-header": {
-                    "background": "color:///transparent"
-                 }
         }
     }
 
@@ -73,6 +59,7 @@ Item {
 
     PageHeader {
         id: header
+        objectName: "pageHeader"
         title: i18n.tr("Manage")
         width: parent.width
         showBackButton: true
@@ -109,7 +96,7 @@ Item {
                     asynchronous: true
                     width: root.width
                     sourceComponent: ScopesListCategory {
-                        scopeStyle: scopeStyle;
+                        objectName: "scopesListCategory" + categoryId
                         model: results
                         editMode: root.state == "edit"
 
