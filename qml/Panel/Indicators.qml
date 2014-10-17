@@ -351,7 +351,6 @@ Showable {
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
-        distanceThreshold: panelHeight
 
         onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
     }
