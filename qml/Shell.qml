@@ -774,7 +774,7 @@ Item {
         paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
-        indicators: panel.indicators
+        panel: panel
         stages: stages
     }
 
