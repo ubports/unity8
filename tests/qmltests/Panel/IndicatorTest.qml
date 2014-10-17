@@ -26,10 +26,18 @@ Rectangle {
     id: root
     color: "white"
 
-    property alias indicatorsModel: __indicatorsModel
+    property alias indicatorsModel: __visibleIndicatorsModel
+    property alias originalModelData: __indicatorsModel.originalModelData
+
+    Indicators.VisibleIndicatorsModel {
+        id: __visibleIndicatorsModel
+
+        model: __indicatorsModel
+    }
+
     Indicators.IndicatorsModel {
         id: __indicatorsModel
-        Component.onCompleted: load()
+        Component.onCompleted: load();
     }
 
     function insertIndicator(index) {
@@ -38,30 +46,35 @@ Rectangle {
         var done = false;
         for (i = index; !done && i >= 1; i--) {
 
-            var lookFor = indicatorsModel.originalModelData[i-1]["identifier"]
+            var lookFor = __indicatorsModel.originalModelData[i-1]["identifier"]
 
             var j;
-            for (j = indicatorsModel.modelData.length-1; !done && j >= 0; j--) {
-                if (indicatorsModel.modelData[j]["identifier"] === lookFor) {
+            for (j = __indicatorsModel.modelData.length-1; !done && j >= 0; j--) {
+                if (__indicatorsModel.modelData[j]["identifier"] === lookFor) {
                     insertIndex = j+1;
                     done = true;
                 }
             }
         }
-        indicatorsModel.insert(insertIndex, indicatorsModel.originalModelData[index]);
+        __indicatorsModel.insert(insertIndex, __indicatorsModel.originalModelData[index]);
     }
 
     function removeIndicator(index) {
         var i;
-        for (i = 0; i < indicatorsModel.modelData.length; i++) {
-            if (indicatorsModel.modelData[i]["identifier"] === indicatorsModel.originalModelData[index]["identifier"]) {
-                indicatorsModel.remove(i);
+        for (i = 0; i < __indicatorsModel.modelData.length; i++) {
+            if (__indicatorsModel.modelData[i]["identifier"] === __indicatorsModel.originalModelData[index]["identifier"]) {
+                __indicatorsModel.remove(i);
                 break;
             }
         }
     }
 
+    function setIndicatorVisible(index, visible) {
+        var identifier = __indicatorsModel.originalModelData[index]["identifier"];
+        __indicatorsModel.setIndicatorVisible(identifier, visible);
+    }
+
     function resetData() {
-        indicatorsModel.load();
+        __indicatorsModel.load();
     }
 }

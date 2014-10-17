@@ -30,17 +30,13 @@ public:
 
     static FakeUnityMenuModelCache* singleton();
 
-    QSharedPointer<UnityMenuModel> model(const QByteArray& bus,
-                                             const QByteArray& path,
-                                             const QVariantMap& actions) override;
+    QSharedPointer<UnityMenuModel> model(const QByteArray& path) override;
     bool contains(const QByteArray& path) override;
 
-
-
-    Q_INVOKABLE void setCachedModelData(const QByteArray& bus,
-                                        const QByteArray& path,
-                                        const QVariantMap& actions,
+    Q_INVOKABLE void setCachedModelData(const QByteArray& path,
                                         const QVariant& data = QVariant());
+
+    Q_INVOKABLE QVariant getCachedModelData(const QByteArray& path);
 
 private:
     static FakeUnityMenuModelCache* theFakeCache;

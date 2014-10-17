@@ -79,13 +79,24 @@ IndicatorTest {
             }
 
             Repeater {
-                model: indicatorsModel.originalModelData
+                model: root.originalModelData
                 RowLayout {
                     CheckBox {
                         checked: true
                         onCheckedChanged: checked ? insertIndicator(index) : removeIndicator(index);
                     }
-                    Label { text: modelData["identifier"] }
+                    Label {
+                        Layout.fillWidth: true
+                        text: modelData["identifier"]
+                    }
+
+                    CheckBox {
+                        checked: true
+                        onCheckedChanged: setIndicatorVisible(index, checked);
+                    }
+                    Label {
+                        text: "visible"
+                    }
                 }
             }
         }
@@ -105,7 +116,7 @@ IndicatorTest {
         }
 
         function get_indicator_item(index) {
-            var indicatorItem = findChild(indicatorsMenu, indicatorsModel.originalModelData[index]["identifier"] + "-panelItem");
+            var indicatorItem = findChild(indicatorsMenu, root.originalModelData[index]["identifier"] + "-panelItem");
             verify(indicatorItem !== null);
 
             return indicatorItem;
@@ -181,7 +192,7 @@ IndicatorTest {
             var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");
             verify(indicatorItemRow !== null);
 
-            for (var i = 0; i < indicatorsModel.originalModelData.length; i++) {
+            for (var i = 0; i < root.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
 
                 var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
@@ -209,7 +220,7 @@ IndicatorTest {
         // if the x position changes
         function test_verticalVelocityDetector() {
             indicatorsMenu.verticalVelocityThreshold = 0;
-            verify(indicatorsModel.originalModelData.length >= 2);
+            verify(root.originalModelData.length >= 2);
 
             var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");
             verify(indicatorItemRow !== null);

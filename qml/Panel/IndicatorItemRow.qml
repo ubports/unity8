@@ -123,6 +123,7 @@ Item {
         id: d
         property bool firstItemSwitch: true
         property var previousItem
+        property bool forceAlignmentAnimationDisabled: false
     }
 
     onCurrentItemChanged: {
@@ -137,6 +138,22 @@ Item {
         anchors {
             top: parent.top
             bottom: parent.bottom
+        }
+
+        // TODO: make this better
+        // when the width changes, the highlight will lag behind due to animation, so we need to disable the animation
+        // and adjust the highlight X immediately.
+        width: implicitWidth
+        Behavior on width {
+            SequentialAnimation {
+                ScriptAction {
+                    script: {
+                        d.forceAlignmentAnimationDisabled = true;
+                        highlight.currentItemX = Qt.binding(function() { return currentItem ? currentItem.x : 0 });
+                        d.forceAlignmentAnimationDisabled = false;
+                    }
+                }
+            }
         }
 
         Repeater {
@@ -159,13 +176,14 @@ Item {
                 }
             }
 
+
             delegate: IndicatorItem {
-                id: item
+                id: indicatorItem
                 objectName: identifier+"-panelItem"
 
                 property int ownIndex: index
                 property bool overflow: row.width - x > overFlowWidth
-                property bool hidden: !item.expanded && overflow
+                property bool hidden: !expanded && (overflow || !indicatorVisible)
 
                 height: row.height
                 expanded: root.expanded
@@ -177,7 +195,30 @@ Item {
                 menuObjectPath: indicatorProperties.menuObjectPath
 
                 opacity: hidden ? 0.0 : 1.0
-                Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+                Behavior on opacity {
+                    NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }
+                }
+
+                width: (expanded || indicatorVisible) ? implicitWidth : 0
+
+                Behavior on width {
+                    NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }
+                }
+
+                Component.onDestruction: {
+                    // current item removed.
+                    if (currentItem === this) {
+                        var i = 0;
+                        while (i < row.children.length) {
+                            var childItem = row.children[i];
+                            if (childItem !== this) {
+                                setCurrentItemIndex(i);
+                                break;
+                            }
+                            i++;
+                        }
+                    }
+                }
             }
         }
     }
@@ -226,7 +267,7 @@ Item {
         property real currentItemX: currentItem ? currentItem.x : 0
         Behavior on currentItemX {
             id: currentItemXBehavior
-            enabled: !d.firstItemSwitch && expanded
+            enabled: !d.firstItemSwitch && expanded && !d.forceAlignmentAnimationDisabled
             NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
         x: currentItemX + highlightCenterOffset

@@ -32,11 +32,9 @@ FakeUnityMenuModelCache::FakeUnityMenuModelCache(QObject* parent)
 {
 }
 
-QSharedPointer<UnityMenuModel> FakeUnityMenuModelCache::model(const QByteArray& bus,
-                                                              const QByteArray& path,
-                                                              const QVariantMap& actions)
+QSharedPointer<UnityMenuModel> FakeUnityMenuModelCache::model(const QByteArray& path)
 {
-    return UnityMenuModelCache::singleton()->model(bus, path, actions);
+    return UnityMenuModelCache::singleton()->model(path);
 }
 
 bool FakeUnityMenuModelCache::contains(const QByteArray& path)
@@ -44,14 +42,18 @@ bool FakeUnityMenuModelCache::contains(const QByteArray& path)
     return UnityMenuModelCache::singleton()->contains(path);
 }
 
-void FakeUnityMenuModelCache::setCachedModelData(const QByteArray& bus,
-                                                 const QByteArray& path,
-                                                 const QVariantMap& actions,
+void FakeUnityMenuModelCache::setCachedModelData(const QByteArray& path,
                                                  const QVariant& data)
 {
     // keep a ref forever!
     if (!m_models.contains(path)) {
-        m_models[path] = model(bus, path, actions);
+        m_models[path] = model(path);
     }
     m_models[path]->setModelData(data);
+}
+
+QVariant FakeUnityMenuModelCache::getCachedModelData(const QByteArray& path)
+{
+    QSharedPointer<UnityMenuModel> model = this->model(path);
+    return model.isNull() ? QVariant() : model->modelData();
 }

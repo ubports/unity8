@@ -38,7 +38,7 @@ IndicatorDelegate {
 
     signal clicked()
 
-    width: mainItems.width
+    implicitWidth: mainItems.width
 
     MouseArea {
         anchors.fill: parent

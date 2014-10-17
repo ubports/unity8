@@ -23,8 +23,6 @@ import Unity.Indicators 0.1
 Item {
     id: indicatorItem
 
-    enabled: menuObjectPath != ""
-
     //const
     property string identifier
     property string busName

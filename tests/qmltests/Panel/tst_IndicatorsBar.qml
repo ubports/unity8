@@ -49,11 +49,12 @@ IndicatorTest {
                 width: units.gu(30)
                 anchors.centerIn: parent
                 indicatorsModel: root.indicatorsModel
+                interactive: expanded && height === units.gu(7)
 
                 Behavior on height {
                     NumberAnimation {
                         id: heightAnimation
-                        duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                        duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing
                     }
                 }
 
@@ -85,13 +86,24 @@ IndicatorTest {
             }
 
             Repeater {
-                model: indicatorsModel.originalModelData
+                model: root.originalModelData
                 RowLayout {
                     CheckBox {
                         checked: true
                         onCheckedChanged: checked ? insertIndicator(index) : removeIndicator(index);
                     }
-                    Label { text: modelData["identifier"] }
+                    Label {
+                        Layout.fillWidth: true
+                        text: modelData["identifier"]
+                    }
+
+                    CheckBox {
+                        checked: true
+                        onCheckedChanged: setIndicatorVisible(index, checked);
+                    }
+                    Label {
+                        text: "visible"
+                    }
                 }
             }
         }
@@ -103,7 +115,7 @@ IndicatorTest {
 
         function init() {
             indicatorsBar.expanded = false;
-            tryCompare(heightAnimation, "running", false);
+            wait_for_expansion_to_settle();
         }
 
         function test_expandSelectedItem_data() {
@@ -116,12 +128,12 @@ IndicatorTest {
 
         function wait_for_expansion_to_settle() {
             tryCompare(heightAnimation, "running", false);
-            wait(200); // put a little extra wait in for things to settle
+            wait(UbuntuAnimation.SnapDuration); // put a little extra wait in for things to settle
         }
 
         // Rough check that expanding a selected item keeps it within the area of the original item.
         function test_expandSelectedItem(data) {
-            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"] + "-panelItem");
+            var dataItem = findChild(indicatorsBar, root.originalModelData[data.index]["identifier"] + "-panelItem");
             verify(dataItem !== null);
 
             var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
@@ -130,19 +142,24 @@ IndicatorTest {
             indicatorsBar.expanded = true;
             wait_for_expansion_to_settle();
 
-            var mappedRect = indicatorsBar.mapFromItem(dataItem, 0, 0, dataItem.width, dataItem.height);
 
             // mappedPosition contained within mappedRect
-            verify(mappedRect.x <= mappedPosition.x);
-            verify(mappedRect.x + mappedRect.width >= mappedPosition.x);
+            tryCompareFunction(function() {
+                var mappedRect = indicatorsBar.mapFromItem(dataItem, 0, 0, dataItem.width, dataItem.height);
+                return mappedRect.x <= mappedPosition.x; },
+            true);
+            tryCompareFunction(function() {
+                var mappedRect = indicatorsBar.mapFromItem(dataItem, 0, 0, dataItem.width, dataItem.height);
+                return mappedRect.x + mappedRect.width >= mappedPosition.x;
+            }, true);
         }
 
         function test_scrollOffset() {
             indicatorsBar.expanded = true;
             wait_for_expansion_to_settle();
 
-            var lastItemIndex = indicatorsModel.originalModelData.length-1;
-            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[lastItemIndex]["identifier"] + "-panelItem");
+            var lastItemIndex = root.originalModelData.length-1;
+            var dataItem = findChild(indicatorsBar, root.originalModelData[lastItemIndex]["identifier"] + "-panelItem");
             verify(dataItem !== null);
 
             var row = findChild(indicatorsBar, "indicatorItemRow");
@@ -167,12 +184,41 @@ IndicatorTest {
             indicatorsBar.expanded = true;
             wait_for_expansion_to_settle();
 
-            var dataItem = findChild(indicatorsBar, indicatorsModel.originalModelData[data.index]["identifier"] + "-panelItem");
+            var dataItem = findChild(indicatorsBar, root.originalModelData[data.index]["identifier"] + "-panelItem");
             if (indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2).x < 0) {
                 skip("Out of bounds");
             }
             mouseClick(dataItem, dataItem.width/2, dataItem.height/2);
             verify(dataItem.selected === true);
+        }
+
+        function test_visibleIndicators_data() {
+            return [
+                { visible: [true, false, true, false, true, true] },
+                { visible: [false, false, false, false, false, false] }
+            ];
+        }
+
+        function test_visibleIndicators(data) {
+            for (var i = 0; i < data.visible.length; i++) {
+                var visible = data.visible[i];
+                root.setIndicatorVisible(i, visible);
+
+                var dataItem = findChild(indicatorsBar, root.originalModelData[i]["identifier"] + "-panelItem");
+                tryCompare(dataItem, "opacity", visible ? 1.0 : 0.0);
+                tryCompareFunction(function() { return dataItem.width > 0.0; }, visible);
+            }
+
+            indicatorsBar.expanded = true;
+            wait_for_expansion_to_settle();
+
+            for (var i = 0; i < data.visible.length; i++) {
+                root.setIndicatorVisible(i, data.visible[i]);
+
+                var dataItem = findChild(indicatorsBar, root.originalModelData[i]["identifier"] + "-panelItem");
+                tryCompareFunction(function() { return dataItem.opacity > 0.0; }, true);
+                tryCompareFunction(function() { return dataItem.width > 0.0; }, true);
+            }
         }
     }
 }

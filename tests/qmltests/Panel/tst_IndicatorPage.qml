@@ -110,9 +110,7 @@ Item {
         }]; // end row 1
 
     function initializeMenuData(data) {
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicator.test",
-                                                          "/com/canonical/indicator/test",
-                                                          "/com/canonical/indicator/test",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicator/test",
                                                           data);
     }
 

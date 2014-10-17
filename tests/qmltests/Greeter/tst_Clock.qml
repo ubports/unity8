@@ -37,9 +37,7 @@ Rectangle {
     }
 
     function updateDatetimeModelTime(label) {
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicator.datetime",
-            "/com/canonical/indicator/datetime/phone",
-            "/com/canonical/indicator/datetime",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicator/datetime/phone",
             [{
                 "rowData": {
                     "actionState": { "label": label }

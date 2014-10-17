@@ -63,12 +63,12 @@ IndicatorTest {
         if (menuContent.currentMenuIndex == -1)
             activate_content(0);
         else
-            activate_content((menuContent.currentMenuIndex + 1) % indicatorsModel.count)
+            activate_content((menuContent.currentMenuIndex + 1) % root.originalModelData.length)
     }
 
     function activate_content(index)
     {
-        menuContent.setCurrentMenuIndex(index)
+        menuContent.currentMenuIndex = index;
     }
 
     function get_test_menu_objecName(index) {
@@ -100,7 +100,7 @@ IndicatorTest {
 
         // Check that the correct menus are displayed for the requested item.
         function test_show_menu() {
-            var menuCount = root.indicatorsModel.count;
+            var menuCount = root.originalModelData.length;
             verify(menuCount > 0, "Menu count should be greater than zero");
 
             var listView = menu_content_test.findChild(menuContent, "indicatorsContentListView")
@@ -111,7 +111,7 @@ IndicatorTest {
                 var menuIndex = i%menuCount;
 
                 activate_content(menuIndex);
-                testItemObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
+                testItemObjectName = indicatorsModel.model.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
                 compare(listView.currentIndex, menuIndex, "Current tab index does not match selected tab index");
                 tryCompareFunction(current_item_equals_test_item, true);
             }
@@ -119,7 +119,7 @@ IndicatorTest {
 
         // Tests QTBUG-30632 - asynchronous loader crashes when changing index quickly.
         function test_multi_activate() {
-            var menuCount = root.indicatorsModel.count;
+            var menuCount = root.originalModelData.length;
             verify(menuCount > 0, "Menu count should be greater than zero");
 
             for (var i = 0; i < 100; i++) {

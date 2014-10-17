@@ -95,10 +95,10 @@ Item {
                 if (row.width > flickable.width && flickable.contentX < 0) {
                     d.alignmentAdjustment += flickable.contentX;
                 // current item overlap on left
-                } else if (row.currentItem.x < flickable.contentX) {
+                } else if (row.currentItem && row.currentItem.x < flickable.contentX) {
                     d.alignmentAdjustment -= (row.currentItem.x - flickable.contentX);
                 // current item overlap on right
-                } else if (row.currentItem.x + row.currentItem.width > flickable.contentX + flickable.width) {
+                } else if (row.currentItem && row.currentItem.x + row.currentItem.width > flickable.contentX + flickable.width) {
                     d.alignmentAdjustment -= ((row.currentItem.x + row.currentItem.width) - (flickable.contentX + flickable.width));
                 }
             }
