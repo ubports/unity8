@@ -14,12 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.3 as QtQuick
+import Ubuntu.Components 1.1
 
-Rectangle {
-    radius: width
-    width: units.dp(6)
-    height: width
-    color: UbuntuColors.orange
+QtQuick.GridView {
+    // Attached components and usages like GridView.onRemove are known not to work
+    // please use GridView directly from QtQuick if needed
+    flickDeceleration: 1500 * units.gridUnit / 8
+    maximumFlickVelocity: 2500 * units.gridUnit / 8
 }

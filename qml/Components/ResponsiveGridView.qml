@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 0.1
+import "Flickables" as Flickables
 
 /*
    Essentially a GridView where you can specify the maximum number of columns it can have.
@@ -34,7 +35,11 @@ Item {
     readonly property int cellWidth: gridView.cellWidth
     readonly property int cellHeight: gridView.cellHeight
     readonly property int totalContentHeight: {
-        return contentHeightForRows(Math.ceil(gridView.model.count / columns), cellHeight)
+        if (gridView.model) {
+            return contentHeightForRows(Math.ceil(gridView.model.count / columns), cellHeight)
+        } else {
+            return 0;
+        }
     }
     property alias interactive: gridView.interactive
     readonly property alias flicking: gridView.flicking
@@ -51,7 +56,7 @@ Item {
         return rows * height
     }
 
-    GridView {
+    Flickables.GridView {
         id: gridView
         objectName: "responsiveGridViewGrid"
         anchors {

@@ -21,6 +21,7 @@ import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
 import "../Components/"
+import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -45,6 +46,7 @@ Rectangle {
         }
 
         Rectangle {
+            objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
             color: UbuntuColors.orange
@@ -65,15 +67,6 @@ Rectangle {
             }
         }
 
-        ThinDivider {
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: -mainColumn.anchors.leftMargin
-            }
-            rotation: root.rotation
-        }
-
         Item {
             anchors.left: parent.left
             anchors.right: parent.right
@@ -83,7 +76,7 @@ Rectangle {
                 anchors.fill: parent
                 clip: true
 
-                ListView {
+                Flickables.ListView {
                     id: launcherListView
                     objectName: "launcherListView"
                     anchors {
@@ -158,7 +151,7 @@ Rectangle {
                         count: model.count
                         countVisible: model.countVisible
                         progress: model.progress
-                        clipCorner: model.pinned
+                        pinned: model.pinned
                         itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
@@ -469,10 +462,10 @@ Rectangle {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
-                clipCorner: dndArea.draggedIndex > -1 &&
-                            LauncherModel.get(dndArea.draggedIndex).pinned &&
-                            !dndArea.preDragging &&
-                            !dndArea.dragging
+                pinned: dndArea.draggedIndex > -1 &&
+                        LauncherModel.get(dndArea.draggedIndex).pinned &&
+                        !dndArea.preDragging &&
+                        !dndArea.dragging
 
                 function flatten() {
                     fakeDragItemAnimation.start();

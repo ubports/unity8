@@ -21,7 +21,7 @@
 #ifndef VELOCITY_CALCULATOR_H
 #define VELOCITY_CALCULATOR_H
 
-#include "UbuntuGesturesGlobal.h"
+#include "UbuntuGesturesQmlGlobal.h"
 #include <stdint.h>
 #include <QtCore/QObject>
 #include "TimeSource.h"
@@ -49,7 +49,7 @@
         }
     }
  */
-class UBUNTUGESTURES_EXPORT AxisVelocityCalculator : public QObject
+class UBUNTUGESTURESQML_EXPORT AxisVelocityCalculator : public QObject
 {
     Q_OBJECT
 

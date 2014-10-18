@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtCore/QtGlobal>
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Themes.Ambiance 1.1
 
-#if defined(UBUNTUGESTURES_LIBRARY)
-#  define UBUNTUGESTURES_EXPORT Q_DECL_EXPORT
-#else
-#  define UBUNTUGESTURES_EXPORT Q_DECL_IMPORT
-#endif
+PageHeadStyle {
+    id: root
+
+    property var styledItem: root
+    property string title
+    property var config: PageHeadConfiguration {}
+    property var contents: null
+}

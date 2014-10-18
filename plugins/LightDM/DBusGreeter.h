@@ -21,7 +21,6 @@
 #include <QObject>
 
 class Greeter;
-class QDBusInterface;
 
 /** This is an internal class used to talk with the indicators.
   */

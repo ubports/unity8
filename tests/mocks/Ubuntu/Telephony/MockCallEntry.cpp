@@ -22,8 +22,8 @@ MockCallEntry::MockCallEntry(QObject *parent)
     : QObject(parent)
     , m_conference(false)
     , m_elapsed(0)
+    , m_timer(0)
 {
-    startTimer(1000);
 }
 
 QString MockCallEntry::phoneNumber() const
@@ -52,9 +52,34 @@ void MockCallEntry::setIsConference(bool isConference)
     }
 }
 
+void MockCallEntry::setElapsedTime(int elapsedTime)
+{
+    if (m_elapsed != elapsedTime) {
+        m_elapsed = elapsedTime;
+        Q_EMIT elapsedTimeChanged();
+    }
+}
+
 int MockCallEntry::elapsedTime() const
 {
     return m_elapsed;
+}
+
+bool MockCallEntry::elapsedTimerRunning() const
+{
+    return m_timer != 0;
+}
+
+void MockCallEntry::setSlapsedTimerRunning(bool elapsedTimerRunning)
+{
+    if (elapsedTimerRunning && m_timer == 0) {
+        m_timer = startTimer(1000);
+        Q_EMIT elapsedTimerRunningChanged();
+    } else if (!elapsedTimerRunning && m_timer != 0) {
+        killTimer(m_timer);
+        m_timer = 0;
+        Q_EMIT elapsedTimerRunningChanged();
+    }
 }
 
 void MockCallEntry::timerEvent(QTimerEvent * event)

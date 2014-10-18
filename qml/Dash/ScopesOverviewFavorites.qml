@@ -14,9 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
+import Ubuntu.Components 1.1
+import "../Components/Flickables" as Flickables
 
-Flickable {
+Flickables.Flickable {
     id: root
 
     signal clicked(int index, var result, var itemModel)
@@ -61,7 +63,7 @@ Flickable {
                 item.cardData = Qt.binding(function() { return model; });
                 item.template = Qt.binding(function() { return cardTool.template; });
                 item.components = Qt.binding(function() { return cardTool.components; });
-                item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
+                item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
             }
 
             Connections {

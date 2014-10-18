@@ -29,14 +29,14 @@ Item {
         id: page
 
         anchors.fill: parent
-        contentActive: true
 
         menuModel: UnityMenuModel {}
         busName: "test"
         actionsObjectPath: "test"
         menuObjectPath: "test"
 
-        rootMenuType: ""
+        identifier: "test-indicator"
+        rootMenuType: "com.canonical.indicator.root"
     }
 
     property var fullMenuData: [{
@@ -117,13 +117,8 @@ Item {
         name: "DefaultIndicatorPage"
 
         function init() {
-            page.stop();
             var mainMenu = findChild(page, "mainMenu");
-            verify(mainMenu.model === undefined);
-
-            page.rootMenuType = "com.canonical.indicator.root";
-            page.start();
-
+            page.menuModel.modelData = [];
             verify(mainMenu.model !== null);
         }
 
@@ -156,21 +151,6 @@ Item {
 
             var mainMenu = findChild(page, "mainMenu");
             tryCompare(mainMenu, "count", data.expectedCount);
-        }
-
-        function test_empty_data() {
-            return [
-                { tag: "EmptyNoData", modelData: [], visible: true},
-                { tag: "EmptySubmenu", modelData: emptySubMenuData, visible: true},
-                { tag: "NotEmpty", modelData: fullMenuData, visible: false},
-            ]
-        }
-
-        function test_empty(data) {
-            page.menuModel.modelData = data.modelData;
-
-            var emptyLabel = findChild(page, "emptyLabel");
-            tryCompare(emptyLabel, "visible", data.visible);
         }
     }
 }

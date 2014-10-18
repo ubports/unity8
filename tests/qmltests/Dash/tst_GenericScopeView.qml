@@ -82,18 +82,19 @@ Item {
                 spy.signalName = "";
             }
 
-            function scrollToCategory(category) {
+            function scrollToCategory(categoryName) {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 tryCompareFunction(function() {
-                    if (findChild(genericScopeView, category)) return true;
+                    var category = findChild(genericScopeView, categoryName);
+                    if (category && category.y > 0 && category.y < genericScopeView.height) return true;
                     mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
                                genericScopeView.width/2, genericScopeView.y)
                     tryCompare(categoryListView, "moving", false);
-                    return findChild(genericScopeView, category) !== null;
+                    return false;
                 }, true);
 
                 tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
-                return findChild(genericScopeView, category);
+                return findChild(genericScopeView, categoryName);
             }
 
             function scrollToEnd()
@@ -283,7 +284,7 @@ Item {
                 if (category === undefined) category = 0;
                 if (delegate === undefined) delegate = 0;
                 tryCompareFunction(function() {
-                                        var cardGrid = findChild(genericScopeView, category);
+                                        var cardGrid = findChild(genericScopeView, "dashCategory"+category);
                                         if (cardGrid != null) {
                                             var tile = findChild(cardGrid, "delegate"+delegate);
                                             return tile != null;
@@ -291,7 +292,7 @@ Item {
                                         return false;
                                     },
                                     true);
-                var tile = findChild(findChild(genericScopeView, category), "delegate"+delegate);
+                var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
@@ -496,7 +497,7 @@ Item {
                 mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
-                tryCompare(genericScopeView.categoryView, "contentY", units.gu(13.5));
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(14));
 
                 scrollToEnd();
 
@@ -580,6 +581,27 @@ Item {
                 tryCompare(genericScopeView.scope, "favorite", !data.favorite);
 
                 genericScopeView.scope = !genericScopeView.scope;
+            }
+
+            function test_pullToRefresh() {
+                waitForRendering(genericScopeView)
+
+                mouseFlick(genericScopeView,
+                           genericScopeView.width/2, units.gu(10),
+                           genericScopeView.width/2, units.gu(80),
+                           true, false)
+
+                var pullToRefresh = findChild(genericScopeView, "pullToRefresh")
+                tryCompare(pullToRefresh, "releaseToRefresh", true)
+
+                spy.target = genericScopeView.scope
+                spy.signalName = "refreshed"
+
+                mouseRelease(genericScopeView)
+                tryCompare(pullToRefresh, "releaseToRefresh", false)
+
+                spy.wait()
+                compare(spy.count, 1)
             }
         }
     }

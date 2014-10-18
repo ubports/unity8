@@ -17,15 +17,19 @@
 import QtQuick 2.0
 
 Item {
-    property int collapsedHeight
+    property real collapsedHeight
 
-    property int expandedHeight
+    property real expandedHeight
 
     property int collapsedItemCount: -1
 
     property int displayMarginBeginning: 0
 
     property int displayMarginEnd: 0
+
+    property int visibleRangeBegin: 0
+
+    property int visibleRangeEnd: 0
 
     property real originY: 0
 

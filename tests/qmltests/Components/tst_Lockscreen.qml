@@ -18,15 +18,13 @@ import QtQuick 2.0
 import QtTest 1.0
 import ".."
 import "../../../qml/Components"
-import AccountsService 0.1
-import LightDM 0.1 as LightDM
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 Rectangle {
     id: root
     width: units.gu(80)
-    height: units.gu(70)
+    height: units.gu(76)
     color: "orange"
 
     Lockscreen {
@@ -39,7 +37,7 @@ Rectangle {
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
-        username: "Lola"
+        delayMinutes: delayMinutesTextField.text
         background: "../../../qml/graphics/phone_background.jpg"
     }
 
@@ -50,24 +48,6 @@ Rectangle {
         onEntered: {
             enteredLabel.text = passphrase
             lockscreen.clear(true)
-        }
-    }
-
-    function setUser(username) {
-        AccountsService.user = username
-        LightDM.Greeter.authenticate(username)
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onShowPrompt: {
-            if (AccountsService.passwordDisplayHint === AccountsService.Numeric) {
-                pinPadCheckBox.checked = false
-            } else {
-                pinPadCheckBox.checked = true
-            }
-            lockscreen.infoText = text;
         }
     }
 
@@ -129,6 +109,16 @@ Rectangle {
                     text: "Retries left"
                 }
             }
+            Row {
+                TextField {
+                    id: delayMinutesTextField
+                    width: units.gu(7)
+                    text: "0"
+                }
+                Label {
+                    text: "Delay Minutes"
+                }
+            }
             Label {
                 id: pinLabel
                 anchors.verticalCenter: parent.verticalCenter
@@ -141,17 +131,6 @@ Rectangle {
                     id: enteredLabel
                 }
             }
-            Button {
-                text: "start auth (1234)"
-                width: parent.width
-                onClicked: setUser("has-pin")
-            }
-            Button {
-                text: "start auth (password)"
-                width: parent.width
-                onClicked: setUser("has-password")
-            }
-
             TextField {
                 id: infoTextTextField
                 width: parent.width
@@ -193,6 +172,7 @@ Rectangle {
 
         function cleanup() {
             lockscreen.clear(false);
+            delayMinutesTextField.text = "0"
         }
 
         function waitForLockscreenReady() {
@@ -237,8 +217,8 @@ Rectangle {
 
         function test_labels_data() {
             return [
-                {tag: "numeric", alphanumeric: false, infoText: "Please enter your PIN", username: "foobar" },
-                {tag: "alphanumeric", alphanumeric: true, infoText: "Please enter your password", username: "Lola" }
+                {tag: "numeric", alphanumeric: false, infoText: "Please enter your PIN" },
+                {tag: "alphanumeric", alphanumeric: true, infoText: "Please enter your password" }
             ]
         }
 
@@ -246,22 +226,16 @@ Rectangle {
             pinPadCheckBox.checked = data.alphanumeric
             lockscreen.infoText = data.infoText
             waitForLockscreenReady();
-            if (data.alphanumeric) {
-                compare(findChild(lockscreen, "pinentryField").placeholderText, data.infoText, "Placeholdertext is not what it should be")
-                compare(findChild(lockscreen, "greeterLabel").text, "Hello " + data.username, "Greeter is not set correctly")
-            } else {
-                compare(findChild(lockscreen, "infoTextLabel").text, data.infoText, "Placeholdertext is not what it should be")
-            }
+            compare(findChild(lockscreen, "infoTextLabel").text, data.infoText, "Placeholdertext is not what it should be")
         }
-
 
         function test_unlock_data() {
             return [
-                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", minPinLength: 4, maxPinLength: 4},
-                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", minPinLength: -1, maxPinLength: -1},
-                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", minPinLength: 4, maxPinLength: 4},
-                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", minPinLength: -1, maxPinLength: -1},
-                {tag: "flexible length",  alphanumeric: false, username: "has-pin", password: "1234", minPinLength: -1, maxPinLength: -1},
+                {tag: "numeric", alphanumeric: false, password: "1234", minPinLength: 4, maxPinLength: 4},
+                {tag: "alphanumeric",  alphanumeric: true, password: "password", minPinLength: -1, maxPinLength: -1},
+                {tag: "numeric (wrong)",  alphanumeric: false, password: "4321", minPinLength: 4, maxPinLength: 4},
+                {tag: "alphanumeric (wrong)",  alphanumeric: true, password: "drowssap", minPinLength: -1, maxPinLength: -1},
+                {tag: "flexible length",  alphanumeric: false, password: "1234", minPinLength: -1, maxPinLength: -1},
             ]
         }
 
@@ -269,13 +243,13 @@ Rectangle {
             enteredLabel.text = ""
             minPinLengthTextField.text = data.minPinLength
             maxPinLengthTextField.text = data.maxPinLength
-            setUser(data.username)
+            pinPadCheckBox.checked = data.alphanumeric
+            infoTextTextField.text = "Enter " + (data.alphanumeric ? "passphrase" : "passcode")
             waitForLockscreenReady();
 
             var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {
-                mouseClick(inputField, units.gu(1), units.gu(1))
-                tryCompare(inputField, "focus", true);
+                tryCompare(inputField, "activeFocus", true);
                 typeString(data.password)
                 keyClick(Qt.Key_Enter)
             } else {
@@ -305,7 +279,6 @@ Rectangle {
 
             var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {
-                mouseClick(inputField, units.gu(1), units.gu(1))
                 tryCompare(inputField, "activeFocus", true);
                 typeString("1")
             } else {
@@ -469,6 +442,13 @@ Rectangle {
             infoTextTextField.text = data.text;
             var label = findChild(lockscreen, "infoTextLabel")
             compare(label.text, data.text);
+        }
+
+        function test_delayMinutes() {
+            delayMinutesTextField.text = "4"
+            waitForLockscreenReady()
+            var label = findChild(lockscreen, "deviceLockedLabel")
+            compare(label.text, "Device Locked")
         }
     }
 

@@ -17,7 +17,6 @@
 import QtQuick 2.0
 
 Rectangle {
-    objectName: "fakeSurfaceQML"
     id: root
     color: "pink"
 
@@ -38,11 +37,6 @@ Rectangle {
     property alias screenshotSource: screenshotImage.source
     property int orientation: Qt.PortraitOrientation
 
-    property bool wantInputMethod: false
-
-    property int touchPressCount: 0
-    property int touchReleaseCount: 0
-
     Image {
         id: screenshotImage
         anchors.fill: parent
@@ -57,11 +51,5 @@ Rectangle {
         fontSizeMode: Text.Fit
         minimumPixelSize: 10; font.pixelSize: 200
         verticalAlignment: Text.AlignVCenter
-    }
-
-    MultiPointTouchArea {
-        anchors.fill: parent
-        onPressed: { root.wantInputMethod = true; root.touchPressCount++; }
-        onReleased: { root.touchReleaseCount++; }
     }
 }

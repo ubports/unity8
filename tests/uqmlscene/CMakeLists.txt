@@ -10,6 +10,7 @@ pkg_check_modules(XCB REQUIRED xcb)
 include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
 )
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
@@ -20,4 +21,5 @@ target_link_libraries(uqmlscene
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
+    UbuntuGestures
     )

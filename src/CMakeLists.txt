@@ -1,5 +1,6 @@
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
 )
 
 file(GLOB_RECURSE QML_FILES
@@ -29,6 +30,11 @@ if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
     target_link_libraries(${SHELL_APP} ${XCB_LDFLAGS})
 endif()
 
+target_link_libraries(${SHELL_APP} UbuntuGestures)
+
+# For it to find libUbuntuGestures.so
+set_target_properties(${SHELL_APP} PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
+
 # install binaries
 install(TARGETS ${SHELL_APP}
      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -36,3 +42,4 @@ install(TARGETS ${SHELL_APP}
 
 add_subdirectory(Panel)
 add_subdirectory(Dash)
+add_subdirectory(libunity8-private)
