@@ -438,8 +438,6 @@ Item {
                             SwipeToAct {
                                 objectName: "notify_button" + index
 
-                                leftText: loader.actionLabel
-                                rightText: loader.actionLabel
                                 width: buttonRow.width
 
                                 onLeftTriggered: {
