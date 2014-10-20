@@ -91,9 +91,18 @@ Item {
             flickable.resetContentXComponents();
 
             if (expanded && !flickable.moving) {
-                 // gap between left and row?
-                if (row.width > flickable.width && flickable.contentX < 0) {
+
+                // gap between left and row?
+                if (flickable.contentX < 0) {
                     d.alignmentAdjustment += flickable.contentX;
+                // gap between right and row?
+                } else if (flickable.contentX + flickable.width > row.width) {
+                    // row width is less than flickable
+                    if (row.width < flickable.width) {
+                        d.alignmentAdjustment += flickable.contentX;
+                    } else {
+                        d.alignmentAdjustment += ((flickable.contentX + flickable.width) - row.width);
+                    }
                 // current item overlap on left
                 } else if (row.currentItem && row.currentItem.x < flickable.contentX) {
                     d.alignmentAdjustment -= (row.currentItem.x - flickable.contentX);
