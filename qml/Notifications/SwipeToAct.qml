@@ -153,22 +153,28 @@ Item {
 	    		id: slider
 
 				Behavior on x {
-					id: xBehavior
-
 					UbuntuNumberAnimation {
 						duration: UbuntuAnimation.FastDuration
 						easing.type: Easing.OutBounce
 					}
 				}
 
-				onXChanged: {
-					if (x === 0.0) {
-						leftTriggered()
-					}
-					if (x === row.width - slider.width) {
-						rightTriggered()
-					}
-				}
+			    Behavior on opacity {
+			        UbuntuNumberAnimation {
+			        	duration: UbuntuAnimation.FastDuration
+			        }
+			    }
+
+			    onOpacityChanged: {
+			    	if (opacity === 0) {
+			    		if (rightShape.state === "selected") {
+			    			rightTriggered()
+			    		}
+			    		if (leftShape.state === "selected") {
+			    			leftTriggered()
+			    		}
+			    	}
+			    }
 
 	    		z: 1
 	    		color: "white"
@@ -268,13 +274,13 @@ Item {
 				if (slider.x === drag.minimumX) {
 					slider.x = drag.minimumX
 					slider.opacity = 0
-					visible = false
+					enabled = false
 					leftShape.state = "selected"
 				}
 				if (slider.x === drag.maximumX) {
 					slider.x = drag.maximumX
 					slider.opacity = 0
-					visible = false
+					enabled = false
 					rightShape.state = "selected"
 				}
 			}
