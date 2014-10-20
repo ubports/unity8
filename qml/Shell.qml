@@ -594,9 +594,9 @@ Item {
         target: Powerd
 
         onStatusChanged: {
-            if ((Powerd.status === Powerd.Off && reason != Powerd.Proximity)
-            && !callManager.hasCalls && !edgeDemo.running) {
-                greeter.showNow()
+            if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
+                !callManager.hasCalls && !edgeDemo.running) {
+                 greeter.showNow()
             }
         }
     }
