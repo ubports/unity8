@@ -33,26 +33,33 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     m_list.append(item);
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
     item->setProgress(50);
+    item->setCountVisible(true);
     m_list.append(item);
     item = new MockLauncherItem("facebook-webapp", "/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook", this);
     item->setProgress(150);
     m_list.append(item);
     item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser", this);
     item->setCount(1);
+    item->setCountVisible(true);
     m_list.append(item);
     item = new MockLauncherItem("twitter-webapp", "/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter", this);
     item->setCount(12);
+    item->setCountVisible(true);
     item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("gmail-webapp", "/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail", this);
     item->setCount(123);
+    item->setCountVisible(true);
     m_list.append(item);
     item = new MockLauncherItem("ubuntu-weather-app", "/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather", this);
     item->setCount(1234567890);
+    item->setCountVisible(true);
+    item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad", this);
     item->setProgress(50);
     item->setCount(5);
+    item->setCountVisible(true);
     item->setFocused(true);
     item->setPinned(true);
     m_list.append(item);
@@ -76,6 +83,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
     LauncherItemInterface *item = m_list.at(index.row());
     switch(role)
     {
+    case RoleAppId:
+        return item->appId();
     case RoleName:
         return item->name();
     case RoleIcon:
@@ -90,6 +99,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
         return item->progress();
     case RoleCount:
         return item->count();
+    case RoleCountVisible:
+        return item->countVisible();
     case RoleFocused:
         return item->focused();
     }

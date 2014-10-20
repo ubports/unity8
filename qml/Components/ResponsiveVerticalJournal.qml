@@ -47,7 +47,9 @@ Item {
     property alias delegate: verticalJournalView.delegate
     property alias displayMarginBeginning: verticalJournalView.displayMarginBeginning
     property alias displayMarginEnd: verticalJournalView.displayMarginEnd
-    implicitHeight: verticalJournalView.implicitHeight
+
+    implicitHeight: verticalJournalView.implicitHeight + rowSpacing
+    clip: height < implicitHeight
 
     VerticalJournal {
         id: verticalJournalView
@@ -59,7 +61,6 @@ Item {
             topMargin: rowSpacing / 2
             bottomMargin: rowSpacing / 2
         }
-        clip: parent.height != implicitHeight
 
         function px2gu(pixels) {
             return Math.floor(pixels / units.gu(1))

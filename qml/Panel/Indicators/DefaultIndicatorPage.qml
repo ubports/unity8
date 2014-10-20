@@ -21,19 +21,18 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1 as Components
 import Unity.Indicators 0.1 as Indicators
+import "../../Components/Flickables" as Flickables
 
 IndicatorBase {
     id: main
 
     //const
-    property bool contentActive: false
     property string title: rootActionState.title
-    property alias emptyText: emptyLabel.text
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
 
     Indicators.UnityMenuModelStack {
         id: menuStack
-        head: contentActive ? main.menuModel : null
+        head: main.menuModel
 
         property var rootMenu: null
 
@@ -67,7 +66,7 @@ IndicatorBase {
         }
     }
 
-    ListView {
+    Flickables.ListView {
         id: mainMenu
         objectName: "mainMenu"
         model: menuStack.rootMenu
@@ -88,11 +87,13 @@ IndicatorBase {
             }
         }
 
-        // Ensure all delegates are cached in order to improve smoothness of scrolling
-        cacheBuffer: 10000
+        // Don't load all the delegates (only max of 3 pages worth -1/0/+1)
+        cacheBuffer: Math.max(height * 3, units.gu(70))
 
         // Only allow flicking if the content doesn't fit on the page
         interactive: contentHeight > height
+        // FIXME - https://bugreports.qt-project.org/browse/QTBUG-41207
+        boundsBehavior: Flickable.StopAtBounds
 
         property int selectedIndex: -1
         property bool blockCurrentIndexChange: false
@@ -125,17 +126,12 @@ IndicatorBase {
         delegate: Loader {
             id: loader
             objectName: "menuItem" + index
-            asynchronous: false
+            asynchronous: true
+            width: ListView.view.width
             visible: status == Loader.Ready
 
             property int modelIndex: index
-
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-
-            sourceComponent: factory.load(model)
+            sourceComponent: factory.load(model, main.identifier)
 
             onLoaded: {
                 if (item.hasOwnProperty("selected")) {
@@ -180,44 +176,8 @@ IndicatorBase {
         menuModel: mainMenu.model ? mainMenu.model : null
     }
 
-    Components.Label {
-        id: emptyLabel
-        objectName: "emptyLabel"
-        visible: mainMenu.count == 0
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            topMargin: units.gu(2)
-        }
-        wrapMode: Text.WordWrap
-        horizontalAlignment: Text.AlignHCenter
-
-        //style
-        color: "#e8e1d0"
-        fontSize: "medium"
-
-        text: "Empty!"
-    }
-
-    function start()
-    {
-        reset()
-        if (!contentActive) {
-            contentActive = true;
-        }
-    }
-
-    function stop()
-    {
-        if (contentActive) {
-            contentActive = false;
-        }
-    }
-
     function reset()
     {
-        mainMenu.selectedIndex = -1;
         mainMenu.positionViewAtBeginning();
     }
 }

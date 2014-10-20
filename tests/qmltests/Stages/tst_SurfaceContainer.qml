@@ -29,43 +29,6 @@ Rectangle {
     height: units.gu(70)
 
     Component {
-        id: fakeSurfaceComponent
-        Rectangle {
-            color: "green"
-
-            Rectangle {
-                color: "blue"
-                anchors.fill: parent
-                anchors.margins: units.gu(2)
-                Text {
-                    anchors.fill: parent
-                    text: "Surface"
-                    color: "green"
-                    font.bold: true
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 10; font.pixelSize: 200
-                    verticalAlignment: Text.AlignVCenter
-                }
-            }
-
-            width: units.gu(1)
-            height: units.gu(1)
-
-            property int type: MirSurfaceItem.Normal
-            property int state: MirSurfaceItem.Restored
-            property string name: "Fake Surface"
-            property Item parentSurface: null
-            property list<Item> childSurfaces
-            function release() {}
-            signal removed();
-        }
-    }
-
-    Item {
-        id: tempSurfaceHolder
-    }
-
-    Component {
         id: surfaceContainerComponent
         SurfaceContainer {
             anchors.fill: parent
@@ -98,19 +61,20 @@ Rectangle {
             Row {
                 anchors { left: parent.left; right: parent.right }
                 CheckBox {
-                    id: surfaceCheckbox; checked: false;
+                    id: surfaceCheckbox;
+                    checked: false;
                     onCheckedChanged: {
                         if (surfaceContainerLoader.status !== Loader.Ready)
                             return;
 
                         if (checked) {
-                            var fakeSurface = fakeSurfaceComponent.createObject(tempSurfaceHolder);
+                            var fakeSurface = SurfaceManager.createSurface("fake-surface",
+                                                                           MirSurfaceItem.Normal,
+                                                                           MirSurfaceItem.Restored,
+                                                                           Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
                             surfaceContainerLoader.item.surface = fakeSurface;
                         } else {
-                            var fakeSurface = surfaceContainerLoader.item.surface;
-                            surfaceContainerLoader.item.surface = null;
-                            fakeSurface.parent = null;
-                            fakeSurface.destroy();
+                            ApplicationTest.removeSurface(surfaceContainerLoader.item.surface);
                         }
                     }
                 }
@@ -124,16 +88,28 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: surfaceSpy
+        target: SurfaceManager
+        signalName: "surfaceDestroyed"
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "SurfaceContainer"
         when: windowShown
+
+        property var surfaceContainer:
+                surfaceContainerLoader.status === Loader.Ready ? surfaceContainerLoader.item : null
 
         function cleanup() {
             // reload our test subject to get it in a fresh state once again
             surfaceContainerLoader.active = false;
             surfaceCheckbox.checked = false;
             surfaceContainerLoader.active = true;
+
+            tryCompare(surfaceContainerLoader.item, "surface", null);
+            surfaceSpy.clear();
         }
 
         /*
@@ -149,6 +125,40 @@ Rectangle {
             var fakeSurface = surfaceContainerLoader.item.surface;
             compare(fakeSurface.width, surfaceContainerLoader.item.width);
             compare(fakeSurface.height, surfaceContainerLoader.item.height);
+        }
+
+        function test_animateRemoval() {
+            surfaceCheckbox.checked = true;
+
+            verify(surfaceContainer.surface !== null);
+
+            ApplicationTest.removeSurface(surfaceContainer.surface);
+
+            compare(surfaceContainer.state, "zombie");
+            tryCompare(surfaceContainer, "surface", null);
+        }
+
+        function test_surfaceGetsNoTouchesWhenContainerNotInteractive() {
+            surfaceCheckbox.checked = true;
+            verify(surfaceContainer.surface !== null);
+
+            surfaceContainer.surface.touchPressCount = 0;
+            surfaceContainer.surface.touchReleaseCount = 0;
+
+            surfaceContainer.interactive = true;
+            tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
+
+            // surface got touches as the surfaceContainer is interactive
+            compare(surfaceContainer.surface.touchPressCount, 1)
+            compare(surfaceContainer.surface.touchReleaseCount, 1);
+
+            surfaceContainer.interactive = false;
+            tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
+
+            // surface shouldn't get the touches from the second tap as the surfaceContainer
+            // was *not* interactive when it happened.
+            compare(surfaceContainer.surface.touchPressCount, 1)
+            compare(surfaceContainer.surface.touchReleaseCount, 1);
         }
     }
 }

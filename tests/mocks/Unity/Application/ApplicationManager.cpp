@@ -15,9 +15,9 @@
  */
 
 #include "ApplicationManager.h"
-#include "ApplicationDBusAdaptor.h"
 #include "ApplicationInfo.h"
-#include "MirSurfaceItem.h"
+#include "Session.h"
+#include "ApplicationTestInterface.h"
 
 #include <paths.h>
 
@@ -36,11 +36,6 @@ ApplicationManager *ApplicationManager::singleton()
 {
     if (!the_application_manager) {
         the_application_manager = new ApplicationManager();
-        new ApplicationDBusAdaptor(the_application_manager);
-
-        QDBusConnection connection = QDBusConnection::sessionBus();
-        connection.registerService("com.canonical.Unity8");
-        connection.registerObject("/com/canonical/Unity8/Mocks", the_application_manager);
     }
     return the_application_manager;
 }
@@ -48,10 +43,10 @@ ApplicationManager *ApplicationManager::singleton()
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
     , m_suspended(false)
+    , m_forceDashActive(false)
 {
-    m_roleNames.insert(RoleSurface, "surface");
+    m_roleNames.insert(RoleSession, "session");
     m_roleNames.insert(RoleFullscreen, "fullscreen");
-    m_roleNames.insert(RoleApplication, "application");
 
     buildListOfAvailableApplications();
 
@@ -105,12 +100,10 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
         return app->state();
     case RoleFocused:
         return app->focused();
-    case RoleSurface:
-        return QVariant::fromValue(app->surface());
+    case RoleSession:
+        return QVariant::fromValue(app->session());
     case RoleFullscreen:
         return app->fullscreen();
-    case RoleApplication:
-        return QVariant::fromValue(app);
     default:
         return QVariant();
     }
@@ -154,10 +147,10 @@ void ApplicationManager::add(ApplicationInfo *application) {
     Q_EMIT countChanged();
     if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
 
-    connect(application, &ApplicationInfo::surfaceChanged, this, [application, this]() {
+    connect(application, &ApplicationInfo::sessionChanged, this, [application, this]() {
         QModelIndex appIndex = findIndex(application);
         if (!appIndex.isValid()) return;
-        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleSurface);
+        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleSession);
     });
     connect(application, &ApplicationInfo::focusedChanged, this, [application, this]() {
         QModelIndex appIndex = findIndex(application);
@@ -181,7 +174,7 @@ void ApplicationManager::remove(ApplicationInfo *application) {
         Q_EMIT countChanged();
         if (isEmpty()) Q_EMIT emptyChanged(isEmpty());
     }
-    disconnect(application, 0, this, 0);
+    application->disconnect(this);
 }
 
 void ApplicationManager::move(int from, int to) {
@@ -298,6 +291,31 @@ void ApplicationManager::setSuspended(bool suspended)
     }
     m_suspended = suspended;
     Q_EMIT suspendedChanged();
+}
+
+bool ApplicationManager::forceDashActive() const
+{
+    return m_forceDashActive;
+}
+
+void ApplicationManager::setForceDashActive(bool forceDashActive)
+{
+    if (m_forceDashActive == forceDashActive) {
+        return;
+    }
+
+    ApplicationInfo *dash = findApplication("unity8-dash");
+    if (dash) {
+        if (forceDashActive) {
+            dash->setState(ApplicationInfo::Running);
+        } else {
+            if (!dash->focused()) {
+                dash->setState(ApplicationInfo::Suspended);
+            }
+        }
+    }
+    m_forceDashActive = forceDashActive;
+    Q_EMIT forceDashActiveChanged();
 }
 
 bool ApplicationManager::focusApplication(const QString &appId)
@@ -463,6 +481,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setIconId("youtube");
     m_availableApplications.append(application);
 }
+
 
 QStringList ApplicationManager::availableApplications()
 {

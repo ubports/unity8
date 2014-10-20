@@ -15,7 +15,7 @@
  */
 
 #include "MirSurfaceItem.h"
-#include "ApplicationInfo.h"
+#include "Session.h"
 
 #include <paths.h>
 
@@ -34,11 +34,14 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
                                const QString &qmlFilePath,
                                QQuickItem *parent)
     : QQuickItem(parent)
-    , m_application(nullptr)
+    , m_session(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)
-    , m_parentSurface(nullptr)
+    , m_live(true)
+    , m_orientation(Qt::PortraitOrientation)
+    , m_touchPressCount(0)
+    , m_touchReleaseCount(0)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
 {
@@ -83,16 +86,9 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
 MirSurfaceItem::~MirSurfaceItem()
 {
     qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << name();
-
-    QList<MirSurfaceItem*> children(m_children);
-    for (MirSurfaceItem* child : children) {
-        child->setParentSurface(nullptr);
+    if (m_session) {
+        m_session->setSurface(nullptr);
     }
-    if (m_parentSurface)
-        m_parentSurface->removeChildSurface(this);
-
-    if (m_application)
-        m_application->removeSurface(this);
 }
 
 void MirSurfaceItem::printComponentErrors()
@@ -105,109 +101,57 @@ void MirSurfaceItem::printComponentErrors()
 
 void MirSurfaceItem::release()
 {
-    QList<MirSurfaceItem*> children(m_children);
-    for (MirSurfaceItem* child : children) {
-        child->release();
-    }
-    if (m_parentSurface) {
-        m_parentSurface->removeChildSurface(this);
-    }
+    qDebug() << "MirSurfaceItem::release " << name();
 
-    if (m_application) {
-        m_application->removeSurface(this);
+    if (m_session) {
+        m_session->setSurface(nullptr);
     }
     if (!parent()) {
         deleteLater();
     }
 }
 
-void MirSurfaceItem::setApplication(ApplicationInfo* application)
+void MirSurfaceItem::setOrientation(const Qt::ScreenOrientation orientation)
 {
-    m_application = application;
-}
-
-void MirSurfaceItem::setParentSurface(MirSurfaceItem* surface)
-{
-    if (m_parentSurface == surface || surface == this)
+    if (m_orientation == orientation)
         return;
 
-    if (m_parentSurface) {
-        m_parentSurface->removeChildSurface(this);
-    }
+    m_orientation = orientation;
 
-    m_parentSurface = surface;
+    QQmlProperty orientationProp(m_qmlItem, "orientation");
+    orientationProp.write(QVariant::fromValue(orientation));
 
-    if (m_parentSurface) {
-        m_parentSurface->addChildSurface(this);
-    }
-    Q_EMIT parentSurfaceChanged(surface);
+    Q_EMIT orientationChanged();
 }
 
-void MirSurfaceItem::addChildSurface(MirSurfaceItem* surface)
+void MirSurfaceItem::setSession(Session* session)
 {
-    qDebug() << "MirSurfaceItem::addChildSurface " << surface->name() << " to " << name();
-
-    m_children.append(surface);
-    Q_EMIT childSurfacesChanged();
+    m_session = session;
 }
 
-void MirSurfaceItem::removeChildSurface(MirSurfaceItem* surface)
+void MirSurfaceItem::setScreenshot(const QUrl& screenshot)
 {
-    qDebug() << "MirSurfaceItem::removeChildSurface " << surface->name() << " from " << name();
-
-    if (m_children.contains(surface)) {
-        m_children.removeOne(surface);
-        Q_EMIT childSurfacesChanged();
+    m_screenshotUrl = screenshot;
+    if (m_qmlItem) {
+        QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
+        screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
     }
 }
 
-QList<MirSurfaceItem*> MirSurfaceItem::childSurfaceList()
+void MirSurfaceItem::setLive(bool live)
 {
-    return m_children;
-}
-
-QQmlListProperty<MirSurfaceItem> MirSurfaceItem::childSurfaces()
-{
-    return QQmlListProperty<MirSurfaceItem>(this,
-                                            0,
-                                            MirSurfaceItem::childSurfaceCount,
-                                            MirSurfaceItem::childSurfaceAt);
-}
-
-int MirSurfaceItem::childSurfaceCount(QQmlListProperty<MirSurfaceItem> *prop)
-{
-    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
-    return p->m_children.count();
-}
-
-MirSurfaceItem* MirSurfaceItem::childSurfaceAt(QQmlListProperty<MirSurfaceItem> *prop, int index)
-{
-    MirSurfaceItem *p = qobject_cast<MirSurfaceItem*>(prop->object);
-
-    if (index < 0 || index >= p->m_children.count())
-        return nullptr;
-    return p->m_children[index];
-}
-
-
-void MirSurfaceItem::onQmlWantInputMethodChanged()
-{
-    QQmlProperty prop(m_qmlItem, "wantInputMethod");
-    bool wantInputMethod = prop.read().toBool();
-
-    if (hasFocus() && wantInputMethod) {
-        Q_EMIT inputMethodRequested();
+    if (m_live != live) {
+        m_live = live;
+        Q_EMIT liveChanged(m_live);
     }
 }
 
 void MirSurfaceItem::onFocusChanged()
 {
-    QQmlProperty prop(m_qmlItem, "wantInputMethod");
-    bool wantInputMethod = prop.read().toBool();
-
-    if (!hasFocus() && wantInputMethod) {
-        Q_EMIT inputMethodDismissed();
-        prop.write(QVariant::fromValue(false));
+    if (!hasFocus()) {
+        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
+        // Didn't have time to debug yet.
+        //Q_EMIT inputMethodDismissed();
     }
 }
 
@@ -240,12 +184,18 @@ void MirSurfaceItem::createQmlContentItem()
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
     }
+}
 
-    {
-        QQmlProperty prop(m_qmlItem, "wantInputMethod");
-        if (prop.type() == QQmlProperty::Property) {
-            bool ok = prop.connectNotifySignal(this, SLOT(onQmlWantInputMethodChanged()));
-            if (!ok) qCritical("MirSurfaceItem: failed to connect to wantInputMethod notify signal");
-        }
+void MirSurfaceItem::touchEvent(QTouchEvent * event)
+{
+    if (event->touchPointStates() & Qt::TouchPointPressed) {
+        ++m_touchPressCount;
+        Q_EMIT touchPressCountChanged(m_touchPressCount);
+        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
+        // Didn't have time to debug yet.
+        // Q_EMIT inputMethodRequested();
+    } else if (event->touchPointStates() & Qt::TouchPointReleased) {
+        ++m_touchReleaseCount;
+        Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
     }
 }

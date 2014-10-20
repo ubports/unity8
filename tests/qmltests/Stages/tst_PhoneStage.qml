@@ -31,6 +31,8 @@ Item {
         anchors { fill: parent; rightMargin: units.gu(30) }
         dragAreaWidth: units.gu(2)
         maximizedAppTopMargin: units.gu(3) + units.dp(2)
+        interactive: true
+        orientation: Qt.PortraitOrientation
     }
 
     Binding {
@@ -64,7 +66,22 @@ Item {
                 anchors { left: parent.left; right: parent.right }
                 text: "Stop Selected"
                 onClicked: {
-                    ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfo.Stopped);
+                    ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
+                }
+            }
+            Button {
+                anchors { left: parent.left; right: parent.right }
+                text: "Rotate device \u27F3"
+                onClicked: {
+                    if (phoneStage.orientation == Qt.PortraitOrientation) {
+                        phoneStage.orientation = Qt.LandscapeOrientation;
+                    } else if (phoneStage.orientation == Qt.LandscapeOrientation) {
+                        phoneStage.orientation = Qt.InvertedPortraitOrientation;
+                    } else if (phoneStage.orientation == Qt.InvertedPortraitOrientation) {
+                        phoneStage.orientation = Qt.InvertedLandscapeOrientation;
+                    } else {
+                        phoneStage.orientation = Qt.PortraitOrientation;
+                    }
                 }
             }
         }
@@ -161,7 +178,8 @@ Item {
             var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
             var endY = startY;
-            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset;
+            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset
+                - phoneStage.dragAreaWidth;
 
             var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);
@@ -256,6 +274,46 @@ Item {
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
         }
 
+        function test_orientation_change_sent_to_focused_app() {
+            phoneStage.orientation = Qt.PortraitOrientation;
+            addApps(1);
+
+            var spreadView = findChild(phoneStage, "spreadView");
+            var app = findChild(spreadView, "appDelegate0");
+            tryCompare(app, "orientation", Qt.PortraitOrientation);
+
+            phoneStage.orientation = Qt.LandscapeOrientation;
+            tryCompare(app, "orientation", Qt.LandscapeOrientation);
+        }
+
+        function test_orientation_change_not_sent_to_apps_while_spread_open() {
+            phoneStage.orientation = Qt.PortraitOrientation;
+            addApps(1);
+
+            var spreadView = findChild(phoneStage, "spreadView");
+            var app = findChild(spreadView, "appDelegate0");
+            tryCompare(app, "orientation", Qt.PortraitOrientation);
+
+            goToSpread();
+            phoneStage.orientation = Qt.LandscapeOrientation;
+            tryCompare(app, "orientation", Qt.PortraitOrientation);
+        }
+
+        function test_orientation_change_not_sent_to_unfocused_app_until_it_focused() {
+            phoneStage.orientation = Qt.PortraitOrientation;
+            addApps(1);
+
+            var spreadView = findChild(phoneStage, "spreadView");
+            var app = findChild(spreadView, "appDelegate0");
+
+            goToSpread();
+            phoneStage.orientation = Qt.LandscapeOrientation;
+            tryCompare(app, "orientation", Qt.PortraitOrientation);
+
+            phoneStage.select(app.application.appId);
+            tryCompare(app, "orientation", Qt.LandscapeOrientation);
+        }
+
         function cleanup() {
             while (ApplicationManager.count > 1) {
                 var oldCount = ApplicationManager.count;
@@ -263,6 +321,24 @@ Item {
                 ApplicationManager.stopApplication(ApplicationManager.get(closingIndex).appId)
                 tryCompare(ApplicationManager, "count", oldCount - 1)
             }
+            phoneStage.orientation = Qt.PortraitOrientation;
+        }
+
+        function test_focusNewTopMostAppAfterFocusedOneClosesItself() {
+            addApps(2);
+
+            var secondApp = ApplicationManager.get(0);
+            tryCompare(secondApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(secondApp, "focused", true);
+
+            var firstApp = ApplicationManager.get(1);
+            tryCompare(firstApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(firstApp, "focused", false);
+
+            ApplicationManager.stopApplication(secondApp.appId);
+
+            tryCompare(firstApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(firstApp, "focused", true);
         }
     }
 }

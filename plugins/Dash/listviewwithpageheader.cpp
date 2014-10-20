@@ -104,8 +104,6 @@
 #pragma GCC diagnostic pop
 // #include <private/qquickrectangle_p.h>
 
-static const qreal bufferRatio = 0.5;
-
 qreal ListViewWithPageHeader::ListItem::height() const
 {
     return m_item->height() + (m_sectionItem ? m_sectionItem->height() : 0);
@@ -158,6 +156,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
  , m_forceNoClip(false)
  , m_inLayout(false)
  , m_inContentHeightKeepHeaderShown(false)
+ , m_cacheBuffer(0)
 {
     m_clipItem = new QQuickItem(contentItem());
 //     m_clipItem = new QQuickRectangle(contentItem());
@@ -172,7 +171,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
-    connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+    connect(m_contentYAnimation, SIGNAL(runningChanged(bool)), this, SLOT(contentYAnimationRunningChanged(bool)));
 
     setFlickableDirection(VerticalFlick);
 }
@@ -335,6 +334,20 @@ qreal ListViewWithPageHeader::headerItemShownHeight() const
     return m_headerItemShownHeight;
 }
 
+qreal ListViewWithPageHeader::cacheBuffer() const
+{
+    return m_cacheBuffer;
+}
+
+void ListViewWithPageHeader::setCacheBuffer(qreal cacheBuffer)
+{
+    if (cacheBuffer != m_cacheBuffer) {
+        m_cacheBuffer = cacheBuffer;
+        Q_EMIT cacheBufferChanged();
+        polish();
+    }
+}
+
 void ListViewWithPageHeader::positionAtBeginning()
 {
     if (m_delegateModel->count() <= 0)
@@ -356,8 +369,7 @@ void ListViewWithPageHeader::positionAtBeginning()
         // Create the subsequent items
         int modelIndex = 1;
         qreal pos = item->y() + item->height();
-        const qreal buffer = height() * bufferRatio;
-        const qreal bufferTo = height() + buffer;
+        const qreal bufferTo = height() + m_cacheBuffer;
         while (modelIndex < m_delegateModel->count() && pos <= bufferTo) {
             if (!(item = createItem(modelIndex, false)))
                 break;
@@ -407,6 +419,16 @@ void ListViewWithPageHeader::showHeader()
         contentYAnimationType = ContentYAnimationShowHeader;
         m_contentYAnimation->start();
     }
+}
+
+int ListViewWithPageHeader::firstCreatedIndex() const
+{
+    return m_firstVisibleIndex;
+}
+
+int ListViewWithPageHeader::createdItemCount() const
+{
+    return m_visibleItems.count();
 }
 
 QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
@@ -520,7 +542,7 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
             // (but the header was not shown by it's own position)
             // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
-            const bool notRebounding = contentY() + height() < contentHeight();
+            const bool notRebounding = qRound(contentY() + height()) < qRound(contentHeight());
             const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
@@ -593,11 +615,10 @@ void ListViewWithPageHeader::refill()
         return;
     }
 
-    const qreal buffer = height() * bufferRatio;
     const qreal from = contentY();
     const qreal to = from + height();
-    const qreal bufferFrom = from - buffer;
-    const qreal bufferTo = to + buffer;
+    const qreal bufferFrom = from - m_cacheBuffer;
+    const qreal bufferTo = to + m_cacheBuffer;
 
     bool added = addVisibleItems(from, to, false);
     bool removed = removeNonVisibleItems(bufferFrom, bufferTo);
@@ -830,7 +851,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 if (nextItem) {
                     listItem->setY(nextItem->y() - listItem->height());
                 } else if (modelIndex == 0) {
-                    listItem->setY(m_headerItem ? m_headerItem->height() : 0);
+                    listItem->setY(-m_clipItem->y() + (m_headerItem ? m_headerItem->height() : 0));
                 } else if (!m_visibleItems.isEmpty()) {
                     lostItem = true;
                 }
@@ -1056,10 +1077,13 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     m_contentHeightDirty = true;
 }
 
-void ListViewWithPageHeader::onShowHeaderAnimationFinished()
+void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
 {
-    m_contentHeightDirty = true;
-    polish();
+    setInteractive(!running);
+    if (!running) {
+        m_contentHeightDirty = true;
+        polish();
+    }
 }
 
 void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)

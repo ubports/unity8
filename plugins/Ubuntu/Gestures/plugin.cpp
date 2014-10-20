@@ -19,6 +19,7 @@
 #include "Direction.h"
 #include "DirectionalDragArea.h"
 #include "PressedOutsideNotifier.h"
+#include "TouchGate.h"
 
 #include <qqml.h>
 
@@ -28,10 +29,11 @@ static QObject* directionSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) 
   return new Direction;
 }
 
-void UbuntuGestureQmlPlugin::registerTypes(const char *uri)
+void UbuntuGesturesQmlPlugin::registerTypes(const char *uri)
 {
     qmlRegisterSingletonType<Direction>(uri, 0, 1, "Direction", directionSingleton);
     qmlRegisterType<DirectionalDragArea>(uri, 0, 1, "DirectionalDragArea");
     qmlRegisterType<AxisVelocityCalculator>(uri, 0, 1, "AxisVelocityCalculator");
     qmlRegisterType<PressedOutsideNotifier>(uri, 0, 1, "PressedOutsideNotifier");
+    qmlRegisterType<TouchGate>(uri, 0, 1, "TouchGate");
 }

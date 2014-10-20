@@ -19,8 +19,9 @@ import Ubuntu.Components 0.1
 import Unity.Notifications 1.0 as UnityNotifications
 import Utils 0.1
 import "../Components"
+import "../Components/Flickables" as Flickables
 
-ListView {
+Flickables.ListView {
     id: notificationList
 
     objectName: "notificationList"
@@ -33,7 +34,7 @@ ListView {
         id: snapDecisionProxyModel
 
         model: notificationList.model
-        filterRole: UnityNotifications.ModelInterface.RoleType
+        filterRole: UnityNotifications.ModelInterface != undefined ? UnityNotifications.ModelInterface.RoleType : 0
         filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
     }
 

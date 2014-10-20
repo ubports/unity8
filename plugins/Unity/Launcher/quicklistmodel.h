@@ -20,7 +20,7 @@
 #ifndef QUICKLISTMODEL_H
 #define QUICKLISTMODEL_H
 
-#include "common/quicklistentry.h"
+#include "quicklistentry.h"
 
 #include <unity/shell/launcher/QuickListModelInterface.h>
 

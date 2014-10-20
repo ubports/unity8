@@ -7,78 +7,108 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-26 08:28+0000\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-07 07:03+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:29+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Ger-tremen : "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Spilhennañ ar verradenn"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Dispilhennañ ar verradenn"
 
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Benveg prennet"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Prennet eo bet ho penveg abalamour da re a daolioù-esae c'hwitet evit merkañ "
+"ho frazenn-dremen."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Prennet eo bet ho penveg abalamour da re a daolioù-esae evit merkañ ho kod-"
+"tremen."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Gortozit %1 vunutenn, mar plij, hag esaeit en-dro..."
+msgstr[1] "Gortozit %1 a vunutoù, mar plij, hag esaeit en-dro..."
+
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "Digevreañ"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Ha sur oc'h e fell deoc'h digevreañ ?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "N'on ket"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "Ya"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "Lazhañ ar benveg"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Ha sur oc'h e fell deoc'h lazhañ ar benveg ?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "Adloc'hañ"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Ha sur oc'h e fell deoc'h adloc'hañ ?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Tredan"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Ha sur oc'h e fell deoc'h\n"
+"troc'hañ an tredan ?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Lazhañ"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Adloc'hañ"
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Nullañ"
 
@@ -135,60 +165,44 @@ msgstr ""
 "Mestroniañ a rit ar jestroù ha gallout a rit kregiñ da implijout ar "
 "pellgomzer<br><br>Touchit d'ar skramm evit kregiñ ganti"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Gortozit, mar plij"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr "Re a daolioù-esae direizh"
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Pellgomzadenn vallus"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Mat eo"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Demat %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Demat"
-
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Gwelet nebeutoc'h"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Gwelet pep tra"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Klask"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
-msgstr ""
+msgstr "Arventennoù"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Lemel eus ar sinedoù"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Ouzhpennañ d'ar sinedoù"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Muioc'h..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "Nebeutoc'h..."
 
@@ -204,15 +218,23 @@ msgstr "Ouzhpennañ un ali"
 msgid "Send"
 msgstr "Kas"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr "Merañ an daolenn-vourzh"
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Tennañ evit freskaat..."
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Lezel da vont evit freskaat..."
+
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "Merañ ar c'hefluskerioù enklask"
+
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
 msgstr "Graet eo"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
 msgstr "Enrollañ"
 
@@ -225,10 +247,10 @@ msgid "All"
 msgstr "An holl anezho"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Riklañ evit dibrennañ"
+msgid "Unlock"
+msgstr "Dibrennañ"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Kadarnaat"
 
@@ -248,17 +270,9 @@ msgstr "Komzit bremañ..."
 msgid "Speaking..."
 msgstr "O komz..."
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Diskouez ar ger-tremen"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
-msgid "Enter SIM PIN"
-msgstr "Ebarzhit kod PIN ar gartenn SIM"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
-msgid "Sorry, incorrect PIN"
-msgstr "Siwazh, kod PIN direizh"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -268,27 +282,31 @@ msgstr "Touchit evit distreiñ d'ar bellgomzadenn..."
 msgid "Conference"
 msgstr "Kendiviz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "Ne lenner netra bremañ"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr "El lostennad..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "O pellgargañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr "Ehanet, touchit evit adkregiñ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr "Nullet"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr "Echu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr "C'hwitet, touchit evit adkregiñ"
 
@@ -300,45 +318,49 @@ msgstr "Dibrennañ ar gartenn SIM"
 msgid "Roaming"
 msgstr "O kantren"
 
-#: qml/Shell.qml:266
-msgid "Enter your passphrase"
-msgstr "Ebarzhit ho frazenn-dremen"
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
+msgstr "Merkañ ar frazenn-dremen"
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Shell.qml:282
-msgid "Enter your passcode"
-msgstr ""
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Adverkañ, mar plij"
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:350
+msgid "Enter passcode"
+msgstr "Merkañ ar c'hod-tremen"
+
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Digarezit, kod-tremen direizh"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
-msgstr "Ebarzhit ho %1"
+msgid "Enter %1"
+msgstr "Merkañ  %1"
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Siwazh, %1 direizh"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
 msgstr "Siwazh, kod-tremen direizh"
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
 msgstr "Ho taol-esae diwezhañ e vo."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -346,7 +368,7 @@ msgstr ""
 "Ma vez ebarzhet ur frazenn-dremen direizh, e vo adderaouekaet ho pellgomzer "
 "gant arventennoù al labouradeg hag e vo diverket an holl roadennoù personel"
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -354,11 +376,8 @@ msgstr ""
 "Ma vez ebarzhet ur c'hod-tremen direizh, e vo adderaouekaet ho pellgomzer "
 "gant arventennoù al labouradeg hag e vo diverket an holl roadennoù personel."
 
-#~ msgid "Are you sure you would like to turn power off?"
-#~ msgstr "Ha sur oc'h e fell deoc'h lazhañ ar benveg ?"
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Siwazh, kod PIN direizh"
 
-#~ msgid "Restart"
-#~ msgstr "Adloc'hañ"
-
-#~ msgid "Enter your PIN"
-#~ msgstr "Ebarzhit ho kod PIN"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Ebarzhit kod PIN ar gartenn SIM"

@@ -85,8 +85,8 @@ Rectangle {
             "layout": { "template": { "card-layout": "vertical" }, "components": { "title": "title", "subtitle": "subtitle" } }
         },
         {
-            "name": "Title, price - horizontal",
-            "layout": { "template": { "card-layout": "horizontal" }, "components": { "title": "title", "price": "price" } }
+            "name": "Title, attributes - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" }, "components": { "title": "title", "attributes": "attributes" } }
         },
     ]
 
@@ -100,6 +100,7 @@ Rectangle {
     }
 
     Column {
+        id: column
         width: units.gu(38)
         anchors { left: parent.left; top: parent.top; margins: units.gu(1) }
 
@@ -111,7 +112,7 @@ Rectangle {
             ]
 
             delegate: Row {
-                anchors { left: parent.left; right: parent.right; margins: units.gu(3) }
+                anchors { left: column.left; right: column.right; margins: units.gu(3) }
 
                 Label {
                     height: units.gu(5)
@@ -315,28 +316,35 @@ Rectangle {
             }
         }
 
-        function test_card_header_component_alignment_data() {
+        function test_card_title_alignment_data() {
             return [
-                { tag: "Title - vertical", component: "titleLabel", property: "headerAlignment",
-                  value: Text.AlignHCenter, index: 11, layout_index: 0 },
-                { tag: "Title - horizontal", component: "titleLabel", property: "headerAlignment",
-                  value: Text.AlignLeft, index: 12, layout_index: 0},
-                { tag: "Title, subtitle - vertical", component: "titleLabel", property: "headerAlignment",
-                  value: Text.AlignLeft, index: 13, layout_index: 0},
-                { tag: "Title, price - horizontal", component: "titleLabel", property: "headerAlignment",
-                  value: Text.AlignLeft, index: 14, layout_index: 0},
-            ]
+                { tag: "Art, header, summary", value: Text.AlignLeft, index: 0 },
+                { tag: "Header, summary", value: Text.AlignLeft, index: 1 },
+                { tag: "Art, header", value: Text.AlignLeft, index: 2 },
+                { tag: "Header only", value: Text.AlignLeft, index: 3 },
+                { tag: "Header title only", value: Text.AlignHCenter, index: 4 },
+                { tag: "Header title and subtitle", value: Text.AlignLeft, index: 5 },
+                { tag: "Header title and mascot", value: Text.AlignLeft, index: 6 },
+                { tag: "Art, header, summary - small", value: Text.AlignLeft, index: 7 },
+                { tag: "Art, header, summary - large", value: Text.AlignLeft, index: 8 },
+                { tag: "Art, header, summary - horizontal", value: Text.AlignLeft, index: 9 },
+                { tag: "Art, header - portrait", value: Text.AlignLeft, index: 10 },
+                { tag: "Title - vertical", value: Text.AlignHCenter, index: 11 },
+                { tag: "Title - horizontal", value: Text.AlignLeft, index: 12 },
+                { tag: "Title, subtitle - vertical", value: Text.AlignLeft, index: 13 },
+                { tag: "Title, attributes - horizontal", value: Text.AlignLeft, index: 14 },
+            ];
         }
 
-        function test_card_header_component_alignment(data) {
+        function test_card_title_alignment(data) {
             selector.selectedIndex = data.index;
-            if (data.hasOwnProperty("layout_index")) {
-                layoutSelector.selectedIndex = data.layout_index;
-            }
 
-            if (data.hasOwnProperty("property")) {
-                tryCompare(cardTool, data.property, data.value);
-            }
+            tryCompare(cardTool, "titleAlignment", Text.AlignLeft);
+
+            cardTool.components['title'] = { "field": "title", "align": "center" };
+            cardTool.componentsChanged();
+
+            tryCompare(cardTool, "titleAlignment", data.value);
         }
 
         function test_categoryLayout_data() {

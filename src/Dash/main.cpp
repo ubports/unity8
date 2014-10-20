@@ -28,7 +28,11 @@
 
 #include <paths.h>
 #include "../MouseTouchAdaptor.h"
+#include "../ApplicationArguments.h"
 #include "../CachingNetworkManagerFactory.h"
+
+// Ubuntu Gestures
+#include <TouchRegistry.h>
 
 int main(int argc, const char *argv[])
 {
@@ -42,7 +46,11 @@ int main(int argc, const char *argv[])
         "Allow the mouse to provide touch input");
     parser.addOption(mousetouchOption);
 
-    // FIXME Remove once we drop the need of the hint
+    QCommandLineOption windowGeometryOption(QStringList() << "windowgeometry",
+        "Specify the window geometry as [<width>x<height>]", "windowgeometry", "1");
+    parser.addOption(windowGeometryOption);
+
+   // FIXME Remove once we drop the need of the hint
     QCommandLineOption desktopFileHintOption("desktop_file_hint",
         "The desktop_file_hint option for QtMir", "hint_file");
     parser.addOption(desktopFileHintOption);
@@ -51,6 +59,14 @@ int main(int argc, const char *argv[])
     // Ex: -fullscreen == --fullscreen
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
     parser.process(*application);
+
+    ApplicationArguments qmlArgs;
+    if (parser.isSet(windowGeometryOption) &&
+        parser.value(windowGeometryOption).split('x').size() == 2)
+    {
+        QStringList geom = parser.value(windowGeometryOption).split('x');
+        qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
+    }
 
     if (getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
@@ -68,10 +84,15 @@ int main(int argc, const char *argv[])
     }
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
+    textdomain("unity8");
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Unity Dash");
+    view->setTitle("Scopes");
+    view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
+
+    TouchRegistry touchRegistry;
+    view->installEventFilter(&touchRegistry);
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.

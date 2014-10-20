@@ -18,6 +18,7 @@ import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Unity 0.2
 import "../Components"
+import "../Components/Flickables" as Flickables
 import "ScopeSettings"
 
 Item {
@@ -39,7 +40,7 @@ Item {
         onBackClicked: root.backClicked()
     }
 
-    ListView {
+    Flickables.ListView {
         id: scopeSettings
         objectName: "scopeSettings"
         anchors {
@@ -49,6 +50,7 @@ Item {
             right: parent.right
         }
         model: root.scope ? root.scope.settings : null
+        clip: true
 
         delegate: ScopeSettingsWidgetFactory {
             objectName: "scopeSettingItem" + index

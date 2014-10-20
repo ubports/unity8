@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, 2013 Canonical, Ltd.
+ * Copyright (C) 2012, 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ public:
 
     Q_INVOKABLE bool isInstanceOf(QObject*, QString);
     Q_INVOKABLE TouchEventSequenceWrapper *touchEvent();
+    Q_INVOKABLE void ensureTouchRegistryInstalled();
 
 private:
     void ensureTargetWindow();
@@ -41,6 +42,7 @@ private:
 
     QWindow *m_targetWindow;
     QTouchDevice *m_touchDevice;
+    bool m_installedTouchRegistry;
 };
 
 QML_DECLARE_TYPE(TestUtil)

@@ -7,79 +7,105 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
-"PO-Revision-Date: 2014-08-14 18:22+0000\n"
-"Last-Translator: Erik Simmesgård <Unknown>\n"
+"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"PO-Revision-Date: 2014-10-07 14:28+0000\n"
+"Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 "Language: sv\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Lösenord: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Fäst genväg"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Släpp genväg"
 
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr "Enhet låst"
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr "Du har blivit utlåst efter för många misslyckade lösenfrasförsök."
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr "Du har blivit utlåst efter för många misslyckade lösenkodsförsök."
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Vänta %1 minut och prova sedan igen..."
+msgstr[1] "Vänta %1 minuter och prova sedan igen..."
+
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "Logga ut"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Är du säker på att du vill logga ut?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "Stäng av"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "Starta om"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Är du säker på att du vill starta om?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Ström"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Är du säker på att du vill \n"
+"stänga av?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr ""
+msgstr "Stäng av"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr "Omstart"
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -131,60 +157,44 @@ msgstr ""
 "Du har nu bemästrat kantgesterna och kan börja använda "
 "telefonen<br><br>Tryck på skärmen för att starta"
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
-msgstr "Var god vänta"
-
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr ""
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
 msgstr "Nödsamtal"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:252
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "Hej %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "Hej"
-
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Visa mindre"
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Visa alla"
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Sök"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:268
 msgid "Settings"
-msgstr ""
+msgstr "Inställningar"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Ta bort från Favoriter"
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Lägg till Favoriter"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Mer…"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr "Mindre…"
 
@@ -200,17 +210,25 @@ msgstr "Lägg till en recension"
 msgid "Send"
 msgstr "Skicka"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
-msgstr ""
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
+msgstr "Dra för att uppdatera..."
 
-#: qml/Dash/ScopesOverview.qml:408
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
+msgstr "Släpp för uppdatera..."
+
+#: qml/Dash/ScopesOverview.qml:206
+msgid "Manage Scopes"
+msgstr "Hantera vyer"
+
+#: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
-msgstr ""
+msgstr "Klar"
 
-#: qml/Dash/ScopesOverview.qml:434
+#: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
-msgstr ""
+msgstr "Butik"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
@@ -218,13 +236,13 @@ msgstr "Favoriter"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Alla"
 
 #: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
-msgstr "Svep för att låsa upp"
+msgid "Unlock"
+msgstr "Lås upp"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
+#: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
 msgstr "Bekräfta"
 
@@ -244,17 +262,9 @@ msgstr "Tala nu…"
 msgid "Speaking..."
 msgstr "Talar…"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Visa lösenord"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
-msgid "Enter SIM PIN"
-msgstr ""
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
-msgid "Sorry, incorrect PIN"
-msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -264,27 +274,31 @@ msgstr "Tryck för att återgå till samtal..."
 msgid "Conference"
 msgstr "Konferens"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:600
+msgid "Nothing is playing"
+msgstr "Inget spelas"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
 msgstr "I kö…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
 msgstr "Hämtar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
 msgstr "Pausad, tryck för att fortsätta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
 msgstr "Avbröt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
 msgstr "Klart"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
 msgstr "Misslyckades, tryck för att försöka igen"
 
@@ -296,55 +310,66 @@ msgstr "Lås upp SIM-kort"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:266
-msgid "Enter your passphrase"
-msgstr ""
+#: qml/Shell.qml:346
+msgid "Enter passphrase"
+msgstr "Ange lösenfras"
 
-#: qml/Shell.qml:267
+#: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Felaktig lösenfras"
 
-#: qml/Shell.qml:282
-msgid "Enter your passcode"
-msgstr ""
+#: qml/Shell.qml:348
+msgid "Please re-enter"
+msgstr "Ange igen"
 
-#: qml/Shell.qml:283
+#: qml/Shell.qml:350
+msgid "Enter passcode"
+msgstr "Ange lösenkod"
+
+#: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Felaktig lösenkod"
 
-#: qml/Shell.qml:273
+#: qml/Shell.qml:354
 #, qt-format
-msgid "Enter your %1"
-msgstr "Skriv in din %1"
+msgid "Enter %1"
+msgstr "Ange %1"
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Felaktig %1"
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Felaktig lösenfras."
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Felaktig lösenkod."
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:392
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Detta är ditt sista försök."
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Om lösenfrasen anges inkorrekt kommer telefonen att fabrikåterställas och "
+"all personlig data kommer att tas bort."
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och all "
+"personlig data kommer att tas bort."
 
-#~ msgid "Restart"
-#~ msgstr "Starta om"
+#~ msgid "Enter SIM PIN"
+#~ msgstr "Ange SIM PIN-kod"
+
+#~ msgid "Sorry, incorrect PIN"
+#~ msgstr "Felaktig PIN"

@@ -66,7 +66,7 @@ class Dash(emulators.UnityEmulatorBase):
         return resp_grid.select_single('Tile', text=text)
 
     def get_scope(self, scope_name='clickscope'):
-        return self.dash_content_list.select_single(
+        return self.dash_content_list.wait_select_single(
             'QQuickLoader', scopeId=scope_name)
 
     @autopilot_logging.log_action(logger.info)
@@ -86,14 +86,14 @@ class Dash(emulators.UnityEmulatorBase):
 
     def _get_scope_loader(self, scope_id):
         try:
-            return self.dash_content_list.select_single(
+            return self.dash_content_list.wait_select_single(
                 'QQuickLoader', scopeId=scope_id)
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        return loader.get_children()[0]
+        return loader.wait_select_single('GenericScopeView');
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -102,8 +102,8 @@ class Dash(emulators.UnityEmulatorBase):
             scroll()
             self.dash_content_list.moving.wait_for(False)
 
+        scope_loader.isCurrent.wait_for(True)
         scope = self._get_scope_from_loader(scope_loader)
-        scope.isCurrent.wait_for(True)
         return scope
 
     def _get_scroll_direction(self, scope_loader):
@@ -206,7 +206,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
     def _get_category_element(self, category):
         try:
             return self.wait_select_single(
-                'Base', objectName='dashCategory{}'.format(category))
+                'DashCategoryBase', objectName='dashCategory{}'.format(category))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))

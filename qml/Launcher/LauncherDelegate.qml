@@ -21,12 +21,13 @@ Item {
     id: root
 
     property string iconName
-    property int count: -1
+    property int count: 0
+    property bool countVisible: false
     property int progress: -1
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
-    property bool clipCorner: false
+    property alias pinned: pin.visible
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -70,27 +71,45 @@ Item {
             height: root.itemHeight - units.gu(1)
         }
 
+        Rectangle {
+            id: pin
+            anchors {
+                left: iconShape.left
+                top: iconShape.top
+                topMargin: -units.dp(2)
+            }
+            width: units.gu(1)
+            height: width
+            radius: width / 2
+            color: "white"
+        }
+
         UbuntuShape {
+            id: countEmblem
             objectName: "countEmblem"
+
+            readonly property real pinMargin: pin.visible ? pin.width + units.gu(1) - anchors.leftMargin : 0
+
             anchors {
                 right: parent.right
                 top: parent.top
                 margins: units.dp(3)
             }
-            width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
+            width: Math.min(root.itemWidth - pinMargin, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
             color: UbuntuColors.orange
-            visible: root.count > 0
+            visible: root.countVisible
             borderSource: "none"
 
             Label {
                 id: countLabel
+                objectName: "countLabel"
                 text: root.count
                 anchors.centerIn: parent
                 // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine
                 // property for Text: https://bugreports.qt-project.org/browse/QTBUG-40479
                 anchors.verticalCenterOffset: -units.dp(.5)
-                width: root.itemWidth - units.gu(1)
+                width: root.itemWidth - units.gu(1) - countEmblem.pinMargin
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
@@ -147,24 +166,6 @@ Item {
         }
     }
 
-    Item {
-        id: clipper
-        anchors.centerIn: parent
-        width: iconItem.width
-        height: iconItem.height
-        Rectangle {
-            anchors {
-                fill: parent
-                topMargin: -units.gu(2)
-                leftMargin: -units.gu(2)
-                rightMargin: -units.gu(2)
-                bottomMargin: units.gu(1.2)
-            }
-            color: "red"
-            rotation: root.rotation + 45
-        }
-    }
-
     ShaderEffect {
         id: transformEffect
         anchors.centerIn: parent
@@ -174,17 +175,11 @@ Item {
         property real itemOpacity: root.itemOpacity
         property real brightness: Math.max(-1, root.brightness)
         property real angle: root.angle
-        property bool clipCorner: root.clipCorner
         rotation: root.inverted ? 180 : 0
 
         property variant source: ShaderEffectSource {
             id: shaderEffectSource
             sourceItem: iconItem
-            hideSource: true
-        }
-
-        property var mask: ShaderEffectSource {
-            sourceItem: clipper
             hideSource: true
         }
 
@@ -222,19 +217,13 @@ Item {
         fragmentShader: "
             varying highp vec2 qt_TexCoord0;
             uniform sampler2D source;
-            uniform sampler2D mask;
             uniform lowp float brightness;
             uniform lowp float itemOpacity;
-            uniform bool clipCorner;
             void main(void)
             {
                 highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                highp vec4 maskColor = texture2D(mask, qt_TexCoord0);
                 sourceColor.rgb = mix(sourceColor.rgb, vec3(step(0.0, brightness)), abs(brightness));
                 sourceColor *= itemOpacity;
-                if (clipCorner) {
-                    sourceColor *= maskColor.a;
-                }
                 gl_FragColor = sourceColor;
             }"
     }

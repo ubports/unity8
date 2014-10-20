@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
+import "../Components/Flickables" as Flickables
 
 Item {
     id: root
@@ -34,6 +35,22 @@ Item {
 
     signal selected(int uid)
     signal unlocked(int uid)
+
+    function tryToUnlock() {
+        if (LightDM.Greeter.promptless) {
+            if (LightDM.Greeter.authenticated) {
+                root.unlocked(userList.currentIndex)
+            } else {
+                root.resetAuthentication()
+            }
+        } else {
+            passwordInput.forceActiveFocus()
+        }
+    }
+
+    function reset() {
+        root.resetAuthentication()
+    }
 
     Keys.onEscapePressed: root.resetAuthentication()
 
@@ -52,7 +69,7 @@ Item {
         antialiasing: true
     }
 
-    ListView {
+    Flickables.ListView {
         id: userList
         objectName: "userList"
 
@@ -62,7 +79,6 @@ Item {
         preferredHighlightEnd: userList.height / 2 - root.highlightedHeight / 2
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
-        flickDeceleration: 10000
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
 
@@ -229,14 +245,11 @@ Item {
     }
 
     MouseArea {
+        id: passwordMouseArea
+        objectName: "passwordMouseArea"
         anchors.fill: passwordInput
         enabled: LightDM.Greeter.promptless
-        onClicked: {
-            if (LightDM.Greeter.authenticated)
-                root.unlocked(userList.currentIndex);
-            else
-                root.resetAuthentication();
-        }
+        onClicked: root.tryToUnlock()
     }
 
     function resetAuthentication() {

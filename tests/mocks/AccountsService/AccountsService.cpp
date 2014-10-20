@@ -22,9 +22,12 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
+    m_enableLauncherWhileLocked(true),
+    m_enableIndicatorsWhileLocked(true),
     m_backgroundFile(qmlDirectory() + "graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true),
-    m_failedLogins(0)
+    m_failedLogins(0),
+    m_demoEdges(false)
 {
 }
 
@@ -42,12 +45,35 @@ void AccountsService::setUser(const QString &user)
 
 bool AccountsService::demoEdges() const
 {
-    return false;
+    return m_demoEdges;
 }
 
 void AccountsService::setDemoEdges(bool demoEdges)
 {
-    Q_UNUSED(demoEdges)
+    m_demoEdges = demoEdges;
+    Q_EMIT demoEdgesChanged();
+}
+
+bool AccountsService::enableLauncherWhileLocked() const
+{
+    return m_enableLauncherWhileLocked;
+}
+
+void AccountsService::setEnableLauncherWhileLocked(bool enableLauncherWhileLocked)
+{
+    m_enableLauncherWhileLocked = enableLauncherWhileLocked;
+    Q_EMIT enableLauncherWhileLockedChanged();
+}
+
+bool AccountsService::enableIndicatorsWhileLocked() const
+{
+    return m_enableIndicatorsWhileLocked;
+}
+
+void AccountsService::setEnableIndicatorsWhileLocked(bool enableIndicatorsWhileLocked)
+{
+    m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
+    Q_EMIT enableIndicatorsWhileLockedChanged();
 }
 
 QString AccountsService::backgroundFile() const

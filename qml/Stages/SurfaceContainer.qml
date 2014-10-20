@@ -15,86 +15,77 @@
 */
 
 import QtQuick 2.0
-import "Animations"
+import Ubuntu.Components 1.1
+import Ubuntu.Gestures 0.1 // For TouchGate
 
 Item {
-    id: container
+    id: root
+    objectName: "surfaceContainer"
     property Item surface: null
-    property bool removing: false
+    property bool hadSurface: false
+    property int orientation
+    property bool interactive
 
     onSurfaceChanged: {
         if (surface) {
-            surface.parent = container;
-            surface.z = 1;
+            surface.parent = root;
+            d.forceSurfaceActiveFocusIfReady();
+        } else {
+            hadSurface = true;
         }
     }
-    Binding {
-        target: surface
-        property: "anchors.fill"; value: container
+    Binding { target: surface; property: "anchors.fill"; value: root }
+    Binding { target: surface; property: "orientation"; value: root.orientation }
+    Binding { target: surface; property: "z"; value: 1 }
+    Binding { target: surface; property: "enabled"; value: root.interactive; when: surface }
+    Binding { target: surface; property: "focus"; value: root.interactive; when: surface }
+
+    TouchGate {
+        targetItem: surface
+        anchors.fill: root
+        enabled: root.surface ? root.surface.enabled : false
+        z: 2
     }
 
     Connections {
-        target: surface
-        onRemoved: {
-            container.removing = true;
-
-            var childSurfaces = surface.childSurfaces;
-            for (var i=0; i<childSurfaces.length; i++) {
-                childSurfaces[i].removed();
-            }
-
-            animateOut();
-        }
-    }
-
-    Repeater {
-        model: surface ? surface.childSurfaces : null
-
-        delegate: Loader {
-            z: 2
-            anchors {
-                fill: container
-                topMargin: container.surface.anchors.topMargin
-                rightMargin: container.surface.anchors.rightMargin
-                bottomMargin: container.surface.anchors.bottomMargin
-                leftMargin: container.surface.anchors.leftMargin
-            }
-
-            // Only way to do recursive qml items.
-            source: Qt.resolvedUrl("SurfaceContainer.qml")
-            onLoaded: {
-                item.surface = modelData;
-                item.animateIn();
-            }
-        }
-    }
-
-    function animateIn() {
-        var animation = swipeFromBottom.createObject(container, { "surface": container.surface });
-        animation.start();
-
-        var tmp = d.animations;
-        tmp.push(animation);
-        d.animations = tmp;
-    }
-
-    function animateOut() {
-        if (d.animations.length > 0) {
-            var tmp = d.animations;
-            var popped = tmp.pop();
-            popped.end();
-            d.animations = tmp;
-        }
+        target: root.surface
+        // FIXME: I would rather not need to do this, but currently it doesn't get
+        // active focus without it and I don't know why.
+        // Possibly because if an item get focus=true before it has a parent, once
+        // it gets a parent QQuickWindow won't check its focus and update its activeFocus
+        // accordingly. Unlike when you focus=true after the item already has a parent.
+        onFocusChanged: d.forceSurfaceActiveFocusIfReady();
+        onParentChanged: d.forceSurfaceActiveFocusIfReady();
+        onEnabledChanged: d.forceSurfaceActiveFocusIfReady();
     }
 
     QtObject {
         id: d
-        property var animations: []
-        property var currentAnimation: animations.length > 0 ? animations[animations.length-1] : undefined
+        function forceSurfaceActiveFocusIfReady() {
+            if (root.surface !== null &&
+                    root.surface.focus &&
+                    root.surface.parent === root &&
+                    root.surface.enabled) {
+                root.surface.forceActiveFocus();
+            }
+        }
     }
 
-    Component {
-        id: swipeFromBottom
-        SwipeFromBottomAnimation {}
-    }
+    states: [
+        State {
+            name: "zombie"
+            when: surface && !surface.live
+        }
+    ]
+    transitions: [
+        Transition {
+            from: ""; to: "zombie"
+            SequentialAnimation {
+                UbuntuNumberAnimation { target: surface; property: "opacity"; to: 0.0
+                                        duration: UbuntuAnimation.BriskDuration }
+                PropertyAction { target: surface; property: "visible"; value: false }
+                ScriptAction { script: { if (root.surface) { root.surface.release(); } } }
+            }
+        }
+    ]
 }
