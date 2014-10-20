@@ -156,7 +156,7 @@ QString RootActionState::accessibleName() const
     return m_cachedState.value("accessible-desc", QVariant::fromValue(QString())).toString();
 }
 
-bool RootActionState::isIndicatorVisible() const
+bool RootActionState::indicatorVisible() const
 {
     if (!isValid()) return false;
 
