@@ -99,7 +99,7 @@ Showable {
         width: dash.width
         height: dash.height
         scopes: scopes
-        visible: x != -width && bottomEdgeController.progress != 1
+        visible: x != -width
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
         }
