@@ -343,7 +343,7 @@ Showable {
             } else if (status == DirectionalDragArea.WaitingForTouch &&
                     previousStatus == DirectionalDragArea.Recognized) {
                 bottomEdgeController.enableAnimation = true;
-                bottomEdgeController.progress = (bottomEdgeController.progress > 0.7)  ? 1 : 0;
+                bottomEdgeController.progress = (bottomEdgeController.progress > 0.2)  ? 1 : 0;
                 initialSceneDistance = -1;
             }
         }
