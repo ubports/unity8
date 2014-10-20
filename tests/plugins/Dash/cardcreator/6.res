@@ -93,7 +93,7 @@ Item {
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
-,StatusIcon { 
+,Icon { 
                             id: emblemIcon; 
                             objectName: "emblemIcon"; 
                             anchors { 
