@@ -1,359 +1,380 @@
-# Chinese (Traditional) translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Catalan translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-07 11:37+0300\n"
-"PO-Revision-Date: 2014-10-16 14:55+0000\n"
-"Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
-"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"PO-Revision-Date: 2014-10-15 14:39+0000\n"
+"Last-Translator: Pau Iranzo <Unknown>\n"
+"Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-17 06:22+0000\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2014-10-16 05:44+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr "密碼： "
+msgstr "Contrasenya: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
-msgstr "釘住捷徑"
+msgstr "Apega la drecera"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
-msgstr "取消捷徑釘選"
+msgstr "Desenganxa la drecera"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr "裝置已鎖定"
+msgstr "Dispositiu bloquejat"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Se vos ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+"d'intents d'introducció de la contrasenya."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Se vos ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+"d'intents d'introducció del codi d'accés."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "請等候 %1 分鐘再試…"
+msgstr[0] "Espereu %1 minut i torneu-ho a intentar..."
+msgstr[1] "Espereu %1 minuts i torneu-ho a intentar..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr "登出"
+msgstr "Ix"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr "確定要登出？"
+msgstr "Segur que voleu eixir?"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr "否"
+msgstr "No"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr "是"
+msgstr "Sí"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr "關機"
+msgstr "Apaga"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr "確定要關機？"
+msgstr "Segur que voleu apagar?"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr "重新開機"
+msgstr "Reinicia"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr "確定要重新開機？"
+msgstr "Segur que voleu reiniciar?"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr "關閉電源"
+msgstr "Energia"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr "確定要關閉電源？"
+msgstr ""
+"Segur que voleu\n"
+"apagar?"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr "關閉電源"
+msgstr "Apaga"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr "重新啟動"
+msgstr "Reinicia"
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
-msgstr "取消"
+msgstr "Cancel·la"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "略過導覽"
+msgstr "Omet la introducció"
 
 #: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "右側邊緣"
+msgstr "Vora dreta"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "從螢幕右緣向左滑動解鎖手機"
+msgstr ""
+"Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "上方邊緣"
+msgstr "Vora superior"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "從螢幕上緣向下滑動打開指示器"
+msgstr ""
+"Proveu de lliscar el dit des de la vora superior per accedir als indicadors"
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "關閉"
+msgstr "Tanca"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr "再次向上滑動關閉設定畫面"
+msgstr ""
+"Llisqueu el dit cap amunt una altra vegada per tancar la pantalla de "
+"configuració"
 
 #: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "左方邊緣"
+msgstr "Vora esquerra"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "從螢幕左緣向右滑動揭開啟動器可快速存取程式"
+msgstr ""
+"Llisqueu el dit des de la vora esquerra per mostrar el llançador i accedir "
+"ràpidament a les aplicacions"
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "做得好"
+msgstr "Enhorabona!"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
-msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
+msgstr ""
+"Ja heu aprés com utilitzar els gestos de les vores per fer servir el "
+"telèfon<br><br>Feu un toc a la pantalla per començar"
 
 #: qml/Components/Lockscreen.qml:220
 msgid "Emergency Call"
-msgstr "緊急通話"
+msgstr "Cridada d'emergència"
 
 #: qml/Components/Lockscreen.qml:252
 msgid "OK"
-msgstr "確定"
+msgstr "D'acord"
 
 #: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
-msgstr "縮減查看"
+msgstr "Mostra'n menys"
 
 #: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
-msgstr "查看全部"
+msgstr "Mostra-ho tot"
 
 #: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "搜尋"
+msgstr "Cerca"
 
 #: qml/Dash/PageHeader.qml:268
 msgid "Settings"
-msgstr "設定"
+msgstr "Paràmetres"
 
 #: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr "自「最愛」移除"
+msgstr "Suprimeix dels preferits"
 
 #: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr "加入到「最愛」"
+msgstr "Afig als preferits"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr "更多…"
+msgstr "Més..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr "縮減…"
+msgstr "Menys..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr "給予評等"
+msgstr "Puntueu-ho"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr "新增評論"
+msgstr "Afegiu una ressenya"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr "發送"
+msgstr "Envia"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr "下拉以重新整理..."
+msgstr "Estireu per actualitzar..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr "放開以重新整理..."
+msgstr "Deixeu anar per actualitzar..."
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Gestioneu les lents"
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
-msgstr "完成"
+msgstr "Fet"
 
 #: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
-msgstr "商城"
+msgstr "Botiga"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr "最愛"
+msgstr "Preferides"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr "全部"
+msgstr "Totes"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr "解鎖"
+msgstr "Desbloca"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
-msgstr "確認"
+msgstr "Confirma"
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "輸入或說出指令"
+msgstr "Escriviu o pronuncieu una orde"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "載入中。請稍候..."
+msgstr "S'està carregant. Espereu-vos un moment..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "請說..."
+msgstr "Parleu..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "說話中..."
+msgstr "S'està parlant..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
-msgstr "顯示密碼"
+msgstr "Mostra la contrasenya"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
-msgstr "輕觸可返回通話…"
+msgstr "Feu un toc per tornar a la cridada..."
 
 #: qml/Panel/ActiveCallHint.qml:90
 msgid "Conference"
-msgstr "會議"
+msgstr "Conferència"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:600
 msgid "Nothing is playing"
-msgstr ""
+msgstr "No s'està reproduint res"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
-msgstr "佇列中…"
+msgstr "A la cua..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
-msgstr "下載中"
+msgstr "S'està baixant"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
-msgstr "已暫停，輕觸可繼續"
+msgstr "En pausa, feu un toc per continuar"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
-msgstr "已取消"
+msgstr "S'ha cancel·lat"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
-msgstr "已完成"
+msgstr "S'ha finalitzat"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
-msgstr "失敗，輕觸可重試"
+msgstr "Ha fallat, feu un toc per tornar-ho a intentar"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "為 SIM 卡解鎖"
+msgstr "Desbloca la SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr "漫遊"
+msgstr "Itinerància"
 
 #: qml/Shell.qml:346
 msgid "Enter passphrase"
-msgstr "輸入密語"
+msgstr "Introduïu la contrasenya"
 
 #: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
-msgstr "抱歉，密語不對"
+msgstr "La contrasenya no és correcta"
 
 #: qml/Shell.qml:348
 msgid "Please re-enter"
-msgstr "請再輸入"
+msgstr "Torneu-ho a introduir"
 
 #: qml/Shell.qml:350
 msgid "Enter passcode"
-msgstr "輸入 passcode"
+msgstr "Introduïu el codi d'accés"
 
 #: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
-msgstr "抱歉，passcode 不對"
+msgstr "El codi d'accés no és correcte"
 
 #: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
-msgstr "輸入 %1"
+msgstr "Introduïu: %1"
 
 #: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "抱歉，%1不對"
+msgstr "Incorrecte (%1)"
 
 #: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
-msgstr "抱歉，密語不對"
+msgstr "La contrasenya és incorrecta"
 
 #: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
-msgstr "抱歉，passcode 不對。"
+msgstr "El codi d'accés no és correcte"
 
 #: qml/Shell.qml:392
 msgid "This will be your last attempt."
-msgstr "這將會是您最後一次嘗試的機會。"
+msgstr "Este serà el darrer intent."
 
 #: qml/Shell.qml:394
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
-msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
+msgstr ""
+"Si la contrasenya s'introdueix de manera incorrecta, el telèfon es "
+"reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
+"personals."
 
 #: qml/Shell.qml:395
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
-msgstr "如輸入的 passcode 不對，本電話會進行重設，所有個人資料都會刪除。"
+msgstr ""
+"Si el codi d'accés s'introdueix de manera incorrecta, el telèfon es "
+"reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
+"personals."
