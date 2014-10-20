@@ -405,10 +405,26 @@ Item {
                 spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 
+                SwipeToAct {
+                    objectName: "notify_swipe_button"
+                    visible: notification.hints["x-canonical-snap-decisions-swipe"] === "true"
+                    leftIconName: "call-end"
+                    rightIconName: "call-start"
+                    width: buttonRow.width
+
+                    onLeftTriggered: {
+                        notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
+                    }
+
+                    onRightTriggered: {
+                        notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
+                    }
+                }
+
                 Repeater {
                     id: actionRepeater
-
                     model: notification.actions
+                    visible: notification.hints["x-canonical-snap-decisions-swipe"] !== "true"
                     delegate: Loader {
                         id: loader
 
@@ -418,9 +434,9 @@ Item {
                         Component {
                             id: actionButton
 
-                            /*Button {
+                            Button {
                                 objectName: "notify_button" + index
-                                width: buttonRow.width / 2 - spacing*2
+                                width: buttonRow.width / 2 - spacing * 2
                                 text: loader.actionLabel
                                 color: {
                                     var result = sdDarkGrey;
@@ -433,25 +449,9 @@ Item {
                                     return result;
                                 }
                                 onClicked: notification.notification.invokeAction(loader.actionId)
-                            }*/
-
-                            SwipeToAct {
-                                objectName: "notify_button" + index
-
-                                leftIconName: "call-end"
-                                rightIconName: "call-start"
-                                width: buttonRow.width
-
-                                onLeftTriggered: {
-                                    notification.notification.invokeAction(loader.actionId)
-                                }
-
-                                onRightTriggered: {
-                                    notification.notification.invokeAction(loader.actionId)
-                                }
                             }
                         }
-                        sourceComponent: (index == 0) ? actionButton : undefined
+                        sourceComponent: (index == 0 || index == 1) ? actionButton : undefined
                     }
                 }
             }
