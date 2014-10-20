@@ -41,7 +41,6 @@ Rectangle {
         objectName: "indicatorsContentListView"
         anchors.fill: parent
         model: content.indicatorsModel
-        clip: true
 
         highlightFollowsCurrentItem: true
         interactive: false
@@ -62,6 +61,7 @@ Rectangle {
             height: ListView.view.height
             objectName: identifier
             asynchronous: true
+            visible: ListView.isCurrentItem
 
             sourceComponent: IndicatorPage {
                 objectName: identifier + "-page"
