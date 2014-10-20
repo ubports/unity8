@@ -20,4 +20,3 @@ import Ubuntu.Gestures 0.1
 Item {
     width: 720; height: 720
 }
-
