@@ -717,12 +717,20 @@ Item {
                 State {
                     name: "narrow"
                     when: overlay.width <= units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: parent.left }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: parent.left
+                        anchors.right: undefined
+                    }
                 },
                 State {
                     name: "wide"
                     when: overlay.width > units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: undefined }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: undefined
+                        anchors.right: parent.right
+                    }
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
