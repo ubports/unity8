@@ -86,6 +86,16 @@ private Q_SLOTS:
         QCOMPARE(model2->model()->menuObjectPath(), QByteArray("/com/canonical/LP1328646"));
     }
 
+    // Tests that the cache is recreated if deleted.
+    void testDeletedCache()
+    {
+        QSharedPointer<SharedUnityMenuModel> model1(createFullModel("test1"));
+
+        QCOMPARE(UnityMenuModelCache::singleton()->contains("/com/canonical/test1"), true);
+        delete UnityMenuModelCache::singleton();
+        QCOMPARE(UnityMenuModelCache::singleton()->contains("/com/canonical/test1"), false);
+    }
+
 };
 
 QTEST_GUILESS_MAIN(SharedUnityMenuModelTest)

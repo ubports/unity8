@@ -19,7 +19,6 @@
 
 #include "unitymenumodelcache.h"
 
-#include <QHash>
 #include <QVariantMap>
 
 class FakeUnityMenuModelCache : public UnityMenuModelCache
@@ -39,7 +38,7 @@ public:
     Q_INVOKABLE QVariant getCachedModelData(const QByteArray& path);
 
 private:
-    static FakeUnityMenuModelCache* theFakeCache;
+    static QPointer<FakeUnityMenuModelCache> theFakeCache;
     QHash<QByteArray, QSharedPointer<UnityMenuModel>> m_models;
 };
 

@@ -22,14 +22,14 @@
 
 #include <QQmlEngine>
 
-UnityMenuModelCache* UnityMenuModelCache::theCache = nullptr;
+QPointer<UnityMenuModelCache> UnityMenuModelCache::theCache = nullptr;
 
 UnityMenuModelCache* UnityMenuModelCache::singleton()
 {
-    if (!theCache) {
+    if (theCache.isNull()) {
         theCache = new UnityMenuModelCache();
     }
-    return theCache;
+    return theCache.data();
 }
 
 UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
@@ -50,8 +50,9 @@ QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& path
         QMutableHashIterator<QByteArray, QWeakPointer<UnityMenuModel>> iter(m_registry);
         while(iter.hasNext()) {
             auto keyVal = iter.next();
-            if (keyVal.value().toStrongRef().isNull()) {
+            if (keyVal.value().isNull()) {
                 iter.remove();
+                break;
             }
         }
     });
