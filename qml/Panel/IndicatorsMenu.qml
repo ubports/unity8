@@ -56,12 +56,13 @@ Showable {
     }
 
     height: minimizedPanelHeight
-    onHeightChanged: {
-        var revealProgress = root.height - minimizedPanelHeight;
 
+    onUnitProgressChanged: {
         if (!showAnimation.running && !hideAnimation.running) {
-            if (revealProgress <= 0) {
+            if (unitProgress <= 0) {
                 root.state = "initial";
+            } else if (unitProgress >= 0.9 && d.hasCommitted) {
+                root.state = "locked";
             } else {
                 root.state = "reveal";
             }
@@ -224,6 +225,7 @@ Showable {
     QtObject {
         id: d
         property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
+        property bool hasCommitted: false
 
         property real rowMappedLateralPosition: {
             if (!d.activeDragHandle) return -1;
@@ -234,6 +236,7 @@ Showable {
     states: [
         State {
             name: "initial"
+            PropertyChanges { target: d; hasCommitted: false; restoreEntryValues: false }
         },
         State {
             name: "reveal"
@@ -271,14 +274,17 @@ Showable {
                     return mapped.x;
                 }
             }
+            PropertyChanges { target: d; hasCommitted: false; restoreEntryValues: false }
+        },
+        State {
+            name: "locked"
+            PropertyChanges { target: bar; expanded: true }
         },
         State {
             name: "commit"
-            PropertyChanges {
-                target: bar
-                expanded: true
-                interactive: true
-            }
+            extend: "locked"
+            PropertyChanges { target: bar; interactive: true }
+            PropertyChanges { target: d; hasCommitted: true; restoreEntryValues: false }
         }
     ]
     state: "initial"
