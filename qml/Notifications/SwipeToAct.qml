@@ -11,6 +11,8 @@ Item {
     signal leftTriggered()
     signal rightTriggered()
 
+    property string leftIconName
+    property string rightIconName
     readonly property double sliderHeight: 6
     readonly property double gap: units.gu(1)
     readonly property double halfWay: mouseArea.drag.maximumX / 2
@@ -137,7 +139,7 @@ Item {
 	    			anchors.centerIn: parent
 	    			width: units.gu(2)
 					height: units.gu(2)
-					name: "call-end"
+					name: leftIconName
 					color: "white"
 	    		}
 	    	}
@@ -252,7 +254,7 @@ Item {
 	    			anchors.centerIn: parent
 	    			width: units.gu(2)
 					height: units.gu(2)
-					name: "call-start"
+					name: rightIconName
 					color: "white"
 	    		}
 	    	}

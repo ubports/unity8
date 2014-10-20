@@ -438,6 +438,8 @@ Item {
                             SwipeToAct {
                                 objectName: "notify_button" + index
 
+                                leftIconName: "call-end"
+                                rightIconName: "call-start"
                                 width: buttonRow.width
 
                                 onLeftTriggered: {
