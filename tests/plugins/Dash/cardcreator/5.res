@@ -145,12 +145,7 @@ UbuntuShape {
     id: touchdown; 
     objectName: "touchdown"; 
     anchors { fill: artShapeHolder } 
-    visible: { 
-        if (root.template && root.template["non-interactive"]) { 
-            return false; 
-        } 
-        return root.pressed; 
-    } 
+    visible: root.pressed;
     radius: "medium"; 
     borderSource: "radius_pressed.sci" 
 }
