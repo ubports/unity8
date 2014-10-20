@@ -319,7 +319,8 @@ function cardString(template, components) {
                 property bool asynchronous: true; \n\
                 property bool showHeader: true; \n\
                 implicitWidth: childrenRect.width; \n\
-                enabled: template == null || (template["non-interactive"] !== undefined ? !template["non-interactive"] : true); \n';
+                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true); \n\
+                \n';
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;

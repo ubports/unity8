@@ -622,6 +622,9 @@ Item {
 
                 var item0 = findChild(cardGrid, "delegate0");
                 waitForRendering(item0);
+                item0.template = cardTool.template;
+                compare(item0.template["non-interactive"], true);
+                compare(item0.enabled, false);
                 var touchdown = findChild(item0, "touchdown");
 
                 compare(touchdown.visible, false);
@@ -630,6 +633,9 @@ Item {
 
                 cardTool.template["non-interactive"] = false;
                 compare(cardGrid.cardTool.template["non-interactive"], false);
+                item0.template = cardTool.template;
+                compare(item0.template["non-interactive"], false);
+                compare(item0.enabled, true);
             }
         }
     }
