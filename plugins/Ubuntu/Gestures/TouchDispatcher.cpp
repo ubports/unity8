@@ -202,7 +202,7 @@ void TouchDispatcher::dispatchAsMouse(
         for (int i = 0; i < touchPoints.count() && !touchMouse; ++i) {
             const auto &touchPoint = touchPoints.at(i);
             if (touchPoint.id() == m_touchMouseId) {
-                touchMouse = &touchPoint;            
+                touchMouse = &touchPoint;
             }
         }
 
@@ -234,7 +234,7 @@ void TouchDispatcher::dispatchAsMouse(
             m_touchMouseId = -1;
         } else {
             eventType = QEvent::MouseMove;
-        } 
+        }
 
         QScopedPointer<QMouseEvent> mouseEvent(touchToMouseEvent(eventType, *touchMouse, timestamp, modifiers,
                     true /* transformNeeded */));
@@ -322,4 +322,3 @@ QMouseEvent *TouchDispatcher::touchToMouseEvent(
     //QGuiApplicationPrivate::setMouseEventSource(me, Qt::MouseEventSynthesizedByQt);
     return me;
 }
-
