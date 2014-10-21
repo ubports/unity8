@@ -614,8 +614,7 @@ Item {
                 waitForRendering(category0);
 
                 var cardTool = findChild(category0, "cardTool");
-                var rendererLoader = findChild(category0, "rendererLoader");
-                var cardGrid = rendererLoader.item;
+                var cardGrid = category0.item;
 
                 cardTool.template["non-interactive"] = true;
                 compare(cardGrid.cardTool.template["non-interactive"], true);

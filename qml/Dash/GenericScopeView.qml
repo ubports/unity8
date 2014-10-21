@@ -257,7 +257,6 @@ FocusScope {
 
             Loader {
                 id: rendererLoader
-                objectName: "rendererLoader"
                 anchors {
                     top: parent.top
                     left: parent.left
