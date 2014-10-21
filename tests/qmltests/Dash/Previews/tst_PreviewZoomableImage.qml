@@ -36,26 +36,43 @@ Rectangle {
 
     PreviewZoomableImage {
         id: zoomableImage
-        anchors.fill: parent
-        widgetData: widgetData1
+        anchors.centerIn: parent
+        widgetData: widgetData0
     }
 
     UT.UnityTestCase {
         name: "PreviewZoomableImageTest"
         when: windowShown
 
-        function test_loadImage() {
-            var image = findChild(zoomableImage, "image");
+        property Item lazyImage: findChild(zoomableImage, "lazyImage");
+        property Item zoomableImageContainer: findChild(zoomableImage.rootItem, "zoomableImageContainer");
 
+        function cleanup() {
+            zoomableImageContainer.visible = false;
             zoomableImage.widgetData = widgetData0;
             waitForRendering(zoomableImage);
-            waitForRendering(image);
-            tryCompare(image, "imageState", "ready");
+        }
+
+        function test_loadImage() {
+            zoomableImage.widgetData = widgetData0;
+            waitForRendering(zoomableImage);
+            waitForRendering(lazyImage);
+            tryCompare(lazyImage, "state", "ready");
 
             zoomableImage.widgetData = widgetData1;
             waitForRendering(zoomableImage);
-            waitForRendering(image);
-            tryCompare(image, "imageState", "default");
+            waitForRendering(lazyImage);
+            tryCompare(lazyImage, "state", "default");
+        }
+
+        function test_1zoomableImageOpenClose() {
+            var zoomableImageCloseButton = findChild(zoomableImageContainer, "zoomableImageCloseButton");
+            mouseClick(lazyImage, lazyImage.width / 2, lazyImage.height / 2);
+            tryCompare(zoomableImageContainer, "visible", true);
+            tryCompare(zoomableImageContainer, "scale", 1.0);
+            tryCompare(zoomableImageCloseButton, "visible", true);
+            mouseClick(zoomableImageCloseButton, zoomableImageCloseButton.width / 2, zoomableImageCloseButton.height / 2);
+            tryCompare(zoomableImageContainer, "visible", false);
         }
     }
 }
