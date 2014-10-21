@@ -194,7 +194,7 @@ private Q_SLOTS:
         QCOMPARE(spy.count(), 1);
         QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
 
-        // Now that the app is unpinned, nothing should change, but the signal shouldn't be emitted
+        // Now that the app is unpinned, nothing should change and the signal should not be emitted
         spy.clear();
         launcherModel->requestRemove(launcherModel->get(0)->appId());
         QCOMPARE(launcherModel->get(0)->pinned(), false);
