@@ -58,8 +58,8 @@ Page {
                 text: identifier
 
                 onClicked: {
-                    var new_page = Qt.createComponent("IndicatorsPage.qml");
-                    page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
+                    var new_page = Qt.createComponent("IndicatorRepresentation.qml");
+                    page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties });
                 }
             }
         }

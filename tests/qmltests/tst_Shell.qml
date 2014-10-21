@@ -65,6 +65,8 @@ Row {
         property bool itemDestroyed: false
         sourceComponent: Component {
             Shell {
+                property string indicatorProfile: "phone"
+
                 Component.onDestruction: {
                     shellLoader.itemDestroyed = true;
                 }
@@ -345,7 +347,7 @@ Row {
             var touchX = shell.width / 2;
             var indicators = findChild(shell, "indicators");
             touchFlick(indicators,
-                    touchX /* fromX */, indicators.panelHeight * 0.5 /* fromY */,
+                    touchX /* fromX */, indicators.minimizedPanelHeight * 0.5 /* fromY */,
                     touchX /* toX */, shell.height * 0.5 /* toY */,
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
@@ -382,7 +384,7 @@ Row {
             var indicators = findChild(shell, "indicators");
 
             var touchStartX = shell.width / 2;
-            var touchStartY = shell.height - (indicators.panelHeight * 0.5);
+            var touchStartY = shell.height - (indicators.minimizedPanelHeight * 0.5);
             touchFlick(shell,
                     touchStartX, touchStartY,
                     touchStartX, shell.height * 0.1);
