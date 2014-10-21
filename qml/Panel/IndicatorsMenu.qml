@@ -239,7 +239,7 @@ Showable {
                 if (unitProgress <= 0) {
                     root.state = "initial";
                 // lock indicator if we've been committed and aren't moving too much laterally or too fast up.
-                } else if (d.hasCommitted && (Math.abs(d.xDisplacementSinceLock) < units.gu(1) || yVelocityCalculator.velocityAboveThreshold)) {
+                } else if (d.hasCommitted && (Math.abs(d.xDisplacementSinceLock) < units.gu(2) || yVelocityCalculator.velocityAboveThreshold)) {
                     root.state = "locked";
                 } else {
                     root.state = "reveal";
