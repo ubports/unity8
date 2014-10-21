@@ -51,9 +51,6 @@ Item {
    Component {
        id: testMenu
        Menus.StandardMenu {
-           property QtObject menuData: null
-           property int menuIndex: -1
-
            signal menuSelected
            signal menuDeselected
        }
