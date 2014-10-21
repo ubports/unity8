@@ -139,6 +139,7 @@ Showable {
         property var infographicModel: LightDM.Infographic
         readonly property int backgroundTopMargin: -greeter.y
 
+        asynchronous: true
         source: loadContent ? "GreeterContent.qml" : ""
 
         onLoaded: {
