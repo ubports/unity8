@@ -167,7 +167,8 @@ Showable {
         enabled: !root.shown && root.available
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
-        distanceThreshold: minimizedPanelHeight
+        distanceThreshold: enableHint ? 0 : minimizedPanelHeight
+
         onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
 
         // using hint regulates minimum to hint displacement, but in fullscreen mode, we need to do it manually.
@@ -185,7 +186,6 @@ Showable {
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true
         maxTotalDragDistance: openedHeight - expandedPanelHeight - handle.height
-        distanceThreshold: 0
 
         onTouchSceneXChanged: {
             if (root.state === "locked") {
