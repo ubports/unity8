@@ -57,17 +57,7 @@ Showable {
 
     height: minimizedPanelHeight
 
-    onUnitProgressChanged: {
-        if (!showAnimation.running && !hideAnimation.running) {
-            if (unitProgress <= 0) {
-                root.state = "initial";
-            } else if (unitProgress >= 0.9 && d.hasCommitted) {
-                root.state = "locked";
-            } else {
-                root.state = "reveal";
-            }
-        }
-    }
+    onUnitProgressChanged: d.updateState()
     clip: root.partiallyOpened
 
     // eater
@@ -196,12 +186,21 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - expandedPanelHeight - handle.height
         distanceThreshold: 0
+
+        onTouchSceneXChanged: {
+            if (root.state === "locked") {
+                d.xDisplacementSinceLock += (touchSceneX - d.lastHideTouchSceneX)
+                d.lastHideTouchSceneX = touchSceneX;
+            }
+        }
     }
 
     PanelVelocityCalculator {
         id: yVelocityCalculator
-        velocityThreshold: 0.5
+        velocityThreshold: d.hasCommitted ? 0.1 : 0.3
         trackedValue: d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
+
+        onVelocityAboveThresholdChanged: d.updateState()
     }
 
     Connections {
@@ -226,10 +225,26 @@ Showable {
         id: d
         property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
         property bool hasCommitted: false
+        property real lastHideTouchSceneX: 0
+        property real xDisplacementSinceLock: 0
+        onXDisplacementSinceLockChanged: d.updateState()
 
         property real rowMappedLateralPosition: {
             if (!d.activeDragHandle) return -1;
             return d.activeDragHandle.mapToItem(bar, d.activeDragHandle.touchX, 0).x;
+        }
+
+        function updateState() {
+            if (!showAnimation.running && !hideAnimation.running) {
+                if (unitProgress <= 0) {
+                    root.state = "initial";
+                // lock indicator if we've been committed and aren't moving too much laterally or too fast up.
+                } else if (d.hasCommitted && (Math.abs(d.xDisplacementSinceLock) < units.gu(1) || yVelocityCalculator.velocityAboveThreshold)) {
+                    root.state = "locked";
+                } else {
+                    root.state = "reveal";
+                }
+            }
         }
     }
 
@@ -244,7 +259,8 @@ Showable {
                 script: {
                     yVelocityCalculator.reset();
                     // initial item selection
-                    bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchX : -1);
+                    if (!d.hasCommitted) bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchX : -1);
+                    d.hasCommitted = false;
                 }
             }
             PropertyChanges {
@@ -274,17 +290,28 @@ Showable {
                     return mapped.x;
                 }
             }
-            PropertyChanges { target: d; hasCommitted: false; restoreEntryValues: false }
         },
         State {
             name: "locked"
+            StateChangeScript {
+                script: {
+                    d.xDisplacementSinceLock = 0;
+                    d.lastHideTouchSceneX = hideDragHandle.touchSceneX;
+                }
+            }
             PropertyChanges { target: bar; expanded: true }
         },
         State {
             name: "commit"
             extend: "locked"
             PropertyChanges { target: bar; interactive: true }
-            PropertyChanges { target: d; hasCommitted: true; restoreEntryValues: false }
+            PropertyChanges {
+                target: d;
+                hasCommitted: true
+                lastHideTouchSceneX: 0
+                xDisplacementSinceLock: 0
+                restoreEntryValues: false
+            }
         }
     ]
     state: "initial"
