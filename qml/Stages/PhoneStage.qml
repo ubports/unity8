@@ -21,6 +21,7 @@ import Unity.Application 0.1
 import Unity.Session 0.1
 import Utils 0.1
 import "../Components"
+import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -85,6 +86,14 @@ Rectangle {
             if (spreadView.closingIndex == -1) {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
+                focusTopMostApp();
+            }
+        }
+
+        function focusTopMostApp() {
+            if (ApplicationManager.count > 0) {
+                var topmostApp = ApplicationManager.get(0);
+                ApplicationManager.focusApplication(topmostApp.appId);
             }
         }
     }
@@ -112,7 +121,7 @@ Rectangle {
 
     }
 
-    Flickable {
+    Flickables.Flickable {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
@@ -123,7 +132,7 @@ Rectangle {
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
-        readonly property bool active: shiftedContentX > 0 || spreadDragArea.dragging
+        readonly property bool active: shiftedContentX > 0 || spreadDragArea.status === DirectionalDragArea.Recognized
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
@@ -410,6 +419,7 @@ Rectangle {
 
     EdgeDragArea {
         id: spreadDragArea
+        objectName: "spreadDragArea"
         direction: Direction.Leftwards
         enabled: spreadView.phase != 2 && root.spreadEnabled
 
@@ -429,9 +439,10 @@ Rectangle {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
-            if (dragging && attachedToView) {
+            if (dragging && status == DirectionalDragArea.Recognized && attachedToView) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                spreadView.contentX = -touchX + spreadDragArea.width - spreadView.shift;
+                var finalX = Math.min(touchX + width, width);
+                spreadView.contentX = -finalX + spreadDragArea.width - spreadView.shift;
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 // We passed positionMarker3. Detach from spreadView and snap it.
@@ -441,7 +452,13 @@ Rectangle {
             gesturePoints.push(touchX);
         }
 
+        property int previousStatus: -1
+        property int currentStatus: DirectionalDragArea.WaitingForTouch
+
         onStatusChanged: {
+            previousStatus = currentStatus;
+            currentStatus = status;
+
             if (status == DirectionalDragArea.Recognized) {
                 attachedToView = true;
             }
@@ -449,7 +466,7 @@ Rectangle {
 
         onDraggingChanged: {
             if (dragging) {
-                // Gesture recognized. Start recording this gesture
+                // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
                 return;
             }
@@ -466,7 +483,8 @@ Rectangle {
             }
             gesturePoints = [];
 
-            if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
+            if (previousStatus == DirectionalDragArea.Recognized &&
+                oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
                     spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
                 // If it was a short one-way movement, do the Alt+Tab switch
                 // no matter if we didn't cross positionMarker1 yet.

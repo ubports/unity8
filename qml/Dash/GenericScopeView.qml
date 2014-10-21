@@ -26,6 +26,7 @@ FocusScope {
     id: scopeView
 
     readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].openList : false
+    property bool forceNonInteractive: false
     property var scope: null
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
@@ -149,6 +150,7 @@ FocusScope {
     ScopeListView {
         id: categoryView
         objectName: "categoryListView"
+        interactive: !forceNonInteractive
 
         x: subPageLoader.open ? -width : 0
         visible: x != -width
@@ -210,11 +212,9 @@ FocusScope {
             }
         }
 
-        delegate: ListItems.Base {
+        delegate: DashCategoryBase {
             id: baseItem
             objectName: "dashCategory" + category
-            highlightWhenPressed: false
-            showDivider: false
 
             property Item seeAllButton: seeAll
 
@@ -237,7 +237,7 @@ FocusScope {
             CardTool {
                 id: cardTool
                 objectName: "cardTool"
-                count: results.count
+                count: results ? results.count : 0
                 template: model.renderer
                 components: model.components
                 viewWidth: parent.width

@@ -178,7 +178,8 @@ Item {
             var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
             var endY = startY;
-            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset;
+            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset
+                - phoneStage.dragAreaWidth;
 
             var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);
@@ -321,6 +322,23 @@ Item {
                 tryCompare(ApplicationManager, "count", oldCount - 1)
             }
             phoneStage.orientation = Qt.PortraitOrientation;
+        }
+
+        function test_focusNewTopMostAppAfterFocusedOneClosesItself() {
+            addApps(2);
+
+            var secondApp = ApplicationManager.get(0);
+            tryCompare(secondApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(secondApp, "focused", true);
+
+            var firstApp = ApplicationManager.get(1);
+            tryCompare(firstApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(firstApp, "focused", false);
+
+            ApplicationManager.stopApplication(secondApp.appId);
+
+            tryCompare(firstApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(firstApp, "focused", true);
         }
     }
 }

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-07 11:37+0300\n"
-"PO-Revision-Date: 2014-10-02 23:07+0000\n"
+"PO-Revision-Date: 2014-10-11 23:41+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
+"X-Launchpad-Export-Date: 2014-10-12 06:55+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -211,11 +211,11 @@ msgstr "ارسال"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "برای تازه‌سازی بکشید…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "برای تازه‌سازی رها کنید…"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -366,9 +366,3 @@ msgid ""
 msgstr ""
 "اگر رمزعبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
 "اطّلاعات شخصی حذف خواهند شد."
-
-#~ msgid "Sorry, incorrect PIN"
-#~ msgstr "متأسّفیم، PIN نادرست بود"
-
-#~ msgid "Enter SIM PIN"
-#~ msgstr "PIN سیم‌کارت را وارد کنید"
