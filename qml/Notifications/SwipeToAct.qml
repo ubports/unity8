@@ -153,6 +153,7 @@ Item {
 
 	    	UbuntuShape {
 	    		id: slider
+	    		objectName: "slider"
 
 				Behavior on x {
 					UbuntuNumberAnimation {
