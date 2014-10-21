@@ -162,22 +162,7 @@ void LauncherModel::pin(const QString &appId, int index)
 
 void LauncherModel::requestRemove(const QString &appId)
 {
-    int index = findApplication(appId);
-    if (index < 0) {
-        return;
-    }
-
-    if (m_appManager->findApplication(appId)) {
-        m_list.at(index)->setPinned(false);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
-        return;
-    }
-
-    beginRemoveRows(QModelIndex(), index, index);
-    m_list.takeAt(index)->deleteLater();
-    endRemoveRows();
-
+    unpin(appId);
     storeAppList();
 }
 
@@ -288,6 +273,24 @@ void LauncherModel::storeAppList()
     m_settings->setStoredApplications(appIds);
 }
 
+void LauncherModel::unpin(const QString &appId)
+{
+    int index = findApplication(appId);
+    if (index < 0) {
+        return;
+    }
+
+    if (m_appManager->findApplication(appId)) {
+        m_list.at(index)->setPinned(false);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+    } else {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_list.takeAt(index)->deleteLater();
+        endRemoveRows();
+    }
+}
+
 int LauncherModel::findApplication(const QString &appId)
 {
     for (int i = 0; i < m_list.count(); ++i) {
@@ -370,7 +373,7 @@ void LauncherModel::refresh()
     }
 
     Q_FOREACH (LauncherItem* item, toBeRemoved) {
-        requestRemove(item->appId());
+        unpin(item->appId());
     }
 
     bool changed = toBeRemoved.count() > 0;

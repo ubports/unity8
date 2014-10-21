@@ -35,7 +35,7 @@ public:
     void setStoredApplications(const QStringList &storedApplications);
 
     // Only for testing
-    void simulateDconfChange(const QStringList &storedApplications);
+    void simulateDConfChanged(const QStringList &storedApplications);
 
 Q_SIGNALS:
     void changed();
