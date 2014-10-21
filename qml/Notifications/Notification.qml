@@ -20,7 +20,6 @@ import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
-import "../Components/Flickables" as Flickables
 
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
@@ -335,7 +334,7 @@ Item {
 
                 spacing: contentSpacing
 
-                visible: notification.type == Notification.SnapDecision && oneOverTwoRepeaterTop.count == 3
+                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3
 
                 Repeater {
                     id: oneOverTwoRepeaterTop
@@ -406,6 +405,7 @@ Item {
                 layoutDirection: Qt.RightToLeft
 
                 SwipeToAct {
+                    id: notifySwipeButton
                     objectName: "notify_swipe_button"
                     visible: notification.hints["x-canonical-snap-decisions-swipe"] === "true"
                     leftIconName: "call-end"
@@ -424,7 +424,6 @@ Item {
                 Repeater {
                     id: actionRepeater
                     model: notification.actions
-                    visible: notification.hints["x-canonical-snap-decisions-swipe"] !== "true"
                     delegate: Loader {
                         id: loader
 
@@ -437,6 +436,7 @@ Item {
                             Button {
                                 objectName: "notify_button" + index
                                 width: buttonRow.width / 2 - spacing * 2
+                                visible: !notifySwipeButton.visible
                                 text: loader.actionLabel
                                 color: {
                                     var result = sdDarkGrey;
@@ -472,7 +472,7 @@ Item {
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
                 expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
-                comboList: Flickables.Flickable {
+                comboList: Flickable {
                     // this has to be wrapped inside a flickable
                     // to work around a feature/bug? of the
                     // ComboButton SDK-element, making a regular
