@@ -209,9 +209,9 @@ void MockLauncherModel::setApplicationManager(unity::shell::application::Applica
     Q_UNUSED(applicationManager)
 }
 
-void MockLauncherModel::emitHintChanged()
+void MockLauncherModel::emitHint()
 {
-    Q_EMIT hintChanged();
+    Q_EMIT hint();
 }
 
 unity::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const

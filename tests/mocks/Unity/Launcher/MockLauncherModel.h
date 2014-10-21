@@ -50,7 +50,7 @@ public:
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager);
 
     // For testing
-    Q_INVOKABLE void emitHintChanged();
+    Q_INVOKABLE void emitHint();
 
 Q_SIGNALS:
     void quickListTriggered(const QString &appId, int index);

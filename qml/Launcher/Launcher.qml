@@ -115,7 +115,7 @@ Item {
 
     Connections {
         target: LauncherModel
-        onHintChanged: hint();
+        onHint: hint();
     }
 
     SequentialAnimation {

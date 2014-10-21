@@ -430,7 +430,7 @@ private Q_SLOTS:
 
     void testSettings() {
         GSettings *settings = launcherModel->m_settings;
-        QSignalSpy spy(launcherModel, SIGNAL(hintChanged()));
+        QSignalSpy spy(launcherModel, SIGNAL(hint()));
 
         // Nothing pinned at startup
         QCOMPARE(settings->storedApplications().count(), 0);

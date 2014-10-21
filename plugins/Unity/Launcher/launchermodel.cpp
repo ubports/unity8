@@ -347,7 +347,7 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(item);
             endInsertRows();
-            Q_EMIT hintChanged();
+            Q_EMIT hint();
         }
     }
 }
@@ -428,7 +428,7 @@ void LauncherModel::refresh()
     }
 
     if (changed) {
-        Q_EMIT hintChanged();
+        Q_EMIT hint();
     }
 }
 

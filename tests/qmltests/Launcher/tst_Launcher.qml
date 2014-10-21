@@ -75,9 +75,9 @@ Item {
     }
 
     Button {
-        anchors { top: parent.top; right: parent.right; margins: units.gu(1) }
+        anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
         text: "emit hinting signal"
-        onClicked: LauncherModel.emitHintChanged()
+        onClicked: LauncherModel.emitHint()
     }
 
     SignalSpy {
@@ -243,7 +243,7 @@ Item {
             launcher.maxPanelX = -launcher.panelWidth
             // change it
             LauncherModel.move(0, 1)
-            LauncherModel.emitHintChanged();
+            LauncherModel.emitHint();
 
             // make sure it opened fully and hides again without delay
             tryCompare(launcher, "maxPanelX", 0)
