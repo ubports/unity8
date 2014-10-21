@@ -123,6 +123,16 @@ IndicatorBase {
             }
         }
 
+        Connections {
+            target: mainMenu.model
+            onRowsAboutToBeRemoved: {
+                // track current item deletion.
+                if (mainMenu.selectedIndex >= first && mainMenu.selectedIndex <= last) {
+                    mainMenu.selectedIndex = -1;
+                }
+            }
+        }
+
         delegate: Loader {
             id: loader
             objectName: "menuItem" + index
