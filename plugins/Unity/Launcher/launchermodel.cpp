@@ -281,9 +281,11 @@ void LauncherModel::unpin(const QString &appId)
     }
 
     if (m_appManager->findApplication(appId)) {
-        m_list.at(index)->setPinned(false);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+        if (m_list.at(index)->pinned()) {
+            m_list.at(index)->setPinned(false);
+            QModelIndex modelIndex = this->index(index);
+            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+        }
     } else {
         beginRemoveRows(QModelIndex(), index, index);
         m_list.takeAt(index)->deleteLater();
