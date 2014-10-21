@@ -29,6 +29,7 @@ IndicatorBase {
     //const
     property string title: rootActionState.title
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
+    readonly property alias factory: _factory
 
     Indicators.UnityMenuModelStack {
         id: menuStack
@@ -181,7 +182,7 @@ IndicatorBase {
     }
 
     MenuItemFactory {
-        id: factory
+        id: _factory
         rootModel: main.menuModel ? main.menuModel : null
         menuModel: mainMenu.model ? mainMenu.model : null
     }
