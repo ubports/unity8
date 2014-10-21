@@ -49,13 +49,13 @@ IndicatorBase {
 
     Connections {
         target: menuStack.tail
-        onRowsInserted: {
-            if (menuStack.rootMenu !== menuStack.tail && menuStack.tail.get(0, "type") === rootMenuType) {
-                menuStack.rootMenu = menuStack.tail.submenu(0);
-                menuStack.push(menuStack.rootMenu, 0);
-            }
-        }
-        onModelReset: {
+
+        // fix async creation with signal from model before it's finished.
+        Component.onCompleted: update();
+        onRowsInserted: update();
+        onModelReset: update();
+
+        function update() {
             if (menuStack.rootMenu !== menuStack.tail && menuStack.tail.get(0, "type") === rootMenuType) {
                 menuStack.rootMenu = menuStack.tail.submenu(0);
                 menuStack.push(menuStack.rootMenu, 0);
