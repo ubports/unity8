@@ -89,8 +89,6 @@ IndicatorBase {
 
         // Only allow flicking if the content doesn't fit on the page
         interactive: contentHeight > height
-        // FIXME - https://bugreports.qt-project.org/browse/QTBUG-41207
-        boundsBehavior: Flickable.StopAtBounds
 
         property int selectedIndex: -1
         property bool blockCurrentIndexChange: false
