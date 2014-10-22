@@ -55,9 +55,8 @@ public:
     int count() const override;
     unity::shell::scopes::ScopeInterface* overviewScope() const override;
 
-    // TODO These will go to the api, mark as override
-    Q_INVOKABLE void setFavorite(const QString& scopeId, bool favorite);
-    Q_INVOKABLE void moveFavoriteTo(const QString& scopeId, int index);
+    Q_INVOKABLE void setFavorite(const QString& scopeId, bool favorite) override;
+    Q_INVOKABLE void moveFavoriteTo(const QString& scopeId, int index) override;
 
     // This is used as part of implementation of the other C++ code, not API
     QList<Scope*> favScopes() const;
