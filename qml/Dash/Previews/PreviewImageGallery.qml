@@ -97,7 +97,7 @@ PreviewWidget {
             x: slideShow.initialX - slideShow.initialX * slideShow.scaleProgress
             y: slideShow.initialY - slideShow.initialY * slideShow.scaleProgress
         }
-        color: "black"
+        color: Qt.rgba(0, 0, 0, scaleProgress)
         radius: units.gu(1) - units.gu(1) * slideShow.scaleProgress
 
         function open() {
@@ -113,7 +113,7 @@ PreviewWidget {
         Behavior on scale {
             UbuntuNumberAnimation {
                 duration: slideShow.opening ? UbuntuAnimation.FastDuration :
-                                              UbuntuAnimation.FastDuration / 3
+                                              UbuntuAnimation.FastDuration / 2
             }
         }
 

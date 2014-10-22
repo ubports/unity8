@@ -75,7 +75,7 @@ PreviewWidget {
             x: zoomableImageContainer.initialX - zoomableImageContainer.initialX * zoomableImageContainer.scaleProgress
             y: zoomableImageContainer.initialY - zoomableImageContainer.initialY * zoomableImageContainer.scaleProgress
         }
-        color: "black"
+        color: Qt.rgba(0, 0, 0, scaleProgress)
         radius: units.gu(1) - units.gu(1) * zoomableImageContainer.scaleProgress
 
         function open() {
@@ -91,7 +91,7 @@ PreviewWidget {
         Behavior on scale {
             UbuntuNumberAnimation {
                 duration: zoomableImageContainer.opening ? UbuntuAnimation.FastDuration :
-                                                           UbuntuAnimation.FastDuration / 3
+                                                           UbuntuAnimation.FastDuration / 2
             }
         }
 
