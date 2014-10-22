@@ -36,7 +36,6 @@ Item {
     Dash {
         id: dash
         anchors.fill: parent
-        showScopeOnLoaded: "MockScope2"
     }
 
     UT.UnityTestCase {
@@ -78,27 +77,6 @@ Item {
 
         function test_show_scope_on_load_data() {
             return get_scope_data()
-        }
-
-        function test_show_scope_on_load(data) {
-            var dashContentList = findChild(dash, "dashContentList");
-
-            dash.showScopeOnLoaded = data.tag
-            scopes.clear();
-            tryCompare(dashContentList, "count", 0);
-            scopes.load();
-            tryCompare(scopes, "loaded", true);
-            tryCompare(dashContentList, "count", 6);
-
-            verify(dashContentList != undefined);
-            if (data.visualIndex == -1) {
-                tryCompare(dashContentList, "currentIndex", 0);
-                expectFail(data.tag, "non favorite scopes should not be visble in the scopes model");
-                compare(dashContentList.currentItem.scopeId, data.tag); // this should fail
-            } else {
-                tryCompare(dashContentList, "currentIndex", data.visualIndex);
-                compare(dashContentList.currentItem.scopeId, data.tag);
-            }
         }
 
         function test_dash_overview_show_select_same_favorite() {
@@ -314,7 +292,9 @@ Item {
             mouseFlick(dash, startX, startY, stopX, stopY);
             compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
-            dashCommunicatorService.mockSetCurrentScope("clickscope", true, false);
+            dashCommunicatorService.mockSetCurrentScope(0, true, false);
+            tryCompare(dashContentList, "currentIndex", 0)
+            dashCommunicatorService.mockSetCurrentScope(1, true, false);
             tryCompare(dashContentList, "currentIndex", 1)
         }
 
