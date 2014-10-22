@@ -36,6 +36,7 @@ PreviewWidget {
         anchors {
             top: parent.top
             bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
         }
         scaleTo: "height"
         source: widgetData["source"]
