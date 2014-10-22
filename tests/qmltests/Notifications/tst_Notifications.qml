@@ -536,11 +536,12 @@ Item {
                     if(data.hasSwipeToAct) {
                         var swipeButton = findChild(buttonRow, "notify_swipe_button")
                         var slider = findChild(swipeButton, "slider")
-                        var x = slider.x + slider.width / 2
-                        var y = slider.y + slider.height / 2
-                        mousePress(slider, x, y)
-                        mouseMove(slider, x + units.gu(15), y)
-                        mouseRelease(slider)
+                        var swipeMouseArea = findChild(buttonRow, "swipeMouseArea")
+                        var x = swipeMouseArea.width / 2
+                        var y = swipeMouseArea.height / 2
+                        mousePress(swipeMouseArea, x, y, Qt.LeftButton, Qt.NoModifier, 0)
+                        mouseMove(swipeMouseArea, x + units.gu(15), y)
+                        mouseRelease(swipeMouseArea, x + units.gu(15), y)
                     } else {
                         var buttonCancel = findChild(buttonRow, "notify_button1")
                         var buttonAccept = findChild(buttonRow, "notify_button0")
@@ -559,7 +560,7 @@ Item {
                         tryCompareFunction(function() { mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                         compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                         actionSpy.clear()
-                            (notification)
+                        waitForRendering (notification)
 
                         // check if there's a ComboButton created due to more actions being passed
                         if (data.actions.length > 2) {

@@ -263,6 +263,7 @@ Item {
 
 	    MouseArea {
 	    	id: mouseArea
+            objectName: "swipeMouseArea"
 
 	    	anchors.fill: row
 	    	drag.target: slider
