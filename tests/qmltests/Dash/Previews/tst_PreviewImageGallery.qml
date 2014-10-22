@@ -53,7 +53,8 @@ Rectangle {
         property Item slideShowListView: findChild(slideShow, "slideShowListView")
 
         function cleanup() {
-            slideShow.visible = false;
+            slideShow.close();
+            tryCompare(slideShow, "visible", false);
             imageGallery.widgetData = sourcesModel1;
             waitForRendering(imageGallery);
         }

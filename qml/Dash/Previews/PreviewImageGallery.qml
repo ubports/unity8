@@ -67,9 +67,9 @@ PreviewWidget {
                 anchors.fill: parent
                 onClicked: {
                     slideShowListView.currentIndex = index;
-                    slideShow.initialX = rootItem.mapFromItem(parent, 0, 0).x
-                    slideShow.initialY = rootItem.mapFromItem(parent, 0, 0).y
-                    slideShow.visible = true;
+                    slideShow.initialX = rootItem.mapFromItem(parent, 0, 0).x;
+                    slideShow.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                    slideShow.open();
                 }
             }
         }
@@ -83,13 +83,15 @@ PreviewWidget {
         readonly property real scaleProgress: (scale - initialScale) / (1.0 - initialScale)
         property real initialX: 0
         property real initialY: 0
+        property bool opened: false
+        property bool opening: false
 
         parent: rootItem
         width: parent.width
         height: parent.height
-        visible: false
+        visible: scale > initialScale
         clip: visible && scale < 1.0
-        scale: visible ? 1.0 : initialScale
+        scale: opened ? 1.0 : initialScale
         transformOrigin: Item.TopLeft
         transform: Translate {
             x: slideShow.initialX - slideShow.initialX * slideShow.scaleProgress
@@ -98,9 +100,21 @@ PreviewWidget {
         color: "black"
         radius: units.gu(1) - units.gu(1) * slideShow.scaleProgress
 
+        function open() {
+            opening = true;
+            opened = true;
+        }
+
+        function close() {
+            opening = false;
+            opened = false;
+        }
+
         Behavior on scale {
-            enabled: !slideShow.visible
-            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+            UbuntuNumberAnimation {
+                duration: slideShow.opening ? UbuntuAnimation.FastDuration :
+                                              UbuntuAnimation.FastDuration / 3
+            }
         }
 
         Flickables.ListView {
@@ -160,7 +174,7 @@ PreviewWidget {
                 width: units.gu(8)
                 height: width
 
-                onClicked: slideShow.visible = false
+                onClicked: slideShow.close()
 
                 Rectangle {
                     anchors.fill: parent

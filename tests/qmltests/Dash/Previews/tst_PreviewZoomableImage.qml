@@ -53,7 +53,8 @@ Rectangle {
         }
 
         function cleanup() {
-            zoomableImageContainer.visible = false;
+            zoomableImageContainer.close();
+            tryCompare(zoomableImageContainer, "visible", false);
             zoomableImage.widgetData = widgetData0;
         }
 

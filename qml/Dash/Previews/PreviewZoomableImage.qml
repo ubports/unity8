@@ -46,9 +46,9 @@ PreviewWidget {
             id: mouseArea
             anchors.fill: parent
             onClicked: {
-                zoomableImageContainer.initialX = rootItem.mapFromItem(parent, 0, 0).x
-                zoomableImageContainer.initialY = rootItem.mapFromItem(parent, 0, 0).y
-                zoomableImageContainer.visible = true;
+                zoomableImageContainer.initialX = rootItem.mapFromItem(parent, 0, 0).x;
+                zoomableImageContainer.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                zoomableImageContainer.open();
             }
         }
     }
@@ -61,13 +61,15 @@ PreviewWidget {
         readonly property real scaleProgress: (scale - initialScale) / (1.0 - initialScale)
         property real initialX: 0
         property real initialY: 0
+        property bool opened: false
+        property bool opening: false
 
         parent: rootItem
         width: parent.width
         height: parent.height
-        visible: false
+        visible: scale > initialScale
         clip: visible && scale < 1.0
-        scale: visible ? 1.0 : initialScale
+        scale: opened ? 1.0 : initialScale
         transformOrigin: Item.TopLeft
         transform: Translate {
             x: zoomableImageContainer.initialX - zoomableImageContainer.initialX * zoomableImageContainer.scaleProgress
@@ -76,9 +78,21 @@ PreviewWidget {
         color: "black"
         radius: units.gu(1) - units.gu(1) * zoomableImageContainer.scaleProgress
 
+        function open() {
+            opening = true;
+            opened = true;
+        }
+
+        function close() {
+            opening = false;
+            opened = false;
+        }
+
         Behavior on scale {
-            enabled: !zoomableImageContainer.visible
-            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+            UbuntuNumberAnimation {
+                duration: zoomableImageContainer.opening ? UbuntuAnimation.FastDuration :
+                                                           UbuntuAnimation.FastDuration / 3
+            }
         }
 
         ZoomableImage {
@@ -114,7 +128,7 @@ PreviewWidget {
                 width: units.gu(8)
                 height: width
 
-                onClicked: zoomableImageContainer.visible = false
+                onClicked: zoomableImageContainer.close()
 
                 Rectangle {
                     anchors.fill: parent
