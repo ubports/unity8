@@ -90,6 +90,16 @@ Showable {
             id: progressAnimation
             UbuntuNumberAnimation { }
         }
+
+        onProgressChanged: {
+            // FIXME This is to workaround a Qt bug with the model moving the current item
+            // when the list is ListView.SnapOneItem and ListView.StrictlyEnforceRange
+            // together with the code in DashContent.qml
+            if (dashContent.workaroundRestoreIndex != -1) {
+                dashContent.currentIndex = dashContent.workaroundRestoreIndex;
+                dashContent.workaroundRestoreIndex = -1;
+            }
+        }
     }
 
     DashContent {
