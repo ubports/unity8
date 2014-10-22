@@ -35,7 +35,7 @@ Showable {
         onSetCurrentScopeRequested: {
             if (!isSwipe || !window.active || overviewController.progress != 0) {
                 if (overviewController.progress != 0 && window.active) animate = false;
-                dash.setCurrentScope(index, animate, isSwipe)
+                dashContent.setCurrentScopeAtIndex(scopeIndex, animate, isSwipe)
                 if (overviewController.progress != 0) {
                     if (window.active) {
                         dashContentCache.scheduleUpdate();
@@ -48,9 +48,17 @@ Showable {
         }
     }
 
-    function setCurrentScope(scopeIndex, animate, reset) {
-        if (scopeIndex < 0 || scopeIndex >= scopes.count) {
-            console.warn("No scope with index: %1".arg(scopeIndex))
+    function setCurrentScope(scopeId, animate, reset) {
+        var scopeIndex = -1;
+        for (var i = 0; i < scopes.count; ++i) {
+            if (scopes.getScope(i).id == scopeId) {
+                scopeIndex = i;
+                break;
+            }
+        }
+
+        if (scopeIndex == -1) {
+            console.warn("No match for scope with id: %1".arg(scopeId))
             return
         }
 
