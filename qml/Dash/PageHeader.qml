@@ -170,8 +170,8 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
+                __separator_visible: false
                 property var styledItem: searchHeader
                 property string title
                 property var config: PageHeadConfiguration {
@@ -241,8 +241,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
-                separatorBottomSource: ""
+                __separator_visible: false
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {
