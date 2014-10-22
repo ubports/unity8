@@ -47,10 +47,14 @@ Rectangle {
         property Item lazyImage: findChild(zoomableImage, "lazyImage");
         property Item zoomableImageContainer: findChild(zoomableImage.rootItem, "zoomableImageContainer");
 
+        function init() {
+            waitForRendering(zoomableImage);
+            waitForRendering(zoomableImageContainer);
+        }
+
         function cleanup() {
             zoomableImageContainer.visible = false;
             zoomableImage.widgetData = widgetData0;
-            waitForRendering(zoomableImage);
         }
 
         function test_loadImage() {
@@ -65,7 +69,7 @@ Rectangle {
             tryCompare(lazyImage, "state", "default");
         }
 
-        function test_1zoomableImageOpenClose() {
+        function test_zoomableImageOpenClose() {
             var zoomableImageCloseButton = findChild(zoomableImageContainer, "zoomableImageCloseButton");
             mouseClick(lazyImage, lazyImage.width / 2, lazyImage.height / 2);
             tryCompare(zoomableImageContainer, "visible", true);
