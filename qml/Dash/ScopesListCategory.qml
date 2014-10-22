@@ -115,10 +115,10 @@ Item {
                     if (dragItem.visible) {
                         drag.target = undefined;
                         dragItem.visible = false;
-                        dragMarker.visible = false;
-                        if (dragMarker.index != index) {
+                        if (dragMarker.visible && dragMarker.index != index) {
                             root.requestScopeMoveTo(model.scopeId, dragMarker.index);
                         }
+                        dragMarker.visible = false;
                         dragItem.loaderToShrink.height = listItemHeight;
                         dragItem.loaderToShrink = null;
                     }
