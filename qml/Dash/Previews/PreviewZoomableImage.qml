@@ -47,105 +47,25 @@ PreviewWidget {
             id: mouseArea
             anchors.fill: parent
             onClicked: {
-                zoomableImageContainer.initialX = rootItem.mapFromItem(parent, 0, 0).x;
-                zoomableImageContainer.initialY = rootItem.mapFromItem(parent, 0, 0).y;
-                zoomableImageContainer.open();
+                overlay.initialX = rootItem.mapFromItem(parent, 0, 0).x;
+                overlay.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                overlay.show();
             }
         }
     }
 
-    Rectangle {
-        id: zoomableImageContainer
-        objectName: "zoomableImageContainer"
-
-        readonly property real initialScale: lazyImage.height / rootItem.height
-        readonly property real scaleProgress: (scale - initialScale) / (1.0 - initialScale)
-        property real initialX: 0
-        property real initialY: 0
-        property bool opened: false
-        property bool opening: false
-
+    PreviewOverlay {
+        id: overlay
+        objectName: "overlay"
         parent: rootItem
         width: parent.width
         height: parent.height
-        visible: scale > initialScale
-        clip: visible && scale < 1.0
-        scale: opened ? 1.0 : initialScale
-        transformOrigin: Item.TopLeft
-        transform: Translate {
-            x: zoomableImageContainer.initialX - zoomableImageContainer.initialX * zoomableImageContainer.scaleProgress
-            y: zoomableImageContainer.initialY - zoomableImageContainer.initialY * zoomableImageContainer.scaleProgress
-        }
-        color: Qt.rgba(0, 0, 0, scaleProgress)
-        radius: units.gu(1) - units.gu(1) * scaleProgress
+        initialScale: lazyImage.height / rootItem.height
 
-        function open() {
-            opening = true;
-            opened = true;
-        }
-
-        function close() {
-            opening = false;
-            opened = false;
-        }
-
-        Behavior on scale {
-            UbuntuNumberAnimation {
-                duration: zoomableImageContainer.opening ? UbuntuAnimation.FastDuration :
-                                                           UbuntuAnimation.FastDuration / 2
-            }
-        }
-
-        ZoomableImage {
-            id: screenshot
+        delegate: ZoomableImage {
             anchors.fill: parent
             source: widgetData["source"]
             zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
-        }
-
-        Rectangle {
-            id: zoomableImageHeader
-
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            height: units.gu(7)
-            visible: opacity > 0
-            opacity: zoomableImageContainer.scaleProgress > 0.6 ? 0.8 : 0
-            color: "black"
-
-            Behavior on opacity {
-                UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
-            }
-
-            AbstractButton {
-                id: zoomableImageCloseButton
-                objectName: "zoomableImageCloseButton"
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-                width: units.gu(8)
-                height: width
-
-                onClicked: zoomableImageContainer.close()
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: Qt.rgba(1.0, 1.0, 1.0, 0.3)
-                    visible: zoomableImageCloseButton.pressed
-                }
-
-                Icon {
-                    id: icon
-                    anchors.centerIn: parent
-                    width: units.gu(2.5)
-                    height: width
-                    color: Theme.palette.normal.foregroundText
-                    name: "close"
-                }
-            }
         }
     }
 }

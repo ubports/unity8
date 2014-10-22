@@ -48,13 +48,13 @@ Rectangle {
         name: "PreviewImageGalleryTest"
         when: windowShown
 
-        property Item slideShow: findChild(imageGallery.rootItem, "slideShow")
-        property Item slideShowCloseButton: findChild(slideShow, "slideShowCloseButton")
-        property Item slideShowListView: findChild(slideShow, "slideShowListView")
+        property Item overlay: findChild(imageGallery.rootItem, "overlay")
+        property Item overlayCloseButton: findChild(overlay, "overlayCloseButton")
+        property Item overlayListView: findChild(overlay, "overlayListView")
 
         function cleanup() {
-            slideShow.close();
-            tryCompare(slideShow, "visible", false);
+            overlay.hide();
+            tryCompare(overlay, "visible", false);
             imageGallery.widgetData = sourcesModel1;
             waitForRendering(imageGallery);
         }
@@ -65,29 +65,29 @@ Rectangle {
             compare(placeholderScreenshot.visible, true);
         }
 
-        function test_slideShowOpenClose() {
+        function test_overlayOpenClose() {
             var image0 = findChild(imageGallery, "previewImage0");
             mouseClick(image0, image0.width / 2, image0.height / 2);
-            tryCompare(slideShow, "visible", true);
-            tryCompare(slideShow, "scale", 1.0);
-            tryCompare(slideShowCloseButton, "visible", true);
-            mouseClick(slideShowCloseButton, slideShowCloseButton.width / 2, slideShowCloseButton.height / 2);
-            tryCompare(slideShow, "visible", false);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayCloseButton, "visible", true);
+            mouseClick(overlayCloseButton, overlayCloseButton.width / 2, overlayCloseButton.height / 2);
+            tryCompare(overlay, "visible", false);
         }
 
-        function test_slideShowShowHideHeader() {
+        function test_overlayShowHideHeader() {
             var image0 = findChild(imageGallery, "previewImage0");
             mouseClick(image0, image0.width / 2, image0.height / 2);
-            tryCompare(slideShow, "visible", true);
-            tryCompare(slideShow, "scale", 1.0);
-            tryCompare(slideShowCloseButton, "visible", true);
-            mouseClick(slideShow, slideShow.width / 2, slideShow.height / 2);
-            tryCompare(slideShowCloseButton, "visible", false);
-            mouseClick(slideShow, slideShow.width / 2, slideShow.height / 2);
-            tryCompare(slideShowCloseButton, "visible", true);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayCloseButton, "visible", true);
+            mouseClick(overlay, overlay.width / 2, overlay.height / 2);
+            tryCompare(overlayCloseButton, "visible", false);
+            mouseClick(overlay, overlay.width / 2, overlay.height / 2);
+            tryCompare(overlayCloseButton, "visible", true);
         }
 
-        function test_slideShowOpenCorrectImage_data() {
+        function test_overlayOpenCorrectImage_data() {
             return [
                 { tag: "Image 0", index: 0 },
                 { tag: "Image 1", index: 1 },
@@ -95,13 +95,13 @@ Rectangle {
             ];
         }
 
-        function test_slideShowOpenCorrectImage(data) {
+        function test_overlayOpenCorrectImage(data) {
             var image = findChild(imageGallery, "previewImage" + data.index);
             mouseClick(image, image.width / 2, image.height / 2);
-            tryCompare(slideShow, "visible", true);
-            tryCompare(slideShow, "scale", 1.0);
-            tryCompare(slideShowListView, "currentIndex", data.index);
-            verify(image.source === slideShowListView.currentItem.source);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayListView, "currentIndex", data.index);
+            verify(image.source === overlayListView.currentItem.source);
         }
     }
 }

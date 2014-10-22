@@ -45,16 +45,16 @@ Rectangle {
         when: windowShown
 
         property Item lazyImage: findChild(zoomableImage, "lazyImage");
-        property Item zoomableImageContainer: findChild(zoomableImage.rootItem, "zoomableImageContainer");
+        property Item overlay: findChild(zoomableImage.rootItem, "overlay");
 
         function init() {
             waitForRendering(zoomableImage);
-            waitForRendering(zoomableImageContainer);
+            waitForRendering(overlay);
         }
 
         function cleanup() {
-            zoomableImageContainer.close();
-            tryCompare(zoomableImageContainer, "visible", false);
+            overlay.hide();
+            tryCompare(overlay, "visible", false);
             zoomableImage.widgetData = widgetData0;
         }
 
@@ -71,13 +71,13 @@ Rectangle {
         }
 
         function test_zoomableImageOpenClose() {
-            var zoomableImageCloseButton = findChild(zoomableImageContainer, "zoomableImageCloseButton");
+            var overlayCloseButton = findChild(overlay, "overlayCloseButton");
             mouseClick(lazyImage, lazyImage.width / 2, lazyImage.height / 2);
-            tryCompare(zoomableImageContainer, "visible", true);
-            tryCompare(zoomableImageContainer, "scale", 1.0);
-            tryCompare(zoomableImageCloseButton, "visible", true);
-            mouseClick(zoomableImageCloseButton, zoomableImageCloseButton.width / 2, zoomableImageCloseButton.height / 2);
-            tryCompare(zoomableImageContainer, "visible", false);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayCloseButton, "visible", true);
+            mouseClick(overlayCloseButton, overlayCloseButton.width / 2, overlayCloseButton.height / 2);
+            tryCompare(overlay, "visible", false);
         }
     }
 }

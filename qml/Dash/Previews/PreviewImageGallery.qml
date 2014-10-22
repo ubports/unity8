@@ -66,60 +66,26 @@ PreviewWidget {
                 id: mouseArea
                 anchors.fill: parent
                 onClicked: {
-                    slideShowListView.currentIndex = index;
-                    slideShow.initialX = rootItem.mapFromItem(parent, 0, 0).x;
-                    slideShow.initialY = rootItem.mapFromItem(parent, 0, 0).y;
-                    slideShow.open();
+                    overlay.delegateItem.currentIndex = index;
+                    overlay.initialX = rootItem.mapFromItem(parent, 0, 0).x;
+                    overlay.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                    overlay.show();
                 }
             }
         }
     }
 
-    Rectangle {
-        id: slideShow
-        objectName: "slideShow"
-
-        readonly property real initialScale: previewImageListView.height / rootItem.height
-        readonly property real scaleProgress: (scale - initialScale) / (1.0 - initialScale)
-        property real initialX: 0
-        property real initialY: 0
-        property bool opened: false
-        property bool opening: false
-
+    PreviewOverlay {
+        id: overlay
+        objectName: "overlay"
         parent: rootItem
         width: parent.width
         height: parent.height
-        visible: scale > initialScale
-        clip: visible && scale < 1.0
-        scale: opened ? 1.0 : initialScale
-        transformOrigin: Item.TopLeft
-        transform: Translate {
-            x: slideShow.initialX - slideShow.initialX * slideShow.scaleProgress
-            y: slideShow.initialY - slideShow.initialY * slideShow.scaleProgress
-        }
-        color: Qt.rgba(0, 0, 0, scaleProgress)
-        radius: units.gu(1) - units.gu(1) * scaleProgress
+        initialScale: previewImageListView.height / rootItem.height
 
-        function open() {
-            opening = true;
-            opened = true;
-        }
-
-        function close() {
-            opening = false;
-            opened = false;
-        }
-
-        Behavior on scale {
-            UbuntuNumberAnimation {
-                duration: slideShow.opening ? UbuntuAnimation.FastDuration :
-                                              UbuntuAnimation.FastDuration / 2
-            }
-        }
-
-        Flickables.ListView {
-            id: slideShowListView
-            objectName: "slideShowListView"
+        delegate: Flickables.ListView {
+            id: overlayListView
+            objectName: "overlayListView"
             anchors.fill: parent
             orientation: ListView.Horizontal
             highlightRangeMode: ListView.StrictlyEnforceRange
@@ -134,7 +100,7 @@ PreviewWidget {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                width: slideShow.width
+                width: overlay.width
                 source: modelData ? modelData : ""
                 fillMode: Image.PreserveAspectFit
                 sourceSize { width: screenshot.width; height: screenshot.height }
@@ -142,54 +108,7 @@ PreviewWidget {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: slideShowHeader.shown = !slideShowHeader.shown
-            }
-        }
-
-        Rectangle {
-            id: slideShowHeader
-
-            property bool shown: true
-
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            height: units.gu(7)
-            visible: opacity > 0
-            opacity: slideShow.scaleProgress > 0.6 && shown ? 0.8 : 0
-            color: "black"
-
-            Behavior on opacity {
-                UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
-            }
-
-            AbstractButton {
-                id: slideShowCloseButton
-                objectName: "slideShowCloseButton"
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-                width: units.gu(8)
-                height: width
-
-                onClicked: slideShow.close()
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: Qt.rgba(1.0, 1.0, 1.0, 0.3)
-                    visible: slideShowCloseButton.pressed
-                }
-
-                Icon {
-                    id: icon
-                    anchors.centerIn: parent
-                    width: units.gu(2.5)
-                    height: width
-                    color: Theme.palette.normal.foregroundText
-                    name: "close"
-                }
+                onClicked: overlay.headerShown = !overlay.headerShown
             }
         }
     }
