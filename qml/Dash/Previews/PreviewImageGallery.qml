@@ -98,7 +98,7 @@ PreviewWidget {
             y: slideShow.initialY - slideShow.initialY * slideShow.scaleProgress
         }
         color: Qt.rgba(0, 0, 0, scaleProgress)
-        radius: units.gu(1) - units.gu(1) * slideShow.scaleProgress
+        radius: units.gu(1) - units.gu(1) * scaleProgress
 
         function open() {
             opening = true;

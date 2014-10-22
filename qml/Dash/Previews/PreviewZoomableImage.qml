@@ -76,7 +76,7 @@ PreviewWidget {
             y: zoomableImageContainer.initialY - zoomableImageContainer.initialY * zoomableImageContainer.scaleProgress
         }
         color: Qt.rgba(0, 0, 0, scaleProgress)
-        radius: units.gu(1) - units.gu(1) * zoomableImageContainer.scaleProgress
+        radius: units.gu(1) - units.gu(1) * scaleProgress
 
         function open() {
             opening = true;
