@@ -87,6 +87,7 @@ Item {
         clip: true
         contentWidth: root.width
         contentHeight: column.height
+        onContentHeightChanged: returnToBounds();
         Column {
             id: column
             Repeater {

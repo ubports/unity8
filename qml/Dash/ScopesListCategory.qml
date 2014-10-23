@@ -35,7 +35,7 @@ Item {
     signal requestScopeMoveTo(string scopeId, int index)
     signal requestActivate(var result)
 
-    implicitHeight: childrenRect.height
+    implicitHeight: visible ? childrenRect.height : 0
 
     ListItems.Header {
         id: header
@@ -88,14 +88,19 @@ Item {
                         root.requestActivate(result);
                     }
                 }
+                onPressAndHold: {
+                    if (!editMode) {
+                        root.requestEditMode();
+                    }
+                }
                 onRequestFavorite: root.requestFavorite(model.scopeId, favorite);
-                onPressed: {
+                onHandlePressed: {
                     if (editMode) {
-                        drag.target = dragItem;
-                        drag.maximumX = units.gu(1);
-                        drag.minimumX = units.gu(1);
-                        drag.minimumY = list.y - dragItem.height / 2;
-                        drag.maximumY = list.y + list.height - dragItem.height / 2
+                        handle.drag.target = dragItem;
+                        handle.drag.maximumX = units.gu(1);
+                        handle.drag.minimumX = units.gu(1);
+                        handle.drag.minimumY = list.y - dragItem.height / 2;
+                        handle.drag.maximumY = list.y + list.height - dragItem.height / 2
                         dragItem.icon = icon;
                         dragItem.text = text;
                         dragItem.subtext = subtext;
@@ -106,14 +111,9 @@ Item {
                         dragItem.loaderToShrink = loader;
                     }
                 }
-                onPressAndHold: {
-                    if (!editMode) {
-                        root.requestEditMode();
-                    }
-                }
-                onReleased: {
+                onHandleReleased: {
                     if (dragItem.visible) {
-                        drag.target = undefined;
+                        handle.drag.target = undefined;
                         dragItem.visible = false;
                         if (dragMarker.visible && dragMarker.index != index) {
                             root.requestScopeMoveTo(model.scopeId, dragMarker.index);

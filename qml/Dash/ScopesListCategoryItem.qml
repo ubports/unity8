@@ -19,7 +19,11 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 
 MouseArea {
+    id: root
+
     signal requestFavorite(string scopeId, bool favorite)
+    signal handlePressed(var handle)
+    signal handleReleased(var handle)
 
     property alias icon: shapeImage.source
     property alias text: titleLabel.text
@@ -77,14 +81,15 @@ MouseArea {
         height: parent.height
         width: height
         anchors.right: parent.right
-        enabled: !editMode
-        visible: !hideChildren
-        onClicked: root.requestFavorite(model.scopeId, !isFavorite);
+        onClicked: if (!editMode) root.requestFavorite(model.scopeId, !isFavorite);
+        onPressed: if (editMode) root.handlePressed(starArea);
+        onReleased: if (editMode) root.handleReleased(starArea);
         Icon {
             id: star
             anchors.centerIn: parent
             height: units.gu(2)
             width: units.gu(2)
+            visible: !hideChildren
             // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
             source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
         }
