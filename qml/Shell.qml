@@ -693,7 +693,7 @@ Item {
         Rectangle {
             id: modalNotificationBackground
 
-            visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
+            visible: notifications.useModal && (notifications.state == "narrow")
             color: "#000000"
             anchors.fill: parent
             opacity: 0.9
