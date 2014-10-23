@@ -98,7 +98,15 @@ Item {
                     width: root.width
                     sourceComponent: ScopesListCategory {
                         objectName: "scopesListCategory" + categoryId
+
                         model: results
+
+                        title: {
+                            if (isFavoritesFeed) return i18n.tr("Home");
+                            else if (isOtherFeed) return i18n.tr("Others");
+                            else return name;
+                        }
+
                         editMode: root.state == "edit"
 
                         isFavoritesFeed: categoryId == "favorites"

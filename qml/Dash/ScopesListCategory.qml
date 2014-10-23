@@ -23,6 +23,7 @@ Item {
     id: root
 
     property alias model: list.model
+    property alias title: header.text
     property var scopeStyle
     property bool editMode: false
     property bool isFavoritesFeed: false
@@ -41,11 +42,6 @@ Item {
         id: header
         width: root.width
         height: units.gu(5)
-        text: {
-            if (isFavoritesFeed) return i18n.tr("Home");
-            else if (isOtherFeed) return i18n.tr("Others");
-            else return name;
-        }
         color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
     }
 
