@@ -139,7 +139,8 @@ class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
         x_center = list_view.globalRect.x + list_view.width / 2
         y_center = list_view.globalRect.y + list_view.height / 2
         y_diff = (
-            category_element.y - list_view.height + category_element.height)
+            category_element.y - list_view.height + category_element.height
+        )
         list_view._slow_drag(x_center, x_center, y_center, y_center - y_diff)
         applications = self.applications_scope.get_applications(category)
         self.assertEqual(expected_applications, applications)
