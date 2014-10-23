@@ -61,7 +61,7 @@ class DashEmulatorTestCase(tests.DashBaseTestCase):
     def _assert_scope_is_opened(self, scope, scope_id):
         self.assertTrue(scope.isCurrent)
         scope_loader = scope.get_parent()
-        self.assertEqual(scope_loader.scopeId, scope_id)        
+        self.assertEqual(scope_loader.scopeId, scope_id)
 
     def _get_leftmost_scope_id(self):
         scope_loaders = self._get_scope_loaders()
