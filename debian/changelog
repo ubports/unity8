@@ -1,3 +1,9 @@
+unity8 (8.01) UNRELEASED; urgency=medium
+
+  * Provide 'passphrase' as a field of Components.Lockscreen
+
+ -- Michael Terry <mterry@ubuntu.com>  Wed, 22 Oct 2014 16:05:26 -0400
+
 unity8 (8.00+14.10.20141013.2-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
