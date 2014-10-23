@@ -185,6 +185,53 @@ Rectangle {
             tryCompare(sessionSpy, "count", data.count);
         }
 
+        function test_childSessionDestructionReturnsFocusToSiblingOrParent() {
+            console.log("FAIL: entering childSessionDestriction....")
+            sessionCheckbox.checked = true;
+
+            var sessionContainer = sessionContainerLoader.item;
+
+            // Without this, we cannot get active focus
+             sessionContainer.interactive = true;
+             compare(sessionContainer.childSessions.count(), 0);
+
+            /*
+             * Build a stack of fake sessions
+             * 3 sessions should cover all edge cases
+             *  - Focus from departing session goes to sibling
+             *  - Focus from last child goes to parent
+            */
+            var i;
+            var sessions = [];
+            for(i = 0; i < 3; i++) {
+                var session = ApplicationTest.addChildSession(
+                    sessionContainer.session, "gallery");
+                session.createSurface();
+                sessionContainer.session.addChildSession(session);
+                compare(sessionContainer.childSessions.count(), i+1);
+
+                sessions.push(session);
+            }
+
+            // Traverse the fake session stack, following and testing focus
+            var sessionUnderTest;
+            while(sessionUnderTest = sessions.pop()) {
+                var surface = sessionUnderTest.surface;
+                surface.forceActiveFocus();
+                compare(surface.activeFocus, true);
+
+                var nextSession = sessions.pop();
+                if(nextSession != undefined) {
+                    sessions.push(nextSession);
+                    sessionContainer.session.removeChildSession(sessionUnderTest);
+                    compare(surface.activeFocus, false);
+
+                    compare(nextSession.surface.activeFocus, true)
+                }
+            }
+            console.log("FAIL: exiting childSessionDestriction....")
+        }
+
         function test_nestedChildSessions_data() {
             return [ { tag: "depth=2", depth: 2 },
                      { tag: "depth=8", depth: 8 }
