@@ -20,7 +20,7 @@ import Ubuntu.Components 1.1
 import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 import "../Components"
-import "../Components/Flickables" as Flickables
+import "Indicators"
 
 Rectangle {
     id: content
@@ -36,7 +36,7 @@ Rectangle {
         listViewContent.currentIndex = currentMenuIndex;
     }
 
-    Flickables.ListView {
+    ListView {
         id: listViewContent
         objectName: "indicatorsContentListView"
         anchors.fill: parent

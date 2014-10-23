@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import "../Components/Flickables" as Flickables
+import QtQuick 2.0
+import Dash 0.1
 
-Flickables.ListViewWithPageHeader {
+ListViewWithPageHeader {
+    maximumFlickVelocity: height * 10
+    flickDeceleration: height * 2
     cacheBuffer: Number.MAX_VALUE
 }

@@ -22,7 +22,6 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 import "../.."
-import "../../../Components/Flickables" as Flickables
 
 Page {
     id: page
@@ -36,7 +35,7 @@ Page {
         Component.onCompleted: load(profile)
     }
 
-    Flickables.ListView {
+    ListView {
         id: mainMenu
         objectName: "mainMenu"
         anchors.fill: parent
