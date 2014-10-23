@@ -42,6 +42,7 @@ Item {
 
         ListModel {
             id: mockModel
+            dynamicRoles: true
 
             signal actionInvoked(string actionId)
 
@@ -92,7 +93,7 @@ Item {
                 icon: "../graphics/avatars/amanda.png",
                 secondaryIcon: "incoming-call",
                 actions: [{ id: "ok_id", label: "Ok"},
-                          { id: "cancel_id", label: "Cancel"}]
+                    { id: "cancel_id", label: "Cancel"}]
             }
 
             mockModel.append(n)
@@ -266,6 +267,10 @@ Item {
             }
         }
 
+        ActionModel {
+            id: myActionModel
+        }
+
         UnityTestCase {
             id: root
             name: "NotificationRendererTest"
@@ -305,8 +310,7 @@ Item {
                     body: "Frank Zappa\n+44 (0)7736 027340",
                     icon: "../graphics/avatars/amanda.png",
                     secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                    actions: [{ id: "ok_id", label: "Ok"},
-                              { id: "cancel_id", label: "Cancel"}],
+                    actions: myActionModel,
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -536,12 +540,13 @@ Item {
                     if(data.hasSwipeToAct) {
                         var swipeButton = findChild(buttonRow, "notify_swipe_button")
                         var slider = findChild(swipeButton, "slider")
-                        var swipeMouseArea = findChild(buttonRow, "swipeMouseArea")
+                        var swipeMouseArea = findChild(swipeButton, "swipeMouseArea")
                         var x = swipeMouseArea.width / 2
                         var y = swipeMouseArea.height / 2
-                        mousePress(swipeMouseArea, x, y, Qt.LeftButton, Qt.NoModifier, 0)
-                        mouseMove(swipeMouseArea, x + units.gu(15), y)
-                        mouseRelease(swipeMouseArea, x + units.gu(15), y)
+                        //mouseDrag(swipeButton, x, y, -(swipeMouseArea.width / 2), 0)
+                        tryCompareFunction(function() { mouseDrag(slider, x, y, (swipeMouseArea.width / 2) - slider.width, 0); return actionSpy.signalArguments.length > 0; }, true);
+                        compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for positive action")
+                        actionSpy.clear()
                     } else {
                         var buttonCancel = findChild(buttonRow, "notify_button1")
                         var buttonAccept = findChild(buttonRow, "notify_button0")

@@ -118,7 +118,7 @@ macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
 
     set(qmltest_command
         env ${test_env} ${qmltest_ENVIRONMENT}
-        ${qmltestrunner_exe} -eventdelay 500 -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+        ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmltestrunner_imports}
             ${ITERATIONS_STRING}
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
