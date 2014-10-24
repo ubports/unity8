@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
 import Ubuntu.Components 1.1
 import QtGraphicalEffects 1.0
 
@@ -29,14 +29,14 @@ Item {
 
     property string leftIconName
     property string rightIconName
-    readonly property double sliderHeight: 6
+    readonly property double sliderHeight: units.gu(6)
     readonly property double gap: units.gu(1)
     readonly property double halfWay: mouseArea.drag.maximumX / 2
 
     Rectangle {
         id: gradient
         width: parent.width * 5
-        height: units.gu(sliderHeight)
+        height: sliderHeight
         visible: false
         LinearGradient {
             anchors.fill: parent
@@ -67,7 +67,7 @@ Item {
         id: mask
         color: "black"
         width: parent.width
-        height: units.gu(sliderHeight)
+        height: sliderHeight
         borderSource: "none"
         visible: false
     }
@@ -83,7 +83,7 @@ Item {
 
     ShaderEffect {
         width: parent.width
-        height: units.gu(sliderHeight)
+        height: sliderHeight
         property variant mask: effectSourceMask
         property variant gradient: effectSourceGradient
         vertexShader: "
