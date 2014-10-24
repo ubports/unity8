@@ -36,7 +36,6 @@ Item {
 
 
     Repeater {
-        id: theRepeater
         model: root.childSessions
 
         delegate: Loader {
@@ -71,12 +70,11 @@ Item {
                 property: "orientation"; value: root.orientation
             }
 
+            /* FIXME: This is a hack to restore focus to an app
+                      when a trusted session prompt is closed
+            */
             Component.onDestruction: {
-                //console.log("FAIL: count: " + root.childSessions.count())
-                //console.log("FAIL: " + theRepeater.itemAt(0));
-                var nextSession = root.childSessions.count() ? theRepeater.itemAt(root.childSessions.count() - 1) : root.session;
-                console.log("FAIL: " + nextSession);
-                nextSession.forceActiveFocus()
+                root.session.surface.forceActiveFocus();
             }
         }
     }

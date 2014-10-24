@@ -186,50 +186,38 @@ Rectangle {
         }
 
         function test_childSessionDestructionReturnsFocusToSiblingOrParent() {
-            console.log("FAIL: entering childSessionDestriction....")
             sessionCheckbox.checked = true;
-
             var sessionContainer = sessionContainerLoader.item;
+            compare(sessionContainer.childSessions.count(), 0);
 
-            // Without this, we cannot get active focus
-             sessionContainer.interactive = true;
-             compare(sessionContainer.childSessions.count(), 0);
+            sessionContainer.interactive = true;
 
-            /*
-             * Build a stack of fake sessions
-             * 3 sessions should cover all edge cases
-             *  - Focus from departing session goes to sibling
-             *  - Focus from last child goes to parent
-            */
             var i;
             var sessions = [];
+            // 3 sessions should cover all edge cases
             for(i = 0; i < 3; i++) {
-                var session = ApplicationTest.addChildSession(
-                    sessionContainer.session, "gallery");
-                session.createSurface();
-                sessionContainer.session.addChildSession(session);
-                compare(sessionContainer.childSessions.count(), i+1);
+                var a_session = ApplicationTest.addChildSession(
+                    sessionContainer.session, "gallery"
+                )
 
-                sessions.push(session);
+                a_session.createSurface();
+                sessionContainer.session.addChildSession(a_session);
+                compare(sessionContainer.childSessions.count(), i + 1);
+
+                sessions.push(a_session);
             }
 
-            // Traverse the fake session stack, following and testing focus
-            var sessionUnderTest;
-            while(sessionUnderTest = sessions.pop()) {
-                var surface = sessionUnderTest.surface;
-                surface.forceActiveFocus();
-                compare(surface.activeFocus, true);
+            var a_session;
+            while(a_session = sessions.pop()) {
+                a_session.surface.forceActiveFocus();
+                compare(a_session.surface.activeFocus, true);
 
-                var nextSession = sessions.pop();
-                if(nextSession != undefined) {
-                    sessions.push(nextSession);
-                    sessionContainer.session.removeChildSession(sessionUnderTest);
-                    compare(surface.activeFocus, false);
+                var parentSession = a_session.parentSession;
+                sessionContainer.session.removeChildSession(a_session);
+                compare(a_session.surface.activeFocus, false);
 
-                    compare(nextSession.surface.activeFocus, true)
-                }
+                compare(parentSession.surface.activeFocus, true);
             }
-            console.log("FAIL: exiting childSessionDestriction....")
         }
 
         function test_nestedChildSessions_data() {
