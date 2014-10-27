@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-07 11:37+0300\n"
-"PO-Revision-Date: 2014-09-29 06:33+0000\n"
-"Last-Translator: Niklas Wenzel <nikwen.developer@gmail.com>\n"
+"PO-Revision-Date: 2014-10-21 11:26+0000\n"
+"Last-Translator: Alexander Dobetsberger <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-10-22 06:17+0000\n"
+"X-Generator: Launchpad (build 17203)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -33,22 +33,26 @@ msgstr "Verknüpfung entfernen"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Gerät gesperrt"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Das Gerät wurde aufgrund zu vieler falscher Passworteingaben für längere "
+"Zeit gesperrt."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Das Gerät wurde aufgrund zu vieler falscher PIN-Eingaben für längere Zeit "
+"gesperrt."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bitte warten Sie %1 Minute und versuchen Sie es dann erneut..."
+msgstr[1] "Bitte warten Sie %1 Minuten und versuchen Sie es dann erneut..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -214,11 +218,11 @@ msgstr "Senden"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "Zum Aktualisieren ziehen …"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "Zum Aktualisieren loslassen …"
 
 #: qml/Dash/ScopesOverview.qml:206
 msgid "Manage Scopes"
@@ -242,7 +246,7 @@ msgstr "Alle"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Entsperren"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -314,7 +318,7 @@ msgstr "Roaming"
 
 #: qml/Shell.qml:346
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Passwort eingeben"
 
 #: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
@@ -322,11 +326,11 @@ msgstr "Das Passwort ist nicht korrekt"
 
 #: qml/Shell.qml:348
 msgid "Please re-enter"
-msgstr ""
+msgstr "Bitte erneut eingeben"
 
 #: qml/Shell.qml:350
 msgid "Enter passcode"
-msgstr ""
+msgstr "PIN eingeben"
 
 #: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
@@ -335,7 +339,7 @@ msgstr "Falsches Passwort"
 #: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "%1 eingeben"
 
 #: qml/Shell.qml:355
 #, qt-format
@@ -369,9 +373,3 @@ msgid ""
 msgstr ""
 "Wird die PIN falsch eingegeben, wird das Telefon auf den Werkszustand "
 "zurückgesetzt und alle Daten werden gelöscht."
-
-#~ msgid "Sorry, incorrect PIN"
-#~ msgstr "Die PIN ist nicht korrekt"
-
-#~ msgid "Enter SIM PIN"
-#~ msgstr "Geben Sie die SIM-PIN ein"
