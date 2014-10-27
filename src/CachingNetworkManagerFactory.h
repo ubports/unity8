@@ -21,7 +21,7 @@
 #include <QQmlNetworkAccessManagerFactory>
 #include <QNetworkAccessManager>
 
-class QNetworkConfigurationManager;
+#include <ubuntu/connectivity/networking-status.h>
 
 class CachingNetworkAccessManager : public QNetworkAccessManager
 {
@@ -32,11 +32,10 @@ protected:
     QNetworkReply* createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData = 0) override;
 
 private Q_SLOTS:
-    void onlineStateChanged(bool isOnline);
+    void onlineStatusChanged(ubuntu::connectivity::NetworkingStatus::Status status);
 
 private:
-    QNetworkConfigurationManager* m_networkManager;
-    bool m_isOnline;
+    ubuntu::connectivity::NetworkingStatus* m_networkingStatus;
 };
 
 class CachingNetworkManagerFactory : public QQmlNetworkAccessManagerFactory

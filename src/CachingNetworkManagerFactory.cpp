@@ -20,25 +20,16 @@
 #include <QNetworkDiskCache>
 #include <QNetworkAccessManager>
 #include <QStandardPaths>
-#include <QNetworkConfigurationManager>
 
 CachingNetworkAccessManager::CachingNetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent)
 {
-    m_networkManager = new QNetworkConfigurationManager(this);
-
-    QObject::connect(m_networkManager, &QNetworkConfigurationManager::onlineStateChanged, this, &CachingNetworkAccessManager::onlineStateChanged);
-    m_isOnline = m_networkManager->isOnline();
-}
-
-void CachingNetworkAccessManager::onlineStateChanged(bool isOnline)
-{
-    m_isOnline = isOnline;
+    m_networkingStatus = new ubuntu::connectivity::NetworkingStatus(this);
 }
 
 QNetworkReply* CachingNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData)
 {
-    if (!m_isOnline) {
+    if (m_networkingStatus->status() != ubuntu::connectivity::NetworkingStatus::Status::Online) {
         QNetworkRequest req(request);
         req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysCache);
         return QNetworkAccessManager::createRequest(op, req, outgoingData);
