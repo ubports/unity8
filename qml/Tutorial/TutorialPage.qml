@@ -19,10 +19,7 @@ import Ubuntu.Components 1.1
 import "../Components"
 
 Showable {
-    id: overlay
-
-    // Valid values are "left", "right", "top", "bottom", or "none"
-    property string edge: "none"
+    id: root
 
     // This is the header displayed, like "Right edge"
     property alias title: titleLabel.text
@@ -33,13 +30,10 @@ Showable {
     // This is the text for the skip button
     property string skipText: i18n.tr("Skip tutorial")
 
-    // Whether this demo is running currently
-    readonly property bool active: available && visible
-
     // Whether animations are paused
     property bool paused
 
-    // Which page number this overlay represents, 1-indexed
+    // Which page number this page represents, 1-indexed
     property int pageNumber
 
     // How many pages there are total
@@ -51,7 +45,7 @@ Showable {
     // Whether whole page (background + foreground) or just the foreground fades out
     property bool backgroundFadesOut: true
 
-    // An integrated glowing Bar class
+    // An integrated glowing Bar class, for convenience
     property alias bar: bar
 
     // The foreground Item, add children to it that you want to fade in
@@ -83,7 +77,7 @@ Showable {
         duration: UbuntuAnimation.BriskDuration
         onRunningChanged: {
             if (!running) {
-                overlay.finished();
+                root.finished();
             }
         }
     }
@@ -169,7 +163,7 @@ Showable {
         }
 
         Row {
-            visible: overlay.pageNumber > 0
+            visible: root.pageNumber > 0
             spacing: units.gu(0.5)
             anchors {
                 bottom: parent.bottom
@@ -177,11 +171,11 @@ Showable {
                 horizontalCenter: parent.horizontalCenter
             }
             Repeater {
-                model: overlay.pageTotal
+                model: root.pageTotal
                 Image {
                     height: units.gu(1)
                     width: height
-                    source: (index === overlay.pageNumber - 1) ?
+                    source: (index === root.pageNumber - 1) ?
                             "../Dash/graphics/pagination_dot_on.png" :
                             "../Dash/graphics/pagination_dot_off.png"
                 }
@@ -189,7 +183,7 @@ Showable {
         }
 
         MouseArea {
-            visible: overlay.pageNumber > 0
+            visible: root.pageNumber > 0
             enabled: visible
             anchors {
                 bottom: parent.bottom
@@ -200,12 +194,13 @@ Showable {
 
             Label {
                 id: skipLabel
+                objectName: "skipLabel"
                 anchors.centerIn: parent
                 // Translators: This is the arrow for "Skip tutorial" buttons
-                text: i18n.tr("%1  〉").arg(overlay.skipText)
+                text: i18n.tr("%1  〉").arg(root.skipText)
             }
 
-            onClicked: overlay.hide()
+            onClicked: root.hide()
         }
 
         Bar {

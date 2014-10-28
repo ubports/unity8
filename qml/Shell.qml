@@ -211,6 +211,9 @@ Item {
                     lockscreen.hide() // show locked app
                 }
                 launcher.hide();
+                if (appId != "unity8-dash") {
+                    edgeDemo.finish(); // accepting a call makes the tutorial go away
+                }
             }
         }
 
@@ -759,7 +762,7 @@ Item {
 
     Tutorial {
         id: edgeDemo
-        objectName: "edgeDemo"
+        objectName: "tutorial"
         visible: AccountsService.demoEdges
         paused: Powerd.status === Powerd.Off || LightDM.Greeter.active
         launcher: launcher
@@ -776,7 +779,7 @@ Item {
 
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: edgeDemo.z + 10
+        z: alphaDisclaimerLabel.z + 10
         enabled: false
         visible: false
         color: "black"

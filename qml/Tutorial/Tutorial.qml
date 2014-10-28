@@ -24,17 +24,26 @@ Item {
     property Item indicators
     property Item stages
 
-    readonly property bool launcherEnabled: loader.sourceComponent === leftComponent ||
+    readonly property bool launcherEnabled: !running ||
+                                            loader.sourceComponent === leftComponent ||
                                             loader.sourceComponent === leftFinishComponent
     readonly property bool stagesEnabled: !running
-    readonly property bool panelEnabled: loader.sourceComponent === topComponent ||
+    readonly property bool panelEnabled: !running ||
+                                         loader.sourceComponent === topComponent ||
                                          loader.sourceComponent === topFinishComponent
     readonly property bool panelContentEnabled: !running
     readonly property bool running: loader.sourceComponent !== null
 
     property bool paused: false
 
+    property int readingDelay: 3500
+
     signal finished()
+
+    function finish() {
+        d.stop();
+        finished();
+    }
 
     ////
 
@@ -150,12 +159,13 @@ Item {
     Component {
         id: introComponent
         TutorialIntro {
+            objectName: "tutorialIntro"
             parent: root.stages
             anchors.fill: parent
             backgroundFadesOut: false
 
             Timer {
-                interval: 3500
+                interval: root.readingDelay
                 running: !root.paused
                 onTriggered: loader.load(topComponent)
             }
@@ -165,6 +175,7 @@ Item {
     Component {
         id: topComponent
         TutorialTop {
+            objectName: "tutorialTop"
             parent: root.stages
             anchors.fill: parent
             anchors.topMargin: root.indicators.panelHeight
@@ -176,6 +187,7 @@ Item {
     Component {
         id: topFinishComponent
         TutorialTopFinish {
+            objectName: "tutorialTopFinish"
             parent: root.indicators
             anchors.bottom: parent ? parent.content.bottom : undefined
             anchors.left: parent ? parent.content.left : undefined
@@ -187,6 +199,7 @@ Item {
     Component {
         id: leftComponent
         TutorialLeft {
+            objectName: "tutorialLeft"
             parent: root.stages
             anchors.fill: parent
             pageNumber: 2
@@ -197,6 +210,7 @@ Item {
     Component {
         id: leftFinishComponent
         TutorialLeftFinish {
+            objectName: "tutorialLeftFinish"
             parent: root.stages
             anchors.fill: parent
             textXOffset: root.launcher.panelWidth
