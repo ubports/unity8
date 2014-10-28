@@ -73,8 +73,6 @@ qt5_use_modules(CardCreatorTestExec Test Core Qml)
 target_link_libraries(CardCreatorTestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_binary_qml_test(CardCreator "" "Dash-qml" "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks/")
 
-add_qml_test(. CroppedImageMinimumSourceSize IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
-
 # plain qml test
 set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
@@ -82,3 +80,4 @@ set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LC_ALL=C")
 add_qml_test(. ScopeStyle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(. ListViewWithPageHeaderQML IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(. CardAttributes IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+add_qml_test(. CroppedImageMinimumSourceSize IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
