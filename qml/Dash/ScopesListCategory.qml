@@ -27,7 +27,7 @@ Item {
     property var scopeStyle
     property bool editMode: false
     property bool isFavoritesFeed: false
-    property bool isOtherFeed: false
+    property bool isAlsoInstalled: false
 
     visible: !editMode || isFavoritesFeed
 
@@ -74,7 +74,7 @@ Item {
                 icon: model.art || ""
                 text: model.title || ""
                 subtext: model.subtitle || ""
-                showStar: root.isFavoritesFeed || root.isOtherFeed
+                showStar: root.isFavoritesFeed || root.isAlsoInstalled
                 isFavorite: root.isFavoritesFeed
 
                 hideChildren: dragItem.loaderToShrink == loader

@@ -103,14 +103,14 @@ Item {
 
                         title: {
                             if (isFavoritesFeed) return i18n.tr("Home");
-                            else if (isOtherFeed) return i18n.tr("Others");
+                            else if (isAlsoInstalled) return i18n.tr("Also installed");
                             else return name;
                         }
 
                         editMode: root.state == "edit"
 
                         isFavoritesFeed: categoryId == "favorites"
-                        isOtherFeed: categoryId == "other"
+                        isAlsoInstalled: categoryId == "other"
 
                         onRequestFavorite: root.requestFavorite(scopeId, favorite);
                         onRequestEditMode: root.state = "edit";
