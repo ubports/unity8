@@ -14,7 +14,7 @@ Rectangle {
         y: 100
         width: 100
         height: 100
-        source: Qt.resolvedUrl("../../qmltests/Dash/artwork/avatar.png")
+        source: Qt.resolvedUrl("../../qmltests/Dash/artwork/music-player-design.png")
     }
 }
 
