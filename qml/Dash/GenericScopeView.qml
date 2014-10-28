@@ -379,20 +379,10 @@ FocusScope {
                         }
                     }
 
-                    if (item && item.hasOwnProperty("visibleRangeBegin")) {
-                        item.visibleRangeBegin = Math.max(-baseItem.y, 0)
-                        item.visibleRangeEnd = item.visibleRangeBegin + Math.min(categoryView.height, rendererLoader.height)
-                    }
-
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
                         // TODO do we need item.originY here, test 1300302 once we have a silo
                         // and we can run it on the phone
-                        if (scopeView.isCurrent) {
-                            // 1073741823 is s^30 -1. A quite big number so that you have "infinite" display margin, but not so
-                            // big so that if you add if with itself you're outside the 2^31 int range
-                            item.displayMarginBeginning = 1073741823;
-                            item.displayMarginEnd = 1073741823;
-                        } else if (baseItem.y + baseItem.height <= 0) {
+                        if (baseItem.y + baseItem.height <= 0) {
                             // Not visible (item at top of the list viewport)
                             item.displayMarginBeginning = -baseItem.height;
                             item.displayMarginEnd = 0;
@@ -404,6 +394,10 @@ FocusScope {
                             item.displayMarginBeginning = Math.round(-Math.max(-baseItem.y, 0));
                             item.displayMarginEnd = -Math.round(Math.max(baseItem.height - seeAll.height -
                                                                          categoryView.height + baseItem.y, 0));
+                            if (scopeView.isCurrent) {
+                                item.displayMarginBeginning += categoryView.height * 1.5;
+                                item.displayMarginEnd += categoryView.height * 1.5;
+                            }
                         }
                     }
                 }

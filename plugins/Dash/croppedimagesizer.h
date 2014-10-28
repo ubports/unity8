@@ -58,9 +58,9 @@ private Q_SLOT:
 
 private:
     QUrl m_source;
-    qreal m_width = 0;
-    qreal m_height = 0;
-    QSize m_sourceSize = QSize(-1, -1);
+    qreal m_width;
+    qreal m_height;
+    QSize m_sourceSize;
     QNetworkReply *m_reply = nullptr;
 };
 

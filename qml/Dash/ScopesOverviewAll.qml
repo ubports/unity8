@@ -44,8 +44,6 @@ Flickables.Flickable {
         id: cardGrid
         width: root.width
         height: parent.height
-        visibleRangeBegin: root.contentY
-        visibleRangeEnd: root.contentY + root.height
 
         onClicked: {
             root.clicked(index, result, item, itemModel);
