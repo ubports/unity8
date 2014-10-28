@@ -109,6 +109,7 @@ Item {
 
                         editMode: root.state == "edit"
 
+                        scopeStyle: root.scope.scopeStyle
                         isFavoritesFeed: categoryId == "favorites"
                         isAlsoInstalled: categoryId == "other"
 
