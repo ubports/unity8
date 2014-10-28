@@ -24,7 +24,6 @@ from autopilot import input
 
 from unity8.shell import emulators
 from unity8.shell.emulators.greeter import Greeter
-from unity8.shell.emulators.hud import Hud
 from unity8.shell.emulators.launcher import Launcher
 
 logger = logging.getLogger(__name__)
@@ -47,18 +46,6 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def get_login_list(self):
         return self.select_single("LoginList")
-
-    def get_hud(self):
-        return self.select_single(Hud)
-
-    def get_hud_showable(self):
-        return self.select_single("Showable", objectName="hudShowable")
-
-    def get_hud_show_button(self):
-        return self.select_single("HudButton")
-
-    def get_hud_edge_drag_area(self):
-        return self.select_single(objectName="hudDragArea")
 
     def get_bottombar(self):
         return self.select_single("Bottombar")

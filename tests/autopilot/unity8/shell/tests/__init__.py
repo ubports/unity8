@@ -203,9 +203,6 @@ class UnityTestCase(AutopilotTestCase):
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
             self._environment["GRID_UNIT_PX"] = str(self.grid_size)
-            # FIXME this is only needed for Hud.get_close_button_coords
-            # we should probably rework it so that it's not required
-            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
 
     def _geo_larger_than_display(self, width, height):
         should_scale = getattr(self, 'scale_geo', True)
