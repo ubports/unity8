@@ -52,7 +52,6 @@ DashRenderer {
         displayMarginEnd: root.displayMarginEnd
         cacheBuffer: 0
         interactive: false
-
         delegate: Item {
             width: grid.cellWidth
             height: grid.cellHeight

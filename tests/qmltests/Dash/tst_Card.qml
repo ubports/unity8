@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Ubuntu.Components 0.1
-import Ubuntu.Connectivity 1.0
 import Unity.Test 0.1 as UT
 import "../../../qml/Dash"
 import "CardHelpers.js" as Helpers
@@ -208,7 +207,6 @@ Rectangle {
 
         function init() {
             loader.visible = true;
-            NetworkingStatus.limitedBandwith = false;
         }
 
         function cleanup() {
@@ -571,26 +569,6 @@ Rectangle {
             } else if (title) {
                 verify((card.width - titleToCard.x - titleToCard.width) === units.gu(1));
             }
-        }
-
-        function test_load_images_visibility_network_data() {
-            return [
-                { tag: "Visible, network", visible: true, limitedBandwith: false },
-                { tag: "Visible, no network", visible: true, limitedBandwith: true },
-                { tag: "Not Visible, network", visible: false, limitedBandwith: false },
-                { tag: "Not Visible, no network", visible: false, limitedBandwith: true }
-            ];
-        }
-
-        function test_load_images_visibility_network(data) {
-            loader.visible = data.visible;
-            NetworkingStatus.limitedBandwith = data.limitedBandwith;
-
-            selector.selectedIndex = 0;
-            waitForRendering(selector);
-            waitForRendering(card);
-
-            verify(data.visible || !data.limitedBandwith || artImage.source == "");
         }
     }
 }
