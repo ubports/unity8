@@ -123,13 +123,13 @@ Item {
         }
     }
 
-    Rectangle {
+    ListItems.ThinDivider {
         id: dragMarker
-        color: "black"
-        opacity: 0.3
-        height: units.dp(2)
-        width: root.width
         visible: false
+        anchors {
+            leftMargin: units.gu(1)
+            rightMargin: units.gu(1)
+        }
         property int index: {
             var i = Math.round((dragItem.y - list.y + dragItem.height/2) / listItemHeight);
             if (i < 0) i = 0;
