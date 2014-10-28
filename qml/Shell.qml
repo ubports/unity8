@@ -36,6 +36,7 @@ import "Panel"
 import "Components"
 import "Notifications"
 import "Stages"
+import "Tutorial"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
@@ -756,15 +757,16 @@ Item {
         scale: Math.min(parent.width, parent.height) / width
     }
 
-    EdgeDemo {
+    Tutorial {
         id: edgeDemo
         objectName: "edgeDemo"
-        z: alphaDisclaimerLabel.z + 10
-        paused: Powerd.status === Powerd.Off // Saves power
-        greeter: greeter
+        visible: AccountsService.demoEdges
+        paused: Powerd.status === Powerd.Off || LightDM.Greeter.active
         launcher: launcher
         indicators: panel.indicators
         stages: stages
+
+        onFinished: AccountsService.demoEdges = false
     }
 
     Connections {
