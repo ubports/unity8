@@ -12,8 +12,9 @@ set(QML_DIRS
     Hud
     Panel
     Launcher
-    Stages
     Notifications
+    Stages
+    Tutorial
     )
 
 install(DIRECTORY ${QML_DIRS}
