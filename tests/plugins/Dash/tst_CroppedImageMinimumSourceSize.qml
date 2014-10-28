@@ -16,13 +16,5 @@ Rectangle {
         height: 100
         source: Qt.resolvedUrl("../../qmltests/Dash/artwork/avatar.png")
     }
-
-    CroppedImageMinimumSourceSize {
-        x: 300
-        y: 100
-        width: 100
-        height: 100
-        source: "http://assets.ubuntu.com/sites/ubuntu/latest/u/img/homepage/1410/1410-wallpaper.jpg"
-    }
 }
 
