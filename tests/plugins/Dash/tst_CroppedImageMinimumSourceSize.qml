@@ -15,6 +15,7 @@ Rectangle {
         width: 100
         height: 100
         source: Qt.resolvedUrl("../../qmltests/Dash/artwork/music-player-design.png")
+        asynchronous: true
     }
 }
 
