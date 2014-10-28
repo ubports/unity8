@@ -20,5 +20,5 @@ import Ubuntu.Components 1.1
 TutorialPage {
     id: root
 
-    text: i18n.tr("<b>Release</b> to hide the <b>Launcher</b> again.")
+    text: i18n.tr("<b>Release</b> to hide the <b>Launcher</b> again and you’re all set!")
 }
