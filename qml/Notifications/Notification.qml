@@ -439,7 +439,6 @@ Item {
                             Button {
                                 objectName: "notify_button" + index
                                 width: buttonRow.width / 2 - spacing * 2
-                                visible: !notifySwipeButton.visible
                                 text: loader.actionLabel
                                 color: {
                                     var result = sdDarkGrey;
