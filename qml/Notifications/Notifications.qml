@@ -19,9 +19,8 @@ import Ubuntu.Components 0.1
 import Unity.Notifications 1.0 as UnityNotifications
 import Utils 0.1
 import "../Components"
-import "../Components/Flickables" as Flickables
 
-Flickables.ListView {
+ListView {
     id: notificationList
 
     objectName: "notificationList"

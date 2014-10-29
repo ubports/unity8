@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "Flickables" as Flickables
+import "../Components"
 
 /*! \brief Zoomable for image.
 
@@ -31,7 +31,7 @@ Item {
     property alias imageStatus: imageRenderer.status
     property alias asynchronous: imageRenderer.asynchronous
 
-    Flickables.Flickable {
+    Flickable {
         id: flickable
         objectName: "flickable"
         clip: true // FIXME maybe we can remove this, or just not clip in few cases

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,26 +17,22 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
-import QMenuModel 0.1
-import "../../../../qml/Panel/Indicators"
+import Unity.Indicators 0.1 as Indicators
+import "../../../qml/Panel"
 
 Item {
     id: testView
     width: units.gu(40)
     height: units.gu(70)
 
-   DefaultIndicatorPage {
+    IndicatorPage {
         id: page
-
         anchors.fill: parent
 
-        menuModel: UnityMenuModel {}
-        busName: "test"
-        actionsObjectPath: "test"
-        menuObjectPath: "test"
-
         identifier: "test-indicator"
-        rootMenuType: "com.canonical.indicator.root"
+        busName: "com.caninical.indicator.test"
+        actionsObjectPath: "/com/canonical/indicator/test"
+        menuObjectPath: "/com/canonical/indicator/test"
     }
 
     property var fullMenuData: [{
@@ -113,29 +109,28 @@ Item {
             "submenu": []
         }]; // end row 1
 
+    function initializeMenuData(data) {
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicator/test",
+                                                          data);
+    }
+
     UT.UnityTestCase {
-        name: "DefaultIndicatorPage"
+        name: "IndicatorPage"
 
         function init() {
-            var mainMenu = findChild(page, "mainMenu");
-            page.menuModel.modelData = [];
-            verify(mainMenu.model !== null);
+            initializeMenuData([]);
         }
 
         function test_reloadData() {
             var mainMenu = findChild(page, "mainMenu");
 
-            page.menuModel.modelData = [];
             tryCompare(mainMenu, "count", 0);
 
-            page.menuModel.modelData = fullMenuData;
+            initializeMenuData(fullMenuData);
             tryCompare(mainMenu, "count", 3);
 
-            page.menuModel.modelData = [];
+            initializeMenuData([]);
             tryCompare(mainMenu, "count", 0);
-
-            page.menuModel.modelData = fullMenuData;
-            tryCompare(mainMenu, "count", 3);
         }
 
         function test_traverse_rootMenuType_data() {
@@ -147,7 +142,7 @@ Item {
 
         function test_traverse_rootMenuType(data) {
             page.rootMenuType = data.rootMenuType;
-            page.menuModel.modelData = fullMenuData;
+            initializeMenuData(fullMenuData);
 
             var mainMenu = findChild(page, "mainMenu");
             tryCompare(mainMenu, "count", data.expectedCount);

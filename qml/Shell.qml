@@ -36,6 +36,7 @@ import "Panel"
 import "Components"
 import "Notifications"
 import "Stages"
+import "Panel/Indicators"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
@@ -243,7 +244,7 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "maximizedAppTopMargin"
                 // Not just using panel.panelHeight as that changes depending on the focused app.
-                value: panel.indicators.panelHeight
+                value: panel.indicators.minimizedPanelHeight + units.dp(2) // dp(2) for orange line
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -646,7 +647,17 @@ Item {
                 available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-                panelHeight: units.gu(3)
+
+                minimizedPanelHeight: units.gu(3)
+                expandedPanelHeight: units.gu(7)
+
+                indicatorsModel: visibleIndicators.model
+            }
+
+            VisibleIndicators {
+                id: visibleIndicators
+                // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
+                Component.onCompleted: initialise(indicatorProfile)
             }
 
             property bool topmostApplicationIsFullscreen:
@@ -709,9 +720,9 @@ Item {
             model: NotificationBackend.Model
             margin: units.gu(1)
 
-            y: panel.panelHeight
+            y: topmostIsFullscreen ? 0 : panel.panelHeight
             width: parent.width
-            height: parent.height - panel.panelHeight
+            height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             states: [
                 State {
@@ -763,7 +774,7 @@ Item {
         paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
-        indicators: panel.indicators
+        panel: panel
         stages: stages
     }
 

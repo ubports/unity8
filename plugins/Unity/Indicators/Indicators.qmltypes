@@ -99,10 +99,8 @@ Module {
             values: {
                 "Identifier": 0,
                 "Position": 1,
-                "WidgetSource": 2,
-                "PageSource": 3,
-                "IndicatorProperties": 4,
-                "IsVisible": 5
+                "IndicatorProperties": 2,
+                "IsVisible": 3
             }
         }
     }
@@ -210,19 +208,22 @@ Module {
         Signal { name: "indexChanged" }
     }
     Component {
+        name: "SharedUnityMenuModel"
+        prototype: "QObject"
+        exports: ["Unity.Indicators/SharedUnityMenuModel 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "busName"; type: "QByteArray" }
+        Property { name: "menuObjectPath"; type: "QByteArray" }
+        Property { name: "actions"; type: "QVariantMap" }
+        Property { name: "model"; type: "UnityMenuModel"; isReadonly: true; isPointer: true }
+    }
+    Component {
         name: "UnityMenuModelCache"
         prototype: "QObject"
         exports: ["Unity.Indicators/UnityMenuModelCache 0.1"]
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [0]
-        Method {
-            name: "model"
-            type: "UnityMenuModel*"
-            Parameter { name: "bus"; type: "QByteArray" }
-            Parameter { name: "path"; type: "QByteArray" }
-            Parameter { name: "actions"; type: "QVariantMap" }
-        }
         Method {
             name: "contains"
             type: "bool"
