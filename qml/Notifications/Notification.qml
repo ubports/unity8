@@ -20,6 +20,7 @@ import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
+import "../Components/Flickables" as Flickables
 
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
