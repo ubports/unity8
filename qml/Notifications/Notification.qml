@@ -406,25 +406,21 @@ Item {
 
                 Loader {
                     id: notifySwipeButtonLoader
+                    active: notification.hints["x-canonical-snap-decisions-swipe"] === "true"
 
-                    Component {
-                        id: notifySwipeButton
+                    sourceComponent: SwipeToAct  {
+                        objectName: "notify_swipe_button"
+                        width: buttonRow.width
+                        leftIconName: "call-end"
+                        rightIconName: "call-start"
+                        onLeftTriggered: {
+                            notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
+                        }
 
-                        SwipeToAct  {
-                            objectName: "notify_swipe_button"
-                            width: buttonRow.width
-                            leftIconName: "call-end"
-                            rightIconName: "call-start"
-                            onLeftTriggered: {
-                                notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
-                            }
-
-                            onRightTriggered: {
-                                notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
-                            }
+                        onRightTriggered: {
+                            notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
                         }
                     }
-                    sourceComponent: notification.hints["x-canonical-snap-decisions-swipe"] === "true" ? notifySwipeButton : undefined
                 }
 
                 Repeater {
@@ -435,6 +431,7 @@ Item {
 
                         property string actionId: id
                         property string actionLabel: label
+                        active: !notifySwipeButtonLoader.active
 
                         Component {
                             id: actionButton
