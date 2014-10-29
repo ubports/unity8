@@ -404,21 +404,27 @@ Item {
                 spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 
-                SwipeToAct {
-                    id: notifySwipeButton
-                    objectName: "notify_swipe_button"
-                    visible: notification.hints["x-canonical-snap-decisions-swipe"] === "true"
-                    leftIconName: "call-end"
-                    rightIconName: "call-start"
-                    width: buttonRow.width
+                Loader {
+                    id: notifySwipeButtonLoader
 
-                    onLeftTriggered: {
-                        notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
-                    }
+                    Component {
+                        id: notifySwipeButton
 
-                    onRightTriggered: {
-                        notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
+                        SwipeToAct  {
+                            objectName: "notify_swipe_button"
+                            width: buttonRow.width
+                            leftIconName: "call-end"
+                            rightIconName: "call-start"
+                            onLeftTriggered: {
+                                notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
+                            }
+
+                            onRightTriggered: {
+                                notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
+                            }
+                        }
                     }
+                    sourceComponent: notification.hints["x-canonical-snap-decisions-swipe"] === "true" ? notifySwipeButton : undefined
                 }
 
                 Repeater {
