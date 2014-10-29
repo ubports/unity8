@@ -475,7 +475,7 @@ Item {
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
                 expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
-                comboList: Flickable {
+                comboList: Flickables.Flickable {
                     // this has to be wrapped inside a flickable
                     // to work around a feature/bug? of the
                     // ComboButton SDK-element, making a regular
