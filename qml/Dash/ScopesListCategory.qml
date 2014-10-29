@@ -61,15 +61,27 @@ Item {
         anchors.top: header.bottom
         delegate: Loader {
             id: loader
+            readonly property bool addDropHint: {
+                if (dragMarker.visible) {
+                    if (dragItem.originalIndex > index) {
+                        return dragMarker.index == index;
+                    } else {
+                        return dragMarker.index == index - 1;
+                    }
+                } else {
+                    return false;
+                }
+            }
             asynchronous: true
             width: root.width
-            height: listItemHeight
-            clip: height != listItemHeight
+            height: listItemHeight + (addDropHint ? units.gu(2) : 0)
+            clip: height < listItemHeight
             Behavior on height { enabled: visible; UbuntuNumberAnimation { } }
             sourceComponent: ScopesListCategoryItem {
                 objectName: "delegate" + index
 
                 width: root.width
+                topMargin: height > listItemHeight ? height - listItemHeight : 0
 
                 icon: model.art || ""
                 text: model.title || ""
@@ -101,6 +113,7 @@ Item {
                         dragItem.text = text;
                         dragItem.subtext = subtext;
                         dragItem.originalY = mapToItem(root, 0, 0).y;
+                        dragItem.originalIndex = index;
                         dragItem.y = dragItem.originalY;
                         dragItem.x = units.gu(1);
                         dragItem.visible = true;
@@ -136,13 +149,14 @@ Item {
             if (i >= model.count - 1) i = model.count - 1;
             return i;
         }
-        y: list.y + index * listItemHeight
+        y: list.y + index * listItemHeight + units.gu(1)
     }
 
     ScopesListCategoryItem {
         id: dragItem
 
         property real originalY
+        property int originalIndex
         property var loaderToShrink: null
 
         objectName: "dragItem"

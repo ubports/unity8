@@ -25,6 +25,7 @@ MouseArea {
     signal handlePressed(var handle)
     signal handleReleased(var handle)
 
+    property real topMargin: 0
     property alias icon: shapeImage.source
     property alias text: titleLabel.text
     property alias subtext: subtitleLabel.text
@@ -33,65 +34,71 @@ MouseArea {
     property bool isFavorite: false
     property bool hideChildren: false
 
-    UbuntuShape {
-        id: shape
-        anchors {
-            left: parent.left
-            leftMargin: units.gu(1)
-            verticalCenter: parent.verticalCenter
-        }
-        width: units.gu(5)
-        height: units.gu(5)
-        visible: !hideChildren
-        image: Image {
-            id: shapeImage
-            cache: true
-            fillMode: Image.PreserveAspectCrop
-        }
-    }
+    Item {
+        id: holder
+        anchors.fill: parent
+        anchors.topMargin: root.topMargin
 
-    ColumnLayout {
-        visible: !hideChildren
-        anchors {
-            left: shape.right
-            leftMargin: units.gu(1)
-            right: starArea.right
-            rightMargin: units.gu(1)
-            verticalCenter: parent.verticalCenter
-        }
-        Label {
-            id: titleLabel
-            elide: Text.ElideRight
-            wrapMode: Text.Wrap
-            maximumLineCount: 1
-            verticalAlignment: Text.AlignHCenter
-        }
-        Label {
-            id: subtitleLabel
-            elide: Text.ElideRight
-            fontSize: "xx-small"
-            wrapMode: Text.Wrap
-            maximumLineCount: 1
-            verticalAlignment: Text.AlignHCenter
-            visible: text != ""
-        }
-    }
-    MouseArea {
-        id: starArea
-        height: parent.height
-        width: height
-        anchors.right: parent.right
-        onClicked: if (!editMode) root.requestFavorite(model.scopeId, !isFavorite);
-        onPressed: if (editMode) root.handlePressed(starArea);
-        onReleased: if (editMode) root.handleReleased(starArea);
-        Icon {
-            id: star
-            anchors.centerIn: parent
-            height: units.gu(2)
-            width: units.gu(2)
+        UbuntuShape {
+            id: shape
+            anchors {
+                left: parent.left
+                leftMargin: units.gu(1)
+                verticalCenter: parent.verticalCenter
+            }
+            width: units.gu(5)
+            height: units.gu(5)
             visible: !hideChildren
-            // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
-            source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
+            image: Image {
+                id: shapeImage
+                cache: true
+                fillMode: Image.PreserveAspectCrop
+            }
+        }
+
+        ColumnLayout {
+            visible: !hideChildren
+            anchors {
+                left: shape.right
+                leftMargin: units.gu(1)
+                right: starArea.right
+                rightMargin: units.gu(1)
+                verticalCenter: parent.verticalCenter
+            }
+            Label {
+                id: titleLabel
+                elide: Text.ElideRight
+                wrapMode: Text.Wrap
+                maximumLineCount: 1
+                verticalAlignment: Text.AlignHCenter
+            }
+            Label {
+                id: subtitleLabel
+                elide: Text.ElideRight
+                fontSize: "xx-small"
+                wrapMode: Text.Wrap
+                maximumLineCount: 1
+                verticalAlignment: Text.AlignHCenter
+                visible: text != ""
+            }
+        }
+        MouseArea {
+            id: starArea
+            height: parent.height
+            width: height
+            anchors.right: parent.right
+            onClicked: if (!editMode) root.requestFavorite(model.scopeId, !isFavorite);
+            onPressed: if (editMode) root.handlePressed(starArea);
+            onReleased: if (editMode) root.handleReleased(starArea);
+            Icon {
+                id: star
+                anchors.centerIn: parent
+                height: units.gu(2)
+                width: units.gu(2)
+                visible: !hideChildren
+                // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
+                source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
+            }
         }
     }
 }
