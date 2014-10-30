@@ -19,7 +19,6 @@ import Ubuntu.Components 0.1
 import HudClient 0.1
 
 import "../Components"
-import "../Components/Flickables" as Flickables
 
 Item {
     id: hud
@@ -401,7 +400,7 @@ Item {
                     }
                     progress: MathUtils.clamp((y - hudShowable.y + height - units.gu(8))/elementsYSliding, 0, 1)
 
-                    Flickables.Flickable {
+                    Flickable {
                         anchors.left: parent.left
                         anchors.right: parent.right
                         contentHeight: resultList.height

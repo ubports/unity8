@@ -17,7 +17,6 @@
 import QtQuick 2.2
 import Ubuntu.Components 1.1
 import "../Components"
-import "../Components/Flickables" as Flickables
 
 Item {
     id: root
@@ -46,7 +45,7 @@ Item {
         }
     }
 
-    Flickables.Flickable {
+    Flickable {
         id: flickable
 
         anchors.fill: parent

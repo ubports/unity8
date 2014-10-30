@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "Flickables" as Flickables
+import "../Components"
 
 /*! \brief Zoomable for image.
 
@@ -32,7 +32,7 @@ Item {
     property alias scaleTo: lazyImage.scaleTo
     property alias asynchronous: lazyImage.asynchronous
 
-    Flickables.Flickable {
+    Flickable {
         id: flickable
         objectName: "flickable"
         clip: true
