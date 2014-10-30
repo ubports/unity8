@@ -607,7 +607,8 @@ Item {
         target: Powerd
 
         onStatusChanged: {
-            if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+            if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
+                    !callManager.hasCalls && !edgeDemo.running) {
                 greeter.showNow()
             }
         }
