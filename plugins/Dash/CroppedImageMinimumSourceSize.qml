@@ -25,6 +25,7 @@ Item {
     property alias asynchronous: image.asynchronous
     property alias verticalAlignment: image.verticalAlignment
     property alias horizontalAlignment: image.horizontalAlignment
+    property alias fillMode: image.fillMode
 
     CroppedImageSizer
     {
