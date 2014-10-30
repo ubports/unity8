@@ -14,18 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UBUNTUGESTURES_DEBUG_HELPER_H
-#define UBUNTUGESTURES_DEBUG_HELPER_H
+import QtQuick 2.0
+import Ubuntu.Gestures 0.1
 
-#include <QString>
-
-#include "UbuntuGesturesGlobal.h"
-
-class QMouseEvent;
-class QTouchEvent;
-
-UBUNTUGESTURES_EXPORT QString touchPointStateToString(Qt::TouchPointState state);
-UBUNTUGESTURES_EXPORT QString touchEventToString(const QTouchEvent *ev);
-UBUNTUGESTURES_EXPORT QString mouseEventToString(const QMouseEvent *ev);
-
-#endif // UBUNTUGESTURES_DEBUG_HELPER_H
+Item {
+    width: 720; height: 720
+}

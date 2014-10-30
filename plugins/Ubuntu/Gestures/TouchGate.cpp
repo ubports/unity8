@@ -22,15 +22,9 @@
 #include <TouchOwnershipEvent.h>
 #include <TouchRegistry.h>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
-#include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
-
 #if TOUCHGATE_DEBUG
 #include <DebugHelpers.h>
 #endif
-
 
 bool TouchGate::event(QEvent *e)
 {
@@ -189,123 +183,33 @@ void TouchGate::setTargetItem(QQuickItem *item)
     // TODO: changing the target item while dispatch of touch events is taking place will
     //       create a mess
 
-    if (item == m_targetItem.data())
+    if (item == m_dispatcher.targetItem())
         return;
 
-    m_targetItem = item;
+    m_dispatcher.setTargetItem(item);
     Q_EMIT targetItemChanged(item);
 }
 
 void TouchGate::dispatchTouchEventToTarget(const TouchEvent &event)
 {
-    dispatchTouchEventToTarget(event.eventType,
+    removeTouchInfoForEndedTouches(event.touchPoints);
+    m_dispatcher.dispatch(event.eventType,
             event.device,
             event.modifiers,
             event.touchPoints,
-            event.target,
             event.window,
             event.timestamp);
 }
 
 void TouchGate::dispatchTouchEventToTarget(QTouchEvent* event)
 {
-    dispatchTouchEventToTarget(event->type(),
+    removeTouchInfoForEndedTouches(event->touchPoints());
+    m_dispatcher.dispatch(event->type(),
             event->device(),
             event->modifiers(),
             event->touchPoints(),
-            event->target(),
             event->window(),
             event->timestamp());
-}
-
-void TouchGate::dispatchTouchEventToTarget(QEvent::Type eventType,
-        QTouchDevice *device,
-        Qt::KeyboardModifiers modifiers,
-        const QList<QTouchEvent::TouchPoint> &touchPoints,
-        QObject *target,
-        QWindow *window,
-        ulong timestamp)
-{
-    removeTouchInfoForEndedTouches(touchPoints);
-
-    if (m_targetItem.isNull()) {
-        qWarning("[TouchGate] Cannot dispatch touch event because target item is null");
-        return;
-    }
-
-    QQuickItem *targetItem = m_targetItem.data();
-
-    if (!targetItem->isEnabled() || !targetItem->isVisible()) {
-        #if TOUCHGATE_DEBUG
-        qDebug() << "[TouchGate] Cannot dispatch touch event to" << targetItem
-            << "because it's disabled or invisible.";
-        #endif
-        return;
-    }
-
-    // Map touch points to targetItem coordinates
-    QList<QTouchEvent::TouchPoint> targetTouchPoints = touchPoints;
-    transformTouchPoints(targetTouchPoints, QQuickItemPrivate::get(targetItem)->windowToItemTransform());
-    QTouchEvent *eventForTargetItem = createQTouchEvent(eventType, device, modifiers, targetTouchPoints,
-            target, window, timestamp);
-
-    #if TOUCHGATE_DEBUG
-    qDebug() << "[TouchGate] dispatching" << qPrintable(touchEventToString(eventForTargetItem))
-            << "to" << targetItem;
-    #endif
-
-    QCoreApplication::sendEvent(targetItem, eventForTargetItem);
-
-    delete eventForTargetItem;
-}
-
-// NB: From QQuickWindow
-void TouchGate::transformTouchPoints(QList<QTouchEvent::TouchPoint> &touchPoints, const QTransform &transform)
-{
-    QMatrix4x4 transformMatrix(transform);
-    for (int i=0; i<touchPoints.count(); i++) {
-        QTouchEvent::TouchPoint &touchPoint = touchPoints[i];
-        touchPoint.setRect(transform.mapRect(touchPoint.sceneRect()));
-        touchPoint.setStartPos(transform.map(touchPoint.startScenePos()));
-        touchPoint.setLastPos(transform.map(touchPoint.lastScenePos()));
-        touchPoint.setVelocity(transformMatrix.mapVector(touchPoint.velocity()).toVector2D());
-    }
-}
-
-QTouchEvent *TouchGate::createQTouchEvent(QEvent::Type eventType,
-        QTouchDevice *device,
-        Qt::KeyboardModifiers modifiers,
-        const QList<QTouchEvent::TouchPoint> &touchPoints,
-        QObject *target,
-        QWindow *window,
-        ulong timestamp)
-{
-    Qt::TouchPointStates eventStates = 0;
-    for (int i = 0; i < touchPoints.count(); i++)
-        eventStates |= touchPoints[i].state();
-    // if all points have the same state, set the event type accordingly
-    switch (eventStates) {
-        case Qt::TouchPointPressed:
-            eventType = QEvent::TouchBegin;
-            break;
-        case Qt::TouchPointReleased:
-            eventType = QEvent::TouchEnd;
-            break;
-        default:
-            eventType = QEvent::TouchUpdate;
-            break;
-    }
-
-    QTouchEvent *touchEvent = new QTouchEvent(eventType);
-    touchEvent->setWindow(window);
-    touchEvent->setTarget(target);
-    touchEvent->setDevice(device);
-    touchEvent->setModifiers(modifiers);
-    touchEvent->setTouchPoints(touchPoints);
-    touchEvent->setTouchPointStates(eventStates);
-    touchEvent->setTimestamp(timestamp);
-    touchEvent->accept();
-    return touchEvent;
 }
 
 void TouchGate::removeTouchInfoForEndedTouches(const QList<QTouchEvent::TouchPoint> &touchPoints)
@@ -327,7 +231,7 @@ TouchGate::TouchEvent::TouchEvent(const QTouchEvent *event)
     , device(event->device())
     , modifiers(event->modifiers())
     , touchPoints(event->touchPoints())
-    , target(event->target())
+    , target(qobject_cast<QQuickItem*>(event->target()))
     , window(event->window())
     , timestamp(event->timestamp())
 {
