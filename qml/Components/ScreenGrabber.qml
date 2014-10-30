@@ -26,14 +26,6 @@ Rectangle {
     anchors.fill: parent
     opacity: 0.0
 
-
-    QtObject {
-        id: keyState
-        property bool volumeUpPressed: false
-        property bool volumeDownPressed: false
-        property bool ignoreKeyRepeats: false
-    }
-
     ScreenGrabber {
         id: screenGrabber
         objectName: "screenGrabber"
@@ -45,33 +37,14 @@ Rectangle {
         source: "/system/media/audio/ui/camera_click.ogg"
     }
 
-    function onKeyPressed(key) {
-        if (!enabled || keyState.ignoreKeyRepeats)
+    function capture() {
+        if (!enabled)
             return;
 
-        if (key == Qt.Key_VolumeUp)
-            keyState.volumeUpPressed = true;
-        else if (key == Qt.Key_VolumeDown)
-            keyState.volumeDownPressed = true;
-
-        if (keyState.volumeDownPressed && keyState.volumeUpPressed) {
-            // Only take one screenshot if both keys are held
-            keyState.ignoreKeyRepeats = true;
-            visible = true;
-            shutterSound.stop();
-            shutterSound.play();
-            fadeIn.start();
-        }
-    }
-
-    function onKeyReleased(key) {
-        if (key == Qt.Key_VolumeUp) {
-            keyState.volumeUpPressed = false;
-            keyState.ignoreKeyRepeats = false;
-        } else if (key == Qt.Key_VolumeDown) {
-            keyState.volumeDownPressed = false;
-            keyState.ignoreKeyRepeats = false;
-        }
+        visible = true;
+        shutterSound.stop();
+        shutterSound.play();
+        fadeIn.start();
     }
 
     NumberAnimation on opacity {
