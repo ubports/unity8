@@ -386,11 +386,15 @@ Rectangle {
             }
         }
 
-        Item {
+        MouseArea {
             id: spreadRow
             x: spreadView.contentX
             height: root.height
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
+
+            onClicked: {
+                spreadView.snapTo(0);
+            }
 
             Rectangle {
                 id: sideStageBackground
