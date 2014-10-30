@@ -183,13 +183,13 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         }
     } else if (message.member() == "Set") {
         if (message.arguments()[1].toString() == "count") {
-            int newCount = message.arguments()[2].toInt();
+            int newCount = message.arguments()[2].value<QDBusVariant>().variant().toInt();
             if (!item || newCount != item->count()) {
                 Q_EMIT countChanged(appid, newCount);
                 emitPropChangedDbus(appid, "count", QVariant(newCount));
             }
         } else if (message.arguments()[1].toString() == "countVisible") {
-            bool newVisible = message.arguments()[2].toBool();
+            bool newVisible = message.arguments()[2].value<QDBusVariant>().variant().toBool();
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
                 emitPropChangedDbus(appid, "countVisible", newVisible);

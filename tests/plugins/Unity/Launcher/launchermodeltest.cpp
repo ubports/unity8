@@ -351,8 +351,8 @@ private Q_SLOTS:
         QCOMPARE(map.value("countVisible").toBool(), false);
 
         // Now make it visible and set it to 55 through D-Bus
-        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", 55);
-        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", true);
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
 
         // Fetch it again using GetAll
         reply = interface.call("GetAll");
