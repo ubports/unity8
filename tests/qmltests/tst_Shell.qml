@@ -161,6 +161,8 @@ Item {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
@@ -171,6 +173,7 @@ Item {
         }
 
         function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             launcherShowDashHomeSpy.target = null;
 
             shellLoader.itemDestroyed = false;

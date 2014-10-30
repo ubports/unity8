@@ -9,6 +9,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${GSETTINGS_QT_INCLUDE_DIRS}
+    ${libunity8-private_SOURCE_DIR}
 )
 
 set(QMLLAUNCHERPLUGIN_SRC
@@ -30,7 +31,10 @@ add_library(UnityLauncher-qml MODULE
     ${QMLLAUNCHERPLUGIN_SRC}
     )
 
-target_link_libraries(UnityLauncher-qml ${GSETTINGS_QT_LDFLAGS})
+target_link_libraries(UnityLauncher-qml
+    unity8-private
+    ${GSETTINGS_QT_LDFLAGS}
+    )
 
 qt5_use_modules(UnityLauncher-qml DBus Qml Gui)
 

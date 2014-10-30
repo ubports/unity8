@@ -371,6 +371,10 @@ Item {
         onHideGreeter: greeter.login()
 
         onShowPrompt: {
+            shell.enabled = true;
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
             if (greeter.narrowMode) {
                 if (isDefaultPrompt) {
                     if (lockscreen.alphaNumeric) {
@@ -391,6 +395,9 @@ Item {
         }
 
         onPromptlessChanged: {
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
             if (greeter.narrowMode) {
                 if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
                     lockscreen.hide()
@@ -402,6 +409,7 @@ Item {
         }
 
         onAuthenticationComplete: {
+            shell.enabled = true;
             if (LightDM.Greeter.authenticated) {
                 AccountsService.failedLogins = 0
             }
@@ -538,6 +546,11 @@ Item {
 
             onShownChanged: {
                 if (shown) {
+                    // Disable everything so that user can't swipe greeter or
+                    // launcher until we get first prompt/authenticate, which
+                    // will re-enable the shell.
+                    shell.enabled = false;
+
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     } else {

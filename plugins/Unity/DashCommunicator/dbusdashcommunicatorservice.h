@@ -17,9 +17,9 @@
 #ifndef DBUSDASHCOMMUNICATORSERVICE_H
 #define DBUSDASHCOMMUNICATORSERVICE_H
 
-#include <QObject>
+#include "unitydbusobject.h"
 
-class DBusDashCommunicatorService: public QObject
+class DBusDashCommunicatorService: public UnityDBusObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity.DashCommunicator")

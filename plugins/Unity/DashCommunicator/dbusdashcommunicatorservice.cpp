@@ -21,12 +21,8 @@
 #include <QDebug>
 
 DBusDashCommunicatorService::DBusDashCommunicatorService(QObject *parent):
-    QObject(parent)
+    UnityDBusObject("/com/canonical/UnityDash", "com.canonical.UnityDash", false, parent)
 {
-    QDBusConnection connection = QDBusConnection::sessionBus();
-
-    connection.registerService("com.canonical.UnityDash");
-    connection.registerObject("/com/canonical/UnityDash", this, QDBusConnection::ExportScriptableSlots);
 }
 
 DBusDashCommunicatorService::~DBusDashCommunicatorService()
