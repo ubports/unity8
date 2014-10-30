@@ -56,6 +56,7 @@ Flickables.ListView {
         secondaryIconSource: model.secondaryIcon
         summary: model.summary
         body: model.body
+        value: model.value
         actions: model.actions
         notificationId: model.id
         notification: notificationList.model.getRaw(notificationId)
