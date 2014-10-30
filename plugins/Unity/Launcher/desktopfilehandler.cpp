@@ -106,6 +106,7 @@ QString DesktopFileHandler::displayName() const
     }
 
     QSettings settings(m_filename, QSettings::IniFormat);
+    settings.setIniCodec("UTF-8");
     settings.beginGroup("Desktop Entry");
 
     // First try to find Name[xx_YY] and Name[xx] in .desktop file
@@ -138,6 +139,7 @@ QString DesktopFileHandler::icon() const
     }
 
     QSettings settings(m_filename, QSettings::IniFormat);
+    settings.setIniCodec("UTF-8");
     settings.beginGroup("Desktop Entry");
     QString iconString = settings.value("Icon").toString();
     QString pathString = settings.value("Path").toString();
