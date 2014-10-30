@@ -440,9 +440,8 @@ Item {
                 }
             }
 
-            ComboButton {
-                id: comboButton
-
+            OptionToggle {
+                id: optionToggle
                 objectName: "notify_button2"
                 width: parent.width
                 anchors {
@@ -452,85 +451,9 @@ Item {
                 }
 
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
-                color: sdDarkGrey
-                onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
-                expanded: false
-                expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
-                comboList: Flickables.Flickable {
-                    // this has to be wrapped inside a flickable
-                    // to work around a feature/bug? of the
-                    // ComboButton SDK-element, making a regular
-                    // unwrapped Column item flickable
-                    // see LP: #1332590
-                    interactive: false
-                    Column {
-                        Repeater {
-                            id: comboRepeater
-
-                            onVisibleChanged: {
-                                comboButton.text = comboRepeater.count >= 3 ? comboRepeater.itemAt(2).actionLabel : ""
-                            }
-
-                            model: notification.actions
-                            delegate: Loader {
-                                id: comboLoader
-
-                                asynchronous: true
-                                visible: status == Loader.Ready
-                                property string actionId: id
-                                property string actionLabel: label
-                                readonly property var splitLabel: actionLabel.match(/(^([-a-z0-9]+):)?(.*)$/)
-                                Component {
-                                    id: comboEntry
-
-                                    MouseArea {
-                                        id: comboInputArea
-
-                                        objectName: "notify_button" + index
-                                        width: comboButton.width
-                                        height: comboIcon.height + units.gu(2)
-
-                                        onClicked: {
-                                            notification.notification.invokeAction(actionId)
-                                        }
-
-                                        ListItem.ThinDivider {
-                                            visible: index > 3
-                                        }
-
-                                        Icon {
-                                            id: comboIcon
-
-                                            anchors {
-                                                left: parent.left
-                                                leftMargin: units.gu(.5)
-                                                verticalCenter: parent.verticalCenter
-                                            }
-                                            width: units.gu(2)
-                                            height: units.gu(2)
-                                            color: sdFontColor
-                                            name: splitLabel[2]
-                                        }
-
-                                        Label {
-                                            id: comboLabel
-
-                                            anchors {
-                                                left: comboIcon.right
-                                                leftMargin: units.gu(1)
-                                                verticalCenter: comboIcon.verticalCenter
-                                            }
-                                            fontSize: "small"
-                                            color: sdFontColor
-                                            text: splitLabel[3]
-                                        }
-                                    }
-                                }
-                                sourceComponent: (index > 2) ? comboEntry : undefined
-                            }
-                        }
-                    }
-                }
+                model: notification.actions
+                expanded: true
+                startIndex: 2
             }
         }
     }
