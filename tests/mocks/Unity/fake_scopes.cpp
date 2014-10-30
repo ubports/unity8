@@ -49,9 +49,9 @@ Scopes::~Scopes()
 void Scopes::updateScopes()
 {
     clear();
+    addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
-    addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
     addScope(new Scope("SingleCategoryScope", "Single", true, this, 1));
     addScope(new Scope("MockScope4", "MS4", true, this));
