@@ -57,6 +57,8 @@ Showable {
 
     property url background: ""
 
+    readonly property string passphrase: (pinPadLoader.item && pinPadLoader.item.passphrase) ? pinPadLoader.item.passphrase : ""
+
     signal entered(string passphrase)
     signal cancel()
     signal emergencyCall()
