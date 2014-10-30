@@ -17,7 +17,7 @@
 import QtQuick 2.0
 /*!
  \brief A filter for volume keys
- 
+
 A filter which treats volume keys as single tri-state key with the states:
 VolumeUp Pressed, VolumeDown Pressed or Volume Up+Down pressed
 */
