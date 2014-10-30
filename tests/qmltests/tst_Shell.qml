@@ -385,7 +385,7 @@ Item {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             compare(dashCommunicatorSpy.count, 1);
-            compare(dashCommunicatorSpy.signalArguments[0][0], "clickscope");
+            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
         }
 
         function test_showInputMethod() {

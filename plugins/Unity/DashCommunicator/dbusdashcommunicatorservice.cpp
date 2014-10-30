@@ -29,7 +29,7 @@ DBusDashCommunicatorService::~DBusDashCommunicatorService()
 {
 }
 
-void DBusDashCommunicatorService::SetCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
+void DBusDashCommunicatorService::SetCurrentScope(int index, bool animate, bool isSwipe)
 {
-    Q_EMIT setCurrentScopeRequested(scopeId, animate, isSwipe);
+    Q_EMIT setCurrentScopeRequested(index, animate, isSwipe);
 }

@@ -624,7 +624,7 @@ Item {
         }
 
         var animate = !LightDM.Greeter.active && !stages.shown
-        dash.setCurrentScope("clickscope", animate, false)
+        dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
@@ -700,7 +700,7 @@ Item {
             onDash: showDash()
             onDashSwipeChanged: {
                 if (dashSwipe) {
-                    dash.setCurrentScope("clickscope", false, true)
+                    dash.setCurrentScope(0, false, true)
                 }
             }
             onLauncherApplicationSelected: {

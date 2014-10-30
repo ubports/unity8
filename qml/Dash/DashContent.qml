@@ -161,7 +161,7 @@ Item {
                     }
                     asynchronous: true
                     source: "GenericScopeView.qml"
-                    objectName: scope.id + " loader"
+                    objectName: "scopeLoader" + index
 
                     readonly property bool moving: item ? item.moving : false
                     readonly property bool navigationShown: item ? item.navigationShown : false

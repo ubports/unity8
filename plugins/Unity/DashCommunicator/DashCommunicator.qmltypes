@@ -14,7 +14,7 @@ Module {
         exportMetaObjectRevisions: [0]
         Method {
             name: "setCurrentScope"
-            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "isSwipe"; type: "bool" }
         }
@@ -26,7 +26,7 @@ Module {
         exportMetaObjectRevisions: [0]
         Signal {
             name: "setCurrentScopeRequested"
-            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "isSwipe"; type: "bool" }
         }
