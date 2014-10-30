@@ -37,9 +37,7 @@ UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
 {
 }
 
-QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& bus,
-                                                          const QByteArray& path,
-                                                          const QVariantMap& actions)
+QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& path)
 {
     if (m_registry.contains(path))
         return m_registry[path];
@@ -60,9 +58,7 @@ QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& bus,
     });
     m_registry[path] = menuModel.toWeakRef();
 
-    menuModel->setBusName(bus);
     menuModel->setMenuObjectPath(path);
-    menuModel->setActions(actions);
     return menuModel;
 }
 

@@ -18,6 +18,8 @@
 #include "sharedunitymenumodel.h"
 #include "unitymenumodelcache.h"
 
+#include <unitymenumodel.h>
+
 SharedUnityMenuModel::SharedUnityMenuModel(QObject* parent)
     : QObject(parent)
 {
@@ -78,8 +80,11 @@ void SharedUnityMenuModel::initialize()
             Q_EMIT modelChanged();
         }
     } else {
-        QSharedPointer<UnityMenuModel> model = UnityMenuModelCache::singleton()->model(m_busName, m_menuObjectPath, m_actions);
+        QSharedPointer<UnityMenuModel> model = UnityMenuModelCache::singleton()->model(m_menuObjectPath);
         if (model != m_model) {
+            if (model->busName() != m_busName) model->setBusName(m_busName);
+            if (model->actions() != m_actions) model->setActions(m_actions);
+
             m_model = model;
             Q_EMIT modelChanged();
         }

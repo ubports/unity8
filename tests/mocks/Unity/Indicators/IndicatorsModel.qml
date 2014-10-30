@@ -20,42 +20,97 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.FakeIndicatorsModel {
     id: root
 
-    Component.onCompleted: {
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake1",
-                                           "/com/canonical/indicators/fake1",
-                                           "/com/canonical/indicators/fake1",
+    property var originalModelData: [
+        {
+            "identifier": "fake-indicator-bluetooth",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake1",
+                "menuObjectPath": "/com/canonical/indicators/fake1",
+                "actionsObjectPath": "/com/canonical/indicators/fake1"
+            }
+        },
+        {
+            "identifier": "fake-indicator-network",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake2",
+                "menuObjectPath": "/com/canonical/indicators/fake2",
+                "actionsObjectPath": "/com/canonical/indicators/fake2"
+            }
+        },
+        {
+            "identifier": "fake-indicator-messages",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake3",
+                "menuObjectPath": "/com/canonical/indicators/fake3",
+                "actionsObjectPath": "/com/canonical/indicators/fake3"
+            }
+        },
+        {
+            "identifier": "fake-indicator-sound",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake4",
+                "menuObjectPath": "/com/canonical/indicators/fake4",
+                "actionsObjectPath": "/com/canonical/indicators/fake4"
+            }
+        },
+        {
+            "identifier": "fake-indicator-power",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake5",
+                "menuObjectPath": "/com/canonical/indicators/fake5",
+                "actionsObjectPath": "/com/canonical/indicators/fake5"
+            }
+        },
+        {
+            "identifier": "fake-indicator-datetime",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake6",
+                "menuObjectPath": "/com/canonical/indicators/fake6",
+                "actionsObjectPath": "/com/canonical/indicators/fake6"
+            }
+        }
+    ]
+
+    function load(profile) {
+        unload();
+        root.modelData = originalModelData;
+
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake1",
                                            getUnityMenuModelData("fake-indicator-bluetooth",
                                                                  "Bluetooth (F)",
                                                                  "",
                                                                  [ "image://theme/bluetooth-active" ]));
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake2",
-                                           "/com/canonical/indicators/fake2",
-                                           "/com/canonical/indicators/fake2",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake2",
                                            getUnityMenuModelData("fake-indicator-network",
                                                                  "Network (F)",
                                                                  "",
                                                                  [ "image://theme/simcard-error", "image://theme/wifi-high" ]));
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake3",
-                                           "/com/canonical/indicators/fake3",
-                                           "/com/canonical/indicators/fake3",
-                                           getUnityMenuModelData("fake-indicator-sound",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake3",
+                                           getUnityMenuModelData("fake-indicator-messages",
                                                                  "Messages (F)",
                                                                  "",
                                                                  [ "image://theme/messages-new" ]));
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake4",
-                                           "/com/canonical/indicators/fake4",
-                                           "/com/canonical/indicators/fake4",
-                                           getUnityMenuModelData("fake-indicator-power",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake4",
+                                           getUnityMenuModelData("fake-indicator-sound",
                                                                  "Sound (F)",
                                                                  "",
                                                                  [ "image://theme/audio-volume-high" ]));
-        Indicators.UnityMenuModelCache.setCachedModelData("com.canonical.indicators.fake5",
-                                           "/com/canonical/indicators/fake5",
-                                           "/com/canonical/indicators/fake5",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake5",
                                            getUnityMenuModelData("fake-indicator-power",
                                                                  "Battery (F)",
                                                                  "",
                                                                  [ "image://theme/battery-020" ]));
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake6",
+                                           getUnityMenuModelData("fake-indicator-datetime",
+                                                                 "Upcoming Events (F)",
+                                                                 "12:04",
+                                                                 []));
     }
 
     function getUnityMenuModelData(identifier, title, label, icons) {
@@ -71,11 +126,12 @@ Indicators.FakeIndicatorsModel {
                 "actionState": {
                     "title": title,
                     "label": label,
-                    "icons": icons
+                    "icons": icons,
+                    "visible": true
                 },
                 "isCheck": false,
                 "isRadio": false,
-                "isToggled": false,
+                "isToggled": false
             },
             "submenu": []
         }];
@@ -94,7 +150,7 @@ Indicators.FakeIndicatorsModel {
                     "actionState": {},
                     "isCheck": false,
                     "isRadio": false,
-                    "isToggled": false,
+                    "isToggled": false
             }};
             submenus.push(submenu);
         }
@@ -103,66 +159,20 @@ Indicators.FakeIndicatorsModel {
         return root;
     }
 
-    property var originalModelData: [
-        {
-            "identifier": "indicator-fake1",
-            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
-            "pageSource": "Indicators/DefaultIndicatorPage.qml",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake1",
-                "menuObjectPath": "/com/canonical/indicators/fake1",
-                "actionsObjectPath": "/com/canonical/indicators/fake1"
-            }
-        },
-        {
-            "identifier": "indicator-fake2",
-            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
-            "pageSource": "Indicators/DefaultIndicatorPage.qml",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake2",
-                "menuObjectPath": "/com/canonical/indicators/fake2",
-                "actionsObjectPath": "/com/canonical/indicators/fake2"
-            }
-        },
-        {
-            "identifier": "indicator-fake3",
-            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
-            "pageSource": "Indicators/DefaultIndicatorPage.qml",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake3",
-                "menuObjectPath": "/com/canonical/indicators/fake3",
-                "actionsObjectPath": "/com/canonical/indicators/fake3"
-            }
-        },
-        {
-            "identifier": "indicator-fake4",
-            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
-            "pageSource": "Indicators/DefaultIndicatorPage.qml",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake4",
-                "menuObjectPath": "/com/canonical/indicators/fake4",
-                "actionsObjectPath": "/com/canonical/indicators/fake4"
-            }
-        },
-        {
-            "identifier": "indicator-fake5",
-            "widgetSource": "Indicators/DefaultIndicatorWidget.qml",
-            "pageSource": "Indicators/DefaultIndicatorPage.qml",
-            "indicatorProperties": {
-                "enabled": true,
-                "busName": "com.canonical.indicators.fake5",
-                "menuObjectPath": "/com/canonical/indicators/fake5",
-                "actionsObjectPath": "/com/canonical/indicators/fake5"
+    function setIndicatorVisible(identifier, visible) {
+        for (var i = 0; i < originalModelData.length; i++) {
+            if (originalModelData[i]["identifier"] === identifier) {
+                var data = Indicators.UnityMenuModelCache.getCachedModelData(
+                            originalModelData[i]["indicatorProperties"]["menuObjectPath"]);
+
+                data[0]["rowData"]["actionState"]["visible"] = visible;
+
+                Indicators.UnityMenuModelCache.setCachedModelData(
+                            originalModelData[i]["indicatorProperties"]["menuObjectPath"],
+                            data);
+                break;
             }
         }
-    ]
 
-    function load(profile) {
-        unload();
-        root.modelData = originalModelData;
     }
 }

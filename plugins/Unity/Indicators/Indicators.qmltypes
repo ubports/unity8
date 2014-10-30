@@ -99,10 +99,8 @@ Module {
             values: {
                 "Identifier": 0,
                 "Position": 1,
-                "WidgetSource": 2,
-                "PageSource": 3,
-                "IndicatorProperties": 4,
-                "IsVisible": 5
+                "IndicatorProperties": 2,
+                "IsVisible": 3
             }
         }
     }

@@ -23,16 +23,12 @@ import Unity.Indicators 0.1
 Item {
     id: indicatorItem
 
-    enabled: menuObjectPath != ""
-
     //const
     property string identifier
     property string busName
     property string actionsObjectPath
     property string menuObjectPath
     property string rootMenuType: "com.canonical.indicator.root"
-
-    property string deviceMenuObjectPath: menuObjectPath
 
     property alias menuModel: cachedModel.model
     property alias rootActionState: rootAction
@@ -41,7 +37,7 @@ Item {
         id: cachedModel
         busName: indicatorItem.busName
         actions: { "indicator": indicatorItem.actionsObjectPath }
-        menuObjectPath: indicatorItem.deviceMenuObjectPath
+        menuObjectPath: indicatorItem.menuObjectPath
     }
 
     RootActionState {

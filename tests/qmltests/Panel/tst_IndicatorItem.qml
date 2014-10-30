@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,37 +14,192 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
 import QtTest 1.0
-import ".."
-import "../../../qml/Panel"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
+import "../../../qml/Panel"
 
 Rectangle {
-    width: units.gu(10)
-    height: units.gu(5)
-    color: "black"
+    width: units.gu(80)
+    height: units.gu(30)
+    color: "white"
 
-    IndicatorItem {
-        id: indicatorItem
+    RowLayout {
         anchors.fill: parent
+        anchors.margins: units.gu(1)
+
+        Rectangle {
+            id: itemArea
+            color: "blue"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            Rectangle {
+                color: "black"
+                anchors.fill: indicatorItem
+            }
+
+            IndicatorItem {
+                id: indicatorItem
+                height: expanded ? units.gu(7) : units.gu(3)
+                anchors.centerIn: parent
+                identifier: "indicator-test"
+
+                rootActionState {
+                    title: titleLabel.text
+                    leftLabel : leftLabel.text
+                    rightLabel : rightLabel.text
+                    icons : {
+                        var icons = [];
+                        var i = 0;
+                        if (iconEnabled.checked) {
+                            for (i = 0; i < String(iconCount.text); i++) {
+                                icons.push("image://theme/audio-volume-high");
+                            }
+                        }
+                        return icons;
+                    }
+                }
+
+                Behavior on height {
+                    NumberAnimation {
+                        id: heightAnimation
+                        duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                    }
+                }
+            }
+        }
+
+        ColumnLayout {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: false
+
+            Button {
+                id: expandButton
+                Layout.fillWidth: true
+                text: indicatorItem.expanded ? "Collapse" : "Expand"
+                onClicked: indicatorItem.expanded = !indicatorItem.expanded
+            }
+
+            Button {
+                id: selectButton
+                Layout.fillWidth: true
+                text: indicatorItem.selected ? "Unselect" : "Select"
+                onClicked: indicatorItem.selected = !indicatorItem.selected
+            }
+
+            Rectangle {
+                Layout.preferredHeight: units.dp(1);
+                Layout.fillWidth: true;
+                color: "black"
+            }
+
+            RowLayout {
+                CheckBox { id: iconEnabled; checked: true }
+                Label { text: "icons    Count:" }
+                TextField { id: iconCount; text: "1"; enabled: iconEnabled.checked }
+            }
+
+            RowLayout {
+                Label { text: "Left Label:" }
+                TextField { id: leftLabel; text: "Left"}
+            }
+
+            RowLayout {
+                Label { text: "Right Label:" }
+                TextField { id: rightLabel; text: "Right"}
+            }
+
+            RowLayout {
+                Label { text: "Title:" }
+                TextField { id: titleLabel; text: "Title"}
+            }
+        }
     }
 
     UT.UnityTestCase {
         name: "IndicatorItem"
+        when: windowShown
 
-        function test_dimmed() {
-            indicatorItem.dimmed = false;
-            tryCompareFunction(function(){return indicatorItem.opacity}, 1.0);
-            indicatorItem.dimmed = true;
-            tryCompareFunction(function(){return indicatorItem.opacity < 1.0}, true);
+        function init() {
+            indicatorItem.selected = false;
+            indicatorItem.expanded = false;
+            indicatorItem.rootActionState.title = "Test Title";
+            indicatorItem.rootActionState.leftLabel = "TestLeftLabel";
+            indicatorItem.rootActionState.rightLabel = "TestRightLabel";
+            indicatorItem.rootActionState.icons = [ "image://theme/audio-volume-high" ];
+
+            tryCompare(heightAnimation, "running", false);
         }
 
-        function test_empty() {
-            compare(indicatorItem.indicatorVisible, false, "IndicatorItem should not be visible.");
-            indicatorItem.widgetSource = "../../../qml/Panel/Indicators/DefaultIndicatorWidget.qml";
-            tryCompare(indicatorItem, "indicatorVisible", true);
+        function test_expand() {
+            indicatorItem.expanded = true;
+            tryCompare(indicatorItem, "height", units.gu(7));
+            indicatorItem.expanded = false;
+            tryCompare(indicatorItem, "height", units.gu(3));
+        }
+
+        function test_minimizedVisibility() {
+            compare(findChild(indicatorItem, "leftLabel").opacity, 1.0);
+            compare(findChild(indicatorItem, "rightLabel").opacity, 1.0);
+            compare(findChild(indicatorItem, "icons").opacity, 1.0);
+            compare(findChild(indicatorItem, "indicatorName").opacity, 0.0);
+        }
+
+        function test_expandIcon() {
+            indicatorItem.expanded = true;
+
+            tryCompare(findChild(indicatorItem, "leftLabel"), "opacity", 0.0);
+            tryCompare(findChild(indicatorItem, "rightLabel"), "opacity", 0.0);
+            tryCompare(findChild(indicatorItem, "icons"), "opacity", 1.0);
+            tryCompare(findChild(indicatorItem, "indicatorName"), "opacity", 1.0);
+        }
+
+        function test_expandRightLabel() {
+            indicatorItem.expanded = true;
+
+            indicatorItem.rootActionState.icons = [];
+
+            tryCompare(findChild(indicatorItem, "leftLabel"), "opacity", 0.0);
+            tryCompare(findChild(indicatorItem, "rightLabel"), "opacity", 1.0);
+            tryCompare(findChild(indicatorItem, "icons"), "opacity", 0.0);
+            tryCompare(findChild(indicatorItem, "indicatorName"), "opacity", 1.0);
+        }
+
+        function test_expandLeftLabel() {
+            indicatorItem.expanded = true;
+
+            indicatorItem.rootActionState.rightLabel = "";
+            indicatorItem.rootActionState.icons = [];
+
+            tryCompare(findChild(indicatorItem, "rightLabel"), "opacity", 0.0);
+            tryCompare(findChild(indicatorItem, "leftLabel"), "opacity", 1.0);
+            tryCompare(findChild(indicatorItem, "icons"), "opacity", 0.0);
+            tryCompare(findChild(indicatorItem, "indicatorName"), "opacity", 1.0);
+        }
+
+        function test_select() {
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
+
+            indicatorItem.expanded = true;
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 0.6);
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#4c4c4c");
+
+            indicatorItem.selected = true;
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
         }
     }
 }

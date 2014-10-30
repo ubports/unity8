@@ -37,9 +37,7 @@ public:
 
     static UnityMenuModelCache* singleton();
 
-    virtual QSharedPointer<UnityMenuModel> model(const QByteArray& bus,
-                                         const QByteArray& path,
-                                         const QVariantMap& actions);
+    virtual QSharedPointer<UnityMenuModel> model(const QByteArray& path);
 
     // for tests use
     Q_INVOKABLE virtual bool contains(const QByteArray& path);

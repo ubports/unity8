@@ -27,7 +27,7 @@ Item {
     property string rightLabel: cachedState && cachedState.hasOwnProperty("label") ? cachedState["label"] : ""
     property var icons: cachedState && cachedState.hasOwnProperty("icons") ? cachedState["icons"] : []
     property string accessibleName: cachedState && cachedState.hasOwnProperty("accessible-desc") ? cachedState["accessible-desc"] : ""
-    visible: cachedState && cachedState.hasOwnProperty("visible") ? cachedState["visible"] : true
+    property bool indicatorVisible: cachedState && cachedState.hasOwnProperty("visible") ? cachedState["visible"] : true
 
     property var cachedState: menu ? menu.get(0, "actionState") : undefined
     Connections {
@@ -45,5 +45,5 @@ Item {
     onRightLabelChanged: updated()
     onIconsChanged: updated()
     onAccessibleNameChanged: updated()
-    onVisibleChanged: updated()
+    onIndicatorVisibleChanged: updated()
 }
