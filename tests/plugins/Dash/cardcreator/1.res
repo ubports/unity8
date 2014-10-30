@@ -47,8 +47,7 @@ Item  {
                                     CroppedImageMinimumSourceSize {
                                         id: artImage;
                                         objectName: "artImage"; 
-                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith;
-                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
+                                        source: cardData && cardData["art"] || ""; 
                                         asynchronous: root.asynchronous; 
                                         visible: false; 
                                         width: root.width; 
