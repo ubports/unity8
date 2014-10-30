@@ -39,6 +39,6 @@ Item {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         sourceSize: sizer.sourceSize.width == 0 && sizer.sourceSize.height == 0 ? undefined : sizer.sourceSize
-        source: sourceSize.width == -1 && sourceSize.height == -1 ? "" : root.source
+        source: sizer.sourceSize.width == -1 && sizer.sourceSize.height == -1 ? "" : root.source
     }
 }
