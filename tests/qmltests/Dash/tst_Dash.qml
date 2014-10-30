@@ -56,14 +56,14 @@ Item {
             tryCompare(dashContentList, "count", 6);
             tryCompare(scopes, "loaded", true);
             tryCompareFunction(function() {
-                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                var mockScope1Loader = findChild(dash, "scopeLoader0");
                 return mockScope1Loader && mockScope1Loader.item != null; },
                 true, 15000);
             tryCompareFunction(function() {
-                var mockScope1Loader = findChild(dash, "MockScope1 loader");
+                var mockScope1Loader = findChild(dash, "scopeLoader0");
                 return mockScope1Loader && mockScope1Loader.status === Loader.Ready; },
                 true, 15000);
-            waitForRendering(findChild(dash, "MockScope1 loader").item);
+            waitForRendering(findChild(dash, "scopeLoader0").item);
         }
 
         function get_scope_data() {
