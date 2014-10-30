@@ -672,6 +672,9 @@ Item {
                 // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
                 Component.onCompleted: initialise(indicatorProfile)
             }
+            callHint {
+                greeterShown: greeter.shown || lockscreen.shown
+            }
 
             property bool topmostApplicationIsFullscreen:
                 ApplicationManager.focusedApplicationId &&
