@@ -26,16 +26,15 @@ import "../Components"
 
 Item {
     id: root
-    property alias source: lazyImage.source
+    property alias source: imageRenderer.source
     property var zoomable: false
-    property alias imageState: lazyImage.state
-    property alias scaleTo: lazyImage.scaleTo
-    property alias asynchronous: lazyImage.asynchronous
+    property alias imageStatus: imageRenderer.status
+    property alias asynchronous: imageRenderer.asynchronous
 
     Flickable {
         id: flickable
         objectName: "flickable"
-        clip: true
+        clip: true // FIXME maybe we can remove this, or just not clip in few cases
         contentHeight: imageContainer.height
         contentWidth: imageContainer.width
 
@@ -52,30 +51,34 @@ Item {
             Item {
                 id: image
                 objectName: "image"
-                property alias imageState: lazyImage.state
+                property alias imageStatus: imageRenderer.status
                 property var prevScale
                 anchors.centerIn: parent
 
                 signal imageReloaded
 
-                LazyImage {
-                    id: lazyImage
-                    objectName: "lazyImage"
+                Image {
+                    id: imageRenderer
+                    objectName: "imageRenderer"
                     smooth: !flickable.movingVertically
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
-                    scaleTo: "fit"
 
-                    onStateChanged: {
-                        if (state == "ready") {
+                    readonly property int sourceSizeMultiplier: 3
+
+                    sourceSize.width: root.width * sourceSizeMultiplier <= root.height * sourceSizeMultiplier ? root.width * sourceSizeMultiplier : 0
+                    sourceSize.height: root.height * sourceSizeMultiplier <= root.width * sourceSizeMultiplier ? root.height * sourceSizeMultiplier : 0
+
+                    onStatusChanged: {
+                        if (status === Image.Ready) {
                             image.imageReloaded();
                         }
                     }
                 }
 
                 onImageReloaded: {
-                    image.height = lazyImage.sourceImage.implicitHeight
-                    image.width = lazyImage.sourceImage.implicitWidth
+                    image.height = imageRenderer.implicitHeight
+                    image.width = imageRenderer.implicitWidth
                     image.resetScale();
                 }
 
