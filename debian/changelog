@@ -1,3 +1,33 @@
+unity8 (8.00+15.04.20141030-0ubuntu1) vivid; urgency=low
+
+  [ josharenson ]
+  * Fix lp:1370240 by making stages interactive when a snap decision is
+    dismissed. (LP: #1370240)
+
+  [ Nick Dedekind ]
+  * remove qml ownership confusion for caching unitymenumodels (LP:
+    #1368856)
+  * Implementation of expandable panel design (LP: #1368856)
+
+  [ Albert Astals ]
+  * CardAttributes: Specify column and row since the gridlayout gets
+    confused sometimes (LP: #1381092)
+  * Reset VerticalJournal until the cardTool settles (LP: #1381255)
+
+  [ Mirco Müller ]
+  * Added synchronous/confirmation notification support to unity8. (LP:
+    #1232633)
+
+  [ Michael Zanetti ]
+  * Fix lp:1370240 by making stages interactive when a snap decision is
+    dismissed. (LP: #1370240)
+  * Drop all visual indication of "pinning" (LP: #1381054)
+
+  [ Antti Kaijanmäki ]
+  * Unlock all modems on boot. (LP: #1333121)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 30 Oct 2014 10:51:17 +0000
+
 unity8 (8.00+14.10.20141013.2-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]
