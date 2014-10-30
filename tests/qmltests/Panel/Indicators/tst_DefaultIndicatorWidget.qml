@@ -33,7 +33,6 @@ Item {
             top: parent.top
         }
 
-        menuModel: UnityMenuModel {}
         busName: "test"
         actionsObjectPath: "test"
         deviceMenuObjectPath: "test"
@@ -47,13 +46,6 @@ Item {
     UT.UnityTestCase {
         name: "DefaultIndicatorWidget"
         when: windowShown
-
-        function init() {
-            widget.rootActionState.icons = [];
-            widget.rootActionState.leftLabel = "";
-            widget.rootActionState.rightLabel = "";
-            waitForRendering(widget)
-        }
 
         // FIXME: add tests
     }

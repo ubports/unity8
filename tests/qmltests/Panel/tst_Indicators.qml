@@ -158,6 +158,7 @@ Item {
         function init_invisible_indicator(identifier) {
             tryCompareFunction(function() { return findChild(indicators, identifier+"-delegate") !== undefined }, true);
             var item = findChild(indicators, identifier+"-delegate");
+            verify(item !== null);
 
             item.enabled = false;
         }

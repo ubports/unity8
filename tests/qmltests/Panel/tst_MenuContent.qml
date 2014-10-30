@@ -26,14 +26,6 @@ Item {
     width: units.gu(40)
     height: units.gu(70)
 
-    property var indicator_status: {
-        'indicator-fake1-page': { 'started': false, 'reset': 0 },
-        'indicator-fake2-page': { 'started': false, 'reset': 0 },
-        'indicator-fake3-page': { 'started': false, 'reset': 0 },
-        'indicator-fake4-page': { 'started': false, 'reset': 0 },
-        'indicator-fake5-page': { 'started': false, 'reset': 0 }
-    }
-
     // Dummy objects
     Item { id: greeter }
     Item { id: handle }

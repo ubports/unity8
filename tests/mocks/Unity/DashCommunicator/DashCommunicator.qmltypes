@@ -34,13 +34,13 @@ Module {
             name: "setCurrentScopeRequested"
             Parameter { name: "scopeId"; type: "string" }
             Parameter { name: "animate"; type: "bool" }
-            Parameter { name: "reset"; type: "bool" }
+            Parameter { name: "isSwipe"; type: "bool" }
         }
         Method {
             name: "mockSetCurrentScope"
             Parameter { name: "scopeId"; type: "string" }
             Parameter { name: "animate"; type: "bool" }
-            Parameter { name: "reset"; type: "bool" }
+            Parameter { name: "isSwipe"; type: "bool" }
         }
     }
 }
