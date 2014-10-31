@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -62,6 +62,8 @@ public Q_SLOTS:
 private:
     void storeAppList();
 
+    void unpin(const QString &appId);
+
 private Q_SLOTS:
     void countChanged(const QString &appId, int count);
     void countVisibleChanged(const QString &appId, int count);
@@ -79,6 +81,8 @@ private:
     DBusInterface *m_dbusIface;
 
     ApplicationManagerInterface *m_appManager;
+
+    friend class LauncherModelTest;
 };
 
 #endif // LAUNCHERMODEL_H

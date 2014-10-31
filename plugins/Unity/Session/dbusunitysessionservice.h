@@ -17,7 +17,7 @@
 #ifndef DBUSUNITYSESSIONSERVICE_H
 #define DBUSUNITYSESSIONSERVICE_H
 
-#include <QObject>
+#include "unitydbusobject.h"
 
 /**
  * DBusUnitySessionService provides com.canonical.Unity.Session dbus
@@ -26,7 +26,7 @@
  * com.canonical.Unity.Session interface provides public methods
  * and signals to handle Logout/Reboot/Shutdown.
  */
-class DBusUnitySessionService : public QObject
+class DBusUnitySessionService : public UnityDBusObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity.Session")

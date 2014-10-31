@@ -78,7 +78,7 @@ Item {
                           { id: "cancel_id", label: "Cancel"},
                           { id: "notreally_id", label: "Not really"},
                           { id: "noway_id", label: "messages:No way"},
-                    { id: "nada_id", label: "messages:Nada"}]
+                          { id: "nada_id", label: "messages:Nada"}]
             }
 
             mockModel.append(n)
@@ -130,10 +130,11 @@ Item {
         function addEphemeralIconSummaryNotification() {
             var n = {
                 type: Notification.Ephemeral,
+                hints: {"x-canonical-non-shaped-icon": "false"},
                 summary: "Photo upload completed",
                 body: "",
-                icon: "",
-                secondaryIcon: "../graphics/applicationIcons/facebook.png",
+                icon: "../graphics/applicationIcons/facebook.png",
+                secondaryIcon: "",
                 actions: []
             }
 
@@ -153,20 +154,53 @@ Item {
             mockModel.append(n)
         }
 
+        function addConfirmationNotification() {
+            var n = {
+                type: Notification.Confirmation,
+                hints: {"x-canonical-non-shaped-icon": "true"},
+                summary: "Confirmation notification",
+                body: "",
+                icon: "image://theme/audio-volume-medium",
+                secondaryIcon: "",
+                value: 50,
+                actions: [],
+            }
+
+            mockModel.append(n)
+        }
+
+        function add2ndConfirmationNotification() {
+            var n = {
+                type: Notification.Confirmation,
+                hints: {"x-canonical-non-shaped-icon": "true",
+                        "x-canonical-value-bar-tint": "true"},
+                summary: "Confirmation notification",
+                body: "High Volume",
+                icon: "image://theme/audio-volume-high",
+                secondaryIcon: "",
+                value: 85,
+                actions: [],
+            }
+
+            mockModel.append(n)
+        }
+
         function clearNotifications() {
-            mockModel.clear()
+            while(mockModel.count > 1) {
+                remove1stNotification()
+            }
         }
 
         function remove1stNotification() {
-            if (mockModel.count > 0)
-                mockModel.remove(0)
+            if (mockModel.count > 1)
+                mockModel.remove(1)
         }
 
         Rectangle {
             id: notificationsRect
 
             width: units.gu(40)
-            height: units.gu(71)
+            height: units.gu(115)
 
             MouseArea{
                 id: clickThroughCatcher
@@ -188,7 +222,7 @@ Item {
             id: interactiveControls
 
             width: units.gu(30)
-            height: units.gu(81)
+            height: units.gu(115)
             color: "grey"
 
             Column {
@@ -234,6 +268,18 @@ Item {
 
                 Button {
                     width: parent.width
+                    text: "add a confirmation"
+                    onClicked: rootRow.addConfirmationNotification()
+                }
+
+                Button {
+                    width: parent.width
+                    text: "add a 2nd confirmation"
+                    onClicked: rootRow.add2ndConfirmationNotification()
+                }
+
+                Button {
+                    width: parent.width
                     text: "remove 1st notification"
                     onClicked: rootRow.remove1stNotification()
                 }
@@ -273,12 +319,15 @@ Item {
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
-                    shapedIcon: true,
-                    nonShapedIcon: false,
+                    centeredIconVisible: false,
+                    shaped: true,
                     secondaryIconVisible: true,
                     buttonRowVisible: true,
                     buttonTinted: true,
-                    hasSound: false
+                    hasSound: false,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 },
                 {
                     tag: "2-over-1 Snap Decision with button-tint",
@@ -294,31 +343,37 @@ Item {
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: false,
-                    shapedIcon: false,
-                    nonShapedIcon: false,
+                    centeredIconVisible: false,
+                    shaped: false,
                     secondaryIconVisible: false,
                     buttonRowVisible: false,
                     buttonTinted: true,
-                    hasSound: false
+                    hasSound: false,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 },
                 {
                     tag: "Ephemeral notification - icon-summary layout",
                     type: Notification.Ephemeral,
-                    hints: {"x-canonical-private-affirmative-tint": "false"},
+                    hints: {},
                     summary: "Photo upload completed",
                     body: "",
-                    icon: "",
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png",
+                    icon: "../graphics/applicationIcons/facebook.png",
+                    secondaryIcon: "",
                     actions: [],
                     summaryVisible: true,
                     bodyVisible: false,
-                    iconVisible: false,
-                    shapedIcon: false,
-                    nonShapedIcon: false,
-                    secondaryIconVisible: true,
+                    iconVisible: true,
+                    centeredIconVisible: false,
+                    shaped: true,
+                    secondaryIconVisible: false,
                     buttonRowVisible: false,
                     buttonTinted: false,
-                    hasSound: false
+                    hasSound: false,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 },
                 {
                     tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
@@ -335,12 +390,15 @@ Item {
                     bodyVisible: false,
                     interactiveAreaEnabled: false,
                     iconVisible: false,
-                    shapedIcon: false,
-                    nonShapedIcon: false,
+                    centeredIconVisible: false,
+                    shaped: false,
                     secondaryIconVisible: true,
                     buttonRowVisible: false,
                     buttonTinted: false,
-                    hasSound: false
+                    hasSound: false,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 },
                 {
                     tag: "Interactive notification",
@@ -355,12 +413,15 @@ Item {
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
-                    shapedIcon: true,
-                    nonShapedIcon: false,
+                    centeredIconVisible: false,
+                    shaped: true,
                     secondaryIconVisible: false,
                     buttonRowVisible: false,
                     buttonTinted: false,
-                    hasSound: true
+                    hasSound: true,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 },
                 {
                     tag: "Snap Decision without secondary icon and no button-tint",
@@ -376,12 +437,15 @@ Item {
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
-                    shapedIcon: true,
-                    nonShapedIcon: false,
+                    centeredIconVisible: false,
+                    shaped: true,
                     secondaryIconVisible: false,
                     buttonRowVisible: true,
                     buttonTinted: false,
-                    hasSound: true
+                    hasSound: true,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 },
                 {
                     tag: "Ephemeral notification",
@@ -396,12 +460,15 @@ Item {
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
-                    shapedIcon: true,
-                    nonShapedIcon: false,
+                    centeredIconVisible: false,
+                    shaped: true,
                     secondaryIconVisible: true,
                     buttonRowVisible: false,
                     buttonTinted: false,
-                    hasSound: true
+                    hasSound: true,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 },
                 {
                     tag: "Ephemeral notification with non-shaped icon",
@@ -410,18 +477,68 @@ Item {
                             "x-canonical-non-shaped-icon": "true"},
                     summary: "Contacts",
                     body: "Synchronised contacts-database with cloud-storage.",
-                    icon: "../graphics/applicationIcons/contacts-app.png",
+                    icon: "image://theme/contacts-app",
                     secondaryIcon: "",
                     actions: [],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
-                    shapedIcon: false,
-                    nonShapedIcon: true,
+                    centeredIconVisible: false,
+                    shaped: false,
                     secondaryIconVisible: false,
                     buttonRowVisible: false,
                     buttonTinted: false,
-                    hasSound: false
+                    hasSound: false,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
+                },
+                {
+                    tag: "Confirmation notification with value",
+                    type: Notification.Confirmation,
+                    hints: {"x-canonical-non-shaped-icon": "true"},
+                    summary: "",
+                    body: "",
+                    icon: "image://theme/audio-volume-medium",
+                    secondaryIcon: "",
+                    value: 50,
+                    actions: [],
+                    summaryVisible: false,
+                    bodyVisible: false,
+                    iconVisible: false,
+                    centeredIconVisible: true,
+                    shaped: false,
+                    secondaryIconVisible: false,
+                    buttonRowVisible: false,
+                    buttonTinted: false,
+                    hasSound: false,
+                    valueVisible: true,
+                    valueLabelVisible: false,
+                    valueTinted: false
+                },
+                {
+                    tag: "Confirmation notification with value, label and tint",
+                    type: Notification.Confirmation,
+                    hints: {"x-canonical-non-shaped-icon": "true",
+                            "x-canonical-value-bar-tint" : "true"},
+                    summary: "",
+                    body: "High Volume",
+                    icon: "image://theme/audio-volume-high",
+                    secondaryIcon: "",
+                    value: 85,
+                    actions: [],
+                    summaryVisible: false,
+                    bodyVisible: false,
+                    iconVisible: false,
+                    centeredIconVisible: true,
+                    shaped: false,
+                    secondaryIconVisible: false,
+                    buttonRowVisible: false,
+                    buttonTinted: false,
+                    hasSound: false,
+                    valueVisible: true,
+                    valueLabelVisible: true,
+                    valueTinted: true
                 }
                 ]
             }
@@ -459,17 +576,29 @@ Item {
                 waitForRendering(notification);
 
                 var icon = findChild(notification, "icon")
-                var shapedIcon = findChild(notification, "shapedIcon")
-                var nonShapedIcon = findChild(notification, "nonShapedIcon")
+                var centeredIcon = findChild(notification, "centeredIcon")
                 var interactiveArea = findChild(notification, "interactiveArea")
                 var secondaryIcon = findChild(notification, "secondaryIcon")
                 var summaryLabel = findChild(notification, "summaryLabel")
                 var bodyLabel = findChild(notification, "bodyLabel")
                 var buttonRow = findChild(notification, "buttonRow")
+                var valueIndicator = findChild(notification, "valueIndicator")
+                var valueLabel = findChild(notification, "valueLabel")
+                var innerBar = findChild(notification, "innerBar")
 
                 compare(icon.visible, data.iconVisible, "avatar-icon visibility is incorrect")
-                compare(shapedIcon.visible, data.shapedIcon, "shaped-icon visibility is incorrect")
-                compare(nonShapedIcon.visible, data.nonShapedIcon, "non-shaped-icon visibility is incorrect")
+                if (icon.visible) {
+                    compare(icon.shaped, data.shaped, "shaped-status is incorrect")
+                }
+                compare(centeredIcon.visible, data.centeredIconVisible, "centered-icon visibility is incorrect")
+                if (centeredIcon.visible) {
+                    compare(centeredIcon.shaped, data.shaped, "shaped-status is incorrect")
+                }
+                compare(valueIndicator.visible, data.valueVisible, "value-indicator visibility is incorrect")
+                if (valueIndicator.visible) {
+                    verify(innerBar.color === data.valueTinted ? UbuntuColors.orange : "white", "value-bar has the wrong color-tint")
+                }
+                compare(valueLabel.visible, data.valueLabelVisible, "value-label visibility is incorrect")
 
                 // test input does not fall through
                 mouseClick(notification, notification.width / 2, notification.height / 2)

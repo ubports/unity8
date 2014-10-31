@@ -34,4 +34,14 @@ Module {
         Method { name: "RequestReboot" }
         Method { name: "RequestShutdown" }
     }
+    Component {
+        name: "OrientationLock"
+        prototype: "QObject"
+        exports: ["Unity.Session/OrientationLock 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Property { name: "enabled"; type: "bool"; isReadonly: true }
+        Property { name: "savedOrientation"; type: "Qt::ScreenOrientation" }
+    }
 }
