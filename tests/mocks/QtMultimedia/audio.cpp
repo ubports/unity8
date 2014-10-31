@@ -105,3 +105,13 @@ void Audio::timerEvent()
         stop();
     }
 }
+
+Audio::AudioRole Audio::audioRole() const
+{
+    return Audio::MultimediaRole;
+}
+
+void Audio::setAudioRole(Audio::AudioRole audioRole)
+{
+    Q_UNUSED(audioRole);
+}
