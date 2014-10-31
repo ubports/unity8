@@ -174,7 +174,7 @@ Item {
             target: ApplicationManager
             onFocusRequested: {
                 if (greeter.narrowMode) {
-                    if (appId === "dialer-app" && callManager.hasCalls) {
+                    if (appId === "dialer-app" && callManager.hasCalls && shell.locked) {
                         // If we are in the middle of a call, make dialer lockedApp and show it.
                         // This can happen if user backs out of dialer back to greeter, then
                         // launches dialer again.
