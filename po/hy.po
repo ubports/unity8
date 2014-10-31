@@ -8,111 +8,115 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-07 11:37+0300\n"
-"PO-Revision-Date: 2013-06-27 04:43+0000\n"
-"Last-Translator: iAbaS <sosabazyan@yandex.ru>\n"
+"PO-Revision-Date: 2014-10-28 06:34+0000\n"
+"Last-Translator: Vahan Harutyunyan <Unknown>\n"
 "Language-Team: Armenian <hy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-09 06:36+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-10-29 07:27+0000\n"
+"X-Generator: Launchpad (build 17203)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr ""
+msgstr "Գաղտնաբառ: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Փակցնել պիտակը"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Հեռացնել պիտակը"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Սարքը արգելափակված է"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Գաղտնաբառի բավականին շատ ձախողված  փորձերի պատճառով Դուք արգելափակված եք:"
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Ծածկագրի բավականին շատ ձախողված  փորձերի պատճառով Դուք արգելափակված եք:"
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] ""
-msgstr[1] ""
+"Խնդրում ենք սպասել %1 րոպե և փորձել կրկին...\r\n"
+"Խնդրում ենք սպասել %1 րոպե և փորձել կրկին..."
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
-msgstr ""
+msgstr "Ելք"
 
 #: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Դուք համոզվա՞ծ եք, որ ցանկանում եք դուրս գալ համակարգից"
 
 #: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
 #: qml/Components/Dialogs.qml:122
 msgid "No"
-msgstr ""
+msgstr "Ոչ"
 
 #: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
 #: qml/Components/Dialogs.qml:129
 msgid "Yes"
-msgstr ""
+msgstr "Այո"
 
 #: qml/Components/Dialogs.qml:94
 msgid "Shut down"
-msgstr ""
+msgstr "Անջատել"
 
 #: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Դուք համոզվա՞ծ եք, որ ցանկանում եք անջատել համակարգիչը"
 
 #: qml/Components/Dialogs.qml:119
 msgid "Reboot"
-msgstr ""
+msgstr "Վերաբեռնել"
 
 #: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Դուք համոզվա՞ծ եք, որ ցանկանում եք վերաբեռնել համակարգիչը"
 
 #: qml/Components/Dialogs.qml:144
 msgid "Power"
-msgstr ""
+msgstr "Էլեկտրասնուցում"
 
 #: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Դուք համոզվա՞ծ եք, որ ցանկանում եք անջատել համակարգիչը սնուցման աղբյուրից"
 
 #: qml/Components/Dialogs.qml:147
 msgid "Power off"
-msgstr ""
+msgstr "Անջատել սնուցման աղբյուրից"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Restart"
-msgstr ""
+msgstr "Վերագործարկել"
 
 #: qml/Components/Dialogs.qml:167
 msgid "Cancel"
-msgstr ""
+msgstr "Չեղյալ համարել"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Բաց թողնել ներածությունը"
 
 #: qml/Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "Աջ եզրը"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
@@ -120,7 +124,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "Վերին եզրը"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
@@ -128,7 +132,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "Փակել"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
@@ -136,7 +140,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "Ձախ եզրը"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
@@ -144,7 +148,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "Լավ է"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid ""
@@ -166,7 +170,7 @@ msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
-msgstr ""
+msgstr "Տեսնել բոլորը"
 
 #: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
@@ -175,27 +179,27 @@ msgstr "Որոնում"
 
 #: qml/Dash/PageHeader.qml:268
 msgid "Settings"
-msgstr ""
+msgstr "Կարգավորումներ"
 
 #: qml/Dash/PageHeader.qml:275
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Հեռացնել ընտրյալների ցուցակից"
 
 #: qml/Dash/PageHeader.qml:275
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Ավելացնել ընտրյալների ցուցակում"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr ""
+msgstr "Ավելին..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr ""
+msgstr "Ավելի քիչ..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr ""
+msgstr "Գնահատեք սա"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
@@ -203,7 +207,7 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr ""
+msgstr "Ուղղարկել"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -219,23 +223,23 @@ msgstr ""
 
 #: qml/Dash/ScopesOverview.qml:428
 msgid "Done"
-msgstr ""
+msgstr "Կատարված է"
 
 #: qml/Dash/ScopesOverview.qml:454
 msgid "Store"
-msgstr ""
+msgstr "Խանութ"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
-msgstr ""
+msgstr "Նախընտրելի"
 
 #: qml/Dash/ScopesOverviewTab.qml:54
 msgid "All"
-msgstr ""
+msgstr "Բոլորը"
 
 #: qml/Greeter/Greeter.qml:157
 msgid "Unlock"
-msgstr ""
+msgstr "Ապաբլոկավորել"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:139
 msgid "Confirm"
@@ -247,11 +251,11 @@ msgstr "Գրիր կամ ասա կոմմենտը"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Խնդրում ենք սպասել..."
+msgstr "Բեռնվում է: Խնդրում ենք սպասել..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Խոսի՛ր"
+msgstr "Հիմա խոսեք..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
@@ -259,7 +263,7 @@ msgstr "Խոսում եմ..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
-msgstr ""
+msgstr "Ցույց տալ գաղտնաբառը"
 
 #: qml/Panel/ActiveCallHint.qml:77
 msgid "Tap to return to call..."
@@ -275,11 +279,11 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:748
 msgid "In queue…"
-msgstr ""
+msgstr "Հերթում..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Downloading"
-msgstr ""
+msgstr "Ներբեռնում"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:754
 msgid "Paused, tap to resume"
@@ -287,11 +291,11 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Canceled"
-msgstr ""
+msgstr "Չեղյալ է համարված"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:758
 msgid "Finished"
-msgstr ""
+msgstr "Ավարտված է"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:760
 msgid "Failed, tap to retry"
@@ -299,53 +303,53 @@ msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Ապաբլոկավորել SIM-ը"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Ռոումինգ"
 
 #: qml/Shell.qml:346
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Մուտքագրե՛ք անցաբառը"
 
 #: qml/Shell.qml:347
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Ներեցեք, սխալ անցաբառ է"
 
 #: qml/Shell.qml:348
 msgid "Please re-enter"
-msgstr ""
+msgstr "Խնդրում ենք նորից մուտքագրել"
 
 #: qml/Shell.qml:350
 msgid "Enter passcode"
-msgstr ""
+msgstr "Մոտքագրեք ծածկագիրը"
 
 #: qml/Shell.qml:351
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Ներեցեք, սխալ ծածկագիր է"
 
 #: qml/Shell.qml:354
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Մուտքագրեք %1"
 
 #: qml/Shell.qml:355
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Ներեցեք, սխալ %1"
 
 #: qml/Shell.qml:390
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Ներեցեք, սխալ անցաբառ է"
 
 #: qml/Shell.qml:391
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Ներեցեք, սխալ ծածկագիր է:"
 
 #: qml/Shell.qml:392
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Սա կլինի ձեր վերջին փորձը"
 
 #: qml/Shell.qml:394
 msgid ""

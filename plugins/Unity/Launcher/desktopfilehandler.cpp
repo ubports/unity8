@@ -70,7 +70,7 @@ void DesktopFileHandler::load()
 
     QStringList searchDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
 #ifdef LAUNCHER_TESTING
-    searchDirs << "";
+    searchDirs << ".";
 #endif
 
     QString path;

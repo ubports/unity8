@@ -21,8 +21,6 @@
 #include <QPointer>
 #include <private/qquickmousearea_p.h>
 
-// C++ std lib
-#include <functional>
 
 #include <DirectionalDragArea.h>
 #include <TouchRegistry.h>
@@ -31,28 +29,6 @@
 
 using namespace UbuntuGestures;
 
-class TouchMemento {
-public:
-    TouchMemento(const QTouchEvent *touchEvent);
-    Qt::TouchPointStates touchPointStates;
-    QList<QTouchEvent::TouchPoint> touchPoints;
-
-    bool containsTouchWithId(int touchId) const;
-};
-
-class DummyItem : public QQuickItem
-{
-    Q_OBJECT
-public:
-    DummyItem(QQuickItem *parent = 0);
-
-    QList<TouchMemento> touchEvents;
-    std::function<void(QTouchEvent*)> touchEventHandler;
-protected:
-    void touchEvent(QTouchEvent *event) override;
-private:
-    static void defaultTouchEventHandler(QTouchEvent *event);
-};
 
 class ComplexFakeTimer : public FakeTimer
 {
@@ -149,7 +125,6 @@ private Q_SLOTS:
 
 private:
     void passTime(qint64 timeSpanMs);
-    TouchRegistry *touchRegistry;
     ComplexFakeTimer *fakeTimer;
     QSharedPointer<FakeTimeSource> fakeTimeSource;
 };
@@ -171,19 +146,12 @@ void tst_DirectionalDragArea::init()
     QTRY_COMPARE(m_view->width(), (int)m_view->rootObject()->width());
     QTRY_COMPARE(m_view->height(), (int)m_view->rootObject()->height());
 
-    touchRegistry = new TouchRegistry;
-    m_view->installEventFilter(touchRegistry);
-
     fakeTimeSource.reset(new FakeTimeSource);
     fakeTimer = new ComplexFakeTimer(fakeTimeSource);
 }
 
 void tst_DirectionalDragArea::cleanup()
 {
-    m_view->removeEventFilter(touchRegistry);
-    delete touchRegistry;
-    touchRegistry = nullptr;
-
     delete fakeTimer;
     fakeTimer = 0;
 
@@ -1015,7 +983,7 @@ void tst_DirectionalDragArea::givesUpWhenLosesTouch()
     QPoint touchPos(edgeDragArea->width()/2.0f, m_view->height()/2.0f);
 
     dummyItem->touchEventHandler = [&](QTouchEvent *event) {
-        touchRegistry->addCandidateOwnerForTouch(0, dummyItem);
+        m_touchRegistry->addCandidateOwnerForTouch(0, dummyItem);
         event->ignore();
     };
 
@@ -1023,7 +991,7 @@ void tst_DirectionalDragArea::givesUpWhenLosesTouch()
 
     QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
 
-    touchRegistry->requestTouchOwnership(0, dummyItem);
+    m_touchRegistry->requestTouchOwnership(0, dummyItem);
 
     QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
 
@@ -1172,7 +1140,7 @@ void tst_DirectionalDragArea::withdrawTouchOwnershipCandidacyIfDisabledDuringRec
 
     // edgeDragArea should be an undecided candidate
     {
-        auto touchInfo = touchRegistry->findTouchInfo(0);
+        auto touchInfo = m_touchRegistry->findTouchInfo(0);
         QCOMPARE(touchInfo->candidates.size(), 1);
         QCOMPARE(touchInfo->candidates.at(0).item.data(), edgeDragArea);
         QCOMPARE(touchInfo->candidates.at(0).undecided, true);
@@ -1188,7 +1156,7 @@ void tst_DirectionalDragArea::withdrawTouchOwnershipCandidacyIfDisabledDuringRec
 
     // edgeDragArea should no longer be a candidate
     {
-        auto touchInfo = touchRegistry->findTouchInfo(0);
+        auto touchInfo = m_touchRegistry->findTouchInfo(0);
         QCOMPARE(touchInfo->candidates.size(), 0);
     }
 
@@ -1287,43 +1255,6 @@ void tst_DirectionalDragArea::gettingTouchOwnershipMakesMouseAreaBehindGetCancel
     QCOMPARE(mouseAreaSpy.canceledCount, 1);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
-}
-
-////////////////////////// TouchMemento /////////////////////////////
-
-TouchMemento::TouchMemento(const QTouchEvent *touchEvent)
-    : touchPointStates(touchEvent->touchPointStates()), touchPoints(touchEvent->touchPoints())
-{
-
-}
-
-bool TouchMemento::containsTouchWithId(int touchId) const
-{
-    for (int i = 0; i < touchPoints.count(); ++i) {
-        if (touchPoints.at(i).id() == touchId) {
-            return true;
-        }
-    }
-    return false;
-}
-
-////////////////////////// DummyItem /////////////////////////////
-
-DummyItem::DummyItem(QQuickItem *parent)
-    : QQuickItem(parent)
-{
-    touchEventHandler = defaultTouchEventHandler;
-}
-
-void DummyItem::touchEvent(QTouchEvent *event)
-{
-    touchEvents.append(TouchMemento(event));
-    touchEventHandler(event);
-}
-
-void DummyItem::defaultTouchEventHandler(QTouchEvent *event)
-{
-    event->accept();
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)

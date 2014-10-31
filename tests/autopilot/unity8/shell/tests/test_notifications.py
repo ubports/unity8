@@ -248,7 +248,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_without_greeter(self):
-        """Snap-decision should block input to shell without greeter."""
+        """Snap-decision should block input to shell without greeter/lockscreen."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
@@ -295,7 +295,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_with_greeter(self):
-        """A snap-decision should not block input to the greeter beneath it."""
+        """A snap-decision should block input to the greeter/lockscreen beneath it."""
         self.launch_unity()
 
         summary = "Incoming file"
@@ -322,11 +322,12 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
-        # verify that we can swipe away the greeter (interact with the "shell")
+        # verify that we cannot reveal the launcher (no longer interact with
+        # the shell)
         time.sleep(1)
         self.main_window.show_dash_swiping()
-        greeter = self.main_window.get_greeter()
-        self.assertThat(greeter.shown, Eventually(Equals(False)))
+        self.assertThat(
+            self.main_window.is_launcher_open, Eventually(Equals(False)))
 
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()

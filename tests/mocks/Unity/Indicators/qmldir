@@ -3,5 +3,4 @@ plugin IndicatorsFakeQml
 typeinfo Indicators.qmltypes
 
 IndicatorsModel 0.1 IndicatorsModel.qml
-FakeMenuPage 0.1 FakeMenuPage.qml
 RootActionState 0.1 RootActionState.qml

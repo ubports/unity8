@@ -28,7 +28,7 @@ public:
     DashConnection(const QString &service, const QString &path, const QString &interface, QObject *parent = 0);
 
 public Q_SLOTS:
-    void setCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
+    void setCurrentScope(int index, bool animate, bool isSwipe);
 };
 
 #endif
