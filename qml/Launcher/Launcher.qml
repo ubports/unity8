@@ -64,7 +64,7 @@ Item {
     }
 
     function tease() {
-        if (available) {
+        if (available && !dragArea.dragging) {
             teaseTimer.mode = "teasing"
             teaseTimer.start();
         }

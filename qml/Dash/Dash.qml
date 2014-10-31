@@ -28,14 +28,12 @@ Showable {
 
     visible: shown
 
-    property string showScopeOnLoaded: "clickscope"
-
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
             if (!isSwipe || !window.active || overviewController.progress != 0) {
                 if (overviewController.progress != 0 && window.active) animate = false;
-                dash.setCurrentScope(scopeId, animate, isSwipe)
+                dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
                 if (overviewController.progress != 0) {
                     if (window.active) {
                         dashContentCache.scheduleUpdate();
@@ -183,12 +181,6 @@ Showable {
             scopesOverview.currentTab = 1;
             scopesOverview.ensureAllScopeVisible(scope.id);
             x = -width;
-        }
-        onScopeLoaded: {
-            if (scopeId == dash.showScopeOnLoaded) {
-                dash.setCurrentScope(scopeId, false, false)
-                dash.showScopeOnLoaded = ""
-            }
         }
         clip: scale != 1.0 || scopeItem.visible || overviewController.progress != 0
         Behavior on x {

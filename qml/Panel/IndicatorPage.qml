@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,16 +12,12 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Renato Araujo Oliveira Filho <renato@canonical.com>
- *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1 as Components
 import Unity.Indicators 0.1 as Indicators
-import "../../Components/Flickables" as Flickables
+import "Indicators"
 
 IndicatorBase {
     id: main
@@ -52,13 +48,13 @@ IndicatorBase {
 
     Connections {
         target: menuStack.tail
-        onRowsInserted: {
-            if (menuStack.rootMenu !== menuStack.tail && menuStack.tail.get(0, "type") === rootMenuType) {
-                menuStack.rootMenu = menuStack.tail.submenu(0);
-                menuStack.push(menuStack.rootMenu, 0);
-            }
-        }
-        onModelReset: {
+
+        // fix async creation with signal from model before it's finished.
+        Component.onCompleted: update();
+        onRowsInserted: update();
+        onModelReset: update();
+
+        function update() {
             if (menuStack.rootMenu !== menuStack.tail && menuStack.tail.get(0, "type") === rootMenuType) {
                 menuStack.rootMenu = menuStack.tail.submenu(0);
                 menuStack.push(menuStack.rootMenu, 0);
@@ -66,7 +62,7 @@ IndicatorBase {
         }
     }
 
-    Flickables.ListView {
+    ListView {
         id: mainMenu
         objectName: "mainMenu"
         model: menuStack.rootMenu
@@ -92,8 +88,6 @@ IndicatorBase {
 
         // Only allow flicking if the content doesn't fit on the page
         interactive: contentHeight > height
-        // FIXME - https://bugreports.qt-project.org/browse/QTBUG-41207
-        boundsBehavior: Flickable.StopAtBounds
 
         property int selectedIndex: -1
         property bool blockCurrentIndexChange: false
@@ -126,7 +120,6 @@ IndicatorBase {
         delegate: Loader {
             id: loader
             objectName: "menuItem" + index
-            asynchronous: true
             width: ListView.view.width
             visible: status == Loader.Ready
 

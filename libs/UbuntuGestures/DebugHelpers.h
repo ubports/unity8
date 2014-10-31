@@ -21,9 +21,11 @@
 
 #include "UbuntuGesturesGlobal.h"
 
+class QMouseEvent;
 class QTouchEvent;
 
 UBUNTUGESTURES_EXPORT QString touchPointStateToString(Qt::TouchPointState state);
 UBUNTUGESTURES_EXPORT QString touchEventToString(const QTouchEvent *ev);
+UBUNTUGESTURES_EXPORT QString mouseEventToString(const QMouseEvent *ev);
 
 #endif // UBUNTUGESTURES_DEBUG_HELPER_H

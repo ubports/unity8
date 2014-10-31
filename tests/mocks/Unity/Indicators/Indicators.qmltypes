@@ -29,6 +29,7 @@ Module {
         exports: ["Unity.Indicators/FakeIndicatorsModel 0.1"]
         exportMetaObjectRevisions: [0]
         Property { name: "count"; type: "int"; isReadonly: true }
+        Property { name: "modelData"; type: "QVariant" }
         Method {
             name: "load"
             Parameter { name: "profile"; type: "string" }
@@ -39,10 +40,40 @@ Module {
             Parameter { name: "row"; type: "QVariantMap" }
         }
         Method {
+            name: "insert"
+            Parameter { name: "row"; type: "int" }
+            Parameter { name: "data"; type: "QVariantMap" }
+        }
+        Method {
+            name: "remove"
+            Parameter { name: "row"; type: "int" }
+        }
+        Method {
             name: "data"
             type: "QVariant"
             Parameter { name: "row"; type: "int" }
             Parameter { name: "role"; type: "int" }
+        }
+    }
+    Component {
+        name: "FakeUnityMenuModelCache"
+        prototype: "UnityMenuModelCache"
+        exports: ["Unity.Indicators/UnityMenuModelCache 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Method {
+            name: "setCachedModelData"
+            Parameter { name: "bus"; type: "QByteArray" }
+            Parameter { name: "path"; type: "QByteArray" }
+            Parameter { name: "actions"; type: "QVariantMap" }
+            Parameter { name: "data"; type: "QVariant" }
+        }
+        Method {
+            name: "setCachedModelData"
+            Parameter { name: "bus"; type: "QByteArray" }
+            Parameter { name: "path"; type: "QByteArray" }
+            Parameter { name: "actions"; type: "QVariantMap" }
         }
     }
     Component {
@@ -74,10 +105,8 @@ Module {
             values: {
                 "Identifier": 0,
                 "Position": 1,
-                "WidgetSource": 2,
-                "PageSource": 3,
-                "IndicatorProperties": 4,
-                "IsVisible": 5
+                "IndicatorProperties": 2,
+                "IsVisible": 3
             }
         }
     }
@@ -160,19 +189,18 @@ Module {
     }
     Component { name: "QIdentityProxyModel"; prototype: "QAbstractProxyModel" }
     Component {
+        name: "SharedUnityMenuModel"
+        prototype: "QObject"
+        exports: ["Unity.Indicators/SharedUnityMenuModel 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "busName"; type: "QByteArray" }
+        Property { name: "menuObjectPath"; type: "QByteArray" }
+        Property { name: "actions"; type: "QVariantMap" }
+        Property { name: "model"; type: "UnityMenuModel"; isReadonly: true; isPointer: true }
+    }
+    Component {
         name: "UnityMenuModelCache"
         prototype: "QObject"
-        exports: ["Unity.Indicators/UnityMenuModelCache 0.1"]
-        isCreatable: false
-        isSingleton: true
-        exportMetaObjectRevisions: [0]
-        Method {
-            name: "model"
-            type: "UnityMenuModel*"
-            Parameter { name: "bus"; type: "QByteArray" }
-            Parameter { name: "path"; type: "QByteArray" }
-            Parameter { name: "actions"; type: "QVariantMap" }
-        }
         Method {
             name: "contains"
             type: "bool"

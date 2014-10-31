@@ -314,6 +314,23 @@ Item {
             tryCompare(app, "orientation", Qt.LandscapeOrientation);
         }
 
+        function test_backgroundClickCancelsSpread() {
+            addApps(3);
+
+            var focusedAppId = ApplicationManager.focusedApplicationId;
+
+            goToSpread();
+
+            mouseClick(phoneStage, units.gu(1), units.gu(1));
+
+            // Make sure the spread is in the idle position
+            var spreadView = findChild(phoneStage, "spreadView");
+            tryCompare(spreadView, "contentX", -spreadView.shift);
+
+            // Make sure the same app is still focused
+            compare(focusedAppId, ApplicationManager.focusedApplicationId);
+        }
+
         function cleanup() {
             while (ApplicationManager.count > 1) {
                 var oldCount = ApplicationManager.count;

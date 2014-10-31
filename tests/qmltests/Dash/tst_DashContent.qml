@@ -73,14 +73,14 @@ Item {
             tryCompare(scopeLoadedSpy, "count", 6, 15000);
             tryCompare(scopesModel, "loaded", true);
             tryCompareFunction(function() {
-                var mockScope1Loader = findChild(shell, "MockScope1 loader");
+                var mockScope1Loader = findChild(shell, "scopeLoader0");
                 return mockScope1Loader && mockScope1Loader.item != null; },
                 true, 15000);
             tryCompareFunction(function() {
-                var mockScope1Loader = findChild(shell, "MockScope1 loader");
+                var mockScope1Loader = findChild(shell, "scopeLoader0");
                 return mockScope1Loader && mockScope1Loader.status === Loader.Ready; },
                 true, 15000);
-            waitForRendering(findChild(shell, "MockScope1 loader").item);
+            waitForRendering(findChild(shell, "scopeLoader0").item);
         }
 
         function init() {
@@ -131,7 +131,7 @@ Item {
         function test_show_header_on_list_movement() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);
-            var scope = findChild(dashContent, "MockScope1 loader");
+            var scope = findChild(dashContent, "scopeLoader0");
             waitForRendering(scope);
 
             var categoryListView = findChild(scope, "categoryListView");
@@ -149,7 +149,7 @@ Item {
         function test_set_current_scope_reset() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList, "Couldn't find dashContentList");
-            var scope = findChild(dashContent, "MockScope1 loader");
+            var scope = findChild(dashContent, "scopeLoader0");
 
             tryCompare(scope, "status", Loader.Ready);
 
@@ -261,7 +261,7 @@ Item {
 
         function test_carouselAspectRatio() {
             tryCompareFunction(function() {
-                                    var scope = findChild(dashContent, "MockScope1 loader");
+                                    var scope = findChild(dashContent, "scopeLoader0");
                                     if (scope != null) {
                                         var dashCategory1 = findChild(scope, "dashCategory1");
                                         if (dashCategory1 != null) {
@@ -273,7 +273,7 @@ Item {
                                 },
                                 true);
 
-            var scope = findChild(dashContent, "MockScope1 loader");
+            var scope = findChild(dashContent, "scopeLoader0");
             var dashCategory1 = findChild(scope, "dashCategory1");
             var cardTool = findChild(dashCategory1, "cardTool");
             var carouselLV = findChild(dashCategory1, "listView");
@@ -501,7 +501,7 @@ Item {
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);
-            var scope = findChild(dashContent, "MockScope1 loader");
+            var scope = findChild(dashContent, "scopeLoader0");
             waitForRendering(scope);
 
             var categoryListView = findChild(scope, "categoryListView");

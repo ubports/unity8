@@ -8,6 +8,7 @@ set(UbuntuGesturesQml_SOURCES
     DirectionalDragArea.cpp
     PressedOutsideNotifier.cpp
     TimeSource.cpp
+    TouchDispatcher.cpp
     TouchGate.cpp
 )
 

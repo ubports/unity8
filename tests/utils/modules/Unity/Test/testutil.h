@@ -42,7 +42,6 @@ private:
 
     QWindow *m_targetWindow;
     QTouchDevice *m_touchDevice;
-    bool m_installedTouchRegistry;
 };
 
 QML_DECLARE_TYPE(TestUtil)
