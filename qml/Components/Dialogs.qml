@@ -26,7 +26,7 @@ Item {
 
     // Explicitly use the right domain for this widget because it might be used
     // in other applications like the welcome wizard.
-    property string domain: "unity8"
+    readonly property string domain: "unity8"
 
     function onPowerKeyPressed() {
         // FIXME: event.isAutoRepeat is always false on Nexus 4.
