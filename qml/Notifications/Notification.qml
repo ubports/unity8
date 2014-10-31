@@ -452,8 +452,11 @@ Item {
 
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
                 model: notification.actions
-                expanded: true
+                expanded: false
                 startIndex: 2
+                onTriggered: {
+                    notification.notification.invokeAction(id)
+                }
             }
         }
     }

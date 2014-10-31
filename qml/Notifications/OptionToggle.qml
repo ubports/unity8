@@ -11,6 +11,8 @@ UbuntuShape {
     property int startIndex
     readonly property double itemHeight: units.gu(5)
 
+    signal triggered(string id)
+
     Behavior on height {
         UbuntuNumberAnimation {
             duration: UbuntuAnimation.SnapDuration
@@ -19,30 +21,24 @@ UbuntuShape {
 
     color: Theme.palette.normal.base
     borderSource: "none"
-    height: expanded ? (model.count - startIndex) * itemHeight : itemHeight
+    height: expanded ? (optionToggleRepeater.count - startIndex) * itemHeight : itemHeight
     width: parent.width
     radius: "medium"
     clip: true
 
-    onExpandedChanged: {
-        print("expanded changed to:", expanded ? "true" : "false")
-        print("height:", height)
-        print("count:", model.count)
-        optionToggle.height = expanded ? (model.count - startIndex) * itemHeight : itemHeight
-    }
-
     Column {
         id: optionToggleContent
         width: parent.width
-        //property double itemHeight: units.gu(5)
 
         Repeater {
+            id: optionToggleRepeater
             model: optionToggle.model
 
             delegate: Loader {
                 asynchronous: true
                 visible: status === Loader.Ready
                 property string actionLabel: label
+                property string actionId: id
                 readonly property var splitLabel: actionLabel.match(/(^([-a-z0-9]+):)?(.*)$/)
 
                 Component {
@@ -56,7 +52,7 @@ UbuntuShape {
                             if (index === startIndex) {
                                 optionToggle.expanded = optionToggle.expanded ? false : true
                             } else {
-                                print("clicked on", label)
+                                optionToggle.triggered(actionId)
                             }
                         }
 
