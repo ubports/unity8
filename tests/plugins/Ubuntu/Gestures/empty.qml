@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,21 +15,8 @@
  */
 
 import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
+import Ubuntu.Gestures 0.1
 
-Indicators.FakeMenuPage {
-    id: menu_plugin2
-
-    Rectangle {
-        id: contents
-        color: "blue"
-
-        height: 150
-        width: 150
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
-    }
+Item {
+    width: 720; height: 720
 }

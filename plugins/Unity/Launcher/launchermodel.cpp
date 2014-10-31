@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -40,20 +40,9 @@ LauncherModel::LauncherModel(QObject *parent):
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
-    Q_FOREACH (const QString &entry, m_settings->storedApplications()) {
-        DesktopFileHandler desktopFile(entry);
-        if (!desktopFile.isValid()) {
-            qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
-            continue;
-        }
+    connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
 
-        LauncherItem *item = new LauncherItem(entry,
-                                              desktopFile.displayName(),
-                                              desktopFile.icon(),
-                                              this);
-        item->setPinned(true);
-        m_list.append(item);
-    }
+    refresh();
 }
 
 LauncherModel::~LauncherModel()
@@ -173,22 +162,7 @@ void LauncherModel::pin(const QString &appId, int index)
 
 void LauncherModel::requestRemove(const QString &appId)
 {
-    int index = findApplication(appId);
-    if (index < 0) {
-        return;
-    }
-
-    if (m_appManager->findApplication(appId)) {
-        m_list.at(index)->setPinned(false);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
-        return;
-    }
-
-    beginRemoveRows(QModelIndex(), index, index);
-    m_list.takeAt(index)->deleteLater();
-    endRemoveRows();
-
+    unpin(appId);
     storeAppList();
 }
 
@@ -299,6 +273,24 @@ void LauncherModel::storeAppList()
     m_settings->setStoredApplications(appIds);
 }
 
+void LauncherModel::unpin(const QString &appId)
+{
+    int index = findApplication(appId);
+    if (index < 0) {
+        return;
+    }
+
+    if (m_appManager->findApplication(appId)) {
+        m_list.at(index)->setPinned(false);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+    } else {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_list.takeAt(index)->deleteLater();
+        endRemoveRows();
+    }
+}
+
 int LauncherModel::findApplication(const QString &appId)
 {
     for (int i = 0; i < m_list.count(); ++i) {
@@ -319,7 +311,6 @@ void LauncherModel::progressChanged(const QString &appId, int progress)
         Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleProgress);
     }
 }
-
 
 void LauncherModel::countChanged(const QString &appId, int count)
 {
@@ -362,10 +353,15 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
 
 void LauncherModel::refresh()
 {
+    // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
         DesktopFileHandler desktopFile(item->appId());
         if (!desktopFile.isValid()) {
+            // Desktop file not available for this app => drop it!
+            toBeRemoved << item;
+        } else if (!m_settings->storedApplications().contains(item->appId())) {
+            // Item not in settings any more => drop it!
             toBeRemoved << item;
         } else {
             int idx = m_list.indexOf(item);
@@ -376,7 +372,54 @@ void LauncherModel::refresh()
     }
 
     Q_FOREACH (LauncherItem* item, toBeRemoved) {
-        requestRemove(item->appId());
+        unpin(item->appId());
+    }
+
+    // This brings the Launcher into sync with the settings backend again. There's an issue though:
+    // If we can't find a .desktop file for an entry we need to skip it. That makes our settingsIndex
+    // go out of sync with the actual index of items. So let's also use an addedIndex which reflects
+    // the settingsIndex minus the skipped items.
+    int addedIndex = 0;
+
+    // Now walk through settings and see if we need to add something
+    for (int settingsIndex = 0; settingsIndex < m_settings->storedApplications().count(); ++settingsIndex) {
+        QString entry = m_settings->storedApplications().at(settingsIndex);
+        int itemIndex = -1;
+        for (int i = 0; i < m_list.count(); ++i) {
+            if (m_list.at(i)->appId() == entry) {
+                itemIndex = i;
+                break;
+            }
+        }
+
+        if (itemIndex == -1) {
+            // Need to add it. Just add it into the addedIndex to keep same ordering as the list
+            // in the settings.
+            DesktopFileHandler desktopFile(entry);
+            if (!desktopFile.isValid()) {
+                qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
+                continue;
+            }
+
+            LauncherItem *item = new LauncherItem(entry,
+                                                  desktopFile.displayName(),
+                                                  desktopFile.icon(),
+                                                  this);
+            item->setPinned(true);
+            beginInsertRows(QModelIndex(), addedIndex, addedIndex);
+            m_list.insert(addedIndex, item);
+            endInsertRows();
+        } else if (itemIndex != addedIndex) {
+            // The item is already there, but it is in a different place then in the settings.
+            // Move it to the addedIndex
+            beginMoveRows(QModelIndex(), itemIndex, itemIndex, QModelIndex(), addedIndex);
+            m_list.move(itemIndex, addedIndex);
+            endMoveRows();
+        }
+
+        // Just like settingsIndex, this will increase with every item, except the ones we
+        // skipped with the "continue" call above.
+        addedIndex++;
     }
 }
 

@@ -37,7 +37,7 @@ class UNITYINDICATORS_EXPORT RootActionState : public ActionStateParser
     Q_PROPERTY(QString rightLabel READ rightLabel NOTIFY rightLabelChanged)
     Q_PROPERTY(QStringList icons READ icons NOTIFY iconsChanged)
     Q_PROPERTY(QString accessibleName READ accessibleName NOTIFY accessibleNameChanged)
-    Q_PROPERTY(bool visible READ isVisible NOTIFY visibleChanged)
+    Q_PROPERTY(bool indicatorVisible READ indicatorVisible NOTIFY indicatorVisibleChanged)
 public:
     RootActionState(QObject *parent = 0);
     virtual ~RootActionState();
@@ -54,10 +54,10 @@ public:
     QString rightLabel() const;
     QStringList icons() const;
     QString accessibleName() const;
-    bool isVisible() const;
+    bool indicatorVisible() const;
 
     // from ActionStateParser
-    virtual QVariant toQVariant(GVariant* state) const;
+    virtual QVariant toQVariant(GVariant* state) const override;
 
 Q_SIGNALS:
     void updated();
@@ -71,7 +71,7 @@ Q_SIGNALS:
     void rightLabelChanged();
     void iconsChanged();
     void accessibleNameChanged();
-    void visibleChanged();
+    void indicatorVisibleChanged();
 
 private Q_SLOTS:
     void onModelRowsAdded(const QModelIndex& parent, int start, int end);

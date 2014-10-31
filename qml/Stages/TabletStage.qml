@@ -20,7 +20,6 @@ import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Utils 0.1
 import "../Components"
-import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -154,7 +153,7 @@ Rectangle {
         }
     }
 
-    Flickables.Flickable {
+    Flickable {
         id: spreadView
         anchors.fill: parent
         interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
@@ -386,11 +385,15 @@ Rectangle {
             }
         }
 
-        Item {
+        MouseArea {
             id: spreadRow
             x: spreadView.contentX
             height: root.height
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
+
+            onClicked: {
+                spreadView.snapTo(0);
+            }
 
             Rectangle {
                 id: sideStageBackground

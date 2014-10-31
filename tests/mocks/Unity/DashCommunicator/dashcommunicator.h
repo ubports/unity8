@@ -29,11 +29,11 @@ public:
     ~DashCommunicator();
 
 public Q_SLOTS:
-    void setCurrentScope(const QString &scopeId, bool animate, bool reset);
+    void setCurrentScope(int index, bool animate, bool reset);
 
 Q_SIGNALS:
     // This mock just emits calls back to the QML api for the plugin to verify calls
-    void setCurrentScopeCalled(const QString &scopeId, bool animate, bool reset);
+    void setCurrentScopeCalled(int index, bool animate, bool reset);
 };
 
 #endif

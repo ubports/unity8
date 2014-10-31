@@ -33,8 +33,6 @@ QHash<int, QByteArray> VisibleIndicatorsModel::roleNames() const
     {
         roles[IndicatorsModelRole::Identifier] = "identifier";
         roles[IndicatorsModelRole::Position] = "position";
-        roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
-        roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
         roles[IndicatorsModelRole::IsVisible] = "isVisible";
     }

@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
-import "../Components/Flickables" as Flickables
 
 Item {
     id: root
@@ -69,7 +68,7 @@ Item {
         antialiasing: true
     }
 
-    Flickables.ListView {
+    ListView {
         id: userList
         objectName: "userList"
 
@@ -79,6 +78,7 @@ Item {
         preferredHighlightEnd: userList.height / 2 - root.highlightedHeight / 2
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
+        flickDeceleration: 10000
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
 
