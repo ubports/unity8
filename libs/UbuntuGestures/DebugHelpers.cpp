@@ -16,6 +16,7 @@
 
 #include "DebugHelpers.h"
 #include <QTouchEvent>
+#include <QMouseEvent>
 
 QString touchPointStateToString(Qt::TouchPointState state)
 {
@@ -63,6 +64,32 @@ QString touchEventToString(const QTouchEvent *ev)
                 .arg(touchPoint.scenePos().y())
             );
     }
+
+    return message;
+}
+
+QString mouseEventToString(const QMouseEvent *ev)
+{
+    QString message;
+
+    switch (ev->type()) {
+    case QEvent::MouseButtonPress:
+        message.append("MouseButtonPress ");
+        break;
+    case QEvent::MouseButtonRelease:
+        message.append("MouseButtonRelease ");
+        break;
+    case QEvent::MouseButtonDblClick:
+        message.append("MouseButtonDblClick ");
+        break;
+    case QEvent::MouseMove:
+        message.append("MouseButtonMove ");
+        break;
+    default:
+        message.append("INVALID_MOUSE_EVENT_TYPE ");
+    }
+
+    message.append(QString("pos(%1, %2)").arg(ev->x()).arg(ev->y()));
 
     return message;
 }

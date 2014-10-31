@@ -21,6 +21,8 @@
 #include <QQuickView>
 #include <QtTest>
 
+#include <TouchRegistry.h>
+
 GestureTest::GestureTest(const QString &qmlFilename)
     : QObject(), m_device(nullptr), m_view(nullptr), m_qmlFilename(qmlFilename)
 {
@@ -44,11 +46,79 @@ void GestureTest::init()
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
     QVERIFY(m_view->rootObject() != 0);
+
+    m_touchRegistry = new TouchRegistry;
+    m_view->installEventFilter(m_touchRegistry);
+
     qApp->processEvents();
 }
 
 void GestureTest::cleanup()
 {
+    m_view->removeEventFilter(m_touchRegistry);
+    delete m_touchRegistry;
+    m_touchRegistry = nullptr;
+
     delete m_view;
     m_view = nullptr;
+}
+
+////////////////////////// TouchMemento /////////////////////////////
+
+TouchMemento::TouchMemento(const QTouchEvent *touchEvent)
+    : touchPointStates(touchEvent->touchPointStates()), touchPoints(touchEvent->touchPoints())
+{
+
+}
+
+bool TouchMemento::containsTouchWithId(int touchId) const
+{
+    for (int i = 0; i < touchPoints.count(); ++i) {
+        if (touchPoints.at(i).id() == touchId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+////////////////////////// DummyItem /////////////////////////////
+
+DummyItem::DummyItem(QQuickItem *parent)
+    : QQuickItem(parent)
+{
+    touchEventHandler = defaultTouchEventHandler;
+    mousePressEventHandler = defaultMouseEventHandler;
+    mouseMoveEventHandler = defaultMouseEventHandler;
+    mouseReleaseEventHandler = defaultMouseEventHandler;
+}
+
+void DummyItem::touchEvent(QTouchEvent *event)
+{
+    touchEvents.append(TouchMemento(event));
+    touchEventHandler(event);
+}
+
+void DummyItem::mousePressEvent(QMouseEvent *event)
+{
+    mousePressEventHandler(event);
+}
+
+void DummyItem::mouseMoveEvent(QMouseEvent *event)
+{
+    mouseMoveEventHandler(event);
+}
+
+void DummyItem::mouseReleaseEvent(QMouseEvent *event)
+{
+    mouseReleaseEventHandler(event);
+}
+
+void DummyItem::defaultTouchEventHandler(QTouchEvent *event)
+{
+    event->accept();
+}
+
+void DummyItem::defaultMouseEventHandler(QMouseEvent *event)
+{
+    event->accept();
 }

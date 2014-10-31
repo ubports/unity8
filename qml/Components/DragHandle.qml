@@ -68,6 +68,7 @@ EdgeDragArea {
     }
 
     property real hintDisplacement: 0
+    property var overrideStartValue: undefined
     SmoothedAnimation {
         id: hintingAnimation
         target: hintingAnimation
@@ -196,7 +197,11 @@ EdgeDragArea {
         } else /* Undecided || Recognized */ {
             if (d.previousStatus === DirectionalDragArea.WaitingForTouch) {
                 dragEvaluator.reset();
-                d.startValue = parent[d.targetProp];
+                if (overrideStartValue !== undefined) {
+                    d.startValue = overrideStartValue;
+                } else {
+                    d.startValue = parent[d.targetProp];
+                }
 
                 if (hintDisplacement > 0) {
                     hintingAnimation.targetValue = d.startValue;

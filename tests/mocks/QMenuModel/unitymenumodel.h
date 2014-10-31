@@ -27,12 +27,14 @@ class ActionStateParser;
 class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
     Q_PROPERTY(QByteArray busName READ busName WRITE setBusName NOTIFY busNameChanged)
     Q_PROPERTY(QVariantMap actions READ actions WRITE setActions NOTIFY actionsChanged)
     Q_PROPERTY(QByteArray menuObjectPath READ menuObjectPath WRITE setMenuObjectPath NOTIFY menuObjectPathChanged)
     Q_PROPERTY(ActionStateParser* actionStateParser READ actionStateParser WRITE setActionStateParser NOTIFY actionStateParserChanged)
     Q_PROPERTY(QString nameOwner READ nameOwner NOTIFY nameOwnerChanged)
+
+    // internal mock properties
+    Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
 
 public:
     UnityMenuModel(QObject *parent = nullptr);
@@ -81,8 +83,10 @@ Q_SIGNALS:
     void actionsChanged();
     void menuObjectPathChanged();
     void actionStateParserChanged();
-    void modelDataChanged();
     void nameOwnerChanged();
+
+    // Internal mock usage
+    void modelDataChanged();
 
 private:
     QVariantMap rowData(int row) const;

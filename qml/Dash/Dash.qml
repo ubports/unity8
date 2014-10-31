@@ -28,14 +28,12 @@ Showable {
 
     visible: shown
 
-    property string showScopeOnLoaded: "clickscope"
-
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
             if (!isSwipe || !window.active || bottomEdgeController.progress != 0) {
                 if (bottomEdgeController.progress != 0 && window.active) animate = false;
-                dash.setCurrentScope(scopeId, animate, isSwipe)
+                dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
                 if (bottomEdgeController.progress != 0) {
                     bottomEdgeController.enableAnimation = window.active;
                     bottomEdgeController.progress = 0;
@@ -117,12 +115,6 @@ Showable {
             scopeItem.scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
             x = -width;
-        }
-        onScopeLoaded: {
-            if (scopeId == dash.showScopeOnLoaded) {
-                dash.setCurrentScope(scopeId, false, false)
-                dash.showScopeOnLoaded = ""
-            }
         }
         Behavior on x {
             UbuntuNumberAnimation {
