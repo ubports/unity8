@@ -10,6 +10,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
     #${LIBLIGHTDM_INCLUDE_DIRS}
+    ${libunity8-private_SOURCE_DIR}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
 )
 
@@ -28,6 +29,7 @@ add_library(LightDM-qml MODULE
 
 target_link_libraries(LightDM-qml
     MockLightDM-demo
+    unity8-private
 # TODO: Once we split out a separate greeter process, uncomment these lines
 #    ${LIBLIGHTDM_LDFLAGS}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
