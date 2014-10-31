@@ -20,15 +20,14 @@ import Dash 0.1
 Item {
     id: root
 
-    property alias image: image
     property string source
+    property alias image: image
     property alias asynchronous: image.asynchronous
     property alias verticalAlignment: image.verticalAlignment
     property alias horizontalAlignment: image.horizontalAlignment
     property alias fillMode: image.fillMode
 
-    CroppedImageSizer
-    {
+    CroppedImageSizer {
         id: sizer
         source: root.source
         width: root.width
