@@ -50,12 +50,11 @@ void UnityMenuModel::setModelData(const QVariant& data)
 {
     beginResetModel();
 
-    m_modelData.clear();
     m_modelData = data.toList();
+    Q_EMIT modelDataChanged();
 
     endResetModel();
 }
-
 
 void UnityMenuModel::insertRow(int row, const QVariant& data)
 {

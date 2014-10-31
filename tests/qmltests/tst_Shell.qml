@@ -25,14 +25,16 @@ import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
+import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
 import "../../qml"
 
-Row {
+Item {
     id: root
-    spacing: 0
+    width: units.gu(60)
+    height: units.gu(71)
 
     QtObject {
         id: applicationArguments
@@ -50,50 +52,71 @@ Row {
         }
     }
 
-    Loader {
-        id: shellLoader
+    Row {
+        anchors.fill: parent
+        Loader {
+            id: shellLoader
 
-        // Copied from Shell.qml
-        property bool tablet: false
-        width: tablet ? units.gu(160)
-                      : applicationArguments.hasGeometry() ? applicationArguments.width()
-                                                           : units.gu(40)
-        height: tablet ? units.gu(100)
-                       : applicationArguments.hasGeometry() ? applicationArguments.height()
-                                                            : units.gu(71)
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    property string indicatorProfile: "phone"
 
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            Shell {
-                Component.onDestruction: {
-                    shellLoader.itemDestroyed = true;
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true;
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            color: "white"
+            width: units.gu(30)
+            height: shellLoader.height
+
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    Button {
+                        text: "Show Greeter"
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
+
+                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            if (!greeter.shown) {
+                                greeter.show();
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    Rectangle {
-        color: "white"
-        width: units.gu(30)
-        height: shellLoader.height
+    Component {
+        id: mockNotification
 
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return;
+        QtObject {
+            function invokeAction(actionId) {
+                mockNotificationsModel.actionInvoked(actionId)
+            }
+        }
+    }
+    ListModel {
+        id: mockNotificationsModel
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter");
-                        if (!greeter.shown) {
-                            greeter.show();
-                        }
-                    }
-                }
+        signal actionInvoked(string actionId)
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockNotificationsModel)
+        }
+
+        onActionInvoked: {
+            if(actionId == "ok_id") {
+                mockNotificationsModel.clear()
             }
         }
     }
@@ -119,6 +142,12 @@ Row {
         signalName: "unlockingAllModems"
     }
 
+    SignalSpy {
+        id: notificationActionSpy
+        target: mockNotificationsModel
+        signalName: "actionInvoked"
+    }
+
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
@@ -132,6 +161,8 @@ Row {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
@@ -142,6 +173,7 @@ Row {
         }
 
         function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             launcherShowDashHomeSpy.target = null;
 
             shellLoader.itemDestroyed = false;
@@ -176,6 +208,65 @@ Row {
                 ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
             }
             compare(ApplicationManager.count, 1)
+        }
+
+        function test_snapDecisionDismissalReturnsFocus() {
+            var notifications = findChild(shell, "notificationList");
+            var app = ApplicationManager.startApplication("camera-app");
+            var stage = findChild(shell, "stage")
+            // Open an application and focus
+            waitUntilApplicationWindowIsFullyVisible(app);
+            ApplicationManager.focusApplication(app);
+            tryCompare(app.session.surface, "activeFocus", true);
+
+            notifications.model = mockNotificationsModel;
+
+            // FIXME: Hack: SortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // for mocking here (RoleType can't be found in the QML model). As we only need to show
+            // one SnapDecision lets just disable the filtering and make appear any notification as a
+            // SnapDecision.
+            var snapDecisionProxyModel = findInvisibleChild(shell, "snapDecisionProxyModel");
+            snapDecisionProxyModel.filterRegExp = RegExp("");
+
+            // Pop-up a notification
+            addSnapDecisionNotification();
+            waitForRendering(shell);
+
+            // Make sure the notification really opened
+            var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
+            verify(notification !== undefined && notification != null, "notification wasn't found");
+            tryCompare(notification, "height", notification.implicitHeight)
+            waitForRendering(notification);
+
+            // Make sure activeFocus went away from the app window
+            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(stage, "interactive", false);
+
+            // Clicking the button should dismiss the notification and return focus
+            var buttonAccept = findChild(notification, "notify_button0");
+            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+
+            // Make sure we're back to normal
+            tryCompare(app.session.surface, "activeFocus", true);
+            compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
+        }
+
+        function addSnapDecisionNotification() {
+            var n = {
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-affirmative-tint": "true"},
+                summary: "Tom Ato",
+                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+                icon: "../graphics/avatars/funky.png",
+                secondaryIcon: "../graphics/applicationIcons/facebook.png",
+                actions: [{ id: "ok_id", label: "Ok"},
+                    { id: "cancel_id", label: "Cancel"},
+                    { id: "notreally_id", label: "Not really"},
+                    { id: "noway_id", label: "messages:No way"},
+                    { id: "nada_id", label: "messages:Nada"}]
+            }
+
+            mockNotificationsModel.append(n)
         }
 
         function test_leftEdgeDrag_data() {
@@ -294,7 +385,7 @@ Row {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             compare(dashCommunicatorSpy.count, 1);
-            compare(dashCommunicatorSpy.signalArguments[0][0], "clickscope");
+            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
         }
 
         function test_showInputMethod() {
@@ -345,7 +436,7 @@ Row {
             var touchX = shell.width / 2;
             var indicators = findChild(shell, "indicators");
             touchFlick(indicators,
-                    touchX /* fromX */, indicators.panelHeight * 0.5 /* fromY */,
+                    touchX /* fromX */, indicators.minimizedPanelHeight * 0.5 /* fromY */,
                     touchX /* toX */, shell.height * 0.5 /* toY */,
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
@@ -382,7 +473,7 @@ Row {
             var indicators = findChild(shell, "indicators");
 
             var touchStartX = shell.width / 2;
-            var touchStartY = shell.height - (indicators.panelHeight * 0.5);
+            var touchStartY = shell.height - (indicators.minimizedPanelHeight * 0.5);
             touchFlick(shell,
                     touchStartX, touchStartY,
                     touchStartX, shell.height * 0.1);
@@ -558,8 +649,6 @@ Row {
         }
 
         function test_unlockAllModemsOnBoot() {
-            // TODO reenable when service ready (LP: #1361074)
-            expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
         }
 

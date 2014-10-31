@@ -37,6 +37,8 @@ Module {
             Parameter { name: "error"; type: "string" }
         }
         Signal { name: "purchaseCompleted" }
+        Signal { name: "purchaseCancelled" }
         Method { name: "start" }
+        Method { name: "process" }
     }
 }

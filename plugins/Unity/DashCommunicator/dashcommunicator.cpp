@@ -27,12 +27,12 @@ DashCommunicator::DashCommunicator(QObject *parent):
     start();
 }
 
-void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
+void DashCommunicator::setCurrentScope(int index, bool animate, bool isSwipe)
 {
     m_mutex.lock();
     if (m_created) {
         QMetaObject::invokeMethod(m_dashConnection, "setCurrentScope",
-                                  Q_ARG(QString, scopeId),
+                                  Q_ARG(int, index),
                                   Q_ARG(bool, animate),
                                   Q_ARG(bool, isSwipe));
     }

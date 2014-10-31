@@ -20,7 +20,6 @@ import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
-import "../Components/Flickables" as Flickables
 
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
@@ -31,6 +30,7 @@ Item {
     property alias secondaryIconSource: secondaryIcon.source
     property alias summary: summaryLabel.text
     property alias body: bodyLabel.text
+    property alias value: valueIndicator.value
     property var actions
     property var notificationId
     property var type
@@ -40,6 +40,7 @@ Item {
     property bool fullscreen: false
     property int maxHeight
     property int margins
+    readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
     readonly property color red: "#fc4949"
     readonly property color green: "#3fb24f"
     readonly property color sdLightGrey: "#eaeaea"
@@ -48,9 +49,9 @@ Item {
     readonly property real contentSpacing: units.gu(2)
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + contentSpacing * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
 
-    color: type == Notification.SnapDecision ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
+    color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
 
     state: {
@@ -78,12 +79,19 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
+        audioRole: MediaPlayer.alert
         source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
     }
 
     // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
         if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
+            sound.play();
+        }
+    }
+
+    onHintsChanged: {
+        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
             sound.play();
         }
     }
@@ -126,6 +134,7 @@ Item {
             fill: parent
             leftMargin: notification.margins
             rightMargin: notification.margins
+            topMargin: type === Notification.Confirmation ? units.gu(.5) : 0
         }
         color: parent.color
         opacity: parent.opacity
@@ -206,10 +215,10 @@ Item {
                 right: parent.right
                 top: parent.top
                 margins: 0
-                topMargin: fullscreen ? 0 : units.gu(2)
+                topMargin: fullscreen ? 0 : type === Notification.Confirmation ? units.gu(1) : units.gu(2)
             }
 
-            spacing: units.gu(2)
+            spacing: type === Notification.Confirmation ? units.gu(1) : units.gu(2)
 
             Row {
                 id: topRow
@@ -228,7 +237,7 @@ Item {
                     width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
                     height: width
                     shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
-                    visible: iconSource !== undefined && iconSource != ""
+                    visible: iconSource !== undefined && iconSource !== "" && type !== Notification.Confirmation
                 }
 
                 Column {
@@ -245,8 +254,9 @@ Item {
                             left: parent.left
                             right: parent.right
                         }
+                        visible: type !== Notification.Confirmation
                         fontSize: "medium"
-                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -259,9 +269,9 @@ Item {
                             left: parent.left
                             right: parent.right
                         }
-                        visible: body != ""
+                        visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
-                        color: type == Notification.SnapDecision ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
@@ -282,6 +292,59 @@ Item {
 
             ListItem.ThinDivider {
                 visible: type == Notification.SnapDecision
+            }
+
+            ShapedIcon {
+                id: centeredIcon
+                objectName: "centeredIcon"
+                width: units.gu(5)
+                height: width
+                shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
+                fileSource: icon.fileSource
+                visible: fileSource !== undefined && fileSource !== "" && type === Notification.Confirmation
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Label {
+                id: valueLabel
+                objectName: "valueLabel"
+                text: body
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: type === Notification.Confirmation && body !== ""
+                fontSize: "medium"
+                color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                wrapMode: Text.WordWrap
+                maximumLineCount: 1
+                elide: Text.ElideRight
+                textFormat: Text.PlainText
+            }
+
+            UbuntuShape {
+                id: valueIndicator
+                objectName: "valueIndicator"
+                visible: type === Notification.Confirmation
+                property double value
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: contentSpacing
+                }
+
+                height: units.gu(1)
+                color: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
+                borderSource: "none"
+                radius: "small"
+
+                UbuntuShape {
+                    id: innerBar
+                    objectName: "innerBar"
+                    width: valueIndicator.width * valueIndicator.value / 100
+                    height: units.gu(1)
+                    color: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
+                    borderSource: "none"
+                    radius: "small"
+                }
             }
 
             Column {
@@ -456,7 +519,7 @@ Item {
                 onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
                 expanded: false
                 expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
-                comboList: Flickables.Flickable {
+                comboList: Flickable {
                     // this has to be wrapped inside a flickable
                     // to work around a feature/bug? of the
                     // ComboButton SDK-element, making a regular
