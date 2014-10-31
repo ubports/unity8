@@ -99,7 +99,7 @@ void CroppedImageSizer::requestFinished()
     if (imageSize.isValid()) {
         if (m_height > 0 && imageSize.height() > 0) {
             const qreal ar = m_width / m_height;
-            const qreal ssar = imageSize.width() / imageSize.height();
+            const qreal ssar = imageSize.width() / (qreal)imageSize.height();
             if (ar > ssar) {
                 m_sourceSize = QSize(m_width, 0);
             } else {

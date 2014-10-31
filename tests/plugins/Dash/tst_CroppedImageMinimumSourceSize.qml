@@ -41,8 +41,13 @@ Rectangle {
         when: windowShown
 
         function test_croppedSource() {
+            cimss.width = 100;
             tryCompare(cimss.image.sourceSize, "width", 100);
             tryCompare(cimss.image.sourceSize, "height", 0);
+
+            cimss.width = 40;
+            tryCompare(cimss.image.sourceSize, "width", 0);
+            tryCompare(cimss.image.sourceSize, "height", 100);
         }
     }
 }
