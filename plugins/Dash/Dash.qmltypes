@@ -40,9 +40,12 @@ Module {
         Property { name: "forceNoClip"; type: "bool" }
         Property { name: "stickyHeaderHeight"; type: "int"; isReadonly: true }
         Property { name: "headerItemShownHeight"; type: "double"; isReadonly: true }
+        Property { name: "cacheBuffer"; type: "double" }
         Signal { name: "headerChanged" }
         Method { name: "positionAtBeginning" }
         Method { name: "showHeader" }
+        Method { name: "firstCreatedIndex"; type: "int" }
+        Method { name: "createdItemCount"; type: "int" }
         Method {
             name: "item"
             type: "QQuickItem*"

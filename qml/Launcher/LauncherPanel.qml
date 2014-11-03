@@ -21,7 +21,6 @@ import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
 import "../Components/"
-import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -76,7 +75,7 @@ Rectangle {
                 anchors.fill: parent
                 clip: true
 
-                Flickables.ListView {
+                ListView {
                     id: launcherListView
                     objectName: "launcherListView"
                     anchors {
@@ -151,7 +150,6 @@ Rectangle {
                         count: model.count
                         countVisible: model.countVisible
                         progress: model.progress
-                        pinned: model.pinned
                         itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
@@ -462,10 +460,6 @@ Rectangle {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
-                pinned: dndArea.draggedIndex > -1 &&
-                        LauncherModel.get(dndArea.draggedIndex).pinned &&
-                        !dndArea.preDragging &&
-                        !dndArea.dragging
 
                 function flatten() {
                     fakeDragItemAnimation.start();

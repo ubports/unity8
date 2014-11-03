@@ -21,19 +21,15 @@
 #include <QDebug>
 
 DBusDashCommunicatorService::DBusDashCommunicatorService(QObject *parent):
-    QObject(parent)
+    UnityDBusObject("/com/canonical/UnityDash", "com.canonical.UnityDash", false, parent)
 {
-    QDBusConnection connection = QDBusConnection::sessionBus();
-
-    connection.registerService("com.canonical.UnityDash");
-    connection.registerObject("/com/canonical/UnityDash", this, QDBusConnection::ExportScriptableSlots);
 }
 
 DBusDashCommunicatorService::~DBusDashCommunicatorService()
 {
 }
 
-void DBusDashCommunicatorService::SetCurrentScope(const QString &scopeId, bool animate, bool isSwipe)
+void DBusDashCommunicatorService::SetCurrentScope(int index, bool animate, bool isSwipe)
 {
-    Q_EMIT setCurrentScopeRequested(scopeId, animate, isSwipe);
+    Q_EMIT setCurrentScopeRequested(index, animate, isSwipe);
 }

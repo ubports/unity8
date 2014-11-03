@@ -33,6 +33,23 @@ DashRenderer {
     // in case the model is non empty
     readonly property double minHeight: root.model.count >= 1 ? cardVerticalJournal.rowSpacing + 1 : 0
 
+    function clearView() {
+        cardVerticalJournal.model = null;
+        cardVerticalJournal.model = root.model;
+    }
+
+    // Clear the view if the cardTool changes its sizes
+    // means it is still settling. This is
+    // necessary because the VerticalJournal does
+    // not support its elements changing height so
+    // we need to construct all the items with the settled
+    // size of the cardTool
+    Connections {
+        target: cardTool
+        onArtShapeSizeChanged: root.clearView();
+        onHeaderHeightChanged: root.clearView();
+    }
+
     ResponsiveVerticalJournal {
         id: cardVerticalJournal
 

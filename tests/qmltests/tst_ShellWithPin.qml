@@ -61,6 +61,8 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
+                    property string indicatorProfile: "phone"
+
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true
                     }
@@ -127,6 +129,7 @@ Item {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
             sessionSpy.target = findChild(shell, "greeter")
             swipeAwayGreeter()
             waitForLockscreen()
@@ -135,6 +138,8 @@ Item {
         }
 
         function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+
             shellLoader.itemDestroyed = false
 
             shellLoader.active = false

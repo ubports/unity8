@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.0
 import Ubuntu.Components.Popups 1.0
+import Ubuntu.Telephony 0.1 as Telephony
 
 Showable {
     id: root
@@ -55,6 +56,8 @@ Showable {
     property int maxPinLength: -1
 
     property url background: ""
+
+    readonly property string passphrase: (pinPadLoader.item && pinPadLoader.item.passphrase) ? pinPadLoader.item.passphrase : ""
 
     signal entered(string passphrase)
     signal cancel()
@@ -217,7 +220,7 @@ Showable {
             objectName: "emergencyCallLabel"
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: i18n.tr("Emergency Call")
+            text: callManager.hasCalls ? i18n.tr("Return to Call") : i18n.tr("Emergency Call")
             color: "#f3f3e7"
         }
 

@@ -21,13 +21,13 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import "../.."
 
 Page {
-    id: page
+    id: root
 
     title: indicatorProperties && indicatorProperties.title ?  indicatorProperties.title : ""
     property variant indicatorProperties
-    property string pageSource : pageLoader.source
 
     anchors.fill: parent
 
@@ -44,6 +44,7 @@ Page {
         id: pageLoader
         objectName: "pageLoader"
         clip:true
+        asynchronous: true
 
         Rectangle {
             anchors.fill: pageLoader
@@ -58,15 +59,25 @@ Page {
             topMargin: units.gu(2)
             bottomMargin: units.gu(2)
         }
-        source : visualCheck.checked ? page.pageSource : "IndicatorsTree.qml"
+        sourceComponent: visualCheck.checked ? page : tree
 
-        onLoaded: {
-            for(var pName in indicatorProperties) {
-                if (item.hasOwnProperty(pName)) {
-                    item[pName] = indicatorProperties[pName];
-                }
+        Component {
+            id: page
+            IndicatorPage {
+                identifier: model.identifier
+                busName: indicatorProperties.busName
+                actionsObjectPath: indicatorProperties.actionsObjectPath
+                menuObjectPath: indicatorProperties.menuObjectPath
             }
-            item.start();
+        }
+        Component {
+            id: tree
+            IndicatorsTree {
+                identifier: model.identifier
+                busName: indicatorProperties.busName
+                actionsObjectPath: indicatorProperties.actionsObjectPath
+                menuObjectPath: indicatorProperties.menuObjectPath
+            }
         }
     }
 
@@ -85,7 +96,7 @@ Page {
                 left: parent.left
             }
             text: "Back"
-            onClicked: page.pageStack.reset()
+            onClicked: root.pageStack.reset()
         }
     }
 }

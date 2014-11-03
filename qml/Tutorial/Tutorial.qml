@@ -21,7 +21,7 @@ Item {
     id: root
 
     property Item launcher
-    property Item indicators
+    property Item panel
     property Item stages
 
     readonly property bool launcherEnabled: !running ||
@@ -69,19 +69,19 @@ Item {
     }
 
     Connections {
-        target: root.indicators
+        target: root.panel.indicators
 
         onFullyOpenedChanged: {
             if (loader.sourceComponent === topComponent &&
-                    root.indicators.fullyOpened) {
+                    root.panel.indicators.fullyOpened) {
                 loader.load(topFinishComponent);
             }
         }
 
         onPartiallyOpenedChanged: {
             if (loader.sourceComponent === topFinishComponent &&
-                    !root.indicators.partiallyOpened &&
-                    !root.indicators.fullyOpened) {
+                    !root.panel.indicators.partiallyOpened &&
+                    !root.panel.indicators.fullyOpened) {
                 loader.load(leftComponent);
             }
         }
@@ -178,7 +178,7 @@ Item {
             objectName: "tutorialTop"
             parent: root.stages
             anchors.fill: parent
-            anchors.topMargin: root.indicators.panelHeight
+            anchors.topMargin: root.panel.indicators.panelHeight
             pageNumber: 1
             backgroundFadesIn: false
         }
@@ -188,7 +188,7 @@ Item {
         id: topFinishComponent
         TutorialTopFinish {
             objectName: "tutorialTopFinish"
-            parent: root.indicators
+            parent: root.panel.indicators
             anchors.bottom: parent ? parent.content.bottom : undefined
             anchors.left: parent ? parent.content.left : undefined
             anchors.right: parent ? parent.content.right : undefined

@@ -31,7 +31,7 @@ DashCommunicator::~DashCommunicator()
 }
 
 
-void DashCommunicator::setCurrentScope(const QString &scopeId, bool animate, bool reset)
+void DashCommunicator::setCurrentScope(int index, bool animate, bool reset)
 {
-    Q_EMIT setCurrentScopeCalled(scopeId, animate, reset);
+    Q_EMIT setCurrentScopeCalled(index, animate, reset);
 }
