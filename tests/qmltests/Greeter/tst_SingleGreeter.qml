@@ -69,6 +69,12 @@ Item {
         signalName: "tease"
     }
 
+    SignalSpy {
+        id: infographicDataChangedSpy
+        target: LightDM.Infographic
+        signalName: "dataChanged"
+    }
+
     UT.UnityTestCase {
         name: "SingleGreeter"
         when: windowShown
@@ -122,6 +128,29 @@ Item {
             var selectedSpy = findChild(greeter, "selectedSpy");
             selectedSpy.wait();
             tryCompare(selectedSpy, "count", 1);
+        }
+
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1388359
+            "User metrics can no longer be changed by double tap"
+        */
+        function test_doubleTapSwitchesToNextInfographic() {
+            infographicDataChangedSpy.clear();
+
+            var infographicPrivate = findInvisibleChild(greeter, "infographicPrivate");
+            verify(infographicPrivate);
+
+            // wait for the UI to settle down before double tapping it
+            tryCompare(infographicPrivate, "animating", false);
+
+            var dataCircle = findChild(greeter, "dataCircle");
+            verify(dataCircle);
+
+            tap(dataCircle);
+            wait(1);
+            tap(dataCircle);
+
+            tryCompare(infographicDataChangedSpy, "count", 1);
         }
     }
 }
