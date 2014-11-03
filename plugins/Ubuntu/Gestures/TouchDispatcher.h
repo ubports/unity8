@@ -71,6 +71,8 @@ private:
     QMouseEvent *touchToMouseEvent(QEvent::Type type, const QTouchEvent::TouchPoint &p,
             ulong timestamp, Qt::KeyboardModifiers modifiers, bool transformNeeded = true);
 
+    bool checkIfDoubleClicked(ulong newPressEventTimestamp);
+
     QPointer<QQuickItem> m_targetItem;
 
     enum {
@@ -81,6 +83,7 @@ private:
     } m_status;
 
     int m_touchMouseId;
+    ulong m_touchMousePressTimestamp;
 };
 
 #endif // UBUNTU_TOUCH_DISPATCHER_H
