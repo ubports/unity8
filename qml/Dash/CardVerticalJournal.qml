@@ -49,6 +49,7 @@ DashRenderer {
             id: loader
             sourceComponent: cardTool.cardComponent
             width: cardTool.cardWidth
+            asynchronous: true
             onLoaded: {
                 item.objectName = "delegate" + index;
                 item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
