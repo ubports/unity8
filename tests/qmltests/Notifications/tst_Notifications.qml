@@ -61,24 +61,6 @@ Row {
         }
     }
 
-    function addSnapDecisionNotification() {
-        var n = {
-            type: Notification.SnapDecision,
-            hints: {"x-canonical-private-affirmative-tint": "true"},
-            summary: "Tom Ato",
-            body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-            icon: "../graphics/avatars/funky.png",
-            secondaryIcon: "../graphics/applicationIcons/facebook.png",
-            actions: [{ id: "ok_id", label: "Ok"},
-                      { id: "cancel_id", label: "Cancel"},
-                      { id: "notreally_id", label: "Not really"},
-                      { id: "noway_id", label: "messages:No way"},
-                      { id: "nada_id", label: "messages:Nada"}]
-        }
-
-        mockModel.append(n)
-    }
-
     function add2over1SnapDecisionNotification() {
         var n = {
             type: Notification.SnapDecision,
@@ -193,12 +175,6 @@ Row {
 
             Button {
                 width: parent.width
-                text: "add a snap-decision"
-                onClicked: addSnapDecisionNotification()
-            }
-
-            Button {
-                width: parent.width
                 text: "add a 2over1 snap-decision"
                 onClicked: add2over1SnapDecisionNotification()
             }
@@ -248,29 +224,6 @@ Row {
 
         function test_NotificationRenderer_data() {
             return [
-            {
-                tag: "Snap Decision with secondary icon and button-tint",
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-affirmative-tint": "true"},
-                summary: "Tom Ato",
-                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-                icon: "../graphics/avatars/funky.png",
-                secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                actions: [{ id: "ok_id", label: "Ok"},
-                          { id: "cancel_id", label: "Cancel"},
-                          { id: "notreally_id", label: "Not really"},
-                          { id: "noway_id", label: "messages:No way"},
-                          { id: "nada_id", label: "messages:Nada"}],
-                summaryVisible: true,
-                bodyVisible: true,
-                iconVisible: true,
-                shapedIcon: true,
-                nonShapedIcon: false,
-                secondaryIconVisible: true,
-                buttonRowVisible: true,
-                buttonTinted: true,
-                hasSound: false
-            },
             {
                 tag: "2-over-1 Snap Decision with button-tint",
                 type: Notification.SnapDecision,
@@ -498,31 +451,9 @@ Row {
                 actionSpy.clear()
                 waitForRendering(notification)
 
-                // check if there's a ComboButton created due to more actions being passed
-                if (data.actions.length > 2) {
-                    var comboButton = findChild(notification, "notify_button2")
-                    tryCompareFunction(function() { return comboButton.expanded == false; }, true);
-
-                    // click to expand
-                    tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == true; }, true);
-
-                    // try clicking on choices in expanded comboList
-                    var choiceButton1 = findChild(notification, "notify_button3")
-                    tryCompareFunction(function() { mouseClick(choiceButton1, choiceButton1.width / 2, choiceButton1.height / 2); return actionSpy.signalArguments.length > 0; }, true);
-                    compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
-                    actionSpy.clear()
-
-                    var choiceButton2 = findChild(notification, "notify_button4")
-                    tryCompareFunction(function() { mouseClick(choiceButton2, choiceButton2.width / 2, choiceButton2.height / 2); return actionSpy.signalArguments.length > 0; }, true);
-                    compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
-                    actionSpy.clear()
-
-                    // click to collapse
-                    //tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
-                } else {
-                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
-                }
+                // click one of the buttons
+                mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
             }
         }
     }
