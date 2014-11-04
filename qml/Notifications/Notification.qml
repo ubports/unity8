@@ -93,13 +93,8 @@ Item {
 
         //enabled: menuItemFactory.progress == 1
         enabled: true
-        SequentialAnimation {
-            PauseAnimation {
-                duration: UbuntuAnimation.SnapDuration
-            }
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.SnapDuration
-            }
+        UbuntuNumberAnimation {
+            duration: UbuntuAnimation.SnapDuration
         }
     }
 
@@ -171,18 +166,6 @@ Item {
                 lastNameOwner = nameOwner
             }
         }
-
-        Behavior on implicitHeight {
-            id: heightBehavior
-
-            enabled: false
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.SnapDuration
-            }
-        }
-
-        // delay enabling height behavior until the add transition is complete
-        onOpacityChanged: if (opacity == 1) heightBehavior.enabled = true
 
         MouseArea {
             id: interactiveArea

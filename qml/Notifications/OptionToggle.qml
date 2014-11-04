@@ -29,12 +29,6 @@ UbuntuShape {
 
     signal triggered(string id)
 
-    Behavior on height {
-        UbuntuNumberAnimation {
-            duration: UbuntuAnimation.SnapDuration
-        }
-    }
-
     color: Theme.palette.normal.base
     borderSource: "none"
     height: expanded ? (optionToggleRepeater.count - startIndex) * itemHeight : itemHeight
