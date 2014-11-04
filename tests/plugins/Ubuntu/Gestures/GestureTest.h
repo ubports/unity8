@@ -52,12 +52,14 @@ public:
     std::function<void(QMouseEvent*)> mousePressEventHandler;
     std::function<void(QMouseEvent*)> mouseMoveEventHandler;
     std::function<void(QMouseEvent*)> mouseReleaseEventHandler;
+    std::function<void(QMouseEvent*)> mouseDoubleClickEventHandler;
 protected:
     void touchEvent(QTouchEvent *event) override;
 
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
 private:
     static void defaultTouchEventHandler(QTouchEvent *event);
     static void defaultMouseEventHandler(QMouseEvent *event);
