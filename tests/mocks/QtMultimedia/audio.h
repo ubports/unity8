@@ -27,16 +27,25 @@ class Audio: public QObject
 {
     Q_OBJECT
     Q_ENUMS(PlaybackState)
+    Q_ENUMS(AudioRole)
     Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(PlaybackState playbackState READ playbackState NOTIFY playbackStateChanged)
     Q_PROPERTY(int position READ position NOTIFY positionChanged)
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorStringChanged)
+    Q_PROPERTY(AudioRole audioRole READ audioRole WRITE setAudioRole)
 public:
     enum PlaybackState {
         PlayingState,
         PausedState,
         StoppedState
+    };
+
+    enum AudioRole {
+        AlarmRole,
+        AlertRole,
+        MultimediaRole,
+        PhoneRole
     };
 
     explicit Audio(QObject *parent = 0);
@@ -51,6 +60,9 @@ public:
     int duration() const;
 
     QString errorString() const;
+
+    AudioRole audioRole() const;
+    void setAudioRole(AudioRole audioRole);
 
 public Q_SLOTS:
     void pause();
