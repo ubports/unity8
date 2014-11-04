@@ -431,20 +431,20 @@ Item {
             }
 
             // Doing longpress
-            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
-            tryCompare(quickListShape, "opacity", 0.8)
+            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2);
+            tryCompare(quickListShape, "opacity", 0.96);
             mouseRelease(draggedItem);
 
-            verify(quickList.y >= units.gu(1))
-            verify(quickList.y + quickList.height + units.gu(1) <= launcher.height)
+            verify(quickList.y >= units.gu(1));
+            verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
 
             // Click somewhere in the empty space to dismiss the quicklist
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            tryCompare(quickListShape, "visible", false)
+            tryCompare(quickListShape, "visible", false);
 
             // Click somewhere in the empty space to dismiss the launcher
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            waitUntilLauncherDisappears()
+            waitUntilLauncherDisappears();
         }
 
         function test_quicklist_click_data() {
