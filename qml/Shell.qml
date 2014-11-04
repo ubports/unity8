@@ -133,23 +133,32 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        z: edgeDemo.z + 10
+        enabled: Powerd.status === Powerd.On
+    }
+
     Binding {
         target: ApplicationManager
         property: "forceDashActive"
         value: launcher.shown || launcher.dashSwipe
     }
 
+    VolumeKeyFilter {
+        id: volumeKeyFilter
+        onVolumeDownPressed: volumeControl.volumeDown()
+        onVolumeUpPressed: volumeControl.volumeUp()
+        onBothVolumeKeysPressed: screenGrabber.capture()
+    }
 
     WindowKeysFilter {
-        // Handle but do not filter out volume keys
-        Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
-        Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
-
         Keys.onPressed: {
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyPressed();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyPressed(event.key);
                 event.accepted = false;
             }
         }
@@ -159,6 +168,7 @@ Item {
                 dialogs.onPowerKeyReleased();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyReleased(event.key);
                 event.accepted = false;
             }
         }
