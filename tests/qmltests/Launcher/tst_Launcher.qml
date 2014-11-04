@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
+import Ubuntu.Components 1.1
 import ".."
 import "../../../qml/Launcher"
 import Unity.Launcher 0.1
@@ -71,6 +72,12 @@ Item {
                 }
             }
         }
+    }
+
+    Button {
+        anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
+        text: "emit hinting signal"
+        onClicked: LauncherModel.emitHint()
     }
 
     SignalSpy {
@@ -226,6 +233,21 @@ Item {
             }
             waitUntilLauncherDisappears();
             launcher.available = true;
+        }
+
+        function test_hintLauncherOnChange() {
+            var launcherPanel = findChild(launcher, "launcherPanel")
+            // Make sure we start hidden
+            tryCompare(launcherPanel, "x", -launcher.panelWidth)
+            // reset our measurement property
+            launcher.maxPanelX = -launcher.panelWidth
+            // change it
+            LauncherModel.move(0, 1)
+            LauncherModel.emitHint();
+
+            // make sure it opened fully and hides again without delay
+            tryCompare(launcher, "maxPanelX", 0)
+            tryCompare(launcherPanel, "x", -launcher.panelWidth, 1000)
         }
 
         function test_countEmblems() {
