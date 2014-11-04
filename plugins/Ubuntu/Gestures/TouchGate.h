@@ -18,10 +18,10 @@
 #define UBUNTU_TOUCH_GATE_H
 
 #include "UbuntuGesturesQmlGlobal.h"
+#include "TouchDispatcher.h"
 
 #include <QQuickItem>
 #include <QList>
-#include <QPointer>
 #include <QMap>
 
 #define TOUCHGATE_DEBUG 0
@@ -47,7 +47,7 @@ class UBUNTUGESTURESQML_EXPORT TouchGate : public QQuickItem {
 public:
     bool event(QEvent *e) override;
 
-    QQuickItem *targetItem() { return m_targetItem; }
+    QQuickItem *targetItem() { return m_dispatcher.targetItem(); }
     void setTargetItem(QQuickItem *item);
 
 Q_SIGNALS:
@@ -66,7 +66,7 @@ private:
         QTouchDevice *device;
         Qt::KeyboardModifiers modifiers;
         QList<QTouchEvent::TouchPoint> touchPoints;
-        QObject *target;
+        QQuickItem *target;
         QWindow *window;
         ulong timestamp;
     };
@@ -80,23 +80,7 @@ private:
 
     void dispatchTouchEventToTarget(const TouchEvent &event);
     void dispatchTouchEventToTarget(QTouchEvent* event);
-    void dispatchTouchEventToTarget(
-        QEvent::Type eventType,
-        QTouchDevice *device,
-        Qt::KeyboardModifiers modifiers,
-        const QList<QTouchEvent::TouchPoint> &touchPoints,
-        QObject *target,
-        QWindow *window,
-        ulong timestamp);
 
-    void transformTouchPoints(QList<QTouchEvent::TouchPoint> &touchPoints, const QTransform &transform);
-    static QTouchEvent *createQTouchEvent(QEvent::Type eventType,
-            QTouchDevice *device,
-            Qt::KeyboardModifiers modifiers,
-            const QList<QTouchEvent::TouchPoint> &touchPoints,
-            QObject *target,
-            QWindow *window,
-            ulong timestamp);
     void removeTouchInfoForEndedTouches(const QList<QTouchEvent::TouchPoint> &touchPoints);
 
     #if TOUCHGATE_DEBUG
@@ -118,7 +102,7 @@ private:
     };
     QMap<int, TouchInfo> m_touchInfoMap;
 
-    QPointer<QQuickItem> m_targetItem;
+    TouchDispatcher m_dispatcher;
 
     friend class tst_TouchGate;
 };

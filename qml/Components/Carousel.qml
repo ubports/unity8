@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "carousel.js" as CarouselJS
-import "Flickables" as Flickables
 
 /*! The Carousel component presents the items of a model in a carousel view. It's similar to a
     cover flow. But it stops at it's boundaries (therefore no PathView is used).
@@ -64,7 +63,7 @@ Item {
        and footer item to compensate that.
 
        The scaling of the items is controlled by the variable continuousIndex, described below. */
-    Flickables.ListView {
+    ListView {
         id: listView
         objectName: "listView"
 
@@ -136,6 +135,8 @@ Item {
 
         boundsBehavior: Flickable.DragOverBounds
         cacheBuffer: carousel.cacheBuffer
+        flickDeceleration: Math.max(1500 * Math.pow(realWidth / referenceWidth, 1.5), 1500) // 1500 is platform default
+        maximumFlickVelocity: Math.max(2500 * Math.pow(realWidth / referenceWidth, 1.5), 2500) // 2500 is platform default
         orientation: ListView.Horizontal
 
         function getXFromContinuousIndex(index) {

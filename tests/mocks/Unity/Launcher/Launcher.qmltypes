@@ -85,12 +85,21 @@ Module {
         Property { name: "recent"; type: "bool"; isReadonly: true }
         Property { name: "progress"; type: "int"; isReadonly: true }
         Property { name: "count"; type: "int"; isReadonly: true }
+        Property { name: "countVisible"; type: "bool"; isReadonly: true }
         Property { name: "focused"; type: "bool"; isReadonly: true }
         Property {
             name: "quickList"
             type: "unity::shell::launcher::QuickListModelInterface"
             isReadonly: true
             isPointer: true
+        }
+        Signal {
+            name: "nameChanged"
+            Parameter { name: "name"; type: "string" }
+        }
+        Signal {
+            name: "iconChanged"
+            Parameter { name: "icon"; type: "string" }
         }
         Signal {
             name: "pinnedChanged"
@@ -111,6 +120,10 @@ Module {
         Signal {
             name: "countChanged"
             Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "countVisibleChanged"
+            Parameter { name: "countVisible"; type: "bool" }
         }
         Signal {
             name: "focusedChanged"

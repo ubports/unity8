@@ -31,7 +31,7 @@ public:
     ~DashCommunicator() = default;
 
 public Q_SLOTS:
-    void setCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
+    void setCurrentScope(int index, bool animate, bool isSwipe);
 
 protected:
     void run() override;

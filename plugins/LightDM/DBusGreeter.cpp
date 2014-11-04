@@ -20,11 +20,9 @@
 #include <QDBusMessage>
 #include <QStringList>
 
-DBusGreeter::DBusGreeter(Greeter *greeter, const QDBusConnection &connection, const QString &path)
- : QObject(greeter),
-   m_greeter(greeter),
-   m_connection(connection),
-   m_path(path)
+DBusGreeter::DBusGreeter(Greeter *greeter, const QString &path)
+ : UnityDBusObject(path, "com.canonical.UnityGreeter", true, greeter),
+   m_greeter(greeter)
 {
     connect(m_greeter, SIGNAL(isActiveChanged()), this, SLOT(isActiveChangedHandler()));
 }
@@ -48,23 +46,4 @@ void DBusGreeter::isActiveChangedHandler()
 {
     notifyPropertyChanged("IsActive", isActive());
     Q_EMIT isActiveChanged();
-}
-
-// Manually emit a PropertiesChanged signal over DBus, because QtDBus
-// doesn't do it for us on Q_PROPERTIES, oddly enough.
-void DBusGreeter::notifyPropertyChanged(const QString& propertyName, const QVariant &value)
-{
-    QDBusMessage message;
-    QVariantMap changedProps;
-
-    changedProps.insert(propertyName, value);
-
-    message = QDBusMessage::createSignal(m_path,
-                                         "org.freedesktop.DBus.Properties",
-                                         "PropertiesChanged");
-    message << "com.canonical.UnityGreeter";
-    message << changedProps;
-    message << QStringList();
-
-    m_connection.send(message);
 }
