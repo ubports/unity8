@@ -699,6 +699,8 @@ Item {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            shadeBackground: !edgeDemo.running
+            preventHiding: edgeDemo.running
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -795,6 +797,7 @@ Item {
         launcher: launcher
         panel: panel
         stages: stages
+        overlay: overlay
 
         onFinished: AccountsService.demoEdges = false
     }

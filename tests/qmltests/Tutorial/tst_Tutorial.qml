@@ -106,9 +106,6 @@ Item {
             swipeAwayGreeter();
             AccountsService.demoEdges = false;
             AccountsService.demoEdges = true;
-
-            var tutorial = findChild(shell, "tutorial");
-            tutorial.readingDelay = 1;
         }
 
         function cleanup() {
@@ -157,7 +154,10 @@ Item {
 
         function waitForPage(name) {
             tryCompareFunction(function() { return findChild(shell, name) !== null; }, true);
-            return findChild(shell, name);
+            var page = findChild(shell, name);
+            tryCompare(page, "shown", true);
+            tryCompare(page.showAnimation, "running", false);
+            return page;
         }
 
         function checkTopEdge() {
@@ -201,7 +201,7 @@ Item {
         function goToPage(name) {
             var page = waitForPage("tutorialIntro");
             if (name === "tutorialIntro") return page;
-            // Intro page will pass by itself
+            tap(page);
 
             page = waitForPage("tutorialTop");
             checkLeftEdge();
@@ -224,8 +224,8 @@ Item {
             if (name === "tutorialLeft") return page;
             touchFlick(shell, 0, halfHeight, halfWidth, halfHeight, true, false);
 
-            page = waitForPage("tutorialLeftFinish");
-            if (name === "tutorialLeftFinish") return page;
+            page = waitForPage("tutorialLeftRelease");
+            if (name === "tutorialLeftRelease") return page;
             touchFlick(shell, halfWidth, halfHeight, halfWidth, halfHeight, false, true);
 
             checkFinished();
@@ -262,9 +262,9 @@ Item {
             // Now drag out but not past launcher itself
             touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.9, halfHeight);
 
-            // That actually finishes the launcher tutorial (drag is already
-            // over, it would be silly to show LeftFinish page that asks for a
-            // drag release)
+            waitForPage("tutorialLeftFinish");
+            tap(launcher);
+
             checkFinished();
         }
 
@@ -272,7 +272,7 @@ Item {
             // goToPage does a full launcher pull.  But here we test pulling
             // all the way out, then dragging back into place.
 
-            goToPage("tutorialLeftFinish");
+            goToPage("tutorialLeftRelease");
             touchFlick(shell, halfWidth, halfHeight, 0, halfHeight, false, true);
 
             checkFinished();

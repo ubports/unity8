@@ -20,10 +20,5 @@ import Ubuntu.Components 1.1
 TutorialPage {
     id: root
 
-    title: i18n.tr("Quick tips")
-    text: i18n.tr("The following tips are designed to help you learn how to use your phone.  <b>Tap</b> the screen to continue…")
-
-    mouseArea {
-        onClicked: root.hide()
-    }
+    text: i18n.tr("<b>Release</b> to hide the <b>Launcher</b> again and you’re all set!")
 }

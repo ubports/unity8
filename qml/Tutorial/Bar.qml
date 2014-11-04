@@ -42,7 +42,7 @@ Item {
         gradient: Gradient {
             GradientStop {
                 position: 0.0
-                color: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4) // UbuntuColors.orange, but transparent
+                color: UbuntuColors.orange
             }
             GradientStop {
                 position: 1.0
@@ -78,7 +78,7 @@ Item {
         id: hintAnimation
         loops: Animation.Infinite
         running: root.animating && root.visible
-        property double maxGlow: units.dp(20)
+        property double maxGlow: units.gu(4)
         property int duration: UbuntuAnimation.SleepyDuration
 
         StandardAnimation {

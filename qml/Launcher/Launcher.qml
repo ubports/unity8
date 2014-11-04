@@ -24,6 +24,8 @@ Item {
     id: root
 
     property bool available: true // can be used to disable all interactions
+    property bool shadeBackground: true // can be used to disable background shade when launcher is visible
+    property bool preventHiding: false
 
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
@@ -41,6 +43,18 @@ Item {
 
     // emitted when the dash icon in the launcher has been tapped
     signal showDashHome()
+
+    QtObject {
+        id: d
+
+        property bool preventHiding: root.preventHiding || panel.preventHiding
+
+        onPreventHidingChanged: {
+            if (dismissTimer.running) {
+                dismissTimer.restart();
+            }
+        }
+    }
 
     onStateChanged: {
         if (state == "") {
@@ -79,7 +93,7 @@ Item {
         objectName: "dismissTimer"
         interval: 5000
         onTriggered: {
-            if (!panel.preventHiding) {
+            if (!d.preventHiding) {
                 root.state = ""
             } else {
                 dismissTimer.restart()
@@ -167,7 +181,7 @@ Item {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.state == "visible" ? 0.6 : 0
+        opacity: root.shadeBackground && root.state == "visible" ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
@@ -194,12 +208,6 @@ Item {
         onShowDashHome: {
             root.state = ""
             root.showDashHome();
-        }
-
-        onPreventHidingChanged: {
-            if (dismissTimer.running) {
-                dismissTimer.restart();
-            }
         }
 
         Behavior on x {

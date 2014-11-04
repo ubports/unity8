@@ -23,10 +23,12 @@ Item {
     property Item launcher
     property Item panel
     property Item stages
+    property Item overlay
 
     readonly property bool launcherEnabled: !running ||
                                             loader.sourceComponent === leftComponent ||
-                                            loader.sourceComponent === leftFinishComponent
+                                            loader.sourceComponent === leftFinishComponent ||
+                                            loader.sourceComponent === leftReleaseComponent
     readonly property bool stagesEnabled: !running
     readonly property bool panelEnabled: !running ||
                                          loader.sourceComponent === topComponent ||
@@ -35,8 +37,6 @@ Item {
     readonly property bool running: loader.sourceComponent !== null
 
     property bool paused: false
-
-    property int readingDelay: 3500
 
     signal finished()
 
@@ -72,14 +72,14 @@ Item {
         target: root.panel.indicators
 
         onFullyOpenedChanged: {
-            if (loader.sourceComponent === topComponent &&
+            if (loader.target === topComponent &&
                     root.panel.indicators.fullyOpened) {
                 loader.load(topFinishComponent);
             }
         }
 
         onPartiallyOpenedChanged: {
-            if (loader.sourceComponent === topFinishComponent &&
+            if (loader.target === topFinishComponent &&
                     !root.panel.indicators.partiallyOpened &&
                     !root.panel.indicators.fullyOpened) {
                 loader.load(leftComponent);
@@ -91,34 +91,45 @@ Item {
         target: root.launcher
 
         onProgressChanged: {
-            if (loader.sourceComponent === leftComponent &&
-                    launcher.progress > 0) {
-                loader.load(leftFinishComponent);
+            if (loader.target === leftComponent && launcher.progress > 0) {
+                loader.load(leftReleaseComponent);
             }
         }
 
         onShownChanged: {
-            // This stanza is necessary because user might have dragged launcher
-            // far enough to trigger the progress check above, but then dragged
-            // it back into its original position.
-            if (loader.sourceComponent === leftFinishComponent &&
-                    !launcher.shown) {
+            // This stanza is necessary because user might have dragged the
+            // launcher far enough to trigger the progress check above, but
+            // then dragged it back into its original position.
+            if (loader.target === leftReleaseComponent && !launcher.shown) {
                 loader.load(null);
             }
         }
 
         onStateChanged: {
-            if ((loader.sourceComponent === leftComponent || // happens if user didn't drag past launcher
-                 loader.sourceComponent === leftFinishComponent) &&
-                    launcher.state === "visible") {
-                loader.load(null);
-                launcher.hide();
+            if (launcher.state === "visible") {
+                if (loader.target === leftComponent) {
+                    // happens if user didn't drag past launcher
+                    loader.load(leftFinishComponent);
+                } else if (loader.target === leftReleaseComponent) {
+                    loader.load(null);
+                    launcher.hide();
+                }
             }
         }
     }
 
     Loader {
         id: loader
+
+        property Component target: {
+            if (next) {
+                return next;
+            } else if (loader.item && loader.item.shown) {
+                return sourceComponent;
+            } else {
+                return null;
+            }
+        }
 
         property Component next: null
 
@@ -162,13 +173,7 @@ Item {
             objectName: "tutorialIntro"
             parent: root.stages
             anchors.fill: parent
-            backgroundFadesOut: false
-
-            Timer {
-                interval: root.readingDelay
-                running: !root.paused
-                onTriggered: loader.load(topComponent)
-            }
+            onShownChanged: if (!shown) loader.load(topComponent)
         }
     }
 
@@ -176,11 +181,12 @@ Item {
         id: topComponent
         TutorialTop {
             objectName: "tutorialTop"
-            parent: root.stages
+            parent: root.panel
             anchors.fill: parent
-            anchors.topMargin: root.panel.indicators.panelHeight
+            mouseArea {
+                anchors.topMargin: root.panel.indicators.minimizedPanelHeight
+            }
             pageNumber: 1
-            backgroundFadesIn: false
         }
     }
 
@@ -188,11 +194,14 @@ Item {
         id: topFinishComponent
         TutorialTopFinish {
             objectName: "tutorialTopFinish"
-            parent: root.panel.indicators
-            anchors.bottom: parent ? parent.content.bottom : undefined
-            anchors.left: parent ? parent.content.left : undefined
-            anchors.right: parent ? parent.content.right : undefined
-            height: root.stages.height
+            parent: root.panel
+            anchors.bottom: parent ? parent.bottom : undefined
+            anchors.left: parent ? parent.left : undefined
+            anchors.right: parent ? parent.right : undefined
+            mouseArea {
+                anchors.bottomMargin: root.panel.indicators.hideDragHandle.height
+            }
+            height: root.panel.height
         }
     }
 
@@ -203,7 +212,17 @@ Item {
             parent: root.stages
             anchors.fill: parent
             pageNumber: 2
-            backgroundFadesOut: false
+        }
+    }
+
+    Component {
+        id: leftReleaseComponent
+        TutorialLeftRelease {
+            objectName: "tutorialLeftRelease"
+            parent: root.stages
+            anchors.fill: parent
+            textXOffset: root.launcher.panelWidth
+            backgroundFadesOut: true
         }
     }
 
@@ -214,7 +233,14 @@ Item {
             parent: root.stages
             anchors.fill: parent
             textXOffset: root.launcher.panelWidth
-            backgroundFadesIn: false
+            backgroundFadesOut: true
+            mouseArea {
+                parent: root.overlay
+                onClicked: {
+                    loader.load(null);
+                    root.launcher.hide();
+                }
+            }
         }
     }
 }

@@ -40,16 +40,19 @@ Showable {
     property int pageTotal
 
     // Whether whole page (background + foreground) or just the foreground fades in
-    property bool backgroundFadesIn: true
+    property bool backgroundFadesIn: false
 
     // Whether whole page (background + foreground) or just the foreground fades out
-    property bool backgroundFadesOut: true
+    property bool backgroundFadesOut: false
 
     // An integrated glowing Bar class, for convenience
     property alias bar: bar
 
     // The foreground Item, add children to it that you want to fade in
     property alias foreground: foregroundExtra
+
+    // The MouseArea that eats events (so you can adjust size as you will)
+    property alias mouseArea: mouseArea
 
     // X/Y offsets for text
     property real textXOffset: 0
@@ -120,6 +123,7 @@ Showable {
     }
 
     MouseArea { // eat any errant presses
+        id: mouseArea
         anchors.fill: parent
     }
 
@@ -159,6 +163,7 @@ Showable {
             width: parent.width - d.sideMargin * 2 - root.textXOffset
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
+            fontSize: "large"
             text: root.text
         }
 
