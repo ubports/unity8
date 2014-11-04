@@ -34,5 +34,6 @@ PreviewWidget {
         source: widgetData["source"]
         zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
         anchors.fill: parent
+        asynchronous: true
     }
 }
