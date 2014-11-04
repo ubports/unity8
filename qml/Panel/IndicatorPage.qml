@@ -25,6 +25,7 @@ IndicatorBase {
     //const
     property string title: rootActionState.title
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
+    readonly property alias factory: _factory
 
     Indicators.UnityMenuModelStack {
         id: menuStack
@@ -117,6 +118,16 @@ IndicatorBase {
             }
         }
 
+        Connections {
+            target: mainMenu.model ? mainMenu.model : null
+            onRowsAboutToBeRemoved: {
+                // track current item deletion.
+                if (mainMenu.selectedIndex >= first && mainMenu.selectedIndex <= last) {
+                    mainMenu.selectedIndex = -1;
+                }
+            }
+        }
+
         delegate: Loader {
             id: loader
             objectName: "menuItem" + index
@@ -164,7 +175,7 @@ IndicatorBase {
     }
 
     MenuItemFactory {
-        id: factory
+        id: _factory
         rootModel: main.menuModel ? main.menuModel : null
         menuModel: mainMenu.model ? mainMenu.model : null
     }
