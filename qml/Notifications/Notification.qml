@@ -477,11 +477,11 @@ Item {
                         width: buttonRow.width
                         leftIconName: "call-end"
                         rightIconName: "call-start"
-                        onLeftTriggered: {
+                        onRightTriggered: {
                             notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
                         }
 
-                        onRightTriggered: {
+                        onLeftTriggered: {
                             notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
                         }
                     }

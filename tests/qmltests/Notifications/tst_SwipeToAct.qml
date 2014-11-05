@@ -259,14 +259,14 @@ Item {
                     var x = swipeMouseArea.width / 2
                     var y = swipeMouseArea.height / 2
 
-                    if(data.checkSwipeToActReject) {
-                        tryCompareFunction(function() { mouseDrag(slider, x, y, -(swipeMouseArea.width / 2), 0); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions.data(0, ActionModel.RoleActionId), "got wrong id for negative action")
-                        actionSpy.clear()
-                    }
                     if(data.checkSwipeToActAccept) {
                         tryCompareFunction(function() { mouseDrag(slider, x, y, (swipeMouseArea.width / 2) - slider.width, 0); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for positive action")
+                        compare(actionSpy.signalArguments[0][0], data.actions.data(0, ActionModel.RoleActionId), "got wrong id for positive action")
+                        actionSpy.clear()
+                    }
+                    if(data.checkSwipeToActReject) {
+                        tryCompareFunction(function() { mouseDrag(slider, x, y, -(swipeMouseArea.width / 2), 0); return actionSpy.signalArguments.length > 0; }, true);
+                        compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
                         actionSpy.clear()
                     }
                 }
