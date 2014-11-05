@@ -19,7 +19,7 @@ import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 0.1
-import QMenuModel 0.1
+import Unity.Indicators 0.1 as Indicators
 import Unity.Test 0.1 as UT
 
 Rectangle {
@@ -36,56 +36,71 @@ Rectangle {
         }
     }
 
-    UnityMenuModel {
-        id: menuModel
-        modelData: [{
-            "rowData": {
-                "actionState": { "label": Qt.formatTime(new Date("October 13, 1975 11:13:00")) }
-            }
-        }]
+    function updateDatetimeModelTime(label) {
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicator/datetime/phone",
+            [{
+                "rowData": {
+                    "actionState": { "label": label }
+                }
+            }]);
     }
 
     UT.UnityTestCase {
         name: "Clock"
+        when: windowShown
 
         function init() {
-            var cachedModel = findChild(clock, "timeModel");
-            verify(cachedModel !== undefined);
-            cachedModel.model = menuModel;
+            updateDatetimeModelTime(Qt.formatTime(new Date("October 13, 1975 12:14:00")));
+            clock.visible = true;
         }
 
-        function test_customDate() {
-            var dateObj = new Date("October 13, 1975 11:13:00")
-            var dateString = Qt.formatDate(dateObj, Qt.DefaultLocaleLongDate)
-            var timeString = Qt.formatTime(dateObj)
+        // Test that the date portion of the clock updates with custom value.
+        // Time portion is controlled by indicators
+        function test_updateDate() {
+            var dateLabel = findChild(clock, "dateLabel");
+            var timeLabel = findChild(clock, "timeLabel");
 
-            clock.currentDate = dateObj
-            var dateLabel = findChild(clock, "dateLabel")
-            compare(dateLabel.text, dateString, "Not the expected date")
-            var timeLabel = findChild(clock, "timeLabel")
-            compare(timeLabel.text, timeString, "Not the expected time")
+            var timeString = Qt.formatTime(new Date("October 13, 1975 12:14:00"));
+
+            // initial date.
+            var dateObj = new Date("October 13, 1975 11:13:00");
+            var dateString = Qt.formatDate(dateObj, Qt.DefaultLocaleLongDate);
+            clock.currentDate = dateObj;
+
+            compare(dateLabel.text, dateString, "Not the expected date");
+            compare(timeLabel.text, timeString, "Time should come from indicators");
+
+            // update date.
+            var dateObj2 = new Date("October 14, 1976 13:15:00");
+            var dateString2 = Qt.formatDate(dateObj2, Qt.DefaultLocaleLongDate);
+            clock.currentDate = dateObj2;
+
+            compare(dateLabel.text, dateString2, "Not the expected date");
+            compare(timeLabel.text,timeString, "Time should come from indicators");
         }
 
-        function test_dateUpdate() {
-            var dateObj = new Date("October 13, 1975 11:13:00")
-            var dateString = Qt.formatDate(dateObj, Qt.DefaultLocaleLongDate)
-            var timeString = Qt.formatTime(dateObj)
+        // Test that the date portion of the clock updates with custom value.
+        // Time portion is controlled by indicators
+        function test_updateTime() {
+            var timeLabel = findChild(clock, "timeLabel");
 
+            var timeString1 = Qt.formatTime(new Date("October 13, 1975 11:15:00"));
+            var timeString2 = Qt.formatTime(new Date("October 14, 1976 12:16:00"));
+
+            updateDatetimeModelTime(timeString1);
+            compare(timeLabel.text, timeString1, "Time should come from indicators");
+
+            updateDatetimeModelTime(timeString2);
+            compare(timeLabel.text, timeString2, "Time should come from indicators");
+        }
+
+        function test_indicatorDisconnect() {
             clock.visible = false
             var timeModel = findInvisibleChild(clock, "timeModel")
-
             compare(timeModel.menuObjectPath, "", "Clock shouldn't be connected to Indicators when not visible.")
 
-            clock.currentDate = dateObj
-
-            var dateLabel = findChild(clock, "dateLabel")
-            compare(dateLabel.text, dateString, "Not the expected date")
-            var timeLabel = findChild(clock, "timeLabel")
-            compare(timeLabel.text, timeString, "Not the expected time")
-
             clock.visible = true
-
-            verify(timeModel.menuObjectPath != "", "Should be connected to Indicators.")
+            verify(timeModel.menuObjectPath !== "", "Should be connected to Indicators.")
         }
     }
 }

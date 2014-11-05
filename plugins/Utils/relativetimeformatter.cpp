@@ -74,53 +74,45 @@ getDateProximity(GDateTime* now, GDateTime* time)
     }
 
     // did it happen yesterday?
-    GDateTime* tomorrow = g_date_time_add_days(now, -1);
+    GDateTime* yesterday = g_date_time_add_days(now, -1);
     gint tom_year, tom_month, tom_day;
-    g_date_time_get_ymd(tomorrow, &tom_year, &tom_month, &tom_day);
-    g_date_time_unref(tomorrow);
+    g_date_time_get_ymd(yesterday, &tom_year, &tom_month, &tom_day);
+    g_date_time_unref(yesterday);
     if ((tom_year == time_year) && (tom_month == time_month) && (tom_day == time_day)) {
         return DATE_PROXIMITY_YESTERDAY;
     }
 
     // does it happen tomorrow?
-    if (prox == DATE_PROXIMITY_FAR)
-    {
-        GDateTime* tomorrow = g_date_time_add_days(now, 1);
-
-        gint tom_year, tom_month, tom_day;
-        g_date_time_get_ymd(tomorrow, &tom_year, &tom_month, &tom_day);
-        g_date_time_unref(tomorrow);
-        if ((tom_year == time_year) && (tom_month == time_month) && (tom_day == time_day)) {
-            return DATE_PROXIMITY_TOMORROW;
-        }
+    GDateTime* tomorrow = g_date_time_add_days(now, 1);
+    g_date_time_get_ymd(tomorrow, &tom_year, &tom_month, &tom_day);
+    g_date_time_unref(tomorrow);
+    if ((tom_year == time_year) && (tom_month == time_month) && (tom_day == time_day)) {
+        return DATE_PROXIMITY_TOMORROW;
     }
 
     // does it happen this week?
-    if (prox == DATE_PROXIMITY_FAR) {
-        if (g_date_time_compare(time, now) < 0) {
-            GDateTime* last_week = g_date_time_add_days(now, -6);
-            GDateTime* last_week_bound = g_date_time_new_local(g_date_time_get_year(last_week),
-                                                               g_date_time_get_month(last_week),
-                                                               g_date_time_get_day_of_month(last_week),
-                                                               0, 0, 0);
-            if (g_date_time_compare(time, last_week_bound) >= 0)
-                prox = DATE_PROXIMITY_LAST_WEEK;
+    if (g_date_time_compare(time, now) < 0) {
+        GDateTime* last_week = g_date_time_add_days(now, -6);
+        GDateTime* last_week_bound = g_date_time_new_local(g_date_time_get_year(last_week),
+                                                           g_date_time_get_month(last_week),
+                                                           g_date_time_get_day_of_month(last_week),
+                                                           0, 0, 0);
+        if (g_date_time_compare(time, last_week_bound) >= 0)
+            prox = DATE_PROXIMITY_LAST_WEEK;
 
-            g_date_time_unref(last_week);
-            g_date_time_unref(last_week_bound);
-        } else {
-            GDateTime* next_week = g_date_time_add_days(now, 6);
-            GDateTime* next_week_bound = g_date_time_new_local(g_date_time_get_year(next_week),
-                                                               g_date_time_get_month(next_week),
-                                                               g_date_time_get_day_of_month(next_week),
-                                                               23, 59, 59.9);
-            if (g_date_time_compare(time, next_week_bound) <= 0)
-                prox = DATE_PROXIMITY_NEXT_WEEK;
+        g_date_time_unref(last_week);
+        g_date_time_unref(last_week_bound);
+    } else {
+        GDateTime* next_week = g_date_time_add_days(now, 6);
+        GDateTime* next_week_bound = g_date_time_new_local(g_date_time_get_year(next_week),
+                                                           g_date_time_get_month(next_week),
+                                                           g_date_time_get_day_of_month(next_week),
+                                                           23, 59, 59.9);
+        if (g_date_time_compare(time, next_week_bound) <= 0)
+            prox = DATE_PROXIMITY_NEXT_WEEK;
 
-            g_date_time_unref(next_week);
-            g_date_time_unref(next_week_bound);
-        }
-
+        g_date_time_unref(next_week);
+        g_date_time_unref(next_week_bound);
     }
 
     return prox;
@@ -250,7 +242,7 @@ char* generate_full_format_string_at_time (GDateTime* now,
 
 QString RelativeTimeFormatter::format() const
 {
-    GDateTime* now = g_date_time_new_from_unix_utc(QDateTime::currentMSecsSinceEpoch() / 1000);
+    GDateTime* now = g_date_time_new_now_local();
     if (!now) { return QString(); }
 
     GDateTime* then = g_date_time_new_from_unix_local(time());
