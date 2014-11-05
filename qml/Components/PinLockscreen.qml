@@ -35,6 +35,8 @@ Column {
     property int maxPinLength: -1
     property bool showCancelButton: true
 
+    readonly property string passphrase: pinentryField.text
+
     signal entered(string passphrase)
     signal cancel()
 

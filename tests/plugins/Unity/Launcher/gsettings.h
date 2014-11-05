@@ -33,6 +33,15 @@ public:
 
     QStringList storedApplications() const;
     void setStoredApplications(const QStringList &storedApplications);
+
+    // Only for testing
+    void simulateDConfChanged(const QStringList &storedApplications);
+
+Q_SIGNALS:
+    void changed();
+
+private:
+    QStringList m_entries;
 };
 
 #endif

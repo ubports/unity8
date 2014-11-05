@@ -1,3 +1,139 @@
+unity8 (8.01+15.04.20141104-0ubuntu1) vivid; urgency=low
+
+  [ Sebastien Bacher ]
+  * Drop workaround, it's not needed and create issues for desktop-next
+    (LP: #1387671)
+
+  [ Albert Astals ]
+  * Do not append integer to char *
+  * Remove unused end() function
+  * Update build.sh
+  * Fix i18n
+
+  [ Michael Zanetti ]
+  * rework launcher quicklist visuals to fit new design (LP: #1368660)
+  * Fix DBusVariant conversion for launcher emblems (LP: #1387261)
+  * Fix desktop file encoding in launcher (LP: #1387083)
+  * Add a hinting animation to indicate changes in the backend (LP:
+    #1376707)
+
+  [ Alberto Aguirre ]
+  * Add audioRole to QtMultimedia mock
+  * Add a plugin to take screenshots on vol up + vol down
+
+  [ CI bot ]
+  * Fix relative time formatter when using non-UTC timezone. (LP:
+    #1378821)
+
+  [ Leo Arias ]
+  * Removed the tests for the alternate paths of the autopilot helpers.
+
+  [ Nick Dedekind ]
+  * Fix relative time formatter when using non-UTC timezone. (LP:
+    #1378821)
+  * Reset current item selection on deleted. (LP: #1378462)
+  * Added timer to re-assert server value after indicator menu item
+    activation. (LP: #1336715)
+
+  [ Mirco Müller ]
+  * Added dedicated swipe-to-act button for snap-decisions, which avoids
+    accidental taps/button-presses. (LP: #1358343)
+
+  [ Chris Gagnon ]
+  * add missing unity-scope-click dependancy to unity8-autopilot package
+    (LP: #1336276)
+
+  [ Michael Terry ]
+  * Don't lock phone if user tries to switch back to an active call.
+    (LP: #1388156)
+
+  [ Daniel d'Andrada ]
+  * DirectionalDragArea: Update TODO comment in light of new events
+  * TouchDispatcher: synthesize MouseButtonDblClick events
+
+  [ Leonardo Arias Fonseca ]
+  * Removed the tests for the alternate paths of the autopilot helpers.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 04 Nov 2014 12:56:08 +0000
+
+unity8 (8.01+15.04.20141030-0ubuntu1) vivid; urgency=medium
+
+  [ Michael Terry ]
+  * Provide 'passphrase' as a field of Components.Lockscreen
+  * Fix a race between Qml loading and DBus registration that caused
+    problems when jenkins tried to unlock the phone.
+  * Set domain explicitly for the Dialogs component because the welcome
+    wizard wants to import it. (LP: #1381731)
+  * When greeter or lockscreen has focus, show active call panel. (LP:
+    #1378872)
+
+  [ Ted Gould ]
+  * Set the default OOM score for the dash (LP: #1379786)
+
+  [ Michał Sawicz ]
+  * Revert lp:~unity-team/unity8/flickables-speed-workaround to avoid
+    risk in RTM.
+  * Updated behaviour for zoomable image, workaround for sourcesize (LP:
+    #1333187)
+
+  [ Michael Frey ]
+  * Added a check for Proximity to determine if we show the lock screen.
+    (LP: #1378012)
+
+  [ Ying-Chun Liu ]
+  * Add non-interactive code into GenericScopeView. (LP: #1384441)
+
+  [ Mirco Müller ]
+  * Also use modal nature of snap-decision notifications when
+    greeter/lockscreen is shown. This fixes LP: #1378827. (LP: #1378827)
+
+  [ Michael Zanetti ]
+  * Make the launcher update on dconf changes (LP: #1376707)
+  * exit spread on background tap (LP: #1368261)
+  * Use an index instead of a scope id in DashCommunicator (LP:
+    #1376044)
+
+  [ Andrea Cimitan ]
+  * Updated behaviour for zoomable image, workaround for sourcesize (LP:
+    #1333187)
+
+  [ Daniel d'Andrada ]
+  * Make TouchGate synthesize QMouseEvents for mouse-based target items
+  * Don't specify a distanceThreshold as it conflicts with
+    hintDisplacment
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 30 Oct 2014 21:43:42 +0000
+
+unity8 (8.00+15.04.20141030-0ubuntu1) vivid; urgency=low
+
+  [ josharenson ]
+  * Fix lp:1370240 by making stages interactive when a snap decision is
+    dismissed. (LP: #1370240)
+
+  [ Nick Dedekind ]
+  * remove qml ownership confusion for caching unitymenumodels (LP:
+    #1368856)
+  * Implementation of expandable panel design (LP: #1368856)
+
+  [ Albert Astals ]
+  * CardAttributes: Specify column and row since the gridlayout gets
+    confused sometimes (LP: #1381092)
+  * Reset VerticalJournal until the cardTool settles (LP: #1381255)
+
+  [ Mirco Müller ]
+  * Added synchronous/confirmation notification support to unity8. (LP:
+    #1232633)
+
+  [ Michael Zanetti ]
+  * Fix lp:1370240 by making stages interactive when a snap decision is
+    dismissed. (LP: #1370240)
+  * Drop all visual indication of "pinning" (LP: #1381054)
+
+  [ Antti Kaijanmäki ]
+  * Unlock all modems on boot. (LP: #1333121)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 30 Oct 2014 10:51:17 +0000
+
 unity8 (8.00+14.10.20141013.2-0ubuntu1) utopic; urgency=low
 
   [ Michael Terry ]

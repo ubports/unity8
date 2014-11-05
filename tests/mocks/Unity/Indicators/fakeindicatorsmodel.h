@@ -27,6 +27,7 @@ class FakeIndicatorsModel : public QAbstractListModel
     Q_OBJECT
     Q_ENUMS(Roles)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)
 public:
 
     FakeIndicatorsModel(QObject *parent=0);
@@ -36,8 +37,13 @@ public:
     Q_INVOKABLE void unload();
 
     Q_INVOKABLE void append(const QVariantMap& row);
+    Q_INVOKABLE void insert(int row, const QVariantMap& data);
+    Q_INVOKABLE void remove(int row);
 
     Q_INVOKABLE QVariant data(int row, int role) const;
+
+    void setModelData(const QVariant& data);
+    QVariant modelData() const { return m_modelData; }
 
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const;
@@ -48,12 +54,12 @@ public:
 
 Q_SIGNALS:
     void countChanged();
+    void modelDataChanged();
 
 private:
     int count() const;
 
-    typedef QHash<int, QVariant> Indicator;
-    QList<Indicator*> m_indicators;
+    QVariant m_modelData;
 };
 
 #endif // FAKE_INDICATORSMODEL_H

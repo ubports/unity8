@@ -22,7 +22,8 @@ Module {
         exportMetaObjectRevisions: [0]
         Property { name: "phoneNumber"; type: "string" }
         Property { name: "isConference"; type: "bool" }
-        Property { name: "elapsedTime"; type: "int"; isReadonly: true }
+        Property { name: "elapsedTime"; type: "int" }
+        Property { name: "elapsedTimerRunning"; type: "bool" }
     }
     Component {
         name: "MockCallManager"
