@@ -16,25 +16,26 @@
 
 #include "croppedimagesizer.h"
 
-#include <QDebug>
-#include <QNetworkReply>
+#include "croppedimagesizerasyncworker.h"
+
+#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QQmlEngine>
 #include <QQuickItem>
-#include <QQuickView>
 
 CroppedImageSizer::CroppedImageSizer()
  : m_width(0),
    m_height(0),
-   m_sourceSize(QSize(-1, -1))
+   m_sourceSize(QSize(-1, -1)),
+   m_worker(nullptr)
 {
     connect(this, &CroppedImageSizer::inputParamsChanged, this, &CroppedImageSizer::calculateSourceSize);
 }
 
 CroppedImageSizer::~CroppedImageSizer()
 {
-    if (m_reply) {
-        m_reply->deleteLater();
+    if (m_worker) {
+        m_worker->abort();
     }
 }
 
@@ -82,42 +83,26 @@ QSize CroppedImageSizer::sourceSize() const
     return m_sourceSize;
 }
 
+void CroppedImageSizer::setSourceSize(const QSize &size)
+{
+    if (size != m_sourceSize) {
+        m_sourceSize = size;
+        Q_EMIT sourceSizeChanged();
+    }
+}
+
 void CroppedImageSizer::calculateSourceSize()
 {
     if (m_source.isValid() && m_width > 0 && m_height > 0 && qmlEngine(this) && qmlEngine(this)->networkAccessManager()) {
-        if (m_reply) {
-            m_reply->abort();
-            m_reply->deleteLater();
+        if (m_worker) {
+            m_worker->abort();
         }
+
         QNetworkRequest request(m_source);
-        m_reply = qmlEngine(this)->networkAccessManager()->get(request);
-        connect(m_reply, &QNetworkReply::finished, this, &CroppedImageSizer::requestFinished);
+        QNetworkReply *reply = qmlEngine(this)->networkAccessManager()->get(request);
+        m_worker = new CroppedImageSizerAsyncWorker(this, reply);
     } else if (m_sourceSize != QSize(-1, -1)) {
         m_sourceSize = QSize(-1, -1);
         sourceSizeChanged();
     }
-}
-
-void CroppedImageSizer::requestFinished()
-{
-    QImageReader m_reader(m_reply);
-    const QSize imageSize = m_reader.size();
-    if (imageSize.isValid()) {
-        if (m_height > 0 && imageSize.height() > 0) {
-            const qreal ar = m_width / m_height;
-            const qreal ssar = imageSize.width() / (qreal)imageSize.height();
-            if (ar > ssar) {
-                m_sourceSize = QSize(m_width, 0);
-            } else {
-                m_sourceSize = QSize(0, m_height);
-            }
-        }
-    } else {
-        qWarning() << "Could not find size of" << m_source;
-        m_sourceSize = QSize(0, 0);
-    }
-    sourceSizeChanged();
-
-    m_reply->deleteLater();
-    m_reply = nullptr;
 }

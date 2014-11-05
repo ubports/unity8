@@ -14,6 +14,7 @@ include_directories(
     ${Qt5Quick_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${Qt5V8_PRIVATE_INCLUDE_DIR}
+    ${Qt5Concurrent_INCLUDE_DIRS}
 )
 
 remove_definitions(-DQT_NO_KEYWORDS)
@@ -26,6 +27,7 @@ set(QMLPLUGIN_SRC
     horizontaljournal.cpp
     organicgrid.cpp
     croppedimagesizer.cpp
+    croppedimagesizerasyncworker.cpp
     )
 
 add_library(Dash-qml MODULE
