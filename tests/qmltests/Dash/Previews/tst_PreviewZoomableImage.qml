@@ -36,26 +36,48 @@ Rectangle {
 
     PreviewZoomableImage {
         id: zoomableImage
-        anchors.fill: parent
-        widgetData: widgetData1
+        anchors.centerIn: parent
+        widgetData: widgetData0
     }
 
     UT.UnityTestCase {
         name: "PreviewZoomableImageTest"
         when: windowShown
 
-        function test_loadImage() {
-            var image = findChild(zoomableImage, "image");
+        property Item lazyImage: findChild(zoomableImage, "lazyImage");
+        property Item overlay: findChild(zoomableImage.rootItem, "overlay");
 
+        function init() {
+            waitForRendering(zoomableImage);
+            waitForRendering(overlay);
+        }
+
+        function cleanup() {
+            overlay.hide();
+            tryCompare(overlay, "visible", false);
+            zoomableImage.widgetData = widgetData0;
+        }
+
+        function test_loadImage() {
             zoomableImage.widgetData = widgetData0;
             waitForRendering(zoomableImage);
-            waitForRendering(image);
-            tryCompare(image, "imageState", "ready");
+            waitForRendering(lazyImage);
+            tryCompare(lazyImage, "state", "ready");
 
             zoomableImage.widgetData = widgetData1;
             waitForRendering(zoomableImage);
-            waitForRendering(image);
-            tryCompare(image, "imageState", "default");
+            waitForRendering(lazyImage);
+            tryCompare(lazyImage, "state", "default");
+        }
+
+        function test_zoomableImageOpenClose() {
+            var overlayCloseButton = findChild(overlay, "overlayCloseButton");
+            mouseClick(lazyImage, lazyImage.width / 2, lazyImage.height / 2);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayCloseButton, "visible", true);
+            mouseClick(overlayCloseButton, overlayCloseButton.width / 2, overlayCloseButton.height / 2);
+            tryCompare(overlay, "visible", false);
         }
     }
 }

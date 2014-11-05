@@ -447,7 +447,7 @@ class DashBaseTestCase(AutopilotTestCase):
         return launch_dash_app_fixture.application_proxy
 
     def wait_for_dash(self):
-        home_scope = self.dash.get_scope('clickscope')
+        home_scope = self.dash.get_scope_by_index(0)
         # FIXME! There is a huge timeout here for when we're doing CI on
         # VMs. See lp:1203715
         self.assertThat(

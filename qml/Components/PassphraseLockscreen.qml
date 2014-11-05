@@ -28,6 +28,8 @@ Item {
     property string errorText
     property bool entryEnabled: true
 
+    readonly property string passphrase: pinentryField.text
+
     signal entered(string passphrase)
     signal cancel()
 

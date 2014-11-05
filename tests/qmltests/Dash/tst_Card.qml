@@ -185,6 +185,19 @@ Rectangle {
                 height: units.gu(4)
                 color: "orange"
             }
+
+            Rectangle {
+                color: "red"
+                anchors { left: parent.left; right: parent.right }
+                height: units.gu(4)
+                Label {
+                    text: "Toggle Visible"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: loader.visible = !loader.visible
+                }
+            }
         }
     }
 

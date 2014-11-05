@@ -428,6 +428,10 @@ int main(int argc, char ** argv)
 
     MouseTouchAdaptor mouseTouchAdaptor;
     app.installNativeEventFilter(&mouseTouchAdaptor);
+    // Create it before loading the module, so that TestUtil
+    // doesn't create one with a fake timer factory.
+    // When interacting manually with a test we want the real deal.
+    new TouchRegistry;
 
 #ifndef QT_NO_TRANSLATION
     QTranslator translator;
@@ -499,11 +503,7 @@ int main(int argc, char ** argv)
                 QQuickItem *contentItem = qobject_cast<QQuickItem *>(topLevel);
                 if (contentItem) {
                     qxView = new QQuickView(&engine, nullptr);
-                    if (TouchRegistry::instance() == nullptr) {
-                        new TouchRegistry(qxView);
-                    } else {
-                        TouchRegistry::instance()->setParent(qxView);
-                    }
+                    TouchRegistry::instance()->setParent(qxView);
                     qxView->installEventFilter(TouchRegistry::instance());
                     window = qxView;
                     // Set window default properties; the qml can still override them

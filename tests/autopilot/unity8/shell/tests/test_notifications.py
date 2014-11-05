@@ -157,57 +157,6 @@ class InteractiveNotificationBase(NotificationsBase):
 
         self.assert_notification_action_id_was_called('action_id')
 
-    def test_sd_incoming_call(self):
-        """Rejecting a call should make notification expand and
-            offer more options."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
-
-        summary = "Incoming call"
-        body = "Frank Zappa\n+44 (0)7736 027340"
-        icon_path = self._get_icon_path('avatars/anna_olsson.png')
-        hints = [
-            ("x-canonical-secondary-icon", "incoming-call"),
-            ("x-canonical-snap-decisions", "true"),
-            ("x-canonical-private-affirmative-tint", "true"),
-            ("x-canonical-private-rejection-tint", "true"),
-        ]
-
-        actions = [
-            ('action_accept', 'Hold + Answer'),
-            ('action_decline_1', 'End + Answer'),
-            ('action_decline_2', 'Decline'),
-            ('action_decline_3', 'message:I missed your call - can you call me now?'),
-            ('action_decline_4', 'message:I\'m running late. I\'m on my way.'),
-            ('action_decline_5', 'message:I\'m busy at the moment. I\'ll call later.'),
-            ('action_decline_6', 'edit:Custom'),
-        ]
-
-        self._create_interactive_notification(
-            summary,
-            body,
-            icon_path,
-            "NORMAL",
-            actions,
-            hints
-        )
-
-        notify_list = self._get_notifications_list()
-        get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
-        notification = get_notification()
-        self._assert_notification(notification, summary, body, True, True, 1.0)
-        notification.pointing_device.click_object(
-            notification.select_single(objectName="combobutton_dropdown"))
-        self.assertThat(
-            notification.select_single(objectName="notify_button2").expanded,
-            Eventually(Equals(True)))
-        time.sleep(2)
-        notification.pointing_device.click_object(
-            notification.select_single(objectName="notify_button4"))
-        self.assert_notification_action_id_was_called("action_decline_4")
-
-
     def test_sd_one_over_two_layout(self):
         """Snap-decision with three actions should use one-over two button layout."""
         unity_proxy = self.launch_unity()
@@ -248,7 +197,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_without_greeter(self):
-        """Snap-decision should block input to shell without greeter."""
+        """Snap-decision should block input to shell without greeter/lockscreen."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
@@ -295,7 +244,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_with_greeter(self):
-        """A snap-decision should not block input to the greeter beneath it."""
+        """A snap-decision should block input to the greeter/lockscreen beneath it."""
         self.launch_unity()
 
         summary = "Incoming file"
@@ -322,11 +271,12 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
-        # verify that we can swipe away the greeter (interact with the "shell")
+        # verify that we cannot reveal the launcher (no longer interact with
+        # the shell)
         time.sleep(1)
         self.main_window.show_dash_swiping()
-        greeter = self.main_window.get_greeter()
-        self.assertThat(greeter.shown, Eventually(Equals(False)))
+        self.assertThat(
+            self.main_window.is_launcher_open, Eventually(Equals(False)))
 
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()

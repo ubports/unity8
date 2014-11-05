@@ -16,7 +16,6 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.1
-import "../Components/Flickables" as Flickables
 
 AbstractButton {
     id: root
@@ -76,7 +75,7 @@ AbstractButton {
     }
 
     //  navigationListView is outside root
-    Flickables.ListView {
+    ListView {
         id: navigationListView
         objectName: "navigationListView"
         visible: height > 0

@@ -18,12 +18,12 @@ Module {
         prototype: "QAbstractListModel"
         exports: ["QMenuModel/UnityMenuModel 0.1"]
         exportMetaObjectRevisions: [0]
-        Property { name: "modelData"; type: "QVariant" }
         Property { name: "busName"; type: "QByteArray" }
         Property { name: "actions"; type: "QVariantMap" }
         Property { name: "menuObjectPath"; type: "QByteArray" }
         Property { name: "actionStateParser"; type: "ActionStateParser"; isPointer: true }
         Property { name: "nameOwner"; type: "string"; isReadonly: true }
+        Property { name: "modelData"; type: "QVariant" }
         Method {
             name: "insertRow"
             Parameter { name: "row"; type: "int" }
