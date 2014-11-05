@@ -116,7 +116,10 @@ Loader {
                     text: i18n.tr("Show password")
                     color: notification.sdFontColor
 
-                    onClicked: checkBox.checked = !checkBox.checked
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: { checkBox.checked = !checkBox.checked }
+                    }
                 }
             }
         }
