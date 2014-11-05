@@ -68,6 +68,7 @@ add_qml_test(Greeter Clock ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/test
 add_qml_test(Launcher Launcher)
 add_qml_test(Notifications Notifications)
 add_qml_test(Notifications VisualSnapDecisionsQueue)
+add_qml_test(Notifications SwipeToAct)
 add_qml_test(Panel ActiveCallHint)
 add_qml_test(Panel IndicatorItem)
 add_qml_test(Panel IndicatorItemRow ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")

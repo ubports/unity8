@@ -18,6 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
+import Ubuntu.Settings.Menus 0.1 as Menus
 import "../../../qml/Panel"
 
 Item {
@@ -33,7 +34,23 @@ Item {
         busName: "com.caninical.indicator.test"
         actionsObjectPath: "/com/canonical/indicator/test"
         menuObjectPath: "/com/canonical/indicator/test"
+
+        factory {
+            _map: {
+                "default": {
+                    "com.canonical.indicator.test" : testMenu
+                }
+            }
+        }
     }
+
+   Component {
+       id: testMenu
+       Menus.StandardMenu {
+           signal menuSelected
+           signal menuDeselected
+       }
+   }
 
     property var fullMenuData: [{
             "rowData": {                // 1
@@ -51,39 +68,39 @@ Item {
             },
             "submenu": [{
                 "rowData": {                // 1.1
-                    "label": "menu1",
+                    "label": "menu0",
                     "sensitive": true,
                     "isSeparator": false,
                     "icon": "",
-                    "type": "",
+                    "type": "com.canonical.indicator.test",
                     "ext": {},
-                    "action": "",
+                    "action": "menu0",
                     "actionState": {},
                     "isCheck": false,
                     "isRadio": false,
                     "isToggled": false,
                 }}, {
                "rowData": {                // 1.2
-                   "label": "menu2",
+                   "label": "menu1",
                    "sensitive": true,
                    "isSeparator": false,
                    "icon": "",
-                   "type": "",
+                   "type": "com.canonical.indicator.test",
                    "ext": {},
-                   "action": "",
+                   "action": "menu1",
                    "actionState": {},
                    "isCheck": false,
                    "isRadio": false,
                    "isToggled": false,
                }}, {
                "rowData": {                // row 1.2
-                   "label": "menu3",
+                   "label": "menu2",
                    "sensitive": true,
                    "isSeparator": false,
                    "icon": "",
-                   "type": "",
+                   "type": "com.canonical.indicator.test",
                    "ext": {},
-                   "action": "",
+                   "action": "menu2",
                    "actionState": {},
                    "isCheck": false,
                    "isRadio": false,
@@ -146,6 +163,34 @@ Item {
 
             var mainMenu = findChild(page, "mainMenu");
             tryCompare(mainMenu, "count", data.expectedCount);
+        }
+
+        function test_remove_selected_item_data() {
+            return [
+                { remove: 0 },
+                { remove: 2 },
+            ]
+        }
+
+        function test_remove_selected_item(data) {
+            var mainMenu = findChild(page, "mainMenu");
+            initializeMenuData(fullMenuData);
+
+            var menuId = "menu"+data.remove
+
+            tryCompareFunction(function() { return findChild(page, menuId) !== null;}, true);
+            var menu = findChild(page, menuId);
+
+            menu.menuSelected();
+            compare(mainMenu.currentIndex, data.remove, "Incorrect index selected");
+            mainMenu.model.removeRow(data.remove);
+
+            compare(mainMenu.currentIndex, -1, "Current index should be reset after current item removal");
+
+            // now make sure selecting a new menu works.
+            var menu1 = findChild(page, "menu1");
+            menu1.menuSelected();
+            compare(menu1.selected, true, "Item not selected");
         }
     }
 }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"POT-Creation-Date: 2014-10-31 10:36+0100\n"
 "PO-Revision-Date: 2014-10-09 19:00+0000\n"
 "Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2014-10-10 05:23+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-11-05 07:07+0000\n"
+"X-Generator: Launchpad (build 17223)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -54,45 +54,45 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Veuillez patienter %1 minute et réessayer..."
 msgstr[1] "Veuillez patienter %1 minutes et réessayer..."
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:74
 msgid "Log out"
 msgstr "Se déconnecter"
 
-#: qml/Components/Dialogs.qml:71
+#: qml/Components/Dialogs.qml:75
 msgid "Are you sure you want to log out?"
 msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
 
-#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:126
 msgid "No"
 msgstr "Non"
 
-#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:133
 msgid "Yes"
 msgstr "Oui"
 
-#: qml/Components/Dialogs.qml:94
+#: qml/Components/Dialogs.qml:98
 msgid "Shut down"
 msgstr "Éteindre"
 
-#: qml/Components/Dialogs.qml:95
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "Êtes-vous sûr de vouloir éteindre ?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:123
 msgid "Reboot"
 msgstr "Redémarrer"
 
-#: qml/Components/Dialogs.qml:120
+#: qml/Components/Dialogs.qml:124
 msgid "Are you sure you want to reboot?"
 msgstr "Êtes-vous sûr de vouloir redémarrer ?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:148
 msgid "Power"
 msgstr "Alimentation"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:149
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -100,15 +100,15 @@ msgstr ""
 "Êtes-vous sûr de vouloir\n"
 "couper l'alimentation ?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:151
 msgid "Power off"
 msgstr "Éteindre"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:161
 msgid "Restart"
 msgstr "Redémarrer"
 
-#: qml/Components/Dialogs.qml:167
+#: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -145,21 +145,21 @@ msgstr ""
 "Faites glisser à nouveau votre doigt vers le bord supérieur pour fermer "
 "l'écran des paramètres"
 
-#: qml/Components/EdgeDemo.qml:198
+#: qml/Components/EdgeDemo.qml:201
 msgid "Left edge"
 msgstr "Bord gauche"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:202
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Faites glisser votre doigt à partir du bord gauche pour afficher le lanceur "
 "d'applications."
 
-#: qml/Components/EdgeDemo.qml:226
+#: qml/Components/EdgeDemo.qml:229
 msgid "Well done"
 msgstr "Félicitations"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:230
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -167,11 +167,15 @@ msgstr ""
 "Vous maîtrisez maintenant les différents gestes et pouvez commencer à "
 "utiliser le téléphone<br><br>Appuyez sur l'écran pour commencer"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:223
+msgid "Return to Call"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
 msgstr "Appel d'urgence"
 
-#: qml/Components/Lockscreen.qml:252
+#: qml/Components/Lockscreen.qml:255
 msgid "OK"
 msgstr "OK"
 
@@ -228,15 +232,15 @@ msgstr "Tirer pour actualiser..."
 msgid "Release to refresh…"
 msgstr "Relâcher pour actualiser..."
 
-#: qml/Dash/ScopesOverview.qml:206
+#: qml/Dash/ScopesOverview.qml:215
 msgid "Manage Scopes"
 msgstr "Gérer les moteurs de recherche"
 
-#: qml/Dash/ScopesOverview.qml:428
+#: qml/Dash/ScopesOverview.qml:437
 msgid "Done"
 msgstr "Terminé"
 
-#: qml/Dash/ScopesOverview.qml:454
+#: qml/Dash/ScopesOverview.qml:463
 msgid "Store"
 msgstr "Logithèque"
 
@@ -248,7 +252,7 @@ msgstr "Favorites"
 msgid "All"
 msgstr "Toutes"
 
-#: qml/Greeter/Greeter.qml:157
+#: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Déverrouiller"
 
@@ -276,39 +280,39 @@ msgstr "En cours d'écoute..."
 msgid "Show password"
 msgstr "Afficher le mot de passe"
 
-#: qml/Panel/ActiveCallHint.qml:77
+#: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
 msgstr "Appuyez pour revenir à l'appel…"
 
-#: qml/Panel/ActiveCallHint.qml:90
+#: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
 msgstr "Conférence"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:600
+#: qml/Panel/Indicators/MenuItemFactory.qml:615
 msgid "Nothing is playing"
 msgstr "Rien n'est en cours de lecture"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:748
+#: qml/Panel/Indicators/MenuItemFactory.qml:763
 msgid "In queue…"
 msgstr "Dans la file d'attente..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:767
 msgid "Downloading"
 msgstr "Téléchargement en cours"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:754
+#: qml/Panel/Indicators/MenuItemFactory.qml:769
 msgid "Paused, tap to resume"
 msgstr "En pause, appuyez pour reprendre"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:756
+#: qml/Panel/Indicators/MenuItemFactory.qml:771
 msgid "Canceled"
 msgstr "Annulé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:758
+#: qml/Panel/Indicators/MenuItemFactory.qml:773
 msgid "Finished"
 msgstr "Terminé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:760
+#: qml/Panel/Indicators/MenuItemFactory.qml:775
 msgid "Failed, tap to retry"
 msgstr "Échec, appuyez pour réessayer"
 
@@ -320,49 +324,49 @@ msgstr "Déverrouiller la carte SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:346
+#: qml/Shell.qml:381
 msgid "Enter passphrase"
 msgstr "Saisissez la phrase de passe"
 
-#: qml/Shell.qml:347
+#: qml/Shell.qml:382
 msgid "Sorry, incorrect passphrase"
 msgstr "Désolé, phrase secrète incorrecte"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:383
 msgid "Please re-enter"
 msgstr "Veuillez ressaisir"
 
-#: qml/Shell.qml:350
+#: qml/Shell.qml:385
 msgid "Enter passcode"
 msgstr "Saisissez le mot de passe"
 
-#: qml/Shell.qml:351
+#: qml/Shell.qml:386
 msgid "Sorry, incorrect passcode"
 msgstr "Désolé, code incorrect"
 
-#: qml/Shell.qml:354
+#: qml/Shell.qml:389
 #, qt-format
 msgid "Enter %1"
 msgstr "Saisissez %1"
 
-#: qml/Shell.qml:355
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Désolé, %1 incorrect"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:431
 msgid "Sorry, incorrect passphrase."
 msgstr "Désolé, phrase secrète incorrecte."
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:432
 msgid "Sorry, incorrect passcode."
 msgstr "Désolé, code incorrect."
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:433
 msgid "This will be your last attempt."
 msgstr "Ceci sera votre dernière tentative."
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:435
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -371,7 +375,7 @@ msgstr ""
 "effectuera une réinitialisation aux paramètres d'usine et toutes les données "
 "personnelles seront supprimées."
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:436
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -379,9 +383,3 @@ msgstr ""
 "Si le code est saisi de manière incorrecte, votre téléphone effectuera une "
 "réinitialisation aux paramètres d'usine et toutes les données personnelles "
 "seront supprimées."
-
-#~ msgid "Sorry, incorrect PIN"
-#~ msgstr "Désolé, code PIN incorrect"
-
-#~ msgid "Enter SIM PIN"
-#~ msgstr "Entrez le code PIN de la SIM"

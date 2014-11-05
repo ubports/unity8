@@ -90,6 +90,7 @@ DummyItem::DummyItem(QQuickItem *parent)
     mousePressEventHandler = defaultMouseEventHandler;
     mouseMoveEventHandler = defaultMouseEventHandler;
     mouseReleaseEventHandler = defaultMouseEventHandler;
+    mouseDoubleClickEventHandler = defaultMouseEventHandler;
 }
 
 void DummyItem::touchEvent(QTouchEvent *event)
@@ -111,6 +112,11 @@ void DummyItem::mouseMoveEvent(QMouseEvent *event)
 void DummyItem::mouseReleaseEvent(QMouseEvent *event)
 {
     mouseReleaseEventHandler(event);
+}
+
+void DummyItem::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    mouseDoubleClickEventHandler(event);
 }
 
 void DummyItem::defaultTouchEventHandler(QTouchEvent *event)
