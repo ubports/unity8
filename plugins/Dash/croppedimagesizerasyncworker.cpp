@@ -31,17 +31,19 @@ CroppedImageSizerAsyncWorker::CroppedImageSizerAsyncWorker(CroppedImageSizer *si
 
 void CroppedImageSizerAsyncWorker::abort()
 {
+    // This runs on main thread
     QMutexLocker locker(&m_mutex);
     m_sizer = nullptr;
     // If we already started the future run we can't abort the reply
     // since we don't know at which stage the future is, just let it finish
     if (!m_ignoreAbort) {
-        m_reply->abort();
+        QMetaObject::invokeMethod(m_reply, "abort", Qt::QueuedConnection);
     }
 }
 
 void CroppedImageSizerAsyncWorker::requestFinished()
 {
+    // This runs on main thread
     QMutexLocker locker(&m_mutex);
     if (m_sizer) {
         m_ignoreAbort = true;
@@ -55,6 +57,7 @@ void CroppedImageSizerAsyncWorker::requestFinished()
 
 void CroppedImageSizerAsyncWorker::processRequestFinished(qreal width, qreal height, QUrl source, CroppedImageSizerAsyncWorker *worker)
 {
+    // This runs on non main thread
     QImageReader reader(worker->m_reply);
     const QSize imageSize = reader.size();
     QSize sourceSize = QSize(0, 0);
