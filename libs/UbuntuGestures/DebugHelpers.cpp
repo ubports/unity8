@@ -83,7 +83,7 @@ QString mouseEventToString(const QMouseEvent *ev)
         message.append("MouseButtonDblClick ");
         break;
     case QEvent::MouseMove:
-        message.append("MouseButtonMove ");
+        message.append("MouseMove ");
         break;
     default:
         message.append("INVALID_MOUSE_EVENT_TYPE ");

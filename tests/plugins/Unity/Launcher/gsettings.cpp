@@ -39,6 +39,7 @@ void GSettings::setStoredApplications(const QStringList &storedApplications)
 
 void GSettings::simulateDConfChanged(const QStringList &storedApplications)
 {
+    m_entries = storedApplications;
     setStoredApplications(storedApplications);
     Q_EMIT changed();
 }
