@@ -13,14 +13,6 @@ Module {
         exports: ["Unity.Launcher/LauncherItem 0.1"]
         isCreatable: false
         exportMetaObjectRevisions: [0]
-        Signal {
-            name: "favoriteChanged"
-            Parameter { name: "favorite"; type: "bool" }
-        }
-        Signal {
-            name: "runningChanged"
-            Parameter { name: "running"; type: "bool" }
-        }
     }
     Component {
         name: "LauncherModel"
@@ -29,6 +21,10 @@ Module {
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [0]
+        Method {
+            name: "requestRemove"
+            Parameter { name: "appId"; type: "string" }
+        }
         Method {
             name: "get"
             type: "unity::shell::launcher::LauncherItemInterface*"
@@ -46,10 +42,6 @@ Module {
         }
         Method {
             name: "pin"
-            Parameter { name: "appId"; type: "string" }
-        }
-        Method {
-            name: "requestRemove"
             Parameter { name: "appId"; type: "string" }
         }
         Method {
@@ -88,12 +80,21 @@ Module {
         Property { name: "recent"; type: "bool"; isReadonly: true }
         Property { name: "progress"; type: "int"; isReadonly: true }
         Property { name: "count"; type: "int"; isReadonly: true }
+        Property { name: "countVisible"; type: "bool"; isReadonly: true }
         Property { name: "focused"; type: "bool"; isReadonly: true }
         Property {
             name: "quickList"
             type: "unity::shell::launcher::QuickListModelInterface"
             isReadonly: true
             isPointer: true
+        }
+        Signal {
+            name: "nameChanged"
+            Parameter { name: "name"; type: "string" }
+        }
+        Signal {
+            name: "iconChanged"
+            Parameter { name: "icon"; type: "string" }
         }
         Signal {
             name: "pinnedChanged"
@@ -114,6 +115,10 @@ Module {
         Signal {
             name: "countChanged"
             Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "countVisibleChanged"
+            Parameter { name: "countVisible"; type: "bool" }
         }
         Signal {
             name: "focusedChanged"

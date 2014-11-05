@@ -19,8 +19,6 @@
 
 #include "gsettings.h"
 
-#include <QDebug>
-
 // This is a mock implementation to not touch GSettings for real during tests
 
 GSettings::GSettings(QObject *parent):
@@ -31,10 +29,17 @@ GSettings::GSettings(QObject *parent):
 
 QStringList GSettings::storedApplications() const
 {
-    return QStringList();
+    return m_entries;
 }
 
 void GSettings::setStoredApplications(const QStringList &storedApplications)
 {
-    Q_UNUSED(storedApplications)
+    m_entries = storedApplications;
+}
+
+void GSettings::simulateDConfChanged(const QStringList &storedApplications)
+{
+    m_entries = storedApplications;
+    setStoredApplications(storedApplications);
+    Q_EMIT changed();
 }

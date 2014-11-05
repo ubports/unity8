@@ -17,7 +17,6 @@
 import QtQuick 2.2
 import Ubuntu.Components 1.1
 import "../Components"
-import "../Components/Flickables" as Flickables
 
 DashRenderer {
     id: root
@@ -26,7 +25,7 @@ DashRenderer {
     collapsedHeight: expandedHeight
     clip: true
 
-    Flickables.ListView {
+    ListView {
         id: listView
         anchors {
             fill: parent

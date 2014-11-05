@@ -26,8 +26,15 @@ Item {
 
     property int animDuration: 10
 
-    property bool __useDotAnimation: true
-    property int __circleModifier: __useDotAnimation ? 1 : 2
+    QtObject {
+        id: d
+        objectName: "infographicPrivate"
+        property bool useDotAnimation: true
+        property int circleModifier: useDotAnimation ? 1 : 2
+        property bool animating: dotHideAnimTimer.running
+                              || dotShowAnimTimer.running
+                              || circleChangeAnimTimer.running
+    }
 
     Connections {
         target: model
@@ -46,7 +53,7 @@ Item {
         dotHideAnimTimer.stop()
         notification.hideAnim.stop()
 
-        if (__useDotAnimation) {
+        if (d.useDotAnimation) {
             dotShowAnimTimer.startFromBeginning()
         }
         notification.showAnim.start()
@@ -57,7 +64,7 @@ Item {
         circleChangeAnimTimer.stop()
         notification.showAnim.stop()
 
-        if (__useDotAnimation) {
+        if (d.useDotAnimation) {
             dotHideAnimTimer.startFromBeginning()
         } else {
             circleChangeAnimTimer.startFromBeginning()
@@ -148,21 +155,21 @@ Item {
                                 property: "opacity"
                                 to: pastCircle.circleOpacity
                                 easing.type: Easing.OutCurve
-                                duration: circleChangeAnimTimer.interval * __circleModifier
+                                duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
                             PropertyAnimation {
                                 target: pastCircle
                                 property: "scale"
                                 to: modelData
                                 easing.type: Easing.OutCurve
-                                duration: circleChangeAnimTimer.interval * __circleModifier
+                                duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
                             ColorAnimation {
                                 target: pastCircle
                                 property: "color"
                                 to: Gradient.threeColorByIndex(index, count, infographic.model.secondColor)
                                 easing.type: Easing.OutCurve
-                                duration: circleChangeAnimTimer.interval * __circleModifier
+                                duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
                         }
                     }
@@ -209,21 +216,21 @@ Item {
                                 property: "opacity"
                                 to: presentCircle.circleOpacity
                                 easing.type: Easing.OutCurve
-                                duration: circleChangeAnimTimer.interval * __circleModifier
+                                duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
                             PropertyAnimation {
                                 target: presentCircle
                                 property: "scale"
                                 to: modelData
                                 easing.type: Easing.OutCurve
-                                duration: circleChangeAnimTimer.interval * __circleModifier
+                                duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
                             ColorAnimation {
                                 target: presentCircle
                                 property: "color"
                                 to: Gradient.threeColorByIndex(index, infographic.model.currentDay, infographic.model.firstColor)
                                 easing.type: Easing.OutCurve
-                                duration: circleChangeAnimTimer.interval * __circleModifier
+                                duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
                         }
                     }
@@ -385,7 +392,7 @@ Item {
                 from: notification.baseOpacity
                 to: 0.0
                 duration: notification.duration * dots.count
-                onStopped: if (!__useDotAnimation) infographic.model.readyForDataChange()
+                onStopped: if (!d.useDotAnimation) infographic.model.readyForDataChange()
             }
         }
     }
@@ -394,10 +401,8 @@ Item {
         anchors.fill: dataCircle
 
         onDoubleClicked: {
-            if (!dotHideAnimTimer.running &&
-                    !dotShowAnimTimer.running &&
-                    !circleChangeAnimTimer.running) {
-                __useDotAnimation = false
+            if (!d.animating) {
+                d.useDotAnimation = false
                 infographic.model.nextDataSource()
             }
         }

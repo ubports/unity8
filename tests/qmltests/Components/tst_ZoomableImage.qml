@@ -56,23 +56,23 @@ Rectangle {
         when: windowShown
 
         function test_loadImage() {
-            var lazyImage = findChild(zoomableImage, "lazyImage");
+            var imageRenderer = findChild(zoomableImage, "imageRenderer");
 
             zoomableImage.source = widgetData0["source"];
             zoomableImage.zoomable = widgetData0["zoomable"];
             waitForRendering(zoomableImage);
-            tryCompare(zoomableImage, "imageState", "default");
+            tryCompare(zoomableImage, "imageStatus", Image.Null);
 
-            signalSpy.signalName = "onStateChanged";
-            signalSpy.target = lazyImage;
+            signalSpy.signalName = "onStatusChanged";
+            signalSpy.target = imageRenderer;
             signalSpy.clear();
 
             zoomableImage.source = widgetData1["source"];
             zoomableImage.zoomable = widgetData1["zoomable"];
-            waitForRendering(lazyImage);
-            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(widgetData1["source"]); }, true);
+            waitForRendering(imageRenderer);
+            tryCompareFunction(function() { return get_filename(imageRenderer.source.toString()) === get_filename(widgetData1["source"]); }, true);
             waitForRendering(zoomableImage);
-            tryCompare(zoomableImage, "imageState", "ready");
+            tryCompare(zoomableImage, "imageStatus", Image.Ready);
             compare (signalSpy.count, 1);
         }
 
@@ -84,15 +84,15 @@ Rectangle {
 
         function test_mousewheel() {
             var image = findChild(zoomableImage, "image");
-            var lazyImage = findChild(zoomableImage, "lazyImage");
+            var imageRenderer = findChild(zoomableImage, "imageRenderer");
             var flickable = findChild(zoomableImage, "flickable");
 
             zoomableImage.source = widgetData2["source"];
             zoomableImage.zoomable = true;
             waitForRendering(zoomableImage);
 
-            tryCompare(zoomableImage, "imageState", "ready");
-            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(widgetData2["source"]); }, true);
+            tryCompare(zoomableImage, "imageStatus", Image.Ready);
+            tryCompareFunction(function() { return get_filename(imageRenderer.source.toString()) === get_filename(widgetData2["source"]); }, true);
             waitForRendering(image);
 
             // move mouse to center
@@ -105,16 +105,16 @@ Rectangle {
                 for (var i=0; i<10; i++) {
                     mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, 10);
                     tryCompare(image, "scale", oldScale + (i + 1) * 0.1);
-                    compare(flickable.contentWidth, Math.max(lazyImage.width * image.scale, flickable.width));
-                    compare(flickable.contentHeight, Math.max(lazyImage.height * image.scale, flickable.height));
+                    compare(flickable.contentWidth, Math.max(imageRenderer.width * image.scale, flickable.width));
+                    compare(flickable.contentHeight, Math.max(imageRenderer.height * image.scale, flickable.height));
                 }
 
                 // zoom out
                 for (var i=0; i<10; i++) {
                     mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, -10);
                     tryCompare(image, "scale", oldScale + 1.0 - (i + 1) * 0.1);
-                    compare(flickable.contentWidth, Math.max(lazyImage.width * image.scale, flickable.width));
-                    compare(flickable.contentHeight, Math.max(lazyImage.height * image.scale, flickable.height));
+                    compare(flickable.contentWidth, Math.max(imageRenderer.width * image.scale, flickable.width));
+                    compare(flickable.contentHeight, Math.max(imageRenderer.height * image.scale, flickable.height));
                 }
             }
         }
@@ -135,7 +135,7 @@ Rectangle {
 
         function test_pinch(data) {
             var image = findChild(zoomableImage, "image");
-            var lazyImage = findChild(zoomableImage, "lazyImage");
+            var imageRenderer = findChild(zoomableImage, "imageRenderer");
             var flickable = findChild(zoomableImage, "flickable");
 
             signalSpy.signalName = "onScaleChanged";
@@ -146,8 +146,8 @@ Rectangle {
             zoomableImage.zoomable = data.zoomable;
             waitForRendering(zoomableImage);
 
-            tryCompare(zoomableImage, "imageState", "ready");
-            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(data.source); }, true);
+            tryCompare(zoomableImage, "imageStatus", Image.Ready);
+            tryCompareFunction(function() { return get_filename(imageRenderer.source.toString()) === get_filename(data.source); }, true);
             waitForRendering(image);
 
             var x1Start = zoomableImage.width * 2 / 6;
@@ -179,15 +179,15 @@ Rectangle {
                 compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
                 compare(signalSpy.count == 0, data.answer3, "scale signal count error");
                 compare(image.scale, newScale, "scale factor error");
-                compare(flickable.contentWidth, Math.max(lazyImage.width * image.scale, flickable.width));
-                compare(flickable.contentHeight, Math.max(lazyImage.height * image.scale, flickable.height));
+                compare(flickable.contentWidth, Math.max(imageRenderer.width * image.scale, flickable.width));
+                compare(flickable.contentHeight, Math.max(imageRenderer.height * image.scale, flickable.height));
 
                 wait(3000); // have to delay between two consequent pinch event.
                 // pinch zoom-out
                 touchPinch(zoomableImage, x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
                 tryCompare(image, "scale", oldScale);
-                compare(flickable.contentWidth, Math.max(lazyImage.width * image.scale, flickable.width));
-                compare(flickable.contentHeight, Math.max(lazyImage.height * image.scale, flickable.height));
+                compare(flickable.contentWidth, Math.max(imageRenderer.width * image.scale, flickable.width));
+                compare(flickable.contentHeight, Math.max(imageRenderer.height * image.scale, flickable.height));
             }
         }
     }

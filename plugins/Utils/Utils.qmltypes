@@ -107,6 +107,12 @@ Module {
         }
     }
     Component {
+        name: "RelativeTimeFormatter"
+        prototype: "TimeFormatter"
+        exports: ["Utils/RelativeTimeFormatter 0.1"]
+        exportMetaObjectRevisions: [0]
+    }
+    Component {
         name: "TimeFormatter"
         prototype: "QObject"
         exports: ["Utils/GDateTimeFormatter 0.1", "Utils/TimeFormatter 0.1"]

@@ -20,34 +20,45 @@
 #include "unitymenumodelcache.h"
 #include <unitymenumodel.h>
 
+#include <QQmlEngine>
+
+QPointer<UnityMenuModelCache> UnityMenuModelCache::theCache = nullptr;
+
+UnityMenuModelCache* UnityMenuModelCache::singleton()
+{
+    if (theCache.isNull()) {
+        theCache = new UnityMenuModelCache();
+    }
+    return theCache.data();
+}
+
 UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
     : QObject(parent)
 {
 }
 
-UnityMenuModelCache::~UnityMenuModelCache()
-{
-}
-
-UnityMenuModel* UnityMenuModelCache::model(const QByteArray& bus,
-                                           const QByteArray& path,
-                                           const QVariantMap& actions)
+QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& path)
 {
     if (m_registry.contains(path))
         return m_registry[path];
 
-    UnityMenuModel* menuModel = new UnityMenuModel;
-    connect(menuModel, &QObject::destroyed, this, [menuModel, this](QObject*) {
-        QList<QByteArray> keys = m_registry.keys(menuModel);
-        Q_FOREACH(const QByteArray& key, keys) {
-            m_registry.remove(key);
+    UnityMenuModel* model = new UnityMenuModel;
+    QQmlEngine::setObjectOwnership(model, QQmlEngine::CppOwnership);
+
+    QSharedPointer<UnityMenuModel> menuModel(model);
+    connect(model, &QObject::destroyed, this, [this] {
+        QMutableHashIterator<QByteArray, QWeakPointer<UnityMenuModel>> iter(m_registry);
+        while(iter.hasNext()) {
+            auto keyVal = iter.next();
+            if (keyVal.value().isNull()) {
+                iter.remove();
+                break;
+            }
         }
     });
-    m_registry[path] = menuModel;
+    m_registry[path] = menuModel.toWeakRef();
 
-    menuModel->setBusName(bus);
     menuModel->setMenuObjectPath(path);
-    menuModel->setActions(actions);
     return menuModel;
 }
 

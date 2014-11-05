@@ -57,6 +57,8 @@ Row {
         property bool itemDestroyed: false
         sourceComponent: Component {
             Shell {
+                property string indicatorProfile: "phone"
+
                 Component.onDestruction: {
                     shellLoader.itemDestroyed = true
                 }
@@ -119,12 +121,15 @@ Row {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
             sessionSpy.clear()
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator")
         }
 
         function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+
             shellLoader.itemDestroyed = false
 
             shellLoader.active = false
