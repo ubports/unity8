@@ -115,6 +115,16 @@ Loader {
                     anchors.verticalCenter: checkBox.verticalCenter
                     text: i18n.tr("Show password")
                     color: notification.sdFontColor
+
+                    onClicked: showPassword()
+                }
+
+                function showPassword() {
+                    if (checkBox.checked == true) {
+                        checkBox.checked = false
+                    } else {
+                        checkBox.checked = true
+                    }
                 }
             }
         }
