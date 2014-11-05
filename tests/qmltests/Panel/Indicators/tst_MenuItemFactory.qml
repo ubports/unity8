@@ -740,7 +740,7 @@ Item {
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
-        function test_lp1336715_broken_checkbox_bindings() {
+        function test_lp1336715_broken_switch_bindings() {
             menuData.type = "com.canonical.indicator.switch";
             menuData.sensitive = true;
             menuData.isToggled = false;
@@ -757,6 +757,22 @@ Item {
             menuData.isToggled = false;
 
             compare(loader.item.checked, false, "Server updates no longer working");
+        }
+
+        // test that the server value is re-aserted if it is not confirmed.
+        function test_lp1336715_switch_server_value_reassertion() {
+            menuData.type = "com.canonical.indicator.switch";
+            menuData.sensitive = true;
+            menuData.isToggled = false;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+
+            compare(loader.item.checked, false, "Loader did not load check state");
+            mouseClick(loader.item,
+                       loader.item.width / 2, loader.item.height / 2);
+            compare(loader.item.checked, true, "Clicking switch menu should toggle check");
+            tryCompare(loader.item, "checked", false);
         }
     }
 }
