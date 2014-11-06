@@ -166,8 +166,7 @@ Row {
                 summaryVisible: true,
                 bodyVisible: true,
                 iconVisible: true,
-                shapedIcon: true,
-                nonShapedIcon: false,
+                shaped: true,
                 secondaryIconVisible: true,
                 buttonRowVisible: true,
                 buttonTinted: true,
@@ -218,8 +217,9 @@ Row {
             var buttonRow = findChild(notification, "buttonRow")
 
             compare(icon.visible, data.iconVisible, "avatar-icon visibility is incorrect")
-            compare(shapedIcon.visible, data.shapedIcon, "shaped-icon visibility is incorrect")
-            compare(nonShapedIcon.visible, data.nonShapedIcon, "non-shaped-icon visibility is incorrect")
+            if (icon.visible) {
+                compare(icon.shaped, data.shaped, "shaped-status is incorrect")
+            }
 
             // test input does not fall through
             mouseClick(notification, notification.width / 2, notification.height / 2)
