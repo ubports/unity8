@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-31 10:36+0100\n"
-"PO-Revision-Date: 2014-10-07 09:28+0000\n"
+"PO-Revision-Date: 2014-11-05 09:41+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2014-11-05 07:08+0000\n"
+"X-Launchpad-Export-Date: 2014-11-06 06:40+0000\n"
 "X-Generator: Launchpad (build 17223)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -163,7 +163,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "Vrni se h klicu"
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
@@ -179,7 +179,7 @@ msgstr "Pokaži manj"
 
 #: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
-msgstr "Ogled vsega"
+msgstr "Pokaži vse"
 
 #: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
 #: qml/Panel/SearchIndicator.qml:27
