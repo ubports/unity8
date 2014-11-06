@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,12 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-.pragma library
+#ifndef SCREENGRABBER_PLUGIN_H
+#define SCREENGRABBER_PLUGIN_H
 
-var Confirmation = 0;
-var Ephemeral = 1;
-var Interactive = 2;
-var SnapDecision = 3;
-var PlaceHolder = 4;
+#include <QtQml/QQmlExtensionPlugin>
+
+class ScreenGrabberPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri);
+};
+
+#endif // SCREENGRABBER_PLUGIN_H

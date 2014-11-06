@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-07 11:37+0300\n"
+"POT-Creation-Date: 2014-10-31 10:36+0100\n"
 "PO-Revision-Date: 2014-10-16 14:55+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-17 06:22+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-11-06 06:41+0000\n"
+"X-Generator: Launchpad (build 17223)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -49,59 +49,59 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "請等候 %1 分鐘再試…"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:74
 msgid "Log out"
 msgstr "登出"
 
-#: qml/Components/Dialogs.qml:71
+#: qml/Components/Dialogs.qml:75
 msgid "Are you sure you want to log out?"
 msgstr "確定要登出？"
 
-#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:126
 msgid "No"
 msgstr "否"
 
-#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:133
 msgid "Yes"
 msgstr "是"
 
-#: qml/Components/Dialogs.qml:94
+#: qml/Components/Dialogs.qml:98
 msgid "Shut down"
 msgstr "關機"
 
-#: qml/Components/Dialogs.qml:95
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "確定要關機？"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:123
 msgid "Reboot"
 msgstr "重新開機"
 
-#: qml/Components/Dialogs.qml:120
+#: qml/Components/Dialogs.qml:124
 msgid "Are you sure you want to reboot?"
 msgstr "確定要重新開機？"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:148
 msgid "Power"
 msgstr "關閉電源"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:149
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "確定要關閉電源？"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:151
 msgid "Power off"
 msgstr "關閉電源"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:161
 msgid "Restart"
 msgstr "重新啟動"
 
-#: qml/Components/Dialogs.qml:167
+#: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr "取消"
 
@@ -133,29 +133,33 @@ msgstr "關閉"
 msgid "Swipe up again to close the settings screen"
 msgstr "再次向上滑動關閉設定畫面"
 
-#: qml/Components/EdgeDemo.qml:198
+#: qml/Components/EdgeDemo.qml:201
 msgid "Left edge"
 msgstr "左方邊緣"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:202
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr "從螢幕左緣向右滑動揭開啟動器可快速存取程式"
 
-#: qml/Components/EdgeDemo.qml:226
+#: qml/Components/EdgeDemo.qml:229
 msgid "Well done"
 msgstr "做得好"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:230
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:223
+msgid "Return to Call"
+msgstr ""
+
+#: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
 msgstr "緊急通話"
 
-#: qml/Components/Lockscreen.qml:252
+#: qml/Components/Lockscreen.qml:255
 msgid "OK"
 msgstr "確定"
 
@@ -212,15 +216,15 @@ msgstr "下拉以重新整理..."
 msgid "Release to refresh…"
 msgstr "放開以重新整理..."
 
-#: qml/Dash/ScopesOverview.qml:206
+#: qml/Dash/ScopesOverview.qml:215
 msgid "Manage Scopes"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:428
+#: qml/Dash/ScopesOverview.qml:437
 msgid "Done"
 msgstr "完成"
 
-#: qml/Dash/ScopesOverview.qml:454
+#: qml/Dash/ScopesOverview.qml:463
 msgid "Store"
 msgstr "商城"
 
@@ -232,7 +236,7 @@ msgstr "最愛"
 msgid "All"
 msgstr "全部"
 
-#: qml/Greeter/Greeter.qml:157
+#: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "解鎖"
 
@@ -260,39 +264,39 @@ msgstr "說話中..."
 msgid "Show password"
 msgstr "顯示密碼"
 
-#: qml/Panel/ActiveCallHint.qml:77
+#: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
 msgstr "輕觸可返回通話…"
 
-#: qml/Panel/ActiveCallHint.qml:90
+#: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
 msgstr "會議"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:600
+#: qml/Panel/Indicators/MenuItemFactory.qml:615
 msgid "Nothing is playing"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:748
+#: qml/Panel/Indicators/MenuItemFactory.qml:763
 msgid "In queue…"
 msgstr "佇列中…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:767
 msgid "Downloading"
 msgstr "下載中"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:754
+#: qml/Panel/Indicators/MenuItemFactory.qml:769
 msgid "Paused, tap to resume"
 msgstr "已暫停，輕觸可繼續"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:756
+#: qml/Panel/Indicators/MenuItemFactory.qml:771
 msgid "Canceled"
 msgstr "已取消"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:758
+#: qml/Panel/Indicators/MenuItemFactory.qml:773
 msgid "Finished"
 msgstr "已完成"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:760
+#: qml/Panel/Indicators/MenuItemFactory.qml:775
 msgid "Failed, tap to retry"
 msgstr "失敗，輕觸可重試"
 
@@ -304,55 +308,55 @@ msgstr "為 SIM 卡解鎖"
 msgid "Roaming"
 msgstr "漫遊"
 
-#: qml/Shell.qml:346
+#: qml/Shell.qml:381
 msgid "Enter passphrase"
 msgstr "輸入密語"
 
-#: qml/Shell.qml:347
+#: qml/Shell.qml:382
 msgid "Sorry, incorrect passphrase"
 msgstr "抱歉，密語不對"
 
-#: qml/Shell.qml:348
+#: qml/Shell.qml:383
 msgid "Please re-enter"
 msgstr "請再輸入"
 
-#: qml/Shell.qml:350
+#: qml/Shell.qml:385
 msgid "Enter passcode"
 msgstr "輸入 passcode"
 
-#: qml/Shell.qml:351
+#: qml/Shell.qml:386
 msgid "Sorry, incorrect passcode"
 msgstr "抱歉，passcode 不對"
 
-#: qml/Shell.qml:354
+#: qml/Shell.qml:389
 #, qt-format
 msgid "Enter %1"
 msgstr "輸入 %1"
 
-#: qml/Shell.qml:355
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "抱歉，%1不對"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:431
 msgid "Sorry, incorrect passphrase."
 msgstr "抱歉，密語不對"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:432
 msgid "Sorry, incorrect passcode."
 msgstr "抱歉，passcode 不對。"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:433
 msgid "This will be your last attempt."
 msgstr "這將會是您最後一次嘗試的機會。"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:435
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:436
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

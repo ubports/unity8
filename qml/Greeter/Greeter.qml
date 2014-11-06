@@ -132,7 +132,7 @@ Showable {
     TouchGate {
         targetItem: dragHandle
         anchors.fill: targetItem
-        enabled: targetITem.enabled
+        enabled: targetItem.enabled
     }
 
     Loader {

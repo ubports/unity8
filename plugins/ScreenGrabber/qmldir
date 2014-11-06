@@ -1,0 +1,3 @@
+module ScreenGrabber
+plugin ScreenGrabber-qml
+typeinfo ScreenGrabber.qmltypes

@@ -381,7 +381,7 @@ Item {
 
                 spacing: contentSpacing
 
-                visible: notification.type == Notification.SnapDecision && oneOverTwoRepeaterTop.count == 3
+                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3
 
                 Repeater {
                     id: oneOverTwoRepeaterTop
@@ -451,22 +451,41 @@ Item {
                 spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 
+                Loader {
+                    id: notifySwipeButtonLoader
+                    active: notification.hints["x-canonical-snap-decisions-swipe"] === "true"
+
+                    sourceComponent: SwipeToAct  {
+                        objectName: "notify_swipe_button"
+                        width: buttonRow.width
+                        leftIconName: "call-end"
+                        rightIconName: "call-start"
+                        onLeftTriggered: {
+                            notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
+                        }
+
+                        onRightTriggered: {
+                            notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
+                        }
+                    }
+                }
+
                 Repeater {
                     id: actionRepeater
-
                     model: notification.actions
                     delegate: Loader {
                         id: loader
 
                         property string actionId: id
                         property string actionLabel: label
+                        active: !notifySwipeButtonLoader.active
 
                         Component {
                             id: actionButton
 
                             Button {
                                 objectName: "notify_button" + index
-                                width: buttonRow.width / 2 - spacing*2
+                                width: buttonRow.width / 2 - spacing * 2
                                 text: loader.actionLabel
                                 color: {
                                     var result = sdDarkGrey;
