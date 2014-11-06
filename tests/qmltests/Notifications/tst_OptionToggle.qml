@@ -31,6 +31,7 @@ Row {
 
         QtObject {
             function invokeAction(actionId) {
+                console.log("Action invoked", actionId);
                 mockModel.actionInvoked(actionId)
             }
         }
