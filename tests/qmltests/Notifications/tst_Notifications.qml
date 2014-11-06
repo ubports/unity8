@@ -267,11 +267,7 @@ Item {
                 }
             }
         }
-
-        /*ActionModel {
-            id: myActionModel
-        }*/
-    
+ 
         UnityTestCase {
             id: root
             name: "NotificationRendererTest"
