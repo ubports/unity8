@@ -1,7 +1,6 @@
 usr/lib/*/libunity8-private.*
 usr/lib/*/unity8/qml/AccountsService
 usr/lib/*/unity8/qml/Dash
-usr/lib/*/unity8/qml/HudClient
 usr/lib/*/unity8/qml/LightDM
 usr/lib/*/unity8/qml/Lights
 usr/lib/*/unity8/qml/Powerd
