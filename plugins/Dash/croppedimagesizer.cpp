@@ -86,6 +86,7 @@ void CroppedImageSizer::calculateSourceSize()
 {
     if (m_source.isValid() && m_width > 0 && m_height > 0 && qmlEngine(this) && qmlEngine(this)->networkAccessManager()) {
         if (m_reply) {
+            m_reply->disconnect();
             m_reply->abort();
             m_reply->deleteLater();
         }
