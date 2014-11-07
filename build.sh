@@ -51,10 +51,9 @@ install_dependencies() {
                          qtdeclarative5-ubuntu-settings-components \
                          qtdeclarative5-ubuntu-telephony0.1 \
                          qtdeclarative5-ubuntu-thumbnailer0.1 \
-                         unity-notifications-impl \
+                         qtdeclarative5-unity-notifications-plugin \
+                         qml-module-ubuntu-connectivity \
                          ubuntu-mobile-icons \
-                         unity-scope-home \
-                         unity-lens-applications \
                          unity-plugin-scopes \
                          xvfb \
         || exit 5

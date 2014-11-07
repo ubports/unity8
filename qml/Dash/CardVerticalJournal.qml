@@ -33,6 +33,23 @@ DashRenderer {
     // in case the model is non empty
     readonly property double minHeight: root.model.count >= 1 ? cardVerticalJournal.rowSpacing + 1 : 0
 
+    function clearView() {
+        cardVerticalJournal.model = null;
+        cardVerticalJournal.model = root.model;
+    }
+
+    // Clear the view if the cardTool changes its sizes
+    // means it is still settling. This is
+    // necessary because the VerticalJournal does
+    // not support its elements changing height so
+    // we need to construct all the items with the settled
+    // size of the cardTool
+    Connections {
+        target: cardTool
+        onArtShapeSizeChanged: root.clearView();
+        onHeaderHeightChanged: root.clearView();
+    }
+
     ResponsiveVerticalJournal {
         id: cardVerticalJournal
 
@@ -49,6 +66,7 @@ DashRenderer {
             id: loader
             sourceComponent: cardTool.cardComponent
             width: cardTool.cardWidth
+            visible: y + height >= root.visibleRangeBegin && y <= root.visibleRangeEnd
             onLoaded: {
                 item.objectName = "delegate" + index;
                 item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
@@ -56,7 +74,7 @@ DashRenderer {
                 item.cardData = Qt.binding(function() { return model; });
                 item.template = Qt.binding(function() { return cardTool.template; });
                 item.components = Qt.binding(function() { return cardTool.components; });
-                item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
+                item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                 item.scopeStyle = root.scopeStyle;
             }
             Connections {

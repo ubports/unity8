@@ -47,12 +47,12 @@ EdgeDragArea {
     id: dragArea
     objectName: "dragHandle"
 
-    // Disable most of the gesture recognition parameters by default when hinting is used as
+    // Disable gesture recognition by default when hinting is used as
     // it conflicts with the hinting idea.
-    // The only part we keep in this situation is that it must be a single-finger gesture.
     distanceThreshold: hintDisplacement > 0 ? 0 : defaultDistanceThreshold
     maxSilenceTime: hintDisplacement > 0 ? 60*60*1000 : defaultMaxSilenceTime
     maxDeviation: hintDisplacement > 0 ? 999999 : defaultMaxDeviation
+    compositionTime: hintDisplacement > 0 ? 0 : defaultCompositionTime
 
     property bool stretch: false
 
@@ -68,6 +68,7 @@ EdgeDragArea {
     }
 
     property real hintDisplacement: 0
+    property var overrideStartValue: undefined
     SmoothedAnimation {
         id: hintingAnimation
         target: hintingAnimation
@@ -196,7 +197,11 @@ EdgeDragArea {
         } else /* Undecided || Recognized */ {
             if (d.previousStatus === DirectionalDragArea.WaitingForTouch) {
                 dragEvaluator.reset();
-                d.startValue = parent[d.targetProp];
+                if (overrideStartValue !== undefined) {
+                    d.startValue = overrideStartValue;
+                } else {
+                    d.startValue = parent[d.targetProp];
+                }
 
                 if (hintDisplacement > 0) {
                     hintingAnimation.targetValue = d.startValue;

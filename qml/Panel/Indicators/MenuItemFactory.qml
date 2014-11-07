@@ -283,14 +283,33 @@ Item {
             objectName: "checkableMenu"
             property QtObject menuData: null
             property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
-            checked: menuData && menuData.isToggled || false
+            checked: serverChecked
             highlightWhenPressed: false
 
+            onServerCheckedChanged: updateFromServer()
             onTriggered: {
                 menuModel.activate(menuIndex);
+                resyncTimer.restart();
+            }
+
+            // value can be changed by menu, so a binding won't work.
+            function updateFromServer() {
+                resyncTimer.stop();
+                if (checked != serverChecked) {
+                    checked = serverChecked;
+                }
+            }
+
+            // Server value is not guaranteed to change to what we expect from an activation.
+            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
+            Timer {
+                id: resyncTimer
+                interval: 1500
+                onTriggered: updateFromServer()
             }
         }
     }
@@ -302,15 +321,34 @@ Item {
             objectName: "switchMenu"
             property QtObject menuData: null
             property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
-            checked: menuData && menuData.isToggled || false
+            checked: serverChecked
             highlightWhenPressed: false
 
+            onServerCheckedChanged: updateFromServer()
             onTriggered: {
                 menuModel.activate(menuIndex);
+                resyncTimer.restart();
+            }
+
+            // value can be changed by menu, so a binding won't work.
+            function updateFromServer() {
+                resyncTimer.stop();
+                if (checked != serverChecked) {
+                    checked = serverChecked;
+                }
+            }
+
+            // Server value is not guaranteed to change to what we expect from an activation.
+            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
+            Timer {
+                id: resyncTimer
+                interval: 1500
+                onTriggered: updateFromServer()
             }
         }
     }
@@ -431,6 +469,7 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
+            property bool serverChecked: menuData && menuData.isToggled || false
 
             property var strengthAction: UnityMenuAction {
                 model: menuModel
@@ -440,12 +479,16 @@ Item {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
-            active: menuData && menuData.isToggled || false
+            active: serverChecked
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             signalStrength: strengthAction.valid ? strengthAction.state : 0
             highlightWhenPressed: false
 
+            onServerCheckedChanged: {
+                // value can be changed by menu, so a binding won't work.
+                active = serverChecked;
+            }
             onMenuModelChanged: {
                 loadAttributes();
             }
@@ -823,7 +866,7 @@ Item {
     }
 
     function load(modelData, context) {
-        if (modelData.type !== undefined) {
+        if (modelData.type !== undefined && modelData.type !== "") {
             var component = undefined;
 
             var contextComponents = _map[context];

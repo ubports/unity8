@@ -54,6 +54,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("ubuntu-weather-app", "/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather", this);
     item->setCount(1234567890);
     item->setCountVisible(true);
+    item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad", this);
     item->setProgress(50);
@@ -206,6 +207,11 @@ QString MockLauncherModel::getUrlForAppId(const QString &appId) const
 void MockLauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager)
 {
     Q_UNUSED(applicationManager)
+}
+
+void MockLauncherModel::emitHint()
+{
+    Q_EMIT hint();
 }
 
 unity::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const

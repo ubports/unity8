@@ -1,3 +1,4 @@
+usr/lib/*/libunity8-private.*
 usr/lib/*/unity8/qml/AccountsService
 usr/lib/*/unity8/qml/Dash
 usr/lib/*/unity8/qml/HudClient
@@ -5,8 +6,10 @@ usr/lib/*/unity8/qml/LightDM
 usr/lib/*/unity8/qml/Lights
 usr/lib/*/unity8/qml/Powerd
 usr/lib/*/unity8/qml/SessionBroadcast
+usr/lib/*/unity8/qml/ScreenGrabber
 usr/lib/*/unity8/qml/Ubuntu
 usr/lib/*/unity8/qml/Unity
 usr/lib/*/unity8/qml/Utils
+usr/lib/*/unity8/libUbuntuGestures*
 usr/share/accountsservice/interfaces
 usr/share/dbus-1/interfaces

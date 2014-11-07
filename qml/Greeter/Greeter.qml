@@ -36,7 +36,7 @@ Showable {
 
     property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
-    property bool locked: shown && !LightDM.Greeter.promptless
+    property bool locked: true
 
     readonly property bool narrowMode: !multiUser && height > width
     readonly property bool multiUser: LightDM.Users.count > 1
@@ -54,6 +54,18 @@ Showable {
         if (shown) {
             hideAnimation = __rightHideAnimation
             hide()
+        }
+    }
+
+    function tryToUnlock() {
+        if (created) {
+            greeterContentLoader.item.tryToUnlock()
+        }
+    }
+
+    function reset() {
+        if (created) {
+            greeterContentLoader.item.reset()
         }
     }
 
@@ -117,6 +129,11 @@ Showable {
             direction: Direction.Leftwards
         }
     }
+    TouchGate {
+        targetItem: dragHandle
+        anchors.fill: targetItem
+        enabled: targetItem.enabled
+    }
 
     Loader {
         id: greeterContentLoader
@@ -154,7 +171,7 @@ Showable {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: units.gu(5)
-        text: i18n.tr("Swipe to unlock")
+        text: "《    " + i18n.tr("Unlock") + "    》"
         color: "white"
         font.weight: Font.Light
 

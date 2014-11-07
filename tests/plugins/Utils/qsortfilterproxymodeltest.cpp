@@ -64,7 +64,7 @@ public:
     bool insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) {
         beginInsertRows(parent, row, row+count-1);
         for (int i=0; i<count; i++) {
-            m_list.insert(i+row, "test"+i);
+            m_list.insert(i+row, QString("test%1").arg(i));
         }
         endInsertRows();
         return true;

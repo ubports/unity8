@@ -6,13 +6,15 @@ AbstractButton {
                 property var artShapeBorderSource: undefined; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int headerAlignment: Text.AlignLeft; 
+                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
+                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true);
+
 onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } 
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
@@ -44,12 +46,13 @@ Item  {
                                             height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
                                         }
                                     } 
-                                    image: Image { 
+                                    image: CroppedImageMinimumSourceSize {
                                         objectName: "artImage"; 
-                                        source: cardData && cardData["art"] || ""; 
-                                        cache: true; 
+                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith;
+                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
+                                        cache: true;
                                         asynchronous: root.asynchronous; 
-                                        fillMode: Image.PreserveAspectCrop;
+                                        visible: false; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
@@ -117,8 +120,8 @@ Label {
                         color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader && overlayLoader.active; 
                         text: root.title; 
-                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.headerAlignment; 
+                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        horizontalAlignment: root.titleAlignment; 
                     }
 Label { 
                             id: subtitleLabel; 
@@ -131,19 +134,18 @@ Label {
                             } 
                             anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
-                            fontSize: "small"; 
+                            fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                             color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
-                            horizontalAlignment: root.headerAlignment; 
                         }
 UbuntuShape { 
     id: touchdown; 
     objectName: "touchdown"; 
     anchors { fill: artShapeHolder } 
-    visible: root.pressed; 
+    visible: root.pressed;
     radius: "medium"; 
     borderSource: "radius_pressed.sci" 
 }

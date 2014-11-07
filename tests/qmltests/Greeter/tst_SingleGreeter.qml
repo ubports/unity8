@@ -27,50 +27,72 @@ Item {
     width: units.gu(60)
     height: units.gu(80)
 
-    Greeter {
-        id: greeter
-        width: parent.width
-        height: parent.height
-        x: 0; y: 0
+    Loader {
+        id: greeterLoader
+        anchors.fill: parent
 
-        property int minX: 0
+        property bool itemDestroyed: false
 
-        onXChanged: {
-            if (x < minX) {
-                minX = x;
-            }
-        }
-    }
+        sourceComponent: Component {
+            Greeter {
+                anchors.fill: greeterLoader
 
-    Component {
-        id: greeterComponent
-        Greeter {
-            SignalSpy {
-                objectName: "selectedSpy"
-                target: parent
-                signalName: "selected"
+                property int minX: 0
+
+                onXChanged: {
+                    if (x < minX) {
+                        minX = x;
+                    }
+                }
+
+                Component.onDestruction: {
+                    greeterLoader.itemDestroyed = true;
+                }
+                SignalSpy {
+                    objectName: "selectedSpy"
+                    target: parent
+                    signalName: "selected"
+                }
             }
         }
     }
 
     SignalSpy {
         id: unlockSpy
-        target: greeter
+        target: greeterLoader.item
         signalName: "unlocked"
     }
 
     SignalSpy {
         id: teaseSpy
-        target: greeter
+        target: greeterLoader.item
         signalName: "tease"
+    }
+
+    SignalSpy {
+        id: infographicDataChangedSpy
+        target: LightDM.Infographic
+        signalName: "dataChanged"
     }
 
     UT.UnityTestCase {
         name: "SingleGreeter"
         when: windowShown
 
+        property Greeter greeter: greeterLoader.item
+
         function cleanup() {
             AccountsService.statsWelcomeScreen = true
+
+            // force a reload so that we get a fresh Greeter for the next test
+            greeterLoader.itemDestroyed = false;
+            greeterLoader.active = false;
+            tryCompare(greeterLoader, "itemDestroyed", true);
+
+            unlockSpy.clear();
+            teaseSpy.clear();
+
+            greeterLoader.active = true;
         }
 
         function test_properties() {
@@ -87,7 +109,7 @@ Item {
 
         function test_teasingArea(data) {
             teaseSpy.clear()
-            mouseClick(greeter, data.posX, greeter.height - units.gu(1))
+            tap(greeter, data.posX, greeter.height - units.gu(1))
             teaseSpy.wait()
             tryCompare(teaseSpy, "count", 1)
         }
@@ -103,11 +125,32 @@ Item {
         }
 
         function test_initial_selected_signal() {
-            var greeterObj = greeterComponent.createObject(this)
-            var spy = findChild(greeterObj, "selectedSpy")
-            spy.wait()
-            tryCompare(spy, "count", 1)
-            greeterObj.destroy()
+            var selectedSpy = findChild(greeter, "selectedSpy");
+            selectedSpy.wait();
+            tryCompare(selectedSpy, "count", 1);
+        }
+
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1388359
+            "User metrics can no longer be changed by double tap"
+        */
+        function test_doubleTapSwitchesToNextInfographic() {
+            infographicDataChangedSpy.clear();
+
+            var infographicPrivate = findInvisibleChild(greeter, "infographicPrivate");
+            verify(infographicPrivate);
+
+            // wait for the UI to settle down before double tapping it
+            tryCompare(infographicPrivate, "animating", false);
+
+            var dataCircle = findChild(greeter, "dataCircle");
+            verify(dataCircle);
+
+            tap(dataCircle);
+            wait(1);
+            tap(dataCircle);
+
+            tryCompare(infographicDataChangedSpy, "count", 1);
         }
     }
 }

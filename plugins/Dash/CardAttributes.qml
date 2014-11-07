@@ -41,6 +41,8 @@ GridLayout {
                 if (column == grid.columns - 1 || index == repeater.count - 1) return Qt.AlignRight;
                 if (column == 1) return Qt.AlignHCenter;
             }
+            Layout.column: index % grid.columns
+            Layout.row: index / grid.columns
             Layout.columnSpan: index == repeater.count - 1 && grid.columns == 3 && column == 1 ? 2 : 1
             Layout.maximumWidth: Math.max(icon.width, label.x + label.implicitWidth)
             Layout.fillWidth: true
@@ -59,7 +61,7 @@ GridLayout {
                 text: "value" in modelData && modelData["value"] || "";
                 elide: Text.ElideRight
                 maximumLineCount: 1
-                font.weight: "style" in modelData && modelData["style"] == "highlighted" ? Font.DemiBold : Font.Light
+                font.weight: "style" in modelData && modelData["style"] === "highlighted" ? Font.Bold : Font.Light
                 fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 color: grid.color

@@ -23,6 +23,8 @@ import "../Components"
 Item {
     id: callHint
 
+    property bool greeterShown: false
+
     readonly property bool active: {
         var application = ApplicationManager.findApplication("dialer-app");
 
@@ -33,7 +35,7 @@ Item {
                 return application.state !== ApplicationInfoInterface.Starting;
             }
         }
-        if (ApplicationManager.focusedApplicationId !== "dialer-app") {
+        if (greeterShown || ApplicationManager.focusedApplicationId !== "dialer-app") {
             if (application) {
                 // Don't show if application is still starting; might get a fleeting true/false.
                 return application.state !== ApplicationInfoInterface.Starting && callManager.hasCalls;
@@ -117,7 +119,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
             text: {
-                var m = Math.round(d.callTime/60);
+                var m = Math.floor(d.callTime/60);
                 var ss = d.callTime % 60;
                 if (ss >= 10) {
                     return m + ":" + ss;

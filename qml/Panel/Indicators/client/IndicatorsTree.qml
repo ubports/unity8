@@ -20,36 +20,14 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
-import QMenuModel 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import ".."
 
-Page {
-    id: page
-    anchors.fill: parent
-
-    property string busName: unityModel.busName
-    property string actionsObjectPath
-    property string menuObjectPath
-
-    property string deviceMenuObjectPath: menuObjectPath
-
-    function start() {
-    }
-
-    UnityMenuModel {
-        id: unityModel
-        busName: page.busName
-        actions: { "indicator": page.actionsObjectPath }
-        menuObjectPath: page.deviceMenuObjectPath
-    }
-
-    Indicators.RootActionState {
-        menu: unityModel
-    }
+IndicatorBase {
+    id: root
 
     Indicators.ModelPrinter {
         id: printer
-        model: unityModel
+        model: root.menuModel
     }
 
     Flickable {

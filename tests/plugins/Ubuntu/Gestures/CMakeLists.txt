@@ -1,7 +1,13 @@
 include(QmlTest)
 
+# DANGER! DANGER! Using Qt's private API!
+include_directories(
+    ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
+)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
+    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
@@ -17,9 +23,9 @@ add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
 macro(add_gesture_ui_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
-    target_link_libraries(${CLASSNAME}TestExec UbuntuGestureQml)
+    target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml UbuntuGestures)
 
-    add_binary_qml_test(${CLASSNAME} ${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures UbuntuGesturesTestQmlFiles)
+    add_binary_qml_test(${CLASSNAME} ${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures UbuntuGesturesTestQmlFiles "")
     add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro(add_gesture_ui_test)
 
@@ -34,10 +40,12 @@ macro(add_gesture_test CLASSNAME)
 
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core)
-    target_link_libraries(${CLASSNAME}TestExec UbuntuGestureQml)
+    target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml)
 endmacro(add_gesture_test)
 
 add_gesture_ui_test(DirectionalDragArea)
 add_gesture_ui_test(PressedOutsideNotifier)
+add_gesture_ui_test(TouchDispatcher)
+add_gesture_ui_test(TouchGate)
 add_gesture_test(Damper)
 add_gesture_test(AxisVelocityCalculator)

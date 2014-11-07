@@ -31,7 +31,6 @@ FakeIndicatorsModel::FakeIndicatorsModel(QObject *parent)
 /*! \internal */
 FakeIndicatorsModel::~FakeIndicatorsModel()
 {
-    qDeleteAll(m_indicators);
 }
 
 int FakeIndicatorsModel::count() const
@@ -47,29 +46,61 @@ void FakeIndicatorsModel::unload()
 {
     beginResetModel();
 
-    qDeleteAll(m_indicators);
-    m_indicators.clear();
+    m_modelData.clear();
+    Q_EMIT modelDataChanged();
 
     endResetModel();
 }
 
 
-void FakeIndicatorsModel::append(const QVariantMap& row)
+void FakeIndicatorsModel::append(const QVariantMap& data)
 {
-    Indicator* new_row = new QHash<int, QVariant>();
-    for (auto iter = row.begin(); iter != row.end(); ++iter )
-    {
-        int key = roleNames().key(iter.key().toUtf8(), -1);
-        if (key != -1) {
-            new_row->insert(key, iter.value());
-        }
-    }
+    QList<QVariant> allData = m_modelData.toList();
+    beginInsertRows(QModelIndex(), allData.count(), allData.count());
 
-    beginInsertRows(QModelIndex(), m_indicators.count(), m_indicators.count());
-
-    m_indicators.append(new_row);
+    allData.append(data);
+    m_modelData = allData;
+    Q_EMIT modelDataChanged();
 
     endInsertRows();
+}
+
+void FakeIndicatorsModel::insert(int row, const QVariantMap& data)
+{
+    QList<QVariant> allData = m_modelData.toList();
+    row = qMax(0, qMin(row, allData.count()));
+
+    beginInsertRows(QModelIndex(), row, row);
+
+    allData.insert(row, data);
+    m_modelData = allData;
+    Q_EMIT modelDataChanged();
+
+    endInsertRows();
+}
+
+void FakeIndicatorsModel::remove(int row)
+{
+    QList<QVariant> allData = m_modelData.toList();
+    row = qMax(0, qMin(row, allData.count()));
+
+    beginRemoveRows(QModelIndex(), row, row);
+
+    allData.removeAt(row);
+    m_modelData = allData;
+    Q_EMIT modelDataChanged();
+
+    endRemoveRows();
+}
+
+void FakeIndicatorsModel::setModelData(const QVariant& modelData)
+{
+    beginResetModel();
+
+    m_modelData = modelData;
+    Q_EMIT modelDataChanged();
+
+    endResetModel();
 }
 
 QHash<int, QByteArray> FakeIndicatorsModel::roleNames() const
@@ -79,8 +110,6 @@ QHash<int, QByteArray> FakeIndicatorsModel::roleNames() const
     {
         roles[IndicatorsModelRole::Identifier] = "identifier";
         roles[IndicatorsModelRole::Position] = "position";
-        roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
-        roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
     }
     return roles;
@@ -91,18 +120,18 @@ int FakeIndicatorsModel::columnCount(const QModelIndex &) const
     return 1;
 }
 
-Q_INVOKABLE QVariant FakeIndicatorsModel::data(int row, int role) const
+QVariant FakeIndicatorsModel::data(int row, int role) const
 {
     return data(index(row, 0), role);
 }
 
 QVariant FakeIndicatorsModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_indicators.size())
+    QList<QVariant> dataList = m_modelData.toList();
+    if (!index.isValid() || index.row() >= dataList.size())
         return QVariant();
 
-    Indicator* indicator = m_indicators[index.row()];
-    return indicator->value(role, QVariant());
+    return dataList[index.row()].toMap()[roleNames()[role]];
 }
 
 QModelIndex FakeIndicatorsModel::parent(const QModelIndex&) const
@@ -112,5 +141,5 @@ QModelIndex FakeIndicatorsModel::parent(const QModelIndex&) const
 
 int FakeIndicatorsModel::rowCount(const QModelIndex&) const
 {
-    return m_indicators.count();
+    return m_modelData.toList().count();
 }

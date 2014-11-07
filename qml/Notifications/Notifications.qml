@@ -31,6 +31,7 @@ ListView {
 
     SortFilterProxyModel {
         id: snapDecisionProxyModel
+        objectName: "snapDecisionProxyModel"
 
         model: notificationList.model
         filterRole: UnityNotifications.ModelInterface != undefined ? UnityNotifications.ModelInterface.RoleType : 0
@@ -55,6 +56,7 @@ ListView {
         secondaryIconSource: model.secondaryIcon
         summary: model.summary
         body: model.body
+        value: model.value
         actions: model.actions
         notificationId: model.id
         notification: notificationList.model.getRaw(notificationId)

@@ -35,6 +35,22 @@ Item {
     signal selected(int uid)
     signal unlocked(int uid)
 
+    function tryToUnlock() {
+        if (LightDM.Greeter.promptless) {
+            if (LightDM.Greeter.authenticated) {
+                root.unlocked(userList.currentIndex)
+            } else {
+                root.resetAuthentication()
+            }
+        } else {
+            passwordInput.forceActiveFocus()
+        }
+    }
+
+    function reset() {
+        root.resetAuthentication()
+    }
+
     Keys.onEscapePressed: root.resetAuthentication()
 
     Rectangle {
@@ -193,7 +209,6 @@ Item {
         }
 
         onAccepted: {
-            if (text == "") return; // Might be useful anyway, but mainly workaround for LP 1324159
             if (!enabled)
                 return;
             root.focus = true; // so that it can handle Escape presses for us
@@ -229,14 +244,11 @@ Item {
     }
 
     MouseArea {
+        id: passwordMouseArea
+        objectName: "passwordMouseArea"
         anchors.fill: passwordInput
         enabled: LightDM.Greeter.promptless
-        onClicked: {
-            if (LightDM.Greeter.authenticated)
-                root.unlocked(userList.currentIndex);
-            else
-                root.resetAuthentication();
-        }
+        onClicked: root.tryToUnlock()
     }
 
     function resetAuthentication() {

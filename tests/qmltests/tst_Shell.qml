@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * Authors:
  *   Daniel d'Andrada <daniel.dandrada@canonical.com>
@@ -25,14 +25,16 @@ import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
+import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
 import "../../qml"
 
-Row {
+Item {
     id: root
-    spacing: 0
+    width: units.gu(60)
+    height: units.gu(71)
 
     QtObject {
         id: applicationArguments
@@ -50,52 +52,78 @@ Row {
         }
     }
 
-    Loader {
-        id: shellLoader
+    Row {
+        anchors.fill: parent
+        Loader {
+            id: shellLoader
 
-        // Copied from Shell.qml
-        property bool tablet: false
-        width: tablet ? units.gu(160)
-                      : applicationArguments.hasGeometry() ? applicationArguments.width()
-                                                           : units.gu(40)
-        height: tablet ? units.gu(100)
-                       : applicationArguments.hasGeometry() ? applicationArguments.height()
-                                                            : units.gu(71)
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    property string indicatorProfile: "phone"
 
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            Shell {
-                Component.onDestruction: {
-                    shellLoader.itemDestroyed = true;
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true;
+                    }
                 }
             }
         }
-    }
 
-    Rectangle {
-        color: "white"
-        width: units.gu(30)
-        height: shellLoader.height
+        Rectangle {
+            color: "white"
+            width: units.gu(30)
+            height: shellLoader.height
 
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return;
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    Button {
+                        text: "Show Greeter"
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter");
-                        if (!greeter.shown) {
-                            greeter.show();
+                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            if (!greeter.shown) {
+                                greeter.show();
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    Component {
+        id: mockNotification
+
+        QtObject {
+            function invokeAction(actionId) {
+                mockNotificationsModel.actionInvoked(actionId)
+            }
+        }
+    }
+    ListModel {
+        id: mockNotificationsModel
+
+        signal actionInvoked(string actionId)
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockNotificationsModel)
+        }
+
+        onActionInvoked: {
+            if(actionId == "ok_id") {
+                mockNotificationsModel.clear()
+            }
+        }
+    }
+
+    SignalSpy {
+        id: launcherShowDashHomeSpy
+        signalName: "showDashHome"
     }
 
     SignalSpy {
@@ -114,6 +142,12 @@ Row {
         signalName: "unlockingAllModems"
     }
 
+    SignalSpy {
+        id: notificationActionSpy
+        target: mockNotificationsModel
+        signalName: "actionInvoked"
+    }
+
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
@@ -127,13 +161,21 @@ Row {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
+
+            var launcher = findChild(shell, "launcher");
+            launcherShowDashHomeSpy.target = launcher;
         }
 
         function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            launcherShowDashHomeSpy.target = null;
+
             shellLoader.itemDestroyed = false;
 
             shellLoader.active = false;
@@ -168,6 +210,65 @@ Row {
             compare(ApplicationManager.count, 1)
         }
 
+        function test_snapDecisionDismissalReturnsFocus() {
+            var notifications = findChild(shell, "notificationList");
+            var app = ApplicationManager.startApplication("camera-app");
+            var stage = findChild(shell, "stage")
+            // Open an application and focus
+            waitUntilApplicationWindowIsFullyVisible(app);
+            ApplicationManager.focusApplication(app);
+            tryCompare(app.session.surface, "activeFocus", true);
+
+            notifications.model = mockNotificationsModel;
+
+            // FIXME: Hack: SortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // for mocking here (RoleType can't be found in the QML model). As we only need to show
+            // one SnapDecision lets just disable the filtering and make appear any notification as a
+            // SnapDecision.
+            var snapDecisionProxyModel = findInvisibleChild(shell, "snapDecisionProxyModel");
+            snapDecisionProxyModel.filterRegExp = RegExp("");
+
+            // Pop-up a notification
+            addSnapDecisionNotification();
+            waitForRendering(shell);
+
+            // Make sure the notification really opened
+            var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
+            verify(notification !== undefined && notification != null, "notification wasn't found");
+            tryCompare(notification, "height", notification.implicitHeight)
+            waitForRendering(notification);
+
+            // Make sure activeFocus went away from the app window
+            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(stage, "interactive", false);
+
+            // Clicking the button should dismiss the notification and return focus
+            var buttonAccept = findChild(notification, "notify_button0");
+            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+
+            // Make sure we're back to normal
+            tryCompare(app.session.surface, "activeFocus", true);
+            compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
+        }
+
+        function addSnapDecisionNotification() {
+            var n = {
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-affirmative-tint": "true"},
+                summary: "Tom Ato",
+                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+                icon: "../graphics/avatars/funky.png",
+                secondaryIcon: "../graphics/applicationIcons/facebook.png",
+                actions: [{ id: "ok_id", label: "Ok"},
+                    { id: "cancel_id", label: "Cancel"},
+                    { id: "notreally_id", label: "Not really"},
+                    { id: "noway_id", label: "messages:No way"},
+                    { id: "nada_id", label: "messages:Nada"}]
+            }
+
+            mockNotificationsModel.append(n)
+        }
+
         function test_leftEdgeDrag_data() {
             return [
                 {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
@@ -198,6 +299,10 @@ Row {
 
             var launcher = findChild(shell, "launcherPanel");
             tryCompare(launcher, "x", data.launcherHides ? -launcher.width : 0)
+
+            // Make sure the helper for sliding out the launcher wasn't touched. We want to fade it out here.
+            var animateTimer = findInvisibleChild(shell, "animateTimer");
+            compare(animateTimer.nextState, "visible");
         }
 
         function test_suspend() {
@@ -280,7 +385,7 @@ Row {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             compare(dashCommunicatorSpy.count, 1);
-            compare(dashCommunicatorSpy.signalArguments[0][0], "clickscope");
+            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
         }
 
         function test_showInputMethod() {
@@ -331,7 +436,7 @@ Row {
             var touchX = shell.width / 2;
             var indicators = findChild(shell, "indicators");
             touchFlick(indicators,
-                    touchX /* fromX */, indicators.panelHeight * 0.5 /* fromY */,
+                    touchX /* fromX */, indicators.minimizedPanelHeight * 0.5 /* fromY */,
                     touchX /* toX */, shell.height * 0.5 /* toY */,
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
@@ -368,7 +473,7 @@ Row {
             var indicators = findChild(shell, "indicators");
 
             var touchStartX = shell.width / 2;
-            var touchStartY = shell.height - (indicators.panelHeight * 0.5);
+            var touchStartY = shell.height - (indicators.minimizedPanelHeight * 0.5);
             touchFlick(shell,
                     touchStartX, touchStartY,
                     touchStartX, shell.height * 0.1);
@@ -400,8 +505,7 @@ Row {
             touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
             tryCompare(launcherPanel, "moving", false);
 
-            // NB tapping (i.e., using touch events) doesn't activate the icon... go figure...
-            mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
+            tap(appIcon, appIcon.width / 2, appIcon.height / 2);
         }
 
         function showIndicators() {
@@ -480,6 +584,7 @@ Row {
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
+            waitForRendering(greeter)
             tryCompare(greeter, "showProgress", 1)
             LightDM.Greeter.hideGreeter()
             tryCompare(greeter, "showProgress", 0)
@@ -544,8 +649,6 @@ Row {
         }
 
         function test_unlockAllModemsOnBoot() {
-            // TODO reenable when service ready (LP: #1361074)
-            expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
         }
 
@@ -566,6 +669,112 @@ Row {
             touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
 
             tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
+        }
+
+        function test_tapOnRightEdgeReachesApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var tapPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            tap(shell, tapPoint.x, tapPoint.y);
+
+            tryCompare(topmostSurface, "touchPressCount", 1);
+            tryCompare(topmostSurface, "touchReleaseCount", 1);
+        }
+
+        /*
+            Perform a right edge drag over an application surface and check
+            that no touch event was sent to it (ie, they were all consumed
+            by the right-edge drag area)
+         */
+        function test_rightEdgeDragDoesNotReachApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var gestureStartPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            touchFlick(shell,
+                    gestureStartPoint.x /* fromX */, gestureStartPoint.y /* fromY */,
+                    units.gu(1) /* toX */, gestureStartPoint.y /* toY */);
+
+            tryCompare(topmostSurface, "touchPressCount", 0);
+            tryCompare(topmostSurface, "touchReleaseCount", 0);
+        }
+
+        function waitUntilFocusedApplicationIsShowingItsSurface()
+        {
+            var spreadDelegate = findChild(shell, "appDelegate0");
+            var appState = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
+            tryCompare(appState, "state", "surface");
+            var transitions = appState.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        function swipeFromRightEdgeToShowAppSpread()
+        {
+            // perform a right-edge drag to show the spread
+            var touchStartX = shell.width - (shell.edgeSize / 2)
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, units.gu(1) /* endX */, touchStartY /* endY */);
+
+            // check if it's indeed showing the spread
+            var stage = findChild(shell, "stage");
+            var spreadView = findChild(stage, "spreadView");
+            tryCompare(spreadView, "phase", 2);
+        }
+
+        function test_tapUbuntuIconInLauncherOverAppSpread() {
+
+            waitUntilFocusedApplicationIsShowingItsSurface();
+
+            swipeFromRightEdgeToShowAppSpread();
+
+            var launcher = findChild(shell, "launcher");
+
+            // ensure the launcher dimissal timer never gets triggered during the test run
+            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+            dismissTimer.interval = 60 * 60 * 1000;
+
+            dragLauncherIntoView();
+
+            // Emulate a tap with a finger, where the touch position drifts during the tap.
+            {
+                var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
+                var startPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.2,
+                        buttonShowDashHome.height * 0.2);
+                var endPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.height * 0.8);
+                touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
+            }
+
+            compare(launcherShowDashHomeSpy.count, 1);
+
+            // check that the stage has left spread mode.
+            {
+                var stage = findChild(shell, "stage");
+                var spreadView = findChild(stage, "spreadView");
+                tryCompare(spreadView, "phase", 0);
+            }
+
+            // check that the launcher got dismissed
+            var launcherPanel = findChild(shell, "launcherPanel");
+            tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
     }
 }
