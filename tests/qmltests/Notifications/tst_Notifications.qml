@@ -69,7 +69,7 @@ Item {
         function add2over1SnapDecisionNotification() {
             var n = {
                 type: Notification.SnapDecision,
-                hints: {"x-canonical-private-affirmative-tint": "true",},
+                hints: {"x-canonical-private-affirmative-tint": "true"},
                 summary: "Theatre at Ferria Stadium",
                 body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
                 icon: "",
