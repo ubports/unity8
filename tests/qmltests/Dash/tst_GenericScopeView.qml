@@ -293,6 +293,7 @@ Item {
                                     },
                                     true);
                 var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
+                waitForRendering(tile);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
