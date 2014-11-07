@@ -395,8 +395,6 @@ FocusScope {
                         //    make sure the items in the viewport are created with the cache buffer feature
                         //  - For visible scopes we should always the have a visible range be exactly the
                         //    viewport and make sure the rest of items are created with the cache buffer feature
-                        //  To be able to implement that feature VerticalJournal/AbstractDashView needs to
-                        //  make the cache buffer value setable externally
                         var extraMargins = scopeView.isCurrent ? categoryView.height * 1.5 : 0;
 
                         item.displayMarginBeginning = Math.round(-Math.max(-baseItem.y - extraMargins, 0));

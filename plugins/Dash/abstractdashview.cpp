@@ -23,6 +23,7 @@ AbstractDashView::AbstractDashView()
  , m_asyncRequestedIndex(-1)
  , m_columnSpacing(0)
  , m_rowSpacing(0)
+ , m_buffer(320) // Same value used in qquickitemview.cpp in Qt 5.4
  , m_displayMarginBeginning(0)
  , m_displayMarginEnd(0)
  , m_needsRelayout(false)
@@ -112,6 +113,27 @@ void AbstractDashView::setRowSpacing(qreal rowSpacing)
     }
 }
 
+qreal AbstractDashView::cacheBuffer() const
+{
+    return m_buffer;
+}
+
+void AbstractDashView::setCacheBuffer(qreal buffer)
+{
+    if (buffer < 0) {
+        qmlInfo(this) << "Cannot set a negative cache buffer";
+        return;
+    }
+
+    if (m_buffer != buffer) {
+        m_buffer = buffer;
+        if (isComponentComplete()) {
+            relayout();
+        }
+        emit cacheBufferChanged();
+    }
+}
+
 qreal AbstractDashView::displayMarginBeginning() const
 {
     return m_displayMarginBeginning;
@@ -160,9 +182,8 @@ void AbstractDashView::refill()
 
     const qreal from = -m_displayMarginBeginning;
     const qreal to = height() + m_displayMarginEnd;
-    const qreal buffer = (to - from) * bufferRatio;
-    const qreal bufferFrom = from - buffer;
-    const qreal bufferTo = to + buffer;
+    const qreal bufferFrom = from - m_buffer;
+    const qreal bufferTo = to + m_buffer;
 
     bool added = addVisibleItems(from, to, false);
     bool removed = removeNonVisibleItems(bufferFrom, bufferTo);
