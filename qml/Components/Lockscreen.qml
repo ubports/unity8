@@ -100,8 +100,17 @@ Showable {
         anchors {
             fill: parent
         }
+        // Limit how much memory we'll reserve for this image
+        sourceSize.height: height
+        sourceSize.width: width
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: 0.4
     }
 
     MouseArea {

@@ -51,7 +51,7 @@ Item {
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
-    property url background
+    property url background: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : defaultBackground
     readonly property real panelHeight: panel.panelHeight
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
@@ -99,6 +99,21 @@ Item {
         shell.activateApplication(app)
     }
 
+    // This is a dummy image to detect if the custom set wallpaper
+    // loads successfully. If it doesn't fall back to the defaultBackground.
+    Image {
+        source: shell.background
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+        onStatusChanged: {
+            if (status == Image.Error && source != shell.defaultBackground) {
+                shell.background = shell.defaultBackground
+            }
+        }
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -113,15 +128,6 @@ Item {
         if (orientationLockEnabled) {
             orientation = OrientationLock.savedOrientation;
         }
-    }
-
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
-    onGSettingsPictureChanged: {
-        shell.background = gSettingsPicture
     }
 
     VolumeControl {
@@ -524,7 +530,7 @@ Item {
 
             locked: shell.locked
 
-            defaultBackground: shell.background
+            background: shell.background
 
             width: parent.width
             height: parent.height
