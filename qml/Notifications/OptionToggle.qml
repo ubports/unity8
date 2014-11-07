@@ -54,14 +54,14 @@ UbuntuShape {
                 Component {
                     id: optionToggleEntry
 
-                    MouseArea {
+                    AbstractButton {
                         objectName: "notify_button" + index
                         width: optionToggleContent.width
                         height: optionToggle.itemHeight
 
                         onClicked: {
                             if (index === startIndex) {
-                                optionToggle.expanded = optionToggle.expanded ? false : true
+                                optionToggle.expanded = !optionToggle.expanded
                             } else {
                                 optionToggle.triggered(actionId)
                             }
