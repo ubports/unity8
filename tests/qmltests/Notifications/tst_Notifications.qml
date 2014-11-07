@@ -267,7 +267,7 @@ Item {
                 }
             }
         }
- 
+
         UnityTestCase {
             id: root
             name: "NotificationRendererTest"
