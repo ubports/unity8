@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-31 10:36+0100\n"
+"POT-Creation-Date: 2014-11-07 10:59+0100\n"
 "PO-Revision-Date: 2014-10-07 09:00+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-11-06 06:40+0000\n"
-"X-Generator: Launchpad (build 17223)\n"
+"X-Launchpad-Export-Date: 2014-11-08 06:17+0000\n"
+"X-Generator: Launchpad (build 17231)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -244,26 +244,6 @@ msgstr "ھەممىسى"
 msgid "Unlock"
 msgstr "قۇلۇپسىزلا"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:139
-msgid "Confirm"
-msgstr "جەزملە"
-
-#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "بۇيرۇق كىرگۈزۈڭ ياكى دەڭ"
-
-#: qml/Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "ئوقۇۋاتىدۇ، سەل كۈتۈڭ…"
-
-#: qml/Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "ئەمدى سۆزلەڭ…"
-
-#: qml/Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "سۆزلەۋاتىسىز…"
-
 #: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "ئىم كۆرسەت"
@@ -276,31 +256,31 @@ msgstr "سۆزلىشىشكە قايتىش ئۈچۈن چېكىڭ…"
 msgid "Conference"
 msgstr "يىغىن"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:615
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
 msgstr "ھېچ نېمە قويۇلمايۋاتىدۇ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:763
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr "قاتاردا…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:767
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr "چۈشۈرۈۋاتىدۇ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:769
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr "توختىتىلغان، چەكسە داۋاملىشىدۇ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:771
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr "قالدۇرۇۋېتىلدى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:773
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr "تاماملاندى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:775
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr "مەغلۇپ بولدى، چېكىپ قايتا سىناڭ"
 
@@ -312,49 +292,49 @@ msgstr "SIM نى قۇلۇپسىزلاش"
 msgid "Roaming"
 msgstr "كەزمە"
 
-#: qml/Shell.qml:381
+#: qml/Shell.qml:391
 msgid "Enter passphrase"
 msgstr "ئىم كىرگۈزۈڭ"
 
-#: qml/Shell.qml:382
+#: qml/Shell.qml:392
 msgid "Sorry, incorrect passphrase"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:383
+#: qml/Shell.qml:393
 msgid "Please re-enter"
 msgstr "قايتا كىرگۈزۈڭ"
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:395
 msgid "Enter passcode"
 msgstr "ئىم كودى(passcode)نى كىرگۈزۈڭ"
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 نى كىرگۈزۈڭ"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:400
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "كەچۈرۈڭ، %1 توغرا ئەمەس"
 
-#: qml/Shell.qml:431
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passphrase."
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:432
+#: qml/Shell.qml:442
 msgid "Sorry, incorrect passcode."
 msgstr "كەچۈرۈڭ، ئىم كودى ئەمەس"
 
-#: qml/Shell.qml:433
+#: qml/Shell.qml:443
 msgid "This will be your last attempt."
 msgstr "بۇ سىزنىڭ ئەڭ ئاخىرقى پۇرسىتىڭىز"
 
-#: qml/Shell.qml:435
+#: qml/Shell.qml:445
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -362,10 +342,25 @@ msgstr ""
 "ئەگەر ئىم توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن چىققان "
 "ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
 
-#: qml/Shell.qml:436
+#: qml/Shell.qml:446
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "ئەگەر ئىم كودى توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن "
 "چىققان ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
+
+#~ msgid "Confirm"
+#~ msgstr "جەزملە"
+
+#~ msgid "Type or say a command"
+#~ msgstr "بۇيرۇق كىرگۈزۈڭ ياكى دەڭ"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "ئوقۇۋاتىدۇ، سەل كۈتۈڭ…"
+
+#~ msgid "Speak Now..."
+#~ msgstr "ئەمدى سۆزلەڭ…"
+
+#~ msgid "Speaking..."
+#~ msgstr "سۆزلەۋاتىسىز…"
