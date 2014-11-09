@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-10-07 19:21+0000\n"
+"PO-Revision-Date: 2014-11-08 14:44+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-11-08 06:16+0000\n"
+"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
 "X-Generator: Launchpad (build 17231)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -162,7 +162,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "Itzuli deira"
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
