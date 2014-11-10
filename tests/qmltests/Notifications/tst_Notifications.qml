@@ -668,14 +668,16 @@ Item {
                 }
 
                 // swipe-to-dismiss check
+                var before = mockModel.count
+                var dragStart = notification.width * 0.25;
+                var dragEnd = notification.width;
+                var dragY = notification.height / 2;
+                touchFlick(notification, dragStart, dragY, dragEnd, dragY)
+                waitForRendering(notification)
                 if (data.type !== Notification.SnapDecision && notification.state !== "expanded") {
-                    var before = mockModel.count
-                    var dragStart = notification.width * 0.25;
-                    var dragEnd = notification.width;
-                    var dragY = notification.height / 2;
-                    touchFlick(notification, dragStart, dragY, dragEnd, dragY)
-                    waitForRendering(notification)
                     tryCompare(mockModel, "count", before - 1)
+                } else {
+                    tryCompare(mockModel, "count", before)
                 }
             }
         }

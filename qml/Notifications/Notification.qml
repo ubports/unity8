@@ -38,9 +38,9 @@ Item {
     property var notification
     property color color
     property bool fullscreen: false
-    readonly property bool draggable: state == "contracted" || notification.type !== Notification.Confirmation
     property int maxHeight
     property int margins
+    readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
     readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
     readonly property color red: "#fc4949"
     readonly property color green: "#3fb24f"
