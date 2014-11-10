@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-31 10:36+0100\n"
+"POT-Creation-Date: 2014-11-07 10:59+0100\n"
 "PO-Revision-Date: 2014-10-07 10:51+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-11-06 06:40+0000\n"
-"X-Generator: Launchpad (build 17223)\n"
+"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
+"X-Generator: Launchpad (build 17231)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -255,26 +255,6 @@ msgstr "Totes"
 msgid "Unlock"
 msgstr "Desbloca"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:139
-msgid "Confirm"
-msgstr "Confirma"
-
-#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Escriviu o pronuncieu una ordre"
-
-#: qml/Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "S'està carregant. Espereu-vos un moment..."
-
-#: qml/Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Parleu..."
-
-#: qml/Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "S'està parlant..."
-
 #: qml/Notifications/NotificationMenuItemFactory.qml:116
 msgid "Show password"
 msgstr "Mostra la contrasenya"
@@ -287,31 +267,31 @@ msgstr "Feu un toc per tornar a la trucada..."
 msgid "Conference"
 msgstr "Conferència"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:615
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
 msgstr "No s'està reproduint res"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:763
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr "A la cua..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:767
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr "S'està baixant"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:769
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr "En pausa, feu un toc per continuar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:771
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr "S'ha cancel·lat"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:773
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr "S'ha finalitzat"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:775
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr "Ha fallat, feu un toc per tornar-ho a intentar"
 
@@ -323,49 +303,49 @@ msgstr "Desbloca la SIM"
 msgid "Roaming"
 msgstr "Itinerància"
 
-#: qml/Shell.qml:381
+#: qml/Shell.qml:391
 msgid "Enter passphrase"
 msgstr "Introduïu la contrasenya"
 
-#: qml/Shell.qml:382
+#: qml/Shell.qml:392
 msgid "Sorry, incorrect passphrase"
 msgstr "La contrasenya no és correcta"
 
-#: qml/Shell.qml:383
+#: qml/Shell.qml:393
 msgid "Please re-enter"
 msgstr "Torneu-ho a introduir"
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:395
 msgid "Enter passcode"
 msgstr "Introduïu el codi d'accés"
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
 msgstr "El codi d'accés no és correcte"
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Enter %1"
 msgstr "Introduïu: %1"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:400
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Incorrecte (%1)"
 
-#: qml/Shell.qml:431
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passphrase."
 msgstr "La contrasenya és incorrecta"
 
-#: qml/Shell.qml:432
+#: qml/Shell.qml:442
 msgid "Sorry, incorrect passcode."
 msgstr "El codi d'accés no és correcte"
 
-#: qml/Shell.qml:433
+#: qml/Shell.qml:443
 msgid "This will be your last attempt."
 msgstr "Aquest serà el darrer intent."
 
-#: qml/Shell.qml:435
+#: qml/Shell.qml:445
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -374,7 +354,7 @@ msgstr ""
 "reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
 "personals."
 
-#: qml/Shell.qml:436
+#: qml/Shell.qml:446
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -382,3 +362,18 @@ msgstr ""
 "Si el codi d'accés s'introdueix de manera incorrecta, el telèfon es "
 "reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
 "personals."
+
+#~ msgid "Confirm"
+#~ msgstr "Confirma"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Escriviu o pronuncieu una ordre"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "S'està carregant. Espereu-vos un moment..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Parleu..."
+
+#~ msgid "Speaking..."
+#~ msgstr "S'està parlant..."

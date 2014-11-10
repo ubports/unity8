@@ -243,8 +243,10 @@ Item {
             tryCompare(scopesOverviewRepeater, "count", 0);
 
             // Click on a temp scope in the search
-            var dashCategorysearchA = findChild(searchResultsViewer, "dashCategorysearchA");
-            var cardTempScope = findChild(dashCategorysearchA, "delegate2");
+            tryCompareFunction( function() {
+                return findChild(findChild(searchResultsViewer, "dashCategorysearchA"), "delegate2") != null;
+            }, true);
+            var cardTempScope = findChild(findChild(searchResultsViewer, "dashCategorysearchA"), "delegate2");
             verify(cardTempScope, "Could not find delegate2");
 
             waitForRendering(cardTempScope);
