@@ -66,24 +66,6 @@ Item {
             }
         }
 
-        function addSnapDecisionNotification() {
-            var n = {
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-affirmative-tint": "true"},
-                summary: "Tom Ato",
-                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-                icon: "../graphics/avatars/funky.png",
-                secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                actions: [{ id: "ok_id", label: "Ok"},
-                          { id: "cancel_id", label: "Cancel"},
-                          { id: "notreally_id", label: "Not really"},
-                          { id: "noway_id", label: "messages:No way"},
-                          { id: "nada_id", label: "messages:Nada"}]
-            }
-
-            mockModel.append(n)
-        }
-
         function add2over1SnapDecisionNotification() {
             var n = {
                 type: Notification.SnapDecision,
@@ -232,12 +214,6 @@ Item {
 
                 Button {
                     width: parent.width
-                    text: "add a snap-decision"
-                    onClicked: rootRow.addSnapDecisionNotification()
-                }
-
-                Button {
-                    width: parent.width
                     text: "add a 2over1 snap-decision"
                     onClicked: rootRow.add2over1SnapDecisionNotification()
                 }
@@ -292,10 +268,6 @@ Item {
             }
         }
 
-        ActionModel {
-            id: myActionModel
-        }
-
         UnityTestCase {
             id: root
             name: "NotificationRendererTest"
@@ -303,32 +275,6 @@ Item {
 
             function test_NotificationRenderer_data() {
                 return [
-                {
-                    tag: "Snap Decision with secondary icon and button-tint",
-                    type: Notification.SnapDecision,
-                    hints: {"x-canonical-private-affirmative-tint": "true"},
-                    summary: "Tom Ato",
-                    body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-                    icon: "../graphics/avatars/funky.png",
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                    actions: [{ id: "ok_id", label: "Ok"},
-                              { id: "cancel_id", label: "Cancel"},
-                              { id: "notreally_id", label: "Not really"},
-                              { id: "noway_id", label: "messages:No way"},
-                              { id: "nada_id", label: "messages:Nada"}],
-                    summaryVisible: true,
-                    bodyVisible: true,
-                    iconVisible: true,
-                    centeredIconVisible: false,
-                    shaped: true,
-                    secondaryIconVisible: true,
-                    buttonRowVisible: true,
-                    buttonTinted: true,
-                    hasSound: false,
-                    valueVisible: false,
-                    valueLabelVisible: false,
-                    valueTinted: false
-                },
                 {
                     tag: "2-over-1 Snap Decision with button-tint",
                     type: Notification.SnapDecision,
