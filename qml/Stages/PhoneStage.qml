@@ -458,7 +458,6 @@ Rectangle {
         }
 
         onDraggingChanged: {
-            print("dragging changed", dragging)
             if (dragging) {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
