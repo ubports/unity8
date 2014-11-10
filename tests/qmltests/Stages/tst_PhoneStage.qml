@@ -164,7 +164,7 @@ Item {
                 {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
                 {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
                 {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: -1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 2, targetPhase: 2, newFocusedIndex: 2 },
+                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 1, targetPhase: 2, newFocusedIndex: 2 },
             ];
         }
 
@@ -274,7 +274,7 @@ Item {
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
         }
 
-        function test_orientation_change_sent_to_focused_app() {
+        function test_orientationChangeSentToFocusedApp() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -286,7 +286,7 @@ Item {
             tryCompare(app, "orientation", Qt.LandscapeOrientation);
         }
 
-        function test_orientation_change_not_sent_to_apps_while_spread_open() {
+        function test_orientationChangeNotSentToAppsWhileSpreadOpen() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -299,7 +299,7 @@ Item {
             tryCompare(app, "orientation", Qt.PortraitOrientation);
         }
 
-        function test_orientation_change_not_sent_to_unfocused_app_until_it_focused() {
+        function test_orientationChangeNotSentToUnfocusedAppUntilItFocused() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 

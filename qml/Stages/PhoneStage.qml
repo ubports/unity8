@@ -178,7 +178,7 @@ Rectangle {
             case 1:
                 if (shiftedContentX < width * positionMarker2) {
                     phase = 0;
-                } else if (shiftedContentX >= width * positionMarker4) {
+                } else if (shiftedContentX >= width * positionMarker4 && !spreadDragArea.dragging) {
                     phase = 2;
                 }
                 break;
@@ -425,15 +425,10 @@ Rectangle {
         id: spreadDragArea
         objectName: "spreadDragArea"
         direction: Direction.Leftwards
-        enabled: spreadView.phase != 2 && root.spreadEnabled
+        enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
-
-        // Sitting at the right edge of the screen, this EdgeDragArea directly controls the spreadView when
-        // attachedToView is true. When the finger movement passes positionMarker3 we detach it from the
-        // spreadView and make the spreadView snap to positionMarker4.
-        property bool attachedToView: true
 
         property var gesturePoints: new Array()
 
@@ -443,15 +438,13 @@ Rectangle {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
-            if (dragging && status == DirectionalDragArea.Recognized && attachedToView) {
+            if (dragging && status == DirectionalDragArea.Recognized) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                var finalX = Math.min(touchX + width, width);
-                spreadView.contentX = -finalX + spreadDragArea.width - spreadView.shift;
-            }
-            if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
-                // We passed positionMarker3. Detach from spreadView and snap it.
-                attachedToView = false;
-                spreadView.snap();
+                var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
+                dragX = -dragX + spreadDragArea.width - spreadView.shift;
+                // Don't allow dragging further than the animation crossing with phase2's animation
+                var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
+                spreadView.contentX = Math.min(dragX, maxMovement);
             }
             gesturePoints.push(touchX);
         }
@@ -462,13 +455,10 @@ Rectangle {
         onStatusChanged: {
             previousStatus = currentStatus;
             currentStatus = status;
-
-            if (status == DirectionalDragArea.Recognized) {
-                attachedToView = true;
-            }
         }
 
         onDraggingChanged: {
+            print("dragging changed", dragging)
             if (dragging) {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
@@ -493,7 +483,7 @@ Rectangle {
                 // If it was a short one-way movement, do the Alt+Tab switch
                 // no matter if we didn't cross positionMarker1 yet.
                 spreadView.snapTo(1);
-            } else if (!dragging && attachedToView) {
+            } else if (!dragging) {
                 // otherwise snap to the closest snap position we can find
                 // (might be back to start, to app 1 or to spread)
                 spreadView.snap();

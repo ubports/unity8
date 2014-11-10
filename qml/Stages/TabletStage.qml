@@ -590,7 +590,6 @@ Rectangle {
         width: root.dragAreaWidth
         direction: Direction.Leftwards
 
-        property bool attachedToView: false
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
@@ -599,20 +598,12 @@ Rectangle {
                 spreadView.contentX = -spreadView.shift;
             }
 
-            if (dragging && attachedToView) {
-                spreadView.contentX = -touchX + spreadDragArea.width - spreadView.shift;
-                if (spreadView.shiftedContentX > spreadView.phase0Width + spreadView.phase1Width / 2) {
-                    attachedToView = false;
-                    spreadView.snap();
-                }
+            if (dragging) {
+                var dragX = -touchX + spreadDragArea.width - spreadView.shift;
+                var maxDrag = spreadView.width * spreadView.positionMarker4 - spreadView.shift;
+                spreadView.contentX = Math.min(dragX, maxDrag);
             }
             gesturePoints.push(touchX);
-        }
-
-        onStatusChanged: {
-            if (status == DirectionalDragArea.Recognized) {
-                attachedToView = true;
-            }
         }
 
         onDraggingChanged: {
@@ -630,7 +621,7 @@ Rectangle {
                 // If it was a short one-way movement, do the Alt+Tab switch
                 // no matter if we didn't cross positionMarker1 yet.
                 spreadView.snapTo(spreadView.nextInStack);
-            } else if (!dragging && attachedToView) {
+            } else if (!dragging) {
                 if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker1) {
                     spreadView.snap();
                 } else if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker2) {
