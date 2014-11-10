@@ -16,7 +16,9 @@
 
 #include "TouchDispatcher.h"
 
+#include <QGuiApplication>
 #include <QScopedPointer>
+#include <QStyleHints>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
@@ -32,6 +34,7 @@
 TouchDispatcher::TouchDispatcher()
     : m_status(NoActiveTouch)
     , m_touchMouseId(-1)
+    , m_touchMousePressTimestamp(0)
 {
 }
 
@@ -148,6 +151,18 @@ void TouchDispatcher::dispatchTouchBegin(
             #endif
             m_status = DeliveringMouseEvents;
             m_touchMouseId = targetTouchPoints.at(0).id();
+
+            if (checkIfDoubleClicked(timestamp)) {
+                QScopedPointer<QMouseEvent> doubleClickEvent(
+                        touchToMouseEvent(QEvent::MouseButtonDblClick, targetTouchPoints.at(0), timestamp,
+                                          modifiers, false /* transformNeeded */));
+                #if TOUCHDISPATCHER_DEBUG
+                qDebug() << "[TouchDispatcher] dispatching" << qPrintable(mouseEventToString(doubleClickEvent.data()))
+                        << "to" << m_targetItem.data();
+                #endif
+                QCoreApplication::sendEvent(targetItem, doubleClickEvent.data());
+            }
+
         } else {
             #if TOUCHDISPATCHER_DEBUG
             qDebug() << "[TouchDispatcher] Item rejected the QMouseEvent.";
@@ -321,4 +336,32 @@ QMouseEvent *TouchDispatcher::touchToMouseEvent(
     //QGuiApplicationPrivate::setMouseEventCapsAndVelocity(me, event->device()->capabilities(), transformedVelocity);
     //QGuiApplicationPrivate::setMouseEventSource(me, Qt::MouseEventSynthesizedByQt);
     return me;
+}
+
+/*
+    Copied from qquickwindow.cpp which has:
+    Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies)
+    Under GPL 3.0 license.
+*/
+bool TouchDispatcher::checkIfDoubleClicked(ulong newPressEventTimestamp)
+{
+    bool doubleClicked;
+
+    if (m_touchMousePressTimestamp == 0) {
+        // just initialize the variable
+        m_touchMousePressTimestamp = newPressEventTimestamp;
+        doubleClicked = false;
+    } else {
+        ulong timeBetweenPresses = newPressEventTimestamp - m_touchMousePressTimestamp;
+        ulong doubleClickInterval = static_cast<ulong>(qApp->styleHints()->
+                mouseDoubleClickInterval());
+        doubleClicked = timeBetweenPresses < doubleClickInterval;
+        if (doubleClicked) {
+            m_touchMousePressTimestamp = 0;
+        } else {
+            m_touchMousePressTimestamp = newPressEventTimestamp;
+        }
+    }
+
+    return doubleClicked;
 }

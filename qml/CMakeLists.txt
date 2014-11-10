@@ -9,7 +9,6 @@ set(QML_DIRS
     Dash
     graphics
     Greeter
-    Hud
     Panel
     Launcher
     Stages

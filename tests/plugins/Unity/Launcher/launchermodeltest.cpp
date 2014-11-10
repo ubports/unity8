@@ -187,12 +187,20 @@ private Q_SLOTS:
         QCOMPARE(spy.count() > 0, true);
         QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
 
+        // App should be pinned now
         spy.clear();
         launcherModel->requestRemove(launcherModel->get(0)->appId());
         QCOMPARE(launcherModel->get(0)->pinned(), false);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
         QCOMPARE(spy.count(), 1);
         QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+
+        // Now that the app is unpinned, nothing should change and the signal should not be emitted
+        spy.clear();
+        launcherModel->requestRemove(launcherModel->get(0)->appId());
+        QCOMPARE(launcherModel->get(0)->pinned(), false);
+        QCOMPARE(launcherModel->get(1)->pinned(), false);
+        QCOMPARE(spy.count(), 0);
     }
 
     void testRemove_data() {
@@ -365,8 +373,8 @@ private Q_SLOTS:
         QCOMPARE(map.value("countVisible").toBool(), false);
 
         // Now make it visible and set it to 55 through D-Bus
-        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", 55);
-        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", true);
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
 
         // Fetch it again using GetAll
         reply = interface.call("GetAll");
@@ -424,6 +432,7 @@ private Q_SLOTS:
 
     void testSettings() {
         GSettings *settings = launcherModel->m_settings;
+        QSignalSpy spy(launcherModel, SIGNAL(hint()));
 
         // Nothing pinned at startup
         QCOMPARE(settings->storedApplications().count(), 0);
@@ -431,6 +440,7 @@ private Q_SLOTS:
         // pin both apps
         launcherModel->pin("abs-icon");
         launcherModel->pin("no-icon");
+        QCOMPARE(spy.count(), 0);
 
         // Now settings should have 2 apps
         QCOMPARE(settings->storedApplications().count(), 2);
@@ -445,6 +455,7 @@ private Q_SLOTS:
         // Now remove 1 app through the backend, make sure one is still there
         settings->simulateDConfChanged(QStringList() << "abs-icon");
         QCOMPARE(settings->storedApplications().count(), 1);
+        QCOMPARE(spy.count(), 1);
 
         // Check if it disappeared from the frontend too
         QCOMPARE(launcherModel->rowCount(), 1);
@@ -454,6 +465,7 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->rowCount(), 2);
         QCOMPARE(launcherModel->get(0)->appId(), QString("no-icon"));
         QCOMPARE(launcherModel->get(1)->appId(), QString("abs-icon"));
+        QCOMPARE(spy.count(), 2);
     }
 };
 

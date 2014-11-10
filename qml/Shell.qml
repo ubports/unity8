@@ -55,6 +55,7 @@ Item {
     readonly property real panelHeight: panel.panelHeight
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+    readonly property alias hasLockedApp: greeter.hasLockedApp
     readonly property bool forcedUnlock: edgeDemo.running
     onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
 
@@ -91,12 +92,10 @@ Item {
     }
 
     function startLockedApp(app) {
-        if (!shell.locked) {
-            console.warn("Called startLockedApp(%1) when not locked, ignoring".arg(app))
-            return
+        if (shell.locked) {
+            greeter.lockedApp = app;
         }
-        greeter.lockedApp = app
-        shell.activateApplication(app)
+        shell.activateApplication(app);
     }
 
     Binding {
@@ -133,23 +132,32 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        z: edgeDemo.z + 10
+        enabled: Powerd.status === Powerd.On
+    }
+
     Binding {
         target: ApplicationManager
         property: "forceDashActive"
         value: launcher.shown || launcher.dashSwipe
     }
 
+    VolumeKeyFilter {
+        id: volumeKeyFilter
+        onVolumeDownPressed: volumeControl.volumeDown()
+        onVolumeUpPressed: volumeControl.volumeUp()
+        onBothVolumeKeysPressed: screenGrabber.capture()
+    }
 
     WindowKeysFilter {
-        // Handle but do not filter out volume keys
-        Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
-        Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
-
         Keys.onPressed: {
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyPressed();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyPressed(event.key);
                 event.accepted = false;
             }
         }
@@ -159,6 +167,7 @@ Item {
                 dialogs.onPowerKeyReleased();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyReleased(event.key);
                 event.accepted = false;
             }
         }
@@ -175,7 +184,7 @@ Item {
             target: ApplicationManager
             onFocusRequested: {
                 if (greeter.narrowMode) {
-                    if (appId === "dialer-app" && callManager.hasCalls) {
+                    if (appId === "dialer-app" && callManager.hasCalls && shell.locked) {
                         // If we are in the middle of a call, make dialer lockedApp and show it.
                         // This can happen if user backs out of dialer back to greeter, then
                         // launches dialer again.

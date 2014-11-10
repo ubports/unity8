@@ -16,6 +16,7 @@
 
 #include <QtTest>
 #include <QQuickView>
+#include <QStyleHints>
 
 #include "GestureTest.h"
 
@@ -29,6 +30,8 @@ public:
 private Q_SLOTS:
     void sendMouseEventIfTouchIgnored_data();
     void sendMouseEventIfTouchIgnored();
+    void mouseDoubleClick_data();
+    void mouseDoubleClick();
 };
 
 tst_TouchDispatcher::tst_TouchDispatcher()
@@ -83,6 +86,62 @@ void tst_TouchDispatcher::sendMouseEventIfTouchIgnored()
 
     QVERIFY(gotTouchEvent);
     QCOMPARE(gotMousePressEvent, shouldGetMousePress);
+}
+
+void tst_TouchDispatcher::mouseDoubleClick_data()
+{
+    QTest::addColumn<ulong>("timeBetweenClicks");
+    QTest::addColumn<bool>("shouldSendDoubleClick");
+
+    QTest::newRow("double click") << static_cast<ulong>(qApp->styleHints()->mouseDoubleClickInterval() / 10) << true;
+    QTest::newRow("two separate clicks") << static_cast<ulong>(qApp->styleHints()->mouseDoubleClickInterval() * 2) << false;
+}
+
+void tst_TouchDispatcher::mouseDoubleClick()
+{
+    QFETCH(ulong, timeBetweenClicks);
+    QFETCH(bool, shouldSendDoubleClick);
+    DummyItem *dummyItem = new DummyItem(m_view->rootObject());
+    dummyItem->setAcceptedMouseButtons(Qt::LeftButton);
+
+    TouchDispatcher touchDispatcher;
+    touchDispatcher.setTargetItem(dummyItem);
+
+    bool gotDoubleClickEvent = false;
+    dummyItem->mouseDoubleClickEventHandler = [&](QMouseEvent *event) {
+        gotDoubleClickEvent = true;
+        event->accept();
+    };
+
+    dummyItem->touchEventHandler = [&](QTouchEvent *event) {
+        event->ignore();
+    };
+
+    ulong doubleClickInterval = static_cast<ulong>(qApp->styleHints()->mouseDoubleClickInterval());
+
+    QList<QTouchEvent::TouchPoint> touchPoints;
+    {
+        QTouchEvent::TouchPoint touchPoint;
+        touchPoint.setId(0);
+        touchPoint.setState(Qt::TouchPointPressed);
+        touchPoints.append(touchPoint);
+    }
+    ulong timestamp = 12345;
+
+    touchDispatcher.dispatch(QEvent::TouchBegin, m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
+
+    touchPoints[0].setState(Qt::TouchPointReleased);
+    timestamp += doubleClickInterval / 10;
+
+    touchDispatcher.dispatch(QEvent::TouchEnd, m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
+
+    touchPoints[0].setId(1);
+    touchPoints[0].setState(Qt::TouchPointPressed);
+    timestamp += timeBetweenClicks;
+
+    touchDispatcher.dispatch(QEvent::TouchBegin, m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
+
+    QCOMPARE(gotDoubleClickEvent, shouldSendDoubleClick);
 }
 
 QTEST_MAIN(tst_TouchDispatcher)
