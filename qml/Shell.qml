@@ -135,7 +135,7 @@ Item {
     }
     property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
     onGSettingsPictureChanged: {
-        if (AccountsService.backgroundFile == undefined || AccountsService.backgroundFile.length) {
+        if (AccountsService.backgroundFile == undefined || AccountsService.backgroundFile.length == 0) {
             shell.background = gSettingsPicture
         }
     }
