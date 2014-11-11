@@ -1,3 +1,25 @@
+unity8 (8.01+15.04.20141107.2-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Skip second SIM unlock dialog if user presses Emergency Call on
+    first one (LP: #1387925)
+
+  [ Michael Zanetti ]
+  * fix positive/negative answer order on the new swipe notification
+    (LP: #1358343)
+  * Update PageHeader to use new SDK api
+  * antialias surfaces when in spread (LP: #1351559)
+
+  [ Albert Astals ]
+  * Remove Hud
+
+  [ Mirco Müller ]
+  * Replace ComboButton in snap-decision notifications, used for
+    additional actions (> 3 actions), with custom widget immune to
+    accidental taps. (LP: #1384730)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Nov 2014 14:33:02 +0000
+
 unity8 (8.01+15.04.20141104-0ubuntu1) vivid; urgency=low
 
   [ Sebastien Bacher ]

@@ -55,6 +55,7 @@ Item {
     readonly property real panelHeight: panel.panelHeight
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+    readonly property alias hasLockedApp: greeter.hasLockedApp
     readonly property bool forcedUnlock: edgeDemo.running
     onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
 
@@ -91,12 +92,10 @@ Item {
     }
 
     function startLockedApp(app) {
-        if (!shell.locked) {
-            console.warn("Called startLockedApp(%1) when not locked, ignoring".arg(app))
-            return
+        if (shell.locked) {
+            greeter.lockedApp = app;
         }
-        greeter.lockedApp = app
-        shell.activateApplication(app)
+        shell.activateApplication(app);
     }
 
     // This is a dummy image to detect if the custom set wallpaper
