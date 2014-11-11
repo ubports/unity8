@@ -344,6 +344,7 @@ Item {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
+        darkenBackground: 0.4
         alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         minPinLength: 4
         maxPinLength: 4

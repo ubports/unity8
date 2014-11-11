@@ -56,6 +56,9 @@ Showable {
     property int maxPinLength: -1
 
     property url background: ""
+    // Use this to put a black overlay above the background
+    // 0: normal background, 1: black background
+    property real darkenBackground: 0
 
     readonly property string passphrase: (pinPadLoader.item && pinPadLoader.item.passphrase) ? pinPadLoader.item.passphrase : ""
 
@@ -113,7 +116,7 @@ Showable {
     Rectangle {
         anchors.fill: parent
         color: "black"
-        opacity: 0.4
+        opacity: root.darkenBackground
     }
 
     MouseArea {
