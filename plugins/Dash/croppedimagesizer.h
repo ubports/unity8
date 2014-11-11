@@ -47,7 +47,7 @@ public:
     void setHeight(qreal height);
 
     QSize sourceSize() const;
-    void setSourceSize(const QSize &sourceSize);
+    Q_INVOKABLE void setSourceSize(const QSize &sourceSize);
 
 Q_SIGNALS:
     void inputParamsChanged();

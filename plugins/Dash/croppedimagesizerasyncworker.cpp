@@ -78,7 +78,7 @@ void CroppedImageSizerAsyncWorker::processRequestFinished(qreal width, qreal hei
 
     worker->m_mutex.lock();
     if (worker->m_sizer) {
-        worker->m_sizer->setSourceSize(sourceSize);
+        QMetaObject::invokeMethod(worker->m_sizer, "setSourceSize", Qt::QueuedConnection, Q_ARG(QSize, sourceSize));
     }
     worker->m_mutex.unlock();
 
