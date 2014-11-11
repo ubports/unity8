@@ -100,7 +100,7 @@ Item {
     }
 
     // This is a dummy image to detect if the custom set wallpaper
-    // loads successfully. If it doesn't fall back to the defaultBackground.
+    // loads successfully. If it doesn't, fall back to the defaultBackground.
     Image {
         source: shell.background
         height: 0
@@ -128,6 +128,15 @@ Item {
         if (orientationLockEnabled) {
             orientation = OrientationLock.savedOrientation;
         }
+    }
+
+    GSettings {
+        id: backgroundSettings
+        schema.id: "org.gnome.desktop.background"
+    }
+    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
+    onGSettingsPictureChanged: {
+        shell.background = gSettingsPicture
     }
 
     VolumeControl {

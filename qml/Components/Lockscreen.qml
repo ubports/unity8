@@ -107,6 +107,9 @@ Showable {
         fillMode: Image.PreserveAspectCrop
     }
 
+    // This is to
+    // a) align it with the greeter and
+    // b) keep the white fonts readable on bright backgrounds
     Rectangle {
         anchors.fill: parent
         color: "black"
