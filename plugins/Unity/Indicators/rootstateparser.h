@@ -12,26 +12,27 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#ifndef ROOTACTIONSTATE_H
-#define ROOTACTIONSTATE_H
+#ifndef ROOTSTATEPARSER_H
+#define ROOTSTATEPARSER_H
 
 #include "unityindicatorsglobal.h"
 
 #include <actionstateparser.h>
 
-class UnityMenuModel;
+class UNITYINDICATORS_EXPORT RootStateParser : public ActionStateParser
+{
+public:
+    RootStateParser(QObject* parent = nullptr);
+    virtual QVariant toQVariant(GVariant* state) const override;
+};
 
-class UNITYINDICATORS_EXPORT RootActionState : public ActionStateParser
+class UNITYINDICATORS_EXPORT RootStateObject : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(UnityMenuModel* menu READ menu WRITE setMenu NOTIFY menuChanged)
 
-    Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
+    Q_PROPERTY(bool valid READ valid NOTIFY validChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString leftLabel READ leftLabel NOTIFY leftLabelChanged)
     Q_PROPERTY(QString rightLabel READ rightLabel NOTIFY rightLabelChanged)
@@ -39,16 +40,10 @@ class UNITYINDICATORS_EXPORT RootActionState : public ActionStateParser
     Q_PROPERTY(QString accessibleName READ accessibleName NOTIFY accessibleNameChanged)
     Q_PROPERTY(bool visible READ isVisible NOTIFY visibleChanged)
 public:
-    RootActionState(QObject *parent = 0);
-    virtual ~RootActionState();
+    RootStateObject(QObject* parent = 0);
 
-    UnityMenuModel* menu() const;
-    void setMenu(UnityMenuModel* menu);
+    virtual bool valid() const = 0;
 
-    int index() const;
-    void setIndex(int index);
-
-    bool isValid() const;
     QString title() const;
     QString leftLabel() const;
     QString rightLabel() const;
@@ -56,14 +51,11 @@ public:
     QString accessibleName() const;
     bool isVisible() const;
 
-    // from ActionStateParser
-    virtual QVariant toQVariant(GVariant* state) const;
+    QVariantMap currentState() const { return m_currentState; }
+    void setCurrentState(const QVariantMap& currentState);
 
 Q_SIGNALS:
     void updated();
-
-    void menuChanged();
-    void indexChanged();
 
     void validChanged();
     void titleChanged();
@@ -73,17 +65,9 @@ Q_SIGNALS:
     void accessibleNameChanged();
     void visibleChanged();
 
-private Q_SLOTS:
-    void onModelRowsAdded(const QModelIndex& parent, int start, int end);
-    void onModelRowsRemoved(const QModelIndex& parent, int start, int end);
-    void onModelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>&);
-    void reset();
-
-private:
-    void updateActionState();
-
-    UnityMenuModel* m_menu;
-    QVariantMap m_cachedState;
+protected:
+    RootStateParser m_parser;
+    QVariantMap m_currentState;
 };
 
-#endif // ROOTACTIONSTATE_H
+#endif // ROOTSTATEPARSER_H

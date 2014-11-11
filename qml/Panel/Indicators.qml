@@ -159,6 +159,10 @@ Showable {
         initalizeItem = indicatorRow.currentItem == null;
     }
 
+    IndicatorsLight {
+        id: indicatorLights
+    }
+
     // eater
     MouseArea {
         anchors {

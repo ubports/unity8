@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
+import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import "../../../../qml/Panel/Indicators"
@@ -448,6 +449,55 @@ Item {
         }
 
         function test_create_transferMenu(data) {
+            ActionData.data = {
+                "transfer-state.queued": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Queued,
+                        'percent': 0.0
+                    }
+                },
+                "transfer-state.running": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Running,
+                        'seconds-left': 100,
+                        'percent': 0.1
+                    }
+                },
+                "transfer-state.paused": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Paused,
+                        'seconds-left': 100,
+                        'percent': 0.5
+                    }
+                },
+                "transfer-state.cancelled": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Canceled,
+                        'percent': 0.4
+                    }
+                },
+                "transfer-state.finished": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Finished,
+                        'seconds-left': 0,
+                        'percent': 1.0
+                    }
+                },
+                "transfer-state.error": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Error,
+                        'seconds-left': 100,
+                        'percent': 0.0
+                    }
+                }
+            };
+
             menuData.type = "com.canonical.indicator.transfer";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;

@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
- *
- * Authors:
- *   Daniel d'Andrada <daniel.dandrada@canonical.com>
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,23 +12,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
-import QtQuick 2.0
-import Ubuntu.Settings.Menus 0.1 as Menus
-import QMenuModel 0.1
+#ifndef MOCK_POWER_PLUGIN_H
+#define MOCK_POWER_PLUGIN_H
 
-QtObject {
-    property int busType
-    property string busName
-    property string objectPath
-    property var actions: ActionData ? ActionData.data : undefined
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-    signal dataChanged
+class PowerdPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    function start() {}
+public:
+    void registerTypes(const char *uri);
+};
 
-    function action(actionName) {
-        return actions[actionName];
-    }
-}
+#endif

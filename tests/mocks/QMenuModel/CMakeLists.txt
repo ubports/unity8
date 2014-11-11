@@ -4,6 +4,7 @@ include_directories(
 )
 
 set(QMenuModelQml_SOURCES
+  actiondata.h
   actionstateparser.cpp
   plugin.cpp
   unitymenumodel.cpp

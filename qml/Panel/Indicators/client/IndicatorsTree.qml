@@ -44,7 +44,7 @@ Page {
         menuObjectPath: page.deviceMenuObjectPath
     }
 
-    Indicators.RootActionState {
+    Indicators.ModelActionRootState {
         menu: unityModel
     }
 

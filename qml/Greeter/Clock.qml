@@ -42,7 +42,7 @@ Item {
         actionsObjectPath: "/com/canonical/indicator/datetime"
         menuObjectPath: clock.visible ? "/com/canonical/indicator/datetime/phone" : ""
 
-        Indicators.RootActionState {
+        Indicators.ModelActionRootState {
             menu: timeModel.model
             onUpdated: {
                 if (timeLabel.text != rightLabel) {

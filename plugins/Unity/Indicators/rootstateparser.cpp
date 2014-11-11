@@ -12,155 +12,18 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#include "rootactionstate.h"
-#include "indicators.h"
-
-#include <unitymenumodel.h>
-#include <QVariant>
-#include <QIcon>
+#include "rootstateparser.h"
 
 extern "C" {
 #include <glib.h>
 #include <gio/gio.h>
 }
 
-RootActionState::RootActionState(QObject *parent)
-    : ActionStateParser(parent),
-      m_menu(nullptr)
+RootStateParser::RootStateParser(QObject* parent)
+    : ActionStateParser(parent)
 {
-}
-
-RootActionState::~RootActionState()
-{
-}
-
-UnityMenuModel* RootActionState::menu() const
-{
-    return m_menu;
-}
-
-void RootActionState::setMenu(UnityMenuModel* menu)
-{
-    if (m_menu != menu) {
-        if (m_menu) {
-            m_menu->disconnect(this);
-        }
-        m_menu = menu;
-
-        if (m_menu) {
-            connect(m_menu, SIGNAL(rowsInserted(const QModelIndex&, int, int)), SLOT(onModelRowsAdded(const QModelIndex&, int, int)));
-            connect(m_menu, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), SLOT(onModelRowsRemoved(const QModelIndex&, int, int)));
-            connect(m_menu, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SLOT(onModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
-
-            connect(m_menu, SIGNAL(destroyed()), SLOT(reset()));
-        }
-        updateActionState();
-        Q_EMIT menuChanged();
-    }
-}
-
-void RootActionState::onModelRowsAdded(const QModelIndex& parent, int start, int end)
-{
-    Q_UNUSED(parent);
-    if (start == 0 && end >= 0) {
-        updateActionState();
-    }
-}
-
-void RootActionState::onModelRowsRemoved(const QModelIndex& parent, int start, int end)
-{
-    Q_UNUSED(parent);
-    if (start == 0 && end >= 0) {
-        updateActionState();
-    }
-}
-
-void RootActionState::onModelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
-{
-    Q_UNUSED(roles);
-    if (!topLeft.isValid() || !bottomRight.isValid()) {
-        return;
-    }
-
-    if (topLeft.row() <= 0 && bottomRight.row() >= 0) {
-        updateActionState();
-    }
-}
-
-void RootActionState::reset()
-{
-    m_cachedState.clear();
-    m_menu = nullptr;
-
-    Q_EMIT menuChanged();
-    Q_EMIT updated();
-}
-
-void RootActionState::updateActionState()
-{
-    if (m_menu && m_menu->rowCount() > 0) {
-        ActionStateParser* oldParser = m_menu->actionStateParser();
-        m_menu->setActionStateParser(this);
-
-        m_cachedState = m_menu->get(0, "actionState").toMap();
-
-        m_menu->setActionStateParser(oldParser);
-    } else {
-        m_cachedState.clear();
-    }
-    Q_EMIT updated();
-}
-
-bool RootActionState::isValid() const
-{
-    return m_menu && m_menu->rowCount() > 0;
-}
-
-QString RootActionState::title() const
-{
-    if (!isValid()) return QString();
-
-    return m_cachedState.value("title", QVariant::fromValue(QString())).toString();
-}
-
-QString RootActionState::leftLabel() const
-{
-    if (!isValid()) return QString();
-
-    return m_cachedState.value("pre-label", QVariant::fromValue(QString())).toString();
-}
-
-QString RootActionState::rightLabel() const
-{
-    if (!isValid()) return QString();
-
-    return m_cachedState.value("label", QVariant::fromValue(QString())).toString();
-}
-
-QStringList RootActionState::icons() const
-{
-    if (!isValid()) return QStringList();
-
-    return m_cachedState.value("icons", QVariant::fromValue(QStringList())).toStringList();
-}
-
-QString RootActionState::accessibleName() const
-{
-    if (!isValid()) return QString();
-
-    return m_cachedState.value("accessible-desc", QVariant::fromValue(QString())).toString();
-}
-
-bool RootActionState::isVisible() const
-{
-    if (!isValid()) return false;
-
-    return m_cachedState.value("visible", QVariant::fromValue(true)).toBool();
 }
 
 static QString iconUri(GIcon *icon)
@@ -209,7 +72,7 @@ static QString iconUri(GIcon *icon)
     return uri;
 }
 
-QVariant RootActionState::toQVariant(GVariant* state) const
+QVariant RootStateParser::toQVariant(GVariant* state) const
 {
     if (!state) {
         return QVariant();
@@ -295,4 +158,74 @@ QVariant RootActionState::toQVariant(GVariant* state) const
         return QVariant::fromValue(qmap);
     }
     return ActionStateParser::toQVariant(state);
+}
+
+
+RootStateObject::RootStateObject(QObject* parent)
+    : QObject(parent)
+{
+}
+
+QString RootStateObject::title() const
+{
+    if (!valid()) return QString();
+
+    return m_currentState.value("title", QVariant::fromValue(QString())).toString();
+}
+
+QString RootStateObject::leftLabel() const
+{
+    if (!valid()) return QString();
+
+    return m_currentState.value("pre-label", QVariant::fromValue(QString())).toString();
+}
+
+QString RootStateObject::rightLabel() const
+{
+    if (!valid()) return QString();
+
+    return m_currentState.value("label", QVariant::fromValue(QString())).toString();
+}
+
+QStringList RootStateObject::icons() const
+{
+    if (!valid()) return QStringList();
+
+    return m_currentState.value("icons", QVariant::fromValue(QStringList())).toStringList();
+}
+
+QString RootStateObject::accessibleName() const
+{
+    if (!valid()) return QString();
+
+    return m_currentState.value("accessible-desc", QVariant::fromValue(QString())).toString();
+}
+
+bool RootStateObject::isVisible() const
+{
+    if (!valid()) return false;
+
+    return m_currentState.value("visible", QVariant::fromValue(true)).toBool();
+}
+
+void RootStateObject::setCurrentState(const QVariantMap& newState)
+{
+    QString oldTitle = title();
+    QString oldLeftLabel = leftLabel();
+    QString oldRightLabel = rightLabel();
+    QStringList oldIcons = icons();
+    QString oldAccessibleName = accessibleName();
+    bool oldVisible = isVisible();
+
+    if (m_currentState != newState) {
+        m_currentState = newState;
+        Q_EMIT updated();
+
+        if (oldTitle != title()) Q_EMIT titleChanged();
+        if (oldLeftLabel != leftLabel()) Q_EMIT leftLabelChanged();
+        if (oldRightLabel != rightLabel()) Q_EMIT rightLabelChanged();
+        if (oldIcons != icons()) Q_EMIT iconsChanged();
+        if (oldAccessibleName != accessibleName()) Q_EMIT accessibleNameChanged();
+        if (oldVisible != isVisible()) Q_EMIT visibleChanged();
+    }
 }

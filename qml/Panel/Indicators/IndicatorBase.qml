@@ -44,7 +44,7 @@ Item {
         menuObjectPath: indicatorItem.deviceMenuObjectPath
     }
 
-    RootActionState {
+    ModelActionRootState {
         id: rootAction
         menu: menuModel ? menuModel : null
         onUpdated: indicatorItem.rootActionStateChanged()

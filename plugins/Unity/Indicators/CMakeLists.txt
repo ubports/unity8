@@ -16,14 +16,16 @@ include_directories(
 )
 
 set(IndicatorsQML_SOURCES
+    actionrootstate.cpp
     indicator.cpp
     indicators.h
     indicatorsmanager.cpp
     indicatorsmodel.cpp
     menucontentactivator.cpp
+    modelactionrootstate.cpp
     modelprinter.cpp
     plugin.cpp
-    rootactionstate.cpp
+    rootstateparser.cpp
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
     visibleindicatorsmodel.cpp
