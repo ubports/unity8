@@ -37,6 +37,7 @@ Module {
         Signal { name: "isActiveChanged" }
         Signal { name: "isAuthenticatedChanged" }
         Signal { name: "showGreeter" }
+        Signal { name: "hideGreeter" }
         Signal {
             name: "requestAuthenticationUser"
             Parameter { name: "user"; type: "string" }

@@ -201,7 +201,7 @@ QString RootStateObject::accessibleName() const
     return m_currentState.value("accessible-desc", QVariant::fromValue(QString())).toString();
 }
 
-bool RootStateObject::isVisible() const
+bool RootStateObject::indicatorVisible() const
 {
     if (!valid()) return false;
 
@@ -215,7 +215,7 @@ void RootStateObject::setCurrentState(const QVariantMap& newState)
     QString oldRightLabel = rightLabel();
     QStringList oldIcons = icons();
     QString oldAccessibleName = accessibleName();
-    bool oldVisible = isVisible();
+    bool oldIndicatorVisible = indicatorVisible();
 
     if (m_currentState != newState) {
         m_currentState = newState;
@@ -226,6 +226,6 @@ void RootStateObject::setCurrentState(const QVariantMap& newState)
         if (oldRightLabel != rightLabel()) Q_EMIT rightLabelChanged();
         if (oldIcons != icons()) Q_EMIT iconsChanged();
         if (oldAccessibleName != accessibleName()) Q_EMIT accessibleNameChanged();
-        if (oldVisible != isVisible()) Q_EMIT visibleChanged();
+        if (oldIndicatorVisible != indicatorVisible()) Q_EMIT indicatorVisibleChanged();
     }
 }

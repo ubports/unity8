@@ -17,14 +17,54 @@
 #ifndef GESTURETEST_H
 #endif // GESTURETEST_H
 
-#include <QObject>
+#include <QQuickItem>
+#include <QTouchEvent>
 
 class QQuickView;
 class QTouchDevice;
 
+class TouchRegistry;
+
+// C++ std lib
+#include <functional>
+
 /*
     The common stuff among tests come here
  */
+
+class TouchMemento {
+public:
+    TouchMemento(const QTouchEvent *touchEvent);
+    Qt::TouchPointStates touchPointStates;
+    QList<QTouchEvent::TouchPoint> touchPoints;
+
+    bool containsTouchWithId(int touchId) const;
+};
+
+class DummyItem : public QQuickItem
+{
+    Q_OBJECT
+public:
+    DummyItem(QQuickItem *parent = 0);
+
+    QList<TouchMemento> touchEvents;
+    std::function<void(QTouchEvent*)> touchEventHandler;
+    std::function<void(QMouseEvent*)> mousePressEventHandler;
+    std::function<void(QMouseEvent*)> mouseMoveEventHandler;
+    std::function<void(QMouseEvent*)> mouseReleaseEventHandler;
+    std::function<void(QMouseEvent*)> mouseDoubleClickEventHandler;
+protected:
+    void touchEvent(QTouchEvent *event) override;
+
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+private:
+    static void defaultTouchEventHandler(QTouchEvent *event);
+    static void defaultMouseEventHandler(QMouseEvent *event);
+};
+
 class GestureTest : public QObject
 {
     Q_OBJECT
@@ -40,6 +80,7 @@ protected Q_SLOTS:
 protected:
     QTouchDevice *m_device;
     QQuickView *m_view;
+    TouchRegistry *m_touchRegistry;
     QString m_qmlFilename;
 };
 

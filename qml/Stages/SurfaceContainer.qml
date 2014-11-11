@@ -39,6 +39,7 @@ Item {
     Binding { target: surface; property: "z"; value: 1 }
     Binding { target: surface; property: "enabled"; value: root.interactive; when: surface }
     Binding { target: surface; property: "focus"; value: root.interactive; when: surface }
+    Binding { target: surface; property: "antialiasing"; value: !root.interactive; when: surface }
 
     TouchGate {
         targetItem: surface

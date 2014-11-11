@@ -14,13 +14,13 @@ Module {
         exportMetaObjectRevisions: [0]
         Signal {
             name: "setCurrentScopeCalled"
-            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "reset"; type: "bool" }
         }
         Method {
             name: "setCurrentScope"
-            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "reset"; type: "bool" }
         }
@@ -32,15 +32,15 @@ Module {
         exportMetaObjectRevisions: [0]
         Signal {
             name: "setCurrentScopeRequested"
-            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
-            Parameter { name: "reset"; type: "bool" }
+            Parameter { name: "isSwipe"; type: "bool" }
         }
         Method {
             name: "mockSetCurrentScope"
-            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
-            Parameter { name: "reset"; type: "bool" }
+            Parameter { name: "isSwipe"; type: "bool" }
         }
     }
 }

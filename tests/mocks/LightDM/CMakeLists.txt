@@ -15,6 +15,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/libusermetrics
+    ${libunity8-private_SOURCE_DIR}
 )
 
 set(QMLPLUGIN_SRC
@@ -40,6 +41,7 @@ target_link_libraries(MockLightDM-qml
     -llightdm-qt5-2
     -L${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
     -lusermetricsoutput
+    unity8-private
     )
 
 qt5_use_modules(MockLightDM-qml DBus Gui Qml)

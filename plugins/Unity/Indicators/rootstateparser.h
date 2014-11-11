@@ -38,7 +38,7 @@ class UNITYINDICATORS_EXPORT RootStateObject : public QObject
     Q_PROPERTY(QString rightLabel READ rightLabel NOTIFY rightLabelChanged)
     Q_PROPERTY(QStringList icons READ icons NOTIFY iconsChanged)
     Q_PROPERTY(QString accessibleName READ accessibleName NOTIFY accessibleNameChanged)
-    Q_PROPERTY(bool visible READ isVisible NOTIFY visibleChanged)
+    Q_PROPERTY(bool indicatorVisible READ indicatorVisible NOTIFY indicatorVisibleChanged)
 public:
     RootStateObject(QObject* parent = 0);
 
@@ -49,7 +49,7 @@ public:
     QString rightLabel() const;
     QStringList icons() const;
     QString accessibleName() const;
-    bool isVisible() const;
+    bool indicatorVisible() const;
 
     QVariantMap currentState() const { return m_currentState; }
     void setCurrentState(const QVariantMap& currentState);
@@ -63,7 +63,7 @@ Q_SIGNALS:
     void rightLabelChanged();
     void iconsChanged();
     void accessibleNameChanged();
-    void visibleChanged();
+    void indicatorVisibleChanged();
 
 protected:
     RootStateParser m_parser;

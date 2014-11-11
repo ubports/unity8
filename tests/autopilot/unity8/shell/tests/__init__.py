@@ -203,9 +203,6 @@ class UnityTestCase(AutopilotTestCase):
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
             self._environment["GRID_UNIT_PX"] = str(self.grid_size)
-            # FIXME this is only needed for Hud.get_close_button_coords
-            # we should probably rework it so that it's not required
-            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
 
     def _geo_larger_than_display(self, width, height):
         should_scale = getattr(self, 'scale_geo', True)
@@ -447,7 +444,7 @@ class DashBaseTestCase(AutopilotTestCase):
         return launch_dash_app_fixture.application_proxy
 
     def wait_for_dash(self):
-        home_scope = self.dash.get_scope('clickscope')
+        home_scope = self.dash.get_scope_by_index(0)
         # FIXME! There is a huge timeout here for when we're doing CI on
         # VMs. See lp:1203715
         self.assertThat(

@@ -26,6 +26,7 @@ set(IndicatorsQML_SOURCES
     modelprinter.cpp
     plugin.cpp
     rootstateparser.cpp
+    sharedunitymenumodel.cpp
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
     visibleindicatorsmodel.cpp

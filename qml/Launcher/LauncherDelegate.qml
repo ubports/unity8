@@ -27,7 +27,6 @@ Item {
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
-    property alias pinned: pin.visible
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -71,31 +70,15 @@ Item {
             height: root.itemHeight - units.gu(1)
         }
 
-        Rectangle {
-            id: pin
-            anchors {
-                left: iconShape.left
-                top: iconShape.top
-                topMargin: -units.dp(2)
-            }
-            width: units.gu(1)
-            height: width
-            radius: width / 2
-            color: "white"
-        }
-
         UbuntuShape {
             id: countEmblem
             objectName: "countEmblem"
-
-            readonly property real pinMargin: pin.visible ? pin.width + units.gu(1) - anchors.leftMargin : 0
-
             anchors {
                 right: parent.right
                 top: parent.top
                 margins: units.dp(3)
             }
-            width: Math.min(root.itemWidth - pinMargin, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
+            width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
             color: UbuntuColors.orange
             visible: root.countVisible
@@ -109,7 +92,7 @@ Item {
                 // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine
                 // property for Text: https://bugreports.qt-project.org/browse/QTBUG-40479
                 anchors.verticalCenterOffset: -units.dp(.5)
-                width: root.itemWidth - units.gu(1) - countEmblem.pinMargin
+                width: root.itemWidth - units.gu(1)
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"

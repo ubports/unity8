@@ -28,13 +28,8 @@ don't break them for those external projects.
 
 """
 
-try:
-    from unittest import mock
-except ImportError:
-    import mock
-
 from unity8 import process_helpers
-from unity8.shell import emulators, fixture_setup, tests
+from unity8.shell import fixture_setup, tests
 from unity8.shell.emulators import dash as dash_emulators
 
 
@@ -55,35 +50,6 @@ class DashEmulatorTestCase(tests.DashBaseTestCase):
         text_field = self.dash._get_search_text_field()
         self.assertEqual(text_field.text, 'Test')
 
-    def test_open_unexisting_scope(self):
-        scope_name = 'unexisting'
-        with mock.patch.object(self.dash, 'pointing_device') as mock_pointer:
-            exception = self.assertRaises(
-                emulators.UnityEmulatorException,
-                self.dash.open_scope, scope_name)
-
-        self.assertEqual(
-            'No scope found with id unexisting', str(exception))
-        self.assertFalse(mock_pointer.called)
-
-    def test_open_already_opened_scope(self):
-        scope_id = self._get_current_scope_id()
-        with mock.patch.object(self.dash, 'pointing_device') as mock_pointer:
-            scope = self.dash.open_scope(scope_id)
-
-        self.assertFalse(mock_pointer.called)
-        self._assert_scope_is_opened(scope, scope_id)
-
-    def _assert_scope_is_opened(self, scope, scope_id):
-        self.assertTrue(scope.isCurrent)
-        scope_loader = scope.get_parent()
-        self.assertEqual(scope_loader.scopeId, scope_id)
-
-    def _get_current_scope_id(self):
-        scope = self.dash.dash_content_list.select_single(
-            'QQuickLoader', isCurrent=True)
-        return scope.scopeId
-
     def test_open_scope_to_the_right(self):
         leftmost_scope = self._get_leftmost_scope_id()
         self.dash.open_scope(leftmost_scope)
@@ -91,6 +57,11 @@ class DashEmulatorTestCase(tests.DashBaseTestCase):
         scope_id = self._get_rightmost_scope_id()
         scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
+
+    def _assert_scope_is_opened(self, scope, scope_id):
+        self.assertTrue(scope.isCurrent)
+        scope_loader = scope.get_parent()
+        self.assertEqual(scope_loader.scopeId, scope_id)
 
     def _get_leftmost_scope_id(self):
         scope_loaders = self._get_scope_loaders()
@@ -161,15 +132,6 @@ class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
         super(DashAppsEmulatorTestCase, self).setUp()
         self.applications_scope = self.dash.open_scope('clickscope')
 
-    def test_get_applications_with_unexisting_category(self):
-        exception = self.assertRaises(
-            emulators.UnityEmulatorException,
-            self.applications_scope.get_applications,
-            'unexisting category')
-
-        self.assertEqual(
-            'No category found with name unexisting category', str(exception))
-
     def test_get_applications_should_return_correct_applications(self):
         category = '2'
         category_element = self.applications_scope._get_category_element(
@@ -181,9 +143,10 @@ class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
             :expected_apps_count]
         x_center = list_view.globalRect.x + list_view.width / 2
         y_center = list_view.globalRect.y + list_view.height / 2
-        y_diff = category_element.y - list_view.height + category_element.height
-        list_view._slow_drag(x_center, x_center,
-                             y_center, y_center - y_diff)
+        y_diff = (
+            category_element.y - list_view.height + category_element.height
+        )
+        list_view._slow_drag(x_center, x_center, y_center, y_center - y_diff)
         applications = self.applications_scope.get_applications(category)
         self.assertEqual(expected_applications, applications)
 
