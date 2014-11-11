@@ -58,6 +58,7 @@ void CroppedImageSizerAsyncWorker::requestFinished()
 void CroppedImageSizerAsyncWorker::processRequestFinished(qreal width, qreal height, QUrl source, CroppedImageSizerAsyncWorker *worker)
 {
     // This runs on non main thread
+    // m_reply has finished at this point and is protected against change by m_ignoreAbort
     QImageReader reader(worker->m_reply);
     const QSize imageSize = reader.size();
     QSize sourceSize = QSize(0, 0);
