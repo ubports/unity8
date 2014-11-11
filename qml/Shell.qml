@@ -135,7 +135,9 @@ Item {
     }
     property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
     onGSettingsPictureChanged: {
-        shell.background = gSettingsPicture
+        if (AccountsService.backgroundFile == undefined || AccountsService.backgroundFile.length) {
+            shell.background = gSettingsPicture
+        }
     }
 
     VolumeControl {
