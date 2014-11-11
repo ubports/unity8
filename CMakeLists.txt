@@ -116,6 +116,7 @@ add_subdirectory(tools)
 add_subdirectory(qml)
 add_subdirectory(tests)
 add_subdirectory(plugins)
+add_subdirectory(wizard)
 
 #
 # Data files

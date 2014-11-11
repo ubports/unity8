@@ -1,0 +1,2 @@
+module Ubuntu.SystemSettings.Wizard.Utils
+plugin WizardUtils-qml
