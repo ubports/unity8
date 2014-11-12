@@ -26,6 +26,7 @@
 CroppedImageSizer::CroppedImageSizer()
 {
     connect(this, &CroppedImageSizer::inputParamsChanged, this, &CroppedImageSizer::calculateSourceSize);
+    connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::updateImageSize);
 }
 
 CroppedImageSizer::~CroppedImageSizer()
@@ -44,7 +45,7 @@ void CroppedImageSizer::setSource(const QUrl &source)
 {
     if (source != m_source) {
         m_source = source;
-        Q_EMIT inputParamsChanged();
+        Q_EMIT sourceChanged();
     }
 }
 
@@ -79,43 +80,59 @@ QSize CroppedImageSizer::sourceSize() const
     return m_sourceSize;
 }
 
-void CroppedImageSizer::calculateSourceSize()
+void CroppedImageSizer::setSourceSize(const QSize &sourceSize)
 {
-    if (m_source.isValid() && m_width > 0 && m_height > 0 && qmlEngine(this) && qmlEngine(this)->networkAccessManager()) {
-        if (m_reply) {
-            m_reply->disconnect();
-            m_reply->abort();
-            m_reply->deleteLater();
-        }
+    if (sourceSize != m_sourceSize) {
+        m_sourceSize = sourceSize;
+        Q_EMIT sourceSizeChanged();
+    }
+}
+
+void CroppedImageSizer::updateImageSize()
+{
+    if (m_reply) {
+        m_reply->disconnect();
+        m_reply->abort();
+        m_reply->deleteLater();
+        m_reply = nullptr;
+    }
+
+    if (m_source.isValid() && qmlEngine(this) && qmlEngine(this)->networkAccessManager()) {
         QNetworkRequest request(m_source);
         m_reply = qmlEngine(this)->networkAccessManager()->get(request);
         connect(m_reply, &QNetworkReply::finished, this, &CroppedImageSizer::requestFinished);
+    } else {
+        setSourceSize(QSize(-1, -1));
     }
 }
 
 void CroppedImageSizer::requestFinished()
 {
     QImageReader m_reader(m_reply);
-    const QSize imageSize = m_reader.size();
-    if (imageSize.isValid()) {
-        if (m_height > 0 && imageSize.height() > 0) {
-            const qreal ar = m_width / m_height;
-            const qreal ssar = imageSize.width() / (qreal)imageSize.height();
-            if (ar > ssar) {
-                m_sourceSize = QSize(m_width, 0);
-            } else {
-                m_sourceSize = QSize(0, m_height);
-            }
-        } else {
-            qWarning() << "Invalid height parameter or image height" << m_height << imageSize.height();
-            m_sourceSize = QSize(0, 0);
-        }
-    } else {
-        qWarning() << "Could not find size of" << m_source;
-        m_sourceSize = QSize(0, 0);
-    }
-    sourceSizeChanged();
+    m_imageSize = m_reader.size();
 
     m_reply->deleteLater();
     m_reply = nullptr;
+
+    calculateSourceSize();
+}
+
+void CroppedImageSizer::calculateSourceSize()
+{
+    if (m_source.isValid() && m_width > 0 && m_height > 0 && !m_reply) {
+        if (!m_imageSize.isEmpty()) {
+            const qreal ar = m_width / m_height;
+            const qreal ssar = m_imageSize.width() / (qreal)m_imageSize.height();
+            if (ar > ssar) {
+                setSourceSize(QSize(m_width, 0));
+            } else {
+                setSourceSize(QSize(0, m_height));
+            }
+        } else {
+            qWarning() << "Invalid size for " << m_source << m_imageSize << m_reply;
+            setSourceSize(QSize(0, 0));
+        }
+    } else {
+        setSourceSize(QSize(-1, -1));
+    }
 }

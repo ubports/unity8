@@ -28,7 +28,7 @@ class CroppedImageSizer : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY inputParamsChanged)
+    Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY inputParamsChanged)
     Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY inputParamsChanged)
     Q_PROPERTY(QSize sourceSize READ sourceSize NOTIFY sourceSizeChanged)
@@ -47,20 +47,24 @@ public:
     void setHeight(qreal height);
 
     QSize sourceSize() const;
+    void setSourceSize(const QSize &sourceSize);
 
 Q_SIGNALS:
     void inputParamsChanged();
+    void sourceChanged();
     void sourceSizeChanged();
 
 private Q_SLOT:
     void calculateSourceSize();
     void requestFinished();
+    void updateImageSize();
 
 private:
     QUrl m_source;
     qreal m_width = 0;
     qreal m_height = 0;
     QSize m_sourceSize = QSize(-1, -1);
+    QSize m_imageSize;
     QNetworkReply *m_reply = nullptr;
 };
 
