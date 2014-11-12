@@ -26,7 +26,7 @@
 CroppedImageSizer::CroppedImageSizer()
 {
     connect(this, &CroppedImageSizer::inputParamsChanged, this, &CroppedImageSizer::calculateSourceSize);
-    connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::updateImageSize);
+    connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::requestImage);
 }
 
 CroppedImageSizer::~CroppedImageSizer()
@@ -88,7 +88,7 @@ void CroppedImageSizer::setSourceSize(const QSize &sourceSize)
     }
 }
 
-void CroppedImageSizer::updateImageSize()
+void CroppedImageSizer::requestImage()
 {
     if (m_reply) {
         m_reply->disconnect();
