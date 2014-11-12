@@ -53,7 +53,7 @@ Item {
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
 
     color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 1 - (x / notification.width) // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
+    opacity: 1 - (x / notification.width) // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
 
     state: {
         var result = "";
