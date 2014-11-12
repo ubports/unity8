@@ -106,6 +106,9 @@ void CroppedImageSizer::requestFinished()
             } else {
                 m_sourceSize = QSize(0, m_height);
             }
+        } else {
+            qWarning() << "Invalid height parameter or image height" << m_height << imageSize.height();
+            m_sourceSize = QSize(0, 0);
         }
     } else {
         qWarning() << "Could not find size of" << m_source;
