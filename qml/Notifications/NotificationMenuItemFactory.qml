@@ -145,6 +145,7 @@ Loader {
             errorText: errorAction.valid ? errorAction.state : ""
             retryText: notification.body
             background: shell.background
+            darkenBackground: 0.4
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
