@@ -46,10 +46,7 @@ ListView {
 
     delegate: Notification {
         objectName: "notification" + index
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
+        width: parent.width
         type: model.type
         hints: model.hints
         iconSource: model.icon

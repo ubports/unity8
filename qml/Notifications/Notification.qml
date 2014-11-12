@@ -228,12 +228,6 @@ Item {
                     notificationList.currentIndex = index;
                 }
             }
-            onPressed: {
-                if (draggable) {
-                    notification.anchors.left = undefined
-                    notification.anchors.right = undefined
-                }
-            }
             onReleased: {
                 if (notification.x < notification.width / 2) {
                     notification.x = 0
