@@ -112,13 +112,8 @@ Item {
 
         //enabled: menuItemFactory.progress == 1
         enabled: true
-        SequentialAnimation {
-            PauseAnimation {
-                duration: UbuntuAnimation.SnapDuration
-            }
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.SnapDuration
-            }
+        UbuntuNumberAnimation {
+            duration: UbuntuAnimation.SnapDuration
         }
     }
 
@@ -197,18 +192,6 @@ Item {
                 lastNameOwner = nameOwner
             }
         }
-
-        Behavior on implicitHeight {
-            id: heightBehavior
-
-            enabled: false
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.SnapDuration
-            }
-        }
-
-        // delay enabling height behavior until the add transition is complete
-        onOpacityChanged: if (opacity == 1) heightBehavior.enabled = true
 
         MouseArea {
             id: interactiveArea
@@ -507,11 +490,11 @@ Item {
                         width: buttonRow.width
                         leftIconName: "call-end"
                         rightIconName: "call-start"
-                        onLeftTriggered: {
+                        onRightTriggered: {
                             notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
                         }
 
-                        onRightTriggered: {
+                        onLeftTriggered: {
                             notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId))
                         }
                     }
@@ -552,9 +535,8 @@ Item {
                 }
             }
 
-            ComboButton {
-                id: comboButton
-
+            OptionToggle {
+                id: optionToggle
                 objectName: "notify_button2"
                 width: parent.width
                 anchors {
@@ -564,84 +546,11 @@ Item {
                 }
 
                 visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
-                color: sdDarkGrey
-                onClicked: notification.notification.invokeAction(comboRepeater.itemAt(2).actionId)
+                model: notification.actions
                 expanded: false
-                expandedHeight: (comboRepeater.count - 2) * units.gu(4) + units.gu(.5)
-                comboList: Flickable {
-                    // this has to be wrapped inside a flickable
-                    // to work around a feature/bug? of the
-                    // ComboButton SDK-element, making a regular
-                    // unwrapped Column item flickable
-                    // see LP: #1332590
-                    interactive: false
-                    Column {
-                        Repeater {
-                            id: comboRepeater
-
-                            onVisibleChanged: {
-                                comboButton.text = comboRepeater.count >= 3 ? comboRepeater.itemAt(2).actionLabel : ""
-                            }
-
-                            model: notification.actions
-                            delegate: Loader {
-                                id: comboLoader
-
-                                asynchronous: true
-                                visible: status == Loader.Ready
-                                property string actionId: id
-                                property string actionLabel: label
-                                readonly property var splitLabel: actionLabel.match(/(^([-a-z0-9]+):)?(.*)$/)
-                                Component {
-                                    id: comboEntry
-
-                                    MouseArea {
-                                        id: comboInputArea
-
-                                        objectName: "notify_button" + index
-                                        width: comboButton.width
-                                        height: comboIcon.height + units.gu(2)
-
-                                        onClicked: {
-                                            notification.notification.invokeAction(actionId)
-                                        }
-
-                                        ListItem.ThinDivider {
-                                            visible: index > 3
-                                        }
-
-                                        Icon {
-                                            id: comboIcon
-
-                                            anchors {
-                                                left: parent.left
-                                                leftMargin: units.gu(.5)
-                                                verticalCenter: parent.verticalCenter
-                                            }
-                                            width: units.gu(2)
-                                            height: units.gu(2)
-                                            color: sdFontColor
-                                            name: splitLabel[2]
-                                        }
-
-                                        Label {
-                                            id: comboLabel
-
-                                            anchors {
-                                                left: comboIcon.right
-                                                leftMargin: units.gu(1)
-                                                verticalCenter: comboIcon.verticalCenter
-                                            }
-                                            fontSize: "small"
-                                            color: sdFontColor
-                                            text: splitLabel[3]
-                                        }
-                                    }
-                                }
-                                sourceComponent: (index > 2) ? comboEntry : undefined
-                            }
-                        }
-                    }
+                startIndex: 2
+                onTriggered: {
+                    notification.notification.invokeAction(id)
                 }
             }
         }
