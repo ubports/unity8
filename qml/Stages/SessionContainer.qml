@@ -70,9 +70,6 @@ Item {
                 property: "orientation"; value: root.orientation
             }
 
-            /* FIXME: This is a hack to restore focus to an app
-                      when a trusted session prompt is closed
-            */
             Component.onDestruction: {
                 root.session.surface.forceActiveFocus();
             }
