@@ -94,11 +94,9 @@ void CroppedImageSizer::setSourceSize(const QSize &sourceSize)
 
 void CroppedImageSizer::setImageSize(const QSize &imageSize)
 {
-    if (imageSize != m_imageSize) {
-        m_imageSize = imageSize;
-        m_worker = nullptr;
-        calculateSourceSize();
-    }
+    m_imageSize = imageSize;
+    m_worker = nullptr;
+    calculateSourceSize();
 }
 
 void CroppedImageSizer::requestImage()
