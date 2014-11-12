@@ -59,7 +59,6 @@ DashRenderer {
                 id: loader
                 sourceComponent: cardTool.cardComponent
                 anchors.horizontalCenter: parent.horizontalCenter
-                asynchronous: true
                 onLoaded: {
                     item.objectName = "delegate" + index;
                     item.width = Qt.binding(function() { return cardTool.cardWidth; });
