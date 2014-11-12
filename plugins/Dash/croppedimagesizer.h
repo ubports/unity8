@@ -57,7 +57,7 @@ Q_SIGNALS:
 private Q_SLOT:
     void calculateSourceSize();
     void requestFinished();
-    void updateImageSize();
+    void requestImage();
 
 private:
     QUrl m_source;
