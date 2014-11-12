@@ -84,10 +84,10 @@ QSize CroppedImageSizer::sourceSize() const
     return m_sourceSize;
 }
 
-void CroppedImageSizer::setSourceSize(const QSize &size)
+void CroppedImageSizer::setSourceSize(const QSize &sourceSize)
 {
-    if (size != m_sourceSize) {
-        m_sourceSize = size;
+    if (sourceSize != m_sourceSize) {
+        m_sourceSize = sourceSize;
         Q_EMIT sourceSizeChanged();
     }
 }
