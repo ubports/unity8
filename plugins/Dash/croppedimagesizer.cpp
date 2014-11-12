@@ -132,7 +132,7 @@ void CroppedImageSizer::calculateSourceSize()
                 setSourceSize(QSize(0, m_height));
             }
         } else {
-            qWarning() << "Invalid size for " << m_source << m_imageSize << m_reply;
+            qWarning() << "Invalid size for " << m_source << m_imageSize;
             setSourceSize(QSize(0, 0));
         }
     } else {
