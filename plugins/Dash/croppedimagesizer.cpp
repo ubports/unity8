@@ -30,6 +30,7 @@ CroppedImageSizer::CroppedImageSizer()
    m_worker(nullptr)
 {
     connect(this, &CroppedImageSizer::inputParamsChanged, this, &CroppedImageSizer::calculateSourceSize);
+    connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::updateImageSize);
 }
 
 CroppedImageSizer::~CroppedImageSizer()
@@ -48,7 +49,7 @@ void CroppedImageSizer::setSource(const QUrl &source)
 {
     if (source != m_source) {
         m_source = source;
-        Q_EMIT inputParamsChanged();
+        Q_EMIT sourceChanged();
     }
 }
 
@@ -91,18 +92,47 @@ void CroppedImageSizer::setSourceSize(const QSize &size)
     }
 }
 
-void CroppedImageSizer::calculateSourceSize()
+void CroppedImageSizer::setImageSize(const QSize &imageSize)
 {
-    if (m_source.isValid() && m_width > 0 && m_height > 0 && qmlEngine(this) && qmlEngine(this)->networkAccessManager()) {
-        if (m_worker) {
-            m_worker->abort();
-        }
+    if (imageSize != m_imageSize) {
+        m_imageSize = imageSize;
+        m_worker = nullptr;
+        calculateSourceSize();
+    }
+}
 
+void CroppedImageSizer::updateImageSize()
+{
+    if (m_worker) {
+        m_worker->abort();
+        m_worker = nullptr;
+    }
+
+    if (m_source.isValid() && qmlEngine(this) && qmlEngine(this)->networkAccessManager()) {
         QNetworkRequest request(m_source);
         QNetworkReply *reply = qmlEngine(this)->networkAccessManager()->get(request);
         m_worker = new CroppedImageSizerAsyncWorker(this, reply);
-    } else if (m_sourceSize != QSize(-1, -1)) {
-        m_sourceSize = QSize(-1, -1);
-        sourceSizeChanged();
+    } else  {
+        setSourceSize(QSize(-1, -1));
+    }
+}
+
+void CroppedImageSizer::calculateSourceSize()
+{
+    if (m_source.isValid() && m_width > 0 && m_height > 0 && !m_worker) {
+        if (!m_imageSize.isEmpty()) {
+            const qreal ar = m_width / m_height;
+            const qreal ssar = m_imageSize.width() / (qreal)m_imageSize.height();
+            if (ar > ssar) {
+                setSourceSize(QSize(m_width, 0));
+            } else {
+                setSourceSize(QSize(0, m_height));
+            }
+        } else {
+            qWarning() << "Invalid size for " << m_source << m_imageSize;
+            setSourceSize(QSize(0, 0));
+        }
+    } else {
+        setSourceSize(QSize(-1, -1));
     }
 }

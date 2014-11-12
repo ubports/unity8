@@ -47,7 +47,7 @@ void CroppedImageSizerAsyncWorker::requestFinished()
     QMutexLocker locker(&m_mutex);
     if (m_sizer) {
         m_ignoreAbort = true;
-        QtConcurrent::run(processRequestFinished, m_sizer->width(), m_sizer->height(), m_sizer->source(), this);
+        QtConcurrent::run(processRequestFinished, this);
     } else {
         // We were aborted delete ourselves
         m_reply->deleteLater();
@@ -55,30 +55,16 @@ void CroppedImageSizerAsyncWorker::requestFinished()
     }
 }
 
-void CroppedImageSizerAsyncWorker::processRequestFinished(qreal width, qreal height, QUrl source, CroppedImageSizerAsyncWorker *worker)
+void CroppedImageSizerAsyncWorker::processRequestFinished(CroppedImageSizerAsyncWorker *worker)
 {
     // This runs on non main thread
     // m_reply has finished at this point and is protected against change by m_ignoreAbort
     QImageReader reader(worker->m_reply);
     const QSize imageSize = reader.size();
-    QSize sourceSize = QSize(0, 0);
-    if (imageSize.isValid()) {
-        if (height > 0 && imageSize.height() > 0) {
-            const qreal ar = width / height;
-            const qreal ssar = imageSize.width() / (qreal)imageSize.height();
-            if (ar > ssar) {
-                sourceSize = QSize(width, 0);
-            } else {
-                sourceSize = QSize(0, height);
-            }
-        }
-    } else {
-        qWarning() << "Could not find size of" << source << worker;
-    }
 
     worker->m_mutex.lock();
     if (worker->m_sizer) {
-        QMetaObject::invokeMethod(worker->m_sizer, "setSourceSize", Qt::QueuedConnection, Q_ARG(QSize, sourceSize));
+        QMetaObject::invokeMethod(worker->m_sizer, "setImageSize", Qt::QueuedConnection, Q_ARG(QSize, imageSize));
     }
     worker->m_mutex.unlock();
 

@@ -36,7 +36,7 @@ private Q_SLOTS:
     void requestFinished();
 
 private:
-    static void processRequestFinished(qreal width, qreal height, QUrl source, CroppedImageSizerAsyncWorker *worker);
+    static void processRequestFinished(CroppedImageSizerAsyncWorker *worker);
 
     QMutex m_mutex;
     CroppedImageSizer *m_sizer;
