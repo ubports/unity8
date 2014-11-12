@@ -30,7 +30,7 @@ CroppedImageSizer::CroppedImageSizer()
    m_worker(nullptr)
 {
     connect(this, &CroppedImageSizer::inputParamsChanged, this, &CroppedImageSizer::calculateSourceSize);
-    connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::updateImageSize);
+    connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::requestImage);
 }
 
 CroppedImageSizer::~CroppedImageSizer()
@@ -101,7 +101,7 @@ void CroppedImageSizer::setImageSize(const QSize &imageSize)
     }
 }
 
-void CroppedImageSizer::updateImageSize()
+void CroppedImageSizer::requestImage()
 {
     if (m_worker) {
         m_worker->abort();
