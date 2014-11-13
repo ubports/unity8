@@ -33,7 +33,7 @@ Rectangle {
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
     property int orientation: Qt.PortraitOrientation
 
-    color: "black"
+    color: "#111111"
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
