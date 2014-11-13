@@ -42,6 +42,18 @@ Loader {
         if (menuData.type !== undefined) {
             var component = _map[menuData.type];
             if (component !== undefined) {
+                if (component === pinLock && shell.hasLockedApp) {
+                    // In case we are in emergency mode, just skip this unlock.
+                    // Happens with two locked SIMs but the user clicks
+                    // Emergency Call on the first unlock dialog.
+                    // TODO: if we ever allow showing the indicators in
+                    // emergency mode, we'll need to differentiate between
+                    // user-initiated ones which we *do* want to show and the
+                    // dialogs that appear on boot, which we don't.  But for
+                    // now we can get away with skipping all such dialogs.
+                    menuModel.activate(menuIndex, false);
+                    return null;
+                }
                 return component;
             }
         }
@@ -149,8 +161,8 @@ Loader {
             }
 
             onEmergencyCall: {
-                shell.activateApplication("dialer-app")
-                menuModel.activate(menuIndex, false)
+                shell.startLockedApp("dialer-app");
+                menuModel.activate(menuIndex, false);
             }
 
             property var extendedData: menuData && menuData.ext || undefined

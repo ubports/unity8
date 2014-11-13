@@ -74,6 +74,7 @@ Item {
         objectName: "screenshotImage"
         source: ""
         anchors.fill: parent
+        antialiasing: !root.interactive
 
         function take() {
             // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
