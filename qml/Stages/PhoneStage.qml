@@ -286,7 +286,7 @@ Rectangle {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     interactive: !spreadView.interactive && spreadView.phase === 0
                             && spreadView.shiftedContentX === 0 && root.interactive && index === 0
-                    swipeToCloseEnabled: spreadView.interactive
+                    swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.active ||
                                 (priv.focusedAppDelegate && priv.focusedAppDelegate.x !== 0)
