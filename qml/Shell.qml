@@ -746,7 +746,6 @@ Item {
             margin: units.gu(1)
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
-            width: parent.width
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             states: [
@@ -756,7 +755,7 @@ Item {
                     AnchorChanges {
                         target: notifications
                         anchors.left: parent.left
-                        anchors.right: undefined
+                        anchors.right: parent.right
                     }
                 },
                 State {
