@@ -37,6 +37,7 @@ import "Components"
 import "Notifications"
 import "Stages"
 import "Panel/Indicators"
+import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
@@ -724,6 +725,12 @@ Item {
                     panel.indicators.hide()
                 }
             }
+        }
+
+        Wizard {
+            id: wizard
+            anchors.fill: parent
+            background: shell.background
         }
 
         Rectangle {

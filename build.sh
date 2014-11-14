@@ -54,6 +54,7 @@ install_dependencies() {
                          qtdeclarative5-unity-notifications-plugin \
                          qml-module-ubuntu-connectivity \
                          ubuntu-mobile-icons \
+                         ubuntu-system-settings \
                          unity-plugin-scopes \
                          xvfb \
         || exit 5

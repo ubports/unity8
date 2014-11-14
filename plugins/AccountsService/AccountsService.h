@@ -55,6 +55,13 @@ class AccountsService: public QObject
                 READ failedLogins
                 WRITE setFailedLogins
                 NOTIFY failedLoginsChanged)
+    Q_PROPERTY(bool hereEnabled
+               READ hereEnabled
+               WRITE setHereEnabled
+               NOTIFY hereEnabledChanged)
+    Q_PROPERTY(QString hereLicensePath
+               READ hereLicensePath
+               NOTIFY hereLicensePathChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -75,6 +82,9 @@ public:
     PasswordDisplayHint passwordDisplayHint() const;
     uint failedLogins() const;
     void setFailedLogins(uint failedLogins);
+    bool hereEnabled() const;
+    void setHereEnabled(bool enabled);
+    QString hereLicensePath() const;
 
 Q_SIGNALS:
     void userChanged();
@@ -85,6 +95,8 @@ Q_SIGNALS:
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
+    void hereEnabledChanged();
+    void hereLicensePathChanged();
 
 private Q_SLOTS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -98,6 +110,8 @@ private:
     void updateStatsWelcomeScreen();
     void updatePasswordDisplayHint();
     void updateFailedLogins();
+    void updateHereEnabled();
+    void updateHereLicensePath();
 
     AccountsServiceDBusAdaptor *m_service;
     QString m_user;
@@ -108,6 +122,8 @@ private:
     bool m_statsWelcomeScreen;
     PasswordDisplayHint m_passwordDisplayHint;
     uint m_failedLogins;
+    bool m_hereEnabled;
+    QString m_hereLicensePath;
 };
 
 #endif

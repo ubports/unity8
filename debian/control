@@ -23,7 +23,6 @@ Build-Depends: cmake,
                libpulse-dev,
                libqmenumodel-dev (>= 0.2.8),
                libqt5xmlpatterns5-dev,
-               libsystemsettings-dev,
                libunity-api-dev (>= 7.93),
                libusermetricsoutput1-dev,
                libxcb1-dev,
@@ -47,6 +46,7 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-settings-components (>= 0.4),
                qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.49) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.49),
                ttf-ubuntu-font-family,
+               ubuntu-system-settings,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
