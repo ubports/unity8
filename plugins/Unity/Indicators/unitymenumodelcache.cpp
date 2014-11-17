@@ -20,33 +20,42 @@
 #include "unitymenumodelcache.h"
 #include <unitymenumodel.h>
 
+#include <QQmlEngine>
+
+QPointer<UnityMenuModelCache> UnityMenuModelCache::theCache = nullptr;
+
+UnityMenuModelCache* UnityMenuModelCache::singleton()
+{
+    if (theCache.isNull()) {
+        theCache = new UnityMenuModelCache();
+    }
+    return theCache.data();
+}
+
 UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
     : QObject(parent)
 {
 }
 
-UnityMenuModelCache::~UnityMenuModelCache()
-{
-}
-
-UnityMenuModel* UnityMenuModelCache::model(const QByteArray& bus,
-                                           const QByteArray& path,
-                                           const QVariantMap& actions)
+QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& path)
 {
     if (m_registry.contains(path))
         return m_registry[path];
 
-    // Parent the model to us, so it is not deleted by Qml.  We want to keep
-    // all models cached, because when we switch indicator profiles, we will
-    // be switching paths often.  And we want to keep the old model around,
-    // ready to be used.  Otherwise the UI might momentarily wait as we
-    // populate the model from DBus yet again.
-    UnityMenuModel* menuModel = new UnityMenuModel(this);
+    UnityMenuModel* model = new UnityMenuModel;
+    QQmlEngine::setObjectOwnership(model, QQmlEngine::CppOwnership);
+
+    QSharedPointer<UnityMenuModel> menuModel(model);
+
+    // Keep a shared pointer (rather than weak pointer which would cause the
+    // model to be deleted when all shared pointers we give out are deleted).
+    // We want to keep all models cached because when we switch indicator
+    // profiles, we will be switching paths often.  And we want to keep the
+    // old model around, ready to be used.  Otherwise the UI might momentarily
+    // wait as we populate the model from DBus yet again.
     m_registry[path] = menuModel;
 
-    menuModel->setBusName(bus);
     menuModel->setMenuObjectPath(path);
-    menuModel->setActions(actions);
     return menuModel;
 }
 

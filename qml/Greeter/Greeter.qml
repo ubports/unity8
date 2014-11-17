@@ -129,6 +129,11 @@ Showable {
             direction: Direction.Leftwards
         }
     }
+    TouchGate {
+        targetItem: dragHandle
+        anchors.fill: targetItem
+        enabled: targetItem.enabled
+    }
 
     Loader {
         id: greeterContentLoader

@@ -21,15 +21,9 @@
 #include <QDBusConnection>
 #include <QDBusInterface>
 
-DBusUnitySessionService::DBusUnitySessionService() : QObject()
+DBusUnitySessionService::DBusUnitySessionService()
+    : UnityDBusObject("/com/canonical/Unity/Session", "com.canonical.Unity")
 {
-    QDBusConnection connection = QDBusConnection::sessionBus();
-
-    connection.registerService("com.canonical.Unity");
-    connection.registerObject("/com/canonical/Unity/Session", this,
-                              QDBusConnection::ExportScriptableSignals
-                              | QDBusConnection::ExportScriptableSlots
-                              | QDBusConnection::ExportScriptableInvokables);
 }
 
 DBusUnitySessionService::~DBusUnitySessionService()

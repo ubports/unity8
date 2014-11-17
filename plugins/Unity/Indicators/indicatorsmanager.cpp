@@ -54,10 +54,9 @@ IndicatorsManager::~IndicatorsManager()
 
 }
 
-void IndicatorsManager::load(const QString& profile)
+void IndicatorsManager::load()
 {
     unload();
-    setProfile(profile);
 
     QStringList xdgLocations = shellDataDirs();//QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
 

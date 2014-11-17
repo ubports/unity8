@@ -108,10 +108,10 @@ void IndicatorsModel::setProfile(const QString &profile)
 
     Load all indicators.
 */
-void IndicatorsModel::load(const QString& profile)
+void IndicatorsModel::load()
 {
     m_indicators.clear();
-    m_manager->load(profile);
+    m_manager->load();
 }
 
 /*!
@@ -225,8 +225,6 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
     {
         roles[IndicatorsModelRole::Identifier] = "identifier";
         roles[IndicatorsModelRole::Position] = "position";
-        roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
-        roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
     }
     return roles;
@@ -271,10 +269,6 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
                 return QVariant(indicator->indicatorProperties());
             }
             break;
-        case IndicatorsModelRole::WidgetSource:
-            return qmlDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
-        case IndicatorsModelRole::PageSource:
-            return qmlDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
         default:
             break;
     }

@@ -36,6 +36,7 @@ import "Panel"
 import "Components"
 import "Notifications"
 import "Stages"
+import "Panel/Indicators"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
@@ -54,6 +55,7 @@ Item {
     readonly property real panelHeight: panel.panelHeight
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+    readonly property alias hasLockedApp: greeter.hasLockedApp
     readonly property bool forcedUnlock: edgeDemo.running
     onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
 
@@ -90,12 +92,10 @@ Item {
     }
 
     function startLockedApp(app) {
-        if (!shell.locked) {
-            console.warn("Called startLockedApp(%1) when not locked, ignoring".arg(app))
-            return
+        if (shell.locked) {
+            greeter.lockedApp = app;
         }
-        greeter.lockedApp = app
-        shell.activateApplication(app)
+        shell.activateApplication(app);
     }
 
     Binding {
@@ -132,23 +132,32 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        z: edgeDemo.z + 10
+        enabled: Powerd.status === Powerd.On
+    }
+
     Binding {
         target: ApplicationManager
         property: "forceDashActive"
         value: launcher.shown || launcher.dashSwipe
     }
 
+    VolumeKeyFilter {
+        id: volumeKeyFilter
+        onVolumeDownPressed: volumeControl.volumeDown()
+        onVolumeUpPressed: volumeControl.volumeUp()
+        onBothVolumeKeysPressed: screenGrabber.capture()
+    }
 
     WindowKeysFilter {
-        // Handle but do not filter out volume keys
-        Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
-        Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
-
         Keys.onPressed: {
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyPressed();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyPressed(event.key);
                 event.accepted = false;
             }
         }
@@ -158,6 +167,7 @@ Item {
                 dialogs.onPowerKeyReleased();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyReleased(event.key);
                 event.accepted = false;
             }
         }
@@ -174,7 +184,7 @@ Item {
             target: ApplicationManager
             onFocusRequested: {
                 if (greeter.narrowMode) {
-                    if (appId === "dialer-app" && callManager.hasCalls) {
+                    if (appId === "dialer-app" && callManager.hasCalls && shell.locked) {
                         // If we are in the middle of a call, make dialer lockedApp and show it.
                         // This can happen if user backs out of dialer back to greeter, then
                         // launches dialer again.
@@ -243,12 +253,12 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "maximizedAppTopMargin"
                 // Not just using panel.panelHeight as that changes depending on the focused app.
-                value: panel.indicators.panelHeight
+                value: panel.indicators.minimizedPanelHeight + units.dp(2) // dp(2) for orange line
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: edgeDemo.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0
+                value: edgeDemo.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -370,6 +380,10 @@ Item {
         onHideGreeter: greeter.login()
 
         onShowPrompt: {
+            shell.enabled = true;
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
             if (greeter.narrowMode) {
                 if (isDefaultPrompt) {
                     if (lockscreen.alphaNumeric) {
@@ -390,6 +404,9 @@ Item {
         }
 
         onPromptlessChanged: {
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
             if (greeter.narrowMode) {
                 if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
                     lockscreen.hide()
@@ -401,6 +418,7 @@ Item {
         }
 
         onAuthenticationComplete: {
+            shell.enabled = true;
             if (LightDM.Greeter.authenticated) {
                 AccountsService.failedLogins = 0
             }
@@ -537,6 +555,11 @@ Item {
 
             onShownChanged: {
                 if (shown) {
+                    // Disable everything so that user can't swipe greeter or
+                    // launcher until we get first prompt/authenticate, which
+                    // will re-enable the shell.
+                    shell.enabled = false;
+
                     if (greeter.narrowMode) {
                         LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                     } else {
@@ -547,10 +570,9 @@ Item {
                 }
             }
 
-            /* TODO re-enable when the corresponding changes in the service land (LP: #1361074)
             Component.onCompleted: {
                 Connectivity.unlockAllModems()
-            } */
+            }
 
             onUnlocked: greeter.hide()
             onSelected: {
@@ -594,7 +616,8 @@ Item {
         target: Powerd
 
         onStatusChanged: {
-            if (Powerd.status === Powerd.Off && !callManager.hasCalls && !edgeDemo.running) {
+            if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
+                    !callManager.hasCalls && !edgeDemo.running) {
                 greeter.showNow()
             }
         }
@@ -610,7 +633,7 @@ Item {
         }
 
         var animate = !LightDM.Greeter.active && !stages.shown
-        dash.setCurrentScope("clickscope", animate, false)
+        dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
@@ -646,10 +669,22 @@ Item {
                 available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-                panelHeight: units.gu(3)
 
+                minimizedPanelHeight: units.gu(3)
+                expandedPanelHeight: units.gu(7)
+
+                indicatorsModel: visibleIndicators.model
+            }
+
+            VisibleIndicators {
+                id: visibleIndicators
+                objectName: "visibleIndicators"
                 // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
                 profile: LightDM.Greeter.active ? (indicatorProfile + "_greeter") : indicatorProfile
+                Component.onCompleted: initialise()
+            }
+            callHint {
+                greeterShown: greeter.shown || lockscreen.shown
             }
 
             property bool topmostApplicationIsFullscreen:
@@ -676,7 +711,7 @@ Item {
             onDash: showDash()
             onDashSwipeChanged: {
                 if (dashSwipe) {
-                    dash.setCurrentScope("clickscope", false, true)
+                    dash.setCurrentScope(0, false, true)
                 }
             }
             onLauncherApplicationSelected: {
@@ -696,7 +731,7 @@ Item {
         Rectangle {
             id: modalNotificationBackground
 
-            visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
+            visible: notifications.useModal && (notifications.state == "narrow")
             color: "#000000"
             anchors.fill: parent
             opacity: 0.9
@@ -712,9 +747,9 @@ Item {
             model: NotificationBackend.Model
             margin: units.gu(1)
 
-            y: panel.panelHeight
+            y: topmostIsFullscreen ? 0 : panel.panelHeight
             width: parent.width
-            height: parent.height - panel.panelHeight
+            height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             states: [
                 State {
@@ -766,7 +801,7 @@ Item {
         paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
-        indicators: panel.indicators
+        panel: panel
         stages: stages
     }
 

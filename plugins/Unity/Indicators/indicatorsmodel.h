@@ -41,7 +41,7 @@ public:
     IndicatorsModel(QObject *parent=0);
     ~IndicatorsModel();
 
-    Q_INVOKABLE void load(const QString& profile);
+    Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
     Q_INVOKABLE QVariant data(int row, int role) const;

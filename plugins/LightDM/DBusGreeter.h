@@ -17,15 +17,15 @@
 #ifndef UNITY_DBUSGREETER_H
 #define UNITY_DBUSGREETER_H
 
+#include "unitydbusobject.h"
 #include <QDBusConnection>
-#include <QObject>
 
 class Greeter;
 
 /** This is an internal class used to talk with the indicators.
   */
 
-class DBusGreeter : public QObject
+class DBusGreeter : public UnityDBusObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "com.canonical.UnityGreeter")
@@ -33,7 +33,7 @@ class DBusGreeter : public QObject
     Q_PROPERTY(bool IsActive READ isActive NOTIFY isActiveChanged) // since 14.10
 
 public:
-    explicit DBusGreeter(Greeter *greeter, const QDBusConnection &connection, const QString &path);
+    explicit DBusGreeter(Greeter *greeter, const QString &path);
 
     bool isActive() const;
     Q_SCRIPTABLE void ShowGreeter(); // temporary, until we split the greeter again
@@ -44,12 +44,9 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void isActiveChangedHandler();
-    void notifyPropertyChanged(const QString &propertyName, const QVariant &value);
 
 private:
     Greeter *m_greeter;
-    QDBusConnection m_connection;
-    QString m_path;
 };
 
 #endif

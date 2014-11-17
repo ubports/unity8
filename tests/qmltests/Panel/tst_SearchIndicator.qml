@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import ".."
 import "../../../qml/Panel"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT

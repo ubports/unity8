@@ -37,7 +37,7 @@ public:
     explicit IndicatorsManager(QObject* parent = 0);
     ~IndicatorsManager();
 
-    Q_INVOKABLE void load(const QString& profile);
+    Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
     QString profile() const;

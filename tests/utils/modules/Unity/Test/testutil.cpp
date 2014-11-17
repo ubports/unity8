@@ -31,7 +31,6 @@ TestUtil::TestUtil(QObject *parent)
     : QObject(parent)
     , m_targetWindow(0)
     , m_touchDevice(0)
-    , m_installedTouchRegistry(false)
 {
 }
 
@@ -83,30 +82,19 @@ void TestUtil::ensureTouchDevice()
 
 void TestUtil::ensureTouchRegistryInstalled()
 {
-    if (m_installedTouchRegistry)
+    if (TouchRegistry::instance())
         return;
 
-    TouchRegistry *touchRegistry;
-    if (TouchRegistry::instance() == nullptr) {
-        // Tests can be *very* slow to run and we don't want things timing out because
-        // of that. So give it fake timers to use (they will never time out)
-        touchRegistry = new TouchRegistry(this, new FakeTimerFactory);
-    } else {
-        touchRegistry = TouchRegistry::instance();
-        if (touchRegistry->parent() != this) {
-            // someone else created it. leave it alone
-            m_installedTouchRegistry = true;
-        }
-    }
+    if (!m_targetWindow)
+        return;
 
-    ensureTargetWindow();
+    // Tests can be *very* slow to run and we don't want things timing out because
+    // of that. So give it fake timers to use (they will never time out)
+    TouchRegistry *touchRegistry = new TouchRegistry(this, new FakeTimerFactory);
 
-    if (m_targetWindow) {
-        QQuickView *view = qobject_cast<QQuickView*>(m_targetWindow);
-        if (view) {
-            view->installEventFilter(touchRegistry);
-            touchRegistry->setParent(view);
-            m_installedTouchRegistry = true;
-        }
+    QQuickView *view = qobject_cast<QQuickView*>(m_targetWindow);
+    if (view) {
+        view->installEventFilter(touchRegistry);
+        touchRegistry->setParent(view);
     }
 }

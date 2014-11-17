@@ -1,3 +1,0 @@
-module HudClient
-plugin FakeHudClientQml
-typeinfo HudClient.qmltypes
