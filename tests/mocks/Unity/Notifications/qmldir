@@ -1,3 +1,4 @@
 module Unity.Notifications
-Notification 1.0 notification.js
+plugin MockNotificationsPlugin
 typeinfo Notifications.qmltypes
+

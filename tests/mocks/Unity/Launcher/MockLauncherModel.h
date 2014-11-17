@@ -49,6 +49,9 @@ public:
     unity::shell::application::ApplicationManagerInterface *applicationManager() const;
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager);
 
+    // For testing
+    Q_INVOKABLE void emitHint();
+
 Q_SIGNALS:
     void quickListTriggered(const QString &appId, int index);
 

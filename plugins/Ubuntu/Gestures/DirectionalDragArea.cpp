@@ -259,7 +259,9 @@ void DirectionalDragArea::touchOwnershipEvent(TouchOwnershipEvent *event)
         // Work around for Qt bug. If we grab a touch that is being used for mouse pointer
         // emulation it will cause the emulation logic to go nuts.
         // Thus we have to also grab the mouse in this case.
-        // TODO: Report bug to Qt
+        //
+        // The fix for this bug has landed in Qt 5.4 (https://codereview.qt-project.org/96887)
+        // TODO: Remove this workaround once we start using Qt 5.4
         if (window()) {
             QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(window());
             if (windowPrivate->touchMouseId == event->touchId() && window()->mouseGrabberItem()) {

@@ -40,6 +40,8 @@ GridLayout {
                 if (column == grid.columns - 1 || index == repeater.count - 1) return Qt.AlignRight;
                 if (column == 1) return Qt.AlignHCenter;
             }
+            Layout.column: index % grid.columns
+            Layout.row: index / grid.columns
             Layout.columnSpan: index == repeater.count - 1 && grid.columns == 3 && column == 1 ? 2 : 1
             Layout.maximumWidth: Math.max(icon.width, label.x + label.implicitWidth)
             Layout.fillWidth: true

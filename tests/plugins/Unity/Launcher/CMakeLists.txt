@@ -1,5 +1,5 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=4)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=5)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
 
 include_directories(
@@ -7,6 +7,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
     ${GSETTINGS_QT_INCLUDE_DIRS}
+    ${libunity8-private_SOURCE_DIR}
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
@@ -34,7 +35,10 @@ add_executable(launchermodeltestExec
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
-target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS})
+target_link_libraries(launchermodeltestExec
+    unity8-private
+    ${GSETTINGS_QT_LDFLAGS}
+    )
 qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui)
 
 # copy .desktop files into build directory for shadow builds

@@ -14,14 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItems
+import QtQuick 2.3
+import Ubuntu.Components 1.1
+import Ubuntu.Components.ListItems 1.0 as ListItems
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
 import "../Components/"
-import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -76,7 +75,7 @@ Rectangle {
                 anchors.fill: parent
                 clip: true
 
-                Flickables.ListView {
+                ListView {
                     id: launcherListView
                     objectName: "launcherListView"
                     anchors {
@@ -151,7 +150,6 @@ Rectangle {
                         count: model.count
                         countVisible: model.countVisible
                         progress: model.progress
-                        pinned: model.pinned
                         itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
@@ -462,10 +460,6 @@ Rectangle {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
-                pinned: dndArea.draggedIndex > -1 &&
-                        LauncherModel.get(dndArea.draggedIndex).pinned &&
-                        !dndArea.preDragging &&
-                        !dndArea.dragging
 
                 function flatten() {
                     fakeDragItemAnimation.start();
@@ -485,7 +479,7 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.8 : 0
+        opacity: quickList.state === "open" ? 0.96 : 0
         visible: opacity > 0
         rotation: root.rotation
 
@@ -497,15 +491,15 @@ Rectangle {
 
         Image {
             anchors {
-                right: parent.left
-                rightMargin: -units.dp(4)
+                left: parent.left
+                leftMargin: (quickList.item.width - units.gu(1)) / 2 - width / 2
                 verticalCenter: parent.verticalCenter
-                verticalCenterOffset: -quickList.offset
+                verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1)
             }
             height: units.gu(1)
             width: units.gu(2)
             source: "graphics/quicklist_tooltip.png"
-            rotation: 90
+            rotation: quickList.offset > 0 ? 0 : 180
         }
 
         InverseMouseArea {
@@ -521,16 +515,16 @@ Rectangle {
     Rectangle {
         id: quickList
         objectName: "quickList"
-        color: "#221e1c"
+        color: "#f5f5f5"
         width: units.gu(30)
         height: quickListColumn.height
         visible: quickListShape.visible
         anchors {
-            left: root.inverted ? undefined : parent.right
-            right: root.inverted ? parent.left : undefined
+            left: root.inverted ? undefined : parent.left
+            right: root.inverted ? parent.right : undefined
             margins: units.gu(1)
         }
-        y: itemCenter - (height / 2) + offset
+        y: itemCenter + offset
         rotation: root.rotation
 
         property var model
@@ -539,8 +533,9 @@ Rectangle {
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
-        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
-                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
+        property int offset: itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
+                                 -(item.height/2) - height - units.gu(.5) :
+                                 (item.height/2) + units.gu(.5)
 
         Column {
             id: quickListColumn
@@ -559,7 +554,7 @@ Rectangle {
                     // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
                     // ListItems don't know that they are sitting in a themed Popover where the color
                     // needs to be inverted.
-                    __foregroundColor: Theme.palette.selected.backgroundText
+                    __foregroundColor: "black"
 
                     onClicked: {
                         if (!model.clickable) {

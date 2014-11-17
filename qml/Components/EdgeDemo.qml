@@ -23,7 +23,7 @@ Item {
 
     property Item greeter
     property Item launcher
-    property Item indicators
+    property Item panel
     property Item stages
 
     property bool launcherEnabled: true
@@ -139,11 +139,11 @@ Item {
     function startTopEdgeDemo() {
         demo.panelEnabled = true;
         if (demo.stages) {
-            d.topEdgeDemo = d.overlay.createObject(demo.stages, {
+            d.topEdgeDemo = d.overlay.createObject(demo.panel, {
                 "edge": "top",
                 "title": i18n.tr("Top edge"),
                 "text": i18n.tr("Try swiping from the top edge to access the indicators"),
-                "anchors.fill": demo.stages,
+                "anchors.fill": demo.panel,
             });
         }
         if (d.topEdgeDemo) {
@@ -154,9 +154,9 @@ Item {
     }
 
     Connections {
-        target: demo.indicators
+        target: demo.panel.indicators
         onFullyOpenedChanged: {
-            if (d.topEdgeDemo && d.topEdgeDemo.available && demo.indicators.fullyOpened) {
+            if (d.topEdgeDemo && d.topEdgeDemo.available && demo.panel.indicators.fullyOpened) {
                 d.topEdgeDemo.hideNow()
                 startBottomEdgeDemo()
             }
@@ -164,12 +164,12 @@ Item {
     }
 
     function startBottomEdgeDemo() {
-        if (demo.indicators) {
-            d.bottomEdgeDemo = d.overlay.createObject(demo.indicators, {
+        if (demo.panel.indicators) {
+            d.bottomEdgeDemo = d.overlay.createObject(demo.panel.indicators, {
                 "edge": "bottom",
                 "title": i18n.tr("Close"),
                 "text": i18n.tr("Swipe up again to close the settings screen"),
-                "anchors.fill": demo.indicators.content,
+                "anchors.fill": demo.panel.indicators,
             });
         }
         if (d.bottomEdgeDemo) {
@@ -180,9 +180,12 @@ Item {
     }
 
     Connections {
-        target: demo.indicators
+        target: demo.panel.indicators
         onPartiallyOpenedChanged: {
-            if (d.bottomEdgeDemo && d.bottomEdgeDemo.available && !demo.indicators.partiallyOpened && !demo.indicators.fullyOpened) {
+            if (d.bottomEdgeDemo &&
+                    d.bottomEdgeDemo.available &&
+                    !demo.panel.indicators.partiallyOpened &&
+                    !demo.panel.indicators.fullyOpened) {
                 d.bottomEdgeDemo.hideNow()
                 startLeftEdgeDemo()
             }

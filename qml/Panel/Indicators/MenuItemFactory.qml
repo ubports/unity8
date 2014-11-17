@@ -290,12 +290,26 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            onServerCheckedChanged: {
-                // value can be changed by menu, so a binding won't work.
-                checked = serverChecked;
-            }
+            onServerCheckedChanged: updateFromServer()
             onTriggered: {
                 menuModel.activate(menuIndex);
+                resyncTimer.restart();
+            }
+
+            // value can be changed by menu, so a binding won't work.
+            function updateFromServer() {
+                resyncTimer.stop();
+                if (checked != serverChecked) {
+                    checked = serverChecked;
+                }
+            }
+
+            // Server value is not guaranteed to change to what we expect from an activation.
+            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
+            Timer {
+                id: resyncTimer
+                interval: 1500
+                onTriggered: updateFromServer()
             }
         }
     }
@@ -315,12 +329,26 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            onServerCheckedChanged: {
-                // value can be changed by menu, so a binding won't work.
-                checked = serverChecked;
-            }
+            onServerCheckedChanged: updateFromServer()
             onTriggered: {
                 menuModel.activate(menuIndex);
+                resyncTimer.restart();
+            }
+
+            // value can be changed by menu, so a binding won't work.
+            function updateFromServer() {
+                resyncTimer.stop();
+                if (checked != serverChecked) {
+                    checked = serverChecked;
+                }
+            }
+
+            // Server value is not guaranteed to change to what we expect from an activation.
+            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
+            Timer {
+                id: resyncTimer
+                interval: 1500
+                onTriggered: updateFromServer()
             }
         }
     }

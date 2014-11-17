@@ -19,22 +19,20 @@
 
 #include "gsettings.h"
 
-#include <QGSettings>
 #include <QVariant>
 
 GSettings::GSettings(QObject *parent):
     QObject(parent)
 {
-
+    m_gSettings = new QGSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/", this);
+    connect(m_gSettings, &QGSettings::changed, this, &GSettings::onSettingsChanged);
 }
 
 QStringList GSettings::storedApplications() const
 {
     QStringList storedApps;
 
-    QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
-
-    Q_FOREACH(const QString &entry, gSettings.get("items").toStringList()) {
+    Q_FOREACH(const QString &entry, m_gSettings->get("items").toStringList()) {
         if (entry.startsWith("application:///")) {
             // convert legacy entries to new world appids
             QString appId = entry;
@@ -57,10 +55,16 @@ QStringList GSettings::storedApplications() const
 
 void GSettings::setStoredApplications(const QStringList &storedApplications)
 {
-    QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
     QStringList gSettingsList;
     Q_FOREACH(const QString &entry, storedApplications) {
         gSettingsList << QString("appid://%1").arg(entry);
     }
-    gSettings.set("items", gSettingsList);
+    m_gSettings->set("items", gSettingsList);
+}
+
+void GSettings::onSettingsChanged(const QString &key)
+{
+    if (key == "items") {
+        Q_EMIT changed();
+    }
 }
