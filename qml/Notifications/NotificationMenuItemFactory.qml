@@ -127,6 +127,11 @@ Loader {
                     anchors.verticalCenter: checkBox.verticalCenter
                     text: i18n.tr("Show password")
                     color: notification.sdFontColor
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: { checkBox.checked = !checkBox.checked }
+                    }
                 }
             }
         }
