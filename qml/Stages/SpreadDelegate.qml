@@ -75,7 +75,7 @@ Item {
 
         property bool moving: false
         property real distance: 0
-        property int threshold: units.gu(2)
+        readonly property int threshold: units.gu(2)
 
         readonly property real minSpeedToClose: units.gu(40)
 
