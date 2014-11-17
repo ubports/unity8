@@ -21,11 +21,11 @@ Item {
     id: root
 
     property string source
-    property alias image: image
-    property alias asynchronous: image.asynchronous
-    property alias verticalAlignment: image.verticalAlignment
-    property alias horizontalAlignment: image.horizontalAlignment
-    property alias fillMode: image.fillMode
+    property alias image: innerImage
+    property alias asynchronous: innerImage.asynchronous
+    property alias verticalAlignment: innerImage.verticalAlignment
+    property alias horizontalAlignment: innerImage.horizontalAlignment
+    property alias fillMode: innerImage.fillMode
 
     CroppedImageSizer {
         id: sizer
@@ -35,7 +35,7 @@ Item {
     }
 
     Image {
-        id: image
+        id: innerImage
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         sourceSize: sizer.sourceSize.width == 0 && sizer.sourceSize.height == 0 ? undefined : sizer.sourceSize
