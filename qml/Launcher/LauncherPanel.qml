@@ -56,7 +56,6 @@ Rectangle {
                     topMargin: -units.gu(1)
                 }
                 borderSource: "none"
-                clip: true
                 color: UbuntuColors.orange
             }
 
