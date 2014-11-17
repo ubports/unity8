@@ -38,6 +38,12 @@ Rectangle {
     signal applicationSelected(string appId)
     signal showDashHome()
 
+    onXChanged: {
+        if (quickList.state == "open") {
+            quickList.state = ""
+        }
+    }
+
     Column {
         id: mainColumn
         anchors {
