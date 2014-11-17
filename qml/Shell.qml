@@ -794,26 +794,10 @@ Item {
         }
     }
 
-    Label {
-        id: alphaDisclaimerLabel
-        anchors.centerIn: parent
-        visible: ApplicationManager.fake ? ApplicationManager.fake : false
-        z: dialogs.z + 10
-        text: "EARLY ALPHA\nNOT READY FOR USE"
-        color: "lightgrey"
-        opacity: 0.2
-        font.weight: Font.Black
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        fontSizeMode: Text.Fit
-        rotation: -45
-        scale: Math.min(parent.width, parent.height) / width
-    }
-
     EdgeDemo {
         id: edgeDemo
         objectName: "edgeDemo"
-        z: alphaDisclaimerLabel.z + 10
+        z: dialogs.z + 10
         paused: Powerd.status === Powerd.Off // Saves power
         greeter: greeter
         launcher: launcher
