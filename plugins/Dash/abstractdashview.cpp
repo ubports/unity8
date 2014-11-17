@@ -16,8 +16,6 @@
 
 #include "abstractdashview.h"
 
-static const qreal bufferRatio = 0.5;
-
 AbstractDashView::AbstractDashView()
  : m_delegateModel(nullptr)
  , m_asyncRequestedIndex(-1)
