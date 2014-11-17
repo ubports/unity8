@@ -75,6 +75,7 @@ Item {
 
         property bool moving: false
         property real distance: 0
+        property int threshold: units.gu(2)
 
         readonly property real minSpeedToClose: units.gu(40)
 
@@ -82,9 +83,9 @@ Item {
             if (!dragging) {
                 return;
             }
-            moving = moving || Math.abs(dragValue) > units.gu(1)
+            moving = moving || Math.abs(dragValue) > threshold;
             if (moving) {
-                distance = dragValue;
+                distance = dragValue + (dragValue > 0 ? -threshold: threshold);
             }
         }
 
