@@ -59,6 +59,7 @@ Item {
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
+        visibleToParent: true
 
         UT.UnityTestCase {
             id: testCase
