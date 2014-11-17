@@ -126,7 +126,7 @@ void AbstractDashView::setCacheBuffer(qreal buffer)
     if (m_buffer != buffer) {
         m_buffer = buffer;
         if (isComponentComplete()) {
-            relayout();
+            polish();
         }
         emit cacheBufferChanged();
     }
