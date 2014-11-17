@@ -605,7 +605,7 @@ Item {
             Binding {
                 target: ApplicationManager
                 property: "suspended"
-                value: greeter.shown && greeterWrapper.showProgress == 1
+                value: (greeter.shown && greeterWrapper.showProgress == 1) || lockscreen.shown
             }
         }
     }
