@@ -178,7 +178,7 @@ Item {
         property var model: []
         property bool hasAttributes: {
             var attributes = components["attributes"];
-            var hasAttributesFlag = (attributes != undefined) && attributes["field"];
+            var hasAttributesFlag = (attributes != undefined) && attributes["field"] != undefined;
 
             if (hasAttributesFlag) {
                 if (attributes["max-count"]) {
