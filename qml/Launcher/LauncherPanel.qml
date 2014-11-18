@@ -53,7 +53,7 @@ Rectangle {
             UbuntuShape {
                 anchors {
                     fill: parent
-                    topMargin: -units.gu(1)
+                    topMargin: -units.gu(2)
                 }
                 borderSource: "none"
                 color: UbuntuColors.orange
