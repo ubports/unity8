@@ -254,7 +254,8 @@ Item {
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            //source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            source: "Stages/DesktopStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
