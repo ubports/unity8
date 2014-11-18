@@ -137,7 +137,9 @@ Rectangle {
 
             if (data.swipeToClose) {
                 verify(appWindowWithShadow.y < 0);
-                verify(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance) < units.gu(1));
+                // Verify that the delegate started moving exactly 2 gus after the finger movement
+                // and did not jump up to the finger, but lags those 2 gus behind
+                verify(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance) == units.gu(2));
 
                 touchRelease(spreadDelegateLoader.item, touchX, toY - units.gu(1));
 
