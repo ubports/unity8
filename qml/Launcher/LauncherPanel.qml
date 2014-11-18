@@ -350,8 +350,7 @@ Rectangle {
                             launcherListView.interactive = true;
                             if (droppedIndex >= launcherListView.count - 2 && postDragging) {
                                 snapToBottomAnimation.start();
-                            }
-                            if (droppedIndex < 2 && postDragging) {
+                            } else if (droppedIndex < 2 && postDragging) {
                                 snapToTopAnimation.start();
                             }
                         }
