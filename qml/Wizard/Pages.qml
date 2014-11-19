@@ -30,6 +30,7 @@ Item {
 
     id: root
     focus: true
+    anchors.fill: parent
 
     // These should be set by a security page and we apply the settings when
     // the user exits the wizard.

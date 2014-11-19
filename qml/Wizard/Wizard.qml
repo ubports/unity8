@@ -41,9 +41,16 @@ Showable {
         id: loader
         anchors.fill: parent
         active: System.wizardEnabled
-        sourceComponent: Pages {
-            anchors.fill: parent
-            background: root.background
+        source: "Pages.qml"
+
+        Binding {
+            target: loader.item
+            property: "background"
+            value: root.background
+        }
+
+        Connections {
+            target: loader.item
             onQuit: root.hide()
         }
     }
