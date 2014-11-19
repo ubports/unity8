@@ -85,6 +85,7 @@ LocalComponents.Page {
             onClicked: {
                 plugin.currentLanguage = listview.currentIndex
                 System.updateSessionLanguage(plugin.languageCodes[listview.currentIndex]);
+                i18n.language = i18n.language; // re-notify of change after above call (for qlocale change)
                 pageStack.next()
             }
         }

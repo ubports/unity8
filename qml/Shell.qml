@@ -333,6 +333,15 @@ Item {
         minPinLength: 4
         maxPinLength: 4
 
+        property string promptText
+        infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
+                  alphaNumeric ? i18n.tr("Enter passphrase") :
+                                 i18n.tr("Enter passcode")
+        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
+                   alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
+                                  i18n.tr("Please re-enter") :
+                                  i18n.tr("Sorry, incorrect passcode")
+
         // FIXME: We *should* show emergency dialer if there is a SIM present,
         // regardless of whether the side stage is enabled.  But right now,
         // the assumption is that narrow screens are phones which have SIMs
@@ -386,20 +395,7 @@ Item {
                 return; // could happen if hideGreeter() comes in before we prompt
             }
             if (greeter.narrowMode) {
-                if (isDefaultPrompt) {
-                    if (lockscreen.alphaNumeric) {
-                        lockscreen.infoText = i18n.tr("Enter passphrase")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase") + "\n" +
-                                               i18n.tr("Please re-enter")
-                    } else {
-                        lockscreen.infoText = i18n.tr("Enter passcode")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
-                    }
-                } else {
-                    lockscreen.infoText = i18n.tr("Enter %1").arg(text.toLowerCase())
-                    lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
-                }
-
+                lockscreen.promptText = isDefaultPrompt ? "" : text.toLowerCase();
                 lockscreen.maybeShow();
             }
         }
@@ -803,7 +799,7 @@ Item {
         id: edgeDemo
         objectName: "edgeDemo"
         z: alphaDisclaimerLabel.z + 10
-        paused: Powerd.status === Powerd.Off // Saves power
+        paused: Powerd.status === Powerd.Off || wizard.active // Saves power
         greeter: greeter
         launcher: launcher
         panel: panel

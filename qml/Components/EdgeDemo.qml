@@ -17,6 +17,7 @@
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 
 Item {
     id: demo
@@ -97,12 +98,19 @@ Item {
         property bool showEdgeDemo: AccountsService.demoEdges
         property bool showEdgeDemoInGreeter: AccountsService.demoEdges // TODO: AccountsService.demoEdges as lightdm user
 
-        onShowEdgeDemoChanged: {
+        function restartDemo() {
             stopDemo()
             if (d.showEdgeDemo) {
                 startDemo()
             }
         }
+
+        onShowEdgeDemoChanged: restartDemo()
+    }
+
+    Connections {
+        target: i18n
+        onLanguageChanged: d.restartDemo()
     }
 
     function startRightEdgeDemo() {

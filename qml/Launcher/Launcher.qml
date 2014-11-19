@@ -118,6 +118,11 @@ Item {
         onHint: hint();
     }
 
+    Connections {
+        target: i18n
+        onLanguageChanged: LauncherModel.refresh()
+    }
+
     SequentialAnimation {
         id: fadeOutAnimation
         ScriptAction {

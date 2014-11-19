@@ -23,6 +23,8 @@ Showable {
     // The background wallpaper to use
     property string background
 
+    readonly property alias active: loader.active
+
     ////
 
     id: root

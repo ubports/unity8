@@ -20,6 +20,7 @@
 #include <QDBusMetaType>
 #include <QDir>
 #include <QFile>
+#include <QLocale>
 #include <QMap>
 #include <QProcess>
 
@@ -83,6 +84,10 @@ void System::updateSessionLanguage(const QString &locale)
     setSessionVariable("LANGUAGE", language);
     setSessionVariable("LANG", locale);
     setSessionVariable("LC_ALL", locale);
+
+    // QLocale caches the default locale on startup, and Qt uses that cached
+    // copy when formatting dates.  So manually update it here.
+    QLocale::setDefault(QLocale(locale));
 
     // Restart bits of the session to pick up new language.
     QProcess::startDetached("sh -c \"initctl emit indicator-services-end; \
