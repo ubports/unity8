@@ -10,8 +10,9 @@ Item {
     Connections {
         target: ApplicationManager
         onApplicationAdded: {
+            // Initial placement to avoid having the window decoration behind the panel
+            appRepeater.itemAt(ApplicationManager.count-1).y = units.gu(3)
             ApplicationManager.requestFocusApplication(ApplicationManager.get(ApplicationManager.count-1).appId)
-//            ApplicationManager.move(ApplicationManager.count - 1, 0)
         }
 
         onFocusRequested: {
@@ -32,8 +33,6 @@ Item {
             }
             return -1;
         }
-
-
     }
 
     Repeater {
@@ -42,8 +41,6 @@ Item {
 
         delegate: Item {
             id: appDelegate
-            x: units.gu(5)
-            y: units.gu(5)
             height: units.gu(30)
             width: units.gu(30)
             z: ApplicationManager.count - index
@@ -58,12 +55,12 @@ Item {
                 },
                 State {
                     name: "minimized"
-                    PropertyChanges { target: appDelegate; x: 0; width: units.gu(5); height: units.gu(5); opacity: 0 }
+                    PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
                 }
             ]
             transitions: [
                 Transition {
-                    PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height" }
+                    PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                 }
             ]
 
@@ -129,7 +126,7 @@ Item {
                 height: units.gu(3)
                 title: model.name
                 onClose: ApplicationManager.stopApplication(model.appId)
-                onMaximize: appDelegate.state = "maximized"
+                onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
                 onMinimize: appDelegate.state = "minimized"
             }
 
