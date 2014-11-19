@@ -19,12 +19,13 @@
 #include "AccountsService.h"
 #include "AccountsServiceDBusAdaptor.h"
 
+#include <QFile>
 #include <QStringList>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     m_service(new AccountsServiceDBusAdaptor(this)),
-    m_user(qgetenv("USER")),
+    m_user(""),
     m_demoEdges(false),
     m_enableLauncherWhileLocked(false),
     m_enableIndicatorsWhileLocked(false),
@@ -38,6 +39,8 @@ AccountsService::AccountsService(QObject* parent)
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
     connect(m_service, SIGNAL(maybeChanged(const QString &)),
             this, SLOT(maybeChanged(const QString &)));
+
+    setUser(qgetenv("USER"));
 }
 
 QString AccountsService::user() const
@@ -47,6 +50,9 @@ QString AccountsService::user() const
 
 void AccountsService::setUser(const QString &user)
 {
+    if (user.isEmpty() || m_user == user)
+        return;
+
     m_user = user;
     Q_EMIT userChanged();
 
@@ -187,6 +193,10 @@ void AccountsService::updateHereEnabled()
 void AccountsService::updateHereLicensePath()
 {
     QString hereLicensePath = m_service->getUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseBasePath").toString();
+
+    if (!hereLicensePath.isEmpty() && !QFile::exists(hereLicensePath))
+        hereLicensePath = "";
+
     if (m_hereLicensePath != hereLicensePath) {
         m_hereLicensePath = hereLicensePath;
         Q_EMIT hereLicensePathChanged();

@@ -48,11 +48,16 @@ bool System::wizardEnabled() const
 
 void System::setWizardEnabled(bool enabled)
 {
+    if (wizardEnabled() == enabled)
+        return;
+
     if (enabled) {
         QFile::remove(wizardEnabledPath());
     } else {
         QDir(wizardEnabledPath()).mkpath("..");
         QFile(wizardEnabledPath()).open(QIODevice::WriteOnly);
+        m_fsWatcher.addPath(wizardEnabledPath());
+        wizardEnabledChanged();
     }
 }
 
@@ -79,9 +84,11 @@ void System::updateSessionLanguage(const QString &locale)
     setSessionVariable("LANG", locale);
     setSessionVariable("LC_ALL", locale);
 
-    // Indicators and OSK need to pick up new language
+    // Restart bits of the session to pick up new language.
     QProcess::startDetached("sh -c \"initctl emit indicator-services-end; \
-                                     stop maliit-server; \
+                                     initctl stop scope-registry; \
+                                     initctl stop smart-scopes-proxy; \
                                      initctl emit --no-wait indicator-services-start; \
-                                     initctl start --no-wait maliit-server\"");
+                                     initctl restart --no-wait maliit-server; \
+                                     initctl restart --no-wait unity8-dash\"");
 }

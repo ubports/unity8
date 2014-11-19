@@ -20,9 +20,11 @@ import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import Wizard 0.1
 import "../Components"
 
-Showable {
+Item {
     // The background wallpaper to use
     property string background
+
+    signal quit()
 
     ////
 
@@ -34,14 +36,12 @@ Showable {
     property int passwordMethod: UbuntuSecurityPrivacyPanel.Passcode
     property string password: ""
 
-    hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
-
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
     }
 
     function quitWizard() {
-        var errorMsg = "" //securityPrivacy.setSecurity("", password, passwordMethod)
+        var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod)
         if (errorMsg !== "") {
             // Ignore (but log) any errors, since we're past where the user set
             // the method.  Worst case, we just leave the user with a swipe
@@ -49,8 +49,7 @@ Showable {
             console.log("Error setting security method:", errorMsg)
         }
 
-        System.wizardEnabled = false;
-        hide();
+        quit();
     }
 
     MouseArea { // eat anything that gets past widgets

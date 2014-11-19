@@ -72,7 +72,6 @@ LocalComponents.Page {
                         listview.currentIndex = index
                         combo.expanded = false
                         i18n.language = plugin.languageCodes[index]
-                        i18n.domain = i18n.domain
                     }
                 }
             }

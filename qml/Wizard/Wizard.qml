@@ -17,8 +17,9 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Wizard 0.1
+import "../Components"
 
-Item {
+Showable {
     // The background wallpaper to use
     property string background
 
@@ -26,15 +27,22 @@ Item {
 
     id: root
 
+    hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
+
+    onRequiredChanged: {
+        if (!required) {
+            System.wizardEnabled = false;
+        }
+    }
+
     Loader {
         id: loader
         anchors.fill: parent
-        property bool itemRequired // avoids a binding loop on item.required
-        active: System.wizardEnabled || itemRequired
+        active: System.wizardEnabled
         sourceComponent: Pages {
             anchors.fill: parent
             background: root.background
-            onRequiredChanged: loader.itemRequired = required
+            onQuit: root.hide()
         }
     }
 }
