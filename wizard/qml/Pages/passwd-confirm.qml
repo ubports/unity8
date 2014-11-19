@@ -60,10 +60,16 @@ LocalComponents.Page {
 
         onEntered: {
             if (passphrase === root.password) {
-                pageStack.next()
+                confirmTimer.start()
             } else {
                 clear(true)
             }
+        }
+
+        Timer {
+            id: confirmTimer
+            interval: UbuntuAnimation.SnapDuration
+            onTriggered: pageStack.next()
         }
     }
 
