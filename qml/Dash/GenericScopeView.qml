@@ -401,15 +401,20 @@ FocusScope {
                         //     to the next, we set the visible range to the viewport so
                         //     items are not culled (invisible) but still use no cacheBuffer
                         //     (it will be set once the scope is the current one)
-                        var displayMarginBeginning = Math.round(-Math.max(-baseItem.y, 0));
-                        var displayMarginEnd = -Math.round(Math.max(baseItem.height - seeAll.height -
-                                                                        categoryView.height + baseItem.y, 0));
+                        var displayMarginBeginning = baseItem.y;
+                        displayMarginBeginning = -Math.max(-displayMarginBeginning, 0);
+                        displayMarginBeginning = -Math.min(-displayMarginBeginning, baseItem.height);
+                        displayMarginBeginning = Math.round(displayMarginBeginning);
+                        var displayMarginEnd = -baseItem.height + seeAll.height + categoryView.height - baseItem.y;
+                        displayMarginEnd = -Math.max(-displayMarginEnd, 0);
+                        displayMarginEnd = -Math.min(-displayMarginEnd, baseItem.height);
+                        displayMarginEnd = Math.round(displayMarginEnd);
                         if (scopeView.isCurrent || scopeView.visibleToParent) {
                             item.displayMarginBeginning = displayMarginBeginning;
                             item.displayMarginEnd = displayMarginEnd;
                             item.cacheBuffer = scopeView.isCurrent ? categoryView.height * 1.5 : 0;
                         } else {
-                            var visibleRange = baseItem.height + displayMarginEnd - displayMarginBeginning;
+                            var visibleRange = baseItem.height + displayMarginEnd + displayMarginBeginning;
                             if (visibleRange < 0) {
                                 item.displayMarginBeginning = displayMarginBeginning;
                                 item.displayMarginEnd = displayMarginEnd;
