@@ -48,9 +48,6 @@ Item {
         color: "black"
     }
 
-    property url backgroundValue: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : greeter.defaultBackground
-    onBackgroundValueChanged: background.source = backgroundValue
-
     CrossFadeImage {
         id: background
         objectName: "greeterBackground"
@@ -62,21 +59,7 @@ Item {
         // Limit how much memory we'll reserve for this image
         sourceSize.height: height
         sourceSize.width: width
-    }
-
-    // See Shell.qml's backgroundSettings treatment for why we need a separate
-    // Image, but it boils down to avoiding binding loop detection.
-    Image {
-        source: background.source
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-        onStatusChanged: {
-            if (status == Image.Error && source != greeter.defaultBackground) {
-                background.source = greeter.defaultBackground
-            }
-        }
+        source: greeter.background
     }
 
     Rectangle {

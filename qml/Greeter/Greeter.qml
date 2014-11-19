@@ -25,7 +25,7 @@ Showable {
     enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
-    property url defaultBackground
+    property url background
     property bool loadContent: required
 
     // 1 when fully shown and 0 when fully hidden

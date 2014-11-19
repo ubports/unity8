@@ -52,7 +52,8 @@ Item {
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
-    property url background
+    property url background: asImageTester.status == Image.Ready ? asImageTester.source
+                             : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
     readonly property real panelHeight: panel.panelHeight
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
@@ -99,6 +100,31 @@ Item {
         shell.activateApplication(app);
     }
 
+    // This is a dummy image to detect if the custom AS set wallpaper loads successfully.
+    Image {
+        id: asImageTester
+        source: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+    }
+
+    GSettings {
+        id: backgroundSettings
+        schema.id: "org.gnome.desktop.background"
+    }
+
+    // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
+    Image {
+        id: gsImageTester
+        source: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -113,15 +139,6 @@ Item {
         if (orientationLockEnabled) {
             orientation = OrientationLock.savedOrientation;
         }
-    }
-
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
-    onGSettingsPictureChanged: {
-        shell.background = gSettingsPicture
     }
 
     VolumeControl {
@@ -329,6 +346,7 @@ Item {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
+        darkenBackground: 0.4
         alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         minPinLength: 4
         maxPinLength: 4
@@ -520,7 +538,7 @@ Item {
 
             locked: shell.locked
 
-            defaultBackground: shell.background
+            background: shell.background
 
             width: parent.width
             height: parent.height
@@ -584,7 +602,7 @@ Item {
             Binding {
                 target: ApplicationManager
                 property: "suspended"
-                value: greeter.shown && greeterWrapper.showProgress == 1
+                value: (greeter.shown && greeterWrapper.showProgress == 1) || lockscreen.shown
             }
         }
     }
@@ -779,26 +797,10 @@ Item {
         }
     }
 
-    Label {
-        id: alphaDisclaimerLabel
-        anchors.centerIn: parent
-        visible: ApplicationManager.fake ? ApplicationManager.fake : false
-        z: dialogs.z + 10
-        text: "EARLY ALPHA\nNOT READY FOR USE"
-        color: "lightgrey"
-        opacity: 0.2
-        font.weight: Font.Black
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        fontSizeMode: Text.Fit
-        rotation: -45
-        scale: Math.min(parent.width, parent.height) / width
-    }
-
     EdgeDemo {
         id: edgeDemo
         objectName: "edgeDemo"
-        z: alphaDisclaimerLabel.z + 10
+        z: dialogs.z + 10
         paused: Powerd.status === Powerd.Off || wizard.active // Saves power
         greeter: greeter
         launcher: launcher

@@ -69,6 +69,10 @@ Item {
                 target: item; when: item
                 property: "orientation"; value: root.orientation
             }
+
+            Component.onDestruction: {
+                root.session.surface.forceActiveFocus();
+            }
         }
     }
 
