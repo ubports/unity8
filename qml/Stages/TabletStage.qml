@@ -25,7 +25,7 @@ Rectangle {
     id: root
     objectName: "stages"
     anchors.fill: parent
-    color: "black"
+    color: "#111111"
 
     // Controls to be set from outside
     property bool shown: false
