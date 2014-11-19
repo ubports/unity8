@@ -36,7 +36,13 @@ LocalComponents.Page {
 
     function confirm() {
         root.password = lockscreen.passphrase;
-        pageStack.load(Qt.resolvedUrl("passwd-confirm.qml"));
+        confirmTimer.start()
+    }
+
+    Timer {
+        id: confirmTimer
+        interval: UbuntuAnimation.SnapDuration
+        onTriggered: pageStack.load(Qt.resolvedUrl("passwd-confirm.qml"));
     }
 
     UnityComponents.Lockscreen {
