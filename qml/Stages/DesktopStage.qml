@@ -17,9 +17,11 @@ Item {
 
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
-            ApplicationManager.move(appIndex, 0);
+            var appDelegate = appRepeater.itemAt(appIndex);
+            if (appDelegate.state === "minimized") {
+                appDelegate.state = "normal"
+            }
             ApplicationManager.focusApplication(appId);
-            appRepeater.itemAt(appIndex).state = "normal"
         }
     }
 
@@ -128,6 +130,7 @@ Item {
                 onClose: ApplicationManager.stopApplication(model.appId)
                 onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
                 onMinimize: appDelegate.state = "minimized"
+                active: ApplicationManager.focusedApplicationId == model.appId
             }
 
             ApplicationWindow {

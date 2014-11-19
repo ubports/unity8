@@ -6,6 +6,7 @@ Item {
     clip: true
 
     property alias title: titleLabel.text
+    property bool active: false
 
     signal close()
     signal minimize()
@@ -24,6 +25,7 @@ Item {
     Row {
         anchors { left: parent.left; top: parent.top; bottom: parent.bottom; margins: units.gu(0.7) }
         spacing: units.gu(0.5)
+        opacity: root.active ? 1 : 0.5
         Rectangle {
             height: parent.height; width: height; radius: height / 2
             gradient: Gradient {
