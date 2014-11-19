@@ -233,6 +233,14 @@ Item {
             onApplicationAdded: {
                 if (greeter.shown && appId != "unity8-dash") {
                     greeter.startUnlock()
+
+                    // If this happens on first boot, we may be in edge
+                    // tutorial or wizard while receiving a call.  But a call
+                    // is more important than wizard so just bail out of those.
+                    if (edgeDemo.running) {
+                        edgeDemo.hideEdgeDemos();
+                        wizard.hide();
+                    }
                 }
                 if (greeter.narrowMode && greeter.hasLockedApp && appId === greeter.lockedApp) {
                     lockscreen.hide() // show locked app
