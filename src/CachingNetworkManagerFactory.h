@@ -31,9 +31,6 @@ public:
 protected:
     QNetworkReply* createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData = 0) override;
 
-private Q_SLOTS:
-    void onlineStatusChanged(ubuntu::connectivity::NetworkingStatus::Status status);
-
 private:
     ubuntu::connectivity::NetworkingStatus* m_networkingStatus;
 };
