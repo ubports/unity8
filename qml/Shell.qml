@@ -298,6 +298,11 @@ Item {
                 property: "orientation"
                 value: shell.orientation
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "background"
+                value: shell.background
+            }
         }
     }
 

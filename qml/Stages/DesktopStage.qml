@@ -25,6 +25,14 @@ Item {
 
     anchors.fill: parent
 
+    property alias background: wallpaper.source
+
+    Image {
+        id: wallpaper
+        anchors.fill: parent
+        sourceSize { height: root.height; width: root.width }
+    }
+
     Connections {
         target: ApplicationManager
         onApplicationAdded: {
