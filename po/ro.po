@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-10-07 15:54+0000\n"
+"PO-Revision-Date: 2014-11-18 12:09+0000\n"
 "Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-11-19 06:24+0000\n"
+"X-Generator: Launchpad (build 17252)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -166,7 +166,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "Reveniți la funcția de apelare"
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
@@ -265,31 +265,31 @@ msgstr "Atingeți pentru a vă întoarce la convorbire..."
 msgid "Conference"
 msgstr "Conferință"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:615
 msgid "Nothing is playing"
 msgstr "Nu se redă nimic"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:763
 msgid "In queue…"
 msgstr "În așteptare..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:767
 msgid "Downloading"
 msgstr "Se descarcă"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:769
 msgid "Paused, tap to resume"
 msgstr "În pauză, atingeți pentru a relua"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:771
 msgid "Canceled"
 msgstr "Anulată"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:773
 msgid "Finished"
 msgstr "Finalizată"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:775
 msgid "Failed, tap to retry"
 msgstr "Eșec, atingeți pentru a încerca din nou"
 
@@ -301,49 +301,49 @@ msgstr "Deblocare SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:381
 msgid "Enter passphrase"
 msgstr "Introduceți fraza parolă"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:382
 msgid "Sorry, incorrect passphrase"
 msgstr "Frază secretă incorectă"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:383
 msgid "Please re-enter"
 msgstr "Introduceți din nou"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:385
 msgid "Enter passcode"
 msgstr "Introduceți parola"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:386
 msgid "Sorry, incorrect passcode"
 msgstr "Parolă incorectă"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:389
 #, qt-format
 msgid "Enter %1"
 msgstr "Introducere %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "%1 incorectă"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:431
 msgid "Sorry, incorrect passphrase."
 msgstr "Frază parolă greșită"
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:432
 msgid "Sorry, incorrect passcode."
 msgstr "Parolă greșită"
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:433
 msgid "This will be your last attempt."
 msgstr "Aceasta va fi ultima încercare"
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:435
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -352,7 +352,7 @@ msgstr ""
 "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
 "șterse."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:436
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
