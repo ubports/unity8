@@ -61,9 +61,10 @@ Item {
 
         delegate: Item {
             id: appDelegate
-            height: units.gu(30)
-            width: units.gu(30)
             z: ApplicationManager.count - index
+            width: units.gu(60)
+            height: units.gu(50)
+
 
             states: [
                 State {
@@ -83,16 +84,6 @@ Item {
                     PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                 }
             ]
-
-            BorderImage {
-                anchors {
-                    fill: appDelegate
-                    margins: -units.gu(2)
-                }
-                source: "graphics/dropshadow2gu.sci"
-                opacity: .3
-                Behavior on opacity { UbuntuNumberAnimation {} }
-            }
 
             MouseArea {
                 anchors.fill: parent
@@ -141,21 +132,14 @@ Item {
                 }
             }
 
-            WindowDecoration {
-                anchors { left: parent.left; top: parent.top; right: parent.right }
-                height: units.gu(3)
-                title: model.name
+            DecoratedWindow {
+                anchors.fill: parent
+                application: ApplicationManager.get(index)
+                active: ApplicationManager.focusedApplicationId === model.appId
+
                 onClose: ApplicationManager.stopApplication(model.appId)
                 onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
                 onMinimize: appDelegate.state = "minimized"
-                active: ApplicationManager.focusedApplicationId == model.appId
-            }
-
-            ApplicationWindow {
-                anchors.fill: parent
-                anchors.topMargin: units.gu(3)
-                application: ApplicationManager.get(index)
-                interactive: index == 0
             }
         }
     }

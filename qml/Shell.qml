@@ -45,7 +45,7 @@ Item {
     id: shell
 
     // this is only here to select the width / height of the window if not running fullscreen
-    property bool tablet: false
+    property bool tablet: true
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
@@ -122,6 +122,11 @@ Item {
         width: 0
         sourceSize.height: 0
         sourceSize.width: 0
+    }
+
+    GSettings {
+        id: usageModeSettings
+        schema.id: "com.canonical.Unity8"
     }
 
     Binding {
@@ -256,11 +261,6 @@ Item {
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
             source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
                         : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
-
-            GSettings {
-                id: usageModeSettings
-                schema.id: "com.canonical.Unity8"
-            }
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -724,10 +724,12 @@ Item {
             readonly property bool dashSwipe: progress > 0
 
             anchors.top: parent.top
+            anchors.topMargin: inverted ? 0 : panel.panelHeight
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            inverted: usageModeSettings.usageMode === "Staged"
 
             onShowDashHome: showHome()
             onDash: showDash()
