@@ -444,5 +444,32 @@ Item {
             tryCompare(lockscreen, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
         }
+
+        function test_suspend() {
+            var greeter = findChild(shell, "greeter");
+
+            // Put it to sleep
+            Powerd.status = Powerd.Off;
+
+            // If locked, ApplicationManager.suspended should be true
+            tryCompare(ApplicationManager, "suspended", true);
+
+            // And wake up
+            Powerd.status = Powerd.On;
+            tryCompare(greeter, "showProgress", 1);
+
+            // Swipe away greeter to focus app
+            swipeAwayGreeter();
+
+            // We have a lockscreen, make sure we're still suspended
+            tryCompare(ApplicationManager, "suspended", true);
+
+            enterPin("1234")
+
+            // Now that the lockscreen has gone too, make sure we're waking up
+            tryCompare(ApplicationManager, "suspended", false);
+
+        }
+
     }
 }

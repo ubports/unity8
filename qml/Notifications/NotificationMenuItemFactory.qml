@@ -127,6 +127,11 @@ Loader {
                     anchors.verticalCenter: checkBox.verticalCenter
                     text: i18n.tr("Show password")
                     color: notification.sdFontColor
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: { checkBox.checked = !checkBox.checked }
+                    }
                 }
             }
         }
@@ -145,6 +150,7 @@ Loader {
             errorText: errorAction.valid ? errorAction.state : ""
             retryText: notification.body
             background: shell.background
+            darkenBackground: 0.4
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
