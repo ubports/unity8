@@ -99,7 +99,7 @@ IndicatorDelegate {
 
                     model: d.useFallbackIcon ? [ "image://theme/settings" ] : root.icons
 
-                    StatusIcon {
+                    Icon {
                         id: itemImage
                         objectName: "icon"+index
                         height: iconHeight
