@@ -36,6 +36,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void wizardEnabledChanged();
+    void updateSessionLanguageCalled(const QString &locale); // only in mock
 
 private:
     Q_DISABLE_COPY(MockSystem)

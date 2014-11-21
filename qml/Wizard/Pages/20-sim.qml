@@ -20,6 +20,8 @@ import Ubuntu.Components 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
+    objectName: "simPage"
+
     title: i18n.tr("Add a SIM card and restart your device")
     forwardButtonSourceComponent: forwardButton
 

@@ -22,34 +22,26 @@ import Ubuntu.Components 1.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
+    objectName: "locationPage"
+
     title: i18n.tr("Location")
     forwardButtonSourceComponent: forwardButton
 
     property bool pathSet: AccountsService.hereLicensePath !== " " // single space means it's unassigned
-    property bool countSet: false
-    skipValid: pathSet && (AccountsService.hereLicensePath === "" || countSet)
-    skip: skipValid && (AccountsService.hereLicensePath === "" || termsModel.count === 0)
-
-    Connections {
-        target: termsModel
-        onCountChanged: if (pathSet) countSet = true
-    }
-
-    Connections {
-        target: AccountsService
-        onHereLicensePathChanged: console.log("MIKE path is", AccountsService.hereLicensePath)
-    }
+    skipValid: pathSet && (AccountsService.hereLicensePath === "" || termsModel.count > 0)
+    skip: skipValid && (AccountsService.hereLicensePath === "" || termsModel.count === 2) // no files but . and ..
 
     FolderListModel {
         id: termsModel
         folder: AccountsService.hereLicensePath
         nameFilters: ["*.html"]
-        showDirs: false
         showOnlyReadable: true
+        showDotAndDotDot: true // so that count == 0 means we're not done scanning yet
     }
 
     QMenuModel.QDBusActionGroup {
         id: locationActionGroup
+        objectName: "locationActionGroup"
         busType: QMenuModel.DBus.SessionBus
         busName: "com.canonical.indicator.location"
         objectPath: "/com/canonical/indicator/location"
@@ -72,6 +64,7 @@ LocalComponents.Page {
 
         LocalComponents.CheckableSetting {
             id: gpsCheck
+            objectName: "gpsCheck"
             showDivider: false
             text: i18n.tr("Using GPS only (less accurate)")
             onTriggered: {
@@ -88,6 +81,7 @@ LocalComponents.Page {
 
             LocalComponents.CheckableSetting {
                 id: hereCheck
+                objectName: "hereCheck"
                 showDivider: false
                 text: i18n.tr("Using GPS, anonymized Wi-Fi and cellular network info (recommended)")
                 checked: true
@@ -99,6 +93,7 @@ LocalComponents.Page {
             }
 
             Label {
+                objectName: "hereTermsLink"
                 anchors.left: parent.left
                 anchors.leftMargin: hereCheck.labelOffset
                 anchors.right: parent.right
@@ -112,6 +107,7 @@ LocalComponents.Page {
 
         LocalComponents.CheckableSetting {
             id: nopeCheck
+            objectName: "nopeCheck"
             showDivider: false
             text: i18n.tr("Not at all")
             onTriggered: {

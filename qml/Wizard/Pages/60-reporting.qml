@@ -19,6 +19,8 @@ import Ubuntu.Components 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
+    objectName: "reportingPage"
+
     title: i18n.tr("Improving your experience")
     forwardButtonSourceComponent: forwardButton
 

@@ -22,6 +22,8 @@ import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
+    objectName: "languagePage"
+
     title: i18n.tr("Hi!")
     forwardButtonSourceComponent: forwardButton
 
@@ -57,6 +59,7 @@ LocalComponents.Page {
 
         ComboButton {
             id: combo
+            objectName: "languageCombo"
             anchors.left: parent.left
             anchors.right: parent.right
             text: listview.currentItem.text
@@ -67,6 +70,7 @@ LocalComponents.Page {
                 model: plugin.languageNames
                 currentIndex: plugin.currentLanguage
                 delegate: Standard {
+                    objectName: "languageDelegate" + index
                     text: modelData
                     onClicked: {
                         listview.currentIndex = index

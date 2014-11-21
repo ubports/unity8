@@ -23,6 +23,8 @@ import ".." as LocalComponents
 
 LocalComponents.Page {
     id: wifiPage
+    objectName: "wifiPage"
+
     title: i18n.tr("Connect to Wi‑Fi")
     forwardButtonSourceComponent: forwardButton
 

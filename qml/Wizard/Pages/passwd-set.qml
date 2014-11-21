@@ -27,6 +27,7 @@ import "../../Components" as UnityComponents
 
 LocalComponents.Page {
     id: passwdSetPage
+    objectName: "passwdSetPage"
     forwardButtonSourceComponent: forwardButton
 
     skip: root.passwordMethod === UbuntuSecurityPrivacyPanel.Swipe

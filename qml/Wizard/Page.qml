@@ -77,6 +77,7 @@ Item {
 
     StackButton {
         id: backButton
+        objectName: "backButton"
         width: buttonWidth
         anchors {
             left: parent.left
@@ -94,6 +95,7 @@ Item {
 
     Loader {
         id: forwardButton
+        objectName: "forwardButton"
         width: buttonWidth
         anchors {
             right: parent.right

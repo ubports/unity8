@@ -29,6 +29,7 @@ Item {
     ////
 
     id: root
+    objectName: "wizardPages"
     focus: true
     anchors.fill: parent
 
@@ -39,6 +40,7 @@ Item {
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
+        objectName: "securityPrivacy"
     }
 
     function quitWizard() {
@@ -72,21 +74,26 @@ Item {
         visible: status === Image.Ready
     }
 
+    PageList {
+        id: pageList
+    }
+
     PageStack {
         id: pageStack
+        objectName: "pageStack"
         anchors.fill: parent
 
         function next() {
             // If we've opened any extra (non-main) pages, pop them before
             // continuing so back button returns to the previous main page.
-            while (PageList.index < pageStack.depth - 1)
+            while (pageList.index < pageStack.depth - 1)
                 pop()
-            load(PageList.next())
+            load(pageList.next())
         }
 
         function prev() {
-            if (PageList.index >= pageStack.depth - 1)
-                PageList.prev() // update PageList.index, but not for extra pages
+            if (pageList.index >= pageStack.depth - 1)
+                pageList.prev() // update pageList.index, but not for extra pages
             pop()
             if (!currentPage || currentPage.opacity === 0) { // undo skipped pages
                 prev()

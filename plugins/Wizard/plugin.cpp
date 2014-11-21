@@ -20,13 +20,6 @@
 
 #include <QtQml/qqml.h>
 
-static QObject *pagelist_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new PageList();
-}
-
 static QObject *system_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
@@ -37,6 +30,6 @@ static QObject *system_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 void WizardPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Wizard"));
-    qmlRegisterSingletonType<PageList>(uri, 0, 1, "PageList", pagelist_provider);
+    qmlRegisterType<PageList>(uri, 0, 1, "PageList");
     qmlRegisterSingletonType<System>(uri, 0, 1, "System", system_provider);
 }
