@@ -34,6 +34,16 @@ Item {
         }
     }
 
+    Connections {
+        target: i18n
+        onLanguageChanged: {
+            if (visible) {
+                timeLabel.text = Qt.formatTime(clock.currentDate); // kicks time
+                clock.currentDate = new Date(); // kicks date
+            }
+        }
+    }
+
     Indicators.SharedUnityMenuModel {
         id: timeModel
         objectName: "timeModel"
@@ -66,11 +76,6 @@ Item {
             opacity: 0.5
             text: Qt.formatTime(clock.currentDate)
             font.weight: Font.Light
-
-            Connections {
-                target: i18n
-                onLanguageChanged: timeLabel.text = Qt.formatTime(clock.currentDate)
-            }
         }
 
         Label {
@@ -83,11 +88,6 @@ Item {
             opacity: 0.5
             text: Qt.formatDate(clock.currentDate, Qt.DefaultLocaleLongDate)
             font.weight: Font.Light
-
-            Connections {
-                target: i18n
-                onLanguageChanged: dateLabel.text = Qt.formatDate(clock.currentDate, Qt.DefaultLocaleLongDate)
-            }
         }
     }
 }
