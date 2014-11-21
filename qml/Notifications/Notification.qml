@@ -159,7 +159,7 @@ Item {
 
     onXChanged: {
         if (draggable && notification.x > 0.75 * notification.width) {
-            notification.notification.close()
+            notification.notification.close(notificationId)
         }
     }
 
@@ -187,7 +187,7 @@ Item {
             menuObjectPath: paths.menuObjectPath
             onNameOwnerChanged: {
                 if (lastNameOwner != "" && nameOwner == "" && notification.notification != undefined) {
-                    notification.notification.close()
+                    notification.notification.close(notificationId)
                 }
                 lastNameOwner = nameOwner
             }

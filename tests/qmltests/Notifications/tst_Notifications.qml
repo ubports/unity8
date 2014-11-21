@@ -38,8 +38,12 @@ Item {
                     mockModel.actionInvoked(actionId)
                 }
 
-                function close() {
-                    mockModel.remove(1)
+                function close(id) {
+                    for (var i = 0; i < mockModel.count; i++) {
+                        if (id === mockModel.get(i).id) {
+                            mockModel.remove(i)
+                        }
+                    }
                 }
             }
         }
@@ -49,6 +53,11 @@ Item {
             dynamicRoles: true
 
             signal actionInvoked(string actionId)
+            property var internalId: 0
+
+            function getNextId() {
+                return internalId++
+            }
 
             function getRaw(id) {
                 return mockNotification.createObject(mockModel)
@@ -58,6 +67,7 @@ Item {
             Component.onCompleted: {
                 var n = {
                     type: Notification.PlaceHolder,
+                    id: mockModel.getNextId(),
                     hints: {},
                     summary: "",
                     body: "",
@@ -73,6 +83,7 @@ Item {
         function add2over1SnapDecisionNotification() {
             var n = {
                 type: Notification.SnapDecision,
+                id: mockModel.getNextId(),
                 hints: {"x-canonical-private-affirmative-tint": "true"},
                 summary: "Theatre at Ferria Stadium",
                 body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
@@ -89,6 +100,7 @@ Item {
         function addEphemeralNotification() {
             var n = {
                 type: Notification.Ephemeral,
+                id: mockModel.getNextId(),
                 summary: "Cole Raby",
                 body: "I did not expect it to be that late.",
                 icon: "../graphics/avatars/amanda.png",
@@ -102,6 +114,7 @@ Item {
         function addEphemeralNonShapedIconNotification() {
             var n = {
                 type: Notification.Ephemeral,
+                id: mockModel.getNextId(),
                 hints: {"x-canonical-non-shaped-icon": "true"},
                 summary: "Contacts",
                 body: "Synchronised contacts-database with cloud-storage.",
@@ -116,6 +129,7 @@ Item {
         function addEphemeralIconSummaryNotification() {
             var n = {
                 type: Notification.Ephemeral,
+                id: mockModel.getNextId(),
                 hints: {"x-canonical-non-shaped-icon": "false"},
                 summary: "Photo upload completed",
                 body: "",
@@ -130,6 +144,7 @@ Item {
         function addInteractiveNotification() {
             var n = {
                 type: Notification.Interactive,
+                id: mockModel.getNextId(),
                 summary: "Interactive notification",
                 body: "This is a notification that can be clicked",
                 icon: "../graphics/avatars/anna_olsson.png",
@@ -143,6 +158,7 @@ Item {
         function addConfirmationNotification() {
             var n = {
                 type: Notification.Confirmation,
+                id: mockModel.getNextId(),
                 hints: {"x-canonical-non-shaped-icon": "true"},
                 summary: "Confirmation notification",
                 body: "",
@@ -158,6 +174,7 @@ Item {
         function add2ndConfirmationNotification() {
             var n = {
                 type: Notification.Confirmation,
+                id: mockModel.getNextId(),
                 hints: {"x-canonical-non-shaped-icon": "true",
                         "x-canonical-value-bar-tint": "true"},
                 summary: "Confirmation notification",
@@ -282,6 +299,7 @@ Item {
                 {
                     tag: "2-over-1 Snap Decision with button-tint",
                     type: Notification.SnapDecision,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-private-affirmative-tint": "true"},
                     summary: "Theatre at Ferria Stadium",
                     body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
@@ -306,6 +324,7 @@ Item {
                 {
                     tag: "Ephemeral notification - icon-summary layout",
                     type: Notification.Ephemeral,
+                    id: mockModel.getNextId(),
                     hints: {},
                     summary: "Photo upload completed",
                     body: "",
@@ -328,6 +347,7 @@ Item {
                 {
                     tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
                     type: Notification.Ephemeral,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg",
                             "suppress-sound": "true"},
@@ -353,6 +373,7 @@ Item {
                 {
                     tag: "Interactive notification",
                     type: Notification.Interactive,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"},
                     summary: "Interactive notification",
@@ -376,6 +397,7 @@ Item {
                 {
                     tag: "Snap Decision without secondary icon and no button-tint",
                     type: Notification.SnapDecision,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"},
                     summary: "Bro Coly",
@@ -400,6 +422,7 @@ Item {
                 {
                     tag: "Ephemeral notification",
                     type: Notification.Ephemeral,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"},
                     summary: "Cole Raby",
@@ -423,6 +446,7 @@ Item {
                 {
                     tag: "Ephemeral notification with non-shaped icon",
                     type: Notification.Ephemeral,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "x-canonical-non-shaped-icon": "true"},
                     summary: "Contacts",
@@ -446,6 +470,7 @@ Item {
                 {
                     tag: "Confirmation notification with value",
                     type: Notification.Confirmation,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-non-shaped-icon": "true"},
                     summary: "",
                     body: "",
@@ -469,6 +494,7 @@ Item {
                 {
                     tag: "Confirmation notification with value, label and tint",
                     type: Notification.Confirmation,
+                    id: mockModel.getNextId(),
                     hints: {"x-canonical-non-shaped-icon": "true",
                             "x-canonical-value-bar-tint" : "true"},
                     summary: "",
