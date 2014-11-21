@@ -27,10 +27,11 @@ Item {
 
     property alias background: wallpaper.source
 
-    Image {
+    CrossFadeImage {
         id: wallpaper
         anchors.fill: parent
         sourceSize { height: root.height; width: root.width }
+        fillMode: Image.PreserveAspectCrop
     }
 
     Connections {
