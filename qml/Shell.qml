@@ -45,7 +45,7 @@ Item {
     id: shell
 
     // this is only here to select the width / height of the window if not running fullscreen
-    property bool tablet: false
+    property bool tablet: true
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 

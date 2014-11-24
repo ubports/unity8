@@ -19,6 +19,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
+import "../Components/PanelState"
 
 Item {
     id: root
@@ -54,6 +55,12 @@ Item {
 
     QtObject {
         id: priv
+
+        readonly property string focusedAppId: ApplicationManager.focusedApplicationId
+        onFocusedAppIdChanged: print("focused app id changed", focusedAppId)
+        readonly property var focusedAppDelegate: focusedAppId ? appRepeater.itemAt(indexOf(focusedAppId)) : null
+        onFocusedAppDelegateChanged: print("focused app delegate changed", focusedAppDelegate)
+
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
                 if (ApplicationManager.get(i).appId == appId) {
@@ -62,6 +69,21 @@ Item {
             }
             return -1;
         }
+    }
+
+    Connections {
+        target: PanelState
+        onClose: {
+            ApplicationManager.stopApplication(ApplicationManager.focusedApplicationId)
+        }
+        onMinimize: appRepeater.itemAt(0).state = "minimized"
+        onMaximize: appRepeater.itemAt(0).state = "normal"
+    }
+
+    Binding {
+        target: PanelState
+        property: "buttonsVisible"
+        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
 
     Repeater {
