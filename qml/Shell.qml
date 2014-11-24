@@ -44,6 +44,10 @@ import Unity.DashCommunicator 0.1
 Item {
     id: shell
 
+    // Disable everything so that user can't swipe greeter or launcher until
+    // we get first prompt/authenticate, which will re-enable the shell.
+    enabled: false
+
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
@@ -574,7 +578,7 @@ Item {
             onShownChanged: {
                 if (shown) {
                     // Disable everything so that user can't swipe greeter or
-                    // launcher until we get first prompt/authenticate, which
+                    // launcher until we get the next prompt/authenticate, which
                     // will re-enable the shell.
                     shell.enabled = false;
 
