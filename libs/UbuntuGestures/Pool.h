@@ -74,8 +74,6 @@ public:
         ItemType *item;
     };
 
-    Iterator &end() const { return Iterator(); }
-
     ItemType &getEmptySlot() {
         Q_ASSERT(m_lastUsedIndex < m_slots.size());
 

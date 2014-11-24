@@ -21,7 +21,6 @@ import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import "../Components"
 import "../Components/SearchHistoryModel"
-import "../Components/Flickables" as Flickables
 
 Item {
     id: root
@@ -128,7 +127,7 @@ Item {
         }
     }
 
-    Flickables.Flickable {
+    Flickable {
         id: headerContainer
         objectName: "headerContainer"
         clip: contentY < height
@@ -170,7 +169,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
+                __separator_visible: false
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
                 property string title
@@ -241,8 +240,7 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
-                separatorBottomSource: ""
+                __separator_visible: false
                 property var styledItem: header
                 property string title: root.title
                 property var config: PageHeadConfiguration {

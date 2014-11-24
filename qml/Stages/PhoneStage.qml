@@ -21,7 +21,6 @@ import Unity.Application 0.1
 import Unity.Session 0.1
 import Utils 0.1
 import "../Components"
-import "../Components/Flickables" as Flickables
 
 Rectangle {
     id: root
@@ -34,7 +33,7 @@ Rectangle {
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
     property int orientation: Qt.PortraitOrientation
 
-    color: "black"
+    color: "#111111"
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
@@ -121,7 +120,7 @@ Rectangle {
 
     }
 
-    Flickables.Flickable {
+    Flickable {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
@@ -246,12 +245,13 @@ Rectangle {
             }
         }
 
-        Item {
+        MouseArea {
             id: spreadRow
             // This width controls how much the spread can be flicked left/right. It's composed of:
             //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
             //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
             width: Math.max(3, ApplicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
+            height: parent.height
             Behavior on width {
                 enabled: spreadView.closingIndex >= 0
                 UbuntuNumberAnimation {}
@@ -263,6 +263,10 @@ Rectangle {
             }
 
             x: spreadView.contentX
+
+            onClicked: {
+                spreadView.snapTo(0);
+            }
 
             Repeater {
                 id: spreadRepeater

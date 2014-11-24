@@ -19,9 +19,8 @@ import Ubuntu.Components 0.1
 import Unity.Notifications 1.0 as UnityNotifications
 import Utils 0.1
 import "../Components"
-import "../Components/Flickables" as Flickables
 
-Flickables.ListView {
+ListView {
     id: notificationList
 
     objectName: "notificationList"
@@ -32,6 +31,7 @@ Flickables.ListView {
 
     SortFilterProxyModel {
         id: snapDecisionProxyModel
+        objectName: "snapDecisionProxyModel"
 
         model: notificationList.model
         filterRole: UnityNotifications.ModelInterface != undefined ? UnityNotifications.ModelInterface.RoleType : 0
@@ -56,6 +56,7 @@ Flickables.ListView {
         secondaryIconSource: model.secondaryIcon
         summary: model.summary
         body: model.body
+        value: model.value
         actions: model.actions
         notificationId: model.id
         notification: notificationList.model.getRaw(notificationId)

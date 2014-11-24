@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "../../Components/Flickables" as Flickables
 
 /*! \brief This component constructs the Preview UI.
  *
@@ -64,7 +63,7 @@ Item {
         Repeater {
             model: previewModel
 
-            delegate: Flickables.ListView {
+            delegate: ListView {
                 id: column
                 anchors { top: parent.top; bottom: parent.bottom }
                 width: row.columnWidth
