@@ -137,6 +137,13 @@ IndicatorTest {
             verify(dataItem !== null);
 
             var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
+            // Wait for mappedPosition to settle
+            wait(100);
+            var aux = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
+            while (mappedPosition.x != aux.x) {
+                mappedPosition = aux;
+                wait(100);
+            }
 
             indicatorsBar.selectItemAt(mappedPosition.x);
             indicatorsBar.expanded = true;
