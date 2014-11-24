@@ -229,7 +229,7 @@ console.log("MIKE tapped forward")
             // make sure we go back to 'set' page not 'type' page
             tap(findChild(page, "backButton"));
             page = waitForPage("passwdSetPage");
-    
+
             enterPasscode("1111");
             page = waitForPage("passwdConfirmPage");
 
@@ -277,7 +277,7 @@ console.log("MIKE tapped forward")
             var back = findChild(page, "backButton");
             tap(back);
             page = waitForPage("passwdSetPage");
-    
+
             typeString("aaaa");
             keyClick(Qt.Key_Enter);
             page = waitForPage("passwdConfirmPage");
