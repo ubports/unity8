@@ -131,6 +131,7 @@ Item {
             var page = waitForPage("languagePage");
             if (name === page.objectName) return page;
             tap(findChild(page, "forwardButton"));
+console.log("MIKE tapped forward")
 
             if (!skipSim) {
                 page = waitForPage("simPage");
@@ -183,27 +184,27 @@ Item {
             compare(updateSessionLanguageSpy.count, 0);
         }
 
-        function test_simUnavailableSkip() {
+        function atest_simUnavailableSkip() {
             MockQOfono.available = false;
             goToPage("passwdPage", true);
         }
 
-        function test_simNoModemsSkip() {
+        function atest_simNoModemsSkip() {
             MockQOfono.setModems([], []);
             goToPage("passwdPage", true);
         }
 
-        function test_simFirstSkip() {
+        function atest_simFirstSkip() {
             MockQOfono.setModems(["a", "b"], [true, false]);
             goToPage("passwdPage", true);
         }
 
-        function test_simSecondSkip() {
+        function atest_simSecondSkip() {
             MockQOfono.setModems(["a", "b"], [false, true]);
             goToPage("passwdPage", true);
         }
 
-        function test_simBothSkip() {
+        function atest_simBothSkip() {
             MockQOfono.setModems(["a", "b"], [true, true]);
             goToPage("passwdPage", true);
         }
@@ -216,7 +217,7 @@ Item {
             }
         }
 
-        function test_passwdPasscode() {
+        function atest_passwdPasscode() {
             var page = goToPage("passwdPage");
 
             tap(findChild(page, "forwardButton"));
@@ -254,7 +255,7 @@ Item {
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passcode);
         }
 
-        function test_passwdPassphrase() {
+        function atest_passwdPassphrase() {
             var page = goToPage("passwdPage");
             tap(findChild(page, "passwdDelegate2"));
 
@@ -307,7 +308,7 @@ Item {
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
         }
 
-        function test_passwdSwipe() {
+        function atest_passwdSwipe() {
             goToPage(null);
 
             tryCompare(setSecuritySpy, "count", 1);
@@ -316,17 +317,17 @@ Item {
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Swipe);
         }
 
-        function test_locationSkipNoPath() {
+        function atest_locationSkipNoPath() {
             AccountsService.hereLicensePath = "";
             goToPage("reportingPage", false, true);
         }
 
-        function test_locationSkipNoFiles() {
+        function atest_locationSkipNoFiles() {
             AccountsService.hereLicensePath = Qt.resolvedUrl("nolicenses");
             goToPage("reportingPage", false, true);
         }
 
-        function test_locationWaitOnPath() {
+        function atest_locationWaitOnPath() {
             AccountsService.hereLicensePath = " "; // means we're still getting the path from dbus
 
             var page = goToPage("wifiPage");
@@ -343,7 +344,7 @@ Item {
             waitForPage("reportingPage");
         }
 
-        function test_locationGpsOnly() {
+        function atest_locationGpsOnly() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheck");
             var hereCheck = findChild(page, "hereCheck");
@@ -364,7 +365,7 @@ Item {
             tryCompare(locationActionGroup.gps, "state", true);
         }
 
-        function test_locationNope() {
+        function atest_locationNope() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheck");
             var hereCheck = findChild(page, "hereCheck");
@@ -385,7 +386,7 @@ Item {
             tryCompare(locationActionGroup.gps, "state", false);
         }
 
-        function test_locationHere() {
+        function atest_locationHere() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheck");
             var hereCheck = findChild(page, "hereCheck");
@@ -406,7 +407,7 @@ Item {
             tryCompare(locationActionGroup.gps, "state", true);
         }
 
-        function test_locationHereTerms() {
+        function atest_locationHereTerms() {
             var page = goToPage("locationPage");
 
             var link = findChild(page, "hereTermsLink");

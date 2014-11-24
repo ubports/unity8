@@ -67,6 +67,9 @@ class AccountsService: public QObject
                READ hereLicensePath
                WRITE setHereLicensePath // only available in mock
                NOTIFY hereLicensePathChanged)
+    Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
+               READ hereLicensePathValid
+               NOTIFY hereLicensePathChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -95,6 +98,7 @@ public:
     void setHereEnabled(bool enabled);
     QString hereLicensePath() const;
     void setHereLicensePath(const QString &path);
+    bool hereLicensePathValid() const;
 
 Q_SIGNALS:
     void userChanged();

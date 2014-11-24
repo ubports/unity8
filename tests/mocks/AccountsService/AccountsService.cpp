@@ -29,7 +29,7 @@ AccountsService::AccountsService(QObject* parent)
     m_failedLogins(0),
     m_demoEdges(false),
     m_hereEnabled(false),
-    m_hereLicensePath("")
+    m_hereLicensePath()
 {
 }
 
@@ -137,6 +137,12 @@ QString AccountsService::hereLicensePath() const
 
 void AccountsService::setHereLicensePath(const QString &path)
 {
-    m_hereLicensePath = path;
+    // Path should always be valid (this code is all synchronous)
+    m_hereLicensePath = path.isNull() ? "" : path;
     hereLicensePathChanged();
+}
+
+bool AccountsService::hereLicensePathValid() const
+{
+    return !m_hereLicensePath.isNull();
 }
