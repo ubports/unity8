@@ -143,6 +143,7 @@ IndicatorTest {
             while (mappedPosition.x != aux.x) {
                 mappedPosition = aux;
                 wait(100);
+                aux = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
             }
 
             indicatorsBar.selectItemAt(mappedPosition.x);
