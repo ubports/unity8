@@ -140,7 +140,7 @@ Rectangle {
                 var threshold = findChild(spreadDelegateLoader.item, "dragArea").threshold
                 // Verify that the delegate started moving exactly "threshold" after the finger movement
                 // and did not jump up to the finger, but lags the threshold behind
-                verify(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance) == threshold);
+                compare(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance), threshold);
 
                 touchRelease(spreadDelegateLoader.item, touchX, toY - units.gu(1));
 
