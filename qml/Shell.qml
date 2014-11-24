@@ -538,6 +538,8 @@ Item {
             property string lockedApp: ""
             property bool hasLockedApp: lockedApp !== ""
 
+            property bool ready: shown && required && created
+
             available: true
             hides: [launcher, panel.indicators]
             shown: true
@@ -575,8 +577,8 @@ Item {
                 enabled = true;
             }
 
-            onShownChanged: {
-                if (shown) {
+            onReadyChanged: {
+                if (ready) {
                     // Disable everything so that user can't swipe greeter or
                     // launcher until we get the next prompt/authenticate, which
                     // will re-enable the shell.

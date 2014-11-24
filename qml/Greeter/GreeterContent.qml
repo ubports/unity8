@@ -41,13 +41,6 @@ Item {
         }
     }
 
-    Rectangle {
-        // In case background fails to load
-        id: backgroundBackup
-        anchors.fill: parent
-        color: "black"
-    }
-
     CrossFadeImage {
         id: background
         objectName: "greeterBackground"

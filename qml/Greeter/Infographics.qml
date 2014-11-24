@@ -255,13 +255,15 @@ Item {
             interval: animDuration * 0.5; running: false; repeat: true
             onTriggered: {
                 if (dotCounter < dots.count) {
-                    var nextDot = dots.itemAt(dotCounter++)
-                    nextDot.unlockAnimation.start()
+                    var nextDot = dots.itemAt(dotCounter);
+                    if (nextDot) {
+                        nextDot.unlockAnimation.start();
+                        if (++dotCounter == Math.round(dots.count / 2)) {
+                            circleChangeAnimTimer.startFromBeginning();
+                        }
+                    }
                 } else {
                     stop()
-                }
-                if (dotCounter == Math.round(dots.count / 2)) {
-                    circleChangeAnimTimer.startFromBeginning()
                 }
             }
 
