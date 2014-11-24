@@ -124,7 +124,7 @@ Item {
             }
 
             shown: false
-            width: root.width
+            width: root.width - (PanelState.buttonsVisible ? windowControlButtons.width : 0)
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
             openedHeight: root.height - indicatorOrangeLine.height
@@ -150,6 +150,7 @@ Item {
         }
 
         WindowControlButtons {
+            id: windowControlButtons
             anchors {
                 left: parent.left
                 top: parent.top
@@ -175,7 +176,7 @@ Item {
             id: __callHint
             anchors {
                 top: parent.top
-                left: parent.left
+                left: PanelState.buttonsVisible ? windowControlButtons.right : parent.left
             }
             height: indicators.minimizedPanelHeight
             visible: active && indicators.state == "initial"
