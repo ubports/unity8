@@ -33,7 +33,7 @@ AccountsService::AccountsService(QObject* parent)
     m_passwordDisplayHint(Keyboard),
     m_failedLogins(0),
     m_hereEnabled(false),
-    m_hereLicensePath(" ") // blank space means not set yet
+    m_hereLicensePath() // null means not set yet
 {
     connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
@@ -118,6 +118,11 @@ QString AccountsService::hereLicensePath() const
     return m_hereLicensePath;
 }
 
+bool AccountsService::hereLicensePathValid() const
+{
+    return !m_hereLicensePath.isNull();
+}
+
 void AccountsService::updateDemoEdges()
 {
     auto demoEdges = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges").toBool();
@@ -194,7 +199,7 @@ void AccountsService::updateHereLicensePath()
 {
     QString hereLicensePath = m_service->getUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseBasePath").toString();
 
-    if (!hereLicensePath.isEmpty() && !QFile::exists(hereLicensePath))
+    if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
         hereLicensePath = "";
 
     if (m_hereLicensePath != hereLicensePath) {

@@ -62,6 +62,9 @@ class AccountsService: public QObject
     Q_PROPERTY(QString hereLicensePath
                READ hereLicensePath
                NOTIFY hereLicensePathChanged)
+    Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
+               READ hereLicensePathValid
+               NOTIFY hereLicensePathChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -85,6 +88,7 @@ public:
     bool hereEnabled() const;
     void setHereEnabled(bool enabled);
     QString hereLicensePath() const;
+    bool hereLicensePathValid() const;
 
 Q_SIGNALS:
     void userChanged();

@@ -25,7 +25,7 @@ LocalComponents.Page {
     title: i18n.tr("Location")
     forwardButtonSourceComponent: forwardButton
 
-    property bool pathSet: AccountsService.hereLicensePath !== " " // single space means it's unassigned
+    property bool pathSet: AccountsService.hereLicensePathValid
     property bool countSet: false
     skipValid: pathSet && (AccountsService.hereLicensePath === "" || countSet)
     skip: skipValid && (AccountsService.hereLicensePath === "" || termsModel.count === 0)
@@ -33,11 +33,6 @@ LocalComponents.Page {
     Connections {
         target: termsModel
         onCountChanged: if (pathSet) countSet = true
-    }
-
-    Connections {
-        target: AccountsService
-        onHereLicensePathChanged: console.log("MIKE path is", AccountsService.hereLicensePath)
     }
 
     FolderListModel {
