@@ -97,6 +97,7 @@ Item {
                     asynchronous: true
                     width: root.width
                     active: results.count > 0
+                    visible: active
                     sourceComponent: ScopesListCategory {
                         objectName: "scopesListCategory" + categoryId
 
