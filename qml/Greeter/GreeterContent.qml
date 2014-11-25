@@ -110,20 +110,22 @@ Item {
         objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
         model: greeterContentLoader.infographicModel
+        visible: model.label !== ""
 
         property string selectedUser
-        property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
-        onInfographicUserChanged: greeterContentLoader.infographicModel.username = infographicUser
 
-        Component.onCompleted: {
-            selectedUser = greeterContentLoader.model.data(greeterContentLoader.currentIndex, LightDM.UserRoles.NameRole)
-            greeterContentLoader.infographicModel.username = infographicUser
-            greeterContentLoader.infographicModel.readyForDataChange()
+        Binding {
+            target: model
+            property: "username"
+            value: AccountsService.statsWelcomeScreen ? selectedUser : ""
         }
 
         Connections {
             target: root
-            onSelected: infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
+            onSelected: {
+                infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole);
+                greeterContentLoader.infographicModel.readyForDataChange();
+            }
         }
 
         anchors {

@@ -155,7 +155,7 @@ Showable {
         source: loadContent ? "GreeterContent.qml" : ""
 
         onLoaded: {
-            selected(currentIndex);
+            greeterContentLoader.item.selected(currentIndex);
         }
 
         Connections {

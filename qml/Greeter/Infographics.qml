@@ -72,8 +72,6 @@ Item {
         notification.hideAnim.start()
     }
 
-    visible: model.label !== ""
-
     Component.onCompleted: startShowAnimation()
 
     Item {
