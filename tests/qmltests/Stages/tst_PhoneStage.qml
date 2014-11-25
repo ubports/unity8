@@ -138,7 +138,7 @@ Item {
             addApps(2)
             var startX = phoneStage.width - units.gu(1);
             var startY = phoneStage.height / 2;
-            var endX = phoneStage.width / 2;
+            var endX = startX - units.gu(4);
             var endY = startY;
 
             var activeApp = ApplicationManager.get(0);
