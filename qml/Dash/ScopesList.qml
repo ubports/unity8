@@ -96,6 +96,7 @@ Item {
                 delegate: Loader {
                     asynchronous: true
                     width: root.width
+                    active: results.count > 0
                     sourceComponent: ScopesListCategory {
                         objectName: "scopesListCategory" + categoryId
 
