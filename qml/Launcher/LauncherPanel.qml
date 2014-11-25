@@ -50,11 +50,19 @@ Rectangle {
             fill: parent
         }
 
-        Rectangle {
+        Item {
             objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
-            color: UbuntuColors.orange
+
+            UbuntuShape {
+                anchors {
+                    fill: parent
+                    topMargin: -units.gu(2)
+                }
+                borderSource: "none"
+                color: UbuntuColors.orange
+            }
 
             Image {
                 objectName: "dashItem"
