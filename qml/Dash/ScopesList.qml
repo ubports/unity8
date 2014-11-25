@@ -54,7 +54,7 @@ Item {
     Binding {
         target: header
         property: "searchQuery"
-        value: root.scope ? root.searchQuery : ""
+        value: root.scope ? root.scope.searchQuery : ""
     }
 
     PageHeader {
