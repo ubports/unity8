@@ -149,7 +149,7 @@ Rectangle {
         // 1 - 2: curved snapping movement, snap to app 1 on release
         property real positionMarker2: 0.3
         // 2 - 3: movement follows finger, snaps back to app 1 on release
-        property real positionMarker3: 0.4
+        property real positionMarker3: 0.35
         // passing 3, we detach movement from the finger and snap to 4
         property real positionMarker4: 0.9
 
