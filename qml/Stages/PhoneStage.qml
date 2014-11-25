@@ -145,16 +145,16 @@ Rectangle {
 
         // Those markers mark the various positions in the spread (ratio to screen width from right to left):
         // 0 - 1: following finger, snap back to the beginning on release
-        property real positionMarker1: 0.3
+        property real positionMarker1: 0.2
         // 1 - 2: curved snapping movement, snap to app 1 on release
-        property real positionMarker2: 0.45
+        property real positionMarker2: 0.3
         // 2 - 3: movement follows finger, snaps back to app 1 on release
-        property real positionMarker3: 0.6
+        property real positionMarker3: 0.4
         // passing 3, we detach movement from the finger and snap to 4
         property real positionMarker4: 0.9
 
         // This is where the first app snaps to when bringing it in from the right edge.
-        property real snapPosition: 0.75
+        property real snapPosition: 0.7
 
         // Phase of the animation:
         // 0: Starting from right edge, a new app (index 1) comes in from the right
@@ -367,8 +367,9 @@ Rectangle {
                         if (spreadView.phase == 0 && index < 2) {
                             if (progress < spreadView.positionMarker1) {
                                 return progress;
-                            } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
-                                return spreadView.positionMarker1 + snappingCurve.value * 3;
+                            } else if (progress < spreadView.positionMarker1 + 0.05){
+                                // p : 0.05 = x : pm2
+                                return spreadView.positionMarker1 + (progress - spreadView.positionMarker1) * (spreadView.positionMarker2 - spreadView.positionMarker1) / 0.05
                             } else {
                                 return spreadView.positionMarker2;
                             }
@@ -379,13 +380,6 @@ Rectangle {
                     // Hiding tiles when their progress is negative or reached the maximum
                     visible: (progress >= 0 && progress < 1.7) ||
                              (isDash && priv.focusedAppDelegate.x !== 0)
-
-                    EasingCurve {
-                        id: snappingCurve
-                        type: EasingCurve.Linear
-                        period: 0.05
-                        progress: appDelegate.progress - spreadView.positionMarker1
-                    }
 
                     Binding {
                         target: appDelegate
