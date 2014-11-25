@@ -100,8 +100,8 @@ Rectangle {
 
             var innerHeader = findChild(header, "innerPageHeader");
             verify(innerHeader, "Could not find the inner header");
-            verify(Qt.colorEqual(innerHeader.textColor, UbuntuColors.darkGrey),
-                   "Foreground color not equal: %1 != %2".arg(innerHeader.textColor).arg(UbuntuColors.darkGrey));
+            verify(Qt.colorEqual(innerHeader.config.foregroundColor, UbuntuColors.darkGrey),
+                   "Foreground color not equal: %1 != %2".arg(innerHeader.config.foregroundColor).arg(UbuntuColors.darkGrey));
 
             var background = findChild(header, "headerBackground");
             verify(background, "Could not find the background");
