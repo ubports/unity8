@@ -55,7 +55,6 @@ Rectangle {
             width: parent.width
             height: units.gu(7)
             color: UbuntuColors.orange
-            z: 1
 
             Image {
                 objectName: "dashItem"
@@ -136,6 +135,20 @@ Rectangle {
                     // to be moved to wrong places
                     property bool draggingTransitionRunning: false
                     property int scheduledMoveTo: -1
+
+                    UbuntuNumberAnimation {
+                        id: snapToBottomAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        to: launcherListView.originY
+                    }
+
+                    UbuntuNumberAnimation {
+                        id: snapToTopAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY
+                    }
 
                     displaced: Transition {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
@@ -342,10 +355,9 @@ Rectangle {
                             progressiveScrollingTimer.stop();
                             launcherListView.interactive = true;
                             if (droppedIndex >= launcherListView.count - 2 && postDragging) {
-                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                            }
-                            if (droppedIndex == 0 && postDragging) {
-                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                                snapToBottomAnimation.start();
+                            } else if (droppedIndex < 2 && postDragging) {
+                                snapToTopAnimation.start();
                             }
                         }
 
