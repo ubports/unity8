@@ -83,7 +83,7 @@ Item {
                 width: root.width
                 topMargin: height > listItemHeight ? height - listItemHeight : 0
 
-                icon: model.art || ""
+                icon: model.art || model.mascot || ""
                 text: model.title || ""
                 subtext: model.subtitle || ""
                 showStar: root.isFavoritesFeed || root.isAlsoInstalled
