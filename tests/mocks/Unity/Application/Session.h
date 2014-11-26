@@ -56,7 +56,7 @@ public:
 
     Q_INVOKABLE void addChildSession(Session* session);
     void insertChildSession(uint index, Session* session);
-    void removeChildSession(Session* session);
+    Q_INVOKABLE void removeChildSession(Session* session);
 
 Q_SIGNALS:
     void applicationChanged(ApplicationInfo*);
