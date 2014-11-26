@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-10-09 10:49+0000\n"
+"PO-Revision-Date: 2014-11-13 09:32+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-11-14 06:34+0000\n"
+"X-Generator: Launchpad (build 17241)\n"
 "Language: is\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -41,10 +41,14 @@ msgstr "Tæki læst"
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Það er búið að loka á þig vegna of margra tilrauna við innsetningu "
+"lykilfrasa."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Það er búið að loka á þig vegna of margra tilrauna við innsetningu "
+"aðgangskóða."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
@@ -162,7 +166,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "Snúa aftur í símtal"
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
@@ -219,7 +223,7 @@ msgstr "Senda"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "Toga til að endurlesa..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
@@ -227,7 +231,7 @@ msgstr "Slepptu til að endurlesa..."
 
 #: qml/Dash/ScopesOverview.qml:215
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Sýsla með leitarsvið"
 
 #: qml/Dash/ScopesOverview.qml:437
 msgid "Done"
@@ -261,31 +265,31 @@ msgstr "Slá til að svara símtali..."
 msgid "Conference"
 msgstr "Ráðstefna"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:615
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Ekkert er í afspilun"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:763
 msgid "In queue…"
 msgstr "Í biðröð..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:767
 msgid "Downloading"
 msgstr "Sæki"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:769
 msgid "Paused, tap to resume"
 msgstr "Í bið, sláðu létt til að halda áfram"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:771
 msgid "Canceled"
 msgstr "Hætt við"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:773
 msgid "Finished"
 msgstr "Lokið"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:775
 msgid "Failed, tap to retry"
 msgstr "Mistókst, sláðu létt til að reyna aftur"
 
@@ -297,49 +301,49 @@ msgstr "Aflæsa SIM-korti"
 msgid "Roaming"
 msgstr "Ráphamur"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:381
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Settu inn lykilfrasa"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:382
 msgid "Sorry, incorrect passphrase"
 msgstr "Því miður, rangt lykilorð"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:383
 msgid "Please re-enter"
 msgstr "Settu aftur inn"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:385
 msgid "Enter passcode"
-msgstr ""
+msgstr "Settu inn aðgangskóða"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:386
 msgid "Sorry, incorrect passcode"
 msgstr "Því miður, rangur aðgangskóði"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:389
 #, qt-format
 msgid "Enter %1"
 msgstr "Settu inn %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Því miður, rangt %1"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:431
 msgid "Sorry, incorrect passphrase."
 msgstr "Því miður, rangt lykilorð."
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:432
 msgid "Sorry, incorrect passcode."
 msgstr "Því miður, rangur aðgangskóði."
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:433
 msgid "This will be your last attempt."
 msgstr "Þetta mun verða síðasta tilraunin þín."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:435
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -347,7 +351,7 @@ msgstr ""
 "Ef lykilorð er rangt, mun síminn frumstilla allt á verksmiðjustillingar og "
 "öllum einkagögnum verður eytt."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:436
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

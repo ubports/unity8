@@ -136,8 +136,8 @@ IndicatorTest {
             var dataItem = findChild(indicatorsBar, root.originalModelData[data.index]["identifier"] + "-panelItem");
             verify(dataItem !== null);
 
+            waitForRendering(dataItem);
             var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
-
             indicatorsBar.selectItemAt(mappedPosition.x);
             indicatorsBar.expanded = true;
             wait_for_expansion_to_settle();
