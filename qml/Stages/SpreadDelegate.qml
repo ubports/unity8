@@ -41,9 +41,16 @@ Item {
     Item {
         objectName: "appWindowWithShadow"
 
-        y: dragArea.distance
+        readonly property real limit: root.height / 2
+
+        y: root.closeable ? dragArea.distance : elastic(dragArea.distance)
         width: parent.width
         height: parent.height
+
+        function elastic(distance) {
+            var k = distance < 0 ? -limit : limit
+            return k * (1 - Math.pow((k - 1) / k, distance))
+        }
 
         BorderImage {
             anchors {
