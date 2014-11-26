@@ -35,6 +35,6 @@ Item {
         anchors.fill: parent
         visible: !shaped
         source: fileSource
-        fillMode: Image.PreserveAspectCrop
+        fillMode: Image.PreserveAspectFit
     }
 }

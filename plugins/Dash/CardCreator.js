@@ -224,7 +224,7 @@ var kTitleLabelCode = 'Label { \n\
 
 // %1 is used as extra anchors of emblemIcon
 // %2 is used as color of emblemIcon
-var kEmblemIconCode = 'StatusIcon { \n\
+var kEmblemIconCode = 'Icon { \n\
                             id: emblemIcon; \n\
                             objectName: "emblemIcon"; \n\
                             anchors { \n\
