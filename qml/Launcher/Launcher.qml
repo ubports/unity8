@@ -42,6 +42,7 @@ Item {
     // emitted when the dash icon in the launcher has been tapped
     signal showDashHome()
 
+//    FIXME Similar code will be needed on desktop autohide (see dismissTimer and other code commented out)
 //    onStateChanged: {
 //        if (state == "") {
 //            dismissTimer.stop()
