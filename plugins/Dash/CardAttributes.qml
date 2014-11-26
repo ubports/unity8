@@ -17,7 +17,6 @@
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
-import Ubuntu.Settings.Components 0.1
 
 GridLayout {
     id: grid
@@ -47,10 +46,9 @@ GridLayout {
             Layout.maximumWidth: Math.max(icon.width, label.x + label.implicitWidth)
             Layout.fillWidth: true
             height: units.gu(2)
-            StatusIcon {
+            Icon {
                 id: icon
                 height: units.gu(2)
-                sets: ["actions", "status", "apps"]
                 source: "icon" in modelData && modelData["icon"] || ""
                 color: grid.color
             }
