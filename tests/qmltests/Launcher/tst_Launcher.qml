@@ -119,10 +119,10 @@ Item {
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
 
-            // Tests can be run in a reaaaaally slow environment or machine. Thus ensure
-            // the dismissTimer doesn't time out inadvertently.
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            dismissTimer.interval = 60 * 60 * 1000; // one hour
+//            // Tests can be run in a reaaaaally slow environment or machine. Thus ensure
+//            // the dismissTimer doesn't time out inadvertently.
+//            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+//            dismissTimer.interval = 60 * 60 * 1000; // one hour
         }
 
         function dragLauncherIntoView() {
