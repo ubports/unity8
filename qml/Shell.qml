@@ -764,19 +764,26 @@ Item {
             margin: units.gu(1)
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
-            width: parent.width
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             states: [
                 State {
                     name: "narrow"
                     when: overlay.width <= units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: parent.left }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                    }
                 },
                 State {
                     name: "wide"
                     when: overlay.width > units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: undefined }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: undefined
+                        anchors.right: parent.right
+                    }
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]

@@ -274,7 +274,7 @@ Item {
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
         }
 
-        function test_orientation_change_sent_to_focused_app() {
+        function test_orientationChangeSentToFocusedApp() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -286,7 +286,7 @@ Item {
             tryCompare(app, "orientation", Qt.LandscapeOrientation);
         }
 
-        function test_orientation_change_not_sent_to_apps_while_spread_open() {
+        function test_orientationChangeNotSentToAppsWhileSpreadOpen() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -299,7 +299,7 @@ Item {
             tryCompare(app, "orientation", Qt.PortraitOrientation);
         }
 
-        function test_orientation_change_not_sent_to_unfocused_app_until_it_focused() {
+        function test_orientationChangeNotSentToUnfocusedAppUntilItFocused() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -356,6 +356,36 @@ Item {
 
             tryCompare(firstApp, "state", ApplicationInfoInterface.Running);
             tryCompare(firstApp, "focused", true);
+        }
+
+        function test_cantCloseWhileSnapping() {
+            addApps(2);
+
+            goToSpread();
+
+            var spreadView = findChild(phoneStage, "spreadView");
+            var selectedApp = ApplicationManager.get(2);
+
+            goToSpread();
+
+            var app0 = findChild(spreadView, "appDelegate0");
+            var app1 = findChild(spreadView, "appDelegate1");
+            var app2 = findChild(spreadView, "appDelegate2");
+
+            var dragArea0 = findChild(app0, "dragArea");
+            var dragArea1 = findChild(app1, "dragArea");
+            var dragArea2 = findChild(app2, "dragArea");
+
+            compare(dragArea0.enabled, true);
+            compare(dragArea1.enabled, true);
+            compare(dragArea2.enabled, true);
+
+            phoneStage.select(selectedApp.appId);
+
+            // Make sure all drag areas are disabled instantly. Don't use tryCompare here!
+            compare(dragArea0.enabled, false);
+            compare(dragArea1.enabled, false);
+            compare(dragArea2.enabled, false);
         }
     }
 }
