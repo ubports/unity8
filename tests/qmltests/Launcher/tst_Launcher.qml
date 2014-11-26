@@ -519,5 +519,23 @@ Item {
                 tryCompare(quickListShape, "visible", false)
             }
         }
+
+        function test_quicklistHideOnLauncherHide() {
+            dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var quickList = findChild(launcher, "quickList")
+
+            // Initial state
+            tryCompare(quickList, "state", "")
+
+            // Doing longpress
+            mousePress(clickedItem, clickedItem.width / 2, clickedItem.height / 2)
+            tryCompare(clickedItem, "itemOpacity", 0) // Wait for longpress to happen
+            verify(quickList, "state", "open")
+
+            launcher.hide();
+
+            tryCompare(quickList, "state", "");
+        }
     }
 }

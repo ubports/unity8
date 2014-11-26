@@ -56,6 +56,9 @@ Showable {
     property int maxPinLength: -1
 
     property url background: ""
+    // Use this to put a black overlay above the background
+    // 0: normal background, 1: black background
+    property real darkenBackground: 0
 
     readonly property string passphrase: (pinPadLoader.item && pinPadLoader.item.passphrase) ? pinPadLoader.item.passphrase : ""
 
@@ -100,8 +103,20 @@ Showable {
         anchors {
             fill: parent
         }
+        // Limit how much memory we'll reserve for this image
+        sourceSize.height: height
+        sourceSize.width: width
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
+    }
+
+    // This is to
+    // a) align it with the greeter and
+    // b) keep the white fonts readable on bright backgrounds
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: root.darkenBackground
     }
 
     MouseArea {
