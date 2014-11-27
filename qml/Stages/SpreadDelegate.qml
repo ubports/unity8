@@ -41,7 +41,7 @@ Item {
     Item {
         objectName: "appWindowWithShadow"
 
-        readonly property real limit: root.height / 2
+        readonly property real limit: root.height / 4
 
         y: root.closeable ? dragArea.distance : elastic(dragArea.distance)
         width: parent.width
