@@ -534,8 +534,6 @@ Item {
             id: greeter
             objectName: "greeter"
 
-            signal sessionStarted() // helpful for tests
-
             property string lockedApp: ""
             property bool hasLockedApp: lockedApp !== ""
 
@@ -553,6 +551,12 @@ Item {
 
             dragHandleWidth: shell.edgeSize
 
+            onSessionStarted: {
+                hide();
+                lockscreen.hide();
+                launcher.hide();
+            }
+
             function startUnlock() {
                 if (narrowMode) {
                     if (!LightDM.Greeter.authenticated) {
@@ -563,17 +567,6 @@ Item {
                     show()
                     tryToUnlock()
                 }
-            }
-
-            function login() {
-                enabled = false;
-                if (LightDM.Greeter.startSessionSync()) {
-                    sessionStarted();
-                    greeter.hide();
-                    lockscreen.hide();
-                    launcher.hide();
-                }
-                enabled = true;
             }
 
             onShownChanged: {

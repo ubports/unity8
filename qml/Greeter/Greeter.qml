@@ -49,6 +49,7 @@ Showable {
     signal selected(int uid)
     signal unlocked(int uid)
     signal tease()
+    signal sessionStarted()
 
     function hideRight() {
         if (shown) {
@@ -67,6 +68,14 @@ Showable {
         if (created) {
             greeterContentLoader.item.reset()
         }
+    }
+
+    function login() {
+        enabled = false;
+        if (LightDM.Greeter.startSessionSync()) {
+            sessionStarted();
+        }
+        enabled = true;
     }
 
     onRequiredChanged: {
