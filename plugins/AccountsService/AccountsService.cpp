@@ -202,7 +202,7 @@ void AccountsService::updateHereLicensePath()
     if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
         hereLicensePath = "";
 
-    if (m_hereLicensePath != hereLicensePath) {
+    if (m_hereLicensePath.isNull() || m_hereLicensePath != hereLicensePath) {
         m_hereLicensePath = hereLicensePath;
         Q_EMIT hereLicensePathChanged();
     }
