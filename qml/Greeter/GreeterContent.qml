@@ -14,10 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
 import AccountsService 0.1
-import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
+import Ubuntu.Components 1.1
+import Ubuntu.Gestures 0.1
 import "../Components"
 
 Item {
@@ -28,6 +29,7 @@ Item {
 
     signal selected(int uid)
     signal unlocked(int uid)
+    signal tease()
 
     function tryToUnlock() {
         if (loginLoader.item) {
@@ -39,6 +41,68 @@ Item {
         if (loginLoader.item) {
             loginLoader.item.reset()
         }
+    }
+
+    onTease: showLabelAnimation.start()
+
+    // Bi-directional revealer
+    DraggingArea {
+        id: dragHandle
+        anchors.fill: parent
+        enabled: greeter.narrowMode || !greeter.locked
+        orientation: Qt.Horizontal
+        propagateComposedEvents: true
+
+        Component.onCompleted: {
+            // set evaluators to baseline of dragValue == 0
+            leftEvaluator.reset();
+            rightEvaluator.reset();
+        }
+
+        function maybeTease() {
+            if (!greeter.locked || greeter.narrowMode) {
+                root.tease();
+            }
+        }
+
+        onClicked: maybeTease()
+        onDragStart: maybeTease()
+        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
+
+        onDragEnd: {
+            if (greeter.dragOffset > 0 && rightEvaluator.shouldAutoComplete()) {
+                greeter.hideRight()
+            } else if (greeter.dragOffset < 0 && leftEvaluator.shouldAutoComplete()) {
+                greeter.hide();
+            } else {
+                greeter.show(); // undo drag
+            }
+        }
+
+        onDragValueChanged: {
+            // dragValue is kept as a "step" value since we do this adjusting on the fly
+            greeter.dragOffset += dragValue;
+        }
+
+        EdgeDragEvaluator {
+            id: rightEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.dragOffset
+            maxDragDistance: parent.width
+            direction: Direction.Rightwards
+        }
+
+        EdgeDragEvaluator {
+            id: leftEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.dragOffset
+            maxDragDistance: parent.width
+            direction: Direction.Leftwards
+        }
+    }
+
+    TouchGate {
+        targetItem: dragHandle
+        anchors.fill: targetItem
+        enabled: targetItem.enabled
     }
 
     Rectangle {
@@ -154,5 +218,55 @@ Item {
             topMargin: units.gu(2)
             horizontalCenter: parent.horizontalCenter
         }
+    }
+
+    Label {
+        id: swipeHint
+        property real baseOpacity: 0.5
+        opacity: 0.0
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(5)
+        text: "《    " + i18n.tr("Unlock") + "    》"
+        color: "white"
+        font.weight: Font.Light
+
+        SequentialAnimation on opacity {
+            id: showLabelAnimation
+            running: false
+            loops: 2
+
+            StandardAnimation {
+                from: 0.0
+                to: swipeHint.baseOpacity
+                duration: UbuntuAnimation.SleepyDuration
+            }
+            PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+            StandardAnimation {
+                from: swipeHint.baseOpacity
+                to: 0.0
+                duration: UbuntuAnimation.SleepyDuration
+            }
+        }
+    }
+
+    // right side shadow
+    Image {
+        anchors.left: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        visible: parent.required
+        fillMode: Image.Tile
+        source: "../graphics/dropshadow_right.png"
+    }
+
+    // left side shadow
+    Image {
+        anchors.right: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        visible: parent.required
+        fillMode: Image.Tile
+        source: "../graphics/dropshadow_left.png"
     }
 }

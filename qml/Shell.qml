@@ -50,16 +50,17 @@ Item {
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
+    enabled: !greeter.waiting
+
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background: asImageTester.status == Image.Ready ? asImageTester.source
                              : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
     readonly property real panelHeight: panel.panelHeight
 
-    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+    readonly property alias locked: greeter.locked
     readonly property alias hasLockedApp: greeter.hasLockedApp
-    readonly property bool forcedUnlock: edgeDemo.running
-    onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
+    property alias lockscreen: greeter.lockscreen
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
@@ -340,162 +341,6 @@ Item {
         }
     }
 
-    Lockscreen {
-        id: lockscreen
-        objectName: "lockscreen"
-
-        hides: [launcher, panel.indicators]
-        shown: false
-        enabled: true
-        showAnimation: StandardAnimation { property: "opacity"; to: 1 }
-        hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
-        y: panel.panelHeight
-        visible: required
-        width: parent.width
-        height: parent.height - panel.panelHeight
-        background: shell.background
-        darkenBackground: 0.4
-        alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
-        minPinLength: 4
-        maxPinLength: 4
-
-        property string promptText
-        infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
-                  alphaNumeric ? i18n.tr("Enter passphrase") :
-                                 i18n.tr("Enter passcode")
-        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
-                   alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
-                                  i18n.tr("Please re-enter") :
-                                  i18n.tr("Sorry, incorrect passcode")
-
-        // FIXME: We *should* show emergency dialer if there is a SIM present,
-        // regardless of whether the side stage is enabled.  But right now,
-        // the assumption is that narrow screens are phones which have SIMs
-        // and wider screens are tablets which don't.  When we do allow this
-        // on devices with a side stage and a SIM, work should be done to
-        // ensure that the main stage is disabled while the dialer is present
-        // in the side stage.  See the FIXME in the stage loader in this file.
-        showEmergencyCallButton: !shell.sideStageEnabled
-
-        onEntered: LightDM.Greeter.respond(passphrase);
-        onCancel: greeter.show()
-        onEmergencyCall: startLockedApp("dialer-app")
-
-        onShownChanged: if (shown) greeter.lockedApp = ""
-
-        function maybeShow() {
-            if (!shell.forcedUnlock) {
-                show()
-            }
-        }
-
-        Timer {
-            id: forcedDelayTimer
-            interval: 1000 * 60
-            onTriggered: {
-                if (lockscreen.delayMinutes > 0) {
-                    lockscreen.delayMinutes -= 1
-                    if (lockscreen.delayMinutes > 0) {
-                        start() // go again
-                    }
-                }
-            }
-        }
-
-        Component.onCompleted: {
-            if (greeter.narrowMode) {
-                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-            }
-        }
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onShowGreeter: greeter.show()
-        onHideGreeter: greeter.login()
-
-        onShowPrompt: {
-            shell.enabled = true;
-            if (!LightDM.Greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
-            }
-            if (greeter.narrowMode) {
-                lockscreen.promptText = isDefaultPrompt ? "" : text.toLowerCase();
-                lockscreen.maybeShow();
-            }
-        }
-
-        onPromptlessChanged: {
-            if (!LightDM.Greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
-            }
-            if (greeter.narrowMode) {
-                if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
-                    lockscreen.hide()
-                } else {
-                    lockscreen.reset();
-                    lockscreen.maybeShow();
-                }
-            }
-        }
-
-        onAuthenticationComplete: {
-            shell.enabled = true;
-            if (LightDM.Greeter.authenticated) {
-                AccountsService.failedLogins = 0
-            }
-            // Else only penalize user for a failed login if they actually were
-            // prompted for a password.  We do this below after the promptless
-            // early exit.
-
-            if (LightDM.Greeter.promptless) {
-                return;
-            }
-
-            if (LightDM.Greeter.authenticated) {
-                greeter.login();
-            } else {
-                AccountsService.failedLogins++
-                if (maxFailedLogins >= 2) { // require at least a warning
-                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
-                        var title = lockscreen.alphaNumeric ?
-                                    i18n.tr("Sorry, incorrect passphrase.") :
-                                    i18n.tr("Sorry, incorrect passcode.")
-                        var text = i18n.tr("This will be your last attempt.") + " " +
-                                   (lockscreen.alphaNumeric ?
-                                    i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
-                                    i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
-                        lockscreen.showInfoPopup(title, text)
-                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
-                        SystemImage.factoryReset() // Ouch!
-                    }
-                }
-                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
-                    lockscreen.delayMinutes = failedLoginsDelayMinutes
-                    forcedDelayTimer.start()
-                }
-
-                lockscreen.clear(true);
-                if (greeter.narrowMode) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-                }
-            }
-        }
-    }
-
-    Binding {
-        target: LightDM.Greeter
-        property: "active"
-        value: greeter.shown || lockscreen.shown || greeter.hasLockedApp
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        color: "black"
-        opacity: greeter.showProgress * 0.8
-    }
-
     Greeter {
         id: greeter
         objectName: "greeter"
@@ -505,19 +350,14 @@ Item {
 
         available: true
         hides: [launcher, panel.indicators]
-        shown: true
-        loadContent: required || lockscreen.required // keeps content in memory for quick show()
+        tabletMode: shell.sideStageEnabled
         launcherOffset: narrowMode ? launcher.progress : 0
-
-        locked: shell.locked
-
+        forcedUnlock: edgeDemo.running
         background: shell.background
 
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
-
-        dragHandleWidth: shell.edgeSize
 
         property bool fullyShown: showProgress === 1.0
         onFullyShownChanged: {
@@ -530,7 +370,7 @@ Item {
 
         onShowProgressChanged: {
             if (showProgress === 0) {
-                if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || shell.forcedUnlock) {
+                if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || forcedUnlock) {
                     greeter.login()
                 } else if (narrowMode) {
                     lockscreen.clear(false) // to reset focus if necessary
@@ -556,23 +396,6 @@ Item {
             }
         }
 
-        onShownChanged: {
-            if (shown) {
-                // Disable everything so that user can't swipe greeter or
-                // launcher until we get first prompt/authenticate, which
-                // will re-enable the shell.
-                shell.enabled = false;
-
-                if (greeter.narrowMode) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                } else {
-                    reset()
-                }
-                greeter.lockedApp = "";
-                greeter.forceActiveFocus();
-            }
-        }
-
         Component.onCompleted: {
             Connectivity.unlockAllModems()
         }
@@ -590,7 +413,7 @@ Item {
         Binding {
             target: ApplicationManager
             property: "suspended"
-            value: (greeter.shown && greeter.showProgress == 1) || lockscreen.shown
+            value: (greeter.shown && greeter.fullyShown) || lockscreen.shown
         }
     }
 

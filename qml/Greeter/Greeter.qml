@@ -14,36 +14,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Gestures 0.1
+import QtQuick 2.3
+import AccountsService 0.1
 import LightDM 0.1 as LightDM
+import Ubuntu.Components 1.1
 import "../Components"
 
 Showable {
     id: greeter
-    enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
-    x: launcherOffsetProxy + dragOffset
-
     property url background
-    property bool loadContent: required
 
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
+    property real showProgress: MathUtils.clamp((width - Math.abs(greeterContentLoader.x)) / width, 0, 1)
+
+    // True when the greeter is waiting for PAM or other setup process
+    property bool waiting: true
 
     showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
     hideAnimation: __leftHideAnimation
 
-    property alias dragHandleWidth: dragHandle.width
-    property alias model: greeterContentLoader.model
-    property bool locked: true
+    property alias lockscreen: lockscreen
 
-    readonly property bool narrowMode: !multiUser && height > width
+    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+    property bool forcedUnlock
+    onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
+
+    property bool tabletMode
+    readonly property bool narrowMode: !multiUser && !tabletMode
     readonly property bool multiUser: LightDM.Users.count > 1
 
     readonly property int currentIndex: greeterContentLoader.currentIndex
@@ -82,13 +84,13 @@ Showable {
     }
 
     function tryToUnlock() {
-        if (created) {
+        if (greeterContentLoader.item) {
             greeterContentLoader.item.tryToUnlock()
         }
     }
 
     function reset() {
-        if (created) {
+        if (greeterContentLoader.item) {
             greeterContentLoader.item.reset()
         }
     }
@@ -109,74 +111,188 @@ Showable {
         }
     }
 
-    // Bi-directional revealer
-    DraggingArea {
-        id: dragHandle
-        anchors.fill: parent
-        enabled: (greeter.narrowMode || !greeter.locked) && greeter.enabled && greeter.shown
-        orientation: Qt.Horizontal
-        propagateComposedEvents: true
+    onShownChanged: {
+        if (shown) {
+            waiting = true;
 
-        Component.onCompleted: {
-            // set evaluators to baseline of dragValue == 0
-            leftEvaluator.reset()
-            rightEvaluator.reset()
-        }
-
-        function maybeTease() {
-            if (!greeter.locked || greeter.narrowMode)
-                greeter.tease();
-        }
-
-        onClicked: maybeTease()
-        onDragStart: maybeTease()
-        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
-
-        onDragEnd: {
-            if (greeter.dragOffset > 0 && rightEvaluator.shouldAutoComplete()) {
-                greeter.hideRight()
-            } else if (greeter.dragOffset < 0 && leftEvaluator.shouldAutoComplete()) {
-                greeter.hide();
+            if (narrowMode) {
+                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
             } else {
-                greeter.show(); // undo drag
+                reset();
+            }
+            lockedApp = "";
+            forceActiveFocus();
+        }
+    }
+
+    Lockscreen {
+        id: lockscreen
+        objectName: "lockscreen"
+
+        shown: false
+        showAnimation: StandardAnimation { property: "opacity"; to: 1 }
+        hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
+        anchors.fill: parent
+        visible: required
+        background: greeter.background
+        darkenBackground: 0.4
+        alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
+        minPinLength: 4
+        maxPinLength: 4
+
+        property string promptText
+        infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
+                  alphaNumeric ? i18n.tr("Enter passphrase") :
+                                 i18n.tr("Enter passcode")
+        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
+                   alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
+                                  i18n.tr("Please re-enter") :
+                                  i18n.tr("Sorry, incorrect passcode")
+
+        // FIXME: We *should* show emergency dialer if there is a SIM present,
+        // regardless of whether the side stage is enabled.  But right now,
+        // the assumption is that narrow screens are phones which have SIMs
+        // and wider screens are tablets which don't.  When we do allow this
+        // on devices with a side stage and a SIM, work should be done to
+        // ensure that the main stage is disabled while the dialer is present
+        // in the side stage.  See the FIXME in the stage loader in Shell.qml.
+        showEmergencyCallButton: !greeter.tabletMode
+
+        onEntered: LightDM.Greeter.respond(passphrase);
+        onCancel: greeter.show()
+        onEmergencyCall: startLockedApp("dialer-app")
+
+        onShownChanged: if (shown) greeter.lockedApp = ""
+
+        function maybeShow() {
+            if (!greeter.forcedUnlock) {
+                show();
             }
         }
 
-        onDragValueChanged: {
-            // dragValue is kept as a "step" value since we do this adjusting on the fly
-            greeter.dragOffset += dragValue;
+        Timer {
+            id: forcedDelayTimer
+            interval: 1000 * 60
+            onTriggered: {
+                if (lockscreen.delayMinutes > 0) {
+                    lockscreen.delayMinutes -= 1
+                    if (lockscreen.delayMinutes > 0) {
+                        start() // go again
+                    }
+                }
+            }
         }
 
-        EdgeDragEvaluator {
-            id: rightEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.dragOffset
-            maxDragDistance: parent.width
-            direction: Direction.Rightwards
-        }
-
-        EdgeDragEvaluator {
-            id: leftEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.dragOffset
-            maxDragDistance: parent.width
-            direction: Direction.Leftwards
+        Component.onCompleted: {
+            if (greeter.narrowMode) {
+                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+            }
         }
     }
-    TouchGate {
-        targetItem: dragHandle
-        anchors.fill: targetItem
-        enabled: targetItem.enabled
+
+    Connections {
+        target: LightDM.Greeter
+
+        onShowGreeter: greeter.show()
+        onHideGreeter: greeter.login()
+
+        onShowPrompt: {
+            waiting = false;
+
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
+
+            if (greeter.narrowMode) {
+                lockscreen.promptText = isDefaultPrompt ? "" : text.toLowerCase();
+                lockscreen.maybeShow();
+            }
+        }
+
+        onPromptlessChanged: {
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
+            if (greeter.narrowMode) {
+                if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
+                    lockscreen.hide()
+                } else {
+                    lockscreen.reset();
+                    lockscreen.maybeShow();
+                }
+            }
+        }
+
+        onAuthenticationComplete: {
+            waiting = false;
+            if (LightDM.Greeter.authenticated) {
+                AccountsService.failedLogins = 0
+            }
+            // Else only penalize user for a failed login if they actually were
+            // prompted for a password.  We do this below after the promptless
+            // early exit.
+
+            if (LightDM.Greeter.promptless) {
+                return;
+            }
+
+            if (LightDM.Greeter.authenticated) {
+                greeter.login();
+            } else {
+                AccountsService.failedLogins++
+                if (maxFailedLogins >= 2) { // require at least a warning
+                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                        var title = lockscreen.alphaNumeric ?
+                                    i18n.tr("Sorry, incorrect passphrase.") :
+                                    i18n.tr("Sorry, incorrect passcode.")
+                        var text = i18n.tr("This will be your last attempt.") + " " +
+                                   (lockscreen.alphaNumeric ?
+                                    i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
+                                    i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
+                        lockscreen.showInfoPopup(title, text)
+                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                        SystemImage.factoryReset() // Ouch!
+                    }
+                }
+                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                    lockscreen.delayMinutes = failedLoginsDelayMinutes
+                    forcedDelayTimer.start()
+                }
+
+                lockscreen.clear(true);
+                if (greeter.narrowMode) {
+                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+                }
+            }
+        }
+    }
+
+    Binding {
+        target: LightDM.Greeter
+        property: "active"
+        value: greeter.shown || lockscreen.shown || greeter.hasLockedApp
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: greeter.showProgress * 0.8
     }
 
     Loader {
         id: greeterContentLoader
         objectName: "greeterContentLoader"
-        anchors.fill: parent
+
+        x: launcherOffsetProxy + dragOffset
+        width: parent.width
+        height: parent.height
+
         property var model: LightDM.Users
         property int currentIndex: 0
         property var infographicModel: LightDM.Infographic
         readonly property int backgroundTopMargin: -greeter.y
 
-        source: loadContent ? "GreeterContent.qml" : ""
+        source: (greeter.required || lockscreen.required) ? "GreeterContent.qml" : ""
 
         onLoaded: {
             selected(currentIndex);
@@ -190,59 +306,7 @@ Showable {
                 greeterContentLoader.currentIndex = uid;
             }
             onUnlocked: greeter.unlocked(uid);
+            onTease: greeter.tease()
         }
-    }
-
-    onTease: showLabelAnimation.start()
-
-    Label {
-        id: swipeHint
-        visible: greeter.shown
-        property real baseOpacity: 0.5
-        opacity: 0.0
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(5)
-        text: "《    " + i18n.tr("Unlock") + "    》"
-        color: "white"
-        font.weight: Font.Light
-
-        SequentialAnimation on opacity {
-            id: showLabelAnimation
-            running: false
-            loops: 2
-
-            StandardAnimation {
-                from: 0.0
-                to: swipeHint.baseOpacity
-                duration: UbuntuAnimation.SleepyDuration
-            }
-            PauseAnimation { duration: UbuntuAnimation.BriskDuration }
-            StandardAnimation {
-                from: swipeHint.baseOpacity
-                to: 0.0
-                duration: UbuntuAnimation.SleepyDuration
-            }
-        }
-    }
-
-    // right side shadow
-    Image {
-        anchors.left: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        visible: parent.required
-        fillMode: Image.Tile
-        source: "../graphics/dropshadow_right.png"
-    }
-
-    // left side shadow
-    Image {
-        anchors.right: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        visible: parent.required
-        fillMode: Image.Tile
-        source: "../graphics/dropshadow_left.png"
     }
 }
