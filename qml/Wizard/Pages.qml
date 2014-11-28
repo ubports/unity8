@@ -21,17 +21,14 @@ import Wizard 0.1
 import "../Components"
 
 Item {
+    id: root
+    objectName: "wizardPages"
+    focus: true
+
     // The background wallpaper to use
     property string background
 
     signal quit()
-
-    ////
-
-    id: root
-    objectName: "wizardPages"
-    focus: true
-    anchors.fill: parent
 
     // These should be set by a security page and we apply the settings when
     // the user exits the wizard.
@@ -113,10 +110,10 @@ Item {
 
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
-            _checkSkip()
+            checkSkip()
         }
 
-        function _checkSkip() {
+        function checkSkip() {
             if (!currentPage) { // may have had a parse error
                 next()
             } else if (currentPage.skipValid) {
@@ -131,7 +128,7 @@ Item {
 
         Connections {
             target: pageStack.currentPage
-            onSkipValidChanged: pageStack._checkSkip()
+            onSkipValidChanged: pageStack.checkSkip()
         }
 
         Component.onCompleted: next()

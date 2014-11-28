@@ -29,7 +29,7 @@ AccountsService::AccountsService(QObject* parent)
     m_failedLogins(0),
     m_demoEdges(false),
     m_hereEnabled(false),
-    m_hereLicensePath()
+    m_hereLicensePath("")
 {
 }
 
