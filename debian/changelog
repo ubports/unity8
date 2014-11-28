@@ -1,3 +1,63 @@
+unity8 (8.01+15.04.20141125.2-0ubuntu1) vivid; urgency=low
+
+  [ Michael Zanetti ]
+  * improve snapping after dragging
+  * Make the launcher BFB rounded on one end (LP: #1382596)
+  * disable swipeToClose while some snapping is happening (LP: #1378938)
+  * increase threshold and avoid jumping in SpreadDelegate dragging (LP:
+    #1352842, #1350803)
+
+  [ Ying-Chun Liu ]
+  * Notifications should be on right side when wide. (LP: 1379384) (LP:
+    #1379384)
+
+  [ Albert Astals ]
+  * Fix qml warnings
+  * Fix some qmluitests
+
+  [ Lars Uebernickel ]
+  * Use Icon instead of StatusIcon
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 25 Nov 2014 13:54:47 +0000
+
+unity8 (8.01+15.04.20141117-0ubuntu1) vivid; urgency=low
+
+  [ josharenson ]
+  * Return focus to the application after a tusted session overlay is
+    closing. (LP: #1381292)
+
+  [ Josh Arenson ]
+  * Return focus to the application after a tusted session overlay is
+    closing. (LP: #1381292)
+
+  [ Albert Astals ]
+  * Remove unused ResponsiveFlowView
+  * Fix a few cmake warnings when running ./build.sh in a clean checkout
+
+  [ Mirco Müller ]
+  * Make sure non-square icons are not cropped. (LP: #1378417)
+
+  [ Michael Terry ]
+  * Drop the "EARLY ALPHA" scare label when running in testing mode.
+
+  [ Michael Zanetti ]
+  * unify Greeter and Lockscreen wallpaper again
+  * hide quicklist when launcher hides (LP: #1387088)
+  * Keep applications suspended while lockscreen is shown (LP: #1378126)
+  * change spread background color to 111111
+
+  [ Omer Akram ]
+  * show password when tapped on the 'Show password' label, not just the
+    checkbox. (LP: #1389832)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Nov 2014 13:48:33 +0000
+
+unity8 (8.01+15.04.20141107.2-0ubuntu2) vivid; urgency=medium
+
+  * No-change rebuild against Qt 5.3.2.
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Sat, 08 Nov 2014 13:50:11 +0200
+
 unity8 (8.01+15.04.20141107.2-0ubuntu1) vivid; urgency=low
 
   [ Michael Terry ]
