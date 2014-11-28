@@ -211,8 +211,8 @@ Row {
         }
 
         function confirmLoggedIn(loggedIn) {
-            var greeterWrapper = findChild(shell, "greeterWrapper")
-            tryCompare(greeterWrapper, "showProgress", loggedIn ? 0 : 1)
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "showProgress", loggedIn ? 0 : 1);
             tryCompare(sessionSpy, "count", loggedIn ? 1 : 0)
         }
 

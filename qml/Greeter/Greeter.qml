@@ -25,13 +25,18 @@ Showable {
     enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
+    x: launcherOffsetProxy + dragOffset
+
     property url background
     property bool loadContent: required
+
+    // How far to offset the top greeter layer during a launcher left-drag
+    property real launcherOffset
 
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
 
-    showAnimation: StandardAnimation { property: "x"; to: 0; duration: UbuntuAnimation.FastDuration }
+    showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
     hideAnimation: __leftHideAnimation
 
     property alias dragHandleWidth: dragHandle.width
@@ -43,8 +48,26 @@ Showable {
 
     readonly property int currentIndex: greeterContentLoader.currentIndex
 
-    property var __leftHideAnimation: StandardAnimation { property: "x"; to: -width }
-    property var __rightHideAnimation: StandardAnimation { property: "x"; to: width }
+    property var __leftHideAnimation: StandardAnimation { property: "dragOffset"; to: -width }
+    property var __rightHideAnimation: StandardAnimation { property: "dragOffset"; to: width }
+
+    property real dragOffset
+
+    // We define a proxy and "is valid" property for launcherOffset because of
+    // a quirk in Qml.  We only want this animation to fire if we are reset
+    // back to zero (on a release of the drag).  But by defining a Behavior,
+    // we delay the property from reaching zero until it's too late.  So we set
+    // a proxy bound to launcherOffset, which lets us see the target value of
+    // zero as we also slowly adjust the value down to zero.  But Qml will send
+    // change notifications in declaration order.  So unless we define the
+    // proxy first, we need a little "is valid" property defined above the
+    // proxy, so we know when to enable the proxy behavior.  Phew!
+    readonly property bool launcherOffsetValid: launcherOffset > 0
+    property real launcherOffsetProxy: launcherOffset
+    Behavior on launcherOffsetProxy {
+        enabled: !launcherOffsetValid
+        StandardAnimation {}
+    }
 
     signal selected(int uid)
     signal unlocked(int uid)
@@ -110,9 +133,9 @@ Showable {
         onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
 
         onDragEnd: {
-            if (greeter.x > 0 && rightEvaluator.shouldAutoComplete()) {
+            if (greeter.dragOffset > 0 && rightEvaluator.shouldAutoComplete()) {
                 greeter.hideRight()
-            } else if (greeter.x < 0 && leftEvaluator.shouldAutoComplete()) {
+            } else if (greeter.dragOffset < 0 && leftEvaluator.shouldAutoComplete()) {
                 greeter.hide();
             } else {
                 greeter.show(); // undo drag
@@ -120,20 +143,20 @@ Showable {
         }
 
         onDragValueChanged: {
-            // dragValue is kept as a "step" value since we do this x adjusting on the fly
-            greeter.x += dragValue
+            // dragValue is kept as a "step" value since we do this adjusting on the fly
+            greeter.dragOffset += dragValue;
         }
 
         EdgeDragEvaluator {
             id: rightEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
+            trackedPosition: dragHandle.dragValue + greeter.dragOffset
             maxDragDistance: parent.width
             direction: Direction.Rightwards
         }
 
         EdgeDragEvaluator {
             id: leftEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
+            trackedPosition: dragHandle.dragValue + greeter.dragOffset
             maxDragDistance: parent.width
             direction: Direction.Leftwards
         }

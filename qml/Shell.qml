@@ -493,118 +493,104 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: "black"
-        opacity: greeterWrapper.showProgress * 0.8
+        opacity: greeter.showProgress * 0.8
     }
 
-    Item {
-        // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
-        id: greeterWrapper
-        objectName: "greeterWrapper"
-        x: greeter.narrowMode ? launcher.progress : 0
+    Greeter {
+        id: greeter
+        objectName: "greeter"
+
+        property string lockedApp: ""
+        property bool hasLockedApp: lockedApp !== ""
+
+        available: true
+        hides: [launcher, panel.indicators]
+        shown: true
+        loadContent: required || lockscreen.required // keeps content in memory for quick show()
+        launcherOffset: narrowMode ? launcher.progress : 0
+
+        locked: shell.locked
+
+        background: shell.background
+
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
 
-        Behavior on x {
-            enabled: !launcher.dashSwipe
-            StandardAnimation {}
-        }
+        dragHandleWidth: shell.edgeSize
 
         property bool fullyShown: showProgress === 1.0
         onFullyShownChanged: {
             // Wait until the greeter is completely covering lockscreen before resetting it.
-            if (greeter.narrowMode && fullyShown && !LightDM.Greeter.authenticated) {
+            if (narrowMode && fullyShown && !LightDM.Greeter.authenticated) {
                 lockscreen.reset();
                 lockscreen.maybeShow();
             }
         }
 
-        readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
         onShowProgressChanged: {
             if (showProgress === 0) {
                 if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || shell.forcedUnlock) {
                     greeter.login()
-                } else if (greeter.narrowMode) {
+                } else if (narrowMode) {
                     lockscreen.clear(false) // to reset focus if necessary
                 }
             }
         }
 
-        Greeter {
-            id: greeter
-            objectName: "greeter"
+        onSessionStarted: {
+            hide();
+            lockscreen.hide();
+            launcher.hide();
+        }
 
-            property string lockedApp: ""
-            property bool hasLockedApp: lockedApp !== ""
-
-            available: true
-            hides: [launcher, panel.indicators]
-            shown: true
-            loadContent: required || lockscreen.required // keeps content in memory for quick show()
-
-            locked: shell.locked
-
-            background: shell.background
-
-            width: parent.width
-            height: parent.height
-
-            dragHandleWidth: shell.edgeSize
-
-            onSessionStarted: {
-                hide();
-                lockscreen.hide();
-                launcher.hide();
+        function startUnlock() {
+            if (narrowMode) {
+                if (!LightDM.Greeter.authenticated) {
+                    lockscreen.maybeShow()
+                }
+                hide()
+            } else {
+                show()
+                tryToUnlock()
             }
+        }
 
-            function startUnlock() {
-                if (narrowMode) {
-                    if (!LightDM.Greeter.authenticated) {
-                        lockscreen.maybeShow()
-                    }
-                    hide()
+        onShownChanged: {
+            if (shown) {
+                // Disable everything so that user can't swipe greeter or
+                // launcher until we get first prompt/authenticate, which
+                // will re-enable the shell.
+                shell.enabled = false;
+
+                if (greeter.narrowMode) {
+                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                 } else {
-                    show()
-                    tryToUnlock()
+                    reset()
                 }
+                greeter.lockedApp = "";
+                greeter.forceActiveFocus();
             }
+        }
 
-            onShownChanged: {
-                if (shown) {
-                    // Disable everything so that user can't swipe greeter or
-                    // launcher until we get first prompt/authenticate, which
-                    // will re-enable the shell.
-                    shell.enabled = false;
+        Component.onCompleted: {
+            Connectivity.unlockAllModems()
+        }
 
-                    if (greeter.narrowMode) {
-                        LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    } else {
-                        reset()
-                    }
-                    greeter.lockedApp = "";
-                    greeter.forceActiveFocus();
-                }
-            }
+        onUnlocked: greeter.hide()
+        onSelected: {
+            // Update launcher items for new user
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            AccountsService.user = user;
+            LauncherModel.setUser(user);
+        }
 
-            Component.onCompleted: {
-                Connectivity.unlockAllModems()
-            }
+        onTease: launcher.tease()
 
-            onUnlocked: greeter.hide()
-            onSelected: {
-                // Update launcher items for new user
-                var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-                AccountsService.user = user;
-                LauncherModel.setUser(user);
-            }
-
-            onTease: launcher.tease()
-
-            Binding {
-                target: ApplicationManager
-                property: "suspended"
-                value: (greeter.shown && greeterWrapper.showProgress == 1) || lockscreen.shown
-            }
+        Binding {
+            target: ApplicationManager
+            property: "suspended"
+            value: (greeter.shown && greeter.showProgress == 1) || lockscreen.shown
         }
     }
 
