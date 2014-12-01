@@ -200,7 +200,16 @@ Item {
         Connections {
             target: ApplicationManager
 
-            onFocusRequested: greeter.notifyAppFocused(appId)
+            onFocusRequested: {
+                if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
+                    // If we are in the middle of a call, make dialer lockedApp and show it.
+                    // This can happen if user backs out of dialer back to greeter, then
+                    // launches dialer again.
+                    lockedApp = appId;
+                }
+
+                greeter.notifyAppFocused(appId);
+            }
 
             onFocusedApplicationIdChanged: {
                 greeter.notifyFocusChanged(ApplicationManager.focusedApplicationId);

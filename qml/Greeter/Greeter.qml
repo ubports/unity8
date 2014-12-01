@@ -19,7 +19,6 @@ import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.SystemImage 0.1
-import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Launcher 0.1
 import "../Components"
 
@@ -42,10 +41,8 @@ Showable {
     property string lockedApp: ""
     property bool hasLockedApp: lockedApp !== ""
 
-    showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
-    hideAnimation: __leftHideAnimation
-
-    property alias lockscreen: lockscreen
+    showAnimation: d.showAnimation
+    hideAnimation: d.leftHideAnimation
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
     property bool forcedUnlock
@@ -56,9 +53,6 @@ Showable {
     readonly property bool multiUser: LightDM.Users.count > 1
 
     readonly property int currentIndex: greeterContentLoader.currentIndex
-
-    property var __leftHideAnimation: StandardAnimation { property: "dragOffset"; to: -width }
-    property var __rightHideAnimation: StandardAnimation { property: "dragOffset"; to: width }
 
     property real dragOffset
 
@@ -84,35 +78,13 @@ Showable {
 
     function hideRight() {
         if (shown) {
-            hideAnimation = __rightHideAnimation
+            hideAnimation = d.rightHideAnimation;
             hide()
         }
     }
 
-    function reset() {
-        if (greeterContentLoader.item) {
-            greeterContentLoader.item.reset()
-        }
-    }
-
-    function login() {
-        enabled = false;
-        if (LightDM.Greeter.startSessionSync()) {
-            sessionStarted();
-            hide();
-            lockscreen.hide();
-        }
-        enabled = true;
-    }
-
     function notifyAppFocused(appId) {
         if (narrowMode) {
-            if (appId === "dialer-app" && callManager.hasCalls && locked) {
-                // If we are in the middle of a call, make dialer lockedApp and show it.
-                // This can happen if user backs out of dialer back to greeter, then
-                // launches dialer again.
-                lockedApp = appId;
-            }
             if (hasLockedApp) {
                 if (appId === lockedApp) {
                     lockscreen.hide(); // show locked app
@@ -168,7 +140,7 @@ Showable {
         // Reset hide animation to default once we're finished with it
         if (required) {
             // Reset hide animation so that a hide() call is reliably left
-            hideAnimation = __leftHideAnimation
+            hideAnimation = d.leftHideAnimation;
         }
     }
 
@@ -179,7 +151,7 @@ Showable {
             if (narrowMode) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
             } else {
-                reset();
+                d.reset();
             }
             lockedApp = "";
             forceActiveFocus();
@@ -197,7 +169,7 @@ Showable {
     onShowProgressChanged: {
         if (showProgress === 0) {
             if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || forcedUnlock) {
-                greeter.login();
+                d.login();
             } else if (narrowMode) {
                 lockscreen.clear(false); // to reset focus if necessary
             }
@@ -207,11 +179,31 @@ Showable {
     QtObject {
         id: d
 
+        property var showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
+        property var leftHideAnimation: StandardAnimation { property: "dragOffset"; to: -width }
+        property var rightHideAnimation: StandardAnimation { property: "dragOffset"; to: width }
+
         function selectUser(uid) {
             // Update launcher items for new user
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
+        }
+
+        function reset() {
+            if (greeterContentLoader.item) {
+                greeterContentLoader.item.reset()
+            }
+        }
+
+        function login() {
+            enabled = false;
+            if (LightDM.Greeter.startSessionSync()) {
+                sessionStarted();
+                hide();
+                lockscreen.hide();
+            }
+            enabled = true;
         }
     }
 
@@ -321,7 +313,7 @@ Showable {
         target: LightDM.Greeter
 
         onShowGreeter: greeter.show()
-        onHideGreeter: greeter.login()
+        onHideGreeter: d.login()
 
         onShowPrompt: {
             waiting = false;
@@ -364,7 +356,7 @@ Showable {
             }
 
             if (LightDM.Greeter.authenticated) {
-                greeter.login();
+                d.login();
             } else {
                 AccountsService.failedLogins++
                 if (maxFailedLogins >= 2) { // require at least a warning
@@ -397,6 +389,6 @@ Showable {
     Binding {
         target: LightDM.Greeter
         property: "active"
-        value: greeter.shown || lockscreen.shown || greeter.hasLockedApp
+        value: greeter.fullyShown || greeter.hasLockedApp
     }
 }

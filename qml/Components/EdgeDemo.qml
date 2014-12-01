@@ -145,7 +145,7 @@ Item {
             }
         }
 
-        onUnlocked: hide()
+        onSessionStarted: hide()
         onShownChanged: if (!greeter.shown) hide()
     }
 
