@@ -87,14 +87,14 @@ Item {
         EdgeDragEvaluator {
             id: rightEvaluator
             trackedPosition: dragHandle.dragValue + greeter.dragOffset
-            maxDragDistance: parent.width
+            maxDragDistance: root.width
             direction: Direction.Rightwards
         }
 
         EdgeDragEvaluator {
             id: leftEvaluator
             trackedPosition: dragHandle.dragValue + greeter.dragOffset
-            maxDragDistance: parent.width
+            maxDragDistance: root.width
             direction: Direction.Leftwards
         }
     }
