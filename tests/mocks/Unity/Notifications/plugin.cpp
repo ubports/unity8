@@ -26,6 +26,6 @@
 void TestNotificationPlugin::registerTypes(const char* uri)
 {
     // @uri Unity.Notifications
-    qmlRegisterUncreatableType<MockNotification>(uri, 1, 0, "Notification", "Notification objects can only be created by the plugin");
+    qmlRegisterType<MockNotification>(uri, 1, 0, "Notification");
     qmlRegisterType<ActionModel>(uri, 1, 0, "ActionModel");
 }

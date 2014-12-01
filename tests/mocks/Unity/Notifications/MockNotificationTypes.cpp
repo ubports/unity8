@@ -19,8 +19,156 @@
 
 #include "MockNotificationTypes.h"
 
-MockNotification::MockNotification(QObject *parent) : QObject(parent) {
+struct MockNotificationPrivate {
+    unsigned int nid;
+    QString summary;
+    QString body;
+    int value;
+    MockNotification::Type type;
+    QString icon;
+    QString secondaryIcon;
+    QStringList actions;
+    ActionModel* actionsModel;
+    QVariantMap hints;
+};
+
+MockNotification::MockNotification(QObject *parent) : QObject(parent), p(new MockNotificationPrivate()) {
 }
 
 MockNotification::~MockNotification() {
+}
+
+QString MockNotification::getSummary() const {
+    return p->summary;
+}
+
+void MockNotification::setSummary(const QString &summary) {
+    if(p->summary != summary) {
+        p->summary= summary;
+        Q_EMIT summaryChanged(p->summary);
+        Q_EMIT dataChanged(p->nid);
+    }
+}
+
+QString MockNotification::getBody() const {
+    return p->body;
+}
+
+void MockNotification::setBody(const QString &body) {
+    if(p->body != body) {
+        p->body = body;
+        Q_EMIT bodyChanged(p->body);
+        Q_EMIT dataChanged(p->nid);
+    }
+}
+
+unsigned int MockNotification::getNID() const {
+    return p->nid;
+}
+
+void MockNotification::setNID(const unsigned int nid) {
+    p->nid = nid;
+}
+
+int MockNotification::getValue() const {
+    return p->value;
+}
+
+void MockNotification::setValue(int value) {
+    if(p->value != value) {
+        p->value = value;
+        Q_EMIT valueChanged(p->value);
+        Q_EMIT dataChanged(p->nid);
+    }
+}
+
+QString MockNotification::getIcon() const {
+    return p->icon;
+}
+
+void MockNotification::setIcon(const QString &icon) {
+    if (icon.startsWith(" ") || icon.size() == 0) {
+        p->icon = nullptr;
+    }
+    else {
+        p->icon = icon;
+
+        if (icon.indexOf("/") == -1) {
+            p->icon.prepend("image://theme/");
+        }
+    }
+
+    Q_EMIT iconChanged(p->icon);
+    Q_EMIT dataChanged(p->nid);
+}
+
+QString MockNotification::getSecondaryIcon() const {
+    return p->secondaryIcon;
+}
+
+void MockNotification::setSecondaryIcon(const QString &secondaryIcon) {
+    if (secondaryIcon.startsWith(" ") || secondaryIcon.size() == 0) {
+        p->secondaryIcon = nullptr;
+    }
+    else {
+        p->secondaryIcon = secondaryIcon;
+
+        if (secondaryIcon.indexOf("/") == -1) {
+            p->secondaryIcon.prepend("image://theme/");
+        }
+    }
+
+    Q_EMIT secondaryIconChanged(p->secondaryIcon);
+    Q_EMIT dataChanged(p->nid);
+}
+
+MockNotification::Type MockNotification::getType() const {
+    return p->type;
+}
+
+void MockNotification::setType(Type type) {
+    if(p->type != p->type) {
+        p->type = type;
+        Q_EMIT typeChanged(p->type);
+    }
+}
+
+ActionModel* MockNotification::getActions() const {
+    return p->actionsModel;
+}
+
+void MockNotification::setActions(const QStringList &actions) {
+    if(p->actions != actions) {
+        p->actions = actions;
+        Q_EMIT actionsChanged(p->actions);
+
+        for (int i = 0; i < p->actions.size(); i += 2) {
+            p->actionsModel->insertAction(p->actions[i], p->actions[i+1]);
+        }
+    }
+}
+
+QVariantMap MockNotification::getHints() const {
+    return p->hints;
+}
+
+void MockNotification::setHints(const QVariantMap& hints) {
+    if (p->hints != hints) {
+        p->hints = hints;
+        Q_EMIT hintsChanged(p->hints);
+    }
+}
+
+void MockNotification::invokeAction(const QString &action) {
+    for(int i=0; i<p->actions.size(); i++) {
+        if(p->actions[i] == action) {
+            Q_EMIT completed(p->nid);
+            return;
+        }
+    }
+    fprintf(stderr, "Error: tried to invoke action not in actionList.\n");
+}
+
+void MockNotification::close() {
+    Q_EMIT completed(p->nid);
 }

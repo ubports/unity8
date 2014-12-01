@@ -30,7 +30,7 @@ Item {
     Row {
         id: rootRow
 
-        Component {
+        /*Component {
             id: mockNotification
 
             QtObject {
@@ -46,6 +46,18 @@ Item {
                     }
                 }
             }
+        }*/
+
+        Notification {
+            id: mockNotificationDefault
+            type: Notification.PlaceHolder
+            //nid: 1 //mockModel.getNextId()
+            hints: {}
+            summary: ""
+            body: ""
+            icon: ""
+            secondaryIcon: ""
+            rawActions: [{ id: "reply_id", label: "Dummy"}]
         }
 
         ListModel {
@@ -60,132 +72,132 @@ Item {
             }
 
             function getRaw(id) {
-                return mockNotification.createObject(mockModel)
+                for (var i = 0; i < mockModel.count; i++) {
+                    if (id === mockModel.get(i).nid) {
+                        return mockModel.get(i).notification
+                    }
+                }
             }
 
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
-                var n = {
-                    type: Notification.PlaceHolder,
-                    id: mockModel.getNextId(),
-                    hints: {},
-                    summary: "",
-                    body: "",
-                    icon: "",
-                    secondaryIcon: "",
-                    actions: []
-                }
-
-                append(n)
+                append(mockNotificationDefault)
             }
+        }
+
+        Notification {
+            id: mock2over1SnapDecisionNotification
+            type: Notification.SnapDecision
+            //nid: 2 //mockModel.getNextId()
+            hints: {"x-canonical-private-affirmative-tint": "true"}
+            summary: "Theatre at Ferria Stadium"
+            body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
+            icon: ""
+            secondaryIcon: ""
+            rawActions: [{ id: "ok_id", label: "Ok"},
+                         { id: "snooze_id", label: "Snooze"},
+                         { id: "view_id", label: "View"}]
         }
 
         function add2over1SnapDecisionNotification() {
-            var n = {
-                type: Notification.SnapDecision,
-                id: mockModel.getNextId(),
-                hints: {"x-canonical-private-affirmative-tint": "true"},
-                summary: "Theatre at Ferria Stadium",
-                body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
-                icon: "",
-                secondaryIcon: "",
-                actions: [{ id: "ok_id", label: "Ok"},
-                          { id: "snooze_id", label: "Snooze"},
-                          { id: "view_id", label: "View"}]
-            }
+            mockModel.append(mock2over1SnapDecisionNotification)
+        }
 
-            mockModel.append(n)
+        Notification {
+            id: mockEphemeralNotification
+            type: Notification.Ephemeral
+            //nid: 3 //mockModel.getNextId()
+            summary: "Cole Raby"
+            body: "I did not expect it to be that late."
+            icon: "../graphics/avatars/amanda.png"
+            secondaryIcon: "../graphics/applicationIcons/facebook.png"
+            rawActions: [{ id: "reply_id", label: "Dummy"}]
         }
 
         function addEphemeralNotification() {
-            var n = {
-                type: Notification.Ephemeral,
-                id: mockModel.getNextId(),
-                summary: "Cole Raby",
-                body: "I did not expect it to be that late.",
-                icon: "../graphics/avatars/amanda.png",
-                secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                actions: []
-            }
+            mockModel.append(mockEphemeralNotification)
+        }
 
-            mockModel.append(n)
+        Notification {
+            id: mockEphemeralNonShapedIconNotification
+            type: Notification.Ephemeral
+            //nid: 4 //mockModel.getNextId()
+            hints: {"x-canonical-non-shaped-icon": "true"}
+            summary: "Contacts"
+            body: "Synchronised contacts-database with cloud-storage."
+            icon: "../graphics/applicationIcons/contacts-app.png"
+            secondaryIcon: ""
+            rawActions: [{ id: "reply_id", label: "Dummy"}]
         }
 
         function addEphemeralNonShapedIconNotification() {
-            var n = {
-                type: Notification.Ephemeral,
-                id: mockModel.getNextId(),
-                hints: {"x-canonical-non-shaped-icon": "true"},
-                summary: "Contacts",
-                body: "Synchronised contacts-database with cloud-storage.",
-                icon: "../graphics/applicationIcons/contacts-app.png",
-                secondaryIcon: "",
-                actions: []
-            }
+            mockModel.append(mockEphemeralNonShapedIconNotification)
+        }
 
-            mockModel.append(n)
+        Notification {
+            id: mockEphemeralIconSummaryNotification
+            type: Notification.Ephemeral
+            //nid: 5 //mockModel.getNextId()
+            hints: {"x-canonical-non-shaped-icon": "false"}
+            summary: "Photo upload completed"
+            body: ""
+            icon: "../graphics/applicationIcons/facebook.png"
+            secondaryIcon: ""
+            rawActions: [{ id: "reply_id", label: "Dummy"}]
         }
 
         function addEphemeralIconSummaryNotification() {
-            var n = {
-                type: Notification.Ephemeral,
-                id: mockModel.getNextId(),
-                hints: {"x-canonical-non-shaped-icon": "false"},
-                summary: "Photo upload completed",
-                body: "",
-                icon: "../graphics/applicationIcons/facebook.png",
-                secondaryIcon: "",
-                actions: []
-            }
+            mockModel.append(mockEphemeralIconSummaryNotification)
+        }
 
-            mockModel.append(n)
+        Notification {
+            id: mockInteractiveNotification
+            type: Notification.Interactive
+            //nid: 6 //mockModel.getNextId()
+            summary: "Interactive notification"
+            body: "This is a notification that can be clicked"
+            icon: "../graphics/avatars/anna_olsson.png"
+            secondaryIcon: ""
+            rawActions: [{ id: "reply_id", label: "Dummy"}]
         }
 
         function addInteractiveNotification() {
-            var n = {
-                type: Notification.Interactive,
-                id: mockModel.getNextId(),
-                summary: "Interactive notification",
-                body: "This is a notification that can be clicked",
-                icon: "../graphics/avatars/anna_olsson.png",
-                secondaryIcon: "",
-                actions: [{ id: "reply_id", label: "Dummy"}],
-            }
+            mockModel.append(mockInteractiveNotification)
+        }
 
-            mockModel.append(n)
+        Notification {
+            id: mockConfirmationNotification
+            type: Notification.Confirmation
+            //nid: 7 //mockModel.getNextId()
+            hints: {"x-canonical-non-shaped-icon": "true"}
+            summary: "Confirmation notification"
+            body: ""
+            icon: "image://theme/audio-volume-medium"
+            secondaryIcon: ""
+            value: 50
+            rawActions: [{ id: "reply_id", label: "Dummy"}]
         }
 
         function addConfirmationNotification() {
-            var n = {
-                type: Notification.Confirmation,
-                id: mockModel.getNextId(),
-                hints: {"x-canonical-non-shaped-icon": "true"},
-                summary: "Confirmation notification",
-                body: "",
-                icon: "image://theme/audio-volume-medium",
-                secondaryIcon: "",
-                value: 50,
-                actions: [],
-            }
+            mockModel.append(mockConfirmationNotification)
+        }
 
-            mockModel.append(n)
+        Notification {
+            id: mock2ndConfirmationNotification
+            type: Notification.Confirmation
+            //nid: 8 //mockModel.getNextId()
+            hints: {"x-canonical-non-shaped-icon": "true",
+                    "x-canonical-value-bar-tint": "true"}
+            summary: "Confirmation notification"
+            body: "High Volume"
+            icon: "image://theme/audio-volume-high"
+            secondaryIcon: ""
+            value: 85
+            rawActions: [{ id: "reply_id", label: "Dummy"}]
         }
 
         function add2ndConfirmationNotification() {
-            var n = {
-                type: Notification.Confirmation,
-                id: mockModel.getNextId(),
-                hints: {"x-canonical-non-shaped-icon": "true",
-                        "x-canonical-value-bar-tint": "true"},
-                summary: "Confirmation notification",
-                body: "High Volume",
-                icon: "image://theme/audio-volume-high",
-                secondaryIcon: "",
-                value: 85,
-                actions: [],
-            }
-
-            mockModel.append(n)
+            mockModel.append(mock2ndConfirmationNotification)
         }
 
         function clearNotifications() {

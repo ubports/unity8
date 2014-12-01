@@ -81,12 +81,12 @@ Item {
         id: sound
         objectName: "sound"
         audioRole: MediaPlayer.alert
-        source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
+        source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
     }
 
     // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
-        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
+        if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
@@ -102,7 +102,7 @@ Item {
     }
 
     onHintsChanged: {
-        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
+        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
@@ -159,7 +159,7 @@ Item {
 
     onXChanged: {
         if (draggable && notification.x > 0.75 * notification.width) {
-            notification.notification.close(notificationId)
+            notification.notification.close()
         }
     }
 
@@ -187,7 +187,7 @@ Item {
             menuObjectPath: paths.menuObjectPath
             onNameOwnerChanged: {
                 if (lastNameOwner != "" && nameOwner == "" && notification.notification != undefined) {
-                    notification.notification.close(notificationId)
+                    notification.notification.close()
                 }
                 lastNameOwner = nameOwner
             }
