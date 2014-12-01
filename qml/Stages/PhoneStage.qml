@@ -33,7 +33,7 @@ Rectangle {
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
     property int orientation: Qt.PortraitOrientation
 
-    color: "black"
+    color: "#111111"
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
@@ -270,6 +270,7 @@ Rectangle {
 
             Repeater {
                 id: spreadRepeater
+                objectName: "spreadRepeater"
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
@@ -286,7 +287,7 @@ Rectangle {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     interactive: !spreadView.interactive && spreadView.phase === 0
                             && spreadView.shiftedContentX === 0 && root.interactive && index === 0
-                    swipeToCloseEnabled: spreadView.interactive
+                    swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.active ||
                                 (priv.focusedAppDelegate && priv.focusedAppDelegate.x !== 0)

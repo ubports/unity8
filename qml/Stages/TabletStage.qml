@@ -25,7 +25,7 @@ Rectangle {
     id: root
     objectName: "stages"
     anchors.fill: parent
-    color: "black"
+    color: "#111111"
 
     // Controls to be set from outside
     property bool shown: false
@@ -490,7 +490,7 @@ Rectangle {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     isInSideStage: priv.sideStageAppId == model.appId
                     interactive: !spreadView.interactive && spreadView.phase === 0 && root.interactive
-                    swipeToCloseEnabled: spreadView.interactive
+                    swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 ? root.inverseProgress : 0
                     application: ApplicationManager.get(index)

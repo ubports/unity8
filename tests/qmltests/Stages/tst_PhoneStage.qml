@@ -128,10 +128,12 @@ Item {
             var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
             var endY = startY;
-            var endX = units.gu(2);
+            var endX = phoneStage.width / 2;
 
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+
+            tryCompare(spreadView, "phase", 2);
         }
 
         function test_shortFlick() {
@@ -356,6 +358,38 @@ Item {
 
             tryCompare(firstApp, "state", ApplicationInfoInterface.Running);
             tryCompare(firstApp, "focused", true);
+        }
+
+        function test_cantCloseWhileSnapping() {
+            addApps(2);
+
+            goToSpread();
+
+            var spreadView = findChild(phoneStage, "spreadView");
+            var selectedApp = ApplicationManager.get(2);
+
+            goToSpread();
+
+            var app0 = findChild(spreadView, "appDelegate0");
+            var app1 = findChild(spreadView, "appDelegate1");
+            var app2 = findChild(spreadView, "appDelegate2");
+
+            var dragArea0 = findChild(app0, "dragArea");
+            var dragArea1 = findChild(app1, "dragArea");
+            var dragArea2 = findChild(app2, "dragArea");
+
+            compare(dragArea0.enabled, true);
+            compare(dragArea1.enabled, true);
+            compare(dragArea2.enabled, true);
+
+            phoneStage.select(selectedApp.appId);
+
+            // Make sure all drag areas are disabled instantly. Don't use tryCompare here!
+            compare(dragArea0.enabled, false);
+            compare(dragArea1.enabled, false);
+            compare(dragArea2.enabled, false);
+
+            tryCompare(spreadView, "contentX", -spreadView.shift)
         }
     }
 }
