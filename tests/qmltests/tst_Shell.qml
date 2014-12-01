@@ -745,9 +745,9 @@ Item {
 
             var launcher = findChild(shell, "launcher");
 
-            // ensure the launcher dimissal timer never gets triggered during the test run
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            dismissTimer.interval = 60 * 60 * 1000;
+//            // ensure the launcher dimissal timer never gets triggered during the test run
+//            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+//            dismissTimer.interval = 60 * 60 * 1000;
 
             dragLauncherIntoView();
 
