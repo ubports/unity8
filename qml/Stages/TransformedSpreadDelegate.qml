@@ -316,10 +316,12 @@ SpreadDelegate {
         }
     ]
 
+    opacity: spreadView.phase == 2 ? priv.opacity : 1
+
     Rectangle {
         anchors.fill: parent
         color: "black"
-        opacity: 1 - priv.opacity
+        opacity: spreadView.phase < 2 ? 1 - priv.opacity : 0
     }
 
     EasingCurve {
