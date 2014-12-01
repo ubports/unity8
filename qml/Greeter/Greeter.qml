@@ -18,6 +18,9 @@ import QtQuick 2.3
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
+import Ubuntu.SystemImage 0.1
+import Ubuntu.Telephony 0.1 as Telephony
+import Unity.Launcher 0.1
 import "../Components"
 
 Showable {
@@ -30,10 +33,14 @@ Showable {
     property real launcherOffset
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathUtils.clamp((width - Math.abs(greeterContentLoader.x)) / width, 0, 1)
+    readonly property real showProgress: MathUtils.clamp((width - Math.abs(greeterContentLoader.x)) / width, 0, 1)
+    readonly property bool fullyShown: showProgress === 1 || lockscreen.shown
 
     // True when the greeter is waiting for PAM or other setup process
     property bool waiting: true
+
+    property string lockedApp: ""
+    property bool hasLockedApp: lockedApp !== ""
 
     showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
     hideAnimation: __leftHideAnimation
@@ -60,32 +67,25 @@ Showable {
     // back to zero (on a release of the drag).  But by defining a Behavior,
     // we delay the property from reaching zero until it's too late.  So we set
     // a proxy bound to launcherOffset, which lets us see the target value of
-    // zero as we also slowly adjust the value down to zero.  But Qml will send
+    // zero as we also slowly adjust the proxy down to zero.  But Qml will send
     // change notifications in declaration order.  So unless we define the
     // proxy first, we need a little "is valid" property defined above the
     // proxy, so we know when to enable the proxy behavior.  Phew!
     readonly property bool launcherOffsetValid: launcherOffset > 0
-    property real launcherOffsetProxy: launcherOffset
+    property real launcherOffsetProxy: shown ? launcherOffset : 0
     Behavior on launcherOffsetProxy {
         enabled: !launcherOffsetValid
         StandardAnimation {}
     }
 
-    signal selected(int uid)
-    signal unlocked(int uid)
     signal tease()
     signal sessionStarted()
+    signal emergencyCall()
 
     function hideRight() {
         if (shown) {
             hideAnimation = __rightHideAnimation
             hide()
-        }
-    }
-
-    function tryToUnlock() {
-        if (greeterContentLoader.item) {
-            greeterContentLoader.item.tryToUnlock()
         }
     }
 
@@ -99,8 +99,69 @@ Showable {
         enabled = false;
         if (LightDM.Greeter.startSessionSync()) {
             sessionStarted();
+            hide();
+            lockscreen.hide();
         }
         enabled = true;
+    }
+
+    function notifyAppFocused(appId) {
+        if (narrowMode) {
+            if (appId === "dialer-app" && callManager.hasCalls && locked) {
+                // If we are in the middle of a call, make dialer lockedApp and show it.
+                // This can happen if user backs out of dialer back to greeter, then
+                // launches dialer again.
+                lockedApp = appId;
+            }
+            if (hasLockedApp) {
+                if (appId === lockedApp) {
+                    lockscreen.hide(); // show locked app
+                } else {
+                    startUnlock(); // show lockscreen if necessary
+                }
+            }
+            hide();
+        } else {
+            if (LightDM.Greeter.active) {
+                startUnlock();
+            }
+        }
+    }
+
+    // Do we need these next two functions, really?
+    function notifyFocusChanged(appId) {
+        if (hasLockedApp && lockedApp !== appId) {
+            startUnlock();
+        }
+    }
+
+    function notifyAppAdded(appId) {
+        if (shown && appId != "unity8-dash") {
+            startUnlock();
+        }
+        if (narrowMode && hasLockedApp && appId === lockedApp) {
+            lockscreen.hide(); // show locked app
+        }
+    }
+
+    function notifyAboutToStartApp(appId) {
+        if (hasLockedApp) {
+            startUnlock();
+        }
+    }
+
+    function startUnlock() {
+        if (narrowMode) {
+            if (!LightDM.Greeter.authenticated) {
+                lockscreen.maybeShow();
+            }
+            hide();
+        } else {
+            show();
+            if (greeterContentLoader.item) {
+                greeterContentLoader.item.tryToUnlock();
+            }
+        }
     }
 
     onRequiredChanged: {
@@ -122,6 +183,35 @@ Showable {
             }
             lockedApp = "";
             forceActiveFocus();
+        }
+    }
+
+    onFullyShownChanged: {
+        // Wait until the greeter is completely covering lockscreen before resetting it.
+        if (narrowMode && fullyShown && !LightDM.Greeter.authenticated) {
+            lockscreen.reset();
+            lockscreen.maybeShow();
+        }
+    }
+
+    onShowProgressChanged: {
+        if (showProgress === 0) {
+            if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || forcedUnlock) {
+                greeter.login();
+            } else if (narrowMode) {
+                lockscreen.clear(false); // to reset focus if necessary
+            }
+        }
+    }
+
+    QtObject {
+        id: d
+
+        function selectUser(uid) {
+            // Update launcher items for new user
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            AccountsService.user = user;
+            LauncherModel.setUser(user);
         }
     }
 
@@ -160,7 +250,7 @@ Showable {
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
-        onEmergencyCall: startLockedApp("dialer-app")
+        onEmergencyCall: greeter.emergencyCall()
 
         onShownChanged: if (shown) greeter.lockedApp = ""
 
@@ -187,6 +277,43 @@ Showable {
             if (greeter.narrowMode) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
             }
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: greeter.showProgress * 0.8
+    }
+
+    Loader {
+        id: greeterContentLoader
+        objectName: "greeterContentLoader"
+
+        x: launcherOffsetProxy + dragOffset
+        width: parent.width
+        height: parent.height
+
+        property var model: LightDM.Users
+        property int currentIndex: 0
+        property var infographicModel: LightDM.Infographic
+        readonly property int backgroundTopMargin: -greeter.y
+
+        source: (greeter.required || lockscreen.required) ? "GreeterContent.qml" : ""
+
+        onLoaded: {
+            d.selectUser(currentIndex);
+        }
+
+        Connections {
+            target: greeterContentLoader.item
+
+            onSelected: {
+                d.selectUser(uid);
+                greeterContentLoader.currentIndex = uid;
+            }
+            onUnlocked: greeter.hide()
+            onTease: greeter.tease()
         }
     }
 
@@ -271,42 +398,5 @@ Showable {
         target: LightDM.Greeter
         property: "active"
         value: greeter.shown || lockscreen.shown || greeter.hasLockedApp
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        color: "black"
-        opacity: greeter.showProgress * 0.8
-    }
-
-    Loader {
-        id: greeterContentLoader
-        objectName: "greeterContentLoader"
-
-        x: launcherOffsetProxy + dragOffset
-        width: parent.width
-        height: parent.height
-
-        property var model: LightDM.Users
-        property int currentIndex: 0
-        property var infographicModel: LightDM.Infographic
-        readonly property int backgroundTopMargin: -greeter.y
-
-        source: (greeter.required || lockscreen.required) ? "GreeterContent.qml" : ""
-
-        onLoaded: {
-            selected(currentIndex);
-        }
-
-        Connections {
-            target: greeterContentLoader.item
-
-            onSelected: {
-                greeter.selected(uid);
-                greeterContentLoader.currentIndex = uid;
-            }
-            onUnlocked: greeter.unlocked(uid);
-            onTease: greeter.tease()
-        }
     }
 }

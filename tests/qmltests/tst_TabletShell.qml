@@ -149,6 +149,7 @@ Row {
 
             unlockAllModemsSpy.clear()
             AccountsService.demoEdges = false
+            LightDM.Greeter.authenticate(""); // reset greeter
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
@@ -185,7 +186,7 @@ Row {
 
         function selectUser(name) {
             // Find index of user with the right name
-            var greeter = findChild(shell, "greeter")
+            var greeter = findChild(shell, "greeterContentLoader")
             for (var i = 0; i < greeter.model.count; i++) {
                 if (greeter.model.data(i, LightDM.UserRoles.NameRole) == name) {
                     break

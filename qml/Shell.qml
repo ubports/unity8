@@ -22,7 +22,6 @@ import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
-import Ubuntu.SystemImage 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
@@ -59,8 +58,6 @@ Item {
     readonly property real panelHeight: panel.panelHeight
 
     readonly property alias locked: greeter.locked
-    readonly property alias hasLockedApp: greeter.hasLockedApp
-    property alias lockscreen: greeter.lockscreen
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
@@ -140,6 +137,7 @@ Item {
         if (orientationLockEnabled) {
             orientation = OrientationLock.savedOrientation;
         }
+        Connectivity.unlockAllModems();
     }
 
     VolumeControl {
@@ -201,51 +199,24 @@ Item {
 
         Connections {
             target: ApplicationManager
-            onFocusRequested: {
-                if (greeter.narrowMode) {
-                    if (appId === "dialer-app" && callManager.hasCalls && shell.locked) {
-                        // If we are in the middle of a call, make dialer lockedApp and show it.
-                        // This can happen if user backs out of dialer back to greeter, then
-                        // launches dialer again.
-                        greeter.lockedApp = appId;
-                    }
-                    if (greeter.hasLockedApp) {
-                        if (appId === greeter.lockedApp) {
-                            lockscreen.hide() // show locked app
-                        } else {
-                            greeter.startUnlock() // show lockscreen if necessary
-                        }
-                    }
-                    greeter.hide();
-                } else {
-                    if (LightDM.Greeter.active) {
-                        greeter.startUnlock()
-                    }
-                }
-            }
+
+            onFocusRequested: greeter.notifyAppFocused(appId)
 
             onFocusedApplicationIdChanged: {
-                if (greeter.hasLockedApp && greeter.lockedApp !== ApplicationManager.focusedApplicationId) {
-                    greeter.startUnlock()
-                }
+                greeter.notifyFocusChanged(ApplicationManager.focusedApplicationId);
                 panel.indicators.hide();
             }
 
             onApplicationAdded: {
-                if (greeter.shown && appId != "unity8-dash") {
-                    greeter.startUnlock()
-
+                if (edgeDemo.running && appId != "unity8-dash") {
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call
                     // is more important than wizard so just bail out of those.
-                    if (edgeDemo.running) {
-                        edgeDemo.hideEdgeDemos();
-                        wizard.hide();
-                    }
+                    edgeDemo.hideEdgeDemos();
+                    wizard.hide();
                 }
-                if (greeter.narrowMode && greeter.hasLockedApp && appId === greeter.lockedApp) {
-                    lockscreen.hide() // show locked app
-                }
+
+                greeter.notifyAppAdded(appId);
                 launcher.hide();
             }
         }
@@ -285,7 +256,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: edgeDemo.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
+                value: edgeDemo.stagesEnabled && !greeter.fullyShown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -345,75 +316,26 @@ Item {
         id: greeter
         objectName: "greeter"
 
-        property string lockedApp: ""
-        property bool hasLockedApp: lockedApp !== ""
-
-        available: true
         hides: [launcher, panel.indicators]
         tabletMode: shell.sideStageEnabled
         launcherOffset: narrowMode ? launcher.progress : 0
         forcedUnlock: edgeDemo.running
         background: shell.background
 
-        y: panel.panelHeight
-        width: parent.width
-        height: parent.height - panel.panelHeight
-
-        property bool fullyShown: showProgress === 1.0
-        onFullyShownChanged: {
-            // Wait until the greeter is completely covering lockscreen before resetting it.
-            if (narrowMode && fullyShown && !LightDM.Greeter.authenticated) {
-                lockscreen.reset();
-                lockscreen.maybeShow();
-            }
-        }
-
-        onShowProgressChanged: {
-            if (showProgress === 0) {
-                if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || forcedUnlock) {
-                    greeter.login()
-                } else if (narrowMode) {
-                    lockscreen.clear(false) // to reset focus if necessary
-                }
-            }
-        }
+        anchors.fill: parent
+        anchors.topMargin: panel.panelHeight
 
         onSessionStarted: {
-            hide();
-            lockscreen.hide();
             launcher.hide();
         }
 
-        function startUnlock() {
-            if (narrowMode) {
-                if (!LightDM.Greeter.authenticated) {
-                    lockscreen.maybeShow()
-                }
-                hide()
-            } else {
-                show()
-                tryToUnlock()
-            }
-        }
-
-        Component.onCompleted: {
-            Connectivity.unlockAllModems()
-        }
-
-        onUnlocked: greeter.hide()
-        onSelected: {
-            // Update launcher items for new user
-            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-            AccountsService.user = user;
-            LauncherModel.setUser(user);
-        }
-
         onTease: launcher.tease()
+        onEmergencyCall: startLockedApp("dialer-app")
 
         Binding {
             target: ApplicationManager
             property: "suspended"
-            value: (greeter.shown && greeter.fullyShown) || lockscreen.shown
+            value: greeter.fullyShown
         }
     }
 
@@ -507,7 +429,7 @@ Item {
                 Component.onCompleted: initialise(indicatorProfile)
             }
             callHint {
-                greeterShown: greeter.shown || lockscreen.shown
+                greeterShown: greeter.fullyShown
             }
 
             property bool topmostApplicationIsFullscreen:
@@ -538,11 +460,10 @@ Item {
                 }
             }
             onLauncherApplicationSelected: {
-                if (greeter.hasLockedApp) {
-                    greeter.startUnlock()
-                }
-                if (!edgeDemo.running)
+                if (!edgeDemo.running) {
+                    greeter.notifyAboutToStartApp(appId);
                     shell.activateApplication(appId)
+                }
             }
             onShownChanged: {
                 if (shown) {
