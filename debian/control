@@ -12,6 +12,7 @@ Build-Depends: cmake,
 # in libstdc++ causing us issues, we explicitly select a G++
 # version.
                g++-4.9,
+               libconnectivity-qt1-dev,
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],
