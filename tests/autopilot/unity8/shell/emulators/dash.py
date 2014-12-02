@@ -90,8 +90,12 @@ class Dash(emulators.UnityEmulatorBase):
 
     def _get_scope_loader(self, scope_id):
         try:
-            return self.dash_content_list.wait_select_single(
-                'QQuickLoader', scopeId=scope_id)
+            aux = self.dash_content_list.get_children_by_type('QQuickItem')[0]
+            for l in aux.get_children_by_type('QQuickLoader'):
+                if (l.scopeId == scope_id):
+                    return l;
+            raise emulators.UnityEmulatorException(
+                'No scope found with id {0}'.format(scope_id))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No scope found with id {0}'.format(scope_id))
