@@ -65,7 +65,7 @@ Item {
         showBackButton: true
         backIsClose: root.state == "edit"
         storeEntryEnabled: root.state == "browse"
-        searchEntryEnabled: root.state == "browse"
+        searchEntryEnabled: false // Disable search for now
         onBackClicked: {
             if (backIsClose) {
                 root.state = "browse"
