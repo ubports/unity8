@@ -126,9 +126,9 @@ Rectangle {
             swipeToCloseCheckbox.checked = data.swipeToClose;
             closeableCheckbox.checked = data.closeable;
 
-            var dragDistance = spreadDelegateLoader.item.height / 2;
+            var dragDistance = spreadDelegateLoader.item.height * 0.8;
             var touchX = spreadDelegateLoader.item.width / 2;
-            var fromY = spreadDelegateLoader.item.height / 2;
+            var fromY = spreadDelegateLoader.item.height * 0.9;
             var toY = fromY - dragDistance;
             touchFlick(spreadDelegateLoader.item,
                 touchX /* fromX */,  fromY, touchX /* toX */,  toY,
