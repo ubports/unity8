@@ -47,8 +47,7 @@ Loader {
                     id: mascotImage; 
                     objectName: "mascotImage"; 
                     anchors { verticalCenter: parent.verticalCenter; }
-                    property bool doLoadSource: !NetworkingStatus.limitedBandwith;
-                    source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; }
+                    source: cardData && cardData["mascot"] || ""; 
                     width: units.gu(6);
                     height: units.gu(5.625); 
                     horizontalAlignment: Image.AlignHCenter; 

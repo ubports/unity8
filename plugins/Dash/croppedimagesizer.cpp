@@ -24,6 +24,9 @@
 #include <QQuickView>
 
 CroppedImageSizer::CroppedImageSizer()
+ : m_width(0),
+   m_height(0),
+   m_sourceSize(QSize(-1, -1))
 {
     connect(this, &CroppedImageSizer::inputParamsChanged, this, &CroppedImageSizer::calculateSourceSize);
     connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::requestImage);
