@@ -152,7 +152,13 @@ Showable {
         readonly property int backgroundTopMargin: -greeter.y
         property bool everLoaded: false
 
+        // We only want to be async after the first one, because during boot,
+        // if we load async, the panel will appear a bit before the greeter
+        // does.  We'd rather everything appear at once.  But other times,
+        // we don't want to block handling power button presses on loading the
+        // greeter.
         asynchronous: everLoaded
+
         source: loadContent ? "GreeterContent.qml" : ""
 
         onLoaded: {
