@@ -150,12 +150,14 @@ Showable {
         property int currentIndex: 0
         property var infographicModel: LightDM.Infographic
         readonly property int backgroundTopMargin: -greeter.y
+        property bool everLoaded: false
 
-        asynchronous: true
+        asynchronous: everLoaded
         source: loadContent ? "GreeterContent.qml" : ""
 
         onLoaded: {
             greeterContentLoader.item.selected(currentIndex);
+            everLoaded = true;
         }
 
         Connections {

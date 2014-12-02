@@ -117,7 +117,7 @@ Item {
         Binding {
             target: model
             property: "username"
-            value: AccountsService.statsWelcomeScreen ? selectedUser : ""
+            value: AccountsService.statsWelcomeScreen ? infographics.selectedUser : ""
         }
 
         Connections {
