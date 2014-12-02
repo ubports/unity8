@@ -141,6 +141,7 @@ Item {
         property var popover: null
 
         Background {
+            id: background
             objectName: "headerBackground"
             style: scopeStyle.headerBackground
         }
@@ -165,6 +166,9 @@ Item {
 
             PageHeadStyle {
                 id: searchHeader
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
+
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
@@ -236,6 +240,8 @@ Item {
             PageHeadStyle {
                 id: header
                 objectName: "innerPageHeader"
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
