@@ -129,8 +129,8 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 3
-        stop_x = x + width / 3 * 2
+        start_x = x + width / 5
+        stop_x = x + width / 5 * 4
         start_y = stop_y = y + 1
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
@@ -140,8 +140,8 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 3 * 2
-        stop_x = x + width / 3
+        start_x = x + width / 5 * 4
+        stop_x = x + width / 5
         start_y = stop_y = y + 1
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
