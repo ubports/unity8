@@ -174,7 +174,7 @@ IndicatorTest {
         // and expose the header
         function test_hint() {
             var indicatorItem = get_indicator_item(0);
-            var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
+            var mappedPosition = indicatorsMenu.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
 
             touchPress(indicatorsMenu, mappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2);
 
@@ -195,7 +195,7 @@ IndicatorTest {
             for (var i = 0; i < root.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
 
-                var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
+                var mappedPosition = indicatorsMenu.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
 
                 touchFlick(indicatorsMenu,
                            mappedPosition.x, mappedPosition.y,
@@ -227,7 +227,7 @@ IndicatorTest {
 
             // Get the first indicator
             var firstItem = get_indicator_item(0);
-            var firstItemMappedPosition = root.mapFromItem(firstItem, firstItem.width/2, firstItem.height/2);
+            var firstItemMappedPosition = indicatorsMenu.mapFromItem(firstItem, firstItem.width/2, firstItem.height/2);
 
             // 1) Drag the mouse down to hint a bit
             touchFlick(indicatorsMenu,
