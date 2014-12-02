@@ -23,8 +23,6 @@ Item {
     property string modemPath
     readonly property alias present: d.present
 
-    ////
-
     QtObject {
         id: d
 
