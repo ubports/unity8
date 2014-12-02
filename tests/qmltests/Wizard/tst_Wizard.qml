@@ -184,27 +184,27 @@ console.log("MIKE tapped forward")
             compare(updateSessionLanguageSpy.count, 0);
         }
 
-        function atest_simUnavailableSkip() {
+        function test_simUnavailableSkip() {
             MockQOfono.available = false;
             goToPage("passwdPage", true);
         }
 
-        function atest_simNoModemsSkip() {
+        function test_simNoModemsSkip() {
             MockQOfono.setModems([], []);
             goToPage("passwdPage", true);
         }
 
-        function atest_simFirstSkip() {
+        function test_simFirstSkip() {
             MockQOfono.setModems(["a", "b"], [true, false]);
             goToPage("passwdPage", true);
         }
 
-        function atest_simSecondSkip() {
+        function test_simSecondSkip() {
             MockQOfono.setModems(["a", "b"], [false, true]);
             goToPage("passwdPage", true);
         }
 
-        function atest_simBothSkip() {
+        function test_simBothSkip() {
             MockQOfono.setModems(["a", "b"], [true, true]);
             goToPage("passwdPage", true);
         }
@@ -217,7 +217,7 @@ console.log("MIKE tapped forward")
             }
         }
 
-        function atest_passwdPasscode() {
+        function test_passwdPasscode() {
             var page = goToPage("passwdPage");
 
             tap(findChild(page, "forwardButton"));
@@ -255,7 +255,7 @@ console.log("MIKE tapped forward")
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passcode);
         }
 
-        function atest_passwdPassphrase() {
+        function test_passwdPassphrase() {
             var page = goToPage("passwdPage");
             tap(findChild(page, "passwdDelegate2"));
 
@@ -308,7 +308,7 @@ console.log("MIKE tapped forward")
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
         }
 
-        function atest_passwdSwipe() {
+        function test_passwdSwipe() {
             goToPage(null);
 
             tryCompare(setSecuritySpy, "count", 1);
@@ -317,17 +317,17 @@ console.log("MIKE tapped forward")
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Swipe);
         }
 
-        function atest_locationSkipNoPath() {
+        function test_locationSkipNoPath() {
             AccountsService.hereLicensePath = "";
             goToPage("reportingPage", false, true);
         }
 
-        function atest_locationSkipNoFiles() {
+        function test_locationSkipNoFiles() {
             AccountsService.hereLicensePath = Qt.resolvedUrl("nolicenses");
             goToPage("reportingPage", false, true);
         }
 
-        function atest_locationWaitOnPath() {
+        function test_locationWaitOnPath() {
             AccountsService.hereLicensePath = " "; // means we're still getting the path from dbus
 
             var page = goToPage("wifiPage");
@@ -344,7 +344,7 @@ console.log("MIKE tapped forward")
             waitForPage("reportingPage");
         }
 
-        function atest_locationGpsOnly() {
+        function test_locationGpsOnly() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheck");
             var hereCheck = findChild(page, "hereCheck");
@@ -365,7 +365,7 @@ console.log("MIKE tapped forward")
             tryCompare(locationActionGroup.gps, "state", true);
         }
 
-        function atest_locationNope() {
+        function test_locationNope() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheck");
             var hereCheck = findChild(page, "hereCheck");
@@ -386,7 +386,7 @@ console.log("MIKE tapped forward")
             tryCompare(locationActionGroup.gps, "state", false);
         }
 
-        function atest_locationHere() {
+        function test_locationHere() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheck");
             var hereCheck = findChild(page, "hereCheck");
@@ -407,7 +407,7 @@ console.log("MIKE tapped forward")
             tryCompare(locationActionGroup.gps, "state", true);
         }
 
-        function atest_locationHereTerms() {
+        function test_locationHereTerms() {
             var page = goToPage("locationPage");
 
             var link = findChild(page, "hereTermsLink");
