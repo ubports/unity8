@@ -22,7 +22,7 @@
 #include <QSize>
 #include <QUrl>
 
-class QNetworkReply;
+class CroppedImageSizerAsyncWorker;
 
 class CroppedImageSizer : public QObject
 {
@@ -49,6 +49,8 @@ public:
     QSize sourceSize() const;
     void setSourceSize(const QSize &sourceSize);
 
+    Q_INVOKABLE void setImageSize(const QSize &imageSize);
+
 Q_SIGNALS:
     void inputParamsChanged();
     void sourceChanged();
@@ -56,7 +58,6 @@ Q_SIGNALS:
 
 private Q_SLOT:
     void calculateSourceSize();
-    void requestFinished();
     void requestImage();
 
 private:
@@ -65,7 +66,7 @@ private:
     qreal m_height;
     QSize m_sourceSize;
     QSize m_imageSize;
-    QNetworkReply *m_reply = nullptr;
+    QPointer<CroppedImageSizerAsyncWorker> m_worker;
 };
 
 #endif
