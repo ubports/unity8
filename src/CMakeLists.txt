@@ -1,6 +1,9 @@
+pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
+
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
+    ${CONNECTIVITY_INCLUDE_DIRS}
 )
 
 file(GLOB_RECURSE QML_FILES
@@ -30,7 +33,7 @@ if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
     target_link_libraries(${SHELL_APP} ${XCB_LDFLAGS})
 endif()
 
-target_link_libraries(${SHELL_APP} UbuntuGestures)
+target_link_libraries(${SHELL_APP} UbuntuGestures connectivity-qt1)
 
 # For it to find libUbuntuGestures.so
 set_target_properties(${SHELL_APP} PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")

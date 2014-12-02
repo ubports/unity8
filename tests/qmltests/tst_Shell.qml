@@ -502,8 +502,8 @@ Item {
             // Swipe upwards over the launcher to ensure that this icon
             // at the bottom is not folded and faded away.
             var touchStartX = launcherPanel.width / 2;
-            var touchStartY = launcherPanel.height / 2;
-            touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
+            var touchEndY = launcherPanel.height / 2;
+            touchFlick(launcherPanel, touchStartX, 0, touchStartX, touchEndY);
             tryCompare(launcherPanel, "moving", false);
 
             tap(appIcon, appIcon.width / 2, appIcon.height / 2);
