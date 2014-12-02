@@ -74,7 +74,7 @@ CroppedImageMinimumSourceSize {
                             height: units.gu(5.625); 
                             horizontalAlignment: Image.AlignHCenter; 
                             verticalAlignment: Image.AlignVCenter; 
-                            visible: showHeader && resized;
+                            visible: showHeader;
                         }
 ,Item { 
                             id: headerTitleContainer; 

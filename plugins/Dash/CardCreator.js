@@ -82,16 +82,17 @@ var kArtShapeHolderCode = 'Item  { \n\
                                             height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); \n\
                                         } \n\
                                     } \n\
-                                    image: CroppedImageMinimumSourceSize { \n\
+                                    CroppedImageMinimumSourceSize { \n\
+                                        id: artImage; \n\
                                         objectName: "artImage"; \n\
                                         property bool doLoadSource: !NetworkingStatus.limitedBandwith; \n\
                                         source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; } \n\
-                                        cache: true; \n\
                                         asynchronous: root.asynchronous; \n\
                                         visible: false; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                     } \n\
+                                    image: artImage.image; \n\
                                 } \n\
                             } \n\
                         }\n';
@@ -181,11 +182,11 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 id: mascotShapeLoader; \n\
                                 objectName: "mascotShapeLoader"; \n\
                                 asynchronous: root.asynchronous; \n\
-                                active: mascotImage.status === Image.Ready; \n\
+                                active: mascotImage.image.status === Image.Ready; \n\
                                 visible: showHeader && active && status == Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
-                                sourceComponent: UbuntuShape { image: mascotImage } \n\
+                                sourceComponent: UbuntuShape { image: mascotImage.image } \n\
                                 anchors { %1 } \n\
                             }\n';
 
@@ -435,7 +436,7 @@ function cardString(template, components) {
             mascotShapeCode = kMascotShapeLoaderCode.arg(mascotAnchors);
         }
 
-        var mascotImageVisible = useMascotShape ? 'false' : 'showHeader && resized';
+        var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
     }
 

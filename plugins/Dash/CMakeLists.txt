@@ -25,6 +25,7 @@ set(QMLPLUGIN_SRC
     verticaljournal.cpp
     horizontaljournal.cpp
     organicgrid.cpp
+    croppedimagesizer.cpp
     )
 
 add_library(Dash-qml MODULE
