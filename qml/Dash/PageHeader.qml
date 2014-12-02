@@ -166,9 +166,6 @@ Item {
 
             PageHeadStyle {
                 id: searchHeader
-                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
-                property color panelColor: background.topColor
-
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
@@ -177,6 +174,8 @@ Item {
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
                 property string title
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
@@ -240,8 +239,6 @@ Item {
             PageHeadStyle {
                 id: header
                 objectName: "innerPageHeader"
-                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
-                property color panelColor: background.topColor
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 contentHeight: height
@@ -249,6 +246,8 @@ Item {
                 __separator_visible: false
                 property var styledItem: header
                 property string title: root.title
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
