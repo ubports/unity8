@@ -57,9 +57,7 @@ Item {
         id: priv
 
         readonly property string focusedAppId: ApplicationManager.focusedApplicationId
-        onFocusedAppIdChanged: print("focused app id changed", focusedAppId)
         readonly property var focusedAppDelegate: focusedAppId ? appRepeater.itemAt(indexOf(focusedAppId)) : null
-        onFocusedAppDelegateChanged: print("focused app delegate changed", focusedAppDelegate)
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
