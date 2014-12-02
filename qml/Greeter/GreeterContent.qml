@@ -109,13 +109,13 @@ Item {
         id: infographics
         objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
-        model: greeterContentLoader.infographicModel
-        visible: model.label !== ""
+        model: LightDM.Infographic
+        visible: LightDM.Infographic.label !== ""
 
         property string selectedUser
 
         Binding {
-            target: model
+            target: LightDM.Infographic
             property: "username"
             value: AccountsService.statsWelcomeScreen ? infographics.selectedUser : ""
         }
@@ -124,7 +124,7 @@ Item {
             target: root
             onSelected: {
                 infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole);
-                greeterContentLoader.infographicModel.readyForDataChange();
+                LightDM.Infographic.readyForDataChange();
             }
         }
 

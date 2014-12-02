@@ -148,7 +148,6 @@ Showable {
         anchors.fill: parent
         property var model: LightDM.Users
         property int currentIndex: 0
-        property var infographicModel: LightDM.Infographic
         readonly property int backgroundTopMargin: -greeter.y
         property bool everLoaded: false
 
