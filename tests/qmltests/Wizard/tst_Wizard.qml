@@ -131,7 +131,6 @@ Item {
             var page = waitForPage("languagePage");
             if (name === page.objectName) return page;
             tap(findChild(page, "forwardButton"));
-console.log("MIKE tapped forward")
 
             if (!skipSim) {
                 page = waitForPage("simPage");
