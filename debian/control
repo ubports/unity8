@@ -12,6 +12,7 @@ Build-Depends: cmake,
 # in libstdc++ causing us issues, we explicitly select a G++
 # version.
                g++-4.9,
+               libconnectivity-qt1-dev,
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],
@@ -45,7 +46,7 @@ Build-Depends: cmake,
                qtdeclarative5-private-dev (>= 5.2.1),
                qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-ubuntu-settings-components (>= 0.4),
-               qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.49) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.49),
+               qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
@@ -59,7 +60,7 @@ X-Ubuntu-Use-Langpack: yes
 Package: indicators-client
 Architecture: amd64 armhf i386
 Depends: qmenumodel-qml (>= 0.2.8),
-         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.49) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.49),
+         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
          unity8 (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
@@ -109,7 +110,7 @@ Architecture: all
 Depends: qml-module-qtquick-layouts,
          qtdeclarative5-ubuntu-settings-components (>= 0.4),
          qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.49) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 0.1.49),
+         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
          qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
          ubuntu-thumbnailer-impl-0,
          unity-application-impl-4,
@@ -174,7 +175,6 @@ Depends: accountsservice-ubuntu-schemas (>= 0.0.3),
          libhardware2,
          unity-schemas (>= 7.3.1+14.10.20140915),
          pay-service,
-         qml-module-ubuntu-connectivity,
          ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,

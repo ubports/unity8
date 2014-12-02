@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.1
+import Ubuntu.Components 1.1
 
 /*! This preview widget shows either one button, two buttons or one button
  *  and a combo button depending on the number of items in widgetData["actions"].
@@ -64,7 +65,7 @@ PreviewWidget {
             visible: row.actions && row.actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, actionData.id, actionData)
             width: (root.width - units.gu(1)) / 2
-            color: root.scopeStyle ? root.scopeStyle.previewButtonColor : Theme.palette.selected.foreground
+            color: root.scopeStyle ? root.scopeStyle.previewButtonColor : UbuntuColors.orange
         }
     }
 }
