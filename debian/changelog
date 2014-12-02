@@ -1,3 +1,92 @@
+unity8 (8.01+15.04.20141202-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Make sure that there is no window of opportunity for swiping away
+    greeter before the lockscreen appears.
+  * Don't allow dragging the greeter out from the left edge if it's
+    hidden there. (LP: #1372952)
+
+  [ Michał Sawicz ]
+  * Move from Theme colour to direct UbuntuColors.orange for activity
+    indicator and preview buttons
+
+  [ Albert Astals ]
+  * Use QImageReader not to load the image into memory twice (LP:
+    #1384374)
+  * Don't create the whole current scope delegates, just height * 3 (LP:
+    #1384393, #1384374)
+  * Make CroppedImageSizer async
+  * Use ubuntu::connectivity::NetworkingStatus instead of
+    QNetworkConfigurationManager
+  * Compile with Qt 5.4 (LP: #1395636)
+
+  [ Michael Zanetti ]
+  * close previews and temp scopes on left edge/BFB (LP: #1391798)
+  * make spread reversible (LP: #1368668, #1355284, #1368677)
+
+  [ Andrea Cimitan ]
+  * Different drag behaviour for not closable apps in spread (LP:
+    #1368287)
+
+  [ Daniel d'Andrada ]
+  * Make UnityTestCase.touchFlick properly map event coordinates
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 02 Dec 2014 09:26:49 +0000
+
+unity8 (8.01+15.04.20141125.2-0ubuntu1) vivid; urgency=low
+
+  [ Michael Zanetti ]
+  * improve snapping after dragging
+  * Make the launcher BFB rounded on one end (LP: #1382596)
+  * disable swipeToClose while some snapping is happening (LP: #1378938)
+  * increase threshold and avoid jumping in SpreadDelegate dragging (LP:
+    #1352842, #1350803)
+
+  [ Ying-Chun Liu ]
+  * Notifications should be on right side when wide. (LP: 1379384) (LP:
+    #1379384)
+
+  [ Albert Astals ]
+  * Fix qml warnings
+  * Fix some qmluitests
+
+  [ Lars Uebernickel ]
+  * Use Icon instead of StatusIcon
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 25 Nov 2014 13:54:47 +0000
+
+unity8 (8.01+15.04.20141117-0ubuntu1) vivid; urgency=low
+
+  [ josharenson ]
+  * Return focus to the application after a tusted session overlay is
+    closing. (LP: #1381292)
+
+  [ Josh Arenson ]
+  * Return focus to the application after a tusted session overlay is
+    closing. (LP: #1381292)
+
+  [ Albert Astals ]
+  * Remove unused ResponsiveFlowView
+  * Fix a few cmake warnings when running ./build.sh in a clean checkout
+
+  [ Mirco Müller ]
+  * Make sure non-square icons are not cropped. (LP: #1378417)
+
+  [ Michael Terry ]
+  * Drop the "EARLY ALPHA" scare label when running in testing mode.
+
+  [ Michael Zanetti ]
+  * unify Greeter and Lockscreen wallpaper again
+  * hide quicklist when launcher hides (LP: #1387088)
+  * Keep applications suspended while lockscreen is shown (LP: #1378126)
+  * change spread background color to 111111
+
+  [ Omer Akram ]
+  * show password when tapped on the 'Show password' label, not just the
+    checkbox. (LP: #1389832)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Nov 2014 13:48:33 +0000
+
 unity8 (8.01+15.04.20141107.2-0ubuntu2) vivid; urgency=medium
 
   * No-change rebuild against Qt 5.3.2.
