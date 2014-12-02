@@ -12,7 +12,7 @@ qt5_use_modules(unity8-dash Gui Qml Quick Test)
 # For it to find libUbuntuGestures.so, needed by Ubuntu.Gestures QML module.
 set_target_properties(unity8-dash PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 
-target_link_libraries(unity8-dash UbuntuGestures)
+target_link_libraries(unity8-dash UbuntuGestures connectivity-qt1)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 

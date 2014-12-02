@@ -204,7 +204,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         """
         category_element = self._get_category_element(category)
-        icon = category_element.select_single('AbstractButton', title=title)
+        icon = category_element.wait_select_single('AbstractButton', title=title)
         self.pointing_device.click_object(icon)
 
     def _get_category_element(self, category):
