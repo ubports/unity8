@@ -134,6 +134,7 @@ Item {
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
 
             tryCompare(spreadView, "phase", 2);
+            waitForRendering(phoneStage);
         }
 
         function test_shortFlick() {
