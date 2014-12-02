@@ -1,3 +1,38 @@
+unity8 (8.01+15.04.20141202-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Make sure that there is no window of opportunity for swiping away
+    greeter before the lockscreen appears.
+  * Don't allow dragging the greeter out from the left edge if it's
+    hidden there. (LP: #1372952)
+
+  [ Michał Sawicz ]
+  * Move from Theme colour to direct UbuntuColors.orange for activity
+    indicator and preview buttons
+
+  [ Albert Astals ]
+  * Use QImageReader not to load the image into memory twice (LP:
+    #1384374)
+  * Don't create the whole current scope delegates, just height * 3 (LP:
+    #1384393, #1384374)
+  * Make CroppedImageSizer async
+  * Use ubuntu::connectivity::NetworkingStatus instead of
+    QNetworkConfigurationManager
+  * Compile with Qt 5.4 (LP: #1395636)
+
+  [ Michael Zanetti ]
+  * close previews and temp scopes on left edge/BFB (LP: #1391798)
+  * make spread reversible (LP: #1368668, #1355284, #1368677)
+
+  [ Andrea Cimitan ]
+  * Different drag behaviour for not closable apps in spread (LP:
+    #1368287)
+
+  [ Daniel d'Andrada ]
+  * Make UnityTestCase.touchFlick properly map event coordinates
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 02 Dec 2014 09:26:49 +0000
+
 unity8 (8.01+15.04.20141125.2-0ubuntu1) vivid; urgency=low
 
   [ Michael Zanetti ]
