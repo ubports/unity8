@@ -293,6 +293,7 @@ Item {
                                     },
                                     true);
                 var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
+                waitForRendering(tile);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
@@ -461,8 +462,8 @@ Item {
 
                 var innerHeader = findChild(header, "innerPageHeader");
                 verify(innerHeader, "Could not find the inner header");
-                verify(Qt.colorEqual(innerHeader.textColor, data.foreground),
-                       "Foreground color not equal: %1 != %2".arg(innerHeader.textColor).arg(data.foreground));
+                verify(Qt.colorEqual(innerHeader.config.foregroundColor, data.foreground),
+                       "Foreground color not equal: %1 != %2".arg(innerHeader.config.foregroundColor).arg(data.foreground));
 
                 var background = findChild(header, "headerBackground");
                 verify(background, "Could not find the background");

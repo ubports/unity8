@@ -55,11 +55,11 @@ DashRenderer {
         delegate: Item {
             width: grid.cellWidth
             height: grid.cellHeight
-            visible: y + height >= root.visibleRangeBegin && y <= root.visibleRangeEnd
             Loader {
                 id: loader
                 sourceComponent: cardTool.cardComponent
                 anchors.horizontalCenter: parent.horizontalCenter
+                asynchronous: true
                 onLoaded: {
                     item.objectName = "delegate" + index;
                     item.width = Qt.binding(function() { return cardTool.cardWidth; });

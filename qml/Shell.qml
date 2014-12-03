@@ -44,6 +44,10 @@ import Unity.DashCommunicator 0.1
 Item {
     id: shell
 
+    // Disable everything so that user can't swipe greeter or launcher until
+    // we get first prompt/authenticate, which will re-enable the shell.
+    enabled: false
+
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
@@ -506,7 +510,7 @@ Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
         id: greeterWrapper
         objectName: "greeterWrapper"
-        x: greeter.narrowMode ? launcher.progress : 0
+        x: (greeter.narrowMode && greeter.showProgress > 0) ? launcher.progress : 0
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
@@ -585,7 +589,7 @@ Item {
             onShownChanged: {
                 if (shown) {
                     // Disable everything so that user can't swipe greeter or
-                    // launcher until we get first prompt/authenticate, which
+                    // launcher until we get the next prompt/authenticate, which
                     // will re-enable the shell.
                     shell.enabled = false;
 
@@ -777,19 +781,26 @@ Item {
             margin: units.gu(1)
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
-            width: parent.width
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             states: [
                 State {
                     name: "narrow"
                     when: overlay.width <= units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: parent.left }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                    }
                 },
                 State {
                     name: "wide"
                     when: overlay.width > units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: undefined }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: undefined
+                        anchors.right: parent.right
+                    }
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]

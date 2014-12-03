@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-09-18 09:47+0000\n"
-"Last-Translator: Mitsuya Shibata <mty.shibata@gmail.com>\n"
+"PO-Revision-Date: 2014-11-20 05:08+0000\n"
+"Last-Translator: Kentaro Kazuhama <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-12-03 06:50+0000\n"
+"X-Generator: Launchpad (build 17274)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -33,22 +33,21 @@ msgstr "ショートカットを削除する"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "デバイスをロックしました"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "パスフレーズの入力失敗が多すぎたため、デバイスをロックしました。"
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "パスコードの入力失敗が多すぎたため、デバイスをロックしました。"
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 分待ってからやり直してください…"
 
 #: qml/Components/Dialogs.qml:74
 msgid "Log out"
@@ -212,15 +211,15 @@ msgstr "送信"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "引いて更新…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "指を離して更新…"
 
 #: qml/Dash/ScopesOverview.qml:215
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Scopeの管理"
 
 #: qml/Dash/ScopesOverview.qml:437
 msgid "Done"
@@ -300,11 +299,11 @@ msgstr "パスフレーズが違います"
 
 #: qml/Shell.qml:393
 msgid "Please re-enter"
-msgstr ""
+msgstr "再入力してください"
 
 #: qml/Shell.qml:395
 msgid "Enter passcode"
-msgstr ""
+msgstr "パスコードを入力"
 
 #: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
@@ -313,7 +312,7 @@ msgstr "パスコードが違います"
 #: qml/Shell.qml:399
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "%1 を入力"
 
 #: qml/Shell.qml:400
 #, qt-format

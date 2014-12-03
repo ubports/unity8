@@ -128,17 +128,20 @@ Item {
             var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
             var endY = startY;
-            var endX = units.gu(2);
+            var endX = phoneStage.width / 2;
 
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+
+            tryCompare(spreadView, "phase", 2);
+            waitForRendering(phoneStage);
         }
 
         function test_shortFlick() {
             addApps(2)
             var startX = phoneStage.width - units.gu(1);
             var startY = phoneStage.height / 2;
-            var endX = phoneStage.width / 2;
+            var endX = startX - units.gu(4);
             var endY = startY;
 
             var activeApp = ApplicationManager.get(0);
@@ -164,7 +167,7 @@ Item {
                 {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
                 {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
                 {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: -1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 2, targetPhase: 2, newFocusedIndex: 2 },
+                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 1, targetPhase: 2, newFocusedIndex: 2 },
             ];
         }
 
@@ -274,7 +277,7 @@ Item {
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
         }
 
-        function test_orientation_change_sent_to_focused_app() {
+        function test_orientationChangeSentToFocusedApp() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -286,7 +289,7 @@ Item {
             tryCompare(app, "orientation", Qt.LandscapeOrientation);
         }
 
-        function test_orientation_change_not_sent_to_apps_while_spread_open() {
+        function test_orientationChangeNotSentToAppsWhileSpreadOpen() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -299,7 +302,7 @@ Item {
             tryCompare(app, "orientation", Qt.PortraitOrientation);
         }
 
-        function test_orientation_change_not_sent_to_unfocused_app_until_it_focused() {
+        function test_orientationChangeNotSentToUnfocusedAppUntilItFocused() {
             phoneStage.orientation = Qt.PortraitOrientation;
             addApps(1);
 
@@ -356,6 +359,38 @@ Item {
 
             tryCompare(firstApp, "state", ApplicationInfoInterface.Running);
             tryCompare(firstApp, "focused", true);
+        }
+
+        function test_cantCloseWhileSnapping() {
+            addApps(2);
+
+            goToSpread();
+
+            var spreadView = findChild(phoneStage, "spreadView");
+            var selectedApp = ApplicationManager.get(2);
+
+            goToSpread();
+
+            var app0 = findChild(spreadView, "appDelegate0");
+            var app1 = findChild(spreadView, "appDelegate1");
+            var app2 = findChild(spreadView, "appDelegate2");
+
+            var dragArea0 = findChild(app0, "dragArea");
+            var dragArea1 = findChild(app1, "dragArea");
+            var dragArea2 = findChild(app2, "dragArea");
+
+            compare(dragArea0.enabled, true);
+            compare(dragArea1.enabled, true);
+            compare(dragArea2.enabled, true);
+
+            phoneStage.select(selectedApp.appId);
+
+            // Make sure all drag areas are disabled instantly. Don't use tryCompare here!
+            compare(dragArea0.enabled, false);
+            compare(dragArea1.enabled, false);
+            compare(dragArea2.enabled, false);
+
+            tryCompare(spreadView, "contentX", -spreadView.shift)
         }
     }
 }
