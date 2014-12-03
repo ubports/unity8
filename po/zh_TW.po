@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-11-20 06:27+0000\n"
-"X-Generator: Launchpad (build 17252)\n"
+"X-Launchpad-Export-Date: 2014-12-03 06:50+0000\n"
+"X-Generator: Launchpad (build 17274)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -252,31 +252,31 @@ msgstr "輕觸可返回通話…"
 msgid "Conference"
 msgstr "會議"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:615
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
 msgstr "無影音播放中"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:763
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr "佇列中…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:767
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr "下載中"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:769
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr "已暫停，輕觸可繼續"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:771
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr "已取消"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:773
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr "已完成"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:775
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr "失敗，輕觸可重試"
 
@@ -288,55 +288,55 @@ msgstr "為 SIM 卡解鎖"
 msgid "Roaming"
 msgstr "漫遊"
 
-#: qml/Shell.qml:381
+#: qml/Shell.qml:391
 msgid "Enter passphrase"
 msgstr "輸入密語"
 
-#: qml/Shell.qml:382
+#: qml/Shell.qml:392
 msgid "Sorry, incorrect passphrase"
 msgstr "抱歉，密語不對"
 
-#: qml/Shell.qml:383
+#: qml/Shell.qml:393
 msgid "Please re-enter"
 msgstr "請再輸入"
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:395
 msgid "Enter passcode"
 msgstr "輸入 passcode"
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
 msgstr "抱歉，passcode 不對"
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Enter %1"
 msgstr "輸入 %1"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:400
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "抱歉，%1不對"
 
-#: qml/Shell.qml:431
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passphrase."
 msgstr "抱歉，密語不對"
 
-#: qml/Shell.qml:432
+#: qml/Shell.qml:442
 msgid "Sorry, incorrect passcode."
 msgstr "抱歉，passcode 不對。"
 
-#: qml/Shell.qml:433
+#: qml/Shell.qml:443
 msgid "This will be your last attempt."
 msgstr "這將會是您最後一次嘗試的機會。"
 
-#: qml/Shell.qml:435
+#: qml/Shell.qml:445
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#: qml/Shell.qml:436
+#: qml/Shell.qml:446
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

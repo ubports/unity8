@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-12-03 06:50+0000\n"
+"X-Generator: Launchpad (build 17274)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -30,7 +30,7 @@ msgstr "Закрепить ярлык"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
-msgstr "Изъять ярлык"
+msgstr "Открепить ярлык"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
@@ -167,7 +167,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "Вернуться к вызову"
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
@@ -232,7 +232,7 @@ msgstr "Отпустите для обновления…"
 
 #: qml/Dash/ScopesOverview.qml:215
 msgid "Manage Scopes"
-msgstr ""
+msgstr "Настройки поиска"
 
 #: qml/Dash/ScopesOverview.qml:437
 msgid "Done"
@@ -240,7 +240,7 @@ msgstr "Готово"
 
 #: qml/Dash/ScopesOverview.qml:463
 msgid "Store"
-msgstr ""
+msgstr "Магазин"
 
 #: qml/Dash/ScopesOverviewTab.qml:36
 msgid "Favorites"
