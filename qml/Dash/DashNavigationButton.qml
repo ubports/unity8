@@ -175,42 +175,32 @@ AbstractButton {
     }
 
     onScopeChanged: {
+        setNewNavigation();
+    }
+
+    function setNewNavigation() {
         navigationModel.clear();
         if (scope && scope[hasNavigation]) {
-            navigationModel.append({"navigationId": scope[currentNavigationId], "nullifyNavigation": false});
+            var navigation = getNavigation(scope[currentNavigationId]);
+            if (navigation.count > 0) {
+                navigationModel.append({"navigationId": scope[currentNavigationId], "nullifyNavigation": false});
+            } else {
+                navigationModel.append({"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
+            }
         }
     }
 
     Connections {
         target: scope
         // This is duplicated since we can't have something based on the dynamic hasNavigation string property
-        // TODO Try to merge these two together a bit more
         onHasNavigationChanged: {
             if (!root.isAltNavigation) {
-                if (scope.hasNavigation) {
-                    var navigation = scope.getNavigation(scope.currentNavigationId);
-                    if (navigation.count > 0) {
-                        navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
-                    } else {
-                        navigationModel.append({"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
-                    }
-                } else {
-                    navigationModel.clear();
-                }
+                setNewNavigation();
             }
         }
         onHasAltNavigationChanged: {
             if (root.isAltNavigation) {
-                if (scope.hasAltNavigation) {
-                    var navigation = scope.getAltNavigation(scope.currentAltNavigationId);
-                    if (navigation.count > 0) {
-                        navigationModel.append({"navigationId": scope.currentAltNavigationId, "nullifyNavigation": false});
-                    } else {
-                        navigationModel.append({"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
-                    }
-                } else {
-                    navigationModel.clear();
-                }
+                setNewNavigation();
             }
         }
     }
