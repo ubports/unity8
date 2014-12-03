@@ -46,7 +46,7 @@ IndicatorTest {
             IndicatorsBar {
                 id: indicatorsBar
                 height: expanded ? units.gu(7) : units.gu(3)
-                width: units.gu(30)
+                width: units.gu(widthSlider.value)
                 anchors.centerIn: parent
                 indicatorsModel: root.indicatorsModel
                 interactive: expanded && height === units.gu(7)
@@ -77,6 +77,14 @@ IndicatorTest {
                 Layout.fillWidth: true
                 text: indicatorsBar.expanded ? "Collapse" : "Expand"
                 onClicked: indicatorsBar.expanded = !indicatorsBar.expanded
+            }
+
+            Slider {
+                id: widthSlider
+                Layout.fillWidth: true
+                minimumValue: 10
+                maximumValue: 60
+                value: 30
             }
 
             Rectangle {
@@ -114,6 +122,7 @@ IndicatorTest {
         when: windowShown
 
         function init() {
+            widthSlider.value = 30;
             indicatorsBar.expanded = false;
             wait_for_expansion_to_settle();
         }
@@ -219,6 +228,22 @@ IndicatorTest {
                 tryCompareFunction(function() { return dataItem.opacity > 0.0; }, true);
                 tryCompareFunction(function() { return dataItem.width > 0.0; }, true);
             }
+        }
+
+        // Rough test that resizing the IndicatorsBar has the items reposition correctly
+        function test_widthChangeRepositionsItems() {
+            var lastItemIndex = root.originalModelData.length-1;
+            var dataItem = findChild(indicatorsBar, root.originalModelData[lastItemIndex]["identifier"] + "-panelItem");
+            verify(dataItem !== null);
+
+            var mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
+            var oldDistanceFromRightEdge = indicatorsBar.width - mappedPosition.x;
+
+            widthSlider.value = 50;
+            mappedPosition = indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2);
+            var newDistanceFromRightEdge = indicatorsBar.width - mappedPosition.x;
+
+            compare(newDistanceFromRightEdge, oldDistanceFromRightEdge);
         }
     }
 }
