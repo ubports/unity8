@@ -35,11 +35,11 @@ Loader {
                         id: mascotShapeLoader; 
                         objectName: "mascotShapeLoader"; 
                         asynchronous: root.asynchronous; 
-                        active: mascotImage.status === Image.Ready; 
+                        active: mascotImage.image.status === Image.Ready;
                         visible: showHeader && active && status == Loader.Ready; 
                         width: units.gu(6); 
                         height: units.gu(5.625); 
-                        sourceComponent: UbuntuShape { image: mascotImage } 
+                        sourceComponent: UbuntuShape { image: mascotImage.image }
                         anchors { verticalCenter: parent.verticalCenter; }
                     }
 
@@ -47,8 +47,7 @@ Loader {
                     id: mascotImage; 
                     objectName: "mascotImage"; 
                     anchors { verticalCenter: parent.verticalCenter; }
-                    property bool doLoadSource: !NetworkingStatus.limitedBandwith;
-                    source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["mascot"] || ""; }
+                    source: cardData && cardData["mascot"] || ""; 
                     width: units.gu(6);
                     height: units.gu(5.625); 
                     horizontalAlignment: Image.AlignHCenter; 

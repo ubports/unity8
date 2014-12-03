@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-10-07 15:54+0000\n"
+"PO-Revision-Date: 2014-11-18 12:09+0000\n"
 "Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-12-03 06:50+0000\n"
+"X-Generator: Launchpad (build 17274)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -166,7 +166,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "Reveniți la funcția de apelare"
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
