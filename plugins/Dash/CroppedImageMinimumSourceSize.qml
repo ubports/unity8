@@ -15,24 +15,30 @@
  */
 
 import QtQuick 2.3
+import Dash 0.1
 
-Image {
-    property bool resized: false
-    property bool resizing: false
-    fillMode: Image.PreserveAspectCrop
-    visible: resized
-    onSourceSizeChanged: {
-        if (!resized && !resizing) {
-            resizing = true;
-            var ar = width / height;
-            var ssar = sourceSize.width / sourceSize.height;
-            if (ar > ssar) {
-                sourceSize = Qt.size(width, 0);
-            } else {
-                sourceSize = Qt.size(0, height);
-            }
-            resizing = false;
-            resized = true;
-        }
+Item {
+    id: root
+
+    property string source
+    property alias image: innerImage
+    property alias asynchronous: innerImage.asynchronous
+    property alias verticalAlignment: innerImage.verticalAlignment
+    property alias horizontalAlignment: innerImage.horizontalAlignment
+    property alias fillMode: innerImage.fillMode
+
+    CroppedImageSizer {
+        id: sizer
+        source: root.source
+        width: root.width
+        height: root.height
+    }
+
+    Image {
+        id: innerImage
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        sourceSize: sizer.sourceSize.width == 0 && sizer.sourceSize.height == 0 ? undefined : sizer.sourceSize
+        source: sizer.sourceSize.width == -1 && sizer.sourceSize.height == -1 ? "" : root.source
     }
 }
