@@ -261,7 +261,7 @@ Item {
         passwordInput.focus = false;
         passwordInput.enabled = true;
         root.wasPrompted = false;
-        LightDM.Greeter.authenticate(userList.model.data(currentIndex, LightDM.UserRoles.NameRole));
+        selected(currentIndex);
     }
 
     Connections {

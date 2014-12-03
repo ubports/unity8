@@ -34,6 +34,7 @@ Showable {
     // 1 when fully shown and 0 when fully hidden
     readonly property real showProgress: MathUtils.clamp((width - Math.abs(greeterContentLoader.x)) / width, 0, 1)
     readonly property bool fullyShown: showProgress === 1 || lockscreen.shown
+    readonly property bool semiShown: shown || lockscreen.shown
 
     // True when the greeter is waiting for PAM or other setup process
     property bool waiting: true
@@ -51,8 +52,6 @@ Showable {
     property bool tabletMode
     readonly property bool narrowMode: !multiUser && !tabletMode
     readonly property bool multiUser: LightDM.Users.count > 1
-
-    readonly property int currentIndex: greeterContentLoader.currentIndex
 
     property real dragOffset
 
@@ -149,7 +148,7 @@ Showable {
             waiting = true;
 
             if (narrowMode) {
-                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                d.selectUser(greeterContentLoader.currentIndex);
             } else {
                 d.reset();
             }
@@ -188,6 +187,7 @@ Showable {
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
+            LightDM.Greeter.authenticate(user); // always resets auth state
         }
 
         function reset() {
@@ -262,12 +262,6 @@ Showable {
                         start() // go again
                     }
                 }
-            }
-        }
-
-        Component.onCompleted: {
-            if (greeter.narrowMode) {
-                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
             }
         }
     }
@@ -359,28 +353,29 @@ Showable {
                 d.login();
             } else {
                 AccountsService.failedLogins++
-                if (maxFailedLogins >= 2) { // require at least a warning
-                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
-                        var title = lockscreen.alphaNumeric ?
-                                    i18n.tr("Sorry, incorrect passphrase.") :
-                                    i18n.tr("Sorry, incorrect passcode.")
-                        var text = i18n.tr("This will be your last attempt.") + " " +
-                                   (lockscreen.alphaNumeric ?
-                                    i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
-                                    i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
-                        lockscreen.showInfoPopup(title, text)
-                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
-                        SystemImage.factoryReset() // Ouch!
-                    }
-                }
-                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
-                    lockscreen.delayMinutes = failedLoginsDelayMinutes
-                    forcedDelayTimer.start()
-                }
 
-                lockscreen.clear(true);
                 if (greeter.narrowMode) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+                    if (maxFailedLogins >= 2) { // require at least a warning
+                        if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                            var title = lockscreen.alphaNumeric ?
+                                        i18n.tr("Sorry, incorrect passphrase.") :
+                                        i18n.tr("Sorry, incorrect passcode.")
+                            var text = i18n.tr("This will be your last attempt.") + " " +
+                                       (lockscreen.alphaNumeric ?
+                                        i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
+                                        i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
+                            lockscreen.showInfoPopup(title, text)
+                        } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                            SystemImage.factoryReset() // Ouch!
+                        }
+                    }
+                    if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                        lockscreen.delayMinutes = failedLoginsDelayMinutes
+                        forcedDelayTimer.start()
+                    }
+
+                    lockscreen.clear(true);
+                    d.selectUser(greeterContentLoader.currentIndex);
                 }
             }
         }
@@ -389,6 +384,6 @@ Showable {
     Binding {
         target: LightDM.Greeter
         property: "active"
-        value: greeter.fullyShown || greeter.hasLockedApp
+        value: greeter.semiShown || greeter.hasLockedApp
     }
 }

@@ -255,7 +255,6 @@ Item {
         anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_right.png"
     }
@@ -265,7 +264,6 @@ Item {
         anchors.right: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_left.png"
     }
