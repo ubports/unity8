@@ -62,8 +62,8 @@ public:
     qreal rowSpacing() const;
     void setRowSpacing(qreal rowSpacing);
 
-    qreal cacheBuffer() const;
-    void setCacheBuffer(qreal);
+    int cacheBuffer() const;
+    void setCacheBuffer(int);
 
     qreal displayMarginBeginning() const;
     void setDisplayMarginBeginning(qreal);
@@ -118,7 +118,7 @@ private:
 
     int m_columnSpacing;
     int m_rowSpacing;
-    qreal m_buffer;
+    int m_buffer;
     qreal m_displayMarginBeginning;
     qreal m_displayMarginEnd;
     bool m_needsRelayout;

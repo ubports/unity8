@@ -111,12 +111,12 @@ void AbstractDashView::setRowSpacing(qreal rowSpacing)
     }
 }
 
-qreal AbstractDashView::cacheBuffer() const
+int AbstractDashView::cacheBuffer() const
 {
     return m_buffer;
 }
 
-void AbstractDashView::setCacheBuffer(qreal buffer)
+void AbstractDashView::setCacheBuffer(int buffer)
 {
     if (buffer < 0) {
         qmlInfo(this) << "Cannot set a negative cache buffer";
