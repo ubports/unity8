@@ -149,6 +149,7 @@ Row {
 
             unlockAllModemsSpy.clear()
             AccountsService.demoEdges = false
+            LightDM.Greeter.authenticate(""); // reset greeter
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true

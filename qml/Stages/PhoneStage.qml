@@ -145,16 +145,16 @@ Rectangle {
 
         // Those markers mark the various positions in the spread (ratio to screen width from right to left):
         // 0 - 1: following finger, snap back to the beginning on release
-        property real positionMarker1: 0.3
+        property real positionMarker1: 0.2
         // 1 - 2: curved snapping movement, snap to app 1 on release
-        property real positionMarker2: 0.45
+        property real positionMarker2: 0.3
         // 2 - 3: movement follows finger, snaps back to app 1 on release
-        property real positionMarker3: 0.6
+        property real positionMarker3: 0.35
         // passing 3, we detach movement from the finger and snap to 4
         property real positionMarker4: 0.9
 
         // This is where the first app snaps to when bringing it in from the right edge.
-        property real snapPosition: 0.75
+        property real snapPosition: 0.7
 
         // Phase of the animation:
         // 0: Starting from right edge, a new app (index 1) comes in from the right
@@ -178,7 +178,7 @@ Rectangle {
             case 1:
                 if (shiftedContentX < width * positionMarker2) {
                     phase = 0;
-                } else if (shiftedContentX >= width * positionMarker4) {
+                } else if (shiftedContentX >= width * positionMarker4 && !spreadDragArea.dragging) {
                     phase = 2;
                 }
                 break;
@@ -270,6 +270,7 @@ Rectangle {
 
             Repeater {
                 id: spreadRepeater
+                objectName: "spreadRepeater"
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
@@ -367,8 +368,9 @@ Rectangle {
                         if (spreadView.phase == 0 && index < 2) {
                             if (progress < spreadView.positionMarker1) {
                                 return progress;
-                            } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
-                                return spreadView.positionMarker1 + snappingCurve.value * 3;
+                            } else if (progress < spreadView.positionMarker1 + 0.05){
+                                // p : 0.05 = x : pm2
+                                return spreadView.positionMarker1 + (progress - spreadView.positionMarker1) * (spreadView.positionMarker2 - spreadView.positionMarker1) / 0.05
                             } else {
                                 return spreadView.positionMarker2;
                             }
@@ -379,13 +381,6 @@ Rectangle {
                     // Hiding tiles when their progress is negative or reached the maximum
                     visible: (progress >= 0 && progress < 1.7) ||
                              (isDash && priv.focusedAppDelegate.x !== 0)
-
-                    EasingCurve {
-                        id: snappingCurve
-                        type: EasingCurve.Linear
-                        period: 0.05
-                        progress: appDelegate.progress - spreadView.positionMarker1
-                    }
 
                     Binding {
                         target: appDelegate
@@ -425,15 +420,10 @@ Rectangle {
         id: spreadDragArea
         objectName: "spreadDragArea"
         direction: Direction.Leftwards
-        enabled: spreadView.phase != 2 && root.spreadEnabled
+        enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
-
-        // Sitting at the right edge of the screen, this EdgeDragArea directly controls the spreadView when
-        // attachedToView is true. When the finger movement passes positionMarker3 we detach it from the
-        // spreadView and make the spreadView snap to positionMarker4.
-        property bool attachedToView: true
 
         property var gesturePoints: new Array()
 
@@ -443,15 +433,13 @@ Rectangle {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
-            if (dragging && status == DirectionalDragArea.Recognized && attachedToView) {
+            if (dragging && status == DirectionalDragArea.Recognized) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                var finalX = Math.min(touchX + width, width);
-                spreadView.contentX = -finalX + spreadDragArea.width - spreadView.shift;
-            }
-            if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
-                // We passed positionMarker3. Detach from spreadView and snap it.
-                attachedToView = false;
-                spreadView.snap();
+                var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
+                dragX = -dragX + spreadDragArea.width - spreadView.shift;
+                // Don't allow dragging further than the animation crossing with phase2's animation
+                var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
+                spreadView.contentX = Math.min(dragX, maxMovement);
             }
             gesturePoints.push(touchX);
         }
@@ -462,10 +450,6 @@ Rectangle {
         onStatusChanged: {
             previousStatus = currentStatus;
             currentStatus = status;
-
-            if (status == DirectionalDragArea.Recognized) {
-                attachedToView = true;
-            }
         }
 
         onDraggingChanged: {
@@ -493,7 +477,7 @@ Rectangle {
                 // If it was a short one-way movement, do the Alt+Tab switch
                 // no matter if we didn't cross positionMarker1 yet.
                 spreadView.snapTo(1);
-            } else if (!dragging && attachedToView) {
+            } else if (!dragging) {
                 // otherwise snap to the closest snap position we can find
                 // (might be back to start, to app 1 or to spread)
                 spreadView.snap();
