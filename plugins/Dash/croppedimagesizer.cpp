@@ -16,17 +16,18 @@
 
 #include "croppedimagesizer.h"
 
-#include <QDebug>
-#include <QNetworkReply>
+#include "croppedimagesizerasyncworker.h"
+
+#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QQmlEngine>
 #include <QQuickItem>
-#include <QQuickView>
 
 CroppedImageSizer::CroppedImageSizer()
  : m_width(0),
    m_height(0),
-   m_sourceSize(QSize(-1, -1))
+   m_sourceSize(QSize(-1, -1)),
+   m_worker(nullptr)
 {
     connect(this, &CroppedImageSizer::inputParamsChanged, this, &CroppedImageSizer::calculateSourceSize);
     connect(this, &CroppedImageSizer::sourceChanged, this, &CroppedImageSizer::requestImage);
@@ -34,8 +35,8 @@ CroppedImageSizer::CroppedImageSizer()
 
 CroppedImageSizer::~CroppedImageSizer()
 {
-    if (m_reply) {
-        m_reply->deleteLater();
+    if (m_worker) {
+        m_worker->abort();
     }
 }
 
@@ -91,38 +92,32 @@ void CroppedImageSizer::setSourceSize(const QSize &sourceSize)
     }
 }
 
+void CroppedImageSizer::setImageSize(const QSize &imageSize)
+{
+    m_imageSize = imageSize;
+    m_worker = nullptr;
+    calculateSourceSize();
+}
+
 void CroppedImageSizer::requestImage()
 {
-    if (m_reply) {
-        m_reply->disconnect();
-        m_reply->abort();
-        m_reply->deleteLater();
-        m_reply = nullptr;
+    if (m_worker) {
+        m_worker->abort();
+        m_worker = nullptr;
     }
 
     if (m_source.isValid() && qmlEngine(this) && qmlEngine(this)->networkAccessManager()) {
         QNetworkRequest request(m_source);
-        m_reply = qmlEngine(this)->networkAccessManager()->get(request);
-        connect(m_reply, &QNetworkReply::finished, this, &CroppedImageSizer::requestFinished);
-    } else {
+        QNetworkReply *reply = qmlEngine(this)->networkAccessManager()->get(request);
+        m_worker = new CroppedImageSizerAsyncWorker(this, reply);
+    } else  {
         setSourceSize(QSize(-1, -1));
     }
 }
 
-void CroppedImageSizer::requestFinished()
-{
-    QImageReader m_reader(m_reply);
-    m_imageSize = m_reader.size();
-
-    m_reply->deleteLater();
-    m_reply = nullptr;
-
-    calculateSourceSize();
-}
-
 void CroppedImageSizer::calculateSourceSize()
 {
-    if (m_source.isValid() && m_width > 0 && m_height > 0 && !m_reply) {
+    if (m_source.isValid() && m_width > 0 && m_height > 0 && !m_worker) {
         if (!m_imageSize.isEmpty()) {
             const qreal ar = m_width / m_height;
             const qreal ssar = m_imageSize.width() / (qreal)m_imageSize.height();
