@@ -99,12 +99,11 @@ IndicatorDelegate {
 
                     model: d.useFallbackIcon ? [ "image://theme/settings" ] : root.icons
 
-                    StatusIcon {
+                    Icon {
                         id: itemImage
                         objectName: "icon"+index
                         height: iconHeight
                         source: modelData
-                        sets: ["status", "actions"]
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
 

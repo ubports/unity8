@@ -35,7 +35,7 @@ PreviewWidget {
         id: paymentButton
         objectName: "paymentButton"
 
-        color: Theme.palette.selected.foreground
+        color: UbuntuColors.orange
         text: paymentClient.formattedPrice
         onClicked: {
             paymentClient.start();

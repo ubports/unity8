@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-11-13 06:37+0000\n"
-"X-Generator: Launchpad (build 17241)\n"
+"X-Launchpad-Export-Date: 2014-12-03 06:50+0000\n"
+"X-Generator: Launchpad (build 17274)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -259,31 +259,31 @@ msgstr "Trykk for å gå tilbake til anrop …"
 msgid "Conference"
 msgstr "Konferanse"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:615
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
 msgstr "Ingenting spilles nå"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:763
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr "I kø …"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:767
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr "Laster ned"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:769
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr "Satt på pause (trykk for å fortsette)"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:771
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr "Avbrutt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:773
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr "Ferdig"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:775
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr "Feilet. Trykk for å prøve på nytt"
 
@@ -295,49 +295,49 @@ msgstr "Lås opp SIM"
 msgid "Roaming"
 msgstr "Fremmednett"
 
-#: qml/Shell.qml:381
+#: qml/Shell.qml:391
 msgid "Enter passphrase"
 msgstr "Skriv inn passordfrase"
 
-#: qml/Shell.qml:382
+#: qml/Shell.qml:392
 msgid "Sorry, incorrect passphrase"
 msgstr "Feil passordfrase"
 
-#: qml/Shell.qml:383
+#: qml/Shell.qml:393
 msgid "Please re-enter"
 msgstr "Skriv inn på nytt"
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:395
 msgid "Enter passcode"
 msgstr "Tast kode"
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
 msgstr "Feil kode"
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Enter %1"
 msgstr "Skriv inn %1"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:400
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Feil %1"
 
-#: qml/Shell.qml:431
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passphrase."
 msgstr "Feil passordfrase."
 
-#: qml/Shell.qml:432
+#: qml/Shell.qml:442
 msgid "Sorry, incorrect passcode."
 msgstr "Feil kode."
 
-#: qml/Shell.qml:433
+#: qml/Shell.qml:443
 msgid "This will be your last attempt."
 msgstr "Dette er ditt siste forsøk."
 
-#: qml/Shell.qml:435
+#: qml/Shell.qml:445
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -345,7 +345,7 @@ msgstr ""
 "Hvis du skriver feil passordfrase en gang til, tilbakestilles telefonen til "
 "fabrikkinnstillinger, og alle personlige data slettes."
 
-#: qml/Shell.qml:436
+#: qml/Shell.qml:446
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
