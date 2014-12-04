@@ -139,6 +139,17 @@ AbstractButton {
                 }
             }
             onGoBackToParentClicked: {
+                if (navigationListView.currentIndex == 0) {
+                    // This can happen if we jumped to a leaf and deep tree and the user
+                    // is now going back, create space in the list for the list to move "left"
+                    var aux = navigationListView.highlightMoveDuration;
+                    navigationListView.highlightMoveDuration = 0;
+                    navigationModel.insert(0, {"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
+                    navigationListView.currentIndex = navigationListView.currentIndex + 1;
+                    navigationListView.contentX = width * navigationListView.currentIndex;
+                    navigationListView.highlightMoveDuration = aux;
+                }
+
                 scope.setNavigationState(navigation.parentNavigationId, isAltNavigation);
                 isGoingBack = true;
                 navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
@@ -153,6 +164,9 @@ AbstractButton {
             }
         }
         onContentXChanged: {
+            if (navigationListView.highlightMoveDuration == 0)
+                return;
+
             if (contentX == width * navigationListView.currentIndex) {
                 if (isGoingBack) {
                     navigationModel.remove(navigationListView.currentIndex + 1);
