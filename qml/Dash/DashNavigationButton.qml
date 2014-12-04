@@ -140,7 +140,7 @@ AbstractButton {
             }
             onGoBackToParentClicked: {
                 if (navigationListView.currentIndex == 0) {
-                    // This can happen if we jumped to a leaf and deep tree and the user
+                    // This can happen if we jumped to the non root of a deep tree and the user
                     // is now going back, create space in the list for the list to move "left"
                     var aux = navigationListView.highlightMoveDuration;
                     navigationListView.highlightMoveDuration = 0;
