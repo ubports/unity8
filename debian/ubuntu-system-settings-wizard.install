@@ -1,0 +1,5 @@
+usr/bin/system-settings-wizard
+usr/share/ubuntu/settings/wizard
+usr/share/upstart/sessions/ubuntu-system-settings-wizard*.conf
+usr/lib/*/ubuntu-system-settings/private/Ubuntu/SystemSettings/Wizard
+var/lib/polkit-1/localauthority/10-vendor.d/50-com.ubuntu.system-settings.wizard.pkla

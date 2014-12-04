@@ -1,0 +1,6 @@
+[Allow welcome wizard to set AccountsService fields]
+Identity=unix-user:lightdm
+Action=org.freedesktop.accounts.user-administration
+ResultActive=yes
+ResultInactive=no
+ResultAny=no
