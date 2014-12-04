@@ -702,7 +702,7 @@ Item {
                 id: visibleIndicators
                 objectName: "visibleIndicators"
                 // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
-                profile: LightDM.Greeter.active ? (indicatorProfile + "_greeter") : indicatorProfile
+                profile: shell.locked ? (indicatorProfile + "_greeter") : indicatorProfile
                 Component.onCompleted: initialise()
             }
             callHint {
