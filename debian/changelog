@@ -1,3 +1,13 @@
+unity8 (8.01+15.04.20141204-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Import wizard code from ubuntu-system-settings.
+  * Convert the welcome wizard from a separate executable into a qml
+    plugin (with a small C++ plugin for support).
+  * Add tests for welcome wizard.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 04 Dec 2014 20:55:11 +0000
+
 unity8 (8.01+15.04.20141202-0ubuntu1) vivid; urgency=low
 
   [ Michael Terry ]
