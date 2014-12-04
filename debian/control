@@ -88,6 +88,7 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-gsettings1.0,
          qtdeclarative5-qtmir-plugin (>= 0.4.4),
          qtdeclarative5-ubuntu-telephony0.1,
+         ubuntu-system-settings,
          unity-launcher-impl-4,
          unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
@@ -102,6 +103,7 @@ Breaks: indicator-network (<< 0.5.1+14.10.20141014),
         unity8-greeter (<< 7.89),
 Replaces: ubuntu-touch-session (<< 0.82~),
           unity8-greeter (<< 7.89),
+Conflicts: ubuntu-system-settings-wizard,
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
 
@@ -192,15 +194,3 @@ Multi-Arch: foreign
 Depends: ${misc:Depends},
 Description: Documentation for Unity8
  The Unity 8 shell is the primary user interface for Ubuntu devices. (documentation)
-
-Package: ubuntu-system-settings-wizard
-Architecture: any
-Depends: unity8 (= ${binary:Version}),
-         ${misc:Depends},
-         ${shlibs:Depends},
-Recommends: qtdeclarative5-qtmir-plugin (>= 0.4),
-Breaks: ubuntu-system-settings (<< 0.4),
-Replaces: ubuntu-system-settings (<< 0.4),
-Description: Welcome Wizard for Ubuntu Touch
- This package contains the Welcome Wizard used on the Ubuntu Touch images,
- it's designed for phones, tablets and convergent devices.
