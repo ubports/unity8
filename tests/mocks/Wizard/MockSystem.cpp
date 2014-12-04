@@ -33,6 +33,7 @@ void MockSystem::setWizardEnabled(bool enabled)
     Q_EMIT wizardEnabledChanged();
 }
 
-void MockSystem::updateSessionLanguage(const QString &)
+void MockSystem::updateSessionLanguage(const QString &locale)
 {
+    Q_EMIT updateSessionLanguageCalled(locale);
 }

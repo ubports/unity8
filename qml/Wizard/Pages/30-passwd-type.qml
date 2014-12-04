@@ -34,6 +34,8 @@ import ".." as LocalComponents
 
 LocalComponents.Page {
     id: passwdPage
+    objectName: "passwdPage"
+
     title: i18n.tr("Lock security")
     forwardButtonSourceComponent: forwardButton
 
@@ -84,6 +86,8 @@ LocalComponents.Page {
             selectedIndex: methodToIndex(root.passwordMethod)
 
             delegate: OptionSelectorDelegate {
+                objectName: "passwdDelegate" + index
+
                 // use subText because we want the text to be small, and we have no other way to control it
                 subText: {
                     var method = indexToMethod(index)

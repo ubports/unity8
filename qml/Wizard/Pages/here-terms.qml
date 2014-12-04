@@ -22,6 +22,8 @@ import Ubuntu.Web 0.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
+    objectName: "hereTermsPage"
+
     title: i18n.tr("Terms & Conditions")
     customBack: true
 
@@ -96,6 +98,7 @@ LocalComponents.Page {
 
         Label {
             id: termsLabel
+            objectName: "termsLabel"
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
@@ -108,6 +111,7 @@ LocalComponents.Page {
 
         WebView {
             id: webview
+            objectName: "webview"
             anchors.left: parent.left
             anchors.right: parent.right
             height: parent.height

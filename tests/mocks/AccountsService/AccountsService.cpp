@@ -138,7 +138,13 @@ QString AccountsService::hereLicensePath() const
 void AccountsService::setHereLicensePath(const QString &path)
 {
     // Path should always be valid (this code is all synchronous)
-    m_hereLicensePath = path.isNull() ? "" : path;
+    if (path == " ") {
+        m_hereLicensePath = QString::null;
+    } else if (path.isNull()) { // because qml collapses null and empty
+        m_hereLicensePath = "";
+    } else {
+        m_hereLicensePath = path;
+    }
     hereLicensePathChanged();
 }
 

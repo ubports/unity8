@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mockplugin.h"
-#include "MockSystem.h"
-#include "PageList.h"
+import QtQuick 2.3
+import MeeGo.QOfono 0.2
 
-#include <QtQml/qqml.h>
+Item {
+    id: simManager
 
-static QObject *system_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new MockSystem();
-}
+    property string modemPath
+    readonly property alias present: d.present
 
-void MockWizardPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("Wizard"));
-    qmlRegisterType<PageList>(uri, 0, 1, "PageList");
-    qmlRegisterSingletonType<MockSystem>(uri, 0, 1, "System", system_provider);
+    QtObject {
+        id: d
+
+        property bool present: false
+
+        function updatePresence() {
+            d.present = MockQOfono.isModemPresent(simManager.modemPath)
+        }
+    }
+
+    onModemPathChanged: d.updatePresence()
+
+    Connections {
+        target: MockQOfono
+        onModemsChanged: d.updatePresence()
+    }
 }

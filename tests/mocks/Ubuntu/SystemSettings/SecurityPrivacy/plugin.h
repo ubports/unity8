@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mockplugin.h"
-#include "MockSystem.h"
-#include "PageList.h"
+#ifndef MOCK_SECURITYPRIVACY_PLUGIN_H
+#define MOCK_SECURITYPRIVACY_PLUGIN_H
 
-#include <QtQml/qqml.h>
+#include <QQmlExtensionPlugin>
 
-static QObject *system_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+class BackendPlugin : public QQmlExtensionPlugin
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new MockSystem();
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-void MockWizardPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("Wizard"));
-    qmlRegisterType<PageList>(uri, 0, 1, "PageList");
-    qmlRegisterSingletonType<MockSystem>(uri, 0, 1, "System", system_provider);
-}
+public:
+    void registerTypes(const char *uri);
+};
+
+#endif // MOCK_SECURITYPRIVACY_PLUGIN_H
