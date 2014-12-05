@@ -1,0 +1,3 @@
+module Wizard
+plugin MockWizard-qml
+typeinfo Wizard.qmltypes
