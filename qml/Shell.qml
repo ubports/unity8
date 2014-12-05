@@ -154,6 +154,10 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    PhysicalKeysFilter {
+        id: physicalKeysFilter
+    }
+
     ScreenGrabber {
         id: screenGrabber
         z: edgeDemo.z + 10
