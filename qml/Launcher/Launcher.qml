@@ -23,6 +23,7 @@ import Unity.Launcher 0.1
 Item {
     id: root
 
+    property bool autohideEnabled: false
     property bool available: true // can be used to disable all interactions
 
     property int panelWidth: units.gu(8)
@@ -42,14 +43,13 @@ Item {
     // emitted when the dash icon in the launcher has been tapped
     signal showDashHome()
 
-//    FIXME Similar code will be needed on desktop autohide (see dismissTimer and other code commented out)
-//    onStateChanged: {
-//        if (state == "") {
-//            dismissTimer.stop()
-//        } else {
-//            dismissTimer.restart()
-//        }
-//    }
+    onStateChanged: {
+        if (state == "") {
+            dismissTimer.stop()
+        } else {
+            dismissTimer.restart()
+        }
+    }
 
     function hide() {
         switchToNextState("")
@@ -84,18 +84,20 @@ Item {
         property string mode: "teasing"
     }
 
-//    Timer {
-//        id: dismissTimer
-//        objectName: "dismissTimer"
-//        interval: 5000
-//        onTriggered: {
-//            if (!panel.preventHiding) {
-//                root.state = ""
-//            } else {
-//                dismissTimer.restart()
-//            }
-//        }
-//    }
+    Timer {
+        id: dismissTimer
+        objectName: "dismissTimer"
+        interval: 5000
+        onTriggered: {
+            if (root.autohideEnabled) {
+                if (!panel.preventHiding) {
+                    root.state = ""
+                } else {
+                    dismissTimer.restart()
+                }
+            }
+        }
+    }
 
     // Because the animation on x is disabled while dragging
     // switching state directly in the drag handlers would not animate
@@ -211,11 +213,11 @@ Item {
             root.showDashHome();
         }
 
-//        onPreventHidingChanged: {
-//            if (dismissTimer.running) {
-//                dismissTimer.restart();
-//            }
-//        }
+        onPreventHidingChanged: {
+            if (dismissTimer.running) {
+                dismissTimer.restart();
+            }
+        }
 
         Behavior on x {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate;
