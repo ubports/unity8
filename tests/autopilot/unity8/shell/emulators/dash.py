@@ -129,6 +129,8 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
+        # Make the drag range be a multiple of the drag "rate" value.
+        # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
         rate = 10
         divisions = 5
         jump = ( width / divisions ) // rate * rate
@@ -143,6 +145,8 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
+        # Make the drag range be a multiple of the drag "rate" value.
+        # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
         rate = 10
         divisions = 5
         jump = ( width / divisions ) // rate * rate
