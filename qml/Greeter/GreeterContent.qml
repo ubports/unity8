@@ -128,6 +128,11 @@ Item {
             }
         }
 
+        Connections {
+            target: i18n
+            onLanguageChanged: greeterContentLoader.infographicModel.readyForDataChange()
+        }
+
         anchors {
             verticalCenter: parent.verticalCenter
             left: narrowMode ? root.left : loginLoader.right

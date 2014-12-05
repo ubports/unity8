@@ -71,9 +71,11 @@ inline QStringList fallbackImportPaths() {
     QStringList paths;
     if (isRunningInstalled()) {
         paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@");
+        paths << QString("@USS_PRIVATE_PLUGINDIR@");
         paths << QString("@SHELL_PLUGINDIR@");
         paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@/mocks");
     } else {
+        paths << QString("@USS_PRIVATE_PLUGINDIR@");
         paths << QString("@SHELL_PLUGINDIR@");
         paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
     }

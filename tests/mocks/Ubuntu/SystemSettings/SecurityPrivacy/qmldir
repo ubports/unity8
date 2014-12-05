@@ -1,0 +1,2 @@
+module Ubuntu.SystemSettings.SecurityPrivacy
+plugin MockSecurityPrivacy
