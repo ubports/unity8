@@ -13,6 +13,7 @@ set(QML_DIRS
     Launcher
     Stages
     Notifications
+    Wizard
     )
 
 install(DIRECTORY ${QML_DIRS}

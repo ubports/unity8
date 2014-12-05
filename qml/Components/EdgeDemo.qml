@@ -17,6 +17,7 @@
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 
 Item {
     id: demo
@@ -61,11 +62,16 @@ Item {
         stagesEnabled = true
         panelEnabled = true
         panelContentEnabled = true
-        if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy()
-        if (d.topEdgeDemo)    d.topEdgeDemo.destroy()
-        if (d.bottomEdgeDemo) d.bottomEdgeDemo.destroy()
-        if (d.leftEdgeDemo)   d.leftEdgeDemo.destroy()
-        if (d.finalEdgeDemo)  d.finalEdgeDemo.destroy()
+
+        // Use a tiny delay for these destroy() calls because if a lot is
+        // happening at once (like creating and being destroyed in same event
+        // loop, as might happen when answering a call while demo is open),
+        // the destroy() call will be ignored.
+        if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy(1);
+        if (d.topEdgeDemo)    d.topEdgeDemo.destroy(1);
+        if (d.bottomEdgeDemo) d.bottomEdgeDemo.destroy(1);
+        if (d.leftEdgeDemo)   d.leftEdgeDemo.destroy(1);
+        if (d.finalEdgeDemo)  d.finalEdgeDemo.destroy(1);
     }
 
     function startDemo() {
@@ -97,12 +103,19 @@ Item {
         property bool showEdgeDemo: AccountsService.demoEdges
         property bool showEdgeDemoInGreeter: AccountsService.demoEdges // TODO: AccountsService.demoEdges as lightdm user
 
-        onShowEdgeDemoChanged: {
+        function restartDemo() {
             stopDemo()
             if (d.showEdgeDemo) {
                 startDemo()
             }
         }
+
+        onShowEdgeDemoChanged: restartDemo()
+    }
+
+    Connections {
+        target: i18n
+        onLanguageChanged: d.restartDemo()
     }
 
     function startRightEdgeDemo() {
