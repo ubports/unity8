@@ -370,6 +370,7 @@ void LauncherModel::refresh()
             int idx = m_list.indexOf(item);
             item->setName(desktopFile.displayName());
             item->setIcon(desktopFile.icon());
+            item->setPinned(item->pinned()); // update pinned text if needed
             Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
         }
     }
