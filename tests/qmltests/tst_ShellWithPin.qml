@@ -161,6 +161,7 @@ Item {
             AccountsService.enableIndicatorsWhileLocked = true
             AccountsService.demoEdges = false
             callManager.foregroundCall = null
+            LightDM.Greeter.authenticate(""); // reset greeter
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
@@ -400,6 +401,7 @@ Item {
             var lockscreen = findChild(shell, "lockscreen");
 
             lockscreen.emergencyCall();
+console.log("MIKE first locked app");
             confirmLockedApp("dialer-app");
             callManager.foregroundCall = phoneCall;
 
@@ -410,6 +412,7 @@ Item {
             // simulate a callHint press, the real thing requires dialer: url support
             ApplicationManager.requestFocusApplication("dialer-app");
 
+console.log("MIKE second locked app");
             confirmLockedApp("dialer-app");
         }
 

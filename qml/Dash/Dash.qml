@@ -31,9 +31,10 @@ Showable {
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
-            if (!isSwipe || !window.active || overviewController.progress != 0) {
+            if (!isSwipe || !window.active || overviewController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
                 if (overviewController.progress != 0 && window.active) animate = false;
                 dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
+                // Close dash overview and nested temp scopes in it
                 if (overviewController.progress != 0) {
                     if (window.active) {
                         dashContentCache.scheduleUpdate();
@@ -41,6 +42,14 @@ Showable {
                     overviewController.enableAnimation = window.active && !scopesOverview.showingNonFavoriteScope;
                     overviewController.progress = 0;
                     scopesOverview.closeTempScope();
+                }
+                // Close normal temp scopes (e.g. App Store)
+                if (scopeItem.scope) {
+                    scopeItem.backClicked();
+                }
+                // Close previews
+                if (dashContent.subPageShown) {
+                    dashContent.closePreview();
                 }
             }
         }
@@ -309,7 +318,7 @@ Showable {
             id: orange
             anchors { top: parent.top;  bottom: parent.bottom }
             width: parent.width / 4
-            color: Theme.palette.selected.foreground
+            color: UbuntuColors.orange
 
             SequentialAnimation {
                 running: indicator.visible
@@ -389,5 +398,4 @@ Showable {
             }
         }
     }
-
 }

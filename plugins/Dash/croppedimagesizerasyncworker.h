@@ -14,29 +14,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import MeeGo.QOfono 0.2
+#ifndef CROPPEDIMAGESIZERASYNCWORKER_H
+#define CROPPEDIMAGESIZERASYNCWORKER_H
 
-Item {
-    id: simManager
+#include <QMutex>
+#include <QObject>
 
-    property string modemPath
-    readonly property alias present: d.present
+class CroppedImageSizer;
 
-    QtObject {
-        id: d
+class QNetworkReply;
 
-        property bool present: false
+class CroppedImageSizerAsyncWorker : public QObject
+{
+    Q_OBJECT
+public:
+    CroppedImageSizerAsyncWorker(CroppedImageSizer *sizer, QNetworkReply *reply);
 
-        function updatePresence() {
-            d.present = MockQOfono.isModemPresent(simManager.modemPath)
-        }
-    }
+    void abort();
 
-    onModemPathChanged: d.updatePresence()
+private Q_SLOTS:
+    void requestFinished();
 
-    Connections {
-        target: MockQOfono
-        onModemsChanged: d.updatePresence()
-    }
-}
+private:
+    static void processRequestFinished(CroppedImageSizerAsyncWorker *worker);
+
+    QMutex m_mutex;
+    CroppedImageSizer *m_sizer;
+    QNetworkReply *m_reply;
+    bool m_ignoreAbort;
+};
+
+#endif

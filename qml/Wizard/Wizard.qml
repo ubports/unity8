@@ -20,14 +20,12 @@ import Wizard 0.1
 import "../Components"
 
 Showable {
+    id: root
+
     // The background wallpaper to use
     property string background
 
     readonly property alias active: loader.active
-
-    ////
-
-    id: root
 
     hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 

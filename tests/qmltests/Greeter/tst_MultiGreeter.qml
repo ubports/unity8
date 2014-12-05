@@ -29,7 +29,6 @@ Item {
     Greeter {
         id: greeter
         anchors.fill: parent
-        locked: !LightDM.Greeter.authenticated
     }
 
     Component {

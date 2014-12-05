@@ -243,8 +243,10 @@ Item {
             tryCompare(scopesOverviewRepeater, "count", 0);
 
             // Click on a temp scope in the search
-            var dashCategorysearchA = findChild(searchResultsViewer, "dashCategorysearchA");
-            var cardTempScope = findChild(dashCategorysearchA, "delegate2");
+            tryCompareFunction( function() {
+                return findChild(findChild(searchResultsViewer, "dashCategorysearchA"), "delegate2") != null;
+            }, true);
+            var cardTempScope = findChild(findChild(searchResultsViewer, "dashCategorysearchA"), "delegate2");
             verify(cardTempScope, "Could not find delegate2");
 
             waitForRendering(cardTempScope);
@@ -296,6 +298,22 @@ Item {
             tryCompare(dashContentList, "currentIndex", 0)
             dashCommunicatorService.mockSetCurrentScope(1, true, false);
             tryCompare(dashContentList, "currentIndex", 1)
+        }
+
+        function test_setCurrentScopeClosesPreview() {
+            var dashContent = findChild(dash, "dashContent");
+            waitForRendering(dash)
+
+            var delegate0 = findChild(dash, "delegate0");
+            mouseClick(delegate0, delegate0.width / 2, delegate0.height / 2);
+
+            tryCompare(dashContent, "subPageShown", true)
+            waitForRendering(dash);
+
+            var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
+            dashCommunicatorService.mockSetCurrentScope(0, true, false);
+
+            tryCompare(dashContent, "subPageShown", false)
         }
 
         function test_processing_indicator() {

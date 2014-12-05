@@ -44,12 +44,14 @@ import Unity.DashCommunicator 0.1
 Item {
     id: shell
 
+    // Disable everything while greeter is waiting, so that the user can't swipe
+    // the greeter or launcher until we know whether the session is locked.
+    enabled: !greeter.waiting
+
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
-
-    enabled: !greeter.waiting
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
@@ -205,7 +207,7 @@ Item {
                     // If we are in the middle of a call, make dialer lockedApp and show it.
                     // This can happen if user backs out of dialer back to greeter, then
                     // launches dialer again.
-                    lockedApp = appId;
+                    greeter.lockedApp = appId;
                 }
 
                 greeter.notifyAppFocused(appId);
@@ -327,7 +329,7 @@ Item {
 
         hides: [launcher, panel.indicators]
         tabletMode: shell.sideStageEnabled
-        launcherOffset: narrowMode ? launcher.progress : 0
+        launcherOffset: (narrowMode && showProgress > 0) ? launcher.progress : 0
         forcedUnlock: edgeDemo.running
         background: shell.background
 
@@ -507,19 +509,26 @@ Item {
             margin: units.gu(1)
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
-            width: parent.width
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             states: [
                 State {
                     name: "narrow"
                     when: overlay.width <= units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: parent.left }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                    }
                 },
                 State {
                     name: "wide"
                     when: overlay.width > units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: undefined }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: undefined
+                        anchors.right: parent.right
+                    }
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
