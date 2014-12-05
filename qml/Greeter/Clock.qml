@@ -34,6 +34,16 @@ Item {
         }
     }
 
+    Connections {
+        target: i18n
+        onLanguageChanged: {
+            if (visible) {
+                timeLabel.text = Qt.formatTime(clock.currentDate); // kicks time
+                clock.currentDate = new Date(); // kicks date
+            }
+        }
+    }
+
     Indicators.SharedUnityMenuModel {
         id: timeModel
         objectName: "timeModel"

@@ -58,6 +58,7 @@ public:
 
 public Q_SLOTS:
     void requestRemove(const QString &appId);
+    Q_INVOKABLE void refresh();
 
 private:
     void storeAppList();
@@ -68,7 +69,6 @@ private Q_SLOTS:
     void countChanged(const QString &appId, int count);
     void countVisibleChanged(const QString &appId, int count);
     void progressChanged(const QString &appId, int progress);
-    void refresh();
 
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);

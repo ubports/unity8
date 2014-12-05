@@ -37,6 +37,7 @@ import "Components"
 import "Notifications"
 import "Stages"
 import "Panel/Indicators"
+import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
@@ -241,6 +242,14 @@ Item {
             onApplicationAdded: {
                 if (greeter.shown && appId != "unity8-dash") {
                     greeter.startUnlock()
+
+                    // If this happens on first boot, we may be in edge
+                    // tutorial or wizard while receiving a call.  But a call
+                    // is more important than wizard so just bail out of those.
+                    if (edgeDemo.running) {
+                        edgeDemo.hideEdgeDemos();
+                        wizard.hide();
+                    }
                 }
                 if (greeter.narrowMode && greeter.hasLockedApp && appId === greeter.lockedApp) {
                     lockscreen.hide() // show locked app
@@ -365,6 +374,15 @@ Item {
         minPinLength: 4
         maxPinLength: 4
 
+        property string promptText
+        infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
+                  alphaNumeric ? i18n.tr("Enter passphrase") :
+                                 i18n.tr("Enter passcode")
+        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
+                   alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
+                                  i18n.tr("Please re-enter") :
+                                  i18n.tr("Sorry, incorrect passcode")
+
         // FIXME: We *should* show emergency dialer if there is a SIM present,
         // regardless of whether the side stage is enabled.  But right now,
         // the assumption is that narrow screens are phones which have SIMs
@@ -418,20 +436,7 @@ Item {
                 return; // could happen if hideGreeter() comes in before we prompt
             }
             if (greeter.narrowMode) {
-                if (isDefaultPrompt) {
-                    if (lockscreen.alphaNumeric) {
-                        lockscreen.infoText = i18n.tr("Enter passphrase")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase") + "\n" +
-                                               i18n.tr("Please re-enter")
-                    } else {
-                        lockscreen.infoText = i18n.tr("Enter passcode")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
-                    }
-                } else {
-                    lockscreen.infoText = i18n.tr("Enter %1").arg(text.toLowerCase())
-                    lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
-                }
-
+                lockscreen.promptText = isDefaultPrompt ? "" : text.toLowerCase();
                 lockscreen.maybeShow();
             }
         }
@@ -761,6 +766,12 @@ Item {
             }
         }
 
+        Wizard {
+            id: wizard
+            anchors.fill: parent
+            background: shell.background
+        }
+
         Rectangle {
             id: modalNotificationBackground
 
@@ -822,7 +833,7 @@ Item {
         id: edgeDemo
         objectName: "edgeDemo"
         z: dialogs.z + 10
-        paused: Powerd.status === Powerd.Off // Saves power
+        paused: Powerd.status === Powerd.Off || wizard.active // Saves power
         greeter: greeter
         launcher: launcher
         panel: panel
