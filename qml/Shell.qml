@@ -543,11 +543,6 @@ Item {
             property string lockedApp: ""
             property bool hasLockedApp: lockedApp !== ""
 
-            available: true
-            hides: [launcher, panel.indicators]
-            shown: true
-            loadContent: required || lockscreen.required // keeps content in memory for quick show()
-
             locked: shell.locked
 
             background: shell.background
@@ -555,7 +550,12 @@ Item {
             width: parent.width
             height: parent.height
 
-            dragHandleWidth: shell.edgeSize
+
+            // avoid overlapping with Launcher's edge drag area
+            // FIXME: Fix TouchRegistry & friends and remove this workaround
+            //        Issue involves launcher's DDA getting disabled on a long
+            //        left-edge drag
+            dragHandleLeftMargin: launcher.dragAreaWidth + 1
 
             function startUnlock() {
                 if (narrowMode) {
@@ -582,6 +582,9 @@ Item {
 
             onShownChanged: {
                 if (shown) {
+                    launcher.hide();
+                    panel.indicators.hide();
+
                     // Disable everything so that user can't swipe greeter or
                     // launcher until we get the next prompt/authenticate, which
                     // will re-enable the shell.
@@ -609,7 +612,7 @@ Item {
                 LauncherModel.setUser(user);
             }
 
-            onTease: launcher.tease()
+            onTapped: launcher.tease()
 
             Binding {
                 target: ApplicationManager

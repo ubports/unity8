@@ -18,7 +18,9 @@
 
 bool Direction::isHorizontal(Direction::Type type)
 {
-    return type == Direction::Leftwards || type == Direction::Rightwards;
+    return type == Direction::Leftwards
+        || type == Direction::Rightwards
+        || type == Direction::Horizontal;
 }
 
 bool Direction::isVertical(Direction::Type type)
@@ -28,5 +30,7 @@ bool Direction::isVertical(Direction::Type type)
 
 bool Direction::isPositive(Direction::Type type)
 {
-    return type == Rightwards || type == Downwards;
+    return type == Rightwards
+        || type == Downwards
+        || type == Horizontal;
 }

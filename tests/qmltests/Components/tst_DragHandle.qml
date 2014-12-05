@@ -27,8 +27,9 @@ import Ubuntu.Gestures 0.1
   A black vertical line marks the point where a drag needs no forward velocity to
   achieve auto-completion (i.e., get Showable.show() called after touch release).
  */
-Item {
+Rectangle {
     id: root
+    color: "darkblue"
     width: units.gu(70)
     height: units.gu(70)
 
@@ -36,19 +37,37 @@ Item {
 
     property bool stretch: false
     property real hintDisplacement: 0
+    property bool bidirectional: false
 
     Item {
         id: baseItem
         objectName: "baseItem"
         anchors.fill: parent
 
+        Button {
+            visible: root.bidirectional && bidirectionalShowable.fullyHidden
+            text: "bidirectionalShowable.show()"
+            anchors.centerIn: parent
+            onClicked: { bidirectionalShowable.show(); }
+        }
+
+        BidirectionalShowable {
+            id: bidirectionalShowable
+            visible: root.bidirectional
+            onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
+            //stretch: root.stretch
+            //hintDisplacement: root.hintDisplacement
+        }
+
         VerticalShowable {
+            visible: !root.bidirectional
             onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
             stretch: root.stretch
             hintDisplacement: root.hintDisplacement
         }
 
         HorizontalShowable {
+            visible: !root.bidirectional
             onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
             stretch: root.stretch
             hintDisplacement: root.hintDisplacement
@@ -60,15 +79,28 @@ Item {
             width: 2
             height: parent.height
 
-            visible: dragHandle !== undefined && Direction.isHorizontal(dragHandle.direction)
+            visible: dragHandle !== undefined
+                  && (dragHandle.direction === Direction.Horizontal || dragHandle.direction === Direction.Rightwards)
 
             x: {
                 if (dragHandle) {
-                    if (dragHandle.direction === Direction.Rightwards) {
-                        dragHandle.edgeDragEvaluator.dragThreshold;
-                    } else {
-                        parent.width - dragHandle.edgeDragEvaluator.dragThreshold;
-                    }
+                    dragHandle.edgeDragEvaluator.dragThreshold;
+                } else {
+                    0
+                }
+            }
+        }
+        Rectangle {
+            color: "black"
+            width: 2
+            height: parent.height
+
+            visible: dragHandle !== undefined
+                  && (dragHandle.direction === Direction.Horizontal || dragHandle.direction === Direction.Leftwards)
+
+            x: {
+                if (dragHandle) {
+                    parent.width - dragHandle.edgeDragEvaluator.dragThreshold;
                 } else {
                     0
                 }
@@ -157,6 +189,12 @@ Item {
                     baseItem.rotation = 0.0
                 }
             }
+        }
+
+        Button {
+            id: bidirectionalButton
+            text: root.bidirectional ? "bidirectional" : "directional"
+            onClicked: { root.bidirectional = !root.bidirectional; }
         }
     }
 }

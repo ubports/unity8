@@ -20,21 +20,58 @@ import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
 
-Showable {
+Item {
     id: greeter
-    enabled: shown
-    created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
+    enabled: visible
+
+    property real dragHandleLeftMargin: 0
 
     property url background
-    property bool loadContent: required
+
+    property bool shown: true
+    function showNow() {
+        shown = true;
+        positionLock.disable();
+        greeter.x = 0;
+        greeter.visible = true;
+    }
+    function show() {
+        shown = true;
+        hideAnimation.stop();
+        showAnimation.start();
+    }
+    function hideNow() {
+        shown = false;
+        greeter.x = -greeter.width;
+        greeter.visible = false;
+        positionLock.enable();
+    }
+    function hide() {
+        shown = false;
+        showAnimation.stop();
+        if (!hideAnimation.running) {
+            hideTranslation.to = greeter.x > 0 ? greeter.width : -greeter.width;
+            hideAnimation.start();
+        }
+    }
+    function hideRight() {
+        shown = false;
+        showAnimation.stop();
+        if (!hideAnimation.running) {
+            hideTranslation.to = greeter.width;
+            hideAnimation.start();
+        }
+    }
+
+    // <dandrader> Is this really necessary?
+    property bool loadContent: false
+    Component.onCompleted: {
+        loadContent = true;
+    }
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
+    property real showProgress: visible ? MathUtils.clamp((width - Math.abs(x)) / width, 0, 1) : 0
 
-    showAnimation: StandardAnimation { property: "x"; to: 0; duration: UbuntuAnimation.FastDuration }
-    hideAnimation: __leftHideAnimation
-
-    property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
     property bool locked: true
 
@@ -43,97 +80,25 @@ Showable {
 
     readonly property int currentIndex: greeterContentLoader.currentIndex
 
-    property var __leftHideAnimation: StandardAnimation { property: "x"; to: -width }
-    property var __rightHideAnimation: StandardAnimation { property: "x"; to: width }
-
     signal selected(int uid)
     signal unlocked(int uid)
-    signal tease()
-
-    function hideRight() {
-        if (shown) {
-            hideAnimation = __rightHideAnimation
-            hide()
-        }
-    }
+    signal tapped()
 
     function tryToUnlock() {
-        if (created) {
+        if (greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready) {
             greeterContentLoader.item.tryToUnlock()
         }
     }
 
     function reset() {
-        if (created) {
+        if (greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready) {
             greeterContentLoader.item.reset()
         }
     }
 
-    onRequiredChanged: {
-        // Reset hide animation to default once we're finished with it
-        if (required) {
-            // Reset hide animation so that a hide() call is reliably left
-            hideAnimation = __leftHideAnimation
-        }
-    }
-
-    // Bi-directional revealer
-    DraggingArea {
-        id: dragHandle
-        anchors.fill: parent
-        enabled: (greeter.narrowMode || !greeter.locked) && greeter.enabled && greeter.shown
-        orientation: Qt.Horizontal
-        propagateComposedEvents: true
-
-        Component.onCompleted: {
-            // set evaluators to baseline of dragValue == 0
-            leftEvaluator.reset()
-            rightEvaluator.reset()
-        }
-
-        function maybeTease() {
-            if (!greeter.locked || greeter.narrowMode)
-                greeter.tease();
-        }
-
-        onClicked: maybeTease()
-        onDragStart: maybeTease()
-        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
-
-        onDragEnd: {
-            if (greeter.x > 0 && rightEvaluator.shouldAutoComplete()) {
-                greeter.hideRight()
-            } else if (greeter.x < 0 && leftEvaluator.shouldAutoComplete()) {
-                greeter.hide();
-            } else {
-                greeter.show(); // undo drag
-            }
-        }
-
-        onDragValueChanged: {
-            // dragValue is kept as a "step" value since we do this x adjusting on the fly
-            greeter.x += dragValue
-        }
-
-        EdgeDragEvaluator {
-            id: rightEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
-            maxDragDistance: parent.width
-            direction: Direction.Rightwards
-        }
-
-        EdgeDragEvaluator {
-            id: leftEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
-            maxDragDistance: parent.width
-            direction: Direction.Leftwards
-        }
-    }
-    TouchGate {
-        targetItem: dragHandle
-        anchors.fill: targetItem
-        enabled: targetItem.enabled
-    }
+    // event eater
+    // Nothing should leak to items behind the greeter
+    MouseArea { anchors.fill: parent }
 
     Loader {
         id: greeterContentLoader
@@ -161,11 +126,21 @@ Showable {
         }
     }
 
-    onTease: showLabelAnimation.start()
+    DragHandle {
+        id: dragHandle
+        anchors.fill: parent
+        anchors.leftMargin: greeter.dragHandleLeftMargin
+        enabled: (greeter.narrowMode || !greeter.locked) && greeter.enabled && greeter.shown
+        direction: Direction.Horizontal
+
+        onTapped: {
+            greeter.tapped();
+            showLabelAnimation.start();
+        }
+    }
 
     Label {
         id: swipeHint
-        visible: greeter.shown
         property real baseOpacity: 0.5
         opacity: 0.0
         anchors.horizontalCenter: parent.horizontalCenter
@@ -199,7 +174,6 @@ Showable {
         anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_right.png"
     }
@@ -209,8 +183,65 @@ Showable {
         anchors.right: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_left.png"
+    }
+
+    Binding {
+        id: positionLock
+
+        function enable() {
+            if (__enabled) {
+                return;
+            }
+
+            if (greeter.x > 0) {
+                value = Qt.binding(function() { return greeter.width; })
+            } else {
+                value = Qt.binding(function() { return -greeter.width; })
+            }
+
+            __enabled = true;
+        }
+
+        function disable() {
+            __enabled = false;
+        }
+
+        property bool __enabled: false
+
+        target: greeter
+        when: __enabled
+        property: "x"
+    }
+
+    SequentialAnimation {
+        id: hideAnimation
+        objectName: "hideAnimation"
+        StandardAnimation {
+            id: hideTranslation
+            property: "x"
+            target: greeter
+            duration: UbuntuAnimation.FastDuration
+        }
+        ScriptAction { script: {
+            greeter.visible = false;
+            positionLock.enable();
+        } }
+    }
+
+    SequentialAnimation {
+        id: showAnimation
+        objectName: "showAnimation"
+        ScriptAction { script: {
+            greeter.visible = true;
+            positionLock.disable();
+        } }
+        StandardAnimation {
+            property: "x"
+            target: greeter
+            to: 0
+            duration: UbuntuAnimation.FastDuration
+        }
     }
 }
