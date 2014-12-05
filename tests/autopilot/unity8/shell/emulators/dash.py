@@ -129,10 +129,13 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 5
-        stop_x = x + width / 5 * 4
+        rate = 10
+        divisions = 5
+        jump = ( width / divisions ) // rate * rate
+        start_x = x + jump
+        stop_x = x + jump * (divisions - 1)
         start_y = stop_y = y + 1
-        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
 
     @autopilot_logging.log_action(logger.info)
@@ -140,10 +143,13 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 5 * 4
-        stop_x = x + width / 5
+        rate = 10
+        divisions = 5
+        jump = ( width / divisions ) // rate * rate
+        start_x = x + jump * (divisions - 1)
+        stop_x = x + jump
         start_y = stop_y = y + 1
-        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
     def enter_search_query(self, query):

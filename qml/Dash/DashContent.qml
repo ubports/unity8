@@ -118,10 +118,6 @@ Item {
             cacheBuffer: 1073741823
             onMovementStarted: currentItem.item.showHeader();
             clip: parent.x != 0
-            onDraggingChanged: console.log("dragging", dragging);
-            onMovingChanged: console.log("moving", moving);
-            onContentXChanged: console.log("contentX", contentX);
-            onCurrentIndexChanged: console.log("currentIndex", currentIndex);
 
             // TODO QTBUG-40846 and QTBUG-40848
             // The remove transition doesn't happen when removing the last item
