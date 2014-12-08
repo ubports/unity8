@@ -198,7 +198,6 @@ Showable {
             id: hideTranslation
             property: "x"
             target: greeter
-            duration: UbuntuAnimation.FastDuration
         }
         PropertyAction { target: greeter; property: "visible"; value: false }
         PropertyAction { target: positionLock; property: "enabled"; value: true }
