@@ -20,7 +20,7 @@ import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
 
-Item {
+Showable {
     id: greeter
     enabled: visible
 
@@ -28,39 +28,19 @@ Item {
 
     property url background
 
-    property bool shown: true
-    function showNow() {
-        shown = true;
-        positionLock.disable();
-        greeter.x = 0;
-        greeter.visible = true;
-    }
-    function show() {
-        shown = true;
-        hideAnimation.stop();
-        showAnimation.start();
-    }
-    function hideNow() {
-        shown = false;
-        greeter.x = -greeter.width;
-        greeter.visible = false;
-        positionLock.enable();
-    }
-    function hide() {
-        shown = false;
-        showAnimation.stop();
-        if (!hideAnimation.running) {
-            hideTranslation.to = greeter.x > 0 ? greeter.width : -greeter.width;
-            hideAnimation.start();
-        }
-    }
     function hideRight() {
-        shown = false;
-        showAnimation.stop();
-        if (!hideAnimation.running) {
-            hideTranslation.to = greeter.width;
-            hideAnimation.start();
-        }
+        d.forceRightOnNextHideAnimation = true;
+        hide();
+    }
+
+    prepareToHide: function () {
+        hideTranslation.to = greeter.x > 0 || d.forceRightOnNextHideAnimation ? greeter.width : -greeter.width;
+        d.forceRightOnNextHideAnimation = false;
+    }
+
+    QtObject {
+        id: d
+        property bool forceRightOnNextHideAnimation: false
     }
 
     // <dandrader> Is this really necessary?
@@ -190,22 +170,21 @@ Item {
     Binding {
         id: positionLock
 
-        function enable() {
-            if (__enabled) {
+        property bool enabled: false
+        onEnabledChanged: {
+            if (enabled === __enabled) {
                 return;
             }
 
-            if (greeter.x > 0) {
-                value = Qt.binding(function() { return greeter.width; })
-            } else {
-                value = Qt.binding(function() { return -greeter.width; })
+            if (enabled) {
+                if (greeter.x > 0) {
+                    value = Qt.binding(function() { return greeter.width; })
+                } else {
+                    value = Qt.binding(function() { return -greeter.width; })
+                }
             }
 
-            __enabled = true;
-        }
-
-        function disable() {
-            __enabled = false;
+            __enabled = enabled;
         }
 
         property bool __enabled: false
@@ -215,7 +194,7 @@ Item {
         property: "x"
     }
 
-    SequentialAnimation {
+    hideAnimation: SequentialAnimation {
         id: hideAnimation
         objectName: "hideAnimation"
         StandardAnimation {
@@ -224,19 +203,15 @@ Item {
             target: greeter
             duration: UbuntuAnimation.FastDuration
         }
-        ScriptAction { script: {
-            greeter.visible = false;
-            positionLock.enable();
-        } }
+        PropertyAction { target: greeter; property: "visible"; value: false }
+        PropertyAction { target: positionLock; property: "enabled"; value: true }
     }
 
-    SequentialAnimation {
+    showAnimation: SequentialAnimation {
         id: showAnimation
         objectName: "showAnimation"
-        ScriptAction { script: {
-            greeter.visible = true;
-            positionLock.disable();
-        } }
+        PropertyAction { target: greeter; property: "visible"; value: true }
+        PropertyAction { target: positionLock; property: "enabled"; value: false }
         StandardAnimation {
             property: "x"
             target: greeter
