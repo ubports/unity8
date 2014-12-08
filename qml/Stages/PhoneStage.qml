@@ -298,7 +298,7 @@ Rectangle {
                     x: {
                         // focused app is always positioned at 0 except when following left edge drag
                         if (index == 0) {
-                            if (!isDash && root.inverseProgress > 0 && spreadView.phase == 0) {
+                            if (!isDash && root.inverseProgress > 0 && spreadView.phase === 0) {
                                 return root.inverseProgress;
                             }
                            return 0;
