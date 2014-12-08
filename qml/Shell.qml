@@ -558,7 +558,7 @@ Item {
             // FIXME: Fix TouchRegistry & friends and remove this workaround
             //        Issue involves launcher's DDA getting disabled on a long
             //        left-edge drag
-            dragHandleLeftMargin: launcher.dragAreaWidth + 1
+            dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
 
             function startUnlock() {
                 if (narrowMode) {
