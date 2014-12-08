@@ -156,13 +156,13 @@ Rectangle {
     }
 
     Row {
+        objectName: "controls"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.margins: units.gu(1)
         spacing: units.gu(1)
 
         Button {
-            id: stretchButton
             text: root.stretch ? "stretch" : "move"
             onClicked: { root.stretch = !root.stretch; }
         }
@@ -190,7 +190,6 @@ Rectangle {
         }
 
         Button {
-            id: bidirectionalButton
             text: root.bidirectional ? "bidirectional" : "directional"
             onClicked: { root.bidirectional = !root.bidirectional; }
         }
