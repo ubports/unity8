@@ -44,8 +44,22 @@ void ScopesOverview::setSearchQuery(const QString& search_query)
 Q_INVOKABLE void ScopesOverview::activate(QVariant const& result)
 {
     Scopes *scopes = dynamic_cast<Scopes*>(parent());
-    m_openScope = scopes->getScopeFromAll(result.toString());
-    Q_EMIT openScope(m_openScope);
+    if (scopes->getScope(result.toString())) {
+        Q_EMIT gotoScope(result.toString());
+    } else {
+        m_openScope = scopes->getScopeFromAll(result.toString());
+        Q_EMIT openScope(m_openScope);
+    }
+}
+
+void ScopesOverview::setFavorite(Scope *scope, bool favorite)
+{
+    m_scopesOverviewCategories->setFavorite(scope, favorite);
+}
+
+void ScopesOverview::moveFavoriteTo(Scope *scope, int index)
+{
+    m_scopesOverviewCategories->moveFavoriteTo(scope, index);
 }
 
 ScopesOverviewCategories::ScopesOverviewCategories(Scopes *scopes, QObject* parent)
@@ -69,19 +83,41 @@ bool ScopesOverviewCategories::overrideCategoryJson(QString const& /* categoryId
     qFatal("Using un-implemented ScopesOverviewCategories::overrideCategoryJson");
 }
 
-QVariant
-ScopesOverviewCategories::data(const QModelIndex& index, int role) const
+void ScopesOverviewCategories::setFavorite(Scope *scope, bool favorite)
+{
+    if (m_resultsModels.value(0)) {
+        if (favorite) {
+            m_resultsModels[0]->appendScope(scope);
+        } else {
+            m_resultsModels[0]->removeScope(scope);
+        }
+    }
+    if (m_resultsModels.value(1)) {
+        if (favorite) {
+            m_resultsModels[1]->removeScope(scope);
+        } else {
+            m_resultsModels[1]->appendScope(scope);
+        }
+    }
+}
+
+void ScopesOverviewCategories::moveFavoriteTo(Scope *scope, int index)
+{
+    m_resultsModels[0]->moveScopeTo(scope, index);
+}
+
+QVariant ScopesOverviewCategories::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
     }
 
-    const QString categoryId = index.row() == 0 ? "favorites" : "all";
+    const QString categoryId = index.row() == 0 ? "favorites" : "other";
 
-    unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
+    ScopesOverviewResultsModel *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewCategories*>(this);
-        QList<Scope*> scopes = index.row() == 0 ? m_scopes->scopes() : m_scopes->allScopes();
+        QList<Scope*> scopes = index.row() == 0 ? m_scopes->favScopes() : m_scopes->nonFavScopes();
         resultsModel = new ScopesOverviewResultsModel(scopes, categoryId, that);
         m_resultsModels[index.row()] = resultsModel;
     }
@@ -89,7 +125,7 @@ ScopesOverviewCategories::data(const QModelIndex& index, int role) const
         case RoleCategoryId:
             return categoryId;
         case RoleName:
-            return index.row() == 0 ? "Favorites" : "All";
+            return index.row() == 0 ? "Favorites" : "Non Favorites";
         case RoleIcon:
             return QVariant();
         case RoleRawRendererTemplate:
@@ -157,7 +193,7 @@ ScopesOverviewSearchCategories::data(const QModelIndex& index, int role) const
 
     const QString categoryId = index.row() == 0 ? "searchA" : "searchB";
 
-    unity::shell::scopes::ResultsModelInterface *resultsModel = m_resultsModels[index.row()];
+    ScopesOverviewResultsModel *resultsModel = m_resultsModels[index.row()];
     if (!resultsModel) {
         QObject *that = const_cast<ScopesOverviewSearchCategories*>(this);
         QList<Scope *> scopes;
@@ -256,8 +292,7 @@ int ScopesOverviewResultsModel::count() const
     return rowCount();
 }
 
-QVariant
-ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
+QVariant ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
 {
     unity::shell::scopes::ScopeInterface *scope = m_scopes[index.row()];
     switch (role) {
@@ -269,6 +304,8 @@ ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
             return scope ? scope->id() : QString("Result.%1.%2").arg(categoryId()).arg(index.row());
         case RoleTitle:
             return scope ? scope->name() : QString("Title.%1.%2").arg(categoryId()).arg(index.row());
+        case RoleSubtitle:
+            return scope && scope->name() == "Videos" ? "tube, movies, cinema" : QString();
         case RoleArt:
             return qmlDirectory() + "graphics/applicationIcons/dash.png";
         case RoleMascot:
@@ -280,4 +317,33 @@ ScopesOverviewResultsModel::data(const QModelIndex& index, int role) const
         default:
             return QVariant();
     }
+}
+
+void ScopesOverviewResultsModel::appendScope(Scope *scope)
+{
+    Q_ASSERT(!m_scopes.contains(scope));
+    const int index = rowCount();
+    beginInsertRows(QModelIndex(), index, index);
+    m_scopes << scope;
+    endInsertRows();
+    Q_EMIT countChanged();
+}
+
+void ScopesOverviewResultsModel::removeScope(Scope *scope)
+{
+    const int index = m_scopes.indexOf(scope);
+    Q_ASSERT(index != -1);
+    beginRemoveRows(QModelIndex(), index, index);
+    m_scopes.removeAt(index);
+    endRemoveRows();
+    Q_EMIT countChanged();
+}
+
+void ScopesOverviewResultsModel::moveScopeTo(Scope *scope, int to)
+{
+    const int from = m_scopes.indexOf(scope);
+    Q_ASSERT(from!= -1);
+    beginMoveRows(QModelIndex(), from, from, QModelIndex(), to + (to > from ? 1 : 0));
+    m_scopes.move(from, to);
+    endMoveRows();
 }
