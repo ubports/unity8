@@ -22,7 +22,7 @@ import "../Components"
 
 Showable {
     id: greeter
-    enabled: visible
+    enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
     property real dragHandleLeftMargin: 0
