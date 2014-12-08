@@ -547,13 +547,13 @@ Item {
                 && itemRectInShell.y + itemRectInShell.height <= shell.height;
         }
 
-        function test_greeterChangesIndicatorProfile() {
+        function test_greeterDoesNotChangeIndicatorProfile() {
             var visibleIndicators = findChild(shell, "visibleIndicators");
             tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
 
             var greeter = findChild(shell, "greeter");
             greeter.show();
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter");
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
 
             greeter.hide();
             tryCompare(visibleIndicators, "profile", shell.indicatorProfile);

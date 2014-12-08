@@ -218,6 +218,20 @@ Item {
             tryCompare(ApplicationManager, "focusedApplicationId", app)
         }
 
+        function test_greeterChangesIndicatorProfile() {
+            var visibleIndicators = findChild(shell, "visibleIndicators");
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter");
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
+
+            LightDM.Greeter.showGreeter();
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter");
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
+        }
+
         function test_login() {
             sessionSpy.clear()
             tryCompare(sessionSpy, "count", 0)
