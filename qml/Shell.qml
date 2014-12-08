@@ -543,6 +543,9 @@ Item {
             property string lockedApp: ""
             property bool hasLockedApp: lockedApp !== ""
 
+            hides: [launcher, panel.indicators]
+            loadContent: required || lockscreen.required // keeps content in memory for quick show()
+
             locked: shell.locked
 
             background: shell.background
@@ -582,9 +585,6 @@ Item {
 
             onShownChanged: {
                 if (shown) {
-                    launcher.hide();
-                    panel.indicators.hide();
-
                     // Disable everything so that user can't swipe greeter or
                     // launcher until we get the next prompt/authenticate, which
                     // will re-enable the shell.

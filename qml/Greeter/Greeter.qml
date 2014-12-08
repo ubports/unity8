@@ -23,15 +23,11 @@ import "../Components"
 Showable {
     id: greeter
     enabled: visible
+    created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
     property real dragHandleLeftMargin: 0
 
     property url background
-
-    function hideRight() {
-        d.forceRightOnNextHideAnimation = true;
-        hide();
-    }
 
     prepareToHide: function () {
         hideTranslation.to = greeter.x > 0 || d.forceRightOnNextHideAnimation ? greeter.width : -greeter.width;
@@ -43,11 +39,7 @@ Showable {
         property bool forceRightOnNextHideAnimation: false
     }
 
-    // <dandrader> Is this really necessary?
-    property bool loadContent: false
-    Component.onCompleted: {
-        loadContent = true;
-    }
+    property bool loadContent: required
 
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: visible ? MathUtils.clamp((width - Math.abs(x)) / width, 0, 1) : 0
@@ -64,14 +56,19 @@ Showable {
     signal unlocked(int uid)
     signal tapped()
 
+    function hideRight() {
+        d.forceRightOnNextHideAnimation = true;
+        hide();
+    }
+
     function tryToUnlock() {
-        if (greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready) {
+        if (created) {
             greeterContentLoader.item.tryToUnlock()
         }
     }
 
     function reset() {
-        if (greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready) {
+        if (created) {
             greeterContentLoader.item.reset()
         }
     }
