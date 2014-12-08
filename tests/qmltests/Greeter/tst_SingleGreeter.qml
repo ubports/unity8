@@ -100,26 +100,26 @@ Rectangle {
             removeTimeConstraintsFromDirectionalDragAreas(greeterLoader.item);
         }
 
-        function notest_properties() {
+        function test_properties() {
             compare(greeter.multiUser, false)
             compare(greeter.narrowMode, true)
         }
 
-        function notest_teasingArea_data() {
+        function test_teasingArea_data() {
             return [
                 {tag: "left", posX: units.gu(2), leftPressed: true, rightPressed: false},
                 {tag: "right", posX: greeter.width - units.gu(2), leftPressed: false, rightPressed: true}
             ]
         }
 
-        function notest_teasingArea(data) {
+        function test_teasingArea(data) {
             tappedSpy.clear()
             tap(greeter, data.posX, greeter.height - units.gu(1))
             tappedSpy.wait()
             tryCompare(tappedSpy, "count", 1)
         }
 
-        function notest_statsWelcomeScreen() {
+        function test_statsWelcomeScreen() {
             // Test logic in greeter that turns statsWelcomeScreen setting into infographic changes
             compare(AccountsService.statsWelcomeScreen, true)
             tryCompare(LightDM.Infographic, "username", "single")
@@ -129,7 +129,7 @@ Rectangle {
             tryCompare(LightDM.Infographic, "username", "single")
         }
 
-        function notest_initial_selected_signal() {
+        function test_initial_selected_signal() {
             var selectedSpy = findChild(greeter, "selectedSpy");
             selectedSpy.wait();
             tryCompare(selectedSpy, "count", 1);
@@ -139,7 +139,7 @@ Rectangle {
             Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1388359
             "User metrics can no longer be changed by double tap"
         */
-        function notest_doubleTapSwitchesToNextInfographic() {
+        function test_doubleTapSwitchesToNextInfographic() {
             infographicDataChangedSpy.clear();
 
             var infographicPrivate = findInvisibleChild(greeter, "infographicPrivate");
@@ -158,7 +158,7 @@ Rectangle {
             tryCompare(infographicDataChangedSpy, "count", 1);
         }
 
-        function notest_movesBackIntoPlaceWhenNotDraggedFarEnough() {
+        function test_movesBackIntoPlaceWhenNotDraggedFarEnough() {
 
             var dragEvaluator = findInvisibleChild(greeter, "edgeDragEvaluator");
             verify(dragEvaluator);
