@@ -55,8 +55,6 @@ Rectangle {
             id: bidirectionalShowable
             visible: root.bidirectional
             onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
-            //stretch: root.stretch
-            //hintDisplacement: root.hintDisplacement
         }
 
         VerticalShowable {
