@@ -163,7 +163,7 @@ Item {
 
         function test_manage_dash_search_temp_scope() {
             // TODO Search is disabled for now in manage dash
-            return;
+            skip();
 
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
