@@ -167,7 +167,7 @@ Showable {
         onStoreClicked: {
             bottomEdgeController.enableAnimation = true;
             bottomEdgeController.progress = 0;
-            dashContent.currentScope.performQuery("scope://com.canonical.scopes.clickstore");
+            scopesList.scope.performQuery("scope://com.canonical.scopes.clickstore");
         }
         onRequestFavorite: {
             scopes.setFavorite(scopeId, favorite);
