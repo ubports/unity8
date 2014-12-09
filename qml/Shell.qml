@@ -156,6 +156,10 @@ Item {
 
     PhysicalKeysFilter {
         id: physicalKeysFilter
+
+        onVolumeDownPressed: volumeControl.volumeDown()
+        onVolumeUpPressed: volumeControl.volumeUp()
+        //onBothVolumeKeysPressed: screenGrabber.capture()
     }
 
     ScreenGrabber {
@@ -170,30 +174,32 @@ Item {
         value: launcher.shown || launcher.dashSwipe
     }
 
-    VolumeKeyFilter {
+    /*VolumeKeyFilter {
         id: volumeKeyFilter
         onVolumeDownPressed: volumeControl.volumeDown()
         onVolumeUpPressed: volumeControl.volumeUp()
         onBothVolumeKeysPressed: screenGrabber.capture()
-    }
+    }*/
 
     WindowKeysFilter {
         Keys.onPressed: {
+            physicalKeysFilter.onKeyPressed(event.key);
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyPressed();
                 event.accepted = true;
             } else {
-                volumeKeyFilter.onKeyPressed(event.key);
+                //volumeKeyFilter.onKeyPressed(event.key);
                 event.accepted = false;
             }
         }
 
         Keys.onReleased: {
+            physicalKeysFilter.onKeyReleased(event.key);
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyReleased();
                 event.accepted = true;
             } else {
-                volumeKeyFilter.onKeyReleased(event.key);
+                //volumeKeyFilter.onKeyReleased(event.key);
                 event.accepted = false;
             }
         }

@@ -36,20 +36,57 @@ import QtQuick 2.0
 QtObject {
     id: root
 
-    signal volumeUpPressed()
     signal volumeDownPressed()
+    signal volumeUpPressed()
     signal screenshotPressed()
+
+    property bool powerKeyPressed: false
 
     property bool aVolumeKeyWasReleased: true
     property bool volumeDownKeyPressed: false
     property bool volumeUpKeyPressed: false
 
     function onKeyPressed(key) {
-        switch(key) {
-            case Qt.Key_VolumeDown:
-                volumeDownKeyPressed = true;
-            case Qt.Key_VolumeUp:
-                volumeUpKeyPressed = true;
+        if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
+            console.log("JOSH: Pressed power key");
+            powerKeyPressed = true;
+        }
+        else if (key == Qt.Key_VolumeDown) {
+            volumeDownKeyPressed = true;
+        }
+        else if (key == Qt.Key_VolumeUp) {
+            volumeUpKeyPressed = true;
+        }
+
+        if (volumeDownKeyPressed && volumeUpKeyPressed) {
+            if (aVolumeKeyWasReleased) {
+                bothVolumeKeysPressed();
+            }
+            aVolumeKeyWasReleased = false;
+        }
+        else if (volumeDownKeyPressed) {
+            console.log("JOSH: VolumeDown!");
+            if (powerKeyPressed) {
+                console.log("JOSH: TAKE A SCREENSHOT");
+            }
+            volumeDownPressed();
+        }
+        else if (volumeUpKeyPressed) {
+            volumeUpPressed();
+        }
+    }
+
+    function onKeyReleased(key) {
+        if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
+            powerKeyPressed = false;
+        }
+        else if (key == Qt.Key_VolumeDown) {
+            volumeDownKeyPressed = false;
+            aVolumeKeyWasReleased = false;
+        }
+        else if (key == Qt.Key_VolumeUp) {
+            volumeUpKeyPressed = false;
+            aVolumeKeyWasReleased = true;
         }
     }
 }

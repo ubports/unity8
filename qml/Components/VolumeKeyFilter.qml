@@ -33,6 +33,10 @@ QtObject {
     property bool aVolumeKeyWasReleased: true
 
     function onKeyPressed(key) {
+        if (key == Qt.Key_PowerOff || key == Qt.Key_PowerDown) {
+            console.log("JOSH: POWER KEY");
+        }
+
         if (key == Qt.Key_VolumeUp)
             volumeUpKeyPressed = true;
         else if (key == Qt.Key_VolumeDown)
