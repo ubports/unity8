@@ -304,7 +304,7 @@ Showable {
     Image {
         source: "graphics/overview_hint.png"
         anchors.horizontalCenter: parent.horizontalCenter
-        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : dashContent.pageHeaderTotallyVisible) &&
+        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : scopes.count == 0 || dashContent.pageHeaderTotallyVisible) &&
                  (overviewDragHandle.enabled || bottomEdgeController.progress != 0) ? 1 : 0
         Behavior on opacity {
             enabled: bottomEdgeController.progress == 0
@@ -324,8 +324,7 @@ Showable {
         z: 1
         direction: Direction.Upwards
         enabled: !dashContent.subPageShown &&
-                  dashContent.currentScope &&
-                  dashContent.currentScope.searchQuery == "" &&
+                  (scopes.count == 0 || (dashContent.currentScope && dashContent.currentScope.searchQuery == "")) &&
                   !scopeItem.scope &&
                   (bottomEdgeController.progress == 0 || dragging)
 
