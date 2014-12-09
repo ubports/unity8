@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
 "PO-Revision-Date: 2014-11-08 18:24+0000\n"
 "Last-Translator: ivarela <ivarela@ubuntu.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-12-03 06:49+0000\n"
-"X-Generator: Launchpad (build 17274)\n"
+"X-Launchpad-Export-Date: 2014-12-09 06:21+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -179,20 +179,24 @@ msgstr "Ver menos"
 msgid "See all"
 msgstr "Ver too"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Guetar"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "Tienda"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "Axustes"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "Desaniciar de favoritos"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "Amestar a favoritos"
 
@@ -224,31 +228,23 @@ msgstr "Tirar p'anovar..."
 msgid "Release to refresh…"
 msgstr "Soltar p'anovar..."
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Xestionar ámbitos"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "Fecho"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "Tienda"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Favoritos"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "Too"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Desbloquiar"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "Amosar contraseña"
 
@@ -296,49 +292,49 @@ msgstr "Desbloquiar SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:390
 msgid "Enter passphrase"
 msgstr "Escribi la frase contraseña"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passphrase"
 msgstr "Sentímoslo, contraseña incorreuta"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:392
 msgid "Please re-enter"
 msgstr "Vuelvi a escribila"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:394
 msgid "Enter passcode"
 msgstr "Escribi'l códigu de pasu"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passcode"
 msgstr "Sentímoslo, códigu de pasu incorreutu"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:398
 #, qt-format
 msgid "Enter %1"
 msgstr "Escribi %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sentímoslo, %1 incorreutu"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:440
 msgid "Sorry, incorrect passphrase."
 msgstr "Fras de pasu incorreuta"
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passcode."
 msgstr "Códigu de pasu incorreutu"
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:442
 msgid "This will be your last attempt."
 msgstr "Esti ye'l caberu intentu."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:444
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -346,7 +342,7 @@ msgstr ""
 "Si s'inxerta la fras incorreutamente, el teléfonu va volver a la "
 "configuración de fábrica y van perdese tolos datos personales."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:445
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -368,3 +364,15 @@ msgstr ""
 
 #~ msgid "Speak Now..."
 #~ msgstr "Fala agora…"
+
+#~ msgid "Done"
+#~ msgstr "Fecho"
+
+#~ msgid "Favorites"
+#~ msgstr "Favoritos"
+
+#~ msgid "All"
+#~ msgstr "Too"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Xestionar ámbitos"
