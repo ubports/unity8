@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
 "PO-Revision-Date: 2014-11-07 16:47+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-12-09 06:22+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -185,20 +185,24 @@ msgstr "Стисліше"
 msgid "See all"
 msgstr "Детальніше"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Пошук"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "Крамниця"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "Параметри"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "Вилучити з вибраного"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "Додати до вибраного"
 
@@ -230,31 +234,23 @@ msgstr "Потягніть для оновлення…"
 msgid "Release to refresh…"
 msgstr "Відпустіть для оновлення…"
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Керування областями"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr "Керування"
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "Виконано"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr "Домівка"
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "Крамниця"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Улюблене"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "Все"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr "Також встановлено"
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "Показати пароль"
 
@@ -302,49 +298,49 @@ msgstr "Розблокувати SIM"
 msgid "Roaming"
 msgstr "Роумінг"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:390
 msgid "Enter passphrase"
 msgstr "Введіть пароль"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passphrase"
 msgstr "Вибачте, помилковий пароль"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:392
 msgid "Please re-enter"
 msgstr "Ввведіть ще раз"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:394
 msgid "Enter passcode"
 msgstr "Введіть код"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passcode"
 msgstr "Вибачте, помилковий код-пароль"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:398
 #, qt-format
 msgid "Enter %1"
 msgstr "Введіть %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Вибачте, помилковий %1"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:440
 msgid "Sorry, incorrect passphrase."
 msgstr "Вибачте, помилковий пароль."
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passcode."
 msgstr "Вибачте, помилковий код-пароль."
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:442
 msgid "This will be your last attempt."
 msgstr "Ця спроба буде останньою."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:444
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -352,7 +348,7 @@ msgstr ""
 "Якщо пароль буде вказано неправильно, телефон повернеться до початкового "
 "стану, усі особисті дані буде вилучено."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:445
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -374,3 +370,15 @@ msgstr ""
 
 #~ msgid "Speaking..."
 #~ msgstr "Мовлення…"
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "Favorites"
+#~ msgstr "Улюблене"
+
+#~ msgid "Done"
+#~ msgstr "Виконано"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Керування областями"

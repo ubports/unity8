@@ -60,6 +60,10 @@ void LauncherItem::setName(const QString &name)
 {
     if (m_name != name) {
         m_name = name;
+        QuickListEntry entry;
+        entry.setActionId("launch_item");
+        entry.setText(m_name);
+        m_quickList->updateAction(entry);
         Q_EMIT nameChanged(name);
     }
 }
@@ -86,12 +90,15 @@ void LauncherItem::setPinned(bool pinned)
 {
     if (m_pinned != pinned) {
         m_pinned = pinned;
-        QuickListEntry entry;
-        entry.setActionId("pin_item");
-        entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
-        m_quickList->updateAction(entry);
         Q_EMIT pinnedChanged(pinned);
     }
+
+    // Even if pinned status didn't change, we want to update text in case
+    // the locale has changed since we last set pinned status.
+    QuickListEntry entry;
+    entry.setActionId("pin_item");
+    entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
+    m_quickList->updateAction(entry);
 }
 
 bool LauncherItem::running() const

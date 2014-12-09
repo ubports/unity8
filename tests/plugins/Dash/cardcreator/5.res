@@ -46,16 +46,16 @@ Item  {
                                             height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
                                         }
                                     } 
-                                    image: CroppedImageMinimumSourceSize {
-                                        objectName: "artImage"; 
-                                        property bool doLoadSource: !NetworkingStatus.limitedBandwith;
-                                        source: { if (root.visible) doLoadSource = true; return doLoadSource && cardData && cardData["art"] || ""; }
-                                        cache: true;
-                                        asynchronous: root.asynchronous; 
-                                        visible: false; 
-                                        width: root.width; 
-                                        height: width / artShape.aspect; 
-                                    } 
+                                    CroppedImageMinimumSourceSize {
+                                        id: artImage;
+                                        objectName: "artImage";
+                                        source: cardData && cardData["art"] || ""; 
+                                        asynchronous: root.asynchronous;
+                                        visible: false;
+                                        width: root.width;
+                                        height: width / artShape.aspect;
+                                    }
+                                    image: artImage.image; 
                                 } 
                             }
                         }

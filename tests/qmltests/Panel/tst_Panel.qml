@@ -186,11 +186,10 @@ IndicatorTest {
             for (var i = 0; i < root.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
 
-                var startXPosition = root.mapFromItem(indicatorItem, indicatorItem.width / 2, 0).x;
-                var startYPosition = root.mapFromItem(panel, 0, 0).y;
+                var startXPosition = panel.mapFromItem(indicatorItem, indicatorItem.width / 2, 0).x;
 
                 touchFlick(panel,
-                           startXPosition, startYPosition,
+                           startXPosition, 0,
                            startXPosition, panel.height,
                            true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
 
@@ -244,17 +243,13 @@ IndicatorTest {
             // (switches between normal and fullscreen modes are animated)
             tryCompareFunction(function() { return indicatorArea.y }, data.indicatorY);
 
-            var startXPosition = root.mapFromItem(panel.indicators, panel.indicators.width / 2, 0).x;
-            var startYPosition = root.mapFromItem(panel, 0, panel.height).y;
-
             panel.indicators.show();
             tryCompare(panel.indicators.showAnimation, "running", false);
             tryCompare(panel.indicators, "unitProgress", 1);
 
-
             touchFlick(panel.indicators,
-                       startXPosition, startYPosition,
-                       startXPosition, 0,
+                       panel.indicators.width / 2, panel.height,
+                       panel.indicators.width / 2, 0,
                        true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
 
             // Indicators height should follow the drag, and therefore increase accordingly.
@@ -263,7 +258,7 @@ IndicatorTest {
                 function() {return panel.indicators.height <= panel.height * 0.5},
                 true);
 
-            touchRelease(panel.indicators, startXPosition, 0);
+            touchRelease(panel.indicators, panel.indicators.width / 2, 0);
 
             tryCompare(panel.indicators.hideAnimation, "running", true);
             tryCompare(panel.indicators.hideAnimation, "running", false);

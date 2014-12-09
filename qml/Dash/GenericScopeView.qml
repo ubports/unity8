@@ -379,32 +379,29 @@ FocusScope {
                         }
                     }
 
-                    if (item && item.hasOwnProperty("visibleRangeBegin")) {
-                        item.visibleRangeBegin = Math.max(-baseItem.y, 0)
-                        item.visibleRangeEnd = item.visibleRangeBegin + Math.min(categoryView.height, rendererLoader.height)
-                    }
-
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
-                        // TODO do we need item.originY here, test 1300302 once we have a silo
-                        // and we can run it on the phone
-                        if (scopeView.isCurrent) {
-                            // 1073741823 is s^30 -1. A quite big number so that you have "infinite" display margin, but not so
-                            // big so that if you add if with itself you're outside the 2^31 int range
-                            item.displayMarginBeginning = 1073741823;
-                            item.displayMarginEnd = 1073741823;
-                        } else if (baseItem.y + baseItem.height <= 0) {
-                            // Not visible (item at top of the list viewport)
-                            item.displayMarginBeginning = -baseItem.height;
-                            item.displayMarginEnd = 0;
-                        } else if (baseItem.y >= categoryView.height) {
-                            // Not visible (item at bottom of the list viewport)
-                            item.displayMarginBeginning = 0;
-                            item.displayMarginEnd = -baseItem.height;
-                        } else {
-                            item.displayMarginBeginning = Math.round(-Math.max(-baseItem.y, 0));
-                            item.displayMarginEnd = -Math.round(Math.max(baseItem.height - seeAll.height -
-                                                                         categoryView.height + baseItem.y, 0));
-                        }
+                        // A item view is considered visible from
+                        //     -displayMarginBeginning
+                        // to
+                        //     height + item.displayMarginEnd
+                        // We adjust displayMarginBeginning and displayMarginEnd so
+                        //   * In non visible scopes only the viewport is considered visible
+                        //     that way when you switch to it the visible items are there
+                        //   * For visible scopes we increase the visible range by categoryView.height * 1.5
+                        //     in both directions to make scrolling nicer by mantaining a higher number of
+                        //     cached items
+                        // TODO Improvements
+                        //  - For non visible scopes we should always have a visible range of 0 and
+                        //    make sure the items in the viewport are created with the cache buffer feature
+                        //  - For visible scopes we should always the have a visible range be exactly the
+                        //    viewport and make sure the rest of items are created with the cache buffer feature
+                        //  To be able to implement that feature VerticalJournal/AbstractDashView needs to
+                        //  make the cache buffer value setable externally
+                        var extraMargins = scopeView.isCurrent ? categoryView.height * 1.5 : 0;
+
+                        item.displayMarginBeginning = Math.round(-Math.max(-baseItem.y - extraMargins, 0));
+                        item.displayMarginEnd = -Math.round(Math.max(baseItem.height - extraMargins - seeAll.height -
+                                                                        categoryView.height + baseItem.y, 0));
                     }
                 }
             }
@@ -497,7 +494,7 @@ FocusScope {
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
                     settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
-                    favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
+                    favoriteEnabled: scopeView.scope
                     favorite: scopeView.scope && scopeView.scope.favorite
                     scopeStyle: scopeView.scopeStyle
                     paginationCount: scopeView.paginationCount

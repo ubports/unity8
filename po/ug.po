@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
 "PO-Revision-Date: 2014-10-07 09:00+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-12-09 06:22+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -157,7 +157,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "سۆزلىشىشكە قايت"
 
 #: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
@@ -175,20 +175,24 @@ msgstr "ئازراق كۆرۈش"
 msgid "See all"
 msgstr "ھەممىنى كۆرۈش…"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ئىزدە"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "ساقلا"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "تەڭشەكلەر"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "يىغقۇچتىن چىقىرىۋەت"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "يىغقۇچقا قوش"
 
@@ -220,31 +224,23 @@ msgstr "تارتسا يېڭىلىنىدۇ…"
 msgid "Release to refresh…"
 msgstr "قويۇۋەتسە يېڭىلىنىدۇ…"
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "دائىرە باشقۇرۇش"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "تامام"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "ساقلا"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "يىغقۇچ"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "ھەممىسى"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "قۇلۇپسىزلا"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "ئىم كۆرسەت"
 
@@ -292,49 +288,49 @@ msgstr "SIM نى قۇلۇپسىزلاش"
 msgid "Roaming"
 msgstr "كەزمە"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:390
 msgid "Enter passphrase"
 msgstr "ئىم كىرگۈزۈڭ"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passphrase"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:392
 msgid "Please re-enter"
 msgstr "قايتا كىرگۈزۈڭ"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:394
 msgid "Enter passcode"
 msgstr "ئىم كودى(passcode)نى كىرگۈزۈڭ"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passcode"
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:398
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 نى كىرگۈزۈڭ"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "كەچۈرۈڭ، %1 توغرا ئەمەس"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:440
 msgid "Sorry, incorrect passphrase."
 msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passcode."
 msgstr "كەچۈرۈڭ، ئىم كودى ئەمەس"
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:442
 msgid "This will be your last attempt."
 msgstr "بۇ سىزنىڭ ئەڭ ئاخىرقى پۇرسىتىڭىز"
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:444
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -342,7 +338,7 @@ msgstr ""
 "ئەگەر ئىم توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن چىققان "
 "ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:445
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -364,3 +360,15 @@ msgstr ""
 
 #~ msgid "Speaking..."
 #~ msgstr "سۆزلەۋاتىسىز…"
+
+#~ msgid "Done"
+#~ msgstr "تامام"
+
+#~ msgid "Favorites"
+#~ msgstr "يىغقۇچ"
+
+#~ msgid "All"
+#~ msgstr "ھەممىسى"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "دائىرە باشقۇرۇش"
