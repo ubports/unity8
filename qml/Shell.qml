@@ -159,7 +159,7 @@ Item {
 
         onVolumeDownPressed: volumeControl.volumeDown()
         onVolumeUpPressed: volumeControl.volumeUp()
-        //onBothVolumeKeysPressed: screenGrabber.capture()
+        onScreenshotPressed: screenGrabber.capture()
     }
 
     ScreenGrabber {

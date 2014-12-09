@@ -48,7 +48,6 @@ QtObject {
 
     function onKeyPressed(key) {
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
-            console.log("JOSH: Pressed power key");
             powerKeyPressed = true;
         }
         else if (key == Qt.Key_VolumeDown) {
@@ -65,11 +64,11 @@ QtObject {
             aVolumeKeyWasReleased = false;
         }
         else if (volumeDownKeyPressed) {
-            console.log("JOSH: VolumeDown!");
             if (powerKeyPressed) {
-                console.log("JOSH: TAKE A SCREENSHOT");
+                screenshotPressed();
+            } else {
+                volumeDownPressed();
             }
-            volumeDownPressed();
         }
         else if (volumeUpKeyPressed) {
             volumeUpPressed();
