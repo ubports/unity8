@@ -26,6 +26,7 @@ Showable {
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
     property real dragHandleLeftMargin: 0
+    property alias dragging: dragHandle.dragging
 
     property url background
 
@@ -113,6 +114,12 @@ Showable {
         onTapped: {
             greeter.tapped();
             showLabelAnimation.start();
+        }
+
+        onDraggingChanged: {
+            if (dragging) {
+                showLabelAnimation.start();
+            }
         }
     }
 

@@ -884,6 +884,3 @@ qreal DirectionalDragArea::projectOntoDirectionVector(const QPointF &sceneVector
     return  sceneVector.x() * m_sceneDirectionVector.x() +
             sceneVector.y() * m_sceneDirectionVector.y();
 }
-
-// Because we are defining a new QObject-based class (RecognitionTimer) here.
-#include "DirectionalDragArea.moc"

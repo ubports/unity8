@@ -613,6 +613,11 @@ Item {
             }
 
             onTapped: launcher.tease()
+            onDraggingChanged: {
+                if (dragging) {
+                    launcher.tease();
+                }
+            }
 
             Binding {
                 target: ApplicationManager
