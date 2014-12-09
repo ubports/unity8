@@ -179,6 +179,7 @@ Item {
                 property string title
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
+                panelForegroundColor: config.foregroundColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
@@ -251,6 +252,7 @@ Item {
                 property string title: root.title
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
+                panelForegroundColor: config.foregroundColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
