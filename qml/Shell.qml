@@ -157,6 +157,7 @@ Item {
     PhysicalKeysFilter {
         id: physicalKeysFilter
 
+        onPowerPressed: dialogs.onPowerKeyPressed();
         onVolumeDownPressed: volumeControl.volumeDown()
         onVolumeUpPressed: volumeControl.volumeUp()
         onScreenshotPressed: screenGrabber.capture()
@@ -174,34 +175,13 @@ Item {
         value: launcher.shown || launcher.dashSwipe
     }
 
-    /*VolumeKeyFilter {
-        id: volumeKeyFilter
-        onVolumeDownPressed: volumeControl.volumeDown()
-        onVolumeUpPressed: volumeControl.volumeUp()
-        onBothVolumeKeysPressed: screenGrabber.capture()
-    }*/
-
     WindowKeysFilter {
         Keys.onPressed: {
-            physicalKeysFilter.onKeyPressed(event.key);
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                dialogs.onPowerKeyPressed();
-                event.accepted = true;
-            } else {
-                //volumeKeyFilter.onKeyPressed(event.key);
-                event.accepted = false;
-            }
+            event.accepted = physicalKeysFilter.onKeyPressed(event.key);
         }
 
         Keys.onReleased: {
-            physicalKeysFilter.onKeyReleased(event.key);
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                dialogs.onPowerKeyReleased();
-                event.accepted = true;
-            } else {
-                //volumeKeyFilter.onKeyReleased(event.key);
-                event.accepted = false;
-            }
+            event.accepted = physicalKeysFilter.onKeyReleased(event.key);
         }
     }
 
