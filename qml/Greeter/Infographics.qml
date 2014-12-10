@@ -125,7 +125,7 @@ Item {
 
                 index: model.index
                 count: pastCircles.count
-                radius: parent.width / 2
+                radius: dataCircle.width / 2
                 halfSize: pastCircle.width / 2
                 posOffset: 0.0
 
@@ -185,7 +185,7 @@ Item {
 
                 index: model.index
                 count: presentCircles.count
-                radius: parent.width / 2
+                radius: dataCircle.width / 2
                 halfSize: presentCircle.width / 2
                 posOffset: 0.0
 
