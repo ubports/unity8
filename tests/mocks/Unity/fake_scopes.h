@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE void addScope(Scope* scope);
 
     Q_INVOKABLE void clear();
+    Q_INVOKABLE void clearFavorites();
     Q_INVOKABLE void load();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
