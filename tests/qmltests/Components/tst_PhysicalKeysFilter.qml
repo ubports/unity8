@@ -25,7 +25,7 @@ import Unity.Test 0.1 as UT
 Item {
 
     property int onBothVolumeKeysPressedCount: 0
-    property int onPowerPressedCount: 0
+    property int onPowerKeyLongPressCount: 0
     property int onScreenshotPressedCount: 0
     property int onVolumeDownPressedCount: 0
     property int onVolumeUpPressedCount: 0
@@ -34,7 +34,7 @@ Item {
         id: physicalKeysFilter
 
         onBothVolumeKeysPressed: onBothVolumeKeysPressedCount += 1
-        onPowerPressed: onPowerPressedCount += 1
+        onPowerKeyLongPress: onPowerKeyLongPressCount += 1
         onScreenshotPressed: onScreenshotPressedCount += 1
         onVolumeDownPressed: onVolumeDownPressedCount += 1
         onVolumeUpPressed: onVolumeUpPressedCount += 1
@@ -51,7 +51,7 @@ Item {
             physicalKeysFilter.onKeyReleased(Qt.Key_VolumeUp);
 
             onBothVolumeKeysPressedCount = 0;
-            onPowerPressedCount = 0;
+            onPowerKeyLongPressCount = 0;
             onScreenshotPressedCount = 0;
             onVolumeDownPressedCount = 0;
             onVolumeUpPressedCount = 0;
@@ -68,24 +68,21 @@ Item {
             compare(onBothVolumeKeysPressedCount, 1);
         }
 
-        function test_power_button() {
+        function test_long_press_power_button() {
             physicalKeysFilter.onKeyPressed(Qt.Key_PowerDown);
-            compare(onPowerPressedCount, 1);
+            wait(3000);
 
-            sleep(3);
-            compare(onPowerPressedCount, 1);
+            compare(onPowerKeyLongPressCount, 1);
         }
 
         function test_screenshot_buttons() {
             physicalKeysFilter.onKeyPressed(Qt.Key_PowerDown);
             physicalKeysFilter.onKeyPressed(Qt.Key_VolumeDown);
 
-            compare(onPowerPressedCount, 1);
             compare(onScreenshotPressedCount, 1);
             compare(onVolumeDownPressedCount, 0);
 
             sleep(3);
-            compare(onPowerPressedCount, 1);
             compare(onScreenshotPressedCount, 1);
             compare(onVolumeDownPressedCount, 0);
         }

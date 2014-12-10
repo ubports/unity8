@@ -24,42 +24,14 @@ import Ubuntu.Components.Popups 0.1
 Item {
     id: root
 
-    function onPowerKeyPressed() {
-        // FIXME: event.isAutoRepeat is always false on Nexus 4.
-        // So we use powerKeyTimer.running to avoid the PowerOff key repeat
-        // https://launchpad.net/bugs/1349416
-        if (!powerKeyTimer.running) {
-            powerKeyTimer.restart();
-        }
-    }
-
-    function onPowerKeyReleased() {
-        powerKeyTimer.stop();
-    }
-
     signal powerOffClicked();
 
-    QtObject {
-        id: d // private stuff
+    property bool dialogShown: false
 
-        property bool dialogShown: false
-
-        function showPowerDialog() {
-            if (!d.dialogShown) {
-                d.dialogShown = true;
-                PopupUtils.open(powerDialog, root, {"z": root.z});
-            }
-        }
-    }
-
-    Timer {
-        id: powerKeyTimer
-        interval: 2000
-        repeat: false
-        triggeredOnStart: false
-
-        onTriggered: {
-            d.showPowerDialog();
+    function showPowerDialog() {
+        if (!d.dialogShown) {
+            d.dialogShown = true;
+            PopupUtils.open(powerDialog, root, {"z": root.z});
         }
     }
 

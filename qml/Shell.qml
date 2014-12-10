@@ -157,7 +157,6 @@ Item {
     PhysicalKeysFilter {
         id: physicalKeysFilter
 
-        onPowerPressed: dialogs.onPowerKeyPressed();
         onVolumeDownPressed: volumeControl.volumeDown()
         onVolumeUpPressed: volumeControl.volumeUp()
         onScreenshotPressed: screenGrabber.capture()
@@ -803,6 +802,11 @@ Item {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
+        }
+
+        Connections {
+            target: physicalKeysFilter
+            onPowerKeyLongPress: dialogs.showPowerDialog();
         }
     }
 

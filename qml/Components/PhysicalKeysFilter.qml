@@ -34,10 +34,10 @@ QtObject {
     id: root
 
     signal bothVolumeKeysPressed();
-    signal powerPressed()
-    signal screenshotPressed()
-    signal volumeDownPressed()
-    signal volumeUpPressed()
+    signal powerKeyLongPress();
+    signal screenshotPressed();
+    signal volumeDownPressed();
+    signal volumeUpPressed();
 
     property bool eventAccepted: false
 
@@ -48,11 +48,25 @@ QtObject {
     property bool volumeDownKeyPressed: false
     property bool volumeUpKeyPressed: false
 
+    // FIXME: event.isAutoRepeat is always false on Nexus 4.
+    // So we use powerKeyTimer.running to avoid the PowerOff key repeat
+    // https://launchpad.net/bugs/1349416
+    property variant pklpt: Timer {
+        id: powerKeyLongPressTimer
+
+        interval: 2000
+        repeat: false
+        triggeredOnStart: false
+
+        onTriggered: powerKeyLongPress();
+    }
+
     function onKeyPressed(key) {
         /* Determine what key was pressed */
-
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
-            powerPressed();
+            if (!powerKeyLongPressTimer.running) {
+                powerKeyLongPressTimer.restart();
+            }
             eventAccepted = true;
             powerKeyPressed = true;
         } else if (key == Qt.Key_VolumeDown) {
@@ -86,6 +100,7 @@ QtObject {
 
     function onKeyReleased(key) {
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
+            powerKeyLongPressTimer.stop();
             eventAccepted = true;
             powerKeyPressed = false;
             aPowerKeyWasReleased = true;
