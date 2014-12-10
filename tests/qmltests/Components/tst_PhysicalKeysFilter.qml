@@ -64,7 +64,7 @@ Item {
             compare(onBothVolumeKeysPressedCount, 1);
 
             // Simulate holding the keys down
-            sleep(3);
+            wait(3000);
             compare(onBothVolumeKeysPressedCount, 1);
         }
 
@@ -82,7 +82,7 @@ Item {
             compare(onScreenshotPressedCount, 1);
             compare(onVolumeDownPressedCount, 0);
 
-            sleep(3);
+            wait(3000);
             compare(onScreenshotPressedCount, 1);
             compare(onVolumeDownPressedCount, 0);
         }
