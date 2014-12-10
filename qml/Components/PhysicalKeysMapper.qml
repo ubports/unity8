@@ -16,9 +16,9 @@
 
 import QtQuick 2.0
 /*!
- \brief A filter for the physical keys on the device
+ \brief A mapper for the physical keys on the device
 
- A filter to handle events triggered by pressing physical keys on a device.
+ A mapper to handle events triggered by pressing physical keys on a device.
  Keys included are
     * Volume Decrease
     * Volume Increase

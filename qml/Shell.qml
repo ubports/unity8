@@ -154,8 +154,8 @@ Item {
         objectName: "dashCommunicator"
     }
 
-    PhysicalKeysFilter {
-        id: physicalKeysFilter
+    PhysicalKeysMapper {
+        id: physicalKeysMapper
 
         onVolumeDownPressed: volumeControl.volumeDown()
         onVolumeUpPressed: volumeControl.volumeUp()
@@ -176,11 +176,11 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            event.accepted = physicalKeysFilter.onKeyPressed(event.key);
+            event.accepted = physicalKeysMapper.onKeyPressed(event.key);
         }
 
         Keys.onReleased: {
-            event.accepted = physicalKeysFilter.onKeyReleased(event.key);
+            event.accepted = physicalKeysMapper.onKeyReleased(event.key);
         }
     }
 
@@ -805,7 +805,7 @@ Item {
         }
 
         Connections {
-            target: physicalKeysFilter
+            target: physicalKeysMapper
             onPowerKeyLongPress: dialogs.showPowerDialog();
         }
     }
