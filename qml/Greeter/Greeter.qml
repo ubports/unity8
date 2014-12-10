@@ -137,7 +137,6 @@ Showable {
 
     Rectangle {
         // While greeterContent is loading, and in case it's background fails to load
-        id: backgroundBackup
         anchors.fill: parent
         color: "black"
     }
