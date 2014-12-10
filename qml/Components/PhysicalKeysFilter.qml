@@ -36,6 +36,7 @@ import QtQuick 2.0
 QtObject {
     id: root
 
+    signal bothVolumeKeysPressed();
     signal powerPressed()
     signal screenshotPressed()
     signal volumeDownPressed()
@@ -55,6 +56,7 @@ QtObject {
 
         // Power Key
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
+            powerPressed();
             eventAccepted = true;
             powerKeyPressed = true;
         }
