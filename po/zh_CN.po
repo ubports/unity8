@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
 "PO-Revision-Date: 2014-12-04 11:57+0000\n"
 "Last-Translator: Mo <alimo199x@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-12-06 06:39+0000\n"
-"X-Generator: Launchpad (build 17274)\n"
+"X-Launchpad-Export-Date: 2014-12-09 06:22+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -177,6 +177,10 @@ msgstr "查看全部"
 msgid "Search"
 msgstr "搜索"
 
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "商店"
+
 #: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr ""
@@ -217,25 +221,17 @@ msgstr ""
 msgid "Release to refresh…"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "完成"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:260
-msgid "Store"
-msgstr "商店"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "收藏夹"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "所有"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
@@ -357,3 +353,12 @@ msgstr ""
 
 #~ msgid "Speaking..."
 #~ msgstr "讲话中..."
+
+#~ msgid "All"
+#~ msgstr "所有"
+
+#~ msgid "Favorites"
+#~ msgstr "收藏夹"
+
+#~ msgid "Done"
+#~ msgstr "完成"
