@@ -212,7 +212,7 @@ Item {
         }
 
         function test_manage_dash_open_no_favorites() {
-            // Make it so there are no favorites
+            // Make it so there are no scopes
             scopes.clear();
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 0);
