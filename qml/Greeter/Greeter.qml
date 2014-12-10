@@ -23,7 +23,6 @@ import "../Components"
 Showable {
     id: greeter
     enabled: shown
-    created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
     property url background
     property bool loadContent: required
@@ -58,13 +57,13 @@ Showable {
     }
 
     function tryToUnlock() {
-        if (created) {
+        if (greeterContentLoader.item) {
             greeterContentLoader.item.tryToUnlock()
         }
     }
 
     function reset() {
-        if (created) {
+        if (greeterContentLoader.item) {
             greeterContentLoader.item.reset()
         }
     }
