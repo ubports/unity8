@@ -29,8 +29,8 @@ Item {
     property bool dialogShown: false
 
     function showPowerDialog() {
-        if (!d.dialogShown) {
-            d.dialogShown = true;
+        if (!dialogShown) {
+            dialogShown = true;
             PopupUtils.open(powerDialog, root, {"z": root.z});
         }
     }
