@@ -1,9 +1,6 @@
 /*
  * Copyright (C) 2014 Canonical, Ltd.
  *
- * Authors:
- *   Josh Arenson <joshua.arenson@canonical.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -54,19 +51,14 @@ QtObject {
     function onKeyPressed(key) {
         /* Determine what key was pressed */
 
-        // Power Key
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
             powerPressed();
             eventAccepted = true;
             powerKeyPressed = true;
-        }
-
-        //Volume Keys
-        else if (key == Qt.Key_VolumeDown) {
+        } else if (key == Qt.Key_VolumeDown) {
             eventAccepted = true;
             volumeDownKeyPressed = true;
-        }
-        else if (key == Qt.Key_VolumeUp) {
+        } else if (key == Qt.Key_VolumeUp) {
             eventAccepted = true;
             volumeUpKeyPressed = true;
         }
@@ -77,8 +69,7 @@ QtObject {
                 bothVolumeKeysPressed();
             }
             aVolumeKeyWasReleased = false;
-        }
-        else if (volumeDownKeyPressed) {
+        } else if (volumeDownKeyPressed) {
             if (powerKeyPressed && aPowerKeyWasReleased) {
                 screenshotPressed();
                 aPowerKeyWasReleased = false;
@@ -86,8 +77,7 @@ QtObject {
             } else if (aPowerKeyWasReleased){
                 volumeDownPressed();
             }
-        }
-        else if (volumeUpKeyPressed) {
+        } else if (volumeUpKeyPressed) {
             volumeUpPressed();
         }
 
@@ -99,13 +89,11 @@ QtObject {
             eventAccepted = true;
             powerKeyPressed = false;
             aPowerKeyWasReleased = true;
-        }
-        else if (key == Qt.Key_VolumeDown) {
+        } else if (key == Qt.Key_VolumeDown) {
             eventAccepted = true;
             volumeDownKeyPressed = false;
             aVolumeKeyWasReleased = false;
-        }
-        else if (key == Qt.Key_VolumeUp) {
+        } else if (key == Qt.Key_VolumeUp) {
             eventAccepted = true;
             volumeUpKeyPressed = false;
             aVolumeKeyWasReleased = true;
