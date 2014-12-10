@@ -227,8 +227,6 @@ Item {
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
             mouseClick(backButton, 0, 0);
-
-            // Check temp scope is gone
             tryCompare(bottomEdgeController, "progress", 0);
         }
 
