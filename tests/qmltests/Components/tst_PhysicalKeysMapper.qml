@@ -21,7 +21,6 @@ import "../../../qml/Components"
 TestCase {
     name: "PhysicalKeysMapper"
 
-    property int onBothVolumeKeysPressedCount: 0
     property int onPowerKeyLongPressCount: 0
     property int onScreenshotPressedCount: 0
     property int onVolumeDownPressedCount: 0
@@ -30,7 +29,6 @@ TestCase {
     PhysicalKeysMapper {
         id: physicalKeysMapper
 
-        onBothVolumeKeysPressed: onBothVolumeKeysPressedCount += 1
         onPowerKeyLongPress: onPowerKeyLongPressCount += 1
         onScreenshotPressed: onScreenshotPressedCount += 1
         onVolumeDownPressed: onVolumeDownPressedCount += 1
@@ -43,22 +41,10 @@ TestCase {
         physicalKeysMapper.onKeyReleased(Qt.Key_VolumeDown);
         physicalKeysMapper.onKeyReleased(Qt.Key_VolumeUp);
 
-        onBothVolumeKeysPressedCount = 0;
         onPowerKeyLongPressCount = 0;
         onScreenshotPressedCount = 0;
         onVolumeDownPressedCount = 0;
         onVolumeUpPressedCount = 0;
-    }
-
-    function test_BothVolumeKeysSimultaneously() {
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
-
-        compare(onBothVolumeKeysPressedCount, 1);
-
-        // Simulate holding the keys down
-        wait(3000);
-        compare(onBothVolumeKeysPressedCount, 1);
     }
 
     function test_LongPressPowerButton() {

@@ -30,34 +30,36 @@ import QtQuick 2.0
 
 */
 
-QtObject {
+Item {
     id: root
 
-    signal bothVolumeKeysPressed();
     signal powerKeyLongPress();
     signal screenshotPressed();
     signal volumeDownPressed();
     signal volumeUpPressed();
 
-    property bool aPowerKeyWasReleased: true
-    property bool powerKeyPressed: false
+    QtObject {
+        id: d
 
-    property bool aVolumeKeyWasReleased: true
-    property bool volumeDownKeyPressed: false
-    property bool volumeUpKeyPressed: false
+        property bool aPowerKeyWasReleased: true
+        property bool powerKeyPressed: false
+
+        property bool volumeDownKeyPressed: false
+        property bool volumeUpKeyPressed: false
+    }
 
     // FIXME: event.isAutoRepeat is always false on Nexus 4.
     // So we use powerKeyTimer.running to avoid the PowerOff key repeat
     // https://launchpad.net/bugs/1349416
-    property variant pklpt: Timer {
+    Timer {
         id: powerKeyLongPressTimer
 
         interval: 2000
         repeat: false
         triggeredOnStart: false
-
         onTriggered: powerKeyLongPress();
     }
+
 
     function onKeyPressed(key) {
         /* Determine what key was pressed */
@@ -65,28 +67,23 @@ QtObject {
             if (!powerKeyLongPressTimer.running) {
                 powerKeyLongPressTimer.restart();
             }
-            powerKeyPressed = true;
+            d.powerKeyPressed = true;
         } else if (key == Qt.Key_VolumeDown) {
-            volumeDownKeyPressed = true;
+            d.volumeDownKeyPressed = true;
         } else if (key == Qt.Key_VolumeUp) {
-            volumeUpKeyPressed = true;
+            d.volumeUpKeyPressed = true;
         }
 
         /* Determine how to handle it  */
-        if (volumeDownKeyPressed && volumeUpKeyPressed) {
-            if (aVolumeKeyWasReleased) {
-                bothVolumeKeysPressed();
-            }
-            aVolumeKeyWasReleased = false;
-        } else if (volumeDownKeyPressed) {
-            if (powerKeyPressed && aPowerKeyWasReleased) {
+        if (d.volumeDownKeyPressed) {
+            if (d.powerKeyPressed && d.aPowerKeyWasReleased) {
                 screenshotPressed();
-                aPowerKeyWasReleased = false;
+                d.aPowerKeyWasReleased = false;
             // Don't emit volumeDownPressed if power key is held
-            } else if (aPowerKeyWasReleased){
+            } else if (d.aPowerKeyWasReleased){
                 volumeDownPressed();
             }
-        } else if (volumeUpKeyPressed) {
+        } else if (d.volumeUpKeyPressed) {
             volumeUpPressed();
         }
     }
@@ -94,14 +91,12 @@ QtObject {
     function onKeyReleased(key) {
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
-            powerKeyPressed = false;
-            aPowerKeyWasReleased = true;
+            d.powerKeyPressed = false;
+            d.aPowerKeyWasReleased = true;
         } else if (key == Qt.Key_VolumeDown) {
-            volumeDownKeyPressed = false;
-            aVolumeKeyWasReleased = false;
+            d.volumeDownKeyPressed = false;
         } else if (key == Qt.Key_VolumeUp) {
-            volumeUpKeyPressed = false;
-            aVolumeKeyWasReleased = true;
+            d.volumeUpKeyPressed = false;
         }
     }
 }
