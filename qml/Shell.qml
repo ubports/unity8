@@ -129,6 +129,11 @@ Item {
         sourceSize.width: 0
     }
 
+    GSettings {
+        id: usageModeSettings
+        schema.id: "com.canonical.Unity8"
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -269,11 +274,6 @@ Item {
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
             source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
                         : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
-
-            GSettings {
-                id: usageModeSettings
-                schema.id: "com.canonical.Unity8"
-            }
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -733,10 +733,12 @@ Item {
             readonly property bool dashSwipe: progress > 0
 
             anchors.top: parent.top
+            anchors.topMargin: inverted ? 0 : panel.panelHeight
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            inverted: usageModeSettings.usageMode === "Staged"
 
             onShowDashHome: showHome()
             onDash: showDash()

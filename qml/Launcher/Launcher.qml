@@ -24,6 +24,7 @@ Item {
     id: root
 
     property bool available: true // can be used to disable all interactions
+    property alias inverted: panel.inverted
 
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
