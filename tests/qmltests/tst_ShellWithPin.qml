@@ -66,7 +66,6 @@ Item {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true
                     }
-                    maxFailedLogins: maxRetriesTextField.text
                 }
             }
         }
@@ -100,6 +99,10 @@ Item {
                 TextField {
                     id: maxRetriesTextField
                     text: "-1"
+                    onTextChanged: {
+                        var greeter = testCase.findChild(shellLoader.item, "greeter");
+                        greeter.maxFailedLogins = text;
+                    }
                 }
             }
         }
@@ -130,11 +133,12 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
-            sessionSpy.target = findChild(shell, "greeter")
-            swipeAwayGreeter()
+            var greeter = findChild(shell, "greeter");
+            sessionSpy.target = greeter;
+            swipeAwayGreeter(true);
             waitForLockscreen()
-            shell.failedLoginsDelayAttempts = -1
-            maxRetriesTextField.text = "-1"
+            greeter.failedLoginsDelayAttempts = -1;
+            greeter.maxFailedLogins = -1;
         }
 
         function cleanup() {
@@ -178,17 +182,20 @@ Item {
             compare(ApplicationManager.count, 1)
         }
 
-        function swipeAwayGreeter() {
+        function swipeAwayGreeter(waitForCoverPage) {
             var greeter = findChild(shell, "greeter");
             waitForRendering(greeter)
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
-            // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 0);
+            if (waitForCoverPage) {
+                // wait until the animation has finished
+                var coverPage = findChild(shell, "coverPage");
+                tryCompare(coverPage, "showProgress", 0);
+            }
         }
 
         function waitForLockscreen() {
@@ -209,9 +216,7 @@ Item {
 
         function confirmLockedApp(app) {
             var greeter = findChild(shell, "greeter")
-            var lockscreen = findChild(shell, "lockscreen")
             tryCompare(greeter, "shown", false)
-            tryCompare(lockscreen, "shown", false)
             tryCompare(greeter, "hasLockedApp", true)
             tryCompare(greeter, "lockedApp", app)
             tryCompare(LightDM.Greeter, "active", true)
@@ -234,13 +239,16 @@ Item {
             AccountsService.demoEdges = true
             tryCompare(lockscreen, "shown", false)
 
-            swipeAwayGreeter()
+            var greeter = findChild(shell, "greeter");
+            swipeAwayGreeter(false);
+            tryCompare(greeter, "shown", false);
             tryCompare(sessionSpy, "count", 1)
 
             // Lockscreen is only hidden by the edge demo, so if we turn that
             // off and show greeter again, lockscreen should appear
             AccountsService.demoEdges = false
             LightDM.Greeter.showGreeter()
+            lockscreen = findChild(shell, "lockscreen");
             tryCompare(lockscreen, "shown", true)
         }
 
@@ -258,18 +266,16 @@ Item {
 
         function test_emergencyCall() {
             var greeter = findChild(shell, "greeter")
-            var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             var panel = findChild(shell, "panel")
             var indicators = findChild(shell, "indicators")
             var launcher = findChild(shell, "launcher")
             var stage = findChild(shell, "stage")
 
-            tap(emergencyButton)
+            tap(findChild(greeter, "emergencyCallLabel"));
 
             tryCompare(greeter, "lockedApp", "dialer-app")
             tryCompare(greeter, "hasLockedApp", true)
-            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "shown", false);
             tryCompare(panel, "fullscreenMode", true)
             tryCompare(indicators, "available", false)
             tryCompare(launcher, "available", false)
@@ -282,7 +288,7 @@ Item {
             tryCompare(greeter, "shown", true)
             tryCompare(greeter, "lockedApp", "")
             tryCompare(greeter, "hasLockedApp", false)
-            tryCompare(lockscreen, "shown", true)
+            tryCompare(greeter, "fullyShown", true);
             tryCompare(panel, "fullscreenMode", false)
             tryCompare(indicators, "available", true)
             tryCompare(launcher, "available", true)
@@ -290,23 +296,25 @@ Item {
         }
 
         function test_emergencyCallCrash() {
-            var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
+            var greeter = findChild(shell, "greeter");
+            var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
 
-            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "shown", false);
             killApps() // kill dialer-app, as if it crashed
-            tryCompare(lockscreen, "shown", true)
+            tryCompare(greeter, "shown", true);
+            tryCompare(findChild(greeter, "lockscreen"), "shown", true);
+            tryCompare(findChild(greeter, "coverPage"), "shown", false);
         }
 
         function test_emergencyCallAppLaunch() {
-            var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
+            var greeter = findChild(shell, "greeter");
+            var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
 
-            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "shown", false);
             ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
-            tryCompare(lockscreen, "shown", true)
+            tryCompare(greeter, "shown", true);
         }
 
         function test_failedLoginsCount() {
@@ -320,7 +328,8 @@ Item {
         }
 
         function test_wrongEntries() {
-            shell.failedLoginsDelayAttempts = 3
+            var greeter = findChild(shell, "greeter");
+            greeter.failedLoginsDelayAttempts = 3;
 
             var placeHolder = findChild(shell, "wrongNoticeLabel")
             tryCompare(placeHolder, "text", "")
@@ -334,7 +343,7 @@ Item {
             var lockscreen = findChild(shell, "lockscreen")
             tryCompare(lockscreen, "delayMinutes", 0)
             enterPin("1111")
-            tryCompare(lockscreen, "delayMinutes", shell.failedLoginsDelayMinutes)
+            tryCompare(lockscreen, "delayMinutes", greeter.failedLoginsDelayMinutes);
         }
 
         function test_factoryReset() {
@@ -380,7 +389,7 @@ Item {
             // And when we kill the app, we go back to locked tablet mode
             killApps()
             var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 1)
+            tryCompare(greeter, "fullyShown", true)
             tryCompare(shell, "sideStageEnabled", true)
             tryCompare(applicationsDisplayLoader, "tabletMode", true)
         }
@@ -401,7 +410,6 @@ Item {
             var lockscreen = findChild(shell, "lockscreen");
 
             lockscreen.emergencyCall();
-console.log("MIKE first locked app");
             confirmLockedApp("dialer-app");
             callManager.foregroundCall = phoneCall;
 
@@ -412,7 +420,6 @@ console.log("MIKE first locked app");
             // simulate a callHint press, the real thing requires dialer: url support
             ApplicationManager.requestFocusApplication("dialer-app");
 
-console.log("MIKE second locked app");
             confirmLockedApp("dialer-app");
         }
 
@@ -425,11 +432,11 @@ console.log("MIKE second locked app");
             // - Should be back in normal dialer
             // (we've had a bug where we locked screen in this case)
 
-            var lockscreen = findChild(shell, "lockscreen");
+            var greeter = findChild(shell, "greeter");
             var panel = findChild(shell, "panel");
 
             enterPin("1234");
-            tryCompare(lockscreen, "shown", false);
+            tryCompare(greeter, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
 
             ApplicationManager.startApplication("dialer-app", ApplicationManager.NoFlag);
@@ -444,7 +451,7 @@ console.log("MIKE second locked app");
             ApplicationManager.requestFocusApplication("dialer-app");
 
             tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
-            tryCompare(lockscreen, "shown", false);
+            tryCompare(greeter, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
         }
 
@@ -459,10 +466,10 @@ console.log("MIKE second locked app");
 
             // And wake up
             Powerd.status = Powerd.On;
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
-            swipeAwayGreeter();
+            swipeAwayGreeter(true);
 
             // We have a lockscreen, make sure we're still suspended
             tryCompare(ApplicationManager, "suspended", true);

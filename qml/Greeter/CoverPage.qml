@@ -21,27 +21,42 @@ import Ubuntu.Components 1.1
 import Ubuntu.Gestures 0.1
 import "../Components"
 
-Item {
+Showable {
     id: root
-    anchors.fill: parent
 
-    property bool ready: background.source == "" || background.status == Image.Ready || background.status == Image.Error
+    property real launcherOffset
+    property alias background: greeterBackground.source
+    property real backgroundTopMargin
+    property bool ready: greeterBackground.source == "" || greeterBackground.status == Image.Ready || greeterBackground.status == Image.Error
+    property int currentIndex
+    property bool draggable: true
 
-    signal selected(int uid)
-    signal unlocked(int uid)
+    property alias infographics: infographics
+
+    readonly property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
+
     signal tease()
 
-    function tryToUnlock() {
-        if (loginLoader.item) {
-            loginLoader.item.tryToUnlock()
+    function hideRight() {
+        if (shown) {
+            hideAnimation = d.rightHideAnimation;
+            hide();
         }
     }
 
-    function reset() {
-        if (loginLoader.item) {
-            loginLoader.item.reset()
-        }
+    QtObject {
+        id: d
+
+        property var showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
+        property var leftHideAnimation: StandardAnimation { property: "dragOffset"; to: -width }
+        property var rightHideAnimation: StandardAnimation { property: "dragOffset"; to: width }
     }
+
+    property real dragOffset
+    x: launcherOffset + dragOffset
+
+    showAnimation: d.showAnimation
+    hideAnimation: d.leftHideAnimation
 
     onTease: showLabelAnimation.start()
 
@@ -49,7 +64,7 @@ Item {
     DraggingArea {
         id: dragHandle
         anchors.fill: parent
-        enabled: greeter.narrowMode || !greeter.locked
+        enabled: draggable
         orientation: Qt.Horizontal
         propagateComposedEvents: true
 
@@ -60,7 +75,7 @@ Item {
         }
 
         function maybeTease() {
-            if (!greeter.locked || greeter.narrowMode) {
+            if (enabled) {
                 root.tease();
             }
         }
@@ -70,30 +85,30 @@ Item {
         onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
 
         onDragEnd: {
-            if (greeter.dragOffset > 0 && rightEvaluator.shouldAutoComplete()) {
-                greeter.hideRight()
-            } else if (greeter.dragOffset < 0 && leftEvaluator.shouldAutoComplete()) {
-                greeter.hide();
+            if (root.dragOffset > 0 && rightEvaluator.shouldAutoComplete()) {
+                root.hideRight();
+            } else if (root.dragOffset < 0 && leftEvaluator.shouldAutoComplete()) {
+                root.hide();
             } else {
-                greeter.show(); // undo drag
+                root.show(); // undo drag
             }
         }
 
         onDragValueChanged: {
             // dragValue is kept as a "step" value since we do this adjusting on the fly
-            greeter.dragOffset += dragValue;
+            root.dragOffset += dragValue;
         }
 
         EdgeDragEvaluator {
             id: rightEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.dragOffset
+            trackedPosition: dragHandle.dragValue + root.dragOffset
             maxDragDistance: root.width
             direction: Direction.Rightwards
         }
 
         EdgeDragEvaluator {
             id: leftEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.dragOffset
+            trackedPosition: dragHandle.dragValue + root.dragOffset
             maxDragDistance: root.width
             direction: Direction.Leftwards
         }
@@ -113,17 +128,16 @@ Item {
     }
 
     CrossFadeImage {
-        id: background
+        id: greeterBackground
         objectName: "greeterBackground"
         anchors {
             fill: parent
-            topMargin: backgroundTopMargin
+            topMargin: root.backgroundTopMargin
         }
         fillMode: Image.PreserveAspectCrop
         // Limit how much memory we'll reserve for this image
         sourceSize.height: height
         sourceSize.width: width
-        source: greeter.background
     }
 
     Rectangle {
@@ -132,91 +146,33 @@ Item {
         opacity: 0.4
     }
 
-    Loader {
-        id: loginLoader
-        objectName: "loginLoader"
-        anchors {
-            left: parent.left
-            leftMargin: Math.min(parent.width * 0.16, units.gu(20))
-            verticalCenter: parent.verticalCenter
-        }
-        width: units.gu(29)
-        height: parent.height
-
-        // TODO: Once we have a system API for determining which mode we are
-        // in, tablet/phone/desktop, that should be used instead of narrowMode.
-        source: greeter.narrowMode ? "" : "LoginList.qml"
-
-        onLoaded: {
-            item.currentIndex = greeterContentLoader.currentIndex;
-        }
-
-        Binding {
-            target: loginLoader.item
-            property: "model"
-            value: greeterContentLoader.model
-        }
-
-        Connections {
-            target: loginLoader.item
-
-            onSelected: {
-                root.selected(uid);
-            }
-
-            onUnlocked: {
-                root.unlocked(uid);
-            }
-
-            onCurrentIndexChanged: {
-                if (greeterContentLoader.currentIndex !== loginLoader.item.currentIndex) {
-                    greeterContentLoader.currentIndex = loginLoader.item.currentIndex;
-                }
-            }
-        }
-    }
-
     Infographics {
         id: infographics
         objectName: "infographics"
-        height: narrowMode ? parent.height : 0.75 * parent.height
-        model: greeterContentLoader.infographicModel
+        height: parent.height
+        model: LightDM.Infographic
 
-        property string selectedUser
-        property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
-        onInfographicUserChanged: greeterContentLoader.infographicModel.username = infographicUser
+        property string selectedUser: LightDM.Users.data(root.currentIndex, LightDM.UserRoles.NameRole)
 
         Component.onCompleted: {
-            selectedUser = greeterContentLoader.model.data(greeterContentLoader.currentIndex, LightDM.UserRoles.NameRole)
-            greeterContentLoader.infographicModel.username = infographicUser
-            greeterContentLoader.infographicModel.readyForDataChange()
+            LightDM.Infographic.readyForDataChange();
         }
 
-        Connections {
-            target: root
-            onSelected: infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
+        Binding {
+            target: LightDM.Infographic
+            property: "username"
+            value: AccountsService.statsWelcomeScreen ? infographics.selectedUser : ""
         }
 
         Connections {
             target: i18n
-            onLanguageChanged: greeterContentLoader.infographicModel.readyForDataChange()
+            onLanguageChanged: LightDM.Infographic.readyForDataChange()
         }
 
         anchors {
             verticalCenter: parent.verticalCenter
-            left: narrowMode ? root.left : loginLoader.right
-            right: root.right
-        }
-    }
-
-    Clock {
-        id: clock
-        visible: narrowMode
-
-        anchors {
-            top: parent.top
-            topMargin: units.gu(2)
-            horizontalCenter: parent.horizontalCenter
+            left: parent.left
+            right: parent.right
         }
     }
 

@@ -29,6 +29,7 @@ Item {
     Greeter {
         id: greeter
         anchors.fill: parent
+        tabletMode: true
     }
 
     Component {
@@ -83,12 +84,12 @@ Item {
 
         function select_user(name) {
             // We could be anywhere in list; find target index to know which direction
-            for (var i = 0; i < greeter.model.count; i++) {
-                if (greeter.model.data(i, LightDM.UserRoles.NameRole) == name) {
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == name) {
                     break
                 }
             }
-            if (i == greeter.model.count) {
+            if (i == LightDM.Users.count) {
                 fail("Didn't find name")
                 return -1
             }
@@ -103,8 +104,8 @@ Item {
 
         function test_cycle_data() {
             var data = new Array()
-            for (var i = 0; i < greeter.model.count; i++) {
-                data[i] = {tag: greeter.model.data(i, LightDM.UserRoles.NameRole), uid: i }
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                data[i] = {tag: LightDM.Users.data(i, LightDM.UserRoles.NameRole), uid: i }
             }
             return data
         }
@@ -160,9 +161,9 @@ Item {
         }
 
         function test_empty_name() {
-            for (var i = 0; i < greeter.model.count; i++) {
-                if (greeter.model.data(i, LightDM.UserRoles.NameRole) == "empty-name") {
-                    compare(greeter.model.data(i, LightDM.UserRoles.RealNameRole), greeter.model.data(i, LightDM.UserRoles.NameRole))
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == "empty-name") {
+                    compare(LightDM.Users.data(i, LightDM.UserRoles.RealNameRole), LightDM.Users.data(i, LightDM.UserRoles.NameRole))
                     return
                 }
             }
@@ -314,12 +315,12 @@ Item {
 
         function test_bg_color() {
             var index = select_user("color-background")
-            compare(greeter.model.data(index, LightDM.UserRoles.BackgroundPathRole), "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")
+            compare(LightDM.Users.data(index, LightDM.UserRoles.BackgroundPathRole), "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")
         }
 
         function test_bg_none() {
             var index = select_user("no-background")
-            compare(greeter.model.data(index, LightDM.UserRoles.BackgroundPathRole), "")
+            compare(LightDM.Users.data(index, LightDM.UserRoles.BackgroundPathRole), "")
         }
 
         function test_teasingArea_data() {
@@ -371,7 +372,7 @@ Item {
             tryCompare(selectionSpy, "count", 1)
 
             var userlist = findChild(greeter, "userList")
-            compare(greeter.model.data(userlist.currentIndex, LightDM.UserRoles.NameRole), "has-password")
+            compare(LightDM.Users.data(userlist.currentIndex, LightDM.UserRoles.NameRole), "has-password")
         }
 
         function test_initial_selected_signal() {

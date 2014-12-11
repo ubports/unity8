@@ -28,9 +28,10 @@ import Powerd 0.1
 
 import "../../qml"
 
-Row {
+Item {
     id: root
-    spacing: 0
+    width: units.gu(120)
+    height: units.gu(80)
 
     QtObject {
         id: applicationArguments
@@ -48,43 +49,45 @@ Row {
         }
     }
 
-    Loader {
-        id: shellLoader
+    Row {
+        anchors.fill: parent
+        Loader {
+            id: shellLoader
+            width: units.gu(100)
+            height: parent.height
 
-        width: units.gu(100)
-        height: units.gu(80)
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    property string indicatorProfile: "phone"
 
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            Shell {
-                property string indicatorProfile: "phone"
-
-                Component.onDestruction: {
-                    shellLoader.itemDestroyed = true
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true
+                    }
                 }
             }
         }
-    }
 
-    Rectangle {
-        color: "white"
-        width: units.gu(20)
-        height: shellLoader.height
+        Rectangle {
+            color: "white"
+            width: units.gu(20)
+            height: parent.height
 
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    Button {
+                        text: "Show Greeter"
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter")
-                        if (!greeter.shown) {
-                            greeter.show()
+                            var greeter = testCase.findChild(shellLoader.item, "greeter")
+                            if (!greeter.shown) {
+                                greeter.show()
+                            }
                         }
                     }
                 }
@@ -187,12 +190,12 @@ Row {
         function selectUser(name) {
             // Find index of user with the right name
             var greeter = findChild(shell, "greeterContentLoader")
-            for (var i = 0; i < greeter.model.count; i++) {
-                if (greeter.model.data(i, LightDM.UserRoles.NameRole) == name) {
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == name) {
                     break
                 }
             }
-            if (i == greeter.model.count) {
+            if (i == LightDM.Users.count) {
                 fail("Didn't find name")
                 return -1
             }
@@ -202,7 +205,7 @@ Row {
 
         function clickPasswordInput(isButton) {
             var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 1)
+            tryCompare(greeter, "fullyShown", true);
 
             var passwordMouseArea = findChild(shell, "passwordMouseArea")
             tryCompare(passwordMouseArea, "enabled", isButton)
@@ -213,8 +216,8 @@ Row {
 
         function confirmLoggedIn(loggedIn) {
             var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "showProgress", loggedIn ? 0 : 1);
-            tryCompare(sessionSpy, "count", loggedIn ? 1 : 0)
+            tryCompare(greeter, "shown", loggedIn ? false : true);
+            verify(loggedIn ? sessionSpy.count > 0 : sessionSpy.count === 0);
         }
 
         function swipeFromLeftEdge(swipeLength) {
@@ -226,15 +229,15 @@ Row {
         function test_noLockscreen() {
             selectUser("has-password")
             var lockscreen = findChild(shell, "lockscreen")
-            tryCompare(lockscreen, "shown", false)
+            compare(lockscreen, null);
         }
 
         function test_showAndHideGreeterDBusCalls() {
             var greeter = findChild(shell, "greeter")
             LightDM.Greeter.hideGreeter()
-            tryCompare(greeter, "showProgress", 0)
+            tryCompare(greeter, "shown", false);
             LightDM.Greeter.showGreeter()
-            tryCompare(greeter, "showProgress", 1)
+            tryCompare(greeter, "fullyShown", true);
         }
 
         function test_login_data() {

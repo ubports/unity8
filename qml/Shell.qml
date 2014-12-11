@@ -59,14 +59,8 @@ Item {
                              : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
     readonly property real panelHeight: panel.panelHeight
 
-    readonly property alias locked: greeter.locked
-
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
-
-    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
-    property int failedLoginsDelayAttempts: 7 // number of failed logins
-    property int failedLoginsDelayMinutes: 5 // minutes of forced waiting
 
     property int orientation
     readonly property int deviceOrientationAngle: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
@@ -94,7 +88,7 @@ Item {
     }
 
     function startLockedApp(app) {
-        if (shell.locked) {
+        if (greeter.locked) {
             greeter.lockedApp = app;
         }
         shell.activateApplication(app);
@@ -214,7 +208,7 @@ Item {
             }
 
             onFocusedApplicationIdChanged: {
-                greeter.notifyFocusChanged(ApplicationManager.focusedApplicationId);
+                greeter.notifyAppFocused(ApplicationManager.focusedApplicationId);
                 panel.indicators.hide();
             }
 
@@ -227,7 +221,7 @@ Item {
                     wizard.hide();
                 }
 
-                greeter.notifyAppAdded(appId);
+                greeter.notifyAppFocused(appId);
                 launcher.hide();
             }
         }
@@ -267,7 +261,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: edgeDemo.stagesEnabled && !greeter.fullyShown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
+                value: edgeDemo.stagesEnabled && !greeter.shown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -329,7 +323,7 @@ Item {
 
         hides: [launcher, panel.indicators]
         tabletMode: shell.sideStageEnabled
-        launcherOffset: (narrowMode && showProgress > 0) ? launcher.progress : 0
+        launcherOffset: launcher.progress
         forcedUnlock: edgeDemo.running
         background: shell.background
 
@@ -346,7 +340,7 @@ Item {
         Binding {
             target: ApplicationManager
             property: "suspended"
-            value: greeter.fullyShown
+            value: greeter.shown
         }
     }
 
@@ -355,7 +349,7 @@ Item {
         target: callManager
 
         onHasCallsChanged: {
-            if (shell.locked && callManager.hasCalls) {
+            if (greeter.locked && callManager.hasCalls) {
                 // We just received an incoming call while locked.  The
                 // indicator will have already launched dialer-app for us, but
                 // there is a race between "hasCalls" changing and the dialer
@@ -386,9 +380,7 @@ Item {
             return
         }
 
-        if (LightDM.Greeter.active) {
-            greeter.startUnlock()
-        }
+        greeter.notifyAboutToFocusApp("unity8-dash");
 
         var animate = !LightDM.Greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
@@ -396,13 +388,8 @@ Item {
     }
 
     function showDash() {
-        if (greeter.hasLockedApp || // just in case user gets here
-            (!greeter.narrowMode && shell.locked)) {
-            return
-        }
-
-        if (greeter.shown) {
-            greeter.hideRight();
+        if (greeter.active) {
+            greeter.notifyShowingDashFromDrag();
             launcher.fadeOut();
         }
 
@@ -424,7 +411,7 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
+                available: edgeDemo.panelEnabled && (!greeter.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
                 contentEnabled: edgeDemo.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
@@ -440,7 +427,7 @@ Item {
                 Component.onCompleted: initialise(indicatorProfile)
             }
             callHint {
-                greeterShown: greeter.fullyShown
+                greeterShown: greeter.shown
             }
 
             property bool topmostApplicationIsFullscreen:
@@ -461,7 +448,7 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            available: edgeDemo.launcherEnabled && (!greeter.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -472,7 +459,7 @@ Item {
             }
             onLauncherApplicationSelected: {
                 if (!edgeDemo.running) {
-                    greeter.notifyAboutToStartApp(appId);
+                    greeter.notifyAboutToFocusApp(appId);
                     shell.activateApplication(appId)
                 }
             }

@@ -33,25 +33,49 @@ Item {
     property bool wasPrompted: false
 
     signal selected(int uid)
-    signal unlocked(int uid)
+    signal unlocked()
 
     function tryToUnlock() {
         if (LightDM.Greeter.promptless) {
             if (LightDM.Greeter.authenticated) {
-                root.unlocked(userList.currentIndex)
+                root.unlocked()
             } else {
                 root.resetAuthentication()
+                root.selected(currentIndex);
             }
         } else {
             passwordInput.forceActiveFocus()
         }
     }
 
-    function reset() {
-        root.resetAuthentication()
+    function showMessage(html) {
+        infoLabel.text = html;
     }
 
-    Keys.onEscapePressed: root.resetAuthentication()
+    function showPrompt(text, isSecret, isDefaultPrompt) {
+        passwordInput.text = "";
+        passwordInput.promptText = text;
+        passwordInput.enabled = true;
+        passwordInput.echoMode = isSecret ? TextInput.Password : TextInput.Normal;
+        if (wasPrompted) // stay in text field if second prompt
+            passwordInput.focus = true;
+        wasPrompted = true;
+    }
+
+    function showError() {
+        wrongPasswordAnimation.start();
+        root.resetAuthentication();
+        passwordInput.focus = true;
+    }
+
+    function reset() {
+        root.resetAuthentication();
+    }
+
+    Keys.onEscapePressed: {
+        root.resetAuthentication();
+        selected(currentIndex);
+    }
 
     Rectangle {
         id: highlightItem
@@ -85,6 +109,7 @@ Item {
         onCurrentIndexChanged: {
             if (LightDM.Greeter.authenticationUser != userList.model.data(currentIndex, LightDM.UserRoles.NameRole)) {
                 root.resetAuthentication();
+                root.selected(currentIndex);
             }
         }
 
@@ -204,6 +229,11 @@ Item {
         width: parent.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
+        property string promptText
+        placeholderText: LightDM.Greeter.promptless ? (LightDM.Greeter.authenticated ? i18n.tr("Tap to unlock")
+                                                                                     : i18n.tr("Retry"))
+                                                    : promptText
+
         Behavior on opacity {
             NumberAnimation { duration: 100 }
         }
@@ -215,7 +245,10 @@ Item {
             enabled = false;
             LightDM.Greeter.respond(text);
         }
-        Keys.onEscapePressed: root.resetAuthentication()
+        Keys.onEscapePressed: {
+            root.resetAuthentication();
+            root.selected(currentIndex);
+        }
 
         Image {
             anchors {
@@ -256,62 +289,10 @@ Item {
             return;
         }
         infoLabel.text = "";
-        passwordInput.placeholderText = "";
+        passwordInput.promptText = "";
         passwordInput.text = "";
         passwordInput.focus = false;
         passwordInput.enabled = true;
         root.wasPrompted = false;
-        selected(currentIndex);
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onShowMessage: {
-            // inefficient, but we only rarely deal with messages
-            var html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>")
-            if (isError)
-                html = "<font color=\"#df382c\">" + html + "</font>"
-            if (infoLabel.text == "")
-                infoLabel.text = html
-            else
-                infoLabel.text = infoLabel.text + "<br>" + html
-        }
-
-        onShowPrompt: {
-            passwordInput.text = "";
-            passwordInput.placeholderText = text;
-            passwordInput.enabled = true;
-            passwordInput.echoMode = isSecret ? TextInput.Password : TextInput.Normal;
-            if (root.wasPrompted) // stay in text field if second prompt
-                passwordInput.focus = true;
-            root.wasPrompted = true;
-        }
-
-        onAuthenticationComplete: {
-            if (LightDM.Greeter.promptless) {
-                passwordInput.placeholderText = LightDM.Greeter.authenticated ? "Tap to unlock" : "Retry";
-                return;
-            }
-            if (LightDM.Greeter.authenticated) {
-                root.unlocked(userList.currentIndex);
-            } else {
-                wrongPasswordAnimation.start();
-                root.resetAuthentication();
-                passwordInput.focus = true;
-            }
-            passwordInput.text = "";
-        }
-
-        onRequestAuthenticationUser: {
-            // Find index for requested user, if it exists
-            for (var i = 0; i < userList.model.count; i++) {
-                if (user == userList.model.data(i, LightDM.UserRoles.NameRole)) {
-                    moveTimer.start();
-                    userList.currentIndex = i;
-                    return;
-                }
-            }
-        }
     }
 }

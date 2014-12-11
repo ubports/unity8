@@ -24,358 +24,287 @@ import "../Components"
 
 Showable {
     id: greeter
-    created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
+    created: loader.status == Loader.Ready
 
     property url background
 
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
 
-    // 1 when fully shown and 0 when fully hidden
-    readonly property real showProgress: MathUtils.clamp((width - Math.abs(greeterContentLoader.x)) / width, 0, 1)
-    readonly property bool fullyShown: showProgress === 1 || lockscreen.shown
-    readonly property bool semiShown: shown || lockscreen.shown
+    readonly property bool active: shown || hasLockedApp
+    readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
 
     // True when the greeter is waiting for PAM or other setup process
-    property bool waiting: true
+    readonly property alias waiting: d.waiting
 
     property string lockedApp: ""
-    property bool hasLockedApp: lockedApp !== ""
+    readonly property bool hasLockedApp: lockedApp !== ""
 
-    showAnimation: d.showAnimation
-    hideAnimation: d.leftHideAnimation
-
-    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
     property bool forcedUnlock
-    onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
+    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
 
     property bool tabletMode
-    readonly property bool narrowMode: !multiUser && !tabletMode
-    readonly property bool multiUser: LightDM.Users.count > 1
 
-    property real dragOffset
-
-    // We define a proxy and "is valid" property for launcherOffset because of
-    // a quirk in Qml.  We only want this animation to fire if we are reset
-    // back to zero (on a release of the drag).  But by defining a Behavior,
-    // we delay the property from reaching zero until it's too late.  So we set
-    // a proxy bound to launcherOffset, which lets us see the target value of
-    // zero as we also slowly adjust the proxy down to zero.  But Qml will send
-    // change notifications in declaration order.  So unless we define the
-    // proxy first, we need a little "is valid" property defined above the
-    // proxy, so we know when to enable the proxy behavior.  Phew!
-    readonly property bool launcherOffsetValid: launcherOffset > 0
-    property real launcherOffsetProxy: shown ? launcherOffset : 0
-    Behavior on launcherOffsetProxy {
-        enabled: !launcherOffsetValid
-        StandardAnimation {}
-    }
+    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
+    property int failedLoginsDelayAttempts: 7 // number of failed logins
+    property int failedLoginsDelayMinutes: 5 // minutes of forced waiting
 
     signal tease()
     signal sessionStarted()
     signal emergencyCall()
 
-    function hideRight() {
-        if (shown) {
-            hideAnimation = d.rightHideAnimation;
-            hide()
-        }
-    }
-
     function notifyAppFocused(appId) {
-        if (narrowMode) {
-            if (hasLockedApp) {
-                if (appId === lockedApp) {
-                    lockscreen.hide(); // show locked app
-                } else {
-                    startUnlock(); // show lockscreen if necessary
-                }
-            }
-            hide();
-        } else {
-            if (LightDM.Greeter.active) {
-                startUnlock();
-            }
+        if (!active) {
+            return;
         }
-    }
 
-    // Do we need these next two functions, really?
-    function notifyFocusChanged(appId) {
-        if (hasLockedApp && lockedApp !== appId) {
-            startUnlock();
-        }
-    }
-
-    function notifyAppAdded(appId) {
-        if (shown && appId != "unity8-dash") {
-            startUnlock();
-        }
-        if (narrowMode && hasLockedApp && appId === lockedApp) {
-            lockscreen.hide(); // show locked app
-        }
-    }
-
-    function notifyAboutToStartApp(appId) {
         if (hasLockedApp) {
-            startUnlock();
-        }
-    }
-
-    function startUnlock() {
-        if (narrowMode) {
-            if (!LightDM.Greeter.authenticated) {
-                lockscreen.maybeShow();
-            }
-            hide();
-        } else {
-            show();
-            if (greeterContentLoader.item) {
-                greeterContentLoader.item.tryToUnlock();
-            }
-        }
-    }
-
-    onRequiredChanged: {
-        // Reset hide animation to default once we're finished with it
-        if (required) {
-            // Reset hide animation so that a hide() call is reliably left
-            hideAnimation = d.leftHideAnimation;
-        }
-    }
-
-    onShownChanged: {
-        if (shown) {
-            waiting = true;
-
-            if (narrowMode) {
-                d.selectUser(greeterContentLoader.currentIndex);
+            if (appId === lockedApp) {
+                hide(); // show locked app
             } else {
-                d.reset();
+                show();
+                d.startUnlock(false);
             }
-            lockedApp = "";
-            forceActiveFocus();
+        } else if (appId !== "unity8-dash") { // dash isn't started by user
+            d.startUnlock(false);
         }
     }
 
-    onFullyShownChanged: {
-        // Wait until the greeter is completely covering lockscreen before resetting it.
-        if (narrowMode && fullyShown && !LightDM.Greeter.authenticated) {
-            lockscreen.reset();
-            lockscreen.maybeShow();
+    function notifyAboutToFocusApp(appId) {
+        if (!active) {
+            return;
         }
+
+        // A hint that we're about to focus an app.  This way we can look
+        // a little more responsive, rather than waiting for the above
+        // notifyAppFocused call.  We also need this in case we have a locked
+        // app, in order to show lockscreen instead of new app.
+        d.startUnlock(false);
     }
 
-    onShowProgressChanged: {
-        if (showProgress === 0) {
-            if ((LightDM.Greeter.promptless && LightDM.Greeter.authenticated) || forcedUnlock) {
-                d.login();
-            } else if (narrowMode) {
-                lockscreen.clear(false); // to reset focus if necessary
-            }
+    function notifyShowingDashFromDrag() {
+        if (!active) {
+            return;
         }
+
+        // This is a just a glorified notifyAboutToFocusApp(), but it does one
+        // other thing: it hides any cover pages to the RIGHT, because the user
+        // just came from a launcher drag starting on the left.
+        d.startUnlock(true);
     }
 
     QtObject {
         id: d
 
-        property var showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
-        property var leftHideAnimation: StandardAnimation { property: "dragOffset"; to: -width }
-        property var rightHideAnimation: StandardAnimation { property: "dragOffset"; to: width }
+        readonly property bool multiUser: LightDM.Users.count > 1
+        property int currentIndex
+        property int delayMinutes
+        property bool waiting
+
+        // We define a proxy and "is valid" property for launcherOffset because of
+        // a quirk in Qml.  We only want this animation to fire if we are reset
+        // back to zero (on a release of the drag).  But by defining a Behavior,
+        // we delay the property from reaching zero until it's too late.  So we set
+        // a proxy bound to launcherOffset, which lets us see the target value of
+        // zero as we also slowly adjust the proxy down to zero.  But Qml will send
+        // change notifications in declaration order.  So unless we define the
+        // proxy first, we need a little "is valid" property defined above the
+        // proxy, so we know when to enable the proxy behavior.  Phew!
+        readonly property bool launcherOffsetValid: launcherOffset > 0
+        property real launcherOffsetProxy: shown ? launcherOffset : 0
+        Behavior on launcherOffsetProxy {
+            enabled: !d.launcherOffsetValid
+            StandardAnimation {}
+        }
 
         function selectUser(uid) {
-            // Update launcher items for new user
+            currentIndex = uid;
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
             LightDM.Greeter.authenticate(user); // always resets auth state
         }
 
-        function reset() {
-            if (greeterContentLoader.item) {
-                greeterContentLoader.item.reset()
-            }
-        }
-
         function login() {
             enabled = false;
             if (LightDM.Greeter.startSessionSync()) {
                 sessionStarted();
-                hide();
-                lockscreen.hide();
+                loader.item.authenticated(true);
+            } else {
+                loader.item.authenticated(false);
             }
             enabled = true;
         }
-    }
 
-    Lockscreen {
-        id: lockscreen
-        objectName: "lockscreen"
-
-        shown: false
-        showAnimation: StandardAnimation { property: "opacity"; to: 1 }
-        hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
-        anchors.fill: parent
-        visible: required
-        background: greeter.background
-        darkenBackground: 0.4
-        alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
-        minPinLength: 4
-        maxPinLength: 4
-
-        property string promptText
-        infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
-                  alphaNumeric ? i18n.tr("Enter passphrase") :
-                                 i18n.tr("Enter passcode")
-        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
-                   alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
-                                  i18n.tr("Please re-enter") :
-                                  i18n.tr("Sorry, incorrect passcode")
-
-        // FIXME: We *should* show emergency dialer if there is a SIM present,
-        // regardless of whether the side stage is enabled.  But right now,
-        // the assumption is that narrow screens are phones which have SIMs
-        // and wider screens are tablets which don't.  When we do allow this
-        // on devices with a side stage and a SIM, work should be done to
-        // ensure that the main stage is disabled while the dialer is present
-        // in the side stage.  See the FIXME in the stage loader in Shell.qml.
-        showEmergencyCallButton: !greeter.tabletMode
-
-        onEntered: LightDM.Greeter.respond(passphrase);
-        onCancel: greeter.show()
-        onEmergencyCall: greeter.emergencyCall()
-
-        onShownChanged: if (shown) greeter.lockedApp = ""
-
-        function maybeShow() {
-            if (!greeter.forcedUnlock) {
-                show();
+        function startUnlock(toTheRight) {
+            if (loader.item) {
+                loader.item.tryToUnlock(toTheRight);
             }
         }
+    }
 
-        Timer {
-            id: forcedDelayTimer
-            interval: 1000 * 60
-            onTriggered: {
-                if (lockscreen.delayMinutes > 0) {
-                    lockscreen.delayMinutes -= 1
-                    if (lockscreen.delayMinutes > 0) {
-                        start() // go again
-                    }
+    onForcedUnlockChanged: {
+        if (forcedUnlock && shown) {
+            // pretend we were just authenticated
+            loader.item.authenticated(true);
+        }
+    }
+
+    onRequiredChanged: {
+        if (required) {
+            d.waiting = true;
+            lockedApp = "";
+        }
+    }
+
+    Timer {
+        id: forcedDelayTimer
+        interval: 1000 * 60
+        onTriggered: {
+            if (d.delayMinutes > 0) {
+                d.delayMinutes -= 1;
+                if (d.delayMinutes > 0) {
+                    start(); // go again
                 }
             }
         }
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: "black"
-        opacity: greeter.showProgress * 0.8
-    }
-
     Loader {
-        id: greeterContentLoader
-        objectName: "greeterContentLoader"
+        id: loader
+        objectName: "loader"
 
-        x: launcherOffsetProxy + dragOffset
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
 
-        property var model: LightDM.Users
-        property int currentIndex: 0
-        property var infographicModel: LightDM.Infographic
-        readonly property int backgroundTopMargin: -greeter.y
-
-        source: (greeter.required || lockscreen.required) ? "GreeterContent.qml" : ""
+        source: greeter.required ? ((!d.multiUser && !tabletMode) ? "NarrowGreeter.qml"
+                                                                  : "WideGreeter.qml")
+                                 : ""
 
         onLoaded: {
-            d.selectUser(currentIndex);
+            loader.item.reset();
+            greeter.lockedApp = "";
+            greeter.forceActiveFocus();
+            d.selectUser(d.currentIndex);
         }
 
         Connections {
-            target: greeterContentLoader.item
-
+            target: loader.item
             onSelected: {
-                d.selectUser(uid);
-                greeterContentLoader.currentIndex = uid;
+                d.selectUser(index);
             }
-            onUnlocked: greeter.hide()
+            onUnlocked: {
+                d.login()
+            }
             onTease: greeter.tease()
+            onRequiredChanged: {
+                if (!loader.item.required) {
+                    greeter.hide();
+                }
+            }
+        }
+
+        Binding {
+            target: loader.item
+            property: "backgroundTopMargin"
+            value: -greeter.y
+        }
+
+        Binding {
+            target: loader.item
+            property: "launcherOffset"
+            value: d.launcherOffsetProxy
+        }
+
+        Binding {
+            target: loader.item
+            property: "delayMinutes"
+            value: d.delayMinutes
         }
     }
 
     Connections {
         target: LightDM.Greeter
 
-        onShowGreeter: greeter.show()
-        onHideGreeter: d.login()
-
-        onShowPrompt: {
-            waiting = false;
-
-            if (!LightDM.Greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
-            }
-
-            if (greeter.narrowMode) {
-                lockscreen.promptText = isDefaultPrompt ? "" : text.toLowerCase();
-                lockscreen.maybeShow();
-            }
+        onShowGreeter: {
+            greeter.show();
+            loader.item.reset();
+            d.selectUser(d.currentIndex);
         }
 
-        onPromptlessChanged: {
+        onHideGreeter: {
+            d.login();
+            loader.item.hide();
+        }
+
+        onShowMessage: {
             if (!LightDM.Greeter.active) {
                 return; // could happen if hideGreeter() comes in before we prompt
             }
-            if (greeter.narrowMode) {
-                if (LightDM.Greeter.promptless && LightDM.Greeter.authenticated) {
-                    lockscreen.hide()
-                } else {
-                    lockscreen.reset();
-                    lockscreen.maybeShow();
+
+            // inefficient, but we only rarely deal with messages
+            var html = text.replace(/&/g, "&amp;")
+                           .replace(/</g, "&lt;")
+                           .replace(/>/g, "&gt;")
+                           .replace(/\n/g, "<br>");
+            if (isError) {
+                html = "<font color=\"#df382c\">" + html + "</font>";
+            }
+
+            loader.item.showMessage(html);
+        }
+
+        onShowPrompt: {
+            d.waiting = false;
+
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
+
+            loader.item.showPrompt(text, isSecret, isDefaultPrompt);
+        }
+
+        onAuthenticationComplete: {
+            d.waiting = false;
+
+            if (LightDM.Greeter.authenticated) {
+                AccountsService.failedLogins = 0;
+                d.login();
+                if (!LightDM.Greeter.promptless) {
+                    loader.item.hide();
+                }
+            } else {
+                if (!LightDM.Greeter.promptless) {
+                    AccountsService.failedLogins++;
+                }
+
+                // Check if we should initiate a factory reset
+                if (maxFailedLogins >= 2) { // require at least a warning
+                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                        loader.item.showLastChance();
+                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                        SystemImage.factoryReset(); // Ouch!
+                    }
+                }
+
+                // Check if we should initiate a forced login delay
+                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                    d.delayMinutes = failedLoginsDelayMinutes;
+                    forcedDelayTimer.start();
+                }
+
+                loader.item.authenticated(false);
+                if (!LightDM.Greeter.promptless) {
+                    d.selectUser(d.currentIndex);
                 }
             }
         }
 
-        onAuthenticationComplete: {
-            waiting = false;
-            if (LightDM.Greeter.authenticated) {
-                AccountsService.failedLogins = 0
-            }
-            // Else only penalize user for a failed login if they actually were
-            // prompted for a password.  We do this below after the promptless
-            // early exit.
-
-            if (LightDM.Greeter.promptless) {
-                return;
-            }
-
-            if (LightDM.Greeter.authenticated) {
-                d.login();
-            } else {
-                AccountsService.failedLogins++
-
-                if (greeter.narrowMode) {
-                    if (maxFailedLogins >= 2) { // require at least a warning
-                        if (AccountsService.failedLogins === maxFailedLogins - 1) {
-                            var title = lockscreen.alphaNumeric ?
-                                        i18n.tr("Sorry, incorrect passphrase.") :
-                                        i18n.tr("Sorry, incorrect passcode.")
-                            var text = i18n.tr("This will be your last attempt.") + " " +
-                                       (lockscreen.alphaNumeric ?
-                                        i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
-                                        i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."))
-                            lockscreen.showInfoPopup(title, text)
-                        } else if (AccountsService.failedLogins >= maxFailedLogins) {
-                            SystemImage.factoryReset() // Ouch!
-                        }
-                    }
-                    if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
-                        lockscreen.delayMinutes = failedLoginsDelayMinutes
-                        forcedDelayTimer.start()
-                    }
-
-                    lockscreen.clear(true);
-                    d.selectUser(greeterContentLoader.currentIndex);
+        onRequestAuthenticationUser: {
+            // Find index for requested user, if it exists
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                if (user === LightDM.Users.data(i, LightDM.UserRoles.NameRole)) {
+                    d.selectUser(i);
+                    return;
                 }
             }
         }
@@ -384,6 +313,6 @@ Showable {
     Binding {
         target: LightDM.Greeter
         property: "active"
-        value: greeter.semiShown || greeter.hasLockedApp
+        value: greeter.active
     }
 }

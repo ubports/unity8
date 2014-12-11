@@ -87,7 +87,7 @@ Item {
 
                             var greeter = testCase.findChild(shellLoader.item, "greeter");
                             if (!greeter.shown) {
-                                greeter.show();
+                                LightDM.Greeter.showGreeter();
                             }
                         }
                     }
@@ -323,20 +323,20 @@ Item {
             // Suspend while call is active...
             callManager.foregroundCall = phoneCall;
             Powerd.status = Powerd.Off;
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
 
             // Now try again after ending call
             callManager.foregroundCall = null;
             Powerd.status = Powerd.On;
             Powerd.status = Powerd.Off;
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             tryCompare(ApplicationManager, "suspended", true);
             compare(mainApp.state, ApplicationInfoInterface.Suspended);
 
             // And wake up
             Powerd.status = Powerd.On;
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
             swipeAwayGreeter();
@@ -347,14 +347,14 @@ Item {
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
             // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
@@ -559,12 +559,12 @@ Item {
 
             waitUntilDashIsFocused();
 
-            greeter.show();
-            tryCompare(greeter, "showProgress", 1);
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "fullyShown", true);
 
             // The main point of this test
             ApplicationManager.requestFocusApplication("dialer-app");
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
@@ -582,24 +582,22 @@ Item {
 
         function test_showAndHideGreeterDBusCalls() {
             var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 0)
+            tryCompare(greeter, "shown", false)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
             waitForRendering(greeter)
-            tryCompare(greeter, "showProgress", 1)
+            tryCompare(greeter, "fullyShown", true)
             LightDM.Greeter.hideGreeter()
-            tryCompare(greeter, "showProgress", 0)
+            tryCompare(greeter, "shown", false)
         }
 
         function test_login() {
-            sessionSpy.clear()
-
             var greeter = findChild(shell, "greeter")
             waitForRendering(greeter)
-            greeter.show()
-            tryCompare(greeter, "showProgress", 1)
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "fullyShown", true)
 
-            tryCompare(sessionSpy, "count", 0)
+            sessionSpy.clear();
             swipeAwayGreeter()
             tryCompare(sessionSpy, "count", 1)
         }
@@ -640,7 +638,8 @@ Item {
 
         function test_unlockedProperties() {
             // Confirm that various properties have the correct values when unlocked
-            tryCompare(shell, "locked", false)
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "locked", false);
 
             var launcher = findChild(shell, "launcher")
             tryCompare(launcher, "available", true)
@@ -662,14 +661,18 @@ Item {
 
         function test_leftEdgeDragOnGreeter(data) {
             var greeter = findChild(shell, "greeter");
-            greeter.show();
-            tryCompare(greeter, "showProgress", 1);
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "fullyShown", true);
 
             var touchStartX = 2;
             var touchStartY = shell.height / 2;
             touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
 
-            tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
+            if (data.unlocked) {
+                tryCompare(greeter, "shown", false);
+            } else {
+                tryCompare(greeter, "fullyShown", true);
+            }
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
