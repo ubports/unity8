@@ -18,6 +18,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
+import "../Components"
 
 Item {
     id: root
@@ -42,37 +43,14 @@ Item {
 
     Row {
         anchors { left: parent.left; top: parent.top; bottom: parent.bottom; margins: units.gu(0.7) }
-        spacing: units.gu(0.5)
+        spacing: units.gu(1)
         opacity: root.active ? 1 : 0.5
-        Rectangle {
-            height: parent.height; width: height; radius: height / 2
-            gradient: Gradient {
-                GradientStop { color: "#F49073"; position: 0 }
-                GradientStop { color: "#DF4F1C"; position: 1 }
-            }
-            border.width: units.dp(.5)
-            border.color: "black"
-            MouseArea { anchors.fill: parent; onClicked: root.close() }
-        }
-        Rectangle {
-            height: parent.height; width: height; radius: height / 2
-            gradient: Gradient {
-                GradientStop { color: "#92918C"; position: 0 }
-                GradientStop { color: "#5E5D58"; position: 1 }
-            }
-            border.width: units.dp(.5)
-            border.color: "black"
-            MouseArea { anchors.fill: parent; onClicked: root.minimize() }
-        }
-        Rectangle {
-            height: parent.height; width: height; radius: height / 2
-            gradient: Gradient {
-                GradientStop { color: "#92918C"; position: 0 }
-                GradientStop { color: "#5E5D58"; position: 1 }
-            }
-            border.width: units.dp(.5)
-            border.color: "black"
-            MouseArea { anchors.fill: parent; onClicked: root.maximize() }
+
+        WindowControlButtons {
+            height: parent.height
+            onClose: root.close();
+            onMinimize: root.minimize();
+            onMaximize: root.maximize();
         }
 
         Label {
