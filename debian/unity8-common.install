@@ -3,4 +3,5 @@ usr/share/unity8/Components
 usr/share/unity8/Dash
 usr/share/unity8/Notifications
 usr/share/unity8/graphics
+com.canonical.Unity8.gschema.xml usr/share/glib-2.0/schemas/
 var/lib/polkit-1/localauthority/10-vendor.d

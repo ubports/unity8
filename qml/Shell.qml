@@ -267,7 +267,13 @@ Item {
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
+                        : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+
+            GSettings {
+                id: usageModeSettings
+                schema.id: "com.canonical.Unity8"
+            }
 
             Binding {
                 target: applicationsDisplayLoader.item
