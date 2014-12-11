@@ -655,15 +655,14 @@ Item {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
                     !callManager.hasCalls && !edgeDemo.running) {
                 // We don't want to simply call greeter.showNow() here, because
-                // that will take too long (especially if the wallpaper image
-                // is large).  Qt will delay button event handling until the
-                // greeter is done loading and may think the user held down the
-                // power button the whole time, leading to a power dialog being
-                // shown.  Instead, delay showing the greeter until we've
-                // finished handling the event.  We could make the greeter load
-                // asynchronously instead, but that introduces a whole host of
-                // timing issues, especially with its animations.  So this is
-                // simpler.
+                // that will take too long.  Qt will delay button event
+                // handling until the greeter is done loading and may think the
+                // user held down the power button the whole time, leading to a
+                // power dialog being shown.  Instead, delay showing the
+                // greeter until we've finished handling the event.  We could
+                // make the greeter load asynchronously instead, but that
+                // introduces a whole host of timing issues, especially with
+                // its animations.  So this is simpler.
                 showGreeterDelayed.start();
             }
         }

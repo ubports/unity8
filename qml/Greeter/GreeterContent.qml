@@ -122,7 +122,7 @@ Item {
         property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
         onInfographicUserChanged: greeterContentLoader.infographicModel.username = infographicUser
 
-        Component.onCompleted {
+        Component.onCompleted: {
             selectedUser = greeterContentLoader.model.data(greeterContentLoader.currentIndex, LightDM.UserRoles.NameRole)
             greeterContentLoader.infographicModel.username = infographicUser
             greeterContentLoader.infographicModel.readyForDataChange()
