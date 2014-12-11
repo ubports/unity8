@@ -28,8 +28,10 @@ Item {
     implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
 
     property bool showBackButton: false
+    property bool backIsClose: false
     property string title
 
+    property bool storeEntryEnabled: false
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
     property bool favoriteEnabled: false
@@ -46,6 +48,7 @@ Item {
     property var scopeStyle: null
 
     signal backClicked()
+    signal storeClicked()
     signal settingsClicked()
     signal favoriteClicked()
 
@@ -246,12 +249,19 @@ Item {
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
-                        iconName: "back"
+                        iconName: backIsClose ? "close" : "back"
                         visible: root.showBackButton
                         onTriggered: root.backClicked()
                     }
 
                     actions: [
+                        Action {
+                            objectName: "store"
+                            text: i18n.tr("Store")
+                            iconName: "ubuntu-store-symbolic"
+                            visible: root.storeEntryEnabled
+                            onTriggered: root.storeClicked();
+                        },
                         Action {
                             objectName: "search"
                             text: i18n.tr("Search")

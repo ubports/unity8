@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-11-05 07:24+0000\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
+"PO-Revision-Date: 2014-12-10 07:14+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2014-12-03 06:49+0000\n"
-"X-Generator: Launchpad (build 17274)\n"
+"X-Launchpad-Export-Date: 2014-12-11 08:11+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -190,6 +190,10 @@ msgstr "Gwelet pep tra"
 msgid "Search"
 msgstr "Klask"
 
+#: qml/Dash/ScopesOverview.qml:463
+msgid "Store"
+msgstr "Enrollañ"
+
 #: qml/Dash/PageHeader.qml:268
 msgid "Settings"
 msgstr "Arventennoù"
@@ -230,25 +234,17 @@ msgstr "Tennañ evit freskaat..."
 msgid "Release to refresh…"
 msgstr "Lezel da vont evit freskaat..."
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Merañ ar c'hefluskerioù enklask"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr "Merañ"
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "Graet eo"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr "Er gêr"
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "Enrollañ"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Gwellañ deuet"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "An holl anezho"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr "Staliet ivez"
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
@@ -266,31 +262,31 @@ msgstr "Touchit evit distreiñ d'ar bellgomzadenn..."
 msgid "Conference"
 msgstr "Kendiviz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:615
 msgid "Nothing is playing"
 msgstr "Ne lenner netra bremañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:763
 msgid "In queue…"
 msgstr "El lostennad..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:767
 msgid "Downloading"
 msgstr "O pellgargañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:769
 msgid "Paused, tap to resume"
 msgstr "Ehanet, touchit evit adkregiñ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:771
 msgid "Canceled"
 msgstr "Nullet"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:773
 msgid "Finished"
 msgstr "Echu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:775
 msgid "Failed, tap to retry"
 msgstr "C'hwitet, touchit evit adkregiñ"
 
@@ -302,49 +298,49 @@ msgstr "Dibrennañ ar gartenn SIM"
 msgid "Roaming"
 msgstr "O kantren"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:381
 msgid "Enter passphrase"
 msgstr "Merkañ ar frazenn-dremen"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:382
 msgid "Sorry, incorrect passphrase"
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:383
 msgid "Please re-enter"
 msgstr "Adverkañ, mar plij"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:385
 msgid "Enter passcode"
 msgstr "Merkañ ar c'hod-tremen"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:386
 msgid "Sorry, incorrect passcode"
 msgstr "Digarezit, kod-tremen direizh"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:389
 #, qt-format
 msgid "Enter %1"
 msgstr "Merkañ  %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Siwazh, %1 direizh"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:431
 msgid "Sorry, incorrect passphrase."
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:432
 msgid "Sorry, incorrect passcode."
 msgstr "Siwazh, kod-tremen direizh"
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:433
 msgid "This will be your last attempt."
 msgstr "Ho taol-esae diwezhañ e vo."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:435
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -352,7 +348,7 @@ msgstr ""
 "Ma vez ebarzhet ur frazenn-dremen direizh, e vo adderaouekaet ho pellgomzer "
 "gant arventennoù al labouradeg hag e vo diverket an holl roadennoù personel"
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:436
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -374,3 +370,15 @@ msgstr ""
 
 #~ msgid "Type or say a command"
 #~ msgstr "Skrivit pe lavarit un urzhiad"
+
+#~ msgid "Done"
+#~ msgstr "Graet eo"
+
+#~ msgid "All"
+#~ msgstr "An holl anezho"
+
+#~ msgid "Favorites"
+#~ msgstr "Gwellañ deuet"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Merañ ar c'hefluskerioù enklask"
