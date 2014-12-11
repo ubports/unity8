@@ -88,6 +88,18 @@ void Scopes::clear()
     }
 }
 
+void Scopes::clearFavorites()
+{
+    if (m_scopes.size() > 0) {
+        beginRemoveRows(QModelIndex(), 0, m_scopes.count()-1);
+        Q_FOREACH(Scope *scope, m_scopes) {
+            m_scopesOverview->setFavorite(scope, false);
+        }
+        m_scopes.clear();
+        endRemoveRows();
+    }
+}
+
 void Scopes::load()
 {
     timer.start();

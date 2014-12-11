@@ -38,6 +38,10 @@ Item {
         anchors.fill: parent
     }
 
+    SignalSpy {
+        id: spy
+    }
+
     UT.UnityTestCase {
         name: "Dash"
         when: windowShown
@@ -285,6 +289,31 @@ Item {
 
             currentScope.setSearchInProgress(false);
             tryCompare(processingIndicator, "visible", false);
+        }
+
+        function test_manage_dash_store_no_favorites() {
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            // clear the favorite scopes
+            scopes.clearFavorites();
+            var dashContentList = findChild(dash, "dashContentList");
+            tryCompare(dashContentList, "count", 0);
+
+            var scopesList = findChild(dash, "scopesList");
+            spy.target = scopesList.scope;
+            spy.signalName = "performQuery";
+
+            // Do a search
+            var scopesListPageHeader = findChild(scopesList, "pageHeader");
+            var searchButton = findChild(scopesListPageHeader, "store_header_button");
+            mouseClick(searchButton, 0, 0);
+
+            spy.wait();
+            compare(spy.signalArguments[0][0], "scope://com.canonical.scopes.clickstore");
+            tryCompare(bottomEdgeController, "progress", 0);
         }
     }
 }
