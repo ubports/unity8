@@ -25,6 +25,15 @@ Item {
 
     anchors.fill: parent
 
+    property alias background: wallpaper.source
+
+    CrossFadeImage {
+        id: wallpaper
+        anchors.fill: parent
+        sourceSize { height: root.height; width: root.width }
+        fillMode: Image.PreserveAspectCrop
+    }
+
     Connections {
         target: ApplicationManager
         onApplicationAdded: {
