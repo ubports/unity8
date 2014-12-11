@@ -293,6 +293,7 @@ Item {
                                     },
                                     true);
                 var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
+                waitForRendering(tile);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
@@ -573,7 +574,6 @@ Item {
                 var innerHeader = findChild(header, "innerPageHeader");
                 verify(innerHeader, "Could not find the inner header");
 
-                expectFail("Apps", "Click scope should not have a favorite button");
                 var favoriteAction = findChild(innerHeader, "favorite_header_button");
                 verify(favoriteAction, "Could not find the favorite action.");
                 mouseClick(favoriteAction, favoriteAction.width / 2, favoriteAction.height / 2);

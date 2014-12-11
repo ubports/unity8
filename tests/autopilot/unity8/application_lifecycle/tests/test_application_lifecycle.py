@@ -47,7 +47,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         height = self.main_window.height
         start_x = width
         start_y = int(height/2)
-        end_x = int(width/2)
+        end_x = int(width*3/4)
         end_y = start_y
 
         logger.info("Swiping screen from the right edge")

@@ -22,6 +22,7 @@ import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1
 
 QtObject {
+    id: actionGroup
     property int busType
     property string busName
     property string objectPath
@@ -32,6 +33,20 @@ QtObject {
     function start() {}
 
     function action(actionName) {
-        return actions[actionName];
+        return Qt.createQmlObject("
+            import QtQuick 2.3
+            import QMenuModel 0.1
+
+            QtObject {
+                signal activated
+
+                property string actionName: \"" + actionName + "\"
+                property bool valid: ActionData.data[actionName] != undefined ? ActionData.data[actionName].valid : false
+                property var state: ActionData.data[actionName] != undefined ? ActionData.data[actionName].state : undefined
+
+                function activate() {
+                    activated();
+                }
+            }", actionGroup);
     }
 }

@@ -454,7 +454,7 @@ Item {
                     'valid': true,
                     'state': {
                         'state': Menus.TransferState.Queued,
-                        'percent': 0.0
+                        'percent': data.progress
                     }
                 },
                 "transfer-state.running": {
@@ -462,7 +462,7 @@ Item {
                     'state': {
                         'state': Menus.TransferState.Running,
                         'seconds-left': 100,
-                        'percent': 0.1
+                        'percent': data.progress
                     }
                 },
                 "transfer-state.paused": {
@@ -470,14 +470,14 @@ Item {
                     'state': {
                         'state': Menus.TransferState.Paused,
                         'seconds-left': 100,
-                        'percent': 0.5
+                        'percent': data.progress
                     }
                 },
                 "transfer-state.cancelled": {
                     'valid': true,
                     'state': {
                         'state': Menus.TransferState.Canceled,
-                        'percent': 0.4
+                        'percent': data.progress
                     }
                 },
                 "transfer-state.finished": {
@@ -485,7 +485,7 @@ Item {
                     'state': {
                         'state': Menus.TransferState.Finished,
                         'seconds-left': 0,
-                        'percent': 1.0
+                        'percent': data.progress
                     }
                 },
                 "transfer-state.error": {
@@ -493,7 +493,7 @@ Item {
                     'state': {
                         'state': Menus.TransferState.Error,
                         'seconds-left': 100,
-                        'percent': 0.0
+                        'percent': data.progress
                     }
                 }
             };
@@ -501,6 +501,7 @@ Item {
             menuData.type = "com.canonical.indicator.transfer";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
+            menuData.isToggled = data.active;
             menuData.icon = data.icon;
             menuData.ext = {
                 'xCanonicalUid': data.tag
@@ -514,7 +515,7 @@ Item {
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
-            compare(loader.item.progress, data.progress, "Icon does not match data");
+            compare(loader.item.progress, data.progress, "Progress does not match data");
             compare(loader.item.active, data.active, "Active does not match data");
             compare(loader.item.stateText, data.stateText, "State text does not match data");
         }

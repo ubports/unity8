@@ -128,17 +128,20 @@ Item {
             var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
             var endY = startY;
-            var endX = units.gu(2);
+            var endX = phoneStage.width / 2;
 
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+
+            tryCompare(spreadView, "phase", 2);
+            waitForRendering(phoneStage);
         }
 
         function test_shortFlick() {
             addApps(2)
             var startX = phoneStage.width - units.gu(1);
             var startY = phoneStage.height / 2;
-            var endX = phoneStage.width / 2;
+            var endX = startX - units.gu(4);
             var endY = startY;
 
             var activeApp = ApplicationManager.get(0);
@@ -164,7 +167,7 @@ Item {
                 {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
                 {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
                 {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: -1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 2, targetPhase: 2, newFocusedIndex: 2 },
+                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 1, targetPhase: 2, newFocusedIndex: 2 },
             ];
         }
 
@@ -386,6 +389,8 @@ Item {
             compare(dragArea0.enabled, false);
             compare(dragArea1.enabled, false);
             compare(dragArea2.enabled, false);
+
+            tryCompare(spreadView, "contentX", -spreadView.shift)
         }
     }
 }

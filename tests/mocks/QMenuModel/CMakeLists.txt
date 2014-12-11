@@ -6,6 +6,7 @@ include_directories(
 set(QMenuModelQml_SOURCES
   actiondata.h
   actionstateparser.cpp
+  dbus-enums.h
   plugin.cpp
   unitymenumodel.cpp
 )

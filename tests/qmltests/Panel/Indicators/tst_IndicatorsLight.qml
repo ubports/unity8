@@ -29,7 +29,7 @@ Item {
     width: units.gu(30)
     height: units.gu(30)
 
-    property var newMessage:  {
+    property var newMessage: {
         "messages" : {
             'valid': true,
             'state': {
@@ -37,7 +37,7 @@ Item {
             }
         }
     };
-    property var noNewMessage:  {
+    property var noNewMessage: {
         "messages" : {
             'valid': true,
             'state': {

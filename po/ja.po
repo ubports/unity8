@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
 "PO-Revision-Date: 2014-11-20 05:08+0000\n"
 "Last-Translator: Kentaro Kazuhama <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-11-21 06:49+0000\n"
-"X-Generator: Launchpad (build 17252)\n"
+"X-Launchpad-Export-Date: 2014-12-09 06:21+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -172,20 +172,24 @@ msgstr "隠す"
 msgid "See all"
 msgstr "すべて表示する"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "検索"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "保存"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "設定"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "お気に入りから削除する"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "お気に入りに追加する"
 
@@ -217,31 +221,23 @@ msgstr "引いて更新…"
 msgid "Release to refresh…"
 msgstr "指を離して更新…"
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Scopeの管理"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "完了"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "保存"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "お気に入り"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "すべて"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "ロックの解除"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "パスワードを表示"
 
@@ -253,31 +249,31 @@ msgstr "タップすると通話に戻ります..."
 msgid "Conference"
 msgstr "グループ通話"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:615
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:763
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr "開始待ち..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:767
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr "ダウンロード中"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:769
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr "停止中、再開するにはタップしてください"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:771
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr "中止しました"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:773
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr "完了しました"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:775
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr "失敗しました、再試行するにはタップしてください"
 
@@ -289,55 +285,55 @@ msgstr "SIMのアンロック"
 msgid "Roaming"
 msgstr "ローミング"
 
-#: qml/Shell.qml:381
+#: qml/Shell.qml:390
 msgid "Enter passphrase"
 msgstr "パスフレーズを入力"
 
-#: qml/Shell.qml:382
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passphrase"
 msgstr "パスフレーズが違います"
 
-#: qml/Shell.qml:383
+#: qml/Shell.qml:392
 msgid "Please re-enter"
 msgstr "再入力してください"
 
-#: qml/Shell.qml:385
+#: qml/Shell.qml:394
 msgid "Enter passcode"
 msgstr "パスコードを入力"
 
-#: qml/Shell.qml:386
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passcode"
 msgstr "パスコードが違います"
 
-#: qml/Shell.qml:389
+#: qml/Shell.qml:398
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 を入力"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "%1が違います"
 
-#: qml/Shell.qml:431
+#: qml/Shell.qml:440
 msgid "Sorry, incorrect passphrase."
 msgstr "パスフレーズが間違っています。"
 
-#: qml/Shell.qml:432
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passcode."
 msgstr "パスコードが間違っています。"
 
-#: qml/Shell.qml:433
+#: qml/Shell.qml:442
 msgid "This will be your last attempt."
 msgstr "これが最後のチャンスです。"
 
-#: qml/Shell.qml:435
+#: qml/Shell.qml:444
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr "パスフレーズが間違っている場合、ファクトリーリセットを実施し、すべての個人データは削除されます。"
 
-#: qml/Shell.qml:436
+#: qml/Shell.qml:445
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -355,5 +351,17 @@ msgstr "パスコードが間違っている場合、ファクトリーリセッ
 #~ msgid "Confirm"
 #~ msgstr "確認"
 
+#~ msgid "All"
+#~ msgstr "すべて"
+
+#~ msgid "Favorites"
+#~ msgstr "お気に入り"
+
+#~ msgid "Done"
+#~ msgstr "完了"
+
 #~ msgid "Type or say a command"
 #~ msgstr "コマンドを音声かキーボードから入力"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Scopeの管理"

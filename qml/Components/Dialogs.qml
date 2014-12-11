@@ -24,10 +24,6 @@ import Ubuntu.Components.Popups 0.1
 Item {
     id: root
 
-    // Explicitly use the right domain for this widget because it might be used
-    // in other applications like the welcome wizard.
-    readonly property string domain: "unity8"
-
     function onPowerKeyPressed() {
         // FIXME: event.isAutoRepeat is always false on Nexus 4.
         // So we use powerKeyTimer.running to avoid the PowerOff key repeat
@@ -71,17 +67,17 @@ Item {
         id: logoutDialog
         Dialog {
             id: dialogueLogout
-            title: i18n.dtr(root.domain, "Log out")
-            text: i18n.dtr(root.domain, "Are you sure you want to log out?")
+            title: i18n.tr("Log out")
+            text: i18n.tr("Are you sure you want to log out?")
             Button {
-                text: i18n.dtr(root.domain, "No")
+                text: i18n.tr("No")
                 onClicked: {
                     PopupUtils.close(dialogueLogout);
                     d.dialogShown = false;
                 }
             }
             Button {
-                text: i18n.dtr(root.domain, "Yes")
+                text: i18n.tr("Yes")
                 onClicked: {
                     DBusUnitySessionService.Logout();
                     PopupUtils.close(dialogueLogout);
@@ -95,17 +91,17 @@ Item {
         id: shutdownDialog
         Dialog {
             id: dialogueShutdown
-            title: i18n.dtr(root.domain, "Shut down")
-            text: i18n.dtr(root.domain, "Are you sure you want to shut down?")
+            title: i18n.tr("Shut down")
+            text: i18n.tr("Are you sure you want to shut down?")
             Button {
-                text: i18n.dtr(root.domain, "No")
+                text: i18n.tr("No")
                 onClicked: {
                     PopupUtils.close(dialogueShutdown);
                     d.dialogShown = false;
                 }
             }
             Button {
-                text: i18n.dtr(root.domain, "Yes")
+                text: i18n.tr("Yes")
                 onClicked: {
                     dBusUnitySessionServiceConnection.closeAllApps();
                     DBusUnitySessionService.Shutdown();
@@ -120,17 +116,17 @@ Item {
         id: rebootDialog
         Dialog {
             id: dialogueReboot
-            title: i18n.dtr(root.domain, "Reboot")
-            text: i18n.dtr(root.domain, "Are you sure you want to reboot?")
+            title: i18n.tr("Reboot")
+            text: i18n.tr("Are you sure you want to reboot?")
             Button {
-                text: i18n.dtr(root.domain, "No")
+                text: i18n.tr("No")
                 onClicked: {
                     PopupUtils.close(dialogueReboot)
                     d.dialogShown = false;
                 }
             }
             Button {
-                text: i18n.dtr(root.domain, "Yes")
+                text: i18n.tr("Yes")
                 onClicked: {
                     dBusUnitySessionServiceConnection.closeAllApps();
                     DBusUnitySessionService.Reboot();
@@ -145,10 +141,10 @@ Item {
         id: powerDialog
         Dialog {
             id: dialoguePower
-            title: i18n.dtr(root.domain, "Power")
-            text: i18n.dtr(root.domain, "Are you sure you would like\nto power off?")
+            title: i18n.tr("Power")
+            text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
-                text: i18n.dtr(root.domain, "Power off")
+                text: i18n.tr("Power off")
                 onClicked: {
                     dBusUnitySessionServiceConnection.closeAllApps();
                     PopupUtils.close(dialoguePower);
@@ -158,7 +154,7 @@ Item {
                 color: UbuntuColors.red
             }
             Button {
-                text: i18n.dtr(root.domain, "Restart")
+                text: i18n.tr("Restart")
                 onClicked: {
                     dBusUnitySessionServiceConnection.closeAllApps();
                     DBusUnitySessionService.Reboot();
@@ -168,7 +164,7 @@ Item {
                 color: UbuntuColors.green
             }
             Button {
-                text: i18n.dtr(root.domain, "Cancel")
+                text: i18n.tr("Cancel")
                 onClicked: {
                     PopupUtils.close(dialoguePower);
                     d.dialogShown = false;
