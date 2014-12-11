@@ -153,7 +153,9 @@ endmacro(add_qml_test_internal)
 
 macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS ENVVAR)
     set(testCommand
+          ${ENVVAR}
           LD_LIBRARY_PATH=${LD_PATH}
+          dbus-launch
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
           -o ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
           -o -,txt)
@@ -171,6 +173,7 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS ENVVAR)
           ${ENVVAR}
           LD_LIBRARY_PATH=${LD_PATH}
           xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
+          dbus-launch
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
           -o ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
           -o -,txt)
