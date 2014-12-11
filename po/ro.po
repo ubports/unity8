@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
 "PO-Revision-Date: 2014-11-18 12:09+0000\n"
 "Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2014-12-03 06:50+0000\n"
-"X-Generator: Launchpad (build 17274)\n"
+"X-Launchpad-Export-Date: 2014-12-09 06:21+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -184,20 +184,24 @@ msgstr "Afișează mai puține"
 msgid "See all"
 msgstr "Afișează tot"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Căutare"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "Magazin"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "Configurări"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "Șterge din favorite"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "Adaugă la favorite"
 
@@ -229,31 +233,23 @@ msgstr "Trageți pentru a actualiza..."
 msgid "Release to refresh…"
 msgstr "Eliberați pentru a actualiza..."
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Administrare domenii"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "Finalizat"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "Magazin"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Favorite"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "Tot"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Deblocare"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "Arată parola"
 
@@ -301,49 +297,49 @@ msgstr "Deblocare SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:390
 msgid "Enter passphrase"
 msgstr "Introduceți fraza parolă"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passphrase"
 msgstr "Frază secretă incorectă"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:392
 msgid "Please re-enter"
 msgstr "Introduceți din nou"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:394
 msgid "Enter passcode"
 msgstr "Introduceți parola"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passcode"
 msgstr "Parolă incorectă"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:398
 #, qt-format
 msgid "Enter %1"
 msgstr "Introducere %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "%1 incorectă"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:440
 msgid "Sorry, incorrect passphrase."
 msgstr "Frază parolă greșită"
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passcode."
 msgstr "Parolă greșită"
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:442
 msgid "This will be your last attempt."
 msgstr "Aceasta va fi ultima încercare"
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:444
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -352,7 +348,7 @@ msgstr ""
 "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
 "șterse."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:445
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -375,3 +371,15 @@ msgstr ""
 
 #~ msgid "Speaking..."
 #~ msgstr "Vorbire..."
+
+#~ msgid "All"
+#~ msgstr "Tot"
+
+#~ msgid "Favorites"
+#~ msgstr "Favorite"
+
+#~ msgid "Done"
+#~ msgstr "Finalizat"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Administrare domenii"

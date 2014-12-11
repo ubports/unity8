@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
+"POT-Creation-Date: 2014-11-20 12:00+0100\n"
 "PO-Revision-Date: 2014-11-13 09:32+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-12-03 06:50+0000\n"
-"X-Generator: Launchpad (build 17274)\n"
+"X-Launchpad-Export-Date: 2014-12-09 06:21+0000\n"
+"X-Generator: Launchpad (build 17283)\n"
 "Language: is\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -184,20 +184,24 @@ msgstr "Sjá minna"
 msgid "See all"
 msgstr "Sjá allt"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Leita"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "Geyma"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "Stillingar"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "Fjarlægja úr Eftirlæti"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "Bæta við Eftirlæti"
 
@@ -229,31 +233,23 @@ msgstr "Toga til að endurlesa..."
 msgid "Release to refresh…"
 msgstr "Slepptu til að endurlesa..."
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Sýsla með leitarsvið"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "Lokið"
+#: qml/Dash/ScopesList.qml:105
+msgid "Home"
+msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "Geyma"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Eftirlæti"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "Allt"
+#: qml/Dash/ScopesList.qml:106
+msgid "Also installed"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Aflæsa"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "Birta lykilorð"
 
@@ -301,49 +297,49 @@ msgstr "Aflæsa SIM-korti"
 msgid "Roaming"
 msgstr "Ráphamur"
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:390
 msgid "Enter passphrase"
 msgstr "Settu inn lykilfrasa"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:391
 msgid "Sorry, incorrect passphrase"
 msgstr "Því miður, rangt lykilorð"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:392
 msgid "Please re-enter"
 msgstr "Settu aftur inn"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:394
 msgid "Enter passcode"
 msgstr "Settu inn aðgangskóða"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passcode"
 msgstr "Því miður, rangur aðgangskóði"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:398
 #, qt-format
 msgid "Enter %1"
 msgstr "Settu inn %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:399
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Því miður, rangt %1"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:440
 msgid "Sorry, incorrect passphrase."
 msgstr "Því miður, rangt lykilorð."
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:441
 msgid "Sorry, incorrect passcode."
 msgstr "Því miður, rangur aðgangskóði."
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:442
 msgid "This will be your last attempt."
 msgstr "Þetta mun verða síðasta tilraunin þín."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:444
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -351,7 +347,7 @@ msgstr ""
 "Ef lykilorð er rangt, mun síminn frumstilla allt á verksmiðjustillingar og "
 "öllum einkagögnum verður eytt."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:445
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -373,3 +369,15 @@ msgstr ""
 
 #~ msgid "Speak Now..."
 #~ msgstr "Tala núna..."
+
+#~ msgid "All"
+#~ msgstr "Allt"
+
+#~ msgid "Favorites"
+#~ msgstr "Eftirlæti"
+
+#~ msgid "Done"
+#~ msgstr "Lokið"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Sýsla með leitarsvið"

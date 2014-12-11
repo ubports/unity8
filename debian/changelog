@@ -1,3 +1,14 @@
+unity8 (8.01+15.04.20141205-0ubuntu1) vivid; urgency=low
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Albert Astals ]
+  * Replace Scopes Overview by the new Manage Dash (LP: #1386698,
+    #1368670)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 05 Dec 2014 10:55:50 +0000
+
 unity8 (8.01+15.04.20141204-0ubuntu1) vivid; urgency=low
 
   [ Michael Terry ]
