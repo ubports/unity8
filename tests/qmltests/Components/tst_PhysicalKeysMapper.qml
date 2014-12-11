@@ -57,7 +57,7 @@ Item {
             onVolumeUpPressedCount = 0;
         }
 
-        function test_both_volume_keys_simultaneously() {
+        function test_BothVolumeKeysSimultaneously() {
             physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
             physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
 
@@ -68,14 +68,14 @@ Item {
             compare(onBothVolumeKeysPressedCount, 1);
         }
 
-        function test_long_press_power_button() {
+        function test_LongPressPowerButton() {
             physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
             wait(3000);
 
             compare(onPowerKeyLongPressCount, 1);
         }
 
-        function test_screenshot_buttons() {
+        function test_ScreenshotButtons() {
             physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
             physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
 
@@ -87,12 +87,12 @@ Item {
             compare(onVolumeDownPressedCount, 0);
         }
 
-        function test_volume_down_button() {
+        function test_VolumeDownButton() {
             physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
             compare(onVolumeDownPressedCount, 1);
         }
 
-        function test_volume_up_button() {
+        function test_VolumeUpButton() {
             physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
             compare(onVolumeUpPressedCount, 1);
         }
