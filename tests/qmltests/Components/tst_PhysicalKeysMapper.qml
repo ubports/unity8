@@ -1,9 +1,6 @@
 /*
  * Copyright (C) 2014 Canonical, Ltd.
  *
- * Authors:
- *   Josh Arenson <joshua.arenson@canonical.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -20,9 +17,9 @@
 import QtQuick 2.0
 import QtTest 1.0
 import "../../../qml/Components"
-import Unity.Test 0.1 as UT
 
-Item {
+TestCase {
+    name: "PhysicalKeysMapper"
 
     property int onBothVolumeKeysPressedCount: 0
     property int onPowerKeyLongPressCount: 0
@@ -40,61 +37,56 @@ Item {
         onVolumeUpPressed: onVolumeUpPressedCount += 1
     }
 
-    UT.UnityTestCase {
-        name: "PhysicalKeyMapper"
-        when: windowShown
+    function cleanup() {
+        physicalKeysMapper.onKeyReleased(Qt.Key_PowerDown);
+        physicalKeysMapper.onKeyReleased(Qt.Key_PowerOff);
+        physicalKeysMapper.onKeyReleased(Qt.Key_VolumeDown);
+        physicalKeysMapper.onKeyReleased(Qt.Key_VolumeUp);
 
-        function cleanup() {
-            physicalKeysMapper.onKeyReleased(Qt.Key_PowerDown);
-            physicalKeysMapper.onKeyReleased(Qt.Key_PowerOff);
-            physicalKeysMapper.onKeyReleased(Qt.Key_VolumeDown);
-            physicalKeysMapper.onKeyReleased(Qt.Key_VolumeUp);
+        onBothVolumeKeysPressedCount = 0;
+        onPowerKeyLongPressCount = 0;
+        onScreenshotPressedCount = 0;
+        onVolumeDownPressedCount = 0;
+        onVolumeUpPressedCount = 0;
+    }
 
-            onBothVolumeKeysPressedCount = 0;
-            onPowerKeyLongPressCount = 0;
-            onScreenshotPressedCount = 0;
-            onVolumeDownPressedCount = 0;
-            onVolumeUpPressedCount = 0;
-        }
+    function test_BothVolumeKeysSimultaneously() {
+        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
+        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
 
-        function test_BothVolumeKeysSimultaneously() {
-            physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
-            physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
+        compare(onBothVolumeKeysPressedCount, 1);
 
-            compare(onBothVolumeKeysPressedCount, 1);
+        // Simulate holding the keys down
+        wait(3000);
+        compare(onBothVolumeKeysPressedCount, 1);
+    }
 
-            // Simulate holding the keys down
-            wait(3000);
-            compare(onBothVolumeKeysPressedCount, 1);
-        }
+    function test_LongPressPowerButton() {
+        physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
+        wait(3000);
 
-        function test_LongPressPowerButton() {
-            physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
-            wait(3000);
+        compare(onPowerKeyLongPressCount, 1);
+    }
 
-            compare(onPowerKeyLongPressCount, 1);
-        }
+    function test_ScreenshotButtons() {
+        physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
+        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
 
-        function test_ScreenshotButtons() {
-            physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
-            physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
+        compare(onScreenshotPressedCount, 1);
+        compare(onVolumeDownPressedCount, 0);
 
-            compare(onScreenshotPressedCount, 1);
-            compare(onVolumeDownPressedCount, 0);
+        wait(3000);
+        compare(onScreenshotPressedCount, 1);
+        compare(onVolumeDownPressedCount, 0);
+    }
 
-            wait(3000);
-            compare(onScreenshotPressedCount, 1);
-            compare(onVolumeDownPressedCount, 0);
-        }
+    function test_VolumeDownButton() {
+        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
+        compare(onVolumeDownPressedCount, 1);
+    }
 
-        function test_VolumeDownButton() {
-            physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
-            compare(onVolumeDownPressedCount, 1);
-        }
-
-        function test_VolumeUpButton() {
-            physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
-            compare(onVolumeUpPressedCount, 1);
-        }
+    function test_VolumeUpButton() {
+        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
+        compare(onVolumeUpPressedCount, 1);
     }
 }
