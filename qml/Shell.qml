@@ -176,11 +176,21 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            event.accepted = physicalKeysMapper.onKeyPressed(event.key);
+            physicalKeysMapper.onKeyPressed(event.key);
+            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                event.accepted = true;
+            } else {
+                event.accepted = false;
+            }
         }
 
         Keys.onReleased: {
-            event.accepted = physicalKeysMapper.onKeyReleased(event.key);
+            physicalKeysMapper.onKeyReleased(event.key);
+            if (event.key = Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                event.accepted = true;
+            } else {
+                event.accepted = false;
+            }
         }
     }
 
