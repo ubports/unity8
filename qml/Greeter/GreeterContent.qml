@@ -41,6 +41,13 @@ Item {
         }
     }
 
+    Rectangle {
+        // In case background fails to load
+        id: backgroundBackup
+        anchors.fill: parent
+        color: "black"
+    }
+
     CrossFadeImage {
         id: background
         objectName: "greeterBackground"
@@ -109,23 +116,21 @@ Item {
         id: infographics
         objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
-        model: LightDM.Infographic
-        visible: LightDM.Infographic.label !== ""
+        model: greeterContentLoader.infographicModel
 
         property string selectedUser
+        property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
+        onInfographicUserChanged: greeterContentLoader.infographicModel.username = infographicUser
 
-        Binding {
-            target: LightDM.Infographic
-            property: "username"
-            value: AccountsService.statsWelcomeScreen ? infographics.selectedUser : ""
+        Component.onCompleted {
+            selectedUser = greeterContentLoader.model.data(greeterContentLoader.currentIndex, LightDM.UserRoles.NameRole)
+            greeterContentLoader.infographicModel.username = infographicUser
+            greeterContentLoader.infographicModel.readyForDataChange()
         }
 
         Connections {
             target: root
-            onSelected: {
-                infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole);
-                LightDM.Infographic.readyForDataChange();
-            }
+            onSelected: infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
         }
 
         Connections {
