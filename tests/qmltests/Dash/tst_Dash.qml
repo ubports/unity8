@@ -162,6 +162,9 @@ Item {
         }
 
         function test_manage_dash_search_temp_scope() {
+            // TODO Search is disabled for now in manage dash
+            skip();
+
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
             var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
@@ -232,7 +235,9 @@ Item {
             var dashContent = findChild(dash, "dashContent");
             waitForRendering(dash)
 
-            var delegate0 = findChild(dash, "delegate0");
+            var scopeLoader0 = findChild(dashContent, "scopeLoader0");
+            var dashCategory0 = findChild(scopeLoader0, "dashCategory0");
+            var delegate0 = findChild(dashCategory0, "delegate0");
             mouseClick(delegate0, delegate0.width / 2, delegate0.height / 2);
 
             tryCompare(dashContent, "subPageShown", true)
