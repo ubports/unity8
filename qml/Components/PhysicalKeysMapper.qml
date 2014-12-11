@@ -39,8 +39,6 @@ QtObject {
     signal volumeDownPressed();
     signal volumeUpPressed();
 
-    property bool eventAccepted: false
-
     property bool aPowerKeyWasReleased: true
     property bool powerKeyPressed: false
 
@@ -67,13 +65,10 @@ QtObject {
             if (!powerKeyLongPressTimer.running) {
                 powerKeyLongPressTimer.restart();
             }
-            eventAccepted = true;
             powerKeyPressed = true;
         } else if (key == Qt.Key_VolumeDown) {
-            eventAccepted = true;
             volumeDownKeyPressed = true;
         } else if (key == Qt.Key_VolumeUp) {
-            eventAccepted = true;
             volumeUpKeyPressed = true;
         }
 
@@ -94,26 +89,19 @@ QtObject {
         } else if (volumeUpKeyPressed) {
             volumeUpPressed();
         }
-
-        return eventAccepted;
     }
 
     function onKeyReleased(key) {
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
-            eventAccepted = true;
             powerKeyPressed = false;
             aPowerKeyWasReleased = true;
         } else if (key == Qt.Key_VolumeDown) {
-            eventAccepted = true;
             volumeDownKeyPressed = false;
             aVolumeKeyWasReleased = false;
         } else if (key == Qt.Key_VolumeUp) {
-            eventAccepted = true;
             volumeUpKeyPressed = false;
             aVolumeKeyWasReleased = true;
         }
-
-        return eventAccepted;
     }
 }
