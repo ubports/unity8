@@ -1,3 +1,13 @@
+unity8 (8.02+15.04.20141212.1-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Make Navigation work when "jumping" to the non root
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 12 Dec 2014 12:28:10 +0000
+
 unity8 (8.02+15.04.20141211.2-0ubuntu1) vivid; urgency=medium
 
   [ Michał Sawicz ]
