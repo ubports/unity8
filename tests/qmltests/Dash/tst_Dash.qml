@@ -394,6 +394,9 @@ Item {
             var starArea = findChild(clickScope, "starArea");
             touchFlick(starArea, 0, 0, 0, -units.gu(10));
 
+            // wait for the animation to settle
+            tryCompare(clickScope, "height", units.gu(6));
+
             // Exit edit mode
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
