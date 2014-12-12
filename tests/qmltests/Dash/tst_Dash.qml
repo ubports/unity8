@@ -394,7 +394,7 @@ Item {
             var starArea = findChild(clickScope, "starArea");
             touchFlick(starArea, 0, 0, 0, -units.gu(10));
 
-            // Exit edit mode and go back
+            // Exit edit mode
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
