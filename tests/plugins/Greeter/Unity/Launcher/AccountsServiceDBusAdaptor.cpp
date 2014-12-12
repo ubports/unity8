@@ -13,7 +13,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Michael Terry <michael.terry@canonical.com>
+ * Authors:
+ *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #include "AccountsServiceDBusAdaptor.h"
