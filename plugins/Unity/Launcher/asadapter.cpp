@@ -39,7 +39,6 @@ ASAdapter::~ASAdapter()
 
 void ASAdapter::syncItems(QList<LauncherItem *> m_list)
 {
-    qDebug() << "syncing items to AS" << m_list.count();
     if (m_accounts && !m_user.isEmpty()) {
         QList<QVariantMap> items;
 

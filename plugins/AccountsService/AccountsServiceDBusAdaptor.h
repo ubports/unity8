@@ -39,7 +39,6 @@ public:
     inline T getUserProperty(const QString &user, const QString &interface, const QString &property) {
         QVariant variant = getUserProperty(user, interface, property);
         if (variant.isValid() && variant.canConvert<QDBusArgument>()) {
-            qDebug() << "have variant:" << variant;
             return qdbus_cast<T>(variant.value<QDBusArgument>());
         }
         return T();

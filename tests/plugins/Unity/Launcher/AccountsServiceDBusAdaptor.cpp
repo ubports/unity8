@@ -29,13 +29,11 @@ QVariant AccountsServiceDBusAdaptor::getUserProperty(const QString &user, const 
 {
     Q_UNUSED(user)
     Q_UNUSED(interface)
-    qDebug() << "returning properties" << m_properties.value(property);
     return m_properties.value(property);
 }
 
 void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
 {
-    qDebug() << "setting property" << property << value;
     Q_UNUSED(user)
     Q_UNUSED(interface)
     m_properties[property] = value;

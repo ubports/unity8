@@ -38,7 +38,6 @@ LauncherModel::LauncherModel(QObject *parent):
     m_asAdapter(new ASAdapter()),
     m_appManager(0)
 {
-    qDebug() << "Loading dconf based launcher model";
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
@@ -364,7 +363,6 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
 
 void LauncherModel::refresh()
 {
-    qDebug() << "refreshing";
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {

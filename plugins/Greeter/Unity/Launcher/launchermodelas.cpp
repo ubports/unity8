@@ -32,7 +32,6 @@ LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_accounts(new AccountsServiceDBusAdaptor(this))
 {
-    qDebug() << "Loading AS based launcher model";
     connect(m_accounts, &AccountsServiceDBusAdaptor::propertiesChanged, this, &LauncherModel::propertiesChanged);
     refresh();
 }
@@ -214,7 +213,6 @@ void LauncherModel::refresh()
     // Now walk through list and see if we need to add something
     for (int asIndex = 0; asIndex < items.count(); ++asIndex) {
         QVariant entry = items.at(asIndex);
-        qDebug() << "have AS item" << entry.toMap().value("id").toString();
         int itemIndex = -1;
         for (int i = 0; i < m_list.count(); ++i) {
             if (m_list.at(i)->appId() == entry.toMap().value("id").toString()) {
