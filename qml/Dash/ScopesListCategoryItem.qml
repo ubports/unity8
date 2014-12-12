@@ -91,12 +91,13 @@ MouseArea {
             onClicked: if (!editMode) root.requestFavorite(model.scopeId, !isFavorite);
             onPressed: if (editMode) root.handlePressed(starArea);
             onReleased: if (editMode) root.handleReleased(starArea);
-            visible: !hideChildren && (editMode || showStar)
+            visible: editMode || showStar
             Icon {
                 id: star
                 anchors.centerIn: parent
                 height: units.gu(2)
                 width: units.gu(2)
+                visible: !hideChildren
                 // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
                 source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
             }
