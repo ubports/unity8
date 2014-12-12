@@ -19,14 +19,12 @@
 #ifndef UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
 #define UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
 
-#include <QDBusContext>
-#include <QDBusInterface>
 #include <QMap>
 #include <QObject>
 #include <QString>
-#include <QDBusArgument>
+#include <QHash>
 
-class AccountsServiceDBusAdaptor: public QObject, public QDBusContext
+class AccountsServiceDBusAdaptor: public QObject
 {
     Q_OBJECT
 
@@ -34,17 +32,6 @@ public:
     explicit AccountsServiceDBusAdaptor(QObject *parent = 0);
 
     Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &interface, const QString &property);
-
-    template <typename T>
-    inline T getUserProperty(const QString &user, const QString &interface, const QString &property) {
-        QVariant variant = getUserProperty(user, interface, property);
-        if (variant.isValid() && variant.canConvert<QDBusArgument>()) {
-            qDebug() << "have variant:" << variant;
-            return qdbus_cast<T>(variant.value<QDBusArgument>());
-        }
-        return T();
-    }
-
     Q_INVOKABLE void setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value);
     Q_INVOKABLE void setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
 
@@ -52,16 +39,11 @@ Q_SIGNALS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
     void maybeChanged(const QString &user); // Standard properties might have changed
 
-private Q_SLOTS:
-    void propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
-    void maybeChangedSlot();
+private:
+    void simulatePropertyChange(const QString &property, const QVariant &value);
 
 private:
-    QDBusInterface *getUserInterface(const QString &user);
-    QString getUserForPath(const QString &path);
-
-    QDBusInterface *m_accountsManager;
-    QMap<QString, QDBusInterface *> m_users;
+    QHash<QString, QVariant> m_properties;
 };
 
 #endif

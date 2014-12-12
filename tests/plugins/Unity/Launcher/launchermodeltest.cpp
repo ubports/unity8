@@ -25,6 +25,8 @@
 #include "launchermodel.h"
 #include "dbusinterface.h"
 #include "gsettings.h"
+#include "asadapter.h"
+#include "AccountsServiceDBusAdaptor.h"
 
 #include <QtTest>
 #include <QDBusInterface>
@@ -128,6 +130,11 @@ class LauncherModelTest : public QObject
 private:
     LauncherModel *launcherModel;
     MockAppManager *appManager;
+
+    QList<QVariantMap> getASConfig() {
+        AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
+        return as->getUserProperty("", "", "launcher-items").value<QList<QVariantMap>>();
+    }
 
 private Q_SLOTS:
 
@@ -466,6 +473,63 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(0)->appId(), QString("no-icon"));
         QCOMPARE(launcherModel->get(1)->appId(), QString("abs-icon"));
         QCOMPARE(spy.count(), 2);
+    }
+
+    void testAddSyncsToAS() {
+        // Make sure launcher and AS are in sync when we start the test
+        QCOMPARE(launcherModel->rowCount(), getASConfig().count());
+
+        int oldCount = launcherModel->rowCount();
+        appManager->addApplication(new MockApp("rel-icon"));
+        QCOMPARE(launcherModel->rowCount(), oldCount + 1);
+        QCOMPARE(launcherModel->rowCount(), getASConfig().count());
+    }
+
+    void testRemoveSyncsToAS() {
+        // Make sure launcher and AS are in sync when we start the test
+        QCOMPARE(launcherModel->rowCount(), getASConfig().count());
+
+        int oldCount = launcherModel->rowCount();
+        appManager->stopApplication("abs-icon");
+        QCOMPARE(launcherModel->rowCount(), oldCount - 1);
+        QCOMPARE(launcherModel->rowCount(), getASConfig().count());
+    }
+
+    void testMoveSyncsToAS() {
+        // Make sure launcher and AS are in sync when we start the test
+        QCOMPARE(launcherModel->rowCount(), getASConfig().count());
+
+        for (int i = 0; i < launcherModel->rowCount(); i++) {
+            QString launcherAppId = launcherModel->get(i)->appId();
+            QString asAppId = getASConfig().at(i).value("id").toString();
+            QCOMPARE(launcherAppId, asAppId);
+        }
+
+        launcherModel->move(0, 1);
+
+        for (int i = 0; i < launcherModel->rowCount(); i++) {
+            QString launcherAppId = launcherModel->get(i)->appId();
+            QString asAppId = getASConfig().at(i).value("id").toString();
+            QCOMPARE(launcherAppId, asAppId);
+        }
+    }
+
+    void testCountChangeSyncsToAS() {
+        // Find the index of the abs-icon app
+        int index = launcherModel->findApplication("abs-icon");
+
+        // Make sure it's invisible and 0 at the beginning
+        QCOMPARE(getASConfig().at(index).value("countVisible").toBool(), false);
+        QCOMPARE(getASConfig().at(index).value("count").toInt(), 0);
+
+        // Change the count of the abs-icon app through D-Bus
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
+
+        // Make sure it changed to visible and 55
+        QCOMPARE(getASConfig().at(index).value("countVisible").toBool(), true);
+        QCOMPARE(getASConfig().at(index).value("count").toInt(), 55);
     }
 };
 

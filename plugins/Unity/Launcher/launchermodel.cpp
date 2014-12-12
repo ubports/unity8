@@ -22,6 +22,7 @@
 #include "gsettings.h"
 #include "desktopfilehandler.h"
 #include "dbusinterface.h"
+#include "asadapter.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
@@ -34,8 +35,10 @@ LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_settings(new GSettings(this)),
     m_dbusIface(new DBusInterface(this)),
+    m_asAdapter(new ASAdapter()),
     m_appManager(0)
 {
+    qDebug() << "Loading dconf based launcher model";
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
@@ -50,6 +53,8 @@ LauncherModel::~LauncherModel()
     while (!m_list.empty()) {
         m_list.takeFirst()->deleteLater();
     }
+
+    delete m_asAdapter;
 }
 
 int LauncherModel::rowCount(const QModelIndex &parent) const
@@ -271,6 +276,7 @@ void LauncherModel::storeAppList()
         }
     }
     m_settings->setStoredApplications(appIds);
+    m_asAdapter->syncItems(m_list);
 }
 
 void LauncherModel::unpin(const QString &appId)
@@ -321,6 +327,7 @@ void LauncherModel::countChanged(const QString &appId, int count)
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
         Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+        m_asAdapter->syncItems(m_list);
     }
 }
 
@@ -352,10 +359,12 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
             Q_EMIT hint();
         }
     }
+    m_asAdapter->syncItems(m_list);
 }
 
 void LauncherModel::refresh()
 {
+    qDebug() << "refreshing";
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
@@ -433,6 +442,8 @@ void LauncherModel::refresh()
     if (changed) {
         Q_EMIT hint();
     }
+
+    m_asAdapter->syncItems(m_list);
 }
 
 void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
@@ -467,6 +478,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
+        m_asAdapter->syncItems(m_list);
     }
 }
 
@@ -486,6 +498,7 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         beginRemoveRows(QModelIndex(), appIndex, appIndex);
         m_list.takeAt(appIndex)->deleteLater();
         endRemoveRows();
+        m_asAdapter->syncItems(m_list);
     }
 }
 

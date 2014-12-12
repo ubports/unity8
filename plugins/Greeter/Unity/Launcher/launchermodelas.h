@@ -27,8 +27,7 @@
 
 class LauncherItem;
 class GSettings;
-class DBusInterface;
-class ASAdapter;
+class AccountsServiceDBusAdaptor;
 
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
@@ -58,33 +57,18 @@ public:
     int findApplication(const QString &appId);
 
 public Q_SLOTS:
-    void requestRemove(const QString &appId);
+    void requestRemove(const QString &appId) override;
     Q_INVOKABLE void refresh();
 
-private:
-    void storeAppList();
-
-    void unpin(const QString &appId);
-
 private Q_SLOTS:
-    void countChanged(const QString &appId, int count);
-    void countVisibleChanged(const QString &appId, int count);
-    void progressChanged(const QString &appId, int progress);
-
-    void applicationAdded(const QModelIndex &parent, int row);
-    void applicationRemoved(const QModelIndex &parent, int row);
-    void focusedAppIdChanged();
+    void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
 
 private:
+    QString m_user;
     QList<LauncherItem*> m_list;
+    AccountsServiceDBusAdaptor *m_accounts;
 
-    GSettings *m_settings;
-    DBusInterface *m_dbusIface;
-    ASAdapter *m_asAdapter;
-
-    ApplicationManagerInterface *m_appManager;
-
-    friend class LauncherModelTest;
+    friend class LauncherModelASTest;
 };
 
 #endif // LAUNCHERMODEL_H
