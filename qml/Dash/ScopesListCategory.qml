@@ -78,7 +78,7 @@ Item {
             clip: height < listItemHeight
             Behavior on height { enabled: visible; UbuntuNumberAnimation { } }
             sourceComponent: ScopesListCategoryItem {
-                objectName: "delegate" + index
+                objectName: "delegate" + model.scopeId
 
                 width: root.width
                 topMargin: height > listItemHeight ? height - listItemHeight : 0

@@ -83,6 +83,30 @@ Item {
             return get_scope_data()
         }
 
+        function test_manage_dash_clickscope_unfavoritable() {
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            // Make sure stuff is loaded
+            var favScopesListCategory = findChild(dash, "scopesListCategoryfavorites");
+            var favScopesListCategoryList = findChild(favScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(favScopesListCategoryList, "currentIndex", 0);
+
+            // Click scope star area is not visible (i.e. can't be unfavorited)
+            var clickScope = findChild(favScopesListCategoryList, "delegateclickscope");
+            var starArea = findChild(clickScope, "starArea");
+            compare(starArea.visible, false);
+
+            // Go back
+            var scopesList = findChild(dash, "scopesList");
+            var scopesListPageHeader = findChild(scopesList, "pageHeader");
+            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
+            mouseClick(backButton, 0, 0);
+            tryCompare(bottomEdgeController, "progress", 0);
+        }
+
         function test_manage_dash_select_same_favorite() {
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
