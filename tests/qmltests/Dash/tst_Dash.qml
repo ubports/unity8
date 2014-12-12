@@ -400,11 +400,11 @@ Item {
             var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
             mouseClick(backButton, 0, 0);
 
+            // Click on third scope
             var mockScope5 = findChild(favScopesListCategoryList, "delegateMockScope5");
             waitForRendering(mockScope5)
             mouseClick(mockScope5, 0, 0);
             tryCompare(bottomEdgeController, "progress", 0);
-
             tryCompare(dashContentList, "currentIndex", 2);
             compare(dashContentList.currentItem.scopeId, "MockScope5");
         }
