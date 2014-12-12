@@ -70,19 +70,6 @@ Item {
             waitForRendering(findChild(dash, "scopeLoader0").item);
         }
 
-        function get_scope_data() {
-            return [
-                        { tag: "MockScope1", visualIndex: 0 },
-                        { tag: "MockScope2", visualIndex: -1 },
-                        { tag: "clickscope", visualIndex: 1 },
-                        { tag: "MockScope5", visualIndex: 2 },
-            ]
-        }
-
-        function test_show_scope_on_load_data() {
-            return get_scope_data()
-        }
-
         function test_manage_dash_clickscope_unfavoritable() {
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
@@ -330,7 +317,7 @@ Item {
             spy.target = scopesList.scope;
             spy.signalName = "performQuery";
 
-            // Do a search
+            // Click on the store
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var searchButton = findChild(scopesListPageHeader, "store_header_button");
             mouseClick(searchButton, 0, 0);
@@ -338,6 +325,48 @@ Item {
             spy.wait();
             compare(spy.signalArguments[0][0], "scope://com.canonical.scopes.clickstore");
             tryCompare(bottomEdgeController, "progress", 0);
+        }
+
+        function test_manage_dash_move_current() {
+            var dashContentList = findChild(dash, "dashContentList");
+            compare(dashContentList.currentIndex, 0);
+            compare(dashContentList.currentItem.scopeId, "MockScope1");
+
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            // Make sure stuff is loaded
+            var favScopesListCategory = findChild(dash, "scopesListCategoryfavorites");
+            var favScopesListCategoryList = findChild(favScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(favScopesListCategoryList, "currentIndex", 0);
+
+            // Enter edit mode
+            var scopesList = findChild(dash, "scopesList");
+            var clickScope = findChild(favScopesListCategoryList, "delegateclickscope");
+            mousePress(clickScope, 0, 0);
+            tryCompare(scopesList, "state", "edit");
+            mouseRelease(clickScope, 0, 0);
+
+            var starArea = findChild(clickScope, "starArea");
+            touchFlick(starArea, 0, 0, 0, -units.gu(10));
+
+            // Exit edit mode and go back
+            var scopesList = findChild(dash, "scopesList");
+            var scopesListPageHeader = findChild(scopesList, "pageHeader");
+            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
+            mouseClick(backButton, 0, 0);
+            mouseClick(backButton, 0, 0);
+            tryCompare(bottomEdgeController, "progress", 0);
+
+            tryCompare(dashContentList, "currentIndex", 0);
+            compare(dashContentList.currentItem.scopeId, "clickscope");
+
+            // Move to second scope
+            touchFlick(dash, dash.width / 2, units.gu(2), dash.width / 5, units.gu(2));
+            tryCompare(dashContentList, "currentIndex", 1);
+            compare(dashContentList.currentItem.scopeId, "MockScope1");
         }
     }
 }
