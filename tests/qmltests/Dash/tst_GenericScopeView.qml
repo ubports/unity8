@@ -574,6 +574,7 @@ Item {
                 var innerHeader = findChild(header, "innerPageHeader");
                 verify(innerHeader, "Could not find the inner header");
 
+                expectFail("Apps", "Click scope should not have a favorite button");
                 var favoriteAction = findChild(innerHeader, "favorite_header_button");
                 verify(favoriteAction, "Could not find the favorite action.");
                 mouseClick(favoriteAction, favoriteAction.width / 2, favoriteAction.height / 2);
