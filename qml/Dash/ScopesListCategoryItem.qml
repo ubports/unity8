@@ -29,8 +29,8 @@ MouseArea {
     property alias icon: shapeImage.source
     property alias text: titleLabel.text
     property alias subtext: subtitleLabel.text
-    property alias showStar: star.visible
 
+    property bool showStar: false
     property bool isFavorite: false
     property bool hideChildren: false
 
@@ -95,7 +95,7 @@ MouseArea {
                 anchors.centerIn: parent
                 height: units.gu(2)
                 width: units.gu(2)
-                visible: !hideChildren
+                visible: !hideChildren && (editMode || showStar)
                 // TODO is view-grid-symbolic what we really want here? Looks good but seems semantically wrong
                 source: editMode ? "image://theme/view-grid-symbolic" : isFavorite ? "image://theme/starred" : "image://theme/non-starred"
             }

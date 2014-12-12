@@ -86,7 +86,7 @@ Item {
                 icon: model.art || model.mascot || ""
                 text: model.title || ""
                 subtext: model.subtitle || ""
-                showStar: root.isFavoritesFeed || root.isAlsoInstalled
+                showStar: model.scopeId !== "clickscope" && (root.isFavoritesFeed || root.isAlsoInstalled)
                 isFavorite: root.isFavoritesFeed
 
                 hideChildren: dragItem.loaderToShrink == loader
