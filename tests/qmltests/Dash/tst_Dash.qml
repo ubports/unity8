@@ -368,5 +368,45 @@ Item {
             tryCompare(dashContentList, "currentIndex", 1);
             compare(dashContentList.currentItem.scopeId, "MockScope1");
         }
+
+        function test_manage_dash_move_current_click_other() {
+            var dashContentList = findChild(dash, "dashContentList");
+            compare(dashContentList.currentIndex, 0);
+            compare(dashContentList.currentItem.scopeId, "MockScope1");
+
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            // Make sure stuff is loaded
+            var favScopesListCategory = findChild(dash, "scopesListCategoryfavorites");
+            var favScopesListCategoryList = findChild(favScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(favScopesListCategoryList, "currentIndex", 0);
+
+            // Enter edit mode
+            var scopesList = findChild(dash, "scopesList");
+            var clickScope = findChild(favScopesListCategoryList, "delegateclickscope");
+            mousePress(clickScope, 0, 0);
+            tryCompare(scopesList, "state", "edit");
+            mouseRelease(clickScope, 0, 0);
+
+            var starArea = findChild(clickScope, "starArea");
+            touchFlick(starArea, 0, 0, 0, -units.gu(10));
+
+            // Exit edit mode and go back
+            var scopesList = findChild(dash, "scopesList");
+            var scopesListPageHeader = findChild(scopesList, "pageHeader");
+            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
+            mouseClick(backButton, 0, 0);
+
+            var mockScope5 = findChild(favScopesListCategoryList, "delegateMockScope5");
+            waitForRendering(mockScope5)
+            mouseClick(mockScope5, 0, 0);
+            tryCompare(bottomEdgeController, "progress", 0);
+
+            tryCompare(dashContentList, "currentIndex", 2);
+            compare(dashContentList.currentItem.scopeId, "MockScope5");
+        }
     }
 }

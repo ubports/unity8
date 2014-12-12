@@ -75,6 +75,7 @@ Showable {
             return
         }
 
+        dashContent.workaroundRestoreIndex = -1;
         dashContent.setCurrentScopeAtIndex(scopeIndex, animate, reset)
     }
 
