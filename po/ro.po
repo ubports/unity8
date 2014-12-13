@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2014-12-12 06:37+0000\n"
+"X-Launchpad-Export-Date: 2014-12-13 07:11+0000\n"
 "X-Generator: Launchpad (build 17286)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
