@@ -38,6 +38,7 @@ FocusScope {
     readonly property alias subPageShown: subPageLoader.subPageShown
     property int paginationCount: 0
     property int paginationIndex: 0
+    property bool visibleToParent: false
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
     property var holdingList: null
 
@@ -357,6 +358,7 @@ FocusScope {
                 Connections {
                     target: scopeView
                     onIsCurrentChanged: rendererLoader.updateRanges();
+                    onVisibleToParentChanged: rendererLoader.updateRanges();
                 }
                 Connections {
                     target: holdingList
@@ -364,7 +366,9 @@ FocusScope {
                 }
 
                 function updateRanges() {
-                    if (holdingList && holdingList.moving) {
+                    // Don't want to create stress by requesting more items during scope
+                    // changes so unless you're not part of the visible scopes just return
+                    if (holdingList && holdingList.moving && !scopeView.visibleToParent) {
                         return;
                     }
 
@@ -380,28 +384,50 @@ FocusScope {
                     }
 
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
-                        // A item view is considered visible from
+                        // A item view creates its delegates synchronously from
                         //     -displayMarginBeginning
                         // to
-                        //     height + item.displayMarginEnd
+                        //     height + displayMarginEnd
+                        // Around that area it adds the cacheBuffer area where delegates are created async
+                        //
                         // We adjust displayMarginBeginning and displayMarginEnd so
-                        //   * In non visible scopes only the viewport is considered visible
-                        //     that way when you switch to it the visible items are there
-                        //   * For visible scopes we increase the visible range by categoryView.height * 1.5
-                        //     in both directions to make scrolling nicer by mantaining a higher number of
+                        //   * In non visible scopes nothing is considered visible and we set cacheBuffer
+                        //     so that creates the items that would be in the viewport asynchronously
+                        //   * For the current scope set the visible range to the viewport and then
+                        //     use cacheBuffer to create extra items for categoryView.height * 1.5
+                        //     to make scrolling nicer by mantaining a higher number of
                         //     cached items
-                        // TODO Improvements
-                        //  - For non visible scopes we should always have a visible range of 0 and
-                        //    make sure the items in the viewport are created with the cache buffer feature
-                        //  - For visible scopes we should always the have a visible range be exactly the
-                        //    viewport and make sure the rest of items are created with the cache buffer feature
-                        //  To be able to implement that feature VerticalJournal/AbstractDashView needs to
-                        //  make the cache buffer value setable externally
-                        var extraMargins = scopeView.isCurrent ? categoryView.height * 1.5 : 0;
-
-                        item.displayMarginBeginning = Math.round(-Math.max(-baseItem.y - extraMargins, 0));
-                        item.displayMarginEnd = -Math.round(Math.max(baseItem.height - extraMargins - seeAll.height -
-                                                                        categoryView.height + baseItem.y, 0));
+                        //   * For non current but visible scopes (i.e. when the user changes from one scope
+                        //     to the next, we set the visible range to the viewport so
+                        //     items are not culled (invisible) but still use no cacheBuffer
+                        //     (it will be set once the scope is the current one)
+                        var displayMarginBeginning = baseItem.y;
+                        displayMarginBeginning = -Math.max(-displayMarginBeginning, 0);
+                        displayMarginBeginning = -Math.min(-displayMarginBeginning, baseItem.height);
+                        displayMarginBeginning = Math.round(displayMarginBeginning);
+                        var displayMarginEnd = -baseItem.height + seeAll.height + categoryView.height - baseItem.y;
+                        displayMarginEnd = -Math.max(-displayMarginEnd, 0);
+                        displayMarginEnd = -Math.min(-displayMarginEnd, baseItem.height);
+                        displayMarginEnd = Math.round(displayMarginEnd);
+                        if (scopeView.isCurrent || scopeView.visibleToParent) {
+                            item.displayMarginBeginning = displayMarginBeginning;
+                            item.displayMarginEnd = displayMarginEnd;
+                            item.cacheBuffer = scopeView.isCurrent ? categoryView.height * 1.5 : 0;
+                        } else {
+                            var visibleRange = baseItem.height + displayMarginEnd + displayMarginBeginning;
+                            if (visibleRange < 0) {
+                                item.displayMarginBeginning = displayMarginBeginning;
+                                item.displayMarginEnd = displayMarginEnd;
+                                item.cacheBuffer = 0;
+                            } else {
+                                // This should be visibleRange/2 in each of the properties
+                                // but some item views still (like GridView) like creating sync delegates even if
+                                // the visible range is 0 so let's make sure the visible range is negative
+                                item.displayMarginBeginning = displayMarginBeginning - visibleRange;
+                                item.displayMarginEnd = displayMarginEnd - visibleRange;
+                                item.cacheBuffer = visibleRange;
+                            }
+                        }
                     }
                 }
             }

@@ -1920,7 +1920,7 @@ private Q_SLOTS:
 
     void testAllCacheBuffer()
     {
-        lvwph->setCacheBuffer(std::numeric_limits<qreal>::max());
+        lvwph->setCacheBuffer(std::numeric_limits<int>::max());
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 6);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, 50., 150., false);
