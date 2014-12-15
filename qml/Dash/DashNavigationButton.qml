@@ -139,6 +139,17 @@ AbstractButton {
                 }
             }
             onGoBackToParentClicked: {
+                if (navigationListView.currentIndex == 0) {
+                    // This can happen if we jumped to the non root of a deep tree and the user
+                    // is now going back, create space in the list for the list to move "left"
+                    var aux = navigationListView.highlightMoveDuration;
+                    navigationListView.highlightMoveDuration = 0;
+                    navigationModel.insert(0, {"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
+                    navigationListView.currentIndex = navigationListView.currentIndex + 1;
+                    navigationListView.contentX = width * navigationListView.currentIndex;
+                    navigationListView.highlightMoveDuration = aux;
+                }
+
                 scope.setNavigationState(navigation.parentNavigationId, isAltNavigation);
                 isGoingBack = true;
                 navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
@@ -153,6 +164,9 @@ AbstractButton {
             }
         }
         onContentXChanged: {
+            if (navigationListView.highlightMoveDuration == 0)
+                return;
+
             if (contentX == width * navigationListView.currentIndex) {
                 if (isGoingBack) {
                     navigationModel.remove(navigationListView.currentIndex + 1);
@@ -175,9 +189,18 @@ AbstractButton {
     }
 
     onScopeChanged: {
+        setNewNavigation();
+    }
+
+    function setNewNavigation() {
         navigationModel.clear();
         if (scope && scope[hasNavigation]) {
-            navigationModel.append({"navigationId": scope[currentNavigationId], "nullifyNavigation": false});
+            var navigation = getNavigation(scope[currentNavigationId]);
+            if (navigation.count > 0) {
+                navigationModel.append({"navigationId": scope[currentNavigationId], "nullifyNavigation": false});
+            } else {
+                navigationModel.append({"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
+            }
         }
     }
 
@@ -186,20 +209,12 @@ AbstractButton {
         // This is duplicated since we can't have something based on the dynamic hasNavigation string property
         onHasNavigationChanged: {
             if (!root.isAltNavigation) {
-                if (scope.hasNavigation) {
-                    navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
-                } else {
-                    navigationModel.clear();
-                }
+                setNewNavigation();
             }
         }
         onHasAltNavigationChanged: {
             if (root.isAltNavigation) {
-                if (scope.hasAltNavigation) {
-                    navigationModel.append({"navigationId": scope.currentAltNavigationId, "nullifyNavigation": false});
-                } else {
-                    navigationModel.clear();
-                }
+                setNewNavigation();
             }
         }
     }

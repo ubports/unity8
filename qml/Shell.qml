@@ -129,6 +129,11 @@ Item {
         sourceSize.width: 0
     }
 
+    GSettings {
+        id: usageModeSettings
+        schema.id: "com.canonical.Unity8"
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -267,7 +272,8 @@ Item {
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
+                        : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -304,6 +310,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "orientation"
                 value: shell.orientation
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "background"
+                value: shell.background
             }
         }
     }
@@ -735,10 +746,12 @@ Item {
             readonly property bool dashSwipe: progress > 0
 
             anchors.top: parent.top
+            anchors.topMargin: inverted ? 0 : panel.panelHeight
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            inverted: usageModeSettings.usageMode === "Staged"
 
             onShowDashHome: showHome()
             onDash: showDash()

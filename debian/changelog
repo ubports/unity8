@@ -1,3 +1,63 @@
+unity8 (8.02+15.04.20141212.1-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Make Navigation work when "jumping" to the non root
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 12 Dec 2014 12:28:10 +0000
+
+unity8 (8.02+15.04.20141211.2-0ubuntu1) vivid; urgency=medium
+
+  [ Michał Sawicz ]
+  * Bump version due to new Manage Dash
+
+  [ Gerry Boland ]
+  * [indicators] Fix positioning on panel resize.
+
+  [ Nick Dedekind ]
+  * [indicators] Fix positioning on panel resize.
+
+  [ Albert Astals ]
+  * Fix the Dash Header hamburger menu background color
+  * Fix tests (LP: #1400449)
+  * Allow pulling manage dash if there's no favorite scopes (LP:
+    #1400774)
+  * Manage Dash: Make store button work even if you have no favorites
+    (LP: #1400771)
+  * Make pot_file
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Andrea Cimitan ]
+  * Remove dismiss timer in Launcher (LP: #1368778)
+
+  [ Michael Zanetti ]
+  * decrease opacity changes in spread, move it to a separate surface.
+  * Add an initial, rudimentary DesktopStage to get started
+  * Uninvert Launcher in Desktop Mode
+  * Add support for Wallpaper in Desktop stage
+  * Add window control buttons to panel for fullscreen applications
+
+  [ Rodney Dawes ]
+  * Add dependency on gir1.2-notify-0.7 to unity8-autopilot package.
+    (LP: #1400437)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 11 Dec 2014 13:25:44 +0000
+
+unity8 (8.01+15.04.20141205-0ubuntu1) vivid; urgency=low
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Albert Astals ]
+  * Replace Scopes Overview by the new Manage Dash (LP: #1386698,
+    #1368670)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 05 Dec 2014 10:55:50 +0000
+
 unity8 (8.01+15.04.20141204-0ubuntu1) vivid; urgency=low
 
   [ Michael Terry ]
