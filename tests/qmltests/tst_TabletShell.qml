@@ -74,19 +74,22 @@ Row {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return
+            Button {
+                text: "Show Greeter"
+                onClicked: {
+                    if (shellLoader.status !== Loader.Ready)
+                        return
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter")
-                        if (!greeter.shown) {
-                            greeter.show()
-                        }
+                    var greeter = testCase.findChild(shellLoader.item, "greeter")
+                    if (!greeter.shown) {
+                        greeter.show()
                     }
+                }
+            }
+            Button {
+                text: "Demo edges"
+                onClicked: {
+                    AccountsService.demoEdges = true
                 }
             }
         }
