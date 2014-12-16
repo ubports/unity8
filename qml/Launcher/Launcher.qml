@@ -23,6 +23,7 @@ import Unity.Launcher 0.1
 Item {
     id: root
 
+    property bool autohideEnabled: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
 
@@ -89,10 +90,12 @@ Item {
         objectName: "dismissTimer"
         interval: 5000
         onTriggered: {
-            if (!panel.preventHiding) {
-                root.state = ""
-            } else {
-                dismissTimer.restart()
+            if (root.autohideEnabled) {
+                if (!panel.preventHiding) {
+                    root.state = ""
+                } else {
+                    dismissTimer.restart()
+                }
             }
         }
     }
@@ -117,6 +120,11 @@ Item {
     Connections {
         target: LauncherModel
         onHint: hint();
+    }
+
+    Connections {
+        target: i18n
+        onLanguageChanged: LauncherModel.refresh()
     }
 
     SequentialAnimation {

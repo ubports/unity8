@@ -54,6 +54,7 @@ Rectangle {
             objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
+            clip: true
 
             UbuntuShape {
                 anchors {

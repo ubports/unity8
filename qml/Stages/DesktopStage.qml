@@ -94,6 +94,8 @@ Item {
             width: units.gu(60)
             height: units.gu(50)
 
+            readonly property int minWidth: units.gu(10)
+            readonly property int minHeight: units.gu(10)
 
             states: [
                 State {
@@ -114,51 +116,13 @@ Item {
                 }
             ]
 
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -units.gu(0.5)
+            WindowMoveResizeArea {
+                target: appDelegate
+                minWidth: units.gu(10)
+                minHeight: units.gu(10)
+                resizeHandleWidth: units.gu(0.5)
 
-                property bool resizeWidth: false
-                property bool resizeHeight: false
-
-                property int startX: 0
-                property int startWidth: 0
-                property int startY: 0
-                property int startHeight: 0
-
-                onPressed: {
-                    ApplicationManager.requestFocusApplication(model.appId)
-                    if (mouseX > width - units.gu(1)) {
-                        resizeWidth = true;
-                        startX = mouseX;
-                        startWidth = appDelegate.width;
-                    }
-                    if (mouseY > height - units.gu(1)) {
-                        resizeHeight = true;
-                        startY = mouseY;
-                        startHeight = appDelegate.height;
-                    }
-                    if (!resizeHeight && !resizeWidth) {
-                        drag.target = appDelegate;
-                    }
-                }
-
-                onMouseXChanged: {
-                    if (resizeWidth) {
-                        appDelegate.width = startWidth + (mouseX - startX)
-                    }
-                }
-                onMouseYChanged: {
-                    if (resizeHeight) {
-                        appDelegate.height = startHeight + (mouseY - startY)
-                    }
-                }
-
-                onReleased: {
-                    resizeWidth = false;
-                    resizeHeight = false;
-                    drag.target = undefined;
-                }
+                onPressed: ApplicationManager.requestFocusApplication(model.appId)
             }
 
             DecoratedWindow {

@@ -61,6 +61,11 @@ include(GNUInstallDirs)
 set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/unity8)
 set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/unity8)
 
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugin_private_module_dir SystemSettings OUTPUT_VARIABLE USS_PRIVATE_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+if(USS_PRIVATE_PLUGINDIR STREQUAL "")
+    message(FATAL_ERROR "Could not determine USS private plugin installation dir.")
+endif()
+
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir_suffix unity-shell-api OUTPUT_VARIABLE SHELL_INSTALL_QML OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_INSTALL_QML STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin installation dir.")
