@@ -554,9 +554,7 @@ Item {
             property string lockedApp: ""
             property bool hasLockedApp: lockedApp !== ""
 
-            available: true
             hides: [launcher, panel.indicators]
-            shown: true
             loadContent: required || lockscreen.required // keeps content in memory for quick show()
 
             locked: shell.locked
@@ -566,7 +564,12 @@ Item {
             width: parent.width
             height: parent.height
 
-            dragHandleWidth: shell.edgeSize
+
+            // avoid overlapping with Launcher's edge drag area
+            // FIXME: Fix TouchRegistry & friends and remove this workaround
+            //        Issue involves launcher's DDA getting disabled on a long
+            //        left-edge drag
+            dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
 
             function startUnlock() {
                 if (narrowMode) {
@@ -620,7 +623,12 @@ Item {
                 LauncherModel.setUser(user);
             }
 
-            onTease: launcher.tease()
+            onTapped: launcher.tease()
+            onDraggingChanged: {
+                if (dragging) {
+                    launcher.tease();
+                }
+            }
 
             Binding {
                 target: ApplicationManager

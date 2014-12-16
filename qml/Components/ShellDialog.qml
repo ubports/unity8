@@ -15,12 +15,23 @@
  */
 
 import QtQuick 2.0
-import Dash 0.1
 
-ListViewWithPageHeader {
-    maximumFlickVelocity: height * 10
-    flickDeceleration: height * 2
-    // 1073741823 is s^30 -1. A quite big number so that you have "infinite" cache, but not so
-    // big so that if you add if with itself you're outside the 2^31 int range
-    cacheBuffer: 1073741823
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 0.1
+
+/*
+    A Dialog configured for use as a proper in-scene Dialog
+
+    This is a helper component for Dialogs.qml, thus some assumptions
+    on context are (or will be) made here.
+ */
+Dialog {
+    automaticOrientation: false
+
+    // NB: PopupBase, Dialog's superclass, will check for the existence of this property
+    property bool reparentToRootItem: false
+
+    onVisibleChanged: { if (!visible) { dialogLoader.active = false; } }
+
+    Component.onCompleted: show()
 }

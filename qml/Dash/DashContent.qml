@@ -163,6 +163,7 @@ Item {
 
             delegate:
                 Loader {
+                    id: loader
                     width: ListView.view.width
                     height: ListView.view.height
                     opacity: { // hide delegate if offscreen
@@ -191,6 +192,7 @@ Item {
                         dashContent.scopeLoaded(item.scope.id)
                         item.paginationCount = Qt.binding(function() { return dashContentList.count } )
                         item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
+                        item.visibleToParent = Qt.binding(function() { return loader.opacity != 0 });
                         item.holdingList = dashContentList;
                         item.forceNonInteractive = Qt.binding(function() { return dashContent.forceNonInteractive } )
                     }

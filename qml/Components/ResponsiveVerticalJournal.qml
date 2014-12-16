@@ -45,6 +45,7 @@ Item {
     property alias rowSpacing: verticalJournalView.rowSpacing
     property alias model: verticalJournalView.model
     property alias delegate: verticalJournalView.delegate
+    property alias cacheBuffer: verticalJournalView.cacheBuffer
     property alias displayMarginBeginning: verticalJournalView.displayMarginBeginning
     property alias displayMarginEnd: verticalJournalView.displayMarginEnd
 

@@ -1,3 +1,26 @@
+unity8 (8.02+15.04.20141215.3-0ubuntu1) vivid; urgency=low
+
+  [ Albert Astals Cid ]
+  * ScopesList: Use the default scope style for the header
+
+  [ Daniel d'Andrada ]
+  * Refactor Dialogs.qml to use proper in-scene dialogs
+  * Make Greeter nicely handle being resized
+
+  [ Albert Astals ]
+  * Rework how we set the ranges so we get some more asynchronousity
+    from item views (LP: #1384374)
+  * clickscope is back to being unfavoritable (LP: #1400762)
+  * Fix clicking on the manage dash list after having moved the current
+    scope
+  * Make the drag range be a multiple of the drag "rate" value.
+    Workarounds https://bugs.launchpad.net/mir/+bug/1399690
+
+  [ Gerry Boland ]
+  * MockAppMan: emit SIGSTOP so AP test apps are run (LP: #1394208)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 15 Dec 2014 22:43:16 +0000
+
 unity8 (8.02+15.04.20141212.1-0ubuntu1) vivid; urgency=low
 
   [ Ubuntu daily release ]
