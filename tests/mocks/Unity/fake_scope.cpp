@@ -36,7 +36,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_favorite(favorite)
     , m_isActive(false)
     , m_currentNavigationId("root")
-    , m_currentAltNavigationId("altroot")
+    , m_currentAltNavigationId("altrootChild1")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
@@ -297,12 +297,7 @@ unity::shell::scopes::NavigationInterface* Scope::getAltNavigation(QString const
         parentId = "altroot";
         parentLabel = "altroot";
     }
-    auto result = new Navigation(id, id, "all"+id, parentId, parentLabel, this);
-    if (id == "altroot") {
-        m_currentAltNavigationId = "altrootChild1";
-        Q_EMIT currentAltNavigationIdChanged();
-    }
-    return result;
+    return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
 }
 
 void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation)
