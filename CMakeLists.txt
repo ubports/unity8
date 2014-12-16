@@ -53,12 +53,18 @@ find_package(Qt5Qml 5.2 REQUIRED)
 find_package(Qt5Quick 5.2 REQUIRED)
 find_package(Qt5Gui 5.2 REQUIRED)
 find_package(Qt5DBus 5.2 REQUIRED)
+find_package(Qt5Concurrent 5.2 REQUIRED)
 
 # Standard install paths
 include(GNUInstallDirs)
 
 set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/unity8)
 set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/unity8)
+
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugin_private_module_dir SystemSettings OUTPUT_VARIABLE USS_PRIVATE_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+if(USS_PRIVATE_PLUGINDIR STREQUAL "")
+    message(FATAL_ERROR "Could not determine USS private plugin installation dir.")
+endif()
 
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir_suffix unity-shell-api OUTPUT_VARIABLE SHELL_INSTALL_QML OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_INSTALL_QML STREQUAL "")

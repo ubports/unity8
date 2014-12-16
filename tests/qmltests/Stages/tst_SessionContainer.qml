@@ -185,6 +185,41 @@ Rectangle {
             tryCompare(sessionSpy, "count", data.count);
         }
 
+        function test_childSessionDestructionReturnsFocusToSiblingOrParent() {
+            sessionCheckbox.checked = true;
+            var sessionContainer = sessionContainerLoader.item;
+            compare(sessionContainer.childSessions.count(), 0);
+
+            sessionContainer.interactive = true;
+
+            var i;
+            var sessions = [];
+            // 3 sessions should cover all edge cases
+            for(i = 0; i < 3; i++) {
+                var a_session = ApplicationTest.addChildSession(
+                    sessionContainer.session, "gallery"
+                )
+
+                a_session.createSurface();
+                sessionContainer.session.addChildSession(a_session);
+                compare(sessionContainer.childSessions.count(), i + 1);
+
+                sessions.push(a_session);
+            }
+
+            var a_session;
+            while(a_session = sessions.pop()) {
+                a_session.surface.forceActiveFocus();
+                compare(a_session.surface.activeFocus, true);
+
+                var parentSession = a_session.parentSession;
+                sessionContainer.session.removeChildSession(a_session);
+                compare(a_session.surface.activeFocus, false);
+
+                compare(parentSession.surface.activeFocus, true);
+            }
+        }
+
         function test_nestedChildSessions_data() {
             return [ { tag: "depth=2", depth: 2 },
                      { tag: "depth=8", depth: 8 }

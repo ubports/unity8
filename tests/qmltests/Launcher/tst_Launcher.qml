@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
+import Ubuntu.Components 1.1
 import ".."
 import "../../../qml/Launcher"
 import Unity.Launcher 0.1
@@ -73,6 +74,12 @@ Item {
         }
     }
 
+    Button {
+        anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
+        text: "emit hinting signal"
+        onClicked: LauncherModel.emitHint()
+    }
+
     SignalSpy {
         id: signalSpy
         target: LauncherModel
@@ -111,11 +118,6 @@ Item {
 
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
-
-            // Tests can be run in a reaaaaally slow environment or machine. Thus ensure
-            // the dismissTimer doesn't time out inadvertently.
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            dismissTimer.interval = 60 * 60 * 1000; // one hour
         }
 
         function dragLauncherIntoView() {
@@ -226,6 +228,21 @@ Item {
             }
             waitUntilLauncherDisappears();
             launcher.available = true;
+        }
+
+        function test_hintLauncherOnChange() {
+            var launcherPanel = findChild(launcher, "launcherPanel")
+            // Make sure we start hidden
+            tryCompare(launcherPanel, "x", -launcher.panelWidth)
+            // reset our measurement property
+            launcher.maxPanelX = -launcher.panelWidth
+            // change it
+            LauncherModel.move(0, 1)
+            LauncherModel.emitHint();
+
+            // make sure it opened fully and hides again without delay
+            tryCompare(launcher, "maxPanelX", 0)
+            tryCompare(launcherPanel, "x", -launcher.panelWidth, 1000)
         }
 
         function test_countEmblems() {
@@ -431,20 +448,20 @@ Item {
             }
 
             // Doing longpress
-            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
-            tryCompare(quickListShape, "opacity", 0.8)
+            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2);
+            tryCompare(quickListShape, "opacity", 0.96);
             mouseRelease(draggedItem);
 
-            verify(quickList.y >= units.gu(1))
-            verify(quickList.y + quickList.height + units.gu(1) <= launcher.height)
+            verify(quickList.y >= units.gu(1));
+            verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
 
             // Click somewhere in the empty space to dismiss the quicklist
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            tryCompare(quickListShape, "visible", false)
+            tryCompare(quickListShape, "visible", false);
 
             // Click somewhere in the empty space to dismiss the launcher
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
-            waitUntilLauncherDisappears()
+            waitUntilLauncherDisappears();
         }
 
         function test_quicklist_click_data() {
@@ -496,6 +513,24 @@ Item {
                 mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
                 tryCompare(quickListShape, "visible", false)
             }
+        }
+
+        function test_quicklistHideOnLauncherHide() {
+            dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var quickList = findChild(launcher, "quickList")
+
+            // Initial state
+            tryCompare(quickList, "state", "")
+
+            // Doing longpress
+            mousePress(clickedItem, clickedItem.width / 2, clickedItem.height / 2)
+            tryCompare(clickedItem, "itemOpacity", 0) // Wait for longpress to happen
+            verify(quickList, "state", "open")
+
+            launcher.hide();
+
+            tryCompare(quickList, "state", "");
         }
     }
 }

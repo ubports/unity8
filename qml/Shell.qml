@@ -38,12 +38,17 @@ import "Notifications"
 import "Stages"
 import "Panel/Indicators"
 import "Tutorial"
+import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 
 Item {
     id: shell
+
+    // Disable everything so that user can't swipe greeter or launcher until
+    // we get first prompt/authenticate, which will re-enable the shell.
+    enabled: false
 
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
@@ -52,10 +57,12 @@ Item {
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
-    property url background
+    property url background: asImageTester.status == Image.Ready ? asImageTester.source
+                             : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
     readonly property real panelHeight: panel.panelHeight
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+    readonly property alias hasLockedApp: greeter.hasLockedApp
     readonly property bool forcedUnlock: edgeDemo.running
     onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
 
@@ -92,12 +99,40 @@ Item {
     }
 
     function startLockedApp(app) {
-        if (!shell.locked) {
-            console.warn("Called startLockedApp(%1) when not locked, ignoring".arg(app))
-            return
+        if (shell.locked) {
+            greeter.lockedApp = app;
         }
-        greeter.lockedApp = app
-        shell.activateApplication(app)
+        shell.activateApplication(app);
+    }
+
+    // This is a dummy image to detect if the custom AS set wallpaper loads successfully.
+    Image {
+        id: asImageTester
+        source: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+    }
+
+    GSettings {
+        id: backgroundSettings
+        schema.id: "org.gnome.desktop.background"
+    }
+
+    // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
+    Image {
+        id: gsImageTester
+        source: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+    }
+
+    GSettings {
+        id: usageModeSettings
+        schema.id: "com.canonical.Unity8"
     }
 
     Binding {
@@ -116,15 +151,6 @@ Item {
         }
     }
 
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
-    onGSettingsPictureChanged: {
-        shell.background = gSettingsPicture
-    }
-
     VolumeControl {
         id: volumeControl
     }
@@ -134,23 +160,32 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        z: edgeDemo.z + 10
+        enabled: Powerd.status === Powerd.On
+    }
+
     Binding {
         target: ApplicationManager
         property: "forceDashActive"
         value: launcher.shown || launcher.dashSwipe
     }
 
+    VolumeKeyFilter {
+        id: volumeKeyFilter
+        onVolumeDownPressed: volumeControl.volumeDown()
+        onVolumeUpPressed: volumeControl.volumeUp()
+        onBothVolumeKeysPressed: screenGrabber.capture()
+    }
 
     WindowKeysFilter {
-        // Handle but do not filter out volume keys
-        Keys.onVolumeUpPressed: { volumeControl.volumeUp(); event.accepted = false; }
-        Keys.onVolumeDownPressed: { volumeControl.volumeDown(); event.accepted = false; }
-
         Keys.onPressed: {
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyPressed();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyPressed(event.key);
                 event.accepted = false;
             }
         }
@@ -160,6 +195,7 @@ Item {
                 dialogs.onPowerKeyReleased();
                 event.accepted = true;
             } else {
+                volumeKeyFilter.onKeyReleased(event.key);
                 event.accepted = false;
             }
         }
@@ -176,7 +212,7 @@ Item {
             target: ApplicationManager
             onFocusRequested: {
                 if (greeter.narrowMode) {
-                    if (appId === "dialer-app" && callManager.hasCalls) {
+                    if (appId === "dialer-app" && callManager.hasCalls && shell.locked) {
                         // If we are in the middle of a call, make dialer lockedApp and show it.
                         // This can happen if user backs out of dialer back to greeter, then
                         // launches dialer again.
@@ -207,6 +243,14 @@ Item {
             onApplicationAdded: {
                 if (greeter.shown && appId != "unity8-dash") {
                     greeter.startUnlock()
+
+                    // If this happens on first boot, we may be in edge
+                    // tutorial or wizard while receiving a call.  But a call
+                    // is more important than wizard so just bail out of those.
+                    if (edgeDemo.running) {
+                        edgeDemo.hideEdgeDemos();
+                        wizard.hide();
+                    }
                 }
                 if (greeter.narrowMode && greeter.hasLockedApp && appId === greeter.lockedApp) {
                     lockscreen.hide() // show locked app
@@ -232,7 +276,8 @@ Item {
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
+                        : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -269,6 +314,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "orientation"
                 value: shell.orientation
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "background"
+                value: shell.background
             }
         }
     }
@@ -323,9 +373,19 @@ Item {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
+        darkenBackground: 0.4
         alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         minPinLength: 4
         maxPinLength: 4
+
+        property string promptText
+        infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
+                  alphaNumeric ? i18n.tr("Enter passphrase") :
+                                 i18n.tr("Enter passcode")
+        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
+                   alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
+                                  i18n.tr("Please re-enter") :
+                                  i18n.tr("Sorry, incorrect passcode")
 
         // FIXME: We *should* show emergency dialer if there is a SIM present,
         // regardless of whether the side stage is enabled.  But right now,
@@ -380,20 +440,7 @@ Item {
                 return; // could happen if hideGreeter() comes in before we prompt
             }
             if (greeter.narrowMode) {
-                if (isDefaultPrompt) {
-                    if (lockscreen.alphaNumeric) {
-                        lockscreen.infoText = i18n.tr("Enter passphrase")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passphrase") + "\n" +
-                                               i18n.tr("Please re-enter")
-                    } else {
-                        lockscreen.infoText = i18n.tr("Enter passcode")
-                        lockscreen.errorText = i18n.tr("Sorry, incorrect passcode")
-                    }
-                } else {
-                    lockscreen.infoText = i18n.tr("Enter %1").arg(text.toLowerCase())
-                    lockscreen.errorText = i18n.tr("Sorry, incorrect %1").arg(text.toLowerCase())
-                }
-
+                lockscreen.promptText = isDefaultPrompt ? "" : text.toLowerCase();
                 lockscreen.maybeShow();
             }
         }
@@ -472,7 +519,7 @@ Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
         id: greeterWrapper
         objectName: "greeterWrapper"
-        x: greeter.narrowMode ? launcher.progress : 0
+        x: (greeter.narrowMode && greeter.showProgress > 0) ? launcher.progress : 0
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
@@ -511,19 +558,22 @@ Item {
             property string lockedApp: ""
             property bool hasLockedApp: lockedApp !== ""
 
-            available: true
             hides: [launcher, panel.indicators]
-            shown: true
             loadContent: required || lockscreen.required // keeps content in memory for quick show()
 
             locked: shell.locked
 
-            defaultBackground: shell.background
+            background: shell.background
 
             width: parent.width
             height: parent.height
 
-            dragHandleWidth: shell.edgeSize
+
+            // avoid overlapping with Launcher's edge drag area
+            // FIXME: Fix TouchRegistry & friends and remove this workaround
+            //        Issue involves launcher's DDA getting disabled on a long
+            //        left-edge drag
+            dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
 
             function startUnlock() {
                 if (narrowMode) {
@@ -551,7 +601,7 @@ Item {
             onShownChanged: {
                 if (shown) {
                     // Disable everything so that user can't swipe greeter or
-                    // launcher until we get first prompt/authenticate, which
+                    // launcher until we get the next prompt/authenticate, which
                     // will re-enable the shell.
                     shell.enabled = false;
 
@@ -577,12 +627,17 @@ Item {
                 LauncherModel.setUser(user);
             }
 
-            onTease: launcher.tease()
+            onTapped: launcher.tease()
+            onDraggingChanged: {
+                if (dragging) {
+                    launcher.tease();
+                }
+            }
 
             Binding {
                 target: ApplicationManager
                 property: "suspended"
-                value: greeter.shown && greeterWrapper.showProgress == 1
+                value: (greeter.shown && greeterWrapper.showProgress == 1) || lockscreen.shown
             }
         }
     }
@@ -695,12 +750,13 @@ Item {
             readonly property bool dashSwipe: progress > 0
 
             anchors.top: parent.top
+            anchors.topMargin: inverted ? 0 : panel.panelHeight
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            inverted: usageModeSettings.usageMode === "Staged"
             shadeBackground: !edgeDemo.running
-            preventHiding: edgeDemo.running
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -723,6 +779,12 @@ Item {
             }
         }
 
+        Wizard {
+            id: wizard
+            anchors.fill: parent
+            background: shell.background
+        }
+
         Rectangle {
             id: modalNotificationBackground
 
@@ -743,19 +805,26 @@ Item {
             margin: units.gu(1)
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
-            width: parent.width
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             states: [
                 State {
                     name: "narrow"
                     when: overlay.width <= units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: parent.left }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                    }
                 },
                 State {
                     name: "wide"
                     when: overlay.width > units.gu(60)
-                    AnchorChanges { target: notifications; anchors.left: undefined }
+                    AnchorChanges {
+                        target: notifications
+                        anchors.left: undefined
+                        anchors.right: parent.right
+                    }
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
@@ -771,22 +840,6 @@ Item {
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
         }
-    }
-
-    Label {
-        id: alphaDisclaimerLabel
-        anchors.centerIn: parent
-        visible: ApplicationManager.fake ? ApplicationManager.fake : false
-        z: dialogs.z + 10
-        text: "EARLY ALPHA\nNOT READY FOR USE"
-        color: "lightgrey"
-        opacity: 0.2
-        font.weight: Font.Black
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        fontSizeMode: Text.Fit
-        rotation: -45
-        scale: Math.min(parent.width, parent.height) / width
     }
 
     Tutorial {
@@ -809,7 +862,7 @@ Item {
 
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: alphaDisclaimerLabel.z + 10
+        z: dialogs.z + 10
         enabled: false
         visible: false
         color: "black"

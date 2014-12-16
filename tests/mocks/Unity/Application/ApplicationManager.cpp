@@ -20,6 +20,7 @@
 #include "ApplicationTestInterface.h"
 
 #include <paths.h>
+#include <csignal>
 
 #include <QDir>
 #include <QGuiApplication>
@@ -36,6 +37,12 @@ ApplicationManager *ApplicationManager::singleton()
 {
     if (!the_application_manager) {
         the_application_manager = new ApplicationManager();
+
+        // Emit signal to notify Upstart that Mir is ready to receive client connections
+        // see http://upstart.ubuntu.com/cookbook/#expect-stop
+        if (qgetenv("UNITY_MIR_EMITS_SIGSTOP") == "1") {
+            raise(SIGSTOP);
+        }
     }
     return the_application_manager;
 }

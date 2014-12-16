@@ -9,12 +9,12 @@ set(QML_DIRS
     Dash
     graphics
     Greeter
-    Hud
-    Panel
     Launcher
     Notifications
+    Panel
     Stages
     Tutorial
+    Wizard
     )
 
 install(DIRECTORY ${QML_DIRS}

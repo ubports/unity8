@@ -35,6 +35,11 @@ public:
     DBusUnitySessionService();
     ~DBusUnitySessionService();
 
+    // For use in QML. Javascript doesn't accept functions beginning with capital letters
+    Q_INVOKABLE void logout() { Logout(); }
+    Q_INVOKABLE void reboot() { Reboot(); }
+    Q_INVOKABLE void shutdown() { Shutdown(); }
+
 Q_SIGNALS:
     /**
      * logoutRequested signal

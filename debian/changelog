@@ -1,3 +1,282 @@
+unity8 (8.02+15.04.20141216.1-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Need to wait until loaded is true to use the count property
+  * Manage Dash: Ellide properly
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 16 Dec 2014 11:03:37 +0000
+
+unity8 (8.02+15.04.20141215.3-0ubuntu1) vivid; urgency=low
+
+  [ Albert Astals Cid ]
+  * ScopesList: Use the default scope style for the header
+
+  [ Daniel d'Andrada ]
+  * Refactor Dialogs.qml to use proper in-scene dialogs
+  * Make Greeter nicely handle being resized
+
+  [ Albert Astals ]
+  * Rework how we set the ranges so we get some more asynchronousity
+    from item views (LP: #1384374)
+  * clickscope is back to being unfavoritable (LP: #1400762)
+  * Fix clicking on the manage dash list after having moved the current
+    scope
+  * Make the drag range be a multiple of the drag "rate" value.
+    Workarounds https://bugs.launchpad.net/mir/+bug/1399690
+
+  [ Gerry Boland ]
+  * MockAppMan: emit SIGSTOP so AP test apps are run (LP: #1394208)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 15 Dec 2014 22:43:16 +0000
+
+unity8 (8.02+15.04.20141212.1-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Make Navigation work when "jumping" to the non root
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 12 Dec 2014 12:28:10 +0000
+
+unity8 (8.02+15.04.20141211.2-0ubuntu1) vivid; urgency=medium
+
+  [ Michał Sawicz ]
+  * Bump version due to new Manage Dash
+
+  [ Gerry Boland ]
+  * [indicators] Fix positioning on panel resize.
+
+  [ Nick Dedekind ]
+  * [indicators] Fix positioning on panel resize.
+
+  [ Albert Astals ]
+  * Fix the Dash Header hamburger menu background color
+  * Fix tests (LP: #1400449)
+  * Allow pulling manage dash if there's no favorite scopes (LP:
+    #1400774)
+  * Manage Dash: Make store button work even if you have no favorites
+    (LP: #1400771)
+  * Make pot_file
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Andrea Cimitan ]
+  * Remove dismiss timer in Launcher (LP: #1368778)
+
+  [ Michael Zanetti ]
+  * decrease opacity changes in spread, move it to a separate surface.
+  * Add an initial, rudimentary DesktopStage to get started
+  * Uninvert Launcher in Desktop Mode
+  * Add support for Wallpaper in Desktop stage
+  * Add window control buttons to panel for fullscreen applications
+
+  [ Rodney Dawes ]
+  * Add dependency on gir1.2-notify-0.7 to unity8-autopilot package.
+    (LP: #1400437)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 11 Dec 2014 13:25:44 +0000
+
+unity8 (8.01+15.04.20141205-0ubuntu1) vivid; urgency=low
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Albert Astals ]
+  * Replace Scopes Overview by the new Manage Dash (LP: #1386698,
+    #1368670)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 05 Dec 2014 10:55:50 +0000
+
+unity8 (8.01+15.04.20141204-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Import wizard code from ubuntu-system-settings.
+  * Convert the welcome wizard from a separate executable into a qml
+    plugin (with a small C++ plugin for support).
+  * Add tests for welcome wizard.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 04 Dec 2014 20:55:11 +0000
+
+unity8 (8.01+15.04.20141202-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Make sure that there is no window of opportunity for swiping away
+    greeter before the lockscreen appears.
+  * Don't allow dragging the greeter out from the left edge if it's
+    hidden there. (LP: #1372952)
+
+  [ Michał Sawicz ]
+  * Move from Theme colour to direct UbuntuColors.orange for activity
+    indicator and preview buttons
+
+  [ Albert Astals ]
+  * Use QImageReader not to load the image into memory twice (LP:
+    #1384374)
+  * Don't create the whole current scope delegates, just height * 3 (LP:
+    #1384393, #1384374)
+  * Make CroppedImageSizer async
+  * Use ubuntu::connectivity::NetworkingStatus instead of
+    QNetworkConfigurationManager
+  * Compile with Qt 5.4 (LP: #1395636)
+
+  [ Michael Zanetti ]
+  * close previews and temp scopes on left edge/BFB (LP: #1391798)
+  * make spread reversible (LP: #1368668, #1355284, #1368677)
+
+  [ Andrea Cimitan ]
+  * Different drag behaviour for not closable apps in spread (LP:
+    #1368287)
+
+  [ Daniel d'Andrada ]
+  * Make UnityTestCase.touchFlick properly map event coordinates
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 02 Dec 2014 09:26:49 +0000
+
+unity8 (8.01+15.04.20141125.2-0ubuntu1) vivid; urgency=low
+
+  [ Michael Zanetti ]
+  * improve snapping after dragging
+  * Make the launcher BFB rounded on one end (LP: #1382596)
+  * disable swipeToClose while some snapping is happening (LP: #1378938)
+  * increase threshold and avoid jumping in SpreadDelegate dragging (LP:
+    #1352842, #1350803)
+
+  [ Ying-Chun Liu ]
+  * Notifications should be on right side when wide. (LP: 1379384) (LP:
+    #1379384)
+
+  [ Albert Astals ]
+  * Fix qml warnings
+  * Fix some qmluitests
+
+  [ Lars Uebernickel ]
+  * Use Icon instead of StatusIcon
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 25 Nov 2014 13:54:47 +0000
+
+unity8 (8.01+15.04.20141117-0ubuntu1) vivid; urgency=low
+
+  [ josharenson ]
+  * Return focus to the application after a tusted session overlay is
+    closing. (LP: #1381292)
+
+  [ Josh Arenson ]
+  * Return focus to the application after a tusted session overlay is
+    closing. (LP: #1381292)
+
+  [ Albert Astals ]
+  * Remove unused ResponsiveFlowView
+  * Fix a few cmake warnings when running ./build.sh in a clean checkout
+
+  [ Mirco Müller ]
+  * Make sure non-square icons are not cropped. (LP: #1378417)
+
+  [ Michael Terry ]
+  * Drop the "EARLY ALPHA" scare label when running in testing mode.
+
+  [ Michael Zanetti ]
+  * unify Greeter and Lockscreen wallpaper again
+  * hide quicklist when launcher hides (LP: #1387088)
+  * Keep applications suspended while lockscreen is shown (LP: #1378126)
+  * change spread background color to 111111
+
+  [ Omer Akram ]
+  * show password when tapped on the 'Show password' label, not just the
+    checkbox. (LP: #1389832)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Nov 2014 13:48:33 +0000
+
+unity8 (8.01+15.04.20141107.2-0ubuntu2) vivid; urgency=medium
+
+  * No-change rebuild against Qt 5.3.2.
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Sat, 08 Nov 2014 13:50:11 +0200
+
+unity8 (8.01+15.04.20141107.2-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Skip second SIM unlock dialog if user presses Emergency Call on
+    first one (LP: #1387925)
+
+  [ Michael Zanetti ]
+  * fix positive/negative answer order on the new swipe notification
+    (LP: #1358343)
+  * Update PageHeader to use new SDK api
+  * antialias surfaces when in spread (LP: #1351559)
+
+  [ Albert Astals ]
+  * Remove Hud
+
+  [ Mirco Müller ]
+  * Replace ComboButton in snap-decision notifications, used for
+    additional actions (> 3 actions), with custom widget immune to
+    accidental taps. (LP: #1384730)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Nov 2014 14:33:02 +0000
+
+unity8 (8.01+15.04.20141104-0ubuntu1) vivid; urgency=low
+
+  [ Sebastien Bacher ]
+  * Drop workaround, it's not needed and create issues for desktop-next
+    (LP: #1387671)
+
+  [ Albert Astals ]
+  * Do not append integer to char *
+  * Remove unused end() function
+  * Update build.sh
+  * Fix i18n
+
+  [ Michael Zanetti ]
+  * rework launcher quicklist visuals to fit new design (LP: #1368660)
+  * Fix DBusVariant conversion for launcher emblems (LP: #1387261)
+  * Fix desktop file encoding in launcher (LP: #1387083)
+  * Add a hinting animation to indicate changes in the backend (LP:
+    #1376707)
+
+  [ Alberto Aguirre ]
+  * Add audioRole to QtMultimedia mock
+  * Add a plugin to take screenshots on vol up + vol down
+
+  [ CI bot ]
+  * Fix relative time formatter when using non-UTC timezone. (LP:
+    #1378821)
+
+  [ Leo Arias ]
+  * Removed the tests for the alternate paths of the autopilot helpers.
+
+  [ Nick Dedekind ]
+  * Fix relative time formatter when using non-UTC timezone. (LP:
+    #1378821)
+  * Reset current item selection on deleted. (LP: #1378462)
+  * Added timer to re-assert server value after indicator menu item
+    activation. (LP: #1336715)
+
+  [ Mirco Müller ]
+  * Added dedicated swipe-to-act button for snap-decisions, which avoids
+    accidental taps/button-presses. (LP: #1358343)
+
+  [ Chris Gagnon ]
+  * add missing unity-scope-click dependancy to unity8-autopilot package
+    (LP: #1336276)
+
+  [ Michael Terry ]
+  * Don't lock phone if user tries to switch back to an active call.
+    (LP: #1388156)
+
+  [ Daniel d'Andrada ]
+  * DirectionalDragArea: Update TODO comment in light of new events
+  * TouchDispatcher: synthesize MouseButtonDblClick events
+
+  [ Leonardo Arias Fonseca ]
+  * Removed the tests for the alternate paths of the autopilot helpers.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 04 Nov 2014 12:56:08 +0000
+
 unity8 (8.01+15.04.20141030-0ubuntu1) vivid; urgency=medium
 
   [ Michael Terry ]

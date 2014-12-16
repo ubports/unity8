@@ -41,9 +41,16 @@ Item {
     Item {
         objectName: "appWindowWithShadow"
 
-        y: dragArea.distance
+        readonly property real limit: root.height / 4
+
+        y: root.closeable ? dragArea.distance : elastic(dragArea.distance)
         width: parent.width
         height: parent.height
+
+        function elastic(distance) {
+            var k = distance < 0 ? -limit : limit
+            return k * (1 - Math.pow((k - 1) / k, distance))
+        }
 
         BorderImage {
             anchors {
@@ -75,6 +82,8 @@ Item {
 
         property bool moving: false
         property real distance: 0
+        readonly property int threshold: units.gu(2)
+        property int offset: 0
 
         readonly property real minSpeedToClose: units.gu(40)
 
@@ -82,9 +91,17 @@ Item {
             if (!dragging) {
                 return;
             }
-            moving = moving || Math.abs(dragValue) > units.gu(1)
+            moving = moving || Math.abs(dragValue) > threshold;
             if (moving) {
-                distance = dragValue;
+                distance = dragValue + offset;
+            }
+        }
+
+        onMovingChanged: {
+            if (moving) {
+                offset = (dragValue > 0 ? -threshold: threshold)
+            } else {
+                offset = 0;
             }
         }
 

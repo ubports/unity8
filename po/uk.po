@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-07 11:37+0300\n"
-"PO-Revision-Date: 2014-10-08 12:02+0000\n"
+"POT-Creation-Date: 2014-12-10 10:55+0100\n"
+"PO-Revision-Date: 2014-11-07 16:47+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2014-10-09 06:37+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-12-13 07:11+0000\n"
+"X-Generator: Launchpad (build 17286)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Пароль: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr "Заблокувати кнопку"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "Розблокувати кнопку"
 
@@ -118,46 +118,46 @@ msgstr "Скасувати"
 msgid "Skip intro"
 msgstr "Пропустити вступ"
 
-#: qml/Components/EdgeDemo.qml:112
+#: qml/Components/EdgeDemo.qml:125
 msgid "Right edge"
 msgstr "Правий край"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:126
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
 
-#: qml/Components/EdgeDemo.qml:144
+#: qml/Components/EdgeDemo.qml:157
 msgid "Top edge"
 msgstr "Верхній край"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:158
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 "Спробуйте провести пальцем від верхнього краю, щоб розблокувати телефон"
 
-#: qml/Components/EdgeDemo.qml:170
+#: qml/Components/EdgeDemo.qml:183
 msgid "Close"
 msgstr "Закрити"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:184
 msgid "Swipe up again to close the settings screen"
 msgstr "Проведіть пальцем ще раз, щоб закрити вікно параметрів"
 
-#: qml/Components/EdgeDemo.qml:198
+#: qml/Components/EdgeDemo.qml:214
 msgid "Left edge"
 msgstr "Лівий край"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:215
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Проведіть пальцем від лівого краю, щоб відкрити панель запуску для "
 "пришвидшення доступу до програм"
 
-#: qml/Components/EdgeDemo.qml:226
+#: qml/Components/EdgeDemo.qml:242
 msgid "Well done"
 msgstr "Добре"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:243
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -165,36 +165,44 @@ msgstr ""
 "Вами налаштовано дії у відповідь на дотики на краях екрана. Тепер телефоном "
 "можна користуватися.<br><br>Торкніться екрана, щоб розпочати."
 
-#: qml/Components/Lockscreen.qml:220
+#: qml/Components/Lockscreen.qml:238
+msgid "Return to Call"
+msgstr "Повернутися до дзвінка"
+
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr "Терміновий виклик"
 
-#: qml/Components/Lockscreen.qml:252
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr "Гаразд"
 
-#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
+#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
 msgid "See less"
 msgstr "Стисліше"
 
-#: qml/Dash/GenericScopeView.qml:434
+#: qml/Dash/GenericScopeView.qml:431
 msgid "See all"
 msgstr "Детальніше"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Пошук"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "Крамниця"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "Параметри"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "Вилучити з вибраного"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "Додати до вибраного"
 
@@ -226,87 +234,59 @@ msgstr "Потягніть для оновлення…"
 msgid "Release to refresh…"
 msgstr "Відпустіть для оновлення…"
 
-#: qml/Dash/ScopesOverview.qml:206
-msgid "Manage Scopes"
-msgstr "Керування областями"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr "Керування"
 
-#: qml/Dash/ScopesOverview.qml:428
-msgid "Done"
-msgstr "Виконано"
+#: qml/Dash/ScopesList.qml:107
+msgid "Home"
+msgstr "Домівка"
 
-#: qml/Dash/ScopesOverview.qml:454
-msgid "Store"
-msgstr "Крамниця"
+#: qml/Dash/ScopesList.qml:108
+msgid "Also installed"
+msgstr "Також встановлено"
 
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Улюблене"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "Все"
-
-#: qml/Greeter/Greeter.qml:157
+#: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: qml/Hud/HudParametrizedActionsPage.qml:139
-msgid "Confirm"
-msgstr "Підтвердити"
-
-#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Введіть або озвучте команду"
-
-#: qml/Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Завантаження. Будь ласка, зачекайте…"
-
-#: qml/Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Можна говорити…"
-
-#: qml/Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Мовлення…"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "Показати пароль"
 
-#: qml/Panel/ActiveCallHint.qml:77
+#: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
 msgstr "Торкніться, щоб повернутися до дзвінка…"
 
-#: qml/Panel/ActiveCallHint.qml:90
+#: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
 msgstr "Конференція"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:600
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
 msgstr "Нічого не відтворюється"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:748
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr "У черзі…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr "Отримуємо"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:754
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr "Призупинено, торкніться, щоб поновити"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:756
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr "Скасовано"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:758
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr "Завершено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:760
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr "Помилка, торкніться, щоб повторити спробу"
 
@@ -318,49 +298,49 @@ msgstr "Розблокувати SIM"
 msgid "Roaming"
 msgstr "Роумінг"
 
-#: qml/Shell.qml:346
-msgid "Enter passphrase"
-msgstr "Введіть пароль"
-
-#: qml/Shell.qml:347
-msgid "Sorry, incorrect passphrase"
-msgstr "Вибачте, помилковий пароль"
-
-#: qml/Shell.qml:348
-msgid "Please re-enter"
-msgstr "Ввведіть ще раз"
-
-#: qml/Shell.qml:350
-msgid "Enter passcode"
-msgstr "Введіть код"
-
-#: qml/Shell.qml:351
-msgid "Sorry, incorrect passcode"
-msgstr "Вибачте, помилковий код-пароль"
-
-#: qml/Shell.qml:354
+#: qml/Shell.qml:367
 #, qt-format
 msgid "Enter %1"
 msgstr "Введіть %1"
 
-#: qml/Shell.qml:355
+#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Введіть пароль"
+
+#: qml/Shell.qml:369
+msgid "Enter passcode"
+msgstr "Введіть код"
+
+#: qml/Shell.qml:370
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Вибачте, помилковий %1"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:371
+msgid "Sorry, incorrect passphrase"
+msgstr "Вибачте, помилковий пароль"
+
+#: qml/Shell.qml:372
+msgid "Please re-enter"
+msgstr "Ввведіть ще раз"
+
+#: qml/Shell.qml:373
+msgid "Sorry, incorrect passcode"
+msgstr "Вибачте, помилковий код-пароль"
+
+#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Вибачте, помилковий пароль."
 
-#: qml/Shell.qml:391
+#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Вибачте, помилковий код-пароль."
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:469
 msgid "This will be your last attempt."
 msgstr "Ця спроба буде останньою."
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:471
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -368,7 +348,7 @@ msgstr ""
 "Якщо пароль буде вказано неправильно, телефон повернеться до початкового "
 "стану, усі особисті дані буде вилучено."
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:472
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -376,8 +356,210 @@ msgstr ""
 "Якщо код-пароль буде вказано неправильно, телефон повернеться до початкового "
 "стану, усі особисті дані буде вилучено."
 
-#~ msgid "Sorry, incorrect PIN"
-#~ msgstr "Вибачте, помилковий PIN-код"
+#: qml/Wizard/Page.qml:89
+msgid "Back"
+msgstr "Назад"
 
-#~ msgid "Enter SIM PIN"
-#~ msgstr "Введіть PIN-код SIM-картки"
+#: qml/Wizard/Pages/10-welcome.qml:27
+msgid "Hi!"
+msgstr "Привіт!"
+
+#: qml/Wizard/Pages/10-welcome.qml:44
+msgid "Welcome to your Ubuntu phone."
+msgstr "Вітаємо вас у системі телефону Ubuntu."
+
+#: qml/Wizard/Pages/10-welcome.qml:52
+msgid "Let’s get started."
+msgstr "Почнімо."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Продовжити"
+
+#: qml/Wizard/Pages/20-sim.qml:25
+msgid "Add a SIM card and restart your device"
+msgstr "Додайте SIM-картку і перезапустіть ваш пристрій"
+
+#: qml/Wizard/Pages/20-sim.qml:55
+msgid "Without it, you won’t be able to make calls or use text messaging."
+msgstr "Без неї ви не зможете дзвонити або надсилати повідомлення."
+
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+msgid "Skip"
+msgstr "Пропустити"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:39
+msgid "Lock security"
+msgstr "Захист блокування"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:74
+msgid "Please select how you’d like to unlock your phone."
+msgstr "Будь ласка, виберіть спосіб розблокування вашого телефону."
+
+#: qml/Wizard/Pages/30-passwd-type.qml:97
+msgid "Swipe"
+msgstr "Рух пальцем"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:98
+msgid "No security"
+msgstr "Без захисту"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:100
+msgid "Passcode"
+msgstr "Код-пароль"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:101
+msgid "4 digits only"
+msgstr "Лише 4 цифри"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:103
+msgid "Passphrase"
+msgstr "Пароль"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:104
+msgid "Numbers and letters"
+msgstr "Цифри і літери"
+
+#: qml/Wizard/Pages/40-wifi.qml:28
+msgid "Connect to Wi‑Fi"
+msgstr "З’єднатися із Wi‑Fi"
+
+#: qml/Wizard/Pages/40-wifi.qml:147
+msgid "Available networks…"
+msgstr "Доступні мережі…"
+
+#: qml/Wizard/Pages/40-wifi.qml:148
+msgid "No available networks."
+msgstr "Немає доступних мереж."
+
+#: qml/Wizard/Pages/50-location.qml:27
+msgid "Location"
+msgstr "Місце"
+
+#: qml/Wizard/Pages/50-location.qml:62
+msgid "Let the phone detect your location:"
+msgstr "Дозволити телефону визначати ваше розташування:"
+
+#: qml/Wizard/Pages/50-location.qml:69
+msgid "Using GPS only (less accurate)"
+msgstr "За допомогою лише GPS (найменш точно)"
+
+#: qml/Wizard/Pages/50-location.qml:86
+msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+msgstr ""
+
+#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#: qml/Wizard/Pages/50-location.qml:103
+msgid ""
+"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+"conditions</a>."
+msgstr ""
+
+#: qml/Wizard/Pages/50-location.qml:112
+msgid "Not at all"
+msgstr "Не дозволяти"
+
+#: qml/Wizard/Pages/50-location.qml:124
+msgid "You can change your mind later in <b>System Settings</b>."
+msgstr ""
+
+#: qml/Wizard/Pages/60-reporting.qml:24
+msgid "Improving your experience"
+msgstr "Спрощення вашої роботи"
+
+#: qml/Wizard/Pages/60-reporting.qml:36
+msgid ""
+"Your phone is set up to automatically report errors to Canonical and its "
+"partners, the makers of the operating system."
+msgstr ""
+"Ваш телефон налаштовано на автоматичне надсилання звітів щодо помилок до "
+"Canonical та партнерських установ, виробників операційної системи."
+
+#: qml/Wizard/Pages/60-reporting.qml:43
+msgid ""
+"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+"Privacy</b>"
+msgstr ""
+"Це можна вимкнути у <b>Системних параметрах</b>, <b>Безпека &amp; "
+"конфіденційність</b>"
+
+#: qml/Wizard/Pages/80-finished.qml:24
+msgid "All done"
+msgstr "Виконано"
+
+#: qml/Wizard/Pages/80-finished.qml:39
+msgid "Nice work!"
+msgstr "Чудова робота!"
+
+#: qml/Wizard/Pages/80-finished.qml:46
+msgid "Your phone is now ready to use."
+msgstr "Тепер вашим телефоном можна користуватися."
+
+#: qml/Wizard/Pages/80-finished.qml:53
+msgid "Finish"
+msgstr "Завершити"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Умови користування"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Підтвердіть пароль"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Підтвердіть код-пароль"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Будь ласка, спробуйте ще раз!"
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Виберіть ваш код-пароль"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Пароль має складатися принаймні з 4 символів"
+
+#: qml/Wizard/StackButton.qml:39
+#, qt-format
+msgid "〈  %1"
+msgstr "〈  %1"
+
+#: qml/Wizard/StackButton.qml:42
+#, qt-format
+msgid "%1  〉"
+msgstr "%1  〉"
+
+#~ msgid "Confirm"
+#~ msgstr "Підтвердити"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Введіть або озвучте команду"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Завантаження. Будь ласка, зачекайте…"
+
+#~ msgid "Speak Now..."
+#~ msgstr "Можна говорити…"
+
+#~ msgid "Speaking..."
+#~ msgstr "Мовлення…"
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "Favorites"
+#~ msgstr "Улюблене"
+
+#~ msgid "Done"
+#~ msgstr "Виконано"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Керування областями"

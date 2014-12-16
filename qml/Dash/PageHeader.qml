@@ -28,8 +28,10 @@ Item {
     implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
 
     property bool showBackButton: false
+    property bool backIsClose: false
     property string title
 
+    property bool storeEntryEnabled: false
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
     property bool favoriteEnabled: false
@@ -46,6 +48,7 @@ Item {
     property var scopeStyle: null
 
     signal backClicked()
+    signal storeClicked()
     signal settingsClicked()
     signal favoriteClicked()
 
@@ -141,6 +144,7 @@ Item {
         property var popover: null
 
         Background {
+            id: background
             objectName: "headerBackground"
             style: scopeStyle.headerBackground
         }
@@ -169,10 +173,13 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
+                __separator_visible: false
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
                 property string title
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
+                panelForegroundColor: config.foregroundColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
@@ -240,19 +247,28 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
-                separatorBottomSource: ""
+                __separator_visible: false
                 property var styledItem: header
                 property string title: root.title
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
+                panelForegroundColor: config.foregroundColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
-                        iconName: "back"
+                        iconName: backIsClose ? "close" : "back"
                         visible: root.showBackButton
                         onTriggered: root.backClicked()
                     }
 
                     actions: [
+                        Action {
+                            objectName: "store"
+                            text: i18n.tr("Store")
+                            iconName: "ubuntu-store-symbolic"
+                            visible: root.storeEntryEnabled
+                            onTriggered: root.storeClicked();
+                        },
                         Action {
                             objectName: "search"
                             text: i18n.tr("Search")

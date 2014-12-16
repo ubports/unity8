@@ -74,19 +74,22 @@ Row {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return
+            Button {
+                text: "Show Greeter"
+                onClicked: {
+                    if (shellLoader.status !== Loader.Ready)
+                        return
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter")
-                        if (!greeter.shown) {
-                            greeter.show()
-                        }
+                    var greeter = testCase.findChild(shellLoader.item, "greeter")
+                    if (!greeter.shown) {
+                        greeter.show()
                     }
+                }
+            }
+            Button {
+                text: "Demo edges"
+                onClicked: {
+                    AccountsService.demoEdges = true
                 }
             }
         }
@@ -149,6 +152,7 @@ Row {
 
             unlockAllModemsSpy.clear()
             AccountsService.demoEdges = false
+            LightDM.Greeter.authenticate(""); // reset greeter
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
@@ -291,8 +295,8 @@ Row {
             selectUser(data.user)
 
             AccountsService.demoEdges = data.demo
-            var edgeDemo = findChild(shell, "edgeDemo")
-            tryCompare(edgeDemo, "running", data.demo)
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "running", data.demo);
 
             swipeFromLeftEdge(shell.width * 0.75)
             wait(500) // to give time to handle dash() signal from Launcher

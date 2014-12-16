@@ -257,10 +257,10 @@ SpreadDelegate {
             if (index == 0) {
                 switch (spreadView.phase) {
                 case 0:
-                    return linearAnimation(0, spreadView.positionMarker2, 1, .3, root.animatedProgress);
+                    return linearAnimation(0, spreadView.positionMarker2, 1, .7, root.animatedProgress);
                 case 1:
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           .3, 1, root.animatedProgress);
+                                           .7, 1, root.animatedProgress);
                 }
             }
 
@@ -315,7 +315,14 @@ SpreadDelegate {
             x: priv.xTranslate
         }
     ]
-    opacity: priv.opacity
+
+    opacity: spreadView.phase == 2 ? priv.opacity : 1
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: spreadView.phase < 2 ? 1 - priv.opacity : 0
+    }
 
     EasingCurve {
         id: easingCurve

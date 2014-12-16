@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Settings.Menus 0.1 as Menus
 
 QtObject {
+    id: actionGroup
     property int busType
     property string busName
     property string objectPath
@@ -78,6 +79,17 @@ QtObject {
                         'percent': 0.0
                     }
             }
+            case "gps-detection-enabled":
+            case "location-detection-enabled":
+                return Qt.createQmlObject("
+import QtQuick 2.3
+QtObject {
+    property bool valid: true
+    property bool state: false
+    function activate() {
+        state = !state;
+    }
+}", actionGroup);
             default:
                 break;
         }

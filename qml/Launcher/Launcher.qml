@@ -23,9 +23,10 @@ import Unity.Launcher 0.1
 Item {
     id: root
 
+    property bool autohideEnabled: false
     property bool available: true // can be used to disable all interactions
+    property alias inverted: panel.inverted
     property bool shadeBackground: true // can be used to disable background shade when launcher is visible
-    property bool preventHiding: false
 
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
@@ -43,18 +44,6 @@ Item {
 
     // emitted when the dash icon in the launcher has been tapped
     signal showDashHome()
-
-    QtObject {
-        id: d
-
-        property bool preventHiding: root.preventHiding || panel.preventHiding
-
-        onPreventHidingChanged: {
-            if (dismissTimer.running) {
-                dismissTimer.restart();
-            }
-        }
-    }
 
     onStateChanged: {
         if (state == "") {
@@ -79,13 +68,22 @@ Item {
 
     function tease() {
         if (available && !dragArea.dragging) {
+            teaseTimer.mode = "teasing"
+            teaseTimer.start();
+        }
+    }
+
+    function hint() {
+        if (available && root.state == "") {
+            teaseTimer.mode = "hinting"
             teaseTimer.start();
         }
     }
 
     Timer {
         id: teaseTimer
-        interval: 200
+        interval: mode == "teasing" ? 200 : 300
+        property string mode: "teasing"
     }
 
     Timer {
@@ -93,10 +91,12 @@ Item {
         objectName: "dismissTimer"
         interval: 5000
         onTriggered: {
-            if (!d.preventHiding) {
-                root.state = ""
-            } else {
-                dismissTimer.restart()
+            if (root.autohideEnabled) {
+                if (!panel.preventHiding) {
+                    root.state = ""
+                } else {
+                    dismissTimer.restart()
+                }
             }
         }
     }
@@ -116,6 +116,16 @@ Item {
             root.state = "tmp"
             root.state = nextState
         }
+    }
+
+    Connections {
+        target: LauncherModel
+        onHint: hint();
+    }
+
+    Connections {
+        target: i18n
+        onLanguageChanged: LauncherModel.refresh()
     }
 
     SequentialAnimation {
@@ -282,10 +292,18 @@ Item {
         },
         State {
             name: "teasing"
-            when: teaseTimer.running
+            when: teaseTimer.running && teaseTimer.mode == "teasing"
             PropertyChanges {
                 target: panel
                 x: -root.panelWidth + units.gu(2)
+            }
+        },
+        State {
+            name: "hinting"
+            when: teaseTimer.running && teaseTimer.mode == "hinting"
+            PropertyChanges {
+                target: panel
+                x: 0
             }
         }
     ]

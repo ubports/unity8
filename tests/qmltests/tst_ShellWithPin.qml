@@ -160,6 +160,8 @@ Item {
             AccountsService.enableLauncherWhileLocked = true
             AccountsService.enableIndicatorsWhileLocked = true
             AccountsService.demoEdges = false
+            callManager.foregroundCall = null
+            LightDM.Greeter.authenticate(""); // reset greeter
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
@@ -212,6 +214,7 @@ Item {
             tryCompare(lockscreen, "shown", false)
             tryCompare(greeter, "hasLockedApp", true)
             tryCompare(greeter, "lockedApp", app)
+            tryCompare(LightDM.Greeter, "active", true)
             tryCompare(ApplicationManager, "focusedApplicationId", app)
         }
 
@@ -386,5 +389,88 @@ Item {
             callManager.foregroundCall = phoneCall
             confirmLockedApp("dialer-app")
         }
+
+        function test_emergencyDialerActiveCallPanel() {
+            // Make sure that the following sequence works:
+            // - Enter emergency mode call
+            // - Return to greeter
+            // - Click on active call panel
+            // - Should be back in emergency mode dialer
+
+            var greeter = findChild(shell, "greeter");
+            var lockscreen = findChild(shell, "lockscreen");
+
+            lockscreen.emergencyCall();
+            confirmLockedApp("dialer-app");
+            callManager.foregroundCall = phoneCall;
+
+            LightDM.Greeter.showGreeter();
+            tryCompare(lockscreen, "shown", true);
+            tryCompare(greeter, "hasLockedApp", false);
+
+            // simulate a callHint press, the real thing requires dialer: url support
+            ApplicationManager.requestFocusApplication("dialer-app");
+
+            confirmLockedApp("dialer-app");
+        }
+
+        function test_normalDialerActiveCallPanel() {
+            // Make sure that the following sequence works:
+            // - Log in
+            // - Start a call
+            // - Switch apps
+            // - Click on active call panel
+            // - Should be back in normal dialer
+            // (we've had a bug where we locked screen in this case)
+
+            var lockscreen = findChild(shell, "lockscreen");
+            var panel = findChild(shell, "panel");
+
+            enterPin("1234");
+            tryCompare(lockscreen, "shown", false);
+            tryCompare(LightDM.Greeter, "active", false);
+
+            ApplicationManager.startApplication("dialer-app", ApplicationManager.NoFlag);
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+            callManager.foregroundCall = phoneCall;
+
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            tryCompare(panel.callHint, "visible", true);
+
+            // simulate a callHint press, the real thing requires dialer: url support
+            ApplicationManager.requestFocusApplication("dialer-app");
+
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+            tryCompare(lockscreen, "shown", false);
+            tryCompare(LightDM.Greeter, "active", false);
+        }
+
+        function test_suspend() {
+            var greeter = findChild(shell, "greeter");
+
+            // Put it to sleep
+            Powerd.status = Powerd.Off;
+
+            // If locked, ApplicationManager.suspended should be true
+            tryCompare(ApplicationManager, "suspended", true);
+
+            // And wake up
+            Powerd.status = Powerd.On;
+            tryCompare(greeter, "showProgress", 1);
+
+            // Swipe away greeter to focus app
+            swipeAwayGreeter();
+
+            // We have a lockscreen, make sure we're still suspended
+            tryCompare(ApplicationManager, "suspended", true);
+
+            enterPin("1234")
+
+            // Now that the lockscreen has gone too, make sure we're waking up
+            tryCompare(ApplicationManager, "suspended", false);
+
+        }
+
     }
 }
