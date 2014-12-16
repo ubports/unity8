@@ -118,8 +118,8 @@ Item {
 
             WindowMoveResizeArea {
                 target: appDelegate
-                minWidth: units.gu(10)
-                minHeight: units.gu(10)
+                minWidth: appDelegate.minWidth
+                minHeight: appDelegate.minHeight
                 resizeHandleWidth: units.gu(0.5)
 
                 onPressed: ApplicationManager.requestFocusApplication(model.appId)
