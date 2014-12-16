@@ -61,12 +61,12 @@ MouseArea {
             anchors {
                 left: shape.right
                 leftMargin: units.gu(1)
-                right: starArea.right
-                rightMargin: units.gu(1)
+                right: starArea.left
                 verticalCenter: parent.verticalCenter
             }
             Label {
                 id: titleLabel
+                Layout.fillWidth: true
                 elide: Text.ElideRight
                 wrapMode: Text.Wrap
                 maximumLineCount: 1
@@ -74,6 +74,7 @@ MouseArea {
             }
             Label {
                 id: subtitleLabel
+                Layout.fillWidth: true
                 elide: Text.ElideRight
                 fontSize: "xx-small"
                 wrapMode: Text.Wrap
