@@ -220,6 +220,12 @@ Item {
             root.showDashHome();
         }
 
+        onPreventHidingChanged: {
+            if (dismissTimer.running) {
+                dismissTimer.restart();
+            }
+        }
+
         Behavior on x {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate;
             NumberAnimation {

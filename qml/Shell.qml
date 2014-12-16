@@ -63,7 +63,7 @@ Item {
 
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
     readonly property alias hasLockedApp: greeter.hasLockedApp
-    readonly property bool forcedUnlock: edgeDemo.running
+    readonly property bool forcedUnlock: tutorial.running
     onForcedUnlockChanged: if (forcedUnlock) lockscreen.hide()
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
@@ -162,7 +162,7 @@ Item {
 
     ScreenGrabber {
         id: screenGrabber
-        z: edgeDemo.z + 10
+        z: dialogs.z + 10
         enabled: Powerd.status === Powerd.On
     }
 
@@ -247,8 +247,8 @@ Item {
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call
                     // is more important than wizard so just bail out of those.
-                    if (edgeDemo.running) {
-                        edgeDemo.hideEdgeDemos();
+                    if (tutorial.running) {
+                        tutorial.finish();
                         wizard.hide();
                     }
                 }
@@ -256,9 +256,6 @@ Item {
                     lockscreen.hide() // show locked app
                 }
                 launcher.hide();
-                if (appId != "unity8-dash") {
-                    edgeDemo.finish(); // accepting a call makes the tutorial go away
-                }
             }
         }
 
@@ -298,12 +295,12 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: edgeDemo.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
+                value: tutorial.stagesEnabled && !greeter.shown && !lockscreen.shown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: edgeDemo.stagesEnabled && !greeter.hasLockedApp
+                value: tutorial.stagesEnabled && !greeter.hasLockedApp
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -667,14 +664,14 @@ Item {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    !callManager.hasCalls && !edgeDemo.running) {
+                    !callManager.hasCalls && !tutorial.running) {
                 greeter.showNow()
             }
         }
     }
 
     function showHome() {
-        if (edgeDemo.running) {
+        if (tutorial.running) {
             return
         }
 
@@ -716,8 +713,8 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: edgeDemo.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
-                contentEnabled: edgeDemo.panelContentEnabled
+                available: tutorial.panelEnabled && (!shell.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
+                contentEnabled: tutorial.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -754,9 +751,9 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            available: tutorial.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
             inverted: usageModeSettings.usageMode === "Staged"
-            shadeBackground: !edgeDemo.running
+            shadeBackground: !tutorial.running
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -769,7 +766,7 @@ Item {
                 if (greeter.hasLockedApp) {
                     greeter.startUnlock()
                 }
-                if (!edgeDemo.running)
+                if (!tutorial.running)
                     shell.activateApplication(appId)
             }
             onShownChanged: {
@@ -843,7 +840,7 @@ Item {
     }
 
     Tutorial {
-        id: edgeDemo
+        id: tutorial
         objectName: "tutorial"
         visible: AccountsService.demoEdges
         paused: Powerd.status === Powerd.Off || LightDM.Greeter.active
@@ -862,7 +859,7 @@ Item {
 
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: dialogs.z + 10
+        z: screenGrabber.z + 10
         enabled: false
         visible: false
         color: "black"
