@@ -24,7 +24,7 @@
 #include <QString>
 #include <QDBusConnection>
 
-class QDBusInterface;
+class QDBusAbstractInterface;
 class QDBusServiceWatcher;
 
 class Q_DECL_EXPORT AbstractDBusServiceMonitor : public QObject
@@ -44,7 +44,7 @@ public:
                                         QObject *parent = 0);
     ~AbstractDBusServiceMonitor();
 
-    QDBusInterface* dbusInterface() const;
+    QDBusAbstractInterface* dbusInterface() const;
 
     bool serviceAvailable() const;
 
@@ -60,7 +60,7 @@ protected:
     const QString m_path;
     const QString m_interface;
     QDBusServiceWatcher* m_watcher;
-    QDBusInterface* m_dbusInterface;
+    QDBusAbstractInterface* m_dbusInterface;
 };
 
 #endif // ABSTRACTDBUSSERVICEMONITOR_H

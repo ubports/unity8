@@ -25,6 +25,20 @@
 #include <QDBusConnectionInterface>
 #include <QDBusReply>
 
+// On construction QDBusInterface synchronously introspects the service, which will block the GUI
+// thread if the service is busy. QDBusAbstractInterface does not perform this introspection, so
+// let's subclass that and avoid the blocking scenario.
+class AsyncDBusInterface : public QDBusAbstractInterface
+{
+public:
+    AsyncDBusInterface(const QString &service, const QString &path,
+                       const QString &interface, const QDBusConnection &connection,
+                       QObject *parent = 0)
+    : QDBusAbstractInterface(service, path, interface.toLatin1().data(), connection, parent)
+    {}
+    ~AsyncDBusInterface() = default;
+};
+
 AbstractDBusServiceMonitor::AbstractDBusServiceMonitor(const QString &service, const QString &path,
                                                        const QString &interface, const Bus bus,
                                                        QObject *parent)
@@ -61,8 +75,8 @@ void AbstractDBusServiceMonitor::createInterface(const QString &)
         m_dbusInterface = nullptr;
     }
 
-    m_dbusInterface = new QDBusInterface(m_service, m_path, m_interface,
-                                         QDBusConnection::sessionBus());
+    m_dbusInterface = new AsyncDBusInterface(m_service, m_path, m_interface,
+                                             QDBusConnection::sessionBus());
     Q_EMIT serviceAvailableChanged(true);
 }
 
@@ -76,7 +90,7 @@ void AbstractDBusServiceMonitor::destroyInterface(const QString &)
     Q_EMIT serviceAvailableChanged(false);
 }
 
-QDBusInterface* AbstractDBusServiceMonitor::dbusInterface() const
+QDBusAbstractInterface* AbstractDBusServiceMonitor::dbusInterface() const
 {
     return m_dbusInterface;
 }
