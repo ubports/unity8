@@ -125,4 +125,3 @@ void ModelActionRootState::updateActionState()
         setCurrentState(QVariantMap());
     }
 }
-
