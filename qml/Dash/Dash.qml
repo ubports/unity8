@@ -36,9 +36,8 @@ Showable {
                 dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
                 // Close dash overview and nested temp scopes in it
                 if (bottomEdgeController.progress != 0) {
-                    bottomEdgeController.enableAnimation = window.active && !scopesOverview.showingNonFavoriteScope;
+                    bottomEdgeController.enableAnimation = window.active;
                     bottomEdgeController.progress = 0;
-                    scopesOverview.closeTempScope();
                 }
                 // Close normal temp scopes (e.g. App Store)
                 if (scopeItem.scope) {
