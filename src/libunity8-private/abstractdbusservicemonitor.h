@@ -22,7 +22,6 @@
 
 #include <QObject>
 #include <QString>
-#include <QScopedPointer>
 #include <QDBusConnection>
 
 class QDBusAbstractInterface;
