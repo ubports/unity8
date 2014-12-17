@@ -19,7 +19,7 @@
 #include <QDBusInterface>
 #include <QDBusPendingCall>
 
-/* The default implementation of QDBusAbstractInterface creates a QDBusInterface when the service
+/* The default implementation of AbstractDBusServiceMonitor creates a QDBusInterface when the service
  * appears on the bus.
  *
  * On construction QDBusInterface synchronously introspects the service, which will block the GUI
