@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QScopedPointer>
 #include <QDBusConnection>
 
 class QDBusAbstractInterface;
@@ -52,13 +53,17 @@ Q_SIGNALS:
     void serviceAvailableChanged(bool available);
 
 private Q_SLOTS:
-    void createInterface(const QString &service);
-    void destroyInterface(const QString &service);
+    void onServiceRegistered(const QString &service);
+    void onServiceUnregistered(const QString &service);
 
 protected:
+    virtual QDBusAbstractInterface* createInterface(const QString &service, const QString &path,
+                                                    const QString &interface, const QDBusConnection &connection);
+
     const QString m_service;
     const QString m_path;
     const QString m_interface;
+    const Bus m_bus;
     QDBusServiceWatcher* m_watcher;
     QDBusAbstractInterface* m_dbusInterface;
 };
