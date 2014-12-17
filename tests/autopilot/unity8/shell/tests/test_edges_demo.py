@@ -21,10 +21,11 @@ from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 
 from unity8.shell import (
-    emulators,
     fixture_setup,
     tests
 )
+# unused import to load the edge emulators custom proxy objects.
+from unity8.shell.emulators import edges_demo  # NOQA
 
 
 class EdgesDemoTestCase(tests.UnityTestCase):
