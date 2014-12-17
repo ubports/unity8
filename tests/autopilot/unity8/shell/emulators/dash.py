@@ -183,7 +183,10 @@ class Dash(emulators.UnityEmulatorBase):
 
 
 class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
-    pass
+
+    # Overriden because the margin to start the swipe is bigger than in the
+    # other apps. --elopio - 2014-12-11
+    margin_to_swipe_from_bottom = 50
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
@@ -218,7 +221,11 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         """
         category_element = self._get_category_element(category)
-        icon = category_element.wait_select_single('AbstractButton', title=title)
+        icon = category_element.wait_select_single(
+            'AbstractButton', title=title)
+        list_view = self.select_single(
+            ListViewWithPageHeader, objectName='categoryListView')
+        list_view.swipe_child_into_view(icon)
         self.pointing_device.click_object(icon)
 
     def _get_category_element(self, category):

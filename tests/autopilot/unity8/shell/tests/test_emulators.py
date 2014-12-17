@@ -118,6 +118,12 @@ class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
         self.assertIsInstance(preview, dash_emulators.Preview)
         self.assertTrue(preview.isCurrent)
 
+    def test_open_preview_of_non_visible_item(self):
+        """Open an item that requires swiping to make it visible."""
+        preview = self.generic_scope.open_preview('2', 'Title.2.0')
+        self.assertIsInstance(preview, dash_emulators.Preview)
+        self.assertTrue(preview.isCurrent)
+
 
 class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
 
