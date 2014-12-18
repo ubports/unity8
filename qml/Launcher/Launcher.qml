@@ -34,6 +34,9 @@ Item {
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
+    readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
+    readonly property real visibleWidth: panel.width + panel.x
+
     readonly property bool shown: panel.x > -panel.width
 
     // emitted when an application is selected
@@ -181,7 +184,7 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-        enabled: root.state == "visible"
+        enabled: root.shadeBackground && root.state == "visible"
         onPressed: {
             root.state = ""
         }

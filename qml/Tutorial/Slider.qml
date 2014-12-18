@@ -1,0 +1,117 @@
+/*
+ * Copyright (C) 2014 Canonical, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import QtQuick 2.3
+import Ubuntu.Components 1.1
+
+Item {
+    id: root
+
+    // Whether this slider is short or long
+    property bool shortSwipe
+
+    // How far the user has slid
+    property real offset
+
+    // Set to true when slider is being used
+    property bool active
+
+    // How far in percentage terms
+    readonly property real percent: d.slideOffset / target.x
+
+    QtObject {
+        id: d
+        readonly property real margin: units.gu(0.5)
+        readonly property real arrowSize: root.height - margin * 2
+        readonly property real dotSize: units.dp(1)
+        readonly property real slideOffset: Math.min(root.offset, target.x)
+    }
+
+    implicitWidth: shortSwipe ? units.gu(15) : units.gu(27.5)
+    implicitHeight: units.gu(6.5)
+
+    Rectangle {
+        color: "black"
+        opacity: 0.4
+        anchors.fill: parent
+        anchors.rightMargin: clipBox.width - 1
+    }
+
+    // We want to have a circular border around the target.  But we can't just
+    // do a radius on two of a rectangle's corners.  So we clip a full circle.
+    Item {
+        id: clipBox
+
+        clip: true
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width: parent.height / 2
+
+        Rectangle {
+            color: "black"
+            opacity: 0.4
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            width: parent.width * 2
+            radius: parent.width
+        }
+    }
+
+    Arrow {
+        id: target
+        width: d.arrowSize
+        height: d.arrowSize
+        color: "black"
+        chevronOpacity: 0.2
+        anchors.right: parent.right
+        anchors.rightMargin: d.margin
+        anchors.verticalCenter: parent.verticalCenter
+    }
+
+    Row {
+        anchors.left: handle.horizontalCenter
+        anchors.right: target.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
+        layoutDirection: Qt.RightToLeft
+        spacing: d.dotSize * 2
+
+        Repeater {
+            model: parent.width / (parent.spacing + d.dotSize)
+            Rectangle {
+                anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+                height: d.dotSize
+                width: height
+                radius: width
+                color: "white"
+                opacity: 0.2
+            }
+        }
+    }
+
+    Arrow {
+        id: handle
+        width: d.arrowSize
+        height: d.arrowSize
+        color: UbuntuColors.orange
+        darkenBy: root.active ? 0.5 : 0
+        anchors.left: parent.left
+        anchors.leftMargin: d.slideOffset
+        anchors.verticalCenter: parent.verticalCenter
+    }
+}

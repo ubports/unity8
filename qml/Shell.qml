@@ -624,9 +624,13 @@ Item {
                 LauncherModel.setUser(user);
             }
 
-            onTapped: launcher.tease()
+            onTapped: {
+                if (!tutorial.running) {
+                    launcher.tease();
+                }
+            }
             onDraggingChanged: {
-                if (dragging) {
+                if (dragging && !tutorial.running) {
                     launcher.tease();
                 }
             }

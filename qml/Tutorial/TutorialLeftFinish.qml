@@ -20,5 +20,26 @@ import Ubuntu.Components 1.1
 TutorialPage {
     id: root
 
-    text: i18n.tr("<b>Tap</b> the screen to hide it again and you’re all set!")
+    title: i18n.tr("These are the shortcuts to favorite apps")
+    text: i18n.tr("Tap here to finish.")
+
+    foreground {
+        children: [
+            Image {
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
+                    topMargin: root.textBottom + units.gu(3)
+                }
+                source: Qt.resolvedUrl("graphics/tick.png")
+                height: units.gu(6.5)
+                width: units.gu(6.5)
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.hide()
+                }
+            }
+        ]
+    }
 }

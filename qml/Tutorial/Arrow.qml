@@ -17,29 +17,40 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.1
 
-Image {
-    // Valid values are: down, up, right, left
-    property string direction
+Item {
+    id: root
 
-    readonly property real offset: units.gu(6)
+    property alias color: circle.color
+
+    // Will make whole arrow darker
+    property real darkenBy: 0
+
+    property alias chevronOpacity: chevron.opacity
 
     ////
 
-    visible: direction !== ""
-    source: Qt.resolvedUrl("graphics/arrow-down.png")
-
-    rotation: {
-        if (direction === "up") {
-            return 180;
-        } else if (direction === "left") {
-            return 90;
-        } else if (direction === "right") {
-            return -90;
-        } else {
-            return 0;
-        }
+    Rectangle {
+        id: circle
+        anchors.fill: parent
+        radius: width / 2
     }
 
-    height: units.gu(9)
-    sourceSize.height: height
+    Image {
+        id: chevron
+        anchors.centerIn: parent
+        source: Qt.resolvedUrl("graphics/chevron.png")
+        fillMode: Image.PreserveAspectFit
+        sourceSize.width: 152
+        sourceSize.height: 152
+        width: parent.width / 2
+        height: parent.height / 2
+    }
+
+    Rectangle {
+        id: darkCircle
+        anchors.fill: parent
+        radius: width / 2
+        color: "black"
+        opacity: root.darkenBy
+    }
 }

@@ -27,17 +27,8 @@ Showable {
     // This is the block of text displayed below the header
     property alias text: textLabel.text
 
-    // This is the text for the skip button
-    property string skipText: i18n.tr("Skip tutorial")
-
     // Whether animations are paused
     property bool paused
-
-    // Which page number this page represents, 1-indexed
-    property int pageNumber
-
-    // How many pages there are total
-    property int pageTotal
 
     // Whether whole page (background + foreground) or just the foreground fades in
     property bool backgroundFadesIn: false
@@ -45,11 +36,11 @@ Showable {
     // Whether whole page (background + foreground) or just the foreground fades out
     property bool backgroundFadesOut: false
 
-    // An integrated glowing Bar class, for convenience
-    property alias bar: bar
-
     // The foreground Item, add children to it that you want to fade in
     property alias foreground: foregroundExtra
+
+    // The text label bottom, so you can position elements relative to it
+    property real textBottom: textLabel.y + textLabel.height
 
     // The MouseArea that eats events (so you can adjust size as you will)
     property alias mouseArea: mouseArea
@@ -58,6 +49,9 @@ Showable {
     property real textXOffset: 0
     property real textYOffset: 0
 
+    // Foreground opacity
+    property real foregroundOpacity: 1
+
     signal finished()
 
     ////
@@ -65,17 +59,17 @@ Showable {
     shown: false
     Component.onCompleted: show()
 
-    property alias _foregroundOpacity: foreground.opacity
+    property real _foregroundHideOpacity
 
     showAnimation: StandardAnimation {
-        property: root.backgroundFadesIn ? "opacity" : "_foregroundOpacity"
+        property: root.backgroundFadesIn ? "opacity" : "_foregroundHideOpacity"
         from: 0
         to: 1
         duration: root.backgroundFadesIn ? UbuntuAnimation.SleepyDuration : UbuntuAnimation.BriskDuration
     }
 
     hideAnimation: StandardAnimation {
-        property: root.backgroundFadesOut ? "opacity" : "_foregroundOpacity"
+        property: root.backgroundFadesOut ? "opacity" : "_foregroundHideOpacity"
         to: 0
         duration: UbuntuAnimation.BriskDuration
         onRunningChanged: {
@@ -88,10 +82,9 @@ Showable {
     QtObject {
         id: d
 
-        property real sideMargin: units.gu(6)
-        property real verticalOffset: -units.gu(3)
-        property real buttonMargin: units.gu(2)
-        property real paginationOffset: units.gu(12)
+        readonly property real sideMargin: units.gu(5.5)
+        readonly property real verticalOffset: -units.gu(9)
+        readonly property real textXOffset: Math.max(0, root.textXOffset - sideMargin + units.gu(2))
 
         property real fadeInOffset: {
             if (showAnimation.running) {
@@ -99,25 +92,6 @@ Showable {
                 return (1 - opacity) * units.gu(3);
             } else {
                 return 0;
-            }
-        }
-
-        property real xLabelOffset: {
-            if (bar.direction === "right") {
-                return bar.offset - fadeInOffset + root.textXOffset;
-            } else if (bar.direction === "left") {
-                return -bar.offset + fadeInOffset + root.textXOffset;
-            } else {
-                return root.textXOffset;
-            }
-        }
-        property real yLabelOffset: {
-            if (bar.direction === "down") {
-                return bar.offset - fadeInOffset + root.textYOffset;
-            } else if (bar.direction === "up") {
-                return -bar.offset + fadeInOffset + root.textYOffset;
-            } else {
-                return root.textYOffset;
             }
         }
     }
@@ -130,93 +104,44 @@ Showable {
     Rectangle {
         anchors.fill: parent
         color: "black"
-        opacity: 0.8
+        opacity: 0.82
     }
 
     Item {
         id: foreground
         anchors.fill: parent
+        opacity: root.foregroundOpacity < 1 ? root.foregroundOpacity : root._foregroundHideOpacity
 
         Label {
             id: titleLabel
             anchors {
-                bottom: textLabel.top
-                bottomMargin: units.gu(2)
-                horizontalCenter: parent.horizontalCenter
-                horizontalCenterOffset: d.xLabelOffset - root.textXOffset / 2
+                top: parent.verticalCenter
+                topMargin: d.verticalOffset + root.textYOffset
+                left: parent.left
+                leftMargin: d.sideMargin + d.textXOffset
             }
-            width: parent.width - d.sideMargin * 2 - root.textXOffset
-            horizontalAlignment: Text.AlignHCenter
+            width: parent.width - d.sideMargin * 2
+            horizontalAlignment: Text.AlignLeft
             wrapMode: Text.Wrap
-            font.pixelSize: units.gu(4)
+            font.weight: Font.Light
+            font.pixelSize: units.gu(3.5)
             text: root.title
         }
 
         Label {
             id: textLabel
             anchors {
-                top: parent.verticalCenter
-                topMargin: d.verticalOffset + d.yLabelOffset
-                horizontalCenter: parent.horizontalCenter
-                horizontalCenterOffset: d.xLabelOffset - root.textXOffset / 2
+                top: titleLabel.bottom
+                topMargin: units.gu(2)
+                left: parent.left
+                leftMargin: d.sideMargin + d.textXOffset
             }
-            width: parent.width - d.sideMargin * 2 - root.textXOffset
-            horizontalAlignment: Text.AlignHCenter
+            width: (parent.width - d.sideMargin * 2) * 0.66
+            horizontalAlignment: Text.AlignLeft
             wrapMode: Text.Wrap
-            fontSize: "large"
+            font.weight: Font.Light
+            font.pixelSize: units.gu(2.5)
             text: root.text
-        }
-
-        Row {
-            visible: root.pageNumber > 0
-            spacing: units.gu(0.5)
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: d.paginationOffset
-                horizontalCenter: parent.horizontalCenter
-            }
-            Repeater {
-                model: root.pageTotal
-                Image {
-                    height: units.gu(1)
-                    width: height
-                    source: (index === root.pageNumber - 1) ?
-                            "../Dash/graphics/pagination_dot_on.png" :
-                            "../Dash/graphics/pagination_dot_off.png"
-                }
-            }
-        }
-
-        MouseArea {
-            visible: root.pageNumber > 0
-            enabled: visible
-            anchors {
-                bottom: parent.bottom
-                right: parent.right
-            }
-            implicitHeight: skipLabel.height + d.buttonMargin * 2
-            implicitWidth: skipLabel.width + d.buttonMargin * 2
-
-            Label {
-                id: skipLabel
-                objectName: "skipLabel"
-                anchors.centerIn: parent
-                // Translators: This is the arrow for "Skip tutorial" buttons
-                text: i18n.tr("%1  〉").arg(root.skipText)
-            }
-
-            onClicked: root.hide()
-        }
-
-        Bar {
-            id: bar
-            animating: !root.paused
-            anchors {
-                top: direction === "up" ? undefined : parent.top
-                bottom: direction === "down" ? undefined : parent.bottom
-                left: direction === "left" ? undefined : parent.left
-                right: direction === "right" ? undefined : parent.right
-            }
         }
 
         // A place for subclasses to add extra widgets

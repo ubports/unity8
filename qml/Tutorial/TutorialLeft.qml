@@ -16,27 +16,37 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
+import "." as LocalComponents
 
 TutorialPage {
     id: root
 
-    title: i18n.tr("Left edge")
-    text: i18n.tr("Swipe from the <b>left edge</b> to see your <b>favorite apps</b> in the <b>Launcher</b>.")
+    property var launcher
 
-    bar {
-        direction: "right"
+    title: i18n.tr("Open the launcher")
+    text: i18n.tr("Short swipe from the left edge.")
+
+    textXOffset: root.launcher.visibleWidth
+
+    Timer {
+        id: teaseTimer
+        interval: 2000
+        repeat: true
+        running: !root.paused
+        onTriggered: root.launcher.tease()
     }
 
     foreground {
         children: [
-            Arrow {
-                direction: "right"
+            LocalComponents.Slider {
                 anchors {
                     left: parent.left
-                    leftMargin: offset + bar.offset
                     top: parent.top
-                    topMargin: offset
+                    topMargin: root.textBottom + units.gu(3)
                 }
+                offset: root.launcher.visibleWidth + root.launcher.progress
+                active: root.launcher.dragDistance > 0
+                shortSwipe: true
             }
         ]
     }
