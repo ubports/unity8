@@ -52,7 +52,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("clickscope", "Apps", true, this));
-    addScope(new Scope("MockScope5", "Videos", true, this));
+    addScope(new Scope("MockScope5", "Videos this is long ab cd ef gh ij kl", true, this));
     addScope(new Scope("SingleCategoryScope", "Single", true, this, 1));
     addScope(new Scope("MockScope4", "MS4", true, this));
     addScope(new Scope("MockScope6", "MS6", true, this));
@@ -85,6 +85,18 @@ void Scopes::clear()
     if (m_loaded) {
         m_loaded = false;
         Q_EMIT loadedChanged();
+    }
+}
+
+void Scopes::clearFavorites()
+{
+    if (m_scopes.size() > 0) {
+        beginRemoveRows(QModelIndex(), 0, m_scopes.count()-1);
+        Q_FOREACH(Scope *scope, m_scopes) {
+            m_scopesOverview->setFavorite(scope, false);
+        }
+        m_scopes.clear();
+        endRemoveRows();
     }
 }
 

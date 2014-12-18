@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,5 +20,7 @@ import Dash 0.1
 ListViewWithPageHeader {
     maximumFlickVelocity: height * 10
     flickDeceleration: height * 2
-    cacheBuffer: Number.MAX_VALUE
+    // 1073741823 is s^30 -1. A quite big number so that you have "infinite" cache, but not so
+    // big so that if you add if with itself you're outside the 2^31 int range
+    cacheBuffer: 1073741823
 }

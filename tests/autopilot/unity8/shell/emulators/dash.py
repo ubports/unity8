@@ -90,8 +90,12 @@ class Dash(emulators.UnityEmulatorBase):
 
     def _get_scope_loader(self, scope_id):
         try:
-            return self.dash_content_list.wait_select_single(
-                'QQuickLoader', scopeId=scope_id)
+            aux = self.dash_content_list.get_children_by_type('QQuickItem')[0]
+            for l in aux.get_children_by_type('QQuickLoader'):
+                if (l.scopeId == scope_id):
+                    return l;
+            raise emulators.UnityEmulatorException(
+                'No scope found with id {0}'.format(scope_id))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No scope found with id {0}'.format(scope_id))
@@ -125,10 +129,15 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 3
-        stop_x = x + width / 3 * 2
+        # Make the drag range be a multiple of the drag "rate" value.
+        # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
+        rate = 10
+        divisions = 5
+        jump = ( width / divisions ) // rate * rate
+        start_x = x + jump
+        stop_x = x + jump * (divisions - 1)
         start_y = stop_y = y + 1
-        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
 
     @autopilot_logging.log_action(logger.info)
@@ -136,10 +145,15 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 3 * 2
-        stop_x = x + width / 3
+        # Make the drag range be a multiple of the drag "rate" value.
+        # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
+        rate = 10
+        divisions = 5
+        jump = ( width / divisions ) // rate * rate
+        start_x = x + jump * (divisions - 1)
+        stop_x = x + jump
         start_y = stop_y = y + 1
-        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
     def enter_search_query(self, query):

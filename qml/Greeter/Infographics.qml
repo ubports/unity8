@@ -406,8 +406,5 @@ Item {
                 infographic.model.nextDataSource()
             }
         }
-
-        onClicked: mouse.accepted = false
-        onPressed: mouse.accepted = false
     }
 }

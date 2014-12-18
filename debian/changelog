@@ -1,3 +1,86 @@
+unity8 (8.02+15.04.20141216.1-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Need to wait until loaded is true to use the count property
+  * Manage Dash: Ellide properly
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 16 Dec 2014 11:03:37 +0000
+
+unity8 (8.02+15.04.20141215.3-0ubuntu1) vivid; urgency=low
+
+  [ Albert Astals Cid ]
+  * ScopesList: Use the default scope style for the header
+
+  [ Daniel d'Andrada ]
+  * Refactor Dialogs.qml to use proper in-scene dialogs
+  * Make Greeter nicely handle being resized
+
+  [ Albert Astals ]
+  * Rework how we set the ranges so we get some more asynchronousity
+    from item views (LP: #1384374)
+  * clickscope is back to being unfavoritable (LP: #1400762)
+  * Fix clicking on the manage dash list after having moved the current
+    scope
+  * Make the drag range be a multiple of the drag "rate" value.
+    Workarounds https://bugs.launchpad.net/mir/+bug/1399690
+
+  [ Gerry Boland ]
+  * MockAppMan: emit SIGSTOP so AP test apps are run (LP: #1394208)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 15 Dec 2014 22:43:16 +0000
+
+unity8 (8.02+15.04.20141212.1-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Make Navigation work when "jumping" to the non root
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 12 Dec 2014 12:28:10 +0000
+
+unity8 (8.02+15.04.20141211.2-0ubuntu1) vivid; urgency=medium
+
+  [ Michał Sawicz ]
+  * Bump version due to new Manage Dash
+
+  [ Gerry Boland ]
+  * [indicators] Fix positioning on panel resize.
+
+  [ Nick Dedekind ]
+  * [indicators] Fix positioning on panel resize.
+
+  [ Albert Astals ]
+  * Fix the Dash Header hamburger menu background color
+  * Fix tests (LP: #1400449)
+  * Allow pulling manage dash if there's no favorite scopes (LP:
+    #1400774)
+  * Manage Dash: Make store button work even if you have no favorites
+    (LP: #1400771)
+  * Make pot_file
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Andrea Cimitan ]
+  * Remove dismiss timer in Launcher (LP: #1368778)
+
+  [ Michael Zanetti ]
+  * decrease opacity changes in spread, move it to a separate surface.
+  * Add an initial, rudimentary DesktopStage to get started
+  * Uninvert Launcher in Desktop Mode
+  * Add support for Wallpaper in Desktop stage
+  * Add window control buttons to panel for fullscreen applications
+
+  [ Rodney Dawes ]
+  * Add dependency on gir1.2-notify-0.7 to unity8-autopilot package.
+    (LP: #1400437)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 11 Dec 2014 13:25:44 +0000
+
 unity8 (8.01+15.04.20141205-0ubuntu1) vivid; urgency=low
 
   [ CI Train Bot ]
