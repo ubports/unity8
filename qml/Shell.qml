@@ -162,9 +162,11 @@ Item {
     PhysicalKeysMapper {
         id: physicalKeysMapper
 
+        onPowerKeyLongPress: dialogs.showPowerDialog()
         onVolumeDownPressed: volumeControl.volumeDown()
         onVolumeUpPressed: volumeControl.volumeUp()
         onScreenshotPressed: screenGrabber.capture()
+
     }
 
     ScreenGrabber {
@@ -833,11 +835,6 @@ Item {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
-        }
-
-        Connections {
-            target: physicalKeysMapper
-            onPowerKeyLongPress: dialogs.showPowerDialog();
         }
     }
 
