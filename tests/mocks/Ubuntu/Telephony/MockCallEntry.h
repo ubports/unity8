@@ -28,7 +28,10 @@ class MockCallEntry : public QObject
 
     Q_PROPERTY(QString phoneNumber READ phoneNumber WRITE setPhoneNumber NOTIFY phoneNumberChanged)
     Q_PROPERTY(bool isConference READ isConference WRITE setIsConference NOTIFY isConferenceChanged)
-    Q_PROPERTY(int elapsedTime READ elapsedTime NOTIFY elapsedTimeChanged)
+    Q_PROPERTY(int elapsedTime READ elapsedTime WRITE setElapsedTime NOTIFY elapsedTimeChanged)
+
+    // For mock use only
+    Q_PROPERTY(bool elapsedTimerRunning READ elapsedTimerRunning WRITE setSlapsedTimerRunning NOTIFY elapsedTimerRunningChanged)
 
 public:
     MockCallEntry(QObject *parent = 0);
@@ -36,14 +39,18 @@ public:
     QString phoneNumber() const;
     bool isConference() const;
     int elapsedTime() const;
+    bool elapsedTimerRunning() const;
 
     void setPhoneNumber(const QString& phoneNumber);
     void setIsConference(bool isConference);
+    void setElapsedTime(int elapsedTime);
+    void setSlapsedTimerRunning(bool elapsedTimerRunning);
 
 Q_SIGNALS:
     void phoneNumberChanged();
     void isConferenceChanged();
     void elapsedTimeChanged();
+    void elapsedTimerRunningChanged();
 
 protected:
     void timerEvent(QTimerEvent * event);
@@ -52,6 +59,7 @@ private:
     QString m_phoneNumber;
     bool m_conference;
     int m_elapsed;
+    int m_timer;
 };
 
 #endif // MOCKCALLENTRY_H

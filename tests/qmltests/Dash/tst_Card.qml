@@ -29,9 +29,9 @@ Rectangle {
 
     property string cardData: '
     {
-      "art": "../../../tests/qmltests/Dash/artwork/music-player-design.png",
-      "mascot": "../../../tests/qmltests/Dash/artwork/avatar.png",
-      "emblem": "../../../tests/qmltests/Dash/artwork/emblem.png",
+      "art": "'+Qt.resolvedUrl("artwork/music-player-design.png").toString()+'",
+      "mascot": "'+Qt.resolvedUrl("artwork/avatar.png").toString()+'",
+      "emblem": "'+Qt.resolvedUrl("artwork/emblem.png").toString()+'",
       "title": "foo",
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -185,6 +185,19 @@ Rectangle {
                 height: units.gu(4)
                 color: "orange"
             }
+
+            Rectangle {
+                color: "red"
+                anchors { left: parent.left; right: parent.right }
+                height: units.gu(4)
+                Label {
+                    text: "Toggle Visible"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: loader.visible = !loader.visible
+                }
+            }
         }
     }
 
@@ -204,6 +217,10 @@ Rectangle {
         property Item backgroundLoader: findChild(card, "backgroundLoader")
         property Item backgroundImage: findChild(card, "backgroundImage")
         property Item mascotImage: findChild(card, "mascotImage");
+
+        function init() {
+            loader.visible = true;
+        }
 
         function cleanup() {
             selector.selectedIndex = -1;

@@ -19,10 +19,21 @@ import QtQuick 2.0
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Ubuntu.Components 1.1
-import Ubuntu.Components.Popups 0.1
 
 Item {
     id: root
+
+    // to be set from outside, useful mostly for testing purposes
+    property var unitySessionService: DBusUnitySessionService
+    property var closeAllApps: function() {
+        while (true) {
+            var app = ApplicationManager.get(0);
+            if (app === null) {
+                break;
+            }
+            ApplicationManager.stopApplication(app.appId);
+        }
+    }
 
     function onPowerKeyPressed() {
         // FIXME: event.isAutoRepeat is always false on Nexus 4.
@@ -41,15 +52,20 @@ Item {
 
     QtObject {
         id: d // private stuff
+        objectName: "dialogsPrivate"
 
-        property bool dialogShown: false
 
         function showPowerDialog() {
-            if (!d.dialogShown) {
-                d.dialogShown = true;
-                PopupUtils.open(powerDialog, root, {"z": root.z});
+            if (!dialogLoader.active) {
+                dialogLoader.sourceComponent = powerDialogComponent;
+                dialogLoader.active = true;
             }
         }
+    }
+    Loader {
+        id: dialogLoader
+        anchors.fill: parent
+        active: false
     }
 
     Timer {
@@ -64,148 +80,136 @@ Item {
     }
 
     Component {
-        id: logoutDialog
-        Dialog {
-            id: dialogueLogout
+        id: logoutDialogComponent
+        ShellDialog {
+            id: logoutDialog
             title: i18n.tr("Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
                 text: i18n.tr("No")
                 onClicked: {
-                    PopupUtils.close(dialogueLogout);
-                    d.dialogShown = false;
+                    logoutDialog.hide();
                 }
             }
             Button {
                 text: i18n.tr("Yes")
                 onClicked: {
-                    DBusUnitySessionService.Logout();
-                    PopupUtils.close(dialogueLogout);
-                    d.dialogShown = false;
+                    unitySessionService.logout();
+                    logoutDialog.hide();
                 }
             }
         }
     }
 
     Component {
-        id: shutdownDialog
-        Dialog {
-            id: dialogueShutdown
+        id: shutdownDialogComponent
+        ShellDialog {
+            id: shutdownDialog
             title: i18n.tr("Shut down")
             text: i18n.tr("Are you sure you want to shut down?")
             Button {
                 text: i18n.tr("No")
                 onClicked: {
-                    PopupUtils.close(dialogueShutdown);
-                    d.dialogShown = false;
+                    shutdownDialog.hide();
                 }
             }
             Button {
                 text: i18n.tr("Yes")
                 onClicked: {
-                    dBusUnitySessionServiceConnection.closeAllApps();
-                    DBusUnitySessionService.Shutdown();
-                    PopupUtils.close(dialogueShutdown);
-                    d.dialogShown = false;
+                    root.closeAllApps();
+                    unitySessionService.shutdown();
+                    shutdownDialog.hide();
                 }
             }
         }
     }
 
     Component {
-        id: rebootDialog
-        Dialog {
-            id: dialogueReboot
+        id: rebootDialogComponent
+        ShellDialog {
+            id: rebootDialog
             title: i18n.tr("Reboot")
             text: i18n.tr("Are you sure you want to reboot?")
             Button {
                 text: i18n.tr("No")
                 onClicked: {
-                    PopupUtils.close(dialogueReboot)
-                    d.dialogShown = false;
+                    rebootDialog.hide();
                 }
             }
             Button {
                 text: i18n.tr("Yes")
                 onClicked: {
-                    dBusUnitySessionServiceConnection.closeAllApps();
-                    DBusUnitySessionService.Reboot();
-                    PopupUtils.close(dialogueReboot);
-                    d.dialogShown = false;
+                    root.closeAllApps();
+                    unitySessionService.reboot();
+                    rebootDialog.hide();
                 }
             }
         }
     }
 
     Component {
-        id: powerDialog
-        Dialog {
-            id: dialoguePower
+        id: powerDialogComponent
+        ShellDialog {
+            id: powerDialog
             title: i18n.tr("Power")
             text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
                 text: i18n.tr("Power off")
                 onClicked: {
-                    dBusUnitySessionServiceConnection.closeAllApps();
-                    PopupUtils.close(dialoguePower);
-                    d.dialogShown = false;
+                    root.closeAllApps();
+                    powerDialog.hide();
                     root.powerOffClicked();
                 }
                 color: UbuntuColors.red
             }
             Button {
+                text: i18n.tr("Restart")
+                onClicked: {
+                    root.closeAllApps();
+                    unitySessionService.reboot();
+                    powerDialog.hide();
+                }
+                color: UbuntuColors.green
+            }
+            Button {
                 text: i18n.tr("Cancel")
                 onClicked: {
-                    PopupUtils.close(dialoguePower);
-                    d.dialogShown = false;
+                    powerDialog.hide();
                 }
                 color: UbuntuColors.coolGrey
             }
         }
     }
 
-
     Connections {
-        id: dBusUnitySessionServiceConnection
-        objectName: "dBusUnitySessionServiceConnection"
-        target: DBusUnitySessionService
-
-        function closeAllApps() {
-            while (true) {
-                var app = ApplicationManager.get(0);
-                if (app === null) {
-                    break;
-                }
-                ApplicationManager.stopApplication(app.appId);
-            }
-        }
+        target: root.unitySessionService
 
         onLogoutRequested: {
             // Display a dialog to ask the user to confirm.
-            if (!d.dialogShown) {
-                d.dialogShown = true;
-                PopupUtils.open(logoutDialog, root, {"z": root.z});
+            if (!dialogLoader.active) {
+                dialogLoader.sourceComponent = logoutDialogComponent;
+                dialogLoader.active = true;
             }
         }
 
         onShutdownRequested: {
             // Display a dialog to ask the user to confirm.
-            if (!d.dialogShown) {
-                d.dialogShown = true;
-                PopupUtils.open(shutdownDialog, root, {"z": root.z});
+            if (!dialogLoader.active) {
+                dialogLoader.sourceComponent = shutdownDialogComponent;
+                dialogLoader.active = true;
             }
         }
 
         onRebootRequested: {
             // Display a dialog to ask the user to confirm.
-            if (!d.dialogShown) {
-                d.dialogShown = true;
-                PopupUtils.open(rebootDialog, root, {"z": root.z});
+            if (!dialogLoader.active) {
+                dialogLoader.sourceComponent = rebootDialogComponent;
+                dialogLoader.active = true;
             }
         }
 
         onLogoutReady: {
-            closeAllApps();
+            root.closeAllApps();
             Qt.quit();
         }
     }

@@ -29,6 +29,7 @@ Item {
     Greeter {
         id: greeter
         anchors.fill: parent
+        locked: !LightDM.Greeter.authenticated
     }
 
     Component {
@@ -55,9 +56,9 @@ Item {
     }
 
     SignalSpy {
-        id: teaseSpy
+        id: tappedSpy
         target: greeter
-        signalName: "tease"
+        signalName: "tapped"
     }
 
     UT.UnityTestCase {
@@ -115,8 +116,7 @@ Item {
             var waitForSignal = data.uid != 0 && userList.currentIndex != data.uid
             select_index(data.uid)
             tryCompare(userList, "currentIndex", data.uid)
-            tryCompare(greeter, "locked", data.tag !== "no-password" &&
-                                          data.tag !== "auth-error")
+            tryCompare(greeter, "locked", data.tag !== "no-password")
             if (waitForSignal) {
                 selectionSpy.wait()
                 tryCompare(selectionSpy, "count", 1)
@@ -323,18 +323,18 @@ Item {
             compare(greeter.model.data(index, LightDM.UserRoles.BackgroundPathRole), "")
         }
 
-        function test_teasingArea_data() {
+        function test_tappedSignal_data() {
             return [
-                {tag: "left", posX: units.gu(2), leftPressed: true, rightPressed: false},
-                {tag: "right", posX: greeter.width - units.gu(2), leftPressed: false, rightPressed: true}
+                {tag: "left", posX: units.gu(2)},
+                {tag: "right", posX: greeter.width - units.gu(2)}
             ]
         }
 
-        function test_teasingArea(data) {
-            teaseSpy.clear()
-            mouseClick(greeter, data.posX, greeter.height - units.gu(1))
-            teaseSpy.wait()
-            tryCompare(teaseSpy, "count", 1)
+        function test_tappedSignal(data) {
+            select_user("no-password");
+            tappedSpy.clear();
+            tap(greeter, data.posX, greeter.height - units.gu(1))
+            tryCompare(tappedSpy, "count", 1)
         }
 
         function test_teaseLockedUnlocked_data() {
@@ -345,18 +345,18 @@ Item {
         }
 
         function test_teaseLockedUnlocked(data) {
-            teaseSpy.clear()
+            tappedSpy.clear()
             greeter.locked = data.locked;
 
-            mouseClick(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
+            tap(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
 
             if (!data.locked || data.narrow) {
-                teaseSpy.wait()
-                tryCompare(teaseSpy, "count", 1);
+                tappedSpy.wait()
+                tryCompare(tappedSpy, "count", 1);
             } else {
                 // waiting 100ms to make sure nothing happens
                 wait(100);
-                compare(teaseSpy.count, 0, "Greeter teasing not disabled even though it's locked.");
+                compare(tappedSpy.count, 0, "Greeter teasing not disabled even though it's locked.");
             }
 
             // Reset value

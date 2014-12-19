@@ -28,6 +28,7 @@
 // local
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
+#include "relativetimeformatter.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
 #include "windowkeysfilter.h"
@@ -44,6 +45,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<WindowKeysFilter>(uri, 0, 1, "WindowKeysFilter");
     qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
+    qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

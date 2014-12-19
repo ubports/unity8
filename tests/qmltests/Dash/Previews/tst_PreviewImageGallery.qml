@@ -21,7 +21,7 @@ import Unity.Test 0.1 as UT
 
 Rectangle {
     id: root
-    width: units.gu(60)
+    width: units.gu(80)
     height: units.gu(80)
     color: "lightgrey"
 
@@ -44,13 +44,64 @@ Rectangle {
     }
 
     UT.UnityTestCase {
+        id: testCase
         name: "PreviewImageGalleryTest"
         when: windowShown
+
+        property Item overlay: findChild(imageGallery.rootItem, "overlay")
+        property Item overlayCloseButton: findChild(overlay, "overlayCloseButton")
+        property Item overlayListView: findChild(overlay, "overlayListView")
+
+        function cleanup() {
+            overlay.hide();
+            tryCompare(overlay, "visible", false);
+            imageGallery.widgetData = sourcesModel1;
+            waitForRendering(imageGallery);
+        }
 
         function test_changeEmptyModel() {
             imageGallery.widgetData = sourcesModel0;
             var placeholderScreenshot = findChild(imageGallery, "placeholderScreenshot");
             compare(placeholderScreenshot.visible, true);
+        }
+
+        function test_overlayOpenClose() {
+            var image0 = findChild(imageGallery, "previewImage0");
+            mouseClick(image0, image0.width / 2, image0.height / 2);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayCloseButton, "visible", true);
+            mouseClick(overlayCloseButton, overlayCloseButton.width / 2, overlayCloseButton.height / 2);
+            tryCompare(overlay, "visible", false);
+        }
+
+        function test_overlayShowHideHeader() {
+            var image0 = findChild(imageGallery, "previewImage0");
+            mouseClick(image0, image0.width / 2, image0.height / 2);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayCloseButton, "visible", true);
+            mouseClick(overlay, overlay.width / 2, overlay.height / 2);
+            tryCompare(overlayCloseButton, "visible", false);
+            mouseClick(overlay, overlay.width / 2, overlay.height / 2);
+            tryCompare(overlayCloseButton, "visible", true);
+        }
+
+        function test_overlayOpenCorrectImage_data() {
+            return [
+                { tag: "Image 0", index: 0 },
+                { tag: "Image 1", index: 1 },
+                { tag: "Image 2", index: 2 },
+            ];
+        }
+
+        function test_overlayOpenCorrectImage(data) {
+            var image = findChild(imageGallery, "previewImage" + data.index);
+            mouseClick(image, image.width / 2, image.height / 2);
+            tryCompare(overlay, "visible", true);
+            tryCompare(overlay, "scale", 1.0);
+            tryCompare(overlayListView, "currentIndex", data.index);
+            verify(image.source === overlayListView.currentItem.source);
         }
     }
 }

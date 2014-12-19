@@ -32,6 +32,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_recent(false),
     m_progress(-1),
     m_count(0),
+    m_countVisible(false),
     m_focused(false),
     m_quickList(new QuickListModel(this))
 {
@@ -55,9 +56,29 @@ QString LauncherItem::name() const
     return m_name;
 }
 
+void LauncherItem::setName(const QString &name)
+{
+    if (m_name != name) {
+        m_name = name;
+        QuickListEntry entry;
+        entry.setActionId("launch_item");
+        entry.setText(m_name);
+        m_quickList->updateAction(entry);
+        Q_EMIT nameChanged(name);
+    }
+}
+
 QString LauncherItem::icon() const
 {
     return m_icon;
+}
+
+void LauncherItem::setIcon(const QString &icon)
+{
+    if (m_icon != icon) {
+        m_icon = icon;
+        Q_EMIT iconChanged(icon);
+    }
 }
 
 bool LauncherItem::pinned() const
@@ -69,12 +90,15 @@ void LauncherItem::setPinned(bool pinned)
 {
     if (m_pinned != pinned) {
         m_pinned = pinned;
-        QuickListEntry entry;
-        entry.setActionId("pin_item");
-        entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
-        m_quickList->updateAction(entry);
         Q_EMIT pinnedChanged(pinned);
     }
+
+    // Even if pinned status didn't change, we want to update text in case
+    // the locale has changed since we last set pinned status.
+    QuickListEntry entry;
+    entry.setActionId("pin_item");
+    entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
+    m_quickList->updateAction(entry);
 }
 
 bool LauncherItem::running() const
@@ -126,6 +150,19 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
+    }
+}
+
+bool LauncherItem::countVisible() const
+{
+    return m_countVisible;
+}
+
+void LauncherItem::setCountVisible(bool countVisible)
+{
+    if (m_countVisible != countVisible) {
+        m_countVisible = countVisible;
+        Q_EMIT countVisibleChanged(countVisible);
     }
 }
 

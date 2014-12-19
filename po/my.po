@@ -7,28 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 18:24+0200\n"
+"POT-Creation-Date: 2014-12-10 10:55+0100\n"
 "PO-Revision-Date: 2013-12-12 11:12+0000\n"
 "Last-Translator: Pyae Sone <Unknown>\n"
 "Language-Team: Burmese <my@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:29+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2014-12-13 07:11+0000\n"
+"X-Generator: Launchpad (build 17286)\n"
 
-#: plugins/LightDM/Greeter.cpp:129
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:43
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:45
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:73
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:47
+msgid "Device Locked"
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:62
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:63
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Components/DelayedLockscreen.qml:72
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:70
 msgid "Log out"
@@ -74,11 +94,15 @@ msgid ""
 "to power off?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:157
+msgid "Restart"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr ""
 
@@ -86,102 +110,94 @@ msgstr ""
 msgid "Skip intro"
 msgstr "မိတ်ဆက်ကိုကျော်မည်"
 
-#: qml/Components/EdgeDemo.qml:112
+#: qml/Components/EdgeDemo.qml:125
 msgid "Right edge"
 msgstr "ညာဖက် အစွန်း"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:126
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
 
-#: qml/Components/EdgeDemo.qml:144
+#: qml/Components/EdgeDemo.qml:157
 msgid "Top edge"
 msgstr "ထိပ် အစွန်း"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:158
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 
-#: qml/Components/EdgeDemo.qml:170
+#: qml/Components/EdgeDemo.qml:183
 msgid "Close"
 msgstr "ပိတ်"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:184
 msgid "Swipe up again to close the settings screen"
 msgstr ""
 
-#: qml/Components/EdgeDemo.qml:198
+#: qml/Components/EdgeDemo.qml:214
 msgid "Left edge"
 msgstr "ဘယ်​ဖက် အစွန်း"
 
-#: qml/Components/EdgeDemo.qml:199
+#: qml/Components/EdgeDemo.qml:215
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 
-#: qml/Components/EdgeDemo.qml:226
+#: qml/Components/EdgeDemo.qml:242
 msgid "Well done"
 msgstr "ကောင်းအောင်ပြုလုပ်ခဲ့သည်"
 
-#: qml/Components/EdgeDemo.qml:227
+#: qml/Components/EdgeDemo.qml:243
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:167
-msgid "Please wait"
+#: qml/Components/Lockscreen.qml:238
+msgid "Return to Call"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:172
-msgid "Too many incorrect attempts"
-msgstr ""
-
-#: qml/Components/Lockscreen.qml:206
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr "အရေးပေါ်ခေါ်မည်"
 
-#: qml/Components/Lockscreen.qml:226
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr ""
 
-#: qml/Components/PassphraseLockscreen.qml:61
-#, qt-format
-msgid "Hello %1"
-msgstr "ဟဲလို %1"
-
-#: qml/Components/PassphraseLockscreen.qml:61
-msgid "Hello"
-msgstr "ဟဲလို"
-
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:361
+#: qml/Dash/GenericScopeView.qml:431
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:424 qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
+#: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ရှာဖွေ"
 
-#: qml/Dash/PageHeader.qml:270
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:279
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:34
+#: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
 msgstr ""
 
@@ -197,91 +213,67 @@ msgstr ""
 msgid "Send"
 msgstr "ပို့မည်"
 
-#: qml/Dash/ScopesOverview.qml:201
-msgid "Manage Dash"
+#: qml/Dash/PullToRefreshScopeStyle.qml:55
+msgid "Pull to refresh…"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:408
-msgid "Done"
+#: qml/Dash/PullToRefreshScopeStyle.qml:60
+msgid "Release to refresh…"
 msgstr ""
 
-#: qml/Dash/ScopesOverview.qml:434
-msgid "Store"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
 msgstr ""
 
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
+#: qml/Dash/ScopesList.qml:107
+msgid "Home"
 msgstr ""
 
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
+#: qml/Dash/ScopesList.qml:108
+msgid "Also installed"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:157
-msgid "Swipe to unlock"
+#: qml/Greeter/Greeter.qml:174
+msgid "Unlock"
 msgstr ""
 
-#: qml/Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "အတည်ပြုပါ"
-
-#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Command တစ်ခု ပြောပါ သို့မဟုတ် ရိုက်ထည့်ပါ"
-
-#: qml/Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "ဖွင့်နေသည်။ ခဏစောင့်ပါ"
-
-#: qml/Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "ယခုပြောပါ"
-
-#: qml/Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "ပြောနေသည်"
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:105
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "စကားဝှက်ကိုပြ"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:120
-msgid "Enter SIM PIN"
-msgstr ""
-
-#: qml/Notifications/NotificationMenuItemFactory.qml:121 qml/Shell.qml:270
-msgid "Sorry, incorrect PIN"
-msgstr ""
-
-#: qml/Panel/ActiveCallHint.qml:77
+#: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
 msgstr ""
 
-#: qml/Panel/ActiveCallHint.qml:90
+#: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:651
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
+msgid "Nothing is playing"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:655
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:657
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:659
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:661
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:663
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr ""
 
@@ -293,52 +285,248 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Shell.qml:266
-msgid "Enter your passphrase"
-msgstr ""
-
-#: qml/Shell.qml:267
-msgid "Sorry, incorrect passphrase"
-msgstr ""
-
-#: qml/Shell.qml:282
-msgid "Enter your passcode"
-msgstr ""
-
-#: qml/Shell.qml:283
-msgid "Sorry, incorrect passcode"
-msgstr ""
-
-#: qml/Shell.qml:273
+#: qml/Shell.qml:367
 #, qt-format
-msgid "Enter your %1"
+msgid "Enter %1"
 msgstr ""
 
-#: qml/Shell.qml:274
+#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr ""
+
+#: qml/Shell.qml:369
+msgid "Enter passcode"
+msgstr ""
+
+#: qml/Shell.qml:370
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr ""
 
-#: qml/Shell.qml:310
+#: qml/Shell.qml:371
+msgid "Sorry, incorrect passphrase"
+msgstr ""
+
+#: qml/Shell.qml:372
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Shell.qml:373
+msgid "Sorry, incorrect passcode"
+msgstr ""
+
+#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr ""
 
-#: qml/Shell.qml:311
+#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr ""
 
-#: qml/Shell.qml:312
+#: qml/Shell.qml:469
 msgid "This will be your last attempt."
 msgstr ""
 
-#: qml/Shell.qml:314
+#: qml/Shell.qml:471
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:315
+#: qml/Shell.qml:472
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+
+#: qml/Wizard/Page.qml:89
+msgid "Back"
+msgstr ""
+
+#: qml/Wizard/Pages/10-welcome.qml:27
+msgid "Hi!"
+msgstr ""
+
+#: qml/Wizard/Pages/10-welcome.qml:44
+msgid "Welcome to your Ubuntu phone."
+msgstr ""
+
+#: qml/Wizard/Pages/10-welcome.qml:52
+msgid "Let’s get started."
+msgstr ""
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr ""
+
+#: qml/Wizard/Pages/20-sim.qml:25
+msgid "Add a SIM card and restart your device"
+msgstr ""
+
+#: qml/Wizard/Pages/20-sim.qml:55
+msgid "Without it, you won’t be able to make calls or use text messaging."
+msgstr ""
+
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+msgid "Skip"
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:39
+msgid "Lock security"
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:74
+msgid "Please select how you’d like to unlock your phone."
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:97
+msgid "Swipe"
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:98
+msgid "No security"
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:100
+msgid "Passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:101
+msgid "4 digits only"
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:103
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Wizard/Pages/30-passwd-type.qml:104
+msgid "Numbers and letters"
+msgstr ""
+
+#: qml/Wizard/Pages/40-wifi.qml:28
+msgid "Connect to Wi‑Fi"
+msgstr ""
+
+#: qml/Wizard/Pages/40-wifi.qml:147
+msgid "Available networks…"
+msgstr ""
+
+#: qml/Wizard/Pages/40-wifi.qml:148
+msgid "No available networks."
+msgstr ""
+
+#: qml/Wizard/Pages/50-location.qml:27
+msgid "Location"
+msgstr ""
+
+#: qml/Wizard/Pages/50-location.qml:62
+msgid "Let the phone detect your location:"
+msgstr ""
+
+#: qml/Wizard/Pages/50-location.qml:69
+msgid "Using GPS only (less accurate)"
+msgstr ""
+
+#: qml/Wizard/Pages/50-location.qml:86
+msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+msgstr ""
+
+#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#: qml/Wizard/Pages/50-location.qml:103
+msgid ""
+"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+"conditions</a>."
+msgstr ""
+
+#: qml/Wizard/Pages/50-location.qml:112
+msgid "Not at all"
+msgstr ""
+
+#: qml/Wizard/Pages/50-location.qml:124
+msgid "You can change your mind later in <b>System Settings</b>."
+msgstr ""
+
+#: qml/Wizard/Pages/60-reporting.qml:24
+msgid "Improving your experience"
+msgstr ""
+
+#: qml/Wizard/Pages/60-reporting.qml:36
+msgid ""
+"Your phone is set up to automatically report errors to Canonical and its "
+"partners, the makers of the operating system."
+msgstr ""
+
+#: qml/Wizard/Pages/60-reporting.qml:43
+msgid ""
+"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+"Privacy</b>"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:24
+msgid "All done"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:39
+msgid "Nice work!"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:46
+msgid "Your phone is now ready to use."
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:53
+msgid "Finish"
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr ""
+
+#: qml/Wizard/StackButton.qml:39
+#, qt-format
+msgid "〈  %1"
+msgstr ""
+
+#: qml/Wizard/StackButton.qml:42
+#, qt-format
+msgid "%1  〉"
+msgstr ""
+
+#~ msgid "Confirm"
+#~ msgstr "အတည်ပြုပါ"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Command တစ်ခု ပြောပါ သို့မဟုတ် ရိုက်ထည့်ပါ"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "ဖွင့်နေသည်။ ခဏစောင့်ပါ"
+
+#~ msgid "Speak Now..."
+#~ msgstr "ယခုပြောပါ"
+
+#~ msgid "Speaking..."
+#~ msgstr "ပြောနေသည်"

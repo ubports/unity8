@@ -19,8 +19,8 @@ import Ubuntu.Components 1.0
 import Ubuntu.Thumbnailer 0.1 // Register support for image://thumbnailer/ and image://albumart/
 
 MainView {
-    width: units.gu(40)
-    height: units.gu(71)
+    width: applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
+    height: applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(68)
 
     useDeprecatedToolbar: false
 

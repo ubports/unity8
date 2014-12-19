@@ -17,7 +17,7 @@
 #ifndef DBUSUNITYSESSIONSERVICE_H
 #define DBUSUNITYSESSIONSERVICE_H
 
-#include <QObject>
+#include "unitydbusobject.h"
 
 /**
  * DBusUnitySessionService provides com.canonical.Unity.Session dbus
@@ -26,7 +26,7 @@
  * com.canonical.Unity.Session interface provides public methods
  * and signals to handle Logout/Reboot/Shutdown.
  */
-class DBusUnitySessionService : public QObject
+class DBusUnitySessionService : public UnityDBusObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity.Session")
@@ -34,6 +34,11 @@ class DBusUnitySessionService : public QObject
 public:
     DBusUnitySessionService();
     ~DBusUnitySessionService();
+
+    // For use in QML. Javascript doesn't accept functions beginning with capital letters
+    Q_INVOKABLE void logout() { Logout(); }
+    Q_INVOKABLE void reboot() { Reboot(); }
+    Q_INVOKABLE void shutdown() { Shutdown(); }
 
 Q_SIGNALS:
     /**

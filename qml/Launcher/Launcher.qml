@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,9 @@ import Unity.Launcher 0.1
 Item {
     id: root
 
+    property bool autohideEnabled: false
     property bool available: true // can be used to disable all interactions
+    property alias inverted: panel.inverted
 
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
@@ -64,24 +66,36 @@ Item {
     }
 
     function tease() {
-        if (available) {
+        if (available && !dragArea.dragging) {
+            teaseTimer.mode = "teasing"
+            teaseTimer.start();
+        }
+    }
+
+    function hint() {
+        if (available && root.state == "") {
+            teaseTimer.mode = "hinting"
             teaseTimer.start();
         }
     }
 
     Timer {
         id: teaseTimer
-        interval: 200
+        interval: mode == "teasing" ? 200 : 300
+        property string mode: "teasing"
     }
 
     Timer {
         id: dismissTimer
+        objectName: "dismissTimer"
         interval: 5000
         onTriggered: {
-            if (!panel.preventHiding) {
-                root.state = ""
-            } else {
-                dismissTimer.restart()
+            if (root.autohideEnabled) {
+                if (!panel.preventHiding) {
+                    root.state = ""
+                } else {
+                    dismissTimer.restart()
+                }
             }
         }
     }
@@ -92,6 +106,7 @@ Item {
     // machine and switch to the final state in the next event loop run
     Timer {
         id: animateTimer
+        objectName: "animateTimer"
         interval: 1
         property string nextState: ""
         onTriggered: {
@@ -100,6 +115,16 @@ Item {
             root.state = "tmp"
             root.state = nextState
         }
+    }
+
+    Connections {
+        target: LauncherModel
+        onHint: hint();
+    }
+
+    Connections {
+        target: i18n
+        onLanguageChanged: LauncherModel.refresh()
     }
 
     SequentialAnimation {
@@ -217,6 +242,7 @@ Item {
 
     EdgeDragArea {
         id: dragArea
+        objectName: "launcherDragArea"
 
         direction: Direction.Rightwards
 
@@ -243,10 +269,9 @@ Item {
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
+                    root.switchToNextState("visible")
                     if (distance > minimizeDistance) {
                         root.dash();
-                    } else {
-                        root.switchToNextState("visible")
                     }
                 } else {
                     root.switchToNextState("")
@@ -272,10 +297,18 @@ Item {
         },
         State {
             name: "teasing"
-            when: teaseTimer.running
+            when: teaseTimer.running && teaseTimer.mode == "teasing"
             PropertyChanges {
                 target: panel
                 x: -root.panelWidth + units.gu(2)
+            }
+        },
+        State {
+            name: "hinting"
+            when: teaseTimer.running && teaseTimer.mode == "hinting"
+            PropertyChanges {
+                target: panel
+                x: 0
             }
         }
     ]

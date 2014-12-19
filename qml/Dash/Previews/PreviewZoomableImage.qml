@@ -28,11 +28,45 @@ PreviewWidget {
     id: root
     implicitHeight: units.gu(22)
 
-    ZoomableImage {
-        id: image
-        objectName: "image"
+    property Item rootItem: QuickUtils.rootItem(root)
+
+    LazyImage {
+        id: lazyImage
+        objectName: "lazyImage"
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+        }
+        scaleTo: "height"
         source: widgetData["source"]
-        zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
-        anchors.fill: parent
+        asynchronous: true
+
+        borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onClicked: {
+                overlay.initialX = rootItem.mapFromItem(parent, 0, 0).x;
+                overlay.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                overlay.show();
+            }
+        }
+    }
+
+    PreviewOverlay {
+        id: overlay
+        objectName: "overlay"
+        parent: rootItem
+        width: parent.width
+        height: parent.height
+        initialScale: lazyImage.height / rootItem.height
+
+        delegate: ZoomableImage {
+            anchors.fill: parent
+            source: widgetData["source"]
+            zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
+        }
     }
 }

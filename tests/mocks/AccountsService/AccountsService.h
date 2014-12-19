@@ -59,6 +59,17 @@ class AccountsService: public QObject
                 READ failedLogins
                 WRITE setFailedLogins
                 NOTIFY failedLoginsChanged)
+    Q_PROPERTY(bool hereEnabled
+               READ hereEnabled
+               WRITE setHereEnabled
+               NOTIFY hereEnabledChanged)
+    Q_PROPERTY(QString hereLicensePath
+               READ hereLicensePath
+               WRITE setHereLicensePath // only available in mock
+               NOTIFY hereLicensePathChanged)
+    Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
+               READ hereLicensePathValid
+               NOTIFY hereLicensePathChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -83,6 +94,11 @@ public:
     PasswordDisplayHint passwordDisplayHint() const;
     uint failedLogins() const;
     void setFailedLogins(uint failedLogins);
+    bool hereEnabled() const;
+    void setHereEnabled(bool enabled);
+    QString hereLicensePath() const;
+    void setHereLicensePath(const QString &path);
+    bool hereLicensePathValid() const;
 
 Q_SIGNALS:
     void userChanged();
@@ -93,6 +109,8 @@ Q_SIGNALS:
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
+    void hereEnabledChanged();
+    void hereLicensePathChanged();
 
 private:
     bool m_enableLauncherWhileLocked;
@@ -101,6 +119,9 @@ private:
     QString m_user;
     bool m_statsWelcomeScreen;
     uint m_failedLogins;
+    bool m_demoEdges;
+    bool m_hereEnabled;
+    QString m_hereLicensePath;
 };
 
 #endif

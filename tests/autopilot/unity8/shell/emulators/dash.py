@@ -66,8 +66,12 @@ class Dash(emulators.UnityEmulatorBase):
         return resp_grid.select_single('Tile', text=text)
 
     def get_scope(self, scope_name='clickscope'):
-        return self.dash_content_list.select_single(
+        return self.dash_content_list.wait_select_single(
             'QQuickLoader', scopeId=scope_name)
+
+    def get_scope_by_index(self, scope_index=0):
+        return self.dash_content_list.wait_select_single(
+            'QQuickLoader', objectName=("scopeLoader%i" % scope_index))
 
     @autopilot_logging.log_action(logger.info)
     def open_scope(self, scope_id):
@@ -86,14 +90,18 @@ class Dash(emulators.UnityEmulatorBase):
 
     def _get_scope_loader(self, scope_id):
         try:
-            return self.dash_content_list.select_single(
-                'QQuickLoader', scopeId=scope_id)
+            aux = self.dash_content_list.get_children_by_type('QQuickItem')[0]
+            for l in aux.get_children_by_type('QQuickLoader'):
+                if (l.scopeId == scope_id):
+                    return l;
+            raise emulators.UnityEmulatorException(
+                'No scope found with id {0}'.format(scope_id))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        return loader.get_children()[0]
+        return loader.wait_select_single('GenericScopeView');
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -102,8 +110,8 @@ class Dash(emulators.UnityEmulatorBase):
             scroll()
             self.dash_content_list.moving.wait_for(False)
 
+        scope_loader.isCurrent.wait_for(True)
         scope = self._get_scope_from_loader(scope_loader)
-        scope.isCurrent.wait_for(True)
         return scope
 
     def _get_scroll_direction(self, scope_loader):
@@ -121,10 +129,15 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 3
-        stop_x = x + width / 3 * 2
+        # Make the drag range be a multiple of the drag "rate" value.
+        # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
+        rate = 10
+        divisions = 5
+        jump = ( width / divisions ) // rate * rate
+        start_x = x + jump
+        stop_x = x + jump * (divisions - 1)
         start_y = stop_y = y + 1
-        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
 
     @autopilot_logging.log_action(logger.info)
@@ -132,10 +145,15 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         dash_content = self.select_single(objectName="dashContent")
         x, y, width, height = dash_content.globalRect
-        start_x = x + width / 3 * 2
-        stop_x = x + width / 3
+        # Make the drag range be a multiple of the drag "rate" value.
+        # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
+        rate = 10
+        divisions = 5
+        jump = ( width / divisions ) // rate * rate
+        start_x = x + jump * (divisions - 1)
+        stop_x = x + jump
         start_y = stop_y = y + 1
-        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
     def enter_search_query(self, query):
@@ -200,13 +218,13 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         """
         category_element = self._get_category_element(category)
-        icon = category_element.select_single('AbstractButton', title=title)
+        icon = category_element.wait_select_single('AbstractButton', title=title)
         self.pointing_device.click_object(icon)
 
     def _get_category_element(self, category):
         try:
             return self.wait_select_single(
-                'Base', objectName='dashCategory{}'.format(category))
+                'DashCategoryBase', objectName='dashCategory{}'.format(category))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))

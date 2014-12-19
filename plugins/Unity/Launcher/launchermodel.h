@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,15 +20,14 @@
 #ifndef LAUNCHERMODEL_H
 #define LAUNCHERMODEL_H
 
-// unity-api
 #include <unity/shell/launcher/LauncherModelInterface.h>
 #include <unity/shell/application/ApplicationManagerInterface.h>
 
-// Qt
 #include <QAbstractListModel>
 
 class LauncherItem;
-class LauncherBackend;
+class GSettings;
+class DBusInterface;
 
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
@@ -41,14 +40,13 @@ public:
     LauncherModel(QObject *parent = 0);
     ~LauncherModel();
 
-    int rowCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     QVariant data(const QModelIndex &index, int role) const;
 
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface* get(int index) const;
     Q_INVOKABLE void move(int oldIndex, int newIndex);
     Q_INVOKABLE void pin(const QString &appId, int index = -1);
-    Q_INVOKABLE void requestRemove(const QString &appId);
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
     Q_INVOKABLE void setUser(const QString &username);
     Q_INVOKABLE QString getUrlForAppId(const QString &appId) const;
@@ -56,13 +54,21 @@ public:
     unity::shell::application::ApplicationManagerInterface* applicationManager() const;
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager);
 
-private:
-    void storeAppList();
     int findApplication(const QString &appId);
 
+public Q_SLOTS:
+    void requestRemove(const QString &appId);
+    Q_INVOKABLE void refresh();
+
+private:
+    void storeAppList();
+
+    void unpin(const QString &appId);
+
 private Q_SLOTS:
-    void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
+    void countVisibleChanged(const QString &appId, int count);
+    void progressChanged(const QString &appId, int progress);
 
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);
@@ -70,8 +76,13 @@ private Q_SLOTS:
 
 private:
     QList<LauncherItem*> m_list;
-    LauncherBackend *m_backend;
+
+    GSettings *m_settings;
+    DBusInterface *m_dbusIface;
+
     ApplicationManagerInterface *m_appManager;
+
+    friend class LauncherModelTest;
 };
 
 #endif // LAUNCHERMODEL_H

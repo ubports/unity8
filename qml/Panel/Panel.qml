@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.2
+import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components"
-import "../Components/ListItems"
+import "../Components/PanelState"
+import ".."
 
 Item {
     id: root
@@ -53,7 +54,9 @@ Item {
 
         anchors.fill: parent
 
-        Behavior on anchors.topMargin { StandardAnimation {} }
+        Behavior on anchors.topMargin {
+            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+        }
 
         BorderImage {
             id: dropShadow
@@ -62,22 +65,8 @@ Item {
                 leftMargin: -units.gu(1)
                 bottomMargin: -units.gu(1)
             }
-            visible: indicators.height > indicators.panelHeight
+            visible: !indicators.fullyClosed
             source: "graphics/rectangular_dropshadow.sci"
-        }
-
-        VerticalThinDivider {
-            id: indicatorDividor
-            anchors {
-                top: indicators.top
-                bottom: indicators.bottom
-                right: indicators.left
-
-                topMargin: indicatorArea.anchors.topMargin + indicators.panelHeight
-            }
-
-            width: units.dp(2)
-            source: "graphics/VerticalDivider.png"
         }
 
         Rectangle {
@@ -88,13 +77,13 @@ Item {
                 left: parent.left
                 right: parent.right
             }
-            height: indicators.panelHeight
+            height: indicators.minimizedPanelHeight
 
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
         }
 
         PanelSeparatorLine {
-            id: nonIndicatorAreaSeparatorLine
+            id: orangeLine
             anchors {
                 top: indicatorAreaBackground.bottom
                 left: parent.left
@@ -103,18 +92,29 @@ Item {
             saturation: 1 - indicators.unitProgress
         }
 
+        Image {
+            anchors {
+                top: indicators.top
+                bottom: indicators.bottom
+                right: indicators.left
+                topMargin: indicatorArea.anchors.topMargin + indicators.minimizedPanelHeight
+            }
+            width: units.dp(2)
+            source: "graphics/VerticalDivider.png"
+        }
+
         MouseArea {
             anchors {
                 top: parent.top
                 left: parent.left
                 right: indicators.left
             }
-            height: indicators.panelHeight
+            height: indicators.minimizedPanelHeight
             enabled: callHint.visible
             onClicked: callHint.showLiveCall()
         }
 
-        Indicators {
+        IndicatorsMenu {
             id: __indicators
             objectName: "indicators"
 
@@ -123,24 +123,52 @@ Item {
                 right: parent.right
             }
 
-            width: root.width
             shown: false
-            panelHeight: units.gu(3)
-            openedHeight: root.height
+            width: root.width - (PanelState.buttonsVisible ? windowControlButtons.width : 0)
+            minimizedPanelHeight: units.gu(3)
+            expandedPanelHeight: units.gu(7)
+            openedHeight: root.height - indicatorOrangeLine.height
+
             overFlowWidth: {
                 if (callHint.visible) {
                     return Math.max(root.width - (callHint.width + units.gu(2)), 0)
                 }
                 return root.width
             }
-
             enableHint: !callHint.active && !fullscreenMode
-            showHintBottomMargin: fullscreenMode ? -panelHeight : 0
+            panelColor: indicatorAreaBackground.color
 
             onShowTapped: {
                 if (callHint.active) {
                     callHint.showLiveCall();
                 }
+            }
+
+            hideDragHandle {
+                anchors.bottomMargin: -indicatorOrangeLine.height
+            }
+        }
+
+        WindowControlButtons {
+            id: windowControlButtons
+            anchors {
+                left: parent.left
+                top: parent.top
+                margins: units.gu(0.7)
+            }
+            height: indicators.minimizedPanelHeight - anchors.margins * 2
+            visible: PanelState.buttonsVisible
+            onClose: PanelState.close()
+            onMinimize: PanelState.minimize()
+            onMaximize: PanelState.maximize()
+        }
+
+        PanelSeparatorLine {
+            id: indicatorOrangeLine
+            anchors {
+                top: indicators.bottom
+                left: indicators.left
+                right: indicators.right
             }
         }
 
@@ -148,26 +176,16 @@ Item {
             id: __callHint
             anchors {
                 top: parent.top
-                left: parent.left
+                left: PanelState.buttonsVisible ? windowControlButtons.right : parent.left
             }
-            height: indicators.panelHeight
+            height: indicators.minimizedPanelHeight
             visible: active && indicators.state == "initial"
-        }
-
-        PanelSeparatorLine {
-            id: indicatorsSeparatorLine
-            visible: true
-            anchors {
-                top: indicators.bottom
-                left: indicatorDividor.left
-                right: indicators.right
-            }
         }
     }
 
     QtObject {
         id: d
-        readonly property real indicatorHeight: indicators.panelHeight + indicatorsSeparatorLine.height
+        readonly property real indicatorHeight: indicators.minimizedPanelHeight + indicatorOrangeLine.height
     }
 
     states: [
@@ -185,6 +203,10 @@ Item {
             PropertyChanges {
                 target: indicatorArea;
                 anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0
+            }
+            PropertyChanges {
+                target: indicators.showDragHandle;
+                anchors.bottomMargin: -units.gu(1)
             }
         }
     ]

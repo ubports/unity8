@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,22 +22,12 @@
 #include <QtQml/QQmlEngine>
 
 #include <DirectionalDragArea.h>
+#include <Timer.h>
+#include <TouchRegistry.h>
 
-class FakeTimer : public UbuntuGestures::AbstractTimer
-{
-    Q_OBJECT
-public:
-    FakeTimer(QObject *parent = 0)
-        : UbuntuGestures::AbstractTimer(parent)
-    {}
+using namespace UbuntuGestures;
 
-    virtual int interval() const { return m_duration; }
-    virtual void setInterval(int msecs) { m_duration = msecs; }
-private:
-    int m_duration;
-};
-
-class FakeTimeSource : public UbuntuGestures::TimeSource
+class FakeTimeSource : public TimeSource
 {
 public:
     FakeTimeSource() { m_msecsSinceReference = 0; }
@@ -77,6 +67,7 @@ private:
 
     QQuickView *createView();
     QQuickView *m_view;
+    TouchRegistry *m_touchRegistry;
     QTouchDevice *m_device;
     FakeTimer *m_fakeTimer;
     QSharedPointer<FakeTimeSource> m_fakeTimeSource;
@@ -100,12 +91,19 @@ void tst_DragHandle::cleanupTestCase()
 
 void tst_DragHandle::init()
 {
+    m_touchRegistry = new TouchRegistry;
+
     m_view = createView();
+    m_view->installEventFilter(m_touchRegistry);
     m_view->setSource(QUrl::fromLocalFile(TEST_DIR"/tst_DragHandle.qml"));
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
     QVERIFY(m_view->rootObject() != 0);
     qApp->processEvents();
+
+    // Hide the controls to ensure we don't hit them accidentally
+    QQuickItem *controls =  m_view->rootObject()->findChild<QQuickItem*>("controls");
+    controls->setVisible(false);
 
     m_fakeTimer = new FakeTimer;
     m_fakeTimeSource.reset(new FakeTimeSource);
@@ -115,6 +113,9 @@ void tst_DragHandle::cleanup()
 {
     delete m_view;
     m_view = 0;
+
+    delete m_touchRegistry;
+    m_touchRegistry = 0;
 
     delete m_fakeTimer;
     m_fakeTimer = 0;

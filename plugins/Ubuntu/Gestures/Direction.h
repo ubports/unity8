@@ -17,14 +17,14 @@
 #ifndef DIRECTION_H
 #define DIRECTION_H
 
-#include "UbuntuGesturesGlobal.h"
+#include "UbuntuGesturesQmlGlobal.h"
 #include <QObject>
 
 /*
     A Direction enum wrapper so that we can do things like "direction: Direction.Righwards"
     from QML.
  */
-class UBUNTUGESTURES_EXPORT Direction : public QObject {
+class UBUNTUGESTURESQML_EXPORT Direction : public QObject {
     Q_OBJECT
     Q_ENUMS(Type)
 
@@ -33,7 +33,8 @@ public:
         Rightwards, // Along the positive direction of the X axis
         Leftwards, // Along the negative direction of the X axis
         Downwards, // Along the positive direction of the Y axis
-        Upwards // Along the negative direction of the Y axis
+        Upwards, // Along the negative direction of the Y axis
+        Horizontal // Along the X axis, in any direction
     };
 
     Q_INVOKABLE static bool isHorizontal(Direction::Type type);

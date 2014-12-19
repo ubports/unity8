@@ -21,6 +21,7 @@ xgettext \
     --add-comments=TRANSLATORS \
     --keyword=tr \
     --keyword=tr:1,2 \
+    --keyword=dtr:2 \
     --package-name="unity8" \
     --copyright-holder="Canonical Ltd." \
     --from-code="UTF-8"

@@ -17,11 +17,13 @@
 import QtQuick 2.0
 
 Item {
-    property int collapsedHeight
+    property real collapsedHeight
 
-    property int expandedHeight
+    property real expandedHeight
 
     property int collapsedItemCount: -1
+
+    property int cacheBuffer: 0
 
     property int displayMarginBeginning: 0
 
@@ -40,13 +42,14 @@ Item {
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
-    /// @param result result model of the cliked item, used for activation
+    /// @param result result model of the clicked item, used for activation
     /// @param item item that has been clicked
     /// @param itemModel model of the item
     signal clicked(int index, var result, var item, var itemModel)
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
+    /// @param result result model of the clicked item, used for activation
     /// @param itemModel model of the item
-    signal pressAndHold(int index, var itemModel)
+    signal pressAndHold(int index, var result, var itemModel)
 }

@@ -78,19 +78,20 @@ var kArtShapeHolderCode = 'Item  { \n\
                                             width = root.fixedArtShapeSize.width; \n\
                                             height = root.fixedArtShapeSize.height; \n\
                                         } else { \n\
-                                            width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
-                                            height = Qt.binding(function() { return !visible ? 0 : image.height }); \n\
+                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width }); \n\
+                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); \n\
                                         } \n\
                                     } \n\
-                                    image: Image { \n\
+                                    CroppedImageMinimumSourceSize { \n\
+                                        id: artImage; \n\
                                         objectName: "artImage"; \n\
                                         source: cardData && cardData["art"] || ""; \n\
-                                        cache: true; \n\
                                         asynchronous: root.asynchronous; \n\
-                                        fillMode: Image.PreserveAspectCrop; \n\
+                                        visible: false; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                     } \n\
+                                    image: artImage.image; \n\
                                 } \n\
                             } \n\
                         }\n';
@@ -180,26 +181,23 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 id: mascotShapeLoader; \n\
                                 objectName: "mascotShapeLoader"; \n\
                                 asynchronous: root.asynchronous; \n\
-                                active: mascotImage.status === Image.Ready; \n\
+                                active: mascotImage.image.status === Image.Ready; \n\
                                 visible: showHeader && active && status == Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
-                                sourceComponent: UbuntuShape { image: mascotImage } \n\
+                                sourceComponent: UbuntuShape { image: mascotImage.image } \n\
                                 anchors { %1 } \n\
                             }\n';
 
 // %1 is used as anchors of mascotImage
 // %2 is used as visible of mascotImage
-var kMascotImageCode = 'Image { \n\
+var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
                             id: mascotImage; \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
-                            readonly property int maxSize: Math.max(width, height) * 4; \n\
                             source: cardData && cardData["mascot"] || ""; \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
-                            sourceSize { width: maxSize; height: maxSize } \n\
-                            fillMode: Image.PreserveAspectCrop; \n\
                             horizontalAlignment: Image.AlignHCenter; \n\
                             verticalAlignment: Image.AlignVCenter; \n\
                             visible: %2; \n\
@@ -220,8 +218,8 @@ var kTitleLabelCode = 'Label { \n\
                         color: %2; \n\
                         visible: showHeader %3; \n\
                         text: root.title; \n\
-                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \n\
-                        horizontalAlignment: root.headerAlignment; \n\
+                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
+                        horizontalAlignment: root.titleAlignment; \n\
                     }\n';
 
 // %1 is used as extra anchors of emblemIcon
@@ -236,7 +234,6 @@ var kEmblemIconCode = 'Icon { \n\
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             color: %2; \n\
-                            width: height; \n\
                             height: source != "" ? titleLabel.font.pixelSize : 0; \n\
                         }\n';
 
@@ -258,13 +255,12 @@ var kSubtitleLabelCode = 'Label { \n\
                             anchors { %1 } \n\
                             anchors.topMargin: units.dp(2); \n\
                             elide: Text.ElideRight; \n\
-                            fontSize: "small"; \n\
+                            fontSize: "x-small"; \n\
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                             color: %2; \n\
                             visible: titleLabel.visible && titleLabel.text; \n\
                             text: cardData && cardData["subtitle"] || ""; \n\
                             font.weight: Font.Light; \n\
-                            horizontalAlignment: root.headerAlignment; \n\
                         }\n';
 
 // %1 is used as anchors of attributesRow
@@ -310,13 +306,15 @@ function cardString(template, components) {
                 property var artShapeBorderSource: undefined; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
-                property int headerAlignment: Text.AlignLeft; \n\
+                property int titleAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
                 property bool asynchronous: true; \n\
                 property bool showHeader: true; \n\
-                implicitWidth: childrenRect.width; \n';
+                implicitWidth: childrenRect.width; \n\
+                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true); \n\
+                \n';
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
@@ -627,7 +625,7 @@ function cardString(template, components) {
 
     var implicitHeight = 'implicitHeight: ';
     if (hasSummary) {
-        implicitHeight += 'summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
+        implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
     } else if (hasHeaderRow) {
         implicitHeight += 'row.y + row.height + units.gu(1);\n';
     } else if (hasMascot) {
@@ -655,6 +653,7 @@ function cardString(template, components) {
 function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \n\
                    import Ubuntu.Components 1.1; \n\
+                   import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
     var card = cardString(template, components);

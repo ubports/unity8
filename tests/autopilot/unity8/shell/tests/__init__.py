@@ -203,9 +203,6 @@ class UnityTestCase(AutopilotTestCase):
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
             self._environment["GRID_UNIT_PX"] = str(self.grid_size)
-            # FIXME this is only needed for Hud.get_close_button_coords
-            # we should probably rework it so that it's not required
-            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
 
     def _geo_larger_than_display(self, width, height):
         should_scale = getattr(self, 'scale_geo', True)
@@ -432,12 +429,6 @@ class DashBaseTestCase(AutopilotTestCase):
         binary_path = get_binary_path('unity8-dash')
         dash_proxy = self.launch_dash(binary_path, self.environment)
 
-        if self.should_simulate_device():
-            # XXX Currently we have no way to launch the application with a
-            # specific size, so we must resize it after it's launched.
-            # --elopio - 2014-06-25
-            self.resize_window()
-
         self.dash_app = dash_helpers.DashApp(dash_proxy)
         self.dash = self.dash_app.dash
         self.wait_for_dash()
@@ -453,7 +444,7 @@ class DashBaseTestCase(AutopilotTestCase):
         return launch_dash_app_fixture.application_proxy
 
     def wait_for_dash(self):
-        home_scope = self.dash.get_scope('clickscope')
+        home_scope = self.dash.get_scope_by_index(0)
         # FIXME! There is a huge timeout here for when we're doing CI on
         # VMs. See lp:1203715
         self.assertThat(
@@ -470,18 +461,7 @@ class DashBaseTestCase(AutopilotTestCase):
         simulate_device_fixture = self.useFixture(
             toolkit_fixtures.SimulateDevice(
                 self.app_width, self.app_height, self.grid_unit_px))
-        self.app_width = simulate_device_fixture.app_width
-        self.app_height = simulate_device_fixture.app_height
-
-    def resize_window(self):
-        application = self.process_manager.get_running_applications()[0]
-        window = application.get_windows()[0]
-        window.resize(self.app_width, self.app_height)
-
-        def get_window_size():
-            _, _, window_width, window_height = window.geometry
-            return window_width, window_height
-
-        self.assertThat(
-            get_window_size,
-            Eventually(Equals((self.app_width, self.app_height))))
+        self.environment['GRID_UNIT_PX'] = simulate_device_fixture.grid_unit_px
+        self.environment['ARGS'] = '-windowgeometry {0}x{1}'\
+            .format(simulate_device_fixture.app_width,
+                    simulate_device_fixture.app_height)

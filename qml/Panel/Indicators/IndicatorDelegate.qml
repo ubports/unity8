@@ -20,14 +20,6 @@
 import QtQuick 2.0
 
 IndicatorBase {
-    enabled: false
-
-    onRootActionStateChanged: {
-        if (rootActionState == undefined) {
-            enabled = false;
-            return;
-        }
-
-        enabled = rootActionState.visible;
-    }
+    readonly property bool indicatorVisible: rootActionState.indicatorVisible
+    readonly property string title: rootActionState.title
 }

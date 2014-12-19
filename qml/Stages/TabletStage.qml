@@ -25,7 +25,7 @@ Rectangle {
     id: root
     objectName: "stages"
     anchors.fill: parent
-    color: "black"
+    color: "#111111"
 
     // Controls to be set from outside
     property bool shown: false
@@ -34,6 +34,7 @@ Rectangle {
     property real maximizedAppTopMargin
     property bool interactive
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
+    property int orientation: Qt.PortraitOrientation
 
     onInverseProgressChanged: {
         // This can't be a simple binding because that would be triggered after this handler
@@ -138,9 +139,16 @@ Rectangle {
             if (priv.sideStageAppId == appId) {
                 priv.sideStageAppId = "";
             }
+
             if (ApplicationManager.count == 0) {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
+            } else if (spreadView.closingIndex == -1) {
+                // Unless we're closing the app ourselves in the spread,
+                // lets make sure the spread doesn't mess up by the changing app list.
+                spreadView.phase = 0;
+                spreadView.contentX = -spreadView.shift;
+                ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }
         }
     }
@@ -377,11 +385,15 @@ Rectangle {
             }
         }
 
-        Item {
+        MouseArea {
             id: spreadRow
             x: spreadView.contentX
             height: root.height
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
+
+            onClicked: {
+                spreadView.snapTo(0);
+            }
 
             Rectangle {
                 id: sideStageBackground
@@ -478,7 +490,7 @@ Rectangle {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     isInSideStage: priv.sideStageAppId == model.appId
                     interactive: !spreadView.interactive && spreadView.phase === 0 && root.interactive
-                    swipeToCloseEnabled: spreadView.interactive
+                    swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 ? root.inverseProgress : 0
                     application: ApplicationManager.get(index)
@@ -535,6 +547,13 @@ Rectangle {
                         return progress;
                     }
 
+                    Binding {
+                        target: spreadTile
+                        property: "orientation"
+                        when: spreadTile.interactive
+                        value: root.orientation
+                    }
+
                     onClicked: {
                         if (spreadView.phase == 2) {
                             spreadView.snapTo(index);
@@ -571,7 +590,6 @@ Rectangle {
         width: root.dragAreaWidth
         direction: Direction.Leftwards
 
-        property bool attachedToView: false
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
@@ -580,20 +598,12 @@ Rectangle {
                 spreadView.contentX = -spreadView.shift;
             }
 
-            if (dragging && attachedToView) {
-                spreadView.contentX = -touchX + spreadDragArea.width - spreadView.shift;
-                if (spreadView.shiftedContentX > spreadView.phase0Width + spreadView.phase1Width / 2) {
-                    attachedToView = false;
-                    spreadView.snap();
-                }
+            if (dragging) {
+                var dragX = -touchX + spreadDragArea.width - spreadView.shift;
+                var maxDrag = spreadView.width * spreadView.positionMarker4 - spreadView.shift;
+                spreadView.contentX = Math.min(dragX, maxDrag);
             }
             gesturePoints.push(touchX);
-        }
-
-        onStatusChanged: {
-            if (status == DirectionalDragArea.Recognized) {
-                attachedToView = true;
-            }
         }
 
         onDraggingChanged: {
@@ -611,7 +621,7 @@ Rectangle {
                 // If it was a short one-way movement, do the Alt+Tab switch
                 // no matter if we didn't cross positionMarker1 yet.
                 spreadView.snapTo(spreadView.nextInStack);
-            } else if (!dragging && attachedToView) {
+            } else if (!dragging) {
                 if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker1) {
                     spreadView.snap();
                 } else if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker2) {

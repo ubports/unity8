@@ -53,23 +53,30 @@ find_package(Qt5Qml 5.2 REQUIRED)
 find_package(Qt5Quick 5.2 REQUIRED)
 find_package(Qt5Gui 5.2 REQUIRED)
 find_package(Qt5DBus 5.2 REQUIRED)
+find_package(Qt5Concurrent 5.2 REQUIRED)
 
 # Standard install paths
 include(GNUInstallDirs)
 
 set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/unity8)
+set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/unity8)
+
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugin_private_module_dir SystemSettings OUTPUT_VARIABLE USS_PRIVATE_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+if(USS_PRIVATE_PLUGINDIR STREQUAL "")
+    message(FATAL_ERROR "Could not determine USS private plugin installation dir.")
+endif()
 
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir_suffix unity-shell-api OUTPUT_VARIABLE SHELL_INSTALL_QML OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_INSTALL_QML STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin installation dir.")
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=plugindir unity-shell-api OUTPUT_VARIABLE SHELL_PLUGINDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(SHELL_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin import dir.")
 endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra")
 
@@ -86,6 +93,9 @@ endif()
 # gtk and unity-core (actually sigc++) do not like Qt defining macros named
 # "signals" and "slots"
 add_definitions(-DQT_NO_KEYWORDS)
+
+# Save a few container detach and conversions
+add_definitions(-DQT_STRICT_ITERATORS)
 
 # Tests
 include(CTest)
@@ -106,6 +116,7 @@ include_directories(
 
 # add subdirectories to build
 add_subdirectory(include)
+add_subdirectory(libs)
 add_subdirectory(src)
 add_subdirectory(tools)
 add_subdirectory(qml)

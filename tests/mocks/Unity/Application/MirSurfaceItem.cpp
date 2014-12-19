@@ -39,6 +39,9 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_type(type)
     , m_state(state)
     , m_live(true)
+    , m_orientation(Qt::PortraitOrientation)
+    , m_touchPressCount(0)
+    , m_touchReleaseCount(0)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
 {
@@ -108,6 +111,19 @@ void MirSurfaceItem::release()
     }
 }
 
+void MirSurfaceItem::setOrientation(const Qt::ScreenOrientation orientation)
+{
+    if (m_orientation == orientation)
+        return;
+
+    m_orientation = orientation;
+
+    QQmlProperty orientationProp(m_qmlItem, "orientation");
+    orientationProp.write(QVariant::fromValue(orientation));
+
+    Q_EMIT orientationChanged();
+}
+
 void MirSurfaceItem::setSession(Session* session)
 {
     m_session = session;
@@ -130,24 +146,12 @@ void MirSurfaceItem::setLive(bool live)
     }
 }
 
-void MirSurfaceItem::onQmlWantInputMethodChanged()
-{
-    QQmlProperty prop(m_qmlItem, "wantInputMethod");
-    bool wantInputMethod = prop.read().toBool();
-
-    if (hasFocus() && wantInputMethod) {
-        Q_EMIT inputMethodRequested();
-    }
-}
-
 void MirSurfaceItem::onFocusChanged()
 {
-    QQmlProperty prop(m_qmlItem, "wantInputMethod");
-    bool wantInputMethod = prop.read().toBool();
-
-    if (!hasFocus() && wantInputMethod) {
-        Q_EMIT inputMethodDismissed();
-        prop.write(QVariant::fromValue(false));
+    if (!hasFocus()) {
+        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
+        // Didn't have time to debug yet.
+        //Q_EMIT inputMethodDismissed();
     }
 }
 
@@ -180,12 +184,18 @@ void MirSurfaceItem::createQmlContentItem()
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
     }
+}
 
-    {
-        QQmlProperty prop(m_qmlItem, "wantInputMethod");
-        if (prop.type() == QQmlProperty::Property) {
-            bool ok = prop.connectNotifySignal(this, SLOT(onQmlWantInputMethodChanged()));
-            if (!ok) qCritical("MirSurfaceItem: failed to connect to wantInputMethod notify signal");
-        }
+void MirSurfaceItem::touchEvent(QTouchEvent * event)
+{
+    if (event->touchPointStates() & Qt::TouchPointPressed) {
+        ++m_touchPressCount;
+        Q_EMIT touchPressCountChanged(m_touchPressCount);
+        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
+        // Didn't have time to debug yet.
+        // Q_EMIT inputMethodRequested();
+    } else if (event->touchPointStates() & Qt::TouchPointReleased) {
+        ++m_touchReleaseCount;
+        Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
     }
 }

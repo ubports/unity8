@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2014 Canonical, Ltd.
  *
  * Authors:
  *   Daniel d'Andrada <daniel.dandrada@canonical.com>
@@ -21,9 +21,11 @@ import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
 import LightDM 0.1 as LightDM
+import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
+import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
@@ -31,8 +33,8 @@ import "../../qml"
 
 Item {
     id: root
-    width: shell.width
-    height: shell.height
+    width: units.gu(60)
+    height: units.gu(71)
 
     QtObject {
         id: applicationArguments
@@ -50,13 +52,78 @@ Item {
         }
     }
 
-    Shell {
-        id: shell
+    Row {
+        anchors.fill: parent
+        Loader {
+            id: shellLoader
+
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    property string indicatorProfile: "phone"
+
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true;
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            color: "white"
+            width: units.gu(30)
+            height: shellLoader.height
+
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    Button {
+                        text: "Show Greeter"
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
+
+                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            if (!greeter.shown) {
+                                greeter.show();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     Component {
-        id: shellComponent
-        Shell {}
+        id: mockNotification
+
+        QtObject {
+            function invokeAction(actionId) {
+                mockNotificationsModel.actionInvoked(actionId)
+            }
+        }
+    }
+    ListModel {
+        id: mockNotificationsModel
+
+        signal actionInvoked(string actionId)
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockNotificationsModel)
+        }
+
+        onActionInvoked: {
+            if(actionId == "ok_id") {
+                mockNotificationsModel.clear()
+            }
+        }
+    }
+
+    SignalSpy {
+        id: launcherShowDashHomeSpy
+        signalName: "showDashHome"
     }
 
     SignalSpy {
@@ -75,34 +142,65 @@ Item {
         signalName: "unlockingAllModems"
     }
 
+    SignalSpy {
+        id: notificationActionSpy
+        target: mockNotificationsModel
+        signalName: "actionInvoked"
+    }
+
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
     }
 
     UT.UnityTestCase {
+        id: testCase
         name: "Shell"
         when: windowShown
 
-        function initTestCase() {
+        property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
+
+        function init() {
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+
             swipeAwayGreeter();
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
+
+            var launcher = findChild(shell, "launcher");
+            launcherShowDashHomeSpy.target = launcher;
         }
 
         function cleanup() {
-            // If a test invoked the greeter, make sure we swipe it away again
-            var greeter = findChild(shell, "greeter");
-            if (greeter.shown) {
-                swipeAwayGreeter();
-            }
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            launcherShowDashHomeSpy.target = null;
+
+            shellLoader.itemDestroyed = false;
+
+            shellLoader.active = false;
+
+            tryCompare(shellLoader, "status", Loader.Null);
+            tryCompare(shellLoader, "item", null);
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // item might still be alive. So if we set Loader.active back to true
+            // again right now we will get the very same Shell instance back. So no reload
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(shellLoader, "itemDestroyed", true);
 
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
-            waitForUIToSettle();
-            hideIndicators();
+            unlockAllModemsSpy.clear()
+            LightDM.Greeter.authenticate(""); // reset greeter
+
+            // reload our test subject to get it in a fresh state once again
+            shellLoader.active = true;
+
+            tryCompare(shellLoader, "status", Loader.Ready);
+            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
         }
 
         function killApps() {
@@ -113,12 +211,72 @@ Item {
             compare(ApplicationManager.count, 1)
         }
 
+        function test_snapDecisionDismissalReturnsFocus() {
+            var notifications = findChild(shell, "notificationList");
+            var app = ApplicationManager.startApplication("camera-app");
+            var stage = findChild(shell, "stage")
+            // Open an application and focus
+            waitUntilApplicationWindowIsFullyVisible(app);
+            ApplicationManager.focusApplication(app);
+            tryCompare(app.session.surface, "activeFocus", true);
+
+            notifications.model = mockNotificationsModel;
+
+            // FIXME: Hack: SortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // for mocking here (RoleType can't be found in the QML model). As we only need to show
+            // one SnapDecision lets just disable the filtering and make appear any notification as a
+            // SnapDecision.
+            var snapDecisionProxyModel = findInvisibleChild(shell, "snapDecisionProxyModel");
+            snapDecisionProxyModel.filterRegExp = RegExp("");
+
+            // Pop-up a notification
+            addSnapDecisionNotification();
+            waitForRendering(shell);
+
+            // Make sure the notification really opened
+            var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
+            verify(notification !== undefined && notification != null, "notification wasn't found");
+            tryCompare(notification, "height", notification.implicitHeight)
+            waitForRendering(notification);
+
+            // Make sure activeFocus went away from the app window
+            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(stage, "interactive", false);
+
+            // Clicking the button should dismiss the notification and return focus
+            var buttonAccept = findChild(notification, "notify_button0");
+            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+
+            // Make sure we're back to normal
+            tryCompare(app.session.surface, "activeFocus", true);
+            compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
+        }
+
+        function addSnapDecisionNotification() {
+            var n = {
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-affirmative-tint": "true"},
+                summary: "Tom Ato",
+                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+                icon: "../graphics/avatars/funky.png",
+                secondaryIcon: "../graphics/applicationIcons/facebook.png",
+                actions: [{ id: "ok_id", label: "Ok"},
+                    { id: "cancel_id", label: "Cancel"},
+                    { id: "notreally_id", label: "Not really"},
+                    { id: "noway_id", label: "messages:No way"},
+                    { id: "nada_id", label: "messages:Nada"}]
+            }
+
+            mockNotificationsModel.append(n)
+        }
+
         function test_leftEdgeDrag_data() {
             return [
-                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true},
-                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true},
-                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false},
-                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true}
+                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
+                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
+                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false},
+                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
+                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false}
             ];
         }
 
@@ -126,16 +284,26 @@ Item {
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
+            ApplicationManager.focusApplication(data.focusedApp)
+            waitUntilApplicationWindowIsFullyVisible();
 
             if (data.revealLauncher) {
                 dragLauncherIntoView();
             }
 
             swipeFromLeftEdge(data.swipeLength);
-            if (data.appHides)
+            if (data.appHides) {
                 waitUntilDashIsFocused();
-            else
+            } else {
                 waitUntilApplicationWindowIsFullyVisible();
+            }
+
+            var launcher = findChild(shell, "launcherPanel");
+            tryCompare(launcher, "x", data.launcherHides ? -launcher.width : 0)
+
+            // Make sure the helper for sliding out the launcher wasn't touched. We want to fade it out here.
+            var animateTimer = findInvisibleChild(shell, "animateTimer");
+            compare(animateTimer.nextState, "visible");
         }
 
         function test_suspend() {
@@ -218,7 +386,7 @@ Item {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             compare(dashCommunicatorSpy.count, 1);
-            compare(dashCommunicatorSpy.signalArguments[0][0], "clickscope");
+            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
         }
 
         function test_showInputMethod() {
@@ -241,10 +409,27 @@ Item {
             tryCompare(item, "visible", false);
         }
 
+        // wait until any transition animation has finished
+        function waitUntilTransitionsEnd(stateGroup) {
+            var transitions = stateGroup.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        // Wait until the ApplicationWindow for the given Application object is fully loaded
+        // (ie, the real surface has replaced the splash screen)
+        function waitUntilAppWindowIsFullyLoaded(app) {
+            var appWindow = findChild(shell, "appWindow_" + app.appId);
+            var appWindowStateGroup = findInvisibleChild(appWindow, "applicationWindowStateGroup");
+            tryCompareFunction(function() { return appWindowStateGroup.state === "surface" }, true);
+            waitUntilTransitionsEnd(appWindowStateGroup);
+        }
+
         function test_surfaceLosesFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
-            // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
+            waitUntilAppWindowIsFullyLoaded(app);
 
             tryCompare(app.session.surface, "focus", true);
 
@@ -252,7 +437,7 @@ Item {
             var touchX = shell.width / 2;
             var indicators = findChild(shell, "indicators");
             touchFlick(indicators,
-                    touchX /* fromX */, indicators.panelHeight * 0.5 /* fromY */,
+                    touchX /* fromX */, indicators.minimizedPanelHeight * 0.5 /* fromY */,
                     touchX /* toX */, shell.height * 0.5 /* toY */,
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
@@ -289,7 +474,7 @@ Item {
             var indicators = findChild(shell, "indicators");
 
             var touchStartX = shell.width / 2;
-            var touchStartY = shell.height - (indicators.panelHeight * 0.5);
+            var touchStartY = shell.height - (indicators.minimizedPanelHeight * 0.5);
             touchFlick(shell,
                     touchStartX, touchStartY,
                     touchStartX, shell.height * 0.1);
@@ -311,18 +496,9 @@ Item {
         function tapOnAppIconInLauncher() {
             var launcherPanel = findChild(shell, "launcherPanel");
 
-            // pick the first icon, the one at the bottom.
+            // pick the first icon, the one at the top.
             var appIcon = findChild(launcherPanel, "launcherDelegate0")
-
-            // Swipe upwards over the launcher to ensure that this icon
-            // at the bottom is not folded and faded away.
-            var touchStartX = launcherPanel.width / 2;
-            var touchStartY = launcherPanel.height / 2;
-            touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
-            tryCompare(launcherPanel, "moving", false);
-
-            // NB tapping (i.e., using touch events) doesn't activate the icon... go figure...
-            mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
+            tap(appIcon, appIcon.width / 2, appIcon.height / 2);
         }
 
         function showIndicators() {
@@ -401,6 +577,7 @@ Item {
             tryCompare(greeter, "showProgress", 0)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
+            waitForRendering(greeter)
             tryCompare(greeter, "showProgress", 1)
             LightDM.Greeter.hideGreeter()
             tryCompare(greeter, "showProgress", 0)
@@ -465,13 +642,136 @@ Item {
         }
 
         function test_unlockAllModemsOnBoot() {
-            unlockAllModemsSpy.clear()
-            // actually create an object so we notice the onCompleted signal
-            var greeter = shellComponent.createObject(root)
-            // TODO reenable when service ready (LP: #1361074)
-            expectFail("", "Unlock on boot temporarily disabled");
             tryCompare(unlockAllModemsSpy, "count", 1)
-            greeter.destroy()
+        }
+
+        function test_leftEdgeDragOnGreeter_data() {
+            return [
+                {tag: "short swipe", targetX: shell.width / 3, unlocked: false},
+                {tag: "long swipe", targetX: shell.width / 3 * 2, unlocked: true}
+            ]
+        }
+
+        function test_leftEdgeDragOnGreeter(data) {
+            var greeter = findChild(shell, "greeter");
+            greeter.show();
+            tryCompare(greeter, "showProgress", 1);
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
+
+            tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
+        }
+
+        function test_tapOnRightEdgeReachesApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var tapPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            tap(shell, tapPoint.x, tapPoint.y);
+
+            tryCompare(topmostSurface, "touchPressCount", 1);
+            tryCompare(topmostSurface, "touchReleaseCount", 1);
+        }
+
+        /*
+            Perform a right edge drag over an application surface and check
+            that no touch event was sent to it (ie, they were all consumed
+            by the right-edge drag area)
+         */
+        function test_rightEdgeDragDoesNotReachApplicationSurface() {
+            var topmostSpreadDelegate = findChild(shell, "appDelegate0");
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+
+            topmostSurface.touchPressCount = 0;
+            topmostSurface.touchReleaseCount = 0;
+
+            var gestureStartPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
+                    rightEdgeDragArea.height / 2);
+
+            touchFlick(shell,
+                    gestureStartPoint.x /* fromX */, gestureStartPoint.y /* fromY */,
+                    units.gu(1) /* toX */, gestureStartPoint.y /* toY */);
+
+            tryCompare(topmostSurface, "touchPressCount", 0);
+            tryCompare(topmostSurface, "touchReleaseCount", 0);
+        }
+
+        function waitUntilFocusedApplicationIsShowingItsSurface()
+        {
+            var spreadDelegate = findChild(shell, "appDelegate0");
+            var appState = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
+            tryCompare(appState, "state", "surface");
+            var transitions = appState.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        function swipeFromRightEdgeToShowAppSpread()
+        {
+            // perform a right-edge drag to show the spread
+            var touchStartX = shell.width - (shell.edgeSize / 2)
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, units.gu(1) /* endX */, touchStartY /* endY */);
+
+            // check if it's indeed showing the spread
+            var stage = findChild(shell, "stage");
+            var spreadView = findChild(stage, "spreadView");
+            tryCompare(spreadView, "phase", 2);
+        }
+
+        function test_tapUbuntuIconInLauncherOverAppSpread() {
+
+            waitUntilFocusedApplicationIsShowingItsSurface();
+
+            swipeFromRightEdgeToShowAppSpread();
+
+            var launcher = findChild(shell, "launcher");
+
+            // ensure the launcher dimissal timer never gets triggered during the test run
+            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
+            dismissTimer.interval = 60 * 60 * 1000;
+
+            dragLauncherIntoView();
+
+            // Emulate a tap with a finger, where the touch position drifts during the tap.
+            // This is to test the touch ownership changes. The tap is happening on the button
+            // area but then drifting into the left edge drag area. This test makes sure
+            // the touch ownership stays with the button and doesn't move over to the
+            // left edge drag area.
+            {
+                var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
+                var startPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.height * 0.2);
+                var endPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.2,
+                        buttonShowDashHome.height * 0.8);
+                touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
+            }
+
+            compare(launcherShowDashHomeSpy.count, 1);
+
+            // check that the stage has left spread mode.
+            {
+                var stage = findChild(shell, "stage");
+                var spreadView = findChild(stage, "spreadView");
+                tryCompare(spreadView, "phase", 0);
+            }
+
+            // check that the launcher got dismissed
+            var launcherPanel = findChild(shell, "launcherPanel");
+            tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
     }
 }

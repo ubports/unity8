@@ -17,13 +17,14 @@
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import QtQuick 2.0
+import Ubuntu.Components 1.1
 
 Item {
     id: demo
 
     property Item greeter
     property Item launcher
-    property Item indicators
+    property Item panel
     property Item stages
 
     property bool launcherEnabled: true
@@ -61,11 +62,16 @@ Item {
         stagesEnabled = true
         panelEnabled = true
         panelContentEnabled = true
-        if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy()
-        if (d.topEdgeDemo)    d.topEdgeDemo.destroy()
-        if (d.bottomEdgeDemo) d.bottomEdgeDemo.destroy()
-        if (d.leftEdgeDemo)   d.leftEdgeDemo.destroy()
-        if (d.finalEdgeDemo)  d.finalEdgeDemo.destroy()
+
+        // Use a tiny delay for these destroy() calls because if a lot is
+        // happening at once (like creating and being destroyed in same event
+        // loop, as might happen when answering a call while demo is open),
+        // the destroy() call will be ignored.
+        if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy(1);
+        if (d.topEdgeDemo)    d.topEdgeDemo.destroy(1);
+        if (d.bottomEdgeDemo) d.bottomEdgeDemo.destroy(1);
+        if (d.leftEdgeDemo)   d.leftEdgeDemo.destroy(1);
+        if (d.finalEdgeDemo)  d.finalEdgeDemo.destroy(1);
     }
 
     function startDemo() {
@@ -97,12 +103,19 @@ Item {
         property bool showEdgeDemo: AccountsService.demoEdges
         property bool showEdgeDemoInGreeter: AccountsService.demoEdges // TODO: AccountsService.demoEdges as lightdm user
 
-        onShowEdgeDemoChanged: {
+        function restartDemo() {
             stopDemo()
             if (d.showEdgeDemo) {
                 startDemo()
             }
         }
+
+        onShowEdgeDemoChanged: restartDemo()
+    }
+
+    Connections {
+        target: i18n
+        onLanguageChanged: d.restartDemo()
     }
 
     function startRightEdgeDemo() {
@@ -139,11 +152,11 @@ Item {
     function startTopEdgeDemo() {
         demo.panelEnabled = true;
         if (demo.stages) {
-            d.topEdgeDemo = d.overlay.createObject(demo.stages, {
+            d.topEdgeDemo = d.overlay.createObject(demo.panel, {
                 "edge": "top",
                 "title": i18n.tr("Top edge"),
                 "text": i18n.tr("Try swiping from the top edge to access the indicators"),
-                "anchors.fill": demo.stages,
+                "anchors.fill": demo.panel,
             });
         }
         if (d.topEdgeDemo) {
@@ -154,9 +167,9 @@ Item {
     }
 
     Connections {
-        target: demo.indicators
+        target: demo.panel.indicators
         onFullyOpenedChanged: {
-            if (d.topEdgeDemo && d.topEdgeDemo.available && demo.indicators.fullyOpened) {
+            if (d.topEdgeDemo && d.topEdgeDemo.available && demo.panel.indicators.fullyOpened) {
                 d.topEdgeDemo.hideNow()
                 startBottomEdgeDemo()
             }
@@ -164,12 +177,12 @@ Item {
     }
 
     function startBottomEdgeDemo() {
-        if (demo.indicators) {
-            d.bottomEdgeDemo = d.overlay.createObject(demo.indicators, {
+        if (demo.panel.indicators) {
+            d.bottomEdgeDemo = d.overlay.createObject(demo.panel.indicators, {
                 "edge": "bottom",
                 "title": i18n.tr("Close"),
                 "text": i18n.tr("Swipe up again to close the settings screen"),
-                "anchors.fill": demo.indicators.content,
+                "anchors.fill": demo.panel.indicators,
             });
         }
         if (d.bottomEdgeDemo) {
@@ -180,9 +193,12 @@ Item {
     }
 
     Connections {
-        target: demo.indicators
+        target: demo.panel.indicators
         onPartiallyOpenedChanged: {
-            if (d.bottomEdgeDemo && d.bottomEdgeDemo.available && !demo.indicators.partiallyOpened && !demo.indicators.fullyOpened) {
+            if (d.bottomEdgeDemo &&
+                    d.bottomEdgeDemo.available &&
+                    !demo.panel.indicators.partiallyOpened &&
+                    !demo.panel.indicators.fullyOpened) {
                 d.bottomEdgeDemo.hideNow()
                 startLeftEdgeDemo()
             }

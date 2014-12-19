@@ -24,6 +24,10 @@ import Utils 0.1
 Item {
     property SortFilterProxyModel model: filterModel
 
+    function initialise(profile) {
+        indicatorsModel.load(profile);
+    }
+
     SortFilterProxyModel {
         id: filterModel
         filterRole: Indicators.IndicatorsModelRole.IsVisible
@@ -35,7 +39,6 @@ Item {
             model: indicatorsModel
         }
     }
-
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
@@ -55,6 +58,7 @@ Item {
         delegate: IndicatorDelegate {
             id: item
             objectName: model.identifier + "-delegate"
+            identifier: model.identifier
             Component.onCompleted: {
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
@@ -76,9 +80,5 @@ Item {
                 repeater.visibleIndicatorsChanged();
             }
         }
-    }
-
-    function load(profile) {
-        indicatorsModel.load(profile);
     }
 }

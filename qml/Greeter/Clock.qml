@@ -34,21 +34,31 @@ Item {
         }
     }
 
-    CachedUnityMenuModel {
+    Connections {
+        target: i18n
+        onLanguageChanged: {
+            if (visible) {
+                timeLabel.text = Qt.formatTime(clock.currentDate); // kicks time
+                clock.currentDate = new Date(); // kicks date
+            }
+        }
+    }
+
+    Indicators.SharedUnityMenuModel {
         id: timeModel
         objectName: "timeModel"
 
         busName: "com.canonical.indicator.datetime"
-        actionsObjectPath: "/com/canonical/indicator/datetime"
+        actions: { "indicator": "/com/canonical/indicator/datetime" }
         menuObjectPath: clock.visible ? "/com/canonical/indicator/datetime/phone" : ""
+    }
 
-        Indicators.RootActionState {
-            menu: timeModel.model
-            onUpdated: {
-                if (timeLabel.text != rightLabel) {
-                    timeLabel.text = rightLabel;
-                    clock.currentDate = new Date();
-                }
+    Indicators.RootActionState {
+        menu: timeModel.model
+        onUpdated: {
+            if (timeLabel.text != rightLabel) {
+                if (rightLabel != "") timeLabel.text = rightLabel;
+                clock.currentDate = new Date();
             }
         }
     }

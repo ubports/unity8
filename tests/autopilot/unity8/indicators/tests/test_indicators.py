@@ -61,7 +61,7 @@ class IndicatorExistsTestCase(IndicatorTestCase):
             self.skipTest('Nexus 10 does not have bluetooth at the moment.')
 
     def test_indicator_exists(self):
-        self.main_window._get_indicator_widget(
+        self.main_window._get_indicator_panel_item(
             self.indicator_name
         )
 
@@ -72,11 +72,11 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',
                            title='Bluetooth')),
         ('Datetime', dict(indicator_name='indicator-datetime',
-                          title='Upcoming')),
+                          title='Time & Date')),
         ('Location', dict(indicator_name='indicator-location',
                           title='Location')),
         ('Messaging', dict(indicator_name='indicator-messages',
-                           title='Notification center')),
+                           title='Notifications')),
         ('Network', dict(indicator_name='indicator-network',
                          title='Network')),
         ('Power', dict(indicator_name='indicator-power',

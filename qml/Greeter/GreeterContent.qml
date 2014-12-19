@@ -29,15 +29,24 @@ Item {
     signal selected(int uid)
     signal unlocked(int uid)
 
+    function tryToUnlock() {
+        if (loginLoader.item) {
+            loginLoader.item.tryToUnlock()
+        }
+    }
+
+    function reset() {
+        if (loginLoader.item) {
+            loginLoader.item.reset()
+        }
+    }
+
     Rectangle {
         // In case background fails to load
         id: backgroundBackup
         anchors.fill: parent
         color: "black"
     }
-
-    property url backgroundValue: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : greeter.defaultBackground
-    onBackgroundValueChanged: background.source = backgroundValue
 
     CrossFadeImage {
         id: background
@@ -47,21 +56,10 @@ Item {
             topMargin: backgroundTopMargin
         }
         fillMode: Image.PreserveAspectCrop
-    }
-
-    // See Shell.qml's backgroundSettings treatment for why we need a separate
-    // Image, but it boils down to avoiding binding loop detection.
-    Image {
-        source: background.source
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-        onStatusChanged: {
-            if (status == Image.Error && source != greeter.defaultBackground) {
-                background.source = greeter.defaultBackground
-            }
-        }
+        // Limit how much memory we'll reserve for this image
+        sourceSize.height: height
+        sourceSize.width: width
+        source: greeter.background
     }
 
     Rectangle {
@@ -133,6 +131,11 @@ Item {
         Connections {
             target: root
             onSelected: infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
+        }
+
+        Connections {
+            target: i18n
+            onLanguageChanged: greeterContentLoader.infographicModel.readyForDataChange()
         }
 
         anchors {

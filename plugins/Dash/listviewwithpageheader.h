@@ -54,6 +54,7 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
     Q_PROPERTY(bool forceNoClip READ forceNoClip WRITE setForceNoClip NOTIFY forceNoClipChanged)
     Q_PROPERTY(int stickyHeaderHeight READ stickyHeaderHeight NOTIFY stickyHeaderHeightChanged)
     Q_PROPERTY(qreal headerItemShownHeight READ headerItemShownHeight NOTIFY headerItemShownHeightChanged)
+    Q_PROPERTY(int cacheBuffer READ cacheBuffer WRITE setCacheBuffer NOTIFY cacheBufferChanged)
 
     friend class ListViewWithPageHeaderTest;
     friend class ListViewWithPageHeaderTestSection;
@@ -84,8 +85,13 @@ public:
     int stickyHeaderHeight() const;
     qreal headerItemShownHeight() const;
 
+    int cacheBuffer() const;
+    void setCacheBuffer(int cacheBuffer);
+
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
+    Q_INVOKABLE int firstCreatedIndex() const;
+    Q_INVOKABLE int createdItemCount() const;
     Q_INVOKABLE QQuickItem *item(int modelIndex) const;
 
     // The index has to be created for this to try to do something
@@ -103,6 +109,7 @@ Q_SIGNALS:
     void forceNoClipChanged();
     void stickyHeaderHeightChanged();
     void headerItemShownHeightChanged();
+    void cacheBufferChanged();
 
 protected:
     void componentComplete() override;
@@ -197,6 +204,7 @@ private:
     bool m_forceNoClip;
     bool m_inLayout;
     bool m_inContentHeightKeepHeaderShown;
+    int m_cacheBuffer;
 
     // Qt 5.0 doesn't like releasing the items just after itemCreated
     // so we delay the releasing until the next updatePolish

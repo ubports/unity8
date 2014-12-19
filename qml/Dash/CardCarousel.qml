@@ -49,9 +49,10 @@ DashRenderer {
             objectName: "carouselDelegate" + index
 
             function clicked() { cardCarousel.clicked(index, model.result, loader.item, model) }
-            function pressAndHold() { cardCarousel.pressAndHold(index, model) }
+            function pressAndHold() { cardCarousel.pressAndHold(index, model.result, model) }
 
             sourceComponent: cardTool.cardComponent
+            asynchronous: true
             onLoaded: {
                 item.fixedHeaderHeight = Qt.binding(function() { return carousel.headerHeight; });
                 item.height = Qt.binding(function() { return cardTool.cardHeight; });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +19,9 @@
 
 #include "launchermodel.h"
 #include "launcheritem.h"
-#include "backend/launcherbackend.h"
+#include "gsettings.h"
+#include "desktopfilehandler.h"
+#include "dbusinterface.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
@@ -30,20 +32,17 @@ using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_backend(new LauncherBackend(this)),
+    m_settings(new GSettings(this)),
+    m_dbusIface(new DBusInterface(this)),
     m_appManager(0)
 {
-    connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));
-    connect(m_backend, SIGNAL(progressChanged(QString,int)), SLOT(progressChanged(QString,int)));
+    connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
+    connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
+    connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
-    Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
-        LauncherItem *item = new LauncherItem(entry,
-                                              m_backend->displayName(entry),
-                                              m_backend->icon(entry),
-                                              this);
-        item->setPinned(true);
-        m_list.append(item);
-    }
+    connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
+
+    refresh();
 }
 
 LauncherModel::~LauncherModel()
@@ -73,6 +72,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->pinned();
         case RoleCount:
             return item->count();
+        case RoleCountVisible:
+            return item->countVisible();
         case RoleProgress:
             return item->progress();
         case RoleFocused:
@@ -139,10 +140,17 @@ void LauncherModel::pin(const QString &appId, int index)
         if (index == -1) {
             index = m_list.count();
         }
+
+        DesktopFileHandler desktopFile(appId);
+        if (!desktopFile.isValid()) {
+            qWarning() << "Can't pin this application, there is no .destkop file available.";
+            return;
+        }
+
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
-                                              m_backend->displayName(appId),
-                                              m_backend->icon(appId),
+                                              desktopFile.displayName(),
+                                              desktopFile.icon(),
                                               this);
         item->setPinned(true);
         m_list.insert(index, item);
@@ -154,22 +162,7 @@ void LauncherModel::pin(const QString &appId, int index)
 
 void LauncherModel::requestRemove(const QString &appId)
 {
-    int index = findApplication(appId);
-    if (index < 0) {
-        return;
-    }
-
-    if (m_appManager->findApplication(appId)) {
-        m_list.at(index)->setPinned(false);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
-        return;
-    }
-
-    beginRemoveRows(QModelIndex(), index, index);
-    m_list.takeAt(index)->deleteLater();
-    endRemoveRows();
-
+    unpin(appId);
     storeAppList();
 }
 
@@ -197,25 +190,27 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
 
         // Nope, we don't know this action, let the backend forward it to the application
         } else {
-            m_backend->triggerQuickListAction(appId, actionId);
+            // TODO: forward quicklist action to app, possibly via m_dbusIface
         }
     }
 }
 
 void LauncherModel::setUser(const QString &username)
 {
-    m_backend->setUser(username);
+    Q_UNUSED(username)
+    qWarning() << "This backend doesn't support multiple users";
 }
 
 QString LauncherModel::getUrlForAppId(const QString &appId) const
 {
     // appId is either an appId or a legacy app name.  Let's find out which
-    if (appId.isEmpty())
+    if (appId.isEmpty()) {
         return QString();
+    }
 
-    QString df = m_backend->desktopFile(appId + ".desktop");
-    if (!df.isEmpty())
+    if (!appId.contains("_")) {
         return "application:///" + appId + ".desktop";
+    }
 
     QStringList parts = appId.split('_');
     QString package = parts.value(0);
@@ -275,7 +270,27 @@ void LauncherModel::storeAppList()
             appIds << item->appId();
         }
     }
-    m_backend->setStoredApplications(appIds);
+    m_settings->setStoredApplications(appIds);
+}
+
+void LauncherModel::unpin(const QString &appId)
+{
+    int index = findApplication(appId);
+    if (index < 0) {
+        return;
+    }
+
+    if (m_appManager->findApplication(appId)) {
+        if (m_list.at(index)->pinned()) {
+            m_list.at(index)->setPinned(false);
+            QModelIndex modelIndex = this->index(index);
+            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+        }
+    } else {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_list.takeAt(index)->deleteLater();
+        endRemoveRows();
+    }
 }
 
 int LauncherModel::findApplication(const QString &appId)
@@ -299,7 +314,6 @@ void LauncherModel::progressChanged(const QString &appId, int progress)
     }
 }
 
-
 void LauncherModel::countChanged(const QString &appId, int count)
 {
     int idx = findApplication(appId);
@@ -307,6 +321,117 @@ void LauncherModel::countChanged(const QString &appId, int count)
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
         Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+    }
+}
+
+void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
+{
+    int idx = findApplication(appId);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        item->setCountVisible(countVisible);
+        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCountVisible);
+
+        // If countVisible goes to false, and the item is neither pinned nor recent we can drop it
+        if (!countVisible && !item->pinned() && !item->recent()) {
+            beginRemoveRows(QModelIndex(), idx, idx);
+            m_list.takeAt(idx)->deleteLater();
+            endRemoveRows();
+        }
+    } else {
+        // Need to create a new LauncherItem and show the highlight
+        DesktopFileHandler desktopFile(appId);
+        if (countVisible && desktopFile.isValid()) {
+            LauncherItem *item = new LauncherItem(appId,
+                                                  desktopFile.displayName(),
+                                                  desktopFile.icon());
+            item->setCountVisible(true);
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            m_list.append(item);
+            endInsertRows();
+            Q_EMIT hint();
+        }
+    }
+}
+
+void LauncherModel::refresh()
+{
+    // First walk through all the existing items and see if we need to remove something
+    QList<LauncherItem*> toBeRemoved;
+    Q_FOREACH (LauncherItem* item, m_list) {
+        DesktopFileHandler desktopFile(item->appId());
+        if (!desktopFile.isValid()) {
+            // Desktop file not available for this app => drop it!
+            toBeRemoved << item;
+        } else if (!m_settings->storedApplications().contains(item->appId())) {
+            // Item not in settings any more => drop it!
+            toBeRemoved << item;
+        } else {
+            int idx = m_list.indexOf(item);
+            item->setName(desktopFile.displayName());
+            item->setIcon(desktopFile.icon());
+            item->setPinned(item->pinned()); // update pinned text if needed
+            Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+        }
+    }
+
+    Q_FOREACH (LauncherItem* item, toBeRemoved) {
+        unpin(item->appId());
+    }
+
+    bool changed = toBeRemoved.count() > 0;
+
+    // This brings the Launcher into sync with the settings backend again. There's an issue though:
+    // If we can't find a .desktop file for an entry we need to skip it. That makes our settingsIndex
+    // go out of sync with the actual index of items. So let's also use an addedIndex which reflects
+    // the settingsIndex minus the skipped items.
+    int addedIndex = 0;
+
+    // Now walk through settings and see if we need to add something
+    for (int settingsIndex = 0; settingsIndex < m_settings->storedApplications().count(); ++settingsIndex) {
+        QString entry = m_settings->storedApplications().at(settingsIndex);
+        int itemIndex = -1;
+        for (int i = 0; i < m_list.count(); ++i) {
+            if (m_list.at(i)->appId() == entry) {
+                itemIndex = i;
+                break;
+            }
+        }
+
+        if (itemIndex == -1) {
+            // Need to add it. Just add it into the addedIndex to keep same ordering as the list
+            // in the settings.
+            DesktopFileHandler desktopFile(entry);
+            if (!desktopFile.isValid()) {
+                qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
+                continue;
+            }
+
+            LauncherItem *item = new LauncherItem(entry,
+                                                  desktopFile.displayName(),
+                                                  desktopFile.icon(),
+                                                  this);
+            item->setPinned(true);
+            beginInsertRows(QModelIndex(), addedIndex, addedIndex);
+            m_list.insert(addedIndex, item);
+            endInsertRows();
+            changed = true;
+        } else if (itemIndex != addedIndex) {
+            // The item is already there, but it is in a different place than in the settings.
+            // Move it to the addedIndex
+            beginMoveRows(QModelIndex(), itemIndex, itemIndex, QModelIndex(), addedIndex);
+            m_list.move(itemIndex, addedIndex);
+            endMoveRows();
+            changed = true;
+        }
+
+        // Just like settingsIndex, this will increase with every item, except the ones we
+        // skipped with the "continue" call above.
+        addedIndex++;
+    }
+
+    if (changed) {
+        Q_EMIT hint();
     }
 }
 

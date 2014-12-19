@@ -35,7 +35,7 @@ PreviewWidget {
         id: paymentButton
         objectName: "paymentButton"
 
-        color: Theme.palette.selected.foreground
+        color: UbuntuColors.orange
         text: paymentClient.formattedPrice
         onClicked: {
             paymentClient.start();
@@ -62,6 +62,12 @@ PreviewWidget {
             onPurchaseError: {
                 paymentButton.opacity = 1;
                 root.triggered(widgetId, "purchaseError", source);
+            }
+            onPurchaseCancelled: {
+                paymentButton.opacity = 1;
+                // DO NOT emit the signal right now, as it causes a new
+                // preview to be requested, when that is not what we want.
+                //root.triggered(widgetId, "purchaseCancelled", source);
             }
         }
     }

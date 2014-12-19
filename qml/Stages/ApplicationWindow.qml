@@ -27,6 +27,7 @@ Item {
 
     // to be set from outside
     property QtObject application
+    property int orientation
 
     QtObject {
         id: d
@@ -36,6 +37,12 @@ Item {
         readonly property string name: root.application ? root.application.name : ""
         readonly property url icon: root.application ? root.application.icon : ""
         readonly property int applicationState: root.application ? root.application.state : -1
+        readonly property string splashTitle: root.application ? root.application.splashTitle : ""
+        readonly property url splashImage: root.application ? root.application.splashImage : ""
+        readonly property bool splashShowHeader: root.application ? root.application.splashShowHeader : true
+        readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
+        readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
+        readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
 
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
@@ -54,14 +61,6 @@ Item {
         // Remove this when possible
         property bool surfaceInitialized: false
 
-        function forceSurfaceActiveFocusIfReady() {
-            if (sessionContainer.surface !== null &&
-                    sessionContainer.surface.focus &&
-                    sessionContainer.surface.parent === sessionContainer.surfaceContainer &&
-                    sessionContainer.surface.enabled) {
-                sessionContainer.surface.forceActiveFocus();
-            }
-        }
     }
 
     Timer {
@@ -70,20 +69,12 @@ Item {
         onTriggered: { if (sessionContainer.surface) {d.surfaceInitialized = true;} }
     }
 
-    Connections {
-        target: sessionContainer.surface
-        // FIXME: I would rather not need to do this, but currently it doesn't get
-        // active focus without it and I don't know why.
-        onFocusChanged: d.forceSurfaceActiveFocusIfReady();
-        onParentChanged: d.forceSurfaceActiveFocusIfReady();
-        onEnabledChanged: d.forceSurfaceActiveFocusIfReady();
-    }
-
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
         source: ""
         anchors.fill: parent
+        antialiasing: !root.interactive
 
         function take() {
             // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
@@ -103,7 +94,16 @@ Item {
         active: false
         anchors.fill: parent
         sourceComponent: Component {
-            Splash { name: d.name; image: d.icon }
+            Splash {
+                id: splash
+                title: d.splashTitle ? d.splashTitle : d.name
+                imageSource: d.splashImage
+                icon: d.icon
+                showHeader: d.splashShowHeader
+                backgroundColor: d.splashColor
+                headerColor: d.splashColorHeader
+                footerColor: d.splashColorFooter
+            }
         }
     }
 
@@ -111,11 +111,11 @@ Item {
         id: sessionContainer
         session: application ? application.session : null
         anchors.fill: parent
+        orientation: root.orientation
 
         onSurfaceChanged: {
             if (sessionContainer.surface) {
                 surfaceInitTimer.start();
-                d.forceSurfaceActiveFocusIfReady();
             } else {
                 d.surfaceInitialized = false;
             }

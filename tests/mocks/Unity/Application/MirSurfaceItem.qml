@@ -17,21 +17,25 @@
 import QtQuick 2.0
 
 Rectangle {
-    objectName: "fakeSurfaceQML"
     id: root
     color: "pink"
-
-    anchors.fill: parent
 
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(70)
 
+    rotation: {
+        if (orientation == Qt.PortraitOrientation) return 0;
+        else if (orientation == Qt.LandscapeOrientation) return 90;
+        else if (orientation == Qt.InvertedPortraitOrientation) return 180;
+        else return 270;
+    }
+    x: parent ? (parent.width - width) / 2 : 0
+    y: parent ? (parent.height - height) / 2 : 0
+    width: parent ? (rotation == 0 || rotation == 180 ? parent.width : parent.height) : implicitWidth
+    height: parent ? (rotation == 0 || rotation == 180 ? parent.height : parent.width) : implicitHeight
+
     property alias screenshotSource: screenshotImage.source
-
-    property bool wantInputMethod: false
-
-    property int touchPressCount: 0
-    property int touchReleaseCount: 0
+    property int orientation: Qt.PortraitOrientation
 
     Image {
         id: screenshotImage
@@ -47,11 +51,5 @@ Rectangle {
         fontSizeMode: Text.Fit
         minimumPixelSize: 10; font.pixelSize: 200
         verticalAlignment: Text.AlignVCenter
-    }
-
-    MultiPointTouchArea {
-        anchors.fill: parent
-        onPressed: { root.wantInputMethod = true; root.touchPressCount++; }
-        onReleased: { root.touchReleaseCount++; }
     }
 }

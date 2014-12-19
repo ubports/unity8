@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItems
+import QtQuick 2.3
+import Ubuntu.Components 1.1
+import Ubuntu.Components.ListItems 1.0 as ListItems
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
@@ -29,7 +29,7 @@ Rectangle {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: true
+    property bool inverted: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
@@ -38,17 +38,32 @@ Rectangle {
     signal applicationSelected(string appId)
     signal showDashHome()
 
+    onXChanged: {
+        if (quickList.state == "open") {
+            quickList.state = ""
+        }
+    }
+
     Column {
         id: mainColumn
         anchors {
             fill: parent
         }
 
-        Rectangle {
+        Item {
+            objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
-            color: UbuntuColors.orange
-            z: 1
+            clip: true
+
+            UbuntuShape {
+                anchors {
+                    fill: parent
+                    topMargin: -units.gu(2)
+                }
+                borderSource: "none"
+                color: UbuntuColors.orange
+            }
 
             Image {
                 objectName: "dashItem"
@@ -63,15 +78,6 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: root.showDashHome()
             }
-        }
-
-        ThinDivider {
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: -mainColumn.anchors.leftMargin
-            }
-            rotation: root.rotation
         }
 
         Item {
@@ -139,6 +145,20 @@ Rectangle {
                     property bool draggingTransitionRunning: false
                     property int scheduledMoveTo: -1
 
+                    UbuntuNumberAnimation {
+                        id: snapToBottomAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        to: launcherListView.originY
+                    }
+
+                    UbuntuNumberAnimation {
+                        id: snapToTopAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY
+                    }
+
                     displaced: Transition {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
                     }
@@ -156,8 +176,8 @@ Rectangle {
                         height: itemHeight
                         iconName: model.icon
                         count: model.count
+                        countVisible: model.countVisible
                         progress: model.progress
-                        clipCorner: model.pinned
                         itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
@@ -344,10 +364,9 @@ Rectangle {
                             progressiveScrollingTimer.stop();
                             launcherListView.interactive = true;
                             if (droppedIndex >= launcherListView.count - 2 && postDragging) {
-                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                            }
-                            if (droppedIndex == 0 && postDragging) {
-                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                                snapToBottomAnimation.start();
+                            } else if (droppedIndex < 2 && postDragging) {
+                                snapToTopAnimation.start();
                             }
                         }
 
@@ -468,10 +487,6 @@ Rectangle {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
-                clipCorner: dndArea.draggedIndex > -1 &&
-                            LauncherModel.get(dndArea.draggedIndex).pinned &&
-                            !dndArea.preDragging &&
-                            !dndArea.dragging
 
                 function flatten() {
                     fakeDragItemAnimation.start();
@@ -491,7 +506,7 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.8 : 0
+        opacity: quickList.state === "open" ? 0.96 : 0
         visible: opacity > 0
         rotation: root.rotation
 
@@ -503,15 +518,15 @@ Rectangle {
 
         Image {
             anchors {
-                right: parent.left
-                rightMargin: -units.dp(4)
+                left: parent.left
+                leftMargin: (quickList.item.width - units.gu(1)) / 2 - width / 2
                 verticalCenter: parent.verticalCenter
-                verticalCenterOffset: -quickList.offset
+                verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1)
             }
             height: units.gu(1)
             width: units.gu(2)
             source: "graphics/quicklist_tooltip.png"
-            rotation: 90
+            rotation: quickList.offset > 0 ? 0 : 180
         }
 
         InverseMouseArea {
@@ -527,16 +542,16 @@ Rectangle {
     Rectangle {
         id: quickList
         objectName: "quickList"
-        color: "#221e1c"
+        color: "#f5f5f5"
         width: units.gu(30)
         height: quickListColumn.height
         visible: quickListShape.visible
         anchors {
-            left: root.inverted ? undefined : parent.right
-            right: root.inverted ? parent.left : undefined
+            left: root.inverted ? undefined : parent.left
+            right: root.inverted ? parent.right : undefined
             margins: units.gu(1)
         }
-        y: itemCenter - (height / 2) + offset
+        y: itemCenter + offset
         rotation: root.rotation
 
         property var model
@@ -545,8 +560,9 @@ Rectangle {
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
-        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
-                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
+        property int offset: itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
+                                 -(item.height/2) - height - units.gu(.5) :
+                                 (item.height/2) + units.gu(.5)
 
         Column {
             id: quickListColumn
@@ -565,7 +581,7 @@ Rectangle {
                     // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
                     // ListItems don't know that they are sitting in a themed Popover where the color
                     // needs to be inverted.
-                    __foregroundColor: Theme.palette.selected.backgroundText
+                    __foregroundColor: "black"
 
                     onClicked: {
                         if (!model.clickable) {

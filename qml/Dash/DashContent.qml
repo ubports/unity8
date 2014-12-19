@@ -23,8 +23,10 @@ import "../Components"
 Item {
     id: dashContent
 
+    property bool forceNonInteractive: false
     property alias scopes: dashContentList.model
-    readonly property alias currentIndex: dashContentList.currentIndex
+    property alias currentIndex: dashContentList.currentIndex
+    property int workaroundRestoreIndex: -1
     readonly property string currentScopeId: dashContentList.currentItem ? dashContentList.currentItem.scopeId : ""
     readonly property var currentScope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
     readonly property bool subPageShown: dashContentList.currentItem && dashContentList.currentItem.item ?
@@ -48,6 +50,15 @@ Item {
             if (scopes.loaded && set_current_index != undefined) {
                 setCurrentScopeAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
                 set_current_index = undefined;
+            }
+        }
+        onRowsMoved: {
+            // FIXME This is to workaround a Qt bug with the model moving the current item
+            // when the list is ListView.SnapOneItem and ListView.StrictlyEnforceRange
+            // together with the code in Dash.qml
+            if (row == dashContentList.currentIndex || start == dashContentList.currentIndex) {
+                dashContent.workaroundRestoreIndex = dashContentList.currentIndex;
+                dashContentList.currentIndex = -1;
             }
         }
     }
@@ -101,7 +112,8 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && currentItem && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
+            interactive: !dashContent.forceNonInteractive && dashContent.scopes.loaded && currentItem
+                      && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -111,6 +123,8 @@ Item {
             highlightMoveDuration: 250
             highlightRangeMode: ListView.StrictlyEnforceRange
             // TODO Investigate if we can switch to a smaller cache buffer when/if UbuntuShape gets more performant
+            // 1073741823 is s^30 -1. A quite big number so that you have "infinite" cache, but not so
+            // big so that if you add if with itself you're outside the 2^31 int range
             cacheBuffer: 1073741823
             onMovementStarted: currentItem.item.showHeader();
             clip: parent.x != 0
@@ -149,6 +163,7 @@ Item {
 
             delegate:
                 Loader {
+                    id: loader
                     width: ListView.view.width
                     height: ListView.view.height
                     opacity: { // hide delegate if offscreen
@@ -157,7 +172,7 @@ Item {
                     }
                     asynchronous: true
                     source: "GenericScopeView.qml"
-                    objectName: scope.id + " loader"
+                    objectName: "scopeLoader" + index
 
                     readonly property bool moving: item ? item.moving : false
                     readonly property bool navigationShown: item ? item.navigationShown : false
@@ -177,6 +192,9 @@ Item {
                         dashContent.scopeLoaded(item.scope.id)
                         item.paginationCount = Qt.binding(function() { return dashContentList.count } )
                         item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
+                        item.visibleToParent = Qt.binding(function() { return loader.opacity != 0 });
+                        item.holdingList = dashContentList;
+                        item.forceNonInteractive = Qt.binding(function() { return dashContent.forceNonInteractive } )
                     }
                     Connections {
                         target: isCurrent ? scope : null

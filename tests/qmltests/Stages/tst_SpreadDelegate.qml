@@ -110,7 +110,7 @@ Rectangle {
                 {tag: "swipeToClose=true closeable=true -> appWindow moves away",
                  swipeToClose: true, closeable: true },
 
-                {tag: "swipeToClose=true closeable=alse -> appWindow bounces back",
+                {tag: "swipeToClose=true closeable=false -> appWindow bounces back",
                  swipeToClose: true, closeable: false },
 
                 {tag: "swipeToClose=false -> appWindow stays put",
@@ -126,18 +126,24 @@ Rectangle {
             swipeToCloseCheckbox.checked = data.swipeToClose;
             closeableCheckbox.checked = data.closeable;
 
-            var dragDistance = spreadDelegateLoader.item.height / 2;
+            var dragDistance = spreadDelegateLoader.item.height * 0.8;
             var touchX = spreadDelegateLoader.item.width / 2;
-            var fromY = spreadDelegateLoader.item.height / 2;
+            var fromY = spreadDelegateLoader.item.height * 0.9;
             var toY = fromY - dragDistance;
             touchFlick(spreadDelegateLoader.item,
                 touchX /* fromX */,  fromY, touchX /* toX */,  toY,
                 true /* beginTouch */, false /* endTouch */, dragArea.minSpeedToClose * 1.1 /* speed */);
 
-
             if (data.swipeToClose) {
                 verify(appWindowWithShadow.y < 0);
-                verify(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance) < units.gu(1));
+                var threshold = findChild(spreadDelegateLoader.item, "dragArea").threshold
+                if (data.closeable) {
+                    // Verify that the delegate started moving exactly "threshold" after the finger movement
+                    // and did not jump up to the finger, but lags the threshold behind
+                    compare(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance), threshold);
+                } else {
+                    verify(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance) > threshold);
+                }
 
                 touchRelease(spreadDelegateLoader.item, touchX, toY - units.gu(1));
 

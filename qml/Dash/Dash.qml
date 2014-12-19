@@ -28,21 +28,25 @@ Showable {
 
     visible: shown
 
-    property string showScopeOnLoaded: "clickscope"
-    property real contentScale: 1.0
-
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
-            if (!isSwipe || !window.active || overviewController.progress != 0) {
-                if (overviewController.progress != 0 && window.active) animate = false;
-                dash.setCurrentScope(scopeId, animate, isSwipe)
-                if (overviewController.progress != 0) {
-                    if (window.active) {
-                        dashContentCache.scheduleUpdate();
-                    }
-                    overviewController.enableAnimation = window.active;
-                    overviewController.progress = 0;
+            if (!isSwipe || !window.active || bottomEdgeController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
+                if (bottomEdgeController.progress != 0 && window.active) animate = false;
+                dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
+                // Close dash overview and nested temp scopes in it
+                if (bottomEdgeController.progress != 0) {
+                    bottomEdgeController.enableAnimation = window.active && !scopesOverview.showingNonFavoriteScope;
+                    bottomEdgeController.progress = 0;
+                    scopesOverview.closeTempScope();
+                }
+                // Close normal temp scopes (e.g. App Store)
+                if (scopeItem.scope) {
+                    scopeItem.backClicked();
+                }
+                // Close previews
+                if (dashContent.subPageShown) {
+                    dashContent.closePreview();
                 }
             }
         }
@@ -71,6 +75,7 @@ Showable {
             return
         }
 
+        dashContent.workaroundRestoreIndex = -1;
         dashContent.setCurrentScopeAtIndex(scopeIndex, animate, reset)
     }
 
@@ -85,8 +90,8 @@ Showable {
     }
 
     QtObject {
-        id: overviewController
-        objectName: "overviewController"
+        id: bottomEdgeController
+        objectName: "bottomEdgeController"
 
         property alias enableAnimation: progressAnimation.enabled
         property real progress: 0
@@ -94,161 +99,123 @@ Showable {
             id: progressAnimation
             UbuntuNumberAnimation { }
         }
-    }
 
-    ScopesOverview {
-        id: scopesOverview
-        objectName: "scopesOverview"
-        anchors.fill: parent
-        scope: scopes.overviewScope
-        progress: overviewController.progress
-        scopeScale: scopeItem.scope ? 0.4 : (1 - overviewController.progress * 0.6)
-        visible: scopeScale != 1
-        currentIndex: dashContent.currentIndex
-        onDone: {
-            if (currentTab == 1) {
-                animateDashFromAll(dashContent.currentScopeId);
-            }
-            hide();
-        }
-        onFavoriteSelected: {
-            setCurrentScope(scopeId, false, false);
-            dashContentCache.scheduleUpdate();
-            hide();
-        }
-        onAllFavoriteSelected: {
-            setCurrentScope(scopeId, false, false);
-            dashContentCache.scheduleUpdate();
-            animateDashFromAll(dashContent.currentScopeId);
-            hide();
-        }
-        onSearchSelected: {
-            var scopeIndex = -1;
-            for (var i = 0; i < scopes.count; ++i) {
-                if (scopes.getScope(i).id == scopeId) {
-                    scopeIndex = i;
-                    break;
-                }
-            }
-            if (scopeIndex >= 0) {
-                // Is a favorite one
-                setCurrentScope(scopeId, false, false);
-                dashContentCache.scheduleUpdate();
-                showDashFromPos(pos, size);
-                hide();
-            } else {
-                // Is not a favorite one, activate and get openScope
-                scope.activate(result);
-            }
-        }
-        function hide() {
-            overviewController.enableAnimation = true;
-            overviewController.progress = 0;
-        }
         onProgressChanged: {
-            if (progress == 0) {
-                currentTab = scopeItem.scope ? 1 : 0;
+            // FIXME This is to workaround a Qt bug with the model moving the current item
+            // when the list is ListView.SnapOneItem and ListView.StrictlyEnforceRange
+            // together with the code in DashContent.qml
+            if (dashContent.workaroundRestoreIndex != -1) {
+                dashContent.currentIndex = dashContent.workaroundRestoreIndex;
+                dashContent.workaroundRestoreIndex = -1;
             }
         }
-    }
-
-    ShaderEffectSource {
-        id: dashContentCache
-        parent: scopesOverview.dashItemEater
-        z: 1
-        sourceItem: dashContent
-        height: sourceItem.height
-        width: sourceItem.width
-        opacity: 1 - overviewController.progress
-        visible: overviewController.progress != 0 && scopeItem.scope === null
-        live: false
     }
 
     DashContent {
         id: dashContent
 
-        property var scopeThatOpenedScope: null
-
         objectName: "dashContent"
         width: dash.width
         height: dash.height
         scopes: scopes
-        visible: !scopesOverview.showingNonFavoriteScope && x != -width
+        visible: x != -width
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
-            scopeThatOpenedScope = currentScope;
+            scopeItem.scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
-            scopesOverview.currentTab = 1;
-            scopesOverview.ensureAllScopeVisible(scope.id);
             x = -width;
         }
-        onScopeLoaded: {
-            if (scopeId == dash.showScopeOnLoaded) {
-                dash.setCurrentScope(scopeId, false, false)
-                dash.showScopeOnLoaded = ""
-            }
-        }
-        scale: dash.contentScale
-        clip: scale != 1.0 || scopeItem.visible || overviewController.progress != 0
         Behavior on x {
             UbuntuNumberAnimation {
-                duration: overviewController.progress != 0 ? 0 : UbuntuAnimation.FastDuration
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        dashContent.scopeThatOpenedScope.closeScope(scopeItem.scope);
+                        scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
-                        if (overviewController.progress == 0) {
-                            // Set tab to Favorites only if we are not showing the overview
-                            scopesOverview.currentTab = 0;
-                        }
                     }
                 }
             }
         }
 
-        enabled: overviewController.progress == 0
-        opacity: enabled ? 1 : 0
+        // This is to avoid the situation where a bottom-edge swipe would bring up the dash overview
+        // (as expected) but would also cause the dash content flickable to move a bit, because
+        // that flickable was getting the touch events while overviewDragHandle was still undecided
+        // about whether that touch was indeed performing a directional drag gesture.
+        forceNonInteractive: overviewDragHandle.status != DirectionalDragArea.WaitingForTouch
+
+        enabled: bottomEdgeController.progress == 0
+    }
+
+    Rectangle {
+        color: "black"
+        opacity: bottomEdgeController.progress
+        anchors.fill: dashContent
+    }
+
+    ScopesList {
+        id: scopesList
+        objectName: "scopesList"
+        width: dash.width
+        height: dash.height
+        scope: scopes.overviewScope
+        y: dash.height * (1 - bottomEdgeController.progress)
+        visible: bottomEdgeController.progress != 0
+        onBackClicked: {
+            bottomEdgeController.enableAnimation = true;
+            bottomEdgeController.progress = 0;
+        }
+        onStoreClicked: {
+            bottomEdgeController.enableAnimation = true;
+            bottomEdgeController.progress = 0;
+            scopesList.scope.performQuery("scope://com.canonical.scopes.clickstore");
+        }
+        onRequestFavorite: {
+            scopes.setFavorite(scopeId, favorite);
+        }
+        onRequestFavoriteMoveTo: {
+            scopes.moveFavoriteTo(scopeId, index);
+        }
+
+        Binding {
+            target: scopesList.scope
+            property: "isActive"
+            value: bottomEdgeController.progress === 1
+        }
+
+        Connections {
+            target: scopesList.scope
+            onOpenScope: {
+                bottomEdgeController.enableAnimation = true;
+                bottomEdgeController.progress = 0;
+                scopeItem.scopeThatOpenedScope = scopesList.scope;
+                scopeItem.scope = scope;
+                dashContent.x = -dashContent.width;
+            }
+            onGotoScope: {
+                bottomEdgeController.enableAnimation = true;
+                bottomEdgeController.progress = 0;
+                dashContent.gotoScope(scopeId);
+            }
+        }
     }
 
     DashBackground
     {
         anchors.fill: scopeItem
         visible: scopeItem.visible
-        parent: scopeItem.parent
-        scale: scopeItem.scale
-        opacity: scopeItem.opacity
     }
 
     GenericScopeView {
         id: scopeItem
         objectName: "dashTempScopeItem"
 
-        readonly property real targetOverviewScale: {
-            if (scopesOverview.currentTab == 0) {
-                return 0.4;
-            } else {
-                return scopesOverview.allCardSize.width / scopeItem.width;
-            }
-        }
-        readonly property real overviewProgressScale: (1 - overviewController.progress * (1 - targetOverviewScale))
-        readonly property var targetOverviewPosition: scope ? scopesOverview.allScopeCardPosition(scope.id) : null
-        readonly property real overviewProgressX: scope && scopesOverview.currentTab == 1 && targetOverviewPosition ?
-                                                      overviewController.progress * (targetOverviewPosition.x - (width - scopesOverview.allCardSize.width) / 2)
-                                                      : 0
-        readonly property real overviewProgressY: scope && scopesOverview.currentTab == 1 && targetOverviewPosition ?
-                                                      overviewController.progress * (targetOverviewPosition.y - (height - scopesOverview.allCardSize.height) / 2)
-                                                      : 0
+        property var scopeThatOpenedScope: null
 
-        x: overviewController.progress == 0 ? dashContent.x + width : overviewProgressX
-        y: overviewController.progress == 0 ? dashContent.y : overviewProgressY
+        x: dashContent.x + width
+        y: dashContent.y
         width: parent.width
         height: parent.height
-        scale: dash.contentScale * overviewProgressScale
-        enabled: opacity == 1
-        opacity: 1 - overviewController.progress
-        clip: scale != 1.0
         visible: scope != null
         hasBackAction: true
         isCurrent: visible
@@ -275,13 +242,14 @@ Showable {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+            bottomMargin: Qt.inputMethod.keyboardRectangle.height
         }
         height: units.dp(3)
         color: scopeStyle.backgroundLuminance > 0.7 ? "#50000000" : "#50ffffff"
         opacity: 0
         visible: opacity > 0
 
-        readonly property bool processing: dashContent.processing || scopeItem.processing || scopesOverview.processing
+        readonly property bool processing: dashContent.processing || scopeItem.processing || scopesList.processing
 
         Behavior on opacity {
             UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
@@ -311,7 +279,7 @@ Showable {
             id: orange
             anchors { top: parent.top;  bottom: parent.bottom }
             width: parent.width / 4
-            color: Theme.palette.selected.foreground
+            color: UbuntuColors.orange
 
             SequentialAnimation {
                 running: indicator.visible
@@ -337,13 +305,18 @@ Showable {
     Image {
         source: "graphics/overview_hint.png"
         anchors.horizontalCenter: parent.horizontalCenter
-        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : dashContent.pageHeaderTotallyVisible) &&
-                 (overviewDragHandle.enabled || overviewController.progress != 0) ? 1 : 0
+        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : scopes.count == 0 || dashContent.pageHeaderTotallyVisible) &&
+                 (overviewDragHandle.enabled || bottomEdgeController.progress != 0) ? 1 : 0
         Behavior on opacity {
-            enabled: overviewController.progress == 0
+            enabled: bottomEdgeController.progress == 0
             UbuntuNumberAnimation {}
         }
-        y: parent.height - height * (1 - overviewController.progress * 4)
+        y: parent.height - height * (1 - bottomEdgeController.progress * 4)
+        MouseArea {
+            // Eat direct presses on the overview hint so that they do not end up in the card below
+            anchors.fill: parent
+            enabled: parent.opacity != 0
+        }
     }
 
     EdgeDragArea {
@@ -352,28 +325,39 @@ Showable {
         z: 1
         direction: Direction.Upwards
         enabled: !dashContent.subPageShown &&
-                  dashContent.currentScope &&
-                  dashContent.currentScope.searchQuery == "" &&
-                  !scopeItem.subPageShown &&
-                  (overviewController.progress == 0 || dragging)
+                  (scopes.count == 0 || (dashContent.currentScope && dashContent.currentScope.searchQuery == "")) &&
+                  !scopeItem.scope &&
+                  (bottomEdgeController.progress == 0 || dragging)
 
-        readonly property real fullMovement: units.gu(20)
+        readonly property real fullMovement: dash.height
 
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: units.gu(2)
 
         onSceneDistanceChanged: {
-            if (overviewController.enableAnimation) {
-                dashContentCache.scheduleUpdate();
+            if (status == DirectionalDragArea.Recognized && initialSceneDistance != -1) {
+                bottomEdgeController.enableAnimation = false;
+                var deltaDistance = sceneDistance - initialSceneDistance;
+                bottomEdgeController.progress = Math.max(0, Math.min(1, deltaDistance / fullMovement));
             }
-            overviewController.enableAnimation = false;
-            overviewController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
         }
 
-        onDraggingChanged: {
-            overviewController.enableAnimation = true;
-            overviewController.progress = (overviewController.progress > 0.7)  ? 1 : 0;
+        property int previousStatus: -1
+        property int currentStatus: DirectionalDragArea.WaitingForTouch
+        property real initialSceneDistance: -1
+
+        onStatusChanged: {
+            previousStatus = currentStatus;
+            currentStatus = status;
+
+            if (status == DirectionalDragArea.Recognized) {
+                initialSceneDistance = sceneDistance;
+            } else if (status == DirectionalDragArea.WaitingForTouch &&
+                    previousStatus == DirectionalDragArea.Recognized) {
+                bottomEdgeController.enableAnimation = true;
+                bottomEdgeController.progress = (bottomEdgeController.progress > 0.2)  ? 1 : 0;
+                initialSceneDistance = -1;
+            }
         }
     }
-
 }

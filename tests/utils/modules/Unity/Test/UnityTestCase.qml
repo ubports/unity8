@@ -20,7 +20,16 @@ import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 TestCase {
+    id: testCase
     TestUtil {id:util}
+
+    ActivityIndicator {
+        visible: testCase.running
+        anchors.centerIn: parent
+        Component.onCompleted: parent = testCase.parent
+        z: 100
+        running: visible
+    }
 
     // Fake implementation to be provided to items under test
     property var fakeDateTime: new function() {
@@ -178,9 +187,10 @@ TestCase {
     // Keeps executing a given parameter-less function until it returns the given
     // expected result or the timemout is reached (in which case a test failure
     // is generated)
-    function tryCompareFunction(func, expectedResult) {
+    function tryCompareFunction(func, expectedResult, timeout) {
         var timeSpent = 0
-        var timeout = 5000
+        if (timeout === undefined)
+            timeout = 5000;
         var success = false
         var actualResult
         while (timeSpent < timeout && !success) {
@@ -211,6 +221,10 @@ TestCase {
         // Make sure the item is rendered
         waitForRendering(item);
 
+        var root = fetchRootItem(item);
+        var rootFrom = item.mapToItem(root, x, y);
+        var rootTo = item.mapToItem(root, toX, toY);
+
         // Default to true for beginTouch if not present
         beginTouch = (beginTouch !== undefined) ? beginTouch : true
 
@@ -223,17 +237,17 @@ TestCase {
         // Set a default iterations if not specified
         var iterations = (iterations !== undefined) ? iterations : 5
 
-        var distance = Math.sqrt(Math.pow(toX - x, 2) + Math.pow(toY - y, 2))
+        var distance = Math.sqrt(Math.pow(rootTo.x - rootFrom.x, 2) + Math.pow(rootTo.Y - rootFrom.y, 2))
         var totalTime = (distance / speed) * 1000 /* converting speed to pixels/ms */
 
         var timeStep = totalTime / iterations
-        var diffX = (toX - x) / iterations
-        var diffY = (toY - y) / iterations
+        var diffX = (rootTo.x - rootFrom.x) / iterations
+        var diffY = (rootTo.y - rootFrom.y) / iterations
         if (beginTouch) {
             fakeDateTime.currentTimeMs += timeStep
 
             var event = touchEvent()
-            event.press(0 /* touchId */, x, y)
+            event.press(0 /* touchId */, rootFrom.x, rootFrom.y)
             event.commit()
         }
         for (var i = 0; i < iterations; ++i) {
@@ -243,19 +257,19 @@ TestCase {
                 // the point specified
                 wait(iterations / speed)
                 var event = touchEvent()
-                event.move(0 /* touchId */, toX, toY)
+                event.move(0 /* touchId */, rootTo.x, rootTo.y)
                 event.commit()
             } else {
                 wait(iterations / speed)
                 var event = touchEvent()
-                event.move(0 /* touchId */, x + (i + 1) * diffX, y + (i + 1) * diffY)
+                event.move(0 /* touchId */, rootFrom.x + (i + 1) * diffX, rootFrom.y + (i + 1) * diffY)
                 event.commit()
             }
         }
         if (endTouch) {
             fakeDateTime.currentTimeMs += timeStep
             var event = touchEvent()
-            event.release(0 /* touchId */, toX, toY)
+            event.release(0 /* touchId */, rootTo.x, rootTo.y)
             event.commit()
         }
     }
@@ -311,7 +325,16 @@ TestCase {
         event.commit()
     }
 
+    /*! \brief Tap the item with a touch event.
+
+      \param item The item to be tapped
+      \param x The x coordinate of the tap, defaults to horizontal center
+      \param y The y coordinate of the tap, defaults to vertical center
+     */
     function tap(item, x, y) {
+        if (typeof x !== "number") x = item.width / 2;
+        if (typeof y !== "number") y = item.height / 2;
+
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
@@ -325,6 +348,8 @@ TestCase {
     }
 
     Component.onCompleted: {
+        UT.Util.ensureTouchRegistryInstalled();
+
         var rootItem = parent;
         while (rootItem.parent != undefined) {
             rootItem = rootItem.parent;

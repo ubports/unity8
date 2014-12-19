@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,95 +14,106 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
-import Ubuntu.Components 0.1 as UC
+import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
-import ".."
 import "../../../qml/Panel"
 
-/*
-  This tests the Panel component using a fake model to stage data in the indicators
-  A view will show with indicators at the top, as does in the shell. This can be controlled
-  as in the shell.
-*/
-Item {
-    id: shell
-    width: units.gu(40)
-    height: units.gu(80)
+IndicatorTest {
+    id: root
+    width: units.gu(100)
+    height: units.gu(71)
+    color: "white"
 
-    Panel {
-        id: panel
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-        height: parent.height - row.height
-        fullscreenMode: false
+    property string indicatorProfile: "phone"
 
-        indicators {
-            profile: "test1"
-            panelHeight: units.gu(5)
-        }
-        callHint {
-            height: units.gu(4)
-        }
+    RowLayout {
+        anchors.fill: parent
+        anchors.margins: units.gu(1)
+        clip: true
 
-        property real panelAndSeparatorHeight: panel.indicators.panelHeight + units.dp(2)
-    }
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
+            id: itemArea
+            color: "blue"
 
-    Row {
-        id: row
-        anchors {
-            bottom: shell.bottom
-            left: parent.left
-            right: parent.right
-        }
-        height: 50
+            Panel {
+                id: panel
+                anchors.fill: parent
+                indicators {
+                    width: parent.width > units.gu(60) ? units.gu(40) : parent.width
+                    indicatorsModel: root.indicatorsModel
+                }
 
-        UC.Button {
-            text: panel.indicators.shown ? "Hide" : "Show"
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
+                property real panelAndSeparatorHeight: panel.indicators.minimizedPanelHeight + units.dp(2)
             }
-            width: parent.width/3
+        }
 
-            onClicked: {
-                if (panel.indicators.shown) {
-                    panel.indicators.hide();
-                } else {
-                    panel.indicators.show();
+        ColumnLayout {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: false
+
+            Button {
+                Layout.fillWidth: true
+                text: panel.indicators.shown ? "Hide" : "Show"
+                onClicked: {
+                    if (panel.indicators.shown) {
+                        panel.indicators.hide();
+                    } else {
+                        panel.indicators.show();
+                    }
                 }
             }
-        }
 
-        UC.Button {
-            text: panel.fullscreenMode ? "Maximize" : "FullScreen"
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
+            Button {
+                text: panel.fullscreenMode ? "Maximize" : "FullScreen"
+                Layout.fillWidth: true
+                onClicked: panel.fullscreenMode = !panel.fullscreenMode
             }
-            width: parent.width/3
 
-            onClicked: panel.fullscreenMode = !panel.fullscreenMode
-        }
-
-        UC.Button {
-            text: callManager.hasCalls ? "Called" : "No Calls"
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
+            Button {
+                Layout.fillWidth: true
+                text: callManager.hasCalls ? "Called" : "No Calls"
+                onClicked: {
+                    if (callManager.foregroundCall) {
+                        callManager.foregroundCall = null;
+                    } else {
+                        callManager.foregroundCall = phoneCall;
+                    }
+                }
             }
-            width: parent.width/3
 
-            onClicked: {
-                if (callManager.foregroundCall) {
-                    callManager.foregroundCall = null;
-                } else {
-                    callManager.foregroundCall = phoneCall;
+            Rectangle {
+                Layout.preferredHeight: units.dp(1);
+                Layout.fillWidth: true;
+                color: "black"
+            }
+
+            Repeater {
+                model: root.originalModelData
+                RowLayout {
+                    CheckBox {
+                        checked: true
+                        onCheckedChanged: checked ? insertIndicator(index) : removeIndicator(index);
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: modelData["identifier"]
+                    }
+
+                    CheckBox {
+                        checked: true
+                        onCheckedChanged: setIndicatorVisible(index, checked);
+                    }
+                    Label {
+                        text: "visible"
+                    }
                 }
             }
         }
@@ -118,13 +129,12 @@ Item {
         when: windowShown
 
         function init() {
-            panel.indicators.initialise();
             panel.fullscreenMode = false;
+            callManager.foregroundCall = null;
 
             panel.indicators.hide();
             // Wait for animation to complete
             tryCompare(panel.indicators.hideAnimation, "running", false);
-            callManager.foregroundCall = null;
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -133,100 +143,21 @@ Item {
         }
 
         function get_indicator_item(index) {
-            var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow !== null);
-
-            return findChild(indicatorRow.row, "item" + index);
-        }
-
-        function get_indicator_item_position(index) {
-            var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow !== null);
-
-            var indicatorItem = get_indicator_item(index);
+            var indicatorItem = findChild(panel, root.originalModelData[index]["identifier"]+"-panelItem");
             verify(indicatorItem !== null);
 
-            return panel.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
-        }
-
-        // Pressing on the indicator panel should activate the indicator hints
-        // and expose a portion of the conent.
-        function test_hint() {
-            var indicatorItemCoord = get_indicator_item_position(0);
-
-            touchPress(panel, indicatorItemCoord.x, panel.indicators.panelHeight / 2);
-
-            // hint animation should be run, meaning that indicators will move downwards
-            // by hintValue pixels without any drag taking place
-            tryCompareFunction(function() { return panel.indicators.height },
-                                panel.indicators.panelHeight + panel.indicators.hintValue);
-            tryCompare(panel.indicators, "partiallyOpened", true);
-            tryCompare(panel.indicators, "fullyOpened", false);
-
-            touchRelease(panel, indicatorItemCoord.x, panel.indicators.panelHeight/2);
-        }
-
-        // Pressing on the top edge of the screen should have no effect if the panel
-        // is hidden (fullscreen), which is the case when a fullscreen app is being shown
-        function test_noHintOnFullscreenMode() {
-            panel.fullscreenMode = true;
-            // Wait for the indicators to get into position.
-            // (switches between normal and fullscreen modes are animated)
-            var indicatorArea = findChild(panel, "indicatorArea");
-            tryCompare(indicatorArea, "y", -panel.panelHeight);
-
-            var indicatorItemCoord = get_indicator_item_position(0);
-
-            touchPress(panel, indicatorItemCoord.x, panel.indicators.panelHeight / 2);
-
-            // Give some time for a hint animation to change things, if any
-            wait(500);
-
-            // no hint animation when fullscreen
-            compare(panel.indicators.partiallyOpened, false,
-                    "Indicator should not be partially opened when panel is pressed in" +
-                    " fullscreenmode");
-            compare(panel.indicators.fullyOpened, false, "Indicator should not be partially" +
-                   " opened when panel is pressed in fullscreenmode");
-
-            touchRelease(panel, indicatorItemCoord.x, panel.panelHeight/2);
-        }
-
-        // Pressing on the top edge of the indicator should have no effect if the panel
-        // has an active call
-        function test_noHintOnActiveCall() {
-            callManager.foregroundCall = phoneCall;
-
-            var indicatorItemCoord = get_indicator_item_position(0);
-
-            touchPress(panel, indicatorItemCoord.x, panel.callHint.height + panel.indicators.panelHeight / 2);
-
-            // Give some time for a hint animation to change things, if any
-            wait(500);
-
-            // no hint animation when fullscreen
-            compare(panel.indicators.partiallyOpened, false,
-                    "Indicator should not be partially opened when panel is pressed in" +
-                    " fullscreenmode");
-            compare(panel.indicators.fullyOpened, false, "Indicator should not be partially" +
-                   " opened when panel is pressed in fullscreenmode");
-
-            touchRelease(panel, indicatorItemCoord.x, panel.panelHeight/2);
+            return indicatorItem;
         }
 
         function test_drag_show_data() {
             return [
-                { tag: "pinned", fullscreenFlag: false, alreadyOpen: false, call: null,
+                { tag: "pinned", fullscreen: false, call: null,
                             indicatorY: 0 },
-                { tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false, call: null,
+                { tag: "fullscreen", fullscreen: true, call: null,
                             indicatorY: -panel.panelAndSeparatorHeight },
-                { tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true, call: null,
-                            indicatorY: 0 },
-                { tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true, call: null,
-                            indicatorY: 0 },
-                { tag: "pinned-callActive", fullscreenFlag: false, alreadyOpen: false, call: phoneCall,
+                { tag: "pinned-callActive", fullscreen: false, call: phoneCall,
                             indicatorY: 0},
-                { tag: "fullscreen-callActive", fullscreenFlag: true, alreadyOpen: false, call: phoneCall,
+                { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall,
                             indicatorY: -panel.panelAndSeparatorHeight }
             ];
         }
@@ -234,16 +165,12 @@ Item {
         // Dragging from a indicator item in the panel will gradually expose the
         // indicators, first by running the hint animation, then after dragging down will
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
+        // Tested from first Y pixel to check for swipe from offscreen.
         function test_drag_show(data) {
-            panel.fullscreenMode = data.fullscreenFlag;
+            panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
-            if (data.alreadyOpen) {
-                panel.indicators.show();
-                tryCompare(panel.indicators, "fullyOpened", true);
-            }
-
-            var indicatorRow = findChild(panel.indicators, "indicatorRow");
+            var indicatorRow = findChild(panel.indicators, "indicatorItemRow");
             verify(indicatorRow !== null);
 
             var menuContent = findChild(panel.indicators, "menuContent");
@@ -256,25 +183,15 @@ Item {
             // (switches between normal and fullscreen modes are animated)
             tryCompareFunction(function() { return indicatorArea.y }, data.indicatorY);
 
-            // do this for each indicator item
-            for (var i = 0; i < indicatorRow.row.count; i++) {
-
+            for (var i = 0; i < root.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
-                verify(indicatorItem !== null);
 
-                if (!indicatorItem.visible)
-                    continue;
+                var startXPosition = panel.mapFromItem(indicatorItem, indicatorItem.width / 2, 0).x;
 
-                var indicatorItemCoord = get_indicator_item_position(i);
-
-                touchPress(panel,
-                           indicatorItemCoord.x, panel.indicators.panelHeight / 2);
-
-                // 1) Drag the mouse down
                 touchFlick(panel,
-                           indicatorItemCoord.x, panel.indicators.panelHeight / 2,
-                           indicatorItemCoord.x, panel.height,
-                           false /* beginTouch */, false /* endTouch */);
+                           startXPosition, 0,
+                           startXPosition, panel.height,
+                           true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
 
                 // Indicators height should follow the drag, and therefore increase accordingly.
                 // They should be at least half-way through the screen
@@ -282,56 +199,105 @@ Item {
                     function() {return panel.indicators.height >= panel.height * 0.5},
                     true);
 
-                touchRelease(panel, indicatorItemCoord.x, panel.height);
+                touchRelease(panel, startXPosition, panel.height);
 
-                compare(indicatorRow.currentItem, indicatorItem,
-                        "Incorrect item activated at position " + i);
-                compare(menuContent.currentMenuIndex, i, "Menu conetent should be enabled for item at position " + i);
+                compare(indicatorRow.currentItemIndex, i,  "Indicator item should be activated at position " + i);
+                compare(menuContent.currentMenuIndex, i, "Menu conetent should be activated for item at position " + i);
 
                 // init for next indicatorItem
-                if (!data.alreadyOpen) {
-                    panel.indicators.hide();
-                    tryCompare(panel.indicators.hideAnimation, "running", false);
-                    tryCompare(panel.indicators, "state", "initial");
-                }
+                panel.indicators.hide();
+                tryCompare(panel.indicators.hideAnimation, "running", false);
+                tryCompare(panel.indicators, "state", "initial");
             }
         }
 
-        // Test the vertical velocity check when flicking the indicators open at an angle.
-        // If the vertical velocity is above a specific point, we shouldnt change active indicators
-        // if the x position changes
-        function test_vertical_velocity_detector() {
-            panel.fullscreenMode = false;
+        function test_drag_hide_data() {
+            return [
+                { tag: "pinned", fullscreen: false, call: null,
+                            indicatorY: 0 },
+                { tag: "fullscreen", fullscreen: true, call: null,
+                            indicatorY: -panel.panelAndSeparatorHeight },
+                { tag: "pinned-callActive", fullscreen: false, call: phoneCall,
+                            indicatorY: 0},
+                { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall,
+                            indicatorY: -panel.panelAndSeparatorHeight }
+            ];
+        }
 
-            var indicatorRow = findChild(panel.indicators, "indicatorRow");
+        // Dragging the shown indicators up from bottom of panel will hide the indicators
+        // Tested from last Y pixel to check for swipe from offscreen.
+        function test_drag_hide(data) {
+            panel.fullscreenMode = data.fullscreen;
+            callManager.foregroundCall = data.call;
+
+            var indicatorRow = findChild(panel.indicators, "indicatorItemRow");
             verify(indicatorRow !== null);
 
-            // Get the first indicator
-            var indicatorItemFirst = get_indicator_item(0);
-            verify(indicatorItemFirst !== null);
+            var menuContent = findChild(panel.indicators, "menuContent");
+            verify(menuContent !== null);
 
-            var indicatorItemCoordFirst = get_indicator_item_position(0);
-            var indicatorItemCoordNext = get_indicator_item_position(indicatorRow.row.count - 1);
+            var indicatorArea = findChild(panel, "indicatorArea");
+            verify(indicatorArea !== null);
 
-            touchPress(panel,
-                       indicatorItemCoordFirst.x, panel.indicators.panelHeight / 2);
+            // Wait for the indicators to get into position.
+            // (switches between normal and fullscreen modes are animated)
+            tryCompareFunction(function() { return indicatorArea.y }, data.indicatorY);
 
-            // 1) Drag the mouse down to hint a bit
-            touchFlick(panel,
-                       indicatorItemCoordFirst.x, panel.indicators.panelHeight / 2,
-                       indicatorItemCoordFirst.x, panel.indicators.panelHeight * 2,
-                       false /* beginTouch */, false /* endTouch */);
+            panel.indicators.show();
+            tryCompare(panel.indicators.showAnimation, "running", false);
+            tryCompare(panel.indicators, "unitProgress", 1);
 
-            tryCompare(indicatorRow, "currentItem", indicatorItemFirst)
+            touchFlick(panel.indicators,
+                       panel.indicators.width / 2, panel.height,
+                       panel.indicators.width / 2, 0,
+                       true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
 
-            // 1) Flick mouse down to bottom
-            touchFlick(panel,
-                       indicatorItemCoordFirst.x, panel.indicators.panelHeight * 2,
-                       indicatorItemCoordNext.x, panel.height,
-                       false /* beginTouch */, true /* endTouch */,
-                       units.gu(10) /* speed */, 30 /* iterations */); // more samples needed for accurate velocity
+            // Indicators height should follow the drag, and therefore increase accordingly.
+            // They should be at least half-way through the screen
+            tryCompareFunction(
+                function() {return panel.indicators.height <= panel.height * 0.5},
+                true);
 
-            compare(indicatorRow.currentItem, indicatorItemFirst, "First indicator should still be the current item");
+            touchRelease(panel.indicators, panel.indicators.width / 2, 0);
+
+            tryCompare(panel.indicators.hideAnimation, "running", true);
+            tryCompare(panel.indicators.hideAnimation, "running", false);
+            tryCompare(panel.indicators, "state", "initial");
+        }
+
+        function test_hint_data() {
+            return [
+                { tag: "normal", fullscreen: false, call: null, hintExpected: true},
+                { tag: "fullscreen", fullscreen: true, call: null, hintExpected: false},
+                { tag: "call hint", fullscreen: false, call: phoneCall, hintExpected: false},
+            ];
+        }
+
+        function test_hint(data) {
+            panel.fullscreenMode = data.fullscreen;
+            callManager.foregroundCall = data.call;
+
+            if (data.fullscreen) {
+                // Wait for the indicators to get into position.
+                // (switches between normal and fullscreen modes are animated)
+                var indicatorArea = findChild(panel, "indicatorArea");
+                tryCompare(indicatorArea, "y", -panel.panelHeight);
+            }
+
+            var indicatorItem = get_indicator_item(0);
+            var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width / 2, indicatorItem.height / 2);
+
+            touchPress(panel, mappedPosition.x, panel.indicators.minimizedPanelHeight / 2);
+
+            // Give some time for a hint animation to change things, if any
+            wait(500);
+
+            // no hint animation when fullscreen
+            compare(panel.indicators.fullyClosed, !data.hintExpected, "Indicator should be fully closed");
+            compare(panel.indicators.partiallyOpened, data.hintExpected, "Indicator should be partialy opened");
+            compare(panel.indicators.fullyOpened, false, "Indicator should not be fully opened");
+
+            touchRelease(panel, mappedPosition.x, panel.minimizedPanelHeight / 2);
         }
     }
 }

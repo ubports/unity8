@@ -22,7 +22,7 @@
 
 #include <QtQml/QQmlExtensionPlugin>
 
-class Indicators2Plugin : public QQmlExtensionPlugin
+class IndicatorsPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

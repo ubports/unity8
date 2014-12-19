@@ -28,8 +28,10 @@ Item {
     implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
 
     property bool showBackButton: false
+    property bool backIsClose: false
     property string title
 
+    property bool storeEntryEnabled: false
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
     property bool favoriteEnabled: false
@@ -37,7 +39,7 @@ Item {
     property ListModel searchHistory: SearchHistoryModel
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
-    property alias showSignatureLine: bottomBorder.visible
+    property bool showSignatureLine: true
 
     property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
@@ -46,6 +48,7 @@ Item {
     property var scopeStyle: null
 
     signal backClicked()
+    signal storeClicked()
     signal settingsClicked()
     signal favoriteClicked()
 
@@ -132,7 +135,7 @@ Item {
         objectName: "headerContainer"
         clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: units.gu(6.5)
+        height: units.gu(7)
         contentHeight: headersColumn.height
         interactive: false
         contentY: showSearch ? 0 : height
@@ -141,6 +144,7 @@ Item {
         property var popover: null
 
         Background {
+            id: background
             objectName: "headerBackground"
             style: scopeStyle.headerBackground
         }
@@ -169,10 +173,13 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
+                __separator_visible: false
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
                 property string title
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
+                panelForegroundColor: config.foregroundColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
@@ -240,19 +247,28 @@ Item {
                 height: headerContainer.height
                 contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                separatorSource: ""
-                separatorBottomSource: ""
+                __separator_visible: false
                 property var styledItem: header
                 property string title: root.title
+                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
+                property color panelColor: background.topColor
+                panelForegroundColor: config.foregroundColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
                     backAction: Action {
-                        iconName: "back"
+                        iconName: backIsClose ? "close" : "back"
                         visible: root.showBackButton
                         onTriggered: root.backClicked()
                     }
 
                     actions: [
+                        Action {
+                            objectName: "store"
+                            text: i18n.tr("Store")
+                            iconName: "ubuntu-store-symbolic"
+                            visible: root.storeEntryEnabled
+                            onTriggered: root.storeClicked();
+                        },
                         Action {
                             objectName: "search"
                             text: i18n.tr("Search")
@@ -287,7 +303,7 @@ Item {
                     id: imageComponent
 
                     Item {
-                        anchors { fill: parent; topMargin: units.gu(1); bottomMargin: units.gu(1) }
+                        anchors { fill: parent; topMargin: units.gu(1.5); bottomMargin: units.gu(1.5) }
                         clip: true
                         Image {
                             objectName: "titleImage"
@@ -346,6 +362,7 @@ Item {
 
     Rectangle {
         id: bottomBorder
+        visible: showSignatureLine
         anchors {
             top: headerContainer.bottom
             left: parent.left

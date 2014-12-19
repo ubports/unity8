@@ -17,19 +17,29 @@
 #ifndef DASHCOMMUNICATOR_H
 #define DASHCOMMUNICATOR_H
 
-#include <QObject>
+// Qt
+#include <QThread>
+#include <QMutex>
 
-class DashCommunicator: public QObject
+class DashConnection;
+
+class DashCommunicator: public QThread
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.canonical.Unity.DashCommunicator")
-
 public:
-    DashCommunicator(QObject *parent = 0);
-    ~DashCommunicator();
+    explicit DashCommunicator(QObject *parent = 0);
+    ~DashCommunicator() = default;
 
 public Q_SLOTS:
-    void setCurrentScope(const QString &scopeId, bool animate, bool isSwipe);
+    void setCurrentScope(int index, bool animate, bool isSwipe);
+
+protected:
+    void run() override;
+
+private:
+    DashConnection *m_dashConnection;
+    bool m_created;
+    QMutex m_mutex;
 };
 
 #endif

@@ -77,7 +77,7 @@ void Audio::pause()
 
 void Audio::play()
 {
-    if (m_playbackState != PlayingState && m_source.isValid()) {
+    if (m_playbackState != PlayingState) {
         m_playbackState = PlayingState;
         Q_EMIT playbackStateChanged(m_playbackState);
 
@@ -104,4 +104,14 @@ void Audio::timerEvent()
     } else {
         stop();
     }
+}
+
+Audio::AudioRole Audio::audioRole() const
+{
+    return Audio::MultimediaRole;
+}
+
+void Audio::setAudioRole(Audio::AudioRole audioRole)
+{
+    Q_UNUSED(audioRole);
 }

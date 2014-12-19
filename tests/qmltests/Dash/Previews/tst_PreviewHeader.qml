@@ -27,13 +27,15 @@ Rectangle {
     property var origHeaderjson: {
         "title": "THE TITLE",
         "subtitle": "Something catchy",
-        "mascot": "../graphics/play_button.png"
+        "mascot": "../graphics/play_button.png",
+        "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
     }
 
     property var headerjson: {
         "title": "THE TITLE",
         "subtitle": "Something catchy",
-        "mascot": "../graphics/play_button.png"
+        "mascot": "../graphics/play_button.png",
+        "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
     }
 
     PreviewHeader {

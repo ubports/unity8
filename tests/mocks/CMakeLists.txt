@@ -30,14 +30,15 @@ endmacro()
 
 add_subdirectory(AccountsService)
 add_subdirectory(GSettings.1.0)
-add_subdirectory(HudClient)
 add_subdirectory(libusermetrics)
 add_subdirectory(LightDM)
+add_subdirectory(MeeGo)
 add_subdirectory(Powerd)
 add_subdirectory(QMenuModel)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
 add_subdirectory(QtMultimedia)
+add_subdirectory(Wizard)
 
 install(
   DIRECTORY data

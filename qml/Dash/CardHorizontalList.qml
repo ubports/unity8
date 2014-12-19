@@ -42,6 +42,7 @@ DashRenderer {
             sourceComponent: cardTool.cardComponent
             anchors { top: parent.top; bottom: parent.bottom }
             width: cardTool.cardWidth
+            asynchronous: true
             onLoaded: {
                 item.objectName = "delegate" + index;
                 item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
@@ -49,13 +50,13 @@ DashRenderer {
                 item.cardData = Qt.binding(function() { return model; });
                 item.template = Qt.binding(function() { return cardTool.template; });
                 item.components = Qt.binding(function() { return cardTool.components; });
-                item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
+                item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                 item.scopeStyle = root.scopeStyle;
             }
             Connections {
                 target: loader.item
                 onClicked: root.clicked(index, result, loader.item, model)
-                onPressAndHold: root.pressAndHold(index, model)
+                onPressAndHold: root.pressAndHold(index, result, model)
             }
         }
     }

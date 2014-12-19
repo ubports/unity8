@@ -23,8 +23,13 @@
 
 #include "launcheritem.h"
 #include "launchermodel.h"
+#include "dbusinterface.h"
+#include "gsettings.h"
 
 #include <QtTest>
+#include <QDBusInterface>
+#include <QDBusReply>
+#include <QDomDocument>
 
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
@@ -39,7 +44,12 @@ public:
     ApplicationInfoInterface::Stage stage() const { return ApplicationInfoInterface::MainStage; }
     ApplicationInfoInterface::State state() const { return ApplicationInfoInterface::Running; }
     bool focused() const { return m_focused; }
-    QUrl screenshot() const { return QUrl(); }
+    QString splashTitle() const override { return QString(); }
+    QUrl splashImage() const override { return QUrl(); }
+    bool splashShowHeader() const override { return true; }
+    QColor splashColor() const override { return QColor(0,0,0,0); }
+    QColor splashColorHeader() const override { return QColor(0,0,0,0); }
+    QColor splashColorFooter() const override { return QColor(0,0,0,0); }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -72,7 +82,15 @@ public:
         return nullptr;
     }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) { return nullptr; }
-    bool stopApplication(const QString &) { return false; }
+    bool stopApplication(const QString &appId) {
+        Q_FOREACH(MockApp* app, m_list) {
+            if (app->appId() == appId) {
+                removeApplication(m_list.indexOf(app));
+                return true;
+            }
+        }
+        return false;
+    }
     bool focusApplication(const QString &appId) {
         Q_FOREACH(MockApp* app, m_list) {
             app->setFocused(app->appId() == appId);
@@ -96,6 +114,8 @@ public:
     bool requestFocusApplication(const QString &appId) { Q_UNUSED(appId); return true; }
     bool suspended() const { return false; }
     void setSuspended(bool) {}
+    bool forceDashActive() const { return false; }
+    void setForceDashActive(bool) {}
 
 private:
     QList<MockApp*> m_list;
@@ -113,6 +133,7 @@ private Q_SLOTS:
 
     void initTestCase() {
         launcherModel = new LauncherModel(this);
+        QCoreApplication::processEvents(); // to let the model register on DBus
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 0);
 
         appManager = new MockAppManager(this);
@@ -126,6 +147,8 @@ private Q_SLOTS:
 
         appManager->addApplication(new MockApp("no-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+
+        launcherModel->m_settings->setStoredApplications(QStringList());
     }
 
     // Removing apps from appmanager and launcher as pinned ones would stick
@@ -161,14 +184,23 @@ private Q_SLOTS:
         launcherModel->pin(launcherModel->get(0)->appId());
         QCOMPARE(launcherModel->get(0)->pinned(), true);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
-        QCOMPARE(spy.count(), 1);
+        QCOMPARE(spy.count() > 0, true);
         QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
 
+        // App should be pinned now
+        spy.clear();
         launcherModel->requestRemove(launcherModel->get(0)->appId());
         QCOMPARE(launcherModel->get(0)->pinned(), false);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
-        QCOMPARE(spy.count(), 2);
-        QCOMPARE(spy.at(1).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+        QCOMPARE(spy.count(), 1);
+        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RolePinned);
+
+        // Now that the app is unpinned, nothing should change and the signal should not be emitted
+        spy.clear();
+        launcherModel->requestRemove(launcherModel->get(0)->appId());
+        QCOMPARE(launcherModel->get(0)->pinned(), false);
+        QCOMPARE(launcherModel->get(1)->pinned(), false);
+        QCOMPARE(spy.count(), 0);
     }
 
     void testRemove_data() {
@@ -177,7 +209,7 @@ private Q_SLOTS:
         QTest::addColumn<bool>("running");
 
         QTest::newRow("non-pinned, running") << false << true;
-        QTest::newRow("pinned, running") << true << false;
+        QTest::newRow("pinned, running") << true << true;
         QTest::newRow("pinned, non-running") << true << false;
     }
 
@@ -190,23 +222,24 @@ private Q_SLOTS:
 
         // pin one if required
         if (pinned) {
-            launcherModel->pin(launcherModel->get(1)->appId());
+            launcherModel->pin("abs-icon");
         }
 
         // stop it if required
         if (!running) {
-            appManager->removeApplication(1);
+            appManager->stopApplication("abs-icon");
         }
 
         // Now remove it
-        launcherModel->requestRemove(launcherModel->get(1)->appId());
+        launcherModel->requestRemove("abs-icon");
 
         if (running) {
             // both apps are running, both apps must still be here
             QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
            // Item must be unpinned now
-           QCOMPARE(launcherModel->get(1)->pinned(), false);
+           int index = launcherModel->findApplication("abs-icon");
+           QCOMPARE(launcherModel->get(index)->pinned(), false);
 
         } else if (pinned) {
            // Item 1 must go away, item 0 is here to stay
@@ -215,7 +248,7 @@ private Q_SLOTS:
 
         // done our checks. now stop the app if was still running
         if (running) {
-            appManager->removeApplication(1);
+            appManager->stopApplication("abs-icon");
         }
 
         // It needs to go away in any case now
@@ -287,9 +320,152 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->getUrlForAppId(QString()), QString());
         QCOMPARE(launcherModel->getUrlForAppId(""), QString());
         QCOMPARE(launcherModel->getUrlForAppId("no-name"), QString("application:///no-name.desktop"));
-        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("appid://com.test.good/first-listed-app/current-user-version"));
+        QCOMPARE(launcherModel->getUrlForAppId("com.test.good"), QString("application:///com.test.good.desktop"));
         QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application"), QString("appid://com.test.good/application/current-user-version"));
         QCOMPARE(launcherModel->getUrlForAppId("com.test.good_application_1.2.3"), QString("appid://com.test.good/application/current-user-version"));
+    }
+
+    void testIntrospection() {
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher", "org.freedesktop.DBus.Introspectable");
+        QDBusReply<QString> reply = interface.call("Introspect");
+        QStringList nodes = extractNodes(reply.value());
+        QCOMPARE(nodes.count(), launcherModel->rowCount());
+
+        appManager->addApplication(new MockApp("foobar"));
+        reply = interface.call("Introspect");
+        nodes = extractNodes(reply.value());
+        QCOMPARE(nodes.contains("foobar"), true);
+
+        appManager->removeApplication(2);
+        reply = interface.call("Introspect");
+        nodes = extractNodes(reply.value());
+        QCOMPARE(nodes.contains("foobar"), false);
+    }
+
+    QStringList extractNodes(const QString &introspectionXml) {
+        QXmlStreamReader introspectReply(introspectionXml);
+
+        QStringList ret;
+        while (!introspectReply.atEnd() && !introspectReply.hasError()) {
+            QXmlStreamReader::TokenType token = introspectReply.readNext();
+
+            if (token == QXmlStreamReader::StartElement) {
+                if (introspectReply.name() == "node" && introspectReply.attributes().count() > 0) {
+                    ret  << introspectReply.attributes().value("name").toString();
+                }
+            }
+        }
+        return ret;
+    }
+
+    void testCountEmblems() {
+        // Call GetAll on abs-icon
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
+        QDBusReply<QVariantMap> reply = interface.call("GetAll");
+        QVariantMap map = reply.value();
+
+        // Make sure GetAll returns a map with count and countVisible props
+        QCOMPARE(map.contains("count"), true);
+        QCOMPARE(map.contains("countVisible"), true);
+
+        // Make sure count is intitilized to 0 and non-visible
+        QCOMPARE(map.value("count").toInt(), 0);
+        QCOMPARE(map.value("countVisible").toBool(), false);
+
+        // Now make it visible and set it to 55 through D-Bus
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
+
+        // Fetch it again using GetAll
+        reply = interface.call("GetAll");
+        map = reply.value();
+
+        // Make sure values have changed on the D-Bus interface
+        QCOMPARE(map.value("count").toInt(), 55);
+        QCOMPARE(map.value("countVisible").toBool(), true);
+
+        // Now the item on the upper side of the API
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+
+        // And make sure values have changed there as well
+        QCOMPARE(launcherModel->get(index)->countVisible(), true);
+        QCOMPARE(launcherModel->get(index)->count(), 55);
+    }
+
+    void testRefreshAfterDeletedDesktopFiles_data() {
+        QTest::addColumn<bool>("deleted");
+        QTest::newRow("have .desktop files") << false;
+        QTest::newRow("deleted .desktop files") << true;
+    }
+
+    void testRefreshAfterDeletedDesktopFiles() {
+        QFETCH(bool, deleted);
+
+        // pin both apps
+        launcherModel->pin("abs-icon");
+        launcherModel->pin("no-icon");
+        // close both apps
+        appManager->removeApplication(0);
+        appManager->removeApplication(0);
+
+        // "delete" the .desktop files
+        QString oldCurrent = QDir::currentPath();
+        if (deleted) {
+            // In testing mode, the launcher searches the current dir for the sample .desktop file
+            // We can make that fail by changing the current dir
+            QDir::setCurrent("..");
+        }
+
+        // Call refresh
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher", "com.canonical.Unity.Launcher");
+        QDBusReply<void> reply = interface.call("Refresh");
+
+        // Make sure the call to Refresh returned without error.
+        QCOMPARE(reply.isValid(), true);
+
+        QCOMPARE(launcherModel->rowCount(), deleted ? 0 : 2);
+
+        // Restoring current dir
+        QDir::setCurrent(oldCurrent);
+    }
+
+    void testSettings() {
+        GSettings *settings = launcherModel->m_settings;
+        QSignalSpy spy(launcherModel, SIGNAL(hint()));
+
+        // Nothing pinned at startup
+        QCOMPARE(settings->storedApplications().count(), 0);
+
+        // pin both apps
+        launcherModel->pin("abs-icon");
+        launcherModel->pin("no-icon");
+        QCOMPARE(spy.count(), 0);
+
+        // Now settings should have 2 apps
+        QCOMPARE(settings->storedApplications().count(), 2);
+
+        // close both apps
+        appManager->removeApplication(0);
+        appManager->removeApplication(0);
+
+        // Now settings should have 2 apps
+        QCOMPARE(settings->storedApplications().count(), 2);
+
+        // Now remove 1 app through the backend, make sure one is still there
+        settings->simulateDConfChanged(QStringList() << "abs-icon");
+        QCOMPARE(settings->storedApplications().count(), 1);
+        QCOMPARE(spy.count(), 1);
+
+        // Check if it disappeared from the frontend too
+        QCOMPARE(launcherModel->rowCount(), 1);
+
+        // Add them back but in reverse order
+        settings->simulateDConfChanged(QStringList() << "no-icon" << "abs-icon");
+        QCOMPARE(launcherModel->rowCount(), 2);
+        QCOMPARE(launcherModel->get(0)->appId(), QString("no-icon"));
+        QCOMPARE(launcherModel->get(1)->appId(), QString("abs-icon"));
+        QCOMPARE(spy.count(), 2);
     }
 };
 

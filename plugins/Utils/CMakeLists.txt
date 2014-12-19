@@ -13,6 +13,7 @@ include_directories(
 set(QMLPLUGIN_SRC
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
+    relativetimeformatter.cpp
     timeformatter.cpp
     unitymenumodelpaths.cpp
     windowkeysfilter.cpp
@@ -32,6 +33,6 @@ target_link_libraries(Utils-qml ${GIO_LDFLAGS})
 # files directly in targets.
 set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-qt5_use_modules(Utils-qml Qml Quick DBus Network XmlPatterns Gui Concurrent)
+qt5_use_modules(Utils-qml Qml Quick DBus Network Gui)
 
 add_unity8_plugin(Utils 0.1 Utils TARGETS Utils-qml)
