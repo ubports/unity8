@@ -65,6 +65,7 @@ Item {
 
     Loader {
         id: loader
+        objectName: "tutorialLoader"
 
         property Component target: {
             if (next) {

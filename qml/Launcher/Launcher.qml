@@ -34,6 +34,7 @@ Item {
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
+    readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
     readonly property real visibleWidth: panel.width + panel.x
 
@@ -70,7 +71,7 @@ Item {
     }
 
     function tease(interval) {
-        if (available && !dragArea.dragging) {
+        if (available && root.state == "" && !dragArea.dragging) {
             if (interval === undefined) {
                 interval = 200;
             }
@@ -284,6 +285,8 @@ Item {
                 } else {
                     root.switchToNextState("")
                 }
+            } else {
+                teaseTimer.stop();
             }
         }
     }

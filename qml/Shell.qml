@@ -241,8 +241,10 @@ Item {
             }
 
             onApplicationAdded: {
-                if (greeter.shown && appId != "unity8-dash") {
-                    greeter.startUnlock()
+                if (appId != "unity8-dash") {
+                    if (greeter.shown) {
+                        greeter.startUnlock();
+                    }
 
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call

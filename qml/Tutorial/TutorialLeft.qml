@@ -32,24 +32,16 @@ TutorialPage {
     Connections {
         target: root.launcher
 
-        property bool maybeDone
-
         onStateChanged: {
-            if (launcher.state === "visible") {
-                maybeDone = true;
+            if (root.launcher.state === "visible") {
+                finishTimer.start();
             }
         }
 
         onDash: {
-            maybeDone = false;
+            finishTimer.stop();
             root.showError();
             root.launcher.hide();
-        }
-
-        onDragDistanceChanged: {
-            if (root.launcher.dragDistance === 0 && maybeDone) {
-                root.hide();
-            }
         }
     }
 
@@ -57,8 +49,14 @@ TutorialPage {
         id: teaseTimer
         interval: UbuntuAnimation.SleepyDuration
         repeat: true
-        running: !root.paused
+        running: !root.paused && !root.launcher.dragging
         onTriggered: root.launcher.tease(UbuntuAnimation.SleepyDuration)
+    }
+
+    Timer {
+        id: finishTimer
+        interval: 1
+        onTriggered: root.hide()
     }
 
     foreground {
@@ -70,7 +68,7 @@ TutorialPage {
                     topMargin: root.textBottom + units.gu(3)
                 }
                 offset: root.launcher.visibleWidth + root.launcher.progress
-                active: root.launcher.dragDistance > 0
+                active: root.launcher.dragging
                 shortSwipe: true
             }
         ]

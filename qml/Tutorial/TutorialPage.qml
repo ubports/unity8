@@ -159,6 +159,7 @@ Showable {
 
         Label {
             id: errorLabel
+            objectName: "errorLabel"
             anchors {
                 top: parent.verticalCenter
                 topMargin: d.verticalOffset + root.textYOffset

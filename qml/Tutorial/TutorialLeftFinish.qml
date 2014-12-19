@@ -27,6 +27,7 @@ TutorialPage {
     foreground {
         children: [
             Image {
+                objectName: "tick"
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     top: parent.top

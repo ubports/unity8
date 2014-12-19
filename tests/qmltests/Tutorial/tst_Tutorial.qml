@@ -199,54 +199,28 @@ Item {
         }
 
         function goToPage(name) {
-            var page = waitForPage("tutorialIntro");
-            if (name === "tutorialIntro") return page;
-            tap(page);
-
-            page = waitForPage("tutorialTop");
-            checkLeftEdge();
-            checkRightEdge();
-            checkBottomEdge();
-            if (name === "tutorialTop") return page;
-            touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
-
-            page = waitForPage("tutorialTopFinish");
-            checkLeftEdge();
-            checkRightEdge();
-            checkBottomEdge();
-            if (name === "tutorialTopFinish") return page;
-            touchFlick(shell, halfWidth, shell.height, halfWidth, 0);
-
-            page = waitForPage("tutorialLeft");
+            var page = waitForPage("tutorialLeft");
             checkTopEdge();
             checkRightEdge();
             checkBottomEdge();
             if (name === "tutorialLeft") return page;
-            touchFlick(shell, 0, halfHeight, halfWidth, halfHeight, true, false);
+            touchFlick(shell, 0, halfHeight, halfWidth, halfHeight);
 
-            page = waitForPage("tutorialLeftRelease");
-            if (name === "tutorialLeftRelease") return page;
-            touchFlick(shell, halfWidth, halfHeight, halfWidth, halfHeight, false, true);
+            page = waitForPage("tutorialLeftFinish");
+            if (name === "tutorialLeftFinish") return page;
+            var tick = findChild(page, "tick");
+            tap(tick);
 
             checkFinished();
             return null;
-        }
-
-        function test_skippable() {
-            var top = goToPage("tutorialTop");
-
-            var skipLabel = findChild(top, "skipLabel");
-            tap(skipLabel);
-
-            checkFinished();
         }
 
         function test_walkthrough() {
             goToPage(null);
         }
 
-        function test_launcherShortDrags() {
-            // goToPage does a full launcher pull.  But here we want to test
+        function test_launcherShortDrag() {
+            // goToPage does a normal launcher pull.  But here we want to test
             // just barely pulling the launcher out and letting go (i.e. not
             // triggering the "progress" property of Launcher).
 
@@ -263,23 +237,36 @@ Item {
             touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.9, halfHeight);
 
             waitForPage("tutorialLeftFinish");
-            tap(launcher);
+        }
 
-            checkFinished();
+        function test_launcherLongDrag() {
+            // goToPage does a normal launcher pull.  But here we want to test
+            // a full pull across the page.
+
+            var left = goToPage("tutorialLeft");
+
+            var launcher = findChild(shell, "launcher");
+            touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
+
+            var errorLabel = findChild(left, "errorLabel");
+            tryCompare(launcher, "state", ""); // launcher goes away
+            tryCompare(left, "shown", true); // still on left page
+            tryCompare(errorLabel, "opacity", 1); // show error
         }
 
         function test_launcherDragBack() {
             // goToPage does a full launcher pull.  But here we test pulling
             // all the way out, then dragging back into place.
 
-            goToPage("tutorialLeftRelease");
+            var left = goToPage("tutorialLeft");
+            touchFlick(shell, 0, halfHeight, halfWidth, halfHeight, true, false);
             touchFlick(shell, halfWidth, halfHeight, 0, halfHeight, false, true);
 
-            checkFinished();
+            tryCompare(left, "shown", true); // and we should still be on left
         }
 
         function test_interrupted() {
-            goToPage("tutorialTop");
+            goToPage("tutorialLeft");
             ApplicationManager.startApplication("dialer-app");
             checkFinished();
         }
