@@ -222,7 +222,7 @@ Item {
 
             notifications.model = mockNotificationsModel;
 
-            // FIXME: Hack: SortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // FIXME: Hack: UnitySortFilterProxyModelQML doesn't work with QML ListModels which we use
             // for mocking here (RoleType can't be found in the QML model). As we only need to show
             // one SnapDecision lets just disable the filtering and make appear any notification as a
             // SnapDecision.

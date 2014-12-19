@@ -18,7 +18,7 @@
  */
 
 // local
-#include "qsortfilterproxymodelqml.h"
+#include "unitysortfilterproxymodelqml.h"
 #include "modeltest.h"
 
 // Qt
@@ -91,7 +91,7 @@ private:
     QHash<int, QByteArray> m_roles;
 };
 
-class QSortFilterProxyModelTest : public QObject
+class UnitySortFilterProxyModelTest : public QObject
 {
     Q_OBJECT
 
@@ -103,7 +103,7 @@ private Q_SLOTS:
 
     void testRoleNamesSetAfter()
     {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model;
         QHash<int, QByteArray> roles;
 
@@ -117,7 +117,7 @@ private Q_SLOTS:
 
     void testRoleNamesSetBefore()
     {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model;
         QHash<int, QByteArray> roles;
 
@@ -131,7 +131,7 @@ private Q_SLOTS:
 
     void testCountSetAfter()
     {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model;
         model.insertRows(0, 5);
 
@@ -144,7 +144,7 @@ private Q_SLOTS:
 
     void testCountInsert()
     {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model;
 
         proxy.setModel(&model);
@@ -158,7 +158,7 @@ private Q_SLOTS:
 
     void testCountRemove()
     {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model;
         model.insertRows(0, 5);
 
@@ -173,7 +173,7 @@ private Q_SLOTS:
     }
 
     void testInvertMatch() {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model;
 
         proxy.setModel(&model);
@@ -215,7 +215,7 @@ private Q_SLOTS:
     }
 
     void testNestedProxyRoleNames() {
-        QSortFilterProxyModelQML proxy1, proxy2;
+        UnitySortFilterProxyModelQML proxy1, proxy2;
         MockListModel model;
         QHash<int, QByteArray> roles;
         roles[0] = "role0";
@@ -229,7 +229,7 @@ private Q_SLOTS:
     }
 
     void testModelTest() {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model;
 
         proxy.setModel(&model);
@@ -246,7 +246,7 @@ private Q_SLOTS:
     }
 
     void testModelChanged() {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model, model2;
 
         QSignalSpy spyOnModelChanged(&proxy, SIGNAL(modelChanged()));
@@ -265,7 +265,7 @@ private Q_SLOTS:
     }
 
     void testData() {
-        QSortFilterProxyModelQML proxy;
+        UnitySortFilterProxyModelQML proxy;
         MockListModel model, model2;
 
         QStringList rows;
@@ -285,6 +285,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_GUILESS_MAIN(QSortFilterProxyModelTest)
+QTEST_GUILESS_MAIN(UnitySortFilterProxyModelTest)
 
-#include "qsortfilterproxymodeltest.moc"
+#include "unitysortfilterproxymodeltest.moc"
