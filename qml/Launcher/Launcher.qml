@@ -69,8 +69,12 @@ Item {
         animateTimer.start();
     }
 
-    function tease() {
+    function tease(interval) {
         if (available && !dragArea.dragging) {
+            if (interval === undefined) {
+                interval = 200;
+            }
+            teaseTimer.interval = interval;
             teaseTimer.mode = "teasing"
             teaseTimer.start();
         }
@@ -78,6 +82,7 @@ Item {
 
     function hint() {
         if (available && root.state == "") {
+            teaseTimer.interval = 300;
             teaseTimer.mode = "hinting"
             teaseTimer.start();
         }
@@ -85,8 +90,7 @@ Item {
 
     Timer {
         id: teaseTimer
-        interval: mode == "teasing" ? 200 : 300
-        property string mode: "teasing"
+        property string mode
     }
 
     Timer {
@@ -158,7 +162,7 @@ Item {
 
     MouseArea {
         id: launcherDragArea
-        enabled: root.state == "visible"
+        enabled: root.available && root.state == "visible"
         anchors.fill: panel
         anchors.rightMargin: -units.gu(2)
         drag {

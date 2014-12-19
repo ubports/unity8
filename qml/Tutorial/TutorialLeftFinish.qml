@@ -22,6 +22,7 @@ TutorialPage {
 
     title: i18n.tr("These are the shortcuts to favorite apps")
     text: i18n.tr("Tap here to finish.")
+    fullTextWidth: true
 
     foreground {
         children: [

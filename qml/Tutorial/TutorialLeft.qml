@@ -30,10 +30,10 @@ TutorialPage {
 
     Timer {
         id: teaseTimer
-        interval: 2000
+        interval: UbuntuAnimation.SleepyDuration
         repeat: true
         running: !root.paused
-        onTriggered: root.launcher.tease()
+        onTriggered: root.launcher.tease(UbuntuAnimation.SleepyDuration)
     }
 
     foreground {

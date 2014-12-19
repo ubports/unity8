@@ -30,6 +30,9 @@ Showable {
     // Whether animations are paused
     property bool paused
 
+    // Whether to give the text the full width that the title has
+    property bool fullTextWidth
+
     // Whether whole page (background + foreground) or just the foreground fades in
     property bool backgroundFadesIn: false
 
@@ -136,7 +139,7 @@ Showable {
                 left: parent.left
                 leftMargin: d.sideMargin + d.textXOffset
             }
-            width: (parent.width - d.sideMargin * 2) * 0.66
+            width: (parent.width - d.sideMargin * 2) * (fullTextWidth ? 1 : 0.66)
             horizontalAlignment: Text.AlignLeft
             wrapMode: Text.Wrap
             font.weight: Font.Light
