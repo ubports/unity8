@@ -847,7 +847,7 @@ Item {
         id: tutorial
         objectName: "tutorial"
         visible: AccountsService.demoEdges
-        paused: Powerd.status === Powerd.Off || LightDM.Greeter.active
+        paused: LightDM.Greeter.active
         launcher: launcher
         panel: panel
         stages: stages

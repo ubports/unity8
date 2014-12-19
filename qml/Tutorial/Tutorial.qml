@@ -26,7 +26,7 @@ Item {
     property Item overlay
 
     readonly property bool launcherEnabled: !running ||
-                                            loader.target === leftComponent
+                                            (!paused && loader.target === leftComponent)
     readonly property bool stagesEnabled: !running
     readonly property bool panelEnabled: !running
     readonly property bool panelContentEnabled: !running
@@ -60,18 +60,6 @@ Item {
 
         function start() {
             loader.load(leftComponent);
-        }
-    }
-
-    Connections {
-        target: root.launcher
-
-        onStateChanged: {
-            if (launcher.state === "visible") {
-                if (loader.target === leftComponent) {
-                    loader.load(leftFinishComponent);
-                }
-            }
         }
     }
 
@@ -125,6 +113,8 @@ Item {
             parent: root.stages
             anchors.fill: parent
             launcher: root.launcher
+
+            onFinished: loader.load(leftFinishComponent)
         }
     }
 

@@ -27,6 +27,9 @@ Showable {
     // This is the block of text displayed below the header
     property alias text: textLabel.text
 
+    // This is the block of text displayed during an error
+    property alias errorText: errorLabel.text
+
     // Whether animations are paused
     property bool paused
 
@@ -56,6 +59,10 @@ Showable {
     property real foregroundOpacity: 1
 
     signal finished()
+
+    function showError() {
+        errorTimer.start();
+    }
 
     ////
 
@@ -99,6 +106,11 @@ Showable {
         }
     }
 
+    Timer {
+        id: errorTimer
+        interval: 3500
+    }
+
     MouseArea { // eat any errant presses
         id: mouseArea
         anchors.fill: parent
@@ -128,7 +140,6 @@ Showable {
             wrapMode: Text.Wrap
             font.weight: Font.Light
             font.pixelSize: units.gu(3.5)
-            text: root.title
         }
 
         Label {
@@ -144,13 +155,61 @@ Showable {
             wrapMode: Text.Wrap
             font.weight: Font.Light
             font.pixelSize: units.gu(2.5)
-            text: root.text
+        }
+
+        Label {
+            id: errorLabel
+            anchors {
+                top: parent.verticalCenter
+                topMargin: d.verticalOffset + root.textYOffset
+                left: parent.left
+                leftMargin: d.sideMargin + d.textXOffset
+            }
+            width: parent.width - d.sideMargin * 2
+            horizontalAlignment: Text.AlignLeft
+            wrapMode: Text.Wrap
+            font.weight: Font.Light
+            font.pixelSize: units.gu(3.5)
+            opacity: 0
         }
 
         // A place for subclasses to add extra widgets
         Item {
             id: foregroundExtra
             anchors.fill: parent
+        }
+    }
+
+    states: State {
+        name: "errorState"
+        when: errorTimer.running
+        PropertyChanges { target: titleLabel; opacity: 0 }
+        PropertyChanges { target: textLabel; opacity: 0 }
+        PropertyChanges { target: errorLabel; opacity: 1 }
+    }
+
+    transitions: Transition {
+        to: "errorState"
+        reversible: true
+        SequentialAnimation {
+            id: showErrorAnimation
+            ParallelAnimation {
+                StandardAnimation {
+                    target: titleLabel
+                    property: "opacity"
+                    duration: UbuntuAnimation.BriskDuration
+                }
+                StandardAnimation {
+                    target: textLabel
+                    property: "opacity"
+                    duration: UbuntuAnimation.BriskDuration
+                }
+            }
+            StandardAnimation {
+                target: errorLabel
+                property: "opacity"
+                duration: UbuntuAnimation.BriskDuration
+            }
         }
     }
 }

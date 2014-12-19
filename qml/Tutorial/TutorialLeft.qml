@@ -25,8 +25,33 @@ TutorialPage {
 
     title: i18n.tr("Open the launcher")
     text: i18n.tr("Short swipe from the left edge.")
+    errorText: i18n.tr("Too far!") + "\n" + i18n.tr("Try again.")
 
     textXOffset: root.launcher.visibleWidth
+
+    Connections {
+        target: root.launcher
+
+        property bool maybeDone
+
+        onStateChanged: {
+            if (launcher.state === "visible") {
+                maybeDone = true;
+            }
+        }
+
+        onDash: {
+            maybeDone = false;
+            root.showError();
+            root.launcher.hide();
+        }
+
+        onDragDistanceChanged: {
+            if (root.launcher.dragDistance === 0 && maybeDone) {
+                root.hide();
+            }
+        }
+    }
 
     Timer {
         id: teaseTimer
