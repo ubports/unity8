@@ -37,7 +37,7 @@ Item {
         readonly property real margin: units.gu(0.5)
         readonly property real arrowSize: root.height - margin * 2
         readonly property real dotSize: units.dp(1)
-        readonly property real slideOffset: Math.min(root.offset, target.x)
+        readonly property real slideOffset: MathUtils.clamp(root.offset, 0, target.x)
     }
 
     implicitWidth: shortSwipe ? units.gu(15) : units.gu(27.5)

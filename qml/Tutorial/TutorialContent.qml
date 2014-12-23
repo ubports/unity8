@@ -33,6 +33,7 @@ Item {
     readonly property bool running: loader.sourceComponent !== null
 
     property bool paused: false
+    property real edgeSize
 
     signal finished()
 
@@ -122,9 +123,35 @@ Item {
             parent: root.stages
             anchors.fill: parent
             textXOffset: root.launcher.panelWidth
+
+            onFinished: {
+                root.launcher.hide();
+                loader.load(bottomComponent);
+            }
+        }
+    }
+
+    Component {
+        id: bottomComponent
+        TutorialBottom {
+            objectName: "tutorialBottom"
+            parent: root.stages
+            anchors.fill: parent
+            edgeSize: root.edgeSize
+
+            onFinished: loader.load(bottomFinishComponent)
+        }
+    }
+
+    Component {
+        id: bottomFinishComponent
+        TutorialBottomFinish {
+            objectName: "tutorialBottomFinish"
+            parent: root.stages
+            anchors.fill: parent
             backgroundFadesOut: true
 
-            onFinished: root.launcher.hide()
+            onFinished: root.finish()
         }
     }
 }

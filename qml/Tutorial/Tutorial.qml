@@ -22,6 +22,7 @@ Item {
 
     property alias active: loader.active
     property bool paused
+    property real edgeSize
 
     property Item launcher
     property Item panel
@@ -45,6 +46,12 @@ Item {
             target: loader.item
             property: "paused"
             value: root.paused
+        }
+
+        Binding {
+            target: loader.item
+            property: "edgeSize"
+            value: root.edgeSize
         }
 
         Binding {

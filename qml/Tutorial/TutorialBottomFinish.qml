@@ -20,8 +20,8 @@ import Ubuntu.Components 1.1
 TutorialPage {
     id: root
 
-    title: i18n.tr("These are the shortcuts to favorite apps")
-    text: i18n.tr("Tap here to continue.")
+    title: i18n.tr("This action does different things for different apps")
+    text: i18n.tr("Tap here to finish.")
     fullTextWidth: true
 
     foreground {

@@ -854,6 +854,7 @@ Item {
         panel: panel
         stages: stages
         overlay: overlay
+        edgeSize: shell.edgeSize
 
         onFinished: AccountsService.demoEdges = false
     }
