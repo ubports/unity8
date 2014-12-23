@@ -848,7 +848,7 @@ Item {
     Tutorial {
         id: tutorial
         objectName: "tutorial"
-        visible: AccountsService.demoEdges
+        active: AccountsService.demoEdges
         paused: LightDM.Greeter.active
         launcher: launcher
         panel: panel
