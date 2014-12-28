@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-12-10 10:55+0100\n"
-"PO-Revision-Date: 2014-12-27 02:09+0000\n"
+"PO-Revision-Date: 2014-12-27 19:44+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2014-12-27 06:08+0000\n"
+"X-Launchpad-Export-Date: 2014-12-28 06:07+0000\n"
 "X-Generator: Launchpad (build 17286)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -439,14 +439,14 @@ msgstr "ጂፒኤስን ብቻ መጠቀሚያ(በጣም ቅርብ)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
+msgstr "ይጠቀሙ ጂፒኤስ ግልጽ ያልሆነ ዋይ-ፋይ እና ተንቀሳቃሽ ኔትዎርክ መረጃ (ይመከራሉ)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
-msgstr ""
+msgstr "ይህን ምርጫ በመምረጥ ተስማምቻለሁ ከ Nokia HERE <a href='#'>ውሎች እና ሁኔታዎች ጋር</a>."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
@@ -465,6 +465,8 @@ msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"የ እርስዎ ስልክ ራሱ በራሱ የ ስህተት መግለጫዎች ወደ Canonical and its partners, የ መስሪያ ስርአት "
+"አምራቾች"
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
