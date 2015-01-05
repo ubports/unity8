@@ -1,3 +1,14 @@
+unity8 (8.02+15.04.20141216.1-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Albert Astals ]
+  * Need to wait until loaded is true to use the count property
+  * Manage Dash: Ellide properly
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 16 Dec 2014 11:03:37 +0000
+
 unity8 (8.02+15.04.20141215.3-0ubuntu1) vivid; urgency=low
 
   [ Albert Astals Cid ]

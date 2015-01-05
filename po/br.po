@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-12-10 10:55+0100\n"
-"PO-Revision-Date: 2014-12-10 07:14+0000\n"
+"PO-Revision-Date: 2014-12-16 07:27+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2014-12-13 07:11+0000\n"
+"X-Launchpad-Export-Date: 2014-12-17 07:06+0000\n"
 "X-Generator: Launchpad (build 17286)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -358,98 +358,100 @@ msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
-msgstr ""
+msgstr "Distreiñ"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Salud deoc'h !"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Deuet-mat oc'h en ho pellgomzer Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Krogomp ganti."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Kenderc'hel"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Lakait ur gartenn SIM hag adloc'hit ho penveg"
 
 #: qml/Wizard/Pages/20-sim.qml:55
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Ne vioc'h ket evit pellgomz pe kas kemennadennoù hepti."
 
 #: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
 msgid "Skip"
-msgstr ""
+msgstr "Tremen hebiou"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Surentez ar prennañ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
 msgstr ""
+"Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "Riklañ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
-msgstr ""
+msgstr "Tamm surentez ebet"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgid "Passcode"
-msgstr ""
+msgstr "Kod-tremen"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "4 sifr hepken"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
-msgstr ""
+msgstr "Frazenn-dremen"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Sifroù ha lizherennoù"
 
 #: qml/Wizard/Pages/40-wifi.qml:28
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Kevreañ ouzh ar Wi-Fi"
 
 #: qml/Wizard/Pages/40-wifi.qml:147
 msgid "Available networks…"
-msgstr ""
+msgstr "Rouedadoù a c'haller kaout..."
 
 #: qml/Wizard/Pages/40-wifi.qml:148
 msgid "No available networks."
-msgstr ""
+msgstr "N'eus rouedad ebet da gaout."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Lec'h"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Lezel ar pellgomzer da gavout pelec'h emaoc'h :"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -457,81 +459,87 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Pa ziuzit an dibarzh-mañ ez asantit da <a href='#'>zivizoù implij</a> Nokia."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Tamm ebet"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"Gallout a rit cheñch soñj diwezhatoc'h en <b>Arventennoù ar reizhad</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "Gwellaat ho skiant-prenet"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Arventennet eo ho pellgomzer evit titourañ ent emgefre ar fazioù da "
+"gCanonical ha d'e gevelerien, ar re o deus savet ar reizhiad korvoiñ."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Gallout a ra bezañ diweredekaet e-barzh <b>Arventennoù ar reizhiad</b> "
+"dindan <b>Surentez &amp; Prevezded</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Echu penn-da-benn"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Gwellat labour !"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Prest eo ho pellgomzer da vezañ implijet bremañ."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Echuiñ"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Penndivizoù implij"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Kadarnaat ar frazenn-dremen"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Kadarnaat ar c'hod-tremen"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Esaeit en-dro, mar plij."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Choaz ho kod-tremen"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "4 arouezenn a rank bezañ er frazenn-dremen"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "O kargañ. Gortozit, mar plij..."

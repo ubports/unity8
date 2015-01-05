@@ -305,7 +305,7 @@ QVariant ScopesOverviewResultsModel::data(const QModelIndex& index, int role) co
         case RoleTitle:
             return scope ? scope->name() : QString("Title.%1.%2").arg(categoryId()).arg(index.row());
         case RoleSubtitle:
-            return scope && scope->name() == "Videos" ? "tube, movies, cinema" : QString();
+            return scope && scope->name() == "Videos this is long ab cd ef gh ij kl" ? "tube, movies, cinema, pictures, art, moving images, magic in a box" : QString();
         case RoleArt:
             return qmlDirectory() + "graphics/applicationIcons/dash.png";
         case RoleMascot:

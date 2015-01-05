@@ -188,36 +188,26 @@ AbstractButton {
         visible: root.showList
     }
 
+    property bool isFirstLoad: false
     onScopeChanged: {
-        setNewNavigation();
-    }
-
-    function setNewNavigation() {
         navigationModel.clear();
-        if (scope && scope[hasNavigation]) {
-            var navigation = getNavigation(scope[currentNavigationId]);
-            if (navigation.count > 0) {
+        isFirstLoad = true;
+    }
+    function setNewNavigation() {
+        if (isFirstLoad && currentNavigation && currentNavigation.loaded) {
+            isFirstLoad = false;
+            if (currentNavigation.count > 0) {
                 navigationModel.append({"navigationId": scope[currentNavigationId], "nullifyNavigation": false});
             } else {
-                navigationModel.append({"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
+                navigationModel.append({"navigationId": currentNavigation.parentNavigationId, "nullifyNavigation": false});
             }
         }
     }
-
     Connections {
-        target: scope
-        // This is duplicated since we can't have something based on the dynamic hasNavigation string property
-        onHasNavigationChanged: {
-            if (!root.isAltNavigation) {
-                setNewNavigation();
-            }
-        }
-        onHasAltNavigationChanged: {
-            if (root.isAltNavigation) {
-                setNewNavigation();
-            }
-        }
+        target: currentNavigation
+        onLoadedChanged: setNewNavigation();
     }
+    onCurrentNavigationChanged: setNewNavigation();
 
     InverseMouseArea {
         anchors.fill: navigationListView
