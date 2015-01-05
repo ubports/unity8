@@ -31,6 +31,7 @@ AbstractButton {
     // Used by parent
     readonly property var currentNavigation: scope && scope[hasNavigation] ? getNavigation(scope[currentNavigationId]) : null
     readonly property alias listView: navigationListView
+    readonly property bool inverseMousePressed: inverseMouseArea.pressed
     property bool showList: false
 
     // Internal
@@ -210,6 +211,7 @@ AbstractButton {
     onCurrentNavigationChanged: setNewNavigation();
 
     InverseMouseArea {
+        id: inverseMouseArea
         anchors.fill: navigationListView
         enabled: root.showList
         onPressed: root.showList = false
