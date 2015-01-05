@@ -65,6 +65,7 @@ Item {
         objectName: "pageHeader"
         title: i18n.tr("Manage")
         width: parent.width
+        clip: true
         showBackButton: true
         backIsClose: root.state == "edit"
         storeEntryEnabled: root.state == "browse"
