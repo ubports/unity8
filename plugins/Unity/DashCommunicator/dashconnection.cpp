@@ -26,7 +26,7 @@
  * thread of this process if the service is busy. QDBusAbstractInterface does not perform this
  * introspection, so let's subclass that and avoid the blocking scenario.
  *
- * However we loose Qt's wrapping of the DBus service with a MetaObject, with the result that we
+ * However we lose Qt's wrapping of the DBus service with a MetaObject, with the result that we
  * cannot easily connect to DBus signals with the usual connect() calls. So this approach only
  * suited to push communication with the DBus service.
  */
