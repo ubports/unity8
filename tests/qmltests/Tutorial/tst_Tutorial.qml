@@ -153,7 +153,6 @@ Item {
         }
 
         function waitForPage(name) {
-            tryCompareFunction(function() { return findChild(shell, name) !== null; }, true);
             var page = findChild(shell, name);
             tryCompare(page, "shown", true);
             tryCompare(page.showAnimation, "running", false);
