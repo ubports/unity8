@@ -43,6 +43,9 @@ Rectangle {
 
     readonly property alias dragging: spreadDragArea.dragging
 
+    // Only used by the tutorial right now, when it is teasing the right edge
+    property real dragAreaOverlap
+
     signal opened()
 
     color: "#111111"
@@ -118,7 +121,7 @@ Rectangle {
         property var focusedAppDelegate: null
 
         property real oldInverseProgress: 0
-        property bool animateX: true
+        property bool animateX: false
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
@@ -239,6 +242,8 @@ Rectangle {
         // Make sure we end up in the same state
         Component.onCompleted: {
             spreadView.contentX = -spreadView.shift
+            priv.animateX = true;
+            snapAnimation.complete();
         }
 
         SequentialAnimation {
@@ -445,7 +450,7 @@ Rectangle {
         direction: Direction.Leftwards
         enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; rightMargin: -root.dragAreaOverlap }
         width: root.dragAreaWidth
 
         property var gesturePoints: new Array()

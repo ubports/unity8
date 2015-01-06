@@ -35,14 +35,15 @@ TutorialPage {
     textOpacity: 1 - slider.percent
 
     SequentialAnimation {
-        paused: root.paused
-        running: false // !slider.active
+        id: teaseAnimation
+        paused: running && root.paused
+        running: !stage.dragging && stage.dragProgress === 0
         loops: Animation.Infinite
 
         UbuntuNumberAnimation {
             target: stage
             property: "x"
-            to: -units.gu(2)
+            to: -stage.dragAreaOverlap
             duration: UbuntuAnimation.SleepyDuration
         }
         UbuntuNumberAnimation {
@@ -72,7 +73,6 @@ TutorialPage {
             PhoneStage {
                 id: stage
                 anchors.top: parent.top
-                x: 0
                 width: parent.width
                 height: parent.height
                 applicationManager: fakeAppManager
@@ -82,6 +82,7 @@ TutorialPage {
                 focusFirstApp: false
                 startScale: 0.9
                 endScale: 0.6
+                dragAreaOverlap: units.gu(2)
 
                 onOpened: {
                     overlay.show();
@@ -90,8 +91,11 @@ TutorialPage {
                 }
 
                 onDraggingChanged: {
-                    if (!dragging && !overlay.shown) {
-                        root.showError();
+                    if (!dragging) {
+                        if (!overlay.shown) {
+                            root.showError();
+                        }
+                        teaseAnimation.complete();
                     }
                 }
             },

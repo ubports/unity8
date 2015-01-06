@@ -26,11 +26,11 @@ Item {
     property Item overlay
 
     readonly property bool launcherEnabled: !running ||
-                                            (!paused && loader.target === leftComponent)
+                                            (!paused && tutorialLeft.shown)
     readonly property bool spreadEnabled: !running
     readonly property bool panelEnabled: !running
     readonly property bool panelContentEnabled: !running
-    readonly property bool running: loader.sourceComponent !== null
+    readonly property alias running: d.running
 
     property bool paused: false
     property real edgeSize
@@ -51,120 +51,74 @@ Item {
     QtObject {
         id: d
 
+        property bool running
+
         function stop() {
-            loader.sourceComponent = null;
+            running = false;
         }
 
         function start() {
-            loader.load(leftComponent);
+            running = true;
+            tutorialLeft.show();
         }
     }
 
-    Loader {
-        id: loader
-        objectName: "tutorialLoader"
+    TutorialLeft {
+        id: tutorialLeft
+        objectName: "tutorialLeft"
+        parent: root.stages
+        anchors.fill: parent
+        launcher: root.launcher
+        paused: !shown || root.paused
 
-        property Component target: {
-            if (next) {
-                return next;
-            } else if (loader.item && loader.item.shown) {
-                return sourceComponent;
-            } else {
-                return null;
-            }
-        }
+        onFinished: tutorialLeftFinish.show()
+    }
 
-        property Component next: null
+    TutorialLeftFinish {
+        id: tutorialLeftFinish
+        objectName: "tutorialLeftFinish"
+        parent: root.stages
+        anchors.fill: parent
+        textXOffset: root.launcher.panelWidth
+        paused: !shown || root.paused
 
-        function load(comp) {
-            if (loader.item) {
-                next = comp;
-                loader.item.hide();
-            } else {
-                loader.sourceComponent = comp;
-            }
-        }
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                loader.sourceComponent = loader.next;
-                if (loader.next != null) {
-                    loader.next = null;
-                } else {
-                    root.finished();
-                }
-            }
-        }
-
-        Binding {
-            target: loader.item
-            property: "paused"
-            value: root.paused
+        onFinished: {
+            root.launcher.hide();
+            tutorialRight.show();
         }
     }
 
-    Component {
-        id: leftComponent
-        TutorialLeft {
-            objectName: "tutorialLeft"
-            parent: root.stages
-            anchors.fill: parent
-            launcher: root.launcher
+    TutorialRight {
+        id: tutorialRight
+        objectName: "tutorialRight"
+        parent: root.stages
+        anchors.fill: parent
+        edgeSize: root.edgeSize
+        panel: root.panel
+        paused: !shown || root.paused
 
-            onFinished: loader.load(leftFinishComponent)
-        }
+        onFinished: tutorialBottom.show()
     }
 
-    Component {
-        id: leftFinishComponent
-        TutorialLeftFinish {
-            objectName: "tutorialLeftFinish"
-            parent: root.stages
-            anchors.fill: parent
-            textXOffset: root.launcher.panelWidth
+    TutorialBottom {
+        id: tutorialBottom
+        objectName: "tutorialBottom"
+        parent: root.stages
+        anchors.fill: parent
+        edgeSize: root.edgeSize
+        paused: !shown || root.paused
 
-            onFinished: {
-                root.launcher.hide();
-                loader.load(rightComponent);
-            }
-        }
+        onFinished: tutorialBottomFinish.show()
     }
 
-    Component {
-        id: rightComponent
-        TutorialRight {
-            objectName: "tutorialRight"
-            parent: root.stages
-            anchors.fill: parent
-            edgeSize: root.edgeSize
-            panel: root.panel
+    TutorialBottomFinish {
+        id: tutorialBottomFinish
+        objectName: "tutorialBottomFinish"
+        parent: root.stages
+        anchors.fill: parent
+        backgroundFadesOut: true
+        paused: !shown || root.paused
 
-            onFinished: loader.load(bottomComponent)
-        }
-    }
-
-    Component {
-        id: bottomComponent
-        TutorialBottom {
-            objectName: "tutorialBottom"
-            parent: root.stages
-            anchors.fill: parent
-            edgeSize: root.edgeSize
-
-            onFinished: loader.load(bottomFinishComponent)
-        }
-    }
-
-    Component {
-        id: bottomFinishComponent
-        TutorialBottomFinish {
-            objectName: "tutorialBottomFinish"
-            parent: root.stages
-            anchors.fill: parent
-            backgroundFadesOut: true
-
-            onFinished: root.finish()
-        }
+        onFinished: root.finish()
     }
 }

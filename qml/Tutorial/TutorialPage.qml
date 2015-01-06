@@ -66,8 +66,8 @@ Showable {
 
     ////
 
+    visible: false
     shown: false
-    Component.onCompleted: show()
 
     property real _foregroundHideOpacity
 
@@ -76,16 +76,16 @@ Showable {
         from: 0
         to: 1
         duration: root.backgroundFadesIn ? UbuntuAnimation.SleepyDuration : UbuntuAnimation.BriskDuration
+        onStarted: root.visible = true
     }
 
     hideAnimation: StandardAnimation {
         property: root.backgroundFadesOut ? "opacity" : "_foregroundHideOpacity"
         to: 0
         duration: UbuntuAnimation.BriskDuration
-        onRunningChanged: {
-            if (!running) {
-                root.finished();
-            }
+        onStopped: {
+            root.visible = false;
+            root.finished();
         }
     }
 
