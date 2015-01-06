@@ -256,7 +256,7 @@ Item {
             // Make sure we don't do anything if we don't pull the launcher
             // out much.
             var launcher = findChild(shell, "launcher");
-            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.6, halfHeight);
+            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight);
             tryCompare(launcher, "state", ""); // should remain hidden
             tryCompare(left, "shown", true); // and we should still be on left
 

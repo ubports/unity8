@@ -35,6 +35,12 @@ Item {
     readonly property bool panelContentEnabled: loader.item ? loader.item.panelContentEnabled : true
     readonly property bool running: loader.item ? loader.item.running : false
 
+    function finish() {
+        if (loader.item) {
+            loader.item.finish();
+        }
+    }
+
     signal finished()
 
     Loader {
