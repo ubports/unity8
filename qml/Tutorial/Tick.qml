@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,14 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
-import "." as LocalComponents
 
-TutorialPage {
-    id: root
-
-    title: i18n.tr("These are the shortcuts to favorite apps")
-    text: i18n.tr("Tap here to continue.")
-    fullTextWidth: true
-
-    foreground {
-        children: [
-            LocalComponents.Tick {
-                objectName: "tick"
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: parent.top
-                    topMargin: root.textBottom + units.gu(3)
-                }
-                onClicked: root.hide()
-            }
-        ]
+MouseArea {
+    implicitHeight: tick.height
+    implicitWidth: tick.width
+    Image {
+        id: tick
+        source: Qt.resolvedUrl("graphics/tick.png")
+        height: units.gu(6.5)
+        width: units.gu(6.5)
     }
 }

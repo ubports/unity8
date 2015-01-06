@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
+import "." as LocalComponents
 
 TutorialPage {
     id: root
@@ -26,21 +27,14 @@ TutorialPage {
 
     foreground {
         children: [
-            Image {
+            LocalComponents.Tick {
                 objectName: "tick"
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     top: parent.top
                     topMargin: root.textBottom + units.gu(3)
                 }
-                source: Qt.resolvedUrl("graphics/tick.png")
-                height: units.gu(6.5)
-                width: units.gu(6.5)
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: root.hide()
-                }
+                onClicked: root.hide()
             }
         ]
     }

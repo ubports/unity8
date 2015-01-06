@@ -55,8 +55,8 @@ Showable {
     property real textXOffset: 0
     property real textYOffset: 0
 
-    // Foreground opacity
-    property real foregroundOpacity: 1
+    // Foreground text opacity
+    property real textOpacity: 1
 
     signal finished()
 
@@ -125,53 +125,58 @@ Showable {
     Item {
         id: foreground
         anchors.fill: parent
-        opacity: root.foregroundOpacity < 1 ? root.foregroundOpacity : root._foregroundHideOpacity
+        opacity: root._foregroundHideOpacity
 
-        Label {
-            id: titleLabel
-            anchors {
-                top: parent.verticalCenter
-                topMargin: d.verticalOffset + root.textYOffset
-                left: parent.left
-                leftMargin: d.sideMargin + d.textXOffset
-            }
-            width: parent.width - d.sideMargin * 2
-            horizontalAlignment: Text.AlignLeft
-            wrapMode: Text.Wrap
-            font.weight: Font.Light
-            font.pixelSize: units.gu(3.5)
-        }
+        Item {
+            anchors.fill: parent
+            opacity: root.textOpacity
 
-        Label {
-            id: textLabel
-            anchors {
-                top: titleLabel.bottom
-                topMargin: units.gu(2)
-                left: parent.left
-                leftMargin: d.sideMargin + d.textXOffset
+            Label {
+                id: titleLabel
+                anchors {
+                    top: parent.verticalCenter
+                    topMargin: d.verticalOffset + root.textYOffset
+                    left: parent.left
+                    leftMargin: d.sideMargin + d.textXOffset
+                }
+                width: parent.width - d.sideMargin * 2
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.Wrap
+                font.weight: Font.Light
+                font.pixelSize: units.gu(3.5)
             }
-            width: (parent.width - d.sideMargin * 2) * (fullTextWidth ? 1 : 0.66)
-            horizontalAlignment: Text.AlignLeft
-            wrapMode: Text.Wrap
-            font.weight: Font.Light
-            font.pixelSize: units.gu(2.5)
-        }
 
-        Label {
-            id: errorLabel
-            objectName: "errorLabel"
-            anchors {
-                top: parent.verticalCenter
-                topMargin: d.verticalOffset + root.textYOffset
-                left: parent.left
-                leftMargin: d.sideMargin + d.textXOffset
+            Label {
+                id: textLabel
+                anchors {
+                    top: titleLabel.bottom
+                    topMargin: units.gu(2)
+                    left: parent.left
+                    leftMargin: d.sideMargin + d.textXOffset
+                }
+                width: (parent.width - d.sideMargin * 2) * (fullTextWidth ? 1 : 0.66)
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.Wrap
+                font.weight: Font.Light
+                font.pixelSize: units.gu(2.5)
             }
-            width: parent.width - d.sideMargin * 2
-            horizontalAlignment: Text.AlignLeft
-            wrapMode: Text.Wrap
-            font.weight: Font.Light
-            font.pixelSize: units.gu(3.5)
-            opacity: 0
+
+            Label {
+                id: errorLabel
+                objectName: "errorLabel"
+                anchors {
+                    top: parent.verticalCenter
+                    topMargin: d.verticalOffset + root.textYOffset
+                    left: parent.left
+                    leftMargin: d.sideMargin + d.textXOffset
+                }
+                width: parent.width - d.sideMargin * 2
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.Wrap
+                font.weight: Font.Light
+                font.pixelSize: units.gu(3.5)
+                opacity: 0
+            }
         }
 
         // A place for subclasses to add extra widgets

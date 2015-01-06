@@ -27,7 +27,7 @@ Item {
 
     readonly property bool launcherEnabled: !running ||
                                             (!paused && loader.target === leftComponent)
-    readonly property bool stagesEnabled: !running
+    readonly property bool spreadEnabled: !running
     readonly property bool panelEnabled: !running
     readonly property bool panelContentEnabled: !running
     readonly property bool running: loader.sourceComponent !== null
@@ -126,8 +126,21 @@ Item {
 
             onFinished: {
                 root.launcher.hide();
-                loader.load(bottomComponent);
+                loader.load(rightComponent);
             }
+        }
+    }
+
+    Component {
+        id: rightComponent
+        TutorialRight {
+            objectName: "tutorialRight"
+            parent: root.stages
+            anchors.fill: parent
+            edgeSize: root.edgeSize
+            panel: root.panel
+
+            onFinished: loader.load(bottomComponent)
         }
     }
 

@@ -211,6 +211,33 @@ Item {
             var tick = findChild(page, "tick");
             tap(tick);
 
+            page = waitForPage("tutorialRight");
+            checkTopEdge();
+            checkLeftEdge();
+            checkBottomEdge();
+            if (name === "tutorialRight") return page;
+            touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
+            var overlay = findChild(page, "overlay");
+            tryCompare(overlay, "shown", true);
+            var tick = findChild(page, "tick");
+            tap(tick);
+
+            var page = waitForPage("tutorialBottom");
+            checkTopEdge();
+            checkLeftEdge();
+            checkRightEdge();
+            if (name === "tutorialBottom") return page;
+            touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
+
+            var page = waitForPage("tutorialBottomFinish");
+            checkTopEdge();
+            checkLeftEdge();
+            checkRightEdge();
+            checkBottomEdge();
+            if (name === "tutorialBottomFinish") return page;
+            var tick = findChild(page, "tick");
+            tap(tick);
+
             checkFinished();
             return null;
         }
