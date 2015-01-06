@@ -111,7 +111,13 @@ Item {
         color: UbuntuColors.orange
         darkenBy: root.active ? 0.5 : 0
         anchors.left: parent.left
-        anchors.leftMargin: d.slideOffset
+        // We use a Translate transform rather than anchors.leftMargin because
+        // the latter has weird performance problems on the TutorialRight page.
+        transform: [
+            Translate {
+                x: d.slideOffset
+            }
+        ]
         anchors.verticalCenter: parent.verticalCenter
     }
 }
