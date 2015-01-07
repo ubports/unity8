@@ -103,6 +103,7 @@ Item {
         property real halfHeight: shell ? shell.height / 2 : 0
 
         function init() {
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
             swipeAwayGreeter();
             AccountsService.demoEdges = false;
             AccountsService.demoEdges = true;
@@ -154,6 +155,7 @@ Item {
 
         function waitForPage(name) {
             tryCompareFunction(function() { return findChild(shell, name) !== null; }, true);
+            waitForRendering(findChild(shell, name));
             var page = findChild(shell, name);
             tryCompare(page, "shown", true);
             tryCompare(page.showAnimation, "running", false);
