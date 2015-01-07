@@ -33,6 +33,7 @@ struct MockNotificationPrivate {
 };
 
 MockNotification::MockNotification(QObject *parent) : QObject(parent), p(new MockNotificationPrivate()) {
+    p->actionsModel = new ActionModel();
 }
 
 MockNotification::~MockNotification() {
