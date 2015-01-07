@@ -856,7 +856,10 @@ Item {
         overlay: overlay
         edgeSize: shell.edgeSize
 
-        onFinished: AccountsService.demoEdges = false
+        onFinished: {
+            AccountsService.demoEdges = false;
+            active = false; // for immediate response / if AS is having problems
+        }
     }
 
     Connections {
