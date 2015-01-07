@@ -518,7 +518,7 @@ Item {
             mouseClick(dashNavigationButton, 0, 0);
             compare(dashNavigationButton.showList, true);
 
-            mouseFlick(dashNavigationButton, dashNavigationButton.width, 0, 0, 0);
+            mouseFlick(dashNavigationButton, dashNavigationButton.width - units.gu(1), units.gu(1), units.gu(1), units.gu(1));
             compare(dashNavigationButton.showList, false);
 
             var dashContentList = findChild(dashContent, "dashContentList");
