@@ -70,12 +70,8 @@ Item {
         animateTimer.start();
     }
 
-    function tease(interval) {
-        if (available && root.state == "" && !dragArea.dragging) {
-            if (interval === undefined) {
-                interval = 200;
-            }
-            teaseTimer.interval = interval;
+    function tease() {
+        if (available && !dragArea.dragging) {
             teaseTimer.mode = "teasing"
             teaseTimer.start();
         }
@@ -83,7 +79,6 @@ Item {
 
     function hint() {
         if (available && root.state == "") {
-            teaseTimer.interval = 300;
             teaseTimer.mode = "hinting"
             teaseTimer.start();
         }
@@ -91,7 +86,8 @@ Item {
 
     Timer {
         id: teaseTimer
-        property string mode
+        interval: mode == "teasing" ? 200 : 300
+        property string mode: "teasing"
     }
 
     Timer {
@@ -214,7 +210,7 @@ Item {
             bottom: parent.bottom
         }
         x: -width
-        visible: x > -width || dragArea.status === DirectionalDragArea.Undecided
+        visible: root.x > 0 || x > -width || dragArea.status === DirectionalDragArea.Undecided
         model: LauncherModel
 
         property bool animate: true
@@ -256,6 +252,7 @@ Item {
         direction: Direction.Rightwards
 
         enabled: root.available
+        x: -root.x // so if launcher is adjusted relative to screen, we stay put (like tutorial does when teasing)
         width: root.dragAreaWidth
         height: root.height
 
@@ -269,7 +266,7 @@ Item {
             // would appear right next to the user's finger out of nowhere.
             // Instead, we make the panel go towards the user's finger in several
             // steps. ie., in an animated way.
-            var targetPanelX = Math.min(0, touchX - panel.width)
+            var targetPanelX = Math.min(0, touchX - panel.width) - root.x
             var delta = targetPanelX - panel.x
             // the trick is not to go all the way (1.0) as it would cause a sudden jump
             panel.x += 0.4 * delta
@@ -285,8 +282,6 @@ Item {
                 } else {
                     root.switchToNextState("")
                 }
-            } else {
-                teaseTimer.stop();
             }
         }
     }
@@ -303,7 +298,7 @@ Item {
             name: "visible"
             PropertyChanges {
                 target: panel
-                x: 0
+                x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
         },
         State {
