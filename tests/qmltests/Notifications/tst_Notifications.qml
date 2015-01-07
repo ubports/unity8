@@ -30,28 +30,10 @@ Item {
     Row {
         id: rootRow
 
-        /*Component {
-            id: mockNotification
-
-            QtObject {
-                function invokeAction(actionId) {
-                    mockModel.actionInvoked(actionId)
-                }
-
-                function close(id) {
-                    for (var i = 0; i < mockModel.count; i++) {
-                        if (id === mockModel.get(i).id) {
-                            mockModel.remove(i)
-                        }
-                    }
-                }
-            }
-        }*/
-
         Notification {
             id: mockNotificationDefault
             type: Notification.PlaceHolder
-            //nid: mockModel.getNextId()
+            nid: 1 //mockModel.getNextId()
             //hints: {}
             summary: ""
             body: ""
@@ -72,8 +54,10 @@ Item {
             }
 
             function getRaw(nid) {
+                print ("Looking for:", nid)
                 for (var i = 0; i < mockModel.count; i++) {
                     if (nid === mockModel.get(i).nid) {
+                        print ("Found something...", i)
                         return mockModel.get(i).notification
                     }
                 }
@@ -88,7 +72,7 @@ Item {
         Notification {
             id: mock2over1SnapDecisionNotification
             type: Notification.SnapDecision
-            //nid: mockModel.getNextId()
+            nid: 2 //mockModel.getNextId()
             hints: {"x-canonical-private-affirmative-tint": "true"}
             summary: "Theatre at Ferria Stadium"
             body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
@@ -106,7 +90,7 @@ Item {
         Notification {
             id: mockEphemeralNotification
             type: Notification.Ephemeral
-            //nid: mockModel.getNextId()
+            nid: 3 //mockModel.getNextId()
             summary: "Cole Raby"
             body: "I did not expect it to be that late."
             icon: "../graphics/avatars/amanda.png"
@@ -121,7 +105,7 @@ Item {
         Notification {
             id: mockEphemeralNonShapedIconNotification
             type: Notification.Ephemeral
-            //nid: mockModel.getNextId()
+            nid: 4 //mockModel.getNextId()
             hints: {"x-canonical-non-shaped-icon": "true"}
             summary: "Contacts"
             body: "Synchronised contacts-database with cloud-storage."
@@ -137,7 +121,7 @@ Item {
         Notification {
             id: mockEphemeralIconSummaryNotification
             type: Notification.Ephemeral
-            //nid: mockModel.getNextId()
+            nid: 5 //mockModel.getNextId()
             hints: {"x-canonical-non-shaped-icon": "false"}
             summary: "Photo upload completed"
             body: ""
@@ -153,7 +137,7 @@ Item {
         Notification {
             id: mockInteractiveNotification
             type: Notification.Interactive
-            //nid: mockModel.getNextId()
+            nid: 6 //mockModel.getNextId()
             summary: "Interactive notification"
             body: "This is a notification that can be clicked"
             icon: "../graphics/avatars/anna_olsson.png"
@@ -168,7 +152,7 @@ Item {
         Notification {
             id: mockConfirmationNotification
             type: Notification.Confirmation
-            //nid: mockModel.getNextId()
+            nid: 7 //mockModel.getNextId()
             hints: {"x-canonical-non-shaped-icon": "true"}
             summary: "Confirmation notification"
             body: ""
@@ -185,7 +169,7 @@ Item {
         Notification {
             id: mock2ndConfirmationNotification
             type: Notification.Confirmation
-            //nid: mockModel.getNextId()
+            nid: 8 //mockModel.getNextId()
             hints: {"x-canonical-non-shaped-icon": "true",
                     "x-canonical-value-bar-tint": "true"}
             summary: "Confirmation notification"
