@@ -305,8 +305,8 @@ Showable {
     Image {
         source: "graphics/overview_hint.png"
         anchors.horizontalCenter: parent.horizontalCenter
-        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : scopes.count == 0 || dashContent.pageHeaderTotallyVisible) &&
-                 (overviewDragHandle.enabled || bottomEdgeController.progress != 0) ? 1 : 0
+        opacity: !scopeItem.scope && (scopes.count == 0 || dashContent.pageHeaderTotallyVisible) &&
+                 (overviewDragHandle.enabled || overviewDragHandle.status.progress != 0) ? 1 : 0
         Behavior on opacity {
             enabled: bottomEdgeController.progress == 0
             UbuntuNumberAnimation {}
