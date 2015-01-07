@@ -381,4 +381,13 @@ TestCase {
             }
         }
     }
+
+    function waitForRendering(item, timeout) {
+        if (timeout === undefined)
+            timeout = 5000
+        if (!item)
+            qtest_fail("No item given to waitForRendering", 1)
+        return qtest_results.waitForRendering(item, timeout)
+    }
+
 }
