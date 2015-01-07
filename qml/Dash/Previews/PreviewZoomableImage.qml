@@ -40,6 +40,7 @@ PreviewWidget {
         }
         scaleTo: "height"
         source: widgetData["source"]
+        asynchronous: true
 
         borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
 

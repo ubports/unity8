@@ -161,6 +161,7 @@ Item {
             AccountsService.enableIndicatorsWhileLocked = true
             AccountsService.demoEdges = false
             callManager.foregroundCall = null
+            LightDM.Greeter.authenticate(""); // reset greeter
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true
