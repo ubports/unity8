@@ -78,7 +78,6 @@ TutorialPage {
                 id: slider
                 anchors {
                     left: parent.left
-                    leftMargin: -units.gu(2)
                     top: parent.top
                     topMargin: root.textBottom + units.gu(3)
                 }
