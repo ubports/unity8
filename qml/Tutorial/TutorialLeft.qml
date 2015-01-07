@@ -45,12 +45,25 @@ TutorialPage {
         }
     }
 
-    Timer {
-        id: teaseTimer
-        interval: UbuntuAnimation.SleepyDuration
-        repeat: true
-        running: !root.paused && !root.launcher.dragging
-        onTriggered: root.launcher.tease(UbuntuAnimation.SleepyDuration)
+    SequentialAnimation {
+        id: teaseAnimation
+        paused: running && root.paused
+        running: !slider.active && root.launcher.visibleWidth === 0
+        loops: Animation.Infinite
+        alwaysRunToEnd: true
+
+        UbuntuNumberAnimation {
+            target: root.launcher
+            property: "x"
+            to: units.gu(2)
+            duration: UbuntuAnimation.SleepyDuration
+        }
+        UbuntuNumberAnimation {
+            target: root.launcher
+            property: "x"
+            to: 0
+            duration: UbuntuAnimation.SleepyDuration
+        }
     }
 
     Timer {
@@ -62,12 +75,13 @@ TutorialPage {
     foreground {
         children: [
             LocalComponents.Slider {
+                id: slider
                 anchors {
                     left: parent.left
                     top: parent.top
                     topMargin: root.textBottom + units.gu(3)
                 }
-                offset: root.launcher.visibleWidth + root.launcher.progress
+                offset: root.launcher.x + root.launcher.visibleWidth + root.launcher.progress
                 active: root.launcher.dragging
                 shortSwipe: true
             }
