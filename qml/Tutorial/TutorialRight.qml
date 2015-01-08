@@ -72,6 +72,7 @@ TutorialPage {
             // tutorial is still being spec'd by the design team.
             PhoneStage {
                 id: stage
+                objectName: "stage"
                 anchors.top: parent.top
                 width: parent.width
                 height: parent.height

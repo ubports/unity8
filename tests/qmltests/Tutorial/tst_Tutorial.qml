@@ -293,6 +293,40 @@ Item {
             tryCompare(left, "shown", true); // and we should still be on left
         }
 
+        function test_spread() {
+            // Unfortunately, most of what we want to test of the spread is
+            // "did it render correctly?" but that's hard to test.  So instead,
+            // just poke and prod it a little bit to see if some of the values
+            // we'd expect to be correct, are so.
+
+            var right = goToPage("tutorialRight");
+            var stage = findChild(right, "stage");
+            var delegate0 = findChild(right, "appDelegate0");
+
+            tryCompare(stage, "dragProgress", 0);
+            touchFlick(shell, shell.width, halfHeight, shell.width * 0.8, halfHeight, true, false);
+            verify(stage.dragProgress > 0);
+            compare(stage.dragProgress, -delegate0.xTranslate);
+            touchFlick(shell, shell.width * 0.8, halfHeight, shell.width, halfHeight, false, true);
+            tryCompare(stage, "dragProgress", 0);
+
+            tryCompare(delegate0, "x", shell.width);
+
+            var screenshotImage = findChild(right, "screenshotImage");
+            tryCompare(screenshotImage, "source", Qt.resolvedUrl("../../../qml/Tutorial/graphics/facebook.png"));
+            tryCompare(screenshotImage, "visible", true);
+        }
+
+        function test_bottomShortDrag() {
+            var bottom = goToPage("tutorialBottom");
+
+            touchFlick(shell, halfWidth, shell.height, halfWidth, shell.height * 0.8);
+
+            var errorLabel = findChild(bottom, "errorLabel");
+            tryCompare(bottom, "shown", true); // still on bottom page
+            tryCompare(errorLabel, "opacity", 1); // show error
+        }
+
         function test_interrupted() {
             goToPage("tutorialLeft");
             ApplicationManager.startApplication("dialer-app");
