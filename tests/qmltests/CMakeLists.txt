@@ -87,5 +87,5 @@ add_qml_test(Stages SpreadDelegate ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_D
 add_qml_test(Stages SurfaceContainer ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Stages SessionContainer ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Stages Splash)
-add_qml_test(Tutorial Tutorial ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single-pin")
+add_qml_test(Tutorial Tutorial ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single-pin:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Wizard Wizard)
