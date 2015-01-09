@@ -37,6 +37,67 @@ TestCase {
         this.getCurrentTimeMs = function() {return this.currentTimeMs}
     }
 
+    function mouseClick(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseClick(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2);
+    }
+
+    function mouseDoubleClick(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseDoubleClick(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+    function mousePress(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mousePress(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+    function mouseRelease(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseRelease(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+
     // Flickable won't recognise a single mouse move as dragging the flickable.
     // Use 5 steps because it's what
     // Qt uses in QQuickViewTestUtil::flick
@@ -381,4 +442,14 @@ TestCase {
             }
         }
     }
+
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    function waitForRendering(item, timeout) {
+        if (timeout === undefined)
+            timeout = 5000;
+        if (!item)
+            qtest_fail("No item given to waitForRendering", 1);
+        return qtest_results.waitForRendering(item, timeout);
+    }
+
 }

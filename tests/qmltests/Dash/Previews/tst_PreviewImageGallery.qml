@@ -67,23 +67,23 @@ Rectangle {
 
         function test_overlayOpenClose() {
             var image0 = findChild(imageGallery, "previewImage0");
-            mouseClick(image0, image0.width / 2, image0.height / 2);
+            mouseClick(image0);
             tryCompare(overlay, "visible", true);
             tryCompare(overlay, "scale", 1.0);
             tryCompare(overlayCloseButton, "visible", true);
-            mouseClick(overlayCloseButton, overlayCloseButton.width / 2, overlayCloseButton.height / 2);
+            mouseClick(overlayCloseButton);
             tryCompare(overlay, "visible", false);
         }
 
         function test_overlayShowHideHeader() {
             var image0 = findChild(imageGallery, "previewImage0");
-            mouseClick(image0, image0.width / 2, image0.height / 2);
+            mouseClick(image0);
             tryCompare(overlay, "visible", true);
             tryCompare(overlay, "scale", 1.0);
             tryCompare(overlayCloseButton, "visible", true);
-            mouseClick(overlay, overlay.width / 2, overlay.height / 2);
+            mouseClick(overlay);
             tryCompare(overlayCloseButton, "visible", false);
-            mouseClick(overlay, overlay.width / 2, overlay.height / 2);
+            mouseClick(overlay);
             tryCompare(overlayCloseButton, "visible", true);
         }
 
@@ -97,7 +97,7 @@ Rectangle {
 
         function test_overlayOpenCorrectImage(data) {
             var image = findChild(imageGallery, "previewImage" + data.index);
-            mouseClick(image, image.width / 2, image.height / 2);
+            mouseClick(image);
             tryCompare(overlay, "visible", true);
             tryCompare(overlay, "scale", 1.0);
             tryCompare(overlayListView, "currentIndex", data.index);
