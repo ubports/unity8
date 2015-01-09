@@ -107,7 +107,7 @@ Rectangle {
             tryCompare(button, "visible", true);
             tryCompare(button, "opacity", 1);
 
-            mouseClick(button););
+            mouseClick(button);
 
             paymentClient.process();
             spy.wait();
@@ -130,7 +130,7 @@ Rectangle {
             tryCompare(button, "visible", true);
             tryCompare(button, "opacity", 1);
 
-            mouseClick(button););
+            mouseClick(button);
 
             tryCompare(progress, "visible", true);
             tryCompare(progress, "opacity", 1);
@@ -154,7 +154,7 @@ Rectangle {
             var button = findChild(previewPayments, "paymentButton");
             verify(button, "Button not found.");
 
-            mouseClick(button););
+            mouseClick(button);
 
             paymentClient.process();
             spy.wait();
@@ -175,7 +175,7 @@ Rectangle {
             verify(button, "Button not found.");
             verify(progress, "Progress not found.");
 
-            mouseClick(button););
+            mouseClick(button);
 
             tryCompare(progress, "visible", true);
             tryCompare(progress, "opacity", 1);
