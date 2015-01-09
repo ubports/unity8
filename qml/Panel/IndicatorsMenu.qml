@@ -18,6 +18,7 @@ import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Ubuntu.Gestures 0.1
 import "../Components"
+import "Indicators"
 
 Showable {
     id: root
@@ -59,6 +60,10 @@ Showable {
 
     onUnitProgressChanged: d.updateState()
     clip: root.partiallyOpened
+
+    IndicatorsLight {
+        id: indicatorLights
+    }
 
     // eater
     MouseArea {
