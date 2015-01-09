@@ -48,7 +48,7 @@ TestCase {
             x = item.width / 2;
         if (y == undefined)
             y = item.height / 2;
-        if (qtest_events.mouseClick(item, x, y, button, modifiers, delay))
+        if (!qtest_events.mouseClick(item, x, y, button, modifiers, delay))
             qtest_fail("window not shown", 2);
     }
 
