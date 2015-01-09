@@ -217,7 +217,7 @@ TutorialPage {
             splashColor: "transparent"
             splashColorHeader: "transparent"
             splashColorFooter: "transparent"
-            defaultScreenshot: "../Tutorial/graphics/dialer.jpg"
+            defaultScreenshot: "../Tutorial/graphics/dialer.png"
         }
     }
 }
