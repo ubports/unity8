@@ -90,7 +90,7 @@ Item {
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
-            mouseClick(backButton, 0, 0);
+            mouseClick(backButton);
             tryCompare(bottomEdgeController, "progress", 0);
         }
 
@@ -106,7 +106,7 @@ Item {
             tryCompare(favScopesListCategoryList, "currentIndex", 0);
 
             // Click in first item
-            mouseClick(favScopesListCategoryList.currentItem, 0, 0);
+            mouseClick(favScopesListCategoryList.currentItem);
 
             // Make sure animation went back
             tryCompare(bottomEdgeController, "progress", 0);
@@ -128,7 +128,7 @@ Item {
 
             // Click in second item
             favScopesListCategoryList.currentIndex = 1;
-            mouseClick(favScopesListCategoryList.currentItem, 0, 0);
+            mouseClick(favScopesListCategoryList.currentItem);
 
             // Make sure animation went back
             tryCompare(bottomEdgeController, "progress", 0);
@@ -148,7 +148,7 @@ Item {
             tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
 
             // Click on a non favorite scope
-            mouseClick(nonfavScopesListCategoryList.currentItem, 0, 0);
+            mouseClick(nonfavScopesListCategoryList.currentItem);
 
             // Check the bottom edge (manage dash) is disabled from temp scope
             var overviewDragHandle = findChild(dash, "overviewDragHandle");
@@ -165,7 +165,7 @@ Item {
             // Go back
             var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
             var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
-            mouseClick(backButton, 0, 0);
+            mouseClick(backButton);
 
             // Check temp scope is gone
             tryCompare(dashTempScopeItem, "x", dash.width);
@@ -189,7 +189,7 @@ Item {
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var searchButton = findChild(scopesListPageHeader, "search_header_button");
-            mouseClick(searchButton, 0, 0);
+            mouseClick(searchButton);
 
             // Type something
             keyClick(Qt.Key_H);
@@ -201,7 +201,7 @@ Item {
             var cardTempScope = findChild(dashCategorysearchA, "delegate2");
 
             waitForRendering(cardTempScope);
-            mouseClick(cardTempScope, cardTempScope.width / 2, cardTempScope.height / 2);
+            mouseClick(cardTempScope);
 
             // Check the bottom edge (overview) is disabled from temp scope
             var overviewDragHandle = findChild(dash, "overviewDragHandle");
@@ -218,7 +218,7 @@ Item {
             // Go back
             var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
             var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
-            mouseClick(backButton, 0, 0);
+            mouseClick(backButton);
 
             // Check temp scope is gone
             tryCompare(dashTempScopeItem, "x", dash.width);
@@ -244,7 +244,7 @@ Item {
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
-            mouseClick(backButton, 0, 0);
+            mouseClick(backButton);
             tryCompare(bottomEdgeController, "progress", 0);
         }
 
@@ -272,7 +272,7 @@ Item {
             var scopeLoader0 = findChild(dashContent, "scopeLoader0");
             var dashCategory0 = findChild(scopeLoader0, "dashCategory0");
             var delegate0 = findChild(dashCategory0, "delegate0");
-            mouseClick(delegate0, delegate0.width / 2, delegate0.height / 2);
+            mouseClick(delegate0);
 
             tryCompare(dashContent, "subPageShown", true)
             waitForRendering(dash);
@@ -320,7 +320,7 @@ Item {
             // Click on the store
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var searchButton = findChild(scopesListPageHeader, "store_header_button");
-            mouseClick(searchButton, 0, 0);
+            mouseClick(searchButton);
 
             spy.wait();
             compare(spy.signalArguments[0][0], "scope://com.canonical.scopes.clickstore");
@@ -345,9 +345,9 @@ Item {
             // Enter edit mode
             var scopesList = findChild(dash, "scopesList");
             var clickScope = findChild(favScopesListCategoryList, "delegateclickscope");
-            mousePress(clickScope, 0, 0);
+            mousePress(clickScope);
             tryCompare(scopesList, "state", "edit");
-            mouseRelease(clickScope, 0, 0);
+            mouseRelease(clickScope);
 
             var starArea = findChild(clickScope, "starArea");
             touchFlick(starArea, 0, 0, 0, -units.gu(10));
@@ -356,8 +356,8 @@ Item {
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
-            mouseClick(backButton, 0, 0);
-            mouseClick(backButton, 0, 0);
+            mouseClick(backButton);
+            mouseClick(backButton);
             tryCompare(bottomEdgeController, "progress", 0);
 
             tryCompare(dashContentList, "currentIndex", 0);
@@ -387,9 +387,9 @@ Item {
             // Enter edit mode
             var scopesList = findChild(dash, "scopesList");
             var clickScope = findChild(favScopesListCategoryList, "delegateclickscope");
-            mousePress(clickScope, 0, 0);
+            mousePress(clickScope);
             tryCompare(scopesList, "state", "edit");
-            mouseRelease(clickScope, 0, 0);
+            mouseRelease(clickScope);
 
             var starArea = findChild(clickScope, "starArea");
             touchFlick(starArea, 0, 0, 0, -units.gu(10));
@@ -401,12 +401,12 @@ Item {
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
-            mouseClick(backButton, 0, 0);
+            mouseClick(backButton);
 
             // Click on third scope
             var mockScope5 = findChild(favScopesListCategoryList, "delegateMockScope5");
             waitForRendering(mockScope5)
-            mouseClick(mockScope5, 0, 0);
+            mouseClick(mockScope5);
             tryCompare(bottomEdgeController, "progress", 0);
             tryCompare(dashContentList, "currentIndex", 2);
             compare(dashContentList.currentItem.scopeId, "MockScope5");
