@@ -16,6 +16,7 @@
 
 #include "Greeter.h"
 
+#include <QCoreApplication>
 #include <QDBusInterface>
 #include <QDBusReply>
 #include <QSignalSpy>
@@ -149,9 +150,11 @@ private Q_SLOTS:
         QVERIFY(dbusList->property("EntryIsLocked").toBool());
 
         greeter->authenticate("no-password");
+        QCoreApplication::processEvents(); // wait for auth to finish
         QVERIFY(!dbusList->property("EntryIsLocked").toBool());
 
         greeter->authenticate("has-password");
+        QCoreApplication::processEvents(); // wait for auth to finish
         QVERIFY(dbusList->property("EntryIsLocked").toBool());
     }
 
@@ -168,7 +171,7 @@ private Q_SLOTS:
         }
         QCOMPARE(spy.count(), 2);
 
-        QList<QVariant> arguments = spy.takeFirst();
+        QList<QVariant> arguments = spy.takeLast();
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("EntryIsLocked"));
         QVERIFY(arguments.at(1).toMap()["EntryIsLocked"] == false);
