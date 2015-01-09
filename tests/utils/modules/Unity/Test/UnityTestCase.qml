@@ -54,11 +54,11 @@ TestCase {
 
     function mouseDoubleClick(item, x, y, button, modifiers, delay) {
         if (button === undefined)
-            button = Qt.LeftButton
+            button = Qt.LeftButton;
         if (modifiers === undefined)
-            modifiers = Qt.NoModifier
+            modifiers = Qt.NoModifier;
         if (delay == undefined)
-            delay = -1
+            delay = -1;
         if (x == undefined)
             x = item.width / 2;
         if (y == undefined)
@@ -69,11 +69,11 @@ TestCase {
 
     function mousePress(item, x, y, button, modifiers, delay) {
         if (button === undefined)
-            button = Qt.LeftButton
+            button = Qt.LeftButton;
         if (modifiers === undefined)
-            modifiers = Qt.NoModifier
+            modifiers = Qt.NoModifier;
         if (delay == undefined)
-            delay = -1
+            delay = -1;
         if (x == undefined)
             x = item.width / 2;
         if (y == undefined)
@@ -84,11 +84,11 @@ TestCase {
 
     function mouseRelease(item, x, y, button, modifiers, delay) {
         if (button === undefined)
-            button = Qt.LeftButton
+            button = Qt.LeftButton;
         if (modifiers === undefined)
-            modifiers = Qt.NoModifier
+            modifiers = Qt.NoModifier;
         if (delay == undefined)
-            delay = -1
+            delay = -1;
         if (x == undefined)
             x = item.width / 2;
         if (y == undefined)
