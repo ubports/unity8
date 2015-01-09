@@ -334,28 +334,23 @@ Showable {
         height: units.gu(2)
 
         onSceneDistanceChanged: {
-            if (status == DirectionalDragArea.Recognized && initialSceneDistance != -1) {
+            if (status == DirectionalDragArea.Recognized) {
                 bottomEdgeController.enableAnimation = false;
-                var deltaDistance = sceneDistance - initialSceneDistance;
-                bottomEdgeController.progress = Math.max(0, Math.min(1, deltaDistance / fullMovement));
+                bottomEdgeController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
             }
         }
 
         property int previousStatus: -1
         property int currentStatus: DirectionalDragArea.WaitingForTouch
-        property real initialSceneDistance: -1
 
         onStatusChanged: {
             previousStatus = currentStatus;
             currentStatus = status;
 
-            if (status == DirectionalDragArea.Recognized) {
-                initialSceneDistance = sceneDistance;
-            } else if (status == DirectionalDragArea.WaitingForTouch &&
+            if (status == DirectionalDragArea.WaitingForTouch &&
                     previousStatus == DirectionalDragArea.Recognized) {
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = (bottomEdgeController.progress > 0.2)  ? 1 : 0;
-                initialSceneDistance = -1;
             }
         }
     }
