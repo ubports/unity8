@@ -159,9 +159,15 @@ private Q_SLOTS:
     {
         QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
         greeter->authenticate("no-password");
-        spy.wait();
 
-        QCOMPARE(spy.count(), 2); // once for locked, once for user; first will be locked mode
+        // Two property changed signals will be emitted, one for the IsLocked
+        // property, one for the ActiveEntry; the first will be IsLocked.
+        spy.wait();
+        if (spy.count() < 2) {
+            spy.wait();
+        }
+        QCOMPARE(spy.count(), 2);
+
         QList<QVariant> arguments = spy.takeFirst();
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("EntryIsLocked"));
