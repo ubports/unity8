@@ -205,6 +205,7 @@ Item {
 
             if (data.targetPhase == 2) {
                 var app2 = findChild(spreadView, "appDelegate2");
+                tryCompare(app2, "swipeToCloseEnabled", true);
                 mouseClick(app2, units.gu(1), units.gu(1));
             }
 
@@ -249,6 +250,7 @@ Item {
             }
 
             console.log("clicking app", data.index, "(", appId, ")")
+            tryCompare(tile, "swipeToCloseEnabled", true);
             mouseClick(spreadView, tile.mapToItem(spreadView).x + units.gu(1), spreadView.height / 2)
             tryCompare(ApplicationManager, "focusedApplicationId", appId);
             tryCompare(spreadView, "phase", 0);
