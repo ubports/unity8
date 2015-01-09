@@ -18,9 +18,10 @@
  */
 
 #include "MockNotificationTypes.h"
+#include <QDebug>
 
 struct MockNotificationPrivate {
-    unsigned int nid;
+    unsigned int id;
     QString summary;
     QString body;
     int value;
@@ -47,7 +48,7 @@ void MockNotification::setSummary(const QString &summary) {
     if(p->summary != summary) {
         p->summary= summary;
         Q_EMIT summaryChanged(p->summary);
-        Q_EMIT dataChanged(p->nid);
+        Q_EMIT dataChanged(p->id);
     }
 }
 
@@ -59,16 +60,16 @@ void MockNotification::setBody(const QString &body) {
     if(p->body != body) {
         p->body = body;
         Q_EMIT bodyChanged(p->body);
-        Q_EMIT dataChanged(p->nid);
+        Q_EMIT dataChanged(p->id);
     }
 }
 
-unsigned int MockNotification::getNID() const {
-    return p->nid;
+unsigned int MockNotification::getID() const {
+    return p->id;
 }
 
-void MockNotification::setNID(const unsigned int nid) {
-    p->nid = nid;
+void MockNotification::setID(const unsigned int id) {
+    p->id = id;
 }
 
 int MockNotification::getValue() const {
@@ -79,7 +80,7 @@ void MockNotification::setValue(int value) {
     if(p->value != value) {
         p->value = value;
         Q_EMIT valueChanged(p->value);
-        Q_EMIT dataChanged(p->nid);
+        Q_EMIT dataChanged(p->id);
     }
 }
 
@@ -100,7 +101,7 @@ void MockNotification::setIcon(const QString &icon) {
     }
 
     Q_EMIT iconChanged(p->icon);
-    Q_EMIT dataChanged(p->nid);
+    Q_EMIT dataChanged(p->id);
 }
 
 QString MockNotification::getSecondaryIcon() const {
@@ -120,7 +121,7 @@ void MockNotification::setSecondaryIcon(const QString &secondaryIcon) {
     }
 
     Q_EMIT secondaryIconChanged(p->secondaryIcon);
-    Q_EMIT dataChanged(p->nid);
+    Q_EMIT dataChanged(p->id);
 }
 
 MockNotification::Type MockNotification::getType() const {
@@ -163,7 +164,8 @@ void MockNotification::setHints(const QVariantMap& hints) {
 void MockNotification::invokeAction(const QString &action) {
     for(int i=0; i<p->actions.size(); i++) {
         if(p->actions[i] == action) {
-            Q_EMIT completed(p->nid);
+            qDebug() << "MockNotification::invokeAction("<< action << ") called";
+            Q_EMIT completed(p->id);
             return;
         }
     }
@@ -171,5 +173,6 @@ void MockNotification::invokeAction(const QString &action) {
 }
 
 void MockNotification::close() {
-    Q_EMIT completed(p->nid);
+    qDebug() << "MockNotification::close() called";
+    Q_EMIT completed(p->id);
 }

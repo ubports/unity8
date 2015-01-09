@@ -41,7 +41,7 @@ Item {
     property int maxHeight
     property int margins
     readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
-    readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
+    readonly property bool darkOnBright: true //panel.indicators.shown || type === Notification.SnapDecision
     readonly property color red: "#fc4949"
     readonly property color green: "#3fb24f"
     readonly property color sdLightGrey: "#eaeaea"
@@ -80,7 +80,7 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
-        audioRole: MediaPlayer.alert
+        //audioRole: MediaPlayer.alert
         source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
     }
 
@@ -186,7 +186,7 @@ Item {
             actions: paths.actions
             menuObjectPath: paths.menuObjectPath
             onNameOwnerChanged: {
-                if (lastNameOwner != "" && nameOwner == "" && notification.notification != undefined) {
+                if (lastNameOwner !== "" && nameOwner === "" && notification.notification !== undefined) {
                     notification.notification.close()
                 }
                 lastNameOwner = nameOwner

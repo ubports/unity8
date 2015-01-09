@@ -54,7 +54,7 @@ ListView {
         body: model.body
         value: model.value
         actions: model.actions
-        notificationId: model.id
+        notificationId: model.nid
         notification: notificationList.model.getRaw(notificationId)
         maxHeight: notificationList.height
         margins: notificationList.margin
