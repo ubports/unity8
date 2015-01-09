@@ -474,7 +474,7 @@ Item {
             compare(dashNavigationButton.showList, false);
             compare(dashAltNavigationButton.showList, false);
 
-            mouseClick(dashNavigation);
+            mouseClick(dashAltNavigationButton);
             compare(dashNavigationButton.showList, false);
             compare(dashAltNavigationButton.showList, true);
 
@@ -487,20 +487,20 @@ Item {
             var blackRect = findChild(dashNavigation, "blackRect");
             tryCompare(blackRect, "opacity", 0.5);
 
-            mouseClick(dashNavigation, dashNavigationButton.x, 0);
+            mouseClick(dashNavigationButton);
             compare(dashNavigationButton.showList, false);
             compare(dashAltNavigationButton.showList, false);
 
             tryCompare(navigationListView, "visible", false);
 
-            mouseClick(dashNavigation, dashNavigationButton.x, 0);
+            mouseClick(dashNavigationButton);
             compare(dashNavigationButton.showList, true);
             compare(dashAltNavigationButton.showList, false);
 
             navigationListView = findChild(dashNavigationButton, "navigationListView");
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
 
-            mouseClick(dashNavigation);
+            mouseClick(dashAltNavigationButton);
             compare(dashNavigationButton.showList, false);
             compare(dashAltNavigationButton.showList, false);
         }
