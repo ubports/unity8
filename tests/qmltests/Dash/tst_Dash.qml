@@ -89,7 +89,7 @@ Item {
             // Go back
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
-            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
+            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
             mouseClick(backButton, 0, 0);
             tryCompare(bottomEdgeController, "progress", 0);
         }
@@ -164,7 +164,7 @@ Item {
 
             // Go back
             var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
-            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "backButton");
+            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
             mouseClick(backButton, 0, 0);
 
             // Check temp scope is gone
@@ -217,7 +217,7 @@ Item {
 
             // Go back
             var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
-            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "backButton");
+            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
             mouseClick(backButton, 0, 0);
 
             // Check temp scope is gone
@@ -243,7 +243,7 @@ Item {
             // Go back
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
-            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
+            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
             mouseClick(backButton, 0, 0);
             tryCompare(bottomEdgeController, "progress", 0);
         }
@@ -355,7 +355,7 @@ Item {
             // Exit edit mode and go back
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
-            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
+            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
             mouseClick(backButton, 0, 0);
             mouseClick(backButton, 0, 0);
             tryCompare(bottomEdgeController, "progress", 0);
@@ -400,7 +400,7 @@ Item {
             // Exit edit mode
             var scopesList = findChild(dash, "scopesList");
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
-            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "backButton");
+            var backButton = findChild(findChild(scopesListPageHeader, "innerPageHeader"), "customBackButton");
             mouseClick(backButton, 0, 0);
 
             // Click on third scope
