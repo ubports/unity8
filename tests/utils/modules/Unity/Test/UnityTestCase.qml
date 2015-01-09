@@ -42,11 +42,11 @@ TestCase {
             button = Qt.LeftButton;
         if (modifiers === undefined)
             modifiers = Qt.NoModifier;
-        if (delay == undefined)
+        if (delay === undefined)
             delay = -1;
-        if (x == undefined)
+        if (x === undefined)
             x = item.width / 2;
-        if (y == undefined)
+        if (y === undefined)
             y = item.height / 2;
         if (!qtest_events.mouseClick(item, x, y, button, modifiers, delay))
             qtest_fail("window not shown", 2);
@@ -57,11 +57,11 @@ TestCase {
             button = Qt.LeftButton;
         if (modifiers === undefined)
             modifiers = Qt.NoModifier;
-        if (delay == undefined)
+        if (delay === undefined)
             delay = -1;
-        if (x == undefined)
+        if (x === undefined)
             x = item.width / 2;
-        if (y == undefined)
+        if (y === undefined)
             y = item.height / 2;
         if (!qtest_events.mouseDoubleClick(item, x, y, button, modifiers, delay))
             qtest_fail("window not shown", 2)
@@ -72,11 +72,11 @@ TestCase {
             button = Qt.LeftButton;
         if (modifiers === undefined)
             modifiers = Qt.NoModifier;
-        if (delay == undefined)
+        if (delay === undefined)
             delay = -1;
-        if (x == undefined)
+        if (x === undefined)
             x = item.width / 2;
-        if (y == undefined)
+        if (y === undefined)
             y = item.height / 2;
         if (!qtest_events.mousePress(item, x, y, button, modifiers, delay))
             qtest_fail("window not shown", 2)
@@ -87,11 +87,11 @@ TestCase {
             button = Qt.LeftButton;
         if (modifiers === undefined)
             modifiers = Qt.NoModifier;
-        if (delay == undefined)
+        if (delay === undefined)
             delay = -1;
-        if (x == undefined)
+        if (x === undefined)
             x = item.width / 2;
-        if (y == undefined)
+        if (y === undefined)
             y = item.height / 2;
         if (!qtest_events.mouseRelease(item, x, y, button, modifiers, delay))
             qtest_fail("window not shown", 2)
