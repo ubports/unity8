@@ -48,9 +48,8 @@ TutorialPage {
     SequentialAnimation {
         id: teaseAnimation
         paused: running && root.paused
-        running: !slider.active && root.launcher.visibleWidth === 0
+        running: !slider.active && root.launcher.visibleWidth === 0 && root.shown
         loops: Animation.Infinite
-        alwaysRunToEnd: true
 
         UbuntuNumberAnimation {
             target: root.launcher
@@ -69,7 +68,10 @@ TutorialPage {
     Timer {
         id: finishTimer
         interval: 1
-        onTriggered: root.hide()
+        onTriggered: {
+            root.hide();
+            root.launcher.x = 0; // make sure to reset launcher before we go
+        }
     }
 
     foreground {
