@@ -250,10 +250,12 @@ Item {
             var launcher = findChild(shell, "launcher");
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
-            var errorLabel = findChild(left, "errorLabel");
+            var errorTextLabel = findChild(left, "errorTextLabel");
+            var errorTitleLabel = findChild(left, "errorTitleLabel");
             tryCompare(launcher, "state", ""); // launcher goes away
             tryCompare(left, "shown", true); // still on left page
-            tryCompare(errorLabel, "opacity", 1); // show error
+            tryCompare(errorTextLabel, "opacity", 1); // show error
+            tryCompare(errorTitleLabel, "opacity", 1); // show error
         }
 
         function test_launcherDragBack() {

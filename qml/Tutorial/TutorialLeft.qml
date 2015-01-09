@@ -25,9 +25,8 @@ TutorialPage {
 
     title: i18n.tr("Open the launcher")
     text: i18n.tr("Short swipe from the left edge.")
-    errorText: i18n.tr("Too far!") + "\n" + i18n.tr("Try again.")
 
-    textXOffset: root.launcher.visibleWidth
+    textXOffset: root.launcher.x + root.launcher.visibleWidth
 
     Connections {
         target: root.launcher

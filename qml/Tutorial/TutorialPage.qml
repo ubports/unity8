@@ -27,9 +27,6 @@ Showable {
     // This is the block of text displayed below the header
     property alias text: textLabel.text
 
-    // This is the block of text displayed during an error
-    property alias errorText: errorLabel.text
-
     // Whether animations are paused
     property bool paused
 
@@ -46,7 +43,7 @@ Showable {
     property alias foreground: foregroundExtra
 
     // The text label bottom, so you can position elements relative to it
-    property real textBottom: textLabel.y + textLabel.height
+    readonly property real textBottom: Math.max(textLabel.y + textLabel.height, errorTextLabel.y + errorTextLabel.height)
 
     // The MouseArea that eats events (so you can adjust size as you will)
     property alias mouseArea: mouseArea
@@ -157,21 +154,41 @@ Showable {
             font.pixelSize: units.gu(2.5)
         }
 
+        // We use two separate labels like this rather than just changing
+        // the text of the above labels because we want to know where to place
+        // sliders (via root.textBottom) without having that place change
+        // as the text changes length.
         Label {
-            id: errorLabel
-            objectName: "errorLabel"
+            id: errorTitleLabel
+            objectName: "errorTitleLabel"
             anchors {
-                top: parent.verticalCenter
-                topMargin: d.verticalOffset + root.textYOffset
-                left: parent.left
-                leftMargin: d.sideMargin + d.textXOffset
+                top: titleLabel.top
+                left: titleLabel.left
             }
-            width: parent.width - d.sideMargin * 2
-            horizontalAlignment: Text.AlignLeft
-            wrapMode: Text.Wrap
-            font.weight: Font.Light
-            font.pixelSize: units.gu(3.5)
+            width: titleLabel.width
+            horizontalAlignment: titleLabel.horizontalAlignment
+            wrapMode: titleLabel.wrapMode
+            font.weight: titleLabel.font.weight
+            font.pixelSize: titleLabel.font.pixelSize
             opacity: 0
+            text: i18n.tr("You almost got it!")
+        }
+
+        Label {
+            id: errorTextLabel
+            objectName: "errorTextLabel"
+            anchors {
+                top: errorTitleLabel.bottom
+                topMargin: textLabel.anchors.topMargin
+                left: textLabel.left
+            }
+            width: textLabel.width
+            horizontalAlignment: textLabel.horizontalAlignment
+            wrapMode: textLabel.wrapMode
+            font.weight: textLabel.font.weight
+            font.pixelSize: textLabel.font.pixelSize
+            opacity: 0
+            text: i18n.tr("Try again.")
         }
 
         // A place for subclasses to add extra widgets
@@ -186,14 +203,14 @@ Showable {
         when: errorTimer.running
         PropertyChanges { target: titleLabel; opacity: 0 }
         PropertyChanges { target: textLabel; opacity: 0 }
-        PropertyChanges { target: errorLabel; opacity: 1 }
+        PropertyChanges { target: errorTitleLabel; opacity: 1 }
+        PropertyChanges { target: errorTextLabel; opacity: 1 }
     }
 
     transitions: Transition {
         to: "errorState"
         reversible: true
         SequentialAnimation {
-            id: showErrorAnimation
             ParallelAnimation {
                 StandardAnimation {
                     target: titleLabel
@@ -206,10 +223,17 @@ Showable {
                     duration: UbuntuAnimation.BriskDuration
                 }
             }
-            StandardAnimation {
-                target: errorLabel
-                property: "opacity"
-                duration: UbuntuAnimation.BriskDuration
+            ParallelAnimation {
+                StandardAnimation {
+                    target: errorTitleLabel
+                    property: "opacity"
+                    duration: UbuntuAnimation.BriskDuration
+                }
+                StandardAnimation {
+                    target: errorTextLabel
+                    property: "opacity"
+                    duration: UbuntuAnimation.BriskDuration
+                }
             }
         }
     }
