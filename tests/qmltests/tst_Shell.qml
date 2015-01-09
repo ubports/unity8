@@ -245,7 +245,7 @@ Item {
 
             // Clicking the button should dismiss the notification and return focus
             var buttonAccept = findChild(notification, "notify_button0");
-            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+            mouseClick(buttonAccept);
 
             // Make sure we're back to normal
             tryCompare(app.session.surface, "activeFocus", true);
@@ -463,7 +463,7 @@ Item {
             var launcher = findChild(shell, "launcherPanel")
             tryCompareFunction(function() {return launcher.x === 0 || launcher.x === -launcher.width;}, true);
             if (launcher.x === 0) {
-                mouseClick(shell, shell.width / 2, shell.height / 2)
+                mouseClick(shell)
             }
             tryCompare(launcher, "x", -launcher.width)
 

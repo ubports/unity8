@@ -104,7 +104,7 @@ Rectangle {
             var button = findChild(root, "button" + id);
             verify(button != null);
             spy.target = target;
-            mouseClick(button, button.width / 2, button.height / 2);
+            mouseClick(button);
             compare(spy.count, 1);
             compare(spy.signalArguments[0][0], target.widgetId);
             compare(spy.signalArguments[0][1], id);
@@ -137,11 +137,11 @@ Rectangle {
             var buttonColumn = findChild(root, "buttonColumn");
             verify(button != null);
             var twoActionsY = twoActions.y
-            mouseClick(button, button.width / 2, button.height / 2);
+            mouseClick(button);
             tryCompareFunction(function () { return twoActions.y <= twoActionsY; }, false);
             tryCompare(buttonColumn, "height", buttonColumn.implicitHeight);
             checkButtonPressSignal(buttonAndCombo, data.id, data.buttonNumber);
-            mouseClick(button, button.width / 2, button.height / 2);
+            mouseClick(button);
             tryCompare(twoActions, "y", twoActionsY);
         }
     }

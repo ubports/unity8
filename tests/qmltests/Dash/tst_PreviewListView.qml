@@ -73,7 +73,7 @@ Rectangle {
 
         function test_notProcessing() {
             expectFail("", "processingMouseArea should not receive the click.");
-            mouseClick(listView, listView.width / 2, listView.height / 2);
+            mouseClick(listView);
             clickedSpy.wait();
         }
 
@@ -83,7 +83,7 @@ Rectangle {
 
             tryCompare(listView, "processing", true);
 
-            mouseClick(listView, listView.width / 2, listView.height / 2);
+            mouseClick(listView);
             clickedSpy.wait();
         }
 
