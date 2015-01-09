@@ -382,6 +382,7 @@ TestCase {
         }
     }
 
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
     function waitForRendering(item, timeout) {
         if (timeout === undefined)
             timeout = 5000;
