@@ -12,7 +12,7 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     qlimitproxymodelqml.cpp
-    qsortfilterproxymodelqml.cpp
+    unitysortfilterproxymodelqml.cpp
     relativetimeformatter.cpp
     timeformatter.cpp
     unitymenumodelpaths.cpp
