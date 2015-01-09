@@ -30,7 +30,6 @@ TutorialPage {
 
     title: i18n.tr("To view open apps")
     text: i18n.tr("Long swipe from the right edge.")
-    errorText: i18n.tr("You almost got it!") + "\n" + i18n.tr("Try again.")
 
     textOpacity: 1 - slider.percent
 

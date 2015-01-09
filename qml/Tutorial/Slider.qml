@@ -34,6 +34,7 @@ Item {
 
     QtObject {
         id: d
+        readonly property color trayColor: "#424141"
         readonly property real margin: units.gu(0.5)
         readonly property real arrowSize: root.height - margin * 2
         readonly property real dotSize: units.dp(1)
@@ -45,8 +46,7 @@ Item {
     implicitHeight: units.gu(6.5)
 
     Rectangle {
-        color: "black"
-        opacity: 0.4
+        color: d.trayColor
         anchors.fill: parent
         anchors.rightMargin: clipBox.width - 1
     }
@@ -63,8 +63,7 @@ Item {
         width: parent.height / 2
 
         Rectangle {
-            color: "black"
-            opacity: 0.4
+            color: d.trayColor
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: parent.right
@@ -77,8 +76,8 @@ Item {
         id: target
         width: d.arrowSize
         height: d.arrowSize
-        color: "black"
-        chevronOpacity: 0.2
+        color: "#73000000"
+        chevronOpacity: 0.52
         anchors.right: parent.right
         anchors.rightMargin: d.margin
         anchors.verticalCenter: parent.verticalCenter

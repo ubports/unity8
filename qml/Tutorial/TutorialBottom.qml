@@ -27,7 +27,6 @@ TutorialPage {
 
     title: i18n.tr("Open special menus")
     text: i18n.tr("Swipe up from the bottom edge.")
-    errorText: i18n.tr("You almost got it!") + "\n" + i18n.tr("Try again.")
     fullTextWidth: true
 
     foreground {
