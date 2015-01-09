@@ -505,6 +505,27 @@ Item {
             compare(dashAltNavigationButton.showList, false);
         }
 
+        function test_navigationsSwipeToNextScope() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
+            tryCompare(dashNavigation, "visible", true);
+            var dashNavigationButton = findChild(dashContentList.currentItem, "altNavigationButton");
+            verify(dashNavigationButton, "Can't find navigation button");
+
+            compare(dashNavigationButton.showList, false);
+            waitForRendering(dashNavigationButton);
+            mouseClick(dashNavigationButton, 0, 0);
+            compare(dashNavigationButton.showList, true);
+
+            mouseFlick(dashNavigationButton, dashNavigationButton.width - units.gu(1), units.gu(1), units.gu(1), units.gu(1));
+            compare(dashNavigationButton.showList, false);
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            expectFail("", "should not change the parent list.");
+            tryCompare(dashContentList, "currentIndex", 1);
+        }
+
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);
