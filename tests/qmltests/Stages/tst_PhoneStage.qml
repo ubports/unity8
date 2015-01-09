@@ -409,7 +409,7 @@ Item {
 
             phoneStage.inverseProgress = 0;
 
-            tryCompare(focusedDelegate, "x", units.gu(0));
+            tryCompare(focusedDelegate, "x", 0);
         }
     }
 }
