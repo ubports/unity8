@@ -129,6 +129,12 @@ void Greeter::authenticate(const QString &username)
     d->authenticated = false;
     d->authenticationUser = username;
     d->twoFactorDone = false;
+    QTimer::singleShot(0, this, SLOT(delayedAuthentication()));
+}
+
+void Greeter::delayedAuthentication()
+{
+    Q_D(Greeter);
     d->handleAuthenticate();
 }
 
