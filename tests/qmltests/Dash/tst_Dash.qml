@@ -411,5 +411,22 @@ Item {
             tryCompare(dashContentList, "currentIndex", 2);
             compare(dashContentList.currentItem.scopeId, "MockScope5");
         }
+
+        function test_manage_dash_close_dashCommunicator() {
+            var dashContentList = findChild(dash, "dashContentList");
+            compare(dashContentList.currentIndex, 0);
+            compare(dashContentList.currentItem.scopeId, "MockScope1");
+
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
+            dashCommunicatorService.mockSetCurrentScope(1, true, false);
+
+            tryCompare(bottomEdgeController, "progress", 0);
+            tryCompare(dashContentList, "currentIndex", 1)
+        }
     }
 }
