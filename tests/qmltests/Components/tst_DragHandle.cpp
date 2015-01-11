@@ -101,6 +101,10 @@ void tst_DragHandle::init()
     QVERIFY(m_view->rootObject() != 0);
     qApp->processEvents();
 
+    // Hide the controls to ensure we don't hit them accidentally
+    QQuickItem *controls =  m_view->rootObject()->findChild<QQuickItem*>("controls");
+    controls->setVisible(false);
+
     m_fakeTimer = new FakeTimer;
     m_fakeTimeSource.reset(new FakeTimeSource);
 }

@@ -21,7 +21,8 @@ import Ubuntu.Components 1.1
 Item {
     id: root
 
-    property real launcherOffset // unused
+    property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
+    property alias launcherOffset: coverPage.launcherOffset
     property alias currentIndex: loginList.currentIndex
     property int delayMinutes // TODO
     property alias backgroundTopMargin: coverPage.backgroundTopMargin

@@ -23,6 +23,7 @@ import "../Components"
 Item {
     id: root
 
+    property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias launcherOffset: coverPage.launcherOffset
     property int currentIndex // unused
     property alias delayMinutes: lockscreen.delayMinutes

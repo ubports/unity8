@@ -29,7 +29,7 @@ Rectangle {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: true
+    property bool inverted: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
@@ -54,6 +54,7 @@ Rectangle {
             objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
+            clip: true
 
             UbuntuShape {
                 anchors {

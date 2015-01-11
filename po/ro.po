@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-20 12:00+0100\n"
-"PO-Revision-Date: 2014-11-18 12:09+0000\n"
+"POT-Creation-Date: 2014-12-10 10:55+0100\n"
+"PO-Revision-Date: 2015-01-07 11:11+0000\n"
 "Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2014-12-09 06:21+0000\n"
-"X-Generator: Launchpad (build 17283)\n"
+"X-Launchpad-Export-Date: 2015-01-08 07:10+0000\n"
+"X-Generator: Launchpad (build 17298)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -184,24 +184,24 @@ msgstr "Afișează mai puține"
 msgid "See all"
 msgstr "Afișează tot"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:267
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:268
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Căutare"
 
-#: qml/Dash/PageHeader.qml:260
+#: qml/Dash/PageHeader.qml:261
 msgid "Store"
 msgstr "Magazin"
 
-#: qml/Dash/PageHeader.qml:277
+#: qml/Dash/PageHeader.qml:278
 msgid "Settings"
 msgstr "Configurări"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:285
 msgid "Remove from Favorites"
 msgstr "Șterge din favorite"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:285
 msgid "Add to Favorites"
 msgstr "Adaugă la favorite"
 
@@ -235,15 +235,15 @@ msgstr "Eliberați pentru a actualiza..."
 
 #: qml/Dash/ScopesList.qml:63
 msgid "Manage"
-msgstr ""
+msgstr "Administrați"
 
-#: qml/Dash/ScopesList.qml:105
+#: qml/Dash/ScopesList.qml:107
 msgid "Home"
-msgstr ""
+msgstr "Acasă"
 
-#: qml/Dash/ScopesList.qml:106
+#: qml/Dash/ScopesList.qml:108
 msgid "Also installed"
-msgstr ""
+msgstr "Alte programe instalate"
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
@@ -297,49 +297,49 @@ msgstr "Deblocare SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:390
-msgid "Enter passphrase"
-msgstr "Introduceți fraza parolă"
-
-#: qml/Shell.qml:391
-msgid "Sorry, incorrect passphrase"
-msgstr "Frază secretă incorectă"
-
-#: qml/Shell.qml:392
-msgid "Please re-enter"
-msgstr "Introduceți din nou"
-
-#: qml/Shell.qml:394
-msgid "Enter passcode"
-msgstr "Introduceți parola"
-
-#: qml/Shell.qml:395
-msgid "Sorry, incorrect passcode"
-msgstr "Parolă incorectă"
-
-#: qml/Shell.qml:398
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "Introducere %1"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:394
+msgid "Enter passphrase"
+msgstr "Introduceți fraza parolă"
+
+#: qml/Shell.qml:398
+msgid "Enter passcode"
+msgstr "Introduceți parola"
+
+#: qml/Shell.qml:403
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "%1 incorectă"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:395
+msgid "Sorry, incorrect passphrase"
+msgstr "Frază secretă incorectă"
+
+#: qml/Shell.qml:396
+msgid "Please re-enter"
+msgstr "Introduceți din nou"
+
+#: qml/Shell.qml:399
+msgid "Sorry, incorrect passcode"
+msgstr "Parolă incorectă"
+
+#: qml/Shell.qml:444
 msgid "Sorry, incorrect passphrase."
 msgstr "Frază parolă greșită"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:445
 msgid "Sorry, incorrect passcode."
 msgstr "Parolă greșită"
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:446
 msgid "This will be your last attempt."
 msgstr "Aceasta va fi ultima încercare"
 
-#: qml/Shell.qml:444
+#: qml/Shell.qml:448
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -348,7 +348,7 @@ msgstr ""
 "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
 "șterse."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:449
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -356,6 +356,194 @@ msgstr ""
 "Dacă parola este introdusă greșit, telefonul va iniția o resetare la "
 "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
 "șterse."
+
+#: qml/Wizard/Page.qml:89
+msgid "Back"
+msgstr "Înapoi"
+
+#: qml/Wizard/Pages/10-welcome.qml:27
+msgid "Hi!"
+msgstr "Salut!"
+
+#: qml/Wizard/Pages/10-welcome.qml:44
+msgid "Welcome to your Ubuntu phone."
+msgstr "Bun venit! Acesta este telefonul dumneavoastră Ubuntu."
+
+#: qml/Wizard/Pages/10-welcome.qml:52
+msgid "Let’s get started."
+msgstr "Să începem."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Continuare"
+
+#: qml/Wizard/Pages/20-sim.qml:25
+msgid "Add a SIM card and restart your device"
+msgstr "Adăugați un card SIM și reporniți dispozitivul dumneavoastră"
+
+#: qml/Wizard/Pages/20-sim.qml:55
+msgid "Without it, you won’t be able to make calls or use text messaging."
+msgstr ""
+"Fără acesta, nu veți putea efectua apeluri sau utiliza mesajele text."
+
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+msgid "Skip"
+msgstr "Se omite"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:39
+msgid "Lock security"
+msgstr "Blocare de securitate"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:74
+msgid "Please select how you’d like to unlock your phone."
+msgstr "Alegeți cum doriți să vă deblocați telefonul."
+
+#: qml/Wizard/Pages/30-passwd-type.qml:97
+msgid "Swipe"
+msgstr "Glisare"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:98
+msgid "No security"
+msgstr "Fară securitate"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:100
+msgid "Passcode"
+msgstr "Cod de acces"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:101
+msgid "4 digits only"
+msgstr "Doar 4 caractere"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:103
+msgid "Passphrase"
+msgstr "Frază parolă"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:104
+msgid "Numbers and letters"
+msgstr "Numere și litere"
+
+#: qml/Wizard/Pages/40-wifi.qml:28
+msgid "Connect to Wi‑Fi"
+msgstr "Conectare la Wi-Fi"
+
+#: qml/Wizard/Pages/40-wifi.qml:147
+msgid "Available networks…"
+msgstr "Rețele disponibile..."
+
+#: qml/Wizard/Pages/40-wifi.qml:148
+msgid "No available networks."
+msgstr "Nu sunt rețele disponibile."
+
+#: qml/Wizard/Pages/50-location.qml:27
+msgid "Location"
+msgstr "Loc"
+
+#: qml/Wizard/Pages/50-location.qml:62
+msgid "Let the phone detect your location:"
+msgstr "Permiteți telefonului să detecteze locul în care vă aflați:"
+
+#: qml/Wizard/Pages/50-location.qml:69
+msgid "Using GPS only (less accurate)"
+msgstr "Utilizând numai GPS (mai puțin precis)"
+
+#: qml/Wizard/Pages/50-location.qml:86
+msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+msgstr ""
+"Utilizând GPS, rețelele fără fir în modul anonim și informațiile furnizate "
+"de rețeaua celulară (recomandat)"
+
+#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#: qml/Wizard/Pages/50-location.qml:103
+msgid ""
+"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+"conditions</a>."
+msgstr ""
+"Prin selectarea acestei opțiuni sunteți de acord cu <a href='#'>termenii și "
+"condițiile</a> Nokia HERE."
+
+#: qml/Wizard/Pages/50-location.qml:112
+msgid "Not at all"
+msgstr "Deloc"
+
+#: qml/Wizard/Pages/50-location.qml:124
+msgid "You can change your mind later in <b>System Settings</b>."
+msgstr ""
+"Puteți să modificați opțiunea utilizând <b>Configurări de sistem</b>."
+
+#: qml/Wizard/Pages/60-reporting.qml:24
+msgid "Improving your experience"
+msgstr "Îmbunătățirea experienței în utilizare"
+
+#: qml/Wizard/Pages/60-reporting.qml:36
+msgid ""
+"Your phone is set up to automatically report errors to Canonical and its "
+"partners, the makers of the operating system."
+msgstr ""
+"Telefonul dumneavoastră este configurat să trimită în mod automat rapoarte "
+"de erori către Canonical și partenerii săi, producătorii sistemului de "
+"operare."
+
+#: qml/Wizard/Pages/60-reporting.qml:43
+msgid ""
+"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+"Privacy</b>"
+msgstr ""
+"Acest comportament poate fi dezactivat din <b>Configurări de sistem</b> "
+"ramura <b>Securitate și confidențialitate</b>"
+
+#: qml/Wizard/Pages/80-finished.qml:24
+msgid "All done"
+msgstr "Efectuat"
+
+#: qml/Wizard/Pages/80-finished.qml:39
+msgid "Nice work!"
+msgstr "Bună treabă!"
+
+#: qml/Wizard/Pages/80-finished.qml:46
+msgid "Your phone is now ready to use."
+msgstr "Telefonul dumneavoastră este gata de utilizare."
+
+#: qml/Wizard/Pages/80-finished.qml:53
+msgid "Finish"
+msgstr "Sfârșit"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Termeni și condiții"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Confirmați frază parolă"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Confirmați codul de acces"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Vă rugăm să încercați din nou."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Alegeți codul dumneavoastră de acces"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Codul de acces trebuie să conțină 4 caractere"
+
+#: qml/Wizard/StackButton.qml:39
+#, qt-format
+msgid "〈  %1"
+msgstr "〈  %1"
+
+#: qml/Wizard/StackButton.qml:42
+#, qt-format
+msgid "%1  〉"
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Confirmați"

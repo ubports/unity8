@@ -26,6 +26,8 @@ Showable {
     id: greeter
     created: loader.status == Loader.Ready
 
+    property real dragHandleLeftMargin: 0
+
     property url background
 
     // How far to offset the top greeter layer during a launcher left-drag
@@ -93,9 +95,15 @@ Showable {
         d.startUnlock(true);
     }
 
+    prepareToHide: function () {
+        hideTranslation.to = greeter.x > 0 || d.forceRightOnNextHideAnimation ? greeter.width : -greeter.width;
+        d.forceRightOnNextHideAnimation = false;
+    }
+
     QtObject {
         id: d
 
+        property bool forceRightOnNextHideAnimation: false
         readonly property bool multiUser: LightDM.Users.count > 1
         property int currentIndex
         property int delayMinutes
@@ -170,6 +178,10 @@ Showable {
         }
     }
 
+    // event eater
+    // Nothing should leak to items behind the greeter
+    MouseArea { anchors.fill: parent }
+
     Loader {
         id: loader
         objectName: "loader"
@@ -213,6 +225,12 @@ Showable {
             target: loader.item
             property: "launcherOffset"
             value: d.launcherOffsetProxy
+        }
+
+        Binding {
+            target: loader.item
+            property: "dragHandleLeftMargin"
+            value: greeter.dragHandleLeftMargin
         }
 
         Binding {

@@ -29,8 +29,8 @@ MouseArea {
     property alias icon: shapeImage.source
     property alias text: titleLabel.text
     property alias subtext: subtitleLabel.text
-    property alias showStar: star.visible
 
+    property bool showStar: false
     property bool isFavorite: false
     property bool hideChildren: false
 
@@ -61,12 +61,12 @@ MouseArea {
             anchors {
                 left: shape.right
                 leftMargin: units.gu(1)
-                right: starArea.right
-                rightMargin: units.gu(1)
+                right: starArea.left
                 verticalCenter: parent.verticalCenter
             }
             Label {
                 id: titleLabel
+                Layout.fillWidth: true
                 elide: Text.ElideRight
                 wrapMode: Text.Wrap
                 maximumLineCount: 1
@@ -74,6 +74,7 @@ MouseArea {
             }
             Label {
                 id: subtitleLabel
+                Layout.fillWidth: true
                 elide: Text.ElideRight
                 fontSize: "xx-small"
                 wrapMode: Text.Wrap
@@ -84,12 +85,14 @@ MouseArea {
         }
         MouseArea {
             id: starArea
+            objectName: "starArea"
             height: parent.height
             width: height
             anchors.right: parent.right
             onClicked: if (!editMode) root.requestFavorite(model.scopeId, !isFavorite);
             onPressed: if (editMode) root.handlePressed(starArea);
             onReleased: if (editMode) root.handleReleased(starArea);
+            visible: editMode || showStar
             Icon {
                 id: star
                 anchors.centerIn: parent

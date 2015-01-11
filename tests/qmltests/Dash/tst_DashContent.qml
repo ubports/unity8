@@ -288,12 +288,14 @@ Item {
             var dashNavigationButton = findChild(dashContentList.currentItem, "navigationButton");
             compare(dashNavigationButton.showList, false);
             waitForRendering(dashNavigationButton);
-            mouseClick(dashNavigationButton, 0, 0);
+            mouseClick(dashNavigationButton, dashNavigationButton.width / 2, dashNavigationButton.height / 2);
             compare(dashNavigationButton.showList, true);
 
             var navigationListView = findChild(dashNavigationButton, "navigationListView");
-            compare(navigationListView.count, 1);
-            tryCompare(navigationListView.currentItem.navigation, "loaded", true);
+            tryCompareFunction(function() {
+                return navigationListView.currentItem &&
+                       navigationListView.currentItem.navigation &&
+                       navigationListView.currentItem.navigation.loaded; }, true);
 
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
@@ -410,8 +412,10 @@ Item {
             compare(dashNavigationButton.showList, true);
 
             var navigationListView = findChild(dashNavigationButton, "navigationListView");
-            compare(navigationListView.count, 1);
-            tryCompare(navigationListView.currentItem.navigation, "loaded", true);
+            tryCompareFunction(function() {
+                return navigationListView.currentItem &&
+                       navigationListView.currentItem.navigation &&
+                       navigationListView.currentItem.navigation.loaded; }, true);
 
             waitForRendering(navigationListView);
             waitForRendering(navigationListView.currentItem);
@@ -475,7 +479,10 @@ Item {
             compare(dashAltNavigationButton.showList, true);
 
             var navigationListView = findChild(dashAltNavigationButton, "navigationListView");
-            tryCompare(navigationListView.currentItem.navigation, "loaded", true);
+            tryCompareFunction(function() {
+                return navigationListView.currentItem &&
+                       navigationListView.currentItem.navigation &&
+                       navigationListView.currentItem.navigation.loaded; }, true);
 
             var blackRect = findChild(dashNavigation, "blackRect");
             tryCompare(blackRect, "opacity", 0.5);

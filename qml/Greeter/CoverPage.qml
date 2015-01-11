@@ -24,6 +24,7 @@ import "../Components"
 Showable {
     id: root
 
+    property real dragHandleLeftMargin
     property real launcherOffset
     property alias background: greeterBackground.source
     property real backgroundTopMargin
@@ -44,80 +45,28 @@ Showable {
         }
     }
 
-    QtObject {
-        id: d
-
-        property var showAnimation: StandardAnimation { property: "dragOffset"; to: 0; duration: UbuntuAnimation.FastDuration }
-        property var leftHideAnimation: StandardAnimation { property: "dragOffset"; to: -width }
-        property var rightHideAnimation: StandardAnimation { property: "dragOffset"; to: width }
-    }
-
     property real dragOffset
     x: launcherOffset + dragOffset
 
-    showAnimation: d.showAnimation
-    hideAnimation: d.leftHideAnimation
-
-    onTease: showLabelAnimation.start()
-
-    // Bi-directional revealer
-    DraggingArea {
-        id: dragHandle
-        anchors.fill: parent
-        enabled: draggable
-        orientation: Qt.Horizontal
-        propagateComposedEvents: true
-
-        Component.onCompleted: {
-            // set evaluators to baseline of dragValue == 0
-            leftEvaluator.reset();
-            rightEvaluator.reset();
-        }
-
-        function maybeTease() {
-            if (enabled) {
-                root.tease();
-            }
-        }
-
-        onClicked: maybeTease()
-        onDragStart: maybeTease()
-        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
-
-        onDragEnd: {
-            if (root.dragOffset > 0 && rightEvaluator.shouldAutoComplete()) {
-                root.hideRight();
-            } else if (root.dragOffset < 0 && leftEvaluator.shouldAutoComplete()) {
-                root.hide();
-            } else {
-                root.show(); // undo drag
-            }
-        }
-
-        onDragValueChanged: {
-            // dragValue is kept as a "step" value since we do this adjusting on the fly
-            root.dragOffset += dragValue;
-        }
-
-        EdgeDragEvaluator {
-            id: rightEvaluator
-            trackedPosition: dragHandle.dragValue + root.dragOffset
-            maxDragDistance: root.width
-            direction: Direction.Rightwards
-        }
-
-        EdgeDragEvaluator {
-            id: leftEvaluator
-            trackedPosition: dragHandle.dragValue + root.dragOffset
-            maxDragDistance: root.width
-            direction: Direction.Leftwards
-        }
+    function startTease() {
+        tease();
+        showLabelAnimation.start();
     }
 
-    TouchGate {
-        targetItem: dragHandle
-        anchors.fill: targetItem
-        enabled: targetItem.enabled
+    DragHandle {
+        id: dragHandle
+        anchors.fill: parent
+        anchors.leftMargin: root.dragHandleLeftMargin
+        enabled: root.draggable
+        direction: Direction.Horizontal
+
+        onTapped: root.startTease()
+
+        onDraggingChanged: {
+            if (dragging) {
+                root.startTease();
+            }
+        }
     }
 
     Rectangle {
@@ -222,5 +171,57 @@ Showable {
         anchors.bottom: parent.bottom
         fillMode: Image.Tile
         source: "../graphics/dropshadow_left.png"
+    }
+
+    Binding {
+        id: positionLock
+
+        property bool enabled: false
+        onEnabledChanged: {
+            if (enabled === __enabled) {
+                return;
+            }
+
+            if (enabled) {
+                if (root.dragOffset > 0) {
+                    value = Qt.binding(function() { return greeter.width; })
+                } else {
+                    value = Qt.binding(function() { return -greeter.width; })
+                }
+            }
+
+            __enabled = enabled;
+        }
+
+        property bool __enabled: false
+
+        target: root
+        when: __enabled
+        property: "dragOffset"
+    }
+
+    hideAnimation: SequentialAnimation {
+        id: hideAnimation
+        objectName: "hideAnimation"
+        StandardAnimation {
+            id: hideTranslation
+            property: "dragOffset"
+            target: root
+        }
+        PropertyAction { target: root; property: "visible"; value: false }
+        PropertyAction { target: positionLock; property: "enabled"; value: true }
+    }
+
+    showAnimation: SequentialAnimation {
+        id: showAnimation
+        objectName: "showAnimation"
+        PropertyAction { target: root; property: "visible"; value: true }
+        PropertyAction { target: positionLock; property: "enabled"; value: false }
+        StandardAnimation {
+            property: "dragOffset"
+            target: root
+            to: 0
+            duration: UbuntuAnimation.FastDuration
+        }
     }
 }
