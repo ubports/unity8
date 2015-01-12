@@ -37,6 +37,7 @@ TestCase {
         this.getCurrentTimeMs = function() {return this.currentTimeMs}
     }
 
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
     function mouseClick(item, x, y, button, modifiers, delay) {
         if (button === undefined)
             button = Qt.LeftButton;
@@ -52,6 +53,7 @@ TestCase {
             qtest_fail("window not shown", 2);
     }
 
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
     function mouseDoubleClick(item, x, y, button, modifiers, delay) {
         if (button === undefined)
             button = Qt.LeftButton;
@@ -67,6 +69,7 @@ TestCase {
             qtest_fail("window not shown", 2)
     }
 
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
     function mousePress(item, x, y, button, modifiers, delay) {
         if (button === undefined)
             button = Qt.LeftButton;
@@ -82,6 +85,7 @@ TestCase {
             qtest_fail("window not shown", 2)
     }
 
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
     function mouseRelease(item, x, y, button, modifiers, delay) {
         if (button === undefined)
             button = Qt.LeftButton;
