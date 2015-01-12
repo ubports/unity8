@@ -13,7 +13,7 @@ Build-Depends: cmake,
 # version. To allow cross-compiling to work, we also must
 # append :native to g++-4.9 so we don't try to run armhf g++
 # on an x86 CPU for eaxmple, when cross-compiling.
-               g++-4.9:native,
+               g++-4.9,
                libandroid-properties-dev,
                libconnectivity-qt1-dev,
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
