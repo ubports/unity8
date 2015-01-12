@@ -110,6 +110,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
 class DisplayIndicatorTestCase(IndicatorTestCase):
 
     def test(self):
-        indicator_page = self.main_window.open_indicator_page(
-            'indicator-sound')
-        self.assertIsInstance(indicator_page, main_window.IndicatorPage)
+        self.main_window.open_indicator_page('indicator-sound')
+        indicator_rotation_icon = self.main_window.select_single(
+            objectName='indicator.rotation-lock')
+        self.main_window.pointing_device.click_object(indicator_rotation_icon)
