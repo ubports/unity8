@@ -21,18 +21,19 @@ ScriptAction { script: {
     shell.orientationAngle = d.requestedOrientationAngle;
     shell.transformRotationAngle = d.requestedOrientationAngle;
 
+    // Making bindings as orientedShell's dimensions might wiggle during startup.
     if (d.requestedOrientationAngle === 90 || d.requestedOrientationAngle === 270) {
-        shell.width = orientedShell.height;
-        shell.height = orientedShell.width;
+        shell.width = Qt.binding(function() { return orientedShell.height; });
+        shell.height = Qt.binding(function() { return orientedShell.width; });
     } else {
-        shell.width = orientedShell.width;
-        shell.height = orientedShell.height;
+        shell.width = Qt.binding(function() { return orientedShell.width; });
+        shell.height = Qt.binding(function() { return orientedShell.height; });
     }
 
-    shell.x = (orientedShell.width - shell.width) / 2
-    shell.y = (orientedShell.height - shell.height) / 2;
-    shell.transformOriginX = shell.width / 2;
-    shell.transformOriginY = shell.height / 2;
+    shell.x = Qt.binding(function() { return (orientedShell.width - shell.width) / 2; });
+    shell.y = Qt.binding(function() { return (orientedShell.height - shell.height) / 2; });
+    shell.transformOriginX = Qt.binding(function() { return shell.width / 2; });
+    shell.transformOriginY = Qt.binding(function() { return shell.height / 2; });
 
     shell.updateFocusedAppOrientation();
     d.transitioning = false;
