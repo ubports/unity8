@@ -23,6 +23,7 @@ from testscenarios import multiply_scenarios
 from autopilot import platform
 
 from unity8.process_helpers import unlock_unity
+from unity8.shell.emulators import main_window
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 
@@ -109,4 +110,6 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
 class DisplayIndicatorTestCase(IndicatorTestCase):
 
     def test(self):
-        self.main_window.print_tree('/tmp/tree')
+        indicator_page = self.main_window.open_indicator_page(
+            'indicator-sound')
+        self.assertIsInstance(indicator_page, main_window.IndicatorPage)

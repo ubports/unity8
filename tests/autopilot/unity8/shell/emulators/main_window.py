@@ -70,7 +70,7 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def _get_indicator_page(self, indicator_name):
         return self.select_single(
-            'IndicatorPage',
+            IndicatorPage,
             objectName=indicator_name+'-page'
         )
 
@@ -164,3 +164,8 @@ class QQuickView(emulators.UnityEmulatorBase):
             'PinPadButton',
             objectName='pinPadButton{}'.format(button_id)
         )
+
+
+class IndicatorPage(emulators.UnityEmulatorBase):
+
+    """Autopilot helper for the IndicatorPage component."""
