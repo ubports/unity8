@@ -19,6 +19,7 @@
 
 import logging
 
+import ubuntuuitoolkit
 from autopilot import logging as autopilot_logging
 from autopilot import input
 
@@ -169,3 +170,20 @@ class QQuickView(emulators.UnityEmulatorBase):
 class IndicatorPage(emulators.UnityEmulatorBase):
 
     """Autopilot helper for the IndicatorPage component."""
+
+
+class QQuickFlickable(ubuntuuitoolkit.QQuickFlickable):
+
+    def swipe_to_x_end(self):
+        if not self.atXEnd:
+            containers = self._get_containers()
+            while not self.atXEnd:
+                self.swipe_to_show_x_end(containers)
+
+    def swipe_to_show_x_end(self, containers):
+        start_y = stop_y = self.globalRect.y + (self.globalRect.height // 2)
+        start_x = self.globalRect.x + self.globalRect.width - 5
+        stop_x = self.globalRect.x + 5
+        self._slow_drag(start_x, stop_x, start_y, stop_y)
+        self.dragging.wait_for(False)
+        self.moving.wait_for(False)

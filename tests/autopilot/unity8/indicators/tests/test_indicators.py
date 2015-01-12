@@ -111,6 +111,10 @@ class DisplayIndicatorTestCase(IndicatorTestCase):
 
     def test(self):
         self.main_window.open_indicator_page('indicator-sound')
+        indicators_bar_flickable = self.main_window.select_single(
+            'IndicatorsBar').select_single(
+                main_window.QQuickFlickable, objectName='flickable')
+        indicators_bar_flickable.swipe_to_x_end()
         indicator_rotation_icon = self.main_window.select_single(
-            objectName='indicator.rotation-lock')
+            objectName='indicator-rotation-lock-panelItem')
         self.main_window.pointing_device.click_object(indicator_rotation_icon)
