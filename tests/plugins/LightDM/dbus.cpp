@@ -16,6 +16,7 @@
 
 #include "Greeter.h"
 
+#include <QCoreApplication>
 #include <QDBusInterface>
 #include <QDBusReply>
 #include <QSignalSpy>
@@ -149,9 +150,11 @@ private Q_SLOTS:
         QVERIFY(dbusList->property("EntryIsLocked").toBool());
 
         greeter->authenticate("no-password");
+        QCoreApplication::processEvents(); // wait for auth to finish
         QVERIFY(!dbusList->property("EntryIsLocked").toBool());
 
         greeter->authenticate("has-password");
+        QCoreApplication::processEvents(); // wait for auth to finish
         QVERIFY(dbusList->property("EntryIsLocked").toBool());
     }
 
@@ -159,10 +162,16 @@ private Q_SLOTS:
     {
         QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
         greeter->authenticate("no-password");
-        spy.wait();
 
-        QCOMPARE(spy.count(), 2); // once for locked, once for user; first will be locked mode
-        QList<QVariant> arguments = spy.takeFirst();
+        // Two property changed signals will be emitted, one for the IsLocked
+        // property, one for the ActiveEntry; the first will be IsLocked.
+        spy.wait();
+        if (spy.count() < 2) {
+            spy.wait();
+        }
+        QCOMPARE(spy.count(), 2);
+
+        QList<QVariant> arguments = spy.takeLast();
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("EntryIsLocked"));
         QVERIFY(arguments.at(1).toMap()["EntryIsLocked"] == false);

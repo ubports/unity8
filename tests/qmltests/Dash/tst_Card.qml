@@ -539,9 +539,9 @@ Rectangle {
             var touchdown = findChild(card, "touchdown");
 
             compare(touchdown.visible, false);
-            mousePress(card, card.width/2, card.height/2);
+            mousePress(card);
             compare(touchdown.visible, true);
-            mouseRelease(card, card.width/2, card.height/2);
+            mouseRelease(card);
             compare(touchdown.visible, false);
         }
 

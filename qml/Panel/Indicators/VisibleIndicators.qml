@@ -22,13 +22,13 @@ import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 
 Item {
-    property SortFilterProxyModel model: filterModel
+    property UnitySortFilterProxyModel model: filterModel
 
     function initialise(profile) {
         indicatorsModel.load(profile);
     }
 
-    SortFilterProxyModel {
+    UnitySortFilterProxyModel {
         id: filterModel
         filterRole: Indicators.IndicatorsModelRole.IsVisible
         filterRegExp: RegExp("^true$")

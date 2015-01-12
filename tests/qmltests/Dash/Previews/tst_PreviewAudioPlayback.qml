@@ -131,7 +131,7 @@ Rectangle {
             compare(track2ProgressBar.visible, false);
 
             // Playing track 0 should make progress bar 0 visible
-            mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
+            mouseClick(track0PlayButton);
 
             tryCompare(audio, "playbackState", Audio.PlayingState);
             checkPlayerSource(0);
@@ -141,18 +141,18 @@ Rectangle {
             tryCompare(track2ProgressBar, "visible", false);
 
             // Clicking the button again should pause it. The progress bar should stay visible
-            mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
+            mouseClick(track0PlayButton);
             tryCompare(audio, "playbackState", Audio.PausedState);
             checkPlayerSource(0);
             tryCompare(track0ProgressBar, "visible", true);
 
             // Continue playback
-            mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
+            mouseClick(track0PlayButton);
             tryCompare(audio, "playbackState", Audio.PlayingState);
             checkPlayerSource(0);
 
             // Playing track 1 should make progress bar 1 visible and hide progress bar 0 again
-            mouseClick(track1PlayButton, track1PlayButton.width / 2, track1PlayButton.height / 2);
+            mouseClick(track1PlayButton);
 
             tryCompare(audio, "playbackState", Audio.PlayingState);
             checkPlayerSource(1);
@@ -162,7 +162,7 @@ Rectangle {
             tryCompare(track2ProgressBar, "visible", false);
 
             // Playing track 2 should make progress bar 1 visible and hide progress bar 0 again
-            mouseClick(track2PlayButton, track2PlayButton.width / 2, track2PlayButton.height / 2);
+            mouseClick(track2PlayButton);
 
             tryCompare(audio, "playbackState", Audio.PlayingState);
             checkPlayerSource(2);

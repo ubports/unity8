@@ -211,7 +211,7 @@ Row {
             tryCompare(passwordMouseArea, "enabled", isButton)
 
             var passwordInput = findChild(shell, "passwordInput")
-            mouseClick(passwordInput, passwordInput.width / 2, passwordInput.height / 2)
+            mouseClick(passwordInput)
         }
 
         function confirmLoggedIn(loggedIn) {
