@@ -182,8 +182,10 @@ class QQuickFlickable(ubuntuuitoolkit.QQuickFlickable):
 
     def swipe_to_show_x_end(self, containers):
         start_y = stop_y = self.globalRect.y + (self.globalRect.height // 2)
-        start_x = self.globalRect.x + 5
+        # We can't start the swipe from the border because it would open the
+        # launcher
+        start_x = self.globalRect.x + 45
         stop_x = self.globalRect.x + self.globalRect.width - 5
-        self.pointing_device.drag(start_x, stop_x, start_y, stop_y)
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dragging.wait_for(False)
         self.moving.wait_for(False)
