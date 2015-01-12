@@ -61,7 +61,10 @@ install_dependencies() {
 }
 
 mk_build_deps() {
-    [ ! -f unity8-build-deps*deb -o $CODE_DIR/debian/control -nt unity8-build-deps*deb ] && mk-build-deps --install --root-cmd sudo $CODE_DIR/debian/control
+    [ ! -f unity8-build-deps*deb -o $CODE_DIR/debian/control -nt unity8-build-deps*deb ] \
+    && cp $CODE_DIR/debian/control . \
+    && sed -i 's/\:native//g' control \
+    && mk-build-deps --install --root-cmd sudo control
 }
 
 if [ -f "/usr/bin/ccache" ] ; then
