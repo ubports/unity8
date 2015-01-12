@@ -197,7 +197,7 @@ IndicatorTest {
             if (indicatorsBar.mapFromItem(dataItem, dataItem.width/2, dataItem.height/2).x < 0) {
                 skip("Out of bounds");
             }
-            mouseClick(dataItem, dataItem.width/2, dataItem.height/2);
+            mouseClick(dataItem);
             verify(dataItem.selected === true);
         }
 

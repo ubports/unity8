@@ -79,7 +79,7 @@ Item {
         ListElement { name: "U" }
     }
 
-    SortFilterProxyModel {
+    UnitySortFilterProxyModel {
         id: wrappedFakeModel
         model: fakeModel
     }

@@ -33,6 +33,10 @@ Item {
         if (altNavigationButton.showList) return altNavigationButton.listView;
         return null;
     }
+    readonly property bool disableParentInteractive: {
+        return navigationButton.showList || altNavigationButton.showList ||
+               navigationButton.inverseMousePressed || altNavigationButton.inverseMousePressed;
+    }
 
     // FIXME this is only here for highlight purposes (see Background.qml, too)
     readonly property var background: backgroundItem

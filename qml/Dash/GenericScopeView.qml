@@ -25,10 +25,10 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].openList : false
+    readonly property bool navigationDisableParentInteractive: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].disableParentInteractive : false
     property bool forceNonInteractive: false
     property var scope: null
-    property SortFilterProxyModel categories: categoryFilter
+    property UnitySortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
     property bool hasBackAction: false
@@ -106,7 +106,7 @@ FocusScope {
         value: isCurrent && !subPageLoader.open
     }
 
-    SortFilterProxyModel {
+    UnitySortFilterProxyModel {
         id: categoryFilter
         model: scope ? scope.categories : null
         dynamicSortFilter: true

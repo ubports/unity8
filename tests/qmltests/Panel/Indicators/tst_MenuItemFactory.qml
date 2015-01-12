@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
+import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import "../../../../qml/Panel/Indicators"
@@ -448,9 +449,59 @@ Item {
         }
 
         function test_create_transferMenu(data) {
+            ActionData.data = {
+                "transfer-state.queued": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Queued,
+                        'percent': data.progress
+                    }
+                },
+                "transfer-state.running": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Running,
+                        'seconds-left': 100,
+                        'percent': data.progress
+                    }
+                },
+                "transfer-state.paused": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Paused,
+                        'seconds-left': 100,
+                        'percent': data.progress
+                    }
+                },
+                "transfer-state.cancelled": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Canceled,
+                        'percent': data.progress
+                    }
+                },
+                "transfer-state.finished": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Finished,
+                        'seconds-left': 0,
+                        'percent': data.progress
+                    }
+                },
+                "transfer-state.error": {
+                    'valid': true,
+                    'state': {
+                        'state': Menus.TransferState.Error,
+                        'seconds-left': 100,
+                        'percent': data.progress
+                    }
+                }
+            };
+
             menuData.type = "com.canonical.indicator.transfer";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
+            menuData.isToggled = data.active;
             menuData.icon = data.icon;
             menuData.ext = {
                 'xCanonicalUid': data.tag
@@ -464,7 +515,7 @@ Item {
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
-            compare(loader.item.progress, data.progress, "Icon does not match data");
+            compare(loader.item.progress, data.progress, "Progress does not match data");
             compare(loader.item.active, data.active, "Active does not match data");
             compare(loader.item.stateText, data.stateText, "State text does not match data");
         }
