@@ -37,6 +37,67 @@ TestCase {
         this.getCurrentTimeMs = function() {return this.currentTimeMs}
     }
 
+    function mouseClick(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseClick(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2);
+    }
+
+    function mouseDoubleClick(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseDoubleClick(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+    function mousePress(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mousePress(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+    function mouseRelease(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseRelease(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+
     // Flickable won't recognise a single mouse move as dragging the flickable.
     // Use 5 steps because it's what
     // Qt uses in QQuickViewTestUtil::flick
@@ -221,6 +282,10 @@ TestCase {
         // Make sure the item is rendered
         waitForRendering(item);
 
+        var root = fetchRootItem(item);
+        var rootFrom = item.mapToItem(root, x, y);
+        var rootTo = item.mapToItem(root, toX, toY);
+
         // Default to true for beginTouch if not present
         beginTouch = (beginTouch !== undefined) ? beginTouch : true
 
@@ -233,17 +298,17 @@ TestCase {
         // Set a default iterations if not specified
         var iterations = (iterations !== undefined) ? iterations : 5
 
-        var distance = Math.sqrt(Math.pow(toX - x, 2) + Math.pow(toY - y, 2))
+        var distance = Math.sqrt(Math.pow(rootTo.x - rootFrom.x, 2) + Math.pow(rootTo.Y - rootFrom.y, 2))
         var totalTime = (distance / speed) * 1000 /* converting speed to pixels/ms */
 
         var timeStep = totalTime / iterations
-        var diffX = (toX - x) / iterations
-        var diffY = (toY - y) / iterations
+        var diffX = (rootTo.x - rootFrom.x) / iterations
+        var diffY = (rootTo.y - rootFrom.y) / iterations
         if (beginTouch) {
             fakeDateTime.currentTimeMs += timeStep
 
             var event = touchEvent()
-            event.press(0 /* touchId */, x, y)
+            event.press(0 /* touchId */, rootFrom.x, rootFrom.y)
             event.commit()
         }
         for (var i = 0; i < iterations; ++i) {
@@ -253,19 +318,19 @@ TestCase {
                 // the point specified
                 wait(iterations / speed)
                 var event = touchEvent()
-                event.move(0 /* touchId */, toX, toY)
+                event.move(0 /* touchId */, rootTo.x, rootTo.y)
                 event.commit()
             } else {
                 wait(iterations / speed)
                 var event = touchEvent()
-                event.move(0 /* touchId */, x + (i + 1) * diffX, y + (i + 1) * diffY)
+                event.move(0 /* touchId */, rootFrom.x + (i + 1) * diffX, rootFrom.y + (i + 1) * diffY)
                 event.commit()
             }
         }
         if (endTouch) {
             fakeDateTime.currentTimeMs += timeStep
             var event = touchEvent()
-            event.release(0 /* touchId */, toX, toY)
+            event.release(0 /* touchId */, rootTo.x, rootTo.y)
             event.commit()
         }
     }
@@ -377,4 +442,14 @@ TestCase {
             }
         }
     }
+
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    function waitForRendering(item, timeout) {
+        if (timeout === undefined)
+            timeout = 5000;
+        if (!item)
+            qtest_fail("No item given to waitForRendering", 1);
+        return qtest_results.waitForRendering(item, timeout);
+    }
+
 }

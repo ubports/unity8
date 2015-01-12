@@ -23,13 +23,11 @@ Item {
 
     property int collapsedItemCount: -1
 
+    property int cacheBuffer: 0
+
     property int displayMarginBeginning: 0
 
     property int displayMarginEnd: 0
-
-    property int visibleRangeBegin: 0
-
-    property int visibleRangeEnd: 0
 
     property real originY: 0
 

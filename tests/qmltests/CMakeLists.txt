@@ -23,6 +23,7 @@ add_qml_test(. ShellWithPin ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tes
 add_qml_test(. TabletShell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Components Background)
 add_qml_test(Components Carousel)
+add_qml_test(Components Dialogs)
 add_qml_test(Components DraggingArea)
 add_qml_test(Components EdgeDemoOverlay)
 add_qml_test(Components LazyImage)
@@ -78,6 +79,7 @@ add_qml_test(Panel IndicatorsMenu ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DI
 add_qml_test(Panel MenuContent ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel Panel ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel SearchIndicator)
+add_qml_test(Panel/Indicators IndicatorsLight ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 # These MenuItemFactory tests need the test/mocks/ to come before plugins/
 add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel/Indicators MessageMenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
@@ -87,3 +89,4 @@ add_qml_test(Stages SpreadDelegate ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_D
 add_qml_test(Stages SurfaceContainer ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Stages SessionContainer ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Stages Splash)
+add_qml_test(Wizard Wizard)

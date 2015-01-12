@@ -214,7 +214,7 @@ Row {
 
             // click/tap on each snap-decision and verify only one is in expanded-state at any time
             for (var index = 0; index < snap_decision.length; index++) {
-                mouseClick(snap_decision[index], snap_decision[index].width / 2, snap_decision[index].height / 2)
+                mouseClick(snap_decision[index])
                 for (var kindex = 0; kindex < snap_decision.length; kindex++) {
                     if (kindex == index) {
                         compare(snap_decision[kindex].state, "expanded", "state of "+ kindex + ".snap-decision is not expanded");
@@ -227,7 +227,7 @@ Row {
             // remove top-most and verify one of the remaining ones is still getting expanded
 
             // make first snap-decision expand
-            mouseClick(snap_decision[0], snap_decision[0].width / 2, snap_decision[0].height / 2);
+            mouseClick(snap_decision[0]);
 
             for (var index = 1; index < snap_decision.length; index++) {
                 removeTopMostNotification();

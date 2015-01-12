@@ -133,6 +133,11 @@ Item {
             onSelected: infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
         }
 
+        Connections {
+            target: i18n
+            onLanguageChanged: greeterContentLoader.infographicModel.readyForDataChange()
+        }
+
         anchors {
             verticalCenter: parent.verticalCenter
             left: narrowMode ? root.left : loginLoader.right

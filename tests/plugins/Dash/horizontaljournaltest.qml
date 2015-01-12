@@ -25,6 +25,7 @@ Item {
         rowHeight: 150
         columnSpacing: 10
         rowSpacing: 10
+        cacheBuffer: Math.max(0, (height + displayMarginEnd + displayMarginBeginning) / 2)
 
         delegate: Rectangle {
             property real randomValue: Math.random()

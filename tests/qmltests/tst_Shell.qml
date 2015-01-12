@@ -194,6 +194,7 @@ Item {
             killApps(ApplicationManager);
 
             unlockAllModemsSpy.clear()
+            LightDM.Greeter.authenticate(""); // reset greeter
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true;
@@ -221,7 +222,7 @@ Item {
 
             notifications.model = mockNotificationsModel;
 
-            // FIXME: Hack: SortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // FIXME: Hack: UnitySortFilterProxyModelQML doesn't work with QML ListModels which we use
             // for mocking here (RoleType can't be found in the QML model). As we only need to show
             // one SnapDecision lets just disable the filtering and make appear any notification as a
             // SnapDecision.
@@ -244,7 +245,7 @@ Item {
 
             // Clicking the button should dismiss the notification and return focus
             var buttonAccept = findChild(notification, "notify_button0");
-            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+            mouseClick(buttonAccept);
 
             // Make sure we're back to normal
             tryCompare(app.session.surface, "activeFocus", true);
@@ -462,7 +463,7 @@ Item {
             var launcher = findChild(shell, "launcherPanel")
             tryCompareFunction(function() {return launcher.x === 0 || launcher.x === -launcher.width;}, true);
             if (launcher.x === 0) {
-                mouseClick(shell, shell.width / 2, shell.height / 2)
+                mouseClick(shell)
             }
             tryCompare(launcher, "x", -launcher.width)
 
@@ -495,16 +496,8 @@ Item {
         function tapOnAppIconInLauncher() {
             var launcherPanel = findChild(shell, "launcherPanel");
 
-            // pick the first icon, the one at the bottom.
+            // pick the first icon, the one at the top.
             var appIcon = findChild(launcherPanel, "launcherDelegate0")
-
-            // Swipe upwards over the launcher to ensure that this icon
-            // at the bottom is not folded and faded away.
-            var touchStartX = launcherPanel.width / 2;
-            var touchStartY = launcherPanel.height / 2;
-            touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
-            tryCompare(launcherPanel, "moving", false);
-
             tap(appIcon, appIcon.width / 2, appIcon.height / 2);
         }
 
@@ -752,13 +745,17 @@ Item {
             dragLauncherIntoView();
 
             // Emulate a tap with a finger, where the touch position drifts during the tap.
+            // This is to test the touch ownership changes. The tap is happening on the button
+            // area but then drifting into the left edge drag area. This test makes sure
+            // the touch ownership stays with the button and doesn't move over to the
+            // left edge drag area.
             {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
                 var startPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.2,
+                        buttonShowDashHome.width * 0.8,
                         buttonShowDashHome.height * 0.2);
                 var endPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.width * 0.2,
                         buttonShowDashHome.height * 0.8);
                 touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
             }

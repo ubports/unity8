@@ -240,7 +240,7 @@ Item {
                 }
 
                 // test input does not fall through
-                mouseClick(notification, notification.width / 2, notification.height / 2)
+                mouseClick(notification)
                 if(data.type == Notification.Interactive) {
                     actionSpy.wait()
                     compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")

@@ -46,13 +46,14 @@ Item {
 
     function addScrollOffset(scrollAmmout) {
         if (scrollAmmout < 0) { // left scroll
-            if (flickable.contentX < 0) return; // already off the left.
-            if (flickable.contentX + scrollAmmout < 0) scrollAmmout = -flickable.contentX; // going to be off the left
-        } else { // right scroll
-            if (flickable.contentX + flickable.width > row.width) return; // already off the right.
-            if (flickable.contentX + flickable.width + scrollAmmout > row.width) { // going to be off the right
-                scrollAmmout = row.width - (flickable.contentX + flickable.width);
+            if (flickable.contentX + flickable.width > row.width) return; // already off the left.
+
+            if (flickable.contentX + flickable.width - scrollAmmout > row.width) { // going to be off the right
+                scrollAmmout = (flickable.contentX + flickable.width) - row.width;
             }
+        } else { // right scroll
+            if (flickable.contentX < 0) return; // already off the right.
+            if (flickable.contentX - scrollAmmout < 0) scrollAmmout = flickable.contentX; // going to be off the right
         }
         d.scrollOffset = d.scrollOffset + scrollAmmout;
     }
@@ -91,24 +92,26 @@ Item {
             flickable.resetContentXComponents();
 
             if (expanded && !flickable.moving) {
-
                 // gap between left and row?
-                if (flickable.contentX < 0) {
-                    d.alignmentAdjustment += flickable.contentX;
-                // gap between right and row?
-                } else if (flickable.contentX + flickable.width > row.width) {
+                if (flickable.contentX + flickable.width > row.width) {
                     // row width is less than flickable
                     if (row.width < flickable.width) {
-                        d.alignmentAdjustment += flickable.contentX;
+                        d.alignmentAdjustment -= flickable.contentX;
                     } else {
-                        d.alignmentAdjustment += ((flickable.contentX + flickable.width) - row.width);
+                        d.alignmentAdjustment -= ((flickable.contentX + flickable.width) - row.width);
                     }
+
+                    // gap between right and row?
+                } else if (flickable.contentX < 0) {
+                    d.alignmentAdjustment -= flickable.contentX;
+
                 // current item overlap on left
-                } else if (row.currentItem && row.currentItem.x < flickable.contentX) {
-                    d.alignmentAdjustment -= (row.currentItem.x - flickable.contentX);
+                } else if (row.currentItem && (flickable.contentX + flickable.width) < (row.width - row.currentItem.x)) {
+                    d.alignmentAdjustment += ((row.width - row.currentItem.x) - (flickable.contentX + flickable.width));
+
                 // current item overlap on right
-                } else if (row.currentItem && row.currentItem.x + row.currentItem.width > flickable.contentX + flickable.width) {
-                    d.alignmentAdjustment -= ((row.currentItem.x + row.currentItem.width) - (flickable.contentX + flickable.width));
+                } else if (row.currentItem && flickable.contentX > (row.width - row.currentItem.x - row.currentItem.width)) {
+                    d.alignmentAdjustment -= flickable.contentX - (row.width - row.currentItem.x - row.currentItem.width);
                 }
             }
         }
@@ -134,16 +137,19 @@ Item {
             id: flickable
             objectName: "flickable"
 
+            // we rotate it because we want the Flickable to align its content item
+            // on the right instead of on the left
+            rotation: 180
+
             anchors.fill: parent
             contentWidth: row.width
+            contentX: d.combinedOffset
             interactive: false
-            // align right + offset from row selection + scrolling
-            contentX: row.width - flickable.width - d.combinedOffset
 
             // contentX can change by user interaction as well as user offset changes
             // This function re-aligns the offsets so that the offsets match the contentX
             function resetContentXComponents() {
-                d.scrollOffset += (flickable.contentX - (row.width - flickable.width - d.combinedOffset));
+                d.scrollOffset += d.combinedOffset - flickable.contentX;
             }
 
             rebound: Transition {
@@ -161,6 +167,9 @@ Item {
                     top: parent.top
                     bottom: parent.bottom
                 }
+
+                // Compensate for the Flickable rotation (ie, counter-rotate)
+                rotation: 180
 
                 lateralPosition: {
                     if (root.lateralPosition == -1) return -1;

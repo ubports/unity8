@@ -20,9 +20,25 @@
 import QtQuick 2.0
 import Powerd 0.1
 import Lights 0.1
+import QMenuModel 0.1 as QMenuModel
+import Unity.Indicators 0.1 as Indicators
 
 QtObject {
     id: root
+
+    property var _actionGroup: QMenuModel.QDBusActionGroup {
+        busType: 1
+        busName: "com.canonical.indicator.messages"
+        objectPath: "/com/canonical/indicator/messages"
+    }
+
+    property var _rootState: Indicators.ActionRootState {
+        actionGroup: _actionGroup
+        actionName: "messages"
+        Component.onCompleted: actionGroup.start()
+
+        property bool hasMessages: valid && (String(icons).indexOf("indicator-messages-new") != -1)
+    }
 
     Component.onDestruction: Lights.state = Lights.Off
 
@@ -30,6 +46,8 @@ QtObject {
     property var _binding: Binding {
         target: Lights
         property: "state"
-        value: (Powerd.status === Powerd.Off) ? Lights.On : Lights.Off
+        value: {
+            return (Powerd.status === Powerd.Off && _rootState.hasMessages) ? Lights.On : Lights.Off
+        }
     }
 }
