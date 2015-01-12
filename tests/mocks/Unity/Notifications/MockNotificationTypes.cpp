@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,6 @@
  */
 
 #include "MockNotificationTypes.h"
-#include <QDebug>
 
 struct MockNotificationPrivate {
     unsigned int id;
@@ -164,7 +163,6 @@ void MockNotification::setHints(const QVariantMap& hints) {
 void MockNotification::invokeAction(const QString &action) {
     for(int i=0; i<p->actions.size(); i++) {
         if(p->actions[i] == action) {
-            qDebug() << "MockNotification::invokeAction("<< action << ") called";
             Q_EMIT completed(p->id);
             return;
         }
@@ -173,6 +171,5 @@ void MockNotification::invokeAction(const QString &action) {
 }
 
 void MockNotification::close() {
-    qDebug() << "MockNotification::close() called";
     Q_EMIT completed(p->id);
 }

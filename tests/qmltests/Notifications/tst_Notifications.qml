@@ -1,17 +1,20 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
 import QtQuick 2.0
@@ -27,44 +30,19 @@ Item {
     width: notificationsRect.width + interactiveControls.width
     height: notificationsRect.height
 
-    Row {
-        id: rootRow
-
+    property list<Notification> dataList: [
         Notification {
-            id: mockNotificationDefault
+            nid: 0
             type: Notification.PlaceHolder
-            nid: 1
             summary: ""
             body: ""
             icon: ""
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
-        }
-
-        ListModel {
-            id: mockModel
-            dynamicRoles: true
-
-            signal actionInvoked(string actionId)
-
-            function getRaw(id) {
-                for (var i = 0; i < mockModel.count; i++) {
-                    if (id === mockModel.get(i).nid) {
-                        return mockModel.get(i)
-                    }
-                }
-            }
-
-            // add the default/PlaceHolder notification to the model
-            Component.onCompleted: {
-                append(mockNotificationDefault)
-            }
-        }
-
+        },
         Notification {
-            id: mock2over1SnapDecisionNotification
+            nid: 1
             type: Notification.SnapDecision
-            nid: 2
             hints: {"x-canonical-private-affirmative-tint": "true"}
             summary: "Theatre at Ferria Stadium"
             body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
@@ -73,86 +51,48 @@ Item {
             rawActions: ["ok_id", "Ok",
                          "snooze_id",  "Snooze",
                          "view_id", "View"]
-        }
-
-        function add2over1SnapDecisionNotification() {
-            mockModel.append(mock2over1SnapDecisionNotification)
-
-            // trying out/debugging stuff
-            mockModel.getRaw(2).close()
-            print("summary:", mock2over1SnapDecisionNotification.summary)
-            print("summary:", mockModel.getRaw(2).summary)
-            print("summary:", mockModel.get(1).summary)
-            mock2over1SnapDecisionNotification.close()
-            mock2over1SnapDecisionNotification.invokeAction("ok_id")
-        }
-
+        },
         Notification {
-            id: mockEphemeralNotification
+            nid: 2
             type: Notification.Ephemeral
-            nid: 3
             summary: "Cole Raby"
             body: "I did not expect it to be that late."
             icon: "../graphics/avatars/amanda.png"
             secondaryIcon: "../graphics/applicationIcons/facebook.png"
             rawActions: ["reply_id", "Dummy"]
-        }
-
-        function addEphemeralNotification() {
-            mockModel.append(mockEphemeralNotification)
-        }
-
+        },
         Notification {
-            id: mockEphemeralNonShapedIconNotification
+            nid: 3
             type: Notification.Ephemeral
-            nid: 4
             hints: {"x-canonical-non-shaped-icon": "true"}
             summary: "Contacts"
             body: "Synchronised contacts-database with cloud-storage."
             icon: "../graphics/applicationIcons/contacts-app.png"
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
-        }
-
-        function addEphemeralNonShapedIconNotification() {
-            mockModel.append(mockEphemeralNonShapedIconNotification)
-        }
-
+        },
         Notification {
-            id: mockEphemeralIconSummaryNotification
+            nid: 4
             type: Notification.Ephemeral
-            nid: 5
             hints: {"x-canonical-non-shaped-icon": "false"}
             summary: "Photo upload completed"
             body: ""
             icon: "../graphics/applicationIcons/facebook.png"
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
-        }
-
-        function addEphemeralIconSummaryNotification() {
-            mockModel.append(mockEphemeralIconSummaryNotification)
-        }
-
+        },
         Notification {
-            id: mockInteractiveNotification
+            nid: 5
             type: Notification.Interactive
-            nid: 6
             summary: "Interactive notification"
             body: "This is a notification that can be clicked"
             icon: "../graphics/avatars/anna_olsson.png"
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
-        }
-
-        function addInteractiveNotification() {
-            mockModel.append(mockInteractiveNotification)
-        }
-
+        },
         Notification {
-            id: mockConfirmationNotification
+            nid: 6
             type: Notification.Confirmation
-            nid: 7
             hints: {"x-canonical-non-shaped-icon": "true"}
             summary: "Confirmation notification"
             body: ""
@@ -160,16 +100,10 @@ Item {
             secondaryIcon: ""
             value: 50
             rawActions: ["reply_id", "Dummy"]
-        }
-
-        function addConfirmationNotification() {
-            mockModel.append(mockConfirmationNotification)
-        }
-
+        },
         Notification {
-            id: mock2ndConfirmationNotification
+            nid: 7
             type: Notification.Confirmation
-            nid: 8
             hints: {"x-canonical-non-shaped-icon": "true",
                     "x-canonical-value-bar-tint": "true"}
             summary: "Confirmation notification"
@@ -179,9 +113,69 @@ Item {
             value: 85
             rawActions: ["reply_id", "Dummy"]
         }
+    ]
+
+    Row {
+        id: rootRow
+
+        ListModel {
+            id: mockModel
+            dynamicRoles: true
+
+            signal actionInvoked(string actionId)
+
+            function getRaw(id) {
+                return dataList[id]
+            }
+
+            // add the default/PlaceHolder notification to the model
+            Component.onCompleted: {
+                append(dataList[0])
+            }
+        }
+
+        function add2over1SnapDecisionNotification() {
+            var n = {
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-affirmative-tint": "true"},
+                summary: "Incoming call",
+                body: "Frank Zappa\n+44 (0)7736 027340",
+                icon: "../graphics/avatars/funky.png",
+                secondaryIcon: "image://theme/incoming-call",
+                actions: [{ id: "ok_id", label: "Ok"},
+                          { id: "cancel_id", label: "Cancel"},
+                          { id: "dummy_id", label: "Quick reply"},
+                          { id: "late_id", label: "messages:I'm running late. I'm on my way."},
+                          { id: "later_id", label: "messages:I'm busy at the moment. I'll call later."}]
+            }
+
+            mockModel.append(n)
+
+            //mockModel.append(dataList[1])
+        }
+
+        function addEphemeralNotification() {
+            mockModel.append(dataList[2])
+        }
+
+        function addEphemeralNonShapedIconNotification() {
+            mockModel.append(dataList[3])
+        }
+
+        function addEphemeralIconSummaryNotification() {
+            mockModel.append(dataList[4])
+        }
+
+        function addInteractiveNotification() {
+            mockModel.append(dataList[5])
+        }
+
+        function addConfirmationNotification() {
+            mockModel.append(dataList[6])
+        }
 
         function add2ndConfirmationNotification() {
-            mockModel.append(mock2ndConfirmationNotification)
+            mockModel.append(dataList[7])
         }
 
         function clearNotifications() {

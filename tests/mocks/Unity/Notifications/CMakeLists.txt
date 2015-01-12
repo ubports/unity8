@@ -5,6 +5,7 @@ include_directories(
 set(MockNotificationsPlugin_SOURCES
     plugin.cpp
     MockNotificationTypes.cpp
+    MockNotificationModel.cpp
     MockActionModel.cpp
 )
 

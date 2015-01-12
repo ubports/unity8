@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,6 +20,7 @@
 #include "plugin.h"
 #include "MockActionModel.h"
 #include "MockNotificationTypes.h"
+#include "MockNotificationModel.h"
 
 #include <QtQml/qqml.h>
 
@@ -27,5 +28,6 @@ void TestNotificationPlugin::registerTypes(const char* uri)
 {
     // @uri Unity.Notifications
     qmlRegisterType<MockNotification>(uri, 1, 0, "Notification");
+    qmlRegisterType<MockNotificationModel>(uri, 1, 0, "NotificationModel");
     qmlRegisterType<ActionModel>(uri, 1, 0, "ActionModel");
 }

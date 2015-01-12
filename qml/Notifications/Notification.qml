@@ -41,7 +41,7 @@ Item {
     property int maxHeight
     property int margins
     readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
-    readonly property bool darkOnBright: true //panel.indicators.shown || type === Notification.SnapDecision
+    readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
     readonly property color red: "#fc4949"
     readonly property color green: "#3fb24f"
     readonly property color sdLightGrey: "#eaeaea"
@@ -80,12 +80,13 @@ Item {
     Audio {
         id: sound
         objectName: "sound"
-        //audioRole: MediaPlayer.alert
+        audioRole: MediaPlayer.alert
         source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
     }
 
     // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
+        print("Added notification with summary:", summary)
         if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
