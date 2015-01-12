@@ -104,3 +104,9 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
             self.indicator_name)
         self.assertTrue(indicator_page.visible)
         self.assertEqual(indicator_page.title, self.title)
+
+
+class DisplayIndicatorTestCase(IndicatorTestCase):
+
+    def test(self):
+        self.main_window.print_tree('/tmp/tree')
