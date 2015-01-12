@@ -33,35 +33,25 @@ import "../../qml"
 
 Item {
     id: root
-    width: units.gu(60)
-    height: units.gu(71)
-
-    QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
-    }
+    width:  shellLoader.width + controlsRect.width
+    height: shellLoader.height
 
     Row {
         anchors.fill: parent
         Loader {
             id: shellLoader
 
+            property bool tablet: false
+            width: tablet ? units.gu(160) : units.gu(40)
+            height: tablet ? units.gu(100) : units.gu(71)
+
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string indicatorProfile: "phone"
-
+                    usageScenario: "phone"
+                    orientation: Qt.PortraitOrientation
+                    primaryOrientation: Qt.PortraitOrientation
+                    nativeOrientation: Qt.PortraitOrientation
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -71,6 +61,7 @@ Item {
 
         Rectangle {
             color: "white"
+            id: controlsRect
             width: units.gu(30)
             height: shellLoader.height
 
@@ -409,15 +400,6 @@ Item {
             tryCompare(item, "visible", false);
         }
 
-        // wait until any transition animation has finished
-        function waitUntilTransitionsEnd(stateGroup) {
-            var transitions = stateGroup.transitions;
-            for (var i = 0; i < transitions.length; ++i) {
-                var transition = transitions[i];
-                tryCompare(transition, "running", false, 2000);
-            }
-        }
-
         // Wait until the ApplicationWindow for the given Application object is fully loaded
         // (ie, the real surface has replaced the splash screen)
         function waitUntilAppWindowIsFullyLoaded(app) {
@@ -666,9 +648,14 @@ Item {
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
-            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
-            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+            verify(topmostSpreadDelegate);
 
+            waitUntilFocusedApplicationIsShowingItsSurface();
+
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            verify(topmostSurface);
+
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
             topmostSurface.touchPressCount = 0;
             topmostSurface.touchReleaseCount = 0;
 

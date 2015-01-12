@@ -32,7 +32,8 @@ Item {
         dragAreaWidth: units.gu(2)
         maximizedAppTopMargin: units.gu(3) + units.dp(2)
         interactive: true
-        orientation: Qt.PortraitOrientation
+        shellOrientation: Qt.PortraitOrientation
+        shellPrimaryOrientation: Qt.PortraitOrientation
     }
 
     Binding {
@@ -67,21 +68,6 @@ Item {
                 text: "Stop Selected"
                 onClicked: {
                     ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
-                }
-            }
-            Button {
-                anchors { left: parent.left; right: parent.right }
-                text: "Rotate device \u27F3"
-                onClicked: {
-                    if (phoneStage.orientation == Qt.PortraitOrientation) {
-                        phoneStage.orientation = Qt.LandscapeOrientation;
-                    } else if (phoneStage.orientation == Qt.LandscapeOrientation) {
-                        phoneStage.orientation = Qt.InvertedPortraitOrientation;
-                    } else if (phoneStage.orientation == Qt.InvertedPortraitOrientation) {
-                        phoneStage.orientation = Qt.InvertedLandscapeOrientation;
-                    } else {
-                        phoneStage.orientation = Qt.PortraitOrientation;
-                    }
                 }
             }
         }
@@ -279,46 +265,6 @@ Item {
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
         }
 
-        function test_orientationChangeSentToFocusedApp() {
-            phoneStage.orientation = Qt.PortraitOrientation;
-            addApps(1);
-
-            var spreadView = findChild(phoneStage, "spreadView");
-            var app = findChild(spreadView, "appDelegate0");
-            tryCompare(app, "orientation", Qt.PortraitOrientation);
-
-            phoneStage.orientation = Qt.LandscapeOrientation;
-            tryCompare(app, "orientation", Qt.LandscapeOrientation);
-        }
-
-        function test_orientationChangeNotSentToAppsWhileSpreadOpen() {
-            phoneStage.orientation = Qt.PortraitOrientation;
-            addApps(1);
-
-            var spreadView = findChild(phoneStage, "spreadView");
-            var app = findChild(spreadView, "appDelegate0");
-            tryCompare(app, "orientation", Qt.PortraitOrientation);
-
-            goToSpread();
-            phoneStage.orientation = Qt.LandscapeOrientation;
-            tryCompare(app, "orientation", Qt.PortraitOrientation);
-        }
-
-        function test_orientationChangeNotSentToUnfocusedAppUntilItFocused() {
-            phoneStage.orientation = Qt.PortraitOrientation;
-            addApps(1);
-
-            var spreadView = findChild(phoneStage, "spreadView");
-            var app = findChild(spreadView, "appDelegate0");
-
-            goToSpread();
-            phoneStage.orientation = Qt.LandscapeOrientation;
-            tryCompare(app, "orientation", Qt.PortraitOrientation);
-
-            phoneStage.select(app.application.appId);
-            tryCompare(app, "orientation", Qt.LandscapeOrientation);
-        }
-
         function test_backgroundClickCancelsSpread() {
             addApps(3);
 
@@ -343,7 +289,7 @@ Item {
                 ApplicationManager.stopApplication(ApplicationManager.get(closingIndex).appId)
                 tryCompare(ApplicationManager, "count", oldCount - 1)
             }
-            phoneStage.orientation = Qt.PortraitOrientation;
+            phoneStage.shellOrientationAngle = 0;
         }
 
         function test_focusNewTopMostAppAfterFocusedOneClosesItself() {

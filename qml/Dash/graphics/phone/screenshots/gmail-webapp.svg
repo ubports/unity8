@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="768"
+   height="1280"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="gmail-webapp.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="117.33439"
+     inkscape:cy="668.80479"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,227.63782)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="769.73627"
+       height="1276.8328"
+       x="-2.0203052"
+       y="3.1671834"
+       transform="translate(0,-227.63782)" />
+    <rect
+       style="fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3797"
+       width="773.77686"
+       height="129.29953"
+       x="-6.0609155"
+       y="-0.87342685"
+       transform="translate(0,-227.63782)" />
+    <text
+       xml:space="preserve"
+       style="font-size:72px;font-style:normal;font-weight:500;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium;font-stretch:normal;font-variant:normal"
+       x="20.203053"
+       y="-139.61781"
+       id="text3755"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757"
+         x="20.203053"
+         y="-139.61781">GMail</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:72px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="14.142137"
+       y="-28.501045"
+       id="text3759"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761"
+         x="14.142137"
+         y="-28.501045">Inbox</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#8effff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3765"
+       sodipodi:cx="107.07617"
+       sodipodi:cy="337.52768"
+       sodipodi:rx="64.649765"
+       sodipodi:ry="61.619305"
+       d="m 171.72594,337.52768 a 64.649765,61.619305 0 1 1 -129.299533,0 64.649765,61.619305 0 1 1 129.299533,0 z"
+       transform="translate(-28.284271,-251.88148)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 14.142136,237.52257 729.330134,0"
+       id="path3769"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-227.63782)" />
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="167.68533"
+       y="78.575127"
+       id="text3771"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3773"
+         x="167.68533"
+         y="78.575127">Lorem ipsum</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="167.68532"
+       y="131.10306"
+       id="text3775"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777"
+         x="167.68532"
+         y="131.10306"
+         style="font-size:48px;fill:#b3b3b3">bla bla bla bla bla bla bla ...</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 13.13199,165.44825 729.33013,0"
+       id="path3769-2"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#8eff58;fill-opacity:1;stroke:#000000;stroke-width:0.69999999000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3765-3"
+       sodipodi:cx="107.07617"
+       sodipodi:cy="337.52768"
+       sodipodi:rx="64.649765"
+       sodipodi:ry="61.619305"
+       d="m 171.72594,337.52768 a 64.649765,61.619305 0 1 1 -129.299533,0 64.649765,61.619305 0 1 1 129.299533,0 z"
+       transform="translate(-26.263969,-93.102383)" />
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="169.70564"
+       y="237.35422"
+       id="text3771-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3773-7"
+         x="169.70564"
+         y="237.35422">Lorem ipsum</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="169.70561"
+       y="289.88217"
+       id="text3775-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777-1"
+         x="169.70561"
+         y="289.88217"
+         style="font-size:48px;fill:#b3b3b3">bla bla bla bla bla bla bla ...</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 15.152292,324.22735 729.330128,0"
+       id="path3769-2-6"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#8effff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3765-7"
+       sodipodi:cx="107.07617"
+       sodipodi:cy="337.52768"
+       sodipodi:rx="64.649765"
+       sodipodi:ry="61.619305"
+       d="m 171.72594,337.52768 a 64.649765,61.619305 0 1 1 -129.299533,0 64.649765,61.619305 0 1 1 129.299533,0 z"
+       transform="translate(-28.284274,64.481414)" />
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="167.68533"
+       y="394.93799"
+       id="text3771-92"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3773-0"
+         x="167.68533"
+         y="394.93799">Lorem ipsum</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="167.68532"
+       y="447.46594"
+       id="text3775-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777-8"
+         x="167.68532"
+         y="447.46594"
+         style="font-size:48px;fill:#b3b3b3">bla bla bla bla bla bla bla ...</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 13.131986,481.81114 729.330124,0"
+       id="path3769-2-3"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#8ea2ff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3765-2"
+       sodipodi:cx="107.07617"
+       sodipodi:cy="337.52768"
+       sodipodi:rx="64.649765"
+       sodipodi:ry="61.619305"
+       d="m 171.72594,337.52768 a 64.649765,61.619305 0 1 1 -129.299533,0 64.649765,61.619305 0 1 1 129.299533,0 z"
+       transform="translate(-26.263969,226.10582)" />
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="169.70564"
+       y="556.56238"
+       id="text3771-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3773-1"
+         x="169.70564"
+         y="556.56238">Lorem ipsum</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="169.70563"
+       y="609.09033"
+       id="text3775-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777-85"
+         x="169.70563"
+         y="609.09033"
+         style="font-size:48px;fill:#b3b3b3">bla bla bla bla bla bla bla ...</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 15.152292,643.43555 729.330128,0"
+       id="path3769-2-1"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#8effff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3765-8"
+       sodipodi:cx="107.07617"
+       sodipodi:cy="337.52768"
+       sodipodi:rx="64.649765"
+       sodipodi:ry="61.619305"
+       d="m 171.72594,337.52768 a 64.649765,61.619305 0 1 1 -129.299533,0 64.649765,61.619305 0 1 1 129.299533,0 z"
+       transform="translate(-24.243664,391.77084)" />
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="171.72594"
+       y="722.22742"
+       id="text3771-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3773-6"
+         x="171.72594"
+         y="722.22742">Lorem ipsum</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="171.72592"
+       y="774.75537"
+       id="text3775-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777-2"
+         x="171.72592"
+         y="774.75537"
+         style="font-size:48px;fill:#b3b3b3">bla bla bla bla bla bla bla ...</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 17.172597,809.10057 729.330133,0"
+       id="path3769-2-13"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#e44738;fill-opacity:1;stroke:#000000;stroke-width:0.69999999000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3765-9"
+       sodipodi:cx="107.07617"
+       sodipodi:cy="337.52768"
+       sodipodi:rx="64.649765"
+       sodipodi:ry="61.619305"
+       d="m 171.72594,337.52768 a 64.649765,61.619305 0 1 1 -129.299533,0 64.649765,61.619305 0 1 1 129.299533,0 z"
+       transform="translate(-24.243664,557.43585)" />
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="171.72594"
+       y="887.89246"
+       id="text3771-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3773-8"
+         x="171.72594"
+         y="887.89246">Lorem ipsum</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="171.72592"
+       y="940.42041"
+       id="text3775-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777-7"
+         x="171.72592"
+         y="940.42041"
+         style="font-size:48px;fill:#b3b3b3">bla bla bla bla bla bla bla ...</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 17.172597,974.76558 729.330123,0"
+       id="path3769-2-9"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:none;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path3929"
+       sodipodi:cx="590.93921"
+       sodipodi:cy="-119.06127"
+       sodipodi:rx="33.335033"
+       sodipodi:ry="33.335033"
+       d="m 624.27424,-119.06127 a 33.335033,33.335033 0 1 1 -66.67006,0 33.335033,33.335033 0 1 1 66.67006,0 z"
+       transform="matrix(0.85096826,0,0,0.85096826,175.43863,-68.81729)" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.40387297;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 692.92249,-145.20602 20.63059,24.06901 12.03451,-13.75372 -20.63059,-17.19215"
+       id="path3931"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

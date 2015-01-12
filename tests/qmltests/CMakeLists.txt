@@ -18,6 +18,7 @@ set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LC_ALL=C")
 
+add_qml_test(. OrientedShell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(. Shell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(. ShellWithPin ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single-pin:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(. TabletShell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")

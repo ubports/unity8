@@ -26,13 +26,14 @@
 #include "plugin.h"
 
 // local
+#include "easingcurve.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
 #include "relativetimeformatter.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
 #include "windowkeysfilter.h"
-#include "easingcurve.h"
+#include "windowscreenshotprovider.h"
 
 void UtilsPlugin::registerTypes(const char *uri)
 {
@@ -51,4 +52,6 @@ void UtilsPlugin::registerTypes(const char *uri)
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    engine->addImageProvider(QLatin1String("window"), new WindowScreenshotProvider);
 }

@@ -35,7 +35,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_ENUMS(StageHint)
     Q_ENUMS(FormFactorHint)
     Q_ENUMS(FavoriteApplication)
-    Q_FLAGS(ExecFlags)
 
     Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
 

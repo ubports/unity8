@@ -28,13 +28,41 @@ Rectangle {
     color: "#111111"
 
     // Controls to be set from outside
-    property bool shown: false
-    property bool moving: false
     property int dragAreaWidth
     property real maximizedAppTopMargin
     property bool interactive
+    property bool beingResized: false
+
+    // TODO: implement
+    property bool spreadEnabled: true // If false, animations and right edge will be disabled
+
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
-    property int orientation: Qt.PortraitOrientation
+    property int shellOrientationAngle: 0
+    property int shellOrientation
+    property int shellPrimaryOrientation
+    property int nativeOrientation
+    function updateFocusedAppOrientation() {
+        if (spreadRepeater.count > 0) {
+            spreadRepeater.itemAt(0).matchShellOrientation();
+        }
+    }
+    function updateFocusedAppOrientationAnimated() {
+        if (spreadRepeater.count > 0) {
+            spreadRepeater.itemAt(0).animateToShellOrientation();
+        }
+    }
+
+    // To be read from outside
+    property var mainApp: null
+    property int mainAppWindowOrientationAngle: 0
+    readonly property bool orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
+        && !priv.sideStageAppId
+
+    onWidthChanged: {
+        spreadView.selectedIndex = -1;
+        spreadView.phase = 0;
+        spreadView.contentX = -spreadView.shift;
+    }
 
     onInverseProgressChanged: {
         // This can't be a simple binding because that would be triggered after this handler
@@ -54,6 +82,7 @@ Rectangle {
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property string oldFocusedAppId: ""
+        property bool mainAppOrientationChangesEnabled: false
 
         property string mainStageAppId
         property string sideStageAppId
@@ -71,6 +100,7 @@ Rectangle {
                     priv.sideStageAppId = focusedAppId;
                 } else {
                     priv.mainStageAppId = focusedAppId;
+                    root.mainApp = focusedApp;
                 }
             }
 
@@ -155,6 +185,7 @@ Rectangle {
 
     Flickable {
         id: spreadView
+        objectName: "spreadView"
         anchors.fill: parent
         interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
                      && draggedDelegateCount === 0
@@ -478,12 +509,13 @@ Rectangle {
 
             Repeater {
                 id: spreadRepeater
+                objectName: "spreadRepeater"
                 model: ApplicationManager
 
                 delegate: TransformedTabletSpreadDelegate {
                     id: spreadTile
                     height: spreadView.height
-                    width: model.stage == ApplicationInfoInterface.MainStage ? spreadView.width : spreadView.sideStageWidth
+                    width: wantsMainStage ? spreadView.width : spreadView.sideStageWidth
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
                     zIndex: spreadView.indexToZIndex(index)
                     selected: spreadView.selectedIndex == index
@@ -495,6 +527,8 @@ Rectangle {
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 ? root.inverseProgress : 0
                     application: ApplicationManager.get(index)
                     closeable: !isDash
+
+                    readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
@@ -547,12 +581,10 @@ Rectangle {
                         return progress;
                     }
 
-                    Binding {
-                        target: spreadTile
-                        property: "orientation"
-                        when: spreadTile.interactive
-                        value: root.orientation
-                    }
+                    shellOrientationAngle: wantsMainStage ? root.shellOrientationAngle : 0
+                    shellOrientation: wantsMainStage ? root.shellOrientation : Qt.PortraitOrientation
+                    shellPrimaryOrientation: wantsMainStage ? root.shellPrimaryOrientation : Qt.PortraitOrientation
+                    nativeOrientation: wantsMainStage ? root.nativeOrientation : Qt.PortraitOrientation
 
                     onClicked: {
                         if (spreadView.phase == 2) {
@@ -571,6 +603,19 @@ Rectangle {
                     onClosed: {
                         spreadView.closingIndex = index;
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
+                    }
+
+                    Binding {
+                        target: root
+                        when: model.appId == priv.mainStageAppId
+                        property: "mainAppWindowOrientationAngle"
+                        value: appWindowOrientationAngle
+                    }
+                    Binding {
+                        target: priv
+                        when: model.appId == priv.mainStageAppId
+                        property: "mainAppOrientationChangesEnabled"
+                        value: orientationChangesEnabled
                     }
 
                     EasingCurve {

@@ -31,18 +31,43 @@ Rectangle {
     property bool interactive
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
-    property int orientation: Qt.PortraitOrientation
+    property int shellOrientationAngle: 0
+    property int shellOrientation
+    property int shellPrimaryOrientation
+    property int nativeOrientation
+    property bool beingResized: false
+    onBeingResizedChanged: {
+        if (beingResized) {
+            // Brace yourselves for impact!
+            spreadView.selectedIndex = -1;
+            spreadView.phase = 0;
+            spreadView.contentX = -spreadView.shift;
+        }
+    }
+    function updateFocusedAppOrientation() {
+        if (spreadRepeater.count > 0) {
+            spreadRepeater.itemAt(0).matchShellOrientation();
+        }
+    }
+    function updateFocusedAppOrientationAnimated() {
+        if (spreadRepeater.count > 0) {
+            spreadRepeater.itemAt(0).animateToShellOrientation();
+        }
+    }
 
+    // To be read from outside
+    readonly property var mainApp: ApplicationManager.focusedApplicationId
+            ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+            : null
+    property int mainAppWindowOrientationAngle: 0
+    readonly property bool orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
+                                                   && !priv.focusedAppDelegateIsDislocated
+                                                   && !priv.topmostAppXBehaviorRunning
+                                                   && spreadView.phase === 0
     color: "#111111"
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
-    }
-
-    onWidthChanged: {
-        spreadView.selectedIndex = -1;
-        spreadView.phase = 0;
-        spreadView.contentX = -spreadView.shift;
     }
 
     onInverseProgressChanged: {
@@ -103,11 +128,14 @@ Rectangle {
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
         property var focusedAppDelegate: null
+        property bool focusedAppOrientationChangesEnabled: false
 
         property real oldInverseProgress: 0
         property bool animateX: true
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
+
+        property bool focusedAppDelegateIsDislocated: focusedAppDelegate && focusedAppDelegate.x !== 0
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -118,6 +146,20 @@ Rectangle {
             return -1;
         }
 
+        property bool topmostDelegateIsDislocated: false
+
+        // Is more stable than "spreadView.shiftedContentX === 0" as it filters out noise caused by
+        // Flickable.contentX changing due to resizes.
+        property bool fullyShowingFocusedApp: true
+
+        property bool topmostAppXBehaviorRunning: false
+    }
+    Timer {
+        id: fullyShowingFocusedAppUpdateTimer
+        interval: 100
+        onTriggered: {
+            priv.fullyShowingFocusedApp = spreadView.shiftedContentX === 0;
+        }
     }
 
     Flickable {
@@ -166,9 +208,21 @@ Rectangle {
         property int draggedDelegateCount: 0
         property int closingIndex: -1
 
-        property bool focusChanging: false
+        // FIXME: Workaround Flickable's not keepping its contentX still when resized
+        onContentXChanged: { forceItToRemainStillIfBeingResized(); }
+        onShiftChanged: { forceItToRemainStillIfBeingResized(); }
+        function forceItToRemainStillIfBeingResized() {
+            if (root.beingResized && contentX != -spreadView.shift) {
+                contentX = -spreadView.shift;
+            }
+        }
 
         onShiftedContentXChanged: {
+            if (root.beingResized) {
+                // Flickabe.contentX wiggles during resizes. Don't react to it.
+                return;
+            }
+
             switch (phase) {
             case 0:
                 if (shiftedContentX > width * positionMarker2) {
@@ -183,6 +237,7 @@ Rectangle {
                 }
                 break;
             }
+            fullyShowingFocusedAppUpdateTimer.restart();
         }
 
         function snap() {
@@ -286,11 +341,10 @@ Rectangle {
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     interactive: !spreadView.interactive && spreadView.phase === 0
-                            && spreadView.shiftedContentX === 0 && root.interactive && index === 0
+                            && priv.fullyShowingFocusedApp && root.interactive && index === 0
                     swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
-                    dropShadow: spreadView.active ||
-                                (priv.focusedAppDelegate && priv.focusedAppDelegate.x !== 0)
+                    dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
@@ -310,6 +364,11 @@ Rectangle {
 
                         // Otherwise line up for the spread
                         return spreadView.width + (index - 1) * spreadView.tileDistance;
+                    }
+                    onXChanged: {
+                        if (index == 0) {
+                            priv.topmostDelegateIsDislocated = x !== 0;
+                        }
                     }
 
                     application: ApplicationManager.get(index)
@@ -332,12 +391,13 @@ Rectangle {
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
                                  !snapAnimation.running &&
-                                 priv.animateX
+                                 priv.animateX &&
+                                 !root.beingResized
                         UbuntuNumberAnimation {
                             duration: UbuntuAnimation.BriskDuration
                             onRunningChanged: {
-                                if (!running && root.inverseProgress == 0) {
-                                    spreadView.focusChanging = false;
+                                if (index === 0) {
+                                    priv.topmostAppXBehaviorRunning = running;
                                 }
                             }
                         }
@@ -379,15 +439,14 @@ Rectangle {
                     }
 
                     // Hiding tiles when their progress is negative or reached the maximum
-                    visible: (progress >= 0 && progress < 1.7) ||
-                             (isDash && priv.focusedAppDelegate.x !== 0)
+                    visible: (progress >= 0 && progress < 1.7)
+                            || (isDash && priv.focusedAppDelegateIsDislocated)
 
-                    Binding {
-                        target: appDelegate
-                        property: "orientation"
-                        when: appDelegate.interactive
-                        value: root.orientation
-                    }
+
+                    shellOrientationAngle: root.shellOrientationAngle
+                    shellOrientation: root.shellOrientation
+                    shellPrimaryOrientation: root.shellPrimaryOrientation
+                    nativeOrientation: root.nativeOrientation
 
                     onClicked: {
                         if (spreadView.phase == 2) {
@@ -410,6 +469,19 @@ Rectangle {
                     onClosed: {
                         spreadView.closingIndex = index;
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
+                    }
+
+                    Binding {
+                        target: root
+                        when: index == 0
+                        property: "mainAppWindowOrientationAngle"
+                        value: appWindowOrientationAngle
+                    }
+                    Binding {
+                        target: priv
+                        when: index == 0
+                        property: "focusedAppOrientationChangesEnabled"
+                        value: orientationChangesEnabled
                     }
                 }
             }

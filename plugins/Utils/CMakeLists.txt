@@ -17,6 +17,7 @@ set(QMLPLUGIN_SRC
     timeformatter.cpp
     unitymenumodelpaths.cpp
     windowkeysfilter.cpp
+    windowscreenshotprovider.cpp
     easingcurve.cpp
     plugin.cpp
     )

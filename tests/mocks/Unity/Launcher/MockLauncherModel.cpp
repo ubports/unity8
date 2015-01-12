@@ -35,6 +35,8 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setProgress(50);
     item->setCountVisible(true);
     m_list.append(item);
+    item = new MockLauncherItem("music-app", "/usr/share/applications/music-app.desktop", "Music", "soundcloud", this);
+    m_list.append(item);
     item = new MockLauncherItem("facebook-webapp", "/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook", this);
     item->setProgress(150);
     m_list.append(item);

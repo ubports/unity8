@@ -367,6 +367,13 @@ void ApplicationManager::unfocusCurrentApplication()
 
 void ApplicationManager::buildListOfAvailableApplications()
 {
+    /*
+        ATTENTION!
+        Be careful when changing application properties here as some qmltests
+        rely on them being the way it's specified here (e.g. that camera-app
+        is fullscreen, that twitter-webapp can rotate in all directions, etc)
+     */
+
     ApplicationInfo *application;
 
     application = new ApplicationInfo(this);
@@ -374,6 +381,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Unity 8 Mock Dash");
     application->setScreenshotId("unity8-dash");
     application->setStage(ApplicationInfo::MainStage);
+    application->setSupportedOrientations(Qt::PrimaryOrientation);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -382,6 +390,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("dialer");
     application->setIconId("dialer-app");
     application->setStage(ApplicationInfo::SideStage);
+    application->setSupportedOrientations(Qt::PortraitOrientation);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -390,6 +399,11 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("camera");
     application->setIconId("camera");
     application->setFullscreen(true);
+    application->setSupportedOrientations(Qt::PortraitOrientation
+                                        | Qt::LandscapeOrientation
+                                        | Qt::InvertedPortraitOrientation
+                                        | Qt::InvertedLandscapeOrientation);
+    application->setRotatesWindowContents(true);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -435,13 +449,35 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("gmail-webapp");
     application->setName("GMail");
     application->setIconId("gmail");
+    application->setScreenshotId("gmail-webapp.svg");
+    application->setFullscreen(false);
+    application->setStage(ApplicationInfo::MainStage);
+    application->setSupportedOrientations(Qt::PortraitOrientation
+                                        | Qt::LandscapeOrientation
+                                        | Qt::InvertedPortraitOrientation
+                                        | Qt::InvertedLandscapeOrientation);
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("music-app");
+    application->setName("Music");
+    application->setIconId("soundcloud");
+    application->setScreenshotId("music");
+    application->setFullscreen(false);
+    application->setStage(ApplicationInfo::MainStage);
+    application->setSupportedOrientations(Qt::PortraitOrientation
+                                        | Qt::LandscapeOrientation
+                                        | Qt::InvertedPortraitOrientation
+                                        | Qt::InvertedLandscapeOrientation);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("ubuntu-weather-app");
     application->setName("Weather");
     application->setIconId("weather");
-    application->setStage(ApplicationInfo::SideStage);
+    application->setScreenshotId("ubuntu-weather-app.svg");
+    application->setSupportedOrientations(Qt::LandscapeOrientation
+                                        | Qt::InvertedLandscapeOrientation);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);

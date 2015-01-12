@@ -34,6 +34,11 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_session(0)
+    , m_supportedOrientations(Qt::PortraitOrientation |
+            Qt::LandscapeOrientation |
+            Qt::InvertedPortraitOrientation |
+            Qt::InvertedLandscapeOrientation)
+    , m_rotatesWindowContents(false)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -45,6 +50,11 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_focused(false)
     , m_fullscreen(false)
     , m_session(0)
+    , m_supportedOrientations(Qt::PortraitOrientation |
+            Qt::LandscapeOrientation |
+            Qt::InvertedPortraitOrientation |
+            Qt::InvertedLandscapeOrientation)
+    , m_rotatesWindowContents(false)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -99,9 +109,17 @@ void ApplicationInfo::setIconId(const QString &iconId)
 
 void ApplicationInfo::setScreenshotId(const QString &screenshotId)
 {
-    QString screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2@12.png")
+    QString screenshotFileName;
+
+    if (screenshotId.endsWith(".svg")) {
+        screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2")
             .arg(qmlDirectory())
             .arg(screenshotId);
+    } else {
+        screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2@12.png")
+            .arg(qmlDirectory())
+            .arg(screenshotId);
+    }
 
     if (screenshotFileName != m_screenshotFileName) {
         m_screenshotFileName = screenshotFileName;
@@ -145,6 +163,9 @@ void ApplicationInfo::setState(State value)
 
         if (!m_manualSurfaceCreation && m_state == ApplicationInfo::Running) {
             QTimer::singleShot(500, this, SLOT(createSession()));
+        } else if (m_state == ApplicationInfo::Stopped) {
+            delete m_session;
+            m_session = nullptr;
         }
     }
 }
@@ -171,4 +192,24 @@ void ApplicationInfo::setManualSurfaceCreation(bool value)
         m_manualSurfaceCreation = value;
         Q_EMIT manualSurfaceCreationChanged(value);
     }
+}
+
+Qt::ScreenOrientations ApplicationInfo::supportedOrientations() const
+{
+    return m_supportedOrientations;
+}
+
+void ApplicationInfo::setSupportedOrientations(Qt::ScreenOrientations orientations)
+{
+    m_supportedOrientations = orientations;
+}
+
+bool ApplicationInfo::rotatesWindowContents() const
+{
+    return m_rotatesWindowContents;
+}
+
+void ApplicationInfo::setRotatesWindowContents(bool value)
+{
+    m_rotatesWindowContents = value;
 }

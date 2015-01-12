@@ -23,19 +23,11 @@ Rectangle {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(70)
 
-    rotation: {
-        if (orientation == Qt.PortraitOrientation) return 0;
-        else if (orientation == Qt.LandscapeOrientation) return 90;
-        else if (orientation == Qt.InvertedPortraitOrientation) return 180;
-        else return 270;
-    }
-    x: parent ? (parent.width - width) / 2 : 0
-    y: parent ? (parent.height - height) / 2 : 0
-    width: parent ? (rotation == 0 || rotation == 180 ? parent.width : parent.height) : implicitWidth
-    height: parent ? (rotation == 0 || rotation == 180 ? parent.height : parent.width) : implicitHeight
+    width: parent ? parent.width : implicitWidth
+    height: parent ? parent.height : implicitHeight
 
     property alias screenshotSource: screenshotImage.source
-    property int orientation: Qt.PortraitOrientation
+    property int orientationAngle
 
     Image {
         id: screenshotImage
@@ -44,12 +36,33 @@ Rectangle {
     }
 
     Text {
-        anchors.fill: parent
-        text: "SURFACE"
+        text: surfaceText.text
+        color: "black"
+        font: surfaceText.font
+        fontSizeMode: Text.Fit
+        minimumPixelSize: 10
+        verticalAlignment: Text.AlignVCenter
+        rotation: surfaceText.rotation
+        x: surfaceText.x
+        y: surfaceText.y
+        width: surfaceText.width
+        height: surfaceText.height
+
+        transform: Translate { x: -2; y: -2 }
+    }
+    Text {
+        id: surfaceText
+        text: "SURFACE " + root.width + "," + root.height
         color: "yellow"
         font.bold: true
         fontSizeMode: Text.Fit
         minimumPixelSize: 10; font.pixelSize: 200
         verticalAlignment: Text.AlignVCenter
+
+        rotation: root.orientationAngle
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        width: (rotation == 0 || rotation == 180 ? parent.width : parent.height)
+        height:(rotation == 0 || rotation == 180 ? parent.height : parent.width)
     }
 }

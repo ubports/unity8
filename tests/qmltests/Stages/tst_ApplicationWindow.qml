@@ -50,7 +50,7 @@ Rectangle {
         ApplicationWindow {
             anchors.fill: parent
             application: fakeApplication
-            orientation: Qt.PortraitOrientation
+            surfaceOrientationAngle: 0
             interactive: true
         }
     }
@@ -205,15 +205,6 @@ Rectangle {
             stateGroup = null;
         }
 
-        // wait until any transition animation has finished
-        function waitUntilTransitionsEnd() {
-            var transitions = stateGroup.transitions;
-            for (var i = 0; i < transitions.length; ++i) {
-                var transition = transitions[i];
-                tryCompare(transition, "running", false, 2000);
-            }
-        }
-
         function init() {
             findInterestingApplicationWindowChildren();
         }
@@ -275,12 +266,12 @@ Rectangle {
 
             tryCompare(stateGroup, "state", "surface");
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             setApplicationState(appSuspended);
 
             verify(stateGroup.state === "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
         }
 
         function test_killedAppShowsScreenshot() {
@@ -306,7 +297,7 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             setApplicationState(appSuspended);
 
@@ -314,19 +305,19 @@ Rectangle {
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             tryCompare(fakeApplication, "session", null);
 
             // and restart it
             setApplicationState(appStarting);
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "screenshot");
             verify(fakeSession === null);
 
             setApplicationState(appRunning);
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "screenshot");
 
             initSession();
@@ -339,7 +330,7 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             // oh, it crashed...
             setApplicationState(appStopped);
@@ -352,18 +343,18 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(fakeSession.surface !== null);
 
             applicationWindowLoader.item.visible = false;
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
             verify(fakeSession.surface !== null);
 
             applicationWindowLoader.item.visible = true;
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
             verify(fakeSession.surface !== null);
         }
@@ -374,7 +365,7 @@ Rectangle {
 
             tryCompare(stateGroup, "state", "surface");
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             var fakeSurface = fakeSession.surface;
             fakeSurface.touchPressCount = 0;
@@ -391,7 +382,7 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             cleanupSession();
 

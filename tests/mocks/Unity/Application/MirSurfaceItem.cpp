@@ -39,7 +39,7 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_type(type)
     , m_state(state)
     , m_live(true)
-    , m_orientation(Qt::PortraitOrientation)
+    , m_orientationAngle(Angle0)
     , m_touchPressCount(0)
     , m_touchReleaseCount(0)
     , m_qmlItem(nullptr)
@@ -111,17 +111,17 @@ void MirSurfaceItem::release()
     }
 }
 
-void MirSurfaceItem::setOrientation(const Qt::ScreenOrientation orientation)
+void MirSurfaceItem::setOrientationAngle(OrientationAngle angle)
 {
-    if (m_orientation == orientation)
+    if (m_orientationAngle == angle)
         return;
 
-    m_orientation = orientation;
+    m_orientationAngle = angle;
 
-    QQmlProperty orientationProp(m_qmlItem, "orientation");
-    orientationProp.write(QVariant::fromValue(orientation));
+    QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
+    orientationProp.write(QVariant::fromValue(m_orientationAngle));
 
-    Q_EMIT orientationChanged();
+    Q_EMIT orientationAngleChanged(m_orientationAngle);
 }
 
 void MirSurfaceItem::setSession(Session* session)

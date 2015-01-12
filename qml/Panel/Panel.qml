@@ -27,6 +27,9 @@ Item {
     property alias indicators: __indicators
     property alias callHint: __callHint
     property bool fullscreenMode: false
+    property real indicatorAreaShowProgress: 1.0
+
+    opacity: fullscreenMode && indicators.fullyClosed ? 0.0 : 1.0
 
     Rectangle {
         id: darkenedArea
@@ -56,6 +59,12 @@ Item {
 
         Behavior on anchors.topMargin {
             NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+        }
+
+        transform: Translate {
+            y: indicators.state === "initial"
+                ? (1.0 - indicatorAreaShowProgress) * -d.indicatorHeight
+                : 0
         }
 
         BorderImage {

@@ -1,4 +1,4 @@
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=6)
 
 set(FakeUnityApplicationQml_SOURCES
     plugin.cpp

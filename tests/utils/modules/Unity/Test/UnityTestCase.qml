@@ -452,4 +452,14 @@ TestCase {
         return qtest_results.waitForRendering(item, timeout);
     }
 
+    /*
+      Wait until any transition animation has finished for the given StateGroup or Item
+     */
+    function waitUntilTransitionsEnd(stateGroup) {
+        var transitions = stateGroup.transitions;
+        for (var i = 0; i < transitions.length; ++i) {
+            var transition = transitions[i];
+            tryCompare(transition, "running", false, 2000);
+        }
+    }
 }

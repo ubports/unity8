@@ -7,3 +7,4 @@ Terminal=false
 Icon=
 NoDisplay=true
 X-Ubuntu-Touch=true
+X-Ubuntu-Supported-Orientations=primary

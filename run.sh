@@ -67,7 +67,7 @@ else
   ln -sf $PWD/builddir/tests/mocks/LightDM $PWD/builddir/nonmirplugins/
 fi
 
-QML_PHONE_SHELL_ARGS=""
+QML_PHONE_SHELL_ARGS="-windowgeometry=40gux68gu -devicename=mako"
 if $MOUSE_TOUCH; then
   QML_PHONE_SHELL_ARGS="$QML_PHONE_SHELL_ARGS -mousetouch"
 fi

@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import Ubuntu.Components 1.1
 import "../Components"
 
@@ -28,6 +29,8 @@ Item {
     readonly property bool dragged: dragArea.moving
     signal clicked()
     signal closed()
+    readonly property alias appWindowOrientationAngle: appWindowWithShadow.orientationAngle
+    readonly property alias orientationChangesEnabled: appWindow.orientationChangesEnabled
 
     // to be set from outside
     property bool interactive: true
@@ -36,10 +39,54 @@ Item {
     property alias swipeToCloseEnabled: dragArea.enabled
     property bool closeable
     property alias application: appWindow.application
-    property int orientation
+    property int shellOrientationAngle
+    property int shellOrientation
+    property int shellPrimaryOrientation
+    property int nativeOrientation
+
+    function matchShellOrientation() {
+        if (!root.application)
+            return;
+        appWindowWithShadow.orientationAngle = root.shellOrientationAngle;
+    }
+
+    function animateToShellOrientation() {
+        if (!root.application)
+            return;
+
+        if (root.application.rotatesWindowContents) {
+            appWindowWithShadow.orientationAngle = root.shellOrientationAngle;
+        } else {
+            orientationChangeAnimation.start();
+        }
+    }
+
+    OrientationChangeAnimation {
+        id: orientationChangeAnimation
+        objectName: "orientationChangeAnimation"
+        spreadDelegate: root
+        background: background
+        window: appWindowWithShadow
+        screenshot: appWindowScreenshot
+    }
+
+    QtObject {
+        id: priv
+        property bool startingUp: true
+    }
+
+    Component.onCompleted: { finishStartUpTimer.start(); }
+    Timer { id: finishStartUpTimer; interval: 400; onTriggered: priv.startingUp = false }
+
+    Rectangle {
+        id: background
+        color: "black"
+        anchors.fill: parent
+        visible: false
+    }
 
     Item {
-        objectName: "appWindowWithShadow"
+        objectName: "displacedAppWindowWithShadow"
 
         readonly property real limit: root.height / 4
 
@@ -52,27 +99,175 @@ Item {
             return k * (1 - Math.pow((k - 1) / k, distance))
         }
 
-        BorderImage {
-            anchors {
-                fill: appWindow
-                margins: -units.gu(2)
+        Item {
+            id: appWindowWithShadow
+            objectName: "appWindowWithShadow"
+
+            property int orientationAngle
+
+            property real transformRotationAngle: 0
+            property real transformOriginX
+            property real transformOriginY
+
+            transform: Rotation {
+                origin.x: appWindowWithShadow.transformOriginX
+                origin.y: appWindowWithShadow.transformOriginY
+                axis { x: 0; y: 0; z: 1 }
+                angle: appWindowWithShadow.transformRotationAngle
             }
-            source: "graphics/dropshadow2gu.sci"
-            opacity: root.dropShadow ? .3 : 0
-            Behavior on opacity { UbuntuNumberAnimation {} }
+
+            state: {
+                if (priv.startingUp) {
+                    return "startingUp";
+                } else if (root.application && root.application.rotatesWindowContents) {
+                    return "counterRotate";
+                } else if (orientationChangeAnimation.running) {
+                    return "animatingRotation";
+                } else  {
+                    return "keepSceneRotation";
+                }
+            }
+
+            states: [
+                State {
+                    name: "startingUp"
+                    PropertyChanges {
+                        target: appWindowWithShadow
+                        restoreEntryValues: false
+                        width: root.width
+                        height: root.height
+                        orientationAngle: {
+                            if (!root.application || root.application.rotatesWindowContents) {
+                                return 0;
+                            }
+                            var supportedOrientations = root.application.supportedOrientations;
+
+                            if (supportedOrientations === Qt.PrimaryOrientation) {
+                                supportedOrientations = root.shellPrimaryOrientation;
+                            }
+
+                            // If it doesn't support shell's current orientation
+                            // then simply pick some arbitraty one that it does support
+                            var chosenOrientation = 0;
+                            if (supportedOrientations & root.shellOrientation) {
+                                chosenOrientation = root.shellOrientation;
+                            } else if (supportedOrientations & Qt.PortraitOrientation) {
+                                chosenOrientation = Qt.PortraitOrientation;
+                            } else if (supportedOrientations & Qt.LandscapeOrientation) {
+                                chosenOrientation = Qt.LandscapeOrientation;
+                            } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
+                                chosenOrientation = Qt.InvertedPortraitOrientation;
+                            } else if (supportedOrientations & Qt.InvertedLandscapeOrientation) {
+                                chosenOrientation = Qt.InvertedLandscapeOrientation;
+                            } else {
+                                chosenOrientation = root.shellPrimaryOrientation;
+                            }
+
+                            return Screen.angleBetween(root.nativeOrientation, chosenOrientation);
+                        }
+                    }
+                },
+                State {
+                    id: keepSceneRotationState
+                    name: "keepSceneRotation"
+
+                    StateChangeScript { script: {
+                        // break binding
+                        appWindowWithShadow.orientationAngle = appWindowWithShadow.orientationAngle;
+                    } }
+                    PropertyChanges {
+                        target: appWindowWithShadow
+                        restoreEntryValues: false
+                        rotation: appWindowWithShadow.orientationAngle - root.shellOrientationAngle
+                        width: {
+                            if (rotation == 0 || Math.abs(rotation) == 180) {
+                                return root.width;
+                            } else {
+                                return root.height;
+                            }
+                        }
+                        height: {
+                            if (rotation == 0 || Math.abs(rotation) == 180)
+                                return root.height;
+                            else
+                                return root.width;
+                        }
+                    }
+                },
+                State {
+                    name: "counterRotate"
+                    StateChangeScript { script: {
+                        // break binding
+                        appWindowWithShadow.orientationAngle = appWindowWithShadow.orientationAngle;
+                    } }
+                    PropertyChanges {
+                        target: appWindowWithShadow
+                        // should never rotate, so have to counter-act any shell rotation
+                        width: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.width : root.height
+                        height: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.height : root.width
+                        rotation: -root.shellOrientationAngle
+                    }
+                    PropertyChanges {
+                        target: appWindow
+                        surfaceOrientationAngle: orientationAngle
+                    }
+                },
+                State {
+                    name: "animatingRotation"
+                }
+            ]
+
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+
+            BorderImage {
+                anchors {
+                    fill: appWindow
+                    margins: -units.gu(2)
+                }
+                source: "graphics/dropshadow2gu.sci"
+                opacity: root.dropShadow ? .3 : 0
+                Behavior on opacity { UbuntuNumberAnimation {} }
+            }
+
+            ApplicationWindow {
+                id: appWindow
+                objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+                anchors {
+                    fill: parent
+                    topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin
+                }
+
+                interactive: root.interactive
+            }
+        }
+    }
+
+    Image {
+        id: appWindowScreenshot
+        source: ""
+        visible: false
+
+        property real transformRotationAngle: 0
+        property real transformOriginX
+        property real transformOriginY
+
+        transform: Rotation {
+            origin.x: appWindowScreenshot.transformOriginX
+            origin.y: appWindowScreenshot.transformOriginY
+            axis { x: 0; y: 0; z: 1 }
+            angle: appWindowScreenshot.transformRotationAngle
         }
 
-        ApplicationWindow {
-            id: appWindow
-            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
-            anchors {
-                fill: parent
-                topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin
-            }
-
-            interactive: root.interactive
-            orientation: root.orientation
+        function take() {
+            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
+            // eg: "image://application/calculator-app/123456"
+            var timeMs = new Date().getTime();
+            source = "image://application/" + root.application.appId + "/" + timeMs;
         }
+
+        sourceSize.width: width
+        sourceSize.height: height
     }
 
     DraggingArea {

@@ -41,7 +41,6 @@ Rectangle {
         SessionContainer {
             id: sessionContainer
             anchors.fill: parent
-            orientation: Qt.PortraitOrientation
         }
     }
 
@@ -111,24 +110,6 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right; }
 
                     session: sessionContainerLoader.item ? sessionContainerLoader.item.session : null
-                }
-            }
-
-            Button {
-                anchors { left: parent.left; right: parent.right }
-                text: "Rotate device \u27F3"
-                onClicked: {
-                    var orientation = sessionContainerLoader.item.orientation
-                    if (orientation == Qt.PortraitOrientation) {
-                        orientation = Qt.LandscapeOrientation;
-                    } else if (orientation == Qt.LandscapeOrientation) {
-                        orientation = Qt.InvertedPortraitOrientation;
-                    } else if (orientation == Qt.InvertedPortraitOrientation) {
-                        orientation = Qt.InvertedLandscapeOrientation;
-                    } else {
-                        orientation = Qt.PortraitOrientation;
-                    }
-                    sessionContainerLoader.item.orientation = orientation;
                 }
             }
         }
@@ -316,50 +297,6 @@ Rectangle {
             tryCompareFunction(function() { return isContainerAnimating(childContainer); }, true);
             // wait for animation to end
             tryCompareFunction(function() { return isContainerAnimating(childContainer); }, false);
-        }
-
-        function test_orientationPropagatedToChildren_data() {
-            return [ { tag: "count=1", count: 1 },
-                     { tag: "count=4", count: 4 } ];
-        }
-
-        /* Test orientation changes are propagated to all children immediately */
-        function test_orientationPropagatedToChildren(data) {
-            sessionCheckbox.checked = true;
-            var rootSessionContainer = sessionContainerLoader.item;
-            compare(rootSessionContainer.childSessions.count(), 0);
-
-            var i;
-            var sessions = [];
-            for (i = 0; i < data.count; i++) {
-                var session = ApplicationTest.addChildSession(rootSessionContainer.session,
-                                                              "gallery");
-                session.createSurface();
-                rootSessionContainer.session.addChildSession(session);
-
-                // Check child SessionContainer has orientation matching the parent
-                var delegate = findChild(rootSessionContainer, "childDelegate" + i);
-                var childSessionContainer = findChild(delegate, "sessionContainer");
-
-                tryCompare(rootSessionContainer, "orientation", childSessionContainer.orientation);
-
-                sessions.push(session);
-            }
-
-            // Change orientation and verify all children updated
-            rootSessionContainer.orientation = Qt.LandscapeOrientation;
-
-            for (i = 0; i < data.count; i++) {
-                var delegate = findChild(rootSessionContainer, "childDelegate" + i);
-                var childSessionContainer = findChild(delegate, "sessionContainer");
-
-                tryCompare(rootSessionContainer, "orientation", childSessionContainer.orientation);
-            }
-
-            // Clean up
-            for (i = data.count-1; i >= 0; i--) {
-                ApplicationTest.removeSession(sessions[i]);
-            }
         }
     }
 }

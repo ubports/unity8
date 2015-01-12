@@ -29,12 +29,14 @@ class MirSurfaceItem : public QQuickItem
     Q_OBJECT
     Q_ENUMS(Type)
     Q_ENUMS(State)
+    Q_ENUMS(OrientationAngle)
 
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(bool live READ live NOTIFY liveChanged)
-    Q_PROPERTY(Qt::ScreenOrientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged DESIGNABLE false)
+    Q_PROPERTY(OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
+               NOTIFY orientationAngleChanged DESIGNABLE false)
 
     Q_PROPERTY(int touchPressCount READ touchPressCount WRITE setTouchPressCount NOTIFY touchPressCountChanged
                                    DESIGNABLE false)
@@ -62,6 +64,13 @@ public:
         Fullscreen,
     };
 
+    enum OrientationAngle {
+        Angle0 = 0,
+        Angle90 = 90,
+        Angle180 = 180,
+        Angle270 = 270
+    };
+
     ~MirSurfaceItem();
 
     //getters
@@ -70,9 +79,9 @@ public:
     State state() const { return m_state; }
     QString name() const { return m_name; }
     bool live() const { return m_live; }
-    Qt::ScreenOrientation orientation() const { return m_orientation; }
+    OrientationAngle orientationAngle() const { return m_orientationAngle; }
 
-    void setOrientation(const Qt::ScreenOrientation orientation);
+    void setOrientationAngle(OrientationAngle angle);
 
     void setSession(Session* item);
     void setScreenshot(const QUrl& screenshot);
@@ -91,7 +100,7 @@ Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void liveChanged(bool live);
-    void orientationChanged();
+    void orientationAngleChanged(OrientationAngle angle);
     void touchPressCountChanged(int count);
     void touchReleaseCountChanged(int count);
 
@@ -124,7 +133,7 @@ private:
     const Type m_type;
     State m_state;
     bool m_live;
-    Qt::ScreenOrientation m_orientation;
+    OrientationAngle  m_orientationAngle;
     int m_touchPressCount;
     int m_touchReleaseCount;
 
@@ -137,6 +146,6 @@ private:
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
 Q_DECLARE_METATYPE(QList<MirSurfaceItem*>)
-Q_DECLARE_METATYPE(Qt::ScreenOrientation)
+Q_DECLARE_METATYPE(MirSurfaceItem::OrientationAngle)
 
 #endif // MIRSURFACEITEM_H
