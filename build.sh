@@ -61,7 +61,7 @@ install_dependencies() {
 }
 
 mk_build_deps() {
-    if [ ! -f unity8-build-deps*deb -o $CODE_DIR/debian/control -nt unity8-build-deps*deb ]; then
+    if [ ! -f control -o $CODE_DIR/debian/control -nt control ]; then
         sed 's/\:native//g' $CODE_DIR/debian/control > control
         mk-build-deps --install --root-cmd sudo control
     fi
