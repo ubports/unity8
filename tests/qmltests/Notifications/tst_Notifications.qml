@@ -130,31 +130,31 @@ Item {
         }
 
         function add2over1SnapDecisionNotification() {
-            //mockModel.append(dataList[1])
+            mockModel.append(dataList[1])
         }
 
         function addEphemeralNotification() {
-            //mockModel.append(dataList[2])
+            mockModel.append(dataList[2])
         }
 
         function addEphemeralNonShapedIconNotification() {
-            //mockModel.append(dataList[3])
+            mockModel.append(dataList[3])
         }
 
         function addEphemeralIconSummaryNotification() {
-            //mockModel.append(dataList[4])
+            mockModel.append(dataList[4])
         }
 
         function addInteractiveNotification() {
-            //mockModel.append(dataList[5])
+            mockModel.append(dataList[5])
         }
 
         function addConfirmationNotification() {
-            //mockModel.append(dataList[6])
+            mockModel.append(dataList[6])
         }
 
         function add2ndConfirmationNotification() {
-            //mockModel.append(dataList[7])
+            mockModel.append(dataList[7])
         }
 
         function clearNotifications() {
