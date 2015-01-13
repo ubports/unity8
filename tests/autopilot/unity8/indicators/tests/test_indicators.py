@@ -106,6 +106,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
         self.assertTrue(indicator_page.visible)
         self.assertEqual(indicator_page.title, self.title)
 
+
 class DisplayIndicatorTestCase(IndicatorTestCase):
 
     def test(self):
