@@ -22,7 +22,7 @@ from unity8.shell.emulators import main_window
 import ubuntuuitoolkit
 
 
-class IndicatorsMenu (emulators.UnityEmulatorBase):
+class IndicatorsMenu(emulators.UnityEmulatorBase):
 
     """Autopilot helper for the IndicatorPage component."""
 
