@@ -70,12 +70,6 @@ class QQuickView(emulators.UnityEmulatorBase):
             objectName=indicator_name+'-panelItem'
         )
 
-    def _get_indicators_menu(self):
-        return self.select_single(
-            unity8.indicators.IndicatorsMenu,
-            objectName='indicators'
-        )
-
     def _get_indicator_page(self, indicator_name):
         return self.select_single(
             'IndicatorPage',
@@ -172,21 +166,3 @@ class QQuickView(emulators.UnityEmulatorBase):
             'PinPadButton',
             objectName='pinPadButton{}'.format(button_id)
         )
-
-class QQuickFlickable(ubuntuuitoolkit.QQuickFlickable):
-
-    def swipe_to_x_end(self):
-        if not self.atXEnd:
-            containers = self._get_containers()
-            while not self.atXEnd:
-                self.swipe_to_show_x_end(containers)
-
-    def swipe_to_show_x_end(self, containers):
-        start_y = stop_y = self.globalRect.y + (self.globalRect.height // 2)
-        # We can't start the swipe from the border because it would open the
-        # launcher
-        start_x = self.globalRect.x + 45
-        stop_x = self.globalRect.x + self.globalRect.width - 5
-        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
-        self.dragging.wait_for(False)
-        self.moving.wait_for(False)

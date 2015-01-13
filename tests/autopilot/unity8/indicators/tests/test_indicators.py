@@ -22,8 +22,8 @@ from testscenarios import multiply_scenarios
 
 from autopilot import platform
 
+from unity8 import indicators
 from unity8.process_helpers import unlock_unity
-from unity8.shell.emulators import main_window
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 
@@ -109,8 +109,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
 class DisplayIndicatorTestCase(IndicatorTestCase):
 
     def test(self):
-        
-        indicators_menu = self.main_window._get_indicators_menu()
-        display_indicator = indicators_menu.open_rotation_indicator()
-        display_indicator.unlock_rotation()
-        display_indicator.lock_rotation()
+        display_indicator = indicators.DisplayIndicator(self.main_window)
+        display_indicator_page = display_indicator.open()
+        display_indicator_page.unlock_rotation()
+        display_indicator_page.lock_rotation()

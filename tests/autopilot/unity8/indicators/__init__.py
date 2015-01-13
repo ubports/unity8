@@ -12,70 +12,97 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from autopilot import input
-from unity8.shell import emulators
-from unity8.shell.emulators import main_window
 import ubuntuuitoolkit
+from autopilot import introspection
+
+from unity8.shell import emulators
 
 
-class IndicatorsMenu(emulators.UnityEmulatorBase):
+class IndicatorPage(emulators.UnityEmulatorBase):
 
     """Autopilot helper for the IndicatorPage component."""
 
+    # XXX Because of https://bugs.launchpad.net/autopilot-qt/+bug/1341671
+    # we need to make sure it does not match in any selection.
+
+    @classmethod
+    def validate_dbus_object(cls, path, state):
+        return False
+
+
+class DisplayIndicator(object):
+
+    def __init__(self, main_window):
+        self._main_window = main_window
+
     def open(self):
-        widget = self.select_single(
-            'IndicatorItem', objectName='indicator-sound-panelItem')
-        start_x, start_y = input.get_center_point(widget)
-        end_x = start_x
-        end_y = self.globalRect.y + self.openedHeight
-        self.pointing_device.drag(start_x, start_y, end_x, end_y)
-        self.fullyOpened.wait_for(True)
+        """Open the display indicator page.
 
-    def open_rotation_indicator(self):
-        self.open()
-        indicators_bar_flickable = self.select_single(
-            'IndicatorsBar').select_single(
-                main_window.QQuickFlickable, objectName='flickable')
-        indicators_bar_flickable.swipe_to_x_end()
-        indicator_rotation_icon = self.select_single(
+        :return: The custom proxy object for the display indicator page.
+
+        """
+        # TODO open the indicator directly if it is displayed in the menu.
+        # open any displayed indicator.
+        self._main_window.open_indicator_page('indicator-datetime')
+        self._make_indicator_icon_visible()
+        indicator_rotation_icon = self._main_window.select_single(
             objectName='indicator-rotation-lock-panelItem')
-        self.pointing_device.click_object(indicator_rotation_icon)
-        self.fullyOpened.wait_for(True)
-        return DisplayIndicator(
-            self.select_single(
-                'IndicatorPage', objectName='indicator-rotation-lock-page'))
+        self._main_window.pointing_device.click_object(indicator_rotation_icon)
+        indicators_menu = self._main_window.select_single('IndicatorsMenu')
+        indicators_menu.fullyOpened.wait_for(True)
+        return self._main_window.select_single(
+            objectName='indicator-rotation-lock-page')
+
+    def _make_indicator_icon_visible(self):
+        indicators_bar_flickable = self._main_window.select_single(
+            'IndicatorsBar').select_single(
+                ubuntuuitoolkit.QQuickFlickable, objectName='flickable')
+        self._swipe_flickable_to_x_end(indicators_bar_flickable)
+
+    def _swipe_flickable_to_x_end(self, flickable):
+        # XXX this should be implemented as a general horizontal swiping in
+        # the toolkit custom proxy object.
+        if not flickable.atXEnd:
+            while not flickable.atXEnd:
+                start_y = stop_y = (
+                    flickable.globalRect.y +
+                    (flickable.globalRect.height // 2))
+                # We can't start the swipe from the border because it would
+                # open the launcher
+                start_x = flickable.globalRect.x + 45
+                stop_x = (
+                    flickable.globalRect.x + flickable.globalRect.width - 5)
+                flickable.pointing_device.drag(
+                    start_x, start_y, stop_x, stop_y)
+                flickable.dragging.wait_for(False)
+                flickable.moving.wait_for(False)
 
 
-class DisplayIndicator(emulators.UnityEmulatorBase):
+class DisplayIndicatorPage(IndicatorPage):
 
-    def __init__(self, subject):
-        self.__subject = subject
+    """Autopilot helper for the display indicator page."""
 
-    def __getattr__(self, name):
-        return getattr(self.__subject, name)
+    @classmethod
+    def validate_dbus_object(cls, path, state):
+        name = introspection.get_classname_from_path(path)
+        if name == b'IndicatorPage':
+            if state['objectName'][1] == 'indicator-rotation-lock-page':
+                return True
+        return False
 
     def lock_rotation(self):
-        """Toggles the rotation lock indicator to locked.
-
-        Swipes open indicator-display and ensures that rotation lock is toggled
-        to 'On'.
-
-        """
-        switcher = self.select_single(
-            ubuntuuitoolkit.CheckBox, objectName='switcher')
+        """Toggles the rotation lock indicator to locked."""
+        switcher = self._get_switcher()
         switcher.check()
 
-    def unlock_rotation(self):
-        """Toggles the rotation lock indicator to unlocked.
-
-        Swipes open indicator-display and ensures that rotation lock is toggled
-        to 'Off'.
-
-        """
-        switcher = self.select_single(
+    def _get_switcher(self):
+        return self.select_single(
             ubuntuuitoolkit.CheckBox, objectName='switcher')
+
+    def unlock_rotation(self):
+        """Toggles the rotation lock indicator to unlocked."""
+        switcher = self._get_switcher()
         switcher.uncheck()
