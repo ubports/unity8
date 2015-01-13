@@ -26,6 +26,7 @@ from autopilot import input
 from unity8.shell import emulators
 from unity8.shell.emulators.greeter import Greeter
 from unity8.shell.emulators.launcher import Launcher
+import unity8.indicators
 
 logger = logging.getLogger(__name__)
 
@@ -69,9 +70,15 @@ class QQuickView(emulators.UnityEmulatorBase):
             objectName=indicator_name+'-panelItem'
         )
 
+    def _get_indicators_menu(self):
+        return self.select_single(
+            unity8.indicators.IndicatorsMenu,
+            objectName='indicators'
+        )
+
     def _get_indicator_page(self, indicator_name):
         return self.select_single(
-            IndicatorPage,
+            'IndicatorPage',
             objectName=indicator_name+'-page'
         )
 
@@ -165,12 +172,6 @@ class QQuickView(emulators.UnityEmulatorBase):
             'PinPadButton',
             objectName='pinPadButton{}'.format(button_id)
         )
-
-
-class IndicatorPage(emulators.UnityEmulatorBase):
-
-    """Autopilot helper for the IndicatorPage component."""
-
 
 class QQuickFlickable(ubuntuuitoolkit.QQuickFlickable):
 

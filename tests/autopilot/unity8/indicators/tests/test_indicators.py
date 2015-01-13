@@ -106,15 +106,11 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
         self.assertTrue(indicator_page.visible)
         self.assertEqual(indicator_page.title, self.title)
 
-
 class DisplayIndicatorTestCase(IndicatorTestCase):
 
     def test(self):
-        self.main_window.open_indicator_page('indicator-sound')
-        indicators_bar_flickable = self.main_window.select_single(
-            'IndicatorsBar').select_single(
-                main_window.QQuickFlickable, objectName='flickable')
-        indicators_bar_flickable.swipe_to_x_end()
-        indicator_rotation_icon = self.main_window.select_single(
-            objectName='indicator-rotation-lock-panelItem')
-        self.main_window.pointing_device.click_object(indicator_rotation_icon)
+        
+        indicators_menu = self.main_window._get_indicators_menu()
+        display_indicator = indicators_menu.open_rotation_indicator()
+        display_indicator.unlock_rotation()
+        display_indicator.lock_rotation()
