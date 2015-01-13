@@ -174,6 +174,18 @@ TestCase {
         return null;
     }
 
+    function findChildsByType(obj, typeName) {
+        var res = new Array(0);
+        for (var i in obj.children) {
+            var c = obj.children[i];
+            if (UT.Util.isInstanceOf(c, typeName)) {
+                res.push(c)
+            }
+            res = res.concat(findChildsByType(c, typeName));
+        }
+        return res;
+    }
+
     // Type a full string instead of keyClick letter by letter
     function typeString(str) {
         for (var i = 0; i < str.length; i++) {
