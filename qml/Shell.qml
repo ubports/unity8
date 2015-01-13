@@ -295,7 +295,7 @@ Item {
 
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                            ? "phone"
-                                           : shell.usasgeScenario
+                                           : shell.usageScenario
             // TODO: Consider what to do with usageModeSettings.usageMode
             source: {
                 if (applicationsDisplayLoader.usageScenario === "phone") {
