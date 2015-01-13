@@ -20,6 +20,7 @@ from autopilot import input
 from unity8.shell import emulators
 from unity8.shell.emulators import main_window
 import unity8.indicators
+import ubuntuuitoolkit
 
 class IndicatorsMenu (emulators.UnityEmulatorBase):
     """Autopilot helper for the IndicatorPage component."""
@@ -27,7 +28,7 @@ class IndicatorsMenu (emulators.UnityEmulatorBase):
         widget = self.select_single('IndicatorItem',objectName='indicator-sound-panelItem')
         start_x, start_y = input.get_center_point(widget)
         end_x = start_x
-        end_y = self.height
+        end_y = self.globalRect.y + self.openedHeight
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
         self.fullyOpened.wait_for(True)
 
@@ -56,8 +57,8 @@ class DisplayIndicator (emulators.UnityEmulatorBase):
         to 'On'.
 
         """
-        switcher = self.select_single('CheckBox', objectName='switcher')
-        switcher.checked = True
+        switcher = self.select_single(ubuntuuitoolkit.CheckBox, objectName='switcher')
+        switcher.check()
         pass
 
     def unlock_rotation(self):
@@ -67,6 +68,6 @@ class DisplayIndicator (emulators.UnityEmulatorBase):
         to 'Off'.
 
         """
-        switcher = self.select_single('CheckBox', objectName='switcher')
-        switcher.checked = False
+        switcher = self.select_single(ubuntuuitoolkit.CheckBox, objectName='switcher')
+        switcher.uncheck()
         pass
