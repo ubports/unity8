@@ -118,15 +118,10 @@ Item {
     Row {
         id: rootRow
 
-        ListModel {
+        NotificationModel {
             id: mockModel
-            dynamicRoles: true
 
             signal actionInvoked(string actionId)
-
-            function getRaw(id) {
-                return dataList[id]
-            }
 
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
@@ -135,47 +130,31 @@ Item {
         }
 
         function add2over1SnapDecisionNotification() {
-            var n = {
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-affirmative-tint": "true"},
-                summary: "Incoming call",
-                body: "Frank Zappa\n+44 (0)7736 027340",
-                icon: "../graphics/avatars/funky.png",
-                secondaryIcon: "image://theme/incoming-call",
-                actions: [{ id: "ok_id", label: "Ok"},
-                          { id: "cancel_id", label: "Cancel"},
-                          { id: "dummy_id", label: "Quick reply"},
-                          { id: "late_id", label: "messages:I'm running late. I'm on my way."},
-                          { id: "later_id", label: "messages:I'm busy at the moment. I'll call later."}]
-            }
-
-            mockModel.append(n)
-
             //mockModel.append(dataList[1])
         }
 
         function addEphemeralNotification() {
-            mockModel.append(dataList[2])
+            //mockModel.append(dataList[2])
         }
 
         function addEphemeralNonShapedIconNotification() {
-            mockModel.append(dataList[3])
+            //mockModel.append(dataList[3])
         }
 
         function addEphemeralIconSummaryNotification() {
-            mockModel.append(dataList[4])
+            //mockModel.append(dataList[4])
         }
 
         function addInteractiveNotification() {
-            mockModel.append(dataList[5])
+            //mockModel.append(dataList[5])
         }
 
         function addConfirmationNotification() {
-            mockModel.append(dataList[6])
+            //mockModel.append(dataList[6])
         }
 
         function add2ndConfirmationNotification() {
-            mockModel.append(dataList[7])
+            //mockModel.append(dataList[7])
         }
 
         function clearNotifications() {

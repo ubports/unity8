@@ -86,7 +86,6 @@ Item {
 
     // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
-        print("Added notification with summary:", summary)
         if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
