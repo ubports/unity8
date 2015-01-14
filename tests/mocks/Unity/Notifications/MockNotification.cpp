@@ -17,7 +17,7 @@
  *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-#include "MockNotificationTypes.h"
+#include "MockNotification.h"
 
 struct MockNotificationPrivate {
     unsigned int id;

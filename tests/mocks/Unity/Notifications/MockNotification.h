@@ -17,8 +17,8 @@
  *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-#ifndef MOCK_NOTIFICATION_TYPES_H
-#define MOCK_NOTIFICATION_TYPES_H
+#ifndef MOCK_NOTIFICATION_H
+#define MOCK_NOTIFICATION_H
 
 #include "MockActionModel.h"
 #include <QObject>
@@ -90,4 +90,4 @@ public:
     Q_INVOKABLE void close();
 };
 
-#endif // MOCK_NOTIFICATION_TYPES_H
+#endif // MOCK_NOTIFICATION_H

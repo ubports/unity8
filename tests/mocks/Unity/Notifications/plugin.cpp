@@ -19,7 +19,7 @@
 
 #include "plugin.h"
 #include "MockActionModel.h"
-#include "MockNotificationTypes.h"
+#include "MockNotification.h"
 #include "MockNotificationModel.h"
 
 #include <QtQml/qqml.h>
