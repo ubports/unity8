@@ -181,7 +181,16 @@ Item {
     WindowKeysFilter {
         Keys.onPressed: {
             if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                dialogs.onPowerKeyPressed();
+                // FIXME: We only consider power key presses if the screen is
+                // on because of bug 1410830.  The theory is that when that bug
+                // is encountered, there is a >2s delay between the power press
+                // event and the power release event, which causes the shutdown
+                // dialog to appear on resume.  So to avoid that symptom while
+                // we investigate the root cause, we simply won't initiate any
+                // dialogs when the screen is off.
+                if (Powerd.status === Powerd.On) {
+                    dialogs.onPowerKeyPressed();
+                }
                 event.accepted = true;
             } else {
                 volumeKeyFilter.onKeyPressed(event.key);
