@@ -323,7 +323,7 @@ FocusScope {
                         scopeView.enableHeightBehaviorOnNextCreation = false;
                     }
                     item.model = Qt.binding(function() { return results })
-                    item.objectName = Qt.binding(function() { return scopeView.scope.name + " " + categoryId })
+                    item.objectName = Qt.binding(function() { return categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (baseItem.expandable) {
                         var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
