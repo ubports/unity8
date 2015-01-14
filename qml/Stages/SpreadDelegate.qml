@@ -129,13 +129,16 @@ Item {
             }
 
             states: [
+                // Sets the initial orientationAngle of the window, when it first slides into view
+                // (with the splash screen likely being displayed). At that point we just try to
+                // match shell's current orientation. We need a bit of time in this state as the
+                // information we need to decide orientationAngle may take a few cycles to
+                // be set.
                 State {
                     name: "startingUp"
                     PropertyChanges {
                         target: appWindowWithShadow
                         restoreEntryValues: false
-                        width: root.width
-                        height: root.height
                         orientationAngle: {
                             if (!root.application || root.application.rotatesWindowContents) {
                                 return 0;
@@ -165,8 +168,25 @@ Item {
 
                             return Screen.angleBetween(root.nativeOrientation, chosenOrientation);
                         }
+
+                        rotation: appWindowWithShadow.orientationAngle - root.shellOrientationAngle
+                        width: {
+                            if (rotation == 0 || Math.abs(rotation) == 180) {
+                                return root.width;
+                            } else {
+                                return root.height;
+                            }
+                        }
+                        height: {
+                            if (rotation == 0 || Math.abs(rotation) == 180)
+                                return root.height;
+                            else
+                                return root.width;
+                        }
                     }
                 },
+                // In this state we stick to our currently set orientationAngle, which may change only due
+                // to calls made to matchShellOrientation() or animateToShellOrientation()
                 State {
                     id: keepSceneRotationState
                     name: "keepSceneRotation"
@@ -194,6 +214,8 @@ Item {
                         }
                     }
                 },
+                // In this state we counteract any shell rotation so that the window, in scene coordinates,
+                // remains unrotated.
                 State {
                     name: "counterRotate"
                     StateChangeScript { script: {
@@ -202,7 +224,6 @@ Item {
                     } }
                     PropertyChanges {
                         target: appWindowWithShadow
-                        // should never rotate, so have to counter-act any shell rotation
                         width: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.width : root.height
                         height: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.height : root.width
                         rotation: -root.shellOrientationAngle
