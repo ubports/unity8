@@ -19,14 +19,10 @@
 
 """Set up and clean up fixtures for the Unity acceptance tests."""
 
-import os
-import subprocess
-import sysconfig
 import dbus
 
 import fixtures
 
-import unity8
 
 class IndicatorDisplayRotationLock(fixtures.Fixture):
 
@@ -43,10 +39,14 @@ class IndicatorDisplayRotationLock(fixtures.Fixture):
 
     def _is_rotation_lock_enabled(self):
         session_bus = dbus.SessionBus()
-        rotation_lock = session_bus.get_object('com.canonical.indicator.rotation_lock', '/com/canonical/indicator/rotation_lock')
+        rotation_lock = session_bus.get_object(
+            'com.canonical.indicator.rotation_lock',
+            '/com/canonical/indicator/rotation_lock')
         # TODO: get the real lock value.
         return False
 
     def _set_rotation_lock(self, value):
         session_bus = dbus.SessionBus()
-        rotation_lock = session_bus.get_object('com.canonical.indicator.rotation_lock', '/com/canonical/indicator/rotation_lock')
+        rotation_lock = session_bus.get_object(
+            'com.canonical.indicator.rotation_lock',
+            '/com/canonical/indicator/rotation_lock')
