@@ -97,6 +97,7 @@ class DisplayIndicatorPage(IndicatorPage):
         """Toggles the rotation lock indicator to locked."""
         switcher = self._get_switcher()
         switcher.check()
+        switcher.checked.wait_for(True)
 
     def _get_switcher(self):
         return self.select_single(
@@ -106,3 +107,4 @@ class DisplayIndicatorPage(IndicatorPage):
         """Toggles the rotation lock indicator to unlocked."""
         switcher = self._get_switcher()
         switcher.uncheck()
+        switcher.checked.wait_for(False)

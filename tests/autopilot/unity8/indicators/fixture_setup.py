@@ -19,7 +19,8 @@
 
 """Set up and clean up fixtures for the Unity acceptance tests."""
 
-import dbus
+import os
+import subprocess
 
 import fixtures
 
@@ -38,15 +39,20 @@ class IndicatorDisplayRotationLock(fixtures.Fixture):
             self._set_rotation_lock(self.enable)
 
     def _is_rotation_lock_enabled(self):
-        session_bus = dbus.SessionBus()
-        rotation_lock = session_bus.get_object(
-            'com.canonical.indicator.rotation_lock',
-            '/com/canonical/indicator/rotation_lock')
-        # TODO: get the real lock value.
-        return False
+        command = [
+            'gsettings', 'get',
+            'com.ubuntu.touch.system',
+            'rotation-lock'
+        ]
+        output = subprocess.check_output(command, universal_newlines=True)
+        print (output)
+        return True if output.count('true') else False
 
     def _set_rotation_lock(self, value):
-        session_bus = dbus.SessionBus()
-        rotation_lock = session_bus.get_object(
-            'com.canonical.indicator.rotation_lock',
-            '/com/canonical/indicator/rotation_lock')
+        value_string = 'true' if value else 'false'
+        command = [
+            'gsettings', 'set',
+            'com.ubuntu.touch.system',
+            'rotation-lock', '{}'.format(value_string)
+        ]
+        subprocess.check_output(command)

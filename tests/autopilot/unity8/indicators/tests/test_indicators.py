@@ -26,6 +26,7 @@ from unity8 import indicators
 from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
+from unity8.indicators import fixture_setup as indicators_fixtures
 
 class IndicatorTestCase(UnityTestCase):
 
@@ -112,5 +113,10 @@ class DisplayIndicatorTestCase(IndicatorTestCase):
     def test(self):
         display_indicator = indicators.DisplayIndicator(self.main_window)
         display_indicator_page = display_indicator.open()
+        fixture = indicators_fixtures.IndicatorDisplayRotationLock(False)
+
         display_indicator_page.unlock_rotation()
+        self.assertEqual(fixture._is_rotation_lock_enabled(), False)
+
         display_indicator_page.lock_rotation()
+        self.assertEqual(fixture._is_rotation_lock_enabled(), True)
