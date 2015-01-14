@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -323,7 +323,7 @@ FocusScope {
                         scopeView.enableHeightBehaviorOnNextCreation = false;
                     }
                     item.model = Qt.binding(function() { return results })
-                    item.objectName = Qt.binding(function() { return categoryId })
+                    item.objectName = Qt.binding(function() { return scopeView.scope.name + " " + categoryId })
                     item.scopeStyle = scopeView.scopeStyle;
                     if (baseItem.expandable) {
                         var shouldExpand = baseItem.category === categoryView.expandedCategoryId;
@@ -401,59 +401,102 @@ FocusScope {
                     }
 
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
-                        // A item view creates its delegates synchronously from
-                        //     -displayMarginBeginning
-                        // to
-                        //     height + displayMarginEnd
-                        // Around that area it adds the cacheBuffer area where delegates are created async
-                        //
-                        // We adjust displayMarginBeginning and displayMarginEnd so
-                        //   * In non visible scopes nothing is considered visible and we set cacheBuffer
-                        //     so that creates the items that would be in the viewport asynchronously
-                        //   * For the current scope set the visible range to the viewport and then
-                        //     use cacheBuffer to create extra items for categoryView.height * 1.5
-                        //     to make scrolling nicer by mantaining a higher number of
-                        //     cached items
-                        //   * For non current but visible scopes (i.e. when the user changes from one scope
-                        //     to the next, we set the visible range to the viewport so
-                        //     items are not culled (invisible) but still use no cacheBuffer
-                        //     (it will be set once the scope is the current one)
-                        var displayMarginBeginning = baseItem.y;
-                        displayMarginBeginning = -Math.max(-displayMarginBeginning, 0);
-                        displayMarginBeginning = -Math.min(-displayMarginBeginning, baseItem.height);
-                        displayMarginBeginning = Math.round(displayMarginBeginning);
-                        var displayMarginEnd = -baseItem.height + seeAll.height + categoryView.height - baseItem.y;
-                        displayMarginEnd = -Math.max(-displayMarginEnd, 0);
-                        displayMarginEnd = -Math.min(-displayMarginEnd, baseItem.height);
-                        displayMarginEnd = Math.round(displayMarginEnd);
-                        if (scopeView.isCurrent || scopeView.visibleToParent) {
-                            item.displayMarginBeginning = displayMarginBeginning;
-                            item.displayMarginEnd = displayMarginEnd;
-                            if (holdingList && holdingList.moving) {
-                                // If we are moving we need to reset the cache buffer of the
-                                // view that was not visible (i.e. !wasCurrentOnMoveStart) to 0 since
-                                // otherwise the cache buffer we had set to preload the items of the
-                                // visible range will trigger some item creations and we want move to
-                                // be as smooth as possible meaning no need creations
-                                if (!wasCurrentOnMoveStart) {
-                                    item.cacheBuffer = 0;
-                                }
-                            } else {
-                                item.cacheBuffer = categoryView.height * 1.5;
-                            }
-                        } else {
-                            var visibleRange = baseItem.height + displayMarginEnd + displayMarginBeginning;
-                            if (visibleRange < 0) {
+                        if (item.growsVertically) {
+                            // A item view creates its delegates synchronously from
+                            //     -displayMarginBeginning
+                            // to
+                            //     height + displayMarginEnd
+                            // Around that area it adds the cacheBuffer area where delegates are created async
+                            //
+                            // We adjust displayMarginBeginning and displayMarginEnd so
+                            //   * In non visible scopes nothing is considered visible and we set cacheBuffer
+                            //     so that creates the items that would be in the viewport asynchronously
+                            //   * For the current scope set the visible range to the viewport and then
+                            //     use cacheBuffer to create extra items for categoryView.height * 1.5
+                            //     to make scrolling nicer by mantaining a higher number of
+                            //     cached items
+                            //   * For non current but visible scopes (i.e. when the user changes from one scope
+                            //     to the next, we set the visible range to the viewport so
+                            //     items are not culled (invisible) but still use no cacheBuffer
+                            //     (it will be set once the scope is the current one)
+                            var displayMarginBeginning = baseItem.y;
+                            displayMarginBeginning = -Math.max(-displayMarginBeginning, 0);
+                            displayMarginBeginning = -Math.min(-displayMarginBeginning, baseItem.height);
+                            displayMarginBeginning = Math.round(displayMarginBeginning);
+                            var displayMarginEnd = -baseItem.height + seeAll.height + categoryView.height - baseItem.y;
+                            displayMarginEnd = -Math.max(-displayMarginEnd, 0);
+                            displayMarginEnd = -Math.min(-displayMarginEnd, baseItem.height);
+                            displayMarginEnd = Math.round(displayMarginEnd);
+
+                            if (scopeView.isCurrent || scopeView.visibleToParent) {
                                 item.displayMarginBeginning = displayMarginBeginning;
                                 item.displayMarginEnd = displayMarginEnd;
+                                if (holdingList && holdingList.moving) {
+                                    // If we are moving we need to reset the cache buffer of the
+                                    // view that was not visible (i.e. !wasCurrentOnMoveStart) to 0 since
+                                    // otherwise the cache buffer we had set to preload the items of the
+                                    // visible range will trigger some item creations and we want move to
+                                    // be as smooth as possible meaning no need creations
+                                    if (!wasCurrentOnMoveStart) {
+                                        item.cacheBuffer = 0;
+                                    }
+                                } else {
+                                    item.cacheBuffer = categoryView.height * 1.5;
+                                }
+                            } else {
+                                var visibleRange = baseItem.height + displayMarginEnd + displayMarginBeginning;
+                                if (visibleRange < 0) {
+                                    item.displayMarginBeginning = displayMarginBeginning;
+                                    item.displayMarginEnd = displayMarginEnd;
+                                    item.cacheBuffer = 0;
+                                } else {
+                                    // This should be visibleRange/2 in each of the properties
+                                    // but some item views still (like GridView) like creating sync delegates even if
+                                    // the visible range is 0 so let's make sure the visible range is negative
+                                    item.displayMarginBeginning = displayMarginBeginning - visibleRange;
+                                    item.displayMarginEnd = displayMarginEnd - visibleRange;
+                                    item.cacheBuffer = visibleRange;
+                                }
+                            }
+                        } else {
+                            var buffer = wasCurrentOnMoveStart ? categoryView.height * 1.5 : 0;
+                            var onViewport = baseItem.y + baseItem.height > 0 &&
+                                             baseItem.y < categoryView.height;
+                            var onBufferViewport = baseItem.y + baseItem.height > -buffer &&
+                                                   baseItem.y < categoryView.height + buffer;
+                            if (!onBufferViewport) {
+                                // If not on the buffered viewport, don't load anything
+                                item.displayMarginBeginning = 0;
+                                item.displayMarginEnd = -item.innerWidth;
                                 item.cacheBuffer = 0;
                             } else {
-                                // This should be visibleRange/2 in each of the properties
-                                // but some item views still (like GridView) like creating sync delegates even if
-                                // the visible range is 0 so let's make sure the visible range is negative
-                                item.displayMarginBeginning = displayMarginBeginning - visibleRange;
-                                item.displayMarginEnd = displayMarginEnd - visibleRange;
-                                item.cacheBuffer = visibleRange;
+                                if (onViewport && (scopeView.isCurrent || scopeView.visibleToParent)) {
+                                    // If on the buffered viewport and the viewport and the on a visible scope
+                                    // Set displayMargin so that cards are rendered
+                                    // And if not moving the parent list also give it some extra asynchronously
+                                    // buffering
+                                    item.displayMarginBeginning = 0;
+                                    item.displayMarginEnd = 0;
+                                    if (holdingList && holdingList.moving) {
+                                        // If we are moving we need to reset the cache buffer of the
+                                        // view that was not visible (i.e. !wasCurrentOnMoveStart) to 0 since
+                                        // otherwise the cache buffer we had set to preload the items of the
+                                        // visible range will trigger some item creations and we want move to
+                                        // be as smooth as possible meaning no need creations
+                                        if (!wasCurrentOnMoveStart) {
+                                            item.cacheBuffer = 0;
+                                        }
+                                    } else {
+                                        item.cacheBuffer = baseItem.width * 1.5;
+                                    }
+                                } else {
+                                    // If on the buffered viewport but either not in the real viewport
+                                    // or in the viewport of the non current scope, use displayMargin + cacheBuffer
+                                    // to render asynchronously the width of cards
+                                    item.displayMarginBeginning = 0;
+                                    item.displayMarginEnd = -item.innerWidth;
+                                    item.cacheBuffer = item.innerWidth;
+                                }
                             }
                         }
                     }

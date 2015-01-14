@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
 import Ubuntu.Components 0.1
 import "carousel.js" as CarouselJS
 
@@ -38,6 +38,8 @@ Item {
     property alias tileAspectRatio: listView.tileAspectRatio
     /// Used to cache some delegates for performance reasons. See the ListView documentation for details
     property alias cacheBuffer: listView.cacheBuffer
+    property alias displayMarginBeginning: listView.displayMarginBeginning
+    property alias displayMarginEnd: listView.displayMarginEnd
     /// Width of the "draw buffer" in pixel. The drawBuffer is an additional area at start/end where
     /// items drawn, even if it is not in the visible area.
     /// cacheBuffer controls only the to retain delegates outside the visible area (and is used on top of the drawBuffer)
@@ -51,6 +53,8 @@ Item {
     readonly property alias currentItem: listView.currentItem
     /// exposes the distance to the next row (only one row in carousel, so it's the topMargins)
     readonly property alias verticalSpacing: listView.verticalMargin
+    /// the width of the internal list
+    readonly property alias innerWidth: listView.width
 
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
     opacity: listView.highlightIndex === -1 ? 1 : 0.6
