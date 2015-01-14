@@ -44,7 +44,7 @@ Rectangle {
 
         function height() {
             return 0;
-   d     }
+        }
         property string deviceName: "mako"
     }
 
