@@ -358,7 +358,7 @@ Rectangle {
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
             rotateTo(90);
-            compare(shell.transformRotationAngle, root.primaryOrientationAngle + 90);
+            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle + 90);
 
             showGreeter();
 
