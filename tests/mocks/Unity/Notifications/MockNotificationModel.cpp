@@ -76,7 +76,7 @@ QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
             return QVariant(m_queue[index.row()]->getHints());
 
         case ModelInterface::RoleNotification:
-            return QVariant(m_queue[index.row()]);
+            return QVariant::fromValue(m_queue[index.row()]);
 
         default:
             return QVariant();
@@ -87,7 +87,7 @@ void MockNotificationModel::append(MockNotification* n) {
     int location = m_queue.size();
     QModelIndex insertionPoint = QModelIndex();
     beginInsertRows(insertionPoint, location, location);
-    m_queue.insert(location, QSharedPointer<MockNotification>(n));
+    m_queue.insert(location, n);
     endInsertRows();
     qDebug() << "queue-size:" << m_queue.size();
 }
