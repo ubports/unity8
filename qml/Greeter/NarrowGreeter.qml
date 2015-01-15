@@ -126,7 +126,7 @@ Item {
 
         function maybeShow() {
             if (!greeter.forcedUnlock) {
-                show();
+                showNow();
             }
         }
     }

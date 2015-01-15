@@ -222,7 +222,7 @@ Item {
 
             notifications.model = mockNotificationsModel;
 
-            // FIXME: Hack: SortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // FIXME: Hack: UnitySortFilterProxyModelQML doesn't work with QML ListModels which we use
             // for mocking here (RoleType can't be found in the QML model). As we only need to show
             // one SnapDecision lets just disable the filtering and make appear any notification as a
             // SnapDecision.
@@ -245,7 +245,7 @@ Item {
 
             // Clicking the button should dismiss the notification and return focus
             var buttonAccept = findChild(notification, "notify_button0");
-            mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2);
+            mouseClick(buttonAccept);
 
             // Make sure we're back to normal
             tryCompare(app.session.surface, "activeFocus", true);
@@ -463,7 +463,7 @@ Item {
             var launcher = findChild(shell, "launcherPanel")
             tryCompareFunction(function() {return launcher.x === 0 || launcher.x === -launcher.width;}, true);
             if (launcher.x === 0) {
-                mouseClick(shell, shell.width / 2, shell.height / 2)
+                mouseClick(shell)
             }
             tryCompare(launcher, "x", -launcher.width)
 

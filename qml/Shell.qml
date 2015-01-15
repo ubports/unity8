@@ -296,7 +296,7 @@ Item {
         id: inputMethod
         objectName: "inputMethod"
         anchors { fill: parent; topMargin: panel.panelHeight }
-        z: notifications.useModal || panel.indicators.shown ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
     }
 
     Connections {
@@ -355,6 +355,15 @@ Item {
 
         onEmergencyCall: startLockedApp("dialer-app")
 
+        Timer {
+            // See powerConnection for why this is useful
+            id: showGreeterDelayed
+            interval: 1
+            onTriggered: {
+                greeter.showNow();
+            }
+        }
+
         Binding {
             target: ApplicationManager
             property: "suspended"
@@ -388,7 +397,16 @@ Item {
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
                     !callManager.hasCalls && !edgeDemo.running) {
-                greeter.showNow()
+                // We don't want to simply call greeter.showNow() here, because
+                // that will take too long.  Qt will delay button event
+                // handling until the greeter is done loading and may think the
+                // user held down the power button the whole time, leading to a
+                // power dialog being shown.  Instead, delay showing the
+                // greeter until we've finished handling the event.  We could
+                // make the greeter load asynchronously instead, but that
+                // introduces a whole host of timing issues, especially with
+                // its animations.  So this is simpler.
+                showGreeterDelayed.start();
             }
         }
     }

@@ -14,12 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSORTFILTERPROXYMODELQML_H
-#define QSORTFILTERPROXYMODELQML_H
+#ifndef UNITYSORTFILTERPROXYMODELQML_H
+#define UNITYSORTFILTERPROXYMODELQML_H
 
 #include <QSortFilterProxyModel>
 
-class QSortFilterProxyModelQML : public QSortFilterProxyModel
+class UnitySortFilterProxyModelQML : public QSortFilterProxyModel
 {
     Q_OBJECT
 
@@ -29,7 +29,7 @@ class QSortFilterProxyModelQML : public QSortFilterProxyModel
     Q_PROPERTY(bool invertMatch READ invertMatch WRITE setInvertMatch NOTIFY invertMatchChanged)
 
 public:
-    explicit QSortFilterProxyModelQML(QObject *parent = 0);
+    explicit UnitySortFilterProxyModelQML(QObject *parent = 0);
 
     Q_INVOKABLE QVariantMap get(int row); // Use with caution, it can be slow to query all the roles
     Q_INVOKABLE QVariant data(int row, int role);
@@ -60,4 +60,4 @@ private:
     bool m_invertMatch;
 };
 
-#endif // QSORTFILTERPROXYMODELQML_H
+#endif // UNITYSORTFILTERPROXYMODELQML_H

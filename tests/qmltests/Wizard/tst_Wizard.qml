@@ -18,6 +18,7 @@ import QtQuick 2.3
 import QtTest 1.0
 import AccountsService 0.1
 import MeeGo.QOfono 0.2
+import QMenuModel 0.1
 import Ubuntu.Components 1.1
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import Unity.Test 0.1 as UT
@@ -58,6 +59,16 @@ Item {
         signalName: "setSecurityCalled"
     }
 
+    SignalSpy {
+        id: activateLocationSpy
+        signalName: "activated"
+    }
+
+    SignalSpy {
+        id: activateGPSSpy
+        signalName: "activated"
+    }
+
     function setup() {
         AccountsService.hereEnabled = false;
         AccountsService.hereLicensePath = Qt.resolvedUrl("licenses");
@@ -68,6 +79,19 @@ Item {
 
         updateSessionLanguageSpy.clear();
         setSecuritySpy.clear();
+        activateLocationSpy.clear();
+        activateGPSSpy.clear();
+
+        ActionData.data = {
+            "location-detection-enabled": {
+                'valid': true,
+                'state': false
+            },
+            "gps-detection-enabled": {
+                'valid': true,
+                'state': false
+            }
+        };
     }
 
     Component.onCompleted: {
@@ -360,8 +384,8 @@ Item {
             var nopeCheck = findChild(page, "nopeCheck");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
-            tryCompare(locationActionGroup.location, "state", false);
-            tryCompare(locationActionGroup.gps, "state", false);
+            activateLocationSpy.target = locationActionGroup.location;
+            activateGPSSpy.target = locationActionGroup.gps;
 
             tap(gpsCheck);
             tryCompare(gpsCheck, "checked", true);
@@ -370,8 +394,8 @@ Item {
 
             tap(findChild(page, "forwardButton"));
             tryCompare(AccountsService, "hereEnabled", false);
-            tryCompare(locationActionGroup.location, "state", true);
-            tryCompare(locationActionGroup.gps, "state", true);
+            tryCompare(activateLocationSpy, "count", 1)
+            tryCompare(activateGPSSpy, "count", 1)
         }
 
         function test_locationNope() {
@@ -381,8 +405,8 @@ Item {
             var nopeCheck = findChild(page, "nopeCheck");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
-            tryCompare(locationActionGroup.location, "state", false);
-            tryCompare(locationActionGroup.gps, "state", false);
+            activateLocationSpy.target = locationActionGroup.location;
+            activateGPSSpy.target = locationActionGroup.gps;
 
             tap(nopeCheck);
             tryCompare(gpsCheck, "checked", false);
@@ -391,8 +415,8 @@ Item {
 
             tap(findChild(page, "forwardButton"));
             tryCompare(AccountsService, "hereEnabled", false);
-            tryCompare(locationActionGroup.location, "state", false);
-            tryCompare(locationActionGroup.gps, "state", false);
+            tryCompare(activateLocationSpy, "count", 0)
+            tryCompare(activateGPSSpy, "count", 0)
         }
 
         function test_locationHere() {
@@ -402,8 +426,8 @@ Item {
             var nopeCheck = findChild(page, "nopeCheck");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
-            tryCompare(locationActionGroup.location, "state", false);
-            tryCompare(locationActionGroup.gps, "state", false);
+            activateLocationSpy.target = locationActionGroup.location;
+            activateGPSSpy.target = locationActionGroup.gps;
 
             // no tap because HERE is the default
             tryCompare(gpsCheck, "checked", false);
@@ -412,8 +436,8 @@ Item {
 
             tap(findChild(page, "forwardButton"));
             tryCompare(AccountsService, "hereEnabled", true);
-            tryCompare(locationActionGroup.location, "state", true);
-            tryCompare(locationActionGroup.gps, "state", true);
+            tryCompare(activateLocationSpy, "count", 1)
+            tryCompare(activateGPSSpy, "count", 1)
         }
 
         function test_locationHereTerms() {
