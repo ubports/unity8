@@ -26,6 +26,29 @@ Item {
 
     anchors.fill: parent
 
+    // Controls to be set from outside
+    property int dragAreaWidth // just to comply with the interface shared between stages
+    property real maximizedAppTopMargin
+    property bool interactive
+    property bool spreadEnabled // just to comply with the interface shared between stages
+    property real inverseProgress: 0 // just to comply with the interface shared between stages
+    property int shellOrientationAngle: 0
+    property int shellOrientation
+    property int shellPrimaryOrientation
+    property int nativeOrientation
+    property bool beingResized: false
+
+    // functions to be called from outside
+    function updateFocusedAppOrientation() { /* TODO */ }
+    function updateFocusedAppOrientationAnimated() { /* TODO */}
+
+    // To be read from outside
+    readonly property var mainApp: ApplicationManager.focusedApplicationId
+            ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+            : null
+    property int mainAppWindowOrientationAngle: 0
+    readonly property bool orientationChangesEnabled: false
+
     property alias background: wallpaper.source
 
     CrossFadeImage {
