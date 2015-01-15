@@ -53,6 +53,11 @@ Rectangle {
         property int savedOrientation
     }
 
+    QtObject {
+        id: mockUsageModeSettings
+        property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
+    }
+
     property int physicalOrientation0
     property int physicalOrientation90
     property int physicalOrientation180
@@ -121,6 +126,7 @@ Rectangle {
         sourceComponent: Component {
             OrientedShell {
                 anchors.fill: parent
+                usageModeSettings: mockUsageModeSettings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
                 orientationLock: mockOrientationLock
@@ -230,6 +236,12 @@ Rectangle {
                     applicationArguments.deviceName = model[selectedIndex];
                     orientedShellLoader.active = true;
                 }
+            }
+            ListItem.ItemSelector {
+                id: usageModeSelector
+                anchors { left: parent.left; right: parent.right }
+                text: "Usage Mode"
+                model: ["Staged", "Windowed", "Automatic"]
             }
         }
     }

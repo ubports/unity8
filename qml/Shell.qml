@@ -154,11 +154,6 @@ Item {
         sourceSize.width: 0
     }
 
-    GSettings {
-        id: usageModeSettings
-        schema.id: "com.canonical.Unity8"
-    }
-
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -298,7 +293,6 @@ Item {
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                            ? "phone"
                                            : shell.usageScenario
-            // TODO: Consider what to do with usageModeSettings.usageMode
             source: {
                 if (applicationsDisplayLoader.usageScenario === "phone") {
                     return "Stages/PhoneStage.qml";
@@ -825,7 +819,7 @@ Item {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
-            inverted: usageModeSettings.usageMode === "Staged"
+            inverted: shell.usageScenario !== "desktop"
 
             onShowDashHome: showHome()
             onDash: showDash()

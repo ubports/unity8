@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import Unity.Session 0.1
+import GSettings 1.0
 import "Components"
 import "Rotation"
 
@@ -36,7 +37,8 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
-    // to be overwritten by tests, so cannot be read-only
+    // to be overwritten by tests
+    property var usageModeSettings: GSettings { schema.id: "com.canonical.Unity8" }
     property int physicalOrientation: Screen.orientation
     property bool orientationLocked: OrientationLock.enabled
     property var orientationLock: OrientationLock
@@ -131,7 +133,16 @@ Rectangle {
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
-        usageScenario: deviceConfiguration.category
+        usageScenario: {
+            if (root.usageModeSettings.usageMode === "Windowed") {
+                return "desktop";
+            } else if (root.usageModeSettings.usageMode === "Staged"
+                    && deviceConfiguration.category === "desktop") {
+                return "tablet";
+            } else {
+                return deviceConfiguration.category;
+            }
+        }
 
         property real transformRotationAngle
         property real transformOriginX
