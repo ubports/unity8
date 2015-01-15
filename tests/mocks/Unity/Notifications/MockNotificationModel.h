@@ -27,8 +27,6 @@
 
 class MockNotification;
 
-struct MockNotificationModelPrivate;
-
 class MockNotificationModel : public QAbstractListModel {
     Q_OBJECT
 
@@ -40,9 +38,9 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE void append(const QSharedPointer<MockNotification> &n);
-    QSharedPointer<MockNotification> getNotification(unsigned int id) const;
-    QSharedPointer<MockNotification> getNotification(const QString &summary) const;
+    Q_INVOKABLE void append(MockNotification* n);
+    MockNotification* getNotification(unsigned int id) const;
+    MockNotification* getNotification(const QString &summary) const;
     bool hasNotification(unsigned int id) const;
 
     // getRaw() is only meant to be used from QML, since QML cannot handle
@@ -59,8 +57,7 @@ Q_SIGNALS:
     void queueSizeChanged(int newSize);
 
 private:
-    QScopedPointer<MockNotificationModelPrivate> p;
-
+    QList<MockNotification*> m_queue;
     void deleteFromVisible(int loc);
     void deleteFirst();
 };

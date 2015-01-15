@@ -32,18 +32,14 @@
 
 using namespace unity::shell::notifications;
 
-struct MockNotificationModelPrivate {
-    QList<QSharedPointer<MockNotification> > queue;
-};
-
-MockNotificationModel::MockNotificationModel(QObject *parent) : QAbstractListModel(parent), p(new MockNotificationModelPrivate) {
+MockNotificationModel::MockNotificationModel(QObject *parent) : QAbstractListModel(parent) {
 }
 
 MockNotificationModel::~MockNotificationModel() {
 }
 
 int MockNotificationModel::rowCount(const QModelIndex &parent) const {
-    return p->queue.size();
+    return m_queue.size();
 }
 
 QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
@@ -53,69 +49,67 @@ QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
 
     switch(role) {
         case ModelInterface::RoleType:
-            return QVariant(p->queue[index.row()]->getType());
+            return QVariant(m_queue[index.row()]->getType());
 
         case ModelInterface::RoleId:
-            return QVariant(p->queue[index.row()]->getID());
+            return QVariant(m_queue[index.row()]->getID());
 
         case ModelInterface::RoleSummary:
-            return QVariant(p->queue[index.row()]->getSummary());
+            return QVariant(m_queue[index.row()]->getSummary());
 
         case ModelInterface::RoleBody:
-            return QVariant(p->queue[index.row()]->getBody());
+            return QVariant(m_queue[index.row()]->getBody());
 
         case ModelInterface::RoleValue:
-            return QVariant(p->queue[index.row()]->getValue());
+            return QVariant(m_queue[index.row()]->getValue());
 
         case ModelInterface::RoleIcon:
-            return QVariant(p->queue[index.row()]->getIcon());
+            return QVariant(m_queue[index.row()]->getIcon());
 
         case ModelInterface::RoleSecondaryIcon:
-            return QVariant(p->queue[index.row()]->getSecondaryIcon());
+            return QVariant(m_queue[index.row()]->getSecondaryIcon());
 
         case ModelInterface::RoleActions:
-            return QVariant::fromValue(p->queue[index.row()]->getActions());
+            return QVariant::fromValue(m_queue[index.row()]->getActions());
 
         case ModelInterface::RoleHints:
-            return QVariant(p->queue[index.row()]->getHints());
+            return QVariant(m_queue[index.row()]->getHints());
 
         case ModelInterface::RoleNotification:
-            return QVariant(p->queue[index.row()]);
+            return QVariant(m_queue[index.row()]);
 
         default:
             return QVariant();
     }
 }
 
-void MockNotificationModel::append(const QSharedPointer<MockNotification> &n) {
-    int location = p->queue.size();
+void MockNotificationModel::append(MockNotification* n) {
+    int location = m_queue.size();
     QModelIndex insertionPoint = QModelIndex();
     beginInsertRows(insertionPoint, location, location);
-    p->queue.insert(location, n);
+    m_queue.insert(location, QSharedPointer<MockNotification>(n));
     endInsertRows();
-    qDebug() << "queue-size:" << p->queue.size();
+    qDebug() << "queue-size:" << m_queue.size();
 }
 
-QSharedPointer<MockNotification> MockNotificationModel::getNotification(unsigned int id) const {
-    for(int i=0; i<p->queue.size(); i++) {
-        if(p->queue[i]->getID() == id) {
-            return p->queue[i];
+MockNotification* MockNotificationModel::getNotification(unsigned int id) const {
+    for(int i=0; i < m_queue.size(); i++) {
+        if(m_queue[i]->getID() == id) {
+            return m_queue[i];
         }
     }
 
-    QSharedPointer<MockNotification> empty;
-    return empty;
+    return nullptr;
 }
 
-QSharedPointer<MockNotification> MockNotificationModel::getNotification(const QString &summary) const {
-    for(int i=0; i<p->queue.size(); i++) {
-        if(p->queue[i]->getSummary() == summary) {
-            return p->queue[i];
+MockNotification* MockNotificationModel::getNotification(const QString &summary) const {
+    for(int i=0; i < m_queue.size(); i++) {
+        if(m_queue[i]->getSummary() == summary) {
+            return m_queue[i];
         }
     }
 
-    QSharedPointer<MockNotification> empty;
-    return empty;
+    return nullptr;
 }
 
 bool MockNotificationModel::hasNotification(unsigned int id) const {
@@ -123,8 +117,8 @@ bool MockNotificationModel::hasNotification(unsigned int id) const {
 }
 
 void MockNotificationModel::removeNotification(const unsigned int id) {
-    for(int i=0; i<p->queue.size(); i++) {
-        if(p->queue[i]->getID() == id) {
+    for(int i = 0; i < m_queue.size(); i++) {
+        if(m_queue[i]->getID() == id) {
             deleteFromVisible(i);
             return;
         }
@@ -133,7 +127,7 @@ void MockNotificationModel::removeNotification(const unsigned int id) {
 }
 
 void MockNotificationModel::deleteFirst() {
-    if(p->queue.empty())
+    if(m_queue.empty())
         return;
     deleteFromVisible(0);
 }
@@ -141,16 +135,15 @@ void MockNotificationModel::deleteFirst() {
 void MockNotificationModel::deleteFromVisible(int loc) {
     QModelIndex deletePoint = QModelIndex();
     beginRemoveRows(deletePoint, loc, loc);
-    p->queue.erase(p->queue.begin() + loc);
+    m_queue.erase(m_queue.begin() + loc);
     endRemoveRows();
 }
 
 MockNotification* MockNotificationModel::getRaw(const unsigned int notificationId) const {
     qDebug() << "::getRaw()";
-    for(int i=0; i<p->queue.size(); i++) {
-        if(p->queue[i]->getID() == notificationId) {
-            MockNotification* n = p->queue[i].data();
-            //QQmlEngine::setObjectOwnership(n, QQmlEngine::CppOwnership);
+    for(int i = 0; i < m_queue.size(); i++) {
+        if(m_queue[i]->getID() == notificationId) {
+            MockNotification* n = m_queue[i];
             return n;
         }
     }
@@ -159,7 +152,7 @@ MockNotification* MockNotificationModel::getRaw(const unsigned int notificationI
 }
 
 int MockNotificationModel::queued() const {
-    return p->queue.size();
+    return m_queue.size();
 }
 
 QHash<int, QByteArray> MockNotificationModel::roleNames() const {
@@ -181,8 +174,8 @@ QHash<int, QByteArray> MockNotificationModel::roleNames() const {
 }
 
 void MockNotificationModel::onDataChanged(unsigned int id) {
-    for(int i=0; i<p->queue.size(); i++) {
-        if(p->queue[i]->getID() == id) {
+    for(int i = 0; i < m_queue.size(); i++) {
+        if(m_queue[i]->getID() == id) {
             Q_EMIT dataChanged(index(i, 0), index(i, 0));
             break;
         }

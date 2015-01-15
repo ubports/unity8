@@ -125,7 +125,7 @@ Item {
 
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
-                append(mockList[0])
+                //append(mockList[0])
             }
         }
 
