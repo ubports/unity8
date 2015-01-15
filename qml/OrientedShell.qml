@@ -42,8 +42,7 @@ Rectangle {
     property var orientationLock: OrientationLock
 
     property int orientation
-    readonly property int deviceOrientationAngle: Screen.angleBetween(nativeOrientation, physicalOrientation)
-    onDeviceOrientationAngleChanged: {
+    onPhysicalOrientationChanged: {
         if (!orientationLocked) {
             orientation = physicalOrientation;
         }

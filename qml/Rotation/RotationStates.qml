@@ -63,10 +63,22 @@ StateGroup {
         }
 
         readonly property int requestedOrientationAngle: root.orientedShell.acceptedOrientationAngle
-        // NB: Using a Binding{when:!d.transitioning} would cause QML to detect a
-        //     binding loop and break the binding, thus the imperative code to update the state.
+
+        // Avoiding a direct call to tryUpdateState() as the state change might trigger an immediate
+        // change to Shell.orientationAngle which, in its turn, causes a reevaluation of
+        // requestedOrientationAngle (ie., OrientedShell.acceptedOrientationAngle). A reentrant evaluation
+        // of a binding is detected by QML as a binding loop and QML will deny the reevalutation, which
+        // will leave us in a bogus state.
+        //
+        // To avoid this mess we update the state in the next event loop iteration, ensuring a clean
+        // call stack.
         onRequestedOrientationAngleChanged: {
-            d.tryUpdateState();
+            stateUpdateTimer.start();
+        }
+        property Timer stateUpdateTimer: Timer {
+            id: stateUpdateTimer
+            interval: 1
+            onTriggered: { d.tryUpdateState(); }
         }
 
         function tryUpdateState() {
@@ -77,7 +89,7 @@ StateGroup {
             var requestedState = d.requestedOrientationAngle.toString();
             if (requestedState !== root.state) {
                 d.resolveAnimationType();
-                root.state = d.requestedOrientationAngle.toString();
+                root.state = requestedState;
             }
         }
 
