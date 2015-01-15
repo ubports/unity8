@@ -66,6 +66,8 @@ Item {
 
     readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
             && (applicationsDisplayLoader.item && applicationsDisplayLoader.item.orientationChangesEnabled)
+            && !greeter.showAnimation.running
+            && !greeter.hideAnimation.running
 
     property bool startingUp: true
     Timer { id: finishStartUpTimer; interval: 500; onTriggered: startingUp = false }
