@@ -19,6 +19,8 @@
 
 #include "MockNotification.h"
 
+#include <QDebug>
+
 struct MockNotificationPrivate {
     unsigned int id;
     QString summary;
@@ -45,7 +47,7 @@ QString MockNotification::getSummary() const {
 
 void MockNotification::setSummary(const QString &summary) {
     if(p->summary != summary) {
-        p->summary= summary;
+        p->summary = summary;
         Q_EMIT summaryChanged(p->summary);
         Q_EMIT dataChanged(p->id);
     }

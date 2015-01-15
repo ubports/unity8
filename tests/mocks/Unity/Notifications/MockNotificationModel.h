@@ -61,7 +61,6 @@ Q_SIGNALS:
 private:
     QScopedPointer<MockNotificationModelPrivate> p;
 
-    void localAppend(const MockNotification& n);
     void deleteFromVisible(int loc);
     void deleteFirst();
 };

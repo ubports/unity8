@@ -47,7 +47,7 @@ int MockNotificationModel::rowCount(const QModelIndex &parent) const {
 }
 
 QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
-    //printf("Data %d.\n", index.row());
+    qDebug() << "::data()";
     if (!index.isValid())
             return QVariant();
 
@@ -88,8 +88,12 @@ QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
 }
 
 void MockNotificationModel::append(const QSharedPointer<MockNotification> &n) {
-    p->queue.append(n);
-    //qDebug() << "append() called, count:" << p->queue.size() << ", summary: " << QString(p->queue[0]->getSummary());
+    int location = p->queue.size();
+    QModelIndex insertionPoint = QModelIndex();
+    beginInsertRows(insertionPoint, location, location);
+    p->queue.insert(location, n);
+    endInsertRows();
+    qDebug() << "queue-size:" << p->queue.size();
 }
 
 QSharedPointer<MockNotification> MockNotificationModel::getNotification(unsigned int id) const {
@@ -142,10 +146,11 @@ void MockNotificationModel::deleteFromVisible(int loc) {
 }
 
 MockNotification* MockNotificationModel::getRaw(const unsigned int notificationId) const {
+    qDebug() << "::getRaw()";
     for(int i=0; i<p->queue.size(); i++) {
         if(p->queue[i]->getID() == notificationId) {
             MockNotification* n = p->queue[i].data();
-            QQmlEngine::setObjectOwnership(n, QQmlEngine::CppOwnership);
+            //QQmlEngine::setObjectOwnership(n, QQmlEngine::CppOwnership);
             return n;
         }
     }

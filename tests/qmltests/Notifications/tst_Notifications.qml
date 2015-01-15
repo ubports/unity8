@@ -30,7 +30,7 @@ Item {
     width: notificationsRect.width + interactiveControls.width
     height: notificationsRect.height
 
-    property list<Notification> dataList: [
+    property list<Notification> mockList: [
         Notification {
             nid: 0
             type: Notification.PlaceHolder
@@ -125,36 +125,36 @@ Item {
 
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
-                append(dataList[0])
+                append(mockList[0])
             }
         }
 
         function add2over1SnapDecisionNotification() {
-            mockModel.append(dataList[1])
+            mockModel.append(mockList[1])
         }
 
         function addEphemeralNotification() {
-            mockModel.append(dataList[2])
+            mockModel.append(mockList[2])
         }
 
         function addEphemeralNonShapedIconNotification() {
-            mockModel.append(dataList[3])
+            mockModel.append(mockList[3])
         }
 
         function addEphemeralIconSummaryNotification() {
-            mockModel.append(dataList[4])
+            mockModel.append(mockList[4])
         }
 
         function addInteractiveNotification() {
-            mockModel.append(dataList[5])
+            mockModel.append(mockList[5])
         }
 
         function addConfirmationNotification() {
-            mockModel.append(dataList[6])
+            mockModel.append(mockList[6])
         }
 
         function add2ndConfirmationNotification() {
-            mockModel.append(dataList[7])
+            mockModel.append(mockList[7])
         }
 
         function clearNotifications() {
@@ -187,6 +187,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
+                //model: mockList
             }
         }
 
