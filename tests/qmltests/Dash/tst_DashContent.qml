@@ -537,5 +537,62 @@ Item {
 
             compare(categoryListView.pageHeader.item.searchHint, "Search People");
         }
+
+        function compareArrays(a, b) {
+            if (a.length != b.length) return false;
+            for (var i in a) {
+                if (a[i] != b[i]) return false;
+            }
+            return true;
+        }
+
+        function getSettledButtons() {
+            var buttons = findChildsByType(dashContent, "AbstractButton");
+            wait(2500);
+            var aux = findChildsByType(dashContent, "AbstractButton");
+            while (!compareArrays(aux, buttons)) {
+                buttons = aux;
+                wait(2500);
+                aux = findChildsByType(dashContent, "AbstractButton");
+            }
+            return buttons;
+        }
+
+        function test_noDelegateCreationDestructionOnMove() {
+            // Our cards are of type AbstractButton as defined in CardCreator.js
+            // This gives also other things that are not cards but for our purpose it
+            // does not matter
+
+            // Wait for the buttons to settle
+            var buttons = getSettledButtons();
+
+            // Move the scopes so that the item on the right is the current one
+            // without releasing the button
+            mouseFlick(dashContent, dashContent.width - units.gu(1), units.gu(1), units.gu(1), units.gu(1), true, false);
+
+            // Make sure we have changed to a new scope
+            compare(dashContent.currentIndex, 1);
+
+            // Wait for the buttons to settle
+            var buttons2 = getSettledButtons();
+
+            // Verify we have exactly the same buttons as before starting to move
+            verify(compareArrays(buttons2, buttons));
+
+            // Release the mouse
+            mouseRelease(dashContent, units.gu(1), units.gu(1));
+
+            // Wait for the scopes list to stop moving
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompare(dashContentList, "moving", false);
+            compare(dashContent.currentIndex, 1);
+
+            // Wait for the buttons to settle
+            var buttons3 = getSettledButtons();
+
+            // Verify we have a different set of buttons now
+            expectFail("", "There has to be new cards after releasing the list is not moving anymore");
+            verify(compareArrays(buttons3, buttons));
+        }
     }
 }
