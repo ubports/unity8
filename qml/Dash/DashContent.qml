@@ -84,8 +84,7 @@ Item {
 
         set_current_index = undefined;
 
-        if (dashContentList.count > index)
-        {
+        if (dashContentList.count > index) {
             dashContentList.currentIndex = index
 
             if (reset) {

@@ -428,5 +428,62 @@ Item {
             tryCompare(bottomEdgeController, "progress", 0);
             tryCompare(dashContentList, "currentIndex", 1)
         }
+
+        function test_close_temp_scope_preview_opening_scope() {
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            // Make sure stuff is loaded
+            var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
+            var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
+
+            // Click on a non favorite scope
+            mouseClick(nonfavScopesListCategoryList.currentItem);
+
+            // Check the bottom edge (manage dash) is disabled from temp scope
+            var overviewDragHandle = findChild(dash, "overviewDragHandle");
+            compare(overviewDragHandle.enabled, false);
+
+            // Check temp scope is there
+            var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
+            tryCompare(dashTempScopeItem, "x", 0);
+            tryCompare(dashTempScopeItem, "visible", true);
+
+            // Check the manage dash is gone
+            tryCompare(bottomEdgeController, "progress", 0);
+
+            // Open preview
+            var categoryListView = findChild(dashTempScopeItem, "categoryListView");
+            categoryListView.positionAtBeginning();
+            tryCompareFunction(function() {
+                                    var cardGrid = findChild(dashTempScopeItem, "dashCategory0");
+                                    if (cardGrid != null) {
+                                        var tile = findChild(cardGrid, "delegate0");
+                                        return tile != null;
+                                    }
+                                    return false;
+                                },
+                                true);
+            var tile = findChild(findChild(dashTempScopeItem, "dashCategory0"), "delegate0");
+            waitForRendering(tile);
+            mouseClick(tile);
+            var subPageLoader = findChild(dashTempScopeItem, "subPageLoader");
+            tryCompare(subPageLoader, "open", true);
+            tryCompare(subPageLoader, "x", 0);
+            tryCompare(findChild(dashTempScopeItem, "categoryListView"), "visible", false);
+
+            dashTempScopeItem.scope.openScope(scopes.getScopeFromAll("MockScope7"));
+            tryCompare(subPageLoader, "open", false);
+
+            // Go back
+            dashTempScopeItem.backClicked();
+
+            // Check temp scope is gone
+            tryCompare(dashTempScopeItem, "x", dash.width);
+            tryCompare(dashTempScopeItem, "visible", false);
+        }
     }
 }

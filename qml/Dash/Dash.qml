@@ -199,8 +199,7 @@ Showable {
         }
     }
 
-    DashBackground
-    {
+    DashBackground{
         anchors.fill: scopeItem
         visible: scopeItem.visible
     }
@@ -229,6 +228,7 @@ Showable {
                 dashContent.gotoScope(scopeId);
             }
             onOpenScope: {
+                scopeItem.closePreview();
                 dashContent.openScope(scope);
             }
         }
