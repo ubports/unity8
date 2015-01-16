@@ -16,7 +16,6 @@
 
 import QtQuick 2.3
 import AccountsService 0.1
-import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import "../Components"
 
@@ -28,12 +27,17 @@ Item {
     property int currentIndex // unused
     property alias delayMinutes: lockscreen.delayMinutes
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
-    property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
-    property bool required: coverPage.required || lockscreen.required
+    property url background
+    property bool locked
+    property var userModel // unused
+    property alias infographicModel: coverPage.infographicModel
+    readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
+    readonly property bool required: coverPage.required || lockscreen.required
 
     signal selected(int index)
-    signal unlocked()
+    signal responded(string response)
     signal tease()
+    signal emergencyCall()
 
     function showMessage(html) {
         // TODO
@@ -73,9 +77,7 @@ Item {
     }
 
     function tryToUnlock(toTheRight) {
-        if (!LightDM.Greeter.authenticated) {
-            lockscreen.maybeShow();
-        }
+        lockscreen.maybeShow();
         if (toTheRight) {
             coverPage.hideRight();
         } else {
@@ -96,7 +98,7 @@ Item {
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
         anchors.fill: parent
         visible: required
-        background: greeter.background
+        background: root.background
         darkenBackground: 0.4
         alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         minPinLength: 4
@@ -111,21 +113,12 @@ Item {
                                   i18n.tr("Please re-enter") :
                                   i18n.tr("Sorry, incorrect passcode")
 
-        // FIXME: We *should* show emergency dialer if there is a SIM present,
-        // regardless of whether the side stage is enabled.  But right now,
-        // the assumption is that narrow screens are phones which have SIMs
-        // and wider screens are tablets which don't.  When we do allow this
-        // on devices with a side stage and a SIM, work should be done to
-        // ensure that the main stage is disabled while the dialer is present
-        // in the side stage.  See the FIXME in the stage loader in Shell.qml.
-        showEmergencyCallButton: !greeter.tabletMode
-
-        onEntered: LightDM.Greeter.respond(passphrase)
+        onEntered: root.responded(passphrase)
         onCancel: coverPage.show()
-        onEmergencyCall: greeter.emergencyCall()
+        onEmergencyCall: root.emergencyCall()
 
         function maybeShow() {
-            if (!greeter.forcedUnlock) {
+            if (root.locked) {
                 showNow();
             }
         }
@@ -142,7 +135,7 @@ Item {
         objectName: "coverPage"
         height: parent.height
         width: parent.width
-        background: greeter.background
+        background: root.background
         onTease: root.tease()
 
         onShowProgressChanged: {
@@ -151,10 +144,10 @@ Item {
             }
 
             if (showProgress === 0) {
-                if (greeter.locked) {
+                if (root.locked) {
                     lockscreen.clear(false); // to reset focus if necessary
                 } else {
-                    root.unlocked();
+                    root.responded("");
                 }
             }
         }

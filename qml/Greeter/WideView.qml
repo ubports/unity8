@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.3
-import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 
 Item {
@@ -26,12 +25,17 @@ Item {
     property alias currentIndex: loginList.currentIndex
     property int delayMinutes // TODO
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
-    property bool fullyShown: coverPage.showProgress === 1
-    property bool required: coverPage.required
+    property alias background: coverPage.background
+    property bool locked
+    property alias userModel: loginList.model
+    property alias infographicModel: coverPage.infographicModel
+    readonly property bool fullyShown: coverPage.showProgress === 1
+    readonly property bool required: coverPage.required
 
     signal selected(int index)
-    signal unlocked()
+    signal responded(string response)
     signal tease()
+    signal emergencyCall() // UNUSED
 
     function showMessage(html) {
         loginList.showMessage(html);
@@ -60,15 +64,15 @@ Item {
     }
 
     function tryToUnlock(toTheRight) {
-        if (LightDM.Greeter.authenticated) {
+        if (root.locked) {
+            coverPage.show();
+            loginList.tryToUnlock();
+        } else {
             if (toTheRight) {
                 coverPage.hideRight();
             } else {
                 coverPage.hide();
             }
-        } else {
-            coverPage.show();
-            loginList.tryToUnlock();
         }
     }
 
@@ -87,8 +91,7 @@ Item {
         objectName: "coverPage"
         height: parent.height
         width: parent.width
-        background: greeter.background
-        draggable: !greeter.locked
+        draggable: !root.locked
 
         infographics {
             height: 0.75 * parent.height
@@ -98,27 +101,27 @@ Item {
         onTease: root.tease()
 
         onShowProgressChanged: {
-            if (showProgress === 0 && !greeter.locked) {
-                root.unlocked();
+            if (showProgress === 0 && !root.locked) {
+                root.responded("");
             }
         }
-    }
 
-    LoginList {
-        id: loginList
-        objectName: "loginList"
+        LoginList {
+            id: loginList
+            objectName: "loginList"
 
-        anchors {
-            left: parent.left
-            leftMargin: Math.min(parent.width * 0.16, units.gu(20))
-            verticalCenter: parent.verticalCenter
+            anchors {
+                left: parent.left
+                leftMargin: Math.min(parent.width * 0.16, units.gu(20))
+                verticalCenter: parent.verticalCenter
+            }
+            width: units.gu(29)
+            height: parent.height
+
+            locked: root.locked
+
+            onSelected: root.selected(index)
+            onResponded: root.responded(response)
         }
-        width: units.gu(29)
-        height: parent.height
-
-        model: LightDM.Users
-
-        onSelected: root.selected(uid)
-        onUnlocked: coverPage.hide()
     }
 }

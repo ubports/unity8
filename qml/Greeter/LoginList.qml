@@ -16,35 +16,35 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
-import LightDM 0.1 as LightDM
 import "../Components"
 
 Item {
     id: root
 
-    property alias userList: userList
     property alias model: userList.model
-    property alias currentIndex: userList.currentIndex
+    property int currentIndex
+    property bool locked
 
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: units.gu(10)
     readonly property int moveDuration: 200
+    readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false
 
-    signal selected(int uid)
-    signal unlocked()
+    signal selected(int index)
+    signal responded(string response)
 
     function tryToUnlock() {
-        if (LightDM.Greeter.promptless) {
-            if (LightDM.Greeter.authenticated) {
-                root.unlocked()
-            } else {
-                root.resetAuthentication()
-                root.selected(currentIndex);
-            }
+        if (wasPrompted) {
+            passwordInput.forceActiveFocus();
         } else {
-            passwordInput.forceActiveFocus()
+            if (root.locked) {
+                root.resetAuthentication();
+                root.selected(currentIndex);
+            } else {
+                root.responded("");
+            }
         }
     }
 
@@ -106,18 +106,10 @@ Item {
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
 
+        currentIndex: root.currentIndex
         onCurrentIndexChanged: {
-            if (LightDM.Greeter.authenticationUser != userList.model.data(currentIndex, LightDM.UserRoles.NameRole)) {
-                root.resetAuthentication();
-                root.selected(currentIndex);
-            }
-        }
-
-        onMovingInternallyChanged: {
-            // Only emit the selected signal once we stop moving to avoid frequent background changes
-            if (!movingInternally) {
-                root.selected(userList.currentIndex);
-            }
+            root.resetAuthentication();
+            moveTimer.start();
         }
 
         delegate: Item {
@@ -126,6 +118,7 @@ Item {
 
             readonly property bool belowHighlight: (userList.currentIndex < 0 && index > 0) || (userList.currentIndex >= 0 && index > userList.currentIndex)
             readonly property int belowOffset: root.highlightedHeight - root.cellHeight
+            readonly property string username: name
 
             opacity: {
                 // The goal here is to make names less and less opaque as they
@@ -173,11 +166,8 @@ Item {
                     topMargin: parent.belowHighlight ? parent.belowOffset : 0
                 }
                 height: parent.height
-                enabled: userList.currentIndex !== index
-                onClicked: {
-                    moveTimer.start();
-                    userList.currentIndex = index;
-                }
+                enabled: userList.currentIndex !== index && parent.opacity > 0
+                onClicked: root.selected(index)
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
             }
@@ -230,9 +220,9 @@ Item {
         opacity: userList.movingInternally ? 0 : 1
 
         property string promptText
-        placeholderText: LightDM.Greeter.promptless ? (LightDM.Greeter.authenticated ? i18n.tr("Tap to unlock")
-                                                                                     : i18n.tr("Retry"))
-                                                    : promptText
+        placeholderText: root.wasPrompted ? promptText
+                                          : (root.locked ? i18n.tr("Retry")
+                                                         : i18n.tr("Tap to unlock"))
 
         Behavior on opacity {
             NumberAnimation { duration: 100 }
@@ -243,7 +233,7 @@ Item {
                 return;
             root.focus = true; // so that it can handle Escape presses for us
             enabled = false;
-            LightDM.Greeter.respond(text);
+            root.responded(text);
         }
         Keys.onEscapePressed: {
             root.resetAuthentication();
@@ -256,7 +246,7 @@ Item {
                 rightMargin: units.gu(2)
                 verticalCenter: parent.verticalCenter
             }
-            visible: LightDM.Greeter.promptless
+            visible: !root.wasPrompted
             source: "graphics/icon_arrow.png"
         }
 
@@ -280,7 +270,7 @@ Item {
         id: passwordMouseArea
         objectName: "passwordMouseArea"
         anchors.fill: passwordInput
-        enabled: LightDM.Greeter.promptless
+        enabled: !root.wasPrompted
         onClicked: root.tryToUnlock()
     }
 

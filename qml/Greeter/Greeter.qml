@@ -23,7 +23,7 @@ import Unity.Launcher 0.1
 import "../Components"
 
 Showable {
-    id: greeter
+    id: root
     created: loader.status == Loader.Ready
 
     property real dragHandleLeftMargin: 0
@@ -95,15 +95,9 @@ Showable {
         d.startUnlock(true);
     }
 
-    prepareToHide: function () {
-        hideTranslation.to = greeter.x > 0 || d.forceRightOnNextHideAnimation ? greeter.width : -greeter.width;
-        d.forceRightOnNextHideAnimation = false;
-    }
-
     QtObject {
         id: d
 
-        property bool forceRightOnNextHideAnimation: false
         readonly property bool multiUser: LightDM.Users.count > 1
         property int currentIndex
         property int delayMinutes
@@ -188,15 +182,16 @@ Showable {
 
         anchors.fill: parent
 
-        source: greeter.required ? ((!d.multiUser && !tabletMode) ? "NarrowGreeter.qml"
-                                                                  : "WideGreeter.qml")
-                                 : ""
+        source: root.required ? ((!d.multiUser && !tabletMode) ? "NarrowView.qml"
+                                                               : "WideView.qml")
+                              : ""
 
         onLoaded: {
             loader.item.reset();
-            greeter.lockedApp = "";
-            greeter.forceActiveFocus();
+            root.lockedApp = "";
+            root.forceActiveFocus();
             d.selectUser(d.currentIndex);
+            LightDM.InfoGraphic.readyForDataChange();
         }
 
         Connections {
@@ -204,13 +199,18 @@ Showable {
             onSelected: {
                 d.selectUser(index);
             }
-            onUnlocked: {
-                d.login()
+            onResponded: {
+                if (root.locked) {
+                    LightDM.Greeter.respond(response);
+                } else {
+                    d.login();
+                }
             }
-            onTease: greeter.tease()
+            onTease: root.tease()
+            onEmergencyCall: root.emergencyCall()
             onRequiredChanged: {
                 if (!loader.item.required) {
-                    greeter.hide();
+                    root.hide();
                 }
             }
         }
@@ -218,7 +218,7 @@ Showable {
         Binding {
             target: loader.item
             property: "backgroundTopMargin"
-            value: -greeter.y
+            value: -root.y
         }
 
         Binding {
@@ -230,7 +230,7 @@ Showable {
         Binding {
             target: loader.item
             property: "dragHandleLeftMargin"
-            value: greeter.dragHandleLeftMargin
+            value: root.dragHandleLeftMargin
         }
 
         Binding {
@@ -238,13 +238,49 @@ Showable {
             property: "delayMinutes"
             value: d.delayMinutes
         }
+
+        Binding {
+            target: loader.item
+            property: "background"
+            value: root.background
+        }
+
+        Binding {
+            target: loader.item
+            property: "locked"
+            value: root.locked
+        }
+
+        Binding {
+            target: loader.item
+            property: "currentIndex"
+            value: d.currentIndex
+        }
+
+        Binding {
+            target: loader.item
+            property: "currentUser"
+            value: LightDM.Users.data(d.currentIndex, LightDM.UserRoles.NameRole)
+        }
+
+        Binding {
+            target: loader.item
+            property: "userModel"
+            value: LightDM.Users
+        }
+
+        Binding {
+            target: loader.item
+            property: "infographicModel"
+            value: LightDM.Infographic
+        }
     }
 
     Connections {
         target: LightDM.Greeter
 
         onShowGreeter: {
-            greeter.show();
+            root.show();
             loader.item.reset();
             d.selectUser(d.currentIndex);
         }
@@ -331,6 +367,17 @@ Showable {
     Binding {
         target: LightDM.Greeter
         property: "active"
-        value: greeter.active
+        value: root.active
+    }
+
+    Binding {
+        target: LightDM.Infographic
+        property: "username"
+        value: AccountsService.statsWelcomeScreen ? LightDM.Users.data(d.currentIndex, LightDM.UserRoles.NameRole) : ""
+    }
+
+    Connections {
+        target: i18n
+        onLanguageChanged: LightDM.Infographic.readyForDataChange()
     }
 }

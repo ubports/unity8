@@ -15,8 +15,6 @@
  */
 
 import QtQuick 2.3
-import AccountsService 0.1
-import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.Gestures 0.1
 import "../Components"
@@ -29,7 +27,7 @@ Showable {
     property alias background: greeterBackground.source
     property real backgroundTopMargin
     property bool ready: greeterBackground.source == "" || greeterBackground.status == Image.Ready || greeterBackground.status == Image.Error
-    property int currentIndex
+    property var infographicModel
     property bool draggable: true
 
     property alias infographics: infographics
@@ -39,19 +37,23 @@ Showable {
     signal tease()
 
     function hideRight() {
-        if (shown) {
-            hideAnimation = d.rightHideAnimation;
-            hide();
-        }
+        d.forceRightOnNextHideAnimation = true;
+        hide();
     }
 
-    property real dragOffset
-    x: launcherOffset + dragOffset
-
-    function startTease() {
-        tease();
-        showLabelAnimation.start();
+    QtObject {
+        id: d
+        property bool forceRightOnNextHideAnimation: false
     }
+
+    prepareToHide: function () {
+        hideTranslation.to = root.x > 0 || d.forceRightOnNextHideAnimation ? root.width : -root.width;
+        d.forceRightOnNextHideAnimation = false;
+    }
+
+    // We don't directly bind "x" because that's owned by the DragHandle. So
+    // instead, we can get a little extra horizontal push by using transforms.
+    transform: Translate { x: draggable ? launcherOffset : 0 }
 
     DragHandle {
         id: dragHandle
@@ -60,11 +62,10 @@ Showable {
         enabled: root.draggable
         direction: Direction.Horizontal
 
-        onTapped: root.startTease()
-
         onDraggingChanged: {
             if (dragging) {
-                root.startTease();
+                root.tease();
+                showLabelAnimation.start();
             }
         }
     }
@@ -99,24 +100,7 @@ Showable {
         id: infographics
         objectName: "infographics"
         height: parent.height
-        model: LightDM.Infographic
-
-        property string selectedUser: LightDM.Users.data(root.currentIndex, LightDM.UserRoles.NameRole)
-
-        Component.onCompleted: {
-            LightDM.Infographic.readyForDataChange();
-        }
-
-        Binding {
-            target: LightDM.Infographic
-            property: "username"
-            value: AccountsService.statsWelcomeScreen ? infographics.selectedUser : ""
-        }
-
-        Connections {
-            target: i18n
-            onLanguageChanged: LightDM.Infographic.readyForDataChange()
-        }
+        model: root.infographicModel
 
         anchors {
             verticalCenter: parent.verticalCenter
@@ -183,10 +167,10 @@ Showable {
             }
 
             if (enabled) {
-                if (root.dragOffset > 0) {
-                    value = Qt.binding(function() { return greeter.width; })
+                if (root.x > 0) {
+                    value = Qt.binding(function() { return root.width; })
                 } else {
-                    value = Qt.binding(function() { return -greeter.width; })
+                    value = Qt.binding(function() { return -root.width; })
                 }
             }
 
@@ -197,7 +181,7 @@ Showable {
 
         target: root
         when: __enabled
-        property: "dragOffset"
+        property: "x"
     }
 
     hideAnimation: SequentialAnimation {
@@ -205,7 +189,7 @@ Showable {
         objectName: "hideAnimation"
         StandardAnimation {
             id: hideTranslation
-            property: "dragOffset"
+            property: "x"
             target: root
         }
         PropertyAction { target: root; property: "visible"; value: false }
@@ -218,7 +202,7 @@ Showable {
         PropertyAction { target: root; property: "visible"; value: true }
         PropertyAction { target: positionLock; property: "enabled"; value: false }
         StandardAnimation {
-            property: "dragOffset"
+            property: "x"
             target: root
             to: 0
             duration: UbuntuAnimation.FastDuration
