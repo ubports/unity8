@@ -72,12 +72,6 @@ Rectangle {
         signalName: "tapped"
     }
 
-    SignalSpy {
-        id: infographicDataChangedSpy
-        target: LightDM.Infographic
-        signalName: "dataChanged"
-    }
-
     UT.UnityTestCase {
         name: "SingleGreeter"
         when: windowShown
@@ -105,20 +99,6 @@ Rectangle {
             compare(greeter.narrowMode, true)
         }
 
-        function test_teasingArea_data() {
-            return [
-                {tag: "left", posX: units.gu(2), leftPressed: true, rightPressed: false},
-                {tag: "right", posX: greeter.width - units.gu(2), leftPressed: false, rightPressed: true}
-            ]
-        }
-
-        function test_teasingArea(data) {
-            tappedSpy.clear()
-            tap(greeter, data.posX, greeter.height - units.gu(1))
-            tappedSpy.wait()
-            tryCompare(tappedSpy, "count", 1)
-        }
-
         function test_statsWelcomeScreen() {
             // Test logic in greeter that turns statsWelcomeScreen setting into infographic changes
             compare(AccountsService.statsWelcomeScreen, true)
@@ -133,63 +113,6 @@ Rectangle {
             var selectedSpy = findChild(greeter, "selectedSpy");
             selectedSpy.wait();
             tryCompare(selectedSpy, "count", 1);
-        }
-
-        /*
-            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1388359
-            "User metrics can no longer be changed by double tap"
-        */
-        function test_doubleTapSwitchesToNextInfographic() {
-            infographicDataChangedSpy.clear();
-
-            var infographicPrivate = findInvisibleChild(greeter, "infographicPrivate");
-            verify(infographicPrivate);
-
-            // wait for the UI to settle down before double tapping it
-            tryCompare(infographicPrivate, "animating", false);
-
-            var dataCircle = findChild(greeter, "dataCircle");
-            verify(dataCircle);
-
-            tap(dataCircle);
-            wait(1);
-            tap(dataCircle);
-
-            tryCompare(infographicDataChangedSpy, "count", 1);
-        }
-
-        function test_movesBackIntoPlaceWhenNotDraggedFarEnough() {
-
-            var dragEvaluator = findInvisibleChild(greeter, "edgeDragEvaluator");
-            verify(dragEvaluator);
-
-            // Make it easier to get a rejection/rollback. Otherwise would have to inject
-            // a fake timer into dragEvaluator.
-            // Afterall, we are testing if the Greeter indeed moves back on a
-            // rollback decision, not the drag evaluation itself.
-            dragEvaluator.minDragDistance = dragEvaluator.maxDragDistance / 2;
-
-            // it starts as fully shown
-            compare(greeter.x, 0);
-
-            // then we drag it a bit
-            var startX = greeter.width - 1;
-            var touchY = greeter.height / 2;
-            var dragXDelta = -(dragEvaluator.minDragDistance * 0.3);
-            touchFlick(greeter,
-                       startX , touchY, // start pos
-                       startX + dragXDelta, touchY, // end pos
-                       true /* beginTouch */, false /* endTouch  */);
-
-            // which should make it move a bit
-            tryCompareFunction(function(){return greeter.x < 0;}, true);
-
-            // then we release it
-            touchRelease(greeter, startX + dragXDelta, touchY);
-
-            // which should make it move back into its original position as it didn't move
-            // far enough to have it hidden
-            tryCompare(greeter, "x", 0);
         }
 
         function test_dragToHide_data() {

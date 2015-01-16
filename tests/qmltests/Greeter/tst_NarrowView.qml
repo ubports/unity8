@@ -234,6 +234,12 @@ Item {
         }
     }
 
+    Binding {
+        target: LightDM.Infographic
+        property: "username"
+        value: "single"
+    }
+
     SignalSpy {
         id: selectedSpy
         target: loader.item
@@ -258,6 +264,12 @@ Item {
         signalName: "emergencyCall"
     }
 
+    SignalSpy {
+        id: infographicDataChangedSpy
+        target: LightDM.Infographic
+        signalName: "dataChanged"
+    }
+
     UT.UnityTestCase {
         name: "WideView"
         when: windowShown
@@ -266,10 +278,12 @@ Item {
 
         function init() {
             view.currentIndex = 0; // break binding with text field
+
             selectedSpy.clear();
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
+            infographicDataChangedSpy.clear();
         }
 
         function cleanup() {
@@ -283,10 +297,18 @@ Item {
             removeTimeConstraintsFromDirectionalDragAreas(loader.item);
         }
 
-        function swipeAwayCover() {
+        function swipeAwayCover(toTheRight) {
+            if (toTheRight === undefined) {
+                toTheRight = false;
+            }
+
             tryCompare(view, "fullyShown", true);
             var touchY = view.height / 2;
-            touchFlick(view, view.width, touchY, 0, touchY);
+            if (toTheRight) {
+                touchFlick(view, 0, touchY, view.width, touchY);
+            } else {
+                touchFlick(view, view.width, touchY, 0, touchY);
+            }
             var coverPage = findChild(view, "coverPage");
             tryCompare(coverPage, "showProgress", 0);
             waitForRendering(view);
@@ -300,9 +322,18 @@ Item {
             }
         }
 
-        function test_tease() {
-            tap(view, 1, 1);
-            compare(teaseSpy.count, 1);
+        function test_tease_data() {
+            return [
+                {tag: "left", x: 0, offset: 0, count: 1},
+                {tag: "leftWithOffsetPass", x: 10, offset: 10, count: 1},
+                {tag: "leftWithOffsetFail", x: 9, offset: 10, count: 0},
+                {tag: "right", x: view.width, offset: 0, count: 1}
+            ]
+        }
+        function test_tease(data) {
+            view.dragHandleLeftMargin = data.offset;
+            tap(view, data.x, 0);
+            compare(teaseSpy.count, data.count);
         }
 
         function test_respondedWithPin() {
@@ -323,8 +354,16 @@ Item {
             compare(respondedSpy.signalArguments[0][0], "test");
         }
 
-        function test_respondedWithSwipe() {
-            swipeAwayCover();
+        function test_respondedWithSwipe_data() {
+            return [
+                {tag: "left", toTheRight: false, hiddenX: -view.width},
+                {tag: "right", toTheRight: true, hiddenX: view.width},
+            ];
+        }
+        function test_respondedWithSwipe(data) {
+            swipeAwayCover(data.toTheRight);
+            var coverPage = findChild(view, "coverPage");
+            compare(coverPage.x, data.hiddenX);
             compare(respondedSpy.count, 1);
             compare(respondedSpy.signalArguments[0][0], "");
         }
@@ -355,6 +394,62 @@ Item {
             tryCompare(view, "required", true);
             view.locked = false;
             tryCompare(view, "required", false);
+        }
+
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1388359
+            "User metrics can no longer be changed by double tap"
+        */
+        function test_doubleTapSwitchesToNextInfographic() {
+            var infographicPrivate = findInvisibleChild(view, "infographicPrivate");
+            verify(infographicPrivate);
+
+            // wait for the UI to settle down before double tapping it
+            tryCompare(infographicPrivate, "animating", false);
+
+            var dataCircle = findChild(view, "dataCircle");
+            verify(dataCircle);
+
+            tap(dataCircle);
+            wait(1);
+            tap(dataCircle);
+
+            tryCompare(infographicDataChangedSpy, "count", 1);
+        }
+
+        function test_movesBackIntoPlaceWhenNotDraggedFarEnough() {
+            var coverPage = findChild(view, "coverPage");
+
+            var dragEvaluator = findInvisibleChild(coverPage, "edgeDragEvaluator");
+            verify(dragEvaluator);
+
+            // Make it easier to get a rejection/rollback. Otherwise would have to inject
+            // a fake timer into dragEvaluator.
+            // Afterall, we are testing if the CoverPage indeed moves back on a
+            // rollback decision, not the drag evaluation itself.
+            dragEvaluator.minDragDistance = dragEvaluator.maxDragDistance / 2;
+
+            // it starts as fully shown
+            compare(coverPage.x, 0);
+
+            // then we drag it a bit
+            var startX = coverPage.width - 1;
+            var touchY = coverPage.height / 2;
+            var dragXDelta = -(dragEvaluator.minDragDistance * 0.3);
+            touchFlick(coverPage,
+                       startX , touchY, // start pos
+                       startX + dragXDelta, touchY, // end pos
+                       true /* beginTouch */, false /* endTouch  */);
+
+            // which should make it move a bit
+            tryCompareFunction(function() {return coverPage.x < 0;}, true);
+
+            // then we release it
+            touchRelease(coverPage, startX + dragXDelta, touchY);
+
+            // which should make it move back into its original position as it didn't move
+            // far enough to have it hidden
+            tryCompare(coverPage, "x", 0);
         }
     }
 }

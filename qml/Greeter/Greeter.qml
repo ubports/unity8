@@ -190,7 +190,7 @@ Showable {
             root.lockedApp = "";
             root.forceActiveFocus();
             d.selectUser(d.currentIndex);
-            LightDM.InfoGraphic.readyForDataChange();
+            LightDM.Infographic.readyForDataChange();
         }
 
         Connections {
