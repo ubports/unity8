@@ -180,7 +180,10 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+            // Nokia earpieces give TogglePlayPause, while the iPhone's earpiece gives Play
+            if (event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) {
+                event.accepted = callManager.handleMediaKey(false);
+            } else if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 dialogs.onPowerKeyPressed();
                 event.accepted = true;
             } else {
