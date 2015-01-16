@@ -36,7 +36,7 @@ Item {
     signal selected(int index)
     signal responded(string response)
     signal tease()
-    signal emergencyCall() // UNUSED
+    signal emergencyCall() // unused
 
     function showMessage(html) {
         loginList.showMessage(html);

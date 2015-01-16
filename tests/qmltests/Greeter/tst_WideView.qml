@@ -312,5 +312,17 @@ Item {
             compare(respondedSpy.count, 1);
             compare(respondedSpy.signalArguments[0][0], "");
         }
+
+        function test_fullyShown() {
+            tryCompare(view, "fullyShown", true);
+            swipeAwayCover();
+            tryCompare(view, "fullyShown", false);
+        }
+
+        function test_required() {
+            tryCompare(view, "required", true);
+            swipeAwayCover();
+            tryCompare(view, "required", false);
+        }
     }
 }

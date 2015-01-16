@@ -35,7 +35,7 @@ Item {
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
     readonly property bool required: coverPage.required || lockscreen.required
 
-    signal selected(int index)
+    signal selected(int index) // unused
     signal responded(string response)
     signal tease()
     signal emergencyCall()
