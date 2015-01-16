@@ -29,6 +29,7 @@ Item {
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property url background
     property bool locked
+    property bool alphanumeric
     property var userModel // unused
     property alias infographicModel: coverPage.infographicModel
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
@@ -89,6 +90,14 @@ Item {
         id: d
     }
 
+    onLockedChanged: {
+        if (locked) {
+            lockscreen.maybeShow();
+        } else {
+            lockscreen.hide();
+        }
+    }
+
     Lockscreen {
         id: lockscreen
         objectName: "lockscreen"
@@ -100,7 +109,7 @@ Item {
         visible: required
         background: root.background
         darkenBackground: 0.4
-        alphaNumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
+        alphaNumeric: root.alphanumeric
         minPinLength: 4
         maxPinLength: 4
 

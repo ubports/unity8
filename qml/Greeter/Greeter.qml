@@ -182,9 +182,8 @@ Showable {
 
         anchors.fill: parent
 
-        source: root.required ? ((!d.multiUser && !tabletMode) ? "NarrowView.qml"
-                                                               : "WideView.qml")
-                              : ""
+        active: root.required
+        source: (d.multiUser || tabletMode) ? "WideView.qml" : "NarrowView.qml"
 
         onLoaded: {
             loader.item.reset();
@@ -249,6 +248,12 @@ Showable {
             target: loader.item
             property: "locked"
             value: root.locked
+        }
+
+        Binding {
+            target: loader.item
+            property: "alphanumeric"
+            value: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         }
 
         Binding {

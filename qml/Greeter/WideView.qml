@@ -27,6 +27,7 @@ Item {
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property alias background: coverPage.background
     property bool locked
+    property bool alphanumeric // unused
     property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
     readonly property bool fullyShown: coverPage.showProgress === 1

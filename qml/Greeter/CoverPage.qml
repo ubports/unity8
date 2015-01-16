@@ -53,22 +53,7 @@ Showable {
 
     // We don't directly bind "x" because that's owned by the DragHandle. So
     // instead, we can get a little extra horizontal push by using transforms.
-    transform: Translate { x: draggable ? launcherOffset : 0 }
-
-    DragHandle {
-        id: dragHandle
-        anchors.fill: parent
-        anchors.leftMargin: root.dragHandleLeftMargin
-        enabled: root.draggable
-        direction: Direction.Horizontal
-
-        onDraggingChanged: {
-            if (dragging) {
-                root.tease();
-                showLabelAnimation.start();
-            }
-        }
-    }
+    transform: Translate { x: root.draggable ? launcherOffset : 0 }
 
     Rectangle {
         // In case background fails to load
@@ -139,6 +124,21 @@ Showable {
         }
     }
 
+    DragHandle {
+        id: dragHandle
+        anchors.fill: parent
+        anchors.leftMargin: root.dragHandleLeftMargin
+        enabled: root.draggable
+        direction: Direction.Horizontal
+
+        onDraggingChanged: {
+            if (dragging) {
+                root.tease();
+                showLabelAnimation.start();
+            }
+        }
+    }
+
     // right side shadow
     Image {
         anchors.left: parent.right
@@ -187,6 +187,7 @@ Showable {
     hideAnimation: SequentialAnimation {
         id: hideAnimation
         objectName: "hideAnimation"
+        property var target // unused, here to silence Showable warning
         StandardAnimation {
             id: hideTranslation
             property: "x"
@@ -199,6 +200,7 @@ Showable {
     showAnimation: SequentialAnimation {
         id: showAnimation
         objectName: "showAnimation"
+        property var target // unused, here to silence Showable warning
         PropertyAction { target: root; property: "visible"; value: true }
         PropertyAction { target: positionLock; property: "enabled"; value: false }
         StandardAnimation {

@@ -24,7 +24,7 @@ import Unity.Test 0.1 as UT
 
 Item {
     id: root
-    width: units.gu(120)
+    width: units.gu(90)
     height: units.gu(80)
 
     Row {
@@ -36,8 +36,8 @@ Item {
 
             property bool itemDestroyed: false
             sourceComponent: Component {
-                WideView {
-                    background: Qt.resolvedUrl("../../../qml/graphics/tablet_background.jpg")
+                NarrowView {
+                    background: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
 
@@ -46,6 +46,7 @@ Item {
                     delayMinutes: parseInt(delayMinutesField.text, 10)
                     backgroundTopMargin: parseFloat(backgroundTopMarginField.text)
                     locked: lockedCheckBox.checked
+                    alphanumeric: alphanumericCheckBox.checked
 
                     Component.onDestruction: {
                         loader.itemDestroyed = true
@@ -193,6 +194,14 @@ Item {
                     }
                 }
                 Row {
+                    CheckBox {
+                        id: alphanumericCheckBox
+                    }
+                    Label {
+                        text: "alphanumeric"
+                    }
+                }
+                Row {
                     Label {
                         text: "selected: " + selectedSpy.count
                     }
@@ -283,28 +292,35 @@ Item {
             waitForRendering(view);
         }
 
+        function enterPin(pin) {
+            for (var i = 0; i < pin.length; ++i) {
+                var character = pin.charAt(i);
+                var button = findChild(view, "pinPadButton" + character);
+                tap(button);
+            }
+        }
+
         function test_tease() {
             tap(view, 1, 1);
             compare(teaseSpy.count, 1);
         }
 
-        function test_selected() {
-            var delegate = findChild(view, "username2");
-            tap(delegate);
-            compare(selectedSpy.count, 1);
-            compare(selectedSpy.signalArguments[0][0], 2);
-            compare(view.currentIndex, 0); // confirm we didn't change
+        function test_respondedWithPin() {
+            view.locked = true;
+            swipeAwayCover();
+            enterPin("1234");
+            compare(respondedSpy.count, 1);
+            compare(respondedSpy.signalArguments[0][0], "1234");
         }
 
-        function test_respondedWithPassword() {
+        function test_respondedWithPassphrase() {
             view.locked = true;
-            view.showPrompt("Prompt", true, true);
-            var passwordInput = findChild(view, "passwordInput");
-            tap(passwordInput);
-            typeString("password");
+            view.alphanumeric = true;
+            swipeAwayCover();
+            typeString("test");
             keyClick(Qt.Key_Enter);
             compare(respondedSpy.count, 1);
-            compare(respondedSpy.signalArguments[0][0], "password");
+            compare(respondedSpy.signalArguments[0][0], "test");
         }
 
         function test_respondedWithSwipe() {

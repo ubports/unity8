@@ -65,6 +65,7 @@ add_qml_test(Greeter MultiGreeter ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DI
 add_qml_test(Greeter SingleGreeter ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Greeter Infographics ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
 add_qml_test(Greeter Clock ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
+add_qml_test(Greeter NarrowView ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Greeter WideView ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
 add_qml_test(Launcher Launcher)
 add_qml_test(Notifications Notifications)
