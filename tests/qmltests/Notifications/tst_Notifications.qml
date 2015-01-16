@@ -125,7 +125,7 @@ Item {
 
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
-                //append(mockList[0])
+                append(mockList[0])
             }
         }
 
@@ -164,8 +164,9 @@ Item {
         }
 
         function remove1stNotification() {
-            if (mockModel.count > 1)
+            if (mockModel.count > 1) {
                 mockModel.remove(1)
+            }
         }
 
         Rectangle {
@@ -187,7 +188,6 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
-                //model: mockList
             }
         }
 

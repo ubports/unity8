@@ -42,8 +42,11 @@ int MockNotificationModel::rowCount(const QModelIndex &parent) const {
     return m_queue.size();
 }
 
+int MockNotificationModel::getCount() const {
+    return m_queue.size();
+}
+
 QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
-    qDebug() << "::data()";
     if (!index.isValid())
             return QVariant();
 
@@ -89,7 +92,6 @@ void MockNotificationModel::append(MockNotification* n) {
     beginInsertRows(insertionPoint, location, location);
     m_queue.insert(location, n);
     endInsertRows();
-    qDebug() << "queue-size:" << m_queue.size();
 }
 
 MockNotification* MockNotificationModel::getNotification(unsigned int id) const {
@@ -116,7 +118,7 @@ bool MockNotificationModel::hasNotification(unsigned int id) const {
     return !(getNotification(id) != nullptr);
 }
 
-void MockNotificationModel::removeNotification(const unsigned int id) {
+void MockNotificationModel::remove(const unsigned int id) {
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == id) {
             deleteFromVisible(i);
@@ -140,7 +142,6 @@ void MockNotificationModel::deleteFromVisible(int loc) {
 }
 
 MockNotification* MockNotificationModel::getRaw(const unsigned int notificationId) const {
-    qDebug() << "::getRaw()";
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == notificationId) {
             MockNotification* n = m_queue[i];

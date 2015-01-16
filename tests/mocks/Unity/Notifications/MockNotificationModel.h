@@ -29,6 +29,7 @@ class MockNotification;
 
 class MockNotificationModel : public QAbstractListModel {
     Q_OBJECT
+    Q_PROPERTY(int count READ getCount)
 
 public:
     MockNotificationModel(QObject *parent=nullptr);
@@ -48,7 +49,9 @@ public:
     Q_INVOKABLE MockNotification* getRaw(const unsigned int notificationId) const;
 
     Q_INVOKABLE int queued() const;
-    Q_INVOKABLE void removeNotification(const unsigned int id);
+    Q_INVOKABLE void remove(const unsigned int id);
+
+    int getCount() const;
 
 private Q_SLOTS:
     void onDataChanged(unsigned int id);
