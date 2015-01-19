@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Indicators Autopilot Test Suite
-# Copyright (C) 2013, 2014 Canonical
+# Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,11 +22,10 @@ from testscenarios import multiply_scenarios
 
 from autopilot import platform
 
-from unity8 import indicators
+from unity8 import indicators, fixture_setup
 from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
-from unity8.indicators import fixture_setup as indicators_fixtures
 
 class IndicatorTestCase(UnityTestCase):
 
@@ -113,7 +112,7 @@ class DisplayIndicatorTestCase(IndicatorTestCase):
     def test(self):
         display_indicator = indicators.DisplayIndicator(self.main_window)
         display_indicator_page = display_indicator.open()
-        fixture = indicators_fixtures.IndicatorDisplayRotationLock(False)
+        fixture = fixture_setup.IndicatorDisplayRotationLock(False)
 
         display_indicator_page.unlock_rotation()
         self.assertEqual(fixture._is_rotation_lock_enabled(), False)
