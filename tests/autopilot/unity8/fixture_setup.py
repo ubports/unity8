@@ -69,7 +69,7 @@ class LaunchDashApp(fixtures.Fixture):
 class DisplayRotationLock(fixtures.Fixture):
 
     def __init__(self, enable):
-        super(self, DisplayRotationLock).__init__()
+        super(DisplayRotationLock, self).__init__()
         self.enable = enable
 
     def setUp(self):
