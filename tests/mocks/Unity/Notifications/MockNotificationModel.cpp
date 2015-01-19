@@ -28,7 +28,6 @@
 #include <QMap>
 #include <QStringListModel>
 #include <QQmlEngine>
-#include <QDebug>
 
 using namespace unity::shell::notifications;
 

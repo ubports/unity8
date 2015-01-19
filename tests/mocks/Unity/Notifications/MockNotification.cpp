@@ -19,8 +19,6 @@
 
 #include "MockNotification.h"
 
-#include <QDebug>
-
 struct MockNotificationPrivate {
     unsigned int id;
     QString summary;
@@ -130,7 +128,7 @@ MockNotification::Type MockNotification::getType() const {
 }
 
 void MockNotification::setType(Type type) {
-    if(p->type != p->type) {
+    if(p->type != type) {
         p->type = type;
         Q_EMIT typeChanged(p->type);
     }
