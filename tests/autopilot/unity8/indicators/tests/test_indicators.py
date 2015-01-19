@@ -112,7 +112,7 @@ class DisplayIndicatorTestCase(IndicatorTestCase):
     def test(self):
         display_indicator = indicators.DisplayIndicator(self.main_window)
         display_indicator_page = display_indicator.open()
-        fixture = fixture_setup.IndicatorDisplayRotationLock(False)
+        fixture = fixture_setup.DisplayRotationLock(False)
 
         display_indicator_page.unlock_rotation()
         self.assertEqual(fixture._is_rotation_lock_enabled(), False)

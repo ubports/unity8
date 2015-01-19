@@ -66,14 +66,14 @@ class LaunchDashApp(fixtures.Fixture):
         process_helpers.stop_job('unity8-dash')
 
 
-class IndicatorDisplayRotationLock(fixtures.Fixture):
+class DisplayRotationLock(fixtures.Fixture):
 
     def __init__(self, enable):
-        super().__init__()
+        super(self, DisplayRotationLock).__init__()
         self.enable = enable
 
     def setUp(self):
-        super().setUp()
+        super(self, DisplayRotationLock).setUp()
         original_state = self._is_rotation_lock_enabled()
         if self.enable != original_state:
             self.addCleanup(self._set_rotation_lock, original_state)
