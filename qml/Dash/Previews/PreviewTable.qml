@@ -74,7 +74,9 @@ PreviewWidget {
                         visible: root.expanded || rowIndex < maximumCollapsedRowCount
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
                         font.bold: index == 0
-                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignTop
+                        wrapMode: Text.WordWrap
+                        Layout.fillHeight: true
                         Layout.maximumWidth: column.width - x
                     }
                 }

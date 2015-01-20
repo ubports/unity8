@@ -32,7 +32,7 @@ Rectangle {
     }
 
     property var widgetDataNoTitle: {
-        "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
+        "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
     PreviewWidgetFactory {
@@ -60,7 +60,7 @@ Rectangle {
             compare(findChild(previewTable, "label00").text, "Long Label 1");
             compare(findChild(previewTable, "label01").text, "Value 1");
             compare(findChild(previewTable, "label10").text, "Label 2");
-            compare(findChild(previewTable, "label11").text, "Long Value 2");
+            compare(findChild(previewTable, "label11").text, "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2");
             compare(findChild(previewTable, "label20").text, "Label 3");
             compare(findChild(previewTable, "label21").text, "Value 3");
             compare(findChild(previewTable, "label30").text, "Label 4");
