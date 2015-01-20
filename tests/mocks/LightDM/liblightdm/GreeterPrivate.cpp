@@ -24,6 +24,7 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
   : authenticated(false),
     authenticationUser(),
     twoFactorDone(false),
+    mockMode("single"),
     q_ptr(parent)
 {
 }
