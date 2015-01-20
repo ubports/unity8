@@ -19,8 +19,6 @@
 
 #include "MockNotification.h"
 
-#include <QDebug>
-
 struct MockNotificationPrivate {
     int id;
     QString summary;
@@ -70,9 +68,7 @@ int MockNotification::getID() const {
 }
 
 void MockNotification::setID(const int id) {
-    qDebug() << "id: " << id;
     p->id = id;
-    qDebug() << "id: " << p->id;
 }
 
 int MockNotification::getValue() const {
@@ -175,6 +171,5 @@ void MockNotification::invokeAction(const QString &action) {
 }
 
 void MockNotification::close() {
-    qDebug() << "close() called, " << p->id;
     Q_EMIT completed(p->id);
 }

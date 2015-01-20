@@ -28,7 +28,6 @@
 #include <QMap>
 #include <QStringListModel>
 #include <QQmlEngine>
-#include <QDebug>
 
 using namespace unity::shell::notifications;
 
@@ -119,7 +118,6 @@ bool MockNotificationModel::hasNotification(int id) const {
 }
 
 void MockNotificationModel::remove(const int id) {
-    qDebug() << "remove(" << id << ")";
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == id) {
             deleteFromVisible(i);
@@ -136,7 +134,6 @@ void MockNotificationModel::deleteFirst() {
 }
 
 void MockNotificationModel::deleteFromVisible(int loc) {
-    qDebug() << "deleteFromVisible(" << loc << ")";
     QModelIndex deletePoint = QModelIndex();
     beginRemoveRows(deletePoint, loc, loc);
     m_queue.erase(m_queue.begin() + loc);
@@ -177,7 +174,6 @@ QHash<int, QByteArray> MockNotificationModel::roleNames() const {
 }
 
 void MockNotificationModel::onCompleted(int id) {
-    qDebug() << "onCompleted(" << id << ")";
     remove(id);
 }
 
