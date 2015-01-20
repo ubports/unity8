@@ -127,10 +127,10 @@ void MockNotificationModel::remove(const int id) {
     // The ID was not found in any queue. Should it be an error case or not?
 }
 
-void MockNotificationModel::deleteFirst() {
-    if(m_queue.empty())
+void MockNotificationModel::removeSecond() {
+    if(m_queue.size() < 2)
         return;
-    deleteFromVisible(0);
+    deleteFromVisible(1);
 }
 
 void MockNotificationModel::deleteFromVisible(int loc) {

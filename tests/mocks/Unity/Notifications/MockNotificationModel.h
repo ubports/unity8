@@ -50,6 +50,7 @@ public:
 
     Q_INVOKABLE int queued() const;
     Q_INVOKABLE void remove(const int id);
+    Q_INVOKABLE void removeSecond();
 
     int getCount() const;
 
@@ -65,7 +66,6 @@ Q_SIGNALS:
 private:
     QList<MockNotification*> m_queue;
     void deleteFromVisible(int loc);
-    void deleteFirst();
 };
 
 #endif

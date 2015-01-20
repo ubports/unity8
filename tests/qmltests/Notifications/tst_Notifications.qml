@@ -31,123 +31,7 @@ Item {
 
     width: notificationsRect.width + interactiveControls.width
     height: notificationsRect.height
-
-    property list<Notification> mockList: [
-        Notification {
-            id: n0
-            nid: 0
-            type: Notification.PlaceHolder
-            summary: ""
-            body: ""
-            icon: ""
-            secondaryIcon: ""
-            rawActions: ["reply_id", "Dummy"]
-            Component.onCompleted: {
-                n0.completed.connect(mockModel.onCompleted)
-            }
-        },
-        Notification {
-            id: n1
-            nid: 1
-            type: Notification.SnapDecision
-            hints: {"x-canonical-private-affirmative-tint": "true"}
-            summary: "Theatre at Ferria Stadium"
-            body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
-            icon: ""
-            secondaryIcon: ""
-            rawActions: ["ok_id", "Ok",
-                         "snooze_id",  "Snooze",
-                         "view_id", "View"]
-            Component.onCompleted: {
-                n1.completed.connect(mockModel.onCompleted)
-            }
-        },
-        Notification {
-            id: n2
-            nid: 2
-            type: Notification.Ephemeral
-            summary: "Cole Raby"
-            body: "I did not expect it to be that late."
-            icon: "../graphics/avatars/amanda.png"
-            secondaryIcon: "../graphics/applicationIcons/facebook.png"
-            rawActions: ["reply_id", "Dummy"]
-            Component.onCompleted: {
-                n2.completed.connect(mockModel.onCompleted)
-            }
-        },
-        Notification {
-            id: n3
-            nid: 3
-            type: Notification.Ephemeral
-            hints: {"x-canonical-non-shaped-icon": "true"}
-            summary: "Contacts"
-            body: "Synchronised contacts-database with cloud-storage."
-            icon: "../graphics/applicationIcons/contacts-app.png"
-            secondaryIcon: ""
-            rawActions: ["reply_id", "Dummy"]
-            Component.onCompleted: {
-                n3.completed.connect(mockModel.onCompleted)
-            }
-        },
-        Notification {
-            id: n4
-            nid: 4
-            type: Notification.Ephemeral
-            hints: {"x-canonical-non-shaped-icon": "false"}
-            summary: "Photo upload completed"
-            body: ""
-            icon: "../graphics/applicationIcons/facebook.png"
-            secondaryIcon: ""
-            rawActions: ["reply_id", "Dummy"]
-            Component.onCompleted: {
-                n4.completed.connect(mockModel.onCompleted)
-            }
-        },
-        Notification {
-            id: n5
-            nid: 5
-            type: Notification.Interactive
-            summary: "Interactive notification"
-            body: "This is a notification that can be clicked"
-            icon: "../graphics/avatars/anna_olsson.png"
-            secondaryIcon: ""
-            rawActions: ["reply_id", "Dummy"]
-            Component.onCompleted: {
-                n5.completed.connect(mockModel.onCompleted)
-            }
-        },
-        Notification {
-            id: n6
-            nid: 6
-            type: Notification.Confirmation
-            hints: {"x-canonical-non-shaped-icon": "true"}
-            summary: "Confirmation notification"
-            body: ""
-            icon: "image://theme/audio-volume-medium"
-            secondaryIcon: ""
-            value: 50
-            rawActions: ["reply_id", "Dummy"]
-            Component.onCompleted: {
-                n6.completed.connect(mockModel.onCompleted)
-            }
-        },
-        Notification {
-            id: n7
-            nid: 7
-            type: Notification.Confirmation
-            hints: {"x-canonical-non-shaped-icon": "true",
-                    "x-canonical-value-bar-tint": "true"}
-            summary: "Confirmation notification"
-            body: "High Volume"
-            icon: "image://theme/audio-volume-high"
-            secondaryIcon: ""
-            value: 85
-            rawActions: ["reply_id", "Dummy"]
-            Component.onCompleted: {
-                n7.completed.connect(mockModel.onCompleted)
-            }
-        }
-    ]
+    property int index: 0
 
     Row {
         id: rootRow
@@ -159,47 +43,132 @@ Item {
 
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
-                append(mockList[0])
+                var component = Qt.createComponent("Notification.qml")
+                var n = component.createObject("notification", {"nid": index++,
+                                                                "type": Notification.PlaceHolder,
+                                                                "hints": {},
+                                                                "summary": "",
+                                                                "body": "",
+                                                                "icon": "",
+                                                                "secondaryIcon": "",
+                                                                "rawActions": []})
+                n.completed.connect(mockModel.onCompleted)
+                append(n)
             }
         }
 
         function add2over1SnapDecisionNotification() {
-            mockModel.append(mockList[1])
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.SnapDecision,
+                                                            "hints": {"x-canonical-private-affirmative-tint": "true"},
+                                                            "summary": "Theatre at Ferria Stadium",
+                                                            "body": "at Ferria Stadium in Bilbao, Spain\n07578545317",
+                                                            "icon": "",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["ok_id",     "Ok",
+                                                                           "snooze_id", "Snooze",
+                                                                           "view_id",   "View"]})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
         }
 
         function addEphemeralNotification() {
-            mockModel.append(mockList[2])
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Ephemeral,
+                                                            "hints": {},
+                                                            "summary": "Cole Raby",
+                                                            "body": "I did not expect it to be that late.",
+                                                            "icon": "../graphics/avatars/amanda.png",
+                                                            "secondaryIcon": "../graphics/applicationIcons/facebook.png",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
         }
 
         function addEphemeralNonShapedIconNotification() {
-            mockModel.append(mockList[3])
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Ephemeral,
+                                                            "hints": {"x-canonical-non-shaped-icon": "true"},
+                                                            "summary": "Contacts",
+                                                            "body": "Synchronised contacts-database with cloud-storage.",
+                                                            "icon": "../graphics/applicationIcons/contacts-app.png",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
         }
 
         function addEphemeralIconSummaryNotification() {
-            mockModel.append(mockList[4])
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Ephemeral,
+                                                            "hints": {"x-canonical-non-shaped-icon": "false"},
+                                                            "summary": "Photo upload completed",
+                                                            "body": "",
+                                                            "icon": "../graphics/applicationIcons/facebook.png",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
         }
 
         function addInteractiveNotification() {
-            mockModel.append(mockList[5])
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Interactive,
+                                                            "hints": {},
+                                                            "summary": "Interactive notification",
+                                                            "body": "This is a notification that can be clicked",
+                                                            "icon": "../graphics/avatars/anna_olsson.png",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
         }
 
         function addConfirmationNotification() {
-            mockModel.append(mockList[6])
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Confirmation,
+                                                            "hints": {"x-canonical-non-shaped-icon": "true"},
+                                                            "summary": "Confirmation notification",
+                                                            "body": "",
+                                                            "icon": "image://theme/audio-volume-medium",
+                                                            "secondaryIcon": "",
+                                                            "value": 50,
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
         }
 
         function add2ndConfirmationNotification() {
-            mockModel.append(mockList[7])
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Confirmation,
+                                                            "hints": {"x-canonical-non-shaped-icon": "true",
+                                                                      "x-canonical-value-bar-tint": "true"},
+                                                            "summary": "Confirmation notification",
+                                                            "body": "High Volume",
+                                                            "icon": "image://theme/audio-volume-high",
+                                                            "secondaryIcon": "",
+                                                            "value": 85,
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
         }
 
         function clearNotifications() {
             while(mockModel.count > 1) {
-                //remove1stNotification()
+                remove1stNotification()
             }
         }
 
         function remove1stNotification() {
             if (mockModel.count > 1) {
-                //mockModel.remove(1)
+                mockModel.removeSecond()
             }
         }
 
