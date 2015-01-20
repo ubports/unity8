@@ -20,7 +20,7 @@ from unity8 import (
     fixture_setup,
     indicators,
 )
-from unity8.shell import tests
+from unity8.indicators import tests
 
 
 class DisplayIndicatorTestCase(tests.IndicatorTestCase):
