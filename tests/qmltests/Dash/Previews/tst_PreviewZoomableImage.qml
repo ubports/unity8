@@ -72,11 +72,11 @@ Rectangle {
 
         function test_zoomableImageOpenClose() {
             var overlayCloseButton = findChild(overlay, "overlayCloseButton");
-            mouseClick(lazyImage, lazyImage.width / 2, lazyImage.height / 2);
+            mouseClick(lazyImage);
             tryCompare(overlay, "visible", true);
             tryCompare(overlay, "scale", 1.0);
             tryCompare(overlayCloseButton, "visible", true);
-            mouseClick(overlayCloseButton, overlayCloseButton.width / 2, overlayCloseButton.height / 2);
+            mouseClick(overlayCloseButton);
             tryCompare(overlay, "visible", false);
         }
     }

@@ -29,7 +29,7 @@ ListView {
     property real margin
     property bool useModal: snapDecisionProxyModel.count > 0
 
-    SortFilterProxyModel {
+    UnitySortFilterProxyModel {
         id: snapDecisionProxyModel
         objectName: "snapDecisionProxyModel"
 

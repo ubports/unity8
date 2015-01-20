@@ -24,12 +24,13 @@
 #include "plugin.h"
 
 // local
+#include "actionrootstate.h"
 #include "indicators.h"
 #include "indicatorsmanager.h"
 #include "indicatorsmodel.h"
 #include "menucontentactivator.h"
+#include "modelactionrootstate.h"
 #include "modelprinter.h"
-#include "rootactionstate.h"
 #include "sharedunitymenumodel.h"
 #include "unitymenumodelcache.h"
 #include "unitymenumodelstack.h"
@@ -51,7 +52,8 @@ void IndicatorsPlugin::registerTypes(const char *uri)
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
     qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
-    qmlRegisterType<RootActionState>(uri, 0, 1, "RootActionState");
+    qmlRegisterType<ModelActionRootState>(uri, 0, 1, "ModelActionRootState");
+    qmlRegisterType<ActionRootState>(uri, 0, 1, "ActionRootState");
     qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
     qmlRegisterType<VisibleIndicatorsModel>(uri, 0, 1, "VisibleIndicatorsModel");
     qmlRegisterType<SharedUnityMenuModel>(uri, 0, 1, "SharedUnityMenuModel");

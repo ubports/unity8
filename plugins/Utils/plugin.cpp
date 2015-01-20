@@ -27,7 +27,7 @@
 
 // local
 #include "qlimitproxymodelqml.h"
-#include "qsortfilterproxymodelqml.h"
+#include "unitysortfilterproxymodelqml.h"
 #include "relativetimeformatter.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
@@ -39,7 +39,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("Utils"));
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
-    qmlRegisterType<QSortFilterProxyModelQML>(uri, 0, 1, "SortFilterProxyModel");
+    qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
     qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
     qmlRegisterType<WindowKeysFilter>(uri, 0, 1, "WindowKeysFilter");

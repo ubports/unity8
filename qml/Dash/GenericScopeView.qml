@@ -25,10 +25,10 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationShown: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].openList : false
+    readonly property bool navigationDisableParentInteractive: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].disableParentInteractive : false
     property bool forceNonInteractive: false
     property var scope: null
-    property SortFilterProxyModel categories: categoryFilter
+    property UnitySortFilterProxyModel categories: categoryFilter
     property bool isCurrent: false
     property alias moving: categoryView.moving
     property bool hasBackAction: false
@@ -41,6 +41,7 @@ FocusScope {
     property bool visibleToParent: false
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
     property var holdingList: null
+    property bool wasCurrentOnMoveStart: false
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
@@ -106,7 +107,7 @@ FocusScope {
         value: isCurrent && !subPageLoader.open
     }
 
-    SortFilterProxyModel {
+    UnitySortFilterProxyModel {
         id: categoryFilter
         model: scope ? scope.categories : null
         dynamicSortFilter: true
@@ -116,6 +117,9 @@ FocusScope {
     }
 
     onIsCurrentChanged: {
+        if (!holdingList || !holdingList.moving) {
+            wasCurrentOnMoveStart = scopeView.isCurrent;
+        }
         if (pageHeaderLoader.item && showPageHeader) {
             pageHeaderLoader.item.resetSearch();
         }
@@ -140,6 +144,15 @@ FocusScope {
         target: scopeView.scope
         onShowDash: subPageLoader.closeSubPage()
         onHideDash: subPageLoader.closeSubPage()
+    }
+
+    Connections {
+        target: holdingList
+        onMovingChanged: {
+            if (!moving) {
+                wasCurrentOnMoveStart = scopeView.isCurrent;
+            }
+        }
     }
 
     Rectangle {
@@ -367,7 +380,11 @@ FocusScope {
 
                 function updateRanges() {
                     // Don't want to create stress by requesting more items during scope
-                    // changes so unless you're not part of the visible scopes just return
+                    // changes so unless you're not part of the visible scopes just return.
+                    // For the visible scopes we need to do some work, the previously non visible
+                    // scope needs to adjust its ranges so that we define the new visible range,
+                    // that still means no creation/destruction of delegates, it's just about changing
+                    // the culling of the items so they are actually visible
                     if (holdingList && holdingList.moving && !scopeView.visibleToParent) {
                         return;
                     }
@@ -412,7 +429,18 @@ FocusScope {
                         if (scopeView.isCurrent || scopeView.visibleToParent) {
                             item.displayMarginBeginning = displayMarginBeginning;
                             item.displayMarginEnd = displayMarginEnd;
-                            item.cacheBuffer = scopeView.isCurrent ? categoryView.height * 1.5 : 0;
+                            if (holdingList && holdingList.moving) {
+                                // If we are moving we need to reset the cache buffer of the
+                                // view that was not visible (i.e. !wasCurrentOnMoveStart) to 0 since
+                                // otherwise the cache buffer we had set to preload the items of the
+                                // visible range will trigger some item creations and we want move to
+                                // be as smooth as possible meaning no need creations
+                                if (!wasCurrentOnMoveStart) {
+                                    item.cacheBuffer = 0;
+                                }
+                            } else {
+                                item.cacheBuffer = categoryView.height * 1.5;
+                            }
                         } else {
                             var visibleRange = baseItem.height + displayMarginEnd + displayMarginBeginning;
                             if (visibleRange < 0) {

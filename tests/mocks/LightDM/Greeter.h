@@ -99,6 +99,9 @@ Q_SIGNALS:
 protected:
     void sendAuthenticationComplete();
 
+private Q_SLOTS:
+    void delayedAuthentication();
+
 private:
     GreeterPrivate *d_ptr;
     Q_DECLARE_PRIVATE(Greeter)

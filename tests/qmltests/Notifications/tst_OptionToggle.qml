@@ -226,7 +226,7 @@ Row {
             }
 
             // test input does not fall through
-            mouseClick(notification, notification.width / 2, notification.height / 2)
+            mouseClick(notification)
             if(data.type == Notification.Interactive) {
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
@@ -247,7 +247,7 @@ Row {
 
                 // only test the left/cancel-button if two actions have been passed in
                 if (data.actions.length == 2) {
-                    tryCompareFunction(function() { mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                     actionSpy.clear()
                 }
@@ -256,7 +256,7 @@ Row {
                 verify(buttonAccept.color === data.buttonTinted ? "#3fb24f" : "#dddddd", "button has the wrong color-tint")
 
                 // click the positive/right button
-                tryCompareFunction(function() { mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                tryCompareFunction(function() { mouseClick(buttonAccept); return actionSpy.signalArguments.length > 0; }, true);
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                 actionSpy.clear()
                 waitForRendering(notification)
@@ -267,20 +267,20 @@ Row {
                     tryCompareFunction(function() { return optionToggle.expanded == false; }, true);
 
                     // click to expand
-                    tryCompareFunction(function() { mouseClick(optionToggle, optionToggle.width / 2, optionToggle.height / 2); return optionToggle.expanded == true; }, true);
+                    tryCompareFunction(function() { mouseClick(optionToggle); return optionToggle.expanded == true; }, true);
 
                     // try clicking on choices in expanded comboList
                     var choiceButton1 = findChild(notification, "notify_button3")
-                    tryCompareFunction(function() { mouseClick(choiceButton1, choiceButton1.width / 2, choiceButton1.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    tryCompareFunction(function() { mouseClick(choiceButton1); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
                     actionSpy.clear()
 
                     var choiceButton2 = findChild(notification, "notify_button4")
-                    tryCompareFunction(function() { mouseClick(choiceButton2, choiceButton2.width / 2, choiceButton2.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    tryCompareFunction(function() { mouseClick(choiceButton2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
                     actionSpy.clear()
                 } else {
-                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                    mouseClick(buttonCancel)
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                 }
             }
