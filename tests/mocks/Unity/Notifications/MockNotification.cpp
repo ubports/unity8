@@ -22,7 +22,7 @@
 #include <QDebug>
 
 struct MockNotificationPrivate {
-    unsigned int id;
+    int id;
     QString summary;
     QString body;
     int value;
@@ -65,12 +65,14 @@ void MockNotification::setBody(const QString &body) {
     }
 }
 
-unsigned int MockNotification::getID() const {
+int MockNotification::getID() const {
     return p->id;
 }
 
-void MockNotification::setID(const unsigned int id) {
+void MockNotification::setID(const int id) {
+    qDebug() << "id: " << id;
     p->id = id;
+    qDebug() << "id: " << p->id;
 }
 
 int MockNotification::getValue() const {

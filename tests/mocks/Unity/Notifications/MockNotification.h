@@ -33,7 +33,7 @@ class MockNotification : public QObject {
     Q_ENUMS(Type)
     Q_PROPERTY(QString summary READ getSummary WRITE setSummary NOTIFY summaryChanged)
     Q_PROPERTY(QString body READ getBody WRITE setBody NOTIFY bodyChanged)
-    Q_PROPERTY(unsigned int nid READ getID WRITE setID NOTIFY idChanged)
+    Q_PROPERTY(int nid READ getID WRITE setID NOTIFY idChanged)
     Q_PROPERTY(int value READ getValue WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(QString icon READ getIcon WRITE setIcon NOTIFY iconChanged)
     Q_PROPERTY(QString secondaryIcon READ getSecondaryIcon WRITE setSecondaryIcon NOTIFY secondaryIconChanged)
@@ -52,7 +52,7 @@ public:
 Q_SIGNALS:
     void summaryChanged(const QString &summary);
     void bodyChanged(const QString &body);
-    void idChanged(const unsigned int id);
+    void idChanged(const int id);
     void valueChanged(int value);
     void iconChanged(const QString &icon);
     void secondaryIconChanged(const QString &secondaryIcon);
@@ -60,8 +60,8 @@ Q_SIGNALS:
     void actionsChanged(const QStringList &actions);
     void hintsChanged(const QVariantMap& hints);
 
-    void dataChanged(unsigned int nid);
-    void completed(unsigned int nid);
+    void dataChanged(int nid);
+    void completed(int nid);
 
 public:
     MockNotification(QObject *parent=nullptr);
@@ -71,8 +71,8 @@ public:
     void setSummary(const QString &summary);
     QString getBody() const;
     void setBody(const QString &body);
-    unsigned int getID() const;
-    void setID(const unsigned int id);
+    int getID() const;
+    void setID(const int id);
     int getValue() const;
     void setValue(int value);
     QString getIcon() const;

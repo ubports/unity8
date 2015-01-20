@@ -40,24 +40,24 @@ public:
     virtual QHash<int, QByteArray> roleNames() const;
 
     Q_INVOKABLE void append(MockNotification* n);
-    MockNotification* getNotification(unsigned int id) const;
+    MockNotification* getNotification(int id) const;
     MockNotification* getNotification(const QString &summary) const;
-    bool hasNotification(unsigned int id) const;
+    bool hasNotification(int id) const;
 
     // getRaw() is only meant to be used from QML, since QML cannot handle
     // QSharedPointers... on C++-side only use getNotification()
-    Q_INVOKABLE MockNotification* getRaw(const unsigned int notificationId) const;
+    Q_INVOKABLE MockNotification* getRaw(const int notificationId) const;
 
     Q_INVOKABLE int queued() const;
-    Q_INVOKABLE void remove(const unsigned int id);
+    Q_INVOKABLE void remove(const int id);
 
     int getCount() const;
 
 public Q_SLOTS:
-    void onCompleted(unsigned int id);
+    void onCompleted(int id);
 
 private Q_SLOTS:
-    void onDataChanged(unsigned int id);
+    void onDataChanged(int id);
 
 Q_SIGNALS:
     void queueSizeChanged(int newSize);

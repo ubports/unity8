@@ -113,7 +113,7 @@ Item {
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
             Component.onCompleted: {
-                n5.completed.connect(mockModel.remove)
+                n5.completed.connect(mockModel.onCompleted)
             }
         },
         Notification {

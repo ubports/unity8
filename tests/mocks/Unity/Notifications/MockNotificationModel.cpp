@@ -94,7 +94,7 @@ void MockNotificationModel::append(MockNotification* n) {
     endInsertRows();
 }
 
-MockNotification* MockNotificationModel::getNotification(unsigned int id) const {
+MockNotification* MockNotificationModel::getNotification(int id) const {
     for(int i=0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == id) {
             return m_queue[i];
@@ -114,11 +114,11 @@ MockNotification* MockNotificationModel::getNotification(const QString &summary)
     return nullptr;
 }
 
-bool MockNotificationModel::hasNotification(unsigned int id) const {
+bool MockNotificationModel::hasNotification(int id) const {
     return !(getNotification(id) != nullptr);
 }
 
-void MockNotificationModel::remove(const unsigned int id) {
+void MockNotificationModel::remove(const int id) {
     qDebug() << "remove(" << id << ")";
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == id) {
@@ -143,7 +143,7 @@ void MockNotificationModel::deleteFromVisible(int loc) {
     endRemoveRows();
 }
 
-MockNotification* MockNotificationModel::getRaw(const unsigned int notificationId) const {
+MockNotification* MockNotificationModel::getRaw(const int notificationId) const {
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == notificationId) {
             MockNotification* n = m_queue[i];
@@ -163,7 +163,7 @@ QHash<int, QByteArray> MockNotificationModel::roleNames() const {
 
     roles.insert(ModelInterface::RoleType, "type");
     roles.insert(ModelInterface::RoleUrgency, "urgency");
-    roles.insert(ModelInterface::RoleId, "nid");
+    roles.insert(ModelInterface::RoleId, "id");
     roles.insert(ModelInterface::RoleSummary, "summary");
     roles.insert(ModelInterface::RoleBody, "body");
     roles.insert(ModelInterface::RoleValue, "value");
@@ -176,12 +176,12 @@ QHash<int, QByteArray> MockNotificationModel::roleNames() const {
     return roles;
 }
 
-void MockNotificationModel::onCompleted(unsigned int id) {
+void MockNotificationModel::onCompleted(int id) {
     qDebug() << "onCompleted(" << id << ")";
     remove(id);
 }
 
-void MockNotificationModel::onDataChanged(unsigned int id) {
+void MockNotificationModel::onDataChanged(int id) {
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == id) {
             Q_EMIT dataChanged(index(i, 0), index(i, 0));
