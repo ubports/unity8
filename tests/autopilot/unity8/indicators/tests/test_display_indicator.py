@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity - Indicators Autopilot Test Suite
-# Copyright (C) 2013, 2014, 2015 Canonical
+# Unity Indicators Autopilot Test Suite
+# Copyright (C) 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,19 +16,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from autopilot import platform
-
-from unity8 import process_helpers
+from unity8 import (
+    fixture_setup,
+    indicators,
+)
 from unity8.shell import tests
 
 
-class IndicatorTestCase(tests.UnityTestCase):
+class DisplayIndicatorTestCase(tests.IndicatorTestCase):
 
-    device_emulation_scenarios = tests._get_device_emulation_scenarios()
+    def test(self):
+        display_indicator = indicators.DisplayIndicator(self.main_window)
+        display_indicator_page = display_indicator.open()
+        fixture = fixture_setup.DisplayRotationLock(False)
 
-    def setUp(self):
-        if platform.model() == 'Desktop':
-            self.skipTest('Test cannot be run on the desktop.')
-        super(IndicatorTestCase, self).setUp()
-        self.unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(self.unity_proxy)
+        display_indicator_page.unlock_rotation()
+        self.assertEqual(fixture._is_rotation_lock_enabled(), False)
+
+        display_indicator_page.lock_rotation()
+        self.assertEqual(fixture._is_rotation_lock_enabled(), True)

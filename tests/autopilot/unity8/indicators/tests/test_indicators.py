@@ -22,24 +22,10 @@ from testscenarios import multiply_scenarios
 
 from autopilot import platform
 
-from unity8 import indicators, fixture_setup
-from unity8.process_helpers import unlock_unity
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+from unity8.indicators import tests
 
 
-class IndicatorTestCase(UnityTestCase):
-
-    device_emulation_scenarios = _get_device_emulation_scenarios()
-
-    def setUp(self):
-        if platform.model() == 'Desktop':
-            self.skipTest('Test cannot be run on the desktop.')
-        super(IndicatorTestCase, self).setUp()
-        self.unity_proxy = self.launch_unity()
-        unlock_unity(self.unity_proxy)
-
-
-class IndicatorExistsTestCase(IndicatorTestCase):
+class IndicatorExistsTestCase(tests.IndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
@@ -52,7 +38,7 @@ class IndicatorExistsTestCase(IndicatorTestCase):
     ]
     scenarios = multiply_scenarios(
         indicator_scenarios,
-        IndicatorTestCase.device_emulation_scenarios
+        tests.IndicatorTestCase.device_emulation_scenarios
     )
 
     def setUp(self):
@@ -67,7 +53,7 @@ class IndicatorExistsTestCase(IndicatorTestCase):
         )
 
 
-class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
+class IndicatorPageTitleMatchesWidgetTestCase(tests.IndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',
@@ -87,7 +73,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
     ]
     scenarios = multiply_scenarios(
         indicator_scenarios,
-        IndicatorTestCase.device_emulation_scenarios
+        tests.IndicatorTestCase.device_emulation_scenarios
     )
 
     def setUp(self):
@@ -105,17 +91,3 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
             self.indicator_name)
         self.assertTrue(indicator_page.visible)
         self.assertEqual(indicator_page.title, self.title)
-
-
-class DisplayIndicatorTestCase(IndicatorTestCase):
-
-    def test(self):
-        display_indicator = indicators.DisplayIndicator(self.main_window)
-        display_indicator_page = display_indicator.open()
-        fixture = fixture_setup.DisplayRotationLock(False)
-
-        display_indicator_page.unlock_rotation()
-        self.assertEqual(fixture._is_rotation_lock_enabled(), False)
-
-        display_indicator_page.lock_rotation()
-        self.assertEqual(fixture._is_rotation_lock_enabled(), True)
