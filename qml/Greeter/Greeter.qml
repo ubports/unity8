@@ -46,6 +46,7 @@ Showable {
     readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
 
     property bool tabletMode
+    property url viewSource // only used for testing
 
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
@@ -120,6 +121,7 @@ Showable {
         }
 
         function selectUser(uid) {
+            d.waiting = true;
             currentIndex = uid;
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
             AccountsService.user = user;
@@ -183,7 +185,8 @@ Showable {
         anchors.fill: parent
 
         active: root.required
-        source: (d.multiUser || tabletMode) ? "WideView.qml" : "NarrowView.qml"
+        source: root.viewSource ? root.viewSource :
+                (d.multiUser || root.tabletMode) ? "WideView.qml" : "NarrowView.qml"
 
         onLoaded: {
             loader.item.reset();
@@ -260,12 +263,6 @@ Showable {
             target: loader.item
             property: "currentIndex"
             value: d.currentIndex
-        }
-
-        Binding {
-            target: loader.item
-            property: "currentUser"
-            value: LightDM.Users.data(d.currentIndex, LightDM.UserRoles.NameRole)
         }
 
         Binding {

@@ -114,54 +114,5 @@ Rectangle {
             selectedSpy.wait();
             tryCompare(selectedSpy, "count", 1);
         }
-
-        function test_dragToHide_data() {
-            return [
-                {tag: "left", startX: greeter.width * 0.95, endX: greeter.width * 0.1, hiddenX: -greeter.width},
-                {tag: "right", startX: greeter.width * 0.1, endX: greeter.width * 0.95, hiddenX: greeter.width},
-            ];
-        }
-        function test_dragToHide(data) {
-            compare(greeter.x, 0);
-            compare(greeter.visible, true);
-            compare(greeter.shown, true);
-            compare(greeter.showProgress, 1);
-
-            touchFlick(greeter,
-                    data.startX, greeter.height / 2, // start pos
-                    data.endX, greeter.height / 2); // end pos
-
-            tryCompare(greeter, "x", data.hiddenX);
-            tryCompare(greeter, "visible", false);
-            tryCompare(greeter, "shown", false);
-            tryCompare(greeter, "showProgress", 0);
-        }
-
-        function test_hiddenGreeterRemainsHiddenAfterResize_data() {
-            return [
-                {tag: "left", startX: greeter.width * 0.95, endX: greeter.width * 0.1},
-                {tag: "right", startX: greeter.width * 0.1, endX: greeter.width * 0.95},
-            ];
-        }
-        function test_hiddenGreeterRemainsHiddenAfterResize(data) {
-            touchFlick(greeter,
-                    data.startX, greeter.height / 2, // start pos
-                    data.endX, greeter.height / 2); // end pos
-
-            tryCompare(greeter, "x", data.tag == "left" ? -greeter.width : greeter.width);
-            tryCompare(greeter, "visible", false);
-            tryCompare(greeter, "shown", false);
-            tryCompare(greeter, "showProgress", 0);
-
-            // flip dimensions to simulate an orientation change
-            greeter.width = greeterLoader.height;
-            greeter.height = greeterLoader.width;
-
-            // All properties should remain consistent
-            tryCompare(greeter, "x", data.tag == "left" ? -greeter.width : greeter.width);
-            tryCompare(greeter, "visible", false);
-            tryCompare(greeter, "shown", false);
-            tryCompare(greeter, "showProgress", 0);
-        }
     }
 }

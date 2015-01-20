@@ -323,46 +323,6 @@ Item {
             compare(LightDM.Users.data(index, LightDM.UserRoles.BackgroundPathRole), "")
         }
 
-        function test_tappedSignal_data() {
-            return [
-                {tag: "left", posX: units.gu(2)},
-                {tag: "right", posX: greeter.width - units.gu(2)}
-            ]
-        }
-
-        function test_tappedSignal(data) {
-            select_user("no-password");
-            tappedSpy.clear();
-            tap(greeter, data.posX, greeter.height - units.gu(1))
-            tryCompare(tappedSpy, "count", 1)
-        }
-
-        function test_teaseLockedUnlocked_data() {
-            return [
-                {tag: "unlocked", locked: false, narrow: false},
-                {tag: "locked", locked: true, narrow: false},
-            ];
-        }
-
-        function test_teaseLockedUnlocked(data) {
-            tappedSpy.clear()
-            greeter.locked = data.locked;
-
-            tap(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
-
-            if (!data.locked || data.narrow) {
-                tappedSpy.wait()
-                tryCompare(tappedSpy, "count", 1);
-            } else {
-                // waiting 100ms to make sure nothing happens
-                wait(100);
-                compare(tappedSpy.count, 0, "Greeter teasing not disabled even though it's locked.");
-            }
-
-            // Reset value
-            greeter.locked = false;
-        }
-
         function test_dbus_set_active_entry() {
             select_user("no-password") // to guarantee a selected signal
             selectionSpy.clear()

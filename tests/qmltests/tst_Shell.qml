@@ -776,5 +776,23 @@ Item {
             var launcherPanel = findChild(shell, "launcherPanel");
             tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
+
+        function test_background_data() {
+            return [
+                {tag: "color", accounts: "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>", gsettings: "", output: "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"},
+                {tag: "empty", accounts: "", gsettings: "", output: ""},
+                {tag: "as-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: "", output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                {tag: "gs-specified", accounts: "", gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                {tag: "both-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                {tag: "invalid-as", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                {tag: "invalid-both", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"), output: shell.defaultBackground},
+            ]
+        }
+        function test_background(data) {
+            AccountsService.backgroundFile = data.accounts;
+            var backgroundSettings = findChild(shell, "backgroundSettings");
+            backgroundSettings.pictureUri = data.gsettings;
+            tryCompare(shell.background, data.output);
+        }
     }
 }

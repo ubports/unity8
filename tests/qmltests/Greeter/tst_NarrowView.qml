@@ -271,7 +271,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "WideView"
+        name: "NarrowView"
         when: windowShown
 
         property Item view: loader.status === Loader.Ready ? loader.item : null
@@ -327,7 +327,7 @@ Item {
                 {tag: "left", x: 0, offset: 0, count: 1},
                 {tag: "leftWithOffsetPass", x: 10, offset: 10, count: 1},
                 {tag: "leftWithOffsetFail", x: 9, offset: 10, count: 0},
-                {tag: "right", x: view.width, offset: 0, count: 1}
+                {tag: "right", x: view.width, offset: 0, count: 1},
             ]
         }
         function test_tease(data) {
@@ -450,6 +450,59 @@ Item {
             // which should make it move back into its original position as it didn't move
             // far enough to have it hidden
             tryCompare(coverPage, "x", 0);
+        }
+
+        function test_dragToHide_data() {
+            return [
+                {tag: "left", startX: view.width * 0.95, endX: view.width * 0.1, hiddenX: -view.width},
+                {tag: "right", startX: view.width * 0.1, endX: view.width * 0.95, hiddenX: view.width},
+            ];
+        }
+        function test_dragToHide(data) {
+            var coverPage = findChild(view, "coverPage");
+            compare(coverPage.x, 0);
+            compare(coverPage.visible, true);
+            compare(coverPage.shown, true);
+            compare(coverPage.showProgress, 1);
+            compare(view.fullyShown, true);
+
+            touchFlick(view,
+                    data.startX, view.height / 2, // start pos
+                    data.endX, view.height / 2); // end pos
+
+            tryCompare(coverPage, "x", data.hiddenX);
+            tryCompare(coverPage, "visible", false);
+            tryCompare(coverPage, "shown", false);
+            tryCompare(coverPage, "showProgress", 0);
+            compare(view.fullyShown, false);
+        }
+
+        function test_hiddenViewRemainsHiddenAfterResize_data() {
+            return [
+                {tag: "left", startX: view.width * 0.95, endX: view.width * 0.1},
+                {tag: "right", startX: view.width * 0.1, endX: view.width * 0.95},
+            ];
+        }
+        function test_hiddenViewRemainsHiddenAfterResize(data) {
+            touchFlick(view,
+                    data.startX, view.height / 2, // start pos
+                    data.endX, view.height / 2); // end pos
+
+            var coverPage = findChild(view, "coverPage");
+            tryCompare(coverPage, "x", data.tag == "left" ? -view.width : view.width);
+            tryCompare(coverPage, "visible", false);
+            tryCompare(coverPage, "shown", false);
+            tryCompare(coverPage, "showProgress", 0);
+
+            // flip dimensions to simulate an orientation change
+            view.width = loader.height;
+            view.height = loader.width;
+
+            // All properties should remain consistent
+            tryCompare(coverPage, "x", data.tag == "left" ? -view.width : view.width);
+            tryCompare(coverPage, "visible", false);
+            tryCompare(coverPage, "shown", false);
+            tryCompare(coverPage, "showProgress", 0);
         }
     }
 }

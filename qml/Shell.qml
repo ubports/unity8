@@ -106,6 +106,7 @@ Item {
 
     GSettings {
         id: backgroundSettings
+        objectName: "backgroundSettings"
         schema.id: "org.gnome.desktop.background"
     }
 

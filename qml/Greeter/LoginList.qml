@@ -49,7 +49,11 @@ Item {
     }
 
     function showMessage(html) {
-        infoLabel.text = html;
+        if (infoLabel.text === "") {
+            infoLabel.text = html;
+        } else {
+            infoLabel.text += "<br>" + html;
+        }
     }
 
     function showPrompt(text, isSecret, isDefaultPrompt) {
