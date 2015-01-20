@@ -6,8 +6,6 @@ export QML2_IMPORT_PATH
 QML_PHONE_SHELL_PATH=./builddir/src/unity8
 GDB=false
 FAKE=false
-PINLOCK=false
-KEYLOCK=false
 USE_MOCKS=false
 MOUSE_TOUCH=true
 
@@ -23,7 +21,7 @@ usage() {
     exit 1
 }
 
-ARGS=`getopt -n$0 -u -a --longoptions="fake,gdb,help:,nomousetouch" -o "fpkl:ghm" -- "$@"`
+ARGS=`getopt -n$0 -u -a --longoptions="fake,gdb,help:,nomousetouch" -o "fghm" -- "$@"`
 [ $? -ne 0 ] && usage
 eval set -- "$ARGS"
 
@@ -39,15 +37,9 @@ do
     shift
 done
 
-if [ -z "$LIGHTDM_MOCK" ]; then
-  LIGHTDM_MOCK=single
-fi
-
-
 if $USE_MOCKS; then
-  rm -f $PWD/builddir/nonmirplugins/LightDM # undo symlink (from below) for cleanliness
   export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/liblightdm
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/liblightdm:$PWD/builddir/tests/mocks/libusermetrics
 else
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/plugins/LightDM/liblightdm
 fi
