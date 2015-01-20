@@ -33,6 +33,13 @@ Item {
     width: contentRow.width
     height: contentRow.height
 
+    Component.onCompleted: {
+        // must set the mock mode before loading the Shell
+        LightDM.Greeter.mockMode = "single-pin";
+        LightDM.Users.mockMode = "single-pin";
+        shellLoader.active = true;
+    }
+
     QtObject {
         id: applicationArguments
 
@@ -54,6 +61,7 @@ Item {
 
         Loader {
             id: shellLoader
+            active: false
 
             width: units.gu(40)
             height: units.gu(71)

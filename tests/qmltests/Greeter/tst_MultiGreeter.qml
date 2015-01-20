@@ -26,6 +26,17 @@ Item {
     width: units.gu(120)
     height: units.gu(80)
 
+    Binding {
+        target: LightDM.Greeter
+        property: "mockMode"
+        value: "full"
+    }
+    Binding {
+        target: LightDM.Users
+        property: "mockMode"
+        value: "full"
+    }
+
     Greeter {
         id: greeter
         anchors.fill: parent

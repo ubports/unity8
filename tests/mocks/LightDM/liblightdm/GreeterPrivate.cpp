@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,12 +12,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#include "Greeter.h"
+#include "GreeterPrivate.h"
 
 namespace QLightDM
 {
@@ -31,6 +29,20 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
 }
 
 void GreeterPrivate::handleAuthenticate()
+{
+    Q_Q(Greeter);
+
+    if (mockMode == "single") {
+        authenticated = true;
+        Q_EMIT q->authenticationComplete();
+    } else if (mockMode == "single-passphrase" || mockMode == "single-pin") {
+        Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
+    } else if (mockMode == "full") {
+        handleAuthenticate_full();
+    }
+}
+
+void GreeterPrivate::handleAuthenticate_full()
 {
     Q_Q(Greeter);
 
@@ -65,7 +77,24 @@ void GreeterPrivate::handleAuthenticate()
     }
 }
 
-void GreeterPrivate::handleRespond(const QString &response)
+void GreeterPrivate::handleRespond(QString const &response)
+{
+    Q_Q(Greeter);
+
+    if (mockMode == "single") {
+        // NOOP
+    } else if (mockMode == "single-passphrase") {
+        authenticated = (response == "password");
+        q->sendAuthenticationComplete();
+    } else if (mockMode == "single-pin") {
+        authenticated = (response == "1234");
+        q->sendAuthenticationComplete();
+    } else if (mockMode == "full") {
+        handleRespond_full(response);
+    }
+}
+
+void GreeterPrivate::handleRespond_full(const QString &response)
 {
     Q_Q(Greeter);
 

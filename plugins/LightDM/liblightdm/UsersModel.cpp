@@ -16,6 +16,12 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * CHANGES MADE HERE MUST BE REFLECTED ON THE MOCK LIB
+ * COUNTERPART IN tests/mocks/Lightdm/liblightdm
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
 // LightDM currently is Qt4 compatible, and so doesn't define setRoleNames.
 // To use the same method of setting role name that it does, we
 // set our compatibility to Qt4 here too.

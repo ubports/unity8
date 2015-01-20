@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,17 +12,65 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../UsersModelPrivate.h"
+#include "UsersModelPrivate.h"
+#include "UsersModel.h"
 
 namespace QLightDM
 {
 
 UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
-  : q_ptr(parent)
+  : mockMode("single")
+  , q_ptr(parent)
+{
+    resetEntries_single();
+}
+
+void UsersModelPrivate::resetEntries()
+{
+    Q_Q(UsersModel);
+
+    q->beginResetModel();
+
+    if (mockMode == "single") {
+        resetEntries_single();
+    } else if (mockMode == "single-passphrase") {
+        resetEntries_singlePassphrase();
+    } else if (mockMode == "single-pin") {
+        resetEntries_singlePin();
+    } else if (mockMode == "full") {
+        resetEntries_full();
+    }
+
+    q->endResetModel();
+}
+
+void UsersModelPrivate::resetEntries_single()
+{
+    entries =
+    {
+        { "single", "Single User", 0, 0, false, false, 0, 0 },
+    };
+}
+
+void UsersModelPrivate::resetEntries_singlePassphrase()
+{
+    entries =
+    {
+        { "single", "Single User", 0, 0, false, false, 0, 0 },
+    };
+}
+
+void UsersModelPrivate::resetEntries_singlePin()
+{
+    entries =
+    {
+        { "has-pin", "Has PIN", 0, 0, false, false, 0, 0 },
+    };
+}
+
+void UsersModelPrivate::resetEntries_full()
 {
     entries =
     {
@@ -49,4 +97,4 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
     };
 }
 
-}
+} // namespace QLightDM
