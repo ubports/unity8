@@ -27,11 +27,14 @@ import Unity.Notifications 1.0
 import QtMultimedia 5.0
 
 Item {
+    id: foobar
+
     width: notificationsRect.width + interactiveControls.width
     height: notificationsRect.height
 
     property list<Notification> mockList: [
         Notification {
+            id: n0
             nid: 0
             type: Notification.PlaceHolder
             summary: ""
@@ -39,8 +42,12 @@ Item {
             icon: ""
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
+            Component.onCompleted: {
+                n0.completed.connect(mockModel.remove)
+            }
         },
         Notification {
+            id: n1
             nid: 1
             type: Notification.SnapDecision
             hints: {"x-canonical-private-affirmative-tint": "true"}
@@ -51,8 +58,12 @@ Item {
             rawActions: ["ok_id", "Ok",
                          "snooze_id",  "Snooze",
                          "view_id", "View"]
+            Component.onCompleted: {
+                n1.completed.connect(mockModel.remove)
+            }
         },
         Notification {
+            id: n2
             nid: 2
             type: Notification.Ephemeral
             summary: "Cole Raby"
@@ -60,8 +71,12 @@ Item {
             icon: "../graphics/avatars/amanda.png"
             secondaryIcon: "../graphics/applicationIcons/facebook.png"
             rawActions: ["reply_id", "Dummy"]
+            Component.onCompleted: {
+                n2.completed.connect(mockModel.remove)
+            }
         },
         Notification {
+            id: n3
             nid: 3
             type: Notification.Ephemeral
             hints: {"x-canonical-non-shaped-icon": "true"}
@@ -70,8 +85,12 @@ Item {
             icon: "../graphics/applicationIcons/contacts-app.png"
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
+            Component.onCompleted: {
+                n3.completed.connect(mockModel.remove)
+            }
         },
         Notification {
+            id: n4
             nid: 4
             type: Notification.Ephemeral
             hints: {"x-canonical-non-shaped-icon": "false"}
@@ -80,8 +99,12 @@ Item {
             icon: "../graphics/applicationIcons/facebook.png"
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
+            Component.onCompleted: {
+                n4.completed.connect(mockModel.remove)
+            }
         },
         Notification {
+            id: n5
             nid: 5
             type: Notification.Interactive
             summary: "Interactive notification"
@@ -89,8 +112,12 @@ Item {
             icon: "../graphics/avatars/anna_olsson.png"
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
+            Component.onCompleted: {
+                n5.completed.connect(mockModel.remove)
+            }
         },
         Notification {
+            id: n6
             nid: 6
             type: Notification.Confirmation
             hints: {"x-canonical-non-shaped-icon": "true"}
@@ -100,8 +127,12 @@ Item {
             secondaryIcon: ""
             value: 50
             rawActions: ["reply_id", "Dummy"]
+            Component.onCompleted: {
+                n6.completed.connect(mockModel.remove)
+            }
         },
         Notification {
+            id: n7
             nid: 7
             type: Notification.Confirmation
             hints: {"x-canonical-non-shaped-icon": "true",
@@ -112,6 +143,9 @@ Item {
             secondaryIcon: ""
             value: 85
             rawActions: ["reply_id", "Dummy"]
+            Component.onCompleted: {
+                n7.completed.connect(mockModel.remove)
+            }
         }
     ]
 
@@ -159,13 +193,13 @@ Item {
 
         function clearNotifications() {
             while(mockModel.count > 1) {
-                remove1stNotification()
+                //remove1stNotification()
             }
         }
 
         function remove1stNotification() {
             if (mockModel.count > 1) {
-                mockModel.remove(1)
+                //mockModel.remove(1)
             }
         }
 

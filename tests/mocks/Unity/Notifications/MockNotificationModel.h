@@ -53,6 +53,9 @@ public:
 
     int getCount() const;
 
+public Q_SLOTS:
+    void onCompleted(unsigned int id);
+
 private Q_SLOTS:
     void onDataChanged(unsigned int id);
 

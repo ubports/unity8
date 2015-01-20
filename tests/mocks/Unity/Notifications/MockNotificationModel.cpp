@@ -28,6 +28,7 @@
 #include <QMap>
 #include <QStringListModel>
 #include <QQmlEngine>
+#include <QDebug>
 
 using namespace unity::shell::notifications;
 
@@ -171,6 +172,11 @@ QHash<int, QByteArray> MockNotificationModel::roleNames() const {
     roles.insert(ModelInterface::RoleNotification, "notification");
 
     return roles;
+}
+
+void MockNotificationModel::onCompleted(unsigned int id) {
+    qDebug() << "onCompleted(" << id << ")";
+    remove(id);
 }
 
 void MockNotificationModel::onDataChanged(unsigned int id) {
