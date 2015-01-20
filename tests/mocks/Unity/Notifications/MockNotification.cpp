@@ -173,6 +173,6 @@ void MockNotification::invokeAction(const QString &action) {
 }
 
 void MockNotification::close() {
-    qDebug() << "close() called";
+    qDebug() << "close() called, " << p->id;
     Q_EMIT completed(p->id);
 }

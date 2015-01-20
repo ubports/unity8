@@ -43,7 +43,7 @@ Item {
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
             Component.onCompleted: {
-                n0.completed.connect(mockModel.remove)
+                n0.completed.connect(mockModel.onCompleted)
             }
         },
         Notification {
@@ -59,7 +59,7 @@ Item {
                          "snooze_id",  "Snooze",
                          "view_id", "View"]
             Component.onCompleted: {
-                n1.completed.connect(mockModel.remove)
+                n1.completed.connect(mockModel.onCompleted)
             }
         },
         Notification {
@@ -72,7 +72,7 @@ Item {
             secondaryIcon: "../graphics/applicationIcons/facebook.png"
             rawActions: ["reply_id", "Dummy"]
             Component.onCompleted: {
-                n2.completed.connect(mockModel.remove)
+                n2.completed.connect(mockModel.onCompleted)
             }
         },
         Notification {
@@ -86,7 +86,7 @@ Item {
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
             Component.onCompleted: {
-                n3.completed.connect(mockModel.remove)
+                n3.completed.connect(mockModel.onCompleted)
             }
         },
         Notification {
@@ -100,7 +100,7 @@ Item {
             secondaryIcon: ""
             rawActions: ["reply_id", "Dummy"]
             Component.onCompleted: {
-                n4.completed.connect(mockModel.remove)
+                n4.completed.connect(mockModel.onCompleted)
             }
         },
         Notification {
@@ -128,7 +128,7 @@ Item {
             value: 50
             rawActions: ["reply_id", "Dummy"]
             Component.onCompleted: {
-                n6.completed.connect(mockModel.remove)
+                n6.completed.connect(mockModel.onCompleted)
             }
         },
         Notification {
@@ -144,7 +144,7 @@ Item {
             value: 85
             rawActions: ["reply_id", "Dummy"]
             Component.onCompleted: {
-                n7.completed.connect(mockModel.remove)
+                n7.completed.connect(mockModel.onCompleted)
             }
         }
     ]

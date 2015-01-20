@@ -119,6 +119,7 @@ bool MockNotificationModel::hasNotification(unsigned int id) const {
 }
 
 void MockNotificationModel::remove(const unsigned int id) {
+    qDebug() << "remove(" << id << ")";
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == id) {
             deleteFromVisible(i);
@@ -135,6 +136,7 @@ void MockNotificationModel::deleteFirst() {
 }
 
 void MockNotificationModel::deleteFromVisible(int loc) {
+    qDebug() << "deleteFromVisible(" << loc << ")";
     QModelIndex deletePoint = QModelIndex();
     beginRemoveRows(deletePoint, loc, loc);
     m_queue.erase(m_queue.begin() + loc);
