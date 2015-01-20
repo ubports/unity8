@@ -27,17 +27,18 @@ Rectangle {
     color: Theme.palette.selected.background
 
     property var widgetDataComplete: {
-        "title": "Title here",
-        "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
+        "title": "Title here longa long long long long long long long long long long",
+        "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
     property var widgetDataNoTitle: {
         "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
-    PreviewTable {
+    PreviewWidgetFactory {
         id: previewTable
         anchors { left: parent.left; right: parent.right }
+        widgetType: "table"
         widgetData: widgetDataComplete
 
         Rectangle {

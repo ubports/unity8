@@ -37,6 +37,7 @@ PreviewWidget {
         id: column
         objectName: "column"
         spacing: units.gu(1)
+        width: parent.width
 
         Label {
             id: titleLabel
@@ -51,6 +52,7 @@ PreviewWidget {
             visible: text !== ""
             opacity: .8
             text: widgetData["title"] || ""
+            elide: Text.ElideRight
         }
 
         GridLayout {
@@ -72,6 +74,8 @@ PreviewWidget {
                         visible: root.expanded || rowIndex < maximumCollapsedRowCount
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
                         font.bold: index == 0
+                        elide: Text.ElideRight
+                        Layout.maximumWidth: column.width - x
                     }
                 }
             }
