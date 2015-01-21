@@ -49,16 +49,20 @@ class DisplayIndicator(object):
         :return: The custom proxy object for the display indicator page.
 
         """
-        # TODO open the indicator directly if it is displayed in the menu.
+        if self.is_indicator_icon_visible():
+            return self._main_window.open_indicator_page(
+                'indicator-rotation-lock')
+        else:
+            return self._open_indicator_with_icon_not_visible()
+
+    def _open_indicator_with_icon_not_visible(self):
         # open any displayed indicator.
         self._main_window.open_indicator_page('indicator-datetime')
         self._make_indicator_icon_visible()
         indicator_rotation_icon = self._main_window.select_single(
             objectName='indicator-rotation-lock-panelItem')
         self._main_window.pointing_device.click_object(indicator_rotation_icon)
-        indicators_menu = self._main_window.select_single('IndicatorsMenu')
-        indicators_menu.fullyOpened.wait_for(True)
-        return self._main_window.select_single(
+        return self._main_window.wait_select_single(
             objectName='indicator-rotation-lock-page')
 
     def _make_indicator_icon_visible(self):

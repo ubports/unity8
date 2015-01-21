@@ -88,7 +88,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         self.wait_select_single('IndicatorsMenu', fullyOpened=True)
         return self._get_indicator_page(indicator_name)
 
-    @autopilot_logging.log_action(logger.info)    
+    @autopilot_logging.log_action(logger.info)
     def close_indicator_page(self):
         """Swipe to close the opened indicator, wait until it's closed."""
         indicators_menu = self.wait_select_single('IndicatorsMenu')
