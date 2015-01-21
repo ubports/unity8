@@ -180,7 +180,10 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+            // Nokia earpieces give TogglePlayPause, while the iPhone's earpiece gives Play
+            if (event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) {
+                event.accepted = callManager.handleMediaKey(false);
+            } else if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
                 // FIXME: We only consider power key presses if the screen is
                 // on because of bugs 1410830/1409003.  The theory is that when
                 // those bugs are encountered, there is a >2s delay between the
