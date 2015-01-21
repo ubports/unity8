@@ -27,6 +27,7 @@ class IndicatorPage(emulators.UnityEmulatorBase):
 
     # XXX Because of https://bugs.launchpad.net/autopilot-qt/+bug/1341671
     # we need to make sure it does not match in any selection.
+    # --elopio - 2015-01-20
 
     @classmethod
     def validate_dbus_object(cls, path, state):
@@ -56,7 +57,7 @@ class DisplayIndicator(object):
             return self._open_indicator_with_icon_not_visible()
 
     def _open_indicator_with_icon_not_visible(self):
-        # open any displayed indicator.
+        # Open any displayed indicator.
         self._main_window.open_indicator_page('indicator-datetime')
         self._make_indicator_icon_visible()
         indicator_rotation_icon = self._main_window.select_single(
@@ -73,7 +74,7 @@ class DisplayIndicator(object):
 
     def _swipe_flickable_to_x_end(self, flickable):
         # XXX this should be implemented as a general horizontal swiping in
-        # the toolkit custom proxy object.
+        # the toolkit custom proxy object. -- elopio - 2015-01-20
         if not flickable.atXEnd:
             while not flickable.atXEnd:
                 start_y = stop_y = (
