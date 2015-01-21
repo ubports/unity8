@@ -73,7 +73,7 @@ class DisplayRotationLock(fixtures.Fixture):
         self.enable = enable
 
     def setUp(self):
-        super(self, DisplayRotationLock).setUp()
+        super(DisplayRotationLock, self).setUp()
         original_state = self._is_rotation_lock_enabled()
         if self.enable != original_state:
             self.addCleanup(self._set_rotation_lock, original_state)
@@ -86,7 +86,6 @@ class DisplayRotationLock(fixtures.Fixture):
             'rotation-lock'
         ]
         output = subprocess.check_output(command, universal_newlines=True)
-        print (output)
         return True if output.count('true') else False
 
     def _set_rotation_lock(self, value):

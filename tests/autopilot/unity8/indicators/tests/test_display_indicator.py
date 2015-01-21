@@ -25,13 +25,29 @@ from unity8.indicators import tests
 
 class DisplayIndicatorTestCase(tests.IndicatorTestCase):
 
-    def test(self):
+    def test_indicator_icon_must_be_visible_after_rotation_locked(self):
+        # TODO remove the skip when the bug is fixed. --elopio - 2015-01-20
+        self.skipTest(
+            'This test fails because of bug http://pad.lv/1410915')
+        rotation_unlocked = fixture_setup.DisplayRotationLock(False)
+        self.useFixture(rotation_unlocked)
         display_indicator = indicators.DisplayIndicator(self.main_window)
+        self.assertFalse(display_indicator.is_indicator_icon_visible())
+
         display_indicator_page = display_indicator.open()
-        fixture = fixture_setup.DisplayRotationLock(False)
-
-        display_indicator_page.unlock_rotation()
-        self.assertEqual(fixture._is_rotation_lock_enabled(), False)
-
         display_indicator_page.lock_rotation()
-        self.assertEqual(fixture._is_rotation_lock_enabled(), True)
+        display_indicator.close()
+
+        self.assertTrue(display_indicator.is_indicator_icon_visible())
+
+    def test_indicator_icon_must_not_be_visible_after_rotation_unlocked(self):
+        rotation_locked = fixture_setup.DisplayRotationLock(True)
+        self.useFixture(rotation_locked)
+        display_indicator = indicators.DisplayIndicator(self.main_window)
+        self.assertTrue(display_indicator.is_indicator_icon_visible())
+
+        display_indicator_page = display_indicator.open()
+        display_indicator_page.unlock_rotation()
+        display_indicator.close()
+
+        self.assertFalse(display_indicator.is_indicator_icon_visible())

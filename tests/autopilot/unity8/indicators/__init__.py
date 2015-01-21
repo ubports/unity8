@@ -38,6 +38,11 @@ class DisplayIndicator(object):
     def __init__(self, main_window):
         self._main_window = main_window
 
+    def is_indicator_icon_visible(self):
+        panel_item = self._main_window.wait_select_single(
+            objectName='indicator-rotation-lock-panelItem')
+        return panel_item.indicatorVisible
+
     def open(self):
         """Open the display indicator page.
 
@@ -79,6 +84,9 @@ class DisplayIndicator(object):
                     start_x, start_y, stop_x, stop_y)
                 flickable.dragging.wait_for(False)
                 flickable.moving.wait_for(False)
+
+    def close(self):
+        self._main_window.close_indicator_page()
 
 
 class DisplayIndicatorPage(IndicatorPage):
