@@ -267,21 +267,123 @@ Item {
             name: "NotificationRendererTest"
             when: windowShown
 
+            property list<Notification> nlist: [
+                Notification {
+                    nid: index++
+                    type: Notification.SnapDecision
+                    hints: {"x-canonical-private-affirmative-tint": "true"}
+                    summary: "Theatre at Ferria Stadium"
+                    body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
+                    icon: ""
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: ["ok_id",     "Ok",
+                                 "snooze_id", "Snooze",
+                                 "view_id",   "View"]
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.Ephemeral
+                    hints: {}
+                    summary: "Photo upload completed"
+                    body: ""
+                    icon: "../graphics/applicationIcons/facebook.png"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.Ephemeral
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg",
+                            "suppress-sound": "true"}
+                    summary: "New comment successfully published"
+                    body: ""
+                    icon: ""
+                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.Interactive
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg"}
+                    summary: "Interactive notification"
+                    body: "This is a notification that can be clicked"
+                    icon: "../graphics/avatars/amanda.png"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: ["reply_id", "Dummy"]
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.SnapDecision
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg"}
+                    summary: "Bro Coly"
+                    body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+                    icon: "../graphics/avatars/anna_olsson.png"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: ["accept_id", "Accept",
+                                 "reject_id", "Reject"]
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.Ephemeral
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg"}
+                    summary: "Cole Raby"
+                    body: "I did not expect it to be that late."
+                    icon: "../graphics/avatars/funky.png"
+                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.Ephemeral
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "x-canonical-non-shaped-icon": "true"}
+                    summary: "Contacts"
+                    body: "Synchronised contacts-database with cloud-storage."
+                    icon: "image://theme/contacts-app"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.Confirmation
+                    hints: {"x-canonical-non-shaped-icon": "true"}
+                    summary: ""
+                    body: ""
+                    icon: "image://theme/audio-volume-medium"
+                    secondaryIcon: ""
+                    value: 50
+                    rawActions: []
+                },
+                Notification {
+                    nid: index++
+                    type: Notification.Confirmation
+                    hints: {"x-canonical-non-shaped-icon": "true",
+                            "x-canonical-value-bar-tint" : "true"}
+                    summary: ""
+                    body: "High Volume"
+                    icon: "image://theme/audio-volume-high"
+                    secondaryIcon: ""
+                    value: 85
+                    rawActions: []
+                }
+            ]
+
             function test_NotificationRenderer_data() {
                 return [
                 {
                     tag: "2-over-1 Snap Decision with button-tint",
-                    type: Notification.SnapDecision,
-                    nid: 2,
-                    hints: {"x-canonical-private-affirmative-tint": "true"},
-                    summary: "Theatre at Ferria Stadium",
-                    body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
-                    icon: "",
-                    secondaryIcon: "",
-                    value: 0,
-                    actions: [{ id: "ok_id", label: "Ok"},
-                              { id: "snooze_id", label: "Snooze"},
-                              { id: "view_id", label: "View"}],
+                    n: nlist[0],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: false,
@@ -297,15 +399,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification - icon-summary layout",
-                    type: Notification.Ephemeral,
-                    nid: 3,
-                    hints: {},
-                    summary: "Photo upload completed",
-                    body: "",
-                    icon: "../graphics/applicationIcons/facebook.png",
-                    secondaryIcon: "",
-                    value: 0,
-                    actions: [],
+                    n: nlist[1],
                     summaryVisible: true,
                     bodyVisible: false,
                     iconVisible: true,
@@ -321,17 +415,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
-                    type: Notification.Ephemeral,
-                    nid: 4,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg",
-                            "suppress-sound": "true"},
-                    summary: "New comment successfully published",
-                    body: "",
-                    icon: "",
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                    value: 0,
-                    actions: [],
+                    n: nlist[2],
                     summaryVisible: true,
                     bodyVisible: false,
                     interactiveAreaEnabled: false,
@@ -348,16 +432,7 @@ Item {
                 },
                 {
                     tag: "Interactive notification",
-                    type: Notification.Interactive,
-                    nid: 5,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg"},
-                    summary: "Interactive notification",
-                    body: "This is a notification that can be clicked",
-                    icon: "../graphics/avatars/amanda.png",
-                    secondaryIcon: "",
-                    value: 0,
-                    actions: [{ id: "reply_id", label: "Dummy"}],
+                    n: nlist[3],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -373,17 +448,7 @@ Item {
                 },
                 {
                     tag: "Snap Decision without secondary icon and no button-tint",
-                    type: Notification.SnapDecision,
-                    nid: 6,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg"},
-                    summary: "Bro Coly",
-                    body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                    icon: "../graphics/avatars/anna_olsson.png",
-                    secondaryIcon: "",
-                    value: 0,
-                    actions: [{ id: "accept_id", label: "Accept"},
-                              { id: "reject_id", label: "Reject"}],
+                    n: nlist[4],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -399,16 +464,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification",
-                    type: Notification.Ephemeral,
-                    nid: 7,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg"},
-                    summary: "Cole Raby",
-                    body: "I did not expect it to be that late.",
-                    icon: "../graphics/avatars/funky.png",
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                    value: 0,
-                    actions: [],
+                    n: nlist[5],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -424,16 +480,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification with non-shaped icon",
-                    type: Notification.Ephemeral,
-                    nid: 8,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "x-canonical-non-shaped-icon": "true"},
-                    summary: "Contacts",
-                    body: "Synchronised contacts-database with cloud-storage.",
-                    icon: "image://theme/contacts-app",
-                    secondaryIcon: "",
-                    value: 0,
-                    actions: [],
+                    n: nlist[6],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -449,15 +496,7 @@ Item {
                 },
                 {
                     tag: "Confirmation notification with value",
-                    type: Notification.Confirmation,
-                    nid: 9,
-                    hints: {"x-canonical-non-shaped-icon": "true"},
-                    summary: "",
-                    body: "",
-                    icon: "image://theme/audio-volume-medium",
-                    secondaryIcon: "",
-                    value: 50,
-                    actions: [],
+                    n: nlist[7],
                     summaryVisible: false,
                     bodyVisible: false,
                     iconVisible: false,
@@ -473,16 +512,7 @@ Item {
                 },
                 {
                     tag: "Confirmation notification with value, label and tint",
-                    type: Notification.Confirmation,
-                    nid: 10,
-                    hints: {"x-canonical-non-shaped-icon": "true",
-                            "x-canonical-value-bar-tint" : "true"},
-                    summary: "",
-                    body: "High Volume",
-                    icon: "image://theme/audio-volume-high",
-                    secondaryIcon: "",
-                    value: 85,
-                    actions: [],
+                    n: nlist[8],
                     summaryVisible: false,
                     bodyVisible: false,
                     iconVisible: false,
@@ -520,7 +550,7 @@ Item {
 
             function test_NotificationRenderer(data) {
                 // populate model with some mock notifications
-                mockModel.append(data)
+                mockModel.append(data.n)
 
                 // make sure the view is properly updated before going on
                 notifications.forceLayout();
