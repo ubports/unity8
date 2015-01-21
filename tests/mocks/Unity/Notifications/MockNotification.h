@@ -62,6 +62,7 @@ Q_SIGNALS:
 
     void dataChanged(int nid);
     void completed(int nid);
+    void actionInvoked(const QString &action);
 
 public:
     MockNotification(QObject *parent=nullptr);

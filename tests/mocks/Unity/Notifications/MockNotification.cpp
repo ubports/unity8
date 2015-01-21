@@ -164,6 +164,7 @@ void MockNotification::invokeAction(const QString &action) {
     for(int i=0; i<p->actions.size(); i++) {
         if(p->actions[i] == action) {
             Q_EMIT completed(p->id);
+            Q_EMIT actionInvoked(action);
             return;
         }
     }

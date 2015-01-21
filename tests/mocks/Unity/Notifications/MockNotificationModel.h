@@ -54,6 +54,9 @@ public:
 
     int getCount() const;
 
+Q_SIGNALS:
+    void actionInvoked(const QString &action);
+
 public Q_SLOTS:
     void onCompleted(int id);
 

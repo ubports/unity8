@@ -39,8 +39,6 @@ Item {
         NotificationModel {
             id: mockModel
 
-            signal actionInvoked(string actionId)
-
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
                 var component = Qt.createComponent("Notification.qml")
@@ -550,6 +548,7 @@ Item {
             function test_NotificationRenderer(data) {
                 // hook up notification's completed-signal with model's onCompleted-slot, so that remove happens on close()
                 data.n.completed.connect(mockModel.onCompleted)
+                data.n.actionInvoked.connect(mockModel.actionInvoked)
 
                 // populate model with some mock notifications
                 mockModel.append(data.n)
