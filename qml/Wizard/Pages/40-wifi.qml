@@ -58,7 +58,7 @@ LocalComponents.Page {
 
         function getAccessPointName() {
             // 0 is the interface
-            accessPointName = networkName(NetworkInfo.WlanMode, 0)
+            accessPointName = networkName(NetworkInfo.WlanMode, 0);
         }
     }
 
