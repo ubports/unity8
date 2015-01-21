@@ -477,7 +477,7 @@ Item {
                     right: parent.right
                     margins: contentSpacing
                 }
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
                 spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 

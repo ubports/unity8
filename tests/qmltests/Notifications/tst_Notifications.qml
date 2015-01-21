@@ -445,7 +445,7 @@ Item {
                     valueLabelVisible: false,
                     valueTinted: false
                 },
-                {
+                /*{
                     tag: "Snap Decision without secondary icon and no button-tint",
                     n: nlist[4],
                     summaryVisible: true,
@@ -460,7 +460,7 @@ Item {
                     valueVisible: false,
                     valueLabelVisible: false,
                     valueTinted: false
-                },
+                },*/
                 {
                     tag: "Ephemeral notification",
                     n: nlist[5],
@@ -630,7 +630,7 @@ Item {
                         tryCompareFunction(function() { return comboButton.expanded === false; }, true);
 
                         // click to expand
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == true; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded === true; }, true);
 
                         // try clicking on choices in expanded comboList
                         var choiceButton1 = findChild(notification, "notify_button3")
@@ -658,7 +658,7 @@ Item {
                 var dragY = notification.height / 2;
                 touchFlick(notification, dragStart, dragY, dragEnd, dragY)
                 waitForRendering(notification)
-                if (data.n.type !== Notification.SnapDecision && notification.state !== "expanded") {
+                if ((data.n.type === Notification.SnapDecision && notification.state === "expanded") || data.n.type === Notification.Confirmation) {
                     tryCompare(mockModel, "count", before)
                 } else {
                     tryCompare(mockModel, "count", before - 1)

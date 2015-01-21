@@ -25,8 +25,6 @@ struct ActionModelPrivate {
 };
 
 ActionModel::ActionModel(QObject *parent) : QStringListModel(parent), p(new ActionModelPrivate) {
-    insertAction("ok_id", "Ok");
-    insertAction("cancel_id", "Cancel");
 }
 
 ActionModel::~ActionModel() {
