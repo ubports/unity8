@@ -280,7 +280,7 @@ Item {
                     rawActions: ["ok_id",     "Ok",
                                  "snooze_id", "Snooze",
                                  "view_id",   "View"]
-                },
+                }/*,
                 Notification {
                     nid: index++
                     type: Notification.Ephemeral
@@ -375,7 +375,7 @@ Item {
                     secondaryIcon: ""
                     value: 85
                     rawActions: []
-                }
+                }*/
             ]
 
             function test_NotificationRenderer_data() {
