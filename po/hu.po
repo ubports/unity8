@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-12-10 10:55+0100\n"
-"PO-Revision-Date: 2014-12-21 15:13+0000\n"
+"PO-Revision-Date: 2015-01-17 10:51+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-12-22 07:05+0000\n"
-"X-Generator: Launchpad (build 17286)\n"
+"X-Launchpad-Export-Date: 2015-01-18 05:03+0000\n"
+"X-Generator: Launchpad (build 17304)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Jelszó: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr "Indító rögzítése"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "Indító feloldása"
 
@@ -50,45 +50,45 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Várjon %1 percet és próbálja újra…"
 msgstr[1] "Várjon %1 percet és próbálja újra…"
 
-#: qml/Components/Dialogs.qml:74
+#: qml/Components/Dialogs.qml:70
 msgid "Log out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:75
+#: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
 msgstr "Biztos benne, hogy kijelentkezik?"
 
-#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
 msgid "No"
 msgstr "Nem"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
-#: qml/Components/Dialogs.qml:133
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
 msgid "Yes"
 msgstr "Igen"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:94
 msgid "Shut down"
 msgstr "Leállítás"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
 msgstr "Biztosan le szeretné állítani?"
 
-#: qml/Components/Dialogs.qml:123
+#: qml/Components/Dialogs.qml:119
 msgid "Reboot"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:124
+#: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
 msgstr "Biztosan újra szeretné indítani?"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:144
 msgid "Power"
 msgstr "Kikapcsolás"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -96,15 +96,15 @@ msgstr ""
 "Biztos benne, hogy ki\n"
 "szeretné kapcsolni?"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Kikapcsolás"
 
-#: qml/Components/Dialogs.qml:161
+#: qml/Components/Dialogs.qml:157
 msgid "Restart"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -112,45 +112,45 @@ msgstr "Mégse"
 msgid "Skip intro"
 msgstr "A bemutató kihagyása"
 
-#: qml/Components/EdgeDemo.qml:112
+#: qml/Components/EdgeDemo.qml:125
 msgid "Right edge"
 msgstr "Jobb szél"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:126
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "A telefon feloldásához csúsztassa ujját a jobb szélről"
 
-#: qml/Components/EdgeDemo.qml:144
+#: qml/Components/EdgeDemo.qml:157
 msgid "Top edge"
 msgstr "Felső szél"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:158
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "Az állapotmenük eléréséhez csúsztassa ujját a felső szélről"
 
-#: qml/Components/EdgeDemo.qml:170
+#: qml/Components/EdgeDemo.qml:183
 msgid "Close"
 msgstr "Bezárás"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:184
 msgid "Swipe up again to close the settings screen"
 msgstr "A beállítások bezárásához csúsztassa ujját újra felfelé"
 
-#: qml/Components/EdgeDemo.qml:201
+#: qml/Components/EdgeDemo.qml:214
 msgid "Left edge"
 msgstr "Bal szél"
 
-#: qml/Components/EdgeDemo.qml:202
+#: qml/Components/EdgeDemo.qml:215
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Csúsztassa ujját a bal szélről az indítón található alkalmazások gyors "
 "eléréséhez"
 
-#: qml/Components/EdgeDemo.qml:229
+#: qml/Components/EdgeDemo.qml:242
 msgid "Well done"
 msgstr "Rendben"
 
-#: qml/Components/EdgeDemo.qml:230
+#: qml/Components/EdgeDemo.qml:243
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -158,44 +158,44 @@ msgstr ""
 "Elsajátította a gesztusokat, és megkezdheti a telefon "
 "használatát.<br><br>Koppintson a képernyőre a kezdéshez."
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Vissza a híváshoz"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr "Vészhívás"
 
-#: qml/Components/Lockscreen.qml:255
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
+#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
 msgid "See less"
 msgstr "Kevesebb"
 
-#: qml/Dash/GenericScopeView.qml:434
+#: qml/Dash/GenericScopeView.qml:431
 msgid "See all"
 msgstr "Összes megtekintése"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:268
+#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Keresés"
 
-#: qml/Dash/PageHeader.qml:261
+#: qml/Dash/PageHeader.qml:260
 msgid "Store"
 msgstr "Áruház"
 
-#: qml/Dash/PageHeader.qml:278
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "Beállítások"
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
@@ -229,7 +229,7 @@ msgstr "Engedje el a frissítéshez…"
 
 #: qml/Dash/ScopesList.qml:63
 msgid "Manage"
-msgstr "Kezelés"
+msgstr "Szerkesztés"
 
 #: qml/Dash/ScopesList.qml:107
 msgid "Home"
@@ -237,7 +237,7 @@ msgstr "Kezdőlapon"
 
 #: qml/Dash/ScopesList.qml:108
 msgid "Also installed"
-msgstr "Szintén telepítve"
+msgstr "Telepítve"
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
@@ -291,49 +291,49 @@ msgstr "SIM feloldása"
 msgid "Roaming"
 msgstr "Barangolás"
 
-#: qml/Shell.qml:402
+#: qml/Shell.qml:367
 #, qt-format
 msgid "Enter %1"
 msgstr "Adja meg: %1"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Jelmondat megadása"
 
-#: qml/Shell.qml:398
+#: qml/Shell.qml:369
 msgid "Enter passcode"
 msgstr "Jelkód megadása"
 
-#: qml/Shell.qml:403
+#: qml/Shell.qml:370
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sajnálom, helytelen %1"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:371
 msgid "Sorry, incorrect passphrase"
 msgstr "Sajnálom, helytelen jelmondat"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:372
 msgid "Please re-enter"
 msgstr "Próbálja újra"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:373
 msgid "Sorry, incorrect passcode"
 msgstr "Sajnálom, helytelen jelkód"
 
-#: qml/Shell.qml:444
+#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Sajnálom, helytelen jelmondat."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Sajnálom, helytelen jelkód."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:469
 msgid "This will be your last attempt."
 msgstr "Ez az utolsó próbálkozási lehetősége."
 
-#: qml/Shell.qml:448
+#: qml/Shell.qml:471
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -341,7 +341,7 @@ msgstr ""
 "Ha helytelen jelmondatot ad meg, a telefonja visszaállítja a gyári "
 "beállításokat és törli minden személyes adatát."
 
-#: qml/Shell.qml:449
+#: qml/Shell.qml:472
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -457,7 +457,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Ne tegye"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
