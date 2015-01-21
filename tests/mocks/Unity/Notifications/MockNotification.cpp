@@ -19,6 +19,8 @@
 
 #include "MockNotification.h"
 
+#include <QDebug>
+
 struct MockNotificationPrivate {
     int id;
     QString summary;
@@ -64,6 +66,7 @@ void MockNotification::setBody(const QString &body) {
 }
 
 int MockNotification::getID() const {
+    qDebug() << "nid:" << p->id;
     return p->id;
 }
 

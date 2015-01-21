@@ -284,7 +284,6 @@ Item {
                 Notification {
                     nid: index++
                     type: Notification.Ephemeral
-                    hints: {}
                     summary: "Photo upload completed"
                     body: ""
                     icon: "../graphics/applicationIcons/facebook.png"
@@ -396,7 +395,7 @@ Item {
                     valueVisible: false,
                     valueLabelVisible: false,
                     valueTinted: false
-                },
+                }/*,
                 {
                     tag: "Ephemeral notification - icon-summary layout",
                     n: nlist[1],
@@ -525,7 +524,7 @@ Item {
                     valueVisible: true,
                     valueLabelVisible: true,
                     valueTinted: true
-                }
+                }*/
                 ]
             }
 
@@ -588,7 +587,7 @@ Item {
 
                 // test input does not fall through
                 mouseClick(notification)
-                if(data.type == Notification.Interactive) {
+                if(data.n.type === Notification.Interactive) {
                     actionSpy.wait()
                     compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
                 }
@@ -623,9 +622,9 @@ Item {
                     waitForRendering (notification)
 
                     // check if there's a ComboButton created due to more actions being passed
-                    if (data.actions.length > 2) {
+                    if (data.n.actions.length > 2) {
                         var comboButton = findChild(notification, "notify_button2")
-                        tryCompareFunction(function() { return comboButton.expanded == false; }, true);
+                        tryCompareFunction(function() { return comboButton.expanded === false; }, true);
 
                         // click to expand
                         tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == true; }, true);
