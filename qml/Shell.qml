@@ -664,7 +664,7 @@ Item {
         target: callManager
 
         onHasCallsChanged: {
-            if (shell.locked && callManager.hasCalls) {
+            if (shell.locked && callManager.hasCalls && greeter.lockedApp !== "dialer-app") {
                 // We just received an incoming call while locked.  The
                 // indicator will have already launched dialer-app for us, but
                 // there is a race between "hasCalls" changing and the dialer
