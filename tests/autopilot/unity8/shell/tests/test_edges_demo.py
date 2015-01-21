@@ -31,7 +31,7 @@ from unity8.shell.emulators import edges_demo  # NOQA
 class EdgesDemoTestCase(tests.UnityTestCase):
 
     def setUp(self):
-        super().setUp()
+        super(EdgesDemoTestCase, self).setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
         self._lightdm_mock_type = False

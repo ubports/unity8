@@ -1,3 +1,32 @@
+unity8 (8.02+15.04.20150113.1-0ubuntu1) vivid; urgency=low
+
+  [ Andrea Cimitan ]
+  * support background on horizontal cards with summary (LP: #1393008)
+
+  [ Gerry Boland ]
+  * DashCommunicator: replace QDBusInterface with a non-blocking
+    simplification which does not introspect the service on creation
+    (LP: #1403508)
+
+  [ Leo Arias ]
+  * Added an autopilot test for the edges demo.
+
+  [ Albert Astals ]
+  * Don't show the manage dash pull up arrow on temp scopes (LP:
+    #1401869)
+  * Remove hack, newer Qt already support keyClick(char)
+  * Tests: Add Qt 5.5 removal TODOs
+  * Make sure we use fPIC when compiling files for the static library
+    too
+  * Make sure changing a scope doesn't trigger creation/destruction of
+    delegates until it's finished (LP: #1410122)
+
+  [ Michael Zanetti ]
+  * patch debian/control file before using it to make it work with mk-
+    build-deps
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 13 Jan 2015 20:58:08 +0000
+
 unity8 (8.02+15.04.20150109.2-0ubuntu1) vivid; urgency=low
 
   [ Michał Sawicz ]

@@ -20,7 +20,6 @@
 // local
 #include "abstractdbusservicemonitor.h"
 
-
 class DashConnection: public AbstractDBusServiceMonitor
 {
     Q_OBJECT
@@ -29,6 +28,10 @@ public:
 
 public Q_SLOTS:
     void setCurrentScope(int index, bool animate, bool isSwipe);
+
+private:
+    QDBusAbstractInterface* createInterface(const QString &service, const QString &path,
+                                            const QString &interface, const QDBusConnection &connection) override;
 };
 
 #endif
