@@ -90,6 +90,7 @@ class DisplayIndicator(object):
                 flickable.moving.wait_for(False)
 
     def close(self):
+        """Close the indicator page."""
         self._main_window.close_indicator_page()
 
 
@@ -106,7 +107,7 @@ class DisplayIndicatorPage(IndicatorPage):
         return False
 
     def lock_rotation(self):
-        """Toggles the rotation lock indicator to locked."""
+        """Toggle the rotation lock indicator to locked."""
         switcher = self._get_switcher()
         switcher.check()
         switcher.checked.wait_for(True)
@@ -116,7 +117,7 @@ class DisplayIndicatorPage(IndicatorPage):
             ubuntuuitoolkit.CheckBox, objectName='switcher')
 
     def unlock_rotation(self):
-        """Toggles the rotation lock indicator to unlocked."""
+        """Toggle the rotation lock indicator to unlocked."""
         switcher = self._get_switcher()
         switcher.uncheck()
         switcher.checked.wait_for(False)
