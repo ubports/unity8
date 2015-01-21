@@ -24,7 +24,11 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
   : mockMode("single")
   , q_ptr(parent)
 {
-    resetEntries_single();
+    char *envMockMode = getenv("LIBLIGHTDM_MOCK_MODE");
+    if (envMockMode) {
+        mockMode = envMockMode;
+    }
+    resetEntries();
 }
 
 void UsersModelPrivate::resetEntries()

@@ -27,6 +27,10 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
     mockMode("single"),
     q_ptr(parent)
 {
+    char *envMockMode = getenv("LIBLIGHTDM_MOCK_MODE");
+    if (envMockMode) {
+        mockMode = envMockMode;
+    }
 }
 
 void GreeterPrivate::handleAuthenticate()
