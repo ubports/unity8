@@ -443,7 +443,7 @@ Item {
                     valueLabelVisible: false,
                     valueTinted: false
                 },
-                /*{
+                {
                     tag: "Snap Decision without secondary icon and no button-tint",
                     n: nlist[4],
                     summaryVisible: true,
@@ -458,7 +458,7 @@ Item {
                     valueVisible: false,
                     valueLabelVisible: false,
                     valueTinted: false
-                },*/
+                },
                 {
                     tag: "Ephemeral notification",
                     n: nlist[5],
