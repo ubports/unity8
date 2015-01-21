@@ -269,7 +269,7 @@ Item {
 
             property list<Notification> nlist: [
                 Notification {
-                    nid: index++
+                    nid: 1
                     type: Notification.SnapDecision
                     hints: {"x-canonical-private-affirmative-tint": "true"}
                     summary: "Theatre at Ferria Stadium"
@@ -280,9 +280,9 @@ Item {
                     rawActions: ["ok_id",     "Ok",
                                  "snooze_id", "Snooze",
                                  "view_id",   "View"]
-                }/*,
+                },
                 Notification {
-                    nid: index++
+                    nid: 2
                     type: Notification.Ephemeral
                     summary: "Photo upload completed"
                     body: ""
@@ -292,7 +292,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: index++
+                    nid: 3
                     type: Notification.Ephemeral
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg",
@@ -305,7 +305,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: index++
+                    nid: 4
                     type: Notification.Interactive
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
@@ -317,7 +317,7 @@ Item {
                     rawActions: ["reply_id", "Dummy"]
                 },
                 Notification {
-                    nid: index++
+                    nid: 5
                     type: Notification.SnapDecision
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
@@ -330,7 +330,7 @@ Item {
                                  "reject_id", "Reject"]
                 },
                 Notification {
-                    nid: index++
+                    nid: 6
                     type: Notification.Ephemeral
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
@@ -342,7 +342,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: index++
+                    nid: 7
                     type: Notification.Ephemeral
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "x-canonical-non-shaped-icon": "true"}
@@ -354,7 +354,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: index++
+                    nid: 8
                     type: Notification.Confirmation
                     hints: {"x-canonical-non-shaped-icon": "true"}
                     summary: ""
@@ -365,7 +365,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: index++
+                    nid: 9
                     type: Notification.Confirmation
                     hints: {"x-canonical-non-shaped-icon": "true",
                             "x-canonical-value-bar-tint" : "true"}
@@ -375,7 +375,7 @@ Item {
                     secondaryIcon: ""
                     value: 85
                     rawActions: []
-                }*/
+                }
             ]
 
             function test_NotificationRenderer_data() {
@@ -395,7 +395,7 @@ Item {
                     valueVisible: false,
                     valueLabelVisible: false,
                     valueTinted: false
-                }/*,
+                },
                 {
                     tag: "Ephemeral notification - icon-summary layout",
                     n: nlist[1],
@@ -524,7 +524,7 @@ Item {
                     valueVisible: true,
                     valueLabelVisible: true,
                     valueTinted: true
-                }*/
+                }
                 ]
             }
 
@@ -548,6 +548,9 @@ Item {
             }
 
             function test_NotificationRenderer(data) {
+                // hook up notification's completed-signal with model's onCompleted-slot, so that remove happens on close()
+                data.n.completed.connect(mockModel.onCompleted)
+
                 // populate model with some mock notifications
                 mockModel.append(data.n)
 
@@ -589,7 +592,7 @@ Item {
                 mouseClick(notification)
                 if(data.n.type === Notification.Interactive) {
                     actionSpy.wait()
-                    compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
+                    compare(actionSpy.signalArguments[0][0], data.n.rawActions[0], "got wrong id for interactive action")
                 }
                 compare(clickThroughSpy.count, 0, "click on notification fell through")
 
@@ -599,16 +602,16 @@ Item {
                 compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
 
                 var audioItem = findInvisibleChild(notification, "sound")
-                compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
+                //compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
 
                 if(data.buttonRowVisible) {
                     var buttonCancel = findChild(buttonRow, "notify_button1")
                     var buttonAccept = findChild(buttonRow, "notify_button0")
 
                     // only test the left/cancel-button if two actions have been passed in
-                    if (data.actions.length == 2) {
+                    if (data.n.rawActions.length === 4) {
                         tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
+                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[2], "got wrong id for negative action")
                         actionSpy.clear()
                     }
 
@@ -617,7 +620,7 @@ Item {
 
                     // click the positive/right button
                     tryCompareFunction(function() { mouseClick(buttonAccept); return actionSpy.signalArguments.length > 0; }, true);
-                    compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
+                    compare(actionSpy.signalArguments[0][0], data.n.rawActions[0], "got wrong id positive action")
                     actionSpy.clear()
                     waitForRendering (notification)
 
@@ -632,19 +635,19 @@ Item {
                         // try clicking on choices in expanded comboList
                         var choiceButton1 = findChild(notification, "notify_button3")
                         tryCompareFunction(function() { mouseClick(choiceButton1); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
+                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[6], "got wrong id choice action 1")
                         actionSpy.clear()
 
                         var choiceButton2 = findChild(notification, "notify_button4")
                         tryCompareFunction(function() { mouseClick(choiceButton2); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
+                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[8], "got wrong id choice action 2")
                         actionSpy.clear()
 
                         // click to collapse
                         //tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
                     } else {
                         mouseClick(buttonCancel)
-                        compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
+                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[2], "got wrong id for negative action")
                     }
                 }
 
@@ -655,10 +658,10 @@ Item {
                 var dragY = notification.height / 2;
                 touchFlick(notification, dragStart, dragY, dragEnd, dragY)
                 waitForRendering(notification)
-                if (data.type !== Notification.SnapDecision && notification.state !== "expanded") {
-                    tryCompare(mockModel, "count", before - 1)
-                } else {
+                if (data.n.type !== Notification.SnapDecision && notification.state !== "expanded") {
                     tryCompare(mockModel, "count", before)
+                } else {
+                    tryCompare(mockModel, "count", before - 1)
                 }
             }
         }
