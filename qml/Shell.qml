@@ -198,8 +198,20 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                dialogs.onPowerKeyPressed();
+            // Nokia earpieces give TogglePlayPause, while the iPhone's earpiece gives Play
+            if (event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) {
+                event.accepted = callManager.handleMediaKey(false);
+            } else if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                // FIXME: We only consider power key presses if the screen is
+                // on because of bugs 1410830/1409003.  The theory is that when
+                // those bugs are encountered, there is a >2s delay between the
+                // power press event and the power release event, which causes
+                // the shutdown dialog to appear on resume.  So to avoid that
+                // symptom while we investigate the root cause, we simply won't
+                // initiate any dialogs when the screen is off.
+                if (Powerd.status === Powerd.On) {
+                    dialogs.onPowerKeyPressed();
+                }
                 event.accepted = true;
             } else {
                 volumeKeyFilter.onKeyPressed(event.key);
@@ -704,7 +716,7 @@ Item {
         target: callManager
 
         onHasCallsChanged: {
-            if (shell.locked && callManager.hasCalls) {
+            if (shell.locked && callManager.hasCalls && greeter.lockedApp !== "dialer-app") {
                 // We just received an incoming call while locked.  The
                 // indicator will have already launched dialer-app for us, but
                 // there is a race between "hasCalls" changing and the dialer
