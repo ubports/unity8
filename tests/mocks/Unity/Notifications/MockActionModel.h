@@ -26,6 +26,7 @@ struct ActionModelPrivate;
 
 class ActionModel : public QStringListModel {
     Q_OBJECT
+    Q_PROPERTY(int count READ getCount)
 
 public:
     ActionModel(QObject *parent=nullptr);
@@ -43,6 +44,7 @@ public:
     Q_INVOKABLE QVariant data(int row, int role) const;
 
     void insertAction(const QString &id, const QString &label);
+    int getCount() const;
 
 private:
     QScopedPointer<ActionModelPrivate> p;

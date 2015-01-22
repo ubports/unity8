@@ -546,9 +546,11 @@ Item {
             }
 
             function test_NotificationRenderer(data) {
-                // hook up notification's completed-signal with model's onCompleted-slot, so that remove happens on close()
-                data.n.completed.connect(mockModel.onCompleted)
+                // make sure the clicks on mocked notifications can be checked against by "actionSpy" (mimicking the NotificationServer component)
                 data.n.actionInvoked.connect(mockModel.actionInvoked)
+
+                // hook up notification's completed-signal with model's onCompleted-slot, so that remove() (model) happens on close() (notification)
+                data.n.completed.connect(mockModel.onCompleted)
 
                 // populate model with some mock notifications
                 mockModel.append(data.n)
@@ -591,7 +593,7 @@ Item {
                 mouseClick(notification)
                 if(data.n.type === Notification.Interactive) {
                     actionSpy.wait()
-                    compare(actionSpy.signalArguments[0][0], data.n.rawActions[0], "got wrong id for interactive action")
+                    compare(actionSpy.signalArguments[0][0], data.n.actions.data(0, ActionModel.RoleActionId), "got wrong id for interactive action")
                 }
                 compare(clickThroughSpy.count, 0, "click on notification fell through")
 
@@ -608,9 +610,9 @@ Item {
                     var buttonAccept = findChild(buttonRow, "notify_button0")
 
                     // only test the left/cancel-button if two actions have been passed in
-                    if (data.n.rawActions.length === 4) {
+                    if (data.n.actions.count === 2) {
                         tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[2], "got wrong id for negative action")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
                         actionSpy.clear()
                     }
 
@@ -619,12 +621,11 @@ Item {
 
                     // click the positive/right button
                     tryCompareFunction(function() { mouseClick(buttonAccept); return actionSpy.signalArguments.length > 0; }, true);
-                    compare(actionSpy.signalArguments[0][0], data.n.rawActions[0], "got wrong id positive action")
+                    compare(actionSpy.signalArguments[0][0], data.n.actions.data(0, ActionModel.RoleActionId), "got wrong id positive action")
                     actionSpy.clear()
-                    waitForRendering (notification)
 
                     // check if there's a ComboButton created due to more actions being passed
-                    if (data.n.actions.length > 2) {
+                    if (data.n.actions.count > 3) {
                         var comboButton = findChild(notification, "notify_button2")
                         tryCompareFunction(function() { return comboButton.expanded === false; }, true);
 
@@ -634,19 +635,19 @@ Item {
                         // try clicking on choices in expanded comboList
                         var choiceButton1 = findChild(notification, "notify_button3")
                         tryCompareFunction(function() { mouseClick(choiceButton1); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[6], "got wrong id choice action 1")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(3, ActionModel.RoleActionId), "got wrong id choice action 1")
                         actionSpy.clear()
 
                         var choiceButton2 = findChild(notification, "notify_button4")
                         tryCompareFunction(function() { mouseClick(choiceButton2); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[8], "got wrong id choice action 2")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(4, ActionModel.RoleActionId), "got wrong id choice action 2")
                         actionSpy.clear()
 
                         // click to collapse
-                        //tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
                     } else {
                         mouseClick(buttonCancel)
-                        compare(actionSpy.signalArguments[0][0], data.n.rawActions[2], "got wrong id for negative action")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
                     }
                 }
 
