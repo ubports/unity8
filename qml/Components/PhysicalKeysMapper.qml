@@ -15,6 +15,8 @@
  */
 
 import QtQuick 2.0
+import Powerd 0.1
+
 /*!
  \brief A mapper for the physical keys on the device
 
@@ -62,16 +64,33 @@ Item {
 
 
     function onKeyPressed(key) {
+        var eventAccepted = true;
+
         /* Determine what key was pressed */
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
-            if (!powerKeyLongPressTimer.running) {
-                powerKeyLongPressTimer.restart();
+
+            // FIXME: We only consider power key presses if the screen is
+            // on because of bugs 1410830/1409003.  The theory is that when
+            // those bugs are encountered, there is a >2s delay between the
+            // power press event and the power release event, which causes
+            // the shutdown dialog to appear on resume.  So to avoid that
+            // symptom while we investigate the root cause, we simply won't
+            // initiate any dialogs when the screen is off.
+            // This also prevents taking screenshots when the screen is off.
+            if (Powerd.status === Powerd.On) {
+                if (!powerKeyLongPressTimer.running) {
+                    powerKeyLongPressTimer.restart();
+                }
+                d.powerKeyPressed = true;
             }
-            d.powerKeyPressed = true;
+        } else if (key == Qt.Key_MediaTogglePlayPause || key == Qt.Key_MediaPlay) {
+            eventAccepted = callManager.handleMediaKey(false);
         } else if (key == Qt.Key_VolumeDown) {
             d.volumeDownKeyPressed = true;
         } else if (key == Qt.Key_VolumeUp) {
             d.volumeUpKeyPressed = true;
+        } else {
+            eventAccepted = false;
         }
 
         /* Determine how to handle it  */
@@ -86,9 +105,12 @@ Item {
         } else if (d.volumeUpKeyPressed) {
             volumeUpPressed();
         }
+        return eventAccepted;
     }
 
     function onKeyReleased(key) {
+        var eventAccepted = true;
+
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
             d.powerKeyPressed = false;
@@ -97,6 +119,9 @@ Item {
             d.volumeDownKeyPressed = false;
         } else if (key == Qt.Key_VolumeUp) {
             d.volumeUpKeyPressed = false;
+        } else {
+            eventAccepted = false;
         }
+        return eventAccepted;
     }
 }

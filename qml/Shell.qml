@@ -183,12 +183,7 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            physicalKeysMapper.onKeyPressed(event.key);
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                event.accepted = true;
-            } else {
-                event.accepted = false;
-            }
+            event.accepted = physicalKeysMapper.onKeyPressed(event.key);
         }
 
         Keys.onReleased: {
