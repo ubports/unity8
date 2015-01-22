@@ -187,12 +187,7 @@ Item {
         }
 
         Keys.onReleased: {
-            physicalKeysMapper.onKeyReleased(event.key);
-            if (event.key = Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                event.accepted = true;
-            } else {
-                event.accepted = false;
-            }
+            event.accepted = physicalKeysMapper.onKeyReleased(event.key);
         }
     }
 
