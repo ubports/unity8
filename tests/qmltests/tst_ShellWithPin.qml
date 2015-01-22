@@ -517,8 +517,7 @@ Item {
         function test_shortLeftEdgeSwipeMakesLauncherStayVisible() {
             var greeter = testCase.findChild(shell, "greeter")
             greeter.show();
-            // wait until the animation has finished (ie, greeter is fully visible)
-            tryCompareFunction(function() { return greeter.mapToItem(shell, 0, 0).x === 0; }, true);
+            tryCompare(greeter, "showProgress", 1);
 
             var launcher = testCase.findChild(shell, "launcher")
             {
