@@ -36,8 +36,7 @@ add_library(MockLightDM-qml MODULE
 # LD_LIBRARY_PATH.
 add_dependencies(MockLightDM-qml MockLightDM MockUserMetrics)
 target_link_libraries(MockLightDM-qml
-    -L${CMAKE_CURRENT_BINARY_DIR}/liblightdm
-    -llightdm-qt5-2
+    MockLightDM
     -L${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
     -lusermetricsoutput
     unity8-private
