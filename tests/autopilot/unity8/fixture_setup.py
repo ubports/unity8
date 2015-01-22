@@ -93,6 +93,6 @@ class DisplayRotationLock(fixtures.Fixture):
         command = [
             'gsettings', 'set',
             'com.ubuntu.touch.system',
-            'rotation-lock', '{}'.format(value_string)
+            'rotation-lock', value_string
         ]
         subprocess.check_output(command)
