@@ -101,6 +101,11 @@ Rectangle {
             "layout": { "template": { "overlay": true },
                         "components": { "art": "art", "title": "title" } }
         },
+        {
+            "name": "Art, summary, - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" },
+                        "components": { "art": "art", "summary": "summary" } }
+        },
     ]
 
     CardTool {
@@ -415,6 +420,7 @@ Rectangle {
                   background: Qt.resolvedUrl("artwork/checkers.png"), index: 10 },
                 { tag: "Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff", index: 11 },
                 { tag: "Image background", visible: true, image: Qt.resolvedUrl("artwork/checkers.png"), index: 12 },
+                { tag: "Horizontal art and summary", visible: false, index: 14 },
             ];
         }
 
