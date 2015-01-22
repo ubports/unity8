@@ -268,19 +268,6 @@ Item {
             property list<Notification> nlist: [
                 Notification {
                     nid: 1
-                    type: Notification.SnapDecision
-                    hints: {"x-canonical-private-affirmative-tint": "true"}
-                    summary: "Theatre at Ferria Stadium"
-                    body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
-                    icon: ""
-                    secondaryIcon: ""
-                    value: 0
-                    rawActions: ["ok_id",     "Ok",
-                                 "snooze_id", "Snooze",
-                                 "view_id",   "View"]
-                },
-                Notification {
-                    nid: 2
                     type: Notification.Ephemeral
                     summary: "Photo upload completed"
                     body: ""
@@ -290,7 +277,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: 3
+                    nid: 2
                     type: Notification.Ephemeral
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg",
@@ -303,7 +290,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: 4
+                    nid: 3
                     type: Notification.Interactive
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
@@ -315,7 +302,7 @@ Item {
                     rawActions: ["reply_id", "Dummy"]
                 },
                 Notification {
-                    nid: 5
+                    nid: 4
                     type: Notification.SnapDecision
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
@@ -328,7 +315,7 @@ Item {
                                  "reject_id", "Reject"]
                 },
                 Notification {
-                    nid: 6
+                    nid: 5
                     type: Notification.Ephemeral
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "sound-file": "dummy.ogg"}
@@ -340,7 +327,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: 7
+                    nid: 6
                     type: Notification.Ephemeral
                     hints: {"x-canonical-private-affirmative-tint": "false",
                             "x-canonical-non-shaped-icon": "true"}
@@ -352,7 +339,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: 8
+                    nid: 7
                     type: Notification.Confirmation
                     hints: {"x-canonical-non-shaped-icon": "true"}
                     summary: ""
@@ -363,7 +350,7 @@ Item {
                     rawActions: []
                 },
                 Notification {
-                    nid: 9
+                    nid: 8
                     type: Notification.Confirmation
                     hints: {"x-canonical-non-shaped-icon": "true",
                             "x-canonical-value-bar-tint" : "true"}
@@ -373,30 +360,27 @@ Item {
                     secondaryIcon: ""
                     value: 85
                     rawActions: []
+                },
+                Notification {
+                    nid: 9
+                    type: Notification.SnapDecision
+                    hints: {"x-canonical-private-affirmative-tint": "true"}
+                    summary: "Theatre at Ferria Stadium"
+                    body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
+                    icon: ""
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: ["ok_id",     "Ok",
+                                 "snooze_id", "Snooze",
+                                 "view_id",   "View"]
                 }
             ]
 
             function test_NotificationRenderer_data() {
                 return [
                 {
-                    tag: "2-over-1 Snap Decision with button-tint",
-                    n: nlist[0],
-                    summaryVisible: true,
-                    bodyVisible: true,
-                    iconVisible: false,
-                    centeredIconVisible: false,
-                    shaped: false,
-                    secondaryIconVisible: false,
-                    buttonRowVisible: false,
-                    buttonTinted: true,
-                    hasSound: false,
-                    valueVisible: false,
-                    valueLabelVisible: false,
-                    valueTinted: false
-                },
-                {
                     tag: "Ephemeral notification - icon-summary layout",
-                    n: nlist[1],
+                    n: nlist[0],
                     summaryVisible: true,
                     bodyVisible: false,
                     iconVisible: true,
@@ -412,7 +396,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
-                    n: nlist[2],
+                    n: nlist[1],
                     summaryVisible: true,
                     bodyVisible: false,
                     interactiveAreaEnabled: false,
@@ -429,7 +413,7 @@ Item {
                 },
                 {
                     tag: "Interactive notification",
-                    n: nlist[3],
+                    n: nlist[2],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -445,7 +429,7 @@ Item {
                 },
                 {
                     tag: "Snap Decision without secondary icon and no button-tint",
-                    n: nlist[4],
+                    n: nlist[3],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -461,7 +445,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification",
-                    n: nlist[5],
+                    n: nlist[4],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -477,7 +461,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification with non-shaped icon",
-                    n: nlist[6],
+                    n: nlist[5],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -493,7 +477,7 @@ Item {
                 },
                 {
                     tag: "Confirmation notification with value",
-                    n: nlist[7],
+                    n: nlist[6],
                     summaryVisible: false,
                     bodyVisible: false,
                     iconVisible: false,
@@ -509,7 +493,7 @@ Item {
                 },
                 {
                     tag: "Confirmation notification with value, label and tint",
-                    n: nlist[8],
+                    n: nlist[7],
                     summaryVisible: false,
                     bodyVisible: false,
                     iconVisible: false,
@@ -522,6 +506,22 @@ Item {
                     valueVisible: true,
                     valueLabelVisible: true,
                     valueTinted: true
+                },
+                {
+                    tag: "2-over-1 Snap Decision with button-tint",
+                    n: nlist[8],
+                    summaryVisible: true,
+                    bodyVisible: true,
+                    iconVisible: false,
+                    centeredIconVisible: false,
+                    shaped: false,
+                    secondaryIconVisible: false,
+                    buttonRowVisible: false,
+                    buttonTinted: true,
+                    hasSound: false,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 }
                 ]
             }

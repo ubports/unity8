@@ -19,6 +19,8 @@
 
 #include "MockNotification.h"
 
+#include <QDebug>
+
 struct MockNotificationPrivate {
     int id;
     QString summary;
@@ -163,8 +165,8 @@ void MockNotification::setHints(const QVariantMap& hints) {
 void MockNotification::invokeAction(const QString &action) {
     for(int i=0; i<p->actions.size(); i++) {
         if(p->actions[i] == action) {
-            Q_EMIT completed(p->id);
             Q_EMIT actionInvoked(action);
+            qDebug() << "Info: invoked action" << action;
             return;
         }
     }
