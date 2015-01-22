@@ -129,12 +129,6 @@ Item {
         signalName: "unlockingAllModems"
     }
 
-    SignalSpy {
-        id: notificationActionSpy
-        target: mockNotificationsModel
-        signalName: "actionInvoked"
-    }
-
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
