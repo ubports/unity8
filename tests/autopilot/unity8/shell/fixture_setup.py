@@ -20,6 +20,7 @@
 """Set up and clean up fixtures for the Unity acceptance tests."""
 
 import os
+import subprocess
 import sysconfig
 
 import fixtures
@@ -51,3 +52,40 @@ class FakeScopes(fixtures.Fixture):
                 'Expected library path does not exists: %s.' % (
                     ld_library_path))
         return ld_library_path
+
+
+class EdgesDemo(fixtures.Fixture):
+
+    def __init__(self, enable):
+        super().__init__()
+        self.enable = enable
+
+    def setUp(self):
+        super().setUp()
+        original_state = self._is_edges_demo_enabled()
+        if self.enable != original_state:
+            self.addCleanup(self._set_edges_demo, original_state)
+            self._set_edges_demo(self.enable)
+
+    def _is_edges_demo_enabled(self):
+        command = [
+            'dbus-send', '--system', '--print-reply',
+            '--dest=org.freedesktop.Accounts',
+            '/org/freedesktop/Accounts/User32011',
+            'org.freedesktop.DBus.Properties.Get',
+            'string:com.canonical.unity.AccountsService',
+            'string:demo-edges'
+        ]
+        output = subprocess.check_output(command, universal_newlines=True)
+        return True if output.count('true') else False
+
+    def _set_edges_demo(self, value):
+        value_string = 'true' if value else 'false'
+        command = [
+            'dbus-send', '--system', '--print-reply',
+            '--dest=com.canonical.PropertyService',
+            '/com/canonical/PropertyService',
+            'com.canonical.PropertyService.SetProperty',
+            'string:edge', 'boolean:{}'.format(value_string)
+        ]
+        subprocess.check_output(command)

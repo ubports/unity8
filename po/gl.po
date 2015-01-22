@@ -7,27 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-11-06 13:30+0000\n"
+"POT-Creation-Date: 2014-12-10 10:55+0100\n"
+"PO-Revision-Date: 2014-12-13 10:46+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-11-09 06:54+0000\n"
-"X-Generator: Launchpad (build 17231)\n"
+"X-Launchpad-Export-Date: 2014-12-14 06:14+0000\n"
+"X-Generator: Launchpad (build 17286)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Contrasinal : "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr "Fixar o atallo"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "Eliminar o atallo"
 
@@ -50,59 +50,59 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Agarde %1 minuto e ténteo de novo…"
 msgstr[1] "Agarde %1 minutos e ténteo de novo…"
 
-#: qml/Components/Dialogs.qml:74
+#: qml/Components/Dialogs.qml:70
 msgid "Log out"
 msgstr "Saír da sesión"
 
-#: qml/Components/Dialogs.qml:75
+#: qml/Components/Dialogs.qml:71
 msgid "Are you sure you want to log out?"
 msgstr "Está seguro de querer pechar a sesión?"
 
-#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:122
 msgid "No"
 msgstr "Non"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
-#: qml/Components/Dialogs.qml:133
+#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
+#: qml/Components/Dialogs.qml:129
 msgid "Yes"
 msgstr "Si"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:94
 msgid "Shut down"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:95
 msgid "Are you sure you want to shut down?"
 msgstr "Está seguro de querer apagar?"
 
-#: qml/Components/Dialogs.qml:123
+#: qml/Components/Dialogs.qml:119
 msgid "Reboot"
 msgstr "Reiniciar"
 
-#: qml/Components/Dialogs.qml:124
+#: qml/Components/Dialogs.qml:120
 msgid "Are you sure you want to reboot?"
 msgstr "Está seguro de querer reiniciar?"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:144
 msgid "Power"
 msgstr "Enerxía"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:145
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Está seguro de querer apagar?"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:147
 msgid "Power off"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:161
+#: qml/Components/Dialogs.qml:157
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:167
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -110,45 +110,45 @@ msgstr "Cancelar"
 msgid "Skip intro"
 msgstr "Saltar introdución"
 
-#: qml/Components/EdgeDemo.qml:112
+#: qml/Components/EdgeDemo.qml:125
 msgid "Right edge"
 msgstr "Bordo dereito"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:126
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Esvare o dedo desde o bordo dereito para desbloquear o teléfono"
 
-#: qml/Components/EdgeDemo.qml:144
+#: qml/Components/EdgeDemo.qml:157
 msgid "Top edge"
 msgstr "Bordo superior"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:158
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "Esvare o dedo desde o bordo superior para acceder aos indicadores."
 
-#: qml/Components/EdgeDemo.qml:170
+#: qml/Components/EdgeDemo.qml:183
 msgid "Close"
 msgstr "Pechar"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:184
 msgid "Swipe up again to close the settings screen"
 msgstr "Esvare o dedo de novo cara a arriba para pechar os axustes"
 
-#: qml/Components/EdgeDemo.qml:201
+#: qml/Components/EdgeDemo.qml:214
 msgid "Left edge"
 msgstr "Bordo esquerdo"
 
-#: qml/Components/EdgeDemo.qml:202
+#: qml/Components/EdgeDemo.qml:215
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Esvare o dedo desde a esquerda para mostrar o iniciador rápido dos "
 "aplicativos"
 
-#: qml/Components/EdgeDemo.qml:229
+#: qml/Components/EdgeDemo.qml:242
 msgid "Well done"
 msgstr "Ben feito!"
 
-#: qml/Components/EdgeDemo.qml:230
+#: qml/Components/EdgeDemo.qml:243
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -156,40 +156,44 @@ msgstr ""
 "Agora xa domina os xestos dos bordos e pode comezar a usar o "
 "teléfono<br><br>Toque na pantalla para comezar"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Volver á chamada"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr "Chamada de emerxencia"
 
-#: qml/Components/Lockscreen.qml:255
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr "Aceptar"
 
-#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
+#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:434
+#: qml/Dash/GenericScopeView.qml:431
 msgid "See all"
 msgstr "Ver todo"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Buscar"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:260
+msgid "Store"
+msgstr "Tenda"
+
+#: qml/Dash/PageHeader.qml:277
 msgid "Settings"
 msgstr "Axustes"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Remove from Favorites"
 msgstr "Eliminar dos favoritos"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:284
 msgid "Add to Favorites"
 msgstr "Engadir aos favoritos"
 
@@ -221,31 +225,23 @@ msgstr "Tirar para actualizar..."
 msgid "Release to refresh…"
 msgstr "Soltar para actualizar"
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Xestionar os Ámbitos"
+#: qml/Dash/ScopesList.qml:63
+msgid "Manage"
+msgstr "Xestionar"
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "Feito"
+#: qml/Dash/ScopesList.qml:107
+msgid "Home"
+msgstr "Inicio"
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "Tenda"
-
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Favoritos"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "Todos"
+#: qml/Dash/ScopesList.qml:108
+msgid "Also installed"
+msgstr "Tamén instalado"
 
 #: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Desbloquear"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "Mostrar contrasinal"
 
@@ -293,49 +289,49 @@ msgstr "Desbloquear a SIM"
 msgid "Roaming"
 msgstr "Itinerancia"
 
-#: qml/Shell.qml:391
-msgid "Enter passphrase"
-msgstr "Introduza a frase secreta"
-
-#: qml/Shell.qml:392
-msgid "Sorry, incorrect passphrase"
-msgstr "Sentímolo a frase é incorrecta"
-
-#: qml/Shell.qml:393
-msgid "Please re-enter"
-msgstr "Introducir de novo"
-
-#: qml/Shell.qml:395
-msgid "Enter passcode"
-msgstr "Introduza a clave"
-
-#: qml/Shell.qml:396
-msgid "Sorry, incorrect passcode"
-msgstr "Sentímolo, a clave é incorrecta"
-
-#: qml/Shell.qml:399
+#: qml/Shell.qml:367
 #, qt-format
 msgid "Enter %1"
 msgstr "Introducir %1"
 
-#: qml/Shell.qml:400
+#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Introduza a frase secreta"
+
+#: qml/Shell.qml:369
+msgid "Enter passcode"
+msgstr "Introduza a clave"
+
+#: qml/Shell.qml:370
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sentímolo, %1 non coincide"
 
-#: qml/Shell.qml:441
+#: qml/Shell.qml:371
+msgid "Sorry, incorrect passphrase"
+msgstr "Sentímolo a frase é incorrecta"
+
+#: qml/Shell.qml:372
+msgid "Please re-enter"
+msgstr "Introducir de novo"
+
+#: qml/Shell.qml:373
+msgid "Sorry, incorrect passcode"
+msgstr "Sentímolo, a clave é incorrecta"
+
+#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Sentímolo a frase é incorrecta."
 
-#: qml/Shell.qml:442
+#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Sentímolo, a clave é incorrecta."
 
-#: qml/Shell.qml:443
+#: qml/Shell.qml:469
 msgid "This will be your last attempt."
 msgstr "Este será o seu último intento."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:471
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -343,13 +339,197 @@ msgstr ""
 "Se a frase de paso introducida é incorrecta, o teléfono restabelecerá os "
 "valores de fábrica e perderá todos os datos persoais."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:472
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Se a clave introducida é incorrecta, o teléfono restabelecerá os valores de "
 "fábrica e perderá todos os datos persoais."
+
+#: qml/Wizard/Page.qml:89
+msgid "Back"
+msgstr "Volver"
+
+#: qml/Wizard/Pages/10-welcome.qml:27
+msgid "Hi!"
+msgstr "Boas!"
+
+#: qml/Wizard/Pages/10-welcome.qml:44
+msgid "Welcome to your Ubuntu phone."
+msgstr "Benvido/a ao seu teléfono Ubuntu."
+
+#: qml/Wizard/Pages/10-welcome.qml:52
+msgid "Let’s get started."
+msgstr "Comezamos."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Continuar"
+
+#: qml/Wizard/Pages/20-sim.qml:25
+msgid "Add a SIM card and restart your device"
+msgstr "Engada unha tarxeta SIM e reinicie o dispositivo"
+
+#: qml/Wizard/Pages/20-sim.qml:55
+msgid "Without it, you won’t be able to make calls or use text messaging."
+msgstr ""
+"Sen ela, non poderá realizar chamadas nin usar a mensaxería de texto."
+
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+msgid "Skip"
+msgstr "Saltar"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:39
+msgid "Lock security"
+msgstr "Seguranza do bloqueo"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:74
+msgid "Please select how you’d like to unlock your phone."
+msgstr "Por favor, seleccione a forma de desbloquear o teléfono."
+
+#: qml/Wizard/Pages/30-passwd-type.qml:97
+msgid "Swipe"
+msgstr "Esvarar o dedo"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:98
+msgid "No security"
+msgstr "Sen seguranza"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:100
+msgid "Passcode"
+msgstr "Clave"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:101
+msgid "4 digits only"
+msgstr "Só 4 díxitos"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:103
+msgid "Passphrase"
+msgstr "Frase secreta"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:104
+msgid "Numbers and letters"
+msgstr "Números e letras"
+
+#: qml/Wizard/Pages/40-wifi.qml:28
+msgid "Connect to Wi‑Fi"
+msgstr "Conectar a unha wifi"
+
+#: qml/Wizard/Pages/40-wifi.qml:147
+msgid "Available networks…"
+msgstr "Redes dispoñíbeis..."
+
+#: qml/Wizard/Pages/40-wifi.qml:148
+msgid "No available networks."
+msgstr "Non hai redes dispoñíbeis."
+
+#: qml/Wizard/Pages/50-location.qml:27
+msgid "Location"
+msgstr "Localización"
+
+#: qml/Wizard/Pages/50-location.qml:62
+msgid "Let the phone detect your location:"
+msgstr "Permitir ao teléfono detectar a localizacón:"
+
+#: qml/Wizard/Pages/50-location.qml:69
+msgid "Using GPS only (less accurate)"
+msgstr "Usar só GPS (menos exacta)"
+
+#: qml/Wizard/Pages/50-location.qml:86
+msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+msgstr "Usar GPS, wifi anónimo e información da rede móbil (recomendado)"
+
+#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#: qml/Wizard/Pages/50-location.qml:103
+msgid ""
+"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+"conditions</a>."
+msgstr ""
+"Seleccionando esta opción acepta os <a href='#'>termos e condicións</a> do "
+"HERE de Nokia."
+
+#: qml/Wizard/Pages/50-location.qml:112
+msgid "Not at all"
+msgstr "De ningún xeito"
+
+#: qml/Wizard/Pages/50-location.qml:124
+msgid "You can change your mind later in <b>System Settings</b>."
+msgstr "Pode cambialo máis tarde nos <b>Axustes do sistema</b>."
+
+#: qml/Wizard/Pages/60-reporting.qml:24
+msgid "Improving your experience"
+msgstr "Mellorando a súa experiencia"
+
+#: qml/Wizard/Pages/60-reporting.qml:36
+msgid ""
+"Your phone is set up to automatically report errors to Canonical and its "
+"partners, the makers of the operating system."
+msgstr ""
+"O teléfono configurouse para informar dos erros automaticamente  a Canonical "
+"e os seus socios, os creadores do sistema operativo."
+
+#: qml/Wizard/Pages/60-reporting.qml:43
+msgid ""
+"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+"Privacy</b>"
+msgstr ""
+"Pode desactivalo nos <b>Axustes do sistema</b> en <b>Seguranza e "
+"privacidade</b>"
+
+#: qml/Wizard/Pages/80-finished.qml:24
+msgid "All done"
+msgstr "Rematado"
+
+#: qml/Wizard/Pages/80-finished.qml:39
+msgid "Nice work!"
+msgstr "Bo traballo!"
+
+#: qml/Wizard/Pages/80-finished.qml:46
+msgid "Your phone is now ready to use."
+msgstr "Xa ten o teléfono listo para o seu uso."
+
+#: qml/Wizard/Pages/80-finished.qml:53
+msgid "Finish"
+msgstr "Rematar"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Termos e condicións"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Confirmar a frase secreta"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Confirmar a clave"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Ténteo de novo."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Escolla unha clave"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "A frase secreta debe ter 4 caracteres"
+
+#: qml/Wizard/StackButton.qml:39
+#, qt-format
+msgid "〈  %1"
+msgstr "〈  %1"
+
+#: qml/Wizard/StackButton.qml:42
+#, qt-format
+msgid "%1  〉"
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Confirmar"
@@ -365,3 +545,15 @@ msgstr ""
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "Cargando, agarde…"
+
+#~ msgid "All"
+#~ msgstr "Todos"
+
+#~ msgid "Favorites"
+#~ msgstr "Favoritos"
+
+#~ msgid "Done"
+#~ msgstr "Feito"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Xestionar os Ámbitos"

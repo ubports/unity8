@@ -118,11 +118,6 @@ Item {
 
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
-
-            // Tests can be run in a reaaaaally slow environment or machine. Thus ensure
-            // the dismissTimer doesn't time out inadvertently.
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            dismissTimer.interval = 60 * 60 * 1000; // one hour
         }
 
         function dragLauncherIntoView() {
@@ -159,7 +154,7 @@ Item {
             dragLauncherIntoView()
 
             // tapping on the center of the screen should dismiss the launcher
-            mouseClick(launcher, launcher.width/2, launcher.height/2)
+            mouseClick(launcher)
 
             // should eventually get fully retracted (hidden)
             tryCompare(panel, "x", -launcher.panelWidth, 1000)
@@ -180,7 +175,7 @@ Item {
 
             verify(appIcon != undefined)
 
-            mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
+            mouseClick(appIcon)
 
             tryCompare(launcher, "lastSelectedApplication",
                        "dialer-app")
@@ -199,7 +194,7 @@ Item {
             var dashIcon = findChild(launcher, "dashItem")
             verify(dashIcon != undefined)
 
-            mouseClick(dashIcon, dashIcon.width/2, dashIcon.height/2)
+            mouseClick(dashIcon)
 
             tryCompare(launcher, "showDashHome_count", 1)
 
@@ -418,7 +413,7 @@ Item {
             compare(quickListShape.visible, false)
 
             // Doing longpress
-            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            mousePress(draggedItem)
             tryCompare(fakeDragItem, "visible", true) // Wait longpress happening
             tryCompare(quickListShape, "visible", true)
 
@@ -453,7 +448,7 @@ Item {
             }
 
             // Doing longpress
-            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2);
+            mousePress(draggedItem);
             tryCompare(quickListShape, "opacity", 0.96);
             mouseRelease(draggedItem);
 
@@ -486,7 +481,7 @@ Item {
             tryCompare(quickListShape, "visible", false)
 
             // Doing longpress
-            mousePress(clickedItem, clickedItem.width / 2, clickedItem.height / 2)
+            mousePress(clickedItem)
             tryCompare(clickedItem, "itemOpacity", 0) // Wait for longpress to happen
             verify(quickListShape.visible, "QuickList must be visible")
 
@@ -497,7 +492,7 @@ Item {
             signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
-            mouseClick(quickListEntry, quickListEntry.width / 2, quickListEntry.height / 2)
+            mouseClick(quickListEntry)
 
             if (data.clickable) {
                 // QuickList needs to be closed when some clickable item is clicked
@@ -529,7 +524,7 @@ Item {
             tryCompare(quickList, "state", "")
 
             // Doing longpress
-            mousePress(clickedItem, clickedItem.width / 2, clickedItem.height / 2)
+            mousePress(clickedItem)
             tryCompare(clickedItem, "itemOpacity", 0) // Wait for longpress to happen
             verify(quickList, "state", "open")
 

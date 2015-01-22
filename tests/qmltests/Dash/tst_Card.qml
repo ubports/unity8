@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Ubuntu.Components 0.1
-import Ubuntu.Connectivity 1.0
 import Unity.Test 0.1 as UT
 import "../../../qml/Dash"
 import "CardHelpers.js" as Helpers
@@ -62,7 +61,7 @@ Rectangle {
         },
         {
             "name": "Art, header, summary - horizontal",
-            "layout": { "template": { "card-layout": "horizontal" },
+            "layout": { "template": { "card-layout": "horizontal", "card-background": { "type": "gradient", "elements": ["grey", "white"] } },
                         "components": JSON.parse(Helpers.fullMapping) }
         },
         {
@@ -221,7 +220,6 @@ Rectangle {
 
         function init() {
             loader.visible = true;
-            NetworkingStatus.limitedBandwith = false;
         }
 
         function cleanup() {
@@ -409,7 +407,7 @@ Rectangle {
             return [
                 { tag: "Art and summary", visible: true, color: "#ffffff", index: 0 },
                 { tag: "No Summary", visible: false, index: 6 },
-                { tag: "Horizontal", visible: false, index: 5 },
+                { tag: "Horizontal", visible: true, color: "#808080", index: 5 },
                 { tag: "Grey background", visible: true, color: "#808080", index: 10 },
                 { tag: "Overriden Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff",
                   background: {type: "color", elements: ["grey", "white"]}, index: 10 },
@@ -541,9 +539,9 @@ Rectangle {
             var touchdown = findChild(card, "touchdown");
 
             compare(touchdown.visible, false);
-            mousePress(card, card.width/2, card.height/2);
+            mousePress(card);
             compare(touchdown.visible, true);
-            mouseRelease(card, card.width/2, card.height/2);
+            mouseRelease(card);
             compare(touchdown.visible, false);
         }
 
@@ -584,26 +582,6 @@ Rectangle {
             } else if (title) {
                 verify((card.width - titleToCard.x - titleToCard.width) === units.gu(1));
             }
-        }
-
-        function test_load_images_visibility_network_data() {
-            return [
-                { tag: "Visible, network", visible: true, limitedBandwith: false },
-                { tag: "Visible, no network", visible: true, limitedBandwith: true },
-                { tag: "Not Visible, network", visible: false, limitedBandwith: false },
-                { tag: "Not Visible, no network", visible: false, limitedBandwith: true }
-            ];
-        }
-
-        function test_load_images_visibility_network(data) {
-            loader.visible = data.visible;
-            NetworkingStatus.limitedBandwith = data.limitedBandwith;
-
-            selector.selectedIndex = 0;
-            waitForRendering(selector);
-            waitForRendering(card);
-
-            verify(data.visible || !data.limitedBandwith || artImage.source == "");
         }
     }
 }

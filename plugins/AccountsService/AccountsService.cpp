@@ -19,23 +19,28 @@
 #include "AccountsService.h"
 #include "AccountsServiceDBusAdaptor.h"
 
+#include <QFile>
 #include <QStringList>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     m_service(new AccountsServiceDBusAdaptor(this)),
-    m_user(qgetenv("USER")),
+    m_user(""),
     m_demoEdges(false),
     m_enableLauncherWhileLocked(false),
     m_enableIndicatorsWhileLocked(false),
     m_statsWelcomeScreen(false),
     m_passwordDisplayHint(Keyboard),
-    m_failedLogins(0)
+    m_failedLogins(0),
+    m_hereEnabled(false),
+    m_hereLicensePath() // null means not set yet
 {
     connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
     connect(m_service, SIGNAL(maybeChanged(const QString &)),
             this, SLOT(maybeChanged(const QString &)));
+
+    setUser(qgetenv("USER"));
 }
 
 QString AccountsService::user() const
@@ -45,6 +50,9 @@ QString AccountsService::user() const
 
 void AccountsService::setUser(const QString &user)
 {
+    if (user.isEmpty() || m_user == user)
+        return;
+
     m_user = user;
     Q_EMIT userChanged();
 
@@ -55,6 +63,8 @@ void AccountsService::setUser(const QString &user)
     updateStatsWelcomeScreen();
     updatePasswordDisplayHint();
     updateFailedLogins();
+    updateHereEnabled();
+    updateHereLicensePath();
 }
 
 bool AccountsService::demoEdges() const
@@ -91,6 +101,26 @@ bool AccountsService::statsWelcomeScreen() const
 AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() const
 {
     return m_passwordDisplayHint;
+}
+
+bool AccountsService::hereEnabled() const
+{
+    return m_hereEnabled;
+}
+
+void AccountsService::setHereEnabled(bool enabled)
+{
+    m_service->setUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted", enabled);
+}
+
+QString AccountsService::hereLicensePath() const
+{
+    return m_hereLicensePath;
+}
+
+bool AccountsService::hereLicensePathValid() const
+{
+    return !m_hereLicensePath.isNull();
 }
 
 void AccountsService::updateDemoEdges()
@@ -156,6 +186,28 @@ void AccountsService::updateFailedLogins()
     }
 }
 
+void AccountsService::updateHereEnabled()
+{
+    bool hereEnabled = m_service->getUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted").toBool();
+    if (m_hereEnabled != hereEnabled) {
+        m_hereEnabled = hereEnabled;
+        Q_EMIT hereEnabledChanged();
+    }
+}
+
+void AccountsService::updateHereLicensePath()
+{
+    QString hereLicensePath = m_service->getUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseBasePath").toString();
+
+    if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
+        hereLicensePath = "";
+
+    if (m_hereLicensePath.isNull() || m_hereLicensePath != hereLicensePath) {
+        m_hereLicensePath = hereLicensePath;
+        Q_EMIT hereLicensePathChanged();
+    }
+}
+
 uint AccountsService::failedLogins() const
 {
     return m_failedLogins;
@@ -194,6 +246,13 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
         }
         if (changed.contains("EnableIndicatorsWhileLocked")) {
             updateEnableIndicatorsWhileLocked();
+        }
+    } else if (interface == "com.ubuntu.location.providers.here.AccountsService") {
+        if (changed.contains("LicenseAccepted")) {
+            updateHereEnabled();
+        }
+        if (changed.contains("LicenseBasePath")) {
+            updateHereLicensePath();
         }
     }
 }

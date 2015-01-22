@@ -35,6 +35,7 @@ class AbstractDashView : public QQuickItem
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
     Q_PROPERTY(qreal rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
+    Q_PROPERTY(int cacheBuffer READ cacheBuffer WRITE setCacheBuffer NOTIFY cacheBufferChanged)
     Q_PROPERTY(qreal displayMarginBeginning READ displayMarginBeginning
                                             WRITE setDisplayMarginBeginning
                                             NOTIFY displayMarginBeginningChanged)
@@ -61,6 +62,9 @@ public:
     qreal rowSpacing() const;
     void setRowSpacing(qreal rowSpacing);
 
+    int cacheBuffer() const;
+    void setCacheBuffer(int);
+
     qreal displayMarginBeginning() const;
     void setDisplayMarginBeginning(qreal);
 
@@ -72,6 +76,7 @@ Q_SIGNALS:
     void delegateChanged();
     void columnSpacingChanged();
     void rowSpacingChanged();
+    void cacheBufferChanged();
     void displayMarginBeginningChanged();
     void displayMarginEndChanged();
 
@@ -104,7 +109,11 @@ private:
     virtual void doRelayout() = 0;
     virtual void updateItemCulling(qreal visibleFromY, qreal visibleToY) = 0;
     virtual void calculateImplicitHeight() = 0;
+#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 0))
     virtual void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) = 0;
+#else
+    virtual void processModelRemoves(const QVector<QQmlChangeSet::Change> &removes) = 0;
+#endif
 
     QQmlDelegateModel *m_delegateModel;
 
@@ -113,6 +122,7 @@ private:
 
     int m_columnSpacing;
     int m_rowSpacing;
+    int m_buffer;
     qreal m_displayMarginBeginning;
     qreal m_displayMarginEnd;
     bool m_needsRelayout;

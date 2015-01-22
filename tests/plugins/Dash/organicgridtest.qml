@@ -27,6 +27,7 @@ Item {
         rowSpacing: 10
         smallDelegateSize: Qt.size(90, 90)
         bigDelegateSize: Qt.size(180, 180)
+        cacheBuffer: Math.max(0, (height + displayMarginEnd + displayMarginBeginning) / 2)
 
         delegate: Rectangle {
             property real randomValue: Math.random()

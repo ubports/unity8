@@ -100,8 +100,16 @@ EdgeDragArea {
         id: d
         property var previousStatus: DirectionalDragArea.WaitingForTouch
         property real startValue
-        property real minValue: Direction.isPositive(direction) ? startValue
-                                                                : startValue - maxTotalDragDistance
+        property real minValue: {
+            if (direction == Direction.Horizontal) {
+                return startValue - maxTotalDragDistance;
+            } else if (Direction.isPositive(direction)) {
+                return startValue;
+            } else {
+                return startValue - maxTotalDragDistance;
+            }
+        }
+
         property real maxValue: Direction.isPositive(direction) ? startValue + maxTotalDragDistance
                                                                 : startValue
 

@@ -421,7 +421,7 @@ Rectangle {
             signalSpy.clear();
 
             var okButton = findChild(root, "infoPopupOkButton");
-            mouseClick(okButton, okButton.width / 2, okButton.height / 2);
+            mouseClick(okButton);
 
             tryCompareFunction(function() { return findChild(root, "infoPopup") === null}, true);
 
