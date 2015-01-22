@@ -24,7 +24,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/plugin.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/qsortfilterproxymodelqml.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     )
 
 add_library(MockLightDM-qml MODULE
@@ -37,8 +37,7 @@ add_library(MockLightDM-qml MODULE
 # LD_LIBRARY_PATH.
 add_dependencies(MockLightDM-qml MockLightDM-full MockUserMetrics)
 target_link_libraries(MockLightDM-qml
-    -L${CMAKE_CURRENT_BINARY_DIR}/full
-    -llightdm-qt5-2
+    MockLightDM-full
     -L${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
     -lusermetricsoutput
     unity8-private

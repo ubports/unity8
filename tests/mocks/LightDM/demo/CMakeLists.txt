@@ -28,6 +28,7 @@ target_link_libraries(MockLightDM-demo-shared
 qt5_use_modules(MockLightDM-demo Concurrent Gui)
 qt5_use_modules(MockLightDM-demo-shared Concurrent Gui)
 
+set_target_properties(MockLightDM-demo PROPERTIES COMPILE_FLAGS -fPIC)
 set_target_properties(MockLightDM-demo-shared PROPERTIES
                       OUTPUT_NAME lightdm-qt5-2)
 
