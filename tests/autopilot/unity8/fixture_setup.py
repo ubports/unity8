@@ -18,6 +18,8 @@
 #
 
 import os
+import threading
+
 import fixtures
 
 from autopilot import introspection
@@ -33,14 +35,17 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
     """Fixture to launch Unity8 with an injectable sensors backend."""
 
+    unity_proxy = None
+
     def setUp(self):
         """Restart Unity8 with testability and create sensors."""
         super(LaunchUnityWithFakeSensors, self).setUp()
         self.useFixture(
             fixture_setup.InitctlEnvironmentVariable(
                 UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
-        self.fake_sensors = sensors.FakePlatformSensors()
-        self.unity_proxy = process_helpers.restart_unity_with_testability()
+        restart_thread = threading.Thread(
+            target=process_helpers.restart_unity_with_testability())
+        restart_thread.start()
         self.fifo_path = '/tmp/sensor-fifo-{0}'.format(
             process_helpers.get_unity_pid())
         Eventually(Equals(True)).match(
@@ -49,6 +54,11 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
             fifo.write('create accel 0 1000 0.1')
             fifo.write('create light 0 10 1')
             fifo.write('create proximity')
+        restart_thread.join()
+        self.fake_sensors = sensors.FakePlatformSensors()
+
+    def _restart_unity_with_testability(self):
+        self.unity_proxy = process_helpers.restart_unity_with_testability()
 
 
 class LaunchDashApp(fixtures.Fixture):
