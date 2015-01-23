@@ -4,16 +4,13 @@
 # actually using the system liblightdm in the normal plugin, this version can
 # be deleted.
 
-add_subdirectory(demo)
-add_subdirectory(full)
-add_subdirectory(single)
-add_subdirectory(single-pin)
-add_subdirectory(single-passphrase)
+add_subdirectory(liblightdm)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Utils
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/tests/mocks/libusermetrics
     ${libunity8-private_SOURCE_DIR}
 )
@@ -22,9 +19,11 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeterList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM/plugin.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
+    MockGreeter.cpp
+    MockUsersModel.cpp
+    plugin.cpp
     )
 
 add_library(MockLightDM-qml MODULE
@@ -35,9 +34,9 @@ add_library(MockLightDM-qml MODULE
 # installed on the system.  So we make sure we link to our full fake version
 # At run time, we can point to whichever version we happen to be using via
 # LD_LIBRARY_PATH.
-add_dependencies(MockLightDM-qml MockLightDM-full MockUserMetrics)
+add_dependencies(MockLightDM-qml MockLightDM MockUserMetrics)
 target_link_libraries(MockLightDM-qml
-    MockLightDM-full
+    MockLightDM
     -L${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
     -lusermetricsoutput
     unity8-private
@@ -48,5 +47,5 @@ qt5_use_modules(MockLightDM-qml DBus Gui Qml)
 add_unity8_mock(LightDM 0.1 LightDM
     PREFIX mocks
     TARGETS MockLightDM-qml
-    ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}/full"
+    ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}/liblightdm"
 )

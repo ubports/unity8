@@ -33,6 +33,14 @@ import "../../qml"
 
 Item {
     id: root
+
+    Component.onCompleted: {
+        // must set the mock mode before loading the Shell
+        LightDM.Greeter.mockMode = "single";
+        LightDM.Users.mockMode = "single";
+        shellLoader.active = true;
+    }
+
     width:  shellLoader.width + controlsRect.width
     height: shellLoader.height
 
@@ -45,6 +53,7 @@ Item {
             width: tablet ? units.gu(160) : units.gu(40)
             height: tablet ? units.gu(100) : units.gu(71)
 
+            active: false
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {

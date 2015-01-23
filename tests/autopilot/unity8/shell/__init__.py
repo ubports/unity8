@@ -27,19 +27,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
-def with_lightdm_mock(mock_type):
-    """A simple decorator that sets up the LightDM mock for a single test."""
-    def with_lightdm_mock_internal(fn):
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            tests_self = args[0]
-            tests_self.patch_lightdm_mock(mock_type)
-            return fn(*args, **kwargs)
-        return wrapper
-    return with_lightdm_mock_internal
-
-
 def disable_qml_mocking(fn):
     """Simple decorator that disables the QML mocks from being loaded."""
     @wraps(fn)

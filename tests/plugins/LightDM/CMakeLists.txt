@@ -11,8 +11,8 @@ include_directories(
     ${LIBLIGHTDM_INCLUDE_DIRS}
     )
 
-target_link_libraries(GreeterDBusTestExec MockLightDM-full)
+target_link_libraries(GreeterDBusTestExec MockLightDM)
 
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_binary_qml_test(GreeterDBus "${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full" MockLightDM-full "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks")
+add_binary_qml_test(GreeterDBus "${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm" MockLightDM "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks")
