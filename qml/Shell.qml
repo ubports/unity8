@@ -89,6 +89,9 @@ Item {
         }
     }
 
+    // For autopilot consumption
+    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
+
     // internal props from here onwards
     readonly property var mainApp:
             applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
