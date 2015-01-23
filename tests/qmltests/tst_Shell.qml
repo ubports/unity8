@@ -101,9 +101,8 @@ Item {
         id: mockNotificationsModel
 
         onActionInvoked: {
-            print("from qml - action invoked")
-            if(actionId == "ok_id") {
-                mockNotificationsModel.clear()
+            if(action == "ok_id") {
+                mockNotificationsModel.remove(1)
             }
         }
     }
