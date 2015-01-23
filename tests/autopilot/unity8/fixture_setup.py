@@ -22,7 +22,7 @@ import fixtures
 
 from autopilot import introspection
 from autopilot.matchers import Eventually
-from autopilot.matchers import Equals
+from autopilot.testtools import Equals
 
 from unity8 import process_helpers, sensors
 from unity8.shell import emulators
