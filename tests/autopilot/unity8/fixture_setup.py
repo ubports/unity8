@@ -28,7 +28,7 @@ from unity8 import process_helpers, sensors
 from unity8.shell import emulators
 
 
-class FakeSensors(fixtures.Fixture):
+class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
     """Fixture to launch Unity8 with an injectable sensors backend."""
 
@@ -39,7 +39,7 @@ class FakeSensors(fixtures.Fixture):
             newvalue='sensors')
         super(FakeSensors, self).setUp()
         self.fake_sensors = sensors.FakePlatformSensors()
-        process_helpers.restart_unity_with_testability()
+        self.unity_proxy = process_helpers.restart_unity_with_testability()
         self.fifo_path = '/tmp/sensor-fifo-{0}'.format(
             process_helpers.get_unity_pid())
         Eventually(Equals(True)).match(
