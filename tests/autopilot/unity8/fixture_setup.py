@@ -35,10 +35,10 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
     def setUp(self):
         """Restart Unity8 with testability and create sensors."""
+        super(LaunchUnityWithFakeSensors, self).setUp()
         self.useFixture(
             fixture_setup.InitctlEnvironmentVariable(
                 UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
-        super(LaunchUnityWithFakeSensors, self).setUp()
         self.fake_sensors = sensors.FakePlatformSensors()
         self.unity_proxy = process_helpers.restart_unity_with_testability()
         self.fifo_path = '/tmp/sensor-fifo-{0}'.format(
