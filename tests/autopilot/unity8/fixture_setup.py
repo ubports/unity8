@@ -17,11 +17,37 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 import fixtures
-from autopilot import introspection
 
-from unity8 import process_helpers
+from autopilot import introspection
+from autopilot.matchers import Eventually
+from autopilot.matchers import Equals
+
+from unity8 import process_helpers, sensors
 from unity8.shell import emulators
+
+
+class FakeSensors(fixtures.Fixture):
+
+    """Fixture to launch Unity8 with an injectable sensors backend."""
+
+    def setUp(self):
+        """Restart Unity8 with testability and create sensors."""
+        fixtures.EnvironmentVariable(
+            'UBUNTU_PLATFORM_API_TEST_OVERRIDE',
+            newvalue='sensors')
+        super(FakeSensors, self).setUp()
+        self.fake_sensors = sensors.FakePlatformSensors()
+        process_helpers.restart_unity_with_testability()
+        self.fifo_path = '/tmp/sensor-fifo-{0}'.format(
+            process_helpers.get_unity_pid())
+        Eventually(Equals(True)).match(
+            lambda: os.path.exists(self.fifo_path))
+        with open(self.fifo_path) as fifo:
+            fifo.write('create accel 0 1000 0.1')
+            fifo.write('create light 0 10 1')
+            fifo.write('create proximity')
 
 
 class LaunchDashApp(fixtures.Fixture):
