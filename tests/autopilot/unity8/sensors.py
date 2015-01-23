@@ -44,7 +44,8 @@ class FakePlatformSensors:
             fifo.flush()
 
     def set_orientation_top_down(self):
-        with open("/tmp/sensor-fifo-%d" % self.pid, "w") as fifo:
+        with open("/tmp/sensor-fifo-{0}".format(self.pid), "w") as fifo:
+            fifo.write("70 accel -10.050858 -0.598550 0.756568\n")
             fifo.write("70 accel 9.538500 -0.603339 1.292869\n")
             fifo.write("70 accel 9.485827 -0.636858 1.422156\n")
             fifo.write("70 accel 9.677363 -0.402226 1.374272\n")
@@ -62,7 +63,8 @@ class FakePlatformSensors:
             fifo.flush()
 
     def set_orientation_left_up(self):
-        with open("/tmp/sensor-fifo-%d" % self.pid, "w") as fifo:
+        with open("/tmp/sensor-fifo-{0}".format(self.pid), "w") as fifo:
+            fifo.write("70 accel -10.050858 -0.598550 0.756568\n")
             fifo.write("70 accel 0.196325 9.878476 0.948104\n")
             fifo.write("70 accel 0.258574 9.955091 1.091756\n")
             fifo.write("70 accel 0.287304 10.041282 1.134852\n")
@@ -75,7 +77,8 @@ class FakePlatformSensors:
             fifo.flush()
 
     def set_orientation_right_up(self):
-        with open("/tmp/sensor-fifo-%d" % self.pid, "w") as fifo:
+        with open("/tmp/sensor-fifo-{0}".format(self.pid), "w") as fifo:
+            fifo.write("70 accel -10.050858 -0.598550 0.756568\n")
             fifo.write("70 accel -0.799663 9.988609 1.197101\n")
             fifo.write("70 accel -0.861913 9.864111 0.866701\n")
             fifo.write("70 accel -1.776498 9.830592 1.273715\n")
