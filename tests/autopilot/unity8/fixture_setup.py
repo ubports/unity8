@@ -25,7 +25,7 @@ import fixtures
 
 from autopilot import introspection
 from autopilot.matchers import Eventually
-from autopilot.testtools import Equals
+from testtools.matchers import Equals
 from ubuntuuitoolkit import fixture_setup
 
 from unity8 import process_helpers, sensors
@@ -48,25 +48,35 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         self.useFixture(
             fixture_setup.InitctlEnvironmentVariable(
                 UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
+
+        self.addCleanup(process_helpers.stop_job, 'unity8')
         restart_thread = threading.Thread(
-            target=process_helpers.restart_unity_with_testability())
+            target=self._restart_unity_with_testability)
         restart_thread.start()
 
-        Eventually(Equals(True)).match(
-            lambda: process_helpers.is_job_running('unity8'))
-        self.fifo_path = '/tmp/sensor-fifo-{0}'.format(
-            process_helpers.get_unity_pid())
-        Eventually(Equals(True)).match(
-            lambda: os.path.exists(self.fifo_path))
-        with open(self.fifo_path) as fifo:
-            fifo.write('create accel 0 1000 0.1')
-            fifo.write('create light 0 10 1')
-            fifo.write('create proximity')
+        self._create_sensors()
+
         restart_thread.join()
         self.fake_sensors = sensors.FakePlatformSensors()
 
     def _restart_unity_with_testability(self):
         self.unity_proxy = process_helpers.restart_unity_with_testability()
+
+    def _create_sensors(self):
+        # Wait for unity to start running.
+        Eventually(Equals(True)).match(
+            lambda: process_helpers.is_job_running('unity8'))
+
+        # Wait for the sensors fifo file to be created.
+        fifo_path = '/tmp/sensor-fifo-{0}'.format(
+            process_helpers.get_unity_pid())
+        Eventually(Equals(True)).match(
+            lambda: os.path.exists(fifo_path))
+
+        with open(fifo_path, 'w') as fifo:
+            fifo.write('create accel 0 1000 0.1\n')
+            fifo.write('create light 0 10 1\n')
+            fifo.write('create proximity\n') 
 
 
 class LaunchDashApp(fixtures.Fixture):
