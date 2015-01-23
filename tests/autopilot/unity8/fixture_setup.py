@@ -37,7 +37,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         fixtures.EnvironmentVariable(
             'UBUNTU_PLATFORM_API_TEST_OVERRIDE',
             newvalue='sensors')
-        super(FakeSensors, self).setUp()
+        super(LaunchUnityWithFakeSensors, self).setUp()
         self.fake_sensors = sensors.FakePlatformSensors()
         self.unity_proxy = process_helpers.restart_unity_with_testability()
         self.fifo_path = '/tmp/sensor-fifo-{0}'.format(
