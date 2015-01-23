@@ -23,6 +23,7 @@ import fixtures
 from autopilot import introspection
 from autopilot.matchers import Eventually
 from autopilot.testtools import Equals
+from ubuntuuitoolkit import fixture_setup
 
 from unity8 import process_helpers, sensors
 from unity8.shell import emulators
@@ -34,9 +35,9 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
     def setUp(self):
         """Restart Unity8 with testability and create sensors."""
-        fixtures.EnvironmentVariable(
-            'UBUNTU_PLATFORM_API_TEST_OVERRIDE',
-            newvalue='sensors')
+        self.useFixture(
+            fixture_setup.InitctlEnvironmentVariable(
+                UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
         super(LaunchUnityWithFakeSensors, self).setUp()
         self.fake_sensors = sensors.FakePlatformSensors()
         self.unity_proxy = process_helpers.restart_unity_with_testability()
