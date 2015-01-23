@@ -1,4 +1,4 @@
-\# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity - Indicators Autopilot Test Suite
 # Copyright (C) 2013, 2014, 2015 Canonical
