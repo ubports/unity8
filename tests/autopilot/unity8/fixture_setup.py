@@ -51,6 +51,9 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         restart_thread = threading.Thread(
             target=process_helpers.restart_unity_with_testability())
         restart_thread.start()
+
+        Eventually(Equals(True)).match(
+            lambda: process_helpers.is_job_running('unity8'))
         self.fifo_path = '/tmp/sensor-fifo-{0}'.format(
             process_helpers.get_unity_pid())
         Eventually(Equals(True)).match(
