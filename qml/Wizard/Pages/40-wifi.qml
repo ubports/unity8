@@ -54,6 +54,7 @@ LocalComponents.Page {
         monitorNetworkName: true
         monitorNetworkStatus: true
 
+        onCurrentNetworkModeChanged: getAccessPointName()
         onNetworkNameChanged: getAccessPointName()
         onNetworkStatusChanged: if (status !== NetworkInfo.HomeNetwork) accessPointName = ""
 
