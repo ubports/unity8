@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -99,6 +99,9 @@ Item {
                 right: indicators.left
             }
             saturation: 1 - indicators.unitProgress
+
+            // Don't let input event pass trough
+            MouseArea { anchors.fill: parent }
         }
 
         Image {
@@ -119,8 +122,7 @@ Item {
                 right: indicators.left
             }
             height: indicators.minimizedPanelHeight
-            enabled: callHint.visible
-            onClicked: callHint.showLiveCall()
+            onClicked: { if (callHint.visible) { callHint.showLiveCall(); } }
         }
 
         IndicatorsMenu {
