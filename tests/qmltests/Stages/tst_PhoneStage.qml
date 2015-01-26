@@ -34,6 +34,7 @@ Item {
         interactive: true
         shellOrientation: Qt.PortraitOrientation
         shellPrimaryOrientation: Qt.PortraitOrientation
+        nativeOrientation: Qt.PortraitOrientation
     }
 
     Binding {
