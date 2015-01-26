@@ -41,8 +41,6 @@ public:
 
     Q_INVOKABLE void append(MockNotification* n);
     MockNotification* getNotification(int id) const;
-    MockNotification* getNotification(const QString &summary) const;
-    bool hasNotification(int id) const;
 
     // getRaw() is only meant to be used from QML, since QML cannot handle
     // QSharedPointers... on C++-side only use getNotification()
@@ -68,7 +66,7 @@ Q_SIGNALS:
 
 private:
     QList<MockNotification*> m_queue;
-    void deleteFromVisible(int loc);
+    void removeInternal(int loc);
 };
 
 #endif

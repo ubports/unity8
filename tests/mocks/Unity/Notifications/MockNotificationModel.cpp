@@ -103,37 +103,22 @@ MockNotification* MockNotificationModel::getNotification(int id) const {
     return nullptr;
 }
 
-MockNotification* MockNotificationModel::getNotification(const QString &summary) const {
-    for(int i=0; i < m_queue.size(); i++) {
-        if(m_queue[i]->getSummary() == summary) {
-            return m_queue[i];
-        }
-    }
-
-    return nullptr;
-}
-
-bool MockNotificationModel::hasNotification(int id) const {
-    return !(getNotification(id) != nullptr);
-}
-
 void MockNotificationModel::remove(const int id) {
     for(int i = 0; i < m_queue.size(); i++) {
         if(m_queue[i]->getID() == id) {
-            deleteFromVisible(i);
+            removeInternal(i);
             return;
         }
     }
-    // The ID was not found in any queue. Should it be an error case or not?
 }
 
 void MockNotificationModel::removeSecond() {
     if(m_queue.size() < 2)
         return;
-    deleteFromVisible(1);
+    removeInternal(1);
 }
 
-void MockNotificationModel::deleteFromVisible(int loc) {
+void MockNotificationModel::removeInternal(int loc) {
     QModelIndex deletePoint = QModelIndex();
     beginRemoveRows(deletePoint, loc, loc);
     m_queue.erase(m_queue.begin() + loc);
