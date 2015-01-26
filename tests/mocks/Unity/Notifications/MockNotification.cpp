@@ -146,7 +146,7 @@ void MockNotification::setActions(const QStringList &actions) {
         Q_EMIT actionsChanged(p->actions);
 
         for (int i = 0; i < p->actions.size(); i += 2) {
-            p->actionsModel->insertAction(p->actions[i], p->actions[i+1]);
+            p->actionsModel->append(p->actions[i], p->actions[i+1]);
         }
     }
 }

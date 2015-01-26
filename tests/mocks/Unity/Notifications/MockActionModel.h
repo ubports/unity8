@@ -43,7 +43,7 @@ public:
     };
     Q_INVOKABLE QVariant data(int row, int role) const;
 
-    void insertAction(const QString &id, const QString &label);
+    Q_INVOKABLE void append(const QString &id, const QString &label);
     int getCount() const;
 
 private:

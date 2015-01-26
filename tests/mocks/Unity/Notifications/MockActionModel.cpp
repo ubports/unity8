@@ -64,7 +64,7 @@ Q_INVOKABLE QVariant ActionModel::data(int row, int role) const
     return data(index(row, 0), role);
 }
 
-void ActionModel::insertAction(const QString &id, const QString &label) {
+void ActionModel::append(const QString &id, const QString &label) {
     p->ids.push_back(id);
     p->labels.push_back(label);
 }
