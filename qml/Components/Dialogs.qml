@@ -211,6 +211,7 @@ Item {
         onLogoutReady: {
             root.closeAllApps();
             Qt.quit();
+            unitySessionService.endSession();
         }
     }
 

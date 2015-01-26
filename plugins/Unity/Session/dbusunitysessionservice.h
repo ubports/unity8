@@ -39,6 +39,7 @@ public:
     Q_INVOKABLE void logout() { Logout(); }
     Q_INVOKABLE void reboot() { Reboot(); }
     Q_INVOKABLE void shutdown() { Shutdown(); }
+    Q_INVOKABLE void endSession() { EndSession(); }
 
 Q_SIGNALS:
     /**
@@ -139,6 +140,13 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void RequestShutdown();
 
+    /**
+     * Issue an EndSession request.
+     *
+     * This method calls the EndSession() Upstart DBus method on the
+     * current DBus session bus.
+     */
+    Q_SCRIPTABLE void EndSession(); 
 };
 
 #endif // DBUSUNITYSESSIONSERVICE_H
