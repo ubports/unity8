@@ -39,7 +39,7 @@ done
 
 if $USE_MOCKS; then
   export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/liblightdm:$PWD/builddir/tests/mocks/libusermetrics
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/liblightdm:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/QMenuModel
 else
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/plugins/LightDM/liblightdm
 fi
