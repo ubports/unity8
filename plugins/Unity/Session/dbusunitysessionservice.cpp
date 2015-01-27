@@ -36,13 +36,13 @@ void DBusUnitySessionService::Logout()
 }
 
 void DBusUnitySessionService::EndSession()
-{ 
+{
   QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusInterface iface1 ("com.ubuntu.Upstart",
                          "/com/ubuntu/Upstart",
                          "com.ubuntu.Upstart0_6",
                          connection);
-  
+ 
   iface1.call("EndSession");
 }
 

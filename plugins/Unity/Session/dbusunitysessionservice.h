@@ -146,7 +146,7 @@ public Q_SLOTS:
      * This method calls the EndSession() Upstart DBus method on the
      * current DBus session bus.
      */
-    Q_SCRIPTABLE void EndSession(); 
+    Q_SCRIPTABLE void EndSession();
 };
 
 #endif // DBUSUNITYSESSIONSERVICE_H
