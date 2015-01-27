@@ -42,7 +42,7 @@ void DBusUnitySessionService::EndSession()
                          "/com/ubuntu/Upstart",
                          "com.ubuntu.Upstart0_6",
                          connection);
- 
+
   iface1.call("EndSession");
 }
 
