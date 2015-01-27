@@ -61,7 +61,7 @@ Rectangle {
         },
         {
             "name": "Art, header, summary - horizontal",
-            "layout": { "template": { "card-layout": "horizontal" },
+            "layout": { "template": { "card-layout": "horizontal", "card-background": { "type": "gradient", "elements": ["grey", "white"] } },
                         "components": JSON.parse(Helpers.fullMapping) }
         },
         {
@@ -407,7 +407,7 @@ Rectangle {
             return [
                 { tag: "Art and summary", visible: true, color: "#ffffff", index: 0 },
                 { tag: "No Summary", visible: false, index: 6 },
-                { tag: "Horizontal", visible: false, index: 5 },
+                { tag: "Horizontal", visible: true, color: "#808080", index: 5 },
                 { tag: "Grey background", visible: true, color: "#808080", index: 10 },
                 { tag: "Overriden Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff",
                   background: {type: "color", elements: ["grey", "white"]}, index: 10 },

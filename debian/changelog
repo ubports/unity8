@@ -1,3 +1,57 @@
+unity8 (8.02+15.04.20150121.2-0ubuntu1) vivid; urgency=low
+
+  [ Michael Terry ]
+  * Don't show any power dialogs while the screen is off. This is a
+    band-aid to avoid the symptom, while we still investigate the source
+    of why the screen doesn't turn on (and why we seem to not handle the
+    power-button-release event). (LP: #1409003, #1410830)
+  * Don't refocus the dialer-app when a call is started by the user.
+    Because of how qtmir works, this would cause the dialer-app to
+    unfocus momentarily, causing interface oddities for the user. (LP:
+    #1413065)
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Albert Astals Cid ]
+  * Build with ninja
+  * Fixes for Table Preview Widget (LP: #1410420)
+
+  [ Michael Zanetti ]
+  * Add support for earpiece media buttons (LP: #1398427)
+  * Add a WindowMoveResizeArea and tests for it
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Jan 2015 18:33:18 +0000
+
+unity8 (8.02+15.04.20150113.1-0ubuntu1) vivid; urgency=low
+
+  [ Andrea Cimitan ]
+  * support background on horizontal cards with summary (LP: #1393008)
+
+  [ Gerry Boland ]
+  * DashCommunicator: replace QDBusInterface with a non-blocking
+    simplification which does not introspect the service on creation
+    (LP: #1403508)
+
+  [ Leo Arias ]
+  * Added an autopilot test for the edges demo.
+
+  [ Albert Astals ]
+  * Don't show the manage dash pull up arrow on temp scopes (LP:
+    #1401869)
+  * Remove hack, newer Qt already support keyClick(char)
+  * Tests: Add Qt 5.5 removal TODOs
+  * Make sure we use fPIC when compiling files for the static library
+    too
+  * Make sure changing a scope doesn't trigger creation/destruction of
+    delegates until it's finished (LP: #1410122)
+
+  [ Michael Zanetti ]
+  * patch debian/control file before using it to make it work with mk-
+    build-deps
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 13 Jan 2015 20:58:08 +0000
+
 unity8 (8.02+15.04.20150109.2-0ubuntu1) vivid; urgency=low
 
   [ Michał Sawicz ]
