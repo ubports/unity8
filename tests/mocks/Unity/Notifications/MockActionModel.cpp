@@ -72,4 +72,3 @@ void ActionModel::append(const QString &id, const QString &label) {
 int ActionModel::getCount() const {
     return p->labels.size();
 }
-
