@@ -44,9 +44,24 @@ Rectangle {
     }
 
     Text {
+        text: surfaceText.text
+        color: "black"
+        font: surfaceText.font
+        fontSizeMode: Text.Fit
+        minimumPixelSize: 10
+        verticalAlignment: Text.AlignVCenter
+        x: surfaceText.x
+        y: surfaceText.y
+        width: surfaceText.width
+        height: surfaceText.height
+
+        transform: Translate { x: -2; y: -2 }
+    }
+    Text {
+        id: surfaceText
         anchors.fill: parent
         text: "SURFACE"
-        color: "yellow"
+        color: root.parent && root.parent.activeFocus ? "yellow" : "blue"
         font.bold: true
         fontSizeMode: Text.Fit
         minimumPixelSize: 10; font.pixelSize: 200

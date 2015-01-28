@@ -76,6 +76,25 @@ Rectangle {
 
             appId0 = ApplicationManager.count >= 1 ? ApplicationManager.get(0).appId : "";
             appId1 = ApplicationManager.count > 1 ? ApplicationManager.get(1).appId : "";
+
+            // Update the QML focus accordingly
+            updateSpreadDelegateFocus();
+        }
+
+        function updateSpreadDelegateFocus() {
+            var appIndex = 0;
+            var found = false;
+            while (!found && appIndex < ApplicationManager.count) {
+                if (ApplicationManager.get(appIndex).appId === priv.focusedAppId) {
+                    spreadRepeater.itemAt(appIndex).focus = true;
+                    found = true;
+                } else {
+                    ++appIndex;
+                }
+            }
+            if (!found) {
+                console.warn("TabletStage: Failed to find the SpreadDelegate for appID=" + priv.focusedAppId);
+            }
         }
 
         function indexOf(appId) {
