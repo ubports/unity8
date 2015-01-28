@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 #
 
 import fixtures
+import subprocess
+
 from autopilot import introspection
 
 from unity8 import process_helpers
@@ -62,3 +64,35 @@ class LaunchDashApp(fixtures.Fixture):
 
     def stop_application(self):
         process_helpers.stop_job('unity8-dash')
+
+
+class DisplayRotationLock(fixtures.Fixture):
+
+    def __init__(self, enable):
+        super(DisplayRotationLock, self).__init__()
+        self.enable = enable
+
+    def setUp(self):
+        super(DisplayRotationLock, self).setUp()
+        original_state = self._is_rotation_lock_enabled()
+        if self.enable != original_state:
+            self.addCleanup(self._set_rotation_lock, original_state)
+            self._set_rotation_lock(self.enable)
+
+    def _is_rotation_lock_enabled(self):
+        command = [
+            'gsettings', 'get',
+            'com.ubuntu.touch.system',
+            'rotation-lock'
+        ]
+        output = subprocess.check_output(command, universal_newlines=True)
+        return True if output.count('true') else False
+
+    def _set_rotation_lock(self, value):
+        value_string = 'true' if value else 'false'
+        command = [
+            'gsettings', 'set',
+            'com.ubuntu.touch.system',
+            'rotation-lock', value_string
+        ]
+        subprocess.check_output(command)
