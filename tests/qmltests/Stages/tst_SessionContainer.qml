@@ -41,11 +41,14 @@ Rectangle {
         SessionContainer {
             id: sessionContainer
             anchors.fill: parent
+            focus: true
+            interactive: true
         }
     }
 
     Loader {
         id: sessionContainerLoader
+        focus: true
         anchors {
             top: parent.top
             bottom: parent.bottom
@@ -74,6 +77,7 @@ Rectangle {
                 CheckBox {
                     id: sessionCheckbox;
                     checked: false;
+                    activeFocusOnPress: false
                     onCheckedChanged: {
                         if (sessionContainerLoader.status !== Loader.Ready)
                             return;
@@ -171,8 +175,6 @@ Rectangle {
             var sessionContainer = sessionContainerLoader.item;
             compare(sessionContainer.childSessions.count(), 0);
 
-            sessionContainer.interactive = true;
-
             var i;
             var sessions = [];
             // 3 sessions should cover all edge cases
@@ -190,14 +192,22 @@ Rectangle {
 
             var a_session;
             while(a_session = sessions.pop()) {
-                a_session.surface.forceActiveFocus();
+                //a_session.surface.forceActiveFocus();
                 compare(a_session.surface.activeFocus, true);
 
-                var parentSession = a_session.parentSession;
-                sessionContainer.session.removeChildSession(a_session);
-                compare(a_session.surface.activeFocus, false);
+                ApplicationTest.removeSurface(a_session.surface);
+                ApplicationTest.removeSession(a_session);
 
-                compare(parentSession.surface.activeFocus, true);
+                //compare(parentSession.surface.activeFocus, true);
+
+                if (sessions.length > 0) {
+                    // active focus should have gone to the yongest remaining sibling
+                    var previousSiblingSurface = sessions[sessions.length - 1].surface
+                    tryCompare(previousSiblingSurface, "activeFocus", true);
+                } else {
+                    // active focus should have gone to the parent surface
+                    tryCompare(sessionContainer.session.surface, "activeFocus", true);
+                }
             }
         }
 
