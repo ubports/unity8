@@ -384,7 +384,7 @@ int main(int argc, char ** argv)
 {
     Options options;
 
-    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS 
+    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS
     ActiveFocusLogger activeFocusLogger;
     #endif
 
