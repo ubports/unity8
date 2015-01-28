@@ -67,7 +67,7 @@ Rectangle {
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
             if (priv.oldInverseProgress > units.gu(22)) {
-                applicationManager.focusApplication("unity8-dash");
+                applicationManager.requestFocusApplication("unity8-dash");
             }
         }
         priv.oldInverseProgress = inverseProgress;
@@ -327,7 +327,7 @@ Rectangle {
                     x: {
                         // focused app is always positioned at 0 except when following left edge drag
                         if (isFocused) {
-                            if (!isDash && root.inverseProgress > 0) {
+                            if (!isDash && root.inverseProgress > 0 && spreadView.phase === 0) {
                                 return root.inverseProgress;
                             }
                            return 0;

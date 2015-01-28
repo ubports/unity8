@@ -60,7 +60,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/$LIGHT
 if $USE_MOCKS; then
   rm -f $PWD/builddir/nonmirplugins/LightDM # undo symlink (from below) for cleanliness
   export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/QMenuModel
 else
   # Just link our LightDM mock into the nonmirplugins folder.  We don't want
   # the rest of our plugins to be used.
