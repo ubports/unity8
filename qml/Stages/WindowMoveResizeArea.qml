@@ -18,6 +18,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
+import "../Components/WindowPositionStorage"
 
 MouseArea {
     id: root
@@ -26,7 +27,8 @@ MouseArea {
 
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage move and resize events
-    property var target: null
+    property Item target: null
+    property string windowId: ""
     property int resizeHandleWidth: 0
     property int minWidth: 0
     property int minHeight: 0
@@ -45,6 +47,16 @@ MouseArea {
         property bool resizeLeft: false
         property bool resizeRight: false
 
+    }
+
+    Component.onCompleted: {
+        var settings = WindowPositionStorage.getPosition(root.windowId)
+        if (settings !== undefined) {
+            target.x = settings.x
+            target.y = settings.y
+            target.width = settings.width
+            target.height = settings.height
+        }
     }
 
     onPressed: {
@@ -94,5 +106,9 @@ MouseArea {
             target.x += mouseDiff.x;
             target.y += mouseDiff.y;
         }
+    }
+
+    onReleased: {
+        WindowPositionStorage.savePosition(root.windowId,target.x, target.y, target.width, target.height)
     }
 }
