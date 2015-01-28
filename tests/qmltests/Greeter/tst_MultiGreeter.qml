@@ -451,8 +451,6 @@ Item {
             tryCompare(loginList, "height", greeter.height - fakeInputMethod.keyboardRectangle.height);
             tryCompareFunction( function() {
                 var loginListRect = loginList.mapToItem(greeter, 0, 0, loginList.width, loginList.height);
-                console.log("loginListRect.y " + loginListRect.y);
-                console.log("loginListRect.height " + loginListRect.height);
                 return loginListRect.y + loginListRect.height <= fakeInputMethod.keyboardRectangle.y;
             }, true);
 
