@@ -53,7 +53,7 @@ Rectangle {
     Text {
         id: surfaceText
         text: "SURFACE " + root.width + "," + root.height
-        color: "yellow"
+        color: root.parent && root.parent.activeFocus ? "yellow" : "blue"
         font.bold: true
         fontSizeMode: Text.Fit
         minimumPixelSize: 10; font.pixelSize: 200

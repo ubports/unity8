@@ -22,7 +22,7 @@ import QtQuick.Window 2.0
 import Ubuntu.Components 1.1
 import "../Components"
 
-Item {
+FocusScope {
     id: root
 
     // to be read from outside
@@ -260,6 +260,7 @@ Item {
                 }
 
                 interactive: root.interactive
+                focus: true
             }
         }
     }

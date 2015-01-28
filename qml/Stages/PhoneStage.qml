@@ -135,6 +135,8 @@ Rectangle {
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
+        onFocusedAppDelegateChanged: focusedAppDelegate.focus = true;
+
         property bool focusedAppDelegateIsDislocated: focusedAppDelegate && focusedAppDelegate.x !== 0
 
         function indexOf(appId) {

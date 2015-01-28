@@ -122,6 +122,8 @@ Rectangle {
         x: ((root.width - controls.width) - width) / 2
         y: (root.height - height) / 2
 
+        focus: true
+
         property bool itemDestroyed: false
         sourceComponent: Component {
             OrientedShell {
@@ -173,6 +175,7 @@ Rectangle {
             spacing: units.gu(1)
             Button {
                 text: "Show Greeter"
+                activeFocusOnPress: false
                 onClicked: {
                     if (orientedShellLoader.status !== Loader.Ready)
                         return;
@@ -189,6 +192,7 @@ Rectangle {
             Button {
                 id: rotate0Button
                 text: root.orientationsToStr(root.physicalOrientation0) + " (0)"
+                activeFocusOnPress: false
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation0;
                 }
@@ -196,6 +200,7 @@ Rectangle {
             Button {
                 id: rotate90Button
                 text: root.orientationsToStr(root.physicalOrientation90) + " (90)"
+                activeFocusOnPress: false
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation90;
                 }
@@ -203,6 +208,7 @@ Rectangle {
             Button {
                 id: rotate180Button
                 text: root.orientationsToStr(root.physicalOrientation180) + " (180)"
+                activeFocusOnPress: false
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation180;
                 }
@@ -210,13 +216,18 @@ Rectangle {
             Button {
                 id: rotate270Button
                 text: root.orientationsToStr(root.physicalOrientation270) + " (270)"
+                activeFocusOnPress: false
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation270;
                 }
             }
             RowLayout {
                 Layout.fillWidth: true
-                CheckBox { id: orientationLockedCheckBox; checked: false }
+                CheckBox {
+                    id: orientationLockedCheckBox
+                    checked: false
+                    activeFocusOnPress: false
+                }
                 Label {
                     text: "Orientation Locked"
                     anchors.verticalCenter: parent.verticalCenter
@@ -229,6 +240,7 @@ Rectangle {
             ListItem.ItemSelector {
                 id: deviceNameSelector
                 anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
                 text: "Device Name"
                 model: ["mako", "manta", "flo"]
                 onSelectedIndexChanged: {
@@ -240,6 +252,7 @@ Rectangle {
             ListItem.ItemSelector {
                 id: usageModeSelector
                 anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
             }
@@ -784,6 +797,25 @@ Rectangle {
 
             verifyAppWindowWithinSpreadDelegateBoundaries(dialerDelegate);
             verifyAppWindowWithinSpreadDelegateBoundaries(twitterDelegate);
+        }
+
+        function test_launchedAppHasActiveFocus_data() {
+            return [
+                {tag: "mako", deviceName: "mako"},
+                {tag: "manta", deviceName: "manta"},
+                {tag: "flo", deviceName: "flo"}
+            ];
+        }
+        function test_launchedAppHasActiveFocus(data) {
+            loadShell(data.deviceName);
+
+            var gmailApp = ApplicationManager.startApplication("gmail-webapp");
+            verify(gmailApp);
+            waitUntilAppSurfaceShowsUp("gmail-webapp")
+
+            verify(gmailApp.session.surface);
+
+            tryCompare(gmailApp.session.surface, "activeFocus", true);
         }
 
         function rotateTo(angle) {
