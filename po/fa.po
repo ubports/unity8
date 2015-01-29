@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-12-10 10:55+0100\n"
+"POT-Creation-Date: 2015-01-22 11:09+0100\n"
 "PO-Revision-Date: 2015-01-09 15:59+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
@@ -15,19 +15,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-01-10 07:18+0000\n"
-"X-Generator: Launchpad (build 17298)\n"
+"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17306)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "گذرواژه: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr "سنجاق کردن میانبر"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "برداشتن سنجاق میانبر"
 
@@ -50,45 +50,45 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "لطفاُ %1 دقیقه صبر نموده و سپس مجدّداً تلاش نمایید…"
 
-#: qml/Components/Dialogs.qml:74
+#: qml/Components/Dialogs.qml:86
 msgid "Log out"
 msgstr "خروج از حساب"
 
-#: qml/Components/Dialogs.qml:75
+#: qml/Components/Dialogs.qml:87
 msgid "Are you sure you want to log out?"
 msgstr "مطمئنید که می‌خواهید از حساب خارج شوید"
 
-#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
+#: qml/Components/Dialogs.qml:134
 msgid "No"
 msgstr "خیر"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
-#: qml/Components/Dialogs.qml:133
+#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:140
 msgid "Yes"
 msgstr "بله"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:108
 msgid "Shut down"
 msgstr "خاموش کردن"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:109
 msgid "Are you sure you want to shut down?"
 msgstr "مطمئنید که می‌خواهید خاموش کنید؟"
 
-#: qml/Components/Dialogs.qml:123
+#: qml/Components/Dialogs.qml:131
 msgid "Reboot"
 msgstr "راه‌اندازی مجدّد"
 
-#: qml/Components/Dialogs.qml:124
+#: qml/Components/Dialogs.qml:132
 msgid "Are you sure you want to reboot?"
 msgstr "مطمئنید که می‌خواهید مجدّداً راه‌اندازی کنسد؟"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:154
 msgid "Power"
 msgstr "توان"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:155
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -96,15 +96,15 @@ msgstr ""
 "آیا مطمئن هستید که\n"
 "می‌خواهید خاموش کنید؟"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:157
 msgid "Power off"
 msgstr "خاموش کردن"
 
-#: qml/Components/Dialogs.qml:161
+#: qml/Components/Dialogs.qml:166
 msgid "Restart"
 msgstr "شروع مجدّد"
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:175
 msgid "Cancel"
 msgstr "لغو"
 
@@ -112,43 +112,43 @@ msgstr "لغو"
 msgid "Skip intro"
 msgstr "پرش از مقدّمه"
 
-#: qml/Components/EdgeDemo.qml:112
+#: qml/Components/EdgeDemo.qml:125
 msgid "Right edge"
 msgstr "لبه‌ی راست"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:126
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "برای باز کردن قفل تلفن، از لبه‌ی راست بکشید"
 
-#: qml/Components/EdgeDemo.qml:144
+#: qml/Components/EdgeDemo.qml:157
 msgid "Top edge"
 msgstr "لبه‌ی بالا"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:158
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "برای دست‌رسی به نشانگرها، از لبه‌ی بالا بکشید"
 
-#: qml/Components/EdgeDemo.qml:170
+#: qml/Components/EdgeDemo.qml:183
 msgid "Close"
 msgstr "بستن"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:184
 msgid "Swipe up again to close the settings screen"
 msgstr "برای بستن صفحه‌ی تنظیمات، دوباره به بالا بکشپد"
 
-#: qml/Components/EdgeDemo.qml:201
+#: qml/Components/EdgeDemo.qml:214
 msgid "Left edge"
 msgstr "لبه‌ی چپ"
 
-#: qml/Components/EdgeDemo.qml:202
+#: qml/Components/EdgeDemo.qml:215
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr "برای آشکار شدن اجراگر به منظور دست‌رسی سریع به اپ‌ها از سمت چپ بکشید"
 
-#: qml/Components/EdgeDemo.qml:229
+#: qml/Components/EdgeDemo.qml:242
 msgid "Well done"
 msgstr "عالی بود"
 
-#: qml/Components/EdgeDemo.qml:230
+#: qml/Components/EdgeDemo.qml:243
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -156,44 +156,44 @@ msgstr ""
 "هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید استفاده "
 "از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "بازگشت به تماس"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr "تماس اضطراری"
 
-#: qml/Components/Lockscreen.qml:255
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr "قبول"
 
-#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
+#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
 msgid "See less"
 msgstr "کم‌تر ببینید"
 
-#: qml/Dash/GenericScopeView.qml:434
+#: qml/Dash/GenericScopeView.qml:485
 msgid "See all"
 msgstr "دیدن همه"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:268
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: qml/Dash/PageHeader.qml:261
+#: qml/Dash/PageHeader.qml:267
 msgid "Store"
 msgstr "فروشگاه"
 
-#: qml/Dash/PageHeader.qml:278
+#: qml/Dash/PageHeader.qml:284
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:291
 msgid "Remove from Favorites"
 msgstr "برداشتن از برگزیده‌ها"
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:291
 msgid "Add to Favorites"
 msgstr "افزودن به برگزیده‌ها"
 
@@ -225,19 +225,19 @@ msgstr "برای تازه‌سازی بکشید…"
 msgid "Release to refresh…"
 msgstr "برای تازه‌سازی رها کنید…"
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "مدیریت"
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
 msgstr "خانه"
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
 msgstr "هم‌چنین نصب شده"
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/Greeter.qml:133
 msgid "Unlock"
 msgstr "بازکردن قفل"
 
@@ -281,6 +281,10 @@ msgstr "پایان یافت"
 msgid "Failed, tap to retry"
 msgstr "شکست خورد، برای تلاش دوباره ضربه بزنید"
 
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgid "Reply"
+msgstr ""
+
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
 msgstr "باز کردن قفل سیم‌کارت"
@@ -289,49 +293,49 @@ msgstr "باز کردن قفل سیم‌کارت"
 msgid "Roaming"
 msgstr "رومینگ"
 
-#: qml/Shell.qml:402
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 را وارد کنید"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "عبارت‌عبور را وارد کنید"
 
-#: qml/Shell.qml:398
+#: qml/Shell.qml:392
 msgid "Enter passcode"
 msgstr "رمزعبور را وارد کنید"
 
-#: qml/Shell.qml:403
+#: qml/Shell.qml:393
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "متأسّفیم، %1 نادرست بود"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:394
 msgid "Sorry, incorrect passphrase"
 msgstr "متأسّفیم، عبارت‌عبور نادرست بود"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:395
 msgid "Please re-enter"
 msgstr "لطفاً دوباره وارد کنید"
 
-#: qml/Shell.qml:399
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
 msgstr "متأسّفیم، رمزعبور نادرست بود"
 
-#: qml/Shell.qml:444
+#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "متأسّفیم، عبارت‌عبور نادرست است."
 
-#: qml/Shell.qml:445
+#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "متأسّفیم، رمزعبور نادرست است."
 
-#: qml/Shell.qml:446
+#: qml/Shell.qml:492
 msgid "This will be your last attempt."
 msgstr "این آخرین تلاش شما خواهد بود."
 
-#: qml/Shell.qml:448
+#: qml/Shell.qml:494
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -339,7 +343,7 @@ msgstr ""
 "اگر عبارت‌عبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
 "اطّلاعات شخصی حذف خواهند شد."
 
-#: qml/Shell.qml:449
+#: qml/Shell.qml:495
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
