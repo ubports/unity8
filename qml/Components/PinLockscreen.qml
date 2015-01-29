@@ -130,7 +130,7 @@ Column {
                     color: "#f3f3e7"
                 }
 
-                opacity: (pinentryField.text.length && !pinentryField.incorrectOverride) > 0 ? 1 : 0
+                opacity: (pinentryField.text.length > 0 && !pinentryField.incorrectOverride) ? 1 : 0
 
                 Behavior on opacity {
                     UbuntuNumberAnimation {}

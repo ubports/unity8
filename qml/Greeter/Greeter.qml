@@ -185,7 +185,7 @@ Showable {
         anchors.fill: parent
 
         active: root.required
-        source: root.viewSource ? root.viewSource :
+        source: root.viewSource.toString() ? root.viewSource :
                 (d.multiUser || root.tabletMode) ? "WideView.qml" : "NarrowView.qml"
 
         onLoaded: {

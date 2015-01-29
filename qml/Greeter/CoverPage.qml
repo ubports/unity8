@@ -47,13 +47,14 @@ Showable {
     }
 
     prepareToHide: function () {
+        hideTranslation.from = root.x + translation.x
         hideTranslation.to = root.x > 0 || d.forceRightOnNextHideAnimation ? root.width : -root.width;
         d.forceRightOnNextHideAnimation = false;
     }
 
     // We don't directly bind "x" because that's owned by the DragHandle. So
     // instead, we can get a little extra horizontal push by using transforms.
-    transform: Translate { x: root.draggable ? launcherOffset : 0 }
+    transform: Translate { id: translation; x: root.draggable ? launcherOffset : 0 }
 
     Rectangle {
         // In case background fails to load
