@@ -26,9 +26,7 @@ QtObject {
         function openDB() {
             if (db !== null) return;
 
-            // db = LocalStorage.openDatabaseSync(identifier, version, description, estimated_size, callback(db))
             db = LocalStorage.openDatabaseSync("unity8", "0.1", "", 100000);
-
             try {
                 db.transaction(function(tx) {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS windowproperties(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER)');
