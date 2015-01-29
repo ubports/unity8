@@ -29,7 +29,6 @@ set(IndicatorsQML_SOURCES
     sharedunitymenumodel.cpp
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
-    visibleindicatorsmodel.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 

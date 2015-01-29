@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-12-10 10:55+0100\n"
-"PO-Revision-Date: 2015-01-13 20:27+0000\n"
+"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"PO-Revision-Date: 2015-01-17 11:13+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-14 06:48+0000\n"
-"X-Generator: Launchpad (build 17298)\n"
+"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17306)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -54,45 +54,45 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Wacht a.u.b. %1 minuut en probeer het dan opnieuw…"
 msgstr[1] "Wacht a.u.b. %1 minuten en probeer het dan opnieuw…"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:86
 msgid "Log out"
 msgstr "Afmelden"
 
-#: qml/Components/Dialogs.qml:71
+#: qml/Components/Dialogs.qml:87
 msgid "Are you sure you want to log out?"
 msgstr "Weet u zeker dat u zich wilt afmelden?"
 
-#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
+#: qml/Components/Dialogs.qml:134
 msgid "No"
 msgstr "Nee"
 
-#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:140
 msgid "Yes"
 msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:94
+#: qml/Components/Dialogs.qml:108
 msgid "Shut down"
 msgstr "Uitschakelen"
 
-#: qml/Components/Dialogs.qml:95
+#: qml/Components/Dialogs.qml:109
 msgid "Are you sure you want to shut down?"
 msgstr "Weet u zeker dat u het apparaat wilt uitschakelen?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:131
 msgid "Reboot"
 msgstr "Herstarten"
 
-#: qml/Components/Dialogs.qml:120
+#: qml/Components/Dialogs.qml:132
 msgid "Are you sure you want to reboot?"
 msgstr "Weet u zeker dat u het apparaat wilt herstarten?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:154
 msgid "Power"
 msgstr "Energie"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:155
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -100,15 +100,15 @@ msgstr ""
 "Weet u zeker dat u het apparaat\n"
 "wilt uitschakelen?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:157
 msgid "Power off"
 msgstr "Uitschakelen"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:166
 msgid "Restart"
 msgstr "Herstarten"
 
-#: qml/Components/Dialogs.qml:167
+#: qml/Components/Dialogs.qml:175
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -172,32 +172,32 @@ msgstr "Noodoproep"
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
+#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/GenericScopeView.qml:431
+#: qml/Dash/GenericScopeView.qml:485
 msgid "See all"
 msgstr "Alles zien"
 
-#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Zoeken"
 
-#: qml/Dash/PageHeader.qml:260
+#: qml/Dash/PageHeader.qml:267
 msgid "Store"
 msgstr "Winkel"
 
-#: qml/Dash/PageHeader.qml:277
+#: qml/Dash/PageHeader.qml:284
 msgid "Settings"
 msgstr "Instellingen"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:291
 msgid "Remove from Favorites"
 msgstr "Verwijderen uit favorieten"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:291
 msgid "Add to Favorites"
 msgstr "Toevoegen aan favorieten"
 
@@ -229,19 +229,19 @@ msgstr "Trekken om te verversen…"
 msgid "Release to refresh…"
 msgstr "Loslaten om te verversen…"
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Beheren"
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Thuis"
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
 msgstr "Ook geïnstalleerd"
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/Greeter.qml:133
 msgid "Unlock"
 msgstr "Ontgrendelen"
 
@@ -285,6 +285,10 @@ msgstr "Klaar"
 msgid "Failed, tap to retry"
 msgstr "Mislukt, tik om het opnieuw te proberen"
 
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgid "Reply"
+msgstr ""
+
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
 msgstr "Simkaart deblokkeren"
@@ -293,49 +297,49 @@ msgstr "Simkaart deblokkeren"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Enter %1"
 msgstr "Voer %1 in"
 
-#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Voer wachtwoordzin in"
 
-#: qml/Shell.qml:369
+#: qml/Shell.qml:392
 msgid "Enter passcode"
 msgstr "Voer toegangscode in"
 
-#: qml/Shell.qml:370
+#: qml/Shell.qml:393
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Sorry, onjuiste %1"
 
-#: qml/Shell.qml:371
+#: qml/Shell.qml:394
 msgid "Sorry, incorrect passphrase"
 msgstr "Sorry, onjuiste wachtwoordzin"
 
-#: qml/Shell.qml:372
+#: qml/Shell.qml:395
 msgid "Please re-enter"
 msgstr "Herhaal deze a.u.b."
 
-#: qml/Shell.qml:373
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
 msgstr "Sorry, onjuiste toegangscode"
 
-#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Sorry, onjuiste wachtwoordzin."
 
-#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Sorry, onjuiste toegangscode."
 
-#: qml/Shell.qml:469
+#: qml/Shell.qml:492
 msgid "This will be your last attempt."
 msgstr "Dit zal uw laatste poging worden."
 
-#: qml/Shell.qml:471
+#: qml/Shell.qml:494
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -343,7 +347,7 @@ msgstr ""
 "Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
 "teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
 
-#: qml/Shell.qml:472
+#: qml/Shell.qml:495
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
