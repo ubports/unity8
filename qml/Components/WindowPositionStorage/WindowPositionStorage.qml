@@ -24,14 +24,14 @@ QtObject {
         property var db: null
 
         function openDB() {
-            if(db !== null) return;
+            if (db !== null) return;
 
             // db = LocalStorage.openDatabaseSync(identifier, version, description, estimated_size, callback(db))
             db = LocalStorage.openDatabaseSync("unity8", "0.1", "", 100000);
 
             try {
-                db.transaction(function(tx){
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS settings(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER)');
+                db.transaction(function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS windowproperties(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER)');
                 });
             } catch (err) {
                 console.log("Error creating table in database: " + err);
@@ -42,7 +42,7 @@ QtObject {
     function savePosition(windowId, x, y, width, height) {
         priv.openDB();
         priv.db.transaction( function(tx){
-            tx.executeSql('INSERT OR REPLACE INTO settings VALUES(?, ?, ?, ?, ?)', [windowId, x, y, width, height]);
+            tx.executeSql('INSERT OR REPLACE INTO windowproperties VALUES(?, ?, ?, ?, ?)', [windowId, x, y, width, height]);
         });
     }
 
@@ -50,9 +50,9 @@ QtObject {
         priv.openDB();
         var res = new Object();
         priv.db.transaction(function(tx) {
-            var rs = tx.executeSql('SELECT x, y, width, height FROM settings WHERE windowId=?;', [windowId]);
+            var rs = tx.executeSql('SELECT x, y, width, height FROM windowproperties WHERE windowId=?;', [windowId]);
             if (rs.rows.length === 0) {
-                res = unefined;
+                res = undefined;
             } else {
                 res.x = rs.rows.item(0).x
                 res.y = rs.rows.item(0).y
