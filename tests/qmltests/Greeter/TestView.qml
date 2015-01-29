@@ -79,4 +79,9 @@ Item {
     function tryToUnlock(toTheRight) {
         _tryToUnlockCalled(toTheRight);
     }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+    }
 }

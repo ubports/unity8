@@ -226,6 +226,16 @@ Item {
             compare(viewShowPromptSpy.signalArguments[0][2], true);
         }
 
+        function test_promptless() {
+            selectUser("no-password");
+            tryCompare(viewAuthenticatedSpy, "count", 1);
+            compare(viewAuthenticatedSpy.signalArguments[0][0], true);
+            compare(sessionStartedSpy.count, 1);
+            compare(viewShowPromptSpy.count, 0);
+            compare(viewHideSpy.count, 0);
+            compare(view.locked, false);
+        }
+
         function test_twoFactorPass() {
             selectUser("two-factor");
             tryCompare(viewShowPromptSpy, "count", 1);
@@ -380,7 +390,18 @@ Item {
             compare(view.locked, true);
         }
 
+        function test_statsWelcomeScreen() {
+            // Test logic in greeter that turns statsWelcomeScreen setting into infographic changes
+            selectUser("has-password");
+            compare(LightDM.Infographic.username, "has-password");
+            AccountsService.statsWelcomeScreen = false;
+            compare(LightDM.Infographic.username, "");
+            AccountsService.statsWelcomeScreen = true;
+            compare(LightDM.Infographic.username, "has-password");
+        }
+
         function test_dbusRequestAuthenticationUser() {
+            selectUser("no-password");
             LightDM.Greeter.requestAuthenticationUser("has-password");
             verifySelected("has-password");
         }
