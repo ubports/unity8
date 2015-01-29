@@ -419,7 +419,7 @@ Item {
             var passwordInput = findChild(view, "passwordInput");
 
             view.locked = true;
-            compare(passwordInput, "placeholderText", "Retry");
+            compare(passwordInput.placeholderText, "Retry");
             tap(passwordInput);
             compare(respondedSpy.count, 0);
             compare(selectedSpy.count, 1);
@@ -427,7 +427,7 @@ Item {
             selectedSpy.clear();
 
             view.locked = false;
-            compare(passwordInput, "placeholderText", "Tap to unlock");
+            compare(passwordInput.placeholderText, "Tap to unlock");
             tap(passwordInput);
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 1);

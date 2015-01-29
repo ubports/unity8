@@ -160,28 +160,6 @@ Item {
             compare(unlockSpy.count, 1)
         }
 
-        function test_empty_name() {
-            for (var i = 0; i < LightDM.Users.count; i++) {
-                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == "empty-name") {
-                    compare(LightDM.Users.data(i, LightDM.UserRoles.RealNameRole), LightDM.Users.data(i, LightDM.UserRoles.NameRole))
-                    return
-                }
-            }
-            fail("Didn't find empty-name")
-        }
-
-        function test_auth_error() {
-            select_user("auth-error")
-            var passwordInput = findChild(greeter, "passwordInput")
-            tryCompare(passwordInput, "placeholderText", "Retry")
-        }
-
-        function test_different_prompt() {
-            select_user("different-prompt")
-            var passwordInput = findChild(greeter, "passwordInput")
-            tryCompare(passwordInput, "placeholderText", "Secret word")
-        }
-
         function test_no_response() {
             unlockSpy.clear()
             select_user("no-response")
@@ -214,52 +192,6 @@ Item {
             typeString("otp")
             keyClick(Qt.Key_Enter)
             unlockSpy.wait()
-        }
-
-        function test_two_factor_wrong1() {
-            unlockSpy.clear()
-            select_user("two-factor")
-            var passwordInput = findChild(greeter, "passwordInput")
-            tryCompare(passwordInput, "opacity", 1)
-            tryCompare(passwordInput, "placeholderText", "Password")
-            mouseClick(passwordInput, 1, 1)
-            compare(unlockSpy.count, 0)
-            typeString("wr0ng p4ssw0rd")
-            keyClick(Qt.Key_Enter)
-            tryCompare(passwordInput, "placeholderText", "Password")
-            tryCompare(passwordInput, "enabled", true)
-            compare(unlockSpy.count, 0)
-        }
-
-        function test_two_factor_wrong2() {
-            unlockSpy.clear()
-            select_user("two-factor")
-            var passwordInput = findChild(greeter, "passwordInput")
-            tryCompare(passwordInput, "opacity", 1)
-            tryCompare(passwordInput, "placeholderText", "Password")
-            mouseClick(passwordInput, 1, 1)
-            compare(unlockSpy.count, 0)
-            typeString("password")
-            keyClick(Qt.Key_Enter)
-            tryCompare(passwordInput, "placeholderText", "otp")
-            tryCompare(passwordInput, "enabled", true)
-            typeString("wr0ng p4ssw0rd")
-            keyClick(Qt.Key_Enter)
-            tryCompare(passwordInput, "placeholderText", "Password")
-            tryCompare(passwordInput, "enabled", true)
-            compare(unlockSpy.count, 0)
-        }
-
-        function test_unicode() {
-            var index = select_user("unicode")
-            var label = findChild(greeter, "username"+index)
-            tryCompare(label, "text", "가나다라마")
-        }
-
-        function test_long_name() {
-            var index = select_user("long-name")
-            var label = findChild(greeter, "username"+index)
-            tryCompare(label, "truncated", true)
         }
 
         function test_info_prompt() {
