@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2015-01-07 11:11+0000\n"
-"Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
+"PO-Revision-Date: 2015-01-28 14:27+0000\n"
+"Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
+"X-Launchpad-Export-Date: 2015-01-29 06:00+0000\n"
 "X-Generator: Launchpad (build 17306)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -291,7 +291,7 @@ msgstr "Eșec, atingeți pentru a încerca din nou"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
-msgstr ""
+msgstr "Răspuns"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
