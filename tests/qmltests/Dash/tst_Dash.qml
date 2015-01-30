@@ -475,7 +475,8 @@ Item {
             tryCompare(subPageLoader, "x", 0);
             tryCompare(findChild(dashTempScopeItem, "categoryListView"), "visible", false);
 
-            dashTempScopeItem.scope.openScope(scopes.getScopeFromAll("MockScope7"));
+            dashTempScopeItem.scope.openScope(scopes.getScopeFromAll("MockScope9"));
+            dashTempScopeItem.scope.activate();
             tryCompare(subPageLoader, "open", false);
 
             // Go back

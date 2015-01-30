@@ -130,6 +130,7 @@ Showable {
             UbuntuNumberAnimation {
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
+                        console.log("close scope", scopeItem.scope)
                         scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }
@@ -209,6 +210,7 @@ Showable {
         objectName: "dashTempScopeItem"
 
         property var scopeThatOpenedScope: null
+        property var oldScope: null
 
         x: dashContent.x + width
         y: dashContent.y
@@ -222,6 +224,25 @@ Showable {
             closePreview();
         }
 
+        Timer {
+            id: timer
+            interval: 1000
+            onTriggered: scopeItem.closeScope()
+        }
+
+        onScopeChanged: {
+            console.log("scope changed", scope)
+            timer.start()
+        }
+
+        function closeScope() {
+            if (oldScope) {
+                console.log("closing scope, oldscope - current scope", oldScope, scopeItem.scope)
+                oldScope.closeScope(oldScope);
+                oldScope = null;
+            }
+        }
+
         Connections {
             target: scopeItem.scope
             onGotoScope: {
@@ -229,7 +250,8 @@ Showable {
             }
             onOpenScope: {
                 scopeItem.closePreview();
-                dashContent.openScope(scope);
+                scopeItem.oldScope = scopeItem.scope;
+                scopeItem.scope = scope;
             }
         }
     }
