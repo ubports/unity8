@@ -238,7 +238,7 @@ Showable {
         function closeScope() {
             if (oldScope) {
                 console.log("closing scope, oldscope - current scope", oldScope, scopeItem.scope)
-                oldScope.closeScope(oldScope);
+                scopeThatOpenedScope.closeScope(oldScope);
                 oldScope = null;
             }
         }
