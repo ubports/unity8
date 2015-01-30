@@ -183,8 +183,7 @@ Item {
                 if (userlist.currentIndex > i) {
                     next = userlist.currentIndex - 1
                 }
-                var account = findChild(greeter, "username"+next)
-                mouseClick(account, 1, 1)
+                tap(findChild(greeter, "username"+next));
                 tryCompare(userlist, "currentIndex", next)
                 tryCompare(userlist, "movingInternally", false)
             }

@@ -122,6 +122,7 @@ Showable {
 
         function selectUser(uid) {
             d.waiting = true;
+            loader.item.reset();
             currentIndex = uid;
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
             AccountsService.user = user;
@@ -189,7 +190,6 @@ Showable {
                 (d.multiUser || root.tabletMode) ? "WideView.qml" : "NarrowView.qml"
 
         onLoaded: {
-            loader.item.reset();
             root.lockedApp = "";
             root.forceActiveFocus();
             d.selectUser(d.currentIndex);
@@ -204,8 +204,11 @@ Showable {
             onResponded: {
                 if (root.locked) {
                     LightDM.Greeter.respond(response);
-                } else if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) { // could happen if forcedUnlock
-                    d.login();
+                } else {
+                    if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) { // could happen if forcedUnlock
+                        d.login();
+                    }
+                    loader.item.hide();
                 }
             }
             onTease: root.tease()

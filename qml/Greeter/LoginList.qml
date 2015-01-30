@@ -40,7 +40,6 @@ Item {
             passwordInput.forceActiveFocus();
         } else {
             if (root.locked) {
-                root.resetAuthentication();
                 root.selected(currentIndex);
             } else {
                 root.responded("");
@@ -69,7 +68,9 @@ Item {
     function showError() {
         wrongPasswordAnimation.start();
         root.resetAuthentication();
-        passwordInput.focus = true;
+        if (wasPrompted) {
+            passwordInput.focus = true;
+        }
     }
 
     function reset() {
@@ -77,8 +78,11 @@ Item {
     }
 
     Keys.onEscapePressed: {
-        root.resetAuthentication();
         selected(currentIndex);
+    }
+
+    onCurrentIndexChanged: {
+        userList.currentIndex = currentIndex;
     }
 
     Rectangle {
@@ -109,8 +113,12 @@ Item {
         flickDeceleration: 10000
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
+        onMovingInternallyChanged: {
+            if (!movingInternally) {
+                root.selected(currentIndex);
+            }
+        }
 
-        currentIndex: root.currentIndex
         onCurrentIndexChanged: {
             root.resetAuthentication();
             moveTimer.start();
@@ -222,6 +230,7 @@ Item {
         height: units.gu(4.5)
         width: parent.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
+        enabled: root.wasPrompted
 
         property string promptText
         placeholderText: root.wasPrompted ? promptText
@@ -240,7 +249,6 @@ Item {
             root.responded(text);
         }
         Keys.onEscapePressed: {
-            root.resetAuthentication();
             root.selected(currentIndex);
         }
 
