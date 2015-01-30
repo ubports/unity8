@@ -17,6 +17,8 @@
 #ifndef DBUSUNITYSESSIONSERVICE_H
 #define DBUSUNITYSESSIONSERVICE_H
 
+#include <QDBusObjectPath>
+
 #include "unitydbusobject.h"
 
 /**
@@ -141,4 +143,16 @@ public Q_SLOTS:
 
 };
 
+class DBusGnomeSessionManagerWrapper : public UnityDBusObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.gnome.SessionManager.EndSessionDialog")
+
+public:
+    DBusGnomeSessionManagerWrapper();
+    ~DBusGnomeSessionManagerWrapper();
+
+public Q_SLOTS:
+    Q_SCRIPTABLE void Open(const unsigned int type, const unsigned int arg_1, const unsigned int max_wait, const QList<QDBusObjectPath> &inhibitors);
+};
 #endif // DBUSUNITYSESSIONSERVICE_H

@@ -26,6 +26,7 @@
 
 static QObject *dbusunitysessionservice_provider(QQmlEngine */*engine*/, QJSEngine */*jsEngine*/)
 {
+    new DBusGnomeSessionManagerWrapper();
     return new DBusUnitySessionService();
 }
 
