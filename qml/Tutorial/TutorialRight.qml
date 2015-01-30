@@ -80,7 +80,7 @@ TutorialPage {
                 interactive: false
                 altTabEnabled: false
                 focusFirstApp: false
-                startScale: 0.9
+                startScale: 0.8
                 endScale: 0.6
                 dragAreaOverlap: units.gu(2)
 
