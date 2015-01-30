@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
+import AccountsService 0.1
 import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
@@ -779,8 +780,8 @@ Item {
 
         function test_background_data() {
             return [
-                {tag: "color", accounts: "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>", gsettings: "", output: "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"},
-                {tag: "empty", accounts: "", gsettings: "", output: ""},
+                {tag: "color", accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"), gsettings: "", output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
+                {tag: "empty", accounts: "", gsettings: "", output: shell.defaultBackground},
                 {tag: "as-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: "", output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
                 {tag: "gs-specified", accounts: "", gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
                 {tag: "both-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
@@ -790,9 +791,9 @@ Item {
         }
         function test_background(data) {
             AccountsService.backgroundFile = data.accounts;
-            var backgroundSettings = findChild(shell, "backgroundSettings");
+            var backgroundSettings = findInvisibleChild(shell, "backgroundSettings");
             backgroundSettings.pictureUri = data.gsettings;
-            tryCompare(shell.background, data.output);
+            tryCompare(shell, "background", data.output);
         }
     }
 }

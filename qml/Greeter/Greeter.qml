@@ -204,7 +204,7 @@ Showable {
             onResponded: {
                 if (root.locked) {
                     LightDM.Greeter.respond(response);
-                } else {
+                } else if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) { // could happen if forcedUnlock
                     d.login();
                 }
             }
@@ -284,7 +284,6 @@ Showable {
         onShowGreeter: {
             root.show();
             loader.item.reset();
-            d.selectUser(d.currentIndex);
         }
 
         onHideGreeter: {

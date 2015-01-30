@@ -88,11 +88,11 @@ Item {
                         }
                     }
                 }
-            }
-            Button {
-                text: "Demo edges"
-                onClicked: {
-                    AccountsService.demoEdges = true
+                Button {
+                    text: "Demo edges"
+                    onClicked: {
+                        AccountsService.demoEdges = true;
+                    }
                 }
             }
         }
@@ -227,20 +227,6 @@ Item {
             var touchStartX = 2
             var touchStartY = shell.height / 2
             touchFlick(shell, touchStartX, touchStartY, swipeLength, touchStartY)
-        }
-
-        function test_noLockscreen() {
-            selectUser("has-password")
-            var lockscreen = findChild(shell, "lockscreen")
-            compare(lockscreen, null);
-        }
-
-        function test_showAndHideGreeterDBusCalls() {
-            var greeter = findChild(shell, "greeter")
-            LightDM.Greeter.hideGreeter()
-            tryCompare(greeter, "shown", false);
-            LightDM.Greeter.showGreeter()
-            tryCompare(greeter, "fullyShown", true);
         }
 
         function test_login_data() {
