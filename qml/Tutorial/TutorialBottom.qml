@@ -29,6 +29,26 @@ TutorialPage {
     text: i18n.tr("Swipe up from the bottom edge.")
     fullTextWidth: true
 
+    SequentialAnimation {
+        id: teaseAnimation
+        paused: running && root.paused
+        running: !dragArea.useTouchY && slider.dragOffset === 0
+        loops: Animation.Infinite
+
+        UbuntuNumberAnimation {
+            target: slider
+            property: "teaseOffset"
+            to: units.gu(1)
+            duration: UbuntuAnimation.SleepyDuration
+        }
+        UbuntuNumberAnimation {
+            target: slider
+            property: "teaseOffset"
+            to: 0
+            duration: UbuntuAnimation.SleepyDuration
+        }
+    }
+
     foreground {
         children: [
             LocalComponents.Slider {
@@ -39,10 +59,13 @@ TutorialPage {
                     horizontalCenter: parent.horizontalCenter
                 }
                 rotation: -90
-                offset: dragArea.useTouchY ? -dragArea.touchY : 0
+                offset: teaseOffset + dragOffset
                 active: dragArea.dragging
 
-                Behavior on offset {
+                property real teaseOffset
+                property real dragOffset: dragArea.useTouchY ? -dragArea.touchY : 0
+
+                Behavior on dragOffset {
                     id: offsetAnimation
                     UbuntuNumberAnimation {}
                 }
