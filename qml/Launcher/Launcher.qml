@@ -203,7 +203,7 @@ Item {
     LauncherPanel {
         id: panel
         objectName: "launcherPanel"
-        enabled: root.available
+        enabled: root.available && root.state == "visible"
         width: root.panelWidth
         anchors {
             top: parent.top
