@@ -397,10 +397,12 @@ Item {
 
             compare(selectedSpy.count, 0);
             keyClick(Qt.Key_Escape);
-            compare(passwordInput.focus, false);
-            compare(passwordInput.enabled, true);
             compare(selectedSpy.count, 1);
             compare(selectedSpy.signalArguments[0][0], 1);
+
+            view.reset();
+            compare(passwordInput.focus, false);
+            compare(passwordInput.enabled, true);
         }
 
         function test_unicode() {

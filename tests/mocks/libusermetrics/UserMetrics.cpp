@@ -26,7 +26,6 @@
 
 #include <functional>
 #include <random>
-#include <QDebug>
 
 using namespace UserMetricsOutput;
 

@@ -23,7 +23,6 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
-import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
 import LightDM 0.1 as LightDM
@@ -139,7 +138,6 @@ Item {
         if (orientationLockEnabled) {
             orientation = OrientationLock.savedOrientation;
         }
-        Connectivity.unlockAllModems();
     }
 
     VolumeControl {
@@ -373,7 +371,7 @@ Item {
             id: showGreeterDelayed
             interval: 1
             onTriggered: {
-                greeter.showNow();
+                greeter.forceShow();
             }
         }
 

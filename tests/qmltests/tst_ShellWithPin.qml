@@ -81,15 +81,7 @@ Item {
                 Button {
                     anchors { left: parent.left; right: parent.right }
                     text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return
-
-                        var greeter = testCase.findChild(shellLoader.item, "greeter")
-                        if (!greeter.shown) {
-                            greeter.show()
-                        }
-                    }
+                    onClicked: LightDM.Greeter.showGreeter()
                 }
 
                 Label {
@@ -191,7 +183,8 @@ Item {
         function swipeAwayGreeter(waitForCoverPage) {
             var greeter = findChild(shell, "greeter");
             waitForRendering(greeter)
-            tryCompare(greeter, "fullyShown", true);
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 1);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
@@ -212,10 +205,10 @@ Item {
         }
 
         function enterPin(pin) {
-            var inputField = findChild(shell, "pinentryField")
             for (var i = 0; i < pin.length; ++i) {
                 var character = pin.charAt(i)
                 var button = findChild(shell, "pinPadButton" + character)
+                tryCompare(button, "enabled", true);
                 tap(button)
             }
         }

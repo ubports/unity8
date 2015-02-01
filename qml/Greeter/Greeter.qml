@@ -19,6 +19,7 @@ import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.SystemImage 0.1
+import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import "../Components"
 
@@ -55,6 +56,11 @@ Showable {
     signal tease()
     signal sessionStarted()
     signal emergencyCall()
+
+    function forceShow() {
+        showNow();
+        loader.item.reset();
+    }
 
     function notifyAppFocused(appId) {
         if (!active) {
@@ -120,9 +126,11 @@ Showable {
             StandardAnimation {}
         }
 
-        function selectUser(uid) {
+        function selectUser(uid, reset) {
             d.waiting = true;
-            loader.item.reset();
+            if (reset) {
+                loader.item.reset();
+            }
             currentIndex = uid;
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
             AccountsService.user = user;
@@ -162,6 +170,10 @@ Showable {
         }
     }
 
+    Component.onCompleted: {
+        Connectivity.unlockAllModems();
+    }
+
     Timer {
         id: forcedDelayTimer
         interval: 1000 * 60
@@ -192,14 +204,14 @@ Showable {
         onLoaded: {
             root.lockedApp = "";
             root.forceActiveFocus();
-            d.selectUser(d.currentIndex);
+            d.selectUser(d.currentIndex, true);
             LightDM.Infographic.readyForDataChange();
         }
 
         Connections {
             target: loader.item
             onSelected: {
-                d.selectUser(index);
+                d.selectUser(index, true);
             }
             onResponded: {
                 if (root.locked) {
@@ -284,10 +296,7 @@ Showable {
     Connections {
         target: LightDM.Greeter
 
-        onShowGreeter: {
-            root.show();
-            loader.item.reset();
-        }
+        onShowGreeter: root.forceShow()
 
         onHideGreeter: {
             d.login();
@@ -352,7 +361,7 @@ Showable {
 
                 loader.item.authenticated(false);
                 if (!LightDM.Greeter.promptless) {
-                    d.selectUser(d.currentIndex);
+                    d.selectUser(d.currentIndex, false);
                 }
             }
         }
@@ -361,7 +370,7 @@ Showable {
             // Find index for requested user, if it exists
             for (var i = 0; i < LightDM.Users.count; i++) {
                 if (user === LightDM.Users.data(i, LightDM.UserRoles.NameRole)) {
-                    d.selectUser(i);
+                    d.selectUser(i, true);
                     return;
                 }
             }

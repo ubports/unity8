@@ -430,11 +430,14 @@ Item {
 
         function test_dbusShowGreeterFromShownState() {
             selectUser("has-password");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            viewShowPromptSpy.clear();
-            LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
             tryCompare(viewShowPromptSpy, "count", 1);
+
+            viewResetSpy.clear();
+            viewShowPromptSpy.clear();
+
+            LightDM.Greeter.showGreeter();
+            compare(viewResetSpy.count, 1);
         }
     }
 }

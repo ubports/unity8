@@ -71,7 +71,7 @@ Item {
             scopeLoadedSpy.clear();
             scopesModel.load();
             tryCompare(scopeLoadedSpy, "count", 6, 15000);
-            tryCompare(scopesModel, "loaded", true, 1000, typeof scopesModel.loaded);
+            tryCompare(scopesModel, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(shell, "scopeLoader0");
                 return mockScope1Loader && mockScope1Loader.item != null; },

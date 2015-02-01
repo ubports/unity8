@@ -230,7 +230,6 @@ Item {
         height: units.gu(4.5)
         width: parent.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
-        enabled: root.wasPrompted
 
         property string promptText
         placeholderText: root.wasPrompted ? promptText
