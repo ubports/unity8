@@ -82,17 +82,10 @@ Rectangle {
         }
 
         function updateSpreadDelegateFocus() {
-            var appIndex = 0;
-            var found = false;
-            while (!found && appIndex < ApplicationManager.count) {
-                if (ApplicationManager.get(appIndex).appId === priv.focusedAppId) {
-                    spreadRepeater.itemAt(appIndex).focus = true;
-                    found = true;
-                } else {
-                    ++appIndex;
-                }
-            }
-            if (!found) {
+            var focusedAppIndex = priv.indexOf(priv.focusedAppId);
+            if (focusedAppIndex !== -1) {
+                spreadRepeater.itemAt(focusedAppIndex).focus = true;
+            } else {
                 console.warn("TabletStage: Failed to find the SpreadDelegate for appID=" + priv.focusedAppId);
             }
         }
