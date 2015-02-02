@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #ifndef UNITY_MOCK_GREETER_PRIVATE_H
@@ -37,6 +35,8 @@ public:
     QString authenticationUser;
     bool twoFactorDone;
 
+    QString mockMode;
+
     void handleAuthenticate();
     void handleRespond(const QString &response);
 
@@ -45,6 +45,8 @@ protected:
     Greeter * const q_ptr;
 
 private:
+    void handleAuthenticate_full();
+    void handleRespond_full(const QString &response);
     Q_DECLARE_PUBLIC(Greeter)
 };
 }
