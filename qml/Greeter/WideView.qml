@@ -17,7 +17,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.1
 
-Item {
+FocusScope {
     id: root
 
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin

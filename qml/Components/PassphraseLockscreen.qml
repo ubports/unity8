@@ -98,6 +98,11 @@ Item {
                 // has oddly sized password characters that don't scale right)
                 opacity: 0
 
+                onFocusChanged: {
+                    // Within our FocusScope, we always want to have focus
+                    focus = true;
+                }
+
                 // simulate being disabled, but without removing OSK focus
                 maximumLength: root.entryEnabled ? 32767 : length
 

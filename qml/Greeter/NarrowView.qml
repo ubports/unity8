@@ -18,7 +18,7 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import "../Components"
 
-Item {
+FocusScope {
     id: root
 
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
@@ -106,6 +106,7 @@ Item {
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
         anchors.fill: parent
         visible: required
+        enabled: !coverPage.shown
         background: root.background
         darkenBackground: 0.4
         alphaNumeric: root.alphanumeric
