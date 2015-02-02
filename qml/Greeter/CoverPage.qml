@@ -55,7 +55,7 @@ Showable {
     // We don't directly bind "x" because that's owned by the DragHandle. So
     // instead, we can get a little extra horizontal push by using transforms.
     transform: Translate { id: translation; x: root.draggable ? launcherOffset : 0 }
-    
+
     MouseArea { anchors.fill: parent; }
 
     Rectangle {
