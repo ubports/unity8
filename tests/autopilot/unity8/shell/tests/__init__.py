@@ -378,9 +378,8 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
 
     def wait_for_unity(self):
-        greeter_content_loader = self.main_window.wait_select_single(
-            objectName='greeterContentLoader')
-        greeter_content_loader.progress.wait_for(1)
+        greeter = self.main_window.wait_select_single(objectName='greeter')
+        greeter.waiting.wait_for(False)
 
     def get_dash(self):
         pid = process_helpers.get_job_pid('unity8-dash')

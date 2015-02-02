@@ -191,7 +191,6 @@ Item {
 
         function selectUser(name) {
             // Find index of user with the right name
-            var greeter = findChild(shell, "greeterContentLoader")
             for (var i = 0; i < LightDM.Users.count; i++) {
                 if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == name) {
                     break

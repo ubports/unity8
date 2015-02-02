@@ -35,12 +35,6 @@ class QQuickView(emulators.UnityEmulatorBase):
     def get_greeter(self):
         return self.select_single(Greeter)
 
-    def get_greeter_content_loader(self):
-        return self.wait_select_single(
-            "QQuickLoader",
-            objectName="greeterContentLoader"
-        )
-
     def get_login_loader(self):
         return self.select_single("QQuickLoader", objectName="loginLoader")
 
