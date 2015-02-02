@@ -82,11 +82,13 @@ Rectangle {
         }
 
         function updateSpreadDelegateFocus() {
-            var focusedAppIndex = priv.indexOf(priv.focusedAppId);
-            if (focusedAppIndex !== -1) {
-                spreadRepeater.itemAt(focusedAppIndex).focus = true;
-            } else {
-                console.warn("TabletStage: Failed to find the SpreadDelegate for appID=" + priv.focusedAppId);
+            if (priv.focusedAppId) {
+                var focusedAppIndex = priv.indexOf(priv.focusedAppId);
+                if (focusedAppIndex !== -1) {
+                    spreadRepeater.itemAt(focusedAppIndex).focus = true;
+                } else {
+                    console.warn("TabletStage: Failed to find the SpreadDelegate for appID=" + priv.focusedAppId);
+                }
             }
         }
 
