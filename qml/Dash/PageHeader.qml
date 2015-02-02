@@ -51,6 +51,7 @@ Item {
     signal storeClicked()
     signal settingsClicked()
     signal favoriteClicked()
+    signal searchTextFieldFocused()
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -228,6 +229,7 @@ Item {
 
                     onActiveFocusChanged: {
                         if (activeFocus) {
+                            root.searchTextFieldFocused();
                             root.openSearchHistory();
                         }
                     }
