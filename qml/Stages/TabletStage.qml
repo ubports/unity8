@@ -56,7 +56,6 @@ Rectangle {
     property var mainApp: null
     property int mainAppWindowOrientationAngle: 0
     readonly property bool orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
-        && !priv.sideStageAppId
 
     onWidthChanged: {
         spreadView.selectedIndex = -1;
