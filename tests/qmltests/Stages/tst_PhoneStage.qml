@@ -345,5 +345,29 @@ Item {
 
             tryCompare(spreadView, "contentX", -spreadView.shift)
         }
+
+        function test_leftEdge_data() {
+            return [
+                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(5), shouldMoveApp: true },
+                { tag: "inSpread", inSpread: true, leftEdgeDragWidth: units.gu(5), shouldMoveApp: false }
+            ]
+        }
+
+        function test_leftEdge(data) {
+            addApps(2);
+
+            if (data.inSpread) {
+                goToSpread();
+            }
+
+            var focusedDelegate = findChild(phoneStage, "appDelegate0");
+            phoneStage.inverseProgress = data.leftEdgeDragWidth;
+
+            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : 0);
+
+            phoneStage.inverseProgress = 0;
+
+            tryCompare(focusedDelegate, "x", 0);
+        }
     }
 }

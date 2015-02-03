@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-12-10 10:55+0100\n"
+"POT-Creation-Date: 2015-01-22 11:09+0100\n"
 "PO-Revision-Date: 2013-06-26 22:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-12-13 07:11+0000\n"
-"X-Generator: Launchpad (build 17286)\n"
+"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
+"X-Generator: Launchpad (build 17306)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -51,45 +51,45 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Harap tunggu %1 menit lalu coba lagi..."
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:86
 msgid "Log out"
 msgstr "Log keluar"
 
-#: qml/Components/Dialogs.qml:71
+#: qml/Components/Dialogs.qml:87
 msgid "Are you sure you want to log out?"
 msgstr "Anda yakin ingin log keluar?"
 
-#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
+#: qml/Components/Dialogs.qml:134
 msgid "No"
 msgstr "Tidak"
 
-#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:140
 msgid "Yes"
 msgstr "Ya"
 
-#: qml/Components/Dialogs.qml:94
+#: qml/Components/Dialogs.qml:108
 msgid "Shut down"
 msgstr "Matikan"
 
-#: qml/Components/Dialogs.qml:95
+#: qml/Components/Dialogs.qml:109
 msgid "Are you sure you want to shut down?"
 msgstr "Anda yakin ingin mematikan?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:131
 msgid "Reboot"
 msgstr "Boot ulang"
 
-#: qml/Components/Dialogs.qml:120
+#: qml/Components/Dialogs.qml:132
 msgid "Are you sure you want to reboot?"
 msgstr "Anda yakin ingin boot ulang?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:154
 msgid "Power"
 msgstr "Daya"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:155
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -97,15 +97,15 @@ msgstr ""
 "Anda yakin ingin\n"
 "mematikan daya?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:157
 msgid "Power off"
 msgstr "Matikan"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:166
 msgid "Restart"
 msgstr "Nyalakan ulang"
 
-#: qml/Components/Dialogs.qml:167
+#: qml/Components/Dialogs.qml:175
 msgid "Cancel"
 msgstr "Batal"
 
@@ -169,32 +169,32 @@ msgstr "Panggilan Darurat"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
+#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
 msgid "See less"
 msgstr "Lihat lebih sedikit"
 
-#: qml/Dash/GenericScopeView.qml:431
+#: qml/Dash/GenericScopeView.qml:485
 msgid "See all"
 msgstr "Lihat semua"
 
-#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Cari"
 
-#: qml/Dash/PageHeader.qml:260
+#: qml/Dash/PageHeader.qml:267
 msgid "Store"
 msgstr "Simpan"
 
-#: qml/Dash/PageHeader.qml:277
+#: qml/Dash/PageHeader.qml:284
 msgid "Settings"
 msgstr "Pengaturan"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:291
 msgid "Remove from Favorites"
 msgstr "Hapus dari Favorit"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:291
 msgid "Add to Favorites"
 msgstr "Tambah ke Favorit"
 
@@ -226,19 +226,19 @@ msgstr "Tarik untuk menyegarkan..."
 msgid "Release to refresh…"
 msgstr "Lepas untuk menyegarkan..."
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Kelola"
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Beranda"
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Juga terpasang"
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/Greeter.qml:133
 msgid "Unlock"
 msgstr "Buka kunci"
 
@@ -282,6 +282,10 @@ msgstr "Selesai"
 msgid "Failed, tap to retry"
 msgstr "Gagal, ketuk untuk mencoba ulang"
 
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgid "Reply"
+msgstr ""
+
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
 msgstr "Buka Kunci SIM"
@@ -290,49 +294,49 @@ msgstr "Buka Kunci SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Enter %1"
 msgstr "Masukkan %1"
 
-#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Masukkan frasa sandi"
 
-#: qml/Shell.qml:369
+#: qml/Shell.qml:392
 msgid "Enter passcode"
 msgstr "Masukkan kode sandi"
 
-#: qml/Shell.qml:370
+#: qml/Shell.qml:393
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Maaf, %1 salah"
 
-#: qml/Shell.qml:371
+#: qml/Shell.qml:394
 msgid "Sorry, incorrect passphrase"
 msgstr "Maaf, frasa sandi salah"
 
-#: qml/Shell.qml:372
+#: qml/Shell.qml:395
 msgid "Please re-enter"
 msgstr "Harap masukkan lagi"
 
-#: qml/Shell.qml:373
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
 msgstr "Maaf, kode sandi salah"
 
-#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Maaf, frasa sandi salah."
 
-#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Maaf, kode sandi salah."
 
-#: qml/Shell.qml:469
+#: qml/Shell.qml:492
 msgid "This will be your last attempt."
 msgstr "Ini akan menjadi upaya terakhir Anda."
 
-#: qml/Shell.qml:471
+#: qml/Shell.qml:494
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -340,7 +344,7 @@ msgstr ""
 "Bila frasa sandi salah dimasukkan, telepon Anda akan melakukan reset pabrik "
 "dan semua data pribadi akan dihapus."
 
-#: qml/Shell.qml:472
+#: qml/Shell.qml:495
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

@@ -11,7 +11,9 @@ include_directories(
     ${LIBLIGHTDM_INCLUDE_DIRS}
     )
 
-target_link_libraries(GreeterDBusTestExec MockLightDM)
+add_dependencies(GreeterDBusTestExec MockLightDM)
+target_link_libraries(GreeterDBusTestExec -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
+    -llightdm-qt5-2)
 
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 

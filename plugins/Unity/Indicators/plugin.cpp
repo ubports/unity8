@@ -34,7 +34,6 @@
 #include "sharedunitymenumodel.h"
 #include "unitymenumodelcache.h"
 #include "unitymenumodelstack.h"
-#include "visibleindicatorsmodel.h"
 
 #include <unitymenumodel.h>
 
@@ -55,7 +54,6 @@ void IndicatorsPlugin::registerTypes(const char *uri)
     qmlRegisterType<ModelActionRootState>(uri, 0, 1, "ModelActionRootState");
     qmlRegisterType<ActionRootState>(uri, 0, 1, "ActionRootState");
     qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
-    qmlRegisterType<VisibleIndicatorsModel>(uri, 0, 1, "VisibleIndicatorsModel");
     qmlRegisterType<SharedUnityMenuModel>(uri, 0, 1, "SharedUnityMenuModel");
 
     qmlRegisterSingletonType<UnityMenuModelCache>(uri, 0, 1, "UnityMenuModelCache", menuModelCacheSingleton);

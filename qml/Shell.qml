@@ -36,11 +36,11 @@ import "Panel"
 import "Components"
 import "Notifications"
 import "Stages"
-import "Panel/Indicators"
 import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: shell
@@ -819,15 +819,13 @@ Item {
                 minimizedPanelHeight: units.gu(3)
                 expandedPanelHeight: units.gu(7)
 
-                indicatorsModel: visibleIndicators.model
+                indicatorsModel: Indicators.IndicatorsModel {
+                    // tablet and phone both use the same profile
+                    property string indicatorProfile: shell.usageScenario === "desktop" ? "desktop" : "phone"
+                    Component.onCompleted: load(indicatorProfile);
+                }
             }
 
-            VisibleIndicators {
-                id: visibleIndicators
-                // tablet and phone both use the same profile
-                property string indicatorProfile: shell.usageScenario === "desktop" ? "desktop" : "phone"
-                Component.onCompleted: initialise(indicatorProfile)
-            }
             callHint {
                 greeterShown: greeter.shown || lockscreen.shown
             }
