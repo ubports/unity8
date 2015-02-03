@@ -1,5 +1,3 @@
-# Dependencies
-include(FindPkgConfig)
 pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
 # TODO: Once we split out a separate greeter process, uncomment these lines
 #pkg_check_modules(LIBLIGHTDM REQUIRED liblightdm-qt5-2)
