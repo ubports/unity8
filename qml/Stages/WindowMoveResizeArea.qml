@@ -50,12 +50,12 @@ MouseArea {
     }
 
     Component.onCompleted: {
-        var settings = WindowPositionStorage.getPosition(root.windowId)
-        if (settings !== undefined) {
-            target.x = settings.x
-            target.y = settings.y
-            target.width = settings.width
-            target.height = settings.height
+        var windowSizePosition = WindowPositionStorage.getPosition(root.windowId)
+        if (windowSizePosition !== undefined) {
+            target.x = windowSizePosition.x
+            target.y = windowSizePosition.y
+            target.width = windowSizePosition.width
+            target.height = windowSizePosition.height
         }
     }
 
