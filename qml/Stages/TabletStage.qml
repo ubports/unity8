@@ -41,14 +41,18 @@ Rectangle {
     property int shellOrientation
     property int shellPrimaryOrientation
     property int nativeOrientation
+    property real nativeWidth
+    property real nativeHeight
     function updateFocusedAppOrientation() {
-        if (spreadRepeater.count > 0) {
-            spreadRepeater.itemAt(0).matchShellOrientation();
+        var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
+        if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
+            spreadRepeater.itemAt(mainStageAppIndex).matchShellOrientation();
         }
     }
     function updateFocusedAppOrientationAnimated() {
-        if (spreadRepeater.count > 0) {
-            spreadRepeater.itemAt(0).animateToShellOrientation();
+        var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
+        if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
+            spreadRepeater.itemAt(mainStageAppIndex).animateToShellOrientation();
         }
     }
 
@@ -61,6 +65,13 @@ Rectangle {
         spreadView.selectedIndex = -1;
         spreadView.phase = 0;
         spreadView.contentX = -spreadView.shift;
+    }
+
+    onShellOrientationChanged: {
+        if (shellOrientation == Qt.PortraitOrientation || shellOrientation == Qt.InvertedPortraitOrientation) {
+            ApplicationManager.focusApplication(priv.mainStageAppId);
+            priv.sideStageAppId = "";
+        }
     }
 
     onInverseProgressChanged: {
@@ -82,6 +93,9 @@ Rectangle {
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property string oldFocusedAppId: ""
         property bool mainAppOrientationChangesEnabled: false
+
+        property real landscapeHeight: root.nativeOrientation == Qt.LandscapeOrientation ?
+                root.nativeHeight : root.nativeWidth
 
         property string mainStageAppId
         property string sideStageAppId
@@ -452,6 +466,8 @@ Rectangle {
                 z: spreadView.indexToZIndex(priv.indexOf(priv.sideStageAppId))
                 opacity: spreadView.phase == 0 ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
+                visible: root.shellOrientation == Qt.LandscapeOrientation
+                      || root.shellOrientation == Qt.InvertedLandscapeOrientation
             }
 
             Item {
@@ -462,6 +478,9 @@ Rectangle {
                 opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
                 property real progress: 0
                 property bool dragging: false
+
+                visible: root.shellOrientation == Qt.LandscapeOrientation
+                      || root.shellOrientation == Qt.InvertedLandscapeOrientation
 
                 Behavior on opacity { UbuntuNumberAnimation {} }
 
@@ -532,8 +551,8 @@ Rectangle {
 
                 delegate: TransformedTabletSpreadDelegate {
                     id: spreadTile
-                    height: spreadView.height
                     width: wantsMainStage ? spreadView.width : spreadView.sideStageWidth
+                    height: wantsMainStage ? spreadView.height : priv.landscapeHeight
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
                     zIndex: spreadView.indexToZIndex(index)
                     selected: spreadView.selectedIndex == index

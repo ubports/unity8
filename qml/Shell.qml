@@ -50,6 +50,8 @@ Item {
     property int orientation
     property int primaryOrientation
     property int nativeOrientation
+    property real nativeWidth
+    property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
@@ -381,6 +383,16 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "nativeOrientation"
                 value: shell.nativeOrientation
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "nativeWidth"
+                value: shell.nativeWidth
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "nativeHeight"
+                value: shell.nativeHeight
             }
             Binding {
                 target: applicationsDisplayLoader.item

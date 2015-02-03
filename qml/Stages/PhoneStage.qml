@@ -35,6 +35,8 @@ Rectangle {
     property int shellOrientation
     property int shellPrimaryOrientation
     property int nativeOrientation
+    property real nativeWidth
+    property real nativeHeight
     property bool beingResized: false
     onBeingResizedChanged: {
         if (beingResized) {
