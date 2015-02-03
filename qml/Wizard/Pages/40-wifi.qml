@@ -48,7 +48,7 @@ LocalComponents.Page {
     NetworkInfo {
         id: networkInfo
 
-        property string accessPointName: getAccessPointName()
+        property string accessPointName
 
         monitorCurrentNetworkMode: true
         monitorNetworkName: true
@@ -57,6 +57,8 @@ LocalComponents.Page {
         onCurrentNetworkModeChanged: getAccessPointName()
         onNetworkNameChanged: getAccessPointName()
         onNetworkStatusChanged: if (status !== NetworkInfo.HomeNetwork) accessPointName = ""
+
+        Component.onCompleted: getAccessPointName()
 
         function getAccessPointName() {
             // 0 is the interface
