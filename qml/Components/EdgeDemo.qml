@@ -145,7 +145,6 @@ Item {
             }
         }
 
-        onSessionStarted: hide()
         onShownChanged: if (!greeter.shown) hide()
     }
 

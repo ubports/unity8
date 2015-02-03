@@ -47,14 +47,13 @@ class TestLockscreen(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
 
-        if greeter.narrowMode:
+        if not greeter.tabletMode:
             greeter.swipe()
             lockscreen = self._wait_for_lockscreen()
             self.main_window.enter_pin_code("1234")
-            self.assertThat(lockscreen.shown, Eventually(Equals(False)))
         else:
             self._enter_prompt_passphrase("1234\n")
-            self.assertThat(greeter.shown, Eventually(Equals(False)))
+        self.assertThat(greeter.shown, Eventually(Equals(False)))
 
     @with_lightdm_mock("single-passphrase")
     def test_can_unlock_passphrase_screen(self):
@@ -62,14 +61,13 @@ class TestLockscreen(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
 
-        if greeter.narrowMode:
+        if not greeter.tabletMode:
             greeter.swipe()
             lockscreen = self._wait_for_lockscreen()
             self._enter_pin_passphrase("password")
-            self.assertThat(lockscreen.shown, Eventually(Equals(False)))
         else:
             self._enter_prompt_passphrase("password")
-            self.assertThat(greeter.shown, Eventually(Equals(False)))
+        self.assertThat(greeter.shown, Eventually(Equals(False)))
 
     @with_lightdm_mock("single-pin")
     def test_pin_screen_wrong_code(self):
@@ -77,18 +75,17 @@ class TestLockscreen(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
 
-        if greeter.narrowMode:
+        if not greeter.tabletMode:
             greeter.swipe()
             lockscreen = self._wait_for_lockscreen()
             self.main_window.enter_pin_code("4321")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))
-            self.assertThat(lockscreen.shown, Eventually(Equals(True)))
         else:
             self._enter_prompt_passphrase("4231\n")
             prompt = self.main_window.get_greeter().get_prompt()
             self.assertThat(prompt.text, Eventually(Equals("")))
-            self.assertThat(greeter.shown, Eventually(Equals(True)))
+        self.assertThat(greeter.shown, Eventually(Equals(True)))
 
     @with_lightdm_mock("single-passphrase")
     def test_passphrase_screen_wrong_password(self):
@@ -96,18 +93,17 @@ class TestLockscreen(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
 
-        if greeter.narrowMode:
+        if not greeter.tabletMode:
             greeter.swipe()
             lockscreen = self._wait_for_lockscreen()
             self._enter_pin_passphrase("foobar")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))
-            self.assertThat(lockscreen.shown, Eventually(Equals(True)))
         else:
             self._enter_prompt_passphrase("foobar")
             prompt = self.main_window.get_greeter().get_prompt()
             self.assertThat(prompt.text, Eventually(Equals("")))
-            self.assertThat(greeter.shown, Eventually(Equals(True)))
+        self.assertThat(greeter.shown, Eventually(Equals(True)))
 
     def _wait_for_lockscreen(self):
         """Wait for the lock screen to load, and return it."""
