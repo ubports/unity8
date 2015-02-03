@@ -21,6 +21,9 @@
 
 #include "unitydbusobject.h"
 
+typedef QList<QDBusObjectPath> QDbusList;
+Q_DECLARE_METATYPE(QList<QDBusObjectPath>)
+
 /**
  * DBusUnitySessionService provides com.canonical.Unity.Session dbus
  * interface.
@@ -51,7 +54,7 @@ Q_SIGNALS:
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the logout.
      */
-    void logoutRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void logoutRequested(bool have_inhibitors);
 
     /**
      * rebootRequested signal
@@ -61,7 +64,7 @@ Q_SIGNALS:
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the reboot.
      */
-    void rebootRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void rebootRequested(bool have_inhibitors);
 
     /**
      * shutdownRequested signal
@@ -71,7 +74,7 @@ Q_SIGNALS:
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the shutdown.
      */
-    void shutdownRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void shutdownRequested(bool have_inhibitors);
 
 
     /**
