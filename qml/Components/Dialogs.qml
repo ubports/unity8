@@ -19,6 +19,7 @@ import QtQuick 2.0
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Ubuntu.Components 1.1
+import LightDM 0.1 as LightDM
 
 Item {
     id: root
@@ -86,15 +87,22 @@ Item {
             title: i18n.tr("Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
-                text: i18n.tr("No")
+                text: i18n.tr("Lock")
                 onClicked: {
+                    LightDM.Greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }
             Button {
-                text: i18n.tr("Yes")
+                text: i18n.tr("Log Out")
                 onClicked: {
                     unitySessionService.logout();
+                    logoutDialog.hide();
+                }
+            }
+            Button {
+                text: i18n.tr("Cancel")
+                onClicked: {
                     logoutDialog.hide();
                 }
             }
@@ -108,16 +116,24 @@ Item {
             title: i18n.tr("Shut down")
             text: i18n.tr("Are you sure you want to shut down?")
             Button {
-                text: i18n.tr("No")
+                text: i18n.tr("Reboot")
                 onClicked: {
+                    root.closeAllApps();
+                    unitySessionService.reboot();
                     shutdownDialog.hide();
                 }
             }
             Button {
-                text: i18n.tr("Yes")
+                text: i18n.tr("Shutdown")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.shutdown();
+                    shutdownDialog.hide();
+                }
+            }
+            Button {
+                text: i18n.tr("Cancel")
+                onClicked: {
                     shutdownDialog.hide();
                 }
             }
