@@ -108,7 +108,7 @@ private Q_SLOTS:
         newEntry.insert("count", 0);
         newEntry.insert("countVisible", false);
         newList.append(newEntry);
-        model->m_accounts->simulatePropertyChange(changedUser, "launcher-items", QVariant::fromValue(newList));
+        model->m_accounts->simulatePropertyChange(changedUser, "launcherItems", QVariant::fromValue(newList));
 
         QCOMPARE(isInSync(model), inSync);
 
@@ -127,7 +127,7 @@ private Q_SLOTS:
         entry["countVisible"] = true;
         entry["count"] = 55;
         newList[0] = entry;
-        model->m_accounts->simulatePropertyChange("dummy", "launcher-items", QVariant::fromValue(newList));
+        model->m_accounts->simulatePropertyChange("dummy", "launcherItems", QVariant::fromValue(newList));
 
         QCOMPARE(isInSync(model), true);
 

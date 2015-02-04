@@ -133,7 +133,7 @@ private:
 
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
-        return as->getUserProperty("", "", "launcher-items").value<QList<QVariantMap>>();
+        return as->getUserProperty("", "", "launcherItems").value<QList<QVariantMap>>();
     }
 
 private Q_SLOTS:

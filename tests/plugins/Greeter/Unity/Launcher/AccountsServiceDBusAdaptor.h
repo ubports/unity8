@@ -40,7 +40,7 @@ public:
     inline T getUserProperty(const QString &user, const QString &interface, const QString &property) {
         Q_UNUSED(user)
         Q_UNUSED(interface)
-        Q_ASSERT(property == "launcher-items");
+        Q_ASSERT(property == "launcherItems");
         T ret = properties;
         return ret;
     }

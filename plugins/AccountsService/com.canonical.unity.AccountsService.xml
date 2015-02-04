@@ -14,8 +14,7 @@
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 
-    <!-- Should have been named LauncherItems, sorry folks. -mterry -->
-    <property name="launcher-items" type="aa{sv}" access="readwrite">
+    <property name="launcherItems" type="aa{sv}" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="[{'defaults': <true>}]"/>
     </property>
 
