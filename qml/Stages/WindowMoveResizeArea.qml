@@ -50,12 +50,12 @@ MouseArea {
     }
 
     Component.onCompleted: {
-        var windowGeometry = WindowPositionStorage.getGeometry(root.windowId)
-        if (windowGeometry !== undefined) {
-            target.x = windowGeometry.x
-            target.y = windowGeometry.y
-            target.width = windowGeometry.width
-            target.height = windowGeometry.height
+        var windowState = WindowPositionStorage.getState(root.windowId)
+        if (windowState !== undefined) {
+            target.x = windowState.x
+            target.y = windowState.y
+            target.width = windowState.width
+            target.height = windowState.height
         }
     }
 
@@ -109,6 +109,6 @@ MouseArea {
     }
 
     onReleased: {
-        WindowPositionStorage.saveGeometry(root.windowId,target.x, target.y, target.width, target.height)
+        WindowPositionStorage.saveState(root.windowId,target.x, target.y, target.width, target.height)
     }
 }
