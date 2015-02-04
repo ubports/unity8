@@ -210,7 +210,6 @@ Showable {
         objectName: "dashTempScopeItem"
 
         property var scopeThatOpenedScope: null
-        property var oldScope: null
 
         x: dashContent.x + width
         y: dashContent.y
@@ -224,25 +223,6 @@ Showable {
             closePreview();
         }
 
-        Timer {
-            id: timer
-            interval: 1000
-            onTriggered: scopeItem.closeScope()
-        }
-
-        onScopeChanged: {
-            console.log("scope changed", scope)
-            timer.start()
-        }
-
-        function closeScope() {
-            if (oldScope) {
-                console.log("closing scope, oldscope - current scope", oldScope, scopeItem.scope)
-                scopeThatOpenedScope.closeScope(oldScope);
-                oldScope = null;
-            }
-        }
-
         Connections {
             target: scopeItem.scope
             onGotoScope: {
@@ -250,8 +230,9 @@ Showable {
             }
             onOpenScope: {
                 scopeItem.closePreview();
-                scopeItem.oldScope = scopeItem.scope;
+                var oldScope = scopeItem.scope;
                 scopeItem.scope = scope;
+                scopeItem.scopeThatOpenedScope.closeScope(oldScope);
             }
         }
     }

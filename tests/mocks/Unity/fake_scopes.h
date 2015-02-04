@@ -26,6 +26,7 @@
 
 // Qt
 #include <QList>
+#include <QSet>
 #include <QTimer>
 
 class ScopesOverview;
@@ -59,6 +60,10 @@ public:
     Q_INVOKABLE void setFavorite(const QString& scopeId, bool favorite) override;
     Q_INVOKABLE void moveFavoriteTo(const QString& scopeId, int index) override;
 
+    unity::shell::scopes::ScopeInterface* findTempScope(QString const& id) const;
+    void addTempScope(unity::shell::scopes::ScopeInterface* scope);
+    Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope);
+
     // This is used as part of implementation of the other C++ code, not API
     QList<Scope*> favScopes() const;
     QList<Scope*> nonFavScopes() const;
@@ -70,6 +75,7 @@ private Q_SLOTS:
 private:
     QList<Scope*> m_scopes; // the favorite ones
     QList<Scope*> m_allScopes;
+    QSet<unity::shell::scopes::ScopeInterface*> m_tempScopes;
     ScopesOverview *m_scopesOverview;
     bool m_loaded;
     QTimer timer;

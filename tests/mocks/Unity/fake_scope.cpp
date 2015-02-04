@@ -208,11 +208,6 @@ void Scope::cancelActivation()
 
 void Scope::closeScope(unity::shell::scopes::ScopeInterface* scope)
 {
-    if (scope != m_openScope) {
-        qDebug() << scope << m_openScope;
-        qFatal("Scope::closeScope got wrong scope in closeScope");
-    }
-    m_openScope = nullptr;
 }
 
 QString Scope::currentNavigationId() const

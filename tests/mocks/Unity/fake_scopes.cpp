@@ -177,6 +177,30 @@ unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
     return m_scopesOverview;
 }
 
+void Scopes::addTempScope(unity::shell::scopes::ScopeInterface* scope)
+{
+    if (!m_tempScopes.contains(scope)) {
+        m_tempScopes.insert(scope);
+    }
+}
+
+void Scopes::closeScope(unity::shell::scopes::ScopeInterface* scope)
+{
+    if (m_tempScopes.remove(scope)) {
+        scope->deleteLater();
+    }
+}
+
+unity::shell::scopes::ScopeInterface* Scopes::findTempScope(QString const& id) const
+{
+    for (auto s: m_tempScopes) {
+        if (s->id() == id) {
+            return s;
+        }
+    }
+    return nullptr;
+}
+
 void Scopes::setFavorite(const QString& scopeId, bool favorite)
 {
     if (favorite) {
