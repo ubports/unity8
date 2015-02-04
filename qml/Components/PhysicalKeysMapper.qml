@@ -64,7 +64,7 @@ Item {
 
 
     function onKeyPressed(key) {
-        var eventAccepted = true;
+        var eventAccepted = false;
 
         /* Determine what key was pressed */
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
@@ -82,6 +82,7 @@ Item {
                     powerKeyLongPressTimer.restart();
                 }
                 d.powerKeyPressed = true;
+                eventAccepted = true;
             }
         } else if (key == Qt.Key_MediaTogglePlayPause || key == Qt.Key_MediaPlay) {
             eventAccepted = callManager.handleMediaKey(false);
@@ -89,8 +90,6 @@ Item {
             d.volumeDownKeyPressed = true;
         } else if (key == Qt.Key_VolumeUp) {
             d.volumeUpKeyPressed = true;
-        } else {
-            eventAccepted = false;
         }
 
         /* Determine how to handle it  */
@@ -109,19 +108,19 @@ Item {
     }
 
     function onKeyReleased(key) {
-        var eventAccepted = true;
+        var eventAccepted = false;
 
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
             d.powerKeyPressed = false;
             d.aPowerKeyWasReleased = true;
+            eventAccepted = true;
         } else if (key == Qt.Key_VolumeDown) {
             d.volumeDownKeyPressed = false;
         } else if (key == Qt.Key_VolumeUp) {
             d.volumeUpKeyPressed = false;
-        } else {
-            eventAccepted = false;
         }
+
         return eventAccepted;
     }
 }
