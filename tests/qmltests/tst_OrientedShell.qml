@@ -699,7 +699,7 @@ Rectangle {
 
             // ensure the mock dialer-app is as we expect
             compare(dialerApp.rotatesWindowContents, false);
-            compare(dialerApp.supportedOrientations, Qt.PortraitOrientation);
+            compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
             compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
 
             tryCompareFunction(function(){ return dialerDelegate != null; }, true);
@@ -746,7 +746,7 @@ Rectangle {
 
             // ensure the mock dialer-app is as we expect
             compare(dialerApp.rotatesWindowContents, false);
-            compare(dialerApp.supportedOrientations, Qt.PortraitOrientation);
+            compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
             compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
 
             tryCompareFunction(function(){ return dialerDelegate != null; }, true);

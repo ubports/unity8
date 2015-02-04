@@ -390,7 +390,8 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("dialer");
     application->setIconId("dialer-app");
     application->setStage(ApplicationInfo::SideStage);
-    application->setSupportedOrientations(Qt::PortraitOrientation);
+    application->setSupportedOrientations(Qt::PortraitOrientation
+                                        | Qt::InvertedPortraitOrientation);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);

@@ -422,7 +422,7 @@ Item {
             var app = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app);
 
-            tryCompare(app.session.surface, "focus", true);
+            tryCompare(app.session.surface, "activeFocus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -433,7 +433,7 @@ Item {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.session.surface, "focus", false);
+            tryCompare(app.session.surface, "activeFocus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -442,11 +442,11 @@ Item {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.session.surface, "focus", false);
+            tryCompare(app.session.surface, "activeFocus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.session.surface, "focus", true);
+            tryCompare(app.session.surface, "activeFocus", true);
         }
 
         // Wait for the whole UI to settle down
@@ -747,13 +747,11 @@ Item {
             // left edge drag area.
             {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
-                var startPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.8,
-                        buttonShowDashHome.height * 0.2);
-                var endPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.2,
-                        buttonShowDashHome.height * 0.8);
-                touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
+                touchFlick(buttonShowDashHome,
+                    buttonShowDashHome.width * 0.2,  /* startPos.x */
+                    buttonShowDashHome.height * 0.8, /* startPos.y */
+                    buttonShowDashHome.width * 0.8,  /* endPos.x */
+                    buttonShowDashHome.height * 0.2  /* endPos.y */);
             }
 
             compare(launcherShowDashHomeSpy.count, 1);
