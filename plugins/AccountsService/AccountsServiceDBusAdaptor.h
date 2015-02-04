@@ -19,12 +19,12 @@
 #ifndef UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
 #define UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
 
+#include <QDBusArgument>
 #include <QDBusContext>
 #include <QDBusInterface>
 #include <QMap>
 #include <QObject>
 #include <QString>
-#include <QDBusArgument>
 
 class AccountsServiceDBusAdaptor: public QObject, public QDBusContext
 {
