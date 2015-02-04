@@ -49,14 +49,25 @@ Rectangle {
             spreadRepeater.itemAt(mainStageAppIndex).matchShellOrientation();
         }
 
-        if (priv.shellIsLandscape) {
-            // make all side stage apps match the main stage orientation
-            // so that they look correct when you slide them in or select one
-            // of them
-            for (var i = 0; i < spreadRepeater.count; ++i) {
-                if (!spreadRepeater.itemAt(i).wantsMainStage) {
-                    spreadRepeater.itemAt(i).matchShellOrientation();
-                }
+        for (var i = 0; i < spreadRepeater.count; ++i) {
+
+            if (i === mainStageAppIndex) {
+                continue;
+            }
+
+            var spreadDelegate = spreadRepeater.itemAt(i);
+
+            var delta = spreadDelegate.appWindowOrientationAngle - root.shellOrientationAngle;
+            if (delta < 0) { delta += 360; }
+            delta = delta % 360;
+
+            var supportedOrientations = spreadDelegate.application.supportedOrientations;
+            if (supportedOrientations === Qt.PrimaryOrientation) {
+                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+            }
+
+            if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
+                spreadDelegate.matchShellOrientation();
             }
         }
     }

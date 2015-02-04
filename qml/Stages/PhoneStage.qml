@@ -50,6 +50,24 @@ Rectangle {
         if (spreadRepeater.count > 0) {
             spreadRepeater.itemAt(0).matchShellOrientation();
         }
+
+        for (var i = 1; i < spreadRepeater.count; ++i) {
+
+            var spreadDelegate = spreadRepeater.itemAt(i);
+
+            var delta = spreadDelegate.appWindowOrientationAngle - root.shellOrientationAngle;
+            if (delta < 0) { delta += 360; }
+            delta = delta % 360;
+
+            var supportedOrientations = spreadDelegate.application.supportedOrientations;
+            if (supportedOrientations === Qt.PrimaryOrientation) {
+                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+            }
+
+            if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
+                spreadDelegate.matchShellOrientation();
+            }
+        }
     }
     function updateFocusedAppOrientationAnimated() {
         if (spreadRepeater.count > 0) {
