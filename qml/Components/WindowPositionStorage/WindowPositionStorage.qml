@@ -37,14 +37,14 @@ QtObject {
         }
     }
 
-    function savePosition(windowId, x, y, width, height) {
+    function saveGeometry(windowId, x, y, width, height) {
         priv.openDB();
         priv.db.transaction( function(tx){
             tx.executeSql('INSERT OR REPLACE INTO windowproperties VALUES(?, ?, ?, ?, ?)', [windowId, x, y, width, height]);
         });
     }
 
-    function getPosition(windowId) {
+    function getGeometry(windowId) {
         priv.openDB();
         var res = new Object();
         priv.db.transaction(function(tx) {

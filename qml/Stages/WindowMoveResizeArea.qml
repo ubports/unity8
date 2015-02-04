@@ -50,12 +50,12 @@ MouseArea {
     }
 
     Component.onCompleted: {
-        var windowSizePosition = WindowPositionStorage.getPosition(root.windowId)
-        if (windowSizePosition !== undefined) {
-            target.x = windowSizePosition.x
-            target.y = windowSizePosition.y
-            target.width = windowSizePosition.width
-            target.height = windowSizePosition.height
+        var windowGeometry = WindowPositionStorage.getGeometry(root.windowId)
+        if (windowGeometry !== undefined) {
+            target.x = windowGeometry.x
+            target.y = windowGeometry.y
+            target.width = windowGeometry.width
+            target.height = windowGeometry.height
         }
     }
 
@@ -109,6 +109,6 @@ MouseArea {
     }
 
     onReleased: {
-        WindowPositionStorage.savePosition(root.windowId,target.x, target.y, target.width, target.height)
+        WindowPositionStorage.saveGeometry(root.windowId,target.x, target.y, target.width, target.height)
     }
 }
