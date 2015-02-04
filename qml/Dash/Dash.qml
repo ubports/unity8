@@ -130,7 +130,6 @@ Showable {
             UbuntuNumberAnimation {
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        console.log("close scope", scopeItem.scope)
                         scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }

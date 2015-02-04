@@ -477,6 +477,7 @@ Item {
 
             dashTempScopeItem.scope.openScope(scopes.getScopeFromAll("MockScope9"));
             tryCompare(subPageLoader, "open", false);
+            compare(dashTempScopeItem.scope.id, "MockScope9");
 
             // Go back
             dashTempScopeItem.backClicked();
