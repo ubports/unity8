@@ -179,7 +179,7 @@ void LauncherModel::refresh()
     QList<QVariantMap> items;
 
     if (m_accounts && !m_user.isEmpty()) {
-        items = m_accounts->getUserProperty<VariantMapList>(m_user, "com.canonical.unity.AccountsService", "launcherItems");
+        items = m_accounts->getUserProperty<VariantMapList>(m_user, "com.canonical.unity.AccountsService", "LauncherItems");
     }
 
     // First walk through all the existing items and see if we need to remove something
@@ -245,7 +245,7 @@ void LauncherModel::refresh()
 
 void LauncherModel::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
-    if (user != m_user || interface != "com.canonical.unity.AccountsService" || !changed.contains("launcherItems")) {
+    if (user != m_user || interface != "com.canonical.unity.AccountsService" || !changed.contains("LauncherItems")) {
         return;
     }
     refresh();

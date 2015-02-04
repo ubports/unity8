@@ -46,7 +46,7 @@ void ASAdapter::syncItems(QList<LauncherItem *> m_list)
             items << itemToVariant(item);
         }
 
-        m_accounts->setUserPropertyAsync(m_user, "com.canonical.unity.AccountsService", "launcherItems", QVariant::fromValue(items));
+        m_accounts->setUserPropertyAsync(m_user, "com.canonical.unity.AccountsService", "LauncherItems", QVariant::fromValue(items));
     }
 }
 
