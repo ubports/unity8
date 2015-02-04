@@ -199,7 +199,7 @@ Showable {
         }
     }
 
-    DashBackground{
+    DashBackground {
         anchors.fill: scopeItem
         visible: scopeItem.visible
     }
