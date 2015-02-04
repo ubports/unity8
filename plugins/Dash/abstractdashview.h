@@ -35,6 +35,7 @@ class AbstractDashView : public QQuickItem
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
     Q_PROPERTY(qreal rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
+    Q_PROPERTY(int cacheBuffer READ cacheBuffer WRITE setCacheBuffer NOTIFY cacheBufferChanged)
     Q_PROPERTY(qreal displayMarginBeginning READ displayMarginBeginning
                                             WRITE setDisplayMarginBeginning
                                             NOTIFY displayMarginBeginningChanged)
@@ -61,6 +62,9 @@ public:
     qreal rowSpacing() const;
     void setRowSpacing(qreal rowSpacing);
 
+    int cacheBuffer() const;
+    void setCacheBuffer(int);
+
     qreal displayMarginBeginning() const;
     void setDisplayMarginBeginning(qreal);
 
@@ -72,6 +76,7 @@ Q_SIGNALS:
     void delegateChanged();
     void columnSpacingChanged();
     void rowSpacingChanged();
+    void cacheBufferChanged();
     void displayMarginBeginningChanged();
     void displayMarginEndChanged();
 
@@ -117,6 +122,7 @@ private:
 
     int m_columnSpacing;
     int m_rowSpacing;
+    int m_buffer;
     qreal m_displayMarginBeginning;
     qreal m_displayMarginEnd;
     bool m_needsRelayout;

@@ -8,6 +8,14 @@ import QtQuick.tooling 1.1
 
 Module {
     Component {
+        name: "ActionRootState"
+        prototype: "RootStateObject"
+        exports: ["Unity.Indicators/ActionRootState 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "actionGroup"; type: "QDBusActionGroup"; isPointer: true }
+        Property { name: "actionName"; type: "string" }
+    }
+    Component {
         name: "ActionState"
         prototype: "QObject"
         exports: ["Unity.Indicators/ActionState 0.1"]
@@ -23,7 +31,6 @@ Module {
             }
         }
     }
-    Component { name: "ActionStateParser"; prototype: "QObject" }
     Component {
         name: "FlatMenuProxyModelRole"
         prototype: "QObject"
@@ -147,6 +154,14 @@ Module {
         Property { name: "active"; type: "bool"; isReadonly: true }
     }
     Component {
+        name: "ModelActionRootState"
+        prototype: "RootStateObject"
+        exports: ["Unity.Indicators/ModelActionRootState 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "menu"; type: "UnityMenuModel"; isPointer: true }
+        Signal { name: "indexChanged" }
+    }
+    Component {
         name: "ModelPrinter"
         prototype: "QObject"
         exports: ["Unity.Indicators/ModelPrinter 0.1"]
@@ -192,11 +207,8 @@ Module {
     }
     Component { name: "QIdentityProxyModel"; prototype: "QAbstractProxyModel" }
     Component {
-        name: "RootActionState"
-        prototype: "ActionStateParser"
-        exports: ["Unity.Indicators/RootActionState 0.1"]
-        exportMetaObjectRevisions: [0]
-        Property { name: "menu"; type: "UnityMenuModel"; isPointer: true }
+        name: "RootStateObject"
+        prototype: "QObject"
         Property { name: "valid"; type: "bool"; isReadonly: true }
         Property { name: "title"; type: "string"; isReadonly: true }
         Property { name: "leftLabel"; type: "string"; isReadonly: true }
@@ -205,7 +217,6 @@ Module {
         Property { name: "accessibleName"; type: "string"; isReadonly: true }
         Property { name: "visible"; type: "bool"; isReadonly: true }
         Signal { name: "updated" }
-        Signal { name: "indexChanged" }
     }
     Component {
         name: "SharedUnityMenuModel"

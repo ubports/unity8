@@ -33,7 +33,8 @@ public:
         Rightwards, // Along the positive direction of the X axis
         Leftwards, // Along the negative direction of the X axis
         Downwards, // Along the positive direction of the Y axis
-        Upwards // Along the negative direction of the Y axis
+        Upwards, // Along the negative direction of the Y axis
+        Horizontal // Along the X axis, in any direction
     };
 
     Q_INVOKABLE static bool isHorizontal(Direction::Type type);

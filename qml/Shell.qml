@@ -36,11 +36,11 @@ import "Panel"
 import "Components"
 import "Notifications"
 import "Stages"
-import "Panel/Indicators"
 import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: shell
@@ -129,6 +129,11 @@ Item {
         sourceSize.width: 0
     }
 
+    GSettings {
+        id: usageModeSettings
+        schema.id: "com.canonical.Unity8"
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -175,8 +180,20 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                dialogs.onPowerKeyPressed();
+            // Nokia earpieces give TogglePlayPause, while the iPhone's earpiece gives Play
+            if (event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) {
+                event.accepted = callManager.handleMediaKey(false);
+            } else if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
+                // FIXME: We only consider power key presses if the screen is
+                // on because of bugs 1410830/1409003.  The theory is that when
+                // those bugs are encountered, there is a >2s delay between the
+                // power press event and the power release event, which causes
+                // the shutdown dialog to appear on resume.  So to avoid that
+                // symptom while we investigate the root cause, we simply won't
+                // initiate any dialogs when the screen is off.
+                if (Powerd.status === Powerd.On) {
+                    dialogs.onPowerKeyPressed();
+                }
                 event.accepted = true;
             } else {
                 volumeKeyFilter.onKeyPressed(event.key);
@@ -267,7 +284,8 @@ Item {
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
+                        : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             Binding {
                 target: applicationsDisplayLoader.item
@@ -305,6 +323,11 @@ Item {
                 property: "orientation"
                 value: shell.orientation
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "background"
+                value: shell.background
+            }
         }
     }
 
@@ -312,7 +335,7 @@ Item {
         id: inputMethod
         objectName: "inputMethod"
         anchors { fill: parent; topMargin: panel.panelHeight }
-        z: notifications.useModal || panel.indicators.shown ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
     }
 
     Connections {
@@ -389,7 +412,7 @@ Item {
 
         function maybeShow() {
             if (!shell.forcedUnlock) {
-                show()
+                showNow();
             }
         }
 
@@ -543,9 +566,7 @@ Item {
             property string lockedApp: ""
             property bool hasLockedApp: lockedApp !== ""
 
-            available: true
             hides: [launcher, panel.indicators]
-            shown: true
             loadContent: required || lockscreen.required // keeps content in memory for quick show()
 
             locked: shell.locked
@@ -555,7 +576,12 @@ Item {
             width: parent.width
             height: parent.height
 
-            dragHandleWidth: shell.edgeSize
+
+            // avoid overlapping with Launcher's edge drag area
+            // FIXME: Fix TouchRegistry & friends and remove this workaround
+            //        Issue involves launcher's DDA getting disabled on a long
+            //        left-edge drag
+            dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
 
             function startUnlock() {
                 if (narrowMode) {
@@ -578,6 +604,15 @@ Item {
                     launcher.hide();
                 }
                 enabled = true;
+            }
+
+            Timer {
+                // See powerConnection for why this is useful
+                id: showGreeterDelayed
+                interval: 1
+                onTriggered: {
+                    greeter.showNow();
+                }
             }
 
             onShownChanged: {
@@ -609,7 +644,12 @@ Item {
                 LauncherModel.setUser(user);
             }
 
-            onTease: launcher.tease()
+            onTapped: launcher.tease()
+            onDraggingChanged: {
+                if (dragging) {
+                    launcher.tease();
+                }
+            }
 
             Binding {
                 target: ApplicationManager
@@ -624,7 +664,7 @@ Item {
         target: callManager
 
         onHasCallsChanged: {
-            if (shell.locked && callManager.hasCalls) {
+            if (shell.locked && callManager.hasCalls && greeter.lockedApp !== "dialer-app") {
                 // We just received an incoming call while locked.  The
                 // indicator will have already launched dialer-app for us, but
                 // there is a race between "hasCalls" changing and the dialer
@@ -645,7 +685,16 @@ Item {
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
                     !callManager.hasCalls && !edgeDemo.running) {
-                greeter.showNow()
+                // We don't want to simply call greeter.showNow() here, because
+                // that will take too long.  Qt will delay button event
+                // handling until the greeter is done loading and may think the
+                // user held down the power button the whole time, leading to a
+                // power dialog being shown.  Instead, delay showing the
+                // greeter until we've finished handling the event.  We could
+                // make the greeter load asynchronously instead, but that
+                // introduces a whole host of timing issues, especially with
+                // its animations.  So this is simpler.
+                showGreeterDelayed.start();
             }
         }
     }
@@ -700,13 +749,9 @@ Item {
                 minimizedPanelHeight: units.gu(3)
                 expandedPanelHeight: units.gu(7)
 
-                indicatorsModel: visibleIndicators.model
-            }
-
-            VisibleIndicators {
-                id: visibleIndicators
-                // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
-                Component.onCompleted: initialise(indicatorProfile)
+                indicatorsModel: Indicators.IndicatorsModel {
+                    Component.onCompleted: load(indicatorProfile);
+                }
             }
             callHint {
                 greeterShown: greeter.shown || lockscreen.shown
@@ -727,10 +772,12 @@ Item {
             readonly property bool dashSwipe: progress > 0
 
             anchors.top: parent.top
+            anchors.topMargin: inverted ? 0 : panel.panelHeight
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled && (!shell.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            inverted: usageModeSettings.usageMode === "Staged"
 
             onShowDashHome: showHome()
             onDash: showDash()

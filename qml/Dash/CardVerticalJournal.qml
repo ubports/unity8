@@ -59,6 +59,7 @@ DashRenderer {
         rowSpacing: minimumColumnSpacing
         columnWidth: cardTool.cardWidth
 
+        cacheBuffer: root.cacheBuffer
         displayMarginBeginning: root.displayMarginBeginning
         displayMarginEnd: root.displayMarginEnd
 

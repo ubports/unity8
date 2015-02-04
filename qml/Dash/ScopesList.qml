@@ -34,6 +34,9 @@ Item {
 
     state: "browse"
 
+    property var scopeStyle: ScopeStyle {
+    }
+
     onStateChanged: {
         if (state == "edit") {
             // As per design entering edit mode clears the possible existing search
@@ -62,10 +65,12 @@ Item {
         objectName: "pageHeader"
         title: i18n.tr("Manage")
         width: parent.width
+        clip: true
         showBackButton: true
         backIsClose: root.state == "edit"
         storeEntryEnabled: root.state == "browse"
         searchEntryEnabled: false // Disable search for now
+        scopeStyle: root.scopeStyle
         onBackClicked: {
             if (backIsClose) {
                 root.state = "browse"
@@ -111,7 +116,7 @@ Item {
 
                         editMode: root.state == "edit"
 
-                        scopeStyle: root.scope.scopeStyle
+                        scopeStyle: root.scopeStyle
                         isFavoritesFeed: categoryId == "favorites"
                         isAlsoInstalled: categoryId == "other"
 

@@ -113,7 +113,7 @@ Item {
             objectName: "dashContentList"
 
             interactive: !dashContent.forceNonInteractive && dashContent.scopes.loaded && currentItem
-                      && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
+                      && !currentItem.moving && !currentItem.navigationDisableParentInteractive && !currentItem.subPageShown
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -163,6 +163,7 @@ Item {
 
             delegate:
                 Loader {
+                    id: loader
                     width: ListView.view.width
                     height: ListView.view.height
                     opacity: { // hide delegate if offscreen
@@ -174,7 +175,7 @@ Item {
                     objectName: "scopeLoader" + index
 
                     readonly property bool moving: item ? item.moving : false
-                    readonly property bool navigationShown: item ? item.navigationShown : false
+                    readonly property bool navigationDisableParentInteractive: item ? item.navigationDisableParentInteractive : false
                     readonly property bool subPageShown: item ? item.subPageShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope
@@ -191,6 +192,7 @@ Item {
                         dashContent.scopeLoaded(item.scope.id)
                         item.paginationCount = Qt.binding(function() { return dashContentList.count } )
                         item.paginationIndex = Qt.binding(function() { return dashContentList.currentIndex } )
+                        item.visibleToParent = Qt.binding(function() { return loader.opacity != 0 });
                         item.holdingList = dashContentList;
                         item.forceNonInteractive = Qt.binding(function() { return dashContent.forceNonInteractive } )
                     }

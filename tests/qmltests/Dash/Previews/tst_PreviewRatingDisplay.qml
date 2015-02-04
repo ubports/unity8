@@ -118,7 +118,7 @@ Rectangle {
             compare(rating.value, reviewsModel1["reviews"][1]["rating"]);
 
             // Tap on first star
-            mouseClick(rating, 0, 0);
+            mouseClick(rating);
             compare(rating.value, reviewsModel1["reviews"][1]["rating"]);
         }
     }

@@ -17,30 +17,22 @@
  *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#ifndef ROOTACTIONSTATE_H
-#define ROOTACTIONSTATE_H
+#ifndef MODELACTIONROOTSTATE_H
+#define MODELACTIONROOTSTATE_H
 
 #include "unityindicatorsglobal.h"
 
-#include <actionstateparser.h>
+#include "rootstateparser.h"
 
 class UnityMenuModel;
 
-class UNITYINDICATORS_EXPORT RootActionState : public ActionStateParser
+class UNITYINDICATORS_EXPORT ModelActionRootState : public RootStateObject
 {
     Q_OBJECT
     Q_PROPERTY(UnityMenuModel* menu READ menu WRITE setMenu NOTIFY menuChanged)
-
-    Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
-    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
-    Q_PROPERTY(QString leftLabel READ leftLabel NOTIFY leftLabelChanged)
-    Q_PROPERTY(QString rightLabel READ rightLabel NOTIFY rightLabelChanged)
-    Q_PROPERTY(QStringList icons READ icons NOTIFY iconsChanged)
-    Q_PROPERTY(QString accessibleName READ accessibleName NOTIFY accessibleNameChanged)
-    Q_PROPERTY(bool indicatorVisible READ indicatorVisible NOTIFY indicatorVisibleChanged)
 public:
-    RootActionState(QObject *parent = 0);
-    virtual ~RootActionState();
+    ModelActionRootState(QObject *parent = 0);
+    virtual ~ModelActionRootState();
 
     UnityMenuModel* menu() const;
     void setMenu(UnityMenuModel* menu);
@@ -48,30 +40,11 @@ public:
     int index() const;
     void setIndex(int index);
 
-    bool isValid() const;
-    QString title() const;
-    QString leftLabel() const;
-    QString rightLabel() const;
-    QStringList icons() const;
-    QString accessibleName() const;
-    bool indicatorVisible() const;
-
-    // from ActionStateParser
-    virtual QVariant toQVariant(GVariant* state) const override;
+    bool valid() const override;
 
 Q_SIGNALS:
-    void updated();
-
     void menuChanged();
     void indexChanged();
-
-    void validChanged();
-    void titleChanged();
-    void leftLabelChanged();
-    void rightLabelChanged();
-    void iconsChanged();
-    void accessibleNameChanged();
-    void indicatorVisibleChanged();
 
 private Q_SLOTS:
     void onModelRowsAdded(const QModelIndex& parent, int start, int end);
@@ -83,7 +56,6 @@ private:
     void updateActionState();
 
     UnityMenuModel* m_menu;
-    QVariantMap m_cachedState;
 };
 
-#endif // ROOTACTIONSTATE_H
+#endif // MODELACTIONROOTSTATE_H

@@ -205,6 +205,7 @@ Item {
 
             if (data.targetPhase == 2) {
                 var app2 = findChild(spreadView, "appDelegate2");
+                tryCompare(app2, "swipeToCloseEnabled", true);
                 mouseClick(app2, units.gu(1), units.gu(1));
             }
 
@@ -249,6 +250,7 @@ Item {
             }
 
             console.log("clicking app", data.index, "(", appId, ")")
+            tryCompare(tile, "swipeToCloseEnabled", true);
             mouseClick(spreadView, tile.mapToItem(spreadView).x + units.gu(1), spreadView.height / 2)
             tryCompare(ApplicationManager, "focusedApplicationId", appId);
             tryCompare(spreadView, "phase", 0);
@@ -391,6 +393,30 @@ Item {
             compare(dragArea2.enabled, false);
 
             tryCompare(spreadView, "contentX", -spreadView.shift)
+        }
+
+        function test_leftEdge_data() {
+            return [
+                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(5), shouldMoveApp: true },
+                { tag: "inSpread", inSpread: true, leftEdgeDragWidth: units.gu(5), shouldMoveApp: false }
+            ]
+        }
+
+        function test_leftEdge(data) {
+            addApps(2);
+
+            if (data.inSpread) {
+                goToSpread();
+            }
+
+            var focusedDelegate = findChild(phoneStage, "appDelegate0");
+            phoneStage.inverseProgress = data.leftEdgeDragWidth;
+
+            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : 0);
+
+            phoneStage.inverseProgress = 0;
+
+            tryCompare(focusedDelegate, "x", 0);
         }
     }
 }

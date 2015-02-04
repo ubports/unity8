@@ -15,12 +15,12 @@
  */
 
 // self
-#include "qsortfilterproxymodelqml.h"
+#include "unitysortfilterproxymodelqml.h"
 
 // Qt
 #include <QDebug>
 
-QSortFilterProxyModelQML::QSortFilterProxyModelQML(QObject *parent)
+UnitySortFilterProxyModelQML::UnitySortFilterProxyModelQML(QObject *parent)
     : QSortFilterProxyModel(parent)
     , m_invertMatch(false)
 {
@@ -32,7 +32,7 @@ QSortFilterProxyModelQML::QSortFilterProxyModelQML(QObject *parent)
 /*
  * Enter row index of filtered/sorted model, returns row index of source model
  */
-int QSortFilterProxyModelQML::mapRowToSource(int row)
+int UnitySortFilterProxyModelQML::mapRowToSource(int row)
 {
     if (sourceModel() == nullptr)
         return -1;
@@ -40,13 +40,13 @@ int QSortFilterProxyModelQML::mapRowToSource(int row)
     return QSortFilterProxyModel::mapToSource(index(row, 0)).row();
 }
 
-QHash<int, QByteArray> QSortFilterProxyModelQML::roleNames() const
+QHash<int, QByteArray> UnitySortFilterProxyModelQML::roleNames() const
 {
     return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
 }
 
 void
-QSortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
+UnitySortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
 {
     if (itemModel == nullptr) {
         return;
@@ -69,7 +69,7 @@ QSortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
 }
 
 QVariantMap
-QSortFilterProxyModelQML::get(int row)
+UnitySortFilterProxyModelQML::get(int row)
 {
     QVariantMap res;
     const QHash<int, QByteArray> roles = roleNames();
@@ -81,7 +81,7 @@ QSortFilterProxyModelQML::get(int row)
 }
 
 QVariant
-QSortFilterProxyModelQML::data(int row, int role)
+UnitySortFilterProxyModelQML::data(int row, int role)
 {
     if (sourceModel() == nullptr) {
         return QVariant();
@@ -91,7 +91,7 @@ QSortFilterProxyModelQML::data(int row, int role)
 }
 
 int
-QSortFilterProxyModelQML::totalCount() const
+UnitySortFilterProxyModelQML::totalCount() const
 {
     if (sourceModel() != nullptr) {
         return sourceModel()->rowCount();
@@ -101,19 +101,19 @@ QSortFilterProxyModelQML::totalCount() const
 }
 
 int
-QSortFilterProxyModelQML::count()
+UnitySortFilterProxyModelQML::count()
 {
     return rowCount();
 }
 
 bool
-QSortFilterProxyModelQML::invertMatch() const
+UnitySortFilterProxyModelQML::invertMatch() const
 {
     return m_invertMatch;
 }
 
 void
-QSortFilterProxyModelQML::setInvertMatch(bool invertMatch)
+UnitySortFilterProxyModelQML::setInvertMatch(bool invertMatch)
 {
     if (invertMatch != m_invertMatch) {
         m_invertMatch = invertMatch;
@@ -123,7 +123,7 @@ QSortFilterProxyModelQML::setInvertMatch(bool invertMatch)
 }
 
 bool
-QSortFilterProxyModelQML::filterAcceptsRow(int sourceRow,
+UnitySortFilterProxyModelQML::filterAcceptsRow(int sourceRow,
                                            const QModelIndex &sourceParent) const
 {
     // If there's no regexp set, always accept all rows indepenently of the invertMatch setting
@@ -136,7 +136,7 @@ QSortFilterProxyModelQML::filterAcceptsRow(int sourceRow,
 }
 
 int
-QSortFilterProxyModelQML::findFirst(int role, const QVariant& value) const
+UnitySortFilterProxyModelQML::findFirst(int role, const QVariant& value) const
 {
     QModelIndexList matches = match(index(0, 0), role, value, 1, Qt::MatchExactly);
     if (!matches.isEmpty()) {
@@ -147,7 +147,7 @@ QSortFilterProxyModelQML::findFirst(int role, const QVariant& value) const
 }
 
 int
-QSortFilterProxyModelQML::mapFromSource(int row)
+UnitySortFilterProxyModelQML::mapFromSource(int row)
 {
     if (sourceModel() != nullptr) {
         return QSortFilterProxyModel::mapFromSource(sourceModel()->index(row, 0)).row();
@@ -157,7 +157,7 @@ QSortFilterProxyModelQML::mapFromSource(int row)
 }
 
 int
-QSortFilterProxyModelQML::mapToSource(int row)
+UnitySortFilterProxyModelQML::mapToSource(int row)
 {
     if (sourceModel() != nullptr) {
         return QSortFilterProxyModel::mapToSource(index(row, 0)).row();
