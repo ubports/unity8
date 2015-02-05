@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,22 +12,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../UsersModelPrivate.h"
+#ifndef UNITY_GREETER_PRIVATE_H
+#define UNITY_GREETER_PRIVATE_H
 
-namespace QLightDM
+#include <QLightDM/Greeter>
+
+class GreeterPrivate
 {
+public:
+    explicit GreeterPrivate(Greeter *parent);
 
-UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
-  : q_ptr(parent)
-{
-    entries =
-    {
-        { "single", "Single User", 0, 0, false, false, 0, 0 },
-    };
-}
+    QLightDM::Greeter *m_greeter;
+    bool m_active;
+    bool wasPrompted;
+    bool promptless;
 
-}
+protected:
+    Greeter * const q_ptr;
+
+private:
+    Q_DECLARE_PUBLIC(Greeter)
+};
+
+#endif // UNITY_GREETER_PRIVATE_H

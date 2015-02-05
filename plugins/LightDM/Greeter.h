@@ -68,7 +68,7 @@ Q_SIGNALS:
     // should switch to this user if possible.
     void requestAuthenticationUser(const QString &user);
 
-private:
+protected:
     GreeterPrivate * const d_ptr;
 
     Q_DECLARE_PRIVATE(Greeter)
