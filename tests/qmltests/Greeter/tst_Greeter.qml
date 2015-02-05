@@ -29,10 +29,19 @@ Item {
 
     property url defaultBackground: Qt.resolvedUrl("../../../qml/graphics/tablet_background.jpg")
 
+    Component.onCompleted: {
+        // set the mock mode before loading
+        LightDM.Greeter.mockMode = "full";
+        LightDM.Users.mockMode = "full";
+        loader.active = true;
+    }
+
     Row {
         anchors.fill: parent
         Loader {
             id: loader
+
+            active: false
             width: parent.width - controls.width
             height: parent.height
 

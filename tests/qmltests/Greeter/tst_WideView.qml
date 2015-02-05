@@ -27,6 +27,12 @@ Item {
     width: units.gu(120)
     height: units.gu(80)
 
+    Binding {
+        target: LightDM.Users
+        property: "mockMode"
+        value: "full"
+    }
+
     Row {
         anchors.fill: parent
         Loader {
@@ -37,6 +43,8 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 WideView {
+                    id: view
+
                     background: Qt.resolvedUrl("../../../qml/graphics/tablet_background.jpg")
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
@@ -46,6 +54,7 @@ Item {
                     delayMinutes: parseInt(delayMinutesField.text, 10)
                     backgroundTopMargin: parseFloat(backgroundTopMarginField.text)
                     locked: lockedCheckBox.checked
+                    inputMethod: fakeInputMethod
 
                     Component.onDestruction: {
                         loader.itemDestroyed = true
@@ -54,6 +63,40 @@ Item {
                     onSelected: {
                         currentIndexField.text = index;
                     }
+
+                    QtObject {
+                        id: fakeInputMethod
+                        property bool visible: fakeKeyboard.visible
+                        property var keyboardRectangle: QtObject {
+                            property real x: fakeKeyboard.x
+                            property real y: fakeKeyboard.y
+                            property real width: fakeKeyboard.width
+                            property real height: fakeKeyboard.height
+                        }
+                    }
+
+                    Rectangle {
+                        id: fakeKeyboard
+                        color: "green"
+                        opacity: 0.7
+                        anchors.bottom: view.bottom
+                        width: view.width
+                        height: view.height * 0.6
+                        visible: keyboardVisibleCheckBox.checked
+                        Text {
+                            text: "Keyboard Rectangle"
+                            color: "yellow"
+                            font.bold: true
+                            fontSizeMode: Text.Fit
+                            minimumPixelSize: 10; font.pixelSize: 200
+                            verticalAlignment: Text.AlignVCenter
+                            x: (parent.width - width) / 2
+                            y: (parent.height - height) / 2
+                            width: parent.width
+                            height: parent.height
+                        }
+                    }
+
                 }
             }
         }
@@ -221,6 +264,14 @@ Item {
                         }
                     }
                 }
+                Row {
+                    CheckBox {
+                        id: keyboardVisibleCheckBox
+                    }
+                    Label {
+                        text: "Keyboard Visible"
+                    }
+                }
             }
         }
     }
@@ -264,6 +315,8 @@ Item {
         }
 
         function cleanup() {
+            keyboardVisibleCheckBox.checked = false;
+
             loader.itemDestroyed = false;
             loader.active = false;
             tryCompare(loader, "status", Loader.Null);
@@ -434,6 +487,27 @@ Item {
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 1);
             compare(respondedSpy.signalArguments[0][0], "");
+        }
+
+        function test_loginListNotCoveredByKeyboard() {
+            var loginList = findChild(view, "loginList");
+            compare(loginList.height, view.height);
+
+            // when the vkb shows up, loginList is moved up to remain fully uncovered
+
+            keyboardVisibleCheckBox.checked = true;
+
+            tryCompare(loginList, "height", view.height - view.inputMethod.keyboardRectangle.height);
+            tryCompareFunction( function() {
+                var loginListRect = loginList.mapToItem(view, 0, 0, loginList.width, loginList.height);
+                return loginListRect.y + loginListRect.height <= view.inputMethod.keyboardRectangle.y;
+            }, true);
+
+            // once the vkb goes away, loginList goes back to its full height
+
+            keyboardVisibleCheckBox.checked = false;
+
+            tryCompare(loginList, "height", view.height);
         }
     }
 }

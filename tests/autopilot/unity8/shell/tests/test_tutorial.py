@@ -34,7 +34,6 @@ class TutorialTestCase(tests.UnityTestCase):
         super(TutorialTestCase, self).setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
-        self._lightdm_mock_type = False
 
         self.useFixture(fixture_setup.Tutorial(True))
         self.unity = self.launch_unity()

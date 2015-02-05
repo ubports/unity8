@@ -320,7 +320,8 @@ function cardString(template, components) {
     var hasSummary = components["summary"] || false;
     var artAndSummary = hasArt && hasSummary;
     var isHorizontal = template["card-layout"] === "horizontal";
-    var hasBackground = (hasSummary || !isHorizontal) && (template["card-background"] || components["background"] || artAndSummary);
+    var hasBackground = (!isHorizontal && (template["card-background"] || components["background"] || artAndSummary)) ||
+                        (hasSummary && (template["card-background"] || components["background"]));
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
     var hasEmblem = components["emblem"] && !(hasMascot && template["card-size"] === "small") || false;

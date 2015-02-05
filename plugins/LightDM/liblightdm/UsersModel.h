@@ -24,6 +24,10 @@
 #include <QtCore/QSharedDataPointer>
 #include <QAbstractListModel>
 
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * CHANGES MADE HERE MUST BE REFLECTED ON THE MOCK LIB
+ * COUNTERPART IN tests/mocks/Lightdm/liblightdm
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 namespace QLightDM
 {

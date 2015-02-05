@@ -28,7 +28,7 @@ endif()
 
 set(qmlscene_exe ${CMAKE_BINARY_DIR}/tests/uqmlscene/uqmlscene)
 
-set(test_env UNITY_TESTING=1)
+set(test_env LC_ALL=C UNITY_TESTING=1)
 
 macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
     set(options NO_ADD_TEST NO_TARGETS)

@@ -127,7 +127,7 @@ FocusScope {
         onEmergencyCall: root.emergencyCall()
 
         function maybeShow() {
-            if (root.locked) {
+            if (root.locked && !shown) {
                 showNow();
             }
         }

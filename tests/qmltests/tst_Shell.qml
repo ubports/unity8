@@ -37,6 +37,13 @@ Item {
     width: units.gu(60)
     height: units.gu(71)
 
+    Component.onCompleted: {
+        // must set the mock mode before loading the Shell
+        LightDM.Greeter.mockMode = "single";
+        LightDM.Users.mockMode = "single";
+        shellLoader.active = true;
+    }
+
     QtObject {
         id: applicationArguments
 
@@ -57,7 +64,7 @@ Item {
         anchors.fill: parent
         Loader {
             id: shellLoader
-
+            active: false
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {

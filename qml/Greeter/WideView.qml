@@ -33,6 +33,9 @@ FocusScope {
     readonly property bool fullyShown: coverPage.showProgress === 1
     readonly property bool required: coverPage.required
 
+    // so that it can be replaced in tests with a mock object
+    property var inputMethod: Qt.inputMethod
+
     signal selected(int index)
     signal responded(string response)
     signal tease()
@@ -114,10 +117,11 @@ FocusScope {
             anchors {
                 left: parent.left
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))
-                verticalCenter: parent.verticalCenter
+                top: parent.top
             }
             width: units.gu(29)
-            height: parent.height
+            height: inputMethod && inputMethod.visible ? parent.height - inputMethod.keyboardRectangle.height
+                                                       : parent.height
 
             locked: root.locked
 
