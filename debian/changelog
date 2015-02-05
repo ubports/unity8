@@ -1,3 +1,32 @@
+unity8 (8.02+15.04.20150205-0ubuntu1) vivid; urgency=medium
+
+  [ Andrea Cimitan ]
+  * Fix continue button in wifi wizard page, adds qml-module-
+    qtsysteminfo as unity8 dep (LP: #1363400)
+  * Background needs to be specified to be visible in horizontal cards
+    (LP: #1411748)
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Add workaround for gcc ICE.
+
+  [ Albert Astals ]
+  * Implement proper updateRanges for horizontal items (i.e. Carousel,
+    Horizontal List)
+
+  [ Michael Terry ]
+  * Don't accept multiple "Finish" clicks during the last step of the
+    wizard
+
+  [ Daniel d'Andrada ]
+  * Unify all liblightdm mocks
+  * Ensure the greeter password field is not covered by the keyboard
+  * Don't show() the lockscreen if it's already being shown
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Feb 2015 10:30:13 +0000
+
 unity8 (8.02+15.04.20150123.3-0ubuntu1) vivid; urgency=low
 
   [ Sebastien Bacher ]
