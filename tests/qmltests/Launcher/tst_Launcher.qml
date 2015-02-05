@@ -93,7 +93,6 @@ Item {
         }
     }
 
-
     SignalSpy {
         id: signalSpy
         target: LauncherModel
@@ -468,7 +467,7 @@ Item {
 
             verify(quickList.y >= units.gu(1));
             verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
-            compare(quickList.width, units.gu(30))
+            compare(quickList.width, units.gu(30));
 
             // Click somewhere in the empty space to dismiss the quicklist
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
