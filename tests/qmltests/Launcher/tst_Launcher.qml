@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import Ubuntu.Components 1.1
@@ -74,11 +75,24 @@ Item {
         }
     }
 
-    Button {
+    ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
-        text: "emit hinting signal"
-        onClicked: LauncherModel.emitHint()
+        spacing: units.gu(1)
+        width: units.gu(20)
+
+        Button {
+            text: "emit hinting signal"
+            onClicked: LauncherModel.emitHint()
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: "rotate"
+            onClicked: launcherLoader.item.inverted = !launcherLoader.item.inverted
+            Layout.fillWidth: true
+        }
     }
+
 
     SignalSpy {
         id: signalSpy
@@ -454,6 +468,7 @@ Item {
 
             verify(quickList.y >= units.gu(1));
             verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
+            compare(quickList.width, units.gu(30))
 
             // Click somewhere in the empty space to dismiss the quicklist
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
