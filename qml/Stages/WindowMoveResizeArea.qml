@@ -18,7 +18,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
-import "../Components/WindowPositionStorage"
+import "../Components/WindowStateStorage"
 
 MouseArea {
     id: root
@@ -50,7 +50,7 @@ MouseArea {
     }
 
     Component.onCompleted: {
-        var windowState = WindowPositionStorage.getState(root.windowId)
+        var windowState = WindowStateStorage.getState(root.windowId)
         if (windowState !== undefined) {
             target.x = windowState.x
             target.y = windowState.y
@@ -109,6 +109,6 @@ MouseArea {
     }
 
     onReleased: {
-        WindowPositionStorage.saveState(root.windowId,target.x, target.y, target.width, target.height)
+        WindowStateStorage.saveState(root.windowId,target.x, target.y, target.width, target.height)
     }
 }
