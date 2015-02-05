@@ -60,7 +60,7 @@ Rectangle {
             "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "aspect-ratio": 0.7 } }) }
         },
         {
-            "name": "Art, header, summary - horizontal",
+            "name": "Art, header, summary, background - horizontal",
             "layout": { "template": { "card-layout": "horizontal", "card-background": { "type": "gradient", "elements": ["grey", "white"] } },
                         "components": JSON.parse(Helpers.fullMapping) }
         },
@@ -100,6 +100,11 @@ Rectangle {
             "name": "Art, title - overlaid",
             "layout": { "template": { "overlay": true },
                         "components": { "art": "art", "title": "title" } }
+        },
+        {
+            "name": "Art, header, summary - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" },
+                        "components": JSON.parse(Helpers.fullMapping) }
         },
     ]
 
@@ -415,6 +420,7 @@ Rectangle {
                   background: Qt.resolvedUrl("artwork/checkers.png"), index: 10 },
                 { tag: "Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff", index: 11 },
                 { tag: "Image background", visible: true, image: Qt.resolvedUrl("artwork/checkers.png"), index: 12 },
+                { tag: "Horizontal no background", visible: false, index: 14 },
             ];
         }
 

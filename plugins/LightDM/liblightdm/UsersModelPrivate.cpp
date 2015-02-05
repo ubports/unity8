@@ -16,7 +16,7 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../UsersModelPrivate.h"
+#include "UsersModelPrivate.h"
 
 #include <QDir>
 #include <QSettings>

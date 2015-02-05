@@ -23,6 +23,16 @@ import Unity.Test 0.1 as UT
 import LightDM 0.1 as LightDM
 
 Item {
+    Binding {
+        target: LightDM.Greeter
+        property: "mockMode"
+        value: "full"
+    }
+    Binding {
+        target: LightDM.Users
+        property: "mockMode"
+        value: "full"
+    }
     property variant infographicModel: LightDM.Infographic
 
     width: units.gu(120)

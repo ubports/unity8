@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@ DashRenderer {
 
     expandedHeight: carousel.implicitHeight + units.gu(6)
     collapsedHeight: expandedHeight
+    growsVertically: false
+    innerWidth: carousel.innerWidth
 
     Carousel {
         id: carousel
@@ -32,7 +34,9 @@ DashRenderer {
         // and push others back.
         minimumTileWidth: cardTool.cardWidth / selectedItemScaleFactor
         selectedItemScaleFactor: cardTool.carouselSelectedItemScaleFactor
-        cacheBuffer: 1404 // 18px * 13gu * 6
+        cacheBuffer: cardCarousel.cacheBuffer
+        displayMarginBeginning: cardCarousel.displayMarginBeginning
+        displayMarginEnd: cardCarousel.displayMarginEnd
         model: cardCarousel.model
 
         property real fontScale: 1 / selectedItemScaleFactor
