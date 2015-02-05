@@ -149,14 +149,14 @@ Rectangle {
                         id: snapToBottomAnimation
                         target: launcherListView
                         property: "contentY"
-                        to: launcherListView.originY
+                        to: launcherListView.originY + launcherListView.topMargin
                     }
 
                     UbuntuNumberAnimation {
                         id: snapToTopAnimation
                         target: launcherListView
                         property: "contentY"
-                        to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY
+                        to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY - launcherListView.topMargin
                     }
 
                     displaced: Transition {
