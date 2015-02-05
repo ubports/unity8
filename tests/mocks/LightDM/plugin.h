@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,22 +12,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../UsersModelPrivate.h"
+#ifndef MOCK_LIGHTDM_PLUGIN_H
+#define MOCK_LIGHTDM_PLUGIN_H
 
-namespace QLightDM
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
+
+class LightDMPlugin : public QQmlExtensionPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
-  : q_ptr(parent)
-{
-    entries =
-    {
-        { "single", "Has Passphrase", 0, 0, false, false, 0, 0 },
-    };
-}
+public:
+    void registerTypes(const char *uri);
+};
 
-}
+#endif

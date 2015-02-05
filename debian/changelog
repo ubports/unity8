@@ -1,3 +1,57 @@
+unity8 (8.02+15.04.20150205-0ubuntu1) vivid; urgency=medium
+
+  [ Andrea Cimitan ]
+  * Fix continue button in wifi wizard page, adds qml-module-
+    qtsysteminfo as unity8 dep (LP: #1363400)
+  * Background needs to be specified to be visible in horizontal cards
+    (LP: #1411748)
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Add workaround for gcc ICE.
+
+  [ Albert Astals ]
+  * Implement proper updateRanges for horizontal items (i.e. Carousel,
+    Horizontal List)
+
+  [ Michael Terry ]
+  * Don't accept multiple "Finish" clicks during the last step of the
+    wizard
+
+  [ Daniel d'Andrada ]
+  * Unify all liblightdm mocks
+  * Ensure the greeter password field is not covered by the keyboard
+  * Don't show() the lockscreen if it's already being shown
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Feb 2015 10:30:13 +0000
+
+unity8 (8.02+15.04.20150123.3-0ubuntu1) vivid; urgency=low
+
+  [ Sebastien Bacher ]
+  * Set text hint property for the messaging menus inline reply widget
+    (LP: #1389234)
+
+  [ Ying-Chun Liu ]
+  * Added an initial set of autopilot tests for the display indicator.
+
+  [ Nick Dedekind ]
+  * Removed filtering the indicator model by visibility.
+
+  [ Michael Zanetti ]
+  * fixes left edge drag when in spread
+
+  [ Albert Astals Cid ]
+  * Fix ninja build in a different way The previous one was adding rpath
+    to some .so that broke our tests that use LD_LIBRARY_PATH to change
+    which one is picked up
+
+  [ Leo Arias ]
+  * Added an initial set of autopilot tests for the display indicator.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 23 Jan 2015 12:12:41 +0000
+
 unity8 (8.02+15.04.20150121.2-0ubuntu1) vivid; urgency=low
 
   [ Michael Terry ]

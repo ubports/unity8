@@ -7,433 +7,453 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-12-10 10:55+0100\n"
-"PO-Revision-Date: 2014-09-24 17:12+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"PO-Revision-Date: 2015-02-03 22:02+0000\n"
+"Last-Translator: Arsień Šachalevič <semen.shah@gmail.com>\n"
 "Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2014-12-13 07:10+0000\n"
-"X-Generator: Launchpad (build 17286)\n"
+"X-Launchpad-Export-Date: 2015-02-04 07:13+0000\n"
+"X-Generator: Launchpad (build 17331)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr ""
+msgstr "Пароль: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Заблакаваць кнопку"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Разблакаваць кнопку"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Прылада заблакаваная"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў уводу "
+"код доступу."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Пачакайце %1 хвіліну і паўтарыце спробу…"
+msgstr[1] "Пачакайце %1 хвіліны і паўтарыце спробу…"
+msgstr[2] "Пачакайце %1 хвілінаў і паўтарыце спробу…"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:86
 msgid "Log out"
-msgstr ""
+msgstr "Выйсці"
 
-#: qml/Components/Dialogs.qml:71
+#: qml/Components/Dialogs.qml:87
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Вы насамрэч хочаце выйсці?"
 
-#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
+#: qml/Components/Dialogs.qml:134
 msgid "No"
-msgstr ""
+msgstr "Не"
 
-#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:140
 msgid "Yes"
-msgstr ""
+msgstr "Так"
 
-#: qml/Components/Dialogs.qml:94
+#: qml/Components/Dialogs.qml:108
 msgid "Shut down"
-msgstr ""
+msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:95
+#: qml/Components/Dialogs.qml:109
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Вы ўпэўненыя, што жадаеце выключыць прыладу?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:131
 msgid "Reboot"
-msgstr ""
+msgstr "Перазагрузіць"
 
-#: qml/Components/Dialogs.qml:120
+#: qml/Components/Dialogs.qml:132
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Вы ўпэўненыя, што жадаеце перазагрузіць?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:154
 msgid "Power"
-msgstr ""
+msgstr "Сілкаванне"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:155
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-
-#: qml/Components/Dialogs.qml:147
-msgid "Power off"
-msgstr ""
+"Вы сапраўды хочаце выключыць\n"
+"сілкаванне?"
 
 #: qml/Components/Dialogs.qml:157
-msgid "Restart"
-msgstr ""
+msgid "Power off"
+msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:167
+#: qml/Components/Dialogs.qml:166
+msgid "Restart"
+msgstr "Перазапуск"
+
+#: qml/Components/Dialogs.qml:175
 msgid "Cancel"
-msgstr ""
+msgstr "Скасаваць"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Прапусціць уводзіны"
 
 #: qml/Components/EdgeDemo.qml:125
 msgid "Right edge"
-msgstr ""
+msgstr "Правы край"
 
 #: qml/Components/EdgeDemo.qml:126
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Правядзіце пальцам з правага краю, каб разблакаваць тэлефон"
 
 #: qml/Components/EdgeDemo.qml:157
 msgid "Top edge"
-msgstr ""
+msgstr "Верхні край"
 
 #: qml/Components/EdgeDemo.qml:158
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
+"Паспрабуйце правесці пальцам ад верхняга краю, для доступу да індыкатараў"
 
 #: qml/Components/EdgeDemo.qml:183
 msgid "Close"
-msgstr ""
+msgstr "Зачыніць"
 
 #: qml/Components/EdgeDemo.qml:184
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Правядзіце пальцам яшчэ раз, каб зачыніць акно параметраў"
 
 #: qml/Components/EdgeDemo.qml:214
 msgid "Left edge"
-msgstr ""
+msgstr "Левы край"
 
 #: qml/Components/EdgeDemo.qml:215
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Правядзіце пальцам ад левага краю, каб адкрыць панэль запуску для паскарэння "
+"доступу да праграм"
 
 #: qml/Components/EdgeDemo.qml:242
 msgid "Well done"
-msgstr ""
+msgstr "Добра"
 
 #: qml/Components/EdgeDemo.qml:243
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Вамі наладжаныя дзеянні на дакрананні па краях экрана. Цяпер тэлефон можна "
+"выкарыстоўваць.<br><br>Дакраніцеся да экрана, каб пачаць."
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
-msgstr ""
+msgstr "Вярнуцца да Выкліку"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
-msgstr ""
+msgstr "Терміновы Выклік"
 
 #: qml/Components/Lockscreen.qml:270
 msgid "OK"
-msgstr ""
+msgstr "Добра"
 
-#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
+#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
 msgid "See less"
-msgstr ""
+msgstr "Карацей"
 
-#: qml/Dash/GenericScopeView.qml:431
+#: qml/Dash/GenericScopeView.qml:485
 msgid "See all"
-msgstr ""
+msgstr "Больш падрабязна"
 
-#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
-#: qml/Dash/PageHeader.qml:260
+#: qml/Dash/PageHeader.qml:267
 msgid "Store"
-msgstr ""
+msgstr "Крама"
 
-#: qml/Dash/PageHeader.qml:277
+#: qml/Dash/PageHeader.qml:284
 msgid "Settings"
-msgstr ""
+msgstr "Параметры"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:291
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Выдаліць з абранага"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:291
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Дадаць да абранага"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr ""
+msgstr "Болей…"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr ""
+msgstr "Менш..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr ""
+msgstr "Ацаніць"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr ""
+msgstr "Дадаць рэцэнзію"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr ""
+msgstr "Адправіць"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "Пацягніце для абнаўлення ..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "Адпусціце для абнаўлення ..."
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Кіраванне"
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Дом"
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Таксама ўсталявана"
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/Greeter.qml:133
 msgid "Unlock"
-msgstr ""
+msgstr "Разблакаваць"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
-msgstr ""
+msgstr "Паказаць пароль"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Націсніце, каб вярнуцца да выкліку..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr ""
+msgstr "Канферэнцыя"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Анічога не прайграецца"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
-msgstr ""
+msgstr "У чарзе..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
-msgstr ""
+msgstr "Запампоўка"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Прыпынена, націсніце для працягу"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
-msgstr ""
+msgstr "Скасавана"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
-msgstr ""
+msgstr "Скончана"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Памылка, націсніце для паўтору"
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgid "Reply"
+msgstr "Адказаць"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Разблакаваць SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Роўмінг"
 
-#: qml/Shell.qml:367
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Увядзіце %1"
 
-#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Увядзіце парольную фразу"
 
-#: qml/Shell.qml:369
+#: qml/Shell.qml:392
 msgid "Enter passcode"
-msgstr ""
+msgstr "Увядзіце код"
 
-#: qml/Shell.qml:370
+#: qml/Shell.qml:393
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Даруйце, некарэктны %1"
 
-#: qml/Shell.qml:371
+#: qml/Shell.qml:394
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Даруйце, няслушны пароль"
 
-#: qml/Shell.qml:372
+#: qml/Shell.qml:395
 msgid "Please re-enter"
-msgstr ""
+msgstr "Калі ласка паўтарыце ўвод"
 
-#: qml/Shell.qml:373
+#: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Даруйце, няслушны код"
 
-#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Даруце, няслушны пароль"
 
-#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Даруйце, няслушны код"
 
-#: qml/Shell.qml:469
+#: qml/Shell.qml:492
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Апошняя спроба."
 
-#: qml/Shell.qml:471
+#: qml/Shell.qml:494
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Калі пароль паказаны няправільна, тэлефон вернецца ў зыходны стан, усе "
+"асабістыя дадзеныя будуць выдаленыя."
 
-#: qml/Shell.qml:472
+#: qml/Shell.qml:495
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Калі пароль уведзены няправільна, то ваш тэлефон будзе праводзіць скід да "
+"завадскіх налад і ўсе асабістыя дадзеныя будуць выдаленыя."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Вітай!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Вітаем Вас у сістэме тэлефона Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Пачнем."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Працягнуць"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Дадайце SIM-карту і перазагрузіце Вашую прыладу"
 
 #: qml/Wizard/Pages/20-sim.qml:55
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Без яе вы не зможаце тэлефанаваць ці адпраўляць паведамленні."
 
 #: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
 msgid "Skip"
-msgstr ""
+msgstr "Прапусціць"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Блакаванне бяспекі"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Калі ласка, абярыце спосаб разблакавання тэлефона."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "Свайп(Рух пальцам)"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
-msgstr ""
+msgstr "Без абароны"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgid "Passcode"
-msgstr ""
+msgstr "Код-пароль"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "Толькі 4 лічбы"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
-msgstr ""
+msgstr "Пароль"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Лічбы і літары"
 
 #: qml/Wizard/Pages/40-wifi.qml:28
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Злучыцца з Wi-Fi"
 
 #: qml/Wizard/Pages/40-wifi.qml:147
 msgid "Available networks…"
-msgstr ""
+msgstr "Даступныя сеткі..."
 
 #: qml/Wizard/Pages/40-wifi.qml:148
 msgid "No available networks."
-msgstr ""
+msgstr "Няма даступных сетак."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Месца"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Дазволіць тэлефону вызначаць месцазнаходжанне:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "З дапамогай толькі GPS (найменш дакладна)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"На аснове GPS, ананімізаванага Wi-Fi і дадзеных сотавай сеткі (рэкамендуецца)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -441,78 +461,99 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Выбарам гэтага варыянту дзеянняў вы згаджаецеся з <a href='#'> умовамі "
+"прадстаўлення паслуг Nokia HERE</a>."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Не дазваляць"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "Пасля змяніць налады можна з дапамогай <b>Сістэмных параметраў</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "Спрашчэнне вашай працы"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Ваш тэлефон настроены на аўтаматычную адпраўку справаздач пра памылкі ў "
+"Canonical і партнёрскія установы, вытворцам аперацыйнай сістэмы."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Гэтае можна адключыць у <b>Сістэмных параметрах</b>, <b>Бяспека &amp; "
+"канфедэнцыйнасць</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Зроблена"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Выдатная праца!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Цяпер Вашым тэлефонам можна карыстацца."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Скончыць"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Умовы карыстання"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Пацвердзіце пароль"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Пацвердзіце код-пароль"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Калі ласка, паспрабуйце яшчэ раз."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Выберыце ваш код-пароль"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "Пароль мусіць складацца мінімум з 4 сімвалаў"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
+
+#~ msgid "Confirm"
+#~ msgstr "Пацвердзіць"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Загрузка. Чакайце..."
+
+#~ msgid "Speaking..."
+#~ msgstr "Кажа..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Кажыце..."
+
+#~ msgid "Type or say a command"
+#~ msgstr "Напішыце або вымавіце каманду"

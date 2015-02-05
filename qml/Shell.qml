@@ -36,11 +36,11 @@ import "Panel"
 import "Components"
 import "Notifications"
 import "Stages"
-import "Panel/Indicators"
 import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: shell
@@ -411,7 +411,7 @@ Item {
         onShownChanged: if (shown) greeter.lockedApp = ""
 
         function maybeShow() {
-            if (!shell.forcedUnlock) {
+            if (!shell.forcedUnlock && !shown) {
                 showNow();
             }
         }
@@ -749,13 +749,9 @@ Item {
                 minimizedPanelHeight: units.gu(3)
                 expandedPanelHeight: units.gu(7)
 
-                indicatorsModel: visibleIndicators.model
-            }
-
-            VisibleIndicators {
-                id: visibleIndicators
-                // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
-                Component.onCompleted: initialise(indicatorProfile)
+                indicatorsModel: Indicators.IndicatorsModel {
+                    Component.onCompleted: load(indicatorProfile);
+                }
             }
             callHint {
                 greeterShown: greeter.shown || lockscreen.shown

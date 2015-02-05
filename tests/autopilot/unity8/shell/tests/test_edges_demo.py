@@ -34,7 +34,6 @@ class EdgesDemoTestCase(tests.UnityTestCase):
         super(EdgesDemoTestCase, self).setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
-        self._lightdm_mock_type = False
 
         self.useFixture(fixture_setup.EdgesDemo(True))
         self.unity = self.launch_unity()
