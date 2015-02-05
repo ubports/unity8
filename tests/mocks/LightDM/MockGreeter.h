@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,21 +13,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../UsersModelPrivate.h"
+// The real, production, Greeter
+#include <Greeter.h>
 
-namespace QLightDM
-{
+#ifndef MOCK_UNITY_GREETER_H
+#define MOCK_UNITY_GREETER_H
 
-UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
-  : q_ptr(parent)
-{
-    entries =
-    {
-        { "has-pin", "Has PIN", 0, 0, false, false, 0, 0 },
-    };
-}
+class MockGreeter : public Greeter {
+    Q_OBJECT
 
-}
+    Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
+
+public:
+    QString mockMode() const;
+    void setMockMode(QString mockMode);
+
+Q_SIGNALS:
+    void mockModeChanged(QString mode);
+};
+
+#endif // MOCK_UNITY_GREETER_H

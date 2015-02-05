@@ -40,6 +40,9 @@ set(UnityQML_SOURCES
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/SettingsModelInterface.h
 )
 
+# Workaround for gcc failure LP: #1417664
+set_source_files_properties(fake_scopes.cpp PROPERTIES COMPILE_FLAGS -O1)
+
 add_library(FakeUnityQml MODULE ${UnityQML_SOURCES})
 target_link_libraries(FakeUnityQml
   ${Qt5Core_LIBRARIES}

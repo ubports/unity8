@@ -17,26 +17,8 @@
  */
 
 #include "Greeter.h"
+#include "GreeterPrivate.h"
 #include <libintl.h>
-#include <QLightDM/Greeter>
-
-class GreeterPrivate
-{
-public:
-    explicit GreeterPrivate(Greeter *parent);
-
-    QLightDM::Greeter *m_greeter;
-    bool m_active;
-    bool wasPrompted;
-    bool promptless;
-
-protected:
-    Greeter * const q_ptr;
-
-private:
-    Q_DECLARE_PUBLIC(Greeter)
-};
-
 
 GreeterPrivate::GreeterPrivate(Greeter* parent)
   : m_greeter(new QLightDM::Greeter(parent)),
