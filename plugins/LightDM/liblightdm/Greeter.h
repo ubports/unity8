@@ -24,6 +24,10 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * CHANGES MADE HERE MUST BE REFLECTED ON THE MOCK LIB
+ * COUNTERPART IN tests/mocks/Lightdm/liblightdm
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 namespace QLightDM
 {
@@ -98,9 +102,6 @@ Q_SIGNALS:
 
 protected:
     void sendAuthenticationComplete();
-
-private Q_SLOTS:
-    void delayedAuthentication();
 
 private:
     GreeterPrivate *d_ptr;
