@@ -565,7 +565,7 @@ FocusScope {
                     onBackClicked: scopeView.backClicked()
                     onSettingsClicked: subPageLoader.openSubPage("settings")
                     onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
-                    onSearchTextFieldFocused: scopeView.positionAtBeginning()
+                    onSearchTextFieldFocused: scopeView.showHeader()
                 }
             }
         }
