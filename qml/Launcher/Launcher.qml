@@ -88,10 +88,10 @@ Item {
     Timer {
         id: dismissTimer
         objectName: "dismissTimer"
-        interval: 5000
+        interval: 500
         onTriggered: {
             if (root.autohideEnabled) {
-                if (!panel.preventHiding) {
+                if (!panel.preventHiding && !hoverArea.containsMouse) {
                     root.state = ""
                 } else {
                     dismissTimer.restart()
@@ -240,6 +240,27 @@ Item {
         }
     }
 
+    // TODO: This should be replaced by some mechanism that reveals the launcher
+    // after a certain resistance has been overcome, like unity8 does. However,
+    // as we don't get relative mouse coordinates yet, this will do for now.
+    MouseArea {
+        id: hoverArea
+        anchors { fill: panel; rightMargin: -1 }
+        hoverEnabled: true
+        onContainsMouseChanged: {
+            if (containsMouse) {
+                root.switchToNextState("visibleTemporary")
+            }
+        }
+
+        // We need to eat touch events here in order to make sure that
+        // we don't trigger both, the dragArea and the hoverArea
+        MultiPointTouchArea {
+            anchors.fill: parent
+            mouseEnabled: false
+        }
+    }
+
     EdgeDragArea {
         id: dragArea
         objectName: "launcherDragArea"
@@ -293,6 +314,15 @@ Item {
             PropertyChanges {
                 target: panel
                 x: 0
+            }
+        },
+        State {
+            name: "visibleTemporary"
+            extend: "visible"
+            when: howerArea.containsMouse
+            PropertyChanges {
+                target: root
+                autohideEnabled: true
             }
         },
         State {
