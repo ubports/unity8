@@ -26,8 +26,7 @@ class Greeter(UnityEmulatorBase):
     """An emulator that understands the greeter screen."""
 
     def wait_swiped_away(self):
-        coverPage = self.select_single(objectName='coverPage')
-        coverPage.showProgress.wait_for(0)
+        self.required.wait_for(False)
 
     def swipe(self):
         """Swipe the greeter screen away."""
