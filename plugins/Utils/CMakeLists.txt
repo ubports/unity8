@@ -1,6 +1,3 @@
-# Dependencies
-include(FindPkgConfig)
-
 pkg_search_module(GIO REQUIRED gio-2.0)
 
 include_directories(
@@ -12,7 +9,7 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     qlimitproxymodelqml.cpp
-    qsortfilterproxymodelqml.cpp
+    unitysortfilterproxymodelqml.cpp
     relativetimeformatter.cpp
     timeformatter.cpp
     unitymenumodelpaths.cpp

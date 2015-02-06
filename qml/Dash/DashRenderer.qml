@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,11 +23,18 @@ Item {
 
     property int collapsedItemCount: -1
 
+    property int cacheBuffer: 0
+
     property int displayMarginBeginning: 0
 
     property int displayMarginEnd: 0
 
     property real originY: 0
+
+    property bool growsVertically: true
+
+    // If growsVertically the width of the item inside the renderer
+    property real innerWidth: 0
 
     // The model to renderer
     property var model

@@ -44,12 +44,20 @@ Lights::~Lights()
 
 void Lights::setState(Lights::State newState)
 {
+    if (!init()) {
+        qWarning() << "No lights device";
+        return;
+    }
+
     if (m_state != newState) {
         if (newState == Lights::On) {
             turnOn();
         } else {
             turnOff();
         }
+
+        m_state = newState;
+        Q_EMIT stateChanged(m_state);
     }
 }
 
@@ -115,6 +123,7 @@ bool Lights::init()
         err = module->methods->open(module, LIGHT_ID_NOTIFICATIONS, &device);
         if (err == 0) {
             m_lightDevice = (light_device_t*)device;
+            turnOff();
             return true;
         } else {
             qWarning() << "Failed to access notification lights";
@@ -127,15 +136,6 @@ bool Lights::init()
 
 void Lights::turnOn()
 {
-    if (!init()) {
-        qWarning() << "No lights device";
-        return;
-    }
-
-    if (m_state == Lights::On) {
-        return;
-    }
-
     // pulse
     light_state_t state;
     memset(&state, 0, sizeof(light_state_t));
@@ -147,23 +147,11 @@ void Lights::turnOn()
 
     if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
          qWarning() << "Failed to turn the light off";
-    } else {
-        m_state = Lights::On;
-        Q_EMIT stateChanged(m_state);
     }
 }
 
 void Lights::turnOff()
 {
-    if (!init()) {
-        qWarning() << "No lights device";
-        return;
-    }
-
-    if (m_state == Lights::Off) {
-        return;
-    }
-
     light_state_t state;
     memset(&state, 0, sizeof(light_state_t));
     state.color = 0x00000000;
@@ -174,8 +162,5 @@ void Lights::turnOff()
 
     if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
         qWarning() << "Failed to turn the light off";
-    } else {
-        m_state = Lights::Off;
-        Q_EMIT stateChanged(m_state);
     }
 }

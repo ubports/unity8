@@ -32,6 +32,13 @@ Row {
     id: root
     spacing: 0
 
+    Component.onCompleted: {
+        // must set the mock mode before loading the Shell
+        LightDM.Greeter.mockMode = "full";
+        LightDM.Users.mockMode = "full";
+        shellLoader.active = true;
+    }
+
     QtObject {
         id: applicationArguments
 
@@ -51,6 +58,7 @@ Row {
     Loader {
         id: shellLoader
 
+        active: false
         width: units.gu(100)
         height: units.gu(80)
 
@@ -74,19 +82,22 @@ Row {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return
+            Button {
+                text: "Show Greeter"
+                onClicked: {
+                    if (shellLoader.status !== Loader.Ready)
+                        return
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter")
-                        if (!greeter.shown) {
-                            greeter.show()
-                        }
+                    var greeter = testCase.findChild(shellLoader.item, "greeter")
+                    if (!greeter.shown) {
+                        greeter.show()
                     }
+                }
+            }
+            Button {
+                text: "Demo edges"
+                onClicked: {
+                    AccountsService.demoEdges = true
                 }
             }
         }
@@ -208,7 +219,7 @@ Row {
             tryCompare(passwordMouseArea, "enabled", isButton)
 
             var passwordInput = findChild(shell, "passwordInput")
-            mouseClick(passwordInput, passwordInput.width / 2, passwordInput.height / 2)
+            mouseClick(passwordInput)
         }
 
         function confirmLoggedIn(loggedIn) {

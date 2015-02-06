@@ -7,27 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-11-07 10:59+0100\n"
-"PO-Revision-Date: 2014-11-12 19:57+0000\n"
-"Last-Translator: Ari Börde Kröyer <Unknown>\n"
+"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"PO-Revision-Date: 2015-01-28 08:47+0000\n"
+"Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-11-13 06:37+0000\n"
-"X-Generator: Launchpad (build 17241)\n"
+"X-Launchpad-Export-Date: 2015-01-29 06:00+0000\n"
+"X-Generator: Launchpad (build 17306)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Passord: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr "Fest snarvei"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "Fjern snarvei"
 
@@ -52,45 +52,45 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Vent i %1 minutt, og prøv deretter på nytt …"
 msgstr[1] "Vent i %1 minutter, og prøv deretter på nytt …"
 
-#: qml/Components/Dialogs.qml:74
+#: qml/Components/Dialogs.qml:86
 msgid "Log out"
 msgstr "Logg ut"
 
-#: qml/Components/Dialogs.qml:75
+#: qml/Components/Dialogs.qml:87
 msgid "Are you sure you want to log out?"
 msgstr "Er du sikker på at du vil logge ut?"
 
-#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
+#: qml/Components/Dialogs.qml:134
 msgid "No"
 msgstr "Nei"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
-#: qml/Components/Dialogs.qml:133
+#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:140
 msgid "Yes"
 msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:108
 msgid "Shut down"
 msgstr "Slå av"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:109
 msgid "Are you sure you want to shut down?"
 msgstr "Er du sikker på at du vil slå av?"
 
-#: qml/Components/Dialogs.qml:123
+#: qml/Components/Dialogs.qml:131
 msgid "Reboot"
 msgstr "Start på nytt"
 
-#: qml/Components/Dialogs.qml:124
+#: qml/Components/Dialogs.qml:132
 msgid "Are you sure you want to reboot?"
 msgstr "Er du sikker på at du vil starte på nytt?"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:154
 msgid "Power"
 msgstr "Strøm"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:155
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -98,15 +98,15 @@ msgstr ""
 "Er du sikker på at du vil \n"
 "skru av?"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:157
 msgid "Power off"
 msgstr "Slå av"
 
-#: qml/Components/Dialogs.qml:161
+#: qml/Components/Dialogs.qml:166
 msgid "Restart"
 msgstr "Start på nytt"
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:175
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -114,43 +114,43 @@ msgstr "Avbryt"
 msgid "Skip intro"
 msgstr "Hopp over introduksjon"
 
-#: qml/Components/EdgeDemo.qml:112
+#: qml/Components/EdgeDemo.qml:125
 msgid "Right edge"
 msgstr "Høyre kant"
 
-#: qml/Components/EdgeDemo.qml:113
+#: qml/Components/EdgeDemo.qml:126
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Prøv å sveipe fra høyre side for å låse opp telefonen"
 
-#: qml/Components/EdgeDemo.qml:144
+#: qml/Components/EdgeDemo.qml:157
 msgid "Top edge"
 msgstr "Øvre kant"
 
-#: qml/Components/EdgeDemo.qml:145
+#: qml/Components/EdgeDemo.qml:158
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "Prøv å sveipe fra toppen for å få tilgang til innstillingene"
 
-#: qml/Components/EdgeDemo.qml:170
+#: qml/Components/EdgeDemo.qml:183
 msgid "Close"
 msgstr "Lukk"
 
-#: qml/Components/EdgeDemo.qml:171
+#: qml/Components/EdgeDemo.qml:184
 msgid "Swipe up again to close the settings screen"
 msgstr "Sveip opp igjen for å lukke innstillingsmenyen"
 
-#: qml/Components/EdgeDemo.qml:201
+#: qml/Components/EdgeDemo.qml:214
 msgid "Left edge"
 msgstr "Venstre kant"
 
-#: qml/Components/EdgeDemo.qml:202
+#: qml/Components/EdgeDemo.qml:215
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr "Skyv fra venstre for å få tilgang til programoppstarteren"
 
-#: qml/Components/EdgeDemo.qml:229
+#: qml/Components/EdgeDemo.qml:242
 msgid "Well done"
 msgstr "Godt jobba"
 
-#: qml/Components/EdgeDemo.qml:230
+#: qml/Components/EdgeDemo.qml:243
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
@@ -158,40 +158,44 @@ msgstr ""
 "Du har nå mestret kantbevegelsene, og er klar til å bruke "
 "telefonen<br><br>Trykk på skjermen for å begynne"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Tilbake til samtale"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr "Nødanrop"
 
-#: qml/Components/Lockscreen.qml:255
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
+#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
 msgid "See less"
 msgstr "Vis mindre"
 
-#: qml/Dash/GenericScopeView.qml:434
+#: qml/Dash/GenericScopeView.qml:485
 msgid "See all"
 msgstr "Vis alt"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:258
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Søk"
 
-#: qml/Dash/PageHeader.qml:268
+#: qml/Dash/PageHeader.qml:267
+msgid "Store"
+msgstr "Butikk"
+
+#: qml/Dash/PageHeader.qml:284
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:291
 msgid "Remove from Favorites"
 msgstr "Fjern fra favoritter"
 
-#: qml/Dash/PageHeader.qml:275
+#: qml/Dash/PageHeader.qml:291
 msgid "Add to Favorites"
 msgstr "Legg til i favoritter"
 
@@ -223,31 +227,23 @@ msgstr "Dra for å oppdatere …"
 msgid "Release to refresh…"
 msgstr "Slipp for å oppdatere …"
 
-#: qml/Dash/ScopesOverview.qml:215
-msgid "Manage Scopes"
-msgstr "Håndter virkefelt"
+#: qml/Dash/ScopesList.qml:66
+msgid "Manage"
+msgstr "Behandle"
 
-#: qml/Dash/ScopesOverview.qml:437
-msgid "Done"
-msgstr "Ferdig"
+#: qml/Dash/ScopesList.qml:112
+msgid "Home"
+msgstr "Hjem"
 
-#: qml/Dash/ScopesOverview.qml:463
-msgid "Store"
-msgstr "Butikk"
+#: qml/Dash/ScopesList.qml:113
+msgid "Also installed"
+msgstr "Også installert"
 
-#: qml/Dash/ScopesOverviewTab.qml:36
-msgid "Favorites"
-msgstr "Favoritter"
-
-#: qml/Dash/ScopesOverviewTab.qml:54
-msgid "All"
-msgstr "Alt"
-
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/Greeter.qml:133
 msgid "Unlock"
 msgstr "Lås opp"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:116
+#: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
 msgstr "Vis passord"
 
@@ -259,33 +255,37 @@ msgstr "Trykk for å gå tilbake til anrop …"
 msgid "Conference"
 msgstr "Konferanse"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:615
+#: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
 msgstr "Ingenting spilles nå"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:763
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
 msgstr "I kø …"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:767
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Downloading"
 msgstr "Laster ned"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:769
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
 msgstr "Satt på pause (trykk for å fortsette)"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:771
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
 msgstr "Avbrutt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:773
+#: qml/Panel/Indicators/MenuItemFactory.qml:801
 msgid "Finished"
 msgstr "Ferdig"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:775
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
 msgstr "Feilet. Trykk for å prøve på nytt"
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgid "Reply"
+msgstr "Svar"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -295,49 +295,49 @@ msgstr "Lås opp SIM"
 msgid "Roaming"
 msgstr "Fremmednett"
 
-#: qml/Shell.qml:381
-msgid "Enter passphrase"
-msgstr "Skriv inn passordfrase"
-
-#: qml/Shell.qml:382
-msgid "Sorry, incorrect passphrase"
-msgstr "Feil passordfrase"
-
-#: qml/Shell.qml:383
-msgid "Please re-enter"
-msgstr "Skriv inn på nytt"
-
-#: qml/Shell.qml:385
-msgid "Enter passcode"
-msgstr "Tast kode"
-
-#: qml/Shell.qml:386
-msgid "Sorry, incorrect passcode"
-msgstr "Feil kode"
-
-#: qml/Shell.qml:389
+#: qml/Shell.qml:390
 #, qt-format
 msgid "Enter %1"
 msgstr "Skriv inn %1"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Skriv inn passordfrase"
+
+#: qml/Shell.qml:392
+msgid "Enter passcode"
+msgstr "Tast kode"
+
+#: qml/Shell.qml:393
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Feil %1"
 
-#: qml/Shell.qml:431
+#: qml/Shell.qml:394
+msgid "Sorry, incorrect passphrase"
+msgstr "Feil passordfrase"
+
+#: qml/Shell.qml:395
+msgid "Please re-enter"
+msgstr "Skriv inn på nytt"
+
+#: qml/Shell.qml:396
+msgid "Sorry, incorrect passcode"
+msgstr "Feil kode"
+
+#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Feil passordfrase."
 
-#: qml/Shell.qml:432
+#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Feil kode."
 
-#: qml/Shell.qml:433
+#: qml/Shell.qml:492
 msgid "This will be your last attempt."
 msgstr "Dette er ditt siste forsøk."
 
-#: qml/Shell.qml:435
+#: qml/Shell.qml:494
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -345,13 +345,196 @@ msgstr ""
 "Hvis du skriver feil passordfrase en gang til, tilbakestilles telefonen til "
 "fabrikkinnstillinger, og alle personlige data slettes."
 
-#: qml/Shell.qml:436
+#: qml/Shell.qml:495
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Hvis du skriver feil kode en gang til, tilbakestilles telefonen til "
 "fabrikkinnstillinger, og alle personlige data slettes."
+
+#: qml/Wizard/Page.qml:89
+msgid "Back"
+msgstr "Tilbake"
+
+#: qml/Wizard/Pages/10-welcome.qml:27
+msgid "Hi!"
+msgstr "Hei!"
+
+#: qml/Wizard/Pages/10-welcome.qml:44
+msgid "Welcome to your Ubuntu phone."
+msgstr "Velkommen til Ubuntu-telefonen."
+
+#: qml/Wizard/Pages/10-welcome.qml:52
+msgid "Let’s get started."
+msgstr "La oss komme i gang."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Fortsett"
+
+#: qml/Wizard/Pages/20-sim.qml:25
+msgid "Add a SIM card and restart your device"
+msgstr "Legg til et SIM-kort og start enheten på nytt"
+
+#: qml/Wizard/Pages/20-sim.qml:55
+msgid "Without it, you won’t be able to make calls or use text messaging."
+msgstr "Du kan ikke ringe eller sende meldinger uten et SIM-kort."
+
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+msgid "Skip"
+msgstr "Hopp over"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:39
+msgid "Lock security"
+msgstr "Låsesikkerhet"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:74
+msgid "Please select how you’d like to unlock your phone."
+msgstr "Velg hvordan du vil låse opp telefonen."
+
+#: qml/Wizard/Pages/30-passwd-type.qml:97
+msgid "Swipe"
+msgstr "Sveip"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:98
+msgid "No security"
+msgstr "Ingen sperre"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:100
+msgid "Passcode"
+msgstr "Kode"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:101
+msgid "4 digits only"
+msgstr "4 sifre"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:103
+msgid "Passphrase"
+msgstr "Passordfrase"
+
+#: qml/Wizard/Pages/30-passwd-type.qml:104
+msgid "Numbers and letters"
+msgstr "Tall og bokstaver"
+
+#: qml/Wizard/Pages/40-wifi.qml:28
+msgid "Connect to Wi‑Fi"
+msgstr "Koble til trådløst nettverk"
+
+#: qml/Wizard/Pages/40-wifi.qml:147
+msgid "Available networks…"
+msgstr "Tilgjengelige nettverk …"
+
+#: qml/Wizard/Pages/40-wifi.qml:148
+msgid "No available networks."
+msgstr "Ingen tilgjengelige nettverk."
+
+#: qml/Wizard/Pages/50-location.qml:27
+msgid "Location"
+msgstr "Plassering"
+
+#: qml/Wizard/Pages/50-location.qml:62
+msgid "Let the phone detect your location:"
+msgstr "La telefonen se hvor du befinner deg:"
+
+#: qml/Wizard/Pages/50-location.qml:69
+msgid "Using GPS only (less accurate)"
+msgstr "Kun med GPS (unøyaktig)"
+
+#: qml/Wizard/Pages/50-location.qml:86
+msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+msgstr "Med GPS, trådløst nettverk og info fra telefonnett (anbefales)"
+
+#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#: qml/Wizard/Pages/50-location.qml:103
+msgid ""
+"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+"conditions</a>."
+msgstr ""
+"Du må samtykke til <a href='#'>brukervilkårene</a> for Nokia HERE for å "
+"velge dette."
+
+#: qml/Wizard/Pages/50-location.qml:112
+msgid "Not at all"
+msgstr "Overhodet ikke"
+
+#: qml/Wizard/Pages/50-location.qml:124
+msgid "You can change your mind later in <b>System Settings</b>."
+msgstr "Du kan ombestemme deg senere via <b>Systeminnstillinger</b>."
+
+#: qml/Wizard/Pages/60-reporting.qml:24
+msgid "Improving your experience"
+msgstr "Forbedrer opplevelse"
+
+#: qml/Wizard/Pages/60-reporting.qml:36
+msgid ""
+"Your phone is set up to automatically report errors to Canonical and its "
+"partners, the makers of the operating system."
+msgstr ""
+"Telefonen sender feilrapporter til Canonical (produsenten av Ubuntu) "
+"automatisk."
+
+#: qml/Wizard/Pages/60-reporting.qml:43
+msgid ""
+"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+"Privacy</b>"
+msgstr ""
+"Du kan slå av dette i <b>Systeminnstillinger</b> under <b>Sikkerhet og "
+"personvern</b>"
+
+#: qml/Wizard/Pages/80-finished.qml:24
+msgid "All done"
+msgstr "Alt i orden"
+
+#: qml/Wizard/Pages/80-finished.qml:39
+msgid "Nice work!"
+msgstr "Godt jobba!"
+
+#: qml/Wizard/Pages/80-finished.qml:46
+msgid "Your phone is now ready to use."
+msgstr "Telefonen er klar til bruk."
+
+#: qml/Wizard/Pages/80-finished.qml:53
+msgid "Finish"
+msgstr "Fullfør"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Brukervilkår"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Bekreft passordfrase"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Bekreft kode"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Prøv igjen."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Velg kode"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Passordfrasen må bestå av minst 4 tegn"
+
+#: qml/Wizard/StackButton.qml:39
+#, qt-format
+msgid "〈  %1"
+msgstr "〈  %1"
+
+#: qml/Wizard/StackButton.qml:42
+#, qt-format
+msgid "%1  〉"
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Bekreft"
@@ -367,3 +550,15 @@ msgstr ""
 
 #~ msgid "Speaking..."
 #~ msgstr "Snakker …"
+
+#~ msgid "All"
+#~ msgstr "Alt"
+
+#~ msgid "Favorites"
+#~ msgstr "Favoritter"
+
+#~ msgid "Done"
+#~ msgstr "Ferdig"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Håndter virkefelt"

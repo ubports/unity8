@@ -1,0 +1,2 @@
+module Ubuntu.SystemSettings.LanguagePlugin
+UbuntuLanguagePlugin 1.0 MockLanguagePlugin.qml

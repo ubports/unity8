@@ -88,7 +88,6 @@ if __name__ == '__main__':
             action_id,
             action_label,
             action_callback,
-            None,
             None
         )
 

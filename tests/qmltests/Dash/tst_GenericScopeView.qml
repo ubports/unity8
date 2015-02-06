@@ -59,6 +59,7 @@ Item {
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
+        visibleToParent: true
 
         UT.UnityTestCase {
             id: testCase
@@ -162,12 +163,12 @@ Item {
                 verify(!category.expanded);
 
                 var initialHeight = category.height;
-                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                mouseClick(seeAll);
                 verify(category.expanded);
                 tryCompare(category, "height", category.item.expandedHeight + seeAll.height);
 
                 waitForRendering(seeAll);
-                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                mouseClick(seeAll);
                 verify(!category.expanded);
             }
 
@@ -185,17 +186,17 @@ Item {
                 verify(category2.expandable);
                 verify(!category2.expanded);
 
-                mouseClick(seeAll2, seeAll2.width / 2, seeAll2.height / 2);
+                mouseClick(seeAll2);
                 tryCompare(category2, "expanded", true);
 
                 categoryListView.positionAtBeginning();
 
                 var category0 = findChild(genericScopeView, "dashCategory0")
                 var seeAll0 = findChild(category0, "seeAll")
-                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                mouseClick(seeAll0);
                 tryCompare(category0, "expanded", true);
                 tryCompare(category2, "expanded", false);
-                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                mouseClick(seeAll0);
                 tryCompare(category0, "expanded", false);
                 tryCompare(category2, "expanded", false);
             }
@@ -207,7 +208,7 @@ Item {
                 spy.target = genericScopeView.scope;
                 spy.signalName = "performQuery";
 
-                mouseClick(header, header.width / 2, header.height / 2);
+                mouseClick(header);
 
                 spy.wait();
                 compare(spy.signalArguments[0][0], genericScopeView.scope.categories.data(1, Categories.RoleHeaderLink));
@@ -247,13 +248,13 @@ Item {
                 categoryListView.contentY = units.gu(20);
                 var seeAll = findChild(category, "seeAll");
                 var floatingSeeLess = findChild(genericScopeView, "floatingSeeLess");
-                mouseClick(seeAll, seeAll.width / 2, seeAll.height / 2);
+                mouseClick(seeAll);
                 tryCompare(category, "expanded", true);
                 tryCompareFunction(function() {
                     return category.item.height + floatingSeeLess.height ==
                     genericScopeView.height - category.item.displayMarginBeginning - category.item.displayMarginEnd;
                     }, true);
-                mouseClick(floatingSeeLess, floatingSeeLess.width / 2, floatingSeeLess.height / 2);
+                mouseClick(floatingSeeLess);
                 tryCompare(category, "expanded", false);
             }
 
@@ -294,7 +295,7 @@ Item {
                                     true);
                 var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
                 waitForRendering(tile);
-                mouseClick(tile, tile.width / 2, tile.height / 2);
+                mouseClick(tile);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
                 tryCompare(findChild(genericScopeView, "categoryListView"), "visible", false);
@@ -339,15 +340,15 @@ Item {
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
 
-                mouseClick(tile, tile.width / 2, tile.height / 2);
+                mouseClick(tile);
 
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
 
-                mousePress(tile, tile.width / 2, tile.height / 2);
+                mousePress(tile);
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
-                mouseRelease(tile, tile.width / 2, tile.height / 2);
+                mouseRelease(tile);
             }
 
             function test_showPreviewCarousel() {
@@ -358,18 +359,18 @@ Item {
                 var tile = findChild(category, "carouselDelegate1");
                 verify(tile, "Could not find delegate");
 
-                mouseClick(tile, tile.width / 2, tile.height / 2);
+                mouseClick(tile);
                 tryCompare(tile, "explicitlyScaled", true);
-                mouseClick(tile, tile.width / 2, tile.height / 2);
+                mouseClick(tile);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
 
                 closePreview();
 
-                mousePress(tile, tile.width / 2, tile.height / 2);
+                mousePress(tile);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
-                mouseRelease(tile, tile.width / 2, tile.height / 2);
+                mouseRelease(tile);
 
                 closePreview();
             }
@@ -382,16 +383,16 @@ Item {
                 var tile = findChild(category, "delegate1");
                 verify(tile, "Could not find delegate");
 
-                mouseClick(tile, tile.width / 2, tile.height / 2);
+                mouseClick(tile);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
 
                 closePreview();
 
-                mousePress(tile, tile.width / 2, tile.height / 2);
+                mousePress(tile);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompare(testCase.subPageLoader, "x", 0);
-                mouseRelease(tile, tile.width / 2, tile.height / 2);
+                mouseRelease(tile);
 
                 closePreview();
             }
@@ -428,7 +429,7 @@ Item {
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
                 var settings = findChild(innerHeader, "settings_header_button");
-                mouseClick(settings, settings.width / 2, settings.height / 2);
+                mouseClick(settings);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompareFunction(function() { return (String(subPageLoader.source)).indexOf("ScopeSettingsPage.qml") != -1; }, true);
                 tryCompare(genericScopeView, "subPageShown", true);
@@ -495,7 +496,7 @@ Item {
                 verify(category0.expandable);
                 verify(!category0.expanded);
 
-                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
                 tryCompare(genericScopeView.categoryView, "contentY", units.gu(14));
@@ -508,7 +509,7 @@ Item {
                 verify(category1.expandable);
                 verify(!category1.expanded);
 
-                mouseClick(seeAll1, seeAll1.width / 2, seeAll1.height / 2);
+                mouseClick(seeAll1);
                 verify(!category0.expanded);
                 verify(category1.expanded);
                 tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
@@ -538,7 +539,7 @@ Item {
                 verify(category0.expandable);
                 verify(!category0.expanded);
 
-                mouseClick(seeAll0, seeAll0.width / 2, seeAll0.height / 2);
+                mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
 
@@ -549,7 +550,7 @@ Item {
                 verify(category1.expandable);
                 verify(!category1.expanded);
 
-                mouseClick(seeAll1, seeAll1.width / 2, seeAll1.height / 2);
+                mouseClick(seeAll1);
                 verify(!category0.expanded);
                 verify(category1.expanded);
                 tryCompare(category1, "height", category1.item.expandedHeight + seeAll1.height);
@@ -577,7 +578,7 @@ Item {
                 expectFail("Apps", "Click scope should not have a favorite button");
                 var favoriteAction = findChild(innerHeader, "favorite_header_button");
                 verify(favoriteAction, "Could not find the favorite action.");
-                mouseClick(favoriteAction, favoriteAction.width / 2, favoriteAction.height / 2);
+                mouseClick(favoriteAction);
 
                 tryCompare(genericScopeView.scope, "favorite", !data.favorite);
 
@@ -628,7 +629,7 @@ Item {
                 var touchdown = findChild(item0, "touchdown");
 
                 compare(touchdown.visible, false);
-                mouseClick(item0, item0.width / 2, item0.height / 2);
+                mouseClick(item0);
                 compare(touchdown.visible, false);
 
                 cardTool.template["non-interactive"] = false;

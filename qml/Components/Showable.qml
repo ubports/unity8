@@ -99,10 +99,23 @@ Item {
         return true;
     }
 
+    /*
+        Will be called right before starting the hideAnimation.
+     */
+    property var prepareToHide: function(){}
+
     function hide() {
         if (showAnimation != undefined && showAnimation.running) {
             showAnimation.stop()
         }
+
+        if (typeof prepareToHide === "function") {
+            prepareToHide();
+        } else {
+            console.warn("Showable.prepareToHide should be a function, but it's a " +
+            (typeof prepareToHide) + " instead");
+        }
+
         if (hideAnimation != undefined) {
             if (!hideAnimation.running) {
                 hideAnimation.restart()

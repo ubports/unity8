@@ -18,13 +18,26 @@
 
 #include "plugin.h"
 #include "unitymenumodel.h"
+#include "actiondata.h"
 #include "actionstateparser.h"
+#include "dbus-enums.h"
 
 #include <QtQml/qqml.h>
+
+static QObject* actionDataSingleton(QQmlEngine* engine, QJSEngine* scriptEngine)
+{
+  Q_UNUSED(engine);
+  Q_UNUSED(scriptEngine);
+  return new ActionData;
+}
 
 void QMenuModelPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("QMenuModel"));
+    qmlRegisterUncreatableType<DBusEnums>(uri, 0, 1, "DBus",
+                                          "DBus is only a namespace");
     qmlRegisterType<UnityMenuModel>(uri, 0, 1, "UnityMenuModel");
     qmlRegisterType<ActionStateParser>(uri, 0, 1, "ActionStateParser");
+
+    qmlRegisterSingletonType<ActionData>(uri, 0, 1, "ActionData", actionDataSingleton);
 }

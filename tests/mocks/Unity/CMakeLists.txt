@@ -6,7 +6,7 @@ add_subdirectory(Notifications)
 add_subdirectory(DashCommunicator)
 
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
-pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=4)
+pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=5)
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -39,6 +39,9 @@ set(UnityQML_SOURCES
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopesInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/SettingsModelInterface.h
 )
+
+# Workaround for gcc failure LP: #1417664
+set_source_files_properties(fake_scopes.cpp PROPERTIES COMPILE_FLAGS -O1)
 
 add_library(FakeUnityQml MODULE ${UnityQML_SOURCES})
 target_link_libraries(FakeUnityQml

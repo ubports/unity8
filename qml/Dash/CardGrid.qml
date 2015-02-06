@@ -50,7 +50,7 @@ DashRenderer {
         model: root.model
         displayMarginBeginning: root.displayMarginBeginning
         displayMarginEnd: root.displayMarginEnd
-        cacheBuffer: 0
+        cacheBuffer: root.cacheBuffer
         interactive: false
         delegate: Item {
             width: grid.cellWidth
@@ -59,7 +59,6 @@ DashRenderer {
                 id: loader
                 sourceComponent: cardTool.cardComponent
                 anchors.horizontalCenter: parent.horizontalCenter
-                asynchronous: true
                 onLoaded: {
                     item.objectName = "delegate" + index;
                     item.width = Qt.binding(function() { return cardTool.cardWidth; });

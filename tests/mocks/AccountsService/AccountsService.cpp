@@ -27,7 +27,9 @@ AccountsService::AccountsService(QObject* parent)
     m_backgroundFile(qmlDirectory() + "graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true),
     m_failedLogins(0),
-    m_demoEdges(false)
+    m_demoEdges(false),
+    m_hereEnabled(false),
+    m_hereLicensePath("")
 {
 }
 
@@ -115,4 +117,38 @@ void AccountsService::setFailedLogins(uint failedLogins)
 {
     m_failedLogins = failedLogins;
     failedLoginsChanged();
+}
+
+bool AccountsService::hereEnabled() const
+{
+    return m_hereEnabled;
+}
+
+void AccountsService::setHereEnabled(bool enabled)
+{
+    m_hereEnabled = enabled;
+    hereEnabledChanged();
+}
+
+QString AccountsService::hereLicensePath() const
+{
+    return m_hereLicensePath;
+}
+
+void AccountsService::setHereLicensePath(const QString &path)
+{
+    // Path should always be valid (this code is all synchronous)
+    if (path == " ") {
+        m_hereLicensePath = QString::null;
+    } else if (path.isNull()) { // because qml collapses null and empty
+        m_hereLicensePath = "";
+    } else {
+        m_hereLicensePath = path;
+    }
+    hereLicensePathChanged();
+}
+
+bool AccountsService::hereLicensePathValid() const
+{
+    return !m_hereLicensePath.isNull();
 }

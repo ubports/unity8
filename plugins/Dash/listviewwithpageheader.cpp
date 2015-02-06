@@ -334,13 +334,18 @@ qreal ListViewWithPageHeader::headerItemShownHeight() const
     return m_headerItemShownHeight;
 }
 
-qreal ListViewWithPageHeader::cacheBuffer() const
+int ListViewWithPageHeader::cacheBuffer() const
 {
     return m_cacheBuffer;
 }
 
-void ListViewWithPageHeader::setCacheBuffer(qreal cacheBuffer)
+void ListViewWithPageHeader::setCacheBuffer(int cacheBuffer)
 {
+    if (cacheBuffer < 0) {
+        qmlInfo(this) << "Cannot set a negative cache buffer";
+        return;
+    }
+
     if (cacheBuffer != m_cacheBuffer) {
         m_cacheBuffer = cacheBuffer;
         Q_EMIT cacheBufferChanged();

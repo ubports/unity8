@@ -28,6 +28,8 @@
 #include <QList>
 #include <QTimer>
 
+class ScopesOverview;
+
 class Scopes : public unity::shell::scopes::ScopesInterface
 {
     Q_OBJECT
@@ -44,6 +46,7 @@ public:
     Q_INVOKABLE void addScope(Scope* scope);
 
     Q_INVOKABLE void clear();
+    Q_INVOKABLE void clearFavorites();
     Q_INVOKABLE void load();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
@@ -53,9 +56,12 @@ public:
     int count() const override;
     unity::shell::scopes::ScopeInterface* overviewScope() const override;
 
+    Q_INVOKABLE void setFavorite(const QString& scopeId, bool favorite) override;
+    Q_INVOKABLE void moveFavoriteTo(const QString& scopeId, int index) override;
+
     // This is used as part of implementation of the other C++ code, not API
-    QList<Scope*> scopes() const;
-    QList<Scope*> allScopes() const;
+    QList<Scope*> favScopes() const;
+    QList<Scope*> nonFavScopes() const;
     Q_INVOKABLE Scope* getScopeFromAll(const QString& scope_id) const;
 
 private Q_SLOTS:
@@ -64,7 +70,7 @@ private Q_SLOTS:
 private:
     QList<Scope*> m_scopes; // the favorite ones
     QList<Scope*> m_allScopes;
-    Scope *m_scopesOverview;
+    ScopesOverview *m_scopesOverview;
     bool m_loaded;
     QTimer timer;
 };

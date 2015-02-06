@@ -60,8 +60,8 @@ Rectangle {
             "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "aspect-ratio": 0.7 } }) }
         },
         {
-            "name": "Art, header, summary - horizontal",
-            "layout": { "template": { "card-layout": "horizontal" },
+            "name": "Art, header, summary, background - horizontal",
+            "layout": { "template": { "card-layout": "horizontal", "card-background": { "type": "gradient", "elements": ["grey", "white"] } },
                         "components": JSON.parse(Helpers.fullMapping) }
         },
         {
@@ -100,6 +100,11 @@ Rectangle {
             "name": "Art, title - overlaid",
             "layout": { "template": { "overlay": true },
                         "components": { "art": "art", "title": "title" } }
+        },
+        {
+            "name": "Art, header, summary - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" },
+                        "components": JSON.parse(Helpers.fullMapping) }
         },
     ]
 
@@ -407,7 +412,7 @@ Rectangle {
             return [
                 { tag: "Art and summary", visible: true, color: "#ffffff", index: 0 },
                 { tag: "No Summary", visible: false, index: 6 },
-                { tag: "Horizontal", visible: false, index: 5 },
+                { tag: "Horizontal", visible: true, color: "#808080", index: 5 },
                 { tag: "Grey background", visible: true, color: "#808080", index: 10 },
                 { tag: "Overriden Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff",
                   background: {type: "color", elements: ["grey", "white"]}, index: 10 },
@@ -415,6 +420,7 @@ Rectangle {
                   background: Qt.resolvedUrl("artwork/checkers.png"), index: 10 },
                 { tag: "Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff", index: 11 },
                 { tag: "Image background", visible: true, image: Qt.resolvedUrl("artwork/checkers.png"), index: 12 },
+                { tag: "Horizontal no background", visible: false, index: 14 },
             ];
         }
 
@@ -539,9 +545,9 @@ Rectangle {
             var touchdown = findChild(card, "touchdown");
 
             compare(touchdown.visible, false);
-            mousePress(card, card.width/2, card.height/2);
+            mousePress(card);
             compare(touchdown.visible, true);
-            mouseRelease(card, card.width/2, card.height/2);
+            mouseRelease(card);
             compare(touchdown.visible, false);
         }
 

@@ -25,16 +25,29 @@ Showable {
     enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
+    property real dragHandleLeftMargin: 0
+    property alias dragging: dragHandle.dragging
+
     property url background
+
+    // so that it can be replaced in tests with a mock object
+    property var inputMethod: Qt.inputMethod
+
+    prepareToHide: function () {
+        hideTranslation.to = greeter.x > 0 || d.forceRightOnNextHideAnimation ? greeter.width : -greeter.width;
+        d.forceRightOnNextHideAnimation = false;
+    }
+
+    QtObject {
+        id: d
+        property bool forceRightOnNextHideAnimation: false
+    }
+
     property bool loadContent: required
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
+    property real showProgress: visible ? MathUtils.clamp((width - Math.abs(x)) / width, 0, 1) : 0
 
-    showAnimation: StandardAnimation { property: "x"; to: 0; duration: UbuntuAnimation.FastDuration }
-    hideAnimation: __leftHideAnimation
-
-    property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
     property bool locked: true
 
@@ -43,18 +56,13 @@ Showable {
 
     readonly property int currentIndex: greeterContentLoader.currentIndex
 
-    property var __leftHideAnimation: StandardAnimation { property: "x"; to: -width }
-    property var __rightHideAnimation: StandardAnimation { property: "x"; to: width }
-
     signal selected(int uid)
     signal unlocked(int uid)
-    signal tease()
+    signal tapped()
 
     function hideRight() {
-        if (shown) {
-            hideAnimation = __rightHideAnimation
-            hide()
-        }
+        d.forceRightOnNextHideAnimation = true;
+        hide();
     }
 
     function tryToUnlock() {
@@ -69,71 +77,9 @@ Showable {
         }
     }
 
-    onRequiredChanged: {
-        // Reset hide animation to default once we're finished with it
-        if (required) {
-            // Reset hide animation so that a hide() call is reliably left
-            hideAnimation = __leftHideAnimation
-        }
-    }
-
-    // Bi-directional revealer
-    DraggingArea {
-        id: dragHandle
-        anchors.fill: parent
-        enabled: (greeter.narrowMode || !greeter.locked) && greeter.enabled && greeter.shown
-        orientation: Qt.Horizontal
-        propagateComposedEvents: true
-
-        Component.onCompleted: {
-            // set evaluators to baseline of dragValue == 0
-            leftEvaluator.reset()
-            rightEvaluator.reset()
-        }
-
-        function maybeTease() {
-            if (!greeter.locked || greeter.narrowMode)
-                greeter.tease();
-        }
-
-        onClicked: maybeTease()
-        onDragStart: maybeTease()
-        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
-
-        onDragEnd: {
-            if (greeter.x > 0 && rightEvaluator.shouldAutoComplete()) {
-                greeter.hideRight()
-            } else if (greeter.x < 0 && leftEvaluator.shouldAutoComplete()) {
-                greeter.hide();
-            } else {
-                greeter.show(); // undo drag
-            }
-        }
-
-        onDragValueChanged: {
-            // dragValue is kept as a "step" value since we do this x adjusting on the fly
-            greeter.x += dragValue
-        }
-
-        EdgeDragEvaluator {
-            id: rightEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
-            maxDragDistance: parent.width
-            direction: Direction.Rightwards
-        }
-
-        EdgeDragEvaluator {
-            id: leftEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
-            maxDragDistance: parent.width
-            direction: Direction.Leftwards
-        }
-    }
-    TouchGate {
-        targetItem: dragHandle
-        anchors.fill: targetItem
-        enabled: targetItem.enabled
-    }
+    // event eater
+    // Nothing should leak to items behind the greeter
+    MouseArea { anchors.fill: parent }
 
     Loader {
         id: greeterContentLoader
@@ -159,13 +105,34 @@ Showable {
             }
             onUnlocked: greeter.unlocked(uid);
         }
+        Binding {
+            target: greeterContentLoader.item
+            property: "inputMethod"
+            value: greeter.inputMethod
+        }
     }
 
-    onTease: showLabelAnimation.start()
+    DragHandle {
+        id: dragHandle
+        anchors.fill: parent
+        anchors.leftMargin: greeter.dragHandleLeftMargin
+        enabled: (greeter.narrowMode || !greeter.locked) && greeter.enabled && greeter.shown
+        direction: Direction.Horizontal
+
+        onTapped: {
+            greeter.tapped();
+            showLabelAnimation.start();
+        }
+
+        onDraggingChanged: {
+            if (dragging) {
+                showLabelAnimation.start();
+            }
+        }
+    }
 
     Label {
         id: swipeHint
-        visible: greeter.shown
         property real baseOpacity: 0.5
         opacity: 0.0
         anchors.horizontalCenter: parent.horizontalCenter
@@ -199,7 +166,6 @@ Showable {
         anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_right.png"
     }
@@ -209,8 +175,59 @@ Showable {
         anchors.right: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_left.png"
+    }
+
+    Binding {
+        id: positionLock
+
+        property bool enabled: false
+        onEnabledChanged: {
+            if (enabled === __enabled) {
+                return;
+            }
+
+            if (enabled) {
+                if (greeter.x > 0) {
+                    value = Qt.binding(function() { return greeter.width; })
+                } else {
+                    value = Qt.binding(function() { return -greeter.width; })
+                }
+            }
+
+            __enabled = enabled;
+        }
+
+        property bool __enabled: false
+
+        target: greeter
+        when: __enabled
+        property: "x"
+    }
+
+    hideAnimation: SequentialAnimation {
+        id: hideAnimation
+        objectName: "hideAnimation"
+        StandardAnimation {
+            id: hideTranslation
+            property: "x"
+            target: greeter
+        }
+        PropertyAction { target: greeter; property: "visible"; value: false }
+        PropertyAction { target: positionLock; property: "enabled"; value: true }
+    }
+
+    showAnimation: SequentialAnimation {
+        id: showAnimation
+        objectName: "showAnimation"
+        PropertyAction { target: greeter; property: "visible"; value: true }
+        PropertyAction { target: positionLock; property: "enabled"; value: false }
+        StandardAnimation {
+            property: "x"
+            target: greeter
+            to: 0
+            duration: UbuntuAnimation.FastDuration
+        }
     }
 }
