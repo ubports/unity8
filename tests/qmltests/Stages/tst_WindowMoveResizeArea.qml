@@ -54,10 +54,6 @@ Item {
     Loader {
         id: windowLoader
         sourceComponent: fakeWindowComponent
-        x: units.gu(20)
-        y: units.gu(20)
-        width: units.gu(20)
-        height: units.gu(20)
     }
 
     UT.UnityTestCase {
