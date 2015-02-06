@@ -654,6 +654,7 @@ Item {
                 }
 
                 // swipe-to-dismiss check
+                waitForRendering(notification)
                 var before = mockModel.count
                 var dragStart = notification.width * 0.25;
                 var dragEnd = notification.width;
