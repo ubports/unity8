@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import QMenuModel 0.1 as QMenuModel
+import QtSystemInfo 5.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Settings.Menus 0.1 as Menus
@@ -28,7 +29,7 @@ LocalComponents.Page {
     title: i18n.tr("Connect to Wi‑Fi")
     forwardButtonSourceComponent: forwardButton
 
-    readonly property bool connected: mainMenu.connectedAPs === 1
+    readonly property bool connected: networkInfo.accessPointName
 
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
@@ -42,6 +43,31 @@ LocalComponents.Page {
         busName: "com.canonical.indicator.network"
         actions: { "indicator": "/com/canonical/indicator/network" }
         menuObjectPath: "/com/canonical/indicator/network/phone_wifi_settings"
+    }
+
+    NetworkInfo {
+        id: networkInfo
+
+        property string accessPointName
+
+        monitorCurrentNetworkMode: true
+        monitorNetworkName: true
+        monitorNetworkStatus: true
+
+        onCurrentNetworkModeChanged: getAccessPointName()
+        onNetworkNameChanged: getAccessPointName()
+        onNetworkStatusChanged: if (status !== NetworkInfo.HomeNetwork) accessPointName = ""
+
+        Component.onCompleted: getAccessPointName()
+
+        function getAccessPointName() {
+            // 0 is the interface
+            if (currentNetworkMode === NetworkInfo.WlanMode &&
+                networkStatus(NetworkInfo.WlanMode, 0) === NetworkInfo.HomeNetwork)
+                accessPointName = networkName(NetworkInfo.WlanMode, 0);
+            else
+                accessPointName = "";
+        }
     }
 
     Component {
@@ -119,11 +145,6 @@ LocalComponents.Page {
             onCheckedChanged: {
                 // Can't rely on binding. Checked is assigned on click.
                 checkBoxActive.checked = checked;
-                if (checked) {
-                    mainMenu.connectedAPs++
-                } else {
-                    mainMenu.connectedAPs--
-                }
             }
             onActivate: unityMenuModel.activate(menuIndex);
         }
@@ -164,9 +185,6 @@ LocalComponents.Page {
 
                 Repeater {
                     id: mainMenu
-
-                    // FIXME Check connection better https://bugs.launchpad.net/indicator-network/+bug/1349371
-                    property int connectedAPs: 0
 
                     model: menuModel
 

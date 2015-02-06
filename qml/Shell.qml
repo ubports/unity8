@@ -482,7 +482,7 @@ Item {
         onShownChanged: if (shown) greeter.lockedApp = ""
 
         function maybeShow() {
-            if (!shell.forcedUnlock) {
+            if (!shell.forcedUnlock && !shown) {
                 showNow();
             }
         }

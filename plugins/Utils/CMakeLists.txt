@@ -1,6 +1,3 @@
-# Dependencies
-include(FindPkgConfig)
-
 pkg_search_module(GIO REQUIRED gio-2.0)
 
 include_directories(
