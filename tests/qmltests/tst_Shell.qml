@@ -25,6 +25,7 @@ import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
+import Unity.Indicators 0.1
 import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -169,6 +170,7 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
+            shell.indicatorProfile = "phone";
 
             swipeAwayGreeter();
 
@@ -547,15 +549,30 @@ Item {
         }
 
         function test_greeterDoesNotChangeIndicatorProfile() {
-            var visibleIndicators = findChild(shell, "visibleIndicators");
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
+            var panel = findChild(shell, "panel");
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
 
-            var greeter = findChild(shell, "greeter");
-            greeter.show();
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
+            LightDM.Greeter.showGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
 
-            greeter.hide();
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
+            LightDM.Greeter.hideGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
+        }
+
+        function test_shellProfileChangesReachIndicators() {
+            var panel = findChild(shell, "panel");
+
+            shell.indicatorProfile = "test1";
+            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
+                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
+                verify(properties["menuObjectPath"].substr(-5), "test1");
+            }
+
+            shell.indicatorProfile = "test2";
+            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
+                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
+                verify(properties["menuObjectPath"].substr(-5), "test2");
+            }
         }
 
         function test_focusRequestedHidesGreeter() {

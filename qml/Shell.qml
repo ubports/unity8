@@ -751,7 +751,7 @@ Item {
 
                 indicatorsModel: Indicators.IndicatorsModel {
                     // TODO: This should be sourced by device type (e.g. "desktop", "tablet", "phone"...)
-                    profile: shell.locked ? (indicatorProfile + "_greeter") : indicatorProfile
+                    profile: indicatorProfile
                     Component.onCompleted: load()
                 }
             }

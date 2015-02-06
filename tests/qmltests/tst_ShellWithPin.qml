@@ -233,17 +233,19 @@ Item {
         }
 
         function test_greeterChangesIndicatorProfile() {
-            var visibleIndicators = findChild(shell, "visibleIndicators");
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter");
+            skip("Not supported yet, waiting on design for new settings panel");
+
+            var panel = findChild(shell, "panel");
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
 
             LightDM.Greeter.hideGreeter();
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
 
             LightDM.Greeter.showGreeter();
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile + "_greeter");
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
 
             LightDM.Greeter.hideGreeter();
-            tryCompare(visibleIndicators, "profile", shell.indicatorProfile);
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
         }
 
         function test_login() {
