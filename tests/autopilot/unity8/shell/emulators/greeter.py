@@ -19,6 +19,7 @@
 
 import ubuntuuitoolkit
 
+from autopilot.utilities import sleep
 from unity8.shell.emulators import UnityEmulatorBase
 
 
@@ -26,7 +27,21 @@ class Greeter(UnityEmulatorBase):
     """An emulator that understands the greeter screen."""
 
     def wait_swiped_away(self):
-        self.required.wait_for(False)
+        # We have to be careful here, because coverPage can go away at any time
+        # if there isn't a lockscreen behind it (it hides completely, then
+        # the greeter disposes it).  But if there *is* a lockscreen, then we
+        # need a different check, by looking at its showProgress.  So make our
+        # own wait_for loop and check both possibilities.
+        for i in range(10):
+            if not self.required:
+                return
+            coverPage = self.select_single(objectName='coverPage')
+            if coverPage.showProgress == 0:
+                return
+            sleep(1)
+
+        raise AssertionError("Greeter cover page still up after 10s")
+
 
     def swipe(self):
         """Swipe the greeter screen away."""
