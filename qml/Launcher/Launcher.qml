@@ -241,7 +241,7 @@ Item {
     }
 
     // TODO: This should be replaced by some mechanism that reveals the launcher
-    // after a certain resistance has been overcome, like unity8 does. However,
+    // after a certain resistance has been overcome, like unity7 does. However,
     // as we don't get relative mouse coordinates yet, this will do for now.
     MouseArea {
         id: hoverArea
