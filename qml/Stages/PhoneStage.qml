@@ -82,7 +82,7 @@ Rectangle {
     property int mainAppWindowOrientationAngle: 0
     readonly property bool orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
                                                    && !priv.focusedAppDelegateIsDislocated
-                                                   && !priv.topmostAppXBehaviorRunning
+                                                   && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
                                                    && spreadView.phase === 0
     color: "#111111"
 
@@ -155,7 +155,11 @@ Rectangle {
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
-        onFocusedAppDelegateChanged: focusedAppDelegate.focus = true;
+        onFocusedAppDelegateChanged: {
+            if (focusedAppDelegate) {
+                focusedAppDelegate.focus = true;
+            }
+        }
 
         property bool focusedAppDelegateIsDislocated: focusedAppDelegate && focusedAppDelegate.x !== 0
 
@@ -168,13 +172,9 @@ Rectangle {
             return -1;
         }
 
-        property bool topmostDelegateIsDislocated: false
-
         // Is more stable than "spreadView.shiftedContentX === 0" as it filters out noise caused by
         // Flickable.contentX changing due to resizes.
         property bool fullyShowingFocusedApp: true
-
-        property bool topmostAppXBehaviorRunning: false
     }
     Timer {
         id: fullyShowingFocusedAppUpdateTimer
@@ -387,11 +387,6 @@ Rectangle {
                         // Otherwise line up for the spread
                         return spreadView.width + (index - 1) * spreadView.tileDistance;
                     }
-                    onXChanged: {
-                        if (index == 0) {
-                            priv.topmostDelegateIsDislocated = x !== 0;
-                        }
-                    }
 
                     application: ApplicationManager.get(index)
                     closeable: !isDash
@@ -409,7 +404,9 @@ Rectangle {
                         }
                     }
 
+                    property var xBehavior: xBehavior
                     Behavior on x {
+                        id: xBehavior
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
                                  !snapAnimation.running &&
@@ -417,11 +414,6 @@ Rectangle {
                                  !root.beingResized
                         UbuntuNumberAnimation {
                             duration: UbuntuAnimation.BriskDuration
-                            onRunningChanged: {
-                                if (index === 0) {
-                                    priv.topmostAppXBehaviorRunning = running;
-                                }
-                            }
                         }
                     }
 

@@ -818,6 +818,33 @@ Rectangle {
             tryCompare(gmailApp.session.surface, "activeFocus", true);
         }
 
+        function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
+            loadShell("mako");
+
+            // starts as portrait, as unity8-dash is portrait only
+            tryCompare(shell, "transformRotationAngle", 0);
+
+            var weatherApp = ApplicationManager.startApplication("ubuntu-weather-app");
+            verify(weatherApp);
+
+            // ensure the mock app is as we expect
+            compare(weatherApp.supportedOrientations, Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation);
+
+            waitUntilAppSurfaceShowsUp("ubuntu-weather-app");
+
+            // should have rotated to landscape
+            tryCompareFunction(function () { return shell.transformRotationAngle == 270
+                                                 || shell.transformRotationAngle == 90; }, true);
+
+            var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
+            waitUntilTransitionsEnd(rotationStates);
+
+            performLeftEdgeSwipeToSwitchToDash();
+
+            // Should be back to portrait
+            tryCompare(shell, "transformRotationAngle", 0);
+        }
+
         function rotateTo(angle) {
             switch (angle) {
             case 0:
@@ -870,6 +897,19 @@ Rectangle {
             tryCompare(shell, "orientation", orientation);
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             waitUntilTransitionsEnd(rotationStates);
+        }
+
+        function performLeftEdgeSwipeToSwitchToDash() {
+            var spreadView = findChild(shell, "spreadView");
+            var swipeLength = spreadView.width * 0.7;
+
+            var touchStartX = 1;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell,
+                       touchStartX, touchStartY,
+                       touchStartX + swipeLength, touchStartY);
+
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
         function performEdgeSwipeToSwitchToPreviousApp() {
