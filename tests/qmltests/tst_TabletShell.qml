@@ -137,6 +137,8 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
+            var userList = findChild(shell, "userList");
+            tryCompare(userList, "movingInternally", false);
             sessionSpy.clear()
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator")
