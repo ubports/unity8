@@ -35,4 +35,4 @@ target_link_libraries(UnityLauncherAS-qml
 
 qt5_use_modules(UnityLauncherAS-qml DBus Qml Gui)
 
-add_unity8_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncherAS-qml TARGET_PREFIX Greeter)
+add_unity8_greeter_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncherAS-qml)
