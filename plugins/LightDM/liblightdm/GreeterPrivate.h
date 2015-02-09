@@ -16,31 +16,36 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#ifndef UNITY_MOCK_GREETER_PRIVATE_H
+#define UNITY_MOCK_GREETER_PRIVATE_H
+
+#include <QtCore/QObject>
 
 namespace QLightDM
 {
+class Greeter;
+class GreeterImpl;
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    q_ptr(parent)
+class GreeterPrivate
 {
+public:
+    explicit GreeterPrivate(Greeter* parent=0);
+    virtual ~GreeterPrivate() = default;
+
+    // These variables may not be used by all subclasses, that's no problem
+    bool authenticated;
+    QString authenticationUser;
+
+    void handleAuthenticate();
+    void handleRespond(const QString &response);
+
+protected:
+    GreeterImpl *m_impl; // if the backend needs more private data
+    Greeter * const q_ptr;
+
+private:
+    Q_DECLARE_PUBLIC(Greeter)
+};
 }
 
-void GreeterPrivate::handleAuthenticate()
-{
-    Q_Q(Greeter);
-    Q_EMIT q->showPrompt("Password: ", Greeter::PromptTypeSecret);
-}
-
-void GreeterPrivate::handleRespond(const QString &response)
-{
-    Q_Q(Greeter);
-
-    authenticated = (response == "password");
-    q->sendAuthenticationComplete();
-}
-
-}
+#endif // UNITY_MOCK_GREETER_PRIVATE_H

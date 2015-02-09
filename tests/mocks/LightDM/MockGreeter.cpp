@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,34 +13,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#include "MockGreeter.h"
+#include <GreeterPrivate.h>
 
-namespace QLightDM
+QString MockGreeter::mockMode() const
 {
-
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    twoFactorDone(false),
-    q_ptr(parent)
-{
+    Q_D(const Greeter);
+    return d->m_greeter->mockMode();
 }
 
-void GreeterPrivate::handleAuthenticate()
+void MockGreeter::setMockMode(QString mockMode)
 {
-    Q_Q(Greeter);
+    Q_D(Greeter);
 
-    authenticated = true;
-    Q_EMIT q->authenticationComplete();
-}
-
-void GreeterPrivate::handleRespond(QString const &response)
-{
-    Q_UNUSED(response)
-}
-
+    if (d->m_greeter->mockMode() != mockMode) {
+        d->m_greeter->setMockMode(mockMode);
+        Q_EMIT mockModeChanged(mockMode);
+    }
 }

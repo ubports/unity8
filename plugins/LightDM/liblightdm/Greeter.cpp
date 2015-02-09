@@ -16,6 +16,13 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * CHANGES MADE HERE MUST BE REFLECTED ON THE MOCK LIB
+ * COUNTERPART IN tests/mocks/Lightdm/liblightdm
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+
 #include "Greeter.h"
 #include "GreeterPrivate.h"
 #include <QtCore/QCoreApplication>
@@ -128,13 +135,6 @@ void Greeter::authenticate(const QString &username)
 
     d->authenticated = false;
     d->authenticationUser = username;
-    d->twoFactorDone = false;
-    QTimer::singleShot(0, this, SLOT(delayedAuthentication()));
-}
-
-void Greeter::delayedAuthentication()
-{
-    Q_D(Greeter);
     d->handleAuthenticate();
 }
 

@@ -16,8 +16,8 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#include "Greeter.h"
+#include "GreeterPrivate.h"
 #include <QFuture>
 #include <QFutureInterface>
 #include <QFutureWatcher>
