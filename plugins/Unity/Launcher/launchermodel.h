@@ -55,6 +55,9 @@ public:
     unity::shell::application::ApplicationManagerInterface* applicationManager() const;
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager);
 
+    bool onlyPinned() const override;
+    void setOnlyPinned(bool onlyPinned) override;
+
     int findApplication(const QString &appId);
 
 public Q_SLOTS:

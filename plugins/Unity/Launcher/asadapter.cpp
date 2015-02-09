@@ -58,5 +58,6 @@ QVariantMap ASAdapter::itemToVariant(LauncherItem *item) const
     details.insert("icon", item->icon());
     details.insert("count", item->count());
     details.insert("countVisible", item->countVisible());
+    details.insert("pinned", item->pinned());
     return details;
 }

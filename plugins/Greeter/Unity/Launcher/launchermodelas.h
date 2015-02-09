@@ -54,6 +54,9 @@ public:
     unity::shell::application::ApplicationManagerInterface* applicationManager() const;
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager);
 
+    bool onlyPinned() const override;
+    void setOnlyPinned(bool onlyPinned) override;
+
     int findApplication(const QString &appId);
 
 public Q_SLOTS:
@@ -67,6 +70,7 @@ private:
     QString m_user;
     QList<LauncherItem*> m_list;
     AccountsServiceDBusAdaptor *m_accounts;
+    bool m_onlyPinned;
 
     friend class LauncherModelASTest;
 };

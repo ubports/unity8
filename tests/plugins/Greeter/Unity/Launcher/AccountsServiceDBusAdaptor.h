@@ -26,7 +26,7 @@
 #include <QHash>
 #include <QDBusArgument>
 
-extern QList<QVariantMap> properties;
+extern QHash<QString, QList<QVariantMap>> mockProperties;
 
 class AccountsServiceDBusAdaptor: public QObject
 {
@@ -38,10 +38,9 @@ public:
     Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &interface, const QString &property);
     template <typename T>
     inline T getUserProperty(const QString &user, const QString &interface, const QString &property) {
-        Q_UNUSED(user)
         Q_UNUSED(interface)
         Q_ASSERT(property == "LauncherItems");
-        T ret = properties;
+        T ret = mockProperties[user];
         return ret;
     }
 

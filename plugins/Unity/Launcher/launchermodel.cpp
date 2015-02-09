@@ -265,6 +265,15 @@ void LauncherModel::setApplicationManager(unity::shell::application::Application
     }
 }
 
+bool LauncherModel::onlyPinned() const
+{
+    return false;
+}
+
+void LauncherModel::setOnlyPinned(bool onlyPinned) {
+    Q_UNUSED(onlyPinned);
+    qWarning() << "This launcher implementation does not support showing only pinned apps";
+}
 
 void LauncherModel::storeAppList()
 {

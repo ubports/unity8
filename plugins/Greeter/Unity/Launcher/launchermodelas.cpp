@@ -30,7 +30,8 @@ using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_accounts(new AccountsServiceDBusAdaptor(this))
+    m_accounts(new AccountsServiceDBusAdaptor(this)),
+    m_onlyPinned(true)
 {
     connect(m_accounts, &AccountsServiceDBusAdaptor::propertiesChanged, this, &LauncherModel::propertiesChanged);
     refresh();
@@ -162,6 +163,20 @@ void LauncherModel::setApplicationManager(unity::shell::application::Application
     return;
 }
 
+bool LauncherModel::onlyPinned() const
+{
+    return m_onlyPinned;
+}
+
+void LauncherModel::setOnlyPinned(bool onlyPinned)
+{
+    if (m_onlyPinned != onlyPinned) {
+        m_onlyPinned = onlyPinned;
+        Q_EMIT onlyPinnedChanged();
+        refresh();
+    }
+}
+
 int LauncherModel::findApplication(const QString &appId)
 {
     for (int i = 0; i < m_list.count(); ++i) {
@@ -189,13 +204,17 @@ void LauncherModel::refresh()
         bool found = false;
         Q_FOREACH(const QVariant &asItem, items) {
             if (asItem.toMap().value("id").toString() == item->appId()) {
-                found = true;
-                item->setName(asItem.toMap().value("name").toString());
-                item->setIcon(asItem.toMap().value("icon").toString());
-                item->setCount(asItem.toMap().value("count").toInt());
-                item->setCountVisible(asItem.toMap().value("countVisible").toBool());
-                int idx = m_list.indexOf(item);
-                Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+                // Only keep and update it if we either show unpinned or it is pinned
+                if (!m_onlyPinned || asItem.toMap().value("pinned").toBool()) {
+                    found = true;
+                    item->setName(asItem.toMap().value("name").toString());
+                    item->setIcon(asItem.toMap().value("icon").toString());
+                    item->setCount(asItem.toMap().value("count").toInt());
+                    item->setCountVisible(asItem.toMap().value("countVisible").toBool());
+                    int idx = m_list.indexOf(item);
+                    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+                }
+                break;
             }
         }
         if (!found) {
@@ -211,8 +230,17 @@ void LauncherModel::refresh()
     }
 
     // Now walk through list and see if we need to add something
+    int skipped = 0;
     for (int asIndex = 0; asIndex < items.count(); ++asIndex) {
         QVariant entry = items.at(asIndex);
+
+        if (m_onlyPinned && !entry.toMap().value("pinned").toBool()) {
+            // Skipping it as we only show pinned and it is not
+            skipped++;
+            continue;
+        }
+        int newPosition = asIndex - skipped;
+
         int itemIndex = -1;
         for (int i = 0; i < m_list.count(); ++i) {
             if (m_list.at(i)->appId() == entry.toMap().value("id").toString()) {
@@ -230,14 +258,14 @@ void LauncherModel::refresh()
             item->setPinned(true);
             item->setCount(entry.toMap().value("count").toInt());
             item->setCountVisible(entry.toMap().value("countVisible").toBool());
-            beginInsertRows(QModelIndex(), asIndex, asIndex);
-            m_list.insert(asIndex, item);
+            beginInsertRows(QModelIndex(), newPosition, newPosition);
+            m_list.insert(newPosition, item);
             endInsertRows();
-        } else if (itemIndex != asIndex) {
+        } else if (itemIndex != newPosition) {
             // The item is already there, but it is in a different place than in the settings.
             // Move it to the addedIndex
-            beginMoveRows(QModelIndex(), itemIndex, itemIndex, QModelIndex(), asIndex);
-            m_list.move(itemIndex, asIndex);
+            beginMoveRows(QModelIndex(), itemIndex, itemIndex, QModelIndex(), newPosition);
+            m_list.move(itemIndex, newPosition);
             endMoveRows();
         }
     }
