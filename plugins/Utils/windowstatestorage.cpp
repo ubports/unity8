@@ -86,8 +86,8 @@ void WindowStateStorage::initdb()
         return;
     }
 
-    if (!m_db.tables().contains("windowproperties")) {
+    if (!m_db.tables().contains("geometry")) {
         QSqlQuery query;
-        query.exec("CREATE TABLE IF NOT EXISTS geometry(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER);");
+        query.exec("CREATE TABLE geometry(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER);");
     }
 }
