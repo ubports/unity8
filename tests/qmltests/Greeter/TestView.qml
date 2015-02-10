@@ -83,5 +83,11 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: "black"
+
+        Label {
+            text: "Fake view, nothing to see here"
+            color: "white"
+            anchors.centerIn: parent
+        }
     }
 }

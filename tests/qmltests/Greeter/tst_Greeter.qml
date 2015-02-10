@@ -36,47 +36,24 @@ Item {
         loader.active = true;
     }
 
-    Row {
+    Loader {
+        id: loader
+
+        active: false
         anchors.fill: parent
-        Loader {
-            id: loader
 
-            active: false
-            width: parent.width - controls.width
-            height: parent.height
+        property bool itemDestroyed: false
+        sourceComponent: Component {
+            Greeter {
+                width: loader.width
+                height: loader.height
+                background: defaultBackground
+                viewSource: Qt.resolvedUrl("TestView.qml")
 
-            property bool itemDestroyed: false
-            sourceComponent: Component {
-                Greeter {
-                    width: loader.width
-                    height: loader.height
-                    background: defaultBackground
-                    viewSource: Qt.resolvedUrl("TestView.qml")
-
-                    Component.onDestruction: {
-                        loader.itemDestroyed = true;
-                    }
+                Component.onDestruction: {
+                    loader.itemDestroyed = true;
                 }
             }
-        }
-
-        Rectangle {
-            id: controls
-            color: "white"
-            width: units.gu(40)
-            height: parent.height
-
-            Column {
-                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-                spacing: units.gu(1)
-
-                Row {
-                    Button {
-                        text: "Show Greeter"
-                        onClicked: loader.item.show()
-                    }
-                }
-           }
         }
     }
 
