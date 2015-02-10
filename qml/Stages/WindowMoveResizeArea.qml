@@ -61,7 +61,6 @@ MouseArea {
 
     onPressed: {
         priv.startPoint = Qt.point(mouse.x, mouse.y);
-        print("startpoint is", priv.startPoint)
         priv.startWidth = root.width;
         priv.startHeight = root.height;
         priv.resizeTop = mouseY < root.resizeHandleWidth;
