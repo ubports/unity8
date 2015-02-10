@@ -121,6 +121,7 @@ Item {
         objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
         model: greeterContentLoader.infographicModel
+        clip: true
 
         property string selectedUser
         property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
