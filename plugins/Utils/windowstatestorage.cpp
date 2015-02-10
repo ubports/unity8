@@ -52,7 +52,7 @@ void WindowStateStorage::executeAsyncQuery(const QString &queryString)
 
     bool ok = query.exec(queryString);
     if (!ok) {
-        qWarning() << "Error saving window state."
+        qWarning() << "Error esecuting query" << queryString
                    << "Driver error:" << query.lastError().driverText()
                    << "Database error:" << query.lastError().databaseText();
     }
