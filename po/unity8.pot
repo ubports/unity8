@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-02-10 12:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr ""
 
@@ -164,15 +164,15 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:685
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:274
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr ""
@@ -221,6 +221,10 @@ msgstr ""
 msgid "Release to refresh…"
 msgstr ""
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:41
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr ""
@@ -233,7 +237,7 @@ msgstr ""
 msgid "Also installed"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr ""
 
@@ -360,7 +364,7 @@ msgid "Let’s get started."
 msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -374,7 +378,7 @@ msgstr ""
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr ""
 
@@ -410,15 +414,15 @@ msgstr ""
 msgid "Numbers and letters"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr ""
 

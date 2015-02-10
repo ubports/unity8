@@ -38,7 +38,7 @@ ScopeSetting {
                 rightMargin: units.gu(1)
                 verticalCenter: parent.verticalCenter
             }
-            text: widgetData.displayName
+            text: widgetData.settingId == "internal.location" ? i18n.tr("Enable location data") : widgetData.displayName
             elide: Text.ElideMiddle
             maximumLineCount: 2
             wrapMode: Text.Wrap
