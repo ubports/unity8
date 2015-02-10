@@ -60,7 +60,8 @@ MouseArea {
     }
 
     onPressed: {
-        priv.startPoint = mapToItem(null, Qt.point(mouse.x, mouse.y)).x;
+        priv.startPoint = Qt.point(mouse.x, mouse.y);
+        print("startpoint is", priv.startPoint)
         priv.startWidth = root.width;
         priv.startHeight = root.height;
         priv.resizeTop = mouseY < root.resizeHandleWidth;
@@ -70,7 +71,7 @@ MouseArea {
     }
 
     onPositionChanged: {
-        var currentPoint = mapToItem(null, Qt.point(mouse.x, mouse.y)).x;
+        var currentPoint = Qt.point(mouse.x, mouse.y);
         var mouseDiff = Qt.point(currentPoint.x - priv.startPoint.x, currentPoint.y - priv.startPoint.y);
         var moveDiff = Qt.point(0, 0);
         var sizeDiff = Qt.point(0, 0);
