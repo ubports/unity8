@@ -38,6 +38,8 @@ ScopeSetting {
                 rightMargin: units.gu(1)
                 verticalCenter: parent.verticalCenter
             }
+            // TODO The translation should ideally come from the bottom layers and not be hardcoded here
+            // https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1393438
             text: widgetData.settingId == "internal.location" ? i18n.tr("Enable location data") : widgetData.displayName
             elide: Text.ElideMiddle
             maximumLineCount: 2
