@@ -53,6 +53,16 @@ void PreviewWidgetModel::populateWidgets()
         PreviewData* preview_data = new PreviewData(QString("widget-%1").arg(i), QString("text"), attributes);
         m_previewWidgets.append(QSharedPointer<PreviewData>(preview_data));
     }
+
+    QVariantMap attributes;
+    QVariantMap buttonData;
+    buttonData["label"] = "Button";
+    QVariantList buttons;
+    buttons << buttonData << buttonData << buttonData;
+    attributes["actions"] = QVariant::fromValue(buttons);
+    PreviewData* preview_data = new PreviewData(QString("widget-21"), QString("actions"), attributes);
+    m_previewWidgets.append(QSharedPointer<PreviewData>(preview_data));
+
     endResetModel();
 
 }
