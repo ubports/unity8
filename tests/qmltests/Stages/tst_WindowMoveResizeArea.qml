@@ -39,6 +39,10 @@ Item {
             color: "khaki"
             property alias minWidth: moveResizeArea.minWidth
             property alias minHeight: moveResizeArea.minHeight
+            x: units.gu(20)
+            y: units.gu(20)
+            height: units.gu(20)
+            width: units.gu(20)
 
             WindowMoveResizeArea {
                 id: moveResizeArea
