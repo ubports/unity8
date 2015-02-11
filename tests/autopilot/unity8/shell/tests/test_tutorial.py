@@ -24,28 +24,27 @@ from unity8.shell import (
     fixture_setup,
     tests
 )
-# unused import to load the edge emulators custom proxy objects.
-from unity8.shell.emulators import edges_demo  # NOQA
+# unused import to load the tutorial emulators custom proxy objects.
+from unity8.shell.emulators import tutorial  # NOQA
 
 
-class EdgesDemoTestCase(tests.UnityTestCase):
+class TutorialTestCase(tests.UnityTestCase):
 
     def setUp(self):
-        super(EdgesDemoTestCase, self).setUp()
+        super(TutorialTestCase, self).setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
 
-        self.useFixture(fixture_setup.EdgesDemo(True))
+        self.useFixture(fixture_setup.Tutorial(True))
         self.unity = self.launch_unity()
 
-    def test_complete_edge_demo(self):
-        edge_demo = self.unity.select_single('EdgeDemo')
-        self.assertThat(edge_demo.running, Eventually(Equals(True)))
-        right_edge_overlay = self.unity.wait_select_single(
-            edge='right', active=True)
-        top_edge_overlay = right_edge_overlay.swipe()
-        bottom_edge_overlay = top_edge_overlay.swipe()
-        left_edge_overlay = bottom_edge_overlay.swipe()
-        final_overlay = left_edge_overlay.swipe()
-        final_overlay.tap_to_start()
-        self.assertThat(edge_demo.running, Eventually(Equals(False)))
+    def test_complete_tutorial(self):
+        greeter = self.main_window.get_greeter()
+        tutorial = self.unity.select_single('Tutorial')
+        self.assertThat(tutorial.running, Eventually(Equals(True)))
+        greeter.swipe()
+        page = self.unity.wait_select_single(objectName='tutorialLeft')
+        page.short_swipe_right()
+        page = self.unity.wait_select_single(objectName='tutorialLeftFinish')
+        page.tap()
+        self.assertThat(tutorial.running, Eventually(Equals(False)))
