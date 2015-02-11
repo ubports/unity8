@@ -39,8 +39,6 @@ MouseArea {
         readonly property int windowHeight: root.height - resizeHandleWidth * 2
 
         property var startPoint
-        property int startWidth
-        property int startHeight
 
         property bool resizeTop: false
         property bool resizeBottom: false
@@ -61,8 +59,6 @@ MouseArea {
 
     onPressed: {
         priv.startPoint = Qt.point(mouse.x, mouse.y);
-        priv.startWidth = root.width;
-        priv.startHeight = root.height;
         priv.resizeTop = mouseY < root.resizeHandleWidth;
         priv.resizeBottom = mouseY > (root.height - root.resizeHandleWidth);
         priv.resizeLeft = mouseX < root.resizeHandleWidth;
