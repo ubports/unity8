@@ -35,20 +35,40 @@ class TutorialPage(
     @classmethod
     def validate_dbus_object(cls, path, state):
         name = introspection.get_classname_from_path(path)
-        return name == b'TutorialPage' or name == b'TutorialLeft'
+        return name in (b'TutorialPage', b'TutorialLeft',
+                        b'TutorialLeftFinish', b'TutorialRight',
+                        b'TutorialBottom', b'TutorialBottomFinish')
 
     @autopilot.logging.log_action(logger.info)
     def short_swipe_right(self):
+        self.shown.wait_for(True)
         x, y, width, height = self.globalRect
         start_x = x
         stop_x = x + width // 3
         start_y = stop_y = y + height // 2
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
-        self.shown.wait_for(False)
+
+    @autopilot.logging.log_action(logger.info)
+    def swipe_left(self):
+        self.shown.wait_for(True)
+        x, y, width, height = self.globalRect
+        start_x = width
+        stop_x = x
+        start_y = stop_y = y + height // 2
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
+
+    @autopilot.logging.log_action(logger.info)
+    def swipe_up(self):
+        self.shown.wait_for(True)
+        x, y, width, height = self.globalRect
+        start_y = height
+        stop_y = y
+        start_x = stop_x = x + width // 2
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
 
     @autopilot.logging.log_action(logger.info)
     def tap(self):
         """Tap the tick button to complete this step."""
-        button = self.select_single(objectName="tick")
+        self.shown.wait_for(True)
+        button = self.wait_select_single(objectName="tick")
         self.pointing_device.click_object(button)
-        self.shown.wait_for(False)

@@ -43,6 +43,7 @@ FocusScope {
         readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
         readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
         readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
+        readonly property url defaultScreenshot: root.application ? root.application.defaultScreenshot : ""
 
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
@@ -72,7 +73,7 @@ FocusScope {
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
-        source: ""
+        source: d.defaultScreenshot
         anchors.fill: parent
         antialiasing: !root.interactive
 
@@ -125,6 +126,7 @@ FocusScope {
     }
 
     StateGroup {
+        id: stateGroup
         objectName: "applicationWindowStateGroup"
         states: [
             State {
@@ -215,6 +217,17 @@ FocusScope {
                                             duration: UbuntuAnimation.BriskDuration }
                     PropertyAction { target: screenshotImage; property: "visible"; value: false }
                     PropertyAction { target: screenshotImage; property: "source"; value: "" }
+                }
+            },
+            Transition {
+                from: "splashScreen"; to: "screenshot"
+                SequentialAnimation {
+                    PropertyAction { target: screenshotImage
+                                     property: "visible"; value: true }
+                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
+                                            from: 0.0; to: 1.0
+                                            duration: UbuntuAnimation.BriskDuration }
+                    PropertyAction { target: splashLoader; property: "active"; value: false }
                 }
             },
             Transition {

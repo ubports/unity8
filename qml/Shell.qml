@@ -290,7 +290,7 @@ Item {
             source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
                         : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
-            property bool interactive: tutorial.stagesEnabled
+            property bool interactive: tutorial.spreadEnabled
                     && !greeter.shown
                     && !lockscreen.shown
                     && panel.indicators.fullyClosed
@@ -323,7 +323,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: tutorial.stagesEnabled && !greeter.hasLockedApp
+                value: tutorial.spreadEnabled && !greeter.hasLockedApp
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -889,8 +889,12 @@ Item {
         panel: panel
         stages: stages
         overlay: overlay
+        edgeSize: shell.edgeSize
 
-        onFinished: AccountsService.demoEdges = false
+        onFinished: {
+            AccountsService.demoEdges = false;
+            active = false; // for immediate response / if AS is having problems
+        }
     }
 
     Connections {

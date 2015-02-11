@@ -52,8 +52,8 @@ Showable {
     property real textXOffset: 0
     property real textYOffset: 0
 
-    // Foreground opacity
-    property real foregroundOpacity: 1
+    // Foreground text opacity
+    property real textOpacity: 1
 
     signal finished()
 
@@ -63,8 +63,8 @@ Showable {
 
     ////
 
+    visible: false
     shown: false
-    Component.onCompleted: show()
 
     property real _foregroundHideOpacity
 
@@ -73,16 +73,16 @@ Showable {
         from: 0
         to: 1
         duration: root.backgroundFadesIn ? UbuntuAnimation.SleepyDuration : UbuntuAnimation.BriskDuration
+        onStarted: root.visible = true
     }
 
     hideAnimation: StandardAnimation {
         property: root.backgroundFadesOut ? "opacity" : "_foregroundHideOpacity"
         to: 0
         duration: UbuntuAnimation.BriskDuration
-        onRunningChanged: {
-            if (!running) {
-                root.finished();
-            }
+        onStopped: {
+            root.visible = false;
+            root.finished();
         }
     }
 
@@ -122,73 +122,78 @@ Showable {
     Item {
         id: foreground
         anchors.fill: parent
-        opacity: root.foregroundOpacity < 1 ? root.foregroundOpacity : root._foregroundHideOpacity
+        opacity: root._foregroundHideOpacity
 
-        Label {
-            id: titleLabel
-            anchors {
-                top: parent.verticalCenter
-                topMargin: d.verticalOffset + root.textYOffset
-                left: parent.left
-                leftMargin: d.sideMargin + d.textXOffset
-            }
-            width: parent.width - d.sideMargin * 2
-            horizontalAlignment: Text.AlignLeft
-            wrapMode: Text.Wrap
-            font.weight: Font.Light
-            font.pixelSize: units.gu(3.5)
-        }
+        Item {
+            anchors.fill: parent
+            opacity: root.textOpacity
 
-        Label {
-            id: textLabel
-            anchors {
-                top: titleLabel.bottom
-                topMargin: units.gu(2)
-                left: parent.left
-                leftMargin: d.sideMargin + d.textXOffset
+            Label {
+                id: titleLabel
+                anchors {
+                    top: parent.verticalCenter
+                    topMargin: d.verticalOffset + root.textYOffset
+                    left: parent.left
+                    leftMargin: d.sideMargin + d.textXOffset
+                }
+                width: parent.width - d.sideMargin * 2
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.Wrap
+                font.weight: Font.Light
+                font.pixelSize: units.gu(3.5)
             }
-            width: (parent.width - d.sideMargin * 2) * (fullTextWidth ? 1 : 0.66)
-            horizontalAlignment: Text.AlignLeft
-            wrapMode: Text.Wrap
-            font.weight: Font.Light
-            font.pixelSize: units.gu(2.5)
-        }
 
-        // We use two separate labels like this rather than just changing
-        // the text of the above labels because we want to know where to place
-        // sliders (via root.textBottom) without having that place change
-        // as the text changes length.
-        Label {
-            id: errorTitleLabel
-            objectName: "errorTitleLabel"
-            anchors {
-                top: titleLabel.top
-                left: titleLabel.left
+            Label {
+                id: textLabel
+                anchors {
+                    top: titleLabel.bottom
+                    topMargin: units.gu(2)
+                    left: parent.left
+                    leftMargin: d.sideMargin + d.textXOffset
+                }
+                width: (parent.width - d.sideMargin * 2) * (fullTextWidth ? 1 : 0.66)
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.Wrap
+                font.weight: Font.Light
+                font.pixelSize: units.gu(2.5)
             }
-            width: titleLabel.width
-            horizontalAlignment: titleLabel.horizontalAlignment
-            wrapMode: titleLabel.wrapMode
-            font.weight: titleLabel.font.weight
-            font.pixelSize: titleLabel.font.pixelSize
-            opacity: 0
-            text: i18n.tr("You almost got it!")
-        }
 
-        Label {
-            id: errorTextLabel
-            objectName: "errorTextLabel"
-            anchors {
-                top: errorTitleLabel.bottom
-                topMargin: textLabel.anchors.topMargin
-                left: textLabel.left
+            // We use two separate labels like this rather than just changing
+            // the text of the above labels because we want to know where to place
+            // sliders (via root.textBottom) without having that place change
+            // as the text changes length.
+            Label {
+                id: errorTitleLabel
+                objectName: "errorTitleLabel"
+                anchors {
+                    top: titleLabel.top
+                    left: titleLabel.left
+                }
+                width: titleLabel.width
+                horizontalAlignment: titleLabel.horizontalAlignment
+                wrapMode: titleLabel.wrapMode
+                font.weight: titleLabel.font.weight
+                font.pixelSize: titleLabel.font.pixelSize
+                opacity: 0
+                text: i18n.tr("You almost got it!")
             }
-            width: textLabel.width
-            horizontalAlignment: textLabel.horizontalAlignment
-            wrapMode: textLabel.wrapMode
-            font.weight: textLabel.font.weight
-            font.pixelSize: textLabel.font.pixelSize
-            opacity: 0
-            text: i18n.tr("Try again.")
+
+            Label {
+                id: errorTextLabel
+                objectName: "errorTextLabel"
+                anchors {
+                    top: errorTitleLabel.bottom
+                    topMargin: textLabel.anchors.topMargin
+                    left: textLabel.left
+                }
+                width: textLabel.width
+                horizontalAlignment: textLabel.horizontalAlignment
+                wrapMode: textLabel.wrapMode
+                font.weight: textLabel.font.weight
+                font.pixelSize: textLabel.font.pixelSize
+                opacity: 0
+                text: i18n.tr("Try again.")
+            }
         }
 
         // A place for subclasses to add extra widgets

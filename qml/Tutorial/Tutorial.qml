@@ -22,6 +22,7 @@ Item {
 
     property alias active: loader.active
     property bool paused
+    property real edgeSize
 
     property Item launcher
     property Item panel
@@ -29,7 +30,7 @@ Item {
     property Item overlay
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
-    readonly property bool stagesEnabled: loader.item ? loader.item.stagesEnabled : true
+    readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
     readonly property bool panelEnabled: loader.item ? loader.item.panelEnabled : true
     readonly property bool panelContentEnabled: loader.item ? loader.item.panelContentEnabled : true
     readonly property bool running: loader.item ? loader.item.running : false
@@ -51,6 +52,12 @@ Item {
             target: loader.item
             property: "paused"
             value: root.paused
+        }
+
+        Binding {
+            target: loader.item
+            property: "edgeSize"
+            value: root.edgeSize
         }
 
         Binding {

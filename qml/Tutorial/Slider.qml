@@ -38,7 +38,7 @@ Item {
         readonly property real margin: units.gu(0.5)
         readonly property real arrowSize: root.height - margin * 2
         readonly property real dotSize: units.dp(1)
-        readonly property real slideOffset: Math.min(root.offset - offscreenOffset, target.x)
+        readonly property real slideOffset: MathUtils.clamp(root.offset - offscreenOffset, -offscreenOffset, target.x)
         readonly property real offscreenOffset: units.gu(2)
     }
 
@@ -111,7 +111,13 @@ Item {
         color: UbuntuColors.orange
         darkenBy: root.active ? 0.5 : 0
         anchors.left: parent.left
-        anchors.leftMargin: d.slideOffset
+        // We use a Translate transform rather than anchors.leftMargin because
+        // the latter has weird performance problems on the TutorialRight page.
+        transform: [
+            Translate {
+                x: d.slideOffset
+            }
+        ]
         anchors.verticalCenter: parent.verticalCenter
     }
 }

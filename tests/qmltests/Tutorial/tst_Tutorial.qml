@@ -162,7 +162,6 @@ Item {
         }
 
         function waitForPage(name) {
-            tryCompareFunction(function() { return findChild(shell, name) !== null; }, true);
             waitForRendering(findChild(shell, name));
             var page = findChild(shell, name);
             tryCompare(page, "shown", true);
@@ -221,6 +220,33 @@ Item {
             var tick = findChild(page, "tick");
             tap(tick);
 
+            page = waitForPage("tutorialRight");
+            checkTopEdge();
+            checkLeftEdge();
+            checkBottomEdge();
+            if (name === "tutorialRight") return page;
+            touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
+            var overlay = findChild(page, "overlay");
+            tryCompare(overlay, "shown", true);
+            var tick = findChild(page, "tick");
+            tap(tick);
+
+            var page = waitForPage("tutorialBottom");
+            checkTopEdge();
+            checkLeftEdge();
+            checkRightEdge();
+            if (name === "tutorialBottom") return page;
+            touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
+
+            var page = waitForPage("tutorialBottomFinish");
+            checkTopEdge();
+            checkLeftEdge();
+            checkRightEdge();
+            checkBottomEdge();
+            if (name === "tutorialBottomFinish") return page;
+            var tick = findChild(page, "tick");
+            tap(tick);
+
             checkFinished();
             return null;
         }
@@ -275,6 +301,42 @@ Item {
             touchFlick(shell, halfWidth, halfHeight, 0, halfHeight, false, true);
 
             tryCompare(left, "shown", true); // and we should still be on left
+        }
+
+        function test_spread() {
+            // Unfortunately, most of what we want to test of the spread is
+            // "did it render correctly?" but that's hard to test.  So instead,
+            // just poke and prod it a little bit to see if some of the values
+            // we'd expect to be correct, are so.
+
+            var right = goToPage("tutorialRight");
+            var stage = findChild(right, "stage");
+            var delegate0 = findChild(right, "appDelegate0");
+
+            tryCompare(stage, "dragProgress", 0);
+            touchFlick(shell, shell.width, halfHeight, shell.width * 0.8, halfHeight, true, false);
+            verify(stage.dragProgress > 0);
+            compare(stage.dragProgress, -delegate0.xTranslate);
+            touchFlick(shell, shell.width * 0.8, halfHeight, shell.width, halfHeight, false, true);
+            tryCompare(stage, "dragProgress", 0);
+
+            tryCompare(delegate0, "x", shell.width);
+
+            var screenshotImage = findChild(right, "screenshotImage");
+            tryCompare(screenshotImage, "source", Qt.resolvedUrl("../../../qml/Tutorial/graphics/facebook.png"));
+            tryCompare(screenshotImage, "visible", true);
+        }
+
+        function test_bottomShortDrag() {
+            var bottom = goToPage("tutorialBottom");
+
+            touchFlick(shell, halfWidth, shell.height, halfWidth, shell.height * 0.8);
+
+            var errorTextLabel = findChild(bottom, "errorTextLabel");
+            var errorTitleLabel = findChild(bottom, "errorTitleLabel");
+            tryCompare(bottom, "shown", true); // still on bottom page
+            tryCompare(errorTextLabel, "opacity", 1); // show error
+            tryCompare(errorTitleLabel, "opacity", 1); // show error
         }
 
         function test_interrupted() {
