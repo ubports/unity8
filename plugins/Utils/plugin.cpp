@@ -33,6 +33,14 @@
 #include "unitymenumodelpaths.h"
 #include "windowkeysfilter.h"
 #include "easingcurve.h"
+#include "windowstatestorage.h"
+
+static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new WindowStateStorage();
+}
 
 void UtilsPlugin::registerTypes(const char *uri)
 {
@@ -46,6 +54,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
+    qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

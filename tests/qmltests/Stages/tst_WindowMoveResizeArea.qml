@@ -34,11 +34,14 @@ Item {
     Component {
         id: fakeWindowComponent
 
-        Rectangle {
+        Item {
             id: fakeWindow
-            color: "khaki"
             property alias minWidth: moveResizeArea.minWidth
             property alias minHeight: moveResizeArea.minHeight
+            x: units.gu(20)
+            y: units.gu(20)
+            height: units.gu(20)
+            width: units.gu(20)
 
             WindowMoveResizeArea {
                 id: moveResizeArea
@@ -47,6 +50,16 @@ Item {
                 minWidth: units.gu(15)
                 minHeight: units.gu(10)
                 windowId: "test-window-id"
+            }
+
+            Rectangle {
+                anchors.fill: moveResizeArea
+                color: "red"
+            }
+
+            Rectangle {
+                anchors.fill: fakeWindow
+                color: "blue"
             }
         }
     }
