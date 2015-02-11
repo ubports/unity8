@@ -714,7 +714,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         notification = wait_for_notification_dialog(self, 20)
-        
+
         self._assert_notification(
             notification,
             summary,

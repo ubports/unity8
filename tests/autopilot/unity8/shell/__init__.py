@@ -129,7 +129,7 @@ def wait_for_notification_dialog(self, timeout):
             for notification1 in notification_list:
                 if (notification1.visible):
                     visible_notification = notification1
-                    
+
             if (not visible_notification):
                 if i == timeout - 1:
                     raise dbus.StateNotFoundError
