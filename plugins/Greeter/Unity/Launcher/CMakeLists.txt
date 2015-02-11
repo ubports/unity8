@@ -1,3 +1,4 @@
+include(FindPkgConfig)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=6)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
@@ -11,31 +12,27 @@ include_directories(
     ${libunity8-private_SOURCE_DIR}
 )
 
-set(QMLLAUNCHERPLUGIN_SRC
+set(QMLLAUNCHERPLUGINAS_SRC
     plugin.cpp
-    launchermodel.cpp
+    launchermodelas.cpp
     launcheritem.cpp
     quicklistmodel.cpp
     quicklistentry.cpp
-    dbusinterface.cpp
-    gsettings.cpp
-    desktopfilehandler.cpp
-    asadapter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
     )
 
-add_library(UnityLauncher-qml MODULE
-    ${QMLLAUNCHERPLUGIN_SRC}
+add_library(UnityLauncherAS-qml MODULE
+    ${QMLLAUNCHERPLUGINAS_SRC}
     )
 
-target_link_libraries(UnityLauncher-qml
+target_link_libraries(UnityLauncherAS-qml
     unity8-private
     ${GSETTINGS_QT_LDFLAGS}
     )
 
-qt5_use_modules(UnityLauncher-qml DBus Qml Gui)
+qt5_use_modules(UnityLauncherAS-qml DBus Qml Gui)
 
-add_unity8_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)
+add_unity8_greeter_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncherAS-qml)

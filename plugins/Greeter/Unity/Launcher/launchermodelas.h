@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #ifndef LAUNCHERMODEL_H
@@ -27,8 +24,7 @@
 
 class LauncherItem;
 class GSettings;
-class DBusInterface;
-class ASAdapter;
+class AccountsServiceDBusAdaptor;
 
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
@@ -61,33 +57,19 @@ public:
     int findApplication(const QString &appId);
 
 public Q_SLOTS:
-    void requestRemove(const QString &appId);
+    void requestRemove(const QString &appId) override;
     Q_INVOKABLE void refresh();
 
-private:
-    void storeAppList();
-
-    void unpin(const QString &appId);
-
 private Q_SLOTS:
-    void countChanged(const QString &appId, int count);
-    void countVisibleChanged(const QString &appId, int count);
-    void progressChanged(const QString &appId, int progress);
-
-    void applicationAdded(const QModelIndex &parent, int row);
-    void applicationRemoved(const QModelIndex &parent, int row);
-    void focusedAppIdChanged();
+    void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
 
 private:
+    QString m_user;
     QList<LauncherItem*> m_list;
+    AccountsServiceDBusAdaptor *m_accounts;
+    bool m_onlyPinned;
 
-    GSettings *m_settings;
-    DBusInterface *m_dbusIface;
-    ASAdapter *m_asAdapter;
-
-    ApplicationManagerInterface *m_appManager;
-
-    friend class LauncherModelTest;
+    friend class LauncherModelASTest;
 };
 
 #endif // LAUNCHERMODEL_H
