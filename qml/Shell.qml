@@ -260,6 +260,14 @@ Item {
             source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
                         : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
+            property bool interactive: tutorial.spreadEnabled
+                    && !greeter.shown
+                    && panel.indicators.fullyClosed
+                    && launcher.progress == 0
+                    && !notifications.useModal
+
+            onInteractiveChanged: { if (interactive) { focus = true; } }
+
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "objectName"
@@ -279,7 +287,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "interactive"
-                value: tutorial.spreadEnabled && !greeter.shown && panel.indicators.fullyClosed && launcher.progress == 0 && !notifications.useModal
+                value: applicationsDisplayLoader.interactive
             }
             Binding {
                 target: applicationsDisplayLoader.item
