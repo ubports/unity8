@@ -122,6 +122,7 @@ FocusScope {
             width: units.gu(29)
             height: inputMethod && inputMethod.visible ? parent.height - inputMethod.keyboardRectangle.height
                                                        : parent.height
+            Behavior on height { UbuntuNumberAnimation {} }
 
             locked: root.locked
 
