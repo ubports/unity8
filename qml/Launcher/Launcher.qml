@@ -247,17 +247,21 @@ Item {
         id: hoverArea
         anchors { fill: panel; rightMargin: -1 }
         hoverEnabled: true
+        propagateComposedEvents: true
         onContainsMouseChanged: {
             if (containsMouse) {
                 root.switchToNextState("visibleTemporary")
             }
         }
+        onPressed: mouse.accepted = false;
 
         // We need to eat touch events here in order to make sure that
         // we don't trigger both, the dragArea and the hoverArea
         MultiPointTouchArea {
-            anchors.fill: parent
+            anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+            width: units.dp(1)
             mouseEnabled: false
+            enabled: parent.enabled
         }
     }
 
@@ -315,15 +319,17 @@ Item {
                 target: panel
                 x: 0
             }
+            PropertyChanges { target: hoverArea; enabled: false }
         },
         State {
             name: "visibleTemporary"
             extend: "visible"
-            when: howerArea.containsMouse
+            when: hoverArea.containsMouse
             PropertyChanges {
                 target: root
                 autohideEnabled: true
             }
+            PropertyChanges { target: hoverArea; enabled: true }
         },
         State {
             name: "teasing"
