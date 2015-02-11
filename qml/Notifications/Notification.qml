@@ -40,6 +40,7 @@ Item {
     property bool fullscreen: false
     property int maxHeight
     property int margins
+    readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
     readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
     readonly property color red: "#fc4949"
     readonly property color green: "#3fb24f"
@@ -52,7 +53,7 @@ Item {
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
 
     color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 1 // FIXME: 1 because of LP: #1354406 workaround, has to be 0 really
+    opacity: 1 - (x / notification.width) // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
 
     state: {
         var result = "";
@@ -80,18 +81,28 @@ Item {
         id: sound
         objectName: "sound"
         audioRole: MediaPlayer.alert
-        source: hints["suppress-sound"] != "true" && hints["sound-file"] != undefined ? hints["sound-file"] : ""
+        source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
     }
 
     // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
-        if (opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
+        if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
 
+    Behavior on x {
+        id: normalXBehavior
+
+        enabled: draggable
+        UbuntuNumberAnimation {
+            duration: UbuntuAnimation.FastDuration
+            easing.type: Easing.OutBounce
+        }
+    }
+
     onHintsChanged: {
-        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] != "true" && sound.source != "") {
+        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
@@ -146,6 +157,12 @@ Item {
         opacity: parent.opacity
     }
 
+    onXChanged: {
+        if (draggable && notification.x > 0.75 * notification.width) {
+            notification.notification.close()
+        }
+    }
+
     Item {
         id: contents
         anchors.fill: fullscreen ? nonShapedBack : shapedBack
@@ -169,7 +186,7 @@ Item {
             actions: paths.actions
             menuObjectPath: paths.menuObjectPath
             onNameOwnerChanged: {
-                if (lastNameOwner != "" && nameOwner == "" && notification.notification != undefined) {
+                if (lastNameOwner !== "" && nameOwner === "" && notification.notification !== undefined) {
                     notification.notification.close()
                 }
                 lastNameOwner = nameOwner
@@ -181,11 +198,24 @@ Item {
 
             anchors.fill: parent
             objectName: "interactiveArea"
+
+            drag.target: draggable ? notification : undefined
+            drag.axis: Drag.XAxis
+            drag.minimumX: 0
+            drag.maximumX: notification.width
+
             onClicked: {
                 if (notification.type == Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
                 } else {
                     notificationList.currentIndex = index;
+                }
+            }
+            onReleased: {
+                if (notification.x < notification.width / 2) {
+                    notification.x = 0
+                } else {
+                    notification.x = notification.width
                 }
             }
         }
@@ -447,7 +477,7 @@ Item {
                     right: parent.right
                     margins: contentSpacing
                 }
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
                 spacing: units.gu(2)
                 layoutDirection: Qt.RightToLeft
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,20 +17,15 @@
  *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-#ifndef MOCK_NOTIFICATION_TYPES_H
-#define MOCK_NOTIFICATION_TYPES_H
+import Unity.Notifications 1.0
 
-#include <QObject>
-
-class MockNotification : public QObject {
-    Q_OBJECT
-    Q_ENUMS(Type)
-
-public:
-    MockNotification(QObject *parent=nullptr);
-    virtual ~MockNotification();
-
-    enum Type { PlaceHolder, Confirmation, Ephemeral, Interactive, SnapDecision };
-};
-
-#endif // MOCK_NOTIFICATION_TYPES_H
+Notification {
+    nid: 0
+    type: Notification.PlaceHolder
+    summary: ""
+    body: ""
+    icon: ""
+    secondaryIcon: ""
+    value: 0
+    rawActions: []
+}
