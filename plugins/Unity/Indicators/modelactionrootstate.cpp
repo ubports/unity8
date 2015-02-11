@@ -71,7 +71,7 @@ void ModelActionRootState::setMenu(UnityMenuModel* menu)
 
 bool ModelActionRootState::valid() const
 {
-    return m_menu && m_menu->rowCount() > 0;
+    return !currentState().empty();
 }
 
 void ModelActionRootState::onModelRowsAdded(const QModelIndex& parent, int start, int end)
@@ -121,7 +121,9 @@ void ModelActionRootState::updateActionState()
         m_menu->setActionStateParser(oldParser);
 
         setCurrentState(state);
-    } else {
+    } else if (!m_menu) {
         setCurrentState(QVariantMap());
     }
+    // else if m_menu->rowCount() == 0, let's leave existing cache in place
+    // until the new menu comes in, to avoid flashing the UI empty for a moment
 }

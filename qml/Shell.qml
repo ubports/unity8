@@ -766,7 +766,9 @@ Item {
                 expandedPanelHeight: units.gu(7)
 
                 indicatorsModel: Indicators.IndicatorsModel {
-                    Component.onCompleted: load(indicatorProfile);
+                    // TODO: This should be sourced by device type (e.g. "desktop", "tablet", "phone"...)
+                    profile: indicatorProfile
+                    Component.onCompleted: load()
                 }
             }
             callHint {
