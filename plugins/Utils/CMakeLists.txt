@@ -15,6 +15,7 @@ set(QMLPLUGIN_SRC
     unitymenumodelpaths.cpp
     windowkeysfilter.cpp
     easingcurve.cpp
+    windowstatestorage.cpp
     plugin.cpp
     )
 
@@ -30,6 +31,6 @@ target_link_libraries(Utils-qml ${GIO_LDFLAGS})
 # files directly in targets.
 set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-qt5_use_modules(Utils-qml Qml Quick DBus Network Gui)
+qt5_use_modules(Utils-qml Qml Quick DBus Network Gui Sql Concurrent)
 
 add_unity8_plugin(Utils 0.1 Utils TARGETS Utils-qml)

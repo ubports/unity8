@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,44 @@ Item {
     height: units.gu(60)
     width: units.gu(60)
 
-    Rectangle {
-        id: fakeWindow
-        height: units.gu(20)
-        width: units.gu(20)
-        color: "khaki"
-        WindowMoveResizeArea {
-            id: moveResizeArea
-            target: fakeWindow
-            resizeHandleWidth: units.gu(0.5)
-            minWidth: units.gu(15)
-            minHeight: units.gu(10)
+    property var fakeWindow: windowLoader.item
+
+    Component {
+        id: fakeWindowComponent
+
+        Item {
+            id: fakeWindow
+            property alias minWidth: moveResizeArea.minWidth
+            property alias minHeight: moveResizeArea.minHeight
+            x: units.gu(20)
+            y: units.gu(20)
+            height: units.gu(20)
+            width: units.gu(20)
+
+            WindowMoveResizeArea {
+                id: moveResizeArea
+                target: fakeWindow
+                resizeHandleWidth: units.gu(0.5)
+                minWidth: units.gu(15)
+                minHeight: units.gu(10)
+                windowId: "test-window-id"
+            }
+
+            Rectangle {
+                anchors.fill: moveResizeArea
+                color: "red"
+            }
+
+            Rectangle {
+                anchors.fill: fakeWindow
+                color: "blue"
+            }
         }
+    }
+
+    Loader {
+        id: windowLoader
+        sourceComponent: fakeWindowComponent
     }
 
     UT.UnityTestCase {
@@ -100,8 +126,8 @@ Item {
             var startDragY = initialWindowY + initialWindowHeight + 1
             mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, true, units.gu(.5), 10);
 
-            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + data.dx, moveResizeArea.minWidth));
-            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + data.dy, moveResizeArea.minHeight));
+            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + data.dx, fakeWindow.minWidth));
+            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + data.dy, fakeWindow.minHeight));
 
             compare(fakeWindow.x, initialWindowX);
             compare(fakeWindow.y, initialWindowY);
@@ -126,13 +152,61 @@ Item {
             var startDragY = initialWindowY - 1
             mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, true, units.gu(.5), 10);
 
-            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth - data.dx, moveResizeArea.minWidth));
-            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight - data.dy, moveResizeArea.minHeight));
+            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth - data.dx, fakeWindow.minWidth));
+            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight - data.dy, fakeWindow.minHeight));
 
-            var maxMoveX = initialWindowWidth - moveResizeArea.minWidth;
-            var maxMoveY = initialWindowHeight - moveResizeArea.minHeight;
+            var maxMoveX = initialWindowWidth - fakeWindow.minWidth;
+            var maxMoveY = initialWindowHeight - fakeWindow.minHeight;
             compare(fakeWindow.x, Math.min(initialWindowX + data.dx, initialWindowX + maxMoveX));
             compare(fakeWindow.y, Math.min(initialWindowY + data.dy, initialWindowY + maxMoveY));
+        }
+
+        function test_saveRestorePosition() {
+            var initialWindowX = fakeWindow.x;
+            var initialWindowY = fakeWindow.y;
+            var initialWindowWidth = fakeWindow.width;
+            var initialWindowHeight = fakeWindow.height;
+
+            var moveDelta = units.gu(5);
+            var startDragX = initialWindowX + fakeWindow.width / 2;
+            var startDragY = initialWindowY + fakeWindow.height / 2;
+            mouseFlick(root, startDragX, startDragY, startDragX + moveDelta, startDragY + moveDelta, true, true, units.gu(.5), 10)
+
+            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
+            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
+
+            // This will destroy the window and recreate it
+            windowLoader.active = false;
+            waitForRendering(root);
+            windowLoader.active = true;
+
+            // Make sure it's again where we left it before destroying
+            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
+            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
+        }
+
+        function test_saveRestoreSize() {
+            var initialWindowX = fakeWindow.x;
+            var initialWindowY = fakeWindow.y;
+            var initialWindowWidth = fakeWindow.width
+            var initialWindowHeight = fakeWindow.height
+
+            var resizeDelta = units.gu(5)
+            var startDragX = initialWindowX + initialWindowWidth + 1
+            var startDragY = initialWindowY + initialWindowHeight + 1
+            mouseFlick(root, startDragX, startDragY, startDragX + resizeDelta, startDragY + resizeDelta, true, true, units.gu(.5), 10);
+
+            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + resizeDelta, fakeWindow.minWidth));
+            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + resizeDelta, fakeWindow.minHeight));
+
+            // This will destroy the window and recreate it
+            windowLoader.active = false;
+            waitForRendering(root);
+            windowLoader.active = true;
+
+            // Make sure its size is again the same as before
+            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + resizeDelta, fakeWindow.minWidth));
+            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + resizeDelta, fakeWindow.minHeight));
         }
     }
 }
