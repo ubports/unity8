@@ -63,6 +63,8 @@ Item {
         anchors.fill: parent
         Loader {
             id: shellLoader
+            focus: true
+
             active: false
             property bool itemDestroyed: false
             sourceComponent: Component {
@@ -88,6 +90,7 @@ Item {
                     anchors { left: parent.left; right: parent.right }
                     Button {
                         text: "Show Greeter"
+                        activeFocusOnPress: false
                         onClicked: {
                             if (shellLoader.status !== Loader.Ready)
                                 return;
@@ -434,11 +437,11 @@ Item {
             waitUntilTransitionsEnd(appWindowStateGroup);
         }
 
-        function test_surfaceLosesFocusWhilePanelIsOpen() {
+        function test_surfaceLosesActiveFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app);
 
-            tryCompare(app.session.surface, "focus", true);
+            tryCompare(app.session.surface, "activeFocus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -449,7 +452,7 @@ Item {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.session.surface, "focus", false);
+            tryCompare(app.session.surface, "activeFocus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -458,11 +461,21 @@ Item {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.session.surface, "focus", false);
+            tryCompare(app.session.surface, "activeFocus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.session.surface, "focus", true);
+            tryCompare(app.session.surface, "activeFocus", true);
+        }
+
+        function test_launchedAppHasActiveFocus() {
+            var dialerApp = ApplicationManager.startApplication("dialer-app");
+            verify(dialerApp);
+            waitUntilAppSurfaceShowsUp("dialer-app")
+
+            verify(dialerApp.session.surface);
+
+            tryCompare(dialerApp.session.surface, "activeFocus", true);
         }
 
         // Wait for the whole UI to settle down
@@ -475,6 +488,14 @@ Item {
             tryCompare(launcher, "x", -launcher.width)
 
             waitForRendering(shell)
+        }
+
+        function waitUntilAppSurfaceShowsUp(appId) {
+            var appWindow = findChild(shell, "appWindow_" + appId);
+            verify(appWindow);
+            var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
+            verify(appWindowStates);
+            tryCompare(appWindowStates, "state", "surface");
         }
 
         function dragToCloseIndicatorsPanel() {

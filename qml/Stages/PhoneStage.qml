@@ -109,6 +109,8 @@ Rectangle {
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
+        onFocusedAppDelegateChanged: focusedAppDelegate.focus = true;
+
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
                 if (ApplicationManager.get(i).appId == appId) {

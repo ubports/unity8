@@ -53,6 +53,8 @@ void TouchGate::touchEvent(QTouchEvent *event)
             m_touchInfoMap[touchPoint.id()].ownership = OwnershipRequested;
             m_touchInfoMap[touchPoint.id()].ended = false;
             TouchRegistry::instance()->requestTouchOwnership(touchPoint.id(), this);
+
+            Q_EMIT pressed();
         }
 
         goodToGo &= m_touchInfoMap.contains(touchPoint.id())
