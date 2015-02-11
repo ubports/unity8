@@ -19,7 +19,6 @@ set(IndicatorsFakeQml_SOURCES
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/sharedunitymenumodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelcache.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelstack.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/visibleindicatorsmodel.cpp
 )
 
 add_library(IndicatorsFakeQml SHARED

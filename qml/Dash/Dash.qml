@@ -130,7 +130,7 @@ Showable {
             UbuntuNumberAnimation {
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
+                        scopes.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }
                 }
@@ -231,7 +231,7 @@ Showable {
                 scopeItem.closePreview();
                 var oldScope = scopeItem.scope;
                 scopeItem.scope = scope;
-                scopeItem.scopeThatOpenedScope.closeScope(oldScope);
+                scopes.closeScope(oldScope);
             }
         }
     }

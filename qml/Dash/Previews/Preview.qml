@@ -65,6 +65,7 @@ Item {
 
             delegate: ListView {
                 id: column
+                objectName: "previewListRow" + index
                 anchors { top: parent.top; bottom: parent.bottom }
                 width: row.columnWidth
                 spacing: row.spacing
@@ -89,6 +90,7 @@ Item {
                     }
 
                     onTriggered: {
+                        console.log(widgetId, actionId, data);
                         previewModel.triggered(widgetId, actionId, data);
                     }
 

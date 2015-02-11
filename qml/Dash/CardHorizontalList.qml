@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
+import QtQuick 2.3
 import Ubuntu.Components 1.1
 import "../Components"
 
@@ -23,6 +23,8 @@ DashRenderer {
 
     expandedHeight: cardTool.cardHeight + units.gu(2)
     collapsedHeight: expandedHeight
+    growsVertically: false
+    innerWidth: Math.max(0, listView.width)
     clip: true
 
     ListView {
@@ -36,6 +38,9 @@ DashRenderer {
         spacing: units.gu(1)
         model: root.model
         orientation: ListView.Horizontal
+        cacheBuffer: root.cacheBuffer
+        displayMarginBeginning: root.displayMarginBeginning
+        displayMarginEnd: root.displayMarginEnd
 
         delegate: Loader {
             id: loader

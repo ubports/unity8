@@ -185,6 +185,7 @@ void Scope::activate(QVariant const& result)
     if (result.toString() == "Result.2.2") {
         Scopes *scopes = dynamic_cast<Scopes*>(parent());
         m_openScope = scopes->getScopeFromAll("MockScope9");
+        scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
     }
 }
@@ -198,7 +199,7 @@ PreviewStack* Scope::preview(QVariant const& result)
     } else {
         // This probably leaks, do we don't care
         // it's a  test after all
-        return new PreviewStack;
+        return new PreviewStack(this, this);
     }
 }
 
@@ -208,6 +209,10 @@ void Scope::cancelActivation()
 
 void Scope::closeScope(unity::shell::scopes::ScopeInterface* scope)
 {
+    Scopes *scopes = dynamic_cast<Scopes*>(parent());
+    if (scopes) {
+        return scopes->closeScope(scope);
+    }
 }
 
 QString Scope::currentNavigationId() const

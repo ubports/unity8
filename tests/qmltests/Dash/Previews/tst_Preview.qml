@@ -54,6 +54,11 @@ Rectangle {
         name: "Preview"
         when: windowShown
 
+        function init() {
+            var widget = findChild(preview, "previewListRow0");
+            widget.positionViewAtBeginning();
+        }
+
         function test_triggered() {
             waitForRendering(preview);
             var widget = findChild(preview, "widget-3");
@@ -101,6 +106,32 @@ Rectangle {
                 var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
                 return bottomLeft.y <= preview.height
             }, true);
+        }
+
+        function test_comboEnsureVisible() {
+            waitForRendering(preview);
+
+            // Scroll down
+            var previewListRow0 = findChild(preview, "previewListRow0");
+            touchFlick(preview, preview.width / 2, units.gu(20), preview.width / 2, units.gu(1));
+            tryCompare(previewListRow0, "atYEnd", true);
+            tryCompare(previewListRow0, "moving", false);
+
+            // Click on the combo
+            var widget = findChild(preview, "widget-21");
+            var initialWidgetHeight = widget.height;
+            var moreLessButton = findChild(widget, "moreLessButton");
+            mouseClick(moreLessButton);
+
+            // Make sure the combo is growing
+            tryCompareFunction(function () { return widget.height > 2 * initialWidgetHeight; }, true);
+
+            // Wait for the combo to stop growing
+            tryCompareFunction(function () { var currentWidgetHeight = widget.height; wait(200); return currentWidgetHeight === widget.height;}, true);
+
+            // Make sure the combo bottom is on the viewport
+            var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
+            verify(bottomLeft.y <= preview.height);
         }
     }
 }

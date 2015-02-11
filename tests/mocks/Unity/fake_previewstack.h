@@ -25,12 +25,14 @@
 
 class PreviewModel;
 
+class Scope;
+
 class PreviewStack : public unity::shell::scopes::PreviewStackInterface
 {
     Q_OBJECT
 
 public:
-    explicit PreviewStack(QObject* parent = 0);
+    explicit PreviewStack(QObject* parent = 0, Scope* scope = 0);
     virtual ~PreviewStack();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
@@ -43,6 +45,7 @@ public:
 
 private:
     QList<PreviewModel*> m_previews;
+    Scope* m_scope;
 };
 
 Q_DECLARE_METATYPE(PreviewStack*)

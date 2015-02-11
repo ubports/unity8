@@ -22,18 +22,23 @@
 #include "fake_previewmodel.h"
 
 // local
+#include "fake_scope.h"
+#include "fake_scopes.h"
 #include "fake_previewwidgetmodel.h"
 
 // Qt
 #include <QDebug>
 
-PreviewModel::PreviewModel(QObject* parent)
+PreviewModel::PreviewModel(QObject* parent, Scope* scope)
  : unity::shell::scopes::PreviewModelInterface(parent)
  , m_loaded(true)
+ , m_scope(scope)
 {
     // we have one column by default
     PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
     m_previewWidgetModels.append(columnModel);
+    connect(this, SIGNAL(triggered(QString const&, QString const&, QVariantMap const&)),
+            this, SLOT(triggeredSlot(QString const&, QString const&, QVariantMap const&)));
 }
 
 void PreviewModel::setWidgetColumnCount(int count)
@@ -79,4 +84,10 @@ void PreviewModel::setLoaded(bool loaded)
         m_loaded = loaded;
         Q_EMIT loadedChanged();
     }
+}
+
+void PreviewModel::triggeredSlot(QString const&, QString const&, QVariantMap const&) {
+    Scopes *scopes = dynamic_cast<Scopes*>(m_scope->parent());
+    scopes->addTempScope(scopes->getScopeFromAll("MockScope9"));
+    Q_EMIT m_scope->openScope(scopes->getScopeFromAll("MockScope9"));
 }

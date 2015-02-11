@@ -23,6 +23,7 @@
 // TODO: Implement remaining pieces, like Categories (i.e. LensView now gives warnings)
 
 // Qt
+#include <QDebug>
 #include <QTimer>
 
 Scopes::Scopes(QObject *parent)
@@ -186,9 +187,7 @@ void Scopes::addTempScope(unity::shell::scopes::ScopeInterface* scope)
 
 void Scopes::closeScope(unity::shell::scopes::ScopeInterface* scope)
 {
-    if (m_tempScopes.remove(scope)) {
-        scope->deleteLater();
-    }
+    m_tempScopes.remove(scope);
 }
 
 unity::shell::scopes::ScopeInterface* Scopes::findTempScope(QString const& id) const
@@ -272,6 +271,8 @@ void Scopes::addScope(Scope* scope)
         beginInsertRows(QModelIndex(), index, index);
         m_scopes.append(scope);
         endInsertRows();
+    } else if (!m_tempScopes.contains(scope)) {
+        m_tempScopes.insert(scope);
     }
     m_allScopes.append(scope);
 }

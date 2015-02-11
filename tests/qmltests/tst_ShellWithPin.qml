@@ -33,6 +33,13 @@ Item {
     width: contentRow.width
     height: contentRow.height
 
+    Component.onCompleted: {
+        // must set the mock mode before loading the Shell
+        LightDM.Greeter.mockMode = "single-pin";
+        LightDM.Users.mockMode = "single-pin";
+        shellLoader.active = true;
+    }
+
     QtObject {
         id: applicationArguments
 
@@ -54,6 +61,7 @@ Item {
 
         Loader {
             id: shellLoader
+            active: false
 
             width: units.gu(40)
             height: units.gu(71)
@@ -502,6 +510,54 @@ Item {
             verify(promptSpy.count > 0);
             var lockscreen = findChild(shell, "lockscreen");
             verify(lockscreen.shown);
+        }
+
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1393447
+
+            Do a left edge drag that is long enough to start displacing the greeter
+            but short engough so that the greeter comes back into place once the
+            finger is lifted.
+
+            In this situation the launcher should remaing fully shown and hide itself
+            only after its idle timeout is triggered.
+         */
+        function test_shortLeftEdgeSwipeMakesLauncherStayVisible() {
+            var greeter = testCase.findChild(shell, "greeter")
+            greeter.show();
+            tryCompare(greeter, "showProgress", 1);
+
+            var launcher = testCase.findChild(shell, "launcher")
+            {
+                var dismissTimer = testCase.findInvisibleChild(launcher, "dismissTimer");
+                // effectively disable the dismiss timer
+                dismissTimer.interval = 24 * 60 * 60 * 1000 // 24 hours
+            }
+            var launcherPanel = testCase.findChild(launcher, "launcherPanel");
+
+            var toX = shell.width * 0.45;
+            touchFlick(shell,
+                    1 /* fromX */, shell.height * 0.5 /* fromY */,
+                    toX /* toX */, shell.height * 0.5 /* toY */,
+                    true /* beginTouch */, false /* endTouch */,
+                    50, 100);
+
+            // Launcher must be fully shown by now
+            tryCompare(launcherPanel, "x", 0);
+
+            // Greeter should be displaced
+            tryCompareFunction(function() { return greeter.mapToItem(shell, 0, 0).x > shell.width*0.2; }, true);
+
+            touchRelease(shell, toX, shell.height * 0.5);
+
+            // Upon release the greeter should have slid back into full view
+            tryCompareFunction(function() { return greeter.mapToItem(shell, 0, 0).x === 0; }, true);
+
+            // And the launcher should stay fully shown
+            for (var i = 0; i < 10; ++i) {
+                wait(50);
+                compare(launcherPanel.x, 0);
+            }
         }
     }
 }

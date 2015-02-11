@@ -474,11 +474,11 @@ Item {
             tryCompare(subPageLoader, "open", true);
             tryCompare(subPageLoader, "x", 0);
             tryCompare(findChild(dashTempScopeItem, "categoryListView"), "visible", false);
-
-            dashTempScopeItem.scope.openScope(scopes.getScopeFromAll("MockScope9"));
+wait(2000)
+            dashTempScopeItem.scope.activate("Result.2.2");
             tryCompare(subPageLoader, "open", false);
             compare(dashTempScopeItem.scope.id, "MockScope9");
-
+wait(2000)
             // Go back
             dashTempScopeItem.backClicked();
 
