@@ -28,8 +28,11 @@ QMutex WindowStateStorage::s_mutex;
 WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)
 {
+    QString dbPath = QDir::homePath() + "/.cache/unity8/";
     m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName(QDir::homePath() + "/.cache/unity8/windowstatestorage.sqlite");
+    QDir dir;
+    dir.mkpath(dbPath);
+    m_db.setDatabaseName(dbPath + "windowstatestorage.sqlite");
     initdb();
 }
 
@@ -52,7 +55,7 @@ void WindowStateStorage::executeAsyncQuery(const QString &queryString)
 
     bool ok = query.exec(queryString);
     if (!ok) {
-        qWarning() << "Error esecuting query" << queryString
+        qWarning() << "Error executing query" << queryString
                    << "Driver error:" << query.lastError().driverText()
                    << "Database error:" << query.lastError().databaseText();
     }
