@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import "Animations"
 
-Item {
+FocusScope {
     id: root
     objectName: "sessionContainer"
     property QtObject session
@@ -34,8 +34,8 @@ Item {
         orientation: root.orientation
     }
 
-
     Repeater {
+        id: childSessionsRepeater
         model: root.childSessions
 
         delegate: Loader {
@@ -45,9 +45,17 @@ Item {
             // Only way to do recursive qml items.
             source: Qt.resolvedUrl("SessionContainer.qml")
 
+            z: index
+
+            // Since a Loader is a FocusScope, propagate its focus to the loaded Item
             Binding {
                 target: item; when: item
-                property: "interactive"; value: root.interactive
+                property: "focus"; value: focus
+            }
+
+            Binding {
+                target: item; when: item
+                property: "interactive"; value: index == (childSessionsRepeater.count - 1) && root.interactive
             }
 
             Binding {
@@ -68,10 +76,6 @@ Item {
             Binding {
                 target: item; when: item
                 property: "orientation"; value: root.orientation
-            }
-
-            Component.onDestruction: {
-                root.session.surface.forceActiveFocus();
             }
         }
     }
@@ -138,5 +142,16 @@ Item {
     QtObject {
         id: d
         property var animations: []
+
+        property var focusedChild: {
+            if (childSessionsRepeater.count == 0) {
+                return _surfaceContainer;
+            } else {
+                return childSessionsRepeater.itemAt(childSessionsRepeater.count - 1);
+            }
+        }
+        onFocusedChildChanged: {
+            focusedChild.focus = true;
+        }
     }
 }
