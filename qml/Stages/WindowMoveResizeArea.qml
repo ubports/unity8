@@ -108,7 +108,7 @@ MouseArea {
         }
     }
 
-    onReleased: {
+    Component.onDestruction: {
         WindowStateStorage.saveGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
     }
 }

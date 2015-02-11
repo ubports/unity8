@@ -177,6 +177,7 @@ Item {
 
             // This will destroy the window and recreate it
             windowLoader.active = false;
+            waitForRendering(root);
             windowLoader.active = true;
 
             // Make sure it's again where we left it before destroying
@@ -200,6 +201,7 @@ Item {
 
             // This will destroy the window and recreate it
             windowLoader.active = false;
+            waitForRendering(root);
             windowLoader.active = true;
 
             // Make sure its size is again the same as before
