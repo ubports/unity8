@@ -121,7 +121,9 @@ Item {
         objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
         model: greeterContentLoader.infographicModel
-        clip: true // clip large data bubbles
+
+        // Clip large data bubbles.  Would be simply 'true' but clipping is expensive
+        clip: greeterWrapper.showProgress !== 1
 
         property string selectedUser
         property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
