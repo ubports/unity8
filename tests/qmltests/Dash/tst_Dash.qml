@@ -474,11 +474,19 @@ Item {
             tryCompare(subPageLoader, "open", true);
             tryCompare(subPageLoader, "x", 0);
             tryCompare(findChild(dashTempScopeItem, "categoryListView"), "visible", false);
-wait(2000)
-            dashTempScopeItem.scope.activate("Result.2.2");
+            var previewListRow0 = findChild(subPageLoader, "previewListRow0");
+            touchFlick(previewListRow0, previewListRow0.width / 2, units.gu(20), previewListRow0.width / 2, units.gu(1));
+            tryCompare(previewListRow0, "atYEnd", true);
+            tryCompare(previewListRow0, "moving", false);
+            var widget = findChild(subPageLoader, "widget-21");
+            var initialWidgetHeight = widget.height;
+            var openButton = findChild(widget, "buttonopen_click");
+            mouseClick(openButton);
+
+            //dashTempScopeItem.scope.activate("Result.2.2");
             tryCompare(subPageLoader, "open", false);
             compare(dashTempScopeItem.scope.id, "MockScope9");
-wait(2000)
+
             // Go back
             dashTempScopeItem.backClicked();
 
