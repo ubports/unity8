@@ -208,5 +208,30 @@ Item {
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + resizeDelta, fakeWindow.minWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + resizeDelta, fakeWindow.minHeight));
         }
+
+        // This tests if dragging smaller than minSize and then larger again, will keep the edge sticking
+        // to the mouse, instead of immediately making the window grow again when switching direction
+        function test_resizeSmallerAndLarger_data() {
+            return [
+                { tag: "topLeft", startX: -1, startY: -1, dx: units.gu(15), dy: units.gu(15) },
+                { tag: "bottomRight", startX: fakeWindow.width + 1, startY: fakeWindow.height + 1, dx: -units.gu(15), dy: -units.gu(15) }
+            ]
+        }
+
+        function test_resizeSmallerAndLarger(data) {
+            var initialWindowX = fakeWindow.x;
+            var initialWindowY = fakeWindow.y;
+            var initialWindowWidth = fakeWindow.width
+            var initialWindowHeight = fakeWindow.height
+
+            var startDragX = initialWindowX + data.startX
+            var startDragY = initialWindowY + data.startY
+            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, false, units.gu(.05), 10);
+            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth - Math.abs(data.dx), fakeWindow.minWidth));
+            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight - Math.abs(data.dy), fakeWindow.minHeight));
+            mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true, units.gu(.05), 10);
+            tryCompare(fakeWindow, "width", initialWindowWidth);
+            tryCompare(fakeWindow, "height", initialWindowHeight);
+        }
     }
 }
