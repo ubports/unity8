@@ -25,6 +25,7 @@ import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
+import Unity.Indicators 0.1
 import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -48,6 +49,7 @@ Item {
         anchors.fill: parent
         Loader {
             id: shellLoader
+            focus: true
 
             property bool tablet: false
             width: tablet ? units.gu(160) : units.gu(40)
@@ -81,6 +83,7 @@ Item {
                     anchors { left: parent.left; right: parent.right }
                     Button {
                         text: "Show Greeter"
+                        activeFocusOnPress: false
                         onClicked: {
                             if (shellLoader.status !== Loader.Ready)
                                 return;
@@ -418,7 +421,7 @@ Item {
             waitUntilTransitionsEnd(appWindowStateGroup);
         }
 
-        function test_surfaceLosesFocusWhilePanelIsOpen() {
+        function test_surfaceLosesActiveFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app);
 
@@ -449,6 +452,16 @@ Item {
             tryCompare(app.session.surface, "activeFocus", true);
         }
 
+        function test_launchedAppHasActiveFocus() {
+            var dialerApp = ApplicationManager.startApplication("dialer-app");
+            verify(dialerApp);
+            waitUntilAppSurfaceShowsUp("dialer-app")
+
+            verify(dialerApp.session.surface);
+
+            tryCompare(dialerApp.session.surface, "activeFocus", true);
+        }
+
         // Wait for the whole UI to settle down
         function waitForUIToSettle() {
             var launcher = findChild(shell, "launcherPanel")
@@ -459,6 +472,14 @@ Item {
             tryCompare(launcher, "x", -launcher.width)
 
             waitForRendering(shell)
+        }
+
+        function waitUntilAppSurfaceShowsUp(appId) {
+            var appWindow = findChild(shell, "appWindow_" + appId);
+            verify(appWindow);
+            var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
+            verify(appWindowStates);
+            tryCompare(appWindowStates, "state", "surface");
         }
 
         function dragToCloseIndicatorsPanel() {

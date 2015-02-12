@@ -49,6 +49,9 @@ public:
     unity::shell::application::ApplicationManagerInterface *applicationManager() const;
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager);
 
+    bool onlyPinned() const override;
+    void setOnlyPinned(bool onlyPinned) override;
+
     // For testing
     Q_INVOKABLE void emitHint();
 

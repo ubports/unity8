@@ -18,6 +18,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
+import Utils 0.1
 
 MouseArea {
     id: root
@@ -26,7 +27,8 @@ MouseArea {
 
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage move and resize events
-    property var target: null
+    property Item target: null
+    property string windowId: ""
     property int resizeHandleWidth: 0
     property int minWidth: 0
     property int minHeight: 0
@@ -37,8 +39,6 @@ MouseArea {
         readonly property int windowHeight: root.height - resizeHandleWidth * 2
 
         property var startPoint
-        property int startWidth
-        property int startHeight
 
         property bool resizeTop: false
         property bool resizeBottom: false
@@ -47,10 +47,18 @@ MouseArea {
 
     }
 
+    Component.onCompleted: {
+        var windowState = WindowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
+        if (windowState !== undefined) {
+            target.x = windowState.x
+            target.y = windowState.y
+            target.width = windowState.width
+            target.height = windowState.height
+        }
+    }
+
     onPressed: {
-        priv.startPoint = mapToItem(null, Qt.point(mouse.x, mouse.y)).x;
-        priv.startWidth = root.width;
-        priv.startHeight = root.height;
+        priv.startPoint = Qt.point(mouse.x, mouse.y);
         priv.resizeTop = mouseY < root.resizeHandleWidth;
         priv.resizeBottom = mouseY > (root.height - root.resizeHandleWidth);
         priv.resizeLeft = mouseX < root.resizeHandleWidth;
@@ -58,32 +66,28 @@ MouseArea {
     }
 
     onPositionChanged: {
-        var currentPoint = mapToItem(null, Qt.point(mouse.x, mouse.y)).x;
+        var currentPoint = Qt.point(mouse.x, mouse.y);
         var mouseDiff = Qt.point(currentPoint.x - priv.startPoint.x, currentPoint.y - priv.startPoint.y);
         var moveDiff = Qt.point(0, 0);
         var sizeDiff = Qt.point(0, 0);
+        var maxSizeDiff = Qt.point(root.minWidth - root.target.width, root.minHeight - root.target.height)
+
         if (priv.resizeTop || priv.resizeBottom || priv.resizeLeft || priv.resizeRight) {
             if (priv.resizeTop) {
-                moveDiff.y += mouseDiff.y;
-                sizeDiff.y += -mouseDiff.y;
-            } else if (priv.resizeBottom) {
-                sizeDiff.y += mouse.y - priv.startPoint.y;
-                priv.startPoint.y = mouse.y
+                sizeDiff.y = Math.max(maxSizeDiff.y, -currentPoint.y + priv.startPoint.y)
+                moveDiff.y = -sizeDiff.y
+            }
+            if (priv.resizeBottom) {
+                sizeDiff.y = Math.max(maxSizeDiff.y, currentPoint.y - priv.startPoint.y)
+                priv.startPoint.y += sizeDiff.y
             }
             if (priv.resizeLeft) {
-                moveDiff.x += mouseDiff.x;
-                sizeDiff.x += -mouseDiff.x;
-            } else if (priv.resizeRight) {
-                sizeDiff.x += mouse.x - priv.startPoint.x;
-                priv.startPoint.x = mouse.x
+                sizeDiff.x = Math.max(maxSizeDiff.x, -currentPoint.x + priv.startPoint.x)
+                moveDiff.x = -sizeDiff.x
             }
-            if (priv.windowWidth + sizeDiff.x < root.minWidth) {
-                sizeDiff.x = root.minWidth - priv.windowWidth;
-                moveDiff.x = moveDiff.x == 0 ? 0 : -sizeDiff.x;
-            }
-            if (priv.windowHeight + sizeDiff.y < root.minHeight) {
-                sizeDiff.y = root.minHeight - priv.windowHeight;
-                moveDiff.y = moveDiff.y == 0 ? 0 : -sizeDiff.y;
+            if (priv.resizeRight) {
+                sizeDiff.x = Math.max(maxSizeDiff.x, currentPoint.x - priv.startPoint.x)
+                priv.startPoint.x += sizeDiff.x
             }
 
             target.x += moveDiff.x;
@@ -94,5 +98,10 @@ MouseArea {
             target.x += mouseDiff.x;
             target.y += mouseDiff.y;
         }
+
+    }
+
+    Component.onDestruction: {
+        WindowStateStorage.saveGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
     }
 }

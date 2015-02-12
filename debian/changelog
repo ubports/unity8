@@ -1,31 +1,40 @@
-unity8 (8.02+15.04.20150205-0ubuntu1) vivid; urgency=medium
-
-  [ Andrea Cimitan ]
-  * Fix continue button in wifi wizard page, adds qml-module-
-    qtsysteminfo as unity8 dep (LP: #1363400)
-  * Background needs to be specified to be visible in horizontal cards
-    (LP: #1411748)
-
-  [ CI Train Bot ]
-  * Resync trunk
-
-  [ Michał Sawicz ]
-  * Add workaround for gcc ICE.
-
-  [ Albert Astals ]
-  * Implement proper updateRanges for horizontal items (i.e. Carousel,
-    Horizontal List)
+unity8 (8.02+15.04.20150211-0ubuntu1) vivid; urgency=medium
 
   [ Michael Terry ]
-  * Don't accept multiple "Finish" clicks during the last step of the
-    wizard
+  * Redesign tutorial to match latest spec (just removing obsolete pages
+    and redesigning look, no new pages yet)
+  * Add new right-edge and bottom-edge screens to the first-boot edge
+    tutorial (LP: #1383297)
+  * Support switching the indicator profile on the fly, as the greeter
+    appears and disappears. (But don't use it yet, not until the
+    settings panel to control this is in place.)
+  * Clip the infographic to its bounding box, instead of letting it
+    bleed past the welcome page (visible when dragging the welcome page
+    to the side).
+
+  [ Michael Zanetti ]
+  * Add an AccountService based launcher model to be used with split
+    greeter
+  * Launcher fixes for windowed mode
+  * save and restore window size and position
+  * Fix resizing windows when making it smaller than minSize and then
+    larger again.
+
+  [ handsome_feng<445865575@qq.com> ]
+  * makes the header fully reveal when tapping the search icon. (LP:
+    #1379327)
+
+  [ Mirco Müller ]
+  * Allow swipe-to-dismiss for contracted snap-decision notifications,
+    interactive notifications and ephemeral notifications. (LP:
+    #1355422, #1334855)
 
   [ Daniel d'Andrada ]
-  * Unify all liblightdm mocks
-  * Ensure the greeter password field is not covered by the keyboard
-  * Don't show() the lockscreen if it's already being shown
+  * Make indicators bar eat all events
+  * Improve Launcher tests, making them more reliable
+  * Tapping on a surface gives it active focus
 
- -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Feb 2015 10:30:13 +0000
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 11 Feb 2015 17:13:16 +0000
 
 unity8 (8.02+15.04.20150123.3-0ubuntu1) vivid; urgency=low
 

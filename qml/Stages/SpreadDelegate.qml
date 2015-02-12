@@ -254,13 +254,13 @@ FocusScope {
             ApplicationWindow {
                 id: appWindow
                 objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+                focus: true
                 anchors {
                     fill: parent
                     topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin
                 }
 
                 interactive: root.interactive
-                focus: true
             }
         }
     }

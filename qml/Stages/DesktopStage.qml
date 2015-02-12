@@ -61,8 +61,6 @@ Item {
     Connections {
         target: ApplicationManager
         onApplicationAdded: {
-            // Initial placement to avoid having the window decoration behind the panel
-            appRepeater.itemAt(ApplicationManager.count-1).y = units.gu(3)
             ApplicationManager.requestFocusApplication(ApplicationManager.get(ApplicationManager.count-1).appId)
         }
 
@@ -114,6 +112,7 @@ Item {
         delegate: Item {
             id: appDelegate
             z: ApplicationManager.count - index
+            y: units.gu(3)
             width: units.gu(60)
             height: units.gu(50)
 
@@ -144,6 +143,7 @@ Item {
                 minWidth: appDelegate.minWidth
                 minHeight: appDelegate.minHeight
                 resizeHandleWidth: units.gu(0.5)
+                windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
                 onPressed: ApplicationManager.requestFocusApplication(model.appId)
             }

@@ -31,6 +31,11 @@ Rectangle {
     property bool interactive
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
+    property QtObject applicationManager: ApplicationManager
+    property bool focusFirstApp: true // If false, focused app will appear on right edge like other apps
+    property bool altTabEnabled: true
+    property real startScale: 1.1
+    property real endScale: 0.7
     property int shellOrientationAngle: 0
     property int shellOrientation
     property int shellPrimaryOrientation
@@ -76,14 +81,25 @@ Rectangle {
     }
 
     // To be read from outside
-    readonly property var mainApp: ApplicationManager.focusedApplicationId
-            ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+    readonly property var mainApp: applicationManager.focusedApplicationId
+            ? applicationManager.findApplication(applicationManager.focusedApplicationId)
             : null
     property int mainAppWindowOrientationAngle: 0
     readonly property bool orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
                                                    && !priv.focusedAppDelegateIsDislocated
                                                    && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
                                                    && spreadView.phase === 0
+
+    // How far left the stage has been dragged
+    readonly property real dragProgress: spreadRepeater.count > 0 ? -spreadRepeater.itemAt(0).xTranslate : 0
+
+    readonly property alias dragging: spreadDragArea.dragging
+
+    // Only used by the tutorial right now, when it is teasing the right edge
+    property real dragAreaOverlap
+
+    signal opened()
+
     color: "#111111"
 
     function select(appId) {
@@ -97,30 +113,30 @@ Rectangle {
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
             if (priv.oldInverseProgress > units.gu(22)) {
-                ApplicationManager.requestFocusApplication("unity8-dash");
+                applicationManager.requestFocusApplication("unity8-dash");
             }
         }
         priv.oldInverseProgress = inverseProgress;
     }
 
     Connections {
-        target: ApplicationManager
+        target: applicationManager
 
         onFocusRequested: {
             if (spreadView.phase > 0) {
                 spreadView.snapTo(priv.indexOf(appId));
             } else {
-                ApplicationManager.focusApplication(appId);
+                applicationManager.focusApplication(appId);
             }
         }
 
         onApplicationAdded: {
             if (spreadView.phase == 2) {
-                spreadView.snapTo(ApplicationManager.count - 1);
+                spreadView.snapTo(applicationManager.count - 1);
             } else {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
-                ApplicationManager.focusApplication(appId);
+                applicationManager.focusApplication(appId);
             }
         }
 
@@ -135,9 +151,9 @@ Rectangle {
         }
 
         function focusTopMostApp() {
-            if (ApplicationManager.count > 0) {
-                var topmostApp = ApplicationManager.get(0);
-                ApplicationManager.focusApplication(topmostApp.appId);
+            if (applicationManager.count > 0) {
+                var topmostApp = applicationManager.get(0);
+                applicationManager.focusApplication(topmostApp.appId);
             }
         }
     }
@@ -145,13 +161,13 @@ Rectangle {
     QtObject {
         id: priv
 
-        property string focusedAppId: ApplicationManager.focusedApplicationId
-        property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
+        property string focusedAppId: root.applicationManager.focusedApplicationId
+        property var focusedApplication: root.applicationManager.findApplication(focusedAppId)
         property var focusedAppDelegate: null
         property bool focusedAppOrientationChangesEnabled: false
 
         property real oldInverseProgress: 0
-        property bool animateX: true
+        property bool animateX: false
 
         onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
@@ -164,8 +180,8 @@ Rectangle {
         property bool focusedAppDelegateIsDislocated: focusedAppDelegate && focusedAppDelegate.x !== 0
 
         function indexOf(appId) {
-            for (var i = 0; i < ApplicationManager.count; i++) {
-                if (ApplicationManager.get(i).appId == appId) {
+            for (var i = 0; i < root.applicationManager.count; i++) {
+                if (root.applicationManager.get(i).appId == appId) {
                     return i;
                 }
             }
@@ -195,7 +211,9 @@ Rectangle {
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
-        readonly property bool active: shiftedContentX > 0 || spreadDragArea.status === DirectionalDragArea.Recognized
+        readonly property bool active: shiftedContentX > 0
+                                    || spreadDragArea.status === DirectionalDragArea.Recognized
+                                    || !root.focusFirstApp
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
@@ -274,10 +292,17 @@ Rectangle {
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
                 snapAnimation.start();
+                root.opened();
             }
         }
         function snapTo(index) {
-            if (ApplicationManager.count <= index) {
+            if (!root.altTabEnabled) {
+                // Reset to start instead
+                snapAnimation.targetContentX = -shift;
+                snapAnimation.start();
+                return;
+            }
+            if (root.applicationManager.count <= index) {
                 // In case we're trying to snap to some non existing app, lets snap back to the first one
                 index = 0;
             }
@@ -292,10 +317,12 @@ Rectangle {
             snapAnimation.start();
         }
 
-        // In case the ApplicationManager already holds an app when starting up we're missing animations
+        // In case the applicationManager already holds an app when starting up we're missing animations
         // Make sure we end up in the same state
         Component.onCompleted: {
             spreadView.contentX = -spreadView.shift
+            priv.animateX = true;
+            snapAnimation.complete();
         }
 
         SequentialAnimation {
@@ -312,7 +339,7 @@ Rectangle {
             ScriptAction {
                 script: {
                     if (spreadView.selectedIndex >= 0) {
-                        ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
+                        root.applicationManager.focusApplication(root.applicationManager.get(spreadView.selectedIndex).appId);
 
                         spreadView.selectedIndex = -1;
                         spreadView.phase = 0;
@@ -327,7 +354,7 @@ Rectangle {
             // This width controls how much the spread can be flicked left/right. It's composed of:
             //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
             //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
-            width: Math.max(3, ApplicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
+            width: Math.max(3, root.applicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
             height: parent.height
             Behavior on width {
                 enabled: spreadView.closingIndex >= 0
@@ -342,20 +369,22 @@ Rectangle {
             x: spreadView.contentX
 
             onClicked: {
-                spreadView.snapTo(0);
+                if (root.altTabEnabled) {
+                    spreadView.snapTo(0);
+                }
             }
 
             Repeater {
                 id: spreadRepeater
                 objectName: "spreadRepeater"
-                model: ApplicationManager
+                model: root.applicationManager
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
                     objectName: "appDelegate" + index
                     startAngle: 45
                     endAngle: 5
-                    startScale: 1.1
-                    endScale: 0.7
+                    startScale: root.startScale
+                    endScale: root.endScale
                     startDistance: spreadView.tileDistance
                     endDistance: units.gu(.5)
                     width: spreadView.width
@@ -363,10 +392,11 @@ Rectangle {
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     interactive: !spreadView.interactive && spreadView.phase === 0
-                            && priv.fullyShowingFocusedApp && root.interactive && index === 0
-                    swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
+                            && priv.fullyShowingFocusedApp && root.interactive && isFocused
+                    swipeToCloseEnabled: spreadView.interactive && root.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
+                    focusFirstApp: root.focusFirstApp
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
@@ -374,7 +404,7 @@ Rectangle {
 
                     x: {
                         // focused app is always positioned at 0 except when following left edge drag
-                        if (index == 0) {
+                        if (isFocused) {
                             if (!isDash && root.inverseProgress > 0 && spreadView.phase === 0) {
                                 return root.inverseProgress;
                             }
@@ -385,10 +415,10 @@ Rectangle {
                         }
 
                         // Otherwise line up for the spread
-                        return spreadView.width + (index - 1) * spreadView.tileDistance;
+                        return spreadView.width + spreadIndex * spreadView.tileDistance;
                     }
 
-                    application: ApplicationManager.get(index)
+                    application: root.applicationManager.get(index)
                     closeable: !isDash
 
                     property real behavioredIndex: index
@@ -424,7 +454,7 @@ Rectangle {
                     progress: {
                         var tileProgress = (spreadView.shiftedContentX - behavioredIndex * spreadView.tileDistance) / spreadView.width;
                         // Tile 1 needs to move directly from the beginning...
-                        if (behavioredIndex == 1 && spreadView.phase < 2) {
+                        if (root.focusFirstApp && behavioredIndex == 1 && spreadView.phase < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width;
                         }
                         // Limiting progress to ~0 and 1.7 to avoid binding calculations when tiles are not
@@ -439,7 +469,7 @@ Rectangle {
 
                     // This mostly is the same as progress, just adds the snapping to phase 1 for tiles 0 and 1
                     animatedProgress: {
-                        if (spreadView.phase == 0 && index < 2) {
+                        if (spreadView.phase == 0 && index <= priv.firstSpreadIndex) {
                             if (progress < spreadView.positionMarker1) {
                                 return progress;
                             } else if (progress < spreadView.positionMarker1 + 0.05){
@@ -463,11 +493,11 @@ Rectangle {
                     nativeOrientation: root.nativeOrientation
 
                     onClicked: {
-                        if (spreadView.phase == 2) {
-                            if (ApplicationManager.focusedApplicationId == ApplicationManager.get(index).appId) {
+                        if (root.altTabEnabled && spreadView.phase == 2) {
+                            if (root.applicationManager.focusedApplicationId == root.applicationManager.get(index).appId) {
                                 spreadView.snapTo(index);
                             } else {
-                                ApplicationManager.requestFocusApplication(ApplicationManager.get(index).appId);
+                                root.applicationManager.requestFocusApplication(root.applicationManager.get(index).appId);
                             }
                         }
                     }
@@ -482,7 +512,7 @@ Rectangle {
 
                     onClosed: {
                         spreadView.closingIndex = index;
-                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
+                        root.applicationManager.stopApplication(root.applicationManager.get(index).appId);
                     }
 
                     Binding {
@@ -508,7 +538,7 @@ Rectangle {
         direction: Direction.Leftwards
         enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; rightMargin: -root.dragAreaOverlap }
         width: root.dragAreaWidth
 
         property var gesturePoints: new Array()

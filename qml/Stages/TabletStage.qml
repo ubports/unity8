@@ -157,18 +157,13 @@ Rectangle {
         }
 
         function updateSpreadDelegateFocus() {
-            var appIndex = 0;
-            var found = false;
-            while (!found && appIndex < ApplicationManager.count) {
-                if (ApplicationManager.get(appIndex).appId === priv.focusedAppId) {
-                    spreadRepeater.itemAt(appIndex).focus = true;
-                    found = true;
+            if (priv.focusedAppId) {
+                var focusedAppIndex = priv.indexOf(priv.focusedAppId);
+                if (focusedAppIndex !== -1) {
+                    spreadRepeater.itemAt(focusedAppIndex).focus = true;
                 } else {
-                    ++appIndex;
+                    console.warn("TabletStage: Failed to find the SpreadDelegate for appID=" + priv.focusedAppId);
                 }
-            }
-            if (!found) {
-                console.warn("TabletStage: Failed to find the SpreadDelegate for appID=" + priv.focusedAppId);
             }
         }
 

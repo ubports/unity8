@@ -192,13 +192,10 @@ Rectangle {
 
             var a_session;
             while(a_session = sessions.pop()) {
-                //a_session.surface.forceActiveFocus();
                 compare(a_session.surface.activeFocus, true);
 
                 ApplicationTest.removeSurface(a_session.surface);
                 ApplicationTest.removeSession(a_session);
-
-                //compare(parentSession.surface.activeFocus, true);
 
                 if (sessions.length > 0) {
                     // active focus should have gone to the yongest remaining sibling

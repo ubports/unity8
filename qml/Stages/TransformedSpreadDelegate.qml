@@ -46,6 +46,18 @@ SpreadDelegate {
     property real startDistance: units.gu(5)
     property real endDistance: units.gu(.5)
 
+    // Whether first app is displayed entirely vs just on the spread edge
+    property bool focusFirstApp: true
+
+    // Whether this delegate is displayed to the user outside of the spread
+    readonly property bool isFocused: focusFirstApp && index === 0
+
+    // Adjusted index for any spread animation calculations
+    readonly property int spreadIndex: index - (focusFirstApp ? 1 : 0)
+
+    // How far left this delegate has been translated
+    readonly property alias xTranslate: priv.xTranslate
+
     onSelectedChanged: {
         if (selected) {
             priv.snapshot();
@@ -63,8 +75,8 @@ SpreadDelegate {
     Connections {
         target: spreadView
         onPhaseChanged: {
-            if (spreadView.phase == 1) {
-                if (index == 0) {
+            if (root.focusFirstApp && spreadView.phase == 1) {
+                if (index === 0) {
                     priv.phase2startTranslate = priv.easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width;
                     priv.phase2startAngle = priv.easingAnimation(0, spreadView.positionMarker4, root.startAngle, root.endAngle, spreadView.positionMarker4);
                     priv.phase2startScale = priv.easingAnimation(0, spreadView.positionMarker4, root.startScale, root.endScale, spreadView.positionMarker4);
@@ -134,7 +146,7 @@ SpreadDelegate {
             }
 
             if (otherSelected) {
-                if (spreadView.phase < 2 && index == 0) {
+                if (spreadView.phase < 2 && root.isFocused) {
                     return linearAnimation(selectedProgress, 0, selectedXTranslate,
                                            selectedXTranslate - spreadView.tileDistance, root.progress);
                 }
@@ -142,8 +154,7 @@ SpreadDelegate {
                 return selectedXTranslate;
             }
 
-            switch (index) {
-            case 0:
+            if (root.focusFirstApp && index === 0) {
                 if (spreadView.phase == 0) {
                     return Math.min(0, linearAnimation(0, spreadView.positionMarker2,
                                                        0, -spreadView.width * .25, root.animatedProgress));
@@ -153,11 +164,10 @@ SpreadDelegate {
                 } else if (!priv.isSelected){ // phase 2
                     // Apply the same animation as with the rest but add spreadView.width to align it with the others.
                     return -easingCurve.value * spreadView.width + spreadView.width;
-                } else if (priv.isSelected) {
+                } else {
                     return linearAnimation(selectedProgress, 0, selectedXTranslate, 0, root.progress);
                 }
-
-            case 1:
+            } else if (root.focusFirstApp && index === 1) {
                 if (spreadView.phase == 0 && !priv.isSelected) {
                     return linearAnimation(0, spreadView.positionMarker2,
                                            0, -spreadView.width * spreadView.snapPosition, root.animatedProgress);
@@ -170,13 +180,13 @@ SpreadDelegate {
 
             if (priv.isSelected) {
                 // Distance to left edge
-                var targetTranslate = -spreadView.width - ((index - 1) * root.startDistance);
+                var targetTranslate = -spreadView.width - (root.spreadIndex * root.startDistance);
                 return linearAnimation(selectedProgress, 0,
                                        selectedXTranslate, targetTranslate, root.progress);
             }
 
             // Fix it at the right edge...
-            var rightEdgeOffset =  -((index - 1) * root.startDistance);
+            var rightEdgeOffset =  -(root.spreadIndex * root.startDistance);
             // ...and use our easing to move them to the left. Stop a bit earlier for each tile
             var animatedEndDistance = linearAnimation(0, 2, root.endDistance, 0, root.progress);
             return -easingCurve.value * spreadView.width + (index * animatedEndDistance) + rightEdgeOffset;
@@ -194,8 +204,7 @@ SpreadDelegate {
             if (priv.isSelected) {
                 return linearAnimation(selectedProgress, 0, selectedAngle, 0, root.progress);
             }
-            switch (index) {
-            case 0:
+            if (root.focusFirstApp && index === 0) {
                 if (spreadView.phase == 0) {
                     return Math.max(0, linearAnimation(0, spreadView.positionMarker2,
                                                        0, root.tile0SnapAngle, root.animatedProgress));
@@ -203,7 +212,7 @@ SpreadDelegate {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
                                            root.tile0SnapAngle, phase2startAngle, root.progress);
                 }
-            case 1:
+            } else if (root.focusFirstApp && index === 1) {
                 if (spreadView.phase == 0) {
                     return linearAnimation(0, spreadView.positionMarker2, root.startAngle,
                                            root.startAngle * (1-spreadView.snapPosition), root.animatedProgress);
@@ -227,15 +236,14 @@ SpreadDelegate {
                 return linearAnimation(selectedProgress, 0, selectedScale, 1, root.progress);
             }
 
-            switch (index) {
-            case 0:
+            if (root.focusFirstApp && index === 0) {
                 if (spreadView.phase == 0) {
                     return 1;
                 } else if (spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
                                            1, phase2startScale, root.progress);
                 }
-            case 1:
+            } else if (root.focusFirstApp && index === 1) {
                 if (spreadView.phase == 0) {
                     var targetScale = tile1StartScale - ((tile1StartScale - 1) * spreadView.snapPosition);
                     return linearAnimation(0, spreadView.positionMarker2,
@@ -254,7 +262,7 @@ SpreadDelegate {
                 return linearAnimation (selectedProgress, Math.max(0, selectedProgress - .5),
                                         selectedOpacity, 0, root.progress);
             }
-            if (index == 0) {
+            if (root.isFocused) {
                 switch (spreadView.phase) {
                 case 0:
                     return linearAnimation(0, spreadView.positionMarker2, 1, .7, root.animatedProgress);
@@ -272,16 +280,14 @@ SpreadDelegate {
                 return linearAnimation(selectedProgress, 0, selectedTopMarginProgress, 0, root.progress);
             }
 
-            switch (index) {
-            case 0:
+            if (root.focusFirstApp && index === 0) {
                 if (spreadView.phase == 0) {
                     return 0;
                 } else if (spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
                                            0, priv.phase2startTopMarginProgress, root.progress);
                 }
-                break;
-            case 1:
+            } else if (root.focusFirstApp && index === 1) {
                 if (spreadView.phase == 0) {
                     return 0;
                 } else if (spreadView.phase == 1) {
