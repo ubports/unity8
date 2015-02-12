@@ -21,9 +21,7 @@ import "../Components"
 
 Column {
     id: root
-    anchors.top: parent.top
-    anchors.topMargin: units.gu(4)
-    anchors.horizontalCenter: parent.horizontalCenter
+    y: units.gu(4)
     spacing: units.gu(2)
 
     property string infoText

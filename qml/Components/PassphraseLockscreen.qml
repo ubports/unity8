@@ -20,8 +20,7 @@ import "../Components"
 
 Item {
     id: root
-    anchors.top: parent.top
-    anchors.topMargin: units.gu(4)
+    y: units.gu(4)
     height: shakeContainer.height
 
     property string infoText
