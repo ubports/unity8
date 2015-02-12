@@ -90,7 +90,6 @@ Item {
                     }
 
                     onTriggered: {
-                        console.log(widgetId, actionId, data);
                         previewModel.triggered(widgetId, actionId, data);
                     }
 

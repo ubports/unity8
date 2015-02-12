@@ -55,7 +55,6 @@ PreviewWidget {
             Connections {
                 target: loader.item
                 onTriggeredAction: {
-                    console.log(root.widgetId, actionData.id, actionData);
                     root.triggered(root.widgetId, actionData.id, actionData);
                 }
             }
