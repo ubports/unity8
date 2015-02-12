@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2014-11-09 08:18+0000\n"
+"PO-Revision-Date: 2015-02-11 15:01+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-12 07:06+0000\n"
+"X-Generator: Launchpad (build 17336)\n"
 "Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -241,11 +241,11 @@ msgstr "Leig às airson ath-nuadhachadh…"
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Stiùirich"
 
 #: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Dhachaigh"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
@@ -297,7 +297,7 @@ msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
-msgstr ""
+msgstr "Freagair"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -369,58 +369,58 @@ msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
-msgstr ""
+msgstr "Air ais"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Shin thu!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Fàilte dhan fhòn Ubuntu agad."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Tòisicheamaid."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Lean air adhart"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Cuir cairt SIM ris 's tòisich an uidheam agad às ùr"
 
 #: qml/Wizard/Pages/20-sim.qml:55
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Chan urrainn dhut gairm no teachdaireachd a chur às a h-aonais."
 
 #: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
 msgid "Skip"
-msgstr ""
+msgstr "Leum thairis air"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Glas tèarainteachd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Tagh an dòigh sa tha thu airson a' ghlas a thoirt far an fhòn agad."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "Grad-shlaighd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
-msgstr ""
+msgstr "Gun tèarainteachd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgid "Passcode"
-msgstr ""
+msgstr "Còd-faire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
@@ -428,31 +428,31 @@ msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
-msgstr ""
+msgstr "Abairt-fhaire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Àireamhan 's litrichean"
 
 #: qml/Wizard/Pages/40-wifi.qml:28
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Ceangail ri Wi-Fi"
 
 #: qml/Wizard/Pages/40-wifi.qml:147
 msgid "Available networks…"
-msgstr ""
+msgstr "Lìonraidhean ri làimh…"
 
 #: qml/Wizard/Pages/40-wifi.qml:148
 msgid "No available networks."
-msgstr ""
+msgstr "Chan eil lìonra ri làimh."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Àite"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Faodaidh am fòn aithneachadh far a bheil thu:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
@@ -471,7 +471,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Chan fhaod idir"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
@@ -479,70 +479,75 @@ msgstr ""
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "A' cur piseach air a' ghnàth-eòlas agad"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Chaidh am fòn agad a shuidheachadh gus innse mu mhearachdan gu fèin-"
+"obrachail do Chanonical  's a chom-pàirtichean a rinn an siostam-obrachaidh "
+"seo."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Gabhaidh seo cur à comas ann an <b>Roghainnean an t-siostaim</b> fo "
+"<b>Thèarainteachd ⁊  prìobhaideachd</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Coileanta"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Shin thu!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Gabhaidh am fòn agad cleachdadh a-nis."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Crìochnaich"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Teirmichean ⁊ cumhaichean"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Dearbhaich an abairt-fhaire"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Dearbhaich an còd-faire"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Feuch ris a-rithist."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Tagh an còd-faire agad"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "Feumaidh an abairt-fhaire a bhith 4 caractaran a dh'fhaid"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Dearbhaich"
