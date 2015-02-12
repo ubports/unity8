@@ -224,6 +224,8 @@ var kTitleLabelCode = 'Label { \n\
 
 // %1 is used as extra anchors of emblemIcon
 // %2 is used as color of emblemIcon
+// FIXME The width code is a
+// Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
 var kEmblemIconCode = 'Icon { \n\
                             id: emblemIcon; \n\
                             objectName: "emblemIcon"; \n\

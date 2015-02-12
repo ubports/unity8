@@ -95,6 +95,7 @@ IndicatorDelegate {
                         id: itemImage
                         objectName: "icon"+index
                         height: iconHeight
+                        // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
                         width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth;
                         source: modelData
                         color: root.color

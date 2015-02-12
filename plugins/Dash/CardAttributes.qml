@@ -49,6 +49,7 @@ GridLayout {
             Icon {
                 id: icon
                 height: units.gu(2)
+                // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
                 width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth
                 source: "icon" in modelData && modelData["icon"] || ""
                 color: grid.color
