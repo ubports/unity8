@@ -235,6 +235,7 @@ var kEmblemIconCode = 'Icon { \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             color: %2; \n\
                             height: source != "" ? titleLabel.font.pixelSize : 0; \n\
+                            width: implicitWidth / implicitHeight * height; \n\
                         }\n';
 
 // %1 is used as anchors of touchdown effect

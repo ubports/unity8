@@ -95,6 +95,7 @@ IndicatorDelegate {
                         id: itemImage
                         objectName: "icon"+index
                         height: iconHeight
+                        width: implicitWidth / implicitHeight * height
                         source: modelData
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
