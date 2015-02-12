@@ -110,20 +110,18 @@ Showable {
         property int delayMinutes
         property bool waiting
 
-        // We define a proxy and "is valid" property for launcherOffset because of
-        // a quirk in Qml.  We only want this animation to fire if we are reset
-        // back to zero (on a release of the drag).  But by defining a Behavior,
-        // we delay the property from reaching zero until it's too late.  So we set
-        // a proxy bound to launcherOffset, which lets us see the target value of
-        // zero as we also slowly adjust the proxy down to zero.  But Qml will send
-        // change notifications in declaration order.  So unless we define the
-        // proxy first, we need a little "is valid" property defined above the
-        // proxy, so we know when to enable the proxy behavior.  Phew!
-        readonly property bool launcherOffsetValid: launcherOffset > 0
-        property real launcherOffsetProxy: shown ? launcherOffset : 0
+        // We want 'launcherOffset' to animate down to zero.  But not to animate
+        // while being dragged.  So ideally we change this only when the user
+        // lets go and launcherOffset drops to zero.  But we need to wait for
+        // the behavior to be enabled first.  So we cache the last known good
+        // launcherOffset value to cover us during that brief gap between
+        // release and the behavior turning on.
+        property real lastKnownPositiveOffset // set in a launcherOffsetChanged below
+        property real launcherOffsetProxy: (shown && !launcherOffsetProxyBehavior.enabled) ? lastKnownPositiveOffset : 0
         Behavior on launcherOffsetProxy {
-            enabled: !d.launcherOffsetValid
-            StandardAnimation {}
+            id: launcherOffsetProxyBehavior
+            enabled: launcherOffset === 0
+            UbuntuNumberAnimation {}
         }
 
         function selectUser(uid, reset) {
@@ -153,6 +151,12 @@ Showable {
             if (loader.item) {
                 loader.item.tryToUnlock(toTheRight);
             }
+        }
+    }
+
+    onLauncherOffsetChanged: {
+        if (launcherOffset > 0) {
+            d.lastKnownPositiveOffset = launcherOffset;
         }
     }
 
