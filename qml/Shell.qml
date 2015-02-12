@@ -213,23 +213,9 @@ Item {
         Connections {
             target: ApplicationManager
 
-            onFocusRequested: {
-                if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
-                    // If we are in the middle of a call, make dialer lockedApp and show it.
-                    // This can happen if user backs out of dialer back to greeter, then
-                    // launches dialer again.
-                    greeter.lockedApp = appId;
-                }
-
-                greeter.notifyAppFocused(appId);
-            }
-
             onFocusedApplicationIdChanged: {
-                greeter.notifyAppFocused(ApplicationManager.focusedApplicationId);
-                panel.indicators.hide();
-            }
+                var appId = ApplicationManager.focusedApplicationId;
 
-            onApplicationAdded: {
                 if (tutorial.running && appId != "unity8-dash") {
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call
@@ -238,7 +224,15 @@ Item {
                     wizard.hide();
                 }
 
+                if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
+                    // If we are in the middle of a call, make dialer lockedApp and show it.
+                    // This can happen if user backs out of dialer back to greeter, then
+                    // launches dialer again.
+                    greeter.lockedApp = appId;
+                }
                 greeter.notifyAppFocused(appId);
+
+                panel.indicators.hide();
                 launcher.hide();
             }
         }
