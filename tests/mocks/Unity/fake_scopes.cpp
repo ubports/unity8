@@ -180,9 +180,7 @@ unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
 
 void Scopes::addTempScope(unity::shell::scopes::ScopeInterface* scope)
 {
-    if (!m_tempScopes.contains(scope)) {
-        m_tempScopes.insert(scope);
-    }
+    m_tempScopes.insert(scope);
 }
 
 void Scopes::closeScope(unity::shell::scopes::ScopeInterface* scope)
