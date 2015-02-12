@@ -36,14 +36,15 @@ Item {
     id: root
 
     signal powerKeyLongPress();
-    signal screenshotPressed();
-    signal volumeDownPressed();
-    signal volumeUpPressed();
+
+    property bool screenshotPressed: d.powerKeyPressed && d.volumeDownKeyPressed
+    property bool volumeDownPressed: d.volumeDownKeyPressed && !d.powerKeyPressed
+    property bool volumeUpPressed: d.volumeUpKeyPressed
+    property int powerKeyLongPressTimeMs: 2000 // Is writable for testing purposes
 
     QtObject {
         id: d
 
-        property bool aPowerKeyWasReleased: true
         property bool powerKeyPressed: false
 
         property bool volumeDownKeyPressed: false
@@ -56,7 +57,7 @@ Item {
     Timer {
         id: powerKeyLongPressTimer
 
-        interval: 2000
+        interval: powerKeyLongPressTimeMs
         repeat: false
         triggeredOnStart: false
         onTriggered: powerKeyLongPress();
@@ -92,18 +93,6 @@ Item {
             d.volumeUpKeyPressed = true;
         }
 
-        /* Determine how to handle it  */
-        if (d.volumeDownKeyPressed) {
-            if (d.powerKeyPressed && d.aPowerKeyWasReleased) {
-                screenshotPressed();
-                d.aPowerKeyWasReleased = false;
-            // Don't emit volumeDownPressed if power key is held
-            } else if (d.aPowerKeyWasReleased){
-                volumeDownPressed();
-            }
-        } else if (d.volumeUpKeyPressed) {
-            volumeUpPressed();
-        }
         return eventAccepted;
     }
 
@@ -113,7 +102,6 @@ Item {
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
             d.powerKeyPressed = false;
-            d.aPowerKeyWasReleased = true;
             eventAccepted = true;
         } else if (key == Qt.Key_VolumeDown) {
             d.volumeDownKeyPressed = false;

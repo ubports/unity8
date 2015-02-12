@@ -163,9 +163,9 @@ Item {
         id: physicalKeysMapper
 
         onPowerKeyLongPress: dialogs.showPowerDialog()
-        onVolumeDownPressed: volumeControl.volumeDown()
-        onVolumeUpPressed: volumeControl.volumeUp()
-        onScreenshotPressed: screenGrabber.capture()
+        onVolumeDownPressedChanged: if (volumeDownPressed) { volumeControl.volumeDown(); }
+        onVolumeUpPressedChanged: if (volumeUpPressed) { volumeControl.volumeUp(); }
+        onScreenshotPressedChanged: if (screenshotPressed) { screenGrabber.capture(); }
 
     }
 
