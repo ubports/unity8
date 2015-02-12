@@ -88,6 +88,7 @@ void PreviewModel::setLoaded(bool loaded)
 
 void PreviewModel::triggeredSlot(QString const&, QString const&, QVariantMap const&) {
     Scopes *scopes = dynamic_cast<Scopes*>(m_scope->parent());
-    scopes->addTempScope(scopes->getScopeFromAll("MockScope9"));
-    Q_EMIT m_scope->openScope(scopes->getScopeFromAll("MockScope9"));
+    Scope* scope = scopes->getScopeFromAll("MockScope9");
+    scopes->addTempScope(scope);
+    Q_EMIT m_scope->openScope(scope);
 }

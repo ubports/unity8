@@ -187,17 +187,8 @@ void Scopes::addTempScope(unity::shell::scopes::ScopeInterface* scope)
 
 void Scopes::closeScope(unity::shell::scopes::ScopeInterface* scope)
 {
+    Q_ASSERT(m_tempScopes.contains(scope));
     m_tempScopes.remove(scope);
-}
-
-unity::shell::scopes::ScopeInterface* Scopes::findTempScope(QString const& id) const
-{
-    for (auto s: m_tempScopes) {
-        if (s->id() == id) {
-            return s;
-        }
-    }
-    return nullptr;
 }
 
 void Scopes::setFavorite(const QString& scopeId, bool favorite)
@@ -271,8 +262,6 @@ void Scopes::addScope(Scope* scope)
         beginInsertRows(QModelIndex(), index, index);
         m_scopes.append(scope);
         endInsertRows();
-    } else if (!m_tempScopes.contains(scope)) {
-        m_tempScopes.insert(scope);
     }
     m_allScopes.append(scope);
 }

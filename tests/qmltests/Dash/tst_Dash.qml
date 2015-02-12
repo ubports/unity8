@@ -483,7 +483,6 @@ Item {
             var openButton = findChild(widget, "buttonopen_click");
             mouseClick(openButton);
 
-            //dashTempScopeItem.scope.activate("Result.2.2");
             tryCompare(subPageLoader, "open", false);
             compare(dashTempScopeItem.scope.id, "MockScope9");
 
