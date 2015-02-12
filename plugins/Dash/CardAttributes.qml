@@ -49,6 +49,7 @@ GridLayout {
             Icon {
                 id: icon
                 height: units.gu(2)
+                width: implicitWidth / implicitHeight * height
                 source: "icon" in modelData && modelData["icon"] || ""
                 color: grid.color
             }
