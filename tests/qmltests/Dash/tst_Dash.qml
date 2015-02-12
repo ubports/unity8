@@ -484,10 +484,14 @@ Item {
             mouseClick(openButton);
 
             tryCompare(subPageLoader, "open", false);
+            tryCompare(subPageLoader, "x", subPageLoader.width);
+
             compare(dashTempScopeItem.scope.id, "MockScope9");
 
             // Go back
-            dashTempScopeItem.backClicked();
+            var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
+            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
+            mouseClick(backButton);
 
             // Check temp scope is gone
             tryCompare(dashTempScopeItem, "x", dash.width);
