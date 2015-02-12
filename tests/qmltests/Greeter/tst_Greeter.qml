@@ -354,6 +354,16 @@ Item {
             tryCompare(view, "launcherOffset", 5);
         }
 
+        function test_laucherOffsetAnimation() {
+            // Our logic for smoothing launcherOffset when it suddenly goes to
+            // zero is a bit complicated.  Let's just make sure it works here.
+            greeter.launcherOffset = 5;
+            compare(view.launcherOffset, 5);
+            greeter.launcherOffset = 0;
+            compare(view.launcherOffset, 5); // initially stays at full value
+            tryCompare(view, "launcherOffset", 0); // and we animate down to 0
+        }
+
         function test_backgroundTopMargin() {
             compare(view.backgroundTopMargin, 0);
             greeter.y = 5;
