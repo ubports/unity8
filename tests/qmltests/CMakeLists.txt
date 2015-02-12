@@ -19,6 +19,7 @@ set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 
 add_qml_test(. Shell)
+add_qml_test(. ShellWithPassphrase)
 add_qml_test(. ShellWithPin)
 add_qml_test(. TabletShell)
 add_qml_test(Components Background)
