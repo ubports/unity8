@@ -462,6 +462,28 @@ Item {
             tryCompare(LightDM.Greeter, "active", false);
         }
 
+        function test_focusRequestedHidesCoverPage() {
+            LightDM.Greeter.showGreeter();
+
+            var app = ApplicationManager.startApplication("gallery-app");
+            // wait until the app is fully loaded (ie, real surface replaces splash screen)
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
+
+            // New app hides coverPage?
+            var greeter = findChild(shell, "greeter");
+            var coverPage = testCase.findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+            tryCompare(greeter, "fullyShown", true);
+
+            LightDM.Greeter.showGreeter();
+            tryCompare(coverPage, "showProgress", 1);
+
+            // Make sure focusing same app triggers same behavior
+            ApplicationManager.requestFocusApplication("gallery-app");
+            tryCompare(coverPage, "showProgress", 0);
+            tryCompare(greeter, "fullyShown", true);
+        }
+
         function test_suspend() {
             var greeter = findChild(shell, "greeter");
 

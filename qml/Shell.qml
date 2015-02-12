@@ -213,6 +213,8 @@ Item {
         Connections {
             target: ApplicationManager
 
+            // This signal is also fired when we try to focus the current app
+            // again.  We rely on this!
             onFocusedApplicationIdChanged: {
                 var appId = ApplicationManager.focusedApplicationId;
 
