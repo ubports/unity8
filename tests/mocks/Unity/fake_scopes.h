@@ -60,9 +60,8 @@ public:
     Q_INVOKABLE void setFavorite(const QString& scopeId, bool favorite) override;
     Q_INVOKABLE void moveFavoriteTo(const QString& scopeId, int index) override;
 
-    unity::shell::scopes::ScopeInterface* findTempScope(QString const& id) const;
     void addTempScope(unity::shell::scopes::ScopeInterface* scope);
-    Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope);
+    Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope) override;
 
     // This is used as part of implementation of the other C++ code, not API
     QList<Scope*> favScopes() const;

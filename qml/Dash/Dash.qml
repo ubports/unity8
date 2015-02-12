@@ -122,7 +122,6 @@ Showable {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
-            scopeItem.scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
             x = -width;
         }
@@ -187,7 +186,6 @@ Showable {
             onOpenScope: {
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = 0;
-                scopeItem.scopeThatOpenedScope = scopesList.scope;
                 scopeItem.scope = scope;
                 dashContent.x = -dashContent.width;
             }
@@ -207,8 +205,6 @@ Showable {
     GenericScopeView {
         id: scopeItem
         objectName: "dashTempScopeItem"
-
-        property var scopeThatOpenedScope: null
 
         x: dashContent.x + width
         y: dashContent.y

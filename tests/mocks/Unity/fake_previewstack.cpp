@@ -23,9 +23,8 @@
 
 PreviewStack::PreviewStack(QObject* parent, Scope *scope)
  : unity::shell::scopes::PreviewStackInterface(parent)
- , m_scope(scope)
 {
-    m_previews << new PreviewModel(this, m_scope);
+    m_previews << new PreviewModel(this, scope);
 }
 
 PreviewStack::~PreviewStack()

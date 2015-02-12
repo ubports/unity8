@@ -45,7 +45,6 @@ public:
 
 private:
     QList<PreviewModel*> m_previews;
-    Scope* m_scope;
 };
 
 Q_DECLARE_METATYPE(PreviewStack*)
