@@ -49,6 +49,9 @@ Showable {
                 }
             }
         }
+        onResetAllRequested:{
+           dashContent.resetSearch();
+        }
     }
 
     function setCurrentScope(scopeId, animate, reset) {

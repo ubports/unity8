@@ -21,6 +21,7 @@ DashCommunicatorService::DashCommunicatorService(QObject *parent):
     m_dbusService(new DBusDashCommunicatorService(this))
 {
     connect(m_dbusService, &DBusDashCommunicatorService::setCurrentScopeRequested, this, &DashCommunicatorService::setCurrentScopeRequested);
+    connect(m_dbusService, &DBusDashCommunicatorService::resetAllRequested, this, &DashCommunicatorService::resetAllRequested);
 }
 
 

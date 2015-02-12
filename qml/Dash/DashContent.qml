@@ -40,6 +40,7 @@ Item {
     signal gotoScope(string scopeId)
     signal openScope(var scope)
     signal closePreview()
+    signal resetSearch()
 
     // If we set the current scope index before the scopes have been added,
     // then we need to wait until the loaded signals gets emitted from the scopes
@@ -209,6 +210,11 @@ Item {
                     Connections {
                         target: dashContent
                         onClosePreview: if (item) item.closePreview()
+                    }
+
+                    Connections {
+                        target: dashContent
+                        onResetSearch: if(item) item.resetSearch()
                     }
 
                     Component.onDestruction: active = false

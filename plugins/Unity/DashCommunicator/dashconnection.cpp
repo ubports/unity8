@@ -61,3 +61,10 @@ void DashConnection::setCurrentScope(int index, bool animate, bool isSwipe)
         dbusInterface()->asyncCall("SetCurrentScope", index, animate, isSwipe);
     }
 }
+
+void DashConnection::resetAll()
+{
+    if (dbusInterface()) {
+        dbusInterface()->asyncCall("ResetAll");
+    }
+}

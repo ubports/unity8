@@ -67,6 +67,11 @@ FocusScope {
         subPageLoader.closeSubPage()
     }
 
+    function resetSearch() {
+        if(pageHeaderLoader.item && showPageHeader)
+            pageHeaderLoader.item.resetSearch()
+    }
+
     function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
         if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope") {
             // TODO Technically it is possible that calling activate() will make the scope emit

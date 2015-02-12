@@ -784,6 +784,7 @@ Item {
             onDashSwipeChanged: {
                 if (dashSwipe) {
                     dash.setCurrentScope(0, false, true)
+                    dash.resetAll()
                 }
             }
             onLauncherApplicationSelected: {

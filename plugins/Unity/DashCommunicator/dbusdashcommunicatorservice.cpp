@@ -33,3 +33,8 @@ void DBusDashCommunicatorService::SetCurrentScope(int index, bool animate, bool 
 {
     Q_EMIT setCurrentScopeRequested(index, animate, isSwipe);
 }
+
+void DBusDashCommunicatorService::ResetAll()
+{
+    Q_EMIT resetAllRequested();
+}

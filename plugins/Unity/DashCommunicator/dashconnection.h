@@ -28,6 +28,7 @@ public:
 
 public Q_SLOTS:
     void setCurrentScope(int index, bool animate, bool isSwipe);
+    void resetAll();
 
 private:
     QDBusAbstractInterface* createInterface(const QString &service, const QString &path,
