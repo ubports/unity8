@@ -471,7 +471,9 @@ Item {
             anchors.fill: parent //because this draws indicator menus
             indicators {
                 hides: [launcher]
-                available: tutorial.panelEnabled && (!greeter.locked || AccountsService.enableIndicatorsWhileLocked) && !greeter.hasLockedApp
+                available: tutorial.panelEnabled
+                        && (!greeter.locked || AccountsService.enableIndicatorsWhileLocked)
+                        && !greeter.hasLockedApp
                 contentEnabled: tutorial.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
@@ -505,7 +507,9 @@ Item {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: tutorial.launcherEnabled && (!greeter.locked || AccountsService.enableLauncherWhileLocked) && !greeter.hasLockedApp
+            available: tutorial.launcherEnabled
+                    && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
+                    && !greeter.hasLockedApp
             inverted: usageModeSettings.usageMode === "Staged"
             shadeBackground: !tutorial.running
 
