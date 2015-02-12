@@ -1,17 +1,20 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
 import QtQuick 2.0
@@ -24,146 +27,134 @@ import Unity.Notifications 1.0
 import QtMultimedia 5.0
 
 Item {
+    id: foobar
+
     width: notificationsRect.width + interactiveControls.width
     height: notificationsRect.height
+    property int index: 0
 
     Row {
         id: rootRow
 
-        Component {
-            id: mockNotification
-
-            QtObject {
-                function invokeAction(actionId) {
-                    mockModel.actionInvoked(actionId)
-                }
-            }
-        }
-
-        ListModel {
+        NotificationModel {
             id: mockModel
-            dynamicRoles: true
-
-            signal actionInvoked(string actionId)
-
-            function getRaw(id) {
-                return mockNotification.createObject(mockModel)
-            }
 
             // add the default/PlaceHolder notification to the model
             Component.onCompleted: {
-                var n = {
-                    type: Notification.PlaceHolder,
-                    hints: {},
-                    summary: "",
-                    body: "",
-                    icon: "",
-                    secondaryIcon: "",
-                    actions: []
-                }
-
+                var component = Qt.createComponent("Notification.qml")
+                var n = component.createObject("notification", {"nid": index++,
+                                                                "type": Notification.PlaceHolder,
+                                                                "hints": {},
+                                                                "summary": "",
+                                                                "body": "",
+                                                                "icon": "",
+                                                                "secondaryIcon": "",
+                                                                "rawActions": []})
+                n.completed.connect(mockModel.onCompleted)
                 append(n)
             }
         }
 
         function add2over1SnapDecisionNotification() {
-            var n = {
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-affirmative-tint": "true"},
-                summary: "Theatre at Ferria Stadium",
-                body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
-                icon: "",
-                secondaryIcon: "",
-                actions: [{ id: "ok_id", label: "Ok"},
-                          { id: "snooze_id", label: "Snooze"},
-                          { id: "view_id", label: "View"}]
-            }
-
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.SnapDecision,
+                                                            "hints": {"x-canonical-private-affirmative-tint": "true"},
+                                                            "summary": "Theatre at Ferria Stadium",
+                                                            "body": "at Ferria Stadium in Bilbao, Spain\n07578545317",
+                                                            "icon": "",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["ok_id",     "Ok",
+                                                                           "snooze_id", "Snooze",
+                                                                           "view_id",   "View"]})
+            n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
         }
 
         function addEphemeralNotification() {
-            var n = {
-                type: Notification.Ephemeral,
-                summary: "Cole Raby",
-                body: "I did not expect it to be that late.",
-                icon: "../graphics/avatars/amanda.png",
-                secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                actions: []
-            }
-
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Ephemeral,
+                                                            "hints": {},
+                                                            "summary": "Cole Raby",
+                                                            "body": "I did not expect it to be that late.",
+                                                            "icon": "../graphics/avatars/amanda.png",
+                                                            "secondaryIcon": "../graphics/applicationIcons/facebook.png",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
         }
 
         function addEphemeralNonShapedIconNotification() {
-            var n = {
-                type: Notification.Ephemeral,
-                hints: {"x-canonical-non-shaped-icon": "true"},
-                summary: "Contacts",
-                body: "Synchronised contacts-database with cloud-storage.",
-                icon: "../graphics/applicationIcons/contacts-app.png",
-                secondaryIcon: "",
-                actions: []
-            }
-
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Ephemeral,
+                                                            "hints": {"x-canonical-non-shaped-icon": "true"},
+                                                            "summary": "Contacts",
+                                                            "body": "Synchronised contacts-database with cloud-storage.",
+                                                            "icon": "../graphics/applicationIcons/contacts-app.png",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
         }
 
         function addEphemeralIconSummaryNotification() {
-            var n = {
-                type: Notification.Ephemeral,
-                hints: {"x-canonical-non-shaped-icon": "false"},
-                summary: "Photo upload completed",
-                body: "",
-                icon: "../graphics/applicationIcons/facebook.png",
-                secondaryIcon: "",
-                actions: []
-            }
-
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Ephemeral,
+                                                            "hints": {"x-canonical-non-shaped-icon": "false"},
+                                                            "summary": "Photo upload completed",
+                                                            "body": "",
+                                                            "icon": "../graphics/applicationIcons/facebook.png",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
         }
 
         function addInteractiveNotification() {
-            var n = {
-                type: Notification.Interactive,
-                summary: "Interactive notification",
-                body: "This is a notification that can be clicked",
-                icon: "../graphics/avatars/anna_olsson.png",
-                secondaryIcon: "",
-                actions: [{ id: "reply_id", label: "Dummy"}],
-            }
-
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Interactive,
+                                                            "hints": {},
+                                                            "summary": "Interactive notification",
+                                                            "body": "This is a notification that can be clicked",
+                                                            "icon": "../graphics/avatars/anna_olsson.png",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
         }
 
         function addConfirmationNotification() {
-            var n = {
-                type: Notification.Confirmation,
-                hints: {"x-canonical-non-shaped-icon": "true"},
-                summary: "Confirmation notification",
-                body: "",
-                icon: "image://theme/audio-volume-medium",
-                secondaryIcon: "",
-                value: 50,
-                actions: [],
-            }
-
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Confirmation,
+                                                            "hints": {"x-canonical-non-shaped-icon": "true"},
+                                                            "summary": "Confirmation notification",
+                                                            "body": "",
+                                                            "icon": "image://theme/audio-volume-medium",
+                                                            "secondaryIcon": "",
+                                                            "value": 50,
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
         }
 
         function add2ndConfirmationNotification() {
-            var n = {
-                type: Notification.Confirmation,
-                hints: {"x-canonical-non-shaped-icon": "true",
-                        "x-canonical-value-bar-tint": "true"},
-                summary: "Confirmation notification",
-                body: "High Volume",
-                icon: "image://theme/audio-volume-high",
-                secondaryIcon: "",
-                value: 85,
-                actions: [],
-            }
-
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.Confirmation,
+                                                            "hints": {"x-canonical-non-shaped-icon": "true",
+                                                                      "x-canonical-value-bar-tint": "true"},
+                                                            "summary": "Confirmation notification",
+                                                            "body": "High Volume",
+                                                            "icon": "image://theme/audio-volume-high",
+                                                            "secondaryIcon": "",
+                                                            "value": 85,
+                                                            "rawActions": ["reply_id", "Dummy"]})
+            n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
         }
 
@@ -174,8 +165,9 @@ Item {
         }
 
         function remove1stNotification() {
-            if (mockModel.count > 1)
-                mockModel.remove(1)
+            if (mockModel.count > 1) {
+                mockModel.removeSecond()
+            }
         }
 
         Rectangle {
@@ -273,41 +265,122 @@ Item {
             name: "NotificationRendererTest"
             when: windowShown
 
+            property list<Notification> nlist: [
+                Notification {
+                    nid: 1
+                    type: Notification.Ephemeral
+                    summary: "Photo upload completed"
+                    body: ""
+                    icon: "../graphics/applicationIcons/facebook.png"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: 2
+                    type: Notification.Ephemeral
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg",
+                            "suppress-sound": "true"}
+                    summary: "New comment successfully published"
+                    body: ""
+                    icon: ""
+                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: 3
+                    type: Notification.Interactive
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg"}
+                    summary: "Interactive notification"
+                    body: "This is a notification that can be clicked"
+                    icon: "../graphics/avatars/amanda.png"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: ["reply_id", "Dummy"]
+                },
+                Notification {
+                    nid: 4
+                    type: Notification.SnapDecision
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg"}
+                    summary: "Bro Coly"
+                    body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+                    icon: "../graphics/avatars/anna_olsson.png"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: ["accept_id", "Accept",
+                                 "reject_id", "Reject"]
+                },
+                Notification {
+                    nid: 5
+                    type: Notification.Ephemeral
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "sound-file": "dummy.ogg"}
+                    summary: "Cole Raby"
+                    body: "I did not expect it to be that late."
+                    icon: "../graphics/avatars/funky.png"
+                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: 6
+                    type: Notification.Ephemeral
+                    hints: {"x-canonical-private-affirmative-tint": "false",
+                            "x-canonical-non-shaped-icon": "true"}
+                    summary: "Contacts"
+                    body: "Synchronised contacts-database with cloud-storage."
+                    icon: "image://theme/contacts-app"
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: []
+                },
+                Notification {
+                    nid: 7
+                    type: Notification.Confirmation
+                    hints: {"x-canonical-non-shaped-icon": "true"}
+                    summary: ""
+                    body: ""
+                    icon: "image://theme/audio-volume-medium"
+                    secondaryIcon: ""
+                    value: 50
+                    rawActions: []
+                },
+                Notification {
+                    nid: 8
+                    type: Notification.Confirmation
+                    hints: {"x-canonical-non-shaped-icon": "true",
+                            "x-canonical-value-bar-tint" : "true"}
+                    summary: ""
+                    body: "High Volume"
+                    icon: "image://theme/audio-volume-high"
+                    secondaryIcon: ""
+                    value: 85
+                    rawActions: []
+                },
+                Notification {
+                    nid: 9
+                    type: Notification.SnapDecision
+                    hints: {"x-canonical-private-affirmative-tint": "true"}
+                    summary: "Theatre at Ferria Stadium"
+                    body: "at Ferria Stadium in Bilbao, Spain\n07578545317"
+                    icon: ""
+                    secondaryIcon: ""
+                    value: 0
+                    rawActions: ["ok_id",     "Ok",
+                                 "snooze_id", "Snooze",
+                                 "view_id",   "View"]
+                }
+            ]
+
             function test_NotificationRenderer_data() {
                 return [
                 {
-                    tag: "2-over-1 Snap Decision with button-tint",
-                    type: Notification.SnapDecision,
-                    hints: {"x-canonical-private-affirmative-tint": "true"},
-                    summary: "Theatre at Ferria Stadium",
-                    body: "at Ferria Stadium in Bilbao, Spain\n07578545317",
-                    icon: "",
-                    secondaryIcon: "",
-                    actions: [{ id: "ok_id", label: "Ok"},
-                              { id: "snooze_id", label: "Snooze"},
-                              { id: "view_id", label: "View"}],
-                    summaryVisible: true,
-                    bodyVisible: true,
-                    iconVisible: false,
-                    centeredIconVisible: false,
-                    shaped: false,
-                    secondaryIconVisible: false,
-                    buttonRowVisible: false,
-                    buttonTinted: true,
-                    hasSound: false,
-                    valueVisible: false,
-                    valueLabelVisible: false,
-                    valueTinted: false
-                },
-                {
                     tag: "Ephemeral notification - icon-summary layout",
-                    type: Notification.Ephemeral,
-                    hints: {},
-                    summary: "Photo upload completed",
-                    body: "",
-                    icon: "../graphics/applicationIcons/facebook.png",
-                    secondaryIcon: "",
-                    actions: [],
+                    n: nlist[0],
                     summaryVisible: true,
                     bodyVisible: false,
                     iconVisible: true,
@@ -323,15 +396,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
-                    type: Notification.Ephemeral,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg",
-                            "suppress-sound": "true"},
-                    summary: "New comment successfully published",
-                    body: "",
-                    icon: "",
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                    actions: [],
+                    n: nlist[1],
                     summaryVisible: true,
                     bodyVisible: false,
                     interactiveAreaEnabled: false,
@@ -348,14 +413,7 @@ Item {
                 },
                 {
                     tag: "Interactive notification",
-                    type: Notification.Interactive,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg"},
-                    summary: "Interactive notification",
-                    body: "This is a notification that can be clicked",
-                    icon: "../graphics/avatars/amanda.png",
-                    secondaryIcon: "",
-                    actions: [{ id: "reply_id", label: "Dummy"}],
+                    n: nlist[2],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -371,15 +429,7 @@ Item {
                 },
                 {
                     tag: "Snap Decision without secondary icon and no button-tint",
-                    type: Notification.SnapDecision,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg"},
-                    summary: "Bro Coly",
-                    body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                    icon: "../graphics/avatars/anna_olsson.png",
-                    secondaryIcon: "",
-                    actions: [{ id: "accept_id", label: "Accept"},
-                              { id: "reject_id", label: "Reject"}],
+                    n: nlist[3],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -395,14 +445,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification",
-                    type: Notification.Ephemeral,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "sound-file": "dummy.ogg"},
-                    summary: "Cole Raby",
-                    body: "I did not expect it to be that late.",
-                    icon: "../graphics/avatars/funky.png",
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png",
-                    actions: [],
+                    n: nlist[4],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -418,14 +461,7 @@ Item {
                 },
                 {
                     tag: "Ephemeral notification with non-shaped icon",
-                    type: Notification.Ephemeral,
-                    hints: {"x-canonical-private-affirmative-tint": "false",
-                            "x-canonical-non-shaped-icon": "true"},
-                    summary: "Contacts",
-                    body: "Synchronised contacts-database with cloud-storage.",
-                    icon: "image://theme/contacts-app",
-                    secondaryIcon: "",
-                    actions: [],
+                    n: nlist[5],
                     summaryVisible: true,
                     bodyVisible: true,
                     iconVisible: true,
@@ -441,14 +477,7 @@ Item {
                 },
                 {
                     tag: "Confirmation notification with value",
-                    type: Notification.Confirmation,
-                    hints: {"x-canonical-non-shaped-icon": "true"},
-                    summary: "",
-                    body: "",
-                    icon: "image://theme/audio-volume-medium",
-                    secondaryIcon: "",
-                    value: 50,
-                    actions: [],
+                    n: nlist[6],
                     summaryVisible: false,
                     bodyVisible: false,
                     iconVisible: false,
@@ -464,15 +493,7 @@ Item {
                 },
                 {
                     tag: "Confirmation notification with value, label and tint",
-                    type: Notification.Confirmation,
-                    hints: {"x-canonical-non-shaped-icon": "true",
-                            "x-canonical-value-bar-tint" : "true"},
-                    summary: "",
-                    body: "High Volume",
-                    icon: "image://theme/audio-volume-high",
-                    secondaryIcon: "",
-                    value: 85,
-                    actions: [],
+                    n: nlist[7],
                     summaryVisible: false,
                     bodyVisible: false,
                     iconVisible: false,
@@ -485,6 +506,22 @@ Item {
                     valueVisible: true,
                     valueLabelVisible: true,
                     valueTinted: true
+                },
+                {
+                    tag: "2-over-1 Snap Decision with button-tint",
+                    n: nlist[8],
+                    summaryVisible: true,
+                    bodyVisible: true,
+                    iconVisible: false,
+                    centeredIconVisible: false,
+                    shaped: false,
+                    secondaryIconVisible: false,
+                    buttonRowVisible: false,
+                    buttonTinted: true,
+                    hasSound: false,
+                    valueVisible: false,
+                    valueLabelVisible: false,
+                    valueTinted: false
                 }
                 ]
             }
@@ -509,8 +546,14 @@ Item {
             }
 
             function test_NotificationRenderer(data) {
+                // make sure the clicks on mocked notifications can be checked against by "actionSpy" (mimicking the NotificationServer component)
+                data.n.actionInvoked.connect(mockModel.actionInvoked)
+
+                // hook up notification's completed-signal with model's onCompleted-slot, so that remove() (model) happens on close() (notification)
+                data.n.completed.connect(mockModel.onCompleted)
+
                 // populate model with some mock notifications
-                mockModel.append(data)
+                mockModel.append(data.n)
 
                 // make sure the view is properly updated before going on
                 notifications.forceLayout();
@@ -548,9 +591,9 @@ Item {
 
                 // test input does not fall through
                 mouseClick(notification)
-                if(data.type == Notification.Interactive) {
+                if(data.n.type === Notification.Interactive) {
                     actionSpy.wait()
-                    compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
+                    compare(actionSpy.signalArguments[0][0], data.n.actions.data(0, ActionModel.RoleActionId), "got wrong id for interactive action")
                 }
                 compare(clickThroughSpy.count, 0, "click on notification fell through")
 
@@ -559,17 +602,19 @@ Item {
                 compare(bodyLabel.visible, data.bodyVisible, "body-text visibility is incorrect")
                 compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
 
-                var audioItem = findInvisibleChild(notification, "sound")
-                compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
+                if (data.hasSound) {
+                    var audioItem = findInvisibleChild(notification, "sound")
+                    compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
+                }
 
                 if(data.buttonRowVisible) {
                     var buttonCancel = findChild(buttonRow, "notify_button1")
                     var buttonAccept = findChild(buttonRow, "notify_button0")
 
                     // only test the left/cancel-button if two actions have been passed in
-                    if (data.actions.length == 2) {
+                    if (data.n.actions.count === 2) {
                         tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
                         actionSpy.clear()
                     }
 
@@ -578,35 +623,48 @@ Item {
 
                     // click the positive/right button
                     tryCompareFunction(function() { mouseClick(buttonAccept); return actionSpy.signalArguments.length > 0; }, true);
-                    compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
+                    compare(actionSpy.signalArguments[0][0], data.n.actions.data(0, ActionModel.RoleActionId), "got wrong id positive action")
                     actionSpy.clear()
-                    waitForRendering (notification)
 
                     // check if there's a ComboButton created due to more actions being passed
-                    if (data.actions.length > 2) {
+                    if (data.n.actions.count > 3) {
                         var comboButton = findChild(notification, "notify_button2")
-                        tryCompareFunction(function() { return comboButton.expanded == false; }, true);
+                        tryCompareFunction(function() { return comboButton.expanded === false; }, true);
 
                         // click to expand
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == true; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded === true; }, true);
 
                         // try clicking on choices in expanded comboList
                         var choiceButton1 = findChild(notification, "notify_button3")
                         tryCompareFunction(function() { mouseClick(choiceButton1); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(3, ActionModel.RoleActionId), "got wrong id choice action 1")
                         actionSpy.clear()
 
                         var choiceButton2 = findChild(notification, "notify_button4")
                         tryCompareFunction(function() { mouseClick(choiceButton2); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(4, ActionModel.RoleActionId), "got wrong id choice action 2")
                         actionSpy.clear()
 
                         // click to collapse
-                        //tryCompareFunction(function() { mouseClick(comboButton, comboButton.width - comboButton.__styleInstance.dropDownWidth / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
                     } else {
                         mouseClick(buttonCancel)
-                        compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
                     }
+                }
+
+                // swipe-to-dismiss check
+                waitForRendering(notification)
+                var before = mockModel.count
+                var dragStart = notification.width * 0.25;
+                var dragEnd = notification.width;
+                var dragY = notification.height / 2;
+                touchFlick(notification, dragStart, dragY, dragEnd, dragY)
+                waitForRendering(notification)
+                if ((data.n.type === Notification.SnapDecision && notification.state === "expanded") || data.n.type === Notification.Confirmation) {
+                    tryCompare(mockModel, "count", before)
+                } else {
+                    tryCompare(mockModel, "count", before - 1)
                 }
             }
         }

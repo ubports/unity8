@@ -1,17 +1,20 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
 import QtQuick 2.0
@@ -235,8 +238,10 @@ Row {
             compare(bodyLabel.visible, data.bodyVisible, "body-text visibility is incorrect")
             compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
 
-            var audioItem = findInvisibleChild(notification, "sound")
-            compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
+            if (data.hasSound) {
+                var audioItem = findInvisibleChild(notification, "sound")
+                compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
+            }
 
             if(data.buttonRowVisible) {
                 var buttonCancel = findChild(buttonRow, "notify_button1")

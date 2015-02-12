@@ -89,6 +89,7 @@ Showable {
         objectName: "infographics"
         height: parent.height
         model: root.infographicModel
+        clip: true // clip large data bubbles
 
         anchors {
             verticalCenter: parent.verticalCenter

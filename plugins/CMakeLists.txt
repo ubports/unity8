@@ -12,6 +12,7 @@ macro(add_unity8_plugin PLUGIN VERSION PATH)
 endmacro()
 
 add_subdirectory(AccountsService)
+add_subdirectory(Greeter)
 add_subdirectory(LightDM)
 add_subdirectory(Lights)
 add_subdirectory(Dash)

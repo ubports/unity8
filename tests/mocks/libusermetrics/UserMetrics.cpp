@@ -312,6 +312,7 @@ void UserMetricsPrivate::generateFakeData()
         QVariantList firstMonth;
         while (firstMonth.size() < 17)
             firstMonth.push_back(QVariant(rand()));
+        firstMonth[8] = QVariant(1.0); // oversized 9th day, to test clipping
         while (firstMonth.size() < 31)
             firstMonth.push_back(QVariant());
         QVariantList secondMonth;
