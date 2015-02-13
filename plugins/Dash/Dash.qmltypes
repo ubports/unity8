@@ -15,8 +15,24 @@ Module {
         Property { name: "delegate"; type: "QQmlComponent"; isPointer: true }
         Property { name: "columnSpacing"; type: "double" }
         Property { name: "rowSpacing"; type: "double" }
+        Property { name: "cacheBuffer"; type: "int" }
         Property { name: "displayMarginBeginning"; type: "double" }
         Property { name: "displayMarginEnd"; type: "double" }
+    }
+    Component {
+        name: "CroppedImageSizer"
+        prototype: "QObject"
+        exports: ["Dash/CroppedImageSizer 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "source"; type: "QUrl" }
+        Property { name: "width"; type: "double" }
+        Property { name: "height"; type: "double" }
+        Property { name: "sourceSize"; type: "QSize"; isReadonly: true }
+        Signal { name: "inputParamsChanged" }
+        Method {
+            name: "setImageSize"
+            Parameter { name: "imageSize"; type: "QSize" }
+        }
     }
     Component {
         name: "HorizontalJournal"
@@ -40,7 +56,7 @@ Module {
         Property { name: "forceNoClip"; type: "bool" }
         Property { name: "stickyHeaderHeight"; type: "int"; isReadonly: true }
         Property { name: "headerItemShownHeight"; type: "double"; isReadonly: true }
-        Property { name: "cacheBuffer"; type: "double" }
+        Property { name: "cacheBuffer"; type: "int" }
         Signal { name: "headerChanged" }
         Method { name: "positionAtBeginning" }
         Method { name: "showHeader" }

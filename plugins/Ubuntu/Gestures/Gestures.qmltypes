@@ -33,7 +33,8 @@ Module {
                 "Rightwards": 0,
                 "Leftwards": 1,
                 "Downwards": 2,
-                "Upwards": 3
+                "Upwards": 3,
+                "Horizontal": 4
             }
         }
         Method {
@@ -150,5 +151,18 @@ Module {
         exports: ["Ubuntu.Gestures/PressedOutsideNotifier 0.1"]
         exportMetaObjectRevisions: [0]
         Signal { name: "pressedOutside" }
+    }
+    Component {
+        name: "TouchGate"
+        defaultProperty: "data"
+        prototype: "QQuickItem"
+        exports: ["Ubuntu.Gestures/TouchGate 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "targetItem"; type: "QQuickItem"; isPointer: true }
+        Signal {
+            name: "targetItemChanged"
+            Parameter { name: "item"; type: "QQuickItem"; isPointer: true }
+        }
+        Signal { name: "pressed" }
     }
 }

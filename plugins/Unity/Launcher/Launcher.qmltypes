@@ -25,6 +25,7 @@ Module {
             name: "requestRemove"
             Parameter { name: "appId"; type: "string" }
         }
+        Method { name: "refresh" }
         Method {
             name: "get"
             type: "unity::shell::launcher::LauncherItemInterface*"
@@ -136,6 +137,8 @@ Module {
             type: "unity::shell::application::ApplicationManagerInterface"
             isPointer: true
         }
+        Property { name: "onlyPinned"; type: "bool" }
+        Signal { name: "hint" }
         Method {
             name: "move"
             Parameter { name: "oldIndex"; type: "int" }

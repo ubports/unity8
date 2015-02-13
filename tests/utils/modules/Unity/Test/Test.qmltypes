@@ -21,6 +21,7 @@ Module {
             Parameter { type: "string" }
         }
         Method { name: "touchEvent"; type: "TouchEventSequenceWrapper*" }
+        Method { name: "ensureTouchRegistryInstalled" }
     }
     Component {
         name: "TouchEventSequenceWrapper"

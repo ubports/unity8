@@ -15,6 +15,10 @@ Module {
         isSingleton: true
         exportMetaObjectRevisions: [0]
         Property { name: "wizardEnabled"; type: "bool" }
+        Signal {
+            name: "updateSessionLanguageCalled"
+            Parameter { name: "locale"; type: "string" }
+        }
         Method {
             name: "updateSessionLanguage"
             Parameter { name: "locale"; type: "string" }
@@ -24,8 +28,6 @@ Module {
         name: "PageList"
         prototype: "QObject"
         exports: ["Wizard/PageList 0.1"]
-        isCreatable: false
-        isSingleton: true
         exportMetaObjectRevisions: [0]
         Property { name: "index"; type: "int"; isReadonly: true }
         Property { name: "numPages"; type: "int"; isReadonly: true }
@@ -33,4 +35,3 @@ Module {
         Method { name: "next"; type: "string" }
     }
 }
-

@@ -60,9 +60,49 @@ Module {
         Method { name: "invalidate" }
     }
     Component {
-        name: "QSortFilterProxyModelQML"
+        name: "RelativeTimeFormatter"
+        prototype: "TimeFormatter"
+        exports: ["Utils/RelativeTimeFormatter 0.1"]
+        exportMetaObjectRevisions: [0]
+    }
+    Component {
+        name: "TimeFormatter"
+        prototype: "QObject"
+        exports: ["Utils/GDateTimeFormatter 0.1", "Utils/TimeFormatter 0.1"]
+        exportMetaObjectRevisions: [0, 0]
+        Property { name: "format"; type: "string" }
+        Property { name: "timeString"; type: "string"; isReadonly: true }
+        Property { name: "time"; type: "qlonglong" }
+        Signal {
+            name: "formatChanged"
+            Parameter { name: "format"; type: "string" }
+        }
+        Signal {
+            name: "timeStringChanged"
+            Parameter { name: "timeString"; type: "string" }
+        }
+        Signal {
+            name: "timeChanged"
+            Parameter { name: "time"; type: "qlonglong" }
+        }
+    }
+    Component {
+        name: "UnityMenuModelPaths"
+        prototype: "QObject"
+        exports: ["Utils/UnityMenuModelPaths 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "source"; type: "QVariant" }
+        Property { name: "busName"; type: "QByteArray"; isReadonly: true }
+        Property { name: "actions"; type: "QVariantMap"; isReadonly: true }
+        Property { name: "menuObjectPath"; type: "QByteArray"; isReadonly: true }
+        Property { name: "busNameHint"; type: "QByteArray" }
+        Property { name: "actionsHint"; type: "QByteArray" }
+        Property { name: "menuObjectPathHint"; type: "QByteArray" }
+    }
+    Component {
+        name: "UnitySortFilterProxyModelQML"
         prototype: "QSortFilterProxyModel"
-        exports: ["Utils/SortFilterProxyModel 0.1"]
+        exports: ["Utils/UnitySortFilterProxyModel 0.1"]
         exportMetaObjectRevisions: [0]
         Property { name: "model"; type: "QAbstractItemModel"; isPointer: true }
         Property { name: "totalCount"; type: "int"; isReadonly: true }
@@ -107,50 +147,29 @@ Module {
         }
     }
     Component {
-        name: "RelativeTimeFormatter"
-        prototype: "TimeFormatter"
-        exports: ["Utils/RelativeTimeFormatter 0.1"]
-        exportMetaObjectRevisions: [0]
-    }
-    Component {
-        name: "TimeFormatter"
-        prototype: "QObject"
-        exports: ["Utils/GDateTimeFormatter 0.1", "Utils/TimeFormatter 0.1"]
-        exportMetaObjectRevisions: [0, 0]
-        Property { name: "format"; type: "string" }
-        Property { name: "timeString"; type: "string"; isReadonly: true }
-        Property { name: "time"; type: "qlonglong" }
-        Signal {
-            name: "formatChanged"
-            Parameter { name: "format"; type: "string" }
-        }
-        Signal {
-            name: "timeStringChanged"
-            Parameter { name: "timeString"; type: "string" }
-        }
-        Signal {
-            name: "timeChanged"
-            Parameter { name: "time"; type: "qlonglong" }
-        }
-    }
-    Component {
-        name: "UnityMenuModelPaths"
-        prototype: "QObject"
-        exports: ["Utils/UnityMenuModelPaths 0.1"]
-        exportMetaObjectRevisions: [0]
-        Property { name: "source"; type: "QVariant" }
-        Property { name: "busName"; type: "QByteArray"; isReadonly: true }
-        Property { name: "actions"; type: "QVariantMap"; isReadonly: true }
-        Property { name: "menuObjectPath"; type: "QByteArray"; isReadonly: true }
-        Property { name: "busNameHint"; type: "QByteArray" }
-        Property { name: "actionsHint"; type: "QByteArray" }
-        Property { name: "menuObjectPathHint"; type: "QByteArray" }
-    }
-    Component {
         name: "WindowKeysFilter"
         defaultProperty: "data"
         prototype: "QQuickItem"
         exports: ["Utils/WindowKeysFilter 0.1"]
         exportMetaObjectRevisions: [0]
+    }
+    Component {
+        name: "WindowStateStorage"
+        prototype: "QObject"
+        exports: ["Utils/WindowStateStorage 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Method {
+            name: "saveGeometry"
+            Parameter { name: "windowId"; type: "string" }
+            Parameter { name: "rect"; type: "QRect" }
+        }
+        Method {
+            name: "getGeometry"
+            type: "QRect"
+            Parameter { name: "windowId"; type: "string" }
+            Parameter { name: "defaultValue"; type: "QRect" }
+        }
     }
 }

@@ -29,6 +29,7 @@ Module {
         exports: ["Unity.Indicators/FakeIndicatorsModel 0.1"]
         exportMetaObjectRevisions: [0]
         Property { name: "count"; type: "int"; isReadonly: true }
+        Property { name: "profile"; type: "string" }
         Property { name: "modelData"; type: "QVariant" }
         Method {
             name: "load"
@@ -64,16 +65,17 @@ Module {
         exportMetaObjectRevisions: [0]
         Method {
             name: "setCachedModelData"
-            Parameter { name: "bus"; type: "QByteArray" }
             Parameter { name: "path"; type: "QByteArray" }
-            Parameter { name: "actions"; type: "QVariantMap" }
             Parameter { name: "data"; type: "QVariant" }
         }
         Method {
             name: "setCachedModelData"
-            Parameter { name: "bus"; type: "QByteArray" }
             Parameter { name: "path"; type: "QByteArray" }
-            Parameter { name: "actions"; type: "QVariantMap" }
+        }
+        Method {
+            name: "getCachedModelData"
+            type: "QVariant"
+            Parameter { name: "path"; type: "QByteArray" }
         }
     }
     Component {
@@ -105,8 +107,7 @@ Module {
             values: {
                 "Identifier": 0,
                 "Position": 1,
-                "IndicatorProperties": 2,
-                "IsVisible": 3
+                "IndicatorProperties": 2
             }
         }
     }
@@ -183,12 +184,6 @@ Module {
         }
     }
     Component {
-        name: "QAbstractProxyModel"
-        prototype: "QAbstractItemModel"
-        Property { name: "sourceModel"; type: "QAbstractItemModel"; isPointer: true }
-    }
-    Component { name: "QIdentityProxyModel"; prototype: "QAbstractProxyModel" }
-    Component {
         name: "SharedUnityMenuModel"
         prototype: "QObject"
         exports: ["Unity.Indicators/SharedUnityMenuModel 0.1"]
@@ -233,26 +228,5 @@ Module {
             Parameter { name: "menuIndex"; type: "int" }
         }
         Method { name: "pop"; type: "UnityMenuModel*" }
-    }
-    Component {
-        name: "VisibleIndicatorsModel"
-        prototype: "QIdentityProxyModel"
-        exports: ["Unity.Indicators/VisibleIndicatorsModel 0.1"]
-        exportMetaObjectRevisions: [0]
-        Property { name: "model"; type: "QAbstractItemModel"; isPointer: true }
-        Property { name: "visible"; type: "QVariantMap" }
-        Signal { name: "totalCountChanged" }
-        Method {
-            name: "onBeginRowInserted"
-            Parameter { type: "QModelIndex" }
-            Parameter { name: "start"; type: "int" }
-            Parameter { name: "end"; type: "int" }
-        }
-        Method {
-            name: "onRowInserted"
-            Parameter { type: "QModelIndex" }
-            Parameter { name: "start"; type: "int" }
-            Parameter { name: "end"; type: "int" }
-        }
     }
 }

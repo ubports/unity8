@@ -114,7 +114,7 @@ Module {
         Method { name: "invalidate" }
     }
     Component {
-        name: "QSortFilterProxyModelQML"
+        name: "UnitySortFilterProxyModelQML"
         prototype: "QSortFilterProxyModel"
         Property { name: "model"; type: "QAbstractItemModel"; isPointer: true }
         Property { name: "totalCount"; type: "int"; isReadonly: true }
@@ -242,7 +242,7 @@ Module {
     }
     Component {
         name: "UsersModel"
-        prototype: "QSortFilterProxyModelQML"
+        prototype: "UnitySortFilterProxyModelQML"
         exports: ["LightDM/Users 0.1"]
         isCreatable: false
         isSingleton: true

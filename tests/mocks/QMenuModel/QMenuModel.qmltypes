@@ -8,10 +8,43 @@ import QtQuick.tooling 1.1
 
 Module {
     Component {
+        name: "ActionData"
+        prototype: "QObject"
+        exports: ["QMenuModel/ActionData 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Property { name: "data"; type: "QVariant" }
+    }
+    Component {
         name: "ActionStateParser"
         prototype: "QObject"
         exports: ["QMenuModel/ActionStateParser 0.1"]
         exportMetaObjectRevisions: [0]
+    }
+    Component {
+        name: "DBusEnums"
+        prototype: "QObject"
+        exports: ["QMenuModel/DBus 0.1"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Enum {
+            name: "BusType"
+            values: {
+                "None": 0,
+                "SessionBus": 1,
+                "SystemBus": 2,
+                "LastBusType": 3
+            }
+        }
+        Enum {
+            name: "ConnectionStatus"
+            values: {
+                "Disconnected": 0,
+                "Connecting": 1,
+                "Connected": 2
+            }
+        }
     }
     Component {
         name: "UnityMenuModel"

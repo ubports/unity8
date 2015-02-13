@@ -169,7 +169,18 @@ Module {
             Parameter { name: "scope"; type: "Scope"; isPointer: true }
         }
         Method { name: "clear" }
+        Method { name: "clearFavorites" }
         Method { name: "load" }
+        Method {
+            name: "setFavorite"
+            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "favorite"; type: "bool" }
+        }
+        Method {
+            name: "moveFavoriteTo"
+            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
+        }
         Method {
             name: "getScopeFromAll"
             type: "Scope*"
@@ -442,6 +453,16 @@ Module {
             name: "getScope"
             type: "unity::shell::scopes::ScopeInterface*"
             Parameter { name: "scopeId"; type: "string" }
+        }
+        Method {
+            name: "setFavorite"
+            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "favorite"; type: "bool" }
+        }
+        Method {
+            name: "moveFavoriteTo"
+            Parameter { name: "scopeId"; type: "string" }
+            Parameter { name: "index"; type: "int" }
         }
     }
     Component {

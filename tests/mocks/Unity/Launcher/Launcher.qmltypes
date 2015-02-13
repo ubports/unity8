@@ -63,6 +63,7 @@ Module {
             type: "string"
             Parameter { name: "appId"; type: "string" }
         }
+        Method { name: "emitHint" }
     }
     Component {
         name: "MockQuickListModel"
@@ -141,6 +142,8 @@ Module {
             type: "unity::shell::application::ApplicationManagerInterface"
             isPointer: true
         }
+        Property { name: "onlyPinned"; type: "bool" }
+        Signal { name: "hint" }
         Method {
             name: "move"
             Parameter { name: "oldIndex"; type: "int" }

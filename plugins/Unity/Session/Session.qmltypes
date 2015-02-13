@@ -9,7 +9,7 @@ import QtQuick.tooling 1.1
 Module {
     Component {
         name: "DBusUnitySessionService"
-        prototype: "QObject"
+        prototype: "UnityDBusObject"
         exports: ["Unity.Session/DBusUnitySessionService 0.1"]
         isCreatable: false
         isSingleton: true
@@ -33,6 +33,9 @@ Module {
         Method { name: "RequestLogout" }
         Method { name: "RequestReboot" }
         Method { name: "RequestShutdown" }
+        Method { name: "logout" }
+        Method { name: "reboot" }
+        Method { name: "shutdown" }
     }
     Component {
         name: "OrientationLock"
@@ -44,4 +47,5 @@ Module {
         Property { name: "enabled"; type: "bool"; isReadonly: true }
         Property { name: "savedOrientation"; type: "Qt::ScreenOrientation" }
     }
+    Component { name: "UnityDBusObject"; prototype: "QObject" }
 }
