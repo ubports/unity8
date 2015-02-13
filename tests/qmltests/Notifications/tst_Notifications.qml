@@ -563,6 +563,7 @@ Item {
                 verify(notification !== undefined, "notification wasn't found");
 
                 waitForRendering(notification);
+                tryCompare(notification, "height", notification.state === "contracted" ? units.gu(10) : notification.implicitHeight);
 
                 var icon = findChild(notification, "icon")
                 var centeredIcon = findChild(notification, "centeredIcon")
