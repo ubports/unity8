@@ -25,6 +25,7 @@ import Ubuntu.Components 1.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
+import Unity.Indicators 0.1
 import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -63,6 +64,8 @@ Item {
         anchors.fill: parent
         Loader {
             id: shellLoader
+            focus: true
+
             active: false
             property bool itemDestroyed: false
             sourceComponent: Component {
@@ -88,6 +91,7 @@ Item {
                     anchors { left: parent.left; right: parent.right }
                     Button {
                         text: "Show Greeter"
+                        activeFocusOnPress: false
                         onClicked: {
                             if (shellLoader.status !== Loader.Ready)
                                 return;
@@ -169,6 +173,7 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
+            shell.indicatorProfile = "phone";
 
             swipeAwayGreeter();
 
@@ -434,11 +439,11 @@ Item {
             waitUntilTransitionsEnd(appWindowStateGroup);
         }
 
-        function test_surfaceLosesFocusWhilePanelIsOpen() {
+        function test_surfaceLosesActiveFocusWhilePanelIsOpen() {
             var app = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app);
 
-            tryCompare(app.session.surface, "focus", true);
+            tryCompare(app.session.surface, "activeFocus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -449,7 +454,7 @@ Item {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.session.surface, "focus", false);
+            tryCompare(app.session.surface, "activeFocus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -458,11 +463,21 @@ Item {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.session.surface, "focus", false);
+            tryCompare(app.session.surface, "activeFocus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.session.surface, "focus", true);
+            tryCompare(app.session.surface, "activeFocus", true);
+        }
+
+        function test_launchedAppHasActiveFocus() {
+            var dialerApp = ApplicationManager.startApplication("dialer-app");
+            verify(dialerApp);
+            waitUntilAppSurfaceShowsUp("dialer-app")
+
+            verify(dialerApp.session.surface);
+
+            tryCompare(dialerApp.session.surface, "activeFocus", true);
         }
 
         // Wait for the whole UI to settle down
@@ -475,6 +490,14 @@ Item {
             tryCompare(launcher, "x", -launcher.width)
 
             waitForRendering(shell)
+        }
+
+        function waitUntilAppSurfaceShowsUp(appId) {
+            var appWindow = findChild(shell, "appWindow_" + appId);
+            verify(appWindow);
+            var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
+            verify(appWindowStates);
+            tryCompare(appWindowStates, "state", "surface");
         }
 
         function dragToCloseIndicatorsPanel() {
@@ -544,6 +567,33 @@ Item {
                 && itemRectInShell.y >= 0
                 && itemRectInShell.x + itemRectInShell.width <= shell.width
                 && itemRectInShell.y + itemRectInShell.height <= shell.height;
+        }
+
+        function test_greeterDoesNotChangeIndicatorProfile() {
+            var panel = findChild(shell, "panel");
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
+
+            LightDM.Greeter.showGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
+        }
+
+        function test_shellProfileChangesReachIndicators() {
+            var panel = findChild(shell, "panel");
+
+            shell.indicatorProfile = "test1";
+            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
+                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
+                verify(properties["menuObjectPath"].substr(-5), "test1");
+            }
+
+            shell.indicatorProfile = "test2";
+            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
+                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
+                verify(properties["menuObjectPath"].substr(-5), "test2");
+            }
         }
 
         function test_focusRequestedHidesGreeter() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,10 +17,15 @@
  *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-#include "MockNotificationTypes.h"
+import Unity.Notifications 1.0
 
-MockNotification::MockNotification(QObject *parent) : QObject(parent) {
-}
-
-MockNotification::~MockNotification() {
+Notification {
+    nid: 0
+    type: Notification.PlaceHolder
+    summary: ""
+    body: ""
+    icon: ""
+    secondaryIcon: ""
+    value: 0
+    rawActions: []
 }

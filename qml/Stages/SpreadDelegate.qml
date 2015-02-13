@@ -21,7 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 1.1
 import "../Components"
 
-Item {
+FocusScope {
     id: root
 
     // to be read from outside
@@ -65,6 +65,7 @@ Item {
         ApplicationWindow {
             id: appWindow
             objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+            focus: true
             anchors {
                 fill: parent
                 topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin

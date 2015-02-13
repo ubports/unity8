@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,7 @@ struct ActionModelPrivate;
 
 class ActionModel : public QStringListModel {
     Q_OBJECT
+    Q_PROPERTY(int count READ getCount)
 
 public:
     ActionModel(QObject *parent=nullptr);
@@ -42,7 +43,8 @@ public:
     };
     Q_INVOKABLE QVariant data(int row, int role) const;
 
-    void insertAction(const QString &id, const QString &label);
+    Q_INVOKABLE void append(const QString &id, const QString &label);
+    int getCount() const;
 
 private:
     QScopedPointer<ActionModelPrivate> p;

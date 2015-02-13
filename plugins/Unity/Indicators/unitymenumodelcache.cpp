@@ -46,17 +46,14 @@ QSharedPointer<UnityMenuModel> UnityMenuModelCache::model(const QByteArray& path
     QQmlEngine::setObjectOwnership(model, QQmlEngine::CppOwnership);
 
     QSharedPointer<UnityMenuModel> menuModel(model);
-    connect(model, &QObject::destroyed, this, [this] {
-        QMutableHashIterator<QByteArray, QWeakPointer<UnityMenuModel>> iter(m_registry);
-        while(iter.hasNext()) {
-            auto keyVal = iter.next();
-            if (keyVal.value().isNull()) {
-                iter.remove();
-                break;
-            }
-        }
-    });
-    m_registry[path] = menuModel.toWeakRef();
+
+    // Keep a shared pointer (rather than weak pointer which would cause the
+    // model to be deleted when all shared pointers we give out are deleted).
+    // We want to keep all models cached because when we switch indicator
+    // profiles, we will be switching paths often.  And we want to keep the
+    // old model around, ready to be used.  Otherwise the UI might momentarily
+    // wait as we populate the model from DBus yet again.
+    m_registry[path] = menuModel;
 
     menuModel->setMenuObjectPath(path);
     return menuModel;

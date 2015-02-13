@@ -57,6 +57,15 @@ void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QStr
     }
 }
 
+void AccountsServiceDBusAdaptor::setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value)
+{
+    QDBusInterface *iface = getUserInterface(user);
+    if (iface != nullptr && iface->isValid()) {
+        // The value needs to be carefully wrapped
+        iface->asyncCall("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
+    }
+}
+
 void AccountsServiceDBusAdaptor::propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid)
 {
     // Merge changed and invalidated together

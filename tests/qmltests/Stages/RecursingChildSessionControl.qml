@@ -89,6 +89,7 @@ ColumnLayout {
             CheckBox {
                 id: _surfaceCheckbox;
                 checked: false;
+                activeFocusOnPress: false
                 enabled: root.session
                 onCheckedChanged: {
                     if (checked) {
@@ -117,6 +118,7 @@ ColumnLayout {
 
             Button {
                 enabled: root.session
+                activeFocusOnPress: false
                 text: removable ? "Remove" : "Release"
                 onClicked: {
                     if (removable) {
@@ -131,6 +133,7 @@ ColumnLayout {
 
             Button {
                 enabled: root.session !== null
+                activeFocusOnPress: false
                 text: "Add Child"
                 onClicked: {
                     var screenshot = Math.round(Math.random()*100 % (screenshotIds.length-1));
