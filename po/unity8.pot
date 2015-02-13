@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-10 12:29+0100\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,52 +106,6 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr ""
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr ""
@@ -164,7 +118,7 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:685
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr ""
 
@@ -172,24 +126,24 @@ msgstr ""
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr ""
 
@@ -221,7 +175,7 @@ msgstr ""
 msgid "Release to refresh…"
 msgstr ""
 
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:41
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
 msgstr ""
 
@@ -293,58 +247,110 @@ msgstr ""
 msgid "Roaming"
 msgstr ""
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr ""
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr ""
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr ""
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr ""
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr ""
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr ""
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr ""
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr ""
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr ""
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr ""
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
 msgstr ""
 
 #: qml/Wizard/Page.qml:89
