@@ -25,7 +25,7 @@
 #include <QObject>
 #include <QHash>
 #include <QPointer>
-#include <QWeakPointer>
+#include <QSharedPointer>
 
 class UnityMenuModel;
 
@@ -43,7 +43,7 @@ public:
     Q_INVOKABLE virtual bool contains(const QByteArray& path);
 
 protected:
-    QHash<QByteArray, QWeakPointer<UnityMenuModel>> m_registry;
+    QHash<QByteArray, QSharedPointer<UnityMenuModel>> m_registry;
     static QPointer<UnityMenuModelCache> theCache;
 };
 

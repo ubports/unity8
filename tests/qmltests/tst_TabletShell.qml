@@ -303,8 +303,8 @@ Row {
             selectUser(data.user)
 
             AccountsService.demoEdges = data.demo
-            var edgeDemo = findChild(shell, "edgeDemo")
-            tryCompare(edgeDemo, "running", data.demo)
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "running", data.demo);
 
             swipeFromLeftEdge(shell.width * 0.75)
             wait(500) // to give time to handle dash() signal from Launcher

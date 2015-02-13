@@ -26,12 +26,17 @@ Item {
     property bool autohideEnabled: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
+    property bool shadeBackground: true // can be used to disable background shade when launcher is visible
 
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
+
+    readonly property bool dragging: dragArea.dragging
+    readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
+    readonly property real visibleWidth: panel.width + panel.x
 
     readonly property bool shown: panel.x > -panel.width
 
@@ -154,7 +159,7 @@ Item {
 
     MouseArea {
         id: launcherDragArea
-        enabled: root.state == "visible"
+        enabled: root.available && root.state == "visible"
         anchors.fill: panel
         anchors.rightMargin: -units.gu(2)
         drag {
@@ -180,7 +185,7 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-        enabled: root.state == "visible"
+        enabled: root.shadeBackground && root.state == "visible"
         onPressed: {
             root.state = ""
         }
@@ -190,7 +195,7 @@ Item {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.state == "visible" ? 0.6 : 0
+        opacity: root.shadeBackground && root.state == "visible" ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
@@ -198,14 +203,14 @@ Item {
     LauncherPanel {
         id: panel
         objectName: "launcherPanel"
-        enabled: root.available
+        enabled: root.available && root.state == "visible"
         width: root.panelWidth
         anchors {
             top: parent.top
             bottom: parent.bottom
         }
         x: -width
-        visible: x > -width || dragArea.status === DirectionalDragArea.Undecided
+        visible: root.x > 0 || x > -width || dragArea.status === DirectionalDragArea.Undecided
         model: LauncherModel
 
         property bool animate: true
@@ -247,6 +252,7 @@ Item {
         direction: Direction.Rightwards
 
         enabled: root.available
+        x: -root.x // so if launcher is adjusted relative to screen, we stay put (like tutorial does when teasing)
         width: root.dragAreaWidth
         height: root.height
 
@@ -260,7 +266,7 @@ Item {
             // would appear right next to the user's finger out of nowhere.
             // Instead, we make the panel go towards the user's finger in several
             // steps. ie., in an animated way.
-            var targetPanelX = Math.min(0, touchX - panel.width)
+            var targetPanelX = Math.min(0, touchX - panel.width) - root.x
             var delta = targetPanelX - panel.x
             // the trick is not to go all the way (1.0) as it would cause a sudden jump
             panel.x += 0.4 * delta
@@ -292,7 +298,7 @@ Item {
             name: "visible"
             PropertyChanges {
                 target: panel
-                x: 0
+                x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
         },
         State {

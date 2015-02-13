@@ -19,6 +19,7 @@
 #ifndef UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
 #define UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
 
+#include <QDBusArgument>
 #include <QDBusContext>
 #include <QDBusInterface>
 #include <QMap>
@@ -33,7 +34,18 @@ public:
     explicit AccountsServiceDBusAdaptor(QObject *parent = 0);
 
     Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &interface, const QString &property);
+
+    template <typename T>
+    inline T getUserProperty(const QString &user, const QString &interface, const QString &property) {
+        QVariant variant = getUserProperty(user, interface, property);
+        if (variant.isValid() && variant.canConvert<QDBusArgument>()) {
+            return qdbus_cast<T>(variant.value<QDBusArgument>());
+        }
+        return T();
+    }
+
     Q_INVOKABLE void setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value);
+    Q_INVOKABLE void setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
 
 Q_SIGNALS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);

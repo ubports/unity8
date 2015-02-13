@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import Ubuntu.Components 1.1
@@ -74,10 +75,22 @@ Item {
         }
     }
 
-    Button {
+    ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
-        text: "emit hinting signal"
-        onClicked: LauncherModel.emitHint()
+        spacing: units.gu(1)
+        width: units.gu(20)
+
+        Button {
+            text: "emit hinting signal"
+            onClicked: LauncherModel.emitHint()
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: "rotate"
+            onClicked: launcherLoader.item.inverted = !launcherLoader.item.inverted
+            Layout.fillWidth: true
+        }
     }
 
     SignalSpy {
@@ -140,6 +153,18 @@ Item {
             tryCompare(panel, "x", -panel.width, 1000);
         }
 
+        function positionLauncherListAtBeginning() {
+            var listView = testCase.findChild(launcherLoader.item, "launcherListView");
+            listView.contentY = -listView.topMargin;
+        }
+        function positionLauncherListAtEnd() {
+            var listView = testCase.findChild(launcherLoader.item, "launcherListView");
+            if ((listView.contentHeight + listView.topMargin + listView.bottomMargin) > listView.height) {
+                listView.contentY = listView.topMargin + listView.contentHeight
+                    - listView.height;
+            }
+        }
+
         // Drag from the left edge of the screen rightwards and check that the launcher
         // appears (as if being dragged by the finger/pointer)
         function test_dragLeftEdgeToRevealLauncherAndTapCenterToDismiss() {
@@ -166,22 +191,22 @@ Item {
            launcherApplicationSelected("[...]dialer-app.desktop") */
         function test_clickingOnAppIconCausesSignalEmission() {
             dragLauncherIntoView();
-            launcher.lastSelectedApplication = ""
+            launcher.lastSelectedApplication = "";
+            launcher.inverted = false;
 
-            var listView = findChild(launcher, "launcherListView");
-            listView.positionViewAtEnd();
+            positionLauncherListAtBeginning();
 
-            var appIcon = findChild(launcher, "launcherDelegate0")
+            var appIcon = findChild(launcher, "launcherDelegate0");
 
-            verify(appIcon != undefined)
+            verify(appIcon != undefined);
 
-            mouseClick(appIcon)
+            mouseClick(appIcon);
 
             tryCompare(launcher, "lastSelectedApplication",
-                       "dialer-app")
+                       appIcon.appId);
 
             // Tapping on an application icon also dismisses the launcher
-            waitUntilLauncherDisappears()
+            waitUntilLauncherDisappears();
         }
 
         /* If I click on the dash icon on the launcher
@@ -277,25 +302,26 @@ Item {
         function test_clickFlick_data() {
             var listView = findChild(launcher, "launcherListView");
             return [
-                {tag: "unfolded top", positionViewAtBeginning: false,
+                {tag: "unfolded top", positionViewAtBeginning: true,
                                       clickY: listView.topMargin + units.gu(2),
                                       expectFlick: false},
 
-                {tag: "folded top", positionViewAtBeginning: true,
+                {tag: "folded top", positionViewAtBeginning: false,
                                     clickY: listView.topMargin + units.gu(2),
                                     expectFlick: true},
 
-                {tag: "unfolded bottom", positionViewAtBeginning: true,
+                {tag: "unfolded bottom", positionViewAtBeginning: false,
                                          clickY: listView.height - listView.topMargin - units.gu(1),
                                          expectFlick: false},
 
-                {tag: "folded bottom", positionViewAtBeginning: false,
+                {tag: "folded bottom", positionViewAtBeginning: true,
                                        clickY: listView.height - listView.topMargin - units.gu(1),
                                        expectFlick: true},
             ];
         }
 
         function test_clickFlick(data) {
+            launcher.inverted = false;
             launcher.lastSelectedApplication = "";
             dragLauncherIntoView();
             var listView = findChild(launcher, "launcherListView");
@@ -305,9 +331,9 @@ Item {
             // So for stability's sake we just put the listView in the position
             // we want to to actually start doing what this tests intends to check.
             if (data.positionViewAtBeginning) {
-                listView.positionViewAtBeginning();
+                positionLauncherListAtBeginning();
             } else {
-                listView.positionViewAtEnd();
+                positionLauncherListAtEnd();
             }
             tryCompare(listView, "flicking", false);
 
@@ -442,9 +468,9 @@ Item {
             // Position launcher to where we need it
             var listView = findChild(launcher, "launcherListView");
             if (data.flickTo == "top") {
-                listView.positionViewAtEnd();
+                positionLauncherListAtBeginning();
             } else {
-                listView.positionViewAtBeginning();
+                positionLauncherListAtEnd();
             }
 
             // Doing longpress
@@ -454,6 +480,7 @@ Item {
 
             verify(quickList.y >= units.gu(1));
             verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
+            compare(quickList.width, units.gu(30));
 
             // Click somewhere in the empty space to dismiss the quicklist
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));

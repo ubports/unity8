@@ -29,6 +29,7 @@ Item {
     PhoneStage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
+        focus: true
         dragAreaWidth: units.gu(2)
         maximizedAppTopMargin: units.gu(3) + units.dp(2)
         interactive: true
@@ -51,6 +52,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Add App"
+                activeFocusOnPress: false
                 onClicked: {
                     testCase.addApps();
                 }
@@ -58,6 +60,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Remove Selected"
+                activeFocusOnPress: false
                 onClicked: {
                     ApplicationManager.stopApplication(ApplicationManager.get(appList.selectedAppIndex).appId);
                 }
@@ -65,6 +68,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Stop Selected"
+                activeFocusOnPress: false
                 onClicked: {
                     ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
                 }
