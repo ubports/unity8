@@ -24,7 +24,6 @@ from __future__ import absolute_import
 from unity8 import shell
 from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
-from unity8.shell import wait_for_notification_dialog
 
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
@@ -704,6 +703,9 @@ class EphemeralNotificationsTests(NotificationsBase):
             get_notification(), summary, body, False, False, 1.0)
 
     def test_notification_helper(self):
+        """ use the create notification script to get a notification dialog.
+        Check that the arguments passed to the script match the fields. """
+
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
@@ -713,13 +715,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification = shell.create_ephemeral_notification(summary, body)
         notification.show()
 
-        notification = wait_for_notification_dialog(self, 20)
+        notification_data = self.main_window.wait_for_notification_dialog()
 
-        self._assert_notification(
-            notification,
-            summary,
-            body,
-            False,
-            False,
-            1.0
-        )
+        self.assertThat(notification_data["summary"], Eventually(Equals(summary)))
+        self.assertThat(notification_data["body"], Eventually(Equals(body)))

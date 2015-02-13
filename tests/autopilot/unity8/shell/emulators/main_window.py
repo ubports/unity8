@@ -174,3 +174,19 @@ class QQuickView(emulators.UnityEmulatorBase):
             'PinPadButton',
             objectName='pinPadButton{}'.format(button_id)
         )
+
+    def wait_for_notification_dialog(self):
+        """Wait for a notification dialog to appear.
+
+        :return: An object for the notification dialog data.
+        :raise StateNotFoundError: if the timeout expires when the
+        notification has not appeared.
+
+        """
+        notify_list = self.select_single('Notifications',
+                                         objectName='notificationList')
+        visible_notification = notify_list.wait_select_single('Notification',
+                                                              visible=True)
+        return { "summary": visible_notification.summary,
+                 "body": visible_notification.body,
+                 "iconSource": visible_notification.iconSource }
