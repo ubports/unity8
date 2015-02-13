@@ -199,36 +199,6 @@ Rectangle {
             }
             return oneWayFlick;
         }
-
-        // clockwise
-        property var orientationRing: [Qt.PortraitOrientation,
-                                       Qt.InvertedLandscapeOrientation,
-                                       Qt.InvertedPortraitOrientation,
-                                       Qt.LandscapeOrientation]
-        function rotateOrientation(orientation, angle) {
-            var index = -1;
-            for (var i = 0; i < 4 && index == -1; ++i) {
-                if (orientation == orientationRing[i]) {
-                    index = i;
-                }
-            }
-            index += angle / 90;
-
-            if (Math.abs(index) >= 4) {
-                if (index < 0) {
-                    index = -(Match.abs(index) % 4);
-                } else {
-                    index = index % 4;
-                }
-            }
-
-            if (index < 0) {
-                // loop around
-                index += 4;
-            }
-
-            return orientationRing[index];
-        }
     }
 
     Connections {
@@ -508,8 +478,8 @@ Rectangle {
         MouseArea {
             id: spreadRow
             x: spreadView.contentX
-            height: root.height
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
+            height: root.height
 
             onClicked: {
                 spreadView.snapTo(0);
@@ -518,24 +488,24 @@ Rectangle {
             Rectangle {
                 id: sideStageBackground
                 color: "black"
-                anchors.fill: parent
-                anchors.leftMargin: spreadView.width - (1 - sideStageDragHandle.progress) * spreadView.sideStageWidth
+                width: spreadView.sideStageWidth * (1 - sideStageDragHandle.progress)
+                height: priv.landscapeHeight
+                x: spreadView.width - width
                 z: spreadView.indexToZIndex(priv.indexOf(priv.sideStageAppId))
                 opacity: spreadView.phase == 0 ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
-                visible: priv.shellIsLandscape
             }
 
             Item {
                 id: sideStageDragHandle
-                anchors { top: parent.top; bottom: parent.bottom; left: parent.left; leftMargin: spreadView.width - spreadView.sideStageWidth - width }
+                anchors.right: sideStageBackground.left
+                anchors.top: sideStageBackground.top
                 width: units.gu(2)
+                height: priv.landscapeHeight
                 z: sideStageBackground.z
                 opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
                 property real progress: 0
                 property bool dragging: false
-
-                visible: priv.shellIsLandscape
 
                 Behavior on opacity { UbuntuNumberAnimation {} }
 
@@ -550,7 +520,6 @@ Rectangle {
 
                 Image {
                     anchors.centerIn: parent
-                    anchors.horizontalCenterOffset: parent.progress * spreadView.sideStageWidth - (width - parent.width) / 2
                     width: sideStageDragHandleMouseArea.pressed ? parent.width * 2 : parent.width
                     height: parent.height
                     source: "graphics/sidestage_handle@20.png"
@@ -563,16 +532,19 @@ Rectangle {
                     enabled: spreadView.shiftedContentX == 0
                     property int startX
                     property var gesturePoints: new Array()
+                    property real totalDiff
 
                     onPressed: {
                         gesturePoints = [];
                         startX = mouseX;
+                        totalDiff = 0.0;
                         sideStageDragHandle.progress = 0;
                         sideStageDragHandle.dragging = true;
                     }
                     onMouseXChanged: {
+                        totalDiff += mouseX - startX;
                         if (priv.mainStageAppId) {
-                            sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth);
+                            sideStageDragHandle.progress = Math.max(0, totalDiff / spreadView.sideStageWidth);
                         }
                         gesturePoints.push(mouseX);
                     }
@@ -610,22 +582,14 @@ Rectangle {
                         if (wantsMainStage) {
                             return spreadView.width;
                         } else {
-                            if (priv.shellIsLandscape) {
-                                return spreadView.sideStageWidth;
-                            } else {
-                                return priv.landscapeHeight;
-                            }
+                            return spreadView.sideStageWidth;
                         }
                     }
                     height: {
                         if (wantsMainStage) {
                             return spreadView.height;
                         } else {
-                            if (priv.shellIsLandscape) {
-                                return priv.landscapeHeight;
-                            } else {
-                                return spreadView.sideStageWidth;
-                            }
+                            return priv.landscapeHeight;
                         }
                     }
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
@@ -693,21 +657,14 @@ Rectangle {
                         return progress;
                     }
 
-                    shellOrientationAngle: root.shellOrientationAngle
-                    shellOrientation: wantsMainStage ? root.shellOrientation : priv.rotateOrientation(root.shellOrientation, -90)
-                    shellPrimaryOrientation: wantsMainStage ? root.shellPrimaryOrientation : priv.rotateOrientation(root.shellPrimaryOrientation, -90)
-                    nativeOrientation: {
-                        if (wantsMainStage) {
-                            root.nativeOrientation
-                        } else {
-                            priv.rotateOrientation(root.nativeOrientation, -90)
-                        }
-                    }
+                    shellOrientationAngle: wantsMainStage ? root.shellOrientationAngle : 0
+                    shellOrientation: wantsMainStage ? root.shellOrientation : Qt.PortraitOrientation
+                    shellPrimaryOrientation: wantsMainStage ? root.shellPrimaryOrientation : Qt.PortraitOrientation
+                    nativeOrientation: wantsMainStage ? root.nativeOrientation : Qt.PortraitOrientation
 
 
                     onClicked: {
-                        // Cannot switch to a side stage app while in portrait
-                        if (spreadView.phase == 2 && (wantsMainStage || priv.shellIsLandscape)) {
+                        if (spreadView.phase == 2) {
                             spreadView.snapTo(index);
                         }
                     }
@@ -788,24 +745,12 @@ Rectangle {
             if (oneWayFlick && spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
                 // If it was a short one-way movement, do the Alt+Tab switch
                 // no matter if we didn't cross positionMarker1 yet.
-                if (nextAppInStackIsInMainStage || priv.shellIsLandscape) {
-                    spreadView.snapTo(spreadView.nextInStack);
-                } else {
-                    // Cannot switch to a side stage app while in portrait
-                    spreadView.snap();
-                }
+                spreadView.snapTo(spreadView.nextInStack);
             } else {
                 if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker1) {
                     spreadView.snap();
                 } else if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker2) {
-
-                    if (nextAppInStackIsInMainStage || priv.shellIsLandscape) {
-                        spreadView.snapTo(spreadView.nextInStack);
-                    } else {
-                        // Cannot switch to a side stage app while in portrait
-                        spreadView.snap();
-                    }
-
+                    spreadView.snapTo(spreadView.nextInStack);
                 } else {
                     // otherwise snap to the closest snap position we can find
                     // (might be back to start, to app 1 or to spread)
