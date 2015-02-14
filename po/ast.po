@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2014-11-08 18:24+0000\n"
+"PO-Revision-Date: 2015-02-13 17:17+0000\n"
 "Last-Translator: ivarela <ivarela@ubuntu.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:29+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-14 06:34+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -230,15 +230,15 @@ msgstr "Soltar p'anovar..."
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Alministrar"
 
 #: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Aniciu"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Tamién instalaos"
 
 #: qml/Greeter/Greeter.qml:133
 msgid "Unlock"
@@ -286,7 +286,7 @@ msgstr "Falló, toca pa reintentar"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
-msgstr ""
+msgstr "Responder"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -356,98 +356,99 @@ msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Hola!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Dámoste l'acoyida a Ubuntu Phone"
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Entamamos."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Siguir"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Amiesta una tarxeta SIM y reanicia'l preséu"
 
 #: qml/Wizard/Pages/20-sim.qml:55
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Ensin ella, nun vas poder facer llamaes nin unviar mensaxes."
 
 #: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
 msgid "Skip"
-msgstr ""
+msgstr "Omitir"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Seguridá de bloquéu"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Seleiciona cómo te prestaría desbloquiar el teléfonu."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "Eslizar"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
-msgstr ""
+msgstr "Ensin seguridá"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgid "Passcode"
-msgstr ""
+msgstr "Códigu de pasu"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "namái 4 díxitos"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
-msgstr ""
+msgstr "Fras de pasu"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Númberos y lletres"
 
 #: qml/Wizard/Pages/40-wifi.qml:28
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Coneutar a WiFi"
 
 #: qml/Wizard/Pages/40-wifi.qml:147
 msgid "Available networks…"
-msgstr ""
+msgstr "Redes disponibles..."
 
 #: qml/Wizard/Pages/40-wifi.qml:148
 msgid "No available networks."
-msgstr ""
+msgstr "Nun hai redes disponibles"
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Llocalización"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Permitir al teléfonu deteutar la llocalización:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Namái usando GPS (menos precisión)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"Usando GPS, Wifi anónimes ya información de redes móviles (recomiéndase)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -455,81 +456,87 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Seleicionando esta opción, aceutes los <a href='#'>términos y "
+"condiciones</a> de Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "De nengún mou"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "Pues cambialo dempués n'<b>Axustes del sistema</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "Ameyorar la esperiencia"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"El teléfonu ta configuráu pa informar automáticamente de los fallos a "
+"Canonical y asociaos, los fabricantes del sistema operativu."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Esto pue desactivase nos <b>Axustes del sistema</b> en <b>Seguranza y "
+"privacidá</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Too fecho"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Bon trabayu!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "El teléfonu yá ta preparáu pa usar."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Finar"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Términos y condiciones"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Confirmar fras secreta"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Confirmar el códigu de pasu"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Vuelvi a intentalo."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Escueyi'l códigu de pasu"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "La fras de contraseña tien de ser de 4 caráuteres"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Confirmar"
