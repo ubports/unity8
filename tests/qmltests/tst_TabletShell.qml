@@ -32,6 +32,13 @@ Row {
     id: root
     spacing: 0
 
+    Component.onCompleted: {
+        // must set the mock mode before loading the Shell
+        LightDM.Greeter.mockMode = "full";
+        LightDM.Users.mockMode = "full";
+        shellLoader.active = true;
+    }
+
     QtObject {
         id: applicationArguments
 
@@ -51,6 +58,7 @@ Row {
     Loader {
         id: shellLoader
 
+        active: false
         width: units.gu(100)
         height: units.gu(80)
 
@@ -295,8 +303,8 @@ Row {
             selectUser(data.user)
 
             AccountsService.demoEdges = data.demo
-            var edgeDemo = findChild(shell, "edgeDemo")
-            tryCompare(edgeDemo, "running", data.demo)
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "running", data.demo);
 
             swipeFromLeftEdge(shell.width * 0.75)
             wait(500) // to give time to handle dash() signal from Launcher

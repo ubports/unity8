@@ -61,7 +61,7 @@ private Q_SLOTS:
         QCOMPARE(model1->model(), model2->model());
     }
 
-    void testSharedOwnership()
+    void testSavedData()
     {
         QSharedPointer<SharedUnityMenuModel> model1(createFullModel("test1"));
         QSharedPointer<SharedUnityMenuModel> model2(createFullModel("test1"));
@@ -70,7 +70,7 @@ private Q_SLOTS:
         model1.clear();
         QCOMPARE(UnityMenuModelCache::singleton()->contains("/com/canonical/test1"), true);
         model2.clear();
-        QCOMPARE(UnityMenuModelCache::singleton()->contains("/com/canonical/test1"), false);
+        QCOMPARE(UnityMenuModelCache::singleton()->contains("/com/canonical/test1"), true);
     }
 
     // Tests that changing cached model data does not change the model path of others

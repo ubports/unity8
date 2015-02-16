@@ -218,6 +218,10 @@ Item {
                 // populate model with some mock notifications
                 mockModel.append(data)
 
+                // add actions to action-model to test against
+                myActionModel.append("ok_id", "Ok")
+                myActionModel.append("cancel_id", "Cancel")
+
                 // make sure the view is properly updated before going on
                 notifications.forceLayout();
                 waitForRendering(notifications);

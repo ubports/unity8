@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,8 +25,6 @@ struct ActionModelPrivate {
 };
 
 ActionModel::ActionModel(QObject *parent) : QStringListModel(parent), p(new ActionModelPrivate) {
-    insertAction("ok_id", "Ok");
-    insertAction("cancel_id", "Cancel");
 }
 
 ActionModel::~ActionModel() {
@@ -66,7 +64,11 @@ Q_INVOKABLE QVariant ActionModel::data(int row, int role) const
     return data(index(row, 0), role);
 }
 
-void ActionModel::insertAction(const QString &id, const QString &label) {
+void ActionModel::append(const QString &id, const QString &label) {
     p->ids.push_back(id);
     p->labels.push_back(label);
+}
+
+int ActionModel::getCount() const {
+    return p->labels.size();
 }

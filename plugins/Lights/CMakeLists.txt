@@ -1,5 +1,3 @@
-include(FindPkgConfig)
-
 pkg_check_modules(ANDROID_HEADERS REQUIRED android-headers)
 pkg_check_modules(ANDROID_HARDWARE REQUIRED libhardware)
 

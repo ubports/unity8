@@ -24,6 +24,8 @@ Item {
     id: root
     anchors.fill: parent
 
+    property var inputMethod
+
     property bool ready: background.source == "" || background.status == Image.Ready || background.status == Image.Error
 
     signal selected(int uid)
@@ -74,10 +76,12 @@ Item {
         anchors {
             left: parent.left
             leftMargin: Math.min(parent.width * 0.16, units.gu(20))
-            verticalCenter: parent.verticalCenter
+            top: parent.top
         }
         width: units.gu(29)
-        height: parent.height
+        height: inputMethod && inputMethod.visible ? parent.height - inputMethod.keyboardRectangle.height
+                                                   : parent.height
+        Behavior on height { UbuntuNumberAnimation {} }
 
         // TODO: Once we have a system API for determining which mode we are
         // in, tablet/phone/desktop, that should be used instead of narrowMode.
@@ -117,6 +121,7 @@ Item {
         objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
         model: greeterContentLoader.infographicModel
+        clip: true // clip large data bubbles
 
         property string selectedUser
         property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""

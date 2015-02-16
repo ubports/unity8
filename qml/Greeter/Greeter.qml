@@ -30,6 +30,9 @@ Showable {
 
     property url background
 
+    // so that it can be replaced in tests with a mock object
+    property var inputMethod: Qt.inputMethod
+
     prepareToHide: function () {
         hideTranslation.to = greeter.x > 0 || d.forceRightOnNextHideAnimation ? greeter.width : -greeter.width;
         d.forceRightOnNextHideAnimation = false;
@@ -101,6 +104,11 @@ Showable {
                 greeterContentLoader.currentIndex = uid;
             }
             onUnlocked: greeter.unlocked(uid);
+        }
+        Binding {
+            target: greeterContentLoader.item
+            property: "inputMethod"
+            value: greeter.inputMethod
         }
     }
 

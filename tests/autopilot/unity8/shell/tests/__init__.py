@@ -153,7 +153,6 @@ class UnityTestCase(AutopilotTestCase):
             self.useFixture(toolkit_fixtures.HideUnity7Launcher())
 
         self._proxy = None
-        self._lightdm_mock_type = None
         self._qml_mock_enabled = True
         self._data_dirs_mock_enabled = True
         self._environment = {}
@@ -265,8 +264,7 @@ class UnityTestCase(AutopilotTestCase):
             binary_path
         )
 
-        if self._lightdm_mock_type is None:
-            self.patch_lightdm_mock()
+        self.patch_lightdm_mock()
 
         if self._qml_mock_enabled:
             self._environment['QML2_IMPORT_PATH'] = (
@@ -338,12 +336,11 @@ class UnityTestCase(AutopilotTestCase):
         if data_dirs is not None:
             self._environment['XDG_DATA_DIRS'] = data_dirs
 
-    def patch_lightdm_mock(self, mock_type='single'):
-        self._lightdm_mock_type = mock_type
-        logger.info("Setting up LightDM mock type '%s'", mock_type)
+    def patch_lightdm_mock(self):
+        logger.info("Setting up LightDM mock lib")
         new_ld_library_path = [
             get_default_extra_mock_libraries(),
-            self._get_lightdm_mock_path(mock_type)
+            self._get_lightdm_mock_path()
         ]
         if os.getenv('LD_LIBRARY_PATH') is not None:
             new_ld_library_path.append(os.getenv('LD_LIBRARY_PATH'))
@@ -353,16 +350,16 @@ class UnityTestCase(AutopilotTestCase):
 
         self._environment['LD_LIBRARY_PATH'] = new_ld_library_path
 
-    def _get_lightdm_mock_path(self, mock_type):
+    def _get_lightdm_mock_path(self):
         lib_path = get_mocks_library_path()
         lightdm_mock_path = os.path.abspath(
-            os.path.join(lib_path, "LightDM", mock_type)
+            os.path.join(lib_path, "LightDM", "liblightdm")
         )
 
         if not os.path.exists(lightdm_mock_path):
             raise RuntimeError(
-                "LightDM mock '%s' does not exist at path '%s'."
-                % (mock_type, lightdm_mock_path)
+                "LightDM mock does not exist at path '%s'."
+                % (lightdm_mock_path)
             )
         return lightdm_mock_path
 

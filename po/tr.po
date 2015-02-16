@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2014-07-16 17:58+0000\n"
+"PO-Revision-Date: 2015-02-04 21:37+0000\n"
 "Last-Translator: Volkan Gezer <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:31+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-05 07:41+0000\n"
+"X-Generator: Launchpad (build 17331)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
-msgstr ""
+msgstr "Parola: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:100
@@ -33,30 +33,30 @@ msgstr "Kısayol iğnesini kaldır"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Cihaz Kilitli"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "Çok sayıda parola hatası yaptığınız için kilitlendiniz."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "Çok sayıda parola hatası yaptığınız için kilitlendiniz."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lütfen %1 dakika bekleyin ve yeniden deneyin..."
+msgstr[1] "Lütfen %1 dakika bekleyin ve yeniden deneyin..."
 
 #: qml/Components/Dialogs.qml:86
 msgid "Log out"
-msgstr ""
+msgstr "Oturumu kapat"
 
 #: qml/Components/Dialogs.qml:87
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Oturumu kapatmak istediğinize emin misiniz?"
 
 #: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
 #: qml/Components/Dialogs.qml:134
@@ -74,7 +74,7 @@ msgstr "Bilgisayarı Kapat"
 
 #: qml/Components/Dialogs.qml:109
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Kapatmak istediğinize emin misiniz?"
 
 #: qml/Components/Dialogs.qml:131
 msgid "Reboot"
@@ -86,7 +86,7 @@ msgstr "Bilgisayarı yeniden başlatmak istediğinize emin misiniz?"
 
 #: qml/Components/Dialogs.qml:154
 msgid "Power"
-msgstr ""
+msgstr "Güç"
 
 #: qml/Components/Dialogs.qml:155
 msgid ""
@@ -96,15 +96,15 @@ msgstr "Bilgisayarı kapatmak istediğinize emin misiniz?"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Power off"
-msgstr ""
+msgstr "Kapat"
 
 #: qml/Components/Dialogs.qml:166
 msgid "Restart"
-msgstr ""
+msgstr "Yeniden başlat"
 
 #: qml/Components/Dialogs.qml:175
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -157,7 +157,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
-msgstr ""
+msgstr "Çağrıya Dön"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
@@ -186,11 +186,11 @@ msgstr "Mağaza"
 
 #: qml/Dash/PageHeader.qml:284
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 #: qml/Dash/PageHeader.qml:291
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Sık kullanılanlardan kaldır"
 
 #: qml/Dash/PageHeader.qml:291
 msgid "Add to Favorites"
@@ -218,27 +218,27 @@ msgstr "Gönder"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "Yenilemek için çekin..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "Yenilemek için bırakın..."
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Yönet"
 
 #: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Ev"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Ayrıca kurulan"
 
 #: qml/Greeter/Greeter.qml:133
 msgid "Unlock"
-msgstr ""
+msgstr "Kilidi Aç"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -246,15 +246,15 @@ msgstr "Parolayı göster"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Çağrıya dönmek için dokunun..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr ""
+msgstr "Konferans"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Hiçbir şey çalmıyor"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
@@ -282,7 +282,7 @@ msgstr "Başarısız, yeniden denemek için dokunun"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
-msgstr ""
+msgstr "Yanıtla"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -290,20 +290,20 @@ msgstr "SIM kilidini aç"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Dolaşım"
 
 #: qml/Shell.qml:390
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "%1 Girin"
 
 #: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Parolayı girin"
 
 #: qml/Shell.qml:392
 msgid "Enter passcode"
-msgstr ""
+msgstr "Parolayı girin"
 
 #: qml/Shell.qml:393
 #, qt-format
@@ -316,7 +316,7 @@ msgstr "Üzgünüm, hatalı parola"
 
 #: qml/Shell.qml:395
 msgid "Please re-enter"
-msgstr ""
+msgstr "Lütfen yeniden girin"
 
 #: qml/Shell.qml:396
 msgid "Sorry, incorrect passcode"
@@ -352,98 +352,101 @@ msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
-msgstr ""
+msgstr "Geri"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Merhaba!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Ubuntu telefonunuza hoş geldiniz."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Hadi başlayalım."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Devam Et"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Bir SIM kartı ekleyin ve cihazınızı yeniden başlatın"
 
 #: qml/Wizard/Pages/20-sim.qml:55
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
+"Bir kart olmadan arama yapamaz veya metin mesaj gönderimini kullanamazsınız."
 
 #: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
 msgid "Skip"
-msgstr ""
+msgstr "Atla"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Kilitleme güvenliği"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Lütfen telefonunuzun kilidini nasıl açmak istediğinizi seçin."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "Kaydır"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
-msgstr ""
+msgstr "Güvenlik yok"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgid "Passcode"
-msgstr ""
+msgstr "Parola"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "Sadece 4 hane"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
-msgstr ""
+msgstr "Parola"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Sayı ve harfler"
 
 #: qml/Wizard/Pages/40-wifi.qml:28
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Wi-Fi'ye Bağlan"
 
 #: qml/Wizard/Pages/40-wifi.qml:147
 msgid "Available networks…"
-msgstr ""
+msgstr "Kullanılabilir ağlar..."
 
 #: qml/Wizard/Pages/40-wifi.qml:148
 msgid "No available networks."
-msgstr ""
+msgstr "Kullanılabilir ağ yok."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Konum"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Telefonun konumunuzu bulmasına izin verin:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Sadece GPS kullanarak (daha az kesinlik)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"GPS, anonimleştirilmiş Wi-Fi ve cep telefonu ağı bilgileri kullanarak "
+"(önerilir)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -451,81 +454,88 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Bu seçeneği işaretleyerek Nokia HERE <a href='#'>koşul ve şartlarını</a>nı "
+"kabul ediyorsunuz."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Etmiyorum"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"Kararınızı daha sonra <b>Sistem Ayarları</b> içerisinden değiştirebilirsiniz."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "Deneyiminizi arttırmak"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Telefonunuz, işletim sisteminin üreticileri olan Canonical ve ortaklarına "
+"hataları otomatik olarak bildirmek üzere yapılandırıldı."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Bu <b>Sistem Ayarları</b> içerisindeki <b>Güvenlik ve Gizlilik</b> altından "
+"devre dışı bırakılabilir"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Her şey tamam"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "İyi iş!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Telefonunuz artık kullanıma hazır."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Son"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Şartlar ve Koşullar"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Parolayı yinele"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Parolayı yinele"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Lütfen yeniden deneyin."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Parolanızı seçin"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "Parola 4 karakter olmalı"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Onayla"

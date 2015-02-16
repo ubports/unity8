@@ -19,4 +19,9 @@ import LightDM 0.1 as LightDM
 
 Item {
     property var greeter: LightDM.Greeter
+    Binding {
+        target: LightDM.Greeter
+        property: "mockMode"
+        value: "full"
+    }
 }

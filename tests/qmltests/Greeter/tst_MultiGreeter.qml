@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
@@ -23,12 +24,37 @@ import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 
 Item {
-    width: units.gu(120)
+    id: root
+    width: units.gu(140)
     height: units.gu(80)
+
+    QtObject {
+        id: fakeInputMethod
+        property bool visible: fakeKeyboard.visible
+        property var keyboardRectangle: QtObject {
+            property real x: fakeKeyboard.x
+            property real y: fakeKeyboard.y
+            property real width: fakeKeyboard.width
+            property real height: fakeKeyboard.height
+        }
+    }
+
+    Binding {
+        target: LightDM.Greeter
+        property: "mockMode"
+        value: "full"
+    }
+    Binding {
+        target: LightDM.Users
+        property: "mockMode"
+        value: "full"
+    }
 
     Greeter {
         id: greeter
-        anchors.fill: parent
+        width: units.gu(120)
+        height: root.height
+        inputMethod: fakeInputMethod
         locked: !LightDM.Greeter.authenticated
     }
 
@@ -40,6 +66,44 @@ Item {
                 target: parent
                 signalName: "selected"
             }
+        }
+    }
+
+    Rectangle {
+        id: fakeKeyboard
+        color: "green"
+        opacity: 0.7
+        anchors.bottom: root.bottom
+        width: greeter.width
+        height: greeter.height * 0.6
+        visible: keyboardVisibleCheckbox.checked
+        Text {
+            text: "Keyboard Rectangle"
+            color: "yellow"
+            font.bold: true
+            fontSizeMode: Text.Fit
+            minimumPixelSize: 10; font.pixelSize: 200
+            verticalAlignment: Text.AlignVCenter
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            width: parent.width
+            height: parent.height
+        }
+    }
+
+    Item {
+        anchors {
+            top: root.top
+            bottom: root.bottom
+            left: greeter.right
+            right: root.right
+        }
+        RowLayout {
+            Layout.fillWidth: true
+            CheckBox {
+                id: keyboardVisibleCheckbox
+            }
+            Label { text: "Keyboard Visible"; anchors.verticalCenter: parent.verticalCenter }
         }
     }
 
@@ -64,6 +128,10 @@ Item {
     UT.UnityTestCase {
         name: "MultiGreeter"
         when: windowShown
+
+        function cleanup() {
+            keyboardVisibleCheckbox.checked = false;
+        }
 
         function select_index(i) {
             // We could be anywhere in list; find target index to know which direction
@@ -381,6 +449,27 @@ Item {
             spy.wait()
             tryCompare(spy, "count", 1)
             greeterObj.destroy()
+        }
+
+        function test_login_list_not_covered_by_keyboard() {
+            var loginList = findChild(greeter, "loginLoader").item;
+            compare(loginList.height, greeter.height);
+
+            // when the vkb shows up, loginList is moved up to remain fully uncovered
+
+            keyboardVisibleCheckbox.checked = true;
+
+            tryCompare(loginList, "height", greeter.height - fakeInputMethod.keyboardRectangle.height);
+            tryCompareFunction( function() {
+                var loginListRect = loginList.mapToItem(greeter, 0, 0, loginList.width, loginList.height);
+                return loginListRect.y + loginListRect.height <= fakeInputMethod.keyboardRectangle.y;
+            }, true);
+
+            // once the vkb goes away, loginList goes back to its full height
+
+            keyboardVisibleCheckbox.checked = false;
+
+            tryCompare(loginList, "height", greeter.height);
         }
     }
 }

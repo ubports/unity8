@@ -41,6 +41,8 @@ Item {
     }
 
     function quitWizard() {
+        pageStack.currentPage.enabled = false;
+
         var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod)
         if (errorMsg !== "") {
             // Ignore (but log) any errors, since we're past where the user set
