@@ -65,6 +65,7 @@ Item {
 
             delegate: ListView {
                 id: column
+                objectName: "previewListRow" + index
                 anchors { top: parent.top; bottom: parent.bottom }
                 width: row.columnWidth
                 spacing: row.spacing
