@@ -28,6 +28,7 @@ from unity8 import (
 )
 import os
 from unity8.shell import tests
+import ubuntuuitoolkit
 
 class RotationBase(tests.UnityTestCase):
     """Base class for all shell-rotation tests that provides helper methods."""
