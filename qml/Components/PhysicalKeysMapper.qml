@@ -58,7 +58,6 @@ Item {
 
 
     function onKeyPressed(event) {
-        /* Determine what key was pressed */
         if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)
             && !event.isAutoRepeat) {
 
