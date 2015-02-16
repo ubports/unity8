@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2015-02-13 12:25+0000\n"
-"Last-Translator: Simos Xenitellis <Unknown>\n"
+"PO-Revision-Date: 2015-02-15 20:45+0000\n"
+"Last-Translator: Filippos Kolyvas <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-02-14 06:34+0000\n"
+"X-Launchpad-Export-Date: 2015-02-16 06:52+0000\n"
 "X-Generator: Launchpad (build 17341)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
@@ -90,7 +90,7 @@ msgstr "Επιθυμείτε σίγουρα επανεκκίνηση;"
 
 #: qml/Components/Dialogs.qml:154
 msgid "Power"
-msgstr ""
+msgstr "Ενέργεια"
 
 #: qml/Components/Dialogs.qml:155
 msgid ""
@@ -406,7 +406,7 @@ msgstr "Παρακαλούμε επιλέξτε πως θα θέλατε να ξ
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "Χειρονομία"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
@@ -464,6 +464,8 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Ενεργοποιώντας αυτή την επιλογή, αποδέχεστε τους <a href='#'>όρους και "
+"προϋποθέσεις</a> της Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
@@ -472,6 +474,7 @@ msgstr "Καθόλου"
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"Μπορείτε να αλλάξετε τη γνώμη σας αργότερα στις <b>Ρυθμίσεις Συστήματος</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
@@ -491,7 +494,7 @@ msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"Αυτό μπορεί να απενεργοποιηθεί στις <b>Ρυθμίσεις Συστήματος</b> στην "
+"Αυτό μπορεί να απενεργοποιηθεί στις <b>Ρυθμίσεις Συστήματος</b> στο πεδίο "
 "<b>Ασφάλεια &amp; Ιδιωτικότητα</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
