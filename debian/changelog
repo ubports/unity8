@@ -1,3 +1,23 @@
+unity8 (8.02+15.04.20150216.1-0ubuntu1) vivid; urgency=medium
+
+  [ Andrea Cimitan ]
+  * Fix temp scopes opening temp scopes, correctly close previously
+    opened temp scope with its preview (LP: #1410337)
+  * Set sourcesize for scopes images in manage dash
+
+  [ CI Train Bot ]
+  * Resync trunk
+
+  [ Albert Astals Cid ]
+  * Test for bug #1316660 (LP: #1316660)
+  * Hardcode tranlsation for internal.location field (LP: #1393438)
+  * Make sure the height it's the height it will have
+
+  [ Michael Zanetti ]
+  * Cleanup cmake warning about missing Qt5Sql module
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 16 Feb 2015 13:14:26 +0000
+
 unity8 (8.02+15.04.20150211-0ubuntu2) vivid; urgency=medium
 
   * No-change rebuild against Qt 5.4.0.
