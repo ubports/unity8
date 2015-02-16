@@ -57,6 +57,7 @@ void PreviewWidgetModel::populateWidgets()
     QVariantMap attributes;
     QVariantMap buttonData;
     buttonData["label"] = "Button";
+    buttonData["id"] = "open_click";
     QVariantList buttons;
     buttons << buttonData << buttonData << buttonData;
     attributes["actions"] = QVariant::fromValue(buttons);

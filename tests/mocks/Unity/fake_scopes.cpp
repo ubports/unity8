@@ -23,6 +23,7 @@
 // TODO: Implement remaining pieces, like Categories (i.e. LensView now gives warnings)
 
 // Qt
+#include <QDebug>
 #include <QTimer>
 
 Scopes::Scopes(QObject *parent)
@@ -175,6 +176,17 @@ int Scopes::count() const
 unity::shell::scopes::ScopeInterface* Scopes::overviewScope() const
 {
     return m_scopesOverview;
+}
+
+void Scopes::addTempScope(unity::shell::scopes::ScopeInterface* scope)
+{
+    m_tempScopes.insert(scope);
+}
+
+void Scopes::closeScope(unity::shell::scopes::ScopeInterface* scope)
+{
+    Q_ASSERT(m_tempScopes.contains(scope));
+    m_tempScopes.remove(scope);
 }
 
 void Scopes::setFavorite(const QString& scopeId, bool favorite)
