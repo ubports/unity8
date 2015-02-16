@@ -22,6 +22,8 @@ TestCase {
     name: "PhysicalKeysMapper"
 
     Loader {
+        // Using a Loader here to make sure mapper state is coherent
+        // regardless of unmatched KeyPress and KeyRelease events
         id: loader
         active: false
         sourceComponent: PhysicalKeysMapper { }
@@ -94,15 +96,24 @@ TestCase {
         volumeDownSpy.wait(100);
     }
 
-    function test_VolumeDownButton() {
-        loader.item.onKeyPressed({ key: Qt.Key_VolumeDown });
-        loader.item.onKeyReleased({ key: Qt.Key_VolumeDown });
-        volumeDownSpy.wait();
+    function test_VolumeButton_data() {
+        return [
+            { tag: "Down", key: Qt.Key_VolumeDown, spy: volumeDownSpy },
+            { tag: "Up", key: Qt.Key_VolumeUp, spy: volumeUpSpy },
+        ];
     }
 
-    function test_VolumeUpButton() {
-        loader.item.onKeyPressed({ key: Qt.Key_VolumeUp });
-        loader.item.onKeyReleased({ key: Qt.Key_VolumeUp });
-        volumeUpSpy.wait();
+    function test_VolumeButton(data) {
+        loader.item.onKeyPressed({ key: data.key });
+        expectFailContinue("", "Signal should not fire on press");
+        data.spy.wait(100);
+        data.spy.clear();
+
+        loader.item.onKeyReleased({ key: data.key });
+        data.spy.wait();
+
+        loader.item.onKeyPressed({ key: data.key });
+        loader.item.onKeyPressed({ key: data.key, isAutoRepeat: true });
+        data.spy.wait();
     }
 }
