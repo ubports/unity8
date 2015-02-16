@@ -163,7 +163,7 @@ Item {
     PhysicalKeysMapper {
         id: physicalKeysMapper
 
-        onPowerKeyLongPress: dialogs.showPowerDialog()
+        onPowerKeyLongPressed: dialogs.showPowerDialog()
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
