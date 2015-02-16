@@ -40,7 +40,6 @@ Item {
     property bool screenshotPressed: d.volumeUpKeyPressed && d.volumeDownKeyPressed
     property bool volumeDownPressed: d.volumeDownKeyPressed && !d.volumeUpKeyPressed
     property bool volumeUpPressed: d.volumeUpKeyPressed && !d.volumeDownKeyPressed
-    property int powerKeyLongPressTimeMs: 2000 // Is writable for testing purposes
 
     QtObject {
         id: d
@@ -49,24 +48,19 @@ Item {
         property bool volumeUpKeyPressed: false
     }
 
-    // FIXME: event.isAutoRepeat is always false on Nexus 4.
-    // So we use powerKeyTimer.running to avoid the PowerOff key repeat
-    // https://launchpad.net/bugs/1349416
     Timer {
         id: powerKeyLongPressTimer
 
-        interval: powerKeyLongPressTimeMs
-        repeat: false
-        triggeredOnStart: false
-        onTriggered: powerKeyLongPress();
+        interval: 2000
+        onTriggered: root.powerKeyLongPress();
     }
 
 
-    function onKeyPressed(key) {
+    function onKeyPressed(event) {
         var eventAccepted = false;
 
         /* Determine what key was pressed */
-        if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
+        if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
 
             // FIXME: We only consider power key presses if the screen is
             // on because of bugs 1410830/1409003.  The theory is that when
@@ -77,31 +71,31 @@ Item {
             // initiate any dialogs when the screen is off.
             // This also prevents taking screenshots when the screen is off.
             if (Powerd.status === Powerd.On) {
-                if (!powerKeyLongPressTimer.running) {
+                if (!event.isAutoRepeat) {
                     powerKeyLongPressTimer.restart();
                 }
                 eventAccepted = true;
             }
-        } else if (key == Qt.Key_MediaTogglePlayPause || key == Qt.Key_MediaPlay) {
+        } else if (event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) {
             eventAccepted = callManager.handleMediaKey(false);
-        } else if (key == Qt.Key_VolumeDown) {
+        } else if (event.key == Qt.Key_VolumeDown) {
             d.volumeDownKeyPressed = true;
-        } else if (key == Qt.Key_VolumeUp) {
+        } else if (event.key == Qt.Key_VolumeUp) {
             d.volumeUpKeyPressed = true;
         }
 
         return eventAccepted;
     }
 
-    function onKeyReleased(key) {
+    function onKeyReleased(event) {
         var eventAccepted = false;
 
-        if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
+        if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
             eventAccepted = true;
-        } else if (key == Qt.Key_VolumeDown) {
+        } else if (event.key == Qt.Key_VolumeDown) {
             d.volumeDownKeyPressed = false;
-        } else if (key == Qt.Key_VolumeUp) {
+        } else if (event.key == Qt.Key_VolumeUp) {
             d.volumeUpKeyPressed = false;
         }
 

@@ -21,65 +21,61 @@ import "../../../qml/Components"
 TestCase {
     name: "PhysicalKeysMapper"
 
-    property int onPowerKeyLongPressCount: 0
-    property int initialLongPressTimerValue
-
     PhysicalKeysMapper {
         id: physicalKeysMapper
-
-        onPowerKeyLongPress: onPowerKeyLongPressCount += 1
     }
 
-    function initTestCase() {
-        initialLongPressTimerValue = physicalKeysMapper.powerKeyLongPressTimeMs
+    SignalSpy {
+        id: powerSpy
+        target: physicalKeysMapper
+        signalName: "powerKeyLongPress"
     }
 
     function cleanup() {
-        physicalKeysMapper.onKeyReleased(Qt.Key_PowerDown);
-        physicalKeysMapper.onKeyReleased(Qt.Key_PowerOff);
-        physicalKeysMapper.onKeyReleased(Qt.Key_VolumeDown);
-        physicalKeysMapper.onKeyReleased(Qt.Key_VolumeUp);
+        physicalKeysMapper.onKeyReleased({ key: Qt.Key_PowerDown });
+        physicalKeysMapper.onKeyReleased({ key: Qt.Key_VolumeDown });
+        physicalKeysMapper.onKeyReleased({ key: Qt.Key_VolumeUp });
 
-        onPowerKeyLongPressCount = 0;
-
-        physicalKeysMapper.powerKeyLongPressTimeMs = initialLongPressTimerValue
+        powerSpy.clear();
     }
 
     function test_LongPressPowerButton() {
-        // Delays chosen are lowest reliable values
-        physicalKeysMapper.powerKeyLongPressTimeMs = 2
-        physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
-        wait(15);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown });
 
-        compare(onPowerKeyLongPressCount, 1);
+        expectFailContinue("", "Power signal should not be emitted within a second");
+        powerSpy.wait(1000);
+        powerSpy.clear();
+
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true });
+        powerSpy.wait(1500);
     }
 
     function test_ScreenshotButtons() {
         /* Behavior when VolumeUp is pressed 1st */
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_VolumeUp });
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_VolumeDown });
         compare(physicalKeysMapper.screenshotPressed, true);
         compare(physicalKeysMapper.volumeDownPressed, false);
 
-        physicalKeysMapper.onKeyReleased(Qt.Key_VolumeUp);
-        physicalKeysMapper.onKeyReleased(Qt.Key_VolumeDown);
+        physicalKeysMapper.onKeyReleased({ key: Qt.Key_VolumeUp });
+        physicalKeysMapper.onKeyReleased({ key: Qt.Key_VolumeDown });
 
         /* Behavior when VolumeDown is pressed 1st */
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_VolumeDown });
         compare(physicalKeysMapper.volumeDownPressed, true);
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_VolumeUp });
         compare(physicalKeysMapper.screenshotPressed, true);
     }
 
     function test_VolumeDownButton() {
         compare(physicalKeysMapper.volumeDownPressed, false);
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_VolumeDown });
         compare(physicalKeysMapper.volumeDownPressed, true);
     }
 
     function test_VolumeUpButton() {
         compare(physicalKeysMapper.volumeUpPressed, false);
-        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_VolumeUp });
         compare(physicalKeysMapper.volumeUpPressed, true);
     }
 }

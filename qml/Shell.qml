@@ -184,11 +184,11 @@ Item {
 
     WindowKeysFilter {
         Keys.onPressed: {
-            event.accepted = physicalKeysMapper.onKeyPressed(event.key);
+            event.accepted = physicalKeysMapper.onKeyPressed(event);
         }
 
         Keys.onReleased: {
-            event.accepted = physicalKeysMapper.onKeyReleased(event.key);
+            event.accepted = physicalKeysMapper.onKeyReleased(event);
         }
     }
 
