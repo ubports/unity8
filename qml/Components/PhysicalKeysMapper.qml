@@ -27,6 +27,7 @@ import Powerd 0.1
     * Power
 
  This allows for handling the following events
+    * Power dialog
     * Volume Decreases/Increases
     * Screenshots
 
