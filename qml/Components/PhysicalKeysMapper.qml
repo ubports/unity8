@@ -36,10 +36,10 @@ import Powerd 0.1
 Item {
     id: root
 
-    signal powerKeyLongPress;
-    signal volumeDownTrigger;
-    signal volumeUpTrigger;
-    signal screenshotTrigger;
+    signal powerKeyLongPressed;
+    signal volumeDownTriggered;
+    signal volumeUpTriggered;
+    signal screenshotTriggered;
 
     QtObject {
         id: d
@@ -53,7 +53,7 @@ Item {
         id: powerKeyLongPressTimer
 
         interval: 2000
-        onTriggered: root.powerKeyLongPress();
+        onTriggered: root.powerKeyLongPressed();
     }
 
 
@@ -76,19 +76,19 @@ Item {
                    && !event.isAutoRepeat) {
             event.accepted = callManager.handleMediaKey(false);
         } else if (event.key == Qt.Key_VolumeDown) {
-            if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeDownTrigger();
+            if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeDownTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeUpKeyPressed) {
-                    if (Powerd.status === Powerd.On) root.screenshotTrigger();
+                    if (Powerd.status === Powerd.On) root.screenshotTriggered();
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeDownKeyPressed = true;
             }
         } else if (event.key == Qt.Key_VolumeUp) {
-            if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeUpTrigger();
+            if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeUpTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeDownKeyPressed) {
-                    if (Powerd.status === Powerd.On) root.screenshotTrigger();
+                    if (Powerd.status === Powerd.On) root.screenshotTriggered();
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeUpKeyPressed = true;
@@ -101,11 +101,11 @@ Item {
             powerKeyLongPressTimer.stop();
             event.accepted = true;
         } else if (event.key == Qt.Key_VolumeDown) {
-            if (!d.ignoreVolumeEvents) root.volumeDownTrigger();
+            if (!d.ignoreVolumeEvents) root.volumeDownTriggered();
             d.volumeDownKeyPressed = false;
             if (!d.volumeUpKeyPressed) d.ignoreVolumeEvents = false;
         } else if (event.key == Qt.Key_VolumeUp) {
-            if (!d.ignoreVolumeEvents) root.volumeUpTrigger();
+            if (!d.ignoreVolumeEvents) root.volumeUpTriggered();
             d.volumeUpKeyPressed = false;
             if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
         }

@@ -32,25 +32,25 @@ TestCase {
     SignalSpy {
         id: powerSpy
         target: loader.item
-        signalName: "powerKeyLongPress"
+        signalName: "powerKeyLongPressed"
     }
 
     SignalSpy {
         id: volumeDownSpy
         target: loader.item
-        signalName: "volumeDownTrigger"
+        signalName: "volumeDownTriggered"
     }
 
     SignalSpy {
         id: volumeUpSpy
         target: loader.item
-        signalName: "volumeUpTrigger"
+        signalName: "volumeUpTriggered"
     }
 
     SignalSpy {
         id: screenshotSpy
         target: loader.item
-        signalName: "screenshotTrigger"
+        signalName: "screenshotTriggered"
     }
 
     function init() {
