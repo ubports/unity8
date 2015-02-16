@@ -17,13 +17,66 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import fixtures
+import os
 import subprocess
+import threading
+
+import fixtures
 
 from autopilot import introspection
+from autopilot.matchers import Eventually
+from testtools.matchers import Equals
+from ubuntuuitoolkit import fixture_setup
 
-from unity8 import process_helpers
+from unity8 import process_helpers, sensors
 from unity8.shell import emulators
+
+
+class LaunchUnityWithFakeSensors(fixtures.Fixture):
+
+    """Fixture to launch Unity8 with an injectable sensors backend.
+
+    :ivar unity_proxy: The Autopilot proxy object for the Unity shell.
+
+    """
+
+    unity_proxy = None
+
+    def setUp(self):
+        """Restart Unity8 with testability and create sensors."""
+        super(LaunchUnityWithFakeSensors, self).setUp()
+        self.useFixture(
+            fixture_setup.InitctlEnvironmentVariable(
+                UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
+
+        self.addCleanup(process_helpers.stop_job, 'unity8')
+        restart_thread = threading.Thread(
+            target=self._restart_unity_with_testability)
+        restart_thread.start()
+
+        self._create_sensors()
+
+        restart_thread.join()
+        self.fake_sensors = sensors.FakePlatformSensors()
+
+    def _restart_unity_with_testability(self):
+        self.unity_proxy = process_helpers.restart_unity_with_testability()
+
+    def _create_sensors(self):
+        # Wait for unity to start running.
+        Eventually(Equals(True)).match(
+            lambda: process_helpers.is_job_running('unity8'))
+
+        # Wait for the sensors fifo file to be created.
+        fifo_path = '/tmp/sensor-fifo-{0}'.format(
+            process_helpers.get_unity_pid())
+        Eventually(Equals(True)).match(
+            lambda: os.path.exists(fifo_path))
+
+        with open(fifo_path, 'w') as fifo:
+            fifo.write('create accel 0 1000 0.1\n')
+            fifo.write('create light 0 10 1\n')
+            fifo.write('create proximity\n') 
 
 
 class LaunchDashApp(fixtures.Fixture):
