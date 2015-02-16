@@ -164,10 +164,9 @@ Item {
         id: physicalKeysMapper
 
         onPowerKeyLongPress: dialogs.showPowerDialog()
-        onVolumeDownPressedChanged: if (volumeDownPressed) { volumeControl.volumeDown(); }
-        onVolumeUpPressedChanged: if (volumeUpPressed) { volumeControl.volumeUp(); }
-        onScreenshotPressedChanged: if (screenshotPressed) { screenGrabber.capture(); }
-
+        onVolumeDownTriggered: volumeControl.volumeDown();
+        onVolumeUpTriggered: volumeControl.volumeUp();
+        onScreenshotTriggered: screenGrabber.capture();
     }
 
     ScreenGrabber {
@@ -183,13 +182,8 @@ Item {
     }
 
     WindowKeysFilter {
-        Keys.onPressed: {
-            event.accepted = physicalKeysMapper.onKeyPressed(event);
-        }
-
-        Keys.onReleased: {
-            event.accepted = physicalKeysMapper.onKeyReleased(event);
-        }
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
     }
 
     Item {

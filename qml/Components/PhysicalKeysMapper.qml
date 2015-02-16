@@ -35,17 +35,17 @@ import Powerd 0.1
 Item {
     id: root
 
-    signal powerKeyLongPress();
-
-    property bool screenshotPressed: d.volumeUpKeyPressed && d.volumeDownKeyPressed
-    property bool volumeDownPressed: d.volumeDownKeyPressed && !d.volumeUpKeyPressed
-    property bool volumeUpPressed: d.volumeUpKeyPressed && !d.volumeDownKeyPressed
+    signal powerKeyLongPress;
+    signal volumeDownTrigger;
+    signal volumeUpTrigger;
+    signal screenshotTrigger;
 
     QtObject {
         id: d
 
         property bool volumeDownKeyPressed: false
         property bool volumeUpKeyPressed: false
+        property bool ignoreVolumeEvents: false
     }
 
     Timer {
@@ -57,10 +57,9 @@ Item {
 
 
     function onKeyPressed(event) {
-        var eventAccepted = false;
-
         /* Determine what key was pressed */
-        if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
+        if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)
+            && !event.isAutoRepeat) {
 
             // FIXME: We only consider power key presses if the screen is
             // on because of bugs 1410830/1409003.  The theory is that when
@@ -71,34 +70,45 @@ Item {
             // initiate any dialogs when the screen is off.
             // This also prevents taking screenshots when the screen is off.
             if (Powerd.status === Powerd.On) {
-                if (!event.isAutoRepeat) {
-                    powerKeyLongPressTimer.restart();
-                }
-                eventAccepted = true;
+                powerKeyLongPressTimer.restart();
+                event.accepted = true;
             }
-        } else if (event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) {
-            eventAccepted = callManager.handleMediaKey(false);
+        } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay)
+                   && !event.isAutoRepeat) {
+            event.accepted = callManager.handleMediaKey(false);
         } else if (event.key == Qt.Key_VolumeDown) {
-            d.volumeDownKeyPressed = true;
+            if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeDownTrigger();
+            else if (!event.isAutoRepeat) {
+                if (d.volumeUpKeyPressed) {
+                    root.screenshotTrigger();
+                    d.ignoreVolumeEvents = true;
+                }
+                d.volumeDownKeyPressed = true;
+            }
         } else if (event.key == Qt.Key_VolumeUp) {
-            d.volumeUpKeyPressed = true;
+            if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeUpTrigger();
+            else if (!event.isAutoRepeat) {
+                if (d.volumeDownKeyPressed) {
+                    root.screenshotTrigger();
+                    d.ignoreVolumeEvents = true;
+                }
+                d.volumeUpKeyPressed = true;
+            }
         }
-
-        return eventAccepted;
     }
 
     function onKeyReleased(event) {
-        var eventAccepted = false;
-
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
-            eventAccepted = true;
+            event.accepted = true;
         } else if (event.key == Qt.Key_VolumeDown) {
+            if (!d.ignoreVolumeEvents) root.volumeDownTrigger();
             d.volumeDownKeyPressed = false;
+            if (!d.volumeUpKeyPressed) d.ignoreVolumeEvents = false;
         } else if (event.key == Qt.Key_VolumeUp) {
+            if (!d.ignoreVolumeEvents) root.volumeUpTrigger();
             d.volumeUpKeyPressed = false;
+            if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
         }
-
-        return eventAccepted;
     }
 }
