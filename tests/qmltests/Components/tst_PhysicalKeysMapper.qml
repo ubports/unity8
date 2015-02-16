@@ -55,19 +55,19 @@ TestCase {
     }
 
     function test_ScreenshotButtons() {
-        /* Behavior when Power is pressed 1st */
-        physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
+        /* Behavior when VolumeUp is pressed 1st */
+        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
         physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
         compare(physicalKeysMapper.screenshotPressed, true);
         compare(physicalKeysMapper.volumeDownPressed, false);
 
-        physicalKeysMapper.onKeyReleased(Qt.Key_PowerDown);
+        physicalKeysMapper.onKeyReleased(Qt.Key_VolumeUp);
         physicalKeysMapper.onKeyReleased(Qt.Key_VolumeDown);
 
         /* Behavior when VolumeDown is pressed 1st */
         physicalKeysMapper.onKeyPressed(Qt.Key_VolumeDown);
         compare(physicalKeysMapper.volumeDownPressed, true);
-        physicalKeysMapper.onKeyPressed(Qt.Key_PowerDown);
+        physicalKeysMapper.onKeyPressed(Qt.Key_VolumeUp);
         compare(physicalKeysMapper.screenshotPressed, true);
     }
 

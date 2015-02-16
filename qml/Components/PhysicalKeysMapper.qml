@@ -37,15 +37,13 @@ Item {
 
     signal powerKeyLongPress();
 
-    property bool screenshotPressed: d.powerKeyPressed && d.volumeDownKeyPressed
-    property bool volumeDownPressed: d.volumeDownKeyPressed && !d.powerKeyPressed
-    property bool volumeUpPressed: d.volumeUpKeyPressed
+    property bool screenshotPressed: d.volumeUpKeyPressed && d.volumeDownKeyPressed
+    property bool volumeDownPressed: d.volumeDownKeyPressed && !d.volumeUpKeyPressed
+    property bool volumeUpPressed: d.volumeUpKeyPressed && !d.volumeDownKeyPressed
     property int powerKeyLongPressTimeMs: 2000 // Is writable for testing purposes
 
     QtObject {
         id: d
-
-        property bool powerKeyPressed: false
 
         property bool volumeDownKeyPressed: false
         property bool volumeUpKeyPressed: false
@@ -82,7 +80,6 @@ Item {
                 if (!powerKeyLongPressTimer.running) {
                     powerKeyLongPressTimer.restart();
                 }
-                d.powerKeyPressed = true;
                 eventAccepted = true;
             }
         } else if (key == Qt.Key_MediaTogglePlayPause || key == Qt.Key_MediaPlay) {
@@ -101,7 +98,6 @@ Item {
 
         if (key == Qt.Key_PowerDown || key == Qt.Key_PowerOff) {
             powerKeyLongPressTimer.stop();
-            d.powerKeyPressed = false;
             eventAccepted = true;
         } else if (key == Qt.Key_VolumeDown) {
             d.volumeDownKeyPressed = false;
