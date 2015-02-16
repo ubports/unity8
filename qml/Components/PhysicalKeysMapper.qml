@@ -68,11 +68,10 @@ Item {
             // the shutdown dialog to appear on resume.  So to avoid that
             // symptom while we investigate the root cause, we simply won't
             // initiate any dialogs when the screen is off.
-            // This also prevents taking screenshots when the screen is off.
             if (Powerd.status === Powerd.On) {
                 powerKeyLongPressTimer.restart();
-                event.accepted = true;
             }
+            event.accepted = true;
         } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay)
                    && !event.isAutoRepeat) {
             event.accepted = callManager.handleMediaKey(false);
@@ -80,7 +79,7 @@ Item {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeDownTrigger();
             else if (!event.isAutoRepeat) {
                 if (d.volumeUpKeyPressed) {
-                    root.screenshotTrigger();
+                    if (Powerd.status === Powerd.On) root.screenshotTrigger();
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeDownKeyPressed = true;
@@ -89,7 +88,7 @@ Item {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeUpTrigger();
             else if (!event.isAutoRepeat) {
                 if (d.volumeDownKeyPressed) {
-                    root.screenshotTrigger();
+                    if (Powerd.status === Powerd.On) root.screenshotTrigger();
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeUpKeyPressed = true;
