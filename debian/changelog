@@ -1,3 +1,9 @@
+unity8 (8.02+15.04.20150211-0ubuntu2) vivid; urgency=medium
+
+  * No-change rebuild against Qt 5.4.0.
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Fri, 13 Feb 2015 15:17:18 +0200
+
 unity8 (8.02+15.04.20150211-0ubuntu1) vivid; urgency=medium
 
   [ Michael Terry ]
