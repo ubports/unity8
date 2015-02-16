@@ -451,5 +451,4 @@ Item {
             tryCompare(overviewHint, "opacity", 0);
         }
     }
-
 }
