@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
 "PO-Revision-Date: 2015-02-11 15:01+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-02-13 06:54+0000\n"
-"X-Generator: Launchpad (build 17336)\n"
+"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 "Language: gd\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Facal-faire: "
 
@@ -116,60 +116,6 @@ msgstr "Ath-thòisich"
 msgid "Cancel"
 msgstr "Sguir dheth"
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Gearr leum thairis air an ro-ràdh"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "An oir dheas"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
-"far an fhòn"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "An oir aig a' bharr"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
-"fhaighinn air na taisbeanairean"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Dùin"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "An oir chlì"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
-"luath air na h-aplacaidean"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Gasta!"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
-"am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Till dhan ghairm"
@@ -182,32 +128,32 @@ msgstr "Gairm èiginn"
 msgid "OK"
 msgstr "Ceart ma-thà"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Lorg"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "Am bùth"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "Roghainnean"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Thoir air falbh o na h-annsachdan"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Cuir ris na h-annsachdan"
 
@@ -239,6 +185,10 @@ msgstr "Tarraing airson ath-nuadhachadh…"
 msgid "Release to refresh…"
 msgstr "Leig às airson ath-nuadhachadh…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Stiùirich"
@@ -251,7 +201,7 @@ msgstr "Dhachaigh"
 msgid "Also installed"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr "Thoir a' ghlas dheth"
 
@@ -307,49 +257,49 @@ msgstr "Thoir a' ghlas far an SIM"
 msgid "Roaming"
 msgstr "Air fàrsan"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "Cuir a-steach %1"
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Cuir abairt-fhaire a-steach"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr "Cuir còd-faire a-steach"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Duilich ach tha a' %1 cearr"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr "Duilich ach tha an abairt-fhaire cearr"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr "Cuir a-steach e a-rithist"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr "Duilich ach tha an còd-faire cearr"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Duilich ach tha an abairt-fhaire cearr."
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Duilich ach tha an còd-faire cearr."
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr "Seo an oidhirp mu dheireadh agad."
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -358,7 +308,7 @@ msgstr ""
 "ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
 "pearsanta a sguabadh às."
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -366,6 +316,58 @@ msgstr ""
 "Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
 "shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
 "a sguabadh às."
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -384,7 +386,7 @@ msgid "Let’s get started."
 msgstr "Tòisicheamaid."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -398,7 +400,7 @@ msgstr "Cuir cairt SIM ris 's tòisich an uidheam agad às ùr"
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "Chan urrainn dhut gairm no teachdaireachd a chur às a h-aonais."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Leum thairis air"
 
@@ -434,15 +436,15 @@ msgstr "Abairt-fhaire"
 msgid "Numbers and letters"
 msgstr "Àireamhan 's litrichean"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Ceangail ri Wi-Fi"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "Lìonraidhean ri làimh…"
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "Chan eil lìonra ri làimh."
 
@@ -549,6 +551,42 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Skip intro"
+#~ msgstr "Gearr leum thairis air an ro-ràdh"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
+#~ "far an fhòn"
+
+#~ msgid "Right edge"
+#~ msgstr "An oir dheas"
+
+#~ msgid "Top edge"
+#~ msgstr "An oir aig a' bharr"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
+#~ "fhaighinn air na taisbeanairean"
+
+#~ msgid "Close"
+#~ msgstr "Dùin"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
+
+#~ msgid "Left edge"
+#~ msgstr "An oir chlì"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
+#~ "luath air na h-aplacaidean"
+
+#~ msgid "Well done"
+#~ msgstr "Gasta!"
+
 #~ msgid "Confirm"
 #~ msgstr "Dearbhaich"
 
@@ -563,6 +601,13 @@ msgstr "%1  〉"
 
 #~ msgid "Speak Now..."
 #~ msgstr "Can rud a-nis..."
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
+#~ "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
 
 #~ msgid "All"
 #~ msgstr "Na h-uile"
