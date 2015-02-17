@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
 "PO-Revision-Date: 2015-01-29 08:02+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-01-30 07:08+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-17 06:30+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Пароль: "
 
@@ -112,59 +112,6 @@ msgstr "Перезагрузить"
 msgid "Cancel"
 msgstr "Отменить"
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Пропустить обучение"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Правый край"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Попробуйте переместить палец от правого края к левому для разблокировки "
-"устройства"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Верхний край"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Закрыть"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Снова переместите палец вверх для закрытия экрана настроек"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Левый край"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Переместите палец от левого края вправо для открытия лаунчера для быстрого "
-"доступа к приложениям"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Великолепно"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Вы научились пользоваться Ubuntu и можете начать использовать свой "
-"телефон<br><br>Нажмите на экран"
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Вернуться к вызову"
@@ -177,32 +124,32 @@ msgstr "Экстренный вызов"
 msgid "OK"
 msgstr "ОК"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "Вкратце"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "Показать всё"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Поиск"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "Магазин"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "Настройки"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Удалить из избранного"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Добавить в избранное"
 
@@ -234,6 +181,10 @@ msgstr "Потяните для обновления…"
 msgid "Release to refresh…"
 msgstr "Отпустите для обновления…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Настройка"
@@ -246,7 +197,7 @@ msgstr "Домой"
 msgid "Also installed"
 msgstr "Также установлено"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr "Разблокировать"
 
@@ -302,49 +253,49 @@ msgstr "Разблокировать SIM-карту"
 msgid "Roaming"
 msgstr "Роуминг"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "Введите %1"
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Введите кодовую фразу"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr "Введите секретный код"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Некорректный ввод %1"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr "Введена неверная кодовая фраза"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr "Повторите ввод"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr "Секретный код введён неверно"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Неверная ключевая фраза."
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Неверный секретный код."
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr "Осталась последняя попытка."
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -352,13 +303,65 @@ msgstr ""
 "Если ключевая фраза будет введена неверно, то телефон вернётся к заводским "
 "настройкам, а все личные данные будут удалены."
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Если секретный код будет введен неверно, то телефон вернётся к заводским "
 "настройкам, а все личные данные будут удалены."
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -377,7 +380,7 @@ msgid "Let’s get started."
 msgstr "Приступим."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -392,7 +395,7 @@ msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 "Без нее вы не сможете совершать звонки или отправлять текстовые сообщения."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Пропустить"
 
@@ -428,15 +431,15 @@ msgstr "Кодовая фраза"
 msgid "Numbers and letters"
 msgstr "Цифры и буквы"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Подключение к Wi‑Fi"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "Доступные сети..."
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "Доступные сети отсутствуют."
 
@@ -558,8 +561,50 @@ msgstr "%1  〉"
 #~ msgid "Speaking..."
 #~ msgstr "Говорите..."
 
+#~ msgid "Right edge"
+#~ msgstr "Правый край"
+
+#~ msgid "Skip intro"
+#~ msgstr "Пропустить обучение"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Попробуйте переместить палец от правого края к левому для разблокировки "
+#~ "устройства"
+
+#~ msgid "Top edge"
+#~ msgstr "Верхний край"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
+
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Снова переместите палец вверх для закрытия экрана настроек"
+
+#~ msgid "Left edge"
+#~ msgstr "Левый край"
+
+#~ msgid "Well done"
+#~ msgstr "Великолепно"
+
 #~ msgid "Confirm"
 #~ msgstr "Подтвердить"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Переместите палец от левого края вправо для открытия лаунчера для быстрого "
+#~ "доступа к приложениям"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Вы научились пользоваться Ubuntu и можете начать использовать свой "
+#~ "телефон<br><br>Нажмите на экран"
 
 #~ msgid "All"
 #~ msgstr "Все"

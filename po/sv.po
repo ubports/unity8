@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
 "PO-Revision-Date: 2014-10-07 14:28+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-17 06:30+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 "Language: sv\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Lösenord: "
 
@@ -109,54 +109,6 @@ msgstr "Omstart"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Hoppa över introduktion"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Högerkant"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Svep från höger för att låsa upp telefonen"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Överkant"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Svep från överkanten för att komma åt indikatorerna"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Stäng"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Svep upp igen för att stänga inställningsfönstret"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Vänsterkant"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Svep från vänster för att visa programstartaren"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Bra gjort"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Du har nu bemästrat kantgesterna och kan börja använda "
-"telefonen<br><br>Tryck på skärmen för att starta"
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Tillbaka till samtal"
@@ -169,32 +121,32 @@ msgstr "Nödsamtal"
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "Visa mindre"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "Visa alla"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Sök"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "Butik"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "Inställningar"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Ta bort från Favoriter"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Lägg till Favoriter"
 
@@ -226,6 +178,10 @@ msgstr "Dra för att uppdatera..."
 msgid "Release to refresh…"
 msgstr "Släpp för uppdatera..."
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Hantera"
@@ -238,7 +194,7 @@ msgstr "Hem"
 msgid "Also installed"
 msgstr "Även installerat"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr "Lås upp"
 
@@ -284,7 +240,7 @@ msgstr "Misslyckades, tryck för att försöka igen"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
-msgstr ""
+msgstr "Svara"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -294,49 +250,49 @@ msgstr "Lås upp SIM-kort"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "Ange %1"
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Ange lösenfras"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr "Ange lösenkod"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Felaktig %1"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr "Felaktig lösenfras"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr "Ange igen"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr "Felaktig lösenkod"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Felaktig lösenfras."
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Felaktig lösenkod."
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr "Detta är ditt sista försök."
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -344,13 +300,65 @@ msgstr ""
 "Om lösenfrasen anges inkorrekt kommer telefonen att fabrikåterställas och "
 "all personlig data kommer att tas bort."
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och all "
 "personlig data kommer att tas bort."
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -369,7 +377,7 @@ msgid "Let’s get started."
 msgstr "Låt oss komma igång"
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -384,7 +392,7 @@ msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 "Utan det kommer du inte att kunnda ringa eller skicka textmeddelanden."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Hoppa över"
 
@@ -420,15 +428,15 @@ msgstr "Lösenfras"
 msgid "Numbers and letters"
 msgstr "Siffror och bokstäver"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Anslut till Wi-Fi"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "Tillgängliga nätverk.."
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "Inga tillgängliga nätverk"
 
@@ -537,11 +545,48 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Top edge"
+#~ msgstr "Överkant"
+
+#~ msgid "Close"
+#~ msgstr "Stäng"
+
+#~ msgid "Left edge"
+#~ msgstr "Vänsterkant"
+
+#~ msgid "Well done"
+#~ msgstr "Bra gjort"
+
+#~ msgid "Right edge"
+#~ msgstr "Högerkant"
+
 #~ msgid "Type or say a command"
 #~ msgstr "Skriv eller tala in ett kommando"
 
 #~ msgid "Confirm"
 #~ msgstr "Bekräfta"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Svep upp igen för att stänga inställningsfönstret"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Svep från överkanten för att komma åt indikatorerna"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Svep från vänster för att visa programstartaren"
+
+#~ msgid "Skip intro"
+#~ msgstr "Hoppa över introduktion"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Svep från höger för att låsa upp telefonen"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Du har nu bemästrat kantgesterna och kan börja använda "
+#~ "telefonen<br><br>Tryck på skärmen för att starta"
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "Läser in. Var god vänta…"

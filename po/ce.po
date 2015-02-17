@@ -1,21 +1,20 @@
-# Arabic translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Chechen translation for unity8
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-13 11:45+0100\n"
-"PO-Revision-Date: 2014-05-22 08:22+0000\n"
-"Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
-"Language-Team: Arabic <ar@li.org>\n"
+"PO-Revision-Date: 2015-02-15 04:01+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chechen <ce@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
-"3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
 "X-Generator: Launchpad (build 17341)\n"
 
@@ -113,7 +112,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
-msgstr "مكالمة طوارئ"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:270
 msgid "OK"
@@ -121,7 +120,7 @@ msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
-msgstr "شاهد أقل"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
@@ -130,7 +129,7 @@ msgstr ""
 #: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "ابحث"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:269
 msgid "Store"
@@ -150,23 +149,23 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr "المزيد..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr "أقل..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr "قيّم ذلك"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr "أضف تعليق"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr "أرسل"
+msgstr ""
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -198,7 +197,7 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
-msgstr "عرض كلمة السر"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
@@ -530,56 +529,3 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
-
-#~ msgid "Confirm"
-#~ msgstr "التأكيد"
-
-#~ msgid "Type or say a command"
-#~ msgstr "اكتب أو قُل أمرا"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "يجري التحميل. برجاء الانتظار..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "تكلم الآن..."
-
-#~ msgid "Speaking..."
-#~ msgstr "تتكلم الآن..."
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "اسحب اصبعك من الحافة العلوية للوصول إلى المؤشرات"
-
-#~ msgid "Top edge"
-#~ msgstr "الحافة العلوية"
-
-#~ msgid "Close"
-#~ msgstr "أغلق"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "اسحب اصعبك لأعلى مرة أخرى لغلق شاشة الإعدادات"
-
-#~ msgid "Skip intro"
-#~ msgstr "تخطي المقدمة"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "اسحب اصبعك من الحافة اليمنى لفتح قفل الهاتف"
-
-#~ msgid "Right edge"
-#~ msgstr "الحافة اليمنى"
-
-#~ msgid "Left edge"
-#~ msgstr "الحافة اليسرى"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "اسحب أصبعك من الحافة اليسرى لإظهار شريط يونتي للوصول السريع للتطبيقات"
-
-#~ msgid "Well done"
-#~ msgstr "أحسنت!"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
-#~ "الشاشة للبدء"
