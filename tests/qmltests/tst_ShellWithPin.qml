@@ -217,6 +217,7 @@ Item {
             for (var i = 0; i < pin.length; ++i) {
                 var character = pin.charAt(i)
                 var button = findChild(shell, "pinPadButton" + character)
+                tryCompare(button, "enabled", true);
                 tap(button)
             }
         }
