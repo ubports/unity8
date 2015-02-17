@@ -108,9 +108,15 @@ Item {
         }
 
         SignalSpy {
-            id: viewAuthenticatedSpy
+            id: viewAuthenticationSucceededSpy
             target: testCase.view
-            signalName: "_authenticatedCalled"
+            signalName: "_notifyAuthenticationSucceededCalled"
+        }
+
+        SignalSpy {
+            id: viewAuthenticationFailedSpy
+            target: testCase.view
+            signalName: "_notifyAuthenticationFailedCalled"
         }
 
         SignalSpy {
@@ -133,7 +139,8 @@ Item {
             viewShowPromptSpy.clear();
             viewShowLastChanceSpy.clear();
             viewHideSpy.clear();
-            viewAuthenticatedSpy.clear();
+            viewAuthenticationSucceededSpy.clear();
+            viewAuthenticationFailedSpy.clear();
             viewResetSpy.clear();
             viewTryToUnlockSpy.clear();
             tryCompare(greeter, "waiting", false);
@@ -178,8 +185,7 @@ Item {
 
         function verifyLoggedIn() {
             tryCompare(sessionStartedSpy, "count", 1);
-            verify(viewAuthenticatedSpy.count > 0);
-            compare(viewAuthenticatedSpy.signalArguments[viewAuthenticatedSpy.count - 1][0], true);
+            verify(viewAuthenticationSucceededSpy.count > 0);
             compare(LightDM.Greeter.authenticated, true);
             compare(greeter.shown, false);
         }
@@ -203,8 +209,7 @@ Item {
             compare(viewShowPromptSpy.signalArguments[0][2], true);
 
             view.responded("wr0ng p4ssw0rd");
-            tryCompare(viewAuthenticatedSpy, "count", 1);
-            compare(viewAuthenticatedSpy.signalArguments[0][0], false);
+            tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
             tryCompare(viewShowPromptSpy, "count", 2);
             compare(viewShowPromptSpy.signalArguments[0][0], "Password");
@@ -214,8 +219,7 @@ Item {
 
         function test_promptless() {
             selectUser("no-password");
-            tryCompare(viewAuthenticatedSpy, "count", 1);
-            compare(viewAuthenticatedSpy.signalArguments[0][0], true);
+            tryCompare(viewAuthenticationSucceededSpy, "count", 1);
             compare(sessionStartedSpy.count, 1);
             compare(viewShowPromptSpy.count, 0);
             compare(viewHideSpy.count, 0);
@@ -247,8 +251,7 @@ Item {
             compare(viewShowPromptSpy.signalArguments[0][2], true);
 
             view.responded("wr0ng p4ssw0rd");
-            tryCompare(viewAuthenticatedSpy, "count", 1);
-            compare(viewAuthenticatedSpy.signalArguments[0][0], false);
+            tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
             tryCompare(viewShowPromptSpy, "count", 2);
             compare(viewShowPromptSpy.signalArguments[0][0], "Password");
@@ -270,8 +273,7 @@ Item {
             compare(viewShowPromptSpy.signalArguments[1][2], false);
 
             view.responded("wr0ng p4ssw0rd");
-            tryCompare(viewAuthenticatedSpy, "count", 1);
-            compare(viewAuthenticatedSpy.signalArguments[0][0], false);
+            tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
             tryCompare(viewShowPromptSpy, "count", 3);
             compare(viewShowPromptSpy.signalArguments[0][0], "Password");
@@ -400,8 +402,7 @@ Item {
 
         function test_authError() {
             selectUser("auth-error");
-            tryCompare(viewAuthenticatedSpy, "count", 1);
-            compare(viewAuthenticatedSpy.signalArguments[0][0], false);
+            tryCompare(viewAuthenticationFailedSpy, "count", 1);
             compare(viewShowPromptSpy.count, 0);
             compare(view.locked, true);
         }

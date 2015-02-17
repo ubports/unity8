@@ -64,12 +64,12 @@ FocusScope {
         coverPage.hide();
     }
 
-    function authenticated(success) {
-        if (success) {
-            lockscreen.hide();
-        } else {
-            lockscreen.clear(true);
-        }
+    function notifyAuthenticationSucceeded() {
+        lockscreen.hide();
+    }
+
+    function notifyAuthenticationFailed() {
+        lockscreen.clear(true);
     }
 
     function reset() {

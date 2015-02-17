@@ -57,10 +57,12 @@ FocusScope {
         coverPage.hide();
     }
 
-    function authenticated(success) {
-        if (!success) {
-            loginList.showError();
-        }
+    function notifyAuthenticationSucceeded() {
+        // Nothing needed
+    }
+
+    function notifyAuthenticationFailed() {
+        loginList.showError();
     }
 
     function reset() {

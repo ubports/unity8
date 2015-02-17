@@ -46,7 +46,8 @@ Item {
     signal _showPromptCalled(string text, bool isSecret, bool isDefaultPrompt)
     signal _showLastChanceCalled()
     signal _hideCalled()
-    signal _authenticatedCalled(bool success)
+    signal _notifyAuthenticationSucceededCalled()
+    signal _notifyAuthenticationFailedCalled()
     signal _resetCalled()
     signal _tryToUnlockCalled(bool toTheRight)
 
@@ -68,8 +69,12 @@ Item {
         _fullyShown = false;
     }
 
-    function authenticated(success) {
-        _authenticatedCalled(success);
+    function notifyAuthenticationSucceeded() {
+        _notifyAuthenticationSucceededCalled();
+    }
+
+    function notifyAuthenticationFailed() {
+        _notifyAuthenticationFailedCalled();
     }
 
     function reset() {

@@ -166,7 +166,13 @@ Item {
                 Row {
                     Button {
                         text: "Authenticated"
-                        onClicked: loader.item.authenticated(successCheckBox.checked)
+                        onClicked: {
+                            if (successCheckBox.checked) {
+                                loader.item.notifyAuthenticationSucceeded();
+                            } else {
+                                loader.item.notifyAuthenticationFailed();
+                            }
+                        }
                     }
                     CheckBox {
                         id: successCheckBox

@@ -72,10 +72,10 @@ Showable {
                 hide(); // show locked app
             } else {
                 show();
-                d.startUnlock(false);
+                d.startUnlock(false /* toTheRight */);
             }
         } else if (appId !== "unity8-dash") { // dash isn't started by user
-            d.startUnlock(false);
+            d.startUnlock(false /* toTheRight */);
         }
     }
 
@@ -88,7 +88,7 @@ Showable {
         // a little more responsive, rather than waiting for the above
         // notifyAppFocused call.  We also need this in case we have a locked
         // app, in order to show lockscreen instead of new app.
-        d.startUnlock(false);
+        d.startUnlock(false /* toTheRight */);
     }
 
     function notifyShowingDashFromDrag() {
@@ -99,7 +99,7 @@ Showable {
         // This is a just a glorified notifyAboutToFocusApp(), but it does one
         // other thing: it hides any cover pages to the RIGHT, because the user
         // just came from a launcher drag starting on the left.
-        d.startUnlock(true);
+        d.startUnlock(true /* toTheRight */);
     }
 
     QtObject {
@@ -140,9 +140,9 @@ Showable {
             enabled = false;
             if (LightDM.Greeter.startSessionSync()) {
                 sessionStarted();
-                loader.item.authenticated(true);
+                loader.item.notifyAuthenticationSucceeded();
             } else {
-                loader.item.authenticated(false);
+                loader.item.notifyAuthenticationFailed();
             }
             enabled = true;
         }
@@ -163,7 +163,7 @@ Showable {
     onForcedUnlockChanged: {
         if (forcedUnlock && shown) {
             // pretend we were just authenticated
-            loader.item.authenticated(true);
+            loader.item.notifyAuthenticationSucceeded();
         }
     }
 
@@ -363,7 +363,7 @@ Showable {
                     forcedDelayTimer.start();
                 }
 
-                loader.item.authenticated(false);
+                loader.item.notifyAuthenticationFailed();
                 if (!LightDM.Greeter.promptless) {
                     d.selectUser(d.currentIndex, false);
                 }
