@@ -221,8 +221,8 @@ TestCase {
         }
     }
 
-    function touchEvent() {
-        return UT.Util.touchEvent()
+    function touchEvent(item) {
+        return UT.Util.touchEvent(item)
     }
 
     // speed is in pixels/second
@@ -255,7 +255,7 @@ TestCase {
         if (beginTouch) {
             fakeDateTime.currentTimeMs += timeStep
 
-            var event = touchEvent()
+            var event = touchEvent(item)
             event.press(0 /* touchId */, rootFrom.x, rootFrom.y)
             event.commit()
         }
@@ -265,19 +265,19 @@ TestCase {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
                 wait(iterations / speed)
-                var event = touchEvent()
+                var event = touchEvent(item)
                 event.move(0 /* touchId */, rootTo.x, rootTo.y)
                 event.commit()
             } else {
                 wait(iterations / speed)
-                var event = touchEvent()
+                var event = touchEvent(item)
                 event.move(0 /* touchId */, rootFrom.x + (i + 1) * diffX, rootFrom.y + (i + 1) * diffY)
                 event.commit()
             }
         }
         if (endTouch) {
             fakeDateTime.currentTimeMs += timeStep
-            var event = touchEvent()
+            var event = touchEvent(item)
             event.release(0 /* touchId */, rootTo.x, rootTo.y)
             event.commit()
         }
@@ -287,7 +287,7 @@ TestCase {
         // Make sure the item is rendered
         waitForRendering(item);
 
-        var event1 = touchEvent();
+        var event1 = touchEvent(item);
         // first finger
         event1.press(0, x1Start, y1Start);
         event1.commit();
@@ -320,7 +320,7 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
@@ -329,7 +329,7 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
@@ -347,11 +347,11 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
 
-        event = touchEvent()
+        event = touchEvent(item)
         event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
