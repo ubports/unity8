@@ -302,7 +302,7 @@ Item {
                 {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
                 {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false},
                 {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
-                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false}
+                {tag: "swipe over dash", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false}
             ];
         }
 

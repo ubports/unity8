@@ -235,6 +235,9 @@ Item {
                 greeter.notifyAppFocused(appId);
 
                 panel.indicators.hide();
+            }
+
+            onApplicationAdded: {
                 launcher.hide();
             }
         }
