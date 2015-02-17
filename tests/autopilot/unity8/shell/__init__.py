@@ -22,14 +22,11 @@
 from time import sleep
 from functools import wraps
 from gi.repository import Notify
-import ubuntuuitoolkit
-from autopilot import introspection
-from autopilot.introspection import dbus
-from unity8.shell import emulators
 
 import logging
 
 logger = logging.getLogger(__name__)
+
 
 def disable_qml_mocking(fn):
     """Simple decorator that disables the QML mocks from being loaded."""

@@ -715,7 +715,8 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification = shell.create_ephemeral_notification(summary, body)
         notification.show()
 
-        notification_data = self.main_window.wait_for_notification_dialog()
+        notification_data = self.main_window.wait_for_notification()
 
-        self.assertThat(notification_data["summary"], Eventually(Equals(summary)))
-        self.assertThat(notification_data["body"], Eventually(Equals(body)))
+        self.assertThat(notification_data['summary'],
+                        Eventually(Equals(summary)))
+        self.assertThat(notification_data['body'], Eventually(Equals(body)))
