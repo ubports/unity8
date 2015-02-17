@@ -357,11 +357,31 @@ Item {
         function test_laucherOffsetAnimation() {
             // Our logic for smoothing launcherOffset when it suddenly goes to
             // zero is a bit complicated.  Let's just make sure it works here.
-            greeter.launcherOffset = 5;
-            compare(view.launcherOffset, 5);
+
+            launcherOffsetWatcher.target = view;
+
+            // should follow immediately
+            launcherOffsetWatcher.values = [];
+            greeter.launcherOffset = 100;
+            compare(view.launcherOffset, 100);
+            compare(launcherOffsetWatcher.values.length, 1);
+
+            // should interpolate values until it reaches 0
+            launcherOffsetWatcher.values = [];
             greeter.launcherOffset = 0;
-            compare(view.launcherOffset, 5); // initially stays at full value
-            tryCompare(view, "launcherOffset", 0); // and we animate down to 0
+            tryCompare(view, "launcherOffset", 0);
+            verify(launcherOffsetWatcher.values.length > 1);
+            for (var i = 0; i < launcherOffsetWatcher.values.length - 1; ++i) {
+                verify(launcherOffsetWatcher.values[i] > 0.0);
+                verify(launcherOffsetWatcher.values[i] < 100.0);
+            }
+        }
+        Connections {
+            id: launcherOffsetWatcher
+            property var values: []
+            onLauncherOffsetChanged: {
+                values.push(target.launcherOffset);
+            }
         }
 
         function test_backgroundTopMargin() {

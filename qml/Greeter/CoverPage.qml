@@ -26,7 +26,6 @@ Showable {
     property real launcherOffset
     property alias background: greeterBackground.source
     property real backgroundTopMargin
-    property bool ready: greeterBackground.source == "" || greeterBackground.status == Image.Ready || greeterBackground.status == Image.Error
     property var infographicModel
     property bool draggable: true
 
