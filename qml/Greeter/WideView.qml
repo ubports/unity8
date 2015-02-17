@@ -80,10 +80,6 @@ FocusScope {
         }
     }
 
-    QtObject {
-        id: d
-    }
-
     Rectangle {
         anchors.fill: parent
         color: "black"

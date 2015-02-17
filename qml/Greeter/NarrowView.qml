@@ -85,10 +85,6 @@ FocusScope {
         }
     }
 
-    QtObject {
-        id: d
-    }
-
     onLockedChanged: {
         if (locked) {
             lockscreen.maybeShow();
