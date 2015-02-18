@@ -174,3 +174,15 @@ class QQuickView(emulators.UnityEmulatorBase):
             'PinPadButton',
             objectName='pinPadButton{}'.format(button_id)
         )
+
+    def get_shell_orientation_angle(self):
+        return self._get_shell().orientationAngle
+
+    def get_shell_orientation(self):
+        return self._get_shell().orientation
+
+    def get_shell_primary_orientation(self):
+        return self._get_shell().primaryOrientation
+
+    def get_shell_native_orientation(self):
+        return self._get_shell().nativeOrientation

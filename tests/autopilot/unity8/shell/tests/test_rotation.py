@@ -21,7 +21,7 @@
 
 from autopilot.platform import model
 from unity8 import (
-	shell,
+    shell,
     fixture_setup,
     indicators,
     process_helpers
@@ -56,23 +56,26 @@ class RotationBase(tests.UnityTestCase):
     def test_rotation(self):
         """Do an orientation-change and verify that an app and the shell adapted correctly"""
 
-        # launch an application
-        app_name = self.launch_fake_app()
-
-        # 
+        # get unity8 with fake sensors running 
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
         self.useFixture(unity_with_sensors)
         self.unity_proxy = unity_with_sensors.unity_proxy
         process_helpers.unlock_unity(self.unity_proxy)
         self.fake_sensors = unity_with_sensors.fake_sensors
 
+        # launch an application
+        app_name = self.launch_fake_app()
+
         #check for nativeOrientation
-        #print "orientation: ", self.main_window.get_orientation()
-		#self.fake_sensors.set_orientation_top_up()
+        print ("orientation-angle: ", self.main_window.get_shell_orientation_angle())
+        #print ("orientation: ", self.main_window.get_shell_orientation())
+        #print ("prim. orientation: ", self.main_window.get_shell_primary_orientation())
+        #print ("native orientation: ", self.main_window.get_shell_native_orientation())
+        #self.fake_sensors.set_orientation_top_up()
 
-		# set accelerometer sensor rotation from 0 to 90
-		#self.fake_sensors.set_orientation_right_up()
+	# set accelerometer sensor rotation from 0 to 90
+        #self.fake_sensors.set_orientation_right_up()
 
-		# check that unity8 rotated its UI form 0 (portrait aspect ratio) to 90 (landscape aspect ratio)
+        # check that unity8 rotated its UI form 0 (portrait aspect ratio) to 90 (landscape aspect ratio)
 
-		# check that the application got resized from a portrait aspect ratio to a landscape aspect ratio
+        # check that the application got resized from a portrait aspect ratio to a landscape aspect ratio
