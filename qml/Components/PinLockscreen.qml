@@ -121,6 +121,7 @@ Column {
                 objectName: "backspaceIcon"
                 anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
                 width: height
+                enabled: root.entryEnabled
 
                 Icon {
                     anchors.fill: parent
