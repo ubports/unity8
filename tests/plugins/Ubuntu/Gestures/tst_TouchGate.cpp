@@ -19,7 +19,9 @@
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QSharedPointer>
-#include <private/qquickwindow_p.h>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    #include <private/qquickwindow_p.h>
+#endif
 
 // C++ std lib
 #include <functional>

@@ -20,7 +20,9 @@
 #include <QtQml/QQmlEngine>
 #include <QPointer>
 #include <private/qquickmousearea_p.h>
-#include <private/qquickwindow_p.h>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    #include <private/qquickwindow_p.h>
+#endif
 
 
 #include <DirectionalDragArea.h>
@@ -815,7 +817,9 @@ void tst_DirectionalDragArea::sceneDistance()
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
     QQuickWindowPrivate *wp = QQuickWindowPrivate::get(m_view);
+#endif
     for (int i = 0; i < totalMovementSteps; ++i) {
         touchPoint += touchMovement;
         passTime(movementTimeStepMs);
