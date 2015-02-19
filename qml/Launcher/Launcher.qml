@@ -250,7 +250,9 @@ Item {
         propagateComposedEvents: true
         onContainsMouseChanged: {
             if (containsMouse) {
-                root.switchToNextState("visibleTemporary")
+                root.switchToNextState("visibleTemporary");
+            } else {
+                dismissTimer.restart();
             }
         }
         onPressed: mouse.accepted = false;
@@ -324,7 +326,6 @@ Item {
         State {
             name: "visibleTemporary"
             extend: "visible"
-            when: hoverArea.containsMouse
             PropertyChanges {
                 target: root
                 autohideEnabled: true
