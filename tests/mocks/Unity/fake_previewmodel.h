@@ -25,12 +25,14 @@
 
 class PreviewWidgetModel;
 
+class Scope;
+
 class PreviewModel : public unity::shell::scopes::PreviewModelInterface
 {
     Q_OBJECT
 
 public:
-    explicit PreviewModel(QObject* parent = 0);
+    explicit PreviewModel(QObject* parent = 0, Scope* scope = 0);
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -42,9 +44,13 @@ public:
 
     Q_INVOKABLE void setLoaded(bool); // Only available for testing
 
+private Q_SLOTS:
+    void triggeredSlot(QString const&, QString const&, QVariantMap const&);
+
 private:
     QList<PreviewWidgetModel*> m_previewWidgetModels;
     bool m_loaded;
+    Scope* m_scope;
 };
 
 Q_DECLARE_METATYPE(PreviewModel*)

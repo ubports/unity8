@@ -232,6 +232,22 @@ Item {
             tryCompare(ApplicationManager, "focusedApplicationId", app)
         }
 
+        function test_greeterChangesIndicatorProfile() {
+            skip("Not supported yet, waiting on design for new settings panel");
+
+            var panel = findChild(shell, "panel");
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
+
+            LightDM.Greeter.showGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
+        }
+
         function test_login() {
             sessionSpy.clear()
             tryCompare(sessionSpy, "count", 0)

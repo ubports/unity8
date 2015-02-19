@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,25 +12,35 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-#ifndef MOCK_NOTIFICATION_TYPES_H
-#define MOCK_NOTIFICATION_TYPES_H
+#ifndef ASADAPTER_H
+#define ASADAPTER_H
 
-#include <QObject>
+#include <QVariantMap>
 
-class MockNotification : public QObject {
-    Q_OBJECT
-    Q_ENUMS(Type)
+class LauncherItem;
+class AccountsServiceDBusAdaptor;
+class QDBusInterface;
 
+class ASAdapter
+{
 public:
-    MockNotification(QObject *parent=nullptr);
-    virtual ~MockNotification();
+    ASAdapter();
+    ~ASAdapter();
 
-    enum Type { PlaceHolder, Confirmation, Ephemeral, Interactive, SnapDecision };
+    void syncItems(QList<LauncherItem*> m_list);
+
+private:
+    QVariantMap itemToVariant(LauncherItem *item) const;
+
+private:
+    AccountsServiceDBusAdaptor *m_accounts;
+    QString m_user;
+
+    QDBusInterface *m_userInterface;
+
+    friend class LauncherModelTest;
 };
 
-#endif // MOCK_NOTIFICATION_TYPES_H
+#endif

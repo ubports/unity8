@@ -1,5 +1,6 @@
 add_executable(uqmlscene
     ${shellapplication_MOC_SRCS}
+    ActiveFocusLogger.cpp
     main.cpp
     ${CMAKE_SOURCE_DIR}/src/MouseTouchAdaptor.cpp
     )

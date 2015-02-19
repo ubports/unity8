@@ -31,24 +31,26 @@ Indicator::~Indicator()
 {
 }
 
-void Indicator::init(const QString &profile, const QString& busName, const QSettings& settings)
+void Indicator::init(const QString& busName, const QSettings& settings)
 {
+    // Save all keys we care about from the QSettings object.  It's annoying
+    // that we can't just copy the object.
+    m_settings.clear();
+    Q_FOREACH(const QString& key, settings.allKeys()) {
+        if (key.endsWith("/Position") || key.endsWith("/ObjectPath")) {
+            m_settings.insert(key, settings.value(key));
+        }
+    }
+
     setId(settings.value("Indicator Service/Name").toString());
 
-    QVariant pos = settings.value(profile + "/Position");
-    if (!pos.isValid())
-        pos = settings.value("Indicator Service/Position", QVariant::fromValue(0));
-    setPosition(pos.toInt());
-
     QString actionObjectPath = settings.value("Indicator Service/ObjectPath").toString();
-    QString menuObjectPath = settings.value(profile + "/ObjectPath").toString();
 
     QVariantMap properties;
     properties.clear();
     properties.insert("busType", 1);
     properties.insert("busName", busName);
     properties.insert("actionsObjectPath", actionObjectPath);
-    properties.insert("menuObjectPath", menuObjectPath);
     setIndicatorProperties(properties);
 }
 
@@ -76,6 +78,19 @@ void Indicator::setPosition(int position)
         m_position = position;
         Q_EMIT positionChanged(m_position);
     }
+}
+
+void Indicator::setProfile(const QString& profile)
+{
+    QVariant pos = m_settings.value(profile + "/Position");
+    if (!pos.isValid())
+        pos = m_settings.value("Indicator Service/Position", QVariant::fromValue(0));
+    setPosition(pos.toInt());
+
+    QString menuObjectPath = m_settings.value(profile + "/ObjectPath").toString();
+    QVariantMap map = m_properties.toMap();
+    map.insert("menuObjectPath", menuObjectPath);
+    setIndicatorProperties(map);
 }
 
 QVariant Indicator::indicatorProperties() const
