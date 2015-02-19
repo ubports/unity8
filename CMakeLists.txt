@@ -98,10 +98,6 @@ add_definitions(-DQT_NO_KEYWORDS)
 # Save a few container detach and conversions
 add_definitions(-DQT_STRICT_ITERATORS)
 
-# Tests
-include(CTest)
-enable_testing()
-
 # Autopilot tests
 include(autopilot)
 declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
@@ -121,7 +117,16 @@ add_subdirectory(libs)
 add_subdirectory(src)
 add_subdirectory(tools)
 add_subdirectory(qml)
-add_subdirectory(tests)
+
+# Tests
+if (NOT NO_TESTS)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+else()
+    message(STATUS "Tests disabled")
+endif()
+
 add_subdirectory(plugins)
 
 #
