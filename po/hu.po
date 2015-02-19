@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-13 11:45+0100\n"
-"PO-Revision-Date: 2015-01-29 09:19+0000\n"
+"PO-Revision-Date: 2015-02-17 10:08+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
+"X-Launchpad-Export-Date: 2015-02-19 05:39+0000\n"
 "X-Generator: Launchpad (build 17341)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -179,7 +179,7 @@ msgstr "Engedje el a frissítéshez…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Helymeghatározás engedélyezése"
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
@@ -309,55 +309,55 @@ msgstr ""
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Ez a művelet másként viselkedhet a különböző alkalmazásoknál"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Koppintson a befejezéshez."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Speciális menük megnyitása"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Húzza az ujját a kijelző aljától indulva felfelé."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Ezek a kedvenc alkalmazások gyorsít-indítói"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "Koppintson ide a folytatáshoz."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "Indító megnyitása"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Húzza az ujját röviden a kijelző baloldalától indulva."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Már majdnem kész!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "Próbálja újra."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Nyitott alkalmazások megtekintéséhez"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Húzza az ujját hosszan a kijelző jobboldalától indulva."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Minden futó feladat megtekintése."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
