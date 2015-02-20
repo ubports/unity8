@@ -141,16 +141,16 @@ Item {
     }
 
     PinchArea {
-            id: pinchArea
-            objectName: "pinchArea"
-            property real minScale: 1.0
-            anchors.fill: flickable
-            enabled: zoomable ? zoomable : false
+        id: pinchArea
+        objectName: "pinchArea"
+        property real minScale: 1.0
+        anchors.fill: flickable
+        enabled: zoomable ? zoomable : false
 
-            pinch.target: image
-            pinch.minimumScale: minScale
-            pinch.maximumScale: 10
+        pinch.target: image
+        pinch.minimumScale: minScale
+        pinch.maximumScale: 10
 
-            onPinchFinished: flickable.returnToBounds()
-        }
+        onPinchFinished: flickable.returnToBounds()
+    }
 }
