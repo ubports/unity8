@@ -38,7 +38,7 @@ class MockNotification : public QObject {
     Q_PROPERTY(QString icon READ getIcon WRITE setIcon NOTIFY iconChanged)
     Q_PROPERTY(QString secondaryIcon READ getSecondaryIcon WRITE setSecondaryIcon NOTIFY secondaryIconChanged)
     Q_PROPERTY(Type type READ getType WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(QStringList rawActions WRITE setActions)
+    Q_PROPERTY(QStringList rawActions READ rawActions WRITE setActions)
     Q_PROPERTY(ActionModel* actions READ getActions NOTIFY actionsChanged)
     Q_PROPERTY(QVariantMap hints READ getHints WRITE setHints NOTIFY hintsChanged)
 
@@ -83,6 +83,7 @@ public:
     Type getType() const;
     void setType(Type type);
     ActionModel* getActions() const;
+    QStringList rawActions() const;
     void setActions(const QStringList &actions);
     QVariantMap getHints() const;
     void setHints(const QVariantMap& hints);
