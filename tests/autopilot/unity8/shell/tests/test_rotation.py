@@ -29,6 +29,9 @@ from unity8 import (
 import os
 from unity8.shell import tests
 import ubuntuuitoolkit
+import logging
+
+logger = logging.getLogger(__name__)
 
 class RotationBase(tests.UnityTestCase):
     """Base class for all shell-rotation tests that provides helper methods."""
@@ -59,22 +62,35 @@ class RotationBase(tests.UnityTestCase):
         # get unity8 with fake sensors running 
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
         self.useFixture(unity_with_sensors)
-        self.unity_proxy = unity_with_sensors.unity_proxy
-        process_helpers.unlock_unity(self.unity_proxy)
+        process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
         self.fake_sensors = unity_with_sensors.fake_sensors
 
         # launch an application
         app_name = self.launch_fake_app()
 
         #check for nativeOrientation
-        print ("orientation-angle: ", self.main_window.get_shell_orientation_angle())
+        print ("default...")
+        print ("# of children: ", len(unity_with_sensors.main_win.get_children()))
+        print ("properties: ", unity_with_sensors.main_win.get_properties())
+        print ("shell: ", unity_with_sensors.get_shell())
+        #print ("orientation-angle: ", unity_with_sensors.main_win.get_shell_orientation_angle())
         #print ("orientation: ", self.main_window.get_shell_orientation())
         #print ("prim. orientation: ", self.main_window.get_shell_primary_orientation())
         #print ("native orientation: ", self.main_window.get_shell_native_orientation())
-        #self.fake_sensors.set_orientation_top_up()
+        self.fake_sensors.set_orientation_top_up()
+        #print ("after set_orientation_top_up...")
+        #print ("orientation-angle: ", self.main_window.get_shell_orientation_angle())
+        #print ("orientation: ", self.main_window.get_shell_orientation())
+        #print ("prim. orientation: ", self.main_window.get_shell_primary_orientation())
+        #print ("native orientation: ", self.main_window.get_shell_native_orientation())
 
 	# set accelerometer sensor rotation from 0 to 90
         #self.fake_sensors.set_orientation_right_up()
+        #print ("after set_orientation_right_up...")
+        #print ("orientation-angle: ", self.main_window.get_shell_orientation_angle())
+        #print ("orientation: ", self.main_window.get_shell_orientation())
+        #print ("prim. orientation: ", self.main_window.get_shell_primary_orientation())
+        #print ("native orientation: ", self.main_window.get_shell_native_orientation())
 
         # check that unity8 rotated its UI form 0 (portrait aspect ratio) to 90 (landscape aspect ratio)
 

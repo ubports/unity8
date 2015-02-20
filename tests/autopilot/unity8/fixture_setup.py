@@ -30,7 +30,9 @@ from ubuntuuitoolkit import fixture_setup
 
 from unity8 import process_helpers, sensors
 from unity8.shell import emulators
-
+from unity8.shell.emulators import (
+    main_window as main_window_emulator
+)
 
 class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
@@ -41,6 +43,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
     """
 
     unity_proxy = None
+    main_win = None
 
     def setUp(self):
         """Restart Unity8 with testability and create sensors."""
@@ -61,6 +64,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
     def _restart_unity_with_testability(self):
         self.unity_proxy = process_helpers.restart_unity_with_testability()
+        self.main_win = self.unity_proxy.select_single(main_window_emulator.QQuickView)
 
     def _create_sensors(self):
         # Wait for unity to start running.
@@ -78,6 +82,20 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
             fifo.write('create light 0 10 1\n')
             fifo.write('create proximity\n') 
 
+    def get_shell(self):
+        self.main_win.select_single('Shell')
+
+    def get_shell_orientation_angle(self):
+        return self.get_shell().shellOrientationAngle
+
+    def get_shell_orientation(self):
+        return self.get_shell().shellOrientation
+
+    def get_shell_primary_orientation(self):
+        return self.get_shell().shellPrimaryOrientation
+
+    def get_shell_native_orientation(self):
+        return self.get_shell().nativeOrientation
 
 class LaunchDashApp(fixtures.Fixture):
 
