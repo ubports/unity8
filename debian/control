@@ -154,7 +154,6 @@ Depends: gir1.2-glib-2.0,
          url-dispatcher-tools,
          ${misc:Depends},
          ${python3:Depends},
-         ${python:Depends},
          ${shlibs:Depends},
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
