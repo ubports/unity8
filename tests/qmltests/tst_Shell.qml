@@ -298,11 +298,13 @@ Item {
 
         function test_leftEdgeDrag_data() {
             return [
-                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
-                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
-                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false},
-                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
-                {tag: "swipe over dash", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false}
+                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
+                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
+                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false, greeterShown: false},
+                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
+                {tag: "small swipe with greeter", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false, greeterShown: true},
+                {tag: "long swipe with greeter", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: true},
+                {tag: "swipe over dash", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false, greeterShown: false},
             ];
         }
 
@@ -313,6 +315,12 @@ Item {
             ApplicationManager.focusApplication(data.focusedApp)
             waitUntilApplicationWindowIsFullyVisible();
 
+            var greeter = findChild(shell, "greeter");
+            if (data.greeterShown) {
+                LightDM.Greeter.showGreeter();
+                tryCompare(greeter, "fullyShown", true);
+            }
+
             if (data.revealLauncher) {
                 dragLauncherIntoView();
             }
@@ -320,8 +328,10 @@ Item {
             swipeFromLeftEdge(data.swipeLength);
             if (data.appHides) {
                 waitUntilDashIsFocused();
+                tryCompare(greeter, "shown", false);
             } else {
                 waitUntilApplicationWindowIsFullyVisible();
+                compare(greeter.fullyShown, data.greeterShown);
             }
 
             var launcher = findChild(shell, "launcherPanel");
@@ -713,29 +723,6 @@ Item {
 
         function test_unlockAllModemsOnBoot() {
             tryCompare(unlockAllModemsSpy, "count", 1)
-        }
-
-        function test_leftEdgeDragOnGreeter_data() {
-            return [
-                {tag: "short swipe", targetX: shell.width / 3, unlocked: false},
-                {tag: "long swipe", targetX: shell.width / 3 * 2, unlocked: true}
-            ]
-        }
-
-        function test_leftEdgeDragOnGreeter(data) {
-            var greeter = findChild(shell, "greeter");
-            LightDM.Greeter.showGreeter();
-            tryCompare(greeter, "fullyShown", true);
-
-            var touchStartX = 2;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
-
-            if (data.unlocked) {
-                tryCompare(greeter, "shown", false);
-            } else {
-                tryCompare(greeter, "fullyShown", true);
-            }
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {

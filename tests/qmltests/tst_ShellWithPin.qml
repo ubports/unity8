@@ -599,5 +599,30 @@ Item {
                 compare(launcherPanel.x, 0);
             }
         }
+
+        function test_longLeftEdgeDrags() {
+            var coverPage = findChild(shell, "coverPage");
+            var lockscreen = findChild(shell, "lockscreen");
+            var launcher = findChild(shell, "launcherPanel");
+            ApplicationManager.startApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+
+            // Show greeter
+            LightDM.Greeter.showGreeter();
+            tryCompare(coverPage, "showProgress", 1);
+
+            // Swipe cover page away
+            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            tryCompare(launcher, "x", -launcher.width);
+            tryCompare(coverPage, "showProgress", 0);
+            compare(lockscreen.shown, true);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+
+            // Now attempt a swipe on lockscreen
+            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            tryCompare(launcher, "x", 0);
+            compare(lockscreen.shown, true);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+        }
     }
 }

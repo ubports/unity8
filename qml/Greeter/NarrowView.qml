@@ -77,12 +77,14 @@ FocusScope {
     }
 
     function tryToUnlock(toTheRight) {
+        var coverChanged = coverPage.shown;
         lockscreen.maybeShow();
         if (toTheRight) {
             coverPage.hideRight();
         } else {
             coverPage.hide();
         }
+        return coverChanged;
     }
 
     onLockedChanged: {

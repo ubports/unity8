@@ -73,12 +73,15 @@ FocusScope {
         if (root.locked) {
             coverPage.show();
             loginList.tryToUnlock();
+            return false;
         } else {
+            var coverChanged = coverPage.shown;
             if (toTheRight) {
                 coverPage.hideRight();
             } else {
                 coverPage.hide();
             }
+            return coverChanged;
         }
     }
 

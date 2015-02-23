@@ -296,7 +296,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
-                value: launcher.progress
+                value: greeter.locked ? 0 : launcher.progress
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -447,12 +447,11 @@ Item {
     }
 
     function showDash() {
-        if (greeter.active) {
-            greeter.notifyShowingDashFromDrag();
+        if (greeter.notifyShowingDashFromDrag()) {
             launcher.fadeOut();
         }
 
-        if (ApplicationManager.focusedApplicationId != "unity8-dash") {
+        if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
         }

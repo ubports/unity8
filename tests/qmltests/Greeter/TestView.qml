@@ -83,6 +83,7 @@ Item {
 
     function tryToUnlock(toTheRight) {
         _tryToUnlockCalled(toTheRight);
+        return true;
     }
 
     Rectangle {

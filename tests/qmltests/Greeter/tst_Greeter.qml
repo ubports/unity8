@@ -344,6 +344,18 @@ Item {
             compare(view.background, Qt.resolvedUrl("testing"));
         }
 
+        function test_notifyAboutToFocusApp() {
+            greeter.notifyAboutToFocusApp("fake-app");
+            compare(viewTryToUnlockSpy.count, 1);
+            compare(viewTryToUnlockSpy.signalArguments[0][0], false);
+        }
+
+        function test_notifyShowingDashFromDrag() {
+            compare(greeter.notifyShowingDashFromDrag("fake-app"), true);
+            compare(viewTryToUnlockSpy.count, 1);
+            compare(viewTryToUnlockSpy.signalArguments[0][0], true);
+        }
+
         function test_dragHandleLeftMargin() {
             compare(view.dragHandleLeftMargin, 0);
             greeter.dragHandleLeftMargin = 5;

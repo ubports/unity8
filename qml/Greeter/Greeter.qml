@@ -91,15 +91,18 @@ Showable {
         d.startUnlock(false /* toTheRight */);
     }
 
+    // This is a just a glorified notifyAboutToFocusApp(), but it does one
+    // other thing: it hides any cover pages to the RIGHT, because the user
+    // just came from a launcher drag starting on the left.
+    // It also returns a boolean value, indicating whether there was a visual
+    // change or not (the shell only wants to hide the launcher if there was
+    // a change).
     function notifyShowingDashFromDrag() {
         if (!active) {
-            return;
+            return false;
         }
 
-        // This is a just a glorified notifyAboutToFocusApp(), but it does one
-        // other thing: it hides any cover pages to the RIGHT, because the user
-        // just came from a launcher drag starting on the left.
-        d.startUnlock(true /* toTheRight */);
+        return d.startUnlock(true /* toTheRight */);
     }
 
     QtObject {
@@ -149,7 +152,9 @@ Showable {
 
         function startUnlock(toTheRight) {
             if (loader.item) {
-                loader.item.tryToUnlock(toTheRight);
+                return loader.item.tryToUnlock(toTheRight);
+            } else {
+                return false;
             }
         }
     }

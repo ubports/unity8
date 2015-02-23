@@ -402,6 +402,14 @@ Item {
             tryCompare(view, "required", false);
         }
 
+        function test_tryToUnlock() {
+            var coverPage = findChild(view, "coverPage");
+            tryCompare(coverPage, "showProgress", 1);
+            compare(view.tryToUnlock(false), true);
+            tryCompare(coverPage, "showProgress", 0);
+            compare(view.tryToUnlock(false), false);
+        }
+
         /*
             Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1388359
             "User metrics can no longer be changed by double tap"
