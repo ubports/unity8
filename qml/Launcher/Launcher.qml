@@ -159,7 +159,7 @@ Item {
 
     MouseArea {
         id: launcherDragArea
-        enabled: root.available && root.state == "visible" || root.state == "visibleTemporary"
+        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary")
         anchors.fill: panel
         anchors.rightMargin: -units.gu(2)
         drag {
