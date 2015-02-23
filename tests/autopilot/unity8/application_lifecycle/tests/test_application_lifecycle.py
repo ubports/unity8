@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2013, 2014 Canonical
+# Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,8 +18,6 @@
 #
 
 """Tests for the application lifecycle."""
-
-from __future__ import absolute_import
 
 import logging
 import os
@@ -40,7 +38,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
     def setUp(self):
         if model() == 'Desktop':
             self.skipTest('Test cannot be run on the desktop.')
-        super(ApplicationLifecycleTests, self).setUp()
+        super().setUp()
 
     def swipe_screen_from_right(self):
         width = self.main_window.width
