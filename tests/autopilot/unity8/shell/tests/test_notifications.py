@@ -330,7 +330,7 @@ class InteractiveNotificationBase(NotificationsBase):
             action_string = "%s,%s" % (action_id, action_label)
             script_args.extend(['--action', action_string])
 
-        python_bin = subprocess.check_output(['which', 'python']).strip()
+        python_bin = subprocess.check_output(['which', 'python3']).strip()
         command = [python_bin, self._get_notify_script()] + script_args
         logger.info("Launching snap-decision notification as: %s", command)
         self._notify_proc = subprocess.Popen(
