@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2015-01-30 13:43+0000\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
+"PO-Revision-Date: 2015-02-18 17:42+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2015-01-31 06:19+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-19 05:39+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Geslo: "
 
@@ -111,56 +111,6 @@ msgstr "Ponovni zagon"
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Preskoči uvod"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Desni rob"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Poskusite povleči od desnega roba za odklep telefona"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Zgornji rob"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Poskusite povleči od zgornjega roba za dostop do kazalnikov"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Zapri"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Povlecite ponovno navzgor za zaprtje zaslona z nastavitvami"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Levi rob"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Poskusite povleči od leve za razkritje zaganjalnika za hiter dostop do "
-"programov"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Odlično"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Sedaj, ko ste osvojili poteze robov, lahko začnete uporabljati "
-"telefon<br><br>Tapnite na zaslon za začetek"
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Vrni se h klicu"
@@ -173,32 +123,32 @@ msgstr "Klic v sili"
 msgid "OK"
 msgstr "V REDU"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "Pokaži vse"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Iskanje"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "Trgovina"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Dodaj med priljubljene"
 
@@ -230,6 +180,10 @@ msgstr "Povlecite za osvežitev ..."
 msgid "Release to refresh…"
 msgstr "Spustite za osvežitev ..."
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr "Omogoči podatke o položaju"
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Upravljaj"
@@ -242,7 +196,7 @@ msgstr "Domov"
 msgid "Also installed"
 msgstr "Tudi nameščeno"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr "Odkleni"
 
@@ -298,49 +252,49 @@ msgstr "Odkleni SIM"
 msgid "Roaming"
 msgstr "Gostovanje"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "Vnesite %1"
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Vnesite šifrirno reklo"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr "Vnesite geslo"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Oprostite, napačen %1"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr "Oprostite, napačno šifrirno reklo"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr "Ponovno vnesite"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr "Nepravilno geslo"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Nepravilno geslo."
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Nepravilno geslo."
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr "To je vaš zadnji poskus"
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -348,13 +302,65 @@ msgstr ""
 "Če je vneseno nepravilno šifrirno reklo, bo telefon ponastavljen na "
 "tovarniške nastavitve ter vsi osebni podatki bodo izbrisani."
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Če je vneseno nepravilno geslo, bo telefon ponastavljen na tovarniške "
 "nastavitve ter vsi osebni podatki bodo izbrisani."
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "To dejanje ima različne učinke za različne programe"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Tapnite tu za končanje."
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr "Odpri posebne menije"
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr "Potegnite gor od spodnjega roba."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "To so bližnjice do priljubljenih programov."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Tapnite tukaj za nadaljevanje."
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr "Odpri zaganjalnik"
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr "Kratek poteg od levega roba."
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr "Skoraj že obvladate!"
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr "Poskusite znova."
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr "Za ogled odprtih programov"
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr "Dolg poteg od desnega roba."
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr "Ogled vseh izvajajočih se opravil"
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -373,7 +379,7 @@ msgid "Let’s get started."
 msgstr "Pa začnimo."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -387,7 +393,7 @@ msgstr "Dodajte kartico SIM in ponovno zaženite napravo"
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "Brez nje ne bo mogoče opravljati klicev ali besedilnih sporočil."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Preskoči"
 
@@ -423,15 +429,15 @@ msgstr "Šifrirno reklo"
 msgid "Numbers and letters"
 msgstr "Številke in črke"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Poveži se z Wi-Fi-jem"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "Razpoložljiva omrežja ..."
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "Ni razpoložljivih omrežij."
 
@@ -555,6 +561,45 @@ msgstr "%1  〉"
 
 #~ msgid "Speaking..."
 #~ msgstr "Govorjenje ..."
+
+#~ msgid "Top edge"
+#~ msgstr "Zgornji rob"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Poskusite povleči od zgornjega roba za dostop do kazalnikov"
+
+#~ msgid "Close"
+#~ msgstr "Zapri"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Povlecite ponovno navzgor za zaprtje zaslona z nastavitvami"
+
+#~ msgid "Left edge"
+#~ msgstr "Levi rob"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Poskusite povleči od leve za razkritje zaganjalnika za hiter dostop do "
+#~ "programov"
+
+#~ msgid "Skip intro"
+#~ msgstr "Preskoči uvod"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Poskusite povleči od desnega roba za odklep telefona"
+
+#~ msgid "Right edge"
+#~ msgstr "Desni rob"
+
+#~ msgid "Well done"
+#~ msgstr "Odlično"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Sedaj, ko ste osvojili poteze robov, lahko začnete uporabljati "
+#~ "telefon<br><br>Tapnite na zaslon za začetek"
 
 #~ msgid "Done"
 #~ msgstr "Končano"

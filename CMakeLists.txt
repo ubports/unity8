@@ -54,6 +54,7 @@ find_package(Qt5Quick 5.2 REQUIRED)
 find_package(Qt5Gui 5.2 REQUIRED)
 find_package(Qt5DBus 5.2 REQUIRED)
 find_package(Qt5Concurrent 5.2 REQUIRED)
+find_package(Qt5Sql 5.2 REQUIRED)
 
 # Standard install paths
 include(GNUInstallDirs)

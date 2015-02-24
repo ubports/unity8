@@ -55,14 +55,14 @@ TestUtil::isInstanceOf(QObject *obj, QString name)
     return result;
 }
 
-TouchEventSequenceWrapper *TestUtil::touchEvent()
+TouchEventSequenceWrapper *TestUtil::touchEvent(QQuickItem *item)
 {
     ensureTargetWindow();
     ensureTouchDevice();
     ensureTouchRegistryInstalled();
 
     return new TouchEventSequenceWrapper(
-            QTest::touchEvent(m_targetWindow, m_touchDevice, /* autoCommit */ false));
+            QTest::touchEvent(m_targetWindow, m_touchDevice, /* autoCommit */ false), item);
 }
 
 void TestUtil::ensureTargetWindow()

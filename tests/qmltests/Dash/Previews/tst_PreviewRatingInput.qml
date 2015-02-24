@@ -196,7 +196,7 @@ Rectangle {
             compare(args[1], "rated");
             compare(args[2]["rating"], data.triggeredData["rating"]);
             compare(args[2]["review"], data.triggeredData["review"]);
-            verify(args[2]["author"]); // Just verifying it exists now
+            verify(args[2]["author"] !== undefined); // Just verifying it exists now
         }
     }
 }

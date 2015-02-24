@@ -15,9 +15,27 @@
  */
 
 import QtQuick 2.3
-import MeeGo.QOfono 0.2
+import Ubuntu.Components 1.1
+import "." as LocalComponents
 
-Item {
-    readonly property var modems: MockQOfono.modems
-    readonly property bool available: MockQOfono.available
+TutorialPage {
+    id: root
+
+    title: i18n.tr("These are the shortcuts to favorite apps")
+    text: i18n.tr("Tap here to continue.")
+    fullTextWidth: true
+
+    foreground {
+        children: [
+            LocalComponents.Tick {
+                objectName: "tick"
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
+                    topMargin: root.textBottom + units.gu(3)
+                }
+                onClicked: root.hide()
+            }
+        ]
+    }
 }

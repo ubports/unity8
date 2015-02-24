@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2015-01-29 09:21+0000\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
+"PO-Revision-Date: 2015-02-17 12:57+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-30 07:08+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-19 05:38+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Salasana: "
 
@@ -110,54 +110,6 @@ msgstr "Käynnistä uudelleen"
 msgid "Cancel"
 msgstr "Peru"
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Ohita esittely"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Oikea reuna"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Vedä oikealta avataksesi puhelimen lukituksen"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Yläreuna"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Vedä yläreunasta käyttääksesi ilmaisimia"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Sulje"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Vedä uudestaan sulkeaksesi asetusnäkymän"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Vasen reuna"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Vedä vasemmalta saattaaksesi sovellusten käynnistimen esiin"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Hyvin tehty"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
-"käytön<br><br>Napauta näyttöä aloittaaksesi"
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "Palaa puheluun"
@@ -170,32 +122,32 @@ msgstr "Hätäpuhelu"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "Näytä vähemmän"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "Näytä kaikki"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Hae"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "Kauppa"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "Asetukset"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Poista suosikeista"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Lisää suosikkeihin"
 
@@ -227,6 +179,10 @@ msgstr "Vedä päivittääksesi…"
 msgid "Release to refresh…"
 msgstr "Vapauta päivittääksesi…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr "Käytä sijaintitietoa"
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Hallitse"
@@ -239,7 +195,7 @@ msgstr "Koti"
 msgid "Also installed"
 msgstr "Myös asennettu"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr "Avaa lukitus"
 
@@ -295,49 +251,49 @@ msgstr "Avaa SIM-kortin lukitus"
 msgid "Roaming"
 msgstr "Verkkovierailu"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "Anna %1"
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Anna tunnuslause"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr "Anna suojakoodi"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Väärä %1"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr "Virheellinen tunnuslause"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr "Anna uudelleen"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr "Väärä suojakoodi"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Virheellinen tunnuslause."
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Virheellinen suojakoodi."
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr "Tämä on viimeinen yritys."
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -345,13 +301,65 @@ msgstr ""
 "Jos kirjoitat tunnuslauseen virheellisesti, puhelimesi palautetaan "
 "tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "Jos kirjoitat suojakoodin virheellisesti, puhelimesi palautetaan "
 "tehdastilaan ja kaikki henkilökohtaiset tietosi poistetaan."
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Tämä toiminto tekee eri asioita eri sovelluksissa"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Napauta tästä viimeistelläksesi."
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr "Avaa erikoisvalikot"
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr "Vedä pyyhkäisy alareunasta."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Nämä ovat pikakuvakkeet suosikkisovelluksiisi."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Napauta tästä jatkaaksesi."
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr "Avaa käynnistin"
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr "Lyhyt pyyhkäisy vasemmasta reunasta."
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr "Melkein!"
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr "Yritä uudelleen."
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr "Nähdäksesi avoinna olevat sovellukset"
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr "Pitkä pyyhkäisy oikeasta reunasta."
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr "Näytä kaikki käynnissä olevat tehtävät."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -370,7 +378,7 @@ msgid "Let’s get started."
 msgstr "Aloitetaanpa."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -386,7 +394,7 @@ msgstr ""
 "Ilman sitä et voi soittaa tai vastaanottaa puheluja tai käyttää "
 "tekstiviestejä."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Ohita"
 
@@ -422,15 +430,15 @@ msgstr "Salasana"
 msgid "Numbers and letters"
 msgstr "Numerot ja kirjaimet"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Yhdistä wifi-verkkoon"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "Käytettävissä olevat verkot…"
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "Ei käytettävissä olevia verkkoja."
 
@@ -551,6 +559,43 @@ msgstr "%1  〉"
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "Ladataan, pieni hetki..."
+
+#~ msgid "Top edge"
+#~ msgstr "Yläreuna"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Vedä yläreunasta käyttääksesi ilmaisimia"
+
+#~ msgid "Close"
+#~ msgstr "Sulje"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Vedä uudestaan sulkeaksesi asetusnäkymän"
+
+#~ msgid "Left edge"
+#~ msgstr "Vasen reuna"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Vedä vasemmalta saattaaksesi sovellusten käynnistimen esiin"
+
+#~ msgid "Well done"
+#~ msgstr "Hyvin tehty"
+
+#~ msgid "Skip intro"
+#~ msgstr "Ohita esittely"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Vedä oikealta avataksesi puhelimen lukituksen"
+
+#~ msgid "Right edge"
+#~ msgstr "Oikea reuna"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
+#~ "käytön<br><br>Napauta näyttöä aloittaaksesi"
 
 #~ msgid "All"
 #~ msgstr "Kaikki"

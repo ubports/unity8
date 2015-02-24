@@ -10,10 +10,6 @@ Module {
     Component {
         name: "Greeter"
         prototype: "QObject"
-        exports: ["LightDM/Greeter 0.1"]
-        isCreatable: false
-        isSingleton: true
-        exportMetaObjectRevisions: [0]
         Property { name: "active"; type: "bool" }
         Property { name: "authenticated"; type: "bool"; isReadonly: true }
         Property { name: "authenticationUser"; type: "string"; isReadonly: true }
@@ -63,6 +59,32 @@ Module {
         }
     }
     Component {
+        name: "MockGreeter"
+        prototype: "Greeter"
+        exports: ["LightDM/Greeter 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Property { name: "mockMode"; type: "string" }
+        Signal {
+            name: "mockModeChanged"
+            Parameter { name: "mode"; type: "string" }
+        }
+    }
+    Component {
+        name: "MockUsersModel"
+        prototype: "UsersModel"
+        exports: ["LightDM/Users 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Property { name: "mockMode"; type: "string" }
+        Signal {
+            name: "mockModeChanged"
+            Parameter { name: "mode"; type: "string" }
+        }
+    }
+    Component {
         name: "QAbstractProxyModel"
         prototype: "QAbstractItemModel"
         Property { name: "sourceModel"; type: "QAbstractItemModel"; isPointer: true }
@@ -85,6 +107,11 @@ Module {
                 "ImagePathRole": 262,
                 "BackgroundPathRole": 263
             }
+        }
+        Property { name: "mockMode"; type: "string" }
+        Signal {
+            name: "mockModeChanged"
+            Parameter { name: "mode"; type: "string" }
         }
     }
     Component {
@@ -114,7 +141,7 @@ Module {
         Method { name: "invalidate" }
     }
     Component {
-        name: "QSortFilterProxyModelQML"
+        name: "UnitySortFilterProxyModelQML"
         prototype: "QSortFilterProxyModel"
         Property { name: "model"; type: "QAbstractItemModel"; isPointer: true }
         Property { name: "totalCount"; type: "int"; isReadonly: true }
@@ -240,12 +267,5 @@ Module {
         Method { name: "nextDataSourceSlot" }
         Method { name: "readyForDataChangeSlot" }
     }
-    Component {
-        name: "UsersModel"
-        prototype: "QSortFilterProxyModelQML"
-        exports: ["LightDM/Users 0.1"]
-        isCreatable: false
-        isSingleton: true
-        exportMetaObjectRevisions: [0]
-    }
+    Component { name: "UsersModel"; prototype: "UnitySortFilterProxyModelQML" }
 }
