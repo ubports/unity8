@@ -258,6 +258,7 @@ var kSubtitleLabelCode = 'Label { \n\
                             anchors { %1 } \n\
                             anchors.topMargin: units.dp(2); \n\
                             elide: Text.ElideRight; \n\
+                            maximumLineCount: 1; \n\
                             fontSize: "x-small"; \n\
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                             color: %2; \n\

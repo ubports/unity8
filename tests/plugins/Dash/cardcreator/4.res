@@ -89,6 +89,7 @@ Label {
                         }
                         anchors.topMargin: units.dp(2);
                         elide: Text.ElideRight; 
+                        maximumLineCount: 1; 
                         fontSize: "x-small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
