@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,66 +14,185 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Gestures 0.1
+import QtQuick 2.3
+import AccountsService 0.1
 import LightDM 0.1 as LightDM
+import Ubuntu.Components 1.1
+import Ubuntu.SystemImage 0.1
+import Unity.Connectivity 0.1
+import Unity.Launcher 0.1
 import "../Components"
 
 Showable {
-    id: greeter
-    enabled: shown
-    created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
+    id: root
+    created: loader.status == Loader.Ready
 
     property real dragHandleLeftMargin: 0
-    property alias dragging: dragHandle.dragging
 
     property url background
 
-    // so that it can be replaced in tests with a mock object
-    property var inputMethod: Qt.inputMethod
+    // How far to offset the top greeter layer during a launcher left-drag
+    property real launcherOffset
 
-    prepareToHide: function () {
-        hideTranslation.to = greeter.x > 0 || d.forceRightOnNextHideAnimation ? greeter.width : -greeter.width;
-        d.forceRightOnNextHideAnimation = false;
+    readonly property bool active: shown || hasLockedApp
+    readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
+
+    // True when the greeter is waiting for PAM or other setup process
+    readonly property alias waiting: d.waiting
+
+    property string lockedApp: ""
+    readonly property bool hasLockedApp: lockedApp !== ""
+
+    property bool forcedUnlock
+    readonly property bool locked: LightDM.Greeter.active && !LightDM.Greeter.authenticated && !forcedUnlock
+
+    property bool tabletMode
+    property url viewSource // only used for testing
+
+    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
+    property int failedLoginsDelayAttempts: 7 // number of failed logins
+    property int failedLoginsDelayMinutes: 5 // minutes of forced waiting
+
+    signal tease()
+    signal sessionStarted()
+    signal emergencyCall()
+
+    function forceShow() {
+        showNow();
+        loader.item.reset();
+    }
+
+    function notifyAppFocused(appId) {
+        if (!active) {
+            return;
+        }
+
+        if (hasLockedApp) {
+            if (appId === lockedApp) {
+                hide(); // show locked app
+            } else {
+                show();
+                d.startUnlock(false /* toTheRight */);
+            }
+        } else if (appId !== "unity8-dash") { // dash isn't started by user
+            d.startUnlock(false /* toTheRight */);
+        }
+    }
+
+    function notifyAboutToFocusApp(appId) {
+        if (!active) {
+            return;
+        }
+
+        // A hint that we're about to focus an app.  This way we can look
+        // a little more responsive, rather than waiting for the above
+        // notifyAppFocused call.  We also need this in case we have a locked
+        // app, in order to show lockscreen instead of new app.
+        d.startUnlock(false /* toTheRight */);
+    }
+
+    // This is a just a glorified notifyAboutToFocusApp(), but it does one
+    // other thing: it hides any cover pages to the RIGHT, because the user
+    // just came from a launcher drag starting on the left.
+    // It also returns a boolean value, indicating whether there was a visual
+    // change or not (the shell only wants to hide the launcher if there was
+    // a change).
+    function notifyShowingDashFromDrag() {
+        if (!active) {
+            return false;
+        }
+
+        return d.startUnlock(true /* toTheRight */);
     }
 
     QtObject {
         id: d
-        property bool forceRightOnNextHideAnimation: false
-    }
 
-    property bool loadContent: required
+        readonly property bool multiUser: LightDM.Users.count > 1
+        property int currentIndex
+        property int delayMinutes
+        property bool waiting
 
-    // 1 when fully shown and 0 when fully hidden
-    property real showProgress: visible ? MathUtils.clamp((width - Math.abs(x)) / width, 0, 1) : 0
+        // We want 'launcherOffset' to animate down to zero.  But not to animate
+        // while being dragged.  So ideally we change this only when the user
+        // lets go and launcherOffset drops to zero.  But we need to wait for
+        // the behavior to be enabled first.  So we cache the last known good
+        // launcherOffset value to cover us during that brief gap between
+        // release and the behavior turning on.
+        property real lastKnownPositiveOffset // set in a launcherOffsetChanged below
+        property real launcherOffsetProxy: (shown && !launcherOffsetProxyBehavior.enabled) ? lastKnownPositiveOffset : 0
+        Behavior on launcherOffsetProxy {
+            id: launcherOffsetProxyBehavior
+            enabled: launcherOffset === 0
+            UbuntuNumberAnimation {}
+        }
 
-    property alias model: greeterContentLoader.model
-    property bool locked: true
+        function selectUser(uid, reset) {
+            d.waiting = true;
+            if (reset) {
+                loader.item.reset();
+            }
+            currentIndex = uid;
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            AccountsService.user = user;
+            LauncherModel.setUser(user);
+            LightDM.Greeter.authenticate(user); // always resets auth state
+        }
 
-    readonly property bool narrowMode: !multiUser && height > width
-    readonly property bool multiUser: LightDM.Users.count > 1
+        function login() {
+            enabled = false;
+            if (LightDM.Greeter.startSessionSync()) {
+                sessionStarted();
+                loader.item.notifyAuthenticationSucceeded();
+            } else {
+                loader.item.notifyAuthenticationFailed();
+            }
+            enabled = true;
+        }
 
-    readonly property int currentIndex: greeterContentLoader.currentIndex
-
-    signal selected(int uid)
-    signal unlocked(int uid)
-    signal tapped()
-
-    function hideRight() {
-        d.forceRightOnNextHideAnimation = true;
-        hide();
-    }
-
-    function tryToUnlock() {
-        if (created) {
-            greeterContentLoader.item.tryToUnlock()
+        function startUnlock(toTheRight) {
+            if (loader.item) {
+                return loader.item.tryToUnlock(toTheRight);
+            } else {
+                return false;
+            }
         }
     }
 
-    function reset() {
-        if (created) {
-            greeterContentLoader.item.reset()
+    onLauncherOffsetChanged: {
+        if (launcherOffset > 0) {
+            d.lastKnownPositiveOffset = launcherOffset;
+        }
+    }
+
+    onForcedUnlockChanged: {
+        if (forcedUnlock && shown) {
+            // pretend we were just authenticated
+            loader.item.notifyAuthenticationSucceeded();
+        }
+    }
+
+    onRequiredChanged: {
+        if (required) {
+            d.waiting = true;
+            lockedApp = "";
+        }
+    }
+
+    Component.onCompleted: {
+        Connectivity.unlockAllModems();
+    }
+
+    Timer {
+        id: forcedDelayTimer
+        interval: 1000 * 60
+        onTriggered: {
+            if (d.delayMinutes > 0) {
+                d.delayMinutes -= 1;
+                if (d.delayMinutes > 0) {
+                    start(); // go again
+                }
+            }
         }
     }
 
@@ -82,152 +201,205 @@ Showable {
     MouseArea { anchors.fill: parent }
 
     Loader {
-        id: greeterContentLoader
-        objectName: "greeterContentLoader"
-        anchors.fill: parent
-        property var model: LightDM.Users
-        property int currentIndex: 0
-        property var infographicModel: LightDM.Infographic
-        readonly property int backgroundTopMargin: -greeter.y
+        id: loader
+        objectName: "loader"
 
-        source: loadContent ? "GreeterContent.qml" : ""
+        anchors.fill: parent
+
+        active: root.required
+        source: root.viewSource.toString() ? root.viewSource :
+                (d.multiUser || root.tabletMode) ? "WideView.qml" : "NarrowView.qml"
 
         onLoaded: {
-            selected(currentIndex);
+            root.lockedApp = "";
+            root.forceActiveFocus();
+            d.selectUser(d.currentIndex, true);
+            LightDM.Infographic.readyForDataChange();
         }
 
         Connections {
-            target: greeterContentLoader.item
-
+            target: loader.item
             onSelected: {
-                greeter.selected(uid);
-                greeterContentLoader.currentIndex = uid;
+                d.selectUser(index, true);
             }
-            onUnlocked: greeter.unlocked(uid);
+            onResponded: {
+                if (root.locked) {
+                    LightDM.Greeter.respond(response);
+                } else {
+                    if (LightDM.Greeter.active && !LightDM.Greeter.authenticated) { // could happen if forcedUnlock
+                        d.login();
+                    }
+                    loader.item.hide();
+                }
+            }
+            onTease: root.tease()
+            onEmergencyCall: root.emergencyCall()
+            onRequiredChanged: {
+                if (!loader.item.required) {
+                    root.hide();
+                }
+            }
         }
+
         Binding {
-            target: greeterContentLoader.item
-            property: "inputMethod"
-            value: greeter.inputMethod
+            target: loader.item
+            property: "backgroundTopMargin"
+            value: -root.y
+        }
+
+        Binding {
+            target: loader.item
+            property: "launcherOffset"
+            value: d.launcherOffsetProxy
+        }
+
+        Binding {
+            target: loader.item
+            property: "dragHandleLeftMargin"
+            value: root.dragHandleLeftMargin
+        }
+
+        Binding {
+            target: loader.item
+            property: "delayMinutes"
+            value: d.delayMinutes
+        }
+
+        Binding {
+            target: loader.item
+            property: "background"
+            value: root.background
+        }
+
+        Binding {
+            target: loader.item
+            property: "locked"
+            value: root.locked
+        }
+
+        Binding {
+            target: loader.item
+            property: "alphanumeric"
+            value: AccountsService.passwordDisplayHint === AccountsService.Keyboard
+        }
+
+        Binding {
+            target: loader.item
+            property: "currentIndex"
+            value: d.currentIndex
+        }
+
+        Binding {
+            target: loader.item
+            property: "userModel"
+            value: LightDM.Users
+        }
+
+        Binding {
+            target: loader.item
+            property: "infographicModel"
+            value: LightDM.Infographic
         }
     }
 
-    DragHandle {
-        id: dragHandle
-        anchors.fill: parent
-        anchors.leftMargin: greeter.dragHandleLeftMargin
-        enabled: (greeter.narrowMode || !greeter.locked) && greeter.enabled && greeter.shown
-        direction: Direction.Horizontal
+    Connections {
+        target: LightDM.Greeter
 
-        onTapped: {
-            greeter.tapped();
-            showLabelAnimation.start();
+        onShowGreeter: root.forceShow()
+
+        onHideGreeter: {
+            d.login();
+            loader.item.hide();
         }
 
-        onDraggingChanged: {
-            if (dragging) {
-                showLabelAnimation.start();
+        onShowMessage: {
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
+
+            // inefficient, but we only rarely deal with messages
+            var html = text.replace(/&/g, "&amp;")
+                           .replace(/</g, "&lt;")
+                           .replace(/>/g, "&gt;")
+                           .replace(/\n/g, "<br>");
+            if (isError) {
+                html = "<font color=\"#df382c\">" + html + "</font>";
+            }
+
+            loader.item.showMessage(html);
+        }
+
+        onShowPrompt: {
+            d.waiting = false;
+
+            if (!LightDM.Greeter.active) {
+                return; // could happen if hideGreeter() comes in before we prompt
+            }
+
+            loader.item.showPrompt(text, isSecret, isDefaultPrompt);
+        }
+
+        onAuthenticationComplete: {
+            d.waiting = false;
+
+            if (LightDM.Greeter.authenticated) {
+                AccountsService.failedLogins = 0;
+                d.login();
+                if (!LightDM.Greeter.promptless) {
+                    loader.item.hide();
+                }
+            } else {
+                if (!LightDM.Greeter.promptless) {
+                    AccountsService.failedLogins++;
+                }
+
+                // Check if we should initiate a factory reset
+                if (maxFailedLogins >= 2) { // require at least a warning
+                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
+                        loader.item.showLastChance();
+                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
+                        SystemImage.factoryReset(); // Ouch!
+                    }
+                }
+
+                // Check if we should initiate a forced login delay
+                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                    d.delayMinutes = failedLoginsDelayMinutes;
+                    forcedDelayTimer.start();
+                }
+
+                loader.item.notifyAuthenticationFailed();
+                if (!LightDM.Greeter.promptless) {
+                    d.selectUser(d.currentIndex, false);
+                }
             }
         }
-    }
 
-    Label {
-        id: swipeHint
-        property real baseOpacity: 0.5
-        opacity: 0.0
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: units.gu(5)
-        text: "《    " + i18n.tr("Unlock") + "    》"
-        color: "white"
-        font.weight: Font.Light
-
-        SequentialAnimation on opacity {
-            id: showLabelAnimation
-            running: false
-            loops: 2
-
-            StandardAnimation {
-                from: 0.0
-                to: swipeHint.baseOpacity
-                duration: UbuntuAnimation.SleepyDuration
-            }
-            PauseAnimation { duration: UbuntuAnimation.BriskDuration }
-            StandardAnimation {
-                from: swipeHint.baseOpacity
-                to: 0.0
-                duration: UbuntuAnimation.SleepyDuration
+        onRequestAuthenticationUser: {
+            // Find index for requested user, if it exists
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                if (user === LightDM.Users.data(i, LightDM.UserRoles.NameRole)) {
+                    d.selectUser(i, true);
+                    return;
+                }
             }
         }
-    }
-
-    // right side shadow
-    Image {
-        anchors.left: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        fillMode: Image.Tile
-        source: "../graphics/dropshadow_right.png"
-    }
-
-    // left side shadow
-    Image {
-        anchors.right: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        fillMode: Image.Tile
-        source: "../graphics/dropshadow_left.png"
     }
 
     Binding {
-        id: positionLock
-
-        property bool enabled: false
-        onEnabledChanged: {
-            if (enabled === __enabled) {
-                return;
-            }
-
-            if (enabled) {
-                if (greeter.x > 0) {
-                    value = Qt.binding(function() { return greeter.width; })
-                } else {
-                    value = Qt.binding(function() { return -greeter.width; })
-                }
-            }
-
-            __enabled = enabled;
-        }
-
-        property bool __enabled: false
-
-        target: greeter
-        when: __enabled
-        property: "x"
+        target: LightDM.Greeter
+        property: "active"
+        value: root.active
     }
 
-    hideAnimation: SequentialAnimation {
-        id: hideAnimation
-        objectName: "hideAnimation"
-        StandardAnimation {
-            id: hideTranslation
-            property: "x"
-            target: greeter
-        }
-        PropertyAction { target: greeter; property: "visible"; value: false }
-        PropertyAction { target: positionLock; property: "enabled"; value: true }
+    Binding {
+        target: LightDM.Infographic
+        property: "username"
+        value: AccountsService.statsWelcomeScreen ? LightDM.Users.data(d.currentIndex, LightDM.UserRoles.NameRole) : ""
     }
 
-    showAnimation: SequentialAnimation {
-        id: showAnimation
-        objectName: "showAnimation"
-        PropertyAction { target: greeter; property: "visible"; value: true }
-        PropertyAction { target: positionLock; property: "enabled"; value: false }
-        StandardAnimation {
-            property: "x"
-            target: greeter
-            to: 0
-            duration: UbuntuAnimation.FastDuration
-        }
+    Connections {
+        target: i18n
+        onLanguageChanged: LightDM.Infographic.readyForDataChange()
     }
 }

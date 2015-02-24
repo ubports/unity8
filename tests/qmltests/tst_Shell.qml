@@ -19,9 +19,11 @@
 
 import QtQuick 2.0
 import QtTest 1.0
+import AccountsService 0.1
 import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
+import Ubuntu.Components.ListItems 1.0 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
@@ -80,7 +82,7 @@ Item {
         }
 
         Rectangle {
-            color: "white"
+            color: "darkgrey"
             width: units.gu(30)
             height: shellLoader.height
 
@@ -98,9 +100,21 @@ Item {
 
                             var greeter = testCase.findChild(shellLoader.item, "greeter");
                             if (!greeter.shown) {
-                                greeter.show();
+                                LightDM.Greeter.showGreeter();
                             }
                         }
+                    }
+                }
+                ListItem.ItemSelector {
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "LightDM mock mode"
+                    model: ["single", "single-passphrase", "single-pin"]
+                    onSelectedIndexChanged: {
+                        shellLoader.active = false;
+                        LightDM.Greeter.mockMode = model[selectedIndex];
+                        LightDM.Users.mockMode = model[selectedIndex];
+                        shellLoader.active = true;
                     }
                 }
             }
@@ -284,11 +298,13 @@ Item {
 
         function test_leftEdgeDrag_data() {
             return [
-                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
-                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
-                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false},
-                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true},
-                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false}
+                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
+                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
+                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false, greeterShown: false},
+                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
+                {tag: "small swipe with greeter", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false, greeterShown: true},
+                {tag: "long swipe with greeter", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: true},
+                {tag: "swipe over dash", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false, greeterShown: false},
             ];
         }
 
@@ -299,6 +315,12 @@ Item {
             ApplicationManager.focusApplication(data.focusedApp)
             waitUntilApplicationWindowIsFullyVisible();
 
+            var greeter = findChild(shell, "greeter");
+            if (data.greeterShown) {
+                LightDM.Greeter.showGreeter();
+                tryCompare(greeter, "fullyShown", true);
+            }
+
             if (data.revealLauncher) {
                 dragLauncherIntoView();
             }
@@ -306,8 +328,10 @@ Item {
             swipeFromLeftEdge(data.swipeLength);
             if (data.appHides) {
                 waitUntilDashIsFocused();
+                tryCompare(greeter, "shown", false);
             } else {
                 waitUntilApplicationWindowIsFullyVisible();
+                compare(greeter.fullyShown, data.greeterShown);
             }
 
             var launcher = findChild(shell, "launcherPanel");
@@ -335,20 +359,20 @@ Item {
             // Suspend while call is active...
             callManager.foregroundCall = phoneCall;
             Powerd.status = Powerd.Off;
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
 
             // Now try again after ending call
             callManager.foregroundCall = null;
             Powerd.status = Powerd.On;
             Powerd.status = Powerd.Off;
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             tryCompare(ApplicationManager, "suspended", true);
             compare(mainApp.state, ApplicationInfoInterface.Suspended);
 
             // And wake up
             Powerd.status = Powerd.On;
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
             swipeAwayGreeter();
@@ -359,14 +383,14 @@ Item {
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
             // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
@@ -608,12 +632,12 @@ Item {
 
             waitUntilDashIsFocused();
 
-            greeter.show();
-            tryCompare(greeter, "showProgress", 1);
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "fullyShown", true);
 
             // The main point of this test
             ApplicationManager.requestFocusApplication("dialer-app");
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
@@ -631,24 +655,22 @@ Item {
 
         function test_showAndHideGreeterDBusCalls() {
             var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 0)
+            tryCompare(greeter, "shown", false)
             waitForRendering(greeter);
             LightDM.Greeter.showGreeter()
             waitForRendering(greeter)
-            tryCompare(greeter, "showProgress", 1)
+            tryCompare(greeter, "fullyShown", true)
             LightDM.Greeter.hideGreeter()
-            tryCompare(greeter, "showProgress", 0)
+            tryCompare(greeter, "shown", false)
         }
 
         function test_login() {
-            sessionSpy.clear()
-
             var greeter = findChild(shell, "greeter")
             waitForRendering(greeter)
-            greeter.show()
-            tryCompare(greeter, "showProgress", 1)
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "fullyShown", true)
 
-            tryCompare(sessionSpy, "count", 0)
+            sessionSpy.clear();
             swipeAwayGreeter()
             tryCompare(sessionSpy, "count", 1)
         }
@@ -689,7 +711,8 @@ Item {
 
         function test_unlockedProperties() {
             // Confirm that various properties have the correct values when unlocked
-            tryCompare(shell, "locked", false)
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "locked", false);
 
             var launcher = findChild(shell, "launcher")
             tryCompare(launcher, "available", true)
@@ -700,25 +723,6 @@ Item {
 
         function test_unlockAllModemsOnBoot() {
             tryCompare(unlockAllModemsSpy, "count", 1)
-        }
-
-        function test_leftEdgeDragOnGreeter_data() {
-            return [
-                {tag: "short swipe", targetX: shell.width / 3, unlocked: false},
-                {tag: "long swipe", targetX: shell.width / 3 * 2, unlocked: true}
-            ]
-        }
-
-        function test_leftEdgeDragOnGreeter(data) {
-            var greeter = findChild(shell, "greeter");
-            greeter.show();
-            tryCompare(greeter, "showProgress", 1);
-
-            var touchStartX = 2;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, data.targetX, touchStartY);
-
-            tryCompare(greeter, "showProgress", data.unlocked ? 0 : 1);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
@@ -829,6 +833,24 @@ Item {
             // check that the launcher got dismissed
             var launcherPanel = findChild(shell, "launcherPanel");
             tryCompare(launcherPanel, "x", -launcherPanel.width);
+        }
+
+        function test_background_data() {
+            return [
+                {tag: "color", accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"), gsettings: "", output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
+                {tag: "empty", accounts: "", gsettings: "", output: shell.defaultBackground},
+                {tag: "as-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: "", output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                {tag: "gs-specified", accounts: "", gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                {tag: "both-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+                {tag: "invalid-as", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+                {tag: "invalid-both", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"), output: shell.defaultBackground},
+            ]
+        }
+        function test_background(data) {
+            AccountsService.backgroundFile = data.accounts;
+            var backgroundSettings = findInvisibleChild(shell, "backgroundSettings");
+            backgroundSettings.pictureUri = data.gsettings;
+            tryCompare(shell, "background", data.output);
         }
     }
 }

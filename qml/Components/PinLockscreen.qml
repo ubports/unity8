@@ -21,9 +21,7 @@ import "../Components"
 
 Column {
     id: root
-    anchors.top: parent.top
-    anchors.topMargin: units.gu(4)
-    anchors.horizontalCenter: parent.horizontalCenter
+    y: units.gu(4)
     spacing: units.gu(2)
 
     property string infoText
@@ -123,6 +121,7 @@ Column {
                 objectName: "backspaceIcon"
                 anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
                 width: height
+                enabled: root.entryEnabled
 
                 Icon {
                     anchors.fill: parent
@@ -130,7 +129,7 @@ Column {
                     color: "#f3f3e7"
                 }
 
-                opacity: (pinentryField.text.length && !pinentryField.incorrectOverride) > 0 ? 1 : 0
+                opacity: (pinentryField.text.length > 0 && !pinentryField.incorrectOverride) ? 1 : 0
 
                 Behavior on opacity {
                     UbuntuNumberAnimation {}

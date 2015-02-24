@@ -112,9 +112,9 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
-            swipeAwayGreeter();
             AccountsService.demoEdges = false;
             AccountsService.demoEdges = true;
+            swipeAwayGreeter();
         }
 
         function cleanup() {
@@ -151,13 +151,14 @@ Item {
         }
 
         function swipeAwayGreeter() {
-            var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "showProgress", 1);
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 1);
 
             touchFlick(shell, halfWidth, halfHeight, shell.width, halfHeight);
 
             // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 0);
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "required", false);
             waitForRendering(greeter);
         }
 
