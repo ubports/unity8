@@ -429,6 +429,28 @@ Item {
             tryCompare(dashContentList, "currentIndex", 1)
         }
 
+        function test_preview_no_show_manage_dash_hint() {
+            var dashContentList = findChild(dash, "dashContentList");
+            compare(dashContentList.currentIndex, 0);
+            compare(dashContentList.currentItem.scopeId, "MockScope1");
+
+            tryCompareFunction(function() {
+                var cardGrid = findChild(dashContentList, "dashCategory0");
+                if (cardGrid != null) {
+                    var tile = findChild(cardGrid, "delegate0");
+                    return tile != null;
+                }
+                return false;
+            },
+            true);
+            var tile = findChild(findChild(dashContentList, "dashCategory0"), "delegate0");
+            waitForRendering(tile);
+            mouseClick(tile);
+
+            var overviewHint = findChild(dash, "overviewHint");
+            tryCompare(overviewHint, "opacity", 0);
+        }
+
         function test_close_temp_scope_preview_opening_scope() {
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
