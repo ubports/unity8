@@ -9,10 +9,11 @@ set(QML_DIRS
     Dash
     graphics
     Greeter
-    Panel
     Launcher
-    Stages
     Notifications
+    Panel
+    Stages
+    Tutorial
     Wizard
     )
 

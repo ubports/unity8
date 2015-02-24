@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
 "PO-Revision-Date: 2015-01-29 00:07+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-01-30 07:08+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "የ መግቢያ ቃል: "
 
@@ -108,53 +108,6 @@ msgstr "እንደገና ማስጀመሪያ"
 msgid "Cancel"
 msgstr "መሰረዣ"
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "መግቢያውን መዝለያ"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "የቀኝ ጠርዝ"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "ስልኩን ለመክፈት ከ ቀኝ ጠርዝ በኩል ወደ ግራ ይጥረጉ"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "የላይ ጠርዝ"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "ጠቋሚዎች ጋር ለመድረስ  ከ ላይ ጠርዝ በኩል ወደ ታች ይጥረጉ"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "መዝጊያ"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "የማሰናጃውን መመልከቻ ለመዝጋት እንደገና ወደ ላይ ይጥረጉ"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "የግራ ጠርዝ"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "ከ ግራ በኩል ወደ ቀኝ ይጥረጉ በፍጥነት መተግበሪያዎች ጋር ለመድረስ እና ለማስጀመር"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "ጥሩ አድረገዋል"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"አሁን የ ጠርዝ  እንቅስቃሴን አውቀዋል እና መጀመር ይችላሉ ስልኩን መጠቀም <br><br>መመልከቻውን መታ ያድርጉ ለመጀመር"
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "ወደ ጥሪ መመለሻ"
@@ -167,32 +120,32 @@ msgstr "የ ድንገተኛ ጥሪ"
 msgid "OK"
 msgstr "እሺ"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "አነስተኛ መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "ሁሉንም መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "መፈለጊያ"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "ማስቀመጫ"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "ማሰናጃ"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "ከምወዳቸው ማስወገጃ"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "ወደምወዳቸው መጨመሪያ"
 
@@ -224,6 +177,10 @@ msgstr "ይሳቡ ለማነቃቃት…"
 msgid "Release to refresh…"
 msgstr "ይልቀቁ ለማነቃቃት…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "አስተዳዳሪ"
@@ -236,7 +193,7 @@ msgstr "ቤት"
 msgid "Also installed"
 msgstr "እንዲሁም የተገጠሙ"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr "መክፈቻ"
 
@@ -292,49 +249,49 @@ msgstr "ሲም መክፈቻ"
 msgid "Roaming"
 msgstr "ማዘዋወሪያ"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "ማስገቢያ %1"
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "የ ማለፊያ ሀረግ ያስገቡ"
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr "የ ማለፊያ ኮድ ያስገቡ"
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "አዝናለሁ: የተሳሳተ%1"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr "እባክዎን እንደገና-ያስገቡ"
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr "ይህ የመጨረሻ ሙከራዎ ነው"
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -342,13 +299,65 @@ msgstr ""
 "የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 "የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -367,7 +376,7 @@ msgid "Let’s get started."
 msgstr "ስራ እንጀምር"
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -381,7 +390,7 @@ msgstr "የ ሲም ካርድ ይጨምሩ እና አካሉን እንደገና �
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "ያለ እሱ ጥሪ መፈጸም ወይንም የ ጽሁፍ መልእክት መላክ አይችሉም"
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "መዝለያ"
 
@@ -417,15 +426,15 @@ msgstr "ማለፊያ ሐረግ"
 msgid "Numbers and letters"
 msgstr "ቁጥሮች እና ፊደሎች"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "ወደ ዋይ‑ፋይ መገናኛ"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "ዝግጁ ኔትዎርኮች…"
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "ዝግጁ ኔትዎርኮች አልተገኙም"
 
@@ -530,6 +539,18 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Top edge"
+#~ msgstr "የላይ ጠርዝ"
+
+#~ msgid "Close"
+#~ msgstr "መዝጊያ"
+
+#~ msgid "Left edge"
+#~ msgstr "የግራ ጠርዝ"
+
+#~ msgid "Right edge"
+#~ msgstr "የቀኝ ጠርዝ"
+
 #~ msgid "Type or say a command"
 #~ msgstr "ትእዛዝ ይናገሩ ወይንም ይጻፉ"
 
@@ -545,6 +566,24 @@ msgstr "%1  〉"
 #~ msgid "Confirm"
 #~ msgstr "ማረጋገጫ"
 
+#~ msgid "Skip intro"
+#~ msgstr "መግቢያውን መዝለያ"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "ጠቋሚዎች ጋር ለመድረስ  ከ ላይ ጠርዝ በኩል ወደ ታች ይጥረጉ"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "የማሰናጃውን መመልከቻ ለመዝጋት እንደገና ወደ ላይ ይጥረጉ"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "ከ ግራ በኩል ወደ ቀኝ ይጥረጉ በፍጥነት መተግበሪያዎች ጋር ለመድረስ እና ለማስጀመር"
+
+#~ msgid "Well done"
+#~ msgstr "ጥሩ አድረገዋል"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "ስልኩን ለመክፈት ከ ቀኝ ጠርዝ በኩል ወደ ግራ ይጥረጉ"
+
 #~ msgid "Favorites"
 #~ msgstr "የምወዳቸው"
 
@@ -553,6 +592,12 @@ msgstr "%1  〉"
 
 #~ msgid "Done"
 #~ msgstr "ጨርሷል"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "አሁን የ ጠርዝ  እንቅስቃሴን አውቀዋል እና መጀመር ይችላሉ ስልኩን መጠቀም <br><br>መመልከቻውን መታ ያድርጉ ለመጀመር"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "የ ክልል አስተዳዳሪ"
