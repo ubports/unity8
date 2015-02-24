@@ -1,3 +1,34 @@
+unity8 (8.02+15.04.20150224-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Dash manage hint should not be visible in previews+test (LP:
+    #1422260)
+  * Do not declare the hostname property twice
+  * Fix some warnings in Mock Notifications
+  * Make qmluittests pass with Qt 5.4
+  * Preserve the aspect ratio for the card attribute images (LP:
+    #1411751)
+  * Update qmltypes
+
+  [ Andrea Cimitan ]
+  * Add maximumLineCount for subtitle label in cards (LP: #1414870)
+
+  [ Michael Terry ]
+  * Move the gschema file to data/ and install it via cmake, not dpkg.
+  * Refactor the greeter code to be more compartmented and isolatable.
+  * Silence a couple qml warnings. (LP: #1423286)
+  * Wait for libqofono to finish initializing before we decide whether
+    to skip the wizard's SIM page or not.
+
+  [ Michael Zanetti ]
+  * enable revealing the launcher by hitting the left edge using the
+    mouse
+
+  [ Ying-Chun Liu ]
+  * Add Autopilot Notification helper.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 24 Feb 2015 10:17:16 +0000
+
 unity8 (8.02+15.04.20150216.1-0ubuntu1) vivid; urgency=medium
 
   [ Andrea Cimitan ]
