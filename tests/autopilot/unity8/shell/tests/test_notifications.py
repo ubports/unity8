@@ -701,3 +701,22 @@ class EphemeralNotificationsTests(NotificationsBase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(
             get_notification(), summary, body, False, False, 1.0)
+
+    def test_notification_helper(self):
+        """ use the create notification script to get a notification dialog.
+        Check that the arguments passed to the script match the fields. """
+
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+
+        summary = 'Helper summary'
+        body = 'Helper body'
+
+        notification = shell.create_ephemeral_notification(summary, body)
+        notification.show()
+
+        notification_data = self.main_window.wait_for_notification()
+
+        self.assertThat(notification_data['summary'],
+                        Eventually(Equals(summary)))
+        self.assertThat(notification_data['body'], Eventually(Equals(body)))

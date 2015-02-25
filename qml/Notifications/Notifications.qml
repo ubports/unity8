@@ -41,15 +41,11 @@ ListView {
     property bool topmostIsFullscreen: false
     spacing: topmostIsFullscreen ? 0 : units.gu(.5)
 
-    // FIXME: This doesn't make any sense and results in a binding loop
-    currentIndex: (currentIndex < 1 && count > 1) ? 1 : -1
+    currentIndex: count > 1 ? 1 : -1
 
     delegate: Notification {
         objectName: "notification" + index
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
+        width: parent.width
         type: model.type
         hints: model.hints
         iconSource: model.icon

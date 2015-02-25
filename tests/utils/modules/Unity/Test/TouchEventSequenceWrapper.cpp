@@ -15,15 +15,24 @@
  */
 
 #include "TouchEventSequenceWrapper.h"
-TouchEventSequenceWrapper::TouchEventSequenceWrapper(QTest::QTouchEventSequence eventSequence)
+#include <private/qquickwindow_p.h>
+
+TouchEventSequenceWrapper::TouchEventSequenceWrapper(QTest::QTouchEventSequence eventSequence, QQuickItem *item)
     : QObject(0)
     , m_eventSequence(eventSequence)
+    , m_item(item)
 {
 }
 
 void TouchEventSequenceWrapper::commit(bool processEvents)
 {
     m_eventSequence.commit(processEvents);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    if (m_item->window()) {
+        QQuickWindowPrivate *wp = QQuickWindowPrivate::get(m_item->window());
+        wp->flushDelayedTouchEvent();
+    }
+#endif
 }
 
 void TouchEventSequenceWrapper::move(int touchId, int x, int y)

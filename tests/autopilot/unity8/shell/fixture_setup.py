@@ -54,7 +54,7 @@ class FakeScopes(fixtures.Fixture):
         return ld_library_path
 
 
-class EdgesDemo(fixtures.Fixture):
+class Tutorial(fixtures.Fixture):
 
     def __init__(self, enable):
         super().__init__()
@@ -62,12 +62,12 @@ class EdgesDemo(fixtures.Fixture):
 
     def setUp(self):
         super().setUp()
-        original_state = self._is_edges_demo_enabled()
+        original_state = self._is_tutorial_enabled()
         if self.enable != original_state:
-            self.addCleanup(self._set_edges_demo, original_state)
-            self._set_edges_demo(self.enable)
+            self.addCleanup(self._set_tutorial, original_state)
+            self._set_tutorial(self.enable)
 
-    def _is_edges_demo_enabled(self):
+    def _is_tutorial_enabled(self):
         command = [
             'dbus-send', '--system', '--print-reply',
             '--dest=org.freedesktop.Accounts',
@@ -79,7 +79,7 @@ class EdgesDemo(fixtures.Fixture):
         output = subprocess.check_output(command, universal_newlines=True)
         return True if output.count('true') else False
 
-    def _set_edges_demo(self, value):
+    def _set_tutorial(self, value):
         value_string = 'true' if value else 'false'
         command = [
             'dbus-send', '--system', '--print-reply',

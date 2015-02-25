@@ -35,11 +35,14 @@ public:
     Indicator(QObject *parent = 0);
     virtual ~Indicator();
 
-    void init(const QString &profile, const QString& busName, const QSettings& settings);
+    void init(const QString& busName, const QSettings& settings);
 
     QString identifier() const;
     int position() const;
     QVariant indicatorProperties() const;
+
+public Q_SLOTS:
+    void setProfile(const QString& profile);
 
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
@@ -55,6 +58,7 @@ private:
     QString m_identifier;
     int m_position;
     QVariant m_properties;
+    QVariantMap m_settings;
 };
 
 #endif // INDICATOR_H

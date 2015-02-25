@@ -48,6 +48,7 @@ Q_INVOKABLE void ScopesOverview::activate(QVariant const& result)
         Q_EMIT gotoScope(result.toString());
     } else {
         m_openScope = scopes->getScopeFromAll(result.toString());
+        scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
     }
 }

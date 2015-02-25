@@ -88,6 +88,7 @@ Item {
                             } 
                             anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
+                            maximumLineCount: 1; 
                             fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                             color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
@@ -106,6 +107,7 @@ Item {
                             source: cardData && cardData["emblem"] || ""; 
                             color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                             height: source != "" ? titleLabel.font.pixelSize : 0; 
+                            width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth;
                         }
  
                             ]

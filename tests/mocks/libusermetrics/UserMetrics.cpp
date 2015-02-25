@@ -289,6 +289,7 @@ void UserMetricsPrivate::generateFakeData()
                 new UserMetricsData("<b>52km</b> travelled", first, firstMonth,
                         ninth, secondMonth, this));
         m_fakeData.insert("single", data);
+        m_fakeData.insert("has-pin", data);
     }
 
     {
@@ -304,12 +305,14 @@ void UserMetricsPrivate::generateFakeData()
                 new UserMetricsData("<b>33</b> messages today", second,
                         firstMonth, eighth, secondMonth, this));
         m_fakeData.insert("single", data);
+        m_fakeData.insert("has-pin", data);
     }
 
     {
         QVariantList firstMonth;
         while (firstMonth.size() < 17)
             firstMonth.push_back(QVariant(rand()));
+        firstMonth[8] = QVariant(1.0); // oversized 9th day, to test clipping
         while (firstMonth.size() < 31)
             firstMonth.push_back(QVariant());
         QVariantList secondMonth;
@@ -319,6 +322,7 @@ void UserMetricsPrivate::generateFakeData()
                 new UserMetricsData("<b>19</b> minutes talk time", eighth,
                         firstMonth, second, secondMonth, this));
         m_fakeData.insert("single", data);
+        m_fakeData.insert("has-pin", data);
         // Also use same data for some tablet users
         m_fakeData.insert("has-password", data);
         m_fakeData.insert("no-password", data);
@@ -386,6 +390,10 @@ void UserMetricsPrivate::nextFakeData()
     if (m_dataIndex == m_fakeData.constEnd() || m_dataIndex.key() != m_username)
     {
         m_dataIndex = m_fakeData.constFind(m_username);
+        if (m_dataIndex == m_fakeData.constEnd())
+        {
+            m_dataIndex = m_fakeData.constFind("");
+        }
     }
 
     loadFakeData();

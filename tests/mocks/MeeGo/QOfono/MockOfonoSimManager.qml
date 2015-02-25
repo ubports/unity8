@@ -22,21 +22,31 @@ Item {
 
     property string modemPath
     readonly property alias present: d.present
+    readonly property alias ready: d.ready
 
     QtObject {
         id: d
 
         property bool present: false
+        property bool ready: false
 
         function updatePresence() {
             d.present = MockQOfono.isModemPresent(simManager.modemPath)
+            d.ready = MockQOfono.isModemReady(simManager.modemPath);
         }
     }
 
-    onModemPathChanged: d.updatePresence()
+    // Simulate QOfono's asynchronous initialization
+    Timer {
+        id: asyncTimer
+        interval: 1
+        onTriggered: d.updatePresence()
+    }
+
+    onModemPathChanged: asyncTimer.start()
 
     Connections {
         target: MockQOfono
-        onModemsChanged: d.updatePresence()
+        onModemsChanged: asyncTimer.start()
     }
 }

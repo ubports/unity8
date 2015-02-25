@@ -28,25 +28,34 @@ class MockQOfono : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool available READ available WRITE setAvailable NOTIFY availableChanged)
+    Q_PROPERTY(bool ready READ ready WRITE setReady NOTIFY readyChanged)
     Q_PROPERTY(QStringList modems READ modems NOTIFY modemsChanged)
 
 public:
-    explicit MockQOfono(QObject *parent = 0);
+    static MockQOfono *instance();
+    ~MockQOfono();
 
     bool available() const;
     void setAvailable(bool available);
+    bool ready() const;
+    void setReady(bool ready);
     QStringList modems() const;
 
-    Q_INVOKABLE void setModems(const QStringList &modems, const QList<bool> &present);
+    Q_INVOKABLE void setModems(const QStringList &modems, const QList<bool> &present, const QList<bool> &ready);
     Q_INVOKABLE bool isModemPresent(const QString &modem);
+    Q_INVOKABLE bool isModemReady(const QString &modem);
 
 Q_SIGNALS:
     void availableChanged();
+    void readyChanged();
     void modemsChanged();
 
 private:
+    explicit MockQOfono();
+
     bool m_available;
-    QMap<QString, bool> m_modems;
+    bool m_ready;
+    QMap<QString, QList<bool>> m_modems;
 };
 
 #endif // MOCK_QOFONO_H

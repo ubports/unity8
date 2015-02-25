@@ -16,6 +16,7 @@
 
 #include "plugin.h"
 #include "MockQOfono.h"
+#include "MockQOfonoManager.h"
 
 #include <QtQml>
 
@@ -23,11 +24,12 @@ static QObject *mock_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new MockQOfono();
+    return MockQOfono::instance();
 }
 
 void BackendPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("MeeGo.QOfono"));
     qmlRegisterSingletonType<MockQOfono>(uri, 0, 2, "MockQOfono", mock_provider); // just for mock
+    qmlRegisterType<MockQOfonoManager>(uri, 0, 2, "OfonoManager");
 }

@@ -52,10 +52,12 @@ Rectangle {
             application: fakeApplication
             orientation: Qt.PortraitOrientation
             interactive: true
+            focus: true
         }
     }
     Loader {
         id: applicationWindowLoader
+        focus: true
         anchors {
             top: parent.top
             bottom: parent.bottom
@@ -83,6 +85,7 @@ Rectangle {
 
                 CheckBox {
                     id: sessionCheckbox; checked: false
+                    activeFocusOnPress: false
                     onCheckedChanged: {
                         if (applicationWindowLoader.status !== Loader.Ready)
                             return;
@@ -121,6 +124,7 @@ Rectangle {
 
             ListItem.ItemSelector {
                 id: appStateSelector
+                activeFocusOnPress: false
                 anchors { left: parent.left; right: parent.right }
                 text: "Application state"
                 model: ["Starting",
@@ -146,6 +150,7 @@ Rectangle {
 
             Button {
                 anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
                 text: "Rotate device \u27F3"
                 onClicked: {
                     var orientation = applicationWindowLoader.item.orientation
@@ -398,7 +403,7 @@ Rectangle {
             verify(stateGroup.state === "void");
         }
 
-        function test_forceActiveFocusFollowsInterative() {
+        function test_surfaceActiveFocusFollowsAppWindowInterative() {
             fakeApplication.createSession();
             applicationWindowLoader.item.interactive = false;
             applicationWindowLoader.item.interactive = true;
