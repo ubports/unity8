@@ -9,5 +9,5 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
     )
 
-# install url dispatcher files
+install(FILES com.canonical.Unity8.gschema.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
 install(FILES unity8-dash.url-dispatcher DESTINATION ${CMAKE_INSTALL_DATADIR}/url-dispatcher/urls)

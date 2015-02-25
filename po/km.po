@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-02-13 11:45+0100\n"
 "PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sophea Sok <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "ពាក្យសម្ងាត់៖ "
 
@@ -108,56 +108,6 @@ msgstr "ចាប់​ផ្ដើម​ឡើង​វិញ"
 msgid "Cancel"
 msgstr "បោះបង់"
 
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "រំលង​ការ​ណែនាំ"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "គែម​ស្ដាំ"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "គែម​ខាង​លើ"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "សាកល្បង​អូស​ពី​គែម​ខាង​លើ ដើម្បី​ចូល​ដំណើរការ​សញ្ញា"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "បិទ"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "អូស​ឡើង​លើ​ម្ដងទៀត ដើម្បី​បិទ​ការ​កំណត់​អេក្រង់"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "គែមឆ្វេង"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"អូស​ពី​គែម​ឆ្វេង "
-"ដើម្បី​បង្ហាញ​កម្មវិធី​ចាប់ផ្ដើម​សម្រាប់​ចូល​ដំណើរ​ការ​កម្មវិធី​រហ័ស"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "ធ្វើ​បាន​ល្អ"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
-"និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
-
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr ""
@@ -170,32 +120,32 @@ msgstr "ការ​ហៅ​ពេល​អាសន្ន"
 msgid "OK"
 msgstr "យល់ព្រម"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "មើល​តិច​ជាង"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "មើល​ទាំងអស់"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ស្វែង​រក"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "រក្សាទុក"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "ការកំណត់"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "យក​ចេញពី​សំណព្វ"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "បន្ថែម​ទៅ​សណព្វ"
 
@@ -227,6 +177,10 @@ msgstr ""
 msgid "Release to refresh…"
 msgstr ""
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr ""
@@ -239,7 +193,7 @@ msgstr ""
 msgid "Also installed"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
 msgstr ""
 
@@ -295,49 +249,49 @@ msgstr "ដោះ​សោ​ស៊ីម"
 msgid "Roaming"
 msgstr "រ៉ូមីង"
 
-#: qml/Shell.qml:390
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr ""
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr ""
 
-#: qml/Shell.qml:392
+#: qml/Shell.qml:404
 msgid "Enter passcode"
 msgstr ""
 
-#: qml/Shell.qml:393
+#: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "សូមទោស! %1 មិន​ត្រឹមត្រូវ"
 
-#: qml/Shell.qml:394
+#: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
 msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ"
 
-#: qml/Shell.qml:395
+#: qml/Shell.qml:407
 msgid "Please re-enter"
 msgstr ""
 
-#: qml/Shell.qml:396
+#: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
 msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
-#: qml/Shell.qml:492
+#: qml/Shell.qml:504
 msgid "This will be your last attempt."
 msgstr "នេះ​គឺ​ការ​ព្យាយាម​លើក​ចុងក្រោយ។"
 
-#: qml/Shell.qml:494
+#: qml/Shell.qml:506
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -346,7 +300,7 @@ msgstr ""
 "ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
 "ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
 
-#: qml/Shell.qml:495
+#: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -354,6 +308,58 @@ msgstr ""
 "បើ​បញ្ចូល​កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ "
 "ទូរស័ព្ទ​របស់​អ្នក​នឹង​កំណត់​ទៅ​ទិន្នន័យ​ពី​រោងចក្រ​វិញ "
 "ហើយ​ទិន្នន័យ​ផ្ទាល់ខ្លួន​ទាំងអស់​របស់​អ្នក​នឹង​ត្រូវ​បាន​លុប។"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -372,7 +378,7 @@ msgid "Let’s get started."
 msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -386,7 +392,7 @@ msgstr ""
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr ""
 
@@ -422,15 +428,15 @@ msgstr ""
 msgid "Numbers and letters"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr ""
 
@@ -532,6 +538,38 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
+
+#~ msgid "Right edge"
+#~ msgstr "គែម​ស្ដាំ"
+
+#~ msgid "Skip intro"
+#~ msgstr "រំលង​ការ​ណែនាំ"
+
+#~ msgid "Top edge"
+#~ msgstr "គែម​ខាង​លើ"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "សាកល្បង​អូស​ពី​គែម​ខាង​លើ ដើម្បី​ចូល​ដំណើរការ​សញ្ញា"
+
+#~ msgid "Close"
+#~ msgstr "បិទ"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "អូស​ឡើង​លើ​ម្ដងទៀត ដើម្បី​បិទ​ការ​កំណត់​អេក្រង់"
+
+#~ msgid "Left edge"
+#~ msgstr "គែមឆ្វេង"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "អូស​ពី​គែម​ឆ្វេង "
+#~ "ដើម្បី​បង្ហាញ​កម្មវិធី​ចាប់ផ្ដើម​សម្រាប់​ចូល​ដំណើរ​ការ​កម្មវិធី​រហ័ស"
+
+#~ msgid "Well done"
+#~ msgstr "ធ្វើ​បាន​ល្អ"
+
 #~ msgid "Type or say a command"
 #~ msgstr "បញ្ចូល ឬ​និយាយ​ពាក្យ​បញ្ជា"
 
@@ -546,6 +584,13 @@ msgstr ""
 
 #~ msgid "Speaking..."
 #~ msgstr "កំពុង​និយាយ..."
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
+#~ "និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
 
 #~ msgid "All"
 #~ msgstr "ទាំងអស់"

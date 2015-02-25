@@ -149,14 +149,14 @@ Rectangle {
                         id: snapToBottomAnimation
                         target: launcherListView
                         property: "contentY"
-                        to: launcherListView.originY
+                        to: launcherListView.originY + launcherListView.topMargin
                     }
 
                     UbuntuNumberAnimation {
                         id: snapToTopAnimation
                         target: launcherListView
                         property: "contentY"
-                        to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY
+                        to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY - launcherListView.topMargin
                     }
 
                     displaced: Transition {
@@ -521,12 +521,12 @@ Rectangle {
                 left: parent.left
                 leftMargin: (quickList.item.width - units.gu(1)) / 2 - width / 2
                 verticalCenter: parent.verticalCenter
-                verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1)
+                verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1) * (root.inverted ? 1 : -1)
             }
             height: units.gu(1)
             width: units.gu(2)
             source: "graphics/quicklist_tooltip.png"
-            rotation: quickList.offset > 0 ? 0 : 180
+            rotation: (quickList.offset > 0 ? 0 : 180) + (root.inverted ? 0 : 180)
         }
 
         InverseMouseArea {
@@ -543,7 +543,9 @@ Rectangle {
         id: quickList
         objectName: "quickList"
         color: "#f5f5f5"
-        width: units.gu(30)
+        // Because we're setting left/right anchors depending on orientation, it will break the
+        // width setting after rotating twice. This makes sure we also re-apply width on rotation
+        width: root.inverted ? units.gu(30) : units.gu(30)
         height: quickListColumn.height
         visible: quickListShape.visible
         anchors {

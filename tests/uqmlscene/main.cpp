@@ -68,6 +68,12 @@
 // UbuntuGestures lib
 #include <TouchRegistry.h>
 
+#define UQMLSCENE_DEBUG_ACTIVE_FOCUS 0
+
+#if UQMLSCENE_DEBUG_ACTIVE_FOCUS
+  #include "ActiveFocusLogger.h"
+#endif
+
 #ifdef QML_RUNTIME_TESTING
 class RenderStatistics
 {
@@ -378,6 +384,10 @@ int main(int argc, char ** argv)
 {
     Options options;
 
+    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS
+    ActiveFocusLogger activeFocusLogger;
+    #endif
+
     QStringList imports;
     QList<QPair<QString, QString> > bundles;
     for (int i = 1; i < argc; ++i) {
@@ -503,6 +513,9 @@ int main(int argc, char ** argv)
                 QQuickItem *contentItem = qobject_cast<QQuickItem *>(topLevel);
                 if (contentItem) {
                     qxView = new QQuickView(&engine, nullptr);
+                    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS
+                    activeFocusLogger.setWindow(qxView);
+                    #endif
                     TouchRegistry::instance()->setParent(qxView);
                     qxView->installEventFilter(TouchRegistry::instance());
                     window = qxView;
