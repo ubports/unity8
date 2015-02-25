@@ -375,7 +375,15 @@ Item {
             tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
+
+            // greeter unloads its internal components when hidden
+            // and reloads them when shown. Thus we have to do this
+            // again before interacting with it otherwise any
+            // DirectionalDragAreas in there won't be easily fooled by
+            // fake swipes.
+            removeTimeConstraintsFromDirectionalDragAreas(greeter);
             swipeAwayGreeter();
+
             tryCompare(ApplicationManager, "suspended", false);
             compare(mainApp.state, ApplicationInfoInterface.Running);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
@@ -665,14 +673,23 @@ Item {
         }
 
         function test_login() {
-            var greeter = findChild(shell, "greeter")
-            waitForRendering(greeter)
+            var greeter = findChild(shell, "greeter");
+            waitForRendering(greeter);
             LightDM.Greeter.showGreeter();
-            tryCompare(greeter, "fullyShown", true)
+            tryCompare(greeter, "fullyShown", true);
 
             sessionSpy.clear();
-            swipeAwayGreeter()
-            tryCompare(sessionSpy, "count", 1)
+
+            // greeter unloads its internal components when hidden
+            // and reloads them when shown. Thus we have to do this
+            // again before interacting with it otherwise any
+            // DirectionalDragAreas in there won't be easily fooled by
+            // fake swipes.
+            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+
+            swipeAwayGreeter();
+
+            tryCompare(sessionSpy, "count", 1);
         }
 
         function test_fullscreen() {
