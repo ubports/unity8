@@ -82,24 +82,6 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
             fifo.write('create light 0 10 1\n')
             fifo.write('create proximity\n') 
 
-    def get_shell(self):
-        self.main_win.select_single('Shell')
-
-    def get_shell2(self):
-        self.main_win.get_parent().select_single('Shell')
-
-    def get_shell_orientation_angle(self):
-        return self.get_shell().shellOrientationAngle
-
-    def get_shell_orientation(self):
-        return self.get_shell().shellOrientation
-
-    def get_shell_primary_orientation(self):
-        return self.get_shell().shellPrimaryOrientation
-
-    def get_shell_native_orientation(self):
-        return self.get_shell().nativeOrientation
-
 class LaunchDashApp(fixtures.Fixture):
 
     """Fixture to launch the Dash app."""
