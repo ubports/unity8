@@ -25,7 +25,7 @@ Showable {
     // The background wallpaper to use
     property string background
 
-    readonly property alias active: loader.active
+    readonly property bool active: loader.active
 
     hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 

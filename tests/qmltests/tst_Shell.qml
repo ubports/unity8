@@ -31,6 +31,7 @@ import Unity.Indicators 0.1
 import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
+import Wizard 0.1 as Wizard
 
 import "../../qml"
 
@@ -202,10 +203,22 @@ Item {
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             launcherShowDashHomeSpy.target = null;
 
+            stopShell();
+
+            // kill all (fake) running apps
+            killApps(ApplicationManager);
+
+            unlockAllModemsSpy.clear()
+            LightDM.Greeter.authenticate(""); // reset greeter
+            Wizard.System.wizardEnabled = false;
+
+            // reload our test subject to get it in a fresh state once again
+            startShell();
+        }
+
+        function stopShell() {
             shellLoader.itemDestroyed = false;
-
             shellLoader.active = false;
-
             tryCompare(shellLoader, "status", Loader.Null);
             tryCompare(shellLoader, "item", null);
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
@@ -215,16 +228,10 @@ Item {
             // iteration to do its work. So to ensure the reload, we will wait until the
             // Shell instance gets destroyed.
             tryCompare(shellLoader, "itemDestroyed", true);
+        }
 
-            // kill all (fake) running apps
-            killApps(ApplicationManager);
-
-            unlockAllModemsSpy.clear()
-            LightDM.Greeter.authenticate(""); // reset greeter
-
-            // reload our test subject to get it in a fresh state once again
+        function startShell() {
             shellLoader.active = true;
-
             tryCompare(shellLoader, "status", Loader.Ready);
             removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
         }
@@ -723,6 +730,25 @@ Item {
 
         function test_unlockAllModemsOnBoot() {
             tryCompare(unlockAllModemsSpy, "count", 1)
+        }
+
+        function test_unlockAllModemsAfterWizard() {
+            // Stop and start shell to simulate wizard being enabled during
+            // boot, instead of just being enabled after the fact.
+            stopShell();
+            Wizard.System.wizardEnabled = true;
+            unlockAllModemsSpy.clear();
+            startShell();
+
+            var wizard = findChild(shell, "wizard");
+            compare(wizard.active, true);
+            compare(Wizard.System.wizardEnabled, true);
+            compare(unlockAllModemsSpy.count, 0);
+
+            wizard.hide();
+            tryCompare(wizard, "active", false);
+            compare(Wizard.System.wizardEnabled, false);
+            compare(unlockAllModemsSpy.count, 1);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
