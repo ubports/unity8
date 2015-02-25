@@ -285,6 +285,23 @@ Item {
             waitForPage("simPage");
         }
 
+        function test_simWaitTimeout() {
+            MockQOfono.setModems(["a"], [false], [false]);
+
+            // Go to SIM page, which will be waiting for skip to be valid
+            var page = goToPage("languagePage");
+            tap(findChild(page, "forwardButton"));
+            verifyPageIsBlocked("simPage");
+
+            var timeout = findInvisibleChild(wizard, "timeout");
+            timeout.interval = 100; // reduce our delay
+
+            // Now just wait for timeout
+            compare(timeout.running, true);
+            waitForPage("passwdPage");
+            compare(timeout.running, false);
+        }
+
         function enterPasscode(passcode) {
             for (var i = 0; i < passcode.length; ++i) {
                 var character = passcode.charAt(i);
