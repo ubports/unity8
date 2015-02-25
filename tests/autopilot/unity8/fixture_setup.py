@@ -85,6 +85,9 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
     def get_shell(self):
         self.main_win.select_single('Shell')
 
+    def get_shell2(self):
+        self.main_win.get_parent().select_single('Shell')
+
     def get_shell_orientation_angle(self):
         return self.get_shell().shellOrientationAngle
 

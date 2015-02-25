@@ -69,15 +69,13 @@ class RotationBase(tests.UnityTestCase):
         app_name = self.launch_fake_app()
 
         #check for nativeOrientation
-        print ("default...")
-        print ("# of children: ", len(unity_with_sensors.main_win.get_children()))
-        print ("properties: ", unity_with_sensors.main_win.get_properties())
-        print ("shell: ", unity_with_sensors.get_shell())
+        print("orientation (default): ", unity_with_sensors.main_win.select_single("Shell").orientation)
         #print ("orientation-angle: ", unity_with_sensors.main_win.get_shell_orientation_angle())
         #print ("orientation: ", self.main_window.get_shell_orientation())
         #print ("prim. orientation: ", self.main_window.get_shell_primary_orientation())
         #print ("native orientation: ", self.main_window.get_shell_native_orientation())
         self.fake_sensors.set_orientation_top_up()
+        print("orientation (after top up): ", unity_with_sensors.main_win.select_single("Shell").orientation)
         #print ("after set_orientation_top_up...")
         #print ("orientation-angle: ", self.main_window.get_shell_orientation_angle())
         #print ("orientation: ", self.main_window.get_shell_orientation())
@@ -85,7 +83,8 @@ class RotationBase(tests.UnityTestCase):
         #print ("native orientation: ", self.main_window.get_shell_native_orientation())
 
 	# set accelerometer sensor rotation from 0 to 90
-        #self.fake_sensors.set_orientation_right_up()
+        self.fake_sensors.set_orientation_right_up()
+        print("orientation(after right up): ", unity_with_sensors.main_win.select_single("Shell").orientation)
         #print ("after set_orientation_right_up...")
         #print ("orientation-angle: ", self.main_window.get_shell_orientation_angle())
         #print ("orientation: ", self.main_window.get_shell_orientation())

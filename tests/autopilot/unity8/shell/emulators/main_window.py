@@ -110,6 +110,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         self.get_current_focused_app_id().wait_for('unity8-dash')
 
     def _get_shell(self):
+        print("_get_shell() children: ", self.get_children())
         return self.select_single('Shell')
 
     def get_current_focused_app_id(self):
