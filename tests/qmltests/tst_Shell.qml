@@ -211,6 +211,7 @@ Item {
             unlockAllModemsSpy.clear()
             LightDM.Greeter.authenticate(""); // reset greeter
             Wizard.System.wizardEnabled = false;
+            AccountsService.demoEdges = false;
 
             // reload our test subject to get it in a fresh state once again
             startShell();
@@ -749,6 +750,35 @@ Item {
             tryCompare(wizard, "active", false);
             compare(Wizard.System.wizardEnabled, false);
             compare(unlockAllModemsSpy.count, 1);
+        }
+
+        function test_wizardEarlyExit() {
+            Wizard.System.wizardEnabled = true;
+            AccountsService.demoEdges = true;
+            var wizard = findChild(shell, "wizard");
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(wizard, "active", true);
+            tryCompare(tutorial, "running", true);
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            // Make sure we stay running when nothing focused (can happen for
+            // a moment when we restart the dash after switching language)
+            ApplicationManager.stopApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "");
+            compare(wizard.shown, true);
+            compare(tutorial.running, true);
+
+            // And make sure we stay running when dash focused again
+            ApplicationManager.startApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            compare(wizard.shown, true);
+            compare(tutorial.running, true);
+
+            // And make sure we stop when something else is focused
+            ApplicationManager.startApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+            compare(wizard.shown, false);
+            compare(tutorial.running, false);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
