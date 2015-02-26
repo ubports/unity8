@@ -251,6 +251,21 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
             launcherShowDashHomeSpy.target = launcher;
+
+            waitForGreeterToStabilize();
+        }
+
+        function waitForGreeterToStabilize() {
+            var greeter = findChild(shell, "greeter");
+            verify(greeter);
+
+            var loginList = findChild(greeter, "loginList");
+            // Only present in WideView
+            if (loginList) {
+                var userList = findChild(loginList, "userList");
+                verify(userList);
+                tryCompare(userList, "movingInternally", false);
+            }
         }
 
         function tearDown() {
@@ -674,6 +689,7 @@ Rectangle {
         function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             swipeAwayGreeter();
+
             var dialerApp = ApplicationManager.startApplication("webbrowser-app");
             verify(dialerApp);
             waitUntilAppSurfaceShowsUp("webbrowser-app")
@@ -681,18 +697,6 @@ Rectangle {
             verify(dialerApp.session.surface);
 
             tryCompare(dialerApp.session.surface, "activeFocus", true);
-        }
-
-        // Wait for the whole UI to settle down
-        function waitForUIToSettle() {
-            var launcher = findChild(shell, "launcherPanel")
-            tryCompareFunction(function() {return launcher.x === 0 || launcher.x === -launcher.width;}, true);
-            if (launcher.x === 0) {
-                mouseClick(shell)
-            }
-            tryCompare(launcher, "x", -launcher.width)
-
-            waitForRendering(shell)
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
