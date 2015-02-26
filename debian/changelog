@@ -1,3 +1,13 @@
+unity8 (8.02+15.04.20150226-0ubuntu1) vivid; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Pete Woods ]
+  * Only set scopes active when the screen is on (LP: #1422879)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 26 Feb 2015 19:39:54 +0000
+
 unity8 (8.02+15.04.20150224-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
