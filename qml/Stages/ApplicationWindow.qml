@@ -110,7 +110,8 @@ FocusScope {
 
     SessionContainer {
         id: sessionContainer
-        session: application ? application.session : null
+        // A fake application might not even have a session property.
+        session: application && application.session ? application.session : null
         anchors.fill: parent
         orientation: root.orientation
 
