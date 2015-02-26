@@ -56,7 +56,8 @@ public:
                 this, SLOT(handleMessage(pam_handle *, QString, QLightDM::Greeter::MessageType)));
         // This next connect is how we pass ResponseFutures between threads
         connect(this, SIGNAL(showPrompt(pam_handle *, QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)),
-                this, SLOT(handlePrompt(pam_handle *, QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)));
+                this, SLOT(handlePrompt(pam_handle *, QString, QLightDM::Greeter::PromptType, QLightDM::GreeterImpl::ResponseFuture)),
+                Qt::BlockingQueuedConnection);
     }
 
     ~GreeterImpl()
@@ -79,7 +80,7 @@ public:
 
         if (pam_start("lightdm", username.toUtf8(), &conversation, &pamHandle) == PAM_SUCCESS) {
             appData->handle = pamHandle;
-            futureWatcher.setFuture(QtConcurrent::run(authenticateWithPam, pamHandle));
+            futureWatcher.setFuture(QtConcurrent::mapped(QList<pam_handle*>() << pamHandle, authenticateWithPam));
         } else {
             delete appData;
             greeterPrivate->authenticated = false;
@@ -88,7 +89,7 @@ public:
         }
     }
 
-    static int authenticateWithPam(pam_handle* pamHandle)
+    static int authenticateWithPam(pam_handle* const& pamHandle)
     {
         int pamStatus = pam_authenticate(pamHandle, 0);
         if (pamStatus == PAM_SUCCESS) {
@@ -242,11 +243,14 @@ private Q_SLOTS:
 private:
     void cancelPam()
     {
-        // Unfortunately we can't simply cancel our QFuture because QtConcurrent::run doesn't support cancel
         if (pamHandle != nullptr) {
             pam_handle *handle = pamHandle;
             pamHandle = nullptr; // to disable normal finishPam() handling
-            while (respond(QString())); // clear our local queue of QFutures
+            futureWatcher.future().cancel();
+            while (!futureWatcher.future().isFinished()) {
+                QCoreApplication::processEvents(); // let signal/slot handling happen
+                respond(QString());
+            }
             pam_end(handle, PAM_CONV_ERR);
         }
     }
@@ -264,6 +268,11 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
     m_impl(new GreeterImpl(parent, this)),
     q_ptr(parent)
 {
+}
+
+GreeterPrivate::~GreeterPrivate()
+{
+    delete m_impl;
 }
 
 void GreeterPrivate::handleAuthenticate()
