@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-13 11:45+0100\n"
-"PO-Revision-Date: 2015-02-11 15:01+0000\n"
-"Last-Translator: GunChleoc <Unknown>\n"
+"PO-Revision-Date: 2015-02-27 01:01+0000\n"
+"Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-02-27 05:54+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 "Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -187,7 +187,7 @@ msgstr "Leig às airson ath-nuadhachadh…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Cuir an comas dàta an ionaid"
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
@@ -199,7 +199,7 @@ msgstr "Dhachaigh"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Air a stàladh cuideachd"
 
 #: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
@@ -319,55 +319,55 @@ msgstr ""
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Nì seo diofar rudan do dhiofar aplacaidean"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Thoir gnogag an-seo gus a choileanadh."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Fosgail na clàran-taice sònraichte"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Dèan grad-shlaighdeadh a-nìos on oir."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Seo na h-ath-ghoiridean ris na h-aplacaidean as fhearr leat"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "Thoir gnogag an-seo gus leantainn air adhart."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "Fosgail an lòinsear"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Grad-shlaighdeadh goirid on oir chlì."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Cha mhòr!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "Feuch ris a-rithist."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Gus aplacaidean fosgailte fhaicinn"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Grad-shlaighdeadh on oir dheas."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Seall gach saothair a tha thu a' ruith."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -426,7 +426,7 @@ msgstr "Còd-faire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "4 àireamhan a-mhàin"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
@@ -458,11 +458,13 @@ msgstr "Faodaidh am fòn aithneachadh far a bheil thu:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Na cleachd ach GPS (chan eil seo cho pongail)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"A' cleachdadh GPS, WiFi gun urra is fiosrachadh an lìonraidh mobile "
+"(mholamaid seo)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -470,6 +472,8 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Ma thaghas tu an roghainn seo, bidh thu ag aontachadh ri <a "
+"href='#'>teirmichean is cumhaichean</a> an Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
@@ -478,6 +482,8 @@ msgstr "Chan fhaod idir"
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"'S urrainn dhut a chaochladh a chur romhad às a dhèidh seo ann an "
+"<b>Roghainnean an t-siostaim</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
