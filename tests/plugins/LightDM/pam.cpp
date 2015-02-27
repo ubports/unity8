@@ -46,6 +46,6 @@ private:
     QLightDM::GreeterPrivate *m_greeterpriv;
 };
 
-QTEST_MAIN(GreeterPamTest)
+QTEST_APPLESS_MAIN(GreeterPamTest)
 
 #include "pam.moc"
