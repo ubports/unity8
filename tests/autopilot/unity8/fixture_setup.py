@@ -63,7 +63,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         self.fake_sensors = sensors.FakePlatformSensors()
 
     def _restart_unity_with_testability(self):
-        self.unity_proxy = process_helpers.restart_unity_with_testability()
+        self.unity_proxy = process_helpers.restart_unity_with_testability('BINARY=/home/phablet/src/unity8-shellRotation/builddir/install/bin/unity8', 'ARGS=', 'QML2_IMPORT_PATH=/home/phablet/src/unity8-shellRotation/builddir/install/lib/arm-linux-gnueabihf/unity8/qml/mocks:/usr/lib/arm-linux-gnueabihf/qt5/imports', 'XDG_DATA_DIRS=/home/phablet/src/unity8-shellRotation/tests/mocks/data:/usr/share/ubuntu-touch:/usr/local/share:/usr/share', 'LD_LIBRARY_PATH=/home/phablet/src/unity8-shellRotation/builddir/install/lib/arm-linux-gnueabihf/unity8/qml/mocks/libusermetrics:/home/phablet/src/unity8-shellRotation/builddir/install/lib/arm-linux-gnueabihf/unity8/qml/mocks/LightDM/liblightdm:/vendor/lib:/system/lib')
         self.main_win = self.unity_proxy.select_single(main_window_emulator.QQuickView)
 
     def _create_sensors(self):

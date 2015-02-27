@@ -64,35 +64,36 @@ class RotationBase(tests.UnityTestCase):
         self.useFixture(unity_with_sensors)
         process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
         self.fake_sensors = unity_with_sensors.fake_sensors
+        shell_proxy = unity_with_sensors.main_win.select_single(objectName="shell")
 
         # launch an application
         app_name = self.launch_fake_app()
 
         #check for nativeOrientation
         print("\ndefault...")
-        print("orientation: ", unity_with_sensors.main_win.select_single("Shell").orientation)
-        print("rotation: ", unity_with_sensors.main_win.select_single("Shell").rotation)
+        print("orientation: ", shell_proxy.orientation)
+        print("rotation: ", shell_proxy.rotation)
 
         self.fake_sensors.set_orientation_top_up()
         print("\nafter top-up...")
-        print("orientation: ", unity_with_sensors.main_win.select_single("Shell").orientation)
-        print("rotation: ", unity_with_sensors.main_win.select_single("Shell").rotation)
+        print("orientation: ", shell_proxy.orientation)
+        print("rotation: ", shell_proxy.rotation)
 
 	# set accelerometer sensor rotation from 0 to 90
         self.fake_sensors.set_orientation_right_up()
         print("\nafter right-up...")
-        print("orientation: ", unity_with_sensors.main_win.select_single("Shell").orientation)
-        print("rotation: ", unity_with_sensors.main_win.select_single("Shell").rotation)
+        print("orientation: ", shell_proxy.orientation)
+        print("rotation: ", shell_proxy.rotation)
 
         self.fake_sensors.set_orientation_top_down()
         print("\nafter top-down...")
-        print("orientation: ", unity_with_sensors.main_win.select_single("Shell").orientation)
-        print("rotation: ", unity_with_sensors.main_win.select_single("Shell").rotation)
+        print("orientation: ", shell_proxy.orientation)
+        print("rotation: ", shell_proxy.rotation)
 
         self.fake_sensors.set_orientation_left_up()
         print("\nafter left-up...")
-        print("orientation: ", unity_with_sensors.main_win.select_single("Shell").orientation)
-        print("rotation: ", unity_with_sensors.main_win.select_single("Shell").rotation)
+        print("orientation: ", shell_proxy.orientation)
+        print("rotation: ", shell_proxy.rotation)
 
         # check that unity8 rotated its UI form 0 (portrait aspect ratio) to 90 (landscape aspect ratio)
 
