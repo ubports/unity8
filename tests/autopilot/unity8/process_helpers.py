@@ -137,7 +137,6 @@ def restart_unity(*args):
         stop_job('unity8')
 
     pid = start_job('unity8', *args)
-    print("_get_unity_prox_object(...): ", _get_unity_proxy_object(pid))
     return _get_unity_proxy_object(pid)
 
 
