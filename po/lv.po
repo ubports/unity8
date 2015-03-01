@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-13 11:45+0100\n"
-"PO-Revision-Date: 2014-08-21 09:46+0000\n"
-"Last-Translator: Jānis Marks Gailis <jm-gailis@fai-vianet.fr>\n"
+"PO-Revision-Date: 2015-02-28 16:18+0000\n"
+"Last-Translator: Rūdolfs Mazurs <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:30+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-01 05:31+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -25,38 +25,39 @@ msgstr "Parole: "
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Piespraust īsceļu"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Noņemt īsceļu"
 
 #: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
-msgstr ""
+msgstr "Ierīce bloķēta"
 
 #: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "Bloķēts, jo pārāk bieži kļūdaini ievadījāt paroli."
 
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "Bloķēts, jo pārāk bieži kļūdaini ievadījāt piekļuves kodu."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lūdzu, uzgaidiet %1 minūti un tad mēģiniet vēlreiz..."
+msgstr[1] "Lūdzu, uzgaidiet %1 minūtes un tad mēģiniet vēlreiz..."
+msgstr[2] "Lūdzu, uzgaidiet %1 minūtes un tad mēģiniet vēlreiz..."
 
 #: qml/Components/Dialogs.qml:86
 msgid "Log out"
-msgstr "Iziet"
+msgstr "Izrakstīties"
 
 #: qml/Components/Dialogs.qml:87
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Vai tiešām vēlaties izrakstīties?"
 
 #: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
 #: qml/Components/Dialogs.qml:134
@@ -74,7 +75,7 @@ msgstr "Izslēgt"
 
 #: qml/Components/Dialogs.qml:109
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Vai tiešām vēlaties izslēgt?"
 
 #: qml/Components/Dialogs.qml:131
 msgid "Reboot"
@@ -82,7 +83,7 @@ msgstr "Pārstartēt"
 
 #: qml/Components/Dialogs.qml:132
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Vai tiešām vēlaties pārstartēt?"
 
 #: qml/Components/Dialogs.qml:154
 msgid "Power"
@@ -93,6 +94,8 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Vai tiešām vēlaties\n"
+"izslēgt?"
 
 #: qml/Components/Dialogs.qml:157
 msgid "Power off"
@@ -100,7 +103,7 @@ msgstr "Izslēgt"
 
 #: qml/Components/Dialogs.qml:166
 msgid "Restart"
-msgstr ""
+msgstr "Pārstartēt"
 
 #: qml/Components/Dialogs.qml:175
 msgid "Cancel"
@@ -108,19 +111,19 @@ msgstr "Atcelt"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
-msgstr ""
+msgstr "Atgriezties pie zvana"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
-msgstr "Neatliekamās Palīdzības zvans"
+msgstr "Ārkārtas situācijas zvans"
 
 #: qml/Components/Lockscreen.qml:270
 msgid "OK"
-msgstr "LABI"
+msgstr "Labi"
 
 #: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
-msgstr "Redzēt mazāk"
+msgstr "Skatīt mazāk"
 
 #: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
@@ -161,7 +164,7 @@ msgstr "Novērtēt šo"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr "Komentēt"
+msgstr "Pievienot atsauksmi"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
@@ -169,31 +172,31 @@ msgstr "Sūtīt"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "Vilt, lai atsvaidzinātu..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "Atlaist, lai atsvaidzinātu..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Ieslēgt atrašanās vietas datus"
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Pārvaldīt"
 
 #: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Mājas"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Arī instalēja"
 
 #: qml/Greeter/Greeter.qml:141
 msgid "Unlock"
-msgstr ""
+msgstr "Atbloķēt"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -201,7 +204,7 @@ msgstr "Rādīt paroli"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Uzsitiet, lai atzvanītu..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -209,7 +212,7 @@ msgstr "Konference"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:643
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Nekas netiek atskaņots"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "In queue…"
@@ -221,7 +224,7 @@ msgstr "Lejupielādē"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Pauzēts, uzsitiet, lai turpinātu"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
@@ -233,11 +236,11 @@ msgstr "Pabeigts"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
-msgstr "Neizdevās, spiest lai mēģināt vēlreiz"
+msgstr "Neizdevās, uzsitiet, lai mēģinātu vēlreiz"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
-msgstr ""
+msgstr "Atbildēt"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -250,40 +253,40 @@ msgstr "Viesabonēšana"
 #: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Ievadiet %1"
 
 #: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Ievadiet paroli"
 
 #: qml/Shell.qml:404
 msgid "Enter passcode"
-msgstr ""
+msgstr "Ievadiet piekļuves kodu"
 
 #: qml/Shell.qml:405
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Piedodiet, nepareizs %1"
 
 #: qml/Shell.qml:406
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Piedodiet, nepareiza parole"
 
 #: qml/Shell.qml:407
 msgid "Please re-enter"
-msgstr ""
+msgstr "Lūdzu, ievadiet vēlreiz"
 
 #: qml/Shell.qml:408
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Piedodiet, nepareizs piekļuves kods"
 
 #: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Piedodiet, nepareiza parole."
 
 #: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Piedodiet, nepareizs piekļuves kods."
 
 #: qml/Shell.qml:504
 msgid "This will be your last attempt."
@@ -294,159 +297,165 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Ja parole netiks pareizi ievadīta, jūsu tālrunis tiks atstatīts uz rūpnīcas "
+"iestatījumiem un visa personīgā informācija tiks izdzēsta."
 
 #: qml/Shell.qml:507
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Ja piekļuves kods netiks pareizi ievadīts, jūsu tālrunis tiks atstatīts uz "
+"rūpnīcas iestatījumiem un visa personīgā informācija tiks izdzēsta."
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Šī darbība dažādās lietotnēs darīs dažādas lietas"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Uzsitiet šeit, lai pabeigtu."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Atvērt īpašas izvēlnes"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Velciet no apakšējās malas."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Šie ir īsceļi uz iecienītajām lietotnēm"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "Uzsitiet šeit, lai turpinātu."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "Atvērt palaidēju"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Īss vilciens no kreisās malas."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Gandrīz sanāca!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "Mēģiniet vēlreiz."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Lai redzētu atvērtās lietotnes"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Garš vilciens no labās malas."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Redzēt visus palaistos uzdevumus."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
-msgstr ""
+msgstr "Atpakaļ"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Sveiki!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Laipni lūdza Ubuntu viedtālrunī."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Sāksim."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Turpināt"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Pievienojiet SIM karti un pārstartējiet ierīci"
 
 #: qml/Wizard/Pages/20-sim.qml:55
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Bez tās jūs nevarēsiet piezvanīt vai sūtīt īsziņas."
 
 #: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr ""
+msgstr "Izlaist"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Bloķēšanas drošība"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Lūdzu, izvēlieties, kā vēlaties atbloķēt savu tālruni."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "Vilkt"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
-msgstr ""
+msgstr "Nav drošības"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgid "Passcode"
-msgstr ""
+msgstr "Piekļuves kods"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "Tikai četri cipari"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
-msgstr ""
+msgstr "Parole"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Skaitļi un burti"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Savienoties ar Wi‑Fi"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "Pieejamie tīkli…"
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "Nav pieejamu tīklu."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Atrašanās vieta"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Ļaut tālrunim noteikt jūsu atrašanās vietu:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Izmantot tikai GPS (mazāk precīzi)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"Izmantot GPS, anonimizētu bezvadu (Wi-Fi) un mobilā tīklā informāciju "
+"(ieteicams)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -454,81 +463,85 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Izvēloties šo opciju, jūs piekrītat Nokia HERE <a href='#'>nosacījumiem</a>."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Necik"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "Vēlāk jūs varat to mainīt <b>Sistēmas iestatījumos</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "Jūsu pieredzes uzlabošana"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Jūsu tālrunis automātiski sūtīts kļūdu ziņojumus Canonical un tā partneriem "
+"— šīs operētājsistēmas izstrādātājiem."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"To varat atslēgt <b>Sistēmas iestatījumos</b> zem <b>Drošība un privātums</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Viss paveikts"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Lieliski!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Jūsu tālrunis tagad ir gatavs lietošanai."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Pabeigt"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Nosacījumi"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Apstipriniet paroli"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Apstipriniet piekļuves kodu"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Lūdzu, mēģiniet vēlreiz."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Izvēlieties savu paroli"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "Piekļuves kodam ir jābūt 4 rakstzīmju garumā"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Apstiprināt"
