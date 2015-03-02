@@ -150,6 +150,15 @@ Item {
         objectName: "dashCommunicator"
     }
 
+    PhysicalKeysMapper {
+        id: physicalKeysMapper
+
+        onPowerKeyLongPressed: dialogs.showPowerDialog()
+        onVolumeDownTriggered: volumeControl.volumeDown();
+        onVolumeUpTriggered: volumeControl.volumeUp();
+        onScreenshotTriggered: screenGrabber.capture();
+    }
+
     ScreenGrabber {
         id: screenGrabber
         z: dialogs.z + 10
@@ -162,45 +171,9 @@ Item {
         value: launcher.shown || launcher.dashSwipe
     }
 
-    VolumeKeyFilter {
-        id: volumeKeyFilter
-        onVolumeDownPressed: volumeControl.volumeDown()
-        onVolumeUpPressed: volumeControl.volumeUp()
-        onBothVolumeKeysPressed: screenGrabber.capture()
-    }
-
     WindowKeysFilter {
-        Keys.onPressed: {
-            // Nokia earpieces give TogglePlayPause, while the iPhone's earpiece gives Play
-            if (event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) {
-                event.accepted = callManager.handleMediaKey(false);
-            } else if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                // FIXME: We only consider power key presses if the screen is
-                // on because of bugs 1410830/1409003.  The theory is that when
-                // those bugs are encountered, there is a >2s delay between the
-                // power press event and the power release event, which causes
-                // the shutdown dialog to appear on resume.  So to avoid that
-                // symptom while we investigate the root cause, we simply won't
-                // initiate any dialogs when the screen is off.
-                if (Powerd.status === Powerd.On) {
-                    dialogs.onPowerKeyPressed();
-                }
-                event.accepted = true;
-            } else {
-                volumeKeyFilter.onKeyPressed(event.key);
-                event.accepted = false;
-            }
-        }
-
-        Keys.onReleased: {
-            if (event.key == Qt.Key_PowerOff || event.key == Qt.Key_PowerDown) {
-                dialogs.onPowerKeyReleased();
-                event.accepted = true;
-            } else {
-                volumeKeyFilter.onKeyReleased(event.key);
-                event.accepted = false;
-            }
-        }
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
     }
 
     Item {

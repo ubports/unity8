@@ -36,20 +36,11 @@ Item {
         }
     }
 
-    function onPowerKeyPressed() {
-        // FIXME: event.isAutoRepeat is always false on Nexus 4.
-        // So we use powerKeyTimer.running to avoid the PowerOff key repeat
-        // https://launchpad.net/bugs/1349416
-        if (!powerKeyTimer.running) {
-            powerKeyTimer.restart();
-        }
-    }
-
-    function onPowerKeyReleased() {
-        powerKeyTimer.stop();
-    }
-
     signal powerOffClicked();
+
+    function showPowerDialog() {
+        d.showPowerDialog();
+    }
 
     QtObject {
         id: d // private stuff
@@ -67,17 +58,6 @@ Item {
         id: dialogLoader
         anchors.fill: parent
         active: false
-    }
-
-    Timer {
-        id: powerKeyTimer
-        interval: 2000
-        repeat: false
-        triggeredOnStart: false
-
-        onTriggered: {
-            d.showPowerDialog();
-        }
     }
 
     Component {

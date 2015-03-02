@@ -13,6 +13,7 @@ set(qmltest_DEFAULT_TARGETS qmlunittests)
 set(qmltest_DEFAULT_NO_ADD_TEST FALSE)
 set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal")
 add_qml_test(utils/Unity/Test UnityTest)
+add_qml_test(Components PhysicalKeysMapper)
 
 set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
