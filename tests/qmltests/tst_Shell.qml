@@ -29,14 +29,14 @@ import Unity.Application 0.1
 import Unity.Connectivity 0.1
 import Unity.Indicators 0.1
 import Unity.Notifications 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import Powerd 0.1
 
 import "../../qml"
 
 Item {
     id: root
-    width: units.gu(60)
+    width: units.gu(70)
     height: units.gu(71)
 
     Component.onCompleted: {
@@ -117,6 +117,7 @@ Item {
                         shellLoader.active = true;
                     }
                 }
+                MouseTouchEmulationCheckbox { color: "white" }
             }
         }
     }
@@ -178,7 +179,7 @@ Item {
         phoneNumber: "+447812221111"
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         id: testCase
         name: "Shell"
         when: windowShown
