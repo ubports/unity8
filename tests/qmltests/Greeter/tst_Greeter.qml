@@ -433,7 +433,7 @@ Item {
 
         function test_forcedDelay() {
             greeter.failedLoginsDelayAttempts = 1;
-            greeter.failedLoginsDelayMinutes = 0.1; // make delay very short
+            greeter.failedLoginsDelayMinutes = 0.001; // make delay very short
 
             selectUser("has-password");
             tryCompare(viewShowPromptSpy, "count", 1);

@@ -193,8 +193,6 @@ Showable {
         property var delayTarget;
         property int delayMinutes;
 
-        onDelayMinutesChanged: console.log("MIKE delayMinutes", delayMinutes);
-
         function forceDelay(delay /* in minutes */) {
             delayTarget = new Date();
             delayTarget.setTime(delayTarget.getTime() + delay * 60000);
