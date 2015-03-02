@@ -1,3 +1,52 @@
+unity8 (8.02+15.04.20150302-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals ]
+  * Don't precache items that are outisde the 1.5*height buffering area
+    (LP: #1410131)
+
+  [ Albert Astals Cid ]
+  * Don't precache items that are outisde the 1.5*height buffering area
+    (LP: #1410131)
+
+  [ Chris Townsend ]
+  * Add a wrapper for handling the
+    /org/gnome/SessionManager/EndSessionDialog DBus object used by
+    indicator-session. This allows indicator-session to properly talk to
+    the Unity 8 session management functions. (LP: #1392187)
+  * Allow for proper logout session management. This uses the
+    EndSession() Upstart DBus method on the current session bus. (LP:
+    #1360316)
+  * Make the Unity 8 session dialogs behave in the same fashion as Unity
+    7. From indicator-session: Clicking "Log Out" will now present a
+    dialog to "Lock", "Log Out", or "Cancel". Clicking "Shut Down" will
+    now present a dialog to "Reboot", "Shut Down", or "Cancel". (LP:
+    #1416074)
+
+  [ Daniel d'Andrada ]
+  * Add NO_TESTS cmake option to skip tests and therefore speed up
+    builds
+  * Remove enums and properties that doesn't exist in the real
+    ApplicationManager
+  * Stabilize some Shell qml tests
+
+  [ Josh Arenson ]
+  * Create a PhysicalKeyMapper to handle all physical/hardware keys (LP:
+    #1390393)
+
+  [ Michael Terry ]
+  * Make the draggable part of the right edge (during the tutorial) a
+    constant size, instead of having it grow and shrink as the spread
+    peeks out from the side.
+
+  [ Michał Sawicz ]
+  * Create a PhysicalKeyMapper to handle all physical/hardware keys (LP:
+    #1390393)
+
+  [ Robert Bruce Park ]
+  * Launchpad automatic translations update.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 02 Mar 2015 12:11:21 +0000
+
 unity8 (8.02+15.04.20150226-0ubuntu1) vivid; urgency=medium
 
   [ CI Train Bot ]
