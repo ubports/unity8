@@ -34,6 +34,14 @@ from unity8.shell.emulators import (
     main_window as main_window_emulator
 )
 
+from unity8 import (
+    get_lib_path,
+    get_binary_path,
+    get_mocks_library_path,
+    get_default_extra_mock_libraries,
+    get_data_dirs
+)
+
 class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
     """Fixture to launch Unity8 with an injectable sensors backend.
@@ -62,8 +70,52 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         restart_thread.join()
         self.fake_sensors = sensors.FakePlatformSensors()
 
+    def _get_lightdm_mock_path(self):
+        lib_path = get_mocks_library_path()
+        lightdm_mock_path = os.path.abspath(
+            os.path.join(lib_path, "LightDM", "liblightdm")
+        )
+
+        if not os.path.exists(lightdm_mock_path):
+            raise RuntimeError(
+                "LightDM mock does not exist at path '%s'."
+                % (lightdm_mock_path)
+            )
+        return lightdm_mock_path
+
+    def _get_qml_import_path_with_mock(self):
+        """Return the QML2_IMPORT_PATH value with the mock path prepended."""
+        qml_import_path = [get_mocks_library_path()]
+        if os.getenv('QML2_IMPORT_PATH') is not None:
+            qml_import_path.append(os.getenv('QML2_IMPORT_PATH'))
+
+        qml_import_path = ':'.join(qml_import_path)
+        return qml_import_path
+
     def _restart_unity_with_testability(self):
-        self.unity_proxy = process_helpers.restart_unity_with_testability('BINARY=/home/phablet/src/unity8-shellRotation/builddir/install/bin/unity8', 'ARGS=', 'QML2_IMPORT_PATH=/home/phablet/src/unity8-shellRotation/builddir/install/lib/arm-linux-gnueabihf/unity8/qml/mocks:/usr/lib/arm-linux-gnueabihf/qt5/imports', 'XDG_DATA_DIRS=/home/phablet/src/unity8-shellRotation/tests/mocks/data:/usr/share/ubuntu-touch:/usr/local/share:/usr/share', 'LD_LIBRARY_PATH=/home/phablet/src/unity8-shellRotation/builddir/install/lib/arm-linux-gnueabihf/unity8/qml/mocks/libusermetrics:/home/phablet/src/unity8-shellRotation/builddir/install/lib/arm-linux-gnueabihf/unity8/qml/mocks/LightDM/liblightdm:/vendor/lib:/system/lib')
+        _environment = {}
+
+        data_dirs = get_data_dirs(True)
+        if data_dirs is not None:
+            _environment['XDG_DATA_DIRS'] = data_dirs
+
+        _environment['QML2_IMPORT_PATH'] = (
+            self._get_qml_import_path_with_mock()
+        )
+
+        new_ld_library_path = [
+            get_default_extra_mock_libraries(),
+            self._get_lightdm_mock_path()
+        ]
+        if os.getenv('LD_LIBRARY_PATH') is not None:
+            new_ld_library_path.append(os.getenv('LD_LIBRARY_PATH'))
+        new_ld_library_path = ':'.join(new_ld_library_path)
+        _environment['LD_LIBRARY_PATH'] = new_ld_library_path
+
+        binary_arg = "BINARY=%s" % get_binary_path()
+        env_args = ["%s=%s" % (k, v) for k, v in _environment.items()]
+        args = [binary_arg] + env_args
+        self.unity_proxy = process_helpers.restart_unity_with_testability(*args)
         self.main_win = self.unity_proxy.select_single(main_window_emulator.QQuickView)
 
     def _create_sensors(self):

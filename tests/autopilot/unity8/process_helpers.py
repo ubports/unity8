@@ -119,7 +119,6 @@ def restart_unity_with_testability(*args):
 
     """
     args += ("QT_LOAD_TESTABILITY=1",)
-    print("passed arguments: ", args)
     return restart_unity(*args)
 
 
