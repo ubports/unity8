@@ -78,7 +78,7 @@ void AccountsServiceDBusAdaptor::propertiesChangedSlot(const QString &interface,
     Q_EMIT propertiesChanged(getUserForPath(message().path()), interface, combined);
 
     // In case a non-builtin property changes, we're getting propertiesChanged *and* changed
-    // As the generic changed requires asking back ober DBus it's quite slow to process.
+    // As the generic changed requires asking back over DBus, it's quite slow to process.
     // We don't want to trigger that when we know it's not a built-in property change.
     m_ignoreNextChanged = true;
 }
