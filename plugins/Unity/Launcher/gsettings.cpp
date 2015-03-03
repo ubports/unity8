@@ -59,12 +59,15 @@ void GSettings::setStoredApplications(const QStringList &storedApplications)
     Q_FOREACH(const QString &entry, storedApplications) {
         gSettingsList << QString("appid://%1").arg(entry);
     }
+    // GSettings will emit a changed signal to ourselves. Let's cache the items
+    // and only forward the changed signal when the list did actually change.
+    m_cachedItems = gSettingsList;
     m_gSettings->set("items", gSettingsList);
 }
 
 void GSettings::onSettingsChanged(const QString &key)
 {
-    if (key == "items") {
+    if (key == "items" && m_cachedItems != m_gSettings->get("items").toStringList()) {
         Q_EMIT changed();
     }
 }
