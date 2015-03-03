@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-13 11:45+0100\n"
-"PO-Revision-Date: 2015-01-28 10:55+0000\n"
-"Last-Translator: Milo Casagrande <milo.casagrande@gmail.com>\n"
+"PO-Revision-Date: 2015-03-02 12:45+0000\n"
+"Last-Translator: Enrico <enricobe@hotmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-03 05:52+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -317,7 +317,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Toccare qui per concludere."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -329,11 +329,11 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Queste sono le scorciatoie alle app preferite"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "Toccare qui per continuare."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -345,15 +345,15 @@ msgstr ""
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Quasi terminato!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "Provare di nuovo."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Per vedere le app aperte"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
