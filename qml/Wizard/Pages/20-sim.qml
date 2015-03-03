@@ -25,11 +25,15 @@ LocalComponents.Page {
     title: i18n.tr("Add a SIM card and restart your device")
     forwardButtonSourceComponent: forwardButton
 
-    // No need for skipValid, since OfonoManager does everything synchronously
+    skipValid: !manager.available ||
+               (manager.ready && (manager.modems.length < 1 || simManager0.ready)
+                              && (manager.modems.length < 2 || simManager1.ready))
     skip: !manager.available || manager.modems.length === 0 || simManager0.present || simManager1.present
 
     OfonoManager {
         id: manager
+        property bool ready: false
+        onModemsChanged: ready = true
     }
 
     // Ideally we would query the system more cleverly than hardcoding two

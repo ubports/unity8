@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,7 @@ import "../Components"
 
 Item {
     id: root
-    anchors.top: parent.top
-    anchors.topMargin: units.gu(4)
+    y: units.gu(4)
     height: shakeContainer.height
 
     property string infoText

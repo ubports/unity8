@@ -93,10 +93,10 @@ Item {
     Timer {
         id: dismissTimer
         objectName: "dismissTimer"
-        interval: 5000
+        interval: 500
         onTriggered: {
             if (root.autohideEnabled) {
-                if (!panel.preventHiding) {
+                if (!panel.preventHiding && !hoverArea.containsMouse) {
                     root.state = ""
                 } else {
                     dismissTimer.restart()
@@ -159,7 +159,7 @@ Item {
 
     MouseArea {
         id: launcherDragArea
-        enabled: root.available && root.state == "visible"
+        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary")
         anchors.fill: panel
         anchors.rightMargin: -units.gu(2)
         drag {
@@ -245,6 +245,33 @@ Item {
         }
     }
 
+    // TODO: This should be replaced by some mechanism that reveals the launcher
+    // after a certain resistance has been overcome, like unity7 does. However,
+    // as we don't get relative mouse coordinates yet, this will do for now.
+    MouseArea {
+        id: hoverArea
+        anchors { fill: panel; rightMargin: -1 }
+        hoverEnabled: true
+        propagateComposedEvents: true
+        onContainsMouseChanged: {
+            if (containsMouse) {
+                root.switchToNextState("visibleTemporary");
+            } else {
+                dismissTimer.restart();
+            }
+        }
+        onPressed: mouse.accepted = false;
+
+        // We need to eat touch events here in order to make sure that
+        // we don't trigger both, the dragArea and the hoverArea
+        MultiPointTouchArea {
+            anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+            width: units.dp(1)
+            mouseEnabled: false
+            enabled: parent.enabled
+        }
+    }
+
     EdgeDragArea {
         id: dragArea
         objectName: "launcherDragArea"
@@ -300,6 +327,16 @@ Item {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
+            PropertyChanges { target: hoverArea; enabled: false }
+        },
+        State {
+            name: "visibleTemporary"
+            extend: "visible"
+            PropertyChanges {
+                target: root
+                autohideEnabled: true
+            }
+            PropertyChanges { target: hoverArea; enabled: true }
         },
         State {
             name: "teasing"

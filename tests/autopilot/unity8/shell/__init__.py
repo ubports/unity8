@@ -27,6 +27,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def disable_qml_mocking(fn):
     """Simple decorator that disables the QML mocks from being loaded."""
     @wraps(fn)
