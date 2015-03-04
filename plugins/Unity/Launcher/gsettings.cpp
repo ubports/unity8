@@ -67,7 +67,11 @@ void GSettings::setStoredApplications(const QStringList &storedApplications)
 
 void GSettings::onSettingsChanged(const QString &key)
 {
-    if (key == "items" && m_cachedItems != m_gSettings->get("items").toStringList()) {
-        Q_EMIT changed();
+    if (key == "items") {
+        QStringList cachedItems = m_gSettings->get("items").toStringList();
+        if (m_cachedItems != cachedItems) {
+            m_cachedItems = cachedItems;
+            Q_EMIT changed();
+        }
     }
 }
