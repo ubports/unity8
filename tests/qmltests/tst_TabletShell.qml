@@ -68,7 +68,8 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string indicatorProfile: "phone"
+                    orientation: Qt.LandscapeOrientation
+                    usageScenario: "tablet"
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true

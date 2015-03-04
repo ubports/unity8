@@ -53,6 +53,8 @@ Showable {
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property int failedLoginsDelayMinutes: 5 // minutes of forced waiting
 
+    readonly property bool animating: loader.item ? loader.item.animating : false
+
     signal tease()
     signal sessionStarted()
     signal emergencyCall()

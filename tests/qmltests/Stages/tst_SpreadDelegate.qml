@@ -26,46 +26,89 @@ import Unity.Application 0.1
 Rectangle {
     color: "red"
     id: root
-    width: units.gu(70)
-    height: units.gu(70)
+    width: fakeShell.shortestDimension + controls.width
+    height: fakeShell.longestDimension
 
-    Component.onCompleted: {
-        root.fakeApplication = ApplicationManager.startApplication("gallery-app");
-    }
     property QtObject fakeApplication: null
 
-    Component {
-        id: spreadDelegateComponent
-        SpreadDelegate {
-            anchors.fill: parent
-            swipeToCloseEnabled: swipeToCloseCheckbox.checked
-            closeable: closeableCheckbox.checked
-            application: fakeApplication
+    Item {
+        id: fakeShell
+
+        readonly property real shortestDimension: units.gu(40)
+        readonly property real longestDimension: units.gu(70)
+
+        width: landscape ? longestDimension : shortestDimension
+        height: landscape ? shortestDimension : longestDimension
+
+        x: landscape ? (height - width) / 2 : 0
+        y: landscape ? (width - height) / 2 : 0
+
+        property bool landscape: orientationAngle == 90 || orientationAngle == 270
+        property int orientationAngle: shellOrientationAngleSelector.value
+
+        rotation: orientationAngle
+
+        Loader {
+            id: spreadDelegateLoader
+            width: parent.width
+            height: parent.height
+
+            active: false
+            property bool itemDestroyed: false
+            sourceComponent: SpreadDelegate {
+                anchors.fill: parent
+                swipeToCloseEnabled: swipeToCloseCheckbox.checked
+                closeable: closeableCheckbox.checked
+                application: fakeApplication
+                shellOrientationAngle: shellOrientationAngleSelector.value
+                shellOrientation: {
+                    switch (shellOrientationAngleSelector.value) {
+                    case 0:
+                        return Qt.PortraitOrientation;
+                    case 90:
+                        return Qt.InvertedLandscapeOrientation;
+                    case 180:
+                        return Qt.InvertedPortraitOrientation;
+                    default: // 270
+                        return Qt.LandscapeOrientation;
+                    }
+                }
+                shellPrimaryOrientation: Qt.PortraitOrientation
+                nativeOrientation: Qt.PortraitOrientation
+                maximizedAppTopMargin: units.gu(3)
+                Component.onDestruction: {
+                    spreadDelegateLoader.itemDestroyed = true;
+                }
+                Component.onCompleted: {
+                    spreadDelegateLoader.itemDestroyed = false;
+                }
+            }
         }
-    }
-    Loader {
-        id: spreadDelegateLoader
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            left: parent.left
-        }
-        width: units.gu(40)
-        sourceComponent: spreadDelegateComponent
     }
 
     Rectangle {
+        id: controls
         color: "white"
+        x: fakeShell.shortestDimension
+        width: units.gu(30)
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: spreadDelegateLoader.right
-            right: parent.right
         }
 
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
+            Button {
+                id: loadWithWeatherApp
+                text: "Load with ubuntu-weather-app"
+                onClicked: { testCase.restartWithApp("ubuntu-weather-app"); }
+            }
+            Button {
+                id: loadWithGalleryApp
+                text: "Load with gallery-app"
+                onClicked: { testCase.restartWithApp("gallery-app"); }
+            }
             Row {
                 anchors { left: parent.left; right: parent.right }
                 CheckBox { id: swipeToCloseCheckbox; checked: false; }
@@ -75,6 +118,21 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 CheckBox { id: closeableCheckbox; checked: false }
                 Label { text: "closeable" }
+            }
+            ListItem.ItemSelector {
+                id: shellOrientationAngleSelector
+                anchors { left: parent.left; right: parent.right }
+                text: "shellOrientationAngle"
+                model: ["0", "90", "180", "270"]
+                property int value: selectedIndex * 90
+            }
+            Button {
+                text: "matchShellOrientation()"
+                onClicked: { spreadDelegateLoader.item.matchShellOrientation(); }
+            }
+            Button {
+                text: "animateToShellOrientation()"
+                onClicked: { spreadDelegateLoader.item.animateToShellOrientation(); }
             }
         }
     }
@@ -91,18 +149,47 @@ Rectangle {
         }
 
         property var dragArea
+        property Item spreadDelegate: spreadDelegateLoader.item
 
         function init() {
-            dragArea = findInvisibleChild(spreadDelegateLoader.item, "dragArea");
-            dragArea.__dateTime = fakeDateTime;
         }
 
         function cleanup() {
-            // reload our test subject to get it in a fresh state once again
-            spreadDelegateLoader.active = false;
-            spreadDelegateLoader.active = true;
-
+            unloadSpreadDelegate();
             spyClosedSignal.clear();
+            shellOrientationAngleSelector.selectedIndex = 0;
+            ApplicationManager.stopApplication(root.fakeApplication.appId);
+            root.fakeApplication = null;
+        }
+
+        function restartWithApp(appId) {
+            if (spreadDelegateLoader.active) {
+                unloadSpreadDelegate();
+            }
+            if (root.fakeApplication) {
+                ApplicationManager.stopApplication(root.fakeApplication.appId);
+            }
+
+            root.fakeApplication = ApplicationManager.startApplication(appId);
+            spreadDelegateLoader.active = true;
+            tryCompare(spreadDelegateLoader, "status", Loader.Ready);
+
+            dragArea = findInvisibleChild(spreadDelegate, "dragArea");
+            dragArea.__dateTime = fakeDateTime;
+        }
+
+        function unloadSpreadDelegate() {
+            spreadDelegateLoader.active = false;
+            tryCompare(spreadDelegateLoader, "status", Loader.Null);
+            tryCompare(spreadDelegateLoader, "item", null);
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // item might still be alive. So if we set Loader.active back to true
+            // again right now we will get the very same Shell instance back. So no reload
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(spreadDelegateLoader, "itemDestroyed", true);
+
         }
 
         function test_swipeToClose_data() {
@@ -119,9 +206,10 @@ Rectangle {
         }
 
         function test_swipeToClose(data) {
-            var appWindowWithShadow = findChild(spreadDelegateLoader.item, "appWindowWithShadow");
+            loadWithGalleryApp.clicked();
+            var displacedAppWindowWithShadow = findChild(spreadDelegateLoader.item, "displacedAppWindowWithShadow");
 
-            verify(appWindowWithShadow.y === 0);
+            verify(displacedAppWindowWithShadow.y === 0);
 
             swipeToCloseCheckbox.checked = data.swipeToClose;
             closeableCheckbox.checked = data.closeable;
@@ -135,14 +223,14 @@ Rectangle {
                 true /* beginTouch */, false /* endTouch */, dragArea.minSpeedToClose * 1.1 /* speed */);
 
             if (data.swipeToClose) {
-                verify(appWindowWithShadow.y < 0);
+                verify(displacedAppWindowWithShadow.y < 0);
                 var threshold = findChild(spreadDelegateLoader.item, "dragArea").threshold
                 if (data.closeable) {
                     // Verify that the delegate started moving exactly "threshold" after the finger movement
                     // and did not jump up to the finger, but lags the threshold behind
-                    compare(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance), threshold);
+                    compare(Math.abs(Math.abs(displacedAppWindowWithShadow.y) - dragDistance), threshold);
                 } else {
-                    verify(Math.abs(Math.abs(appWindowWithShadow.y) - dragDistance) > threshold);
+                    verify(Math.abs(Math.abs(displacedAppWindowWithShadow.y) - dragDistance) > threshold);
                 }
 
                 touchRelease(spreadDelegateLoader.item, touchX, toY - units.gu(1));
@@ -153,14 +241,61 @@ Rectangle {
                     verify(spyClosedSignal.count === 1);
                 } else {
                     verify(spyClosedSignal.count === 0);
-                    tryCompare(appWindowWithShadow, "y", 0);
+                    tryCompare(displacedAppWindowWithShadow, "y", 0);
                 }
 
             } else {
-                verify(appWindowWithShadow.y === 0);
+                verify(displacedAppWindowWithShadow.y === 0);
 
                 touchRelease(spreadDelegateLoader.item, touchX, toY);
             }
+        }
+
+        function test_loadingLandscapeOnlyAppWhenShellInPortrait() {
+            loadWithWeatherApp.clicked();
+
+            var appWindow = findChild(spreadDelegate, "appWindow_ubuntu-weather-app");
+            verify(appWindow);
+
+            // It must have landscape dimensions as it does not support portrait
+            tryCompare(appWindow, "width", fakeShell.height);
+            tryCompare(appWindow, "height", fakeShell.width - spreadDelegate.maximizedAppTopMargin);
+        }
+
+        function test_keepsSceneTransformationWhenShellRotates_data() {
+            return [
+                {tag: "0", selectedIndex: 0},
+                {tag: "90", selectedIndex: 1},
+                {tag: "180", selectedIndex: 2},
+                {tag: "270", selectedIndex: 3}
+            ];
+        }
+        function test_keepsSceneTransformationWhenShellRotates(data) {
+            loadWithGalleryApp.clicked();
+
+            var appWindowWithShadow = findChild(spreadDelegate, "appWindowWithShadow");
+            verify(appWindowWithShadow);
+
+            // Wait until it reaches the state we are interested on.
+            // It begins with "startingUp"
+            tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
+
+            shellOrientationAngleSelector.selectedIndex = data.selectedIndex;
+
+            // must keep same aspect ratio
+            compare(appWindowWithShadow.width, fakeShell.shortestDimension);
+            compare(appWindowWithShadow.height, fakeShell.longestDimension);
+
+
+            // and scene transformation must be the identity (ie, no rotation or translation)
+            var pointInDelegateCoords = appWindowWithShadow.mapToItem(root, 0, 0);
+            compare(pointInDelegateCoords.x, 0);
+            compare(pointInDelegateCoords.y, 0);
+
+            pointInDelegateCoords = appWindowWithShadow.mapToItem(root,
+                    fakeShell.shortestDimension, fakeShell.longestDimension);
+            compare(pointInDelegateCoords.x, fakeShell.shortestDimension);
+            compare(pointInDelegateCoords.y, fakeShell.longestDimension);
         }
 
         function waitForCloseAnimationToFinish() {

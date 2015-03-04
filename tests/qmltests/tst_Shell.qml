@@ -36,8 +36,6 @@ import "../../qml"
 
 Item {
     id: root
-    width: units.gu(60)
-    height: units.gu(71)
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
@@ -46,21 +44,8 @@ Item {
         shellLoader.active = true;
     }
 
-    QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
-    }
+    width:  shellLoader.width + controlsRect.width
+    height: shellLoader.height
 
     Row {
         anchors.fill: parent
@@ -68,12 +53,18 @@ Item {
             id: shellLoader
             focus: true
 
+            property bool tablet: false
+            width: tablet ? units.gu(160) : units.gu(40)
+            height: tablet ? units.gu(100) : units.gu(71)
+
             active: false
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string indicatorProfile: "phone"
-
+                    usageScenario: "phone"
+                    orientation: Qt.PortraitOrientation
+                    primaryOrientation: Qt.PortraitOrientation
+                    nativeOrientation: Qt.PortraitOrientation
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -82,6 +73,7 @@ Item {
         }
 
         Rectangle {
+            id: controlsRect
             color: "darkgrey"
             width: units.gu(30)
             height: shellLoader.height
@@ -187,7 +179,6 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
-            shell.indicatorProfile = "phone";
 
             swipeAwayGreeter();
 
@@ -452,15 +443,6 @@ Item {
             tryCompare(item, "visible", false);
         }
 
-        // wait until any transition animation has finished
-        function waitUntilTransitionsEnd(stateGroup) {
-            var transitions = stateGroup.transitions;
-            for (var i = 0; i < transitions.length; ++i) {
-                var transition = transitions[i];
-                tryCompare(transition, "running", false, 2000);
-            }
-        }
-
         // Wait until the ApplicationWindow for the given Application object is fully loaded
         // (ie, the real surface has replaced the splash screen)
         function waitUntilAppWindowIsFullyLoaded(app) {
@@ -614,33 +596,6 @@ Item {
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
         }
 
-        function test_greeterDoesNotChangeIndicatorProfile() {
-            var panel = findChild(shell, "panel");
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-
-            showGreeter();
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-
-            LightDM.Greeter.hideGreeter();
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-        }
-
-        function test_shellProfileChangesReachIndicators() {
-            var panel = findChild(shell, "panel");
-
-            shell.indicatorProfile = "test1";
-            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
-                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
-                verify(properties["menuObjectPath"].substr(-5), "test1");
-            }
-
-            shell.indicatorProfile = "test2";
-            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
-                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
-                verify(properties["menuObjectPath"].substr(-5), "test2");
-            }
-        }
-
         function test_focusRequestedHidesGreeter() {
             var greeter = findChild(shell, "greeter");
 
@@ -745,9 +700,14 @@ Item {
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
-            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
-            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+            verify(topmostSpreadDelegate);
 
+            waitUntilFocusedApplicationIsShowingItsSurface();
+
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            verify(topmostSurface);
+
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
             topmostSurface.touchPressCount = 0;
             topmostSurface.touchReleaseCount = 0;
 
@@ -830,13 +790,11 @@ Item {
             // left edge drag area.
             {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
-                var startPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.8,
-                        buttonShowDashHome.height * 0.2);
-                var endPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.2,
-                        buttonShowDashHome.height * 0.8);
-                touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
+                touchFlick(buttonShowDashHome,
+                    buttonShowDashHome.width * 0.2,  /* startPos.x */
+                    buttonShowDashHome.height * 0.8, /* startPos.y */
+                    buttonShowDashHome.width * 0.8,  /* endPos.x */
+                    buttonShowDashHome.height * 0.2  /* endPos.y */);
             }
 
             compare(launcherShowDashHomeSpy.count, 1);

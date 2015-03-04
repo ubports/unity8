@@ -101,20 +101,40 @@ Item {
         }
     }
 
+    SignalSpy {
+        id: showAnimationRunningSpy
+        target: show1.showAnimation
+        signalName: "runningChanged"
+    }
+    SignalSpy {
+        id: hideAnimationRunningSpy
+        target: show1.hideAnimation
+        signalName: "runningChanged"
+    }
+
     UT.UnityTestCase {
         name: "Showable"
         when: windowShown
 
-        function init_test() {
+        function cleanup() {
             show1.hide();
             show2.hide();
             show3.hide();
+
+            // wait until they've all finished hiding themselves
+            tryCompare(show1.hideAnimation, "running", false);
+            tryCompare(show2.hideAnimation, "running", false);
+            tryCompare(show3.hideAnimation, "running", false);
+
+            hideAnimationRunningSpy.clear();
+            verify(hideAnimationRunningSpy.valid);
+
+            showAnimationRunningSpy.clear();
+            verify(showAnimationRunningSpy.valid);
         }
 
         // Test that the showable is shown when the abailable flag is set
         function test_available_show() {
-            init_test();
-
             show1.available = true;
             show1.show();
             compare(show1.shown, true, "Showable should show if available");
@@ -122,8 +142,6 @@ Item {
 
         // Test that the showable is not shown when the abailable flag is not set
         function test_unavailable_show() {
-            init_test();
-
             show1.available = false;
             show1.show();
             compare(show1.shown, false, "Showable should not show if shown when not available");
@@ -131,8 +149,6 @@ Item {
 
         // Test that showing the showable hides the showables in it's [hides] poperty
         function test_show_hides_others() {
-            init_test();
-
             show1.show();
             compare(show1.shown, true, "Showable should show if available");
             compare(show2.shown, false, "show2 should be hidden when show1 is shown");
@@ -146,8 +162,6 @@ Item {
 
         // Test the lazy show mechnism while waiting for the created flag.
         function test_show_when_not_created() {
-            init_test();
-
             show1.created = false;
 
             show1.show();
@@ -158,8 +172,6 @@ Item {
 
         // Test that showNow immediately shows showable
         function test_showNow() {
-            init_test();
-
             show1.opacity = 0.2;
 
             show1.showNow();
@@ -170,8 +182,6 @@ Item {
 
         // Test the lazy showNow mechanism while waiting for the created flag.
         function test_showNow_when_not_created() {
-            init_test();
-
             show1.opacity = 0.2;
             show1.created = false;
 

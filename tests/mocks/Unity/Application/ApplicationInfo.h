@@ -80,6 +80,12 @@ public:
     void setFullscreen(bool value);
     bool fullscreen() const { return m_fullscreen; }
 
+    Qt::ScreenOrientations supportedOrientations() const override;
+    void setSupportedOrientations(Qt::ScreenOrientations orientations);
+
+    bool rotatesWindowContents() const override;
+    void setRotatesWindowContents(bool value);
+
     bool manualSurfaceCreation() const { return m_manualSurfaceCreation; }
     void setManualSurfaceCreation(bool value);
 
@@ -108,6 +114,8 @@ private:
     bool m_focused;
     bool m_fullscreen;
     Session* m_session;
+    Qt::ScreenOrientations m_supportedOrientations;
+    bool m_rotatesWindowContents;
 
     bool m_manualSurfaceCreation;
 };
