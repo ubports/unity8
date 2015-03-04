@@ -64,11 +64,10 @@ PreviewWidget {
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
-
                 onClicked: {
+                    overlay.delegateItem.currentIndex = index;
                     overlay.initialX = rootItem.mapFromItem(parent, 0, 0).x;
                     overlay.initialY = rootItem.mapFromItem(parent, 0, 0).y;
-                    overlay.delegateItem.currentIndex = index;
                     overlay.show();
                 }
             }
