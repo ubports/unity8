@@ -47,6 +47,7 @@ Item {
             if (appDelegate.state === "minimized") {
                 appDelegate.state = "normal"
             }
+            appDelegate.focusWindow();
             ApplicationManager.focusApplication(appId);
         }
     }
@@ -96,6 +97,10 @@ Item {
             readonly property int minWidth: units.gu(10)
             readonly property int minHeight: units.gu(10)
 
+            function focusWindow() {
+                decoratedWindow.window.forceActiveFocus();
+            }
+
             states: [
                 State {
                     name: "normal"
@@ -126,6 +131,7 @@ Item {
             }
 
             DecoratedWindow {
+                id: decoratedWindow
                 anchors.fill: parent
                 application: ApplicationManager.get(index)
                 active: ApplicationManager.focusedApplicationId === model.appId

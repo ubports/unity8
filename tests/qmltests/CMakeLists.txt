@@ -22,6 +22,7 @@ set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/
 add_qml_test(. Shell)
 add_qml_test(. ShellWithPin)
 add_qml_test(. TabletShell)
+add_qml_test(. DesktopShell)
 add_qml_test(Components Background)
 add_qml_test(Components Carousel)
 add_qml_test(Components Dialogs)
