@@ -16,7 +16,6 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
-import QtGraphicalEffects 1.0
 
 Item {
     id: swipeToAct
@@ -34,18 +33,17 @@ Item {
     readonly property double halfWay: mouseArea.drag.maximumX / 2
 
     UbuntuShape {
+        id: row
         width: parent.width
         height: sliderHeight
         color: "#f4f4f4"
 
-        Row {
-            id: row
-            anchors.fill: parent
-            spacing: gap
-            anchors.margins: gap
-
             UbuntuShape {
                 id: leftShape
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: gap
+
                 states: [
                     State {
                         name: "normal"
@@ -93,16 +91,46 @@ Item {
                 }
             }
 
-            Rectangle {
-                id: leftSpacer
-                width: (row.width - (leftShape.width + slider.width + rightShape.width + 4 * row.spacing)) / 2
-                height: units.gu(4)
-                opacity: 0
+            Row {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: slider.left
+                anchors.rightMargin: units.gu(1.5)
+                spacing: -units.gu(1)
+                Icon {
+                    name: "back"
+                    height: units.gu(2.5)
+                    color: "#b2b2b2"
+                    UbuntuNumberAnimation on opacity {
+                        from: .5
+                        to: 1
+                        loops: Animation.Infinite
+                        duration: UbuntuAnimation.SleepyDuration
+                        easing.type: Easing.Linear
+                    }
+                }
+                Icon {
+                    name: "back"
+                    height: units.gu(2.5)
+                    color: "#b2b2b2"
+                    UbuntuNumberAnimation on opacity {
+                        from: 1
+                        to: .5
+                        loops: Animation.Infinite
+                        duration: UbuntuAnimation.SleepyDuration
+                        easing.type: Easing.Linear
+                    }
+                }
             }
 
             UbuntuShape {
                 id: slider
                 objectName: "slider"
+                anchors.top: parent.top
+                anchors.margins: gap
+
+                Component.onCompleted: {
+                    x = halfWay
+                }
 
                 Behavior on x {
                     UbuntuNumberAnimation {
@@ -141,16 +169,43 @@ Item {
                     color: "white"
                 }
             }
-
-            Rectangle {
-                id: rightSpacer
-                width: leftSpacer.width
-                height: units.gu(4)
-                opacity: 0
+            Row {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: slider.right
+                anchors.leftMargin: units.gu(1.5)
+                spacing: -units.gu(1)
+                Icon {
+                    name: "next"
+                    height: units.gu(2.5)
+                    color: "#b2b2b2"
+                    UbuntuNumberAnimation on opacity {
+                        from: 1
+                        to: .5
+                        loops: Animation.Infinite
+                        duration: UbuntuAnimation.SleepyDuration
+                        easing.type: Easing.Linear
+                    }
+                }
+                Icon {
+                    name: "next"
+                    height: units.gu(2.5)
+                    color: "#b2b2b2"
+                    UbuntuNumberAnimation on opacity {
+                        from: .5
+                        to: 1
+                        loops: Animation.Infinite
+                        duration: UbuntuAnimation.SleepyDuration
+                        easing.type: Easing.Linear
+                    }
+                }
             }
 
             UbuntuShape {
                 id: rightShape
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.margins: gap
+
                 states: [
                     State {
                         name: "normal"
@@ -226,6 +281,5 @@ Item {
                     rightShape.state = "selected"
                 }
             }
-        }
     }
 }
