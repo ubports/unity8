@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-13 11:45+0100\n"
+"POT-Creation-Date: 2015-02-25 08:57-0500\n"
 "PO-Revision-Date: 2015-02-17 06:57+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-02-19 05:39+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-04 05:57+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -31,68 +31,83 @@ msgstr "Anclar"
 msgid "Unpin shortcut"
 msgstr "Desanclar"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Dispositivo bloqueado"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Se ha proporcionado una contraseña errónea demasiadas veces. Se ha bloqueado "
 "el dispositivo."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Se ha bloqueado el dispositivo debido al gran número de intentos fallidos de "
 "desbloqueo."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Espere %1 minuto e inténtelo de nuevo..."
 msgstr[1] "Espere %1 minutos e inténtelo de nuevo..."
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:87
 msgid "Log out"
 msgstr "Cerrar la sesión"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:88
 msgid "Are you sure you want to log out?"
 msgstr "̉¿Está seguro de que quiere cerrar la sesión?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "No"
+#: qml/Components/Dialogs.qml:90
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "Sí"
+#: qml/Components/Dialogs.qml:97
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
+#: qml/Components/Dialogs.qml:191
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: qml/Components/Dialogs.qml:116
 msgid "Shut down"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:117
 msgid "Are you sure you want to shut down?"
 msgstr "¿Está seguro de que quiere apagar?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
 msgid "Reboot"
 msgstr "Reiniciar"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:127
+msgid "Shutdown"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:148
 msgid "Are you sure you want to reboot?"
 msgstr "¿Esta seguro de que quiere reiniciar?"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:150
+msgid "No"
+msgstr "No"
+
+#: qml/Components/Dialogs.qml:156
+msgid "Yes"
+msgstr "Sí"
+
+#: qml/Components/Dialogs.qml:170
 msgid "Power"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:171
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -100,17 +115,13 @@ msgstr ""
 "¿Está seguro de que quiere\n"
 "apagar?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:173
 msgid "Power off"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:182
 msgid "Restart"
 msgstr "Reiniciar"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "Cancelar"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -197,9 +208,75 @@ msgstr "Inicio"
 msgid "Also installed"
 msgstr "También instalados"
 
-#: qml/Greeter/Greeter.qml:141
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Desbloquear"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "La contraseña es incorrecta."
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Código de acceso incorrecto."
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Este será su último intento."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Si se introduce la frase incorrectamente, el teléfono volverá a la "
+"configuración de fábrica y se perderán todos los datos personales."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Si se introduce el código incorrectamente, el teléfono volverá a la "
+"configuración de fábrica y se perderán todos los datos personales."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Introduzca %1"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Introduzca la contraseña"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Introduzca el código"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Incorrecto (%1)"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "La contraseña es incorrecta"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Reintroduzca"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "El código es incorrecto"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -252,64 +329,6 @@ msgstr "Desbloquear SIM"
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
 msgstr "Itinerancia"
-
-#: qml/Shell.qml:402
-#, qt-format
-msgid "Enter %1"
-msgstr "Introduzca %1"
-
-#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Introduzca la contraseña"
-
-#: qml/Shell.qml:404
-msgid "Enter passcode"
-msgstr "Introduzca el código"
-
-#: qml/Shell.qml:405
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Incorrecto (%1)"
-
-#: qml/Shell.qml:406
-msgid "Sorry, incorrect passphrase"
-msgstr "La contraseña es incorrecta"
-
-#: qml/Shell.qml:407
-msgid "Please re-enter"
-msgstr "Reintroduzca"
-
-#: qml/Shell.qml:408
-msgid "Sorry, incorrect passcode"
-msgstr "El código es incorrecto"
-
-#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "La contraseña es incorrecta."
-
-#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Código de acceso incorrecto."
-
-#: qml/Shell.qml:504
-msgid "This will be your last attempt."
-msgstr "Este será su último intento."
-
-#: qml/Shell.qml:506
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Si se introduce la frase incorrectamente, el teléfono volverá a la "
-"configuración de fábrica y se perderán todos los datos personales."
-
-#: qml/Shell.qml:507
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Si se introduce el código incorrectamente, el teléfono volverá a la "
-"configuración de fábrica y se perderán todos los datos personales."
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
@@ -390,11 +409,11 @@ msgstr "Continuar"
 msgid "Add a SIM card and restart your device"
 msgstr "Inserte una tarjeta SIM y reinicie el dispositivo"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "Sin ella, no podrá hacer llamadas ni enviar mensajes."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Omitir"
 

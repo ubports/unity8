@@ -42,7 +42,7 @@ TutorialPage {
         UbuntuNumberAnimation {
             target: stage
             property: "x"
-            to: -stage.dragAreaOverlap
+            to: -units.gu(2)
             duration: UbuntuAnimation.SleepyDuration
         }
         UbuntuNumberAnimation {
@@ -82,7 +82,7 @@ TutorialPage {
                 focusFirstApp: false
                 startScale: 0.8
                 endScale: 0.6
-                dragAreaOverlap: units.gu(2)
+                dragAreaOverlap: -x
 
                 onOpened: {
                     overlay.show();
