@@ -1,3 +1,93 @@
+unity8 (8.02+15.04.20150302-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals ]
+  * Don't precache items that are outisde the 1.5*height buffering area
+    (LP: #1410131)
+
+  [ Albert Astals Cid ]
+  * Don't precache items that are outisde the 1.5*height buffering area
+    (LP: #1410131)
+
+  [ Chris Townsend ]
+  * Add a wrapper for handling the
+    /org/gnome/SessionManager/EndSessionDialog DBus object used by
+    indicator-session. This allows indicator-session to properly talk to
+    the Unity 8 session management functions. (LP: #1392187)
+  * Allow for proper logout session management. This uses the
+    EndSession() Upstart DBus method on the current session bus. (LP:
+    #1360316)
+  * Make the Unity 8 session dialogs behave in the same fashion as Unity
+    7. From indicator-session: Clicking "Log Out" will now present a
+    dialog to "Lock", "Log Out", or "Cancel". Clicking "Shut Down" will
+    now present a dialog to "Reboot", "Shut Down", or "Cancel". (LP:
+    #1416074)
+
+  [ Daniel d'Andrada ]
+  * Add NO_TESTS cmake option to skip tests and therefore speed up
+    builds
+  * Remove enums and properties that doesn't exist in the real
+    ApplicationManager
+  * Stabilize some Shell qml tests
+
+  [ Josh Arenson ]
+  * Create a PhysicalKeyMapper to handle all physical/hardware keys (LP:
+    #1390393)
+
+  [ Michael Terry ]
+  * Make the draggable part of the right edge (during the tutorial) a
+    constant size, instead of having it grow and shrink as the spread
+    peeks out from the side.
+
+  [ Michał Sawicz ]
+  * Create a PhysicalKeyMapper to handle all physical/hardware keys (LP:
+    #1390393)
+
+  [ Robert Bruce Park ]
+  * Launchpad automatic translations update.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 02 Mar 2015 12:11:21 +0000
+
+unity8 (8.02+15.04.20150226-0ubuntu1) vivid; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Pete Woods ]
+  * Only set scopes active when the screen is on (LP: #1422879)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 26 Feb 2015 19:39:54 +0000
+
+unity8 (8.02+15.04.20150224-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Dash manage hint should not be visible in previews+test (LP:
+    #1422260)
+  * Do not declare the hostname property twice
+  * Fix some warnings in Mock Notifications
+  * Make qmluittests pass with Qt 5.4
+  * Preserve the aspect ratio for the card attribute images (LP:
+    #1411751)
+  * Update qmltypes
+
+  [ Andrea Cimitan ]
+  * Add maximumLineCount for subtitle label in cards (LP: #1414870)
+
+  [ Michael Terry ]
+  * Move the gschema file to data/ and install it via cmake, not dpkg.
+  * Refactor the greeter code to be more compartmented and isolatable.
+  * Silence a couple qml warnings. (LP: #1423286)
+  * Wait for libqofono to finish initializing before we decide whether
+    to skip the wizard's SIM page or not.
+
+  [ Michael Zanetti ]
+  * enable revealing the launcher by hitting the left edge using the
+    mouse
+
+  [ Ying-Chun Liu ]
+  * Add Autopilot Notification helper.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 24 Feb 2015 10:17:16 +0000
+
 unity8 (8.02+15.04.20150216.1-0ubuntu1) vivid; urgency=medium
 
   [ Andrea Cimitan ]

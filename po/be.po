@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-13 11:45+0100\n"
+"POT-Creation-Date: 2015-02-25 08:57-0500\n"
 "PO-Revision-Date: 2015-02-07 19:04+0000\n"
 "Last-Translator: Mikhail_SaTuRn <mikhail_saturn@tut.by>\n"
 "Language-Team: Belarusian <be@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-04 05:56+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -32,22 +32,22 @@ msgstr "Заблакаваць кнопку"
 msgid "Unpin shortcut"
 msgstr "Разблакаваць кнопку"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Прылада заблакаваная"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў уводу "
 "код доступу."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -55,45 +55,60 @@ msgstr[0] "Пачакайце %1 хвіліну і паўтарыце спроб
 msgstr[1] "Пачакайце %1 хвіліны і паўтарыце спробу…"
 msgstr[2] "Пачакайце %1 хвілінаў і паўтарыце спробу…"
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:87
 msgid "Log out"
 msgstr "Выйсці"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:88
 msgid "Are you sure you want to log out?"
 msgstr "Вы насамрэч хочаце выйсці?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "Не"
+#: qml/Components/Dialogs.qml:90
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "Так"
+#: qml/Components/Dialogs.qml:97
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
+#: qml/Components/Dialogs.qml:191
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: qml/Components/Dialogs.qml:116
 msgid "Shut down"
 msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:117
 msgid "Are you sure you want to shut down?"
 msgstr "Вы ўпэўненыя, што жадаеце выключыць прыладу?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
 msgid "Reboot"
 msgstr "Перазагрузіць"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:127
+msgid "Shutdown"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:148
 msgid "Are you sure you want to reboot?"
 msgstr "Вы ўпэўнены, што жадаеце перазагрузіць?"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:150
+msgid "No"
+msgstr "Не"
+
+#: qml/Components/Dialogs.qml:156
+msgid "Yes"
+msgstr "Так"
+
+#: qml/Components/Dialogs.qml:170
 msgid "Power"
 msgstr "Сілкаванне"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:171
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -101,17 +116,13 @@ msgstr ""
 "Вы сапраўды хочаце выключыць\n"
 "сілкаванне?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:173
 msgid "Power off"
 msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:182
 msgid "Restart"
 msgstr "Перазапуск"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "Скасаваць"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -198,9 +209,75 @@ msgstr "Дом"
 msgid "Also installed"
 msgstr "Таксама ўсталявана"
 
-#: qml/Greeter/Greeter.qml:141
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Разблакаваць"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "Даруце, няслушны пароль"
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Даруйце, няслушны код"
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Апошняя спроба."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Калі пароль паказаны няправільна, тэлефон вернецца ў зыходны стан, усе "
+"асабістыя дадзеныя будуць выдаленыя."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Калі пароль уведзены няправільна, то ваш тэлефон будзе праводзіць скід да "
+"завадскіх налад і ўсе асабістыя дадзеныя будуць выдаленыя."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Увядзіце %1"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Увядзіце парольную фразу"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Увядзіце код"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Даруйце, некарэктны %1"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "Даруйце, няслушны пароль"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Калі ласка паўтарыце ўвод"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "Даруйце, няслушны код"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -253,64 +330,6 @@ msgstr "Разблакаваць SIM"
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
 msgstr "Роўмінг"
-
-#: qml/Shell.qml:402
-#, qt-format
-msgid "Enter %1"
-msgstr "Увядзіце %1"
-
-#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Увядзіце парольную фразу"
-
-#: qml/Shell.qml:404
-msgid "Enter passcode"
-msgstr "Увядзіце код"
-
-#: qml/Shell.qml:405
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Даруйце, некарэктны %1"
-
-#: qml/Shell.qml:406
-msgid "Sorry, incorrect passphrase"
-msgstr "Даруйце, няслушны пароль"
-
-#: qml/Shell.qml:407
-msgid "Please re-enter"
-msgstr "Калі ласка паўтарыце ўвод"
-
-#: qml/Shell.qml:408
-msgid "Sorry, incorrect passcode"
-msgstr "Даруйце, няслушны код"
-
-#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Даруце, няслушны пароль"
-
-#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Даруйце, няслушны код"
-
-#: qml/Shell.qml:504
-msgid "This will be your last attempt."
-msgstr "Апошняя спроба."
-
-#: qml/Shell.qml:506
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Калі пароль паказаны няправільна, тэлефон вернецца ў зыходны стан, усе "
-"асабістыя дадзеныя будуць выдаленыя."
-
-#: qml/Shell.qml:507
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Калі пароль уведзены няправільна, то ваш тэлефон будзе праводзіць скід да "
-"завадскіх налад і ўсе асабістыя дадзеныя будуць выдаленыя."
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
@@ -391,11 +410,11 @@ msgstr "Працягнуць"
 msgid "Add a SIM card and restart your device"
 msgstr "Дадайце SIM-карту і перазагрузіце Вашую прыладу"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "Без яе вы не зможаце тэлефанаваць ці адпраўляць паведамленні."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Прапусціць"
 

@@ -20,10 +20,12 @@ import "../Components"
 
 Item {
     id: root
-    anchors.fill: parent
 
     property int delayMinutes
     property bool alphaNumeric
+
+    signal entered(string passphrase) // unused
+    signal cancel() // unused
 
     function clear(playAnimation) {}
 
