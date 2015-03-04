@@ -38,6 +38,8 @@ PreviewWidget {
         model: root.widgetData["sources"]
         clip: true
 
+        onCurrentIndexChanged: overlay.updateInitialItem()
+
         LazyImage {
             objectName: "placeholderScreenshot"
             anchors {
@@ -65,9 +67,8 @@ PreviewWidget {
                 id: mouseArea
                 anchors.fill: parent
                 onClicked: {
-                    overlay.delegateItem.currentIndex = index;
-                    overlay.initialX = rootItem.mapFromItem(parent, 0, 0).x;
-                    overlay.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                    previewImageListView.currentIndex = index;
+                    overlay.updateInitialItem();
                     overlay.show();
                 }
             }
@@ -80,6 +81,13 @@ PreviewWidget {
         parent: rootItem
         anchors.fill: parent
 
+        function updateInitialItem() {
+            initialX = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).x;
+            initialY = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).y;
+            initialWidth = previewImageListView.currentItem.width;
+            initialHeight = previewImageListView.currentItem.height;
+        }
+
         delegate: ListView {
             id: overlayListView
             objectName: "overlayListView"
@@ -90,13 +98,12 @@ PreviewWidget {
             snapMode: ListView.SnapOneItem
             boundsBehavior: Flickable.DragAndOvershootBounds
             model: root.widgetData["sources"]
+            currentIndex: previewImageListView.currentIndex
 
             onCurrentIndexChanged: {
-                previewImageListView.currentIndex = currentIndex;
-                overlay.initialX = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).x;
-                overlay.initialY = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).y;
-                overlay.initialWidth = previewImageListView.currentItem.width;
-                overlay.initialHeight = previewImageListView.currentItem.height;
+                // if the index changed while overlay is visible, it was from user interaction,
+                // let's update the index of the original listview
+                if (overlay.visible) previewImageListView.currentIndex = currentIndex;
             }
 
             delegate: Image {
