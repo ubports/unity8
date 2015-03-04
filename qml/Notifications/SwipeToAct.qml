@@ -29,81 +29,14 @@ Item {
 
     property string leftIconName
     property string rightIconName
-    readonly property double sliderHeight: units.gu(6)
+    readonly property double sliderHeight: units.gu(8)
     readonly property double gap: units.gu(1)
     readonly property double halfWay: mouseArea.drag.maximumX / 2
 
-    Rectangle {
-        id: gradient
-        width: parent.width * 5
-        height: sliderHeight
-        visible: false
-        LinearGradient {
-            anchors.fill: parent
-            start: Qt.point(parent.x, parent.y)
-            end: Qt.point(parent.width, parent.y)
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: UbuntuColors.red }
-                GradientStop { position: 0.2; color: UbuntuColors.red }
-                GradientStop { position: 0.4; color: "#dddddd" }
-                GradientStop { position: 0.6; color: "#dddddd" }
-                GradientStop { position: 0.8; color: UbuntuColors.green }
-                GradientStop { position: 1.0; color: UbuntuColors.green }
-            }
-        }
-    }
-
-    ShaderEffectSource {
-        id: effectSourceGradient
-        sourceItem: gradient
-        width: gradient.width
-        height: gradient.height
-        sourceRect: Qt.rect(0.4 * gradient.width * (slider.x / halfWay), 0, mask.width, mask.height)
-        visible: false
-        hideSource: true
-    }
-
     UbuntuShape {
-        id: mask
-        color: "black"
         width: parent.width
         height: sliderHeight
-        borderSource: "none"
-        visible: false
-    }
-
-    ShaderEffectSource {
-        id: effectSourceMask
-        sourceItem: mask
-        width: mask.width
-        height: mask.height
-        visible: false
-        hideSource: true
-    }
-
-    ShaderEffect {
-        width: parent.width
-        height: sliderHeight
-        property variant mask: effectSourceMask
-        property variant gradient: effectSourceGradient
-        vertexShader: "
-            uniform highp mat4 qt_Matrix;
-            attribute highp vec4 qt_Vertex;
-            attribute highp vec2 qt_MultiTexCoord0;
-            varying highp vec2 coord;
-            void main() {
-                coord = qt_MultiTexCoord0;
-                gl_Position = qt_Matrix * qt_Vertex;
-            }"
-        fragmentShader: "
-            varying highp vec2 coord;
-            uniform sampler2D mask;
-            uniform sampler2D gradient;
-            void main() {
-                lowp vec4 texMask = texture2D(mask, coord);
-                lowp vec4 texGradient = texture2D(gradient, coord);
-                gl_FragColor = texGradient.rgba * texMask.a ;
-            }"
+        color: "#f4f4f4"
 
         Row {
             id: row
@@ -118,11 +51,11 @@ Item {
                         name: "normal"
                         PropertyChanges {
                             target: leftShape
-                            color: UbuntuColors.red
+                            color: "#df382c" //UbuntuColors.red
                         }
                         PropertyChanges {
                             target: innerLeftShape
-                            color: UbuntuColors.red
+                            color: "#df382c" //UbuntuColors.red
                             visible: false
                         }
                     },
@@ -134,15 +67,15 @@ Item {
                         }
                         PropertyChanges {
                             target: innerLeftShape
-                            color: UbuntuColors.red
+                            color: "#df382c" //UbuntuColors.red
                             visible: true
                         }
                     }
                 ]
                 state: "normal"
-                height: units.gu(4)
-                width: units.gu(7)
-                borderSource: "none"
+                height: units.gu(6)
+                width: units.gu(6)
+                radius: "medium"
                 opacity: slider.x <= halfWay ? 1.0 : 1.0 - ((slider.x - halfWay) / halfWay)
                 UbuntuShape {
                     id: innerLeftShape
@@ -153,8 +86,8 @@ Item {
                 }
                 Icon {
                     anchors.centerIn: parent
-                    width: units.gu(2)
-                    height: units.gu(2)
+                    width: units.gu(3.5)
+                    height: units.gu(3.5)
                     name: leftIconName
                     color: "white"
                 }
@@ -196,27 +129,16 @@ Item {
                 }
 
                 z: 1
-                color: "white"
-                height: units.gu(4)
-                width: units.gu(7)
+                color: "#b2b2b2"
+                height: units.gu(6)
+                width: units.gu(6)
                 borderSource: "none"
-                Row {
+                radius: "medium"
+                Icon {
                     anchors.fill: parent
-                    spacing: 2 * gap
-                    anchors.leftMargin: units.gu(.5)
-                    anchors.rightMargin: units.gu(.5)
-                    Icon {
-                        anchors.verticalCenter: parent.verticalCenter
-                        name: "back"
-                        width: units.gu(2)
-                        height: units.gu(2)
-                    }
-                    Icon {
-                        anchors.verticalCenter: parent.verticalCenter
-                        name: "next"
-                        width: units.gu(2)
-                        height: units.gu(2)
-                    }
+                    anchors.margins: units.gu(1.5)
+                    source: "grip-large.svg"
+                    color: "white"
                 }
             }
 
@@ -234,11 +156,11 @@ Item {
                         name: "normal"
                         PropertyChanges {
                             target: rightShape
-                            color: UbuntuColors.green
+                            color: "#38b44a" // UbuntuColors.green
                         }
                         PropertyChanges {
                             target: innerRightShape
-                            color: UbuntuColors.green
+                            color: "#38b44a" // UbuntuColors.green
                             visible: false
                         }
                     },
@@ -250,15 +172,15 @@ Item {
                         }
                         PropertyChanges {
                             target: innerRightShape
-                            color: UbuntuColors.green
+                            color: "#38b44a" // UbuntuColors.green
                             visible: true
                         }
                     }
                 ]
                 state: "normal"
-                height: units.gu(4)
-                width: units.gu(7)
-                borderSource: "none"
+                height: units.gu(6)
+                width: units.gu(6)
+                radius: "medium"
                 opacity: slider.x >= halfWay ? 1.0 : slider.x / halfWay
                 UbuntuShape {
                     id: innerRightShape
@@ -269,8 +191,8 @@ Item {
                 }
                 Icon {
                     anchors.centerIn: parent
-                    width: units.gu(2)
-                    height: units.gu(2)
+                    width: units.gu(3.5)
+                    height: units.gu(3.5)
                     name: rightIconName
                     color: "white"
                 }
