@@ -87,8 +87,8 @@ void AccountsServiceDBusAdaptor::maybeChangedSlot()
 {
     if (!m_ignoreNextChanged) {
         Q_EMIT maybeChanged(getUserForPath(message().path()));
-        m_ignoreNextChanged = false;
     }
+    m_ignoreNextChanged = false;
 }
 
 QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path)
