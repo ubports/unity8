@@ -78,8 +78,6 @@ Item {
         }
     }
 
-    property string usageMode: usageModeSettings.usageMode
-
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
@@ -108,7 +106,6 @@ Item {
 
     GSettings {
         id: backgroundSettings
-        objectName: "backgroundSettings"
         schema.id: "org.gnome.desktop.background"
     }
 
@@ -231,7 +228,7 @@ Item {
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: shell.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
+            source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
                         : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
 
             property bool interactive: tutorial.spreadEnabled
@@ -485,7 +482,7 @@ Item {
             available: tutorial.launcherEnabled
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
-            inverted: shell.usageMode === "Staged"
+            inverted: usageModeSettings.usageMode === "Staged"
             shadeBackground: !tutorial.running
 
             onShowDashHome: showHome()

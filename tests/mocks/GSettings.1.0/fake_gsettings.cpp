@@ -17,6 +17,7 @@
 #include "fake_gsettings.h"
 
 #include <QList>
+#include <QDebug>
 
 GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 
@@ -42,10 +43,40 @@ void GSettingsControllerQml::unRegisterSettingsObject(GSettingsQml *obj) {
     m_registeredGSettings.removeOne(obj);
 }
 
-void GSettingsControllerQml::setPictureUri(const QString &str) {
-    Q_FOREACH (GSettingsQml *obj, m_registeredGSettings) {
-        obj->setPictureUri(str);
+void GSettingsControllerQml::setPictureUri(const QByteArray &schemaId, const QString &str)
+{
+    if (m_pictureUri[schemaId] != str) {
+        m_pictureUri[schemaId] = str;
+
+        Q_FOREACH (GSettingsQml *obj, m_registeredGSettings) {
+            if (obj->schema()->id() == schemaId) {
+                Q_EMIT obj->pictureUriChanged(str);
+            }
+        }
     }
+}
+
+QString GSettingsControllerQml::pictureUri(const QByteArray &schemaId) const
+{
+    return m_pictureUri.value(schemaId, "");
+}
+
+void GSettingsControllerQml::setUsageMode(const QByteArray &schemaId, const QString &str)
+{
+    if (m_usageMode[schemaId] != str) {
+        m_usageMode[schemaId] = str;
+
+        Q_FOREACH (GSettingsQml *obj, m_registeredGSettings) {
+            if (obj->schema()->id() == schemaId) {
+                Q_EMIT obj->usageModeChanged(str);
+            }
+        }
+    }
+}
+
+QString GSettingsControllerQml::usageMode(const QByteArray &schemaId) const
+{
+    return m_usageMode.value(schemaId, "phone");
 }
 
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
@@ -56,12 +87,13 @@ QByteArray GSettingsSchemaQml::id() const {
 }
 
 void GSettingsSchemaQml::setId(const QByteArray &id) {
-    if (m_id.isEmpty()) {
+    if (!m_id.isEmpty()) {
         qWarning("GSettings.schema.id may only be set on construction");
         return;
     }
 
     m_id = id;
+    Q_EMIT idChanged(id);
 }
 
 QByteArray GSettingsSchemaQml::path() const {
@@ -69,7 +101,7 @@ QByteArray GSettingsSchemaQml::path() const {
 }
 
 void GSettingsSchemaQml::setPath(const QByteArray &path) {
-    if (m_path.isEmpty()) {
+    if (!m_path.isEmpty()) {
         qWarning("GSettings.schema.path may only be set on construction");
         return;
     }
@@ -90,13 +122,20 @@ GSettingsSchemaQml * GSettingsQml::schema() const {
     return m_schema;
 }
 
-QString GSettingsQml::pictureUri() const {
-    return m_pictureUri;
+void GSettingsQml::setPictureUri(const QString &str) {
+    GSettingsControllerQml::instance()->setPictureUri(m_schema->id(), str);
 }
 
-void GSettingsQml::setPictureUri(const QString &str) {
-    if (str != m_pictureUri) {
-        m_pictureUri = str;
-        Q_EMIT pictureUriChanged(m_pictureUri);
-    }
+QString GSettingsQml::pictureUri() const {
+    return  GSettingsControllerQml::instance()->pictureUri(m_schema->id());
 }
+
+void GSettingsQml::setUsageMode(const QString &str) {
+    GSettingsControllerQml::instance()->setUsageMode(m_schema->id(), str);
+}
+
+QString GSettingsQml::usageMode() const {
+    return  GSettingsControllerQml::instance()->usageMode(m_schema->id());
+
+}
+

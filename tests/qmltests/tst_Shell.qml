@@ -867,8 +867,7 @@ Item {
         }
         function test_background(data) {
             AccountsService.backgroundFile = data.accounts;
-            var backgroundSettings = findInvisibleChild(shell, "backgroundSettings");
-            backgroundSettings.pictureUri = data.gsettings;
+            GSettingsController.setPictureUri("org.gnome.desktop.background", data.gsettings);
             tryCompare(shell, "background", data.output);
         }
     }

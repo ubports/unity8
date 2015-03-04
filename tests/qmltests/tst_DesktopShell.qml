@@ -41,6 +41,7 @@ Item {
     }
 
     Component.onCompleted: {
+        GSettingsController.setUsageMode("com.canonical.Unity8", "Windowed")
         // must set the mock mode before loading the Shell
         LightDM.Greeter.mockMode = "full";
         LightDM.Users.mockMode = "full";
@@ -83,7 +84,6 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    usageMode: "Windowed"
                     property string indicatorProfile: "desktop"
 
                     Component.onDestruction: {
