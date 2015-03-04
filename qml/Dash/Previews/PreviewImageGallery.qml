@@ -64,10 +64,11 @@ PreviewWidget {
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
+
                 onClicked: {
-                    overlay.delegateItem.currentIndex = index;
                     overlay.initialX = rootItem.mapFromItem(parent, 0, 0).x;
                     overlay.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                    overlay.delegateItem.currentIndex = index;
                     overlay.show();
                 }
             }
@@ -78,9 +79,7 @@ PreviewWidget {
         id: overlay
         objectName: "overlay"
         parent: rootItem
-        width: parent.width
-        height: parent.height
-        initialScale: previewImageListView.height / rootItem.height
+        anchors.fill: parent
 
         delegate: ListView {
             id: overlayListView
@@ -92,6 +91,14 @@ PreviewWidget {
             snapMode: ListView.SnapOneItem
             boundsBehavior: Flickable.DragAndOvershootBounds
             model: root.widgetData["sources"]
+
+            onCurrentIndexChanged: {
+                previewImageListView.currentIndex = currentIndex;
+                overlay.initialX = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).x;
+                overlay.initialY = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).y;
+                overlay.initialWidth = previewImageListView.currentItem.width;
+                overlay.initialHeight = previewImageListView.currentItem.height;
+            }
 
             delegate: Image {
                 id: screenshot

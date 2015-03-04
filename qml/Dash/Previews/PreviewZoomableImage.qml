@@ -59,9 +59,9 @@ PreviewWidget {
         id: overlay
         objectName: "overlay"
         parent: rootItem
-        width: parent.width
-        height: parent.height
-        initialScale: lazyImage.height / rootItem.height
+        anchors.fill: parent
+        initialWidth: lazyImage.width
+        initialHeight: lazyImage.height
 
         delegate: ZoomableImage {
             anchors.fill: parent
