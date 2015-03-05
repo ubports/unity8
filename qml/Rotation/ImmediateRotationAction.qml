@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,25 +16,30 @@
 
 import QtQuick 2.3
 
-ScriptAction { script: {
-    d.transitioning = true;
-    shell.orientationAngle = d.requestedOrientationAngle;
-    shell.transformRotationAngle = d.requestedOrientationAngle;
+ScriptAction {
+    property var info
+    property var shell
 
-    // Making bindings as orientedShell's dimensions might wiggle during startup.
-    if (d.requestedOrientationAngle === 90 || d.requestedOrientationAngle === 270) {
-        shell.width = Qt.binding(function() { return orientedShell.height; });
-        shell.height = Qt.binding(function() { return orientedShell.width; });
-    } else {
-        shell.width = Qt.binding(function() { return orientedShell.width; });
-        shell.height = Qt.binding(function() { return orientedShell.height; });
+    script: {
+        info.transitioning = true;
+        shell.orientationAngle = info.requestedOrientationAngle;
+        shell.transformRotationAngle = info.requestedOrientationAngle;
+
+        // Making bindings as orientedShell's dimensions might wiggle during startup.
+        if (info.requestedOrientationAngle === 90 || info.requestedOrientationAngle === 270) {
+            shell.width = Qt.binding(function() { return orientedShell.height; });
+            shell.height = Qt.binding(function() { return orientedShell.width; });
+        } else {
+            shell.width = Qt.binding(function() { return orientedShell.width; });
+            shell.height = Qt.binding(function() { return orientedShell.height; });
+        }
+
+        shell.x = Qt.binding(function() { return (orientedShell.width - shell.width) / 2; });
+        shell.y = Qt.binding(function() { return (orientedShell.height - shell.height) / 2; });
+        shell.transformOriginX = Qt.binding(function() { return shell.width / 2; });
+        shell.transformOriginY = Qt.binding(function() { return shell.height / 2; });
+
+        shell.updateFocusedAppOrientation();
+        info.transitioning = false;
     }
-
-    shell.x = Qt.binding(function() { return (orientedShell.width - shell.width) / 2; });
-    shell.y = Qt.binding(function() { return (orientedShell.height - shell.height) / 2; });
-    shell.transformOriginX = Qt.binding(function() { return shell.width / 2; });
-    shell.transformOriginY = Qt.binding(function() { return shell.height / 2; });
-
-    shell.updateFocusedAppOrientation();
-    d.transitioning = false;
-} }
+}

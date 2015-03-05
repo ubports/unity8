@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +21,15 @@ SequentialAnimation {
 
     property int fromAngle
     property int toAngle
+    property var info
+    property var shell
 
     readonly property real fromY: fromAngle === 0 || fromAngle === 90 ? 0 : orientedShell.height - orientedShell.width;
     readonly property real toY: toAngle === 0 || toAngle === 90 ? 0 : orientedShell.height - orientedShell.width;
     readonly property bool flipShellDimensions: toAngle == 90 || toAngle == 270
 
     ScriptAction { script: {
-        d.transitioning = true;
+        info.transitioning = true;
         windowScreenshot.take();
         windowScreenshot.visible = true;
         shell.orientationAngle = root.toAngle;
@@ -83,6 +85,6 @@ SequentialAnimation {
         windowScreenshot.visible = false;
         windowScreenshot.discard();
         shellCover.visible = false;
-        d.transitioning = false;
+        info.transitioning = false;
     } }
 }
