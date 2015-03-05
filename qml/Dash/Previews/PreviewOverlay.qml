@@ -99,8 +99,8 @@ Rectangle {
         id: loader
         anchors.fill: parent
 
-        readonly property real initialXScale: initialAspectRatio >= 1 ? 1 : aspectRatio / initialAspectRatio
-        readonly property real initialYScale: initialAspectRatio >= 1 ? initialAspectRatio / aspectRatio : 1
+        readonly property real initialXScale: initialAspectRatio / aspectRatio >= 1 ? 1 : aspectRatio / initialAspectRatio
+        readonly property real initialYScale: initialAspectRatio / aspectRatio >= 1 ? initialAspectRatio / aspectRatio : 1
         readonly property real xScale: loader.initialXScale - loader.initialXScale * overlay.progress + overlay.progress
         readonly property real yScale: loader.initialYScale - loader.initialYScale * overlay.progress + overlay.progress
 
