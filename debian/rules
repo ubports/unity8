@@ -24,10 +24,13 @@ override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.
 	# So until Debian bug 719148 is fixed, do it ourselves.
 	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var"
+	env
 
 override_dh_auto_build:
 	# doc is not a default target
 	dh_auto_build -- all doc
+	env
+	cd obj-* && make testGreeterPam
 
 override_dh_install:
 	# install autopilot tests
