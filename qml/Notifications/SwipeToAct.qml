@@ -28,6 +28,7 @@ Item {
 
     property string leftIconName
     property string rightIconName
+    property double opacityDelta
     readonly property double sliderHeight: units.gu(8)
     readonly property double gap: units.gu(1)
     readonly property color sliderMainColor: "#b2b2b2"
@@ -51,6 +52,14 @@ Item {
         var b = start.b + factor * bdiff
         var a = start.a + factor * adiff
         return Qt.rgba(r,g,b,a)
+    }
+
+    UbuntuNumberAnimation on opacityDelta {
+        from: 0
+        to: .5
+        loops: Animation.Infinite
+        duration: UbuntuAnimation.SleepyDuration
+        easing.type: Easing.Linear
     }
 
     UbuntuShape {
@@ -97,25 +106,13 @@ Item {
                     name: "back"
                     height: units.gu(2.5)
                     color: sliderMainColor
-                    UbuntuNumberAnimation on opacity {
-                        from: .5
-                        to: 1
-                        loops: Animation.Infinite
-                        duration: UbuntuAnimation.SleepyDuration
-                        easing.type: Easing.Linear
-                    }
+                    opacity: .5 + opacityDelta
                 }
                 Icon {
                     name: "back"
                     height: units.gu(2.5)
                     color: sliderMainColor
-                    UbuntuNumberAnimation on opacity {
-                        from: 1
-                        to: .5
-                        loops: Animation.Infinite
-                        duration: UbuntuAnimation.SleepyDuration
-                        easing.type: Easing.Linear
-                    }
+                    opacity: 1 - opacityDelta
                 }
             }
 
@@ -179,25 +176,13 @@ Item {
                     name: "next"
                     height: units.gu(2.5)
                     color: sliderMainColor
-                    UbuntuNumberAnimation on opacity {
-                        from: 1
-                        to: .5
-                        loops: Animation.Infinite
-                        duration: UbuntuAnimation.SleepyDuration
-                        easing.type: Easing.Linear
-                    }
+                    opacity: 1 - opacityDelta
                 }
                 Icon {
                     name: "next"
                     height: units.gu(2.5)
                     color: sliderMainColor
-                    UbuntuNumberAnimation on opacity {
-                        from: .5
-                        to: 1
-                        loops: Animation.Infinite
-                        duration: UbuntuAnimation.SleepyDuration
-                        easing.type: Easing.Linear
-                    }
+                    opacity: 0.5 + opacityDelta
                 }
             }
 
