@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -180,10 +180,7 @@ Rectangle {
                     if (orientedShellLoader.status !== Loader.Ready)
                         return;
 
-                    var greeter = testCase.findChild(orientedShellLoader.item, "greeter");
-                    if (!greeter.shown) {
-                        greeter.show();
-                    }
+                    LightDM.Greeter.showGreeter();
                 }
             }
             Label {
@@ -235,6 +232,7 @@ Rectangle {
             }
             Button {
                 text: "Power dialog"
+                activeFocusOnPress: false
                 onClicked: { testCase.showPowerDialog(); }
             }
             ListItem.ItemSelector {
@@ -255,6 +253,14 @@ Rectangle {
                 activeFocusOnPress: false
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
+            }
+            Button {
+                text: "Switch fullscreen"
+                activeFocusOnPress: false
+                onClicked: {
+                    var app = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId);
+                    app.fullscreen = !app.fullscreen;
+                }
             }
         }
     }
@@ -396,8 +402,15 @@ Rectangle {
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
-        function test_appRotatesWindowContents() {
-            loadShell("mako");
+        function test_appRotatesWindowContents_data() {
+            return [
+                {tag: "mako", deviceName: "mako", orientationAngleAfterRotation: 90},
+                {tag: "manta", deviceName: "manta", orientationAngleAfterRotation: 90},
+                {tag: "flo", deviceName: "flo", orientationAngleAfterRotation: 180}
+            ];
+        }
+        function test_appRotatesWindowContents(data) {
+            loadShell(data.deviceName);
             var cameraApp = ApplicationManager.startApplication("camera-app");
             verify(cameraApp);
 
@@ -415,10 +428,10 @@ Rectangle {
             var focusChangedSpy = signalSpy;
             focusChangedSpy.clear();
             focusChangedSpy.target = cameraSurface;
-            focusChangedSpy.signalName = "focusChanged";
+            focusChangedSpy.signalName = "activeFocusChanged";
             verify(focusChangedSpy.valid);
 
-            verify(cameraSurface.focus);
+            verify(cameraSurface.activeFocus);
 
             tryCompare(shell, "orientationChangesEnabled", true);
 
@@ -440,7 +453,7 @@ Rectangle {
 
             rotateTo(90);
 
-            tryCompare(cameraSurface, "orientationAngle", 90);
+            tryCompare(cameraSurface, "orientationAngle", data.orientationAngleAfterRotation);
 
             // the rotation should have been immediate
             // false -> true -> false
@@ -616,9 +629,7 @@ Rectangle {
 
             // wait until things have settled
             var greeter = findChild(shell, "greeter");
-            verify(greeter);
-            tryCompare(greeter.showAnimation, "running", false);
-            tryCompare(greeter.hideAnimation, "running", false);
+            tryCompare(greeter, "animating", false);
 
             var twitterDelegate = findChild(shell, "appDelegate1");
             compare(twitterDelegate.application.appId, "twitter-webapp");
@@ -627,9 +638,8 @@ Rectangle {
             // now it should finally follow the physical orientation
             tryCompare(shell, "transformRotationAngle", 90);
 
-            verify(greeter);
             // greeter should remaing completely hidden
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
         }
 
         function test_appInSideStageDoesntRotateOnStartUp_data() {
@@ -845,6 +855,7 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle", 0);
         }
 
+        //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
         function rotateTo(angle) {
             switch (angle) {
             case 0:
@@ -968,24 +979,22 @@ Rectangle {
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
             // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
         function showGreeter() {
-            var greeter = testCase.findChild(orientedShellLoader.item, "greeter");
-            if (!greeter.shown) {
-                greeter.show();
-            }
+            LightDM.Greeter.showGreeter();
             // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 1);
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "fullyShown", true);
         }
 
         function killApps() {

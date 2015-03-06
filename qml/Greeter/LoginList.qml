@@ -14,44 +14,76 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import LightDM 0.1 as LightDM
+import QtQuick 2.3
+import Ubuntu.Components 1.1
 import "../Components"
 
 Item {
     id: root
 
-    property alias userList: userList
     property alias model: userList.model
-    property alias currentIndex: userList.currentIndex
+    property int currentIndex
+    property bool locked
 
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: units.gu(10)
     readonly property int moveDuration: 200
+    readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false
 
-    signal selected(int uid)
-    signal unlocked(int uid)
+    signal selected(int index)
+    signal responded(string response)
 
     function tryToUnlock() {
-        if (LightDM.Greeter.promptless) {
-            if (LightDM.Greeter.authenticated) {
-                root.unlocked(userList.currentIndex)
-            } else {
-                root.resetAuthentication()
-            }
+        if (wasPrompted) {
+            passwordInput.forceActiveFocus();
         } else {
-            passwordInput.forceActiveFocus()
+            if (root.locked) {
+                root.selected(currentIndex);
+            } else {
+                root.responded("");
+            }
+        }
+    }
+
+    function showMessage(html) {
+        if (infoLabel.text === "") {
+            infoLabel.text = html;
+        } else {
+            infoLabel.text += "<br>" + html;
+        }
+    }
+
+    function showPrompt(text, isSecret, isDefaultPrompt) {
+        passwordInput.text = "";
+        passwordInput.promptText = text;
+        passwordInput.enabled = true;
+        passwordInput.echoMode = isSecret ? TextInput.Password : TextInput.Normal;
+        if (wasPrompted) // stay in text field if second prompt
+            passwordInput.focus = true;
+        wasPrompted = true;
+    }
+
+    function showError() {
+        wrongPasswordAnimation.start();
+        root.resetAuthentication();
+        if (wasPrompted) {
+            passwordInput.focus = true;
         }
     }
 
     function reset() {
-        root.resetAuthentication()
+        root.resetAuthentication();
     }
 
-    Keys.onEscapePressed: root.resetAuthentication()
+    Keys.onEscapePressed: {
+        selected(currentIndex);
+    }
+
+    onCurrentIndexChanged: {
+        userList.currentIndex = currentIndex;
+    }
 
     Rectangle {
         id: highlightItem
@@ -81,18 +113,15 @@ Item {
         flickDeceleration: 10000
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
-
-        onCurrentIndexChanged: {
-            if (LightDM.Greeter.authenticationUser != userList.model.data(currentIndex, LightDM.UserRoles.NameRole)) {
-                root.resetAuthentication();
+        onMovingInternallyChanged: {
+            if (!movingInternally) {
+                root.selected(currentIndex);
             }
         }
 
-        onMovingInternallyChanged: {
-            // Only emit the selected signal once we stop moving to avoid frequent background changes
-            if (!movingInternally) {
-                root.selected(userList.currentIndex);
-            }
+        onCurrentIndexChanged: {
+            root.resetAuthentication();
+            moveTimer.start();
         }
 
         delegate: Item {
@@ -101,6 +130,7 @@ Item {
 
             readonly property bool belowHighlight: (userList.currentIndex < 0 && index > 0) || (userList.currentIndex >= 0 && index > userList.currentIndex)
             readonly property int belowOffset: root.highlightedHeight - root.cellHeight
+            readonly property string username: name
 
             opacity: {
                 // The goal here is to make names less and less opaque as they
@@ -148,11 +178,8 @@ Item {
                     topMargin: parent.belowHighlight ? parent.belowOffset : 0
                 }
                 height: parent.height
-                enabled: userList.currentIndex !== index
-                onClicked: {
-                    moveTimer.start();
-                    userList.currentIndex = index;
-                }
+                enabled: userList.currentIndex !== index && parent.opacity > 0
+                onClicked: root.selected(index)
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
             }
@@ -204,6 +231,11 @@ Item {
         width: parent.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
+        property string promptText
+        placeholderText: root.wasPrompted ? promptText
+                                          : (root.locked ? i18n.tr("Retry")
+                                                         : i18n.tr("Tap to unlock"))
+
         Behavior on opacity {
             NumberAnimation { duration: 100 }
         }
@@ -213,9 +245,11 @@ Item {
                 return;
             root.focus = true; // so that it can handle Escape presses for us
             enabled = false;
-            LightDM.Greeter.respond(text);
+            root.responded(text);
         }
-        Keys.onEscapePressed: root.resetAuthentication()
+        Keys.onEscapePressed: {
+            root.selected(currentIndex);
+        }
 
         Image {
             anchors {
@@ -223,7 +257,7 @@ Item {
                 rightMargin: units.gu(2)
                 verticalCenter: parent.verticalCenter
             }
-            visible: LightDM.Greeter.promptless
+            visible: !root.wasPrompted
             source: "graphics/icon_arrow.png"
         }
 
@@ -247,7 +281,7 @@ Item {
         id: passwordMouseArea
         objectName: "passwordMouseArea"
         anchors.fill: passwordInput
-        enabled: LightDM.Greeter.promptless
+        enabled: !root.wasPrompted
         onClicked: root.tryToUnlock()
     }
 
@@ -256,62 +290,10 @@ Item {
             return;
         }
         infoLabel.text = "";
-        passwordInput.placeholderText = "";
+        passwordInput.promptText = "";
         passwordInput.text = "";
         passwordInput.focus = false;
         passwordInput.enabled = true;
         root.wasPrompted = false;
-        LightDM.Greeter.authenticate(userList.model.data(currentIndex, LightDM.UserRoles.NameRole));
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onShowMessage: {
-            // inefficient, but we only rarely deal with messages
-            var html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>")
-            if (isError)
-                html = "<font color=\"#df382c\">" + html + "</font>"
-            if (infoLabel.text == "")
-                infoLabel.text = html
-            else
-                infoLabel.text = infoLabel.text + "<br>" + html
-        }
-
-        onShowPrompt: {
-            passwordInput.text = "";
-            passwordInput.placeholderText = text;
-            passwordInput.enabled = true;
-            passwordInput.echoMode = isSecret ? TextInput.Password : TextInput.Normal;
-            if (root.wasPrompted) // stay in text field if second prompt
-                passwordInput.focus = true;
-            root.wasPrompted = true;
-        }
-
-        onAuthenticationComplete: {
-            if (LightDM.Greeter.promptless) {
-                passwordInput.placeholderText = LightDM.Greeter.authenticated ? "Tap to unlock" : "Retry";
-                return;
-            }
-            if (LightDM.Greeter.authenticated) {
-                root.unlocked(userList.currentIndex);
-            } else {
-                wrongPasswordAnimation.start();
-                root.resetAuthentication();
-                passwordInput.focus = true;
-            }
-            passwordInput.text = "";
-        }
-
-        onRequestAuthenticationUser: {
-            // Find index for requested user, if it exists
-            for (var i = 0; i < userList.model.count; i++) {
-                if (user == userList.model.data(i, LightDM.UserRoles.NameRole)) {
-                    moveTimer.start();
-                    userList.currentIndex = i;
-                    return;
-                }
-            }
-        }
     }
 }

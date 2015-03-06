@@ -16,8 +16,10 @@
 
 #include "SurfaceManager.h"
 
+#include "GenericApp.h"
+#include "VirtualKeyboard.h"
+
 #include <paths.h>
-#include "MirSurfaceItem.h"
 
 SurfaceManager *SurfaceManager::the_surface_manager = nullptr;
 
@@ -40,7 +42,7 @@ MirSurfaceItem *SurfaceManager::createSurface(const QString& name,
                                               MirSurfaceItem::State state,
                                               const QUrl& screenshot)
 {
-    MirSurfaceItem* surface = new MirSurfaceItem(name,
+    MirSurfaceItem* surface = new GenericApp(name,
                                        type,
                                        state,
                                        screenshot);
@@ -57,10 +59,14 @@ void SurfaceManager::registerSurface(MirSurfaceItem *surface)
         surface->setLive(false);
         Q_EMIT surfaceDestroyed(surface);
     });
-    connect(surface, &MirSurfaceItem::inputMethodRequested,
-            this, &SurfaceManager::showInputMethod);
-    connect(surface, &MirSurfaceItem::inputMethodDismissed,
-            this, &SurfaceManager::hideInputMethod);
+
+    GenericApp *genericApp = qobject_cast<GenericApp*>(surface);
+    if (genericApp) {
+        connect(genericApp, &GenericApp::inputMethodRequested,
+                this, &SurfaceManager::showInputMethod, Qt::QueuedConnection);
+        connect(genericApp, &GenericApp::inputMethodDismissed,
+                this, &SurfaceManager::hideInputMethod, Qt::QueuedConnection);
+    }
 }
 
 void SurfaceManager::showInputMethod()
@@ -78,19 +84,7 @@ void SurfaceManager::hideInputMethod()
 MirSurfaceItem *SurfaceManager::inputMethodSurface()
 {
     if (!m_virtualKeyboard) {
-
-        QString screenshotPath = QString("file://%1/Dash/graphics/phone/screenshots/vkb_portrait.png")
-            .arg(qmlDirectory());
-
-        QString qmlFilePath = QString("%1/Unity/Application/VirtualKeyboard.qml")
-            .arg(mockPluginsDir());
-
-        m_virtualKeyboard = new MirSurfaceItem(
-                "input-method",
-                MirSurfaceItem::InputMethod,
-                MirSurfaceItem::Minimized,
-                screenshotPath,
-                qmlFilePath);
+        m_virtualKeyboard = new VirtualKeyboard;
         Q_EMIT surfaceCreated(m_virtualKeyboard);
     }
     return m_virtualKeyboard;

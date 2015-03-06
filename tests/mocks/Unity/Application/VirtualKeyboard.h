@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import MeeGo.QOfono 0.2
+#ifndef VIRTUALKEYBOARD_H
+#define VIRTUALKEYBOARD_H
 
-Item {
-    readonly property var modems: MockQOfono.modems
-    readonly property bool available: MockQOfono.available
-}
+#include "MirSurfaceItem.h"
+#include "MirSurfaceItemModel.h"
+
+#include <QQuickItem>
+#include <QUrl>
+
+class Session;
+
+class VirtualKeyboard : public MirSurfaceItem
+{
+    Q_OBJECT
+public:
+    explicit VirtualKeyboard(QQuickItem *parent = 0);
+    ~VirtualKeyboard();
+
+protected:
+    void touchEvent(QTouchEvent * event) override;
+};
+
+Q_DECLARE_METATYPE(VirtualKeyboard*)
+Q_DECLARE_METATYPE(QList<VirtualKeyboard*>)
+
+#endif // VIRTUALKEYBOARD_H

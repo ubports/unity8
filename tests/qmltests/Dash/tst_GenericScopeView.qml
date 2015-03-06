@@ -380,8 +380,8 @@ Item {
 
                 tryCompare(testCase.subPageLoader, "open", false);
 
+                tryCompareFunction(function() { return findChild(category, "delegate1") != null; }, true);
                 var tile = findChild(category, "delegate1");
-                verify(tile, "Could not find delegate");
 
                 mouseClick(tile);
                 tryCompare(testCase.subPageLoader, "open", true);

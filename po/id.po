@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-02-25 08:57-0500\n"
 "PO-Revision-Date: 2013-06-26 22:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-03-04 05:56+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Sandi: "
 
@@ -31,65 +31,80 @@ msgstr "Paku pintasan"
 msgid "Unpin shortcut"
 msgstr "Lepas pintasan"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Perangkat Terkunci"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Anda telah terkunci karena terlalu banyak percobaan frasa sandi yang gagal."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Anda telah terkunci karena terlalu banyak percobaan kode sandi yang gagal."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Harap tunggu %1 menit lalu coba lagi..."
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:87
 msgid "Log out"
 msgstr "Log keluar"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:88
 msgid "Are you sure you want to log out?"
 msgstr "Anda yakin ingin log keluar?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "Tidak"
+#: qml/Components/Dialogs.qml:90
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "Ya"
+#: qml/Components/Dialogs.qml:97
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
+#: qml/Components/Dialogs.qml:191
+msgid "Cancel"
+msgstr "Batal"
+
+#: qml/Components/Dialogs.qml:116
 msgid "Shut down"
 msgstr "Matikan"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:117
 msgid "Are you sure you want to shut down?"
 msgstr "Anda yakin ingin mematikan?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
 msgid "Reboot"
 msgstr "Boot ulang"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:127
+msgid "Shutdown"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:148
 msgid "Are you sure you want to reboot?"
 msgstr "Anda yakin ingin boot ulang?"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:150
+msgid "No"
+msgstr "Tidak"
+
+#: qml/Components/Dialogs.qml:156
+msgid "Yes"
+msgstr "Ya"
+
+#: qml/Components/Dialogs.qml:170
 msgid "Power"
 msgstr "Daya"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:171
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -97,65 +112,13 @@ msgstr ""
 "Anda yakin ingin\n"
 "mematikan daya?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:173
 msgid "Power off"
 msgstr "Matikan"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:182
 msgid "Restart"
 msgstr "Nyalakan ulang"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "Batal"
-
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Lewati pengenalan"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Tepi kanan"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Coba usap dari tepi kanan untuk membuka kunci telepon"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Tepi atas"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Coba usap dari tepi atas untuk mengakses indikator"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Tutup"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Usap ke atas lagi untuk menutup layar pengaturan"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Tepi kiri"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Usap dari tepi kiri menampilkan peluncur untuk akses cepat aplikasi"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Bagus sekali"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Anda kini telah menguasai gestur tepi dan dapat mulai memakai "
-"telepon<br><br>Ketuk pada layar untuk mulai"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -169,32 +132,32 @@ msgstr "Panggilan Darurat"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
 msgid "See less"
 msgstr "Lihat lebih sedikit"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:528
 msgid "See all"
 msgstr "Lihat semua"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
+#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Cari"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
 msgid "Store"
 msgstr "Simpan"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "Pengaturan"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Hapus dari Favorit"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Tambah ke Favorit"
 
@@ -226,6 +189,10 @@ msgstr "Tarik untuk menyegarkan..."
 msgid "Release to refresh…"
 msgstr "Lepas untuk menyegarkan..."
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Kelola"
@@ -238,9 +205,75 @@ msgstr "Beranda"
 msgid "Also installed"
 msgstr "Juga terpasang"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Buka kunci"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "Maaf, frasa sandi salah."
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Maaf, kode sandi salah."
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Ini akan menjadi upaya terakhir Anda."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Bila frasa sandi salah dimasukkan, telepon Anda akan melakukan reset pabrik "
+"dan semua data pribadi akan dihapus."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Bila kode sandi salah dimasukkan, telepon Anda akan melakukan reset pabrik "
+"dan semua data pribadi akan dihapus."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Masukkan %1"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Masukkan frasa sandi"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Masukkan kode sandi"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Maaf, %1 salah"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "Maaf, frasa sandi salah"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Harap masukkan lagi"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "Maaf, kode sandi salah"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -294,63 +327,57 @@ msgstr "Buka Kunci SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:390
-#, qt-format
-msgid "Enter %1"
-msgstr "Masukkan %1"
-
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Masukkan frasa sandi"
-
-#: qml/Shell.qml:392
-msgid "Enter passcode"
-msgstr "Masukkan kode sandi"
-
-#: qml/Shell.qml:393
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Maaf, %1 salah"
-
-#: qml/Shell.qml:394
-msgid "Sorry, incorrect passphrase"
-msgstr "Maaf, frasa sandi salah"
-
-#: qml/Shell.qml:395
-msgid "Please re-enter"
-msgstr "Harap masukkan lagi"
-
-#: qml/Shell.qml:396
-msgid "Sorry, incorrect passcode"
-msgstr "Maaf, kode sandi salah"
-
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Maaf, frasa sandi salah."
-
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Maaf, kode sandi salah."
-
-#: qml/Shell.qml:492
-msgid "This will be your last attempt."
-msgstr "Ini akan menjadi upaya terakhir Anda."
-
-#: qml/Shell.qml:494
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
 msgstr ""
-"Bila frasa sandi salah dimasukkan, telepon Anda akan melakukan reset pabrik "
-"dan semua data pribadi akan dihapus."
 
-#: qml/Shell.qml:495
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
 msgstr ""
-"Bila kode sandi salah dimasukkan, telepon Anda akan melakukan reset pabrik "
-"dan semua data pribadi akan dihapus."
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -369,7 +396,7 @@ msgid "Let’s get started."
 msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -379,11 +406,11 @@ msgstr ""
 msgid "Add a SIM card and restart your device"
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr ""
 
@@ -419,15 +446,15 @@ msgstr ""
 msgid "Numbers and letters"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr ""
 
@@ -529,6 +556,9 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
+#~ msgid "Close"
+#~ msgstr "Tutup"
+
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "Memuat. Mohon Tunggu..."
 
@@ -537,6 +567,30 @@ msgstr ""
 
 #~ msgid "Confirm"
 #~ msgstr "Konfirmasi"
+
+#~ msgid "Top edge"
+#~ msgstr "Tepi atas"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Coba usap dari tepi atas untuk mengakses indikator"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Usap ke atas lagi untuk menutup layar pengaturan"
+
+#~ msgid "Left edge"
+#~ msgstr "Tepi kiri"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Usap dari tepi kiri menampilkan peluncur untuk akses cepat aplikasi"
+
+#~ msgid "Skip intro"
+#~ msgstr "Lewati pengenalan"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Coba usap dari tepi kanan untuk membuka kunci telepon"
+
+#~ msgid "Right edge"
+#~ msgstr "Tepi kanan"
 
 #~ msgid "Done"
 #~ msgstr "Selesai"
@@ -555,3 +609,13 @@ msgstr ""
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Kelola Skup"
+
+#~ msgid "Well done"
+#~ msgstr "Bagus sekali"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Anda kini telah menguasai gestur tepi dan dapat mulai memakai "
+#~ "telepon<br><br>Ketuk pada layar untuk mulai"

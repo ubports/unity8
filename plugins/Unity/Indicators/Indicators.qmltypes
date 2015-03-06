@@ -55,9 +55,14 @@ Module {
         exports: ["Unity.Indicators/IndicatorsManager 0.1"]
         exportMetaObjectRevisions: [0]
         Property { name: "loaded"; type: "bool"; isReadonly: true }
+        Property { name: "profile"; type: "string" }
         Signal {
             name: "loadedChanged"
             Parameter { type: "bool" }
+        }
+        Signal {
+            name: "profileChanged"
+            Parameter { type: "string" }
         }
         Signal {
             name: "indicatorLoaded"
@@ -67,10 +72,7 @@ Module {
             name: "indicatorAboutToBeUnloaded"
             Parameter { name: "indicator_name"; type: "string" }
         }
-        Method {
-            name: "load"
-            Parameter { name: "profile"; type: "string" }
-        }
+        Method { name: "load" }
         Method { name: "unload" }
     }
     Component {
@@ -79,14 +81,12 @@ Module {
         exports: ["Unity.Indicators/IndicatorsModel 0.1"]
         exportMetaObjectRevisions: [0]
         Property { name: "count"; type: "int"; isReadonly: true }
+        Property { name: "profile"; type: "string" }
         Signal {
             name: "indicatorDataChanged"
             Parameter { name: "data"; type: "QVariant" }
         }
-        Method {
-            name: "load"
-            Parameter { name: "profile"; type: "string" }
-        }
+        Method { name: "load" }
         Method { name: "unload" }
         Method {
             name: "data"
@@ -106,8 +106,7 @@ Module {
             values: {
                 "Identifier": 0,
                 "Position": 1,
-                "IndicatorProperties": 2,
-                "IsVisible": 3
+                "IndicatorProperties": 2
             }
         }
     }
@@ -201,12 +200,6 @@ Module {
         }
     }
     Component {
-        name: "QAbstractProxyModel"
-        prototype: "QAbstractItemModel"
-        Property { name: "sourceModel"; type: "QAbstractItemModel"; isPointer: true }
-    }
-    Component { name: "QIdentityProxyModel"; prototype: "QAbstractProxyModel" }
-    Component {
         name: "RootStateObject"
         prototype: "QObject"
         Property { name: "valid"; type: "bool"; isReadonly: true }
@@ -215,7 +208,7 @@ Module {
         Property { name: "rightLabel"; type: "string"; isReadonly: true }
         Property { name: "icons"; type: "QStringList"; isReadonly: true }
         Property { name: "accessibleName"; type: "string"; isReadonly: true }
-        Property { name: "visible"; type: "bool"; isReadonly: true }
+        Property { name: "indicatorVisible"; type: "bool"; isReadonly: true }
         Signal { name: "updated" }
     }
     Component {
@@ -267,26 +260,5 @@ Module {
             Parameter { name: "menuIndex"; type: "int" }
         }
         Method { name: "pop"; type: "UnityMenuModel*" }
-    }
-    Component {
-        name: "VisibleIndicatorsModel"
-        prototype: "QIdentityProxyModel"
-        exports: ["Unity.Indicators/VisibleIndicatorsModel 0.1"]
-        exportMetaObjectRevisions: [0]
-        Property { name: "model"; type: "QAbstractItemModel"; isPointer: true }
-        Property { name: "visible"; type: "QVariantMap" }
-        Signal { name: "totalCountChanged" }
-        Method {
-            name: "onBeginRowInserted"
-            Parameter { type: "QModelIndex" }
-            Parameter { name: "start"; type: "int" }
-            Parameter { name: "end"; type: "int" }
-        }
-        Method {
-            name: "onRowInserted"
-            Parameter { type: "QModelIndex" }
-            Parameter { name: "start"; type: "int" }
-            Parameter { name: "end"; type: "int" }
-        }
     }
 }

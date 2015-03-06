@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -257,7 +257,8 @@ FocusScope {
                 focus: true
                 anchors {
                     fill: parent
-                    topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin
+                    topMargin: appWindow.fullscreen || application.rotatesWindowContents
+                                   ? 0 : maximizedAppTopMargin
                 }
 
                 interactive: root.interactive

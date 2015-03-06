@@ -140,6 +140,10 @@ ActionModel* MockNotification::getActions() const {
     return p->actionsModel;
 }
 
+QStringList MockNotification::rawActions() const {
+    return p->actions;
+}
+
 void MockNotification::setActions(const QStringList &actions) {
     if(p->actions != actions) {
         p->actions = actions;

@@ -53,6 +53,7 @@ MouseArea {
                 id: shapeImage
                 cache: true
                 fillMode: Image.PreserveAspectCrop
+                sourceSize { width: shape.width; height: shape.height }
             }
         }
 

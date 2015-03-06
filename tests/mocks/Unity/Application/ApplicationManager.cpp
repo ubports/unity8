@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -196,21 +196,6 @@ void ApplicationManager::move(int from, int to) {
         m_runningApplications.move(from, to);
         endMoveRows();
     }
-}
-
-int ApplicationManager::sideStageWidth() const
-{
-    return 0;
-}
-
-ApplicationManager::StageHint ApplicationManager::stageHint() const
-{
-    return MainStage;
-}
-
-ApplicationManager::FormFactorHint ApplicationManager::formFactorHint() const
-{
-    return PhoneFormFactor;
 }
 
 ApplicationInfo* ApplicationManager::startApplication(const QString &appId,

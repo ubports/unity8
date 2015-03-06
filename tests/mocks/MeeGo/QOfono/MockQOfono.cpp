@@ -16,11 +16,29 @@
 
 #include "MockQOfono.h"
 
-MockQOfono::MockQOfono(QObject *parent)
-    : QObject(parent),
+static MockQOfono *m_instance = nullptr;
+
+MockQOfono *MockQOfono::instance()
+{
+    if (!m_instance) {
+        m_instance = new MockQOfono();
+    }
+    return m_instance;
+}
+
+MockQOfono::MockQOfono()
+    : QObject(),
       m_available(false),
+      m_ready(false),
       m_modems()
 {
+}
+
+MockQOfono::~MockQOfono()
+{
+    if (m_instance == this) {
+        m_instance = nullptr;
+    }
 }
 
 bool MockQOfono::available() const
@@ -34,21 +52,39 @@ void MockQOfono::setAvailable(bool available)
     Q_EMIT availableChanged();
 }
 
+bool MockQOfono::ready() const
+{
+    return m_ready;
+}
+
+void MockQOfono::setReady(bool ready)
+{
+    m_ready = ready;
+    Q_EMIT readyChanged();
+}
+
 QStringList MockQOfono::modems() const
 {
     return m_modems.keys();
 }
 
-void MockQOfono::setModems(const QStringList &modems, const QList<bool> &present)
+void MockQOfono::setModems(const QStringList &modems, const QList<bool> &present, const QList<bool> &ready)
 {
     m_modems.clear();
     for (int i = 0; i < modems.length(); i++) {
-        m_modems[modems[i]] = present[i];
+        QList<bool> props;
+        props << present.value(i, true) << ready.value(i, true);
+        m_modems[modems[i]] = props;
     }
     Q_EMIT modemsChanged();
 }
 
 bool MockQOfono::isModemPresent(const QString &modem)
 {
-    return m_modems.value(modem, false);
+    return m_modems.value(modem).value(0, false);
+}
+
+bool MockQOfono::isModemReady(const QString &modem)
+{
+    return m_modems.value(modem).value(1, false);
 }

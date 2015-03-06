@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,9 +28,10 @@ import Powerd 0.1
 
 import "../../qml"
 
-Row {
+Item {
     id: root
-    spacing: 0
+    width: units.gu(120)
+    height: units.gu(80)
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
@@ -55,50 +56,53 @@ Row {
         }
     }
 
-    Loader {
-        id: shellLoader
+    Row {
+        anchors.fill: parent
+        Loader {
+            id: shellLoader
 
-        active: false
-        width: units.gu(100)
-        height: units.gu(80)
+            active: false
+            width: units.gu(100)
+            height: parent.height
 
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            Shell {
-                orientation: Qt.LandscapeOrientation
-                usageScenario: "tablet"
+            property bool itemDestroyed: false
+            sourceComponent: Component {
+                Shell {
+                    orientation: Qt.LandscapeOrientation
+                    usageScenario: "tablet"
 
-                Component.onDestruction: {
-                    shellLoader.itemDestroyed = true
-                }
-            }
-        }
-    }
-
-    Rectangle {
-        color: "white"
-        width: units.gu(20)
-        height: shellLoader.height
-
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Button {
-                text: "Show Greeter"
-                onClicked: {
-                    if (shellLoader.status !== Loader.Ready)
-                        return
-
-                    var greeter = testCase.findChild(shellLoader.item, "greeter")
-                    if (!greeter.shown) {
-                        greeter.show()
+                    Component.onDestruction: {
+                        shellLoader.itemDestroyed = true
                     }
                 }
             }
-            Button {
-                text: "Demo edges"
-                onClicked: {
-                    AccountsService.demoEdges = true
+        }
+
+        Rectangle {
+            color: "white"
+            width: units.gu(20)
+            height: parent.height
+
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+                Button {
+                    text: "Show Greeter"
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return
+
+                        var greeter = testCase.findChild(shellLoader.item, "greeter")
+                        if (!greeter.shown) {
+                            greeter.show()
+                        }
+                    }
+                }
+                Button {
+                    text: "Demo edges"
+                    onClicked: {
+                        AccountsService.demoEdges = true;
+                    }
                 }
             }
         }
@@ -134,6 +138,8 @@ Row {
 
         function init() {
             tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
+            var userList = findChild(shell, "userList");
+            tryCompare(userList, "movingInternally", false);
             sessionSpy.clear()
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator")
@@ -189,8 +195,7 @@ Row {
                 if (userlist.currentIndex > i) {
                     next = userlist.currentIndex - 1
                 }
-                var account = findChild(greeter, "username"+next)
-                mouseClick(account, 1, 1)
+                tap(findChild(greeter, "username"+next));
                 tryCompare(userlist, "currentIndex", next)
                 tryCompare(userlist, "movingInternally", false)
             }
@@ -198,13 +203,12 @@ Row {
 
         function selectUser(name) {
             // Find index of user with the right name
-            var greeter = findChild(shell, "greeter")
-            for (var i = 0; i < greeter.model.count; i++) {
-                if (greeter.model.data(i, LightDM.UserRoles.NameRole) == name) {
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == name) {
                     break
                 }
             }
-            if (i == greeter.model.count) {
+            if (i == LightDM.Users.count) {
                 fail("Didn't find name")
                 return -1
             }
@@ -214,7 +218,7 @@ Row {
 
         function clickPasswordInput(isButton) {
             var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 1)
+            tryCompare(greeter, "fullyShown", true);
 
             var passwordMouseArea = findChild(shell, "passwordMouseArea")
             tryCompare(passwordMouseArea, "enabled", isButton)
@@ -224,29 +228,15 @@ Row {
         }
 
         function confirmLoggedIn(loggedIn) {
-            var greeterWrapper = findChild(shell, "greeterWrapper")
-            tryCompare(greeterWrapper, "showProgress", loggedIn ? 0 : 1)
-            tryCompare(sessionSpy, "count", loggedIn ? 1 : 0)
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "shown", loggedIn ? false : true);
+            verify(loggedIn ? sessionSpy.count > 0 : sessionSpy.count === 0);
         }
 
         function swipeFromLeftEdge(swipeLength) {
             var touchStartX = 2
             var touchStartY = shell.height / 2
             touchFlick(shell, touchStartX, touchStartY, swipeLength, touchStartY)
-        }
-
-        function test_noLockscreen() {
-            selectUser("has-password")
-            var lockscreen = findChild(shell, "lockscreen")
-            tryCompare(lockscreen, "shown", false)
-        }
-
-        function test_showAndHideGreeterDBusCalls() {
-            var greeter = findChild(shell, "greeter")
-            LightDM.Greeter.hideGreeter()
-            tryCompare(greeter, "showProgress", 0)
-            LightDM.Greeter.showGreeter()
-            tryCompare(greeter, "showProgress", 1)
         }
 
         function test_login_data() {

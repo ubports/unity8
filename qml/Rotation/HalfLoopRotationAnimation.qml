@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,16 @@ import QtQuick 2.3
 SequentialAnimation {
     id: root
 
+    // set from outside
     property int fromAngle
     property int toAngle
+    property var info
+    property var shell
 
     readonly property bool flipShellDimensions: toAngle == 90 || toAngle == 270
 
     ScriptAction { script: {
-        d.transitioning = true;
+        info.transitioning = true;
         shell.orientationAngle = root.toAngle;
         shell.x = (orientedShell.width - shell.width) / 2
         shell.y = (orientedShell.height - shell.height) / 2;
@@ -39,5 +42,5 @@ SequentialAnimation {
         from: root.fromAngle; to: root.toAngle
         duration: rotationDuration; easing.type: rotationEasing
     }
-    ScriptAction { script: { d.transitioning = false; } }
+    ScriptAction { script: { info.transitioning = false; } }
 }
