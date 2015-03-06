@@ -30,7 +30,25 @@ Item {
     property string rightIconName
     readonly property double sliderHeight: units.gu(8)
     readonly property double gap: units.gu(1)
+    readonly property color sliderDefault: "#b2b2b2"
     readonly property double halfWay: mouseArea.drag.maximumX / 2
+
+    // linearly interpolate between start- and end-color
+    // with a normalized weight-factor
+    // 0.0 meaning just the start-color being taken into
+    // account and 1.0 only taking the end-color into
+    // account
+    function interpolate(start, end, factor) {
+        var rdiff = start.r > end.r ? end.r - start.r : end.r - start.r
+        var gdiff = start.g > end.g ? end.g - start.g : end.g - start.g
+        var bdiff = start.b > end.b ? end.b - start.b : end.b - start.b
+        var adiff = start.a > end.a ? end.a - start.a : end.a - start.a
+        var r = start.r + factor * rdiff
+        var g = start.g + factor * gdiff
+        var b = start.b + factor * bdiff
+        var a = start.a + factor * adiff
+        return Qt.rgba(r,g,b,a)
+    }
 
     UbuntuShape {
         id: row
@@ -43,33 +61,8 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: gap
+                color: "#df382c" //UbuntuColors.red
 
-                states: [
-                    State {
-                        name: "normal"
-                        PropertyChanges {
-                            target: leftShape
-                            color: "#df382c" //UbuntuColors.red
-                        }
-                        PropertyChanges {
-                            target: innerLeftShape
-                            color: "#df382c" //UbuntuColors.red
-                            visible: false
-                        }
-                    },
-                    State {
-                        name: "selected"
-                        PropertyChanges {
-                            target: leftShape
-                            color: "white"
-                        }
-                        PropertyChanges {
-                            target: innerLeftShape
-                            color: "#df382c" //UbuntuColors.red
-                            visible: true
-                        }
-                    }
-                ]
                 state: "normal"
                 height: units.gu(6)
                 width: units.gu(6)
@@ -96,6 +89,7 @@ Item {
                 anchors.right: slider.left
                 anchors.rightMargin: units.gu(1.5)
                 spacing: -units.gu(1)
+                visible: slider.x === halfWay
                 Icon {
                     name: "back"
                     height: units.gu(2.5)
@@ -145,14 +139,17 @@ Item {
                     }
                 }
 
-                onOpacityChanged: {
-                    if (opacity === 0) {
-                        if (rightShape.state === "selected") {
-                            rightTriggered()
-                        }
-                        if (leftShape.state === "selected") {
-                            leftTriggered()
-                        }
+                onXChanged: {
+                    var factor
+                    if (slider.x <= gap + leftShape.width)
+                    {
+                        factor = (slider.x - gap) / leftShape.width
+                        slider.color = interpolate(leftShape.color, sliderDefault, factor)
+                    } else if (slider.x >= rightShape.x - slider.width) {
+                        factor = (slider.x - rightShape.x + rightShape.width) / rightShape.width
+                        slider.color = interpolate(sliderDefault, rightShape.color, factor)
+                    } else {
+                        slider.color = "#b2b2b2"
                     }
                 }
 
@@ -174,6 +171,7 @@ Item {
                 anchors.left: slider.right
                 anchors.leftMargin: units.gu(1.5)
                 spacing: -units.gu(1)
+                visible: slider.x === halfWay
                 Icon {
                     name: "next"
                     height: units.gu(2.5)
@@ -205,33 +203,8 @@ Item {
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: gap
+                color: "#38b44a" // UbuntuColors.green
 
-                states: [
-                    State {
-                        name: "normal"
-                        PropertyChanges {
-                            target: rightShape
-                            color: "#38b44a" // UbuntuColors.green
-                        }
-                        PropertyChanges {
-                            target: innerRightShape
-                            color: "#38b44a" // UbuntuColors.green
-                            visible: false
-                        }
-                    },
-                    State {
-                        name: "selected"
-                        PropertyChanges {
-                            target: rightShape
-                            color: "white"
-                        }
-                        PropertyChanges {
-                            target: innerRightShape
-                            color: "#38b44a" // UbuntuColors.green
-                            visible: true
-                        }
-                    }
-                ]
                 state: "normal"
                 height: units.gu(6)
                 width: units.gu(6)
@@ -261,8 +234,8 @@ Item {
             anchors.fill: row
             drag.target: slider
             drag.axis: Drag.XAxis
-            drag.minimumX: 0
-            drag.maximumX: row.width - slider.width
+            drag.minimumX: gap
+            drag.maximumX: row.width - slider.width - gap
 
             onReleased: {
                 if (slider.x !== drag.minimumX || slider.x !== drag.maximumX) {
@@ -270,15 +243,13 @@ Item {
                 }
                 if (slider.x === drag.minimumX) {
                     slider.x = drag.minimumX
-                    slider.opacity = 0
                     enabled = false
-                    leftShape.state = "selected"
+                    leftTriggered()
                 }
                 if (slider.x === drag.maximumX) {
                     slider.x = drag.maximumX
-                    slider.opacity = 0
                     enabled = false
-                    rightShape.state = "selected"
+                    rightTriggered()
                 }
             }
     }
