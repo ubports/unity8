@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 20014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,10 @@ Item {
     property string rightIconName
     readonly property double sliderHeight: units.gu(8)
     readonly property double gap: units.gu(1)
-    readonly property color sliderDefault: "#b2b2b2"
+    readonly property color sliderMainColor: "#b2b2b2"
+    readonly property color green: "#38b44a"
+    readonly property color red: "#df382c"
+    readonly property color sliderBGColor: "#f4f4f4"
     readonly property double halfWay: mouseArea.drag.maximumX / 2
 
     // linearly interpolate between start- and end-color
@@ -54,14 +57,14 @@ Item {
         id: row
         width: parent.width
         height: sliderHeight
-        color: "#f4f4f4"
+        color: sliderBGColor
 
             UbuntuShape {
                 id: leftShape
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: gap
-                color: "#df382c" //UbuntuColors.red
+                color: red
 
                 state: "normal"
                 height: units.gu(6)
@@ -93,7 +96,7 @@ Item {
                 Icon {
                     name: "back"
                     height: units.gu(2.5)
-                    color: "#b2b2b2"
+                    color: sliderMainColor
                     UbuntuNumberAnimation on opacity {
                         from: .5
                         to: 1
@@ -105,7 +108,7 @@ Item {
                 Icon {
                     name: "back"
                     height: units.gu(2.5)
-                    color: "#b2b2b2"
+                    color: sliderMainColor
                     UbuntuNumberAnimation on opacity {
                         from: 1
                         to: .5
@@ -144,17 +147,17 @@ Item {
                     if (slider.x <= gap + leftShape.width)
                     {
                         factor = (slider.x - gap) / leftShape.width
-                        slider.color = interpolate(leftShape.color, sliderDefault, factor)
+                        slider.color = interpolate(leftShape.color, sliderMainColor, factor)
                     } else if (slider.x >= rightShape.x - slider.width) {
                         factor = (slider.x - rightShape.x + rightShape.width) / rightShape.width
-                        slider.color = interpolate(sliderDefault, rightShape.color, factor)
+                        slider.color = interpolate(sliderMainColor, rightShape.color, factor)
                     } else {
-                        slider.color = "#b2b2b2"
+                        slider.color = sliderMainColor
                     }
                 }
 
                 z: 1
-                color: "#b2b2b2"
+                color: sliderMainColor
                 height: units.gu(6)
                 width: units.gu(6)
                 borderSource: "none"
@@ -175,7 +178,7 @@ Item {
                 Icon {
                     name: "next"
                     height: units.gu(2.5)
-                    color: "#b2b2b2"
+                    color: sliderMainColor
                     UbuntuNumberAnimation on opacity {
                         from: 1
                         to: .5
@@ -187,7 +190,7 @@ Item {
                 Icon {
                     name: "next"
                     height: units.gu(2.5)
-                    color: "#b2b2b2"
+                    color: sliderMainColor
                     UbuntuNumberAnimation on opacity {
                         from: .5
                         to: 1
@@ -203,7 +206,7 @@ Item {
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: gap
-                color: "#38b44a" // UbuntuColors.green
+                color: green
 
                 state: "normal"
                 height: units.gu(6)
