@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -117,6 +117,20 @@ Rectangle {
             }
         }
         priv.oldInverseProgress = inverseProgress;
+    }
+
+    // <FIXME-contentX> See rationale in the next comment with this tag
+    onWidthChanged: {
+        if (!root.beingResized) {
+            // we're being resized without a warning (ie, the corresponding property wasn't set
+            root.beingResized = true;
+            beingResizedTimer.start();
+        }
+    }
+    Timer {
+        id: beingResizedTimer
+        interval: 100
+        onTriggered: { root.beingResized = false; }
     }
 
     Connections {
@@ -248,7 +262,11 @@ Rectangle {
         property int draggedDelegateCount: 0
         property int closingIndex: -1
 
-        // FIXME: Workaround Flickable's not keepping its contentX still when resized
+        // <FIXME-contentX> Workaround Flickable's behavior of bringing contentX back between valid boundaries
+        // when resized. The proper way to fix this is refactoring PhoneStage so that it doesn't
+        // rely on having Flickable.contentX keeping an out-of-bounds value when it's set programatically
+        // (as opposed to having contentX reaching an out-of-bounds value through dragging, which will trigger
+        // the Flickable.boundsBehavior upon release).
         onContentXChanged: { forceItToRemainStillIfBeingResized(); }
         onShiftChanged: { forceItToRemainStillIfBeingResized(); }
         function forceItToRemainStillIfBeingResized() {

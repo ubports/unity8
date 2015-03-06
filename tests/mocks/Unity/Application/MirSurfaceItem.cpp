@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,17 +40,10 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_state(state)
     , m_live(true)
     , m_orientationAngle(Angle0)
-    , m_touchPressCount(0)
-    , m_touchReleaseCount(0)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
 {
-    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << this->name();
-
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
-
-    connect(this, &QQuickItem::focusChanged,
-            this, &MirSurfaceItem::onFocusChanged);
 
     // The assumptions I make here really should hold.
     QQuickView *quickView =
@@ -146,15 +139,6 @@ void MirSurfaceItem::setLive(bool live)
     }
 }
 
-void MirSurfaceItem::onFocusChanged()
-{
-    if (!hasFocus()) {
-        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
-        // Didn't have time to debug yet.
-        //Q_EMIT inputMethodDismissed();
-    }
-}
-
 void MirSurfaceItem::setState(MirSurfaceItem::State newState)
 {
     if (newState != m_state) {
@@ -183,19 +167,5 @@ void MirSurfaceItem::createQmlContentItem()
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
-    }
-}
-
-void MirSurfaceItem::touchEvent(QTouchEvent * event)
-{
-    if (event->touchPointStates() & Qt::TouchPointPressed) {
-        ++m_touchPressCount;
-        Q_EMIT touchPressCountChanged(m_touchPressCount);
-        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
-        // Didn't have time to debug yet.
-        // Q_EMIT inputMethodRequested();
-    } else if (event->touchPointStates() & Qt::TouchPointReleased) {
-        ++m_touchReleaseCount;
-        Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
     }
 }

@@ -122,7 +122,6 @@ Showable {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
-            scopeItem.scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
             x = -width;
         }
@@ -130,7 +129,7 @@ Showable {
             UbuntuNumberAnimation {
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
+                        scopes.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }
                 }
@@ -187,7 +186,6 @@ Showable {
             onOpenScope: {
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = 0;
-                scopeItem.scopeThatOpenedScope = scopesList.scope;
                 scopeItem.scope = scope;
                 dashContent.x = -dashContent.width;
             }
@@ -199,8 +197,7 @@ Showable {
         }
     }
 
-    DashBackground
-    {
+    DashBackground {
         anchors.fill: scopeItem
         visible: scopeItem.visible
     }
@@ -208,8 +205,6 @@ Showable {
     GenericScopeView {
         id: scopeItem
         objectName: "dashTempScopeItem"
-
-        property var scopeThatOpenedScope: null
 
         x: dashContent.x + width
         y: dashContent.y
@@ -229,7 +224,10 @@ Showable {
                 dashContent.gotoScope(scopeId);
             }
             onOpenScope: {
-                dashContent.openScope(scope);
+                scopeItem.closePreview();
+                var oldScope = scopeItem.scope;
+                scopeItem.scope = scope;
+                scopes.closeScope(oldScope);
             }
         }
     }
@@ -302,10 +300,11 @@ Showable {
     }
 
     Image {
+        objectName: "overviewHint"
         source: "graphics/overview_hint.png"
         anchors.horizontalCenter: parent.horizontalCenter
         opacity: !scopeItem.scope && (scopes.count == 0 || dashContent.pageHeaderTotallyVisible) &&
-                 (overviewDragHandle.enabled || overviewDragHandle.status.progress != 0) ? 1 : 0
+                 (overviewDragHandle.enabled || bottomEdgeController.progress != 0) ? 1 : 0
         Behavior on opacity {
             enabled: bottomEdgeController.progress == 0
             UbuntuNumberAnimation {}

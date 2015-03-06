@@ -563,6 +563,7 @@ Item {
                 verify(notification !== undefined, "notification wasn't found");
 
                 waitForRendering(notification);
+                tryCompare(notification, "height", notification.state === "contracted" ? units.gu(10) : notification.implicitHeight);
 
                 var icon = findChild(notification, "icon")
                 var centeredIcon = findChild(notification, "centeredIcon")
@@ -601,6 +602,13 @@ Item {
                 compare(summaryLabel.visible, data.summaryVisible, "summary-text visibility is incorrect")
                 compare(bodyLabel.visible, data.bodyVisible, "body-text visibility is incorrect")
                 compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
+
+                // After clicking the state of notifications can change so let's wait
+                // for their height animations to finish before continuing
+                for (var i = 0; i < mockModel.count; ++i) {
+                    var n = findChild(notifications, "notification" + i)
+                    tryCompare(n, "height", n.state === "contracted" ? units.gu(10) : n.implicitHeight);
+                }
 
                 if (data.hasSound) {
                     var audioItem = findInvisibleChild(notification, "sound")

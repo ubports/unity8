@@ -6,6 +6,7 @@ set(FakeUnityApplicationQml_SOURCES
     ApplicationManager.cpp
     ApplicationScreenshotProvider.cpp
     ApplicationTestInterface.cpp
+    GenericApp.cpp
     MirSurfaceItem.cpp
     MirSurfaceItemModel.h
     ObjectListModel.h
@@ -14,6 +15,7 @@ set(FakeUnityApplicationQml_SOURCES
     SurfaceManager.cpp
     SessionModel.h
     UbuntuKeyboardInfo.cpp
+    VirtualKeyboard.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
 )

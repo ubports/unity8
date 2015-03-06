@@ -38,6 +38,7 @@ Item {
 
     Connections {
         target: model
+        ignoreUnknownSignals: model === undefined
 
         onDataAboutToAppear: startHideAnimation() // hide "no data" label
         onDataAppeared: startShowAnimation()

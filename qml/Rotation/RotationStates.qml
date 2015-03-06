@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -170,67 +170,79 @@ StateGroup {
         Transition {
             from: "90"; to: "0"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 90; toAngle: 0 }
+            NinetyRotationAnimation { fromAngle: 90; toAngle: 0
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "0"; to: "90"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 0; toAngle: 90 }
+            NinetyRotationAnimation { fromAngle: 0; toAngle: 90
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "0"; to: "270"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 0; toAngle: 270 }
+            NinetyRotationAnimation { fromAngle: 0; toAngle: 270
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "270"; to: "0"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 270; toAngle: 0 }
+            NinetyRotationAnimation { fromAngle: 270; toAngle: 0
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "90"; to: "180"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 90; toAngle: 180 }
+            NinetyRotationAnimation { fromAngle: 90; toAngle: 180
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "180"; to: "90"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 180; toAngle: 90 }
+            NinetyRotationAnimation { fromAngle: 180; toAngle: 90
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "180"; to: "270"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 180; toAngle: 270 }
+            NinetyRotationAnimation { fromAngle: 180; toAngle: 270
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "270"; to: "180"
             enabled: d.animationType == d.fullAnimation
-            NinetyRotationAnimation { fromAngle: 270; toAngle: 180 }
+            NinetyRotationAnimation { fromAngle: 270; toAngle: 180
+                                      info: d; shell: root.shell }
         },
         Transition {
             from: "0"; to: "180"
             enabled: d.animationType == d.fullAnimation
-            HalfLoopRotationAnimation { fromAngle: 0; toAngle: 180 }
+            HalfLoopRotationAnimation { fromAngle: 0; toAngle: 180
+                                        info: d; shell: root.shell }
         },
         Transition {
             from: "180"; to: "0"
             enabled: d.animationType == d.fullAnimation
-            HalfLoopRotationAnimation { fromAngle: 180; toAngle: 0 }
+            HalfLoopRotationAnimation { fromAngle: 180; toAngle: 0
+                                        info: d; shell: root.shell }
         },
         Transition {
             from: "90"; to: "270"
             enabled: d.animationType == d.fullAnimation
-            HalfLoopRotationAnimation { fromAngle: 90; toAngle: 270 }
+            HalfLoopRotationAnimation { fromAngle: 90; toAngle: 270
+                                        info: d; shell: root.shell }
         },
         Transition {
             from: "270"; to: "90"
             enabled: d.animationType == d.fullAnimation
-            HalfLoopRotationAnimation { fromAngle: 270; toAngle: 90 }
+            HalfLoopRotationAnimation { fromAngle: 270; toAngle: 90
+                                        info: d; shell: root.shell }
         },
         Transition {
             objectName: "immediateTransition"
             enabled: d.animationType == d.noAnimation
-            ImmediateRotationAction {}
+            ImmediateRotationAction { info: d; shell: root.shell }
         },
         Transition {
             enabled: d.animationType == d.indicatorsBarAnimation
@@ -243,7 +255,7 @@ StateGroup {
                     target: root.shell; property: "indicatorAreaShowProgress"
                     from: 1.0; to: 0.0
                 }
-                ImmediateRotationAction {}
+                ImmediateRotationAction { info: d; shell: root.shell }
                 NumberAnimation {
                     duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing
                     target: root.shell; property: "indicatorAreaShowProgress"

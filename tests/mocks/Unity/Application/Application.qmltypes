@@ -239,6 +239,8 @@ Module {
         Property { name: "name"; type: "string"; isReadonly: true }
         Property { name: "live"; type: "bool"; isReadonly: true }
         Property { name: "orientation"; type: "Qt::ScreenOrientation" }
+        Property { name: "touchPressCount"; type: "int" }
+        Property { name: "touchReleaseCount"; type: "int" }
         Signal {
             name: "typeChanged"
             Parameter { type: "Type" }
@@ -250,6 +252,14 @@ Module {
         Signal {
             name: "liveChanged"
             Parameter { name: "live"; type: "bool" }
+        }
+        Signal {
+            name: "touchPressCountChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "touchReleaseCountChanged"
+            Parameter { name: "count"; type: "int" }
         }
         Signal { name: "inputMethodRequested" }
         Signal { name: "inputMethodDismissed" }
@@ -294,6 +304,10 @@ Module {
         Method { name: "release" }
         Method {
             name: "addChildSession"
+            Parameter { name: "session"; type: "Session"; isPointer: true }
+        }
+        Method {
+            name: "removeChildSession"
             Parameter { name: "session"; type: "Session"; isPointer: true }
         }
     }
@@ -344,6 +358,34 @@ Module {
             Parameter { name: "screenshot"; type: "QUrl" }
         }
         Method { name: "inputMethodSurface"; type: "MirSurfaceItem*" }
+    }
+    Component {
+        name: "UbuntuKeyboardInfo"
+        prototype: "QObject"
+        exports: ["Unity.Application/UbuntuKeyboardInfo 0.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Property { name: "x"; type: "double"; isReadonly: true }
+        Property { name: "y"; type: "double"; isReadonly: true }
+        Property { name: "width"; type: "double"; isReadonly: true }
+        Property { name: "height"; type: "double"; isReadonly: true }
+        Signal {
+            name: "xChanged"
+            Parameter { name: "x"; type: "double" }
+        }
+        Signal {
+            name: "yChanged"
+            Parameter { name: "y"; type: "double" }
+        }
+        Signal {
+            name: "widthChanged"
+            Parameter { name: "width"; type: "double" }
+        }
+        Signal {
+            name: "heightChanged"
+            Parameter { name: "height"; type: "double" }
+        }
     }
     Component {
         name: "unity::shell::application::ApplicationInfoInterface"

@@ -134,6 +134,7 @@ Label {
                             } 
                             anchors.topMargin: units.dp(2); 
                             elide: Text.ElideRight; 
+                            maximumLineCount: 1; 
                             fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                             color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");

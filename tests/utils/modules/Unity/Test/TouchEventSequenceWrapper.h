@@ -21,11 +21,13 @@
 #include <QtTest/QTest>
 #include <QtQml/qqml.h>
 
+class QQuickItem;
+
 class TouchEventSequenceWrapper : public QObject
 {
     Q_OBJECT
 public:
-    TouchEventSequenceWrapper(QTest::QTouchEventSequence eventSequence);
+    TouchEventSequenceWrapper(QTest::QTouchEventSequence eventSequence, QQuickItem *item);
 
     Q_INVOKABLE void commit(bool processEvents = true);
     Q_INVOKABLE void move(int touchId, int x, int y);
@@ -35,6 +37,7 @@ public:
 
 private:
     QTest::QTouchEventSequence m_eventSequence;
+    QQuickItem *m_item;
 };
 
 QML_DECLARE_TYPE(TouchEventSequenceWrapper)

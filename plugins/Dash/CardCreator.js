@@ -224,6 +224,8 @@ var kTitleLabelCode = 'Label { \n\
 
 // %1 is used as extra anchors of emblemIcon
 // %2 is used as color of emblemIcon
+// FIXME The width code is a
+// Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
 var kEmblemIconCode = 'Icon { \n\
                             id: emblemIcon; \n\
                             objectName: "emblemIcon"; \n\
@@ -235,6 +237,7 @@ var kEmblemIconCode = 'Icon { \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             color: %2; \n\
                             height: source != "" ? titleLabel.font.pixelSize : 0; \n\
+                            width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth; \n\
                         }\n';
 
 // %1 is used as anchors of touchdown effect
@@ -255,6 +258,7 @@ var kSubtitleLabelCode = 'Label { \n\
                             anchors { %1 } \n\
                             anchors.topMargin: units.dp(2); \n\
                             elide: Text.ElideRight; \n\
+                            maximumLineCount: 1; \n\
                             fontSize: "x-small"; \n\
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                             color: %2; \n\

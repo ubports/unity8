@@ -37,7 +37,7 @@ MockNotificationModel::MockNotificationModel(QObject *parent) : QAbstractListMod
 MockNotificationModel::~MockNotificationModel() {
 }
 
-int MockNotificationModel::rowCount(const QModelIndex &parent) const {
+int MockNotificationModel::rowCount(const QModelIndex &) const {
     return m_queue.size();
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -44,7 +44,7 @@ FocusScope {
         readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
         readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
         readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
-        readonly property url defaultScreenshot: root.application ? root.application.defaultScreenshot : ""
+        readonly property url defaultScreenshot: (root.application && root.application.defaultScreenshot !== undefined) ? root.application.defaultScreenshot : ""
 
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
@@ -126,7 +126,8 @@ FocusScope {
 
     SessionContainer {
         id: sessionContainer
-        session: application ? application.session : null
+        // A fake application might not even have a session property.
+        session: application && application.session ? application.session : null
         anchors.fill: parent
 
         surfaceOrientationAngle: application && application.rotatesWindowContents ? root.surfaceOrientationAngle : 0

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,9 +31,8 @@ Rectangle {
     property int dragAreaWidth
     property real maximizedAppTopMargin
     property bool interactive
-    property bool beingResized: false
+    property alias beingResized: spreadView.beingResized
 
-    // TODO: implement
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
 
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
@@ -294,7 +293,25 @@ Rectangle {
         property int draggedDelegateCount: 0
         property int closingIndex: -1
 
+        // FIXME: Workaround Flickable's not keepping its contentX still when resized
+        onContentXChanged: { forceItToRemainStillIfBeingResized(); }
+        onShiftChanged: { forceItToRemainStillIfBeingResized(); }
+        function forceItToRemainStillIfBeingResized() {
+            if (root.beingResized && contentX != -shift) {
+                contentX = -shift;
+            }
+        }
+
         property bool animateX: true
+        property bool beingResized: false
+        onBeingResizedChanged: {
+            if (beingResized) {
+                // Brace yourselves for impact!
+                selectedIndex = -1;
+                phase = 0;
+                contentX = -shift;
+            }
+        }
 
         property bool sideStageDragging: sideStageDragHandle.dragging
         property real sideStageDragProgress: sideStageDragHandle.progress
@@ -333,7 +350,6 @@ Rectangle {
             case "overlay":
                 return 1;
             }
-            print("Unhandled nextInStack case! This shouldn't happen any more when the Dash is an app!");
             return -1;
         }
         property int nextZInStack: indexToZIndex(nextInStack)
@@ -369,6 +385,10 @@ Rectangle {
         }
 
         onShiftedContentXChanged: {
+            if (root.beingResized) {
+                // Flickabe.contentX wiggles during resizes. Don't react to it.
+                return;
+            }
             if (spreadView.phase == 0 && spreadView.shiftedContentX > spreadView.width * spreadView.positionMarker2) {
                 spreadView.phase = 1;
             } else if (spreadView.phase == 1 && spreadView.shiftedContentX > spreadView.width * spreadView.positionMarker4) {
@@ -578,6 +598,7 @@ Rectangle {
 
                 delegate: TransformedTabletSpreadDelegate {
                     id: spreadTile
+                    objectName: "spreadDelegate_" + model.appId
                     width: {
                         if (wantsMainStage) {
                             return spreadView.width;
@@ -711,6 +732,7 @@ Rectangle {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
         direction: Direction.Leftwards
+        enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
         property var gesturePoints: new Array()
 
@@ -740,6 +762,7 @@ Rectangle {
             gesturePoints = [];
 
             var nextAppInStackIsInMainStage =
+                    spreadView.nextInStack !== -1 &&
                     ApplicationManager.get(spreadView.nextInStack).stage === ApplicationInfoInterface.MainStage;
 
             if (oneWayFlick && spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
