@@ -9,6 +9,7 @@ usr/share/unity8/Greeter
 usr/share/unity8/Launcher
 usr/share/unity8/Panel
 usr/share/unity8/Rotation
+usr/share/unity8/UnityInputInfo.qml
 usr/share/unity8/DeviceConfiguration.qml
 usr/share/unity8/OrientedShell.qml
 usr/share/unity8/Shell.qml

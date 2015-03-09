@@ -37,6 +37,33 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
+    UnityInputInfo {
+        id: inputInfo
+        Component.onCompleted: {
+            // We need to manually update this on startup as the binding
+            // below doesn't seem to have any effect at that stage
+            oskSettings.stayHidden = keyboards > 0
+            oskSettings.disableHeight = shell.usageScenario == "desktop"
+        }
+    }
+
+    GSettings {
+        id: oskSettings
+        schema.id: "com.canonical.keyboard.maliit"
+    }
+
+    Binding {
+        target: oskSettings
+        property: "stayHidden"
+        value: inputInfo.keyboards > 0
+    }
+
+    Binding {
+        target: oskSettings
+        property: "disableHeight"
+        value: shell.usageScenario == "desktop"
+    }
+
     // to be overwritten by tests
     property var usageModeSettings: GSettings { schema.id: "com.canonical.Unity8" }
     property int physicalOrientation: Screen.orientation
@@ -138,11 +165,18 @@ Rectangle {
         usageScenario: {
             if (root.usageModeSettings.usageMode === "Windowed") {
                 return "desktop";
-            } else if (root.usageModeSettings.usageMode === "Staged"
-                    && deviceConfiguration.category === "desktop") {
-                return "tablet";
-            } else {
-                return deviceConfiguration.category;
+            } else if (root.usageModeSettings.usageMode === "Staged") {
+                if (deviceConfiguration.category === "phone") {
+                    return "phone";
+                } else {
+                    return "tablet";
+                }
+            } else { // automatic
+                if (inputInfo.mice > 0) {
+                    return "desktop";
+                } else {
+                    return deviceConfiguration.category;
+                }
             }
         }
 
