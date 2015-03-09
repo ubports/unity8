@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-25 08:57-0500\n"
-"PO-Revision-Date: 2015-03-05 21:58+0000\n"
+"PO-Revision-Date: 2015-03-08 09:28+0000\n"
 "Last-Translator: Aggelos Arnaoutis <angelosarn@hotmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-06 06:04+0000\n"
-"X-Generator: Launchpad (build 17374)\n"
+"X-Launchpad-Export-Date: 2015-03-09 06:00+0000\n"
+"X-Generator: Launchpad (build 17383)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -64,11 +64,11 @@ msgstr "Επιθυμείτε σίγουρα να αποσυνδεθείτε;"
 
 #: qml/Components/Dialogs.qml:90
 msgid "Lock"
-msgstr ""
+msgstr "Κλείδωμα"
 
 #: qml/Components/Dialogs.qml:97
 msgid "Log Out"
-msgstr ""
+msgstr "Αποσύνδεση"
 
 #: qml/Components/Dialogs.qml:171
 msgid "Cancel"
