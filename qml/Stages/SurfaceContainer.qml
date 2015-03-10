@@ -26,8 +26,6 @@ FocusScope {
     property bool interactive
     property int surfaceOrientationAngle: 0
 
-    signal surfacePressed()
-
     onSurfaceChanged: {
         if (surface) {
             // Set the surface focus *after* it is added to the scene to
