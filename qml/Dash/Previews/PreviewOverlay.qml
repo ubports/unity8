@@ -35,10 +35,12 @@ Rectangle {
     property real initialWidth: 1
     property real initialHeight: 1
 
-    property real xScale: 0
-    property real yScale: 0
+    property real xScale: initialXScale
+    property real yScale: initialYScale
     property real progress: 0
 
+    implicitWidth: 1
+    implicitHeight: 1
     visible: progress > 0
     clip: progress > 0 && progress < 1
     color: Qt.rgba(0, 0, 0, progress)
