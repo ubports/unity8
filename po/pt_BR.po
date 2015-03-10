@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-25 08:57-0500\n"
-"PO-Revision-Date: 2015-03-08 20:38+0000\n"
-"Last-Translator: Tiago Hillebrandt <tiagohillebrandt@gmail.com>\n"
+"PO-Revision-Date: 2015-03-09 12:47+0000\n"
+"Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-03-09 06:00+0000\n"
-"X-Generator: Launchpad (build 17383)\n"
+"X-Launchpad-Export-Date: 2015-03-10 05:47+0000\n"
+"X-Generator: Launchpad (build 17389)\n"
 
 #: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
@@ -42,6 +42,8 @@ msgstr "Você foi bloqueado por que inseriu uma senha incorreta várias vezes."
 #: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Você foi bloqueado por que inseriu um código de acesso incorreto várias "
+"vezes."
 
 #: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
@@ -329,7 +331,7 @@ msgstr "Roaming"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Esta ação faz coisas diferentes para diferentes aplicações"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
@@ -341,11 +343,11 @@ msgstr "Abrir menus especiais"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "eslize para cima a partir da borda inferior."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Estes são os atalhos para aplicativos favoritos"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
@@ -357,11 +359,11 @@ msgstr "Abrir o lançador"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Deslize curto a partir da borda esquerda."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Você quase conseguiu!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
@@ -373,7 +375,7 @@ msgstr "Para ver os aplicativos abertos"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Deslize longo a partir da borda direita."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
@@ -492,6 +494,7 @@ msgstr "De jeito nenhum"
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"Você pode mudar de ideia mais tarde, em <b>Configurações do Sistema</ b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
@@ -552,7 +555,7 @@ msgstr "Escolha seu código secreto"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "A frase secreta deve possuir 4 caracteres"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
