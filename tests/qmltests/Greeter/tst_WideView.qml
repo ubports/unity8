@@ -341,7 +341,7 @@ Item {
             }
             fail("Didn't find name")
             return -1;
-        }       
+        }
 
         function selectIndex(i) {
             view.currentIndex = i;
