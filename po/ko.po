@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-13 11:45+0100\n"
+"POT-Creation-Date: 2015-02-25 08:57-0500\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-04 05:56+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -31,79 +31,90 @@ msgstr "바로 가기를 고정"
 msgid "Unpin shortcut"
 msgstr "바로 가기를 고정 해제"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "장치가 잠김"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "올바르지 않은 암호문을 너무 많이 입력해 장치가 잠겼습니다."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "올바르지 않은 패스코드를 너무 많이 입력해 장치가 잠겼습니다."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1분 정도 기다린 후 다시 시독해주십시오..."
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:87
 msgid "Log out"
 msgstr "로그아웃"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:88
 msgid "Are you sure you want to log out?"
 msgstr "정말 로그아웃하시겠습니까?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "아니요"
+#: qml/Components/Dialogs.qml:90
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "예"
+#: qml/Components/Dialogs.qml:97
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
+#: qml/Components/Dialogs.qml:191
+msgid "Cancel"
+msgstr "취소"
+
+#: qml/Components/Dialogs.qml:116
 msgid "Shut down"
 msgstr "컴퓨터 끄기"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:117
 msgid "Are you sure you want to shut down?"
 msgstr "정말 컴퓨터를 끄시겠습니까?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
 msgid "Reboot"
 msgstr "다시 시작"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:127
+msgid "Shutdown"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:148
 msgid "Are you sure you want to reboot?"
 msgstr "정말 컴퓨터를 다시 시작하시겠습니까?"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:150
+msgid "No"
+msgstr "아니요"
+
+#: qml/Components/Dialogs.qml:156
+msgid "Yes"
+msgstr "예"
+
+#: qml/Components/Dialogs.qml:170
 msgid "Power"
 msgstr "전원"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:171
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "정말 컴퓨터를 끄시겠습니까?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:173
 msgid "Power off"
 msgstr "전원 끄기"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:182
 msgid "Restart"
 msgstr "다시 시작"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "취소"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -176,7 +187,7 @@ msgstr "놓으면 새로 고침..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "위치 데이터 사용"
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
@@ -190,9 +201,71 @@ msgstr "홈"
 msgid "Also installed"
 msgstr "설치함"
 
-#: qml/Greeter/Greeter.qml:141
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "잠금 해제"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "올바르지 않은 암호문입니다."
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "최송합니다. 패스코드가 올바르지 않습니다."
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "마지막 시도입니다."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr "이번에도 올바르지 않은 암호문을 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr "이번에도 올바르지 않은 패스코드를 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "%1 입력"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "암호문을 입력해주십시오."
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "패스코드를 입력해주십시오."
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "죄송합니다. %1이(가) 올바르지 않습니다."
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "죄송합니다. 암호문일 올바르지 않습니다."
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "다시 입력해주십시오."
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "죄송합니다. 패스코드가 올바르지 않습니다."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -200,7 +273,7 @@ msgstr "암호 표시"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "통화로 돌아가려면 터치하세요..."
+msgstr "다시 통화하려면 두드려주십시오."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -220,7 +293,7 @@ msgstr "다운로드 중"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
-msgstr "일시 중지하였습니다. 계속하려면 눌러주세요."
+msgstr "일시 중지하였습니다. 계속하려면 두드려주십시오."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
@@ -232,7 +305,7 @@ msgstr "완료함"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
-msgstr "실패, 누르면 다시 시도합니다."
+msgstr "실패, 두드리련 다시 시도합니다."
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
@@ -246,111 +319,57 @@ msgstr "심 카드 잠금 해제"
 msgid "Roaming"
 msgstr "로밍"
 
-#: qml/Shell.qml:402
-#, qt-format
-msgid "Enter %1"
-msgstr "%1 입력"
-
-#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "암호문을 입력해주십시오."
-
-#: qml/Shell.qml:404
-msgid "Enter passcode"
-msgstr "패스코드를 입력해주십시오."
-
-#: qml/Shell.qml:405
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "죄송합니다. %1이(가) 올바르지 않습니다."
-
-#: qml/Shell.qml:406
-msgid "Sorry, incorrect passphrase"
-msgstr "죄송합니다. 암호문일 올바르지 않습니다."
-
-#: qml/Shell.qml:407
-msgid "Please re-enter"
-msgstr "다시 입력해주십시오."
-
-#: qml/Shell.qml:408
-msgid "Sorry, incorrect passcode"
-msgstr "죄송합니다. 패스코드가 올바르지 않습니다."
-
-#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "올바르지 않은 암호문입니다."
-
-#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "최송합니다. 패스코드가 올바르지 않습니다."
-
-#: qml/Shell.qml:504
-msgid "This will be your last attempt."
-msgstr "마지막 시도입니다."
-
-#: qml/Shell.qml:506
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr "이번에도 올바르지 않은 암호문을 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
-
-#: qml/Shell.qml:507
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr "이번에도 올바르지 않은 패스코드를 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
-
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "이 동작은 각 프로그램 별로 다르게 동작합니다."
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "끝내려면 여기를 두드리십시오."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "특별 메뉴 열기"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "아래쪽 가장자리에서 쓸어 올리십시오."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "자수 사용하는 프로그램의 바로 가기입니다."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "계속하려면 여기를 두드리십시오."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "런처 열기"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "왼쪽 가장자리에서 짧게 쓸기"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "거의 다 되었습니다!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "다시 시도하십시오."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "열리ㄴ 앱 보기"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "오른쪽 가장자리에서 길게 쓸기"
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "실행 중인 모든 사용자 작업 보기."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -379,11 +398,11 @@ msgstr "계속"
 msgid "Add a SIM card and restart your device"
 msgstr "심 카드를 추가한 후 장치 다시 시작"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "심 카드가 없으면 전화를 하거나 텍스트 메시지를 사용할 수 없습니다."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "건너뛰기"
 
@@ -397,7 +416,7 @@ msgstr "전화의 잠긴 상태를 해제할 방법을 선택해주십시오."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr "스와이프"
+msgstr "쓸기(스와이프)"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
