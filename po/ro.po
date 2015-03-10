@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-13 11:45+0100\n"
+"POT-Creation-Date: 2015-02-25 08:57-0500\n"
 "PO-Revision-Date: 2015-02-18 20:23+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2015-02-19 05:39+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-04 05:56+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -32,22 +32,22 @@ msgstr "Fixează scurtătura"
 msgid "Unpin shortcut"
 msgstr "Eliberează scurtătura"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Dispozitiv blocat"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Dispozitivul este blocat din cauza utilizării mai multor fraze parolă "
 "greșite."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Dispozitivul este blocat din cauza utilizării mai multor parole greșite."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -55,45 +55,60 @@ msgstr[0] "Așteptați %1 minut și apoi încercați din nou..."
 msgstr[1] "Așteptați %1 minute și apoi încercați din nou..."
 msgstr[2] "Așteptați %1 de minute și apoi încercați din nou..."
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:87
 msgid "Log out"
 msgstr "Închide sesiunea"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:88
 msgid "Are you sure you want to log out?"
 msgstr "Sunteți sigur că doriți să închideți sesiunea?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "Nu"
+#: qml/Components/Dialogs.qml:90
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "Da"
+#: qml/Components/Dialogs.qml:97
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
+#: qml/Components/Dialogs.qml:191
+msgid "Cancel"
+msgstr "Anulează"
+
+#: qml/Components/Dialogs.qml:116
 msgid "Shut down"
 msgstr "Închideți"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:117
 msgid "Are you sure you want to shut down?"
 msgstr "Sunteți sigur că doriți să închideți?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
 msgid "Reboot"
 msgstr "Repornire"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:127
+msgid "Shutdown"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:148
 msgid "Are you sure you want to reboot?"
 msgstr "Sunteți sigur că doriți să reporniți?"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:150
+msgid "No"
+msgstr "Nu"
+
+#: qml/Components/Dialogs.qml:156
+msgid "Yes"
+msgstr "Da"
+
+#: qml/Components/Dialogs.qml:170
 msgid "Power"
 msgstr "Alimentare"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:171
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -101,17 +116,13 @@ msgstr ""
 "Sunteți sigur că doriți să\n"
 "opriți alimentarea?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:173
 msgid "Power off"
 msgstr "Oprire"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:182
 msgid "Restart"
 msgstr "Repornire"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "Anulează"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -198,9 +209,77 @@ msgstr "Acasă"
 msgid "Also installed"
 msgstr "Alte programe instalate"
 
-#: qml/Greeter/Greeter.qml:141
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Deblocare"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "Frază parolă greșită"
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Parolă greșită"
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Aceasta va fi ultima încercare"
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Dacă fraza parolă este introdusă greșit, telefonul va iniția o resetare la "
+"configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
+"șterse."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Dacă parola este introdusă greșit, telefonul va iniția o resetare la "
+"configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
+"șterse."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Introducere %1"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Introduceți fraza parolă"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Introduceți parola"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "%1 incorectă"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "Frază secretă incorectă"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Introduceți din nou"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "Parolă incorectă"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -253,66 +332,6 @@ msgstr "Deblocare SIM"
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
 msgstr "Roaming"
-
-#: qml/Shell.qml:402
-#, qt-format
-msgid "Enter %1"
-msgstr "Introducere %1"
-
-#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Introduceți fraza parolă"
-
-#: qml/Shell.qml:404
-msgid "Enter passcode"
-msgstr "Introduceți parola"
-
-#: qml/Shell.qml:405
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "%1 incorectă"
-
-#: qml/Shell.qml:406
-msgid "Sorry, incorrect passphrase"
-msgstr "Frază secretă incorectă"
-
-#: qml/Shell.qml:407
-msgid "Please re-enter"
-msgstr "Introduceți din nou"
-
-#: qml/Shell.qml:408
-msgid "Sorry, incorrect passcode"
-msgstr "Parolă incorectă"
-
-#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Frază parolă greșită"
-
-#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Parolă greșită"
-
-#: qml/Shell.qml:504
-msgid "This will be your last attempt."
-msgstr "Aceasta va fi ultima încercare"
-
-#: qml/Shell.qml:506
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Dacă fraza parolă este introdusă greșit, telefonul va iniția o resetare la "
-"configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
-"șterse."
-
-#: qml/Shell.qml:507
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Dacă parola este introdusă greșit, telefonul va iniția o resetare la "
-"configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
-"șterse."
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
@@ -393,12 +412,12 @@ msgstr "Continuare"
 msgid "Add a SIM card and restart your device"
 msgstr "Adăugați un card SIM și reporniți dispozitivul dumneavoastră"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 "Fără acesta, nu veți putea efectua apeluri sau utiliza mesajele text."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Se omite"
 
