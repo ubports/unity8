@@ -103,7 +103,13 @@ PreviewWidget {
             onCurrentIndexChanged: {
                 // if the index changed while overlay is visible, it was from user interaction,
                 // let's update the index of the original listview
-                if (overlay.visible) previewImageListView.currentIndex = currentIndex;
+                if (overlay.visible) {
+                    previewImageListView.highlightMoveDuration = 0;
+                    previewImageListView.highlightResizeDuration = 0;
+                    previewImageListView.currentIndex = currentIndex;
+                    previewImageListView.highlightMoveDuration = -1;
+                    previewImageListView.highlightResizeDuration = -1;
+                }
             }
 
             delegate: Image {
