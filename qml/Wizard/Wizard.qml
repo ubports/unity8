@@ -25,6 +25,11 @@ Showable {
     // The background wallpaper to use
     property string background
 
+    // This is a bool instead of an alias because Loader classes like to emit
+    // changed signals for 'active' during startup even if they aren't actually
+    // changing values. Having it cached as a proper Qml bool property prevents
+    // unnecessary 'changed' emissions and provides consuming classes the
+    // expected behavior of no emission on startup.
     readonly property bool active: loader.active
 
     hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
