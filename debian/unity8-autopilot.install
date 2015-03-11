@@ -1,2 +1,4 @@
+data/unity-indicator-test-service.conf usr/share/upstart/sessions/
+usr/bin/unity-indicator-test-service
 usr/lib/python*/*/unity*
 usr/share/unity8/unlock-device

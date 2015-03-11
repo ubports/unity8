@@ -34,6 +34,7 @@
 #include "windowkeysfilter.h"
 #include "easingcurve.h"
 #include "windowstatestorage.h"
+#include "constants.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -41,6 +42,14 @@ static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEn
     Q_UNUSED(scriptEngine)
     return new WindowStateStorage();
 }
+
+static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Constants();
+}
+
 
 void UtilsPlugin::registerTypes(const char *uri)
 {
@@ -55,6 +64,8 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
+
+    qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "Constants", createConstants);
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

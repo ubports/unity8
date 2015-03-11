@@ -819,6 +819,10 @@ Item {
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
 
+            var sync = findInvisibleChild(loader.item, "sync");
+            verify(sync);
+            sync.syncTimeout = 500;
+
             compare(loader.item.checked, false, "Loader did not load check state");
             mouseClick(loader.item,
                        loader.item.width / 2, loader.item.height / 2);

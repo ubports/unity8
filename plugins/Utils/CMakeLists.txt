@@ -8,6 +8,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    constants.cpp
     qlimitproxymodelqml.cpp
     unitysortfilterproxymodelqml.cpp
     relativetimeformatter.cpp

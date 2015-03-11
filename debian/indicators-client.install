@@ -1,1 +1,3 @@
+data/indicators-client.conf usr/share/upstart/sessions/
+usr/share/applications/indicators-client.desktop
 /usr/bin/indicators-client

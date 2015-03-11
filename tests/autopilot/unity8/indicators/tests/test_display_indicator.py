@@ -23,7 +23,9 @@ from unity8 import (
 from unity8.indicators import tests
 
 
-class DisplayIndicatorTestCase(tests.IndicatorTestCase):
+class DisplayIndicatorTestCase(tests.DeviceIndicatorTestCase):
+
+    scenarios = tests.IndicatorTestCase.device_emulation_scenarios
 
     def test_indicator_icon_must_be_visible_after_rotation_locked(self):
         # TODO remove the skip when the bug is fixed. --elopio - 2015-01-20

@@ -96,3 +96,36 @@ class DisplayRotationLock(fixtures.Fixture):
             'rotation-lock', value_string
         ]
         subprocess.check_output(command)
+
+class LaunchTestIndicatorService(fixtures.Fixture):
+
+    """Fixture to launch the indicator test service."""
+
+    def __init__(self, binary_path, variables):
+        """Initialize an instance.
+
+        :param str binary_path: The path to the indicator test app binary.
+        :param variables: The variables to use when launching the app.
+        :type variables: A dictionary.
+
+        """
+        super(LaunchTestIndicatorService, self).__init__()
+        self.binary_path = binary_path
+        self.variables = variables
+
+    def setUp(self):
+        super(LaunchTestIndicatorService, self).setUp()
+        self.addCleanup(self.stop_service)
+        self.application_proxy = self.launch_service()
+
+    def launch_service(self):
+        binary_arg = 'BINARY={}'.format(self.binary_path)
+        testability_arg = 'QT_LOAD_TESTABILITY={}'.format(1)
+        env_args = [
+            '{}={}'.format(key, value) for key, value in self.variables.items()
+        ]
+        all_args = [binary_arg, testability_arg] + env_args
+        process_helpers.start_job('unity-indicator-test-service', *all_args)
+
+    def stop_service(self):
+        process_helpers.stop_job('unity-indicator-test-service')

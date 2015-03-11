@@ -16,9 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import ubuntuuitoolkit
+import subprocess
 from autopilot import introspection
 
 from unity8.shell import emulators
+from unity8 import fixture_setup
 
 
 class IndicatorPage(emulators.UnityEmulatorBase):
@@ -33,26 +35,25 @@ class IndicatorPage(emulators.UnityEmulatorBase):
     def validate_dbus_object(cls, path, state):
         return False
 
+class Indicator(object):
 
-class DisplayIndicator(object):
-
-    def __init__(self, main_window):
+    def __init__(self, main_window, name):
         self._main_window = main_window
+        self._name = name
 
     def is_indicator_icon_visible(self):
         panel_item = self._main_window.wait_select_single(
-            objectName='indicator-rotation-lock-panelItem')
+            objectName=self._name+'-panelItem')
         return panel_item.indicatorVisible
 
     def open(self):
-        """Open the display indicator page.
+        """Open the indicator page.
 
-        :return: The custom proxy object for the display indicator page.
+        :return: The custom proxy object for the indicator page.
 
         """
         if self.is_indicator_icon_visible():
-            return self._main_window.open_indicator_page(
-                'indicator-rotation-lock')
+            return self._main_window.open_indicator_page(self._name)
         else:
             return self._open_indicator_with_icon_not_visible()
 
@@ -61,10 +62,10 @@ class DisplayIndicator(object):
         self._main_window.open_indicator_page('indicator-datetime')
         self._make_indicator_icon_visible()
         indicator_rotation_icon = self._main_window.select_single(
-            objectName='indicator-rotation-lock-panelItem')
+            objectName=self._name+'-panelItem')
         self._main_window.pointing_device.click_object(indicator_rotation_icon)
         return self._main_window.wait_select_single(
-            objectName='indicator-rotation-lock-page')
+            objectName=self._name+'-page')
 
     def _make_indicator_icon_visible(self):
         indicators_bar_flickable = self._main_window.select_single(
@@ -95,6 +96,13 @@ class DisplayIndicator(object):
         self._main_window.close_indicator_page()
 
 
+class DisplayIndicator(Indicator):
+
+    def __init__(self, main_window):
+        super(DisplayIndicator, self).__init__(main_window, 'indicator-rotation-lock')
+        self._main_window = main_window
+
+
 class DisplayIndicatorPage(IndicatorPage):
 
     """Autopilot helper for the display indicator page."""
@@ -122,3 +130,39 @@ class DisplayIndicatorPage(IndicatorPage):
         switcher = self._get_switcher()
         switcher.uncheck()
         switcher.checked.wait_for(False)
+
+
+class TestIndicator(Indicator):
+
+    def __init__(self, main_window):
+        super(TestIndicator, self).__init__(main_window, 'indicator-test')
+        self._main_window = main_window
+
+
+class TestIndicatorPage(IndicatorPage):
+
+    """Autopilot helper for the test indicator page."""
+
+    @classmethod
+    def validate_dbus_object(cls, path, state):
+        name = introspection.get_classname_from_path(path)
+        if name == b'IndicatorPage':
+            if state['objectName'][1] == 'indicator-test-page':
+                return True
+        return False
+
+    def get_switcher(self):
+        return self.select_single(
+            ubuntuuitoolkit.CheckBox, objectName='switcher')
+
+    def get_checkbox(self):
+        return self.select_single(
+            ubuntuuitoolkit.CheckBox, objectName='checkbox')
+
+    def get_switch_menu(self):
+        return self.select_single(
+            'SwitchMenu', objectName='indicator.action.switch')
+
+    def get_checkbox_menu(self):
+        return self.select_single(
+            'CheckableMenu', objectName='indicator.action.check')
