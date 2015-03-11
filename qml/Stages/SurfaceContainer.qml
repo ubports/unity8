@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Ubuntu.Gestures 0.1 // For TouchGate
+import Utils 0.1 // for InputWatcher
 
 FocusScope {
     id: root
@@ -45,17 +46,23 @@ FocusScope {
     Binding { target: surface; property: "enabled"; value: root.interactive; when: surface }
     Binding { target: surface; property: "antialiasing"; value: !root.interactive; when: surface }
 
+    InputWatcher {
+        target: root.surface
+        onPressedChanged: {
+            if (pressed) {
+                root.focus = true;
+                if (root.interactive) {
+                    root.forceActiveFocus();
+                }
+            }
+        }
+    }
+
     TouchGate {
         targetItem: surface
         anchors.fill: root
         enabled: root.surface ? root.surface.enabled : false
         z: 2
-        onPressed: {
-            root.focus = true;
-            if (root.interactive) {
-                root.forceActiveFocus();
-            }
-        }
     }
 
     states: [
