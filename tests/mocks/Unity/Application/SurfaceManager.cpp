@@ -59,26 +59,6 @@ void SurfaceManager::registerSurface(MirSurfaceItem *surface)
         surface->setLive(false);
         Q_EMIT surfaceDestroyed(surface);
     });
-
-    GenericApp *genericApp = qobject_cast<GenericApp*>(surface);
-    if (genericApp) {
-        connect(genericApp, &GenericApp::inputMethodRequested,
-                this, &SurfaceManager::showInputMethod, Qt::QueuedConnection);
-        connect(genericApp, &GenericApp::inputMethodDismissed,
-                this, &SurfaceManager::hideInputMethod, Qt::QueuedConnection);
-    }
-}
-
-void SurfaceManager::showInputMethod()
-{
-    inputMethodSurface()->setState(MirSurfaceItem::Restored);
-}
-
-void SurfaceManager::hideInputMethod()
-{
-    if (m_virtualKeyboard) {
-        m_virtualKeyboard->setState(MirSurfaceItem::Minimized);
-    }
 }
 
 MirSurfaceItem *SurfaceManager::inputMethodSurface()

@@ -44,17 +44,8 @@ Q_SIGNALS:
     void touchPressCountChanged(int count);
     void touchReleaseCountChanged(int count);
 
-    void inputMethodRequested();
-    void inputMethodDismissed();
-
-    // internal mock use
-    void deregister();
-
 protected:
     void touchEvent(QTouchEvent * event) override;
-
-private Q_SLOTS:
-    void onActiveFocusChanged();
 
 private:
     explicit GenericApp(const QString& name,
@@ -64,17 +55,8 @@ private:
                             const QString &qmlFilePath = QString(),
                             QQuickItem *parent = 0);
 
-    void createQmlContentItem();
-    void printComponentErrors();
-
     int m_touchPressCount;
     int m_touchReleaseCount;
-
-    QQmlComponent *m_qmlContentComponent;
-    QQuickItem *m_qmlItem;
-    QUrl m_screenshotUrl;
-
-    bool m_requestedInputMethod;
 
     friend class SurfaceManager;
 };

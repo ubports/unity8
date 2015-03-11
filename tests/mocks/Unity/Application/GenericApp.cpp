@@ -32,25 +32,11 @@ GenericApp::GenericApp(const QString& name,
     : MirSurfaceItem(name, type, state, screenshot, qmlFilePath, parent)
     , m_touchPressCount(0)
     , m_touchReleaseCount(0)
-    , m_requestedInputMethod(false)
 {
-    connect(this, &QQuickItem::activeFocusChanged,
-            this, &GenericApp::onActiveFocusChanged);
 }
 
 GenericApp::~GenericApp()
 {
-}
-
-void GenericApp::onActiveFocusChanged()
-{
-    if (hasActiveFocus()) {
-        if (m_requestedInputMethod) {
-            Q_EMIT inputMethodRequested();
-        }
-    } else {
-        Q_EMIT inputMethodDismissed();
-    }
 }
 
 void GenericApp::touchEvent(QTouchEvent * event)
@@ -58,16 +44,6 @@ void GenericApp::touchEvent(QTouchEvent * event)
     if (event->touchPointStates() & Qt::TouchPointPressed) {
         ++m_touchPressCount;
         Q_EMIT touchPressCountChanged(m_touchPressCount);
-
-        if (hasActiveFocus()) {
-            if (m_requestedInputMethod) {
-                Q_EMIT inputMethodDismissed();
-            } else {
-                Q_EMIT inputMethodRequested();
-            }
-            m_requestedInputMethod = !m_requestedInputMethod;
-        }
-
     } else if (event->touchPointStates() & Qt::TouchPointReleased) {
         ++m_touchReleaseCount;
         Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
