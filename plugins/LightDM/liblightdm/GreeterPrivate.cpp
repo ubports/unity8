@@ -246,8 +246,8 @@ private:
         if (pamHandle != nullptr) {
             pam_handle *handle = pamHandle;
             pamHandle = nullptr; // to disable normal finishPam() handling
-            futureWatcher.future().cancel();
-            while (!futureWatcher.future().isFinished()) {
+            futureWatcher.cancel();
+            while (!futureWatcher.isFinished()) {
                 QCoreApplication::processEvents(); // let signal/slot handling happen
                 respond(QString());
             }
