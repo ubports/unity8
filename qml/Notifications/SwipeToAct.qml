@@ -32,8 +32,6 @@ Item {
     readonly property double sliderHeight: units.gu(8)
     readonly property double gap: units.gu(1)
     readonly property color sliderMainColor: "#b2b2b2"
-    readonly property color green: "#38b44a"
-    readonly property color red: "#df382c"
     readonly property color sliderBGColor: "#f4f4f4"
     readonly property double halfWay: mouseArea.drag.maximumX / 2
 
@@ -67,13 +65,15 @@ Item {
         width: parent.width
         height: sliderHeight
         color: sliderBGColor
+        borderSource: "none"
 
             UbuntuShape {
                 id: leftShape
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: gap
-                color: red
+                color: UbuntuColors.red
+                borderSource: "none"
 
                 state: "normal"
                 height: units.gu(6)
@@ -121,12 +121,15 @@ Item {
                 objectName: "slider"
                 anchors.top: parent.top
                 anchors.margins: gap
+                x: halfWay
 
                 Component.onCompleted: {
-                    x = halfWay
+                    xBehavior.enabled = true
                 }
 
                 Behavior on x {
+                    id: xBehavior
+                    enabled: false
                     UbuntuNumberAnimation {
                         duration: UbuntuAnimation.FastDuration
                         easing.type: Easing.OutBounce
@@ -191,7 +194,8 @@ Item {
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: gap
-                color: green
+                color: UbuntuColors.green
+                borderSource: "none"
 
                 state: "normal"
                 height: units.gu(6)
