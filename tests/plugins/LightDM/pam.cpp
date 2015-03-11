@@ -32,6 +32,7 @@ private Q_SLOTS:
     void cleanup()
     {
         delete m_greeterpriv;
+        QTRY_COMPARE(QThreadPool::globalInstance()->activeThreadCount(), 0);
     }
 
     void testRapidFireAuthentication()
