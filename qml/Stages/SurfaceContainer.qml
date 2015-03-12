@@ -49,9 +49,6 @@ FocusScope {
         onTargetPressedChanged: {
             if (targetPressed && root.interactive) {
                 root.focus = true;
-                // The command above should suffice, but in case any parent FocusScope
-                // is not focused for some reason (although it should), we ensure they're
-                // all focused for good measure.
                 root.forceActiveFocus();
             }
         }
