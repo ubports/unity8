@@ -92,6 +92,7 @@ Rectangle {
                 CheckBox {id: interactiveCheckbox; checked: true; }
                 Label { text: "interactive" }
             }
+            MouseTouchEmulationCheckbox {}
         }
     }
 
@@ -167,6 +168,24 @@ Rectangle {
             // was *not* interactive when it happened.
             compare(surfaceContainer.surface.touchPressCount, 1)
             compare(surfaceContainer.surface.touchReleaseCount, 1);
+        }
+
+        function test_surfaceGetsActiveFocusOnMousePress() {
+            surfaceCheckbox.checked = true;
+            verify(surfaceContainer.surface !== null);
+
+            compare(surfaceContainer.surface.activeFocus, false);
+            mouseClick(surfaceContainer);
+            compare(surfaceContainer.surface.activeFocus, true);
+        }
+
+        function test_surfaceGetsActiveFocusOnTap() {
+            surfaceCheckbox.checked = true;
+            verify(surfaceContainer.surface !== null);
+
+            compare(surfaceContainer.surface.activeFocus, false);
+            tap(surfaceContainer);
+            compare(surfaceContainer.surface.activeFocus, true);
         }
     }
 }

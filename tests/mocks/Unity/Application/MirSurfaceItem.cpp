@@ -47,6 +47,12 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
 {
     qDebug() << "MirSurfaceItem::MirSurfaceItem() " << this->name();
 
+    setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
+        Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
+        Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
+        Qt::ExtraButton9 | Qt::ExtraButton10 | Qt::ExtraButton11 |
+        Qt::ExtraButton12 | Qt::ExtraButton13);
+
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
     connect(this, &QQuickItem::focusChanged,
