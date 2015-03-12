@@ -48,7 +48,7 @@ void InputWatcher::setTarget(QObject *value)
     m_target->installEventFilter(this);
 }
 
-bool InputWatcher::pressed() const
+bool InputWatcher::targetPressed() const
 {
     return m_mousePressed || m_touchPressed;
 }
@@ -93,10 +93,10 @@ void InputWatcher::setMousePressed(bool value)
         return;
     }
 
-    bool oldPressed = pressed();
+    bool oldPressed = targetPressed();
     m_mousePressed = value;
-    if (pressed() != oldPressed) {
-        Q_EMIT pressedChanged(pressed());
+    if (targetPressed() != oldPressed) {
+        Q_EMIT targetPressedChanged(targetPressed());
     }
 }
 
@@ -106,9 +106,9 @@ void InputWatcher::setTouchPressed(bool value)
         return;
     }
 
-    bool oldPressed = pressed();
+    bool oldPressed = targetPressed();
     m_touchPressed = value;
-    if (pressed() != oldPressed) {
-        Q_EMIT pressedChanged(pressed());
+    if (targetPressed() != oldPressed) {
+        Q_EMIT targetPressedChanged(targetPressed());
     }
 }

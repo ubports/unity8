@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import ".."
 import "../../../qml/Stages"
 import Ubuntu.Components 0.1
@@ -32,6 +32,8 @@ Rectangle {
         id: surfaceContainerComponent
         SurfaceContainer {
             anchors.fill: parent
+            orientation: Qt.PortraitOrientation
+            interactive: interactiveCheckbox.checked
         }
     }
     Loader {
@@ -85,6 +87,11 @@ Rectangle {
                 CheckBox {id: fullscreenCheckbox; checked: true; }
                 Label { text: "fullscreen" }
             }
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                CheckBox {id: interactiveCheckbox; checked: true; }
+                Label { text: "interactive" }
+            }
         }
     }
 
@@ -94,7 +101,7 @@ Rectangle {
         signalName: "surfaceDestroyed"
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         id: testCase
         name: "SurfaceContainer"
         when: windowShown
@@ -110,6 +117,8 @@ Rectangle {
 
             tryCompare(surfaceContainerLoader.item, "surface", null);
             surfaceSpy.clear();
+
+            interactiveCheckbox.checked = true;
         }
 
         /*
@@ -145,14 +154,13 @@ Rectangle {
             surfaceContainer.surface.touchPressCount = 0;
             surfaceContainer.surface.touchReleaseCount = 0;
 
-            surfaceContainer.interactive = true;
             tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
 
             // surface got touches as the surfaceContainer is interactive
             compare(surfaceContainer.surface.touchPressCount, 1)
             compare(surfaceContainer.surface.touchReleaseCount, 1);
 
-            surfaceContainer.interactive = false;
+            interactiveCheckbox.checked = false;
             tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
 
             // surface shouldn't get the touches from the second tap as the surfaceContainer

@@ -29,20 +29,22 @@ class InputWatcher : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject* target READ target WRITE setTarget NOTIFY targetChanged)
-    Q_PROPERTY(bool pressed READ pressed NOTIFY pressedChanged)
+
+    // Whether the target object is pressed (by either touch or mouse)
+    Q_PROPERTY(bool targetPressed READ targetPressed NOTIFY targetPressedChanged)
 public:
     InputWatcher(QObject *parent = nullptr);
 
     QObject *target() const;
     void setTarget(QObject *value);
 
-    bool pressed() const;
+    bool targetPressed() const;
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 Q_SIGNALS:
     void targetChanged(QObject *value);
-    void pressedChanged(bool value);
+    void targetPressedChanged(bool value);
 
 private:
     void setMousePressed(bool value);

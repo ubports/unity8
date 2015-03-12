@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -27,8 +27,6 @@ FocusScope {
     property int orientation
     property bool interactive
 
-    signal surfacePressed()
-
     onSurfaceChanged: {
         if (surface) {
             // Set the surface focus *after* it is added to the scene to
@@ -48,12 +46,13 @@ FocusScope {
 
     InputWatcher {
         target: root.surface
-        onPressedChanged: {
-            if (pressed) {
+        onTargetPressedChanged: {
+            if (targetPressed && root.interactive) {
                 root.focus = true;
-                if (root.interactive) {
-                    root.forceActiveFocus();
-                }
+                // The command above should suffice, but in case any parent FocusScope
+                // is not focused for some reason (although it should), we ensure they're
+                // all focused for good measure.
+                root.forceActiveFocus();
             }
         }
     }
