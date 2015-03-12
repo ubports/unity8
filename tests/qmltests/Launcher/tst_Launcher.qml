@@ -80,9 +80,7 @@ Item {
         spacing: units.gu(1)
         width: units.gu(20)
 
-        MouseTouchEmulationCheckbox {
-            id: touchEmulationCheckBox
-        }
+        MouseTouchEmulationCheckbox {}
 
         Button {
             text: "emit hinting signal"

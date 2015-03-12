@@ -22,7 +22,6 @@ import Unity.Test 0.1
 RowLayout {
     id: root
     property alias color: label.color
-    property alias checked: checkbox.checked
 
     Binding {
         target: MouseTouchAdaptor
