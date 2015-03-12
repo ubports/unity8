@@ -74,7 +74,6 @@ Item {
             }
         }
     }
-    property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
 
     ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
@@ -103,11 +102,12 @@ Item {
         target: LauncherModel
     }
 
-    LauncherTestCase {
-        id: testCaseTouch
-        name: "LauncherTouch"
-        launcher: root.launcher
+    UnityTestCase {
+        id: testCase
+        name: "Launcher"
+        when: windowShown
 
+        property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
         function cleanup() {
             launcherLoader.active = false;
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
@@ -120,7 +120,8 @@ Item {
             launcherLoader.active = true;
         }
         function init() {
-            touchEmulationCheckBox.checked = true;
+            // Make sure we don't start the test with the mouse hovering the launcher
+            mouseMove(root, root.width, root.height / 2);
 
             var listView = findChild(launcher, "launcherListView");
             // wait for it to settle before doing the flick. Otherwise the flick
@@ -154,6 +155,34 @@ Item {
             tryCompare(launcher, "state", "visible");
         }
 
+        function revealByHover() {
+            mouseMove(root, 1, root.height / 2);
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel != undefined);
+
+            // wait until it gets fully extended
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visibleTemporary");
+        }
+
+        function waitUntilLauncherDisappears() {
+            var panel = findChild(launcher, "launcherPanel");
+            tryCompare(panel, "x", -panel.width, 1000);
+        }
+
+        function positionLauncherListAtBeginning() {
+            var listView = testCase.findChild(launcherLoader.item, "launcherListView");
+            listView.contentY = -listView.topMargin;
+        }
+        function positionLauncherListAtEnd() {
+            var listView = testCase.findChild(launcherLoader.item, "launcherListView");
+            if ((listView.contentHeight + listView.topMargin + listView.bottomMargin) > listView.height) {
+                listView.contentY = listView.topMargin + listView.contentHeight
+                    - listView.height;
+            }
+        }
+
         // Drag from the left edge of the screen rightwards and check that the launcher
         // appears (as if being dragged by the finger/pointer)
         function test_dragLeftEdgeToRevealLauncherAndTapCenterToDismiss() {
@@ -178,8 +207,19 @@ Item {
            Launcher::launcherApplicationSelected signal should be emitted with the
            corresponding desktop file. E.g. clicking on phone icon should yield
            launcherApplicationSelected("[...]dialer-app.desktop") */
-        function test_clickingOnAppIconCausesSignalEmission() {
-            dragLauncherIntoView();
+        function test_clickingOnAppIconCausesSignalEmission_data() {
+            return [
+                {tag: "by mouse", mouse: true},
+                {tag: "by touch", mouse: false}
+            ]
+        }
+
+        function test_clickingOnAppIconCausesSignalEmission(data) {
+            if (data.mouse) {
+                revealByHover();
+            } else {
+                dragLauncherIntoView();
+            }
             launcher.lastSelectedApplication = "";
             launcher.inverted = false;
 
@@ -548,32 +588,6 @@ Item {
 
             tryCompare(quickList, "state", "");
         }
-    }
-
-    LauncherTestCase {
-        id: testCaseMouse
-        name: "LauncherMouse"
-        launcher: root.launcher
-
-        function init() {
-            touchEmulationCheckBox.checked = false;
-        }
-        function cleanup() {
-            // Make sure we don't stop the test with the mouse hovering the launcher
-            mouseMove(root, root.width, root.height / 2);
-            waitUntilLauncherDisappears();
-        }
-
-        function revealByHover() {
-            mouseMove(root, 1, root.height / 2);
-
-            var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
-
-            // wait until it gets fully extended
-            tryCompare(panel, "x", 0);
-            tryCompare(launcher, "state", "visibleTemporary");
-        }
 
         function test_revealByHover() {
             var panel = findChild(launcher, "launcherPanel");
@@ -585,28 +599,6 @@ Item {
             // Now move the mouse away and make sure it hides in less than a second
             mouseMove(root, root.width, root.height / 2)
 
-            tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
-            waitUntilLauncherDisappears();
-        }
-
-        function test_launchAppByMouseClick() {
-            revealByHover();
-
-            launcher.lastSelectedApplication = "";
-            launcher.inverted = false;
-
-            positionLauncherListAtBeginning();
-
-            var appIcon = findChild(launcher, "launcherDelegate0");
-
-            verify(appIcon != undefined);
-
-            mouseClick(appIcon);
-
-            tryCompare(launcher, "lastSelectedApplication",
-                       appIcon.appId);
-
-            // Clicking an icon should make it disappear
             tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
             waitUntilLauncherDisappears();
         }
