@@ -78,7 +78,7 @@ Item {
     ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
         spacing: units.gu(1)
-        width: units.gu(20)
+        width: childrenRect.width
 
         MouseTouchEmulationCheckbox {}
 
