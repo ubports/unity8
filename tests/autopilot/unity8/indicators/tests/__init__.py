@@ -34,8 +34,8 @@ class IndicatorTestCase(tests.UnityTestCase):
 class DeviceIndicatorTestCase(IndicatorTestCase):
 
     def setUp(self):
-        # if platform.model() == 'Desktop':
-        #     self.skipTest('Test cannot be run on the desktop.')
+        if platform.model() == 'Desktop':
+            self.skipTest('Test cannot be run on the desktop.')
         super(DeviceIndicatorTestCase, self).setUp()
         self.unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(self.unity_proxy)

@@ -16,7 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import ubuntuuitoolkit
-import subprocess
 from autopilot import introspection
 
 from unity8.shell import emulators
