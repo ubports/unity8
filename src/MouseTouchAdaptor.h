@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,15 +27,26 @@ class QMouseEvent;
 class QTouchDevice;
 
 // Transforms QMouseEvents into single-finger QTouchEvents.
-class MouseTouchAdaptor : public QAbstractNativeEventFilter {
-
+class MouseTouchAdaptor : public QObject, public QAbstractNativeEventFilter {
+    Q_OBJECT
 public:
-    MouseTouchAdaptor();
+    virtual ~MouseTouchAdaptor();
+
+    static MouseTouchAdaptor* instance();
 
     // Filters mouse events and posts the equivalent QTouchEvents.
-    virtual bool nativeEventFilter(const QByteArray & eventType, void *message, long *result);
+    bool nativeEventFilter(const QByteArray & eventType, void *message, long *result) override;
+
+    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+
+    bool enabled() const;
+    void setEnabled(bool value);
+
+Q_SIGNALS:
+    void enabledChanged(bool value);
 
 private:
+    MouseTouchAdaptor();
 
     bool handleButtonPress(xcb_button_press_event_t *pressEvent);
     bool handleButtonRelease(xcb_button_release_event_t *releaseEvent);
@@ -44,6 +55,8 @@ private:
 
     QTouchDevice *m_touchDevice;
     bool m_leftButtonIsPressed;
+
+    bool m_enabled;
 };
 
 #endif // MOUSE_TOUCH_ADAPTOR_H
