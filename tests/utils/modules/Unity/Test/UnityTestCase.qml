@@ -221,6 +221,16 @@ TestCase {
         }
     }
 
+    function tryTouchFlickToYEnd(item, x, y, toX, toY) {
+        var i = 0;
+        while (i < 5 && !item.atYEnd) {
+            touchFlick(item, x, y, toX, toY);
+            tryCompare(item, "moving", false);
+            ++i;
+        }
+        tryCompare(item, "atYEnd", true);
+    }
+
     function touchEvent(item) {
         return UT.Util.touchEvent(item)
     }
