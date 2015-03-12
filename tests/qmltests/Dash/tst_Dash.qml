@@ -497,7 +497,7 @@ Item {
             tryCompare(subPageLoader, "x", 0);
             tryCompare(findChild(dashTempScopeItem, "categoryListView"), "visible", false);
             var previewListRow0 = findChild(subPageLoader, "previewListRow0");
-            tryTouchFlickToYEnd(previewListRow0, previewListRow0.width / 2, units.gu(20), previewListRow0.width / 2, units.gu(1));
+            flickToYEnd(previewListRow0);
             var widget = findChild(subPageLoader, "widget-21");
             var initialWidgetHeight = widget.height;
             var openButton = findChild(widget, "buttonopen_click");
