@@ -100,7 +100,7 @@ class DisplayRotationLock(fixtures.Fixture):
         ]
         subprocess.check_output(command)
 
-class LaunchTestIndicatorService(fixtures.Fixture):
+class LaunchMockIndicatorService(fixtures.Fixture):
 
     """Fixture to launch the indicator test service."""
 
@@ -112,12 +112,12 @@ class LaunchTestIndicatorService(fixtures.Fixture):
         :param boolean ensure_not_running: Make sure service is not running
 
         """
-        super(LaunchTestIndicatorService, self).__init__()
+        super(LaunchMockIndicatorService, self).__init__()
         self.variables = variables
         self.ensure_not_running = ensure_not_running
 
     def setUp(self):
-        super(LaunchTestIndicatorService, self).setUp()
+        super(LaunchMockIndicatorService, self).setUp()
         if self.ensure_not_running:
             self.ensure_service_not_running()
         self.addCleanup(self.stop_service)

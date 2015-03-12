@@ -52,7 +52,7 @@ class TestIndicatorBaseTestCase(tests.IndicatorTestCase):
         self.indicator_page = self.indicator.open()
 
     def launch_indicator_service(self, variables):
-        launch_service_fixture = fixture_setup.LaunchTestIndicatorService(variables)
+        launch_service_fixture = fixture_setup.LaunchMockIndicatorService(variables)
         self.useFixture(launch_service_fixture)
 
 
