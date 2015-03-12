@@ -24,7 +24,7 @@ bus_acquired (GDBusConnection *connection,
     GError *error = NULL;
 
     indicator->actions_export_id = g_dbus_connection_export_action_group (connection,
-                                                                        "/com/canonical/indicator/test",
+                                                                        "/com/canonical/indicator/mock",
                                                                         G_ACTION_GROUP (indicator->actions),
                                                                         &error);
     if (indicator->actions_export_id == 0)
@@ -35,7 +35,7 @@ bus_acquired (GDBusConnection *connection,
     }
 
     indicator->menu_export_id = g_dbus_connection_export_menu_model (connection,
-                                                                   "/com/canonical/indicator/test/desktop",
+                                                                   "/com/canonical/indicator/mock/desktop",
                                                                    G_MENU_MODEL (indicator->menu),
                                                                    &error);
     if (indicator->menu_export_id == 0)
@@ -141,6 +141,7 @@ main (int argc, char **argv)
                                  " 'accessible-desc': <'Test indicator'> }", NULL },
         { "action.show", activate_show, NULL, NULL, NULL },
         { "action.switch", activate_switch, NULL, "true", NULL },
+        { "action.checkbox", activate_switch, NULL, "true", NULL },
         { "action.accessPoint", activate_switch, NULL, "false", NULL },
         { "action.slider", NULL, NULL, "0.5", change_slider }
     };
@@ -202,7 +203,11 @@ main (int argc, char **argv)
     g_menu_item_set_attribute (item, "x-canonical-type", "s", "com.canonical.indicator.switch");
     g_menu_append_item(submenu, item);
 
-    // Access Point
+    // Checkbox
+    item = g_menu_item_new("Checkbox", "indicator.action.checkbox");
+    g_menu_append_item(submenu, item);
+
+    // Slider
     item = g_menu_item_new("Slider", "indicator.action.slider");
     g_menu_item_set_attribute (item, "x-canonical-type", "s", "com.canonical.indicator.slider");
     g_menu_append_item(submenu, item);
@@ -220,7 +225,7 @@ main (int argc, char **argv)
     g_menu_append_item (indicator.menu, item);
 
     g_bus_own_name (G_BUS_TYPE_SESSION,
-                  "com.canonical.indicator.test",
+                  "com.canonical.indicator.mock",
                   G_BUS_NAME_OWNER_FLAGS_NONE,
                   bus_acquired,
                   NULL,

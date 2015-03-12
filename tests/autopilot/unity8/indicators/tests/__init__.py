@@ -24,7 +24,7 @@ from unity8.shell import tests
 
 class IndicatorTestCase(tests.UnityTestCase):
 
-    device_emulation_scenarios = tests._get_device_emulation_scenarios('Nexus4')
+    device_emulation_scenarios = tests._get_device_emulation_scenarios()
 
     def setUp(self):
         super(IndicatorTestCase, self).setUp()

@@ -22,7 +22,10 @@ import subprocess
 
 from autopilot import introspection
 
-from unity8 import process_helpers
+from unity8 import (
+    get_binary_path,
+    process_helpers
+)
 from unity8.shell import emulators
 
 
@@ -101,31 +104,38 @@ class LaunchTestIndicatorService(fixtures.Fixture):
 
     """Fixture to launch the indicator test service."""
 
-    def __init__(self, binary_path, variables):
+    def __init__(self, variables, ensure_not_running=True):
         """Initialize an instance.
 
-        :param str binary_path: The path to the indicator test app binary.
         :param variables: The variables to use when launching the app.
         :type variables: A dictionary.
+        :param boolean ensure_not_running: Make sure service is not running
 
         """
         super(LaunchTestIndicatorService, self).__init__()
-        self.binary_path = binary_path
         self.variables = variables
+        self.ensure_not_running = ensure_not_running
 
     def setUp(self):
         super(LaunchTestIndicatorService, self).setUp()
+        if self.ensure_not_running:
+            self.ensure_service_not_running()
         self.addCleanup(self.stop_service)
         self.application_proxy = self.launch_service()
 
     def launch_service(self):
-        binary_arg = 'BINARY={}'.format(self.binary_path)
+        binary_path = get_binary_path('unity-mock-indicator-service')
+        binary_arg = 'BINARY={}'.format(binary_path)
         testability_arg = 'QT_LOAD_TESTABILITY={}'.format(1)
         env_args = [
             '{}={}'.format(key, value) for key, value in self.variables.items()
         ]
         all_args = [binary_arg, testability_arg] + env_args
-        process_helpers.start_job('unity-indicator-test-service', *all_args)
+        process_helpers.start_job('unity-mock-indicator-service', *all_args)
 
     def stop_service(self):
-        process_helpers.stop_job('unity-indicator-test-service')
+        process_helpers.stop_job('unity-mock-indicator-service')
+
+    def ensure_service_not_running(self):
+        if process_helpers.is_job_running('unity-mock-indicator-service'):
+            self.stop_service()

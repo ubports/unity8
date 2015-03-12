@@ -11,13 +11,5 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
     )
 
-# install upstart config files
-install(FILES
-    ${SHELL_APP}.conf
-    ${DASH_APP}.conf
-    ${INDICATOR_TEST_SERVICE_APP}.conf
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/upstart/sessions
-    )
-
 install(FILES com.canonical.Unity8.gschema.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
 install(FILES unity8-dash.url-dispatcher DESTINATION ${CMAKE_INSTALL_DATADIR}/url-dispatcher/urls)

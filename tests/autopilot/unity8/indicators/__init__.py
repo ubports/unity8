@@ -135,19 +135,19 @@ class DisplayIndicatorPage(IndicatorPage):
 class TestIndicator(Indicator):
 
     def __init__(self, main_window):
-        super(TestIndicator, self).__init__(main_window, 'indicator-test')
+        super(TestIndicator, self).__init__(main_window, 'indicator-mock')
         self._main_window = main_window
 
 
 class TestIndicatorPage(IndicatorPage):
 
-    """Autopilot helper for the test indicator page."""
+    """Autopilot helper for the mock indicator page."""
 
     @classmethod
     def validate_dbus_object(cls, path, state):
         name = introspection.get_classname_from_path(path)
         if name == b'IndicatorPage':
-            if state['objectName'][1] == 'indicator-test-page':
+            if state['objectName'][1] == 'indicator-mock-page':
                 return True
         return False
 
@@ -155,14 +155,50 @@ class TestIndicatorPage(IndicatorPage):
         return self.select_single(
             ubuntuuitoolkit.CheckBox, objectName='switcher')
 
-    def get_checkbox(self):
-        return self.select_single(
-            ubuntuuitoolkit.CheckBox, objectName='checkbox')
-
     def get_switch_menu(self):
         return self.select_single(
             'SwitchMenu', objectName='indicator.action.switch')
 
-    def get_checkbox_menu(self):
-        return self.select_single(
-            'CheckableMenu', objectName='indicator.action.check')
+    def get_slider(self):
+        return self.select_single(objectName='slider')
+
+    def get_slider_menu(self):
+        return self.select_single(objectName='indicator.action.slider')
+
+
+class Slider(emulators.UnityEmulatorBase):
+
+    """Autopilot helper for the Slider component."""
+
+    # XXX Because of https://bugs.launchpad.net/autopilot-qt/+bug/1341671
+    # we need to make sure it does not match in any selection.
+    # --elopio - 2015-01-20
+
+    @classmethod
+    def validate_dbus_object(cls, path, state):
+        name = introspection.get_classname_from_path(path)
+        if name == b'Slider':
+            return True
+        return False
+
+    def slide_left(self, timeout=10):
+        x, y, width, height = self.globalRect
+
+        rate = 5
+        start_x = x + width/2
+        start_y = stop_y = y + height/2
+        stop_x = x
+
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
+        self.value.wait_for(self.minimumValue, timeout);
+
+    def slide_right(self, timeout=10):
+        x, y, width, height = self.globalRect
+
+        rate = 5
+        start_x = x + width/2
+        start_y = stop_y = y + height/2
+        stop_x = x + width
+
+        self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
+        self.value.wait_for(self.maximumValue, timeout);
