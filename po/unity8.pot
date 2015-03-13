@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 09:52+0100\n"
+"POT-Creation-Date: 2015-03-13 10:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -332,11 +332,6 @@ msgstr ""
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
-
-#: qml/Panel/SearchIndicator.qml:27
-msgctxt "Indicator Header"
-msgid "Search"
 msgstr ""
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24

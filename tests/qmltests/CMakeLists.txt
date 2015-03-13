@@ -79,7 +79,6 @@ add_qml_test(Panel IndicatorsBar)
 add_qml_test(Panel IndicatorsMenu)
 add_qml_test(Panel MenuContent)
 add_qml_test(Panel Panel)
-add_qml_test(Panel SearchIndicator)
 add_qml_test(Panel/Indicators IndicatorsLight ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 # These MenuItemFactory tests need the test/mocks/ to come before plugins/
 add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
