@@ -104,7 +104,7 @@ Item {
                 }
             }
             Button {
-                text: i18n.tr("Shutdown the system", "Shutdown")
+                text: i18n.ctr("Shutdown the system", "Shutdown")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.shutdown();

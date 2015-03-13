@@ -273,7 +273,7 @@ Item {
                         },
                         Action {
                             objectName: "search"
-                            text: i18n.tr("Shown in Page Header Menu", "Search")
+                            text: i18n.ctr("Shown in Page Header Menu", "Search")
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {

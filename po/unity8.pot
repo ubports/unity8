@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 10:40+0100\n"
+"POT-Creation-Date: 2015-03-13 10:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,10 +85,9 @@ msgid "Reboot"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:107
-msgid "Shutdown the system"
-msgid_plural "Shutdown"
-msgstr[0] ""
-msgstr[1] ""
+msgctxt "Shutdown the system"
+msgid "Shutdown"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
@@ -141,10 +140,9 @@ msgid "See all"
 msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:595
-msgid "Hint for search line edit"
-msgid_plural "Search"
-msgstr[0] ""
-msgstr[1] ""
+msgctxt "Hint for search line edit"
+msgid "Search"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "The Ubuntu Store"
@@ -152,10 +150,9 @@ msgid "Store"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:276
-msgid "Shown in Page Header Menu"
-msgid_plural "Search"
-msgstr[0] ""
-msgstr[1] ""
+msgctxt "Shown in Page Header Menu"
+msgid "Search"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:286
 msgid "Settings"
