@@ -170,5 +170,28 @@ Rectangle {
             tap(webbrowserWindow);
             compare(webbrowserWindow.application.session.surface.activeFocus, true);
         }
+
+        function test_tappingOnWindowTitleChangesFocusedApp() {
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+
+            var webbrowserWindow = findChild(desktopStage, "decoratedWindow_" + webbrowserCheckBox.appId);
+            verify(webbrowserWindow);
+            var webbrowserWindowTitle = findChild(webbrowserWindow, "windowDecorationTitle");
+            verify(webbrowserWindowTitle);
+            var dashWindow = findChild(desktopStage, "decoratedWindow_unity8-dash");
+            verify(dashWindow);
+            var dashWindowTitle = findChild(dashWindow, "windowDecorationTitle");
+            verify(dashWindowTitle);
+
+            // some sanity check
+            compare(rectsOverlap(dashWindow, webbrowserWindow), false);
+
+            tap(dashWindowTitle);
+            compare(dashWindow.application.session.surface.activeFocus, true);
+
+            tap(webbrowserWindowTitle);
+            compare(webbrowserWindow.application.session.surface.activeFocus, true);
+        }
     }
 }

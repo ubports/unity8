@@ -131,6 +131,7 @@ FocusScope {
 
             DecoratedWindow {
                 id: decoratedWindow
+                objectName: "decoratedWindow_" + appId
                 anchors.fill: parent
                 application: ApplicationManager.get(index)
                 active: ApplicationManager.focusedApplicationId === model.appId
