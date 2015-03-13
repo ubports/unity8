@@ -67,7 +67,7 @@ Item {
             title: i18n.tr("Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
-                text: i18n.tr("Lock")
+                text: i18n.ctr("Lock the system", "Lock")
                 onClicked: {
                     LightDM.Greeter.showGreeter()
                     logoutDialog.hide();
@@ -104,7 +104,7 @@ Item {
                 }
             }
             Button {
-                text: i18n.tr("Shutdown")
+                text: i18n.tr("Shutdown the system", "Shutdown")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.shutdown();

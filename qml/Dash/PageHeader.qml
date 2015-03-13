@@ -266,14 +266,14 @@ Item {
                     actions: [
                         Action {
                             objectName: "store"
-                            text: i18n.tr("Store")
+                            text: i18n.ctr("The Ubuntu Store", "Store")
                             iconName: "ubuntu-store-symbolic"
                             visible: root.storeEntryEnabled
                             onTriggered: root.storeClicked();
                         },
                         Action {
                             objectName: "search"
-                            text: i18n.tr("Search")
+                            text: i18n.tr("Shown in Page Header Menu", "Search")
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {

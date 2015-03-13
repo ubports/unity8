@@ -146,7 +146,7 @@ Loader {
             time: timeFormatter.timeString
             body: getExtendedProperty(extendedData, "xCanonicalText", "")
             replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
-            replyHintText: i18n.tr("Reply")
+            replyHintText: i18n.ctr("Text that is shown as hint where you have to type the Reply, most probably noun works better than verb here", "Reply")
             // icons
             avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
             icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
