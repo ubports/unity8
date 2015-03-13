@@ -18,6 +18,7 @@
 
 #include <QtConcurrent>
 #include <QDebug>
+#include <QFutureSynchronizer>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlResult>
@@ -36,6 +37,16 @@ WindowStateStorage::WindowStateStorage(QObject *parent):
     initdb();
 }
 
+WindowStateStorage::~WindowStateStorage()
+{
+    QFutureSynchronizer<void> futureSync;
+    for (int i = 0; i < m_asyncQueries.count(); ++i) {
+        futureSync.addFuture(m_asyncQueries[i]);
+    }
+    futureSync.waitForFinished();
+    m_db.close();
+}
+
 void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect)
 {
     QString queryString = QString("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
@@ -45,7 +56,15 @@ void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect
             .arg(rect.width())
             .arg(rect.height());
 
-    QtConcurrent::run(executeAsyncQuery, queryString);
+    QFuture<void> future = QtConcurrent::run(executeAsyncQuery, queryString);
+    m_asyncQueries.append(future);
+
+    QFutureWatcher<void> *futureWatcher = new QFutureWatcher<void>();
+    futureWatcher->setFuture(future);
+    connect(futureWatcher, &QFutureWatcher<void>::finished,
+            this,
+            [=](){ m_asyncQueries.removeAll(futureWatcher->future());
+                   futureWatcher->deleteLater(); });
 }
 
 void WindowStateStorage::executeAsyncQuery(const QString &queryString)
