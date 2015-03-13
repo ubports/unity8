@@ -23,13 +23,13 @@ TestCase {
     id: testCase
     TestUtil {id:util}
 
-    ActivityIndicator {
-        visible: testCase.running
-        anchors.centerIn: parent
-        Component.onCompleted: parent = testCase.parent
-        z: 100
-        running: visible
-    }
+//    ActivityIndicator {
+//        visible: testCase.running
+//        anchors.centerIn: parent
+//        Component.onCompleted: parent = testCase.parent
+//        z: 100
+//        running: visible
+//    }
 
     // Fake implementation to be provided to items under test
     property var fakeDateTime: new function() {
