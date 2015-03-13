@@ -227,7 +227,11 @@ Item {
 
             verify(appIcon != undefined);
 
-            mouseClick(appIcon);
+            if (data.mouse) {
+                mouseClick(appIcon);
+            } else {
+                tap(appIcon);
+            }
 
             tryCompare(launcher, "lastSelectedApplication",
                        appIcon.appId);
