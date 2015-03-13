@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 10:44+0100\n"
+"POT-Creation-Date: 2015-03-13 11:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,6 +51,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr ""
 
@@ -59,11 +60,12 @@ msgid "Are you sure you want to log out?"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:70
-msgctxt "Lock the system"
+msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
@@ -73,6 +75,7 @@ msgid "Cancel"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr ""
 
@@ -80,13 +83,19 @@ msgstr ""
 msgid "Are you sure you want to shut down?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:99 qml/Components/Dialogs.qml:127
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:107
-msgctxt "Shutdown the system"
-msgid "Shutdown"
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:128
@@ -102,6 +111,7 @@ msgid "Yes"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr ""
 
@@ -112,10 +122,12 @@ msgid ""
 msgstr ""
 
 #: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr ""
 
 #: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr ""
 
@@ -140,17 +152,17 @@ msgid "See all"
 msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:595
-msgctxt "Hint for search line edit"
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "The Ubuntu Store"
+msgctxt "Button: The Ubuntu Store"
 msgid "Store"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Shown in Page Header Menu"
+msgctxt "Button: Shown in Page Header Menu"
 msgid "Search"
 msgstr ""
 
@@ -317,9 +329,7 @@ msgid "Failed, tap to retry"
 msgstr ""
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
-msgctxt ""
-"Text that is shown as hint where you have to type the Reply, most probably "
-"noun works better than verb here"
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr ""
 
@@ -384,7 +394,7 @@ msgid "View all your running tasks."
 msgstr ""
 
 #: qml/Wizard/Page.qml:89
-msgctxt "Goes one page back in the Wizard"
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr ""
 
@@ -428,32 +438,32 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
-msgctxt "Type of security method"
+msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
-msgctxt "Description of security method"
+msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
-msgctxt "Type of security method"
+msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
-msgctxt "Description of security method"
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
-msgctxt "Type of security method"
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
-msgctxt "Description of security method"
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr ""
 
