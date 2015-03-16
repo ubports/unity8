@@ -49,6 +49,8 @@ WindowStateStorage::~WindowStateStorage()
 
 void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect)
 {
+    QMutexLocker mutexLocker(&s_mutex);
+
     QString queryString = QString("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
             .arg(windowId)
             .arg(rect.x())
