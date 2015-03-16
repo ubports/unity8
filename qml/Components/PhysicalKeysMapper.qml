@@ -42,6 +42,7 @@ Item {
     signal screenshotTriggered;
 
     signal altTabNext();
+    signal altTabPrevious();
     readonly property bool altTabPressed: d.altTabPressed
 
     QtObject {
@@ -103,11 +104,27 @@ Item {
             print("controll pressed");
             d.altPressed = true;
         } else if (event.key == Qt.Key_Tab) {
+            print("tab pressed")
             if (d.altPressed && !d.altTabPressed) {
                 d.altTabPressed = true;
             } else if (d.altTabPressed) {
                 print("alttabnext")
                 root.altTabNext();
+            }
+        } else if (event.key == Qt.Key_Backtab) {
+            if (d.altTabPressed) {
+                root.altTabPrevious();
+            }
+        } else if (event.key == Qt.Key_Left) {
+            if (d.altTabPressed) {
+                print("alttabprevious")
+                root.altTabPrevious();
+                event.accpeted = true;
+            }
+        } else if (event.key == Qt.Key_Right) {
+            if (d.altTabPressed) {
+                root.altTabNext();
+                event.accepted = true;
             }
         }
     }
@@ -125,8 +142,11 @@ Item {
             d.volumeUpKeyPressed = false;
             if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
         } else if (event.key == Qt.Key_Control) {
-            d.altTabPressed = false;
             d.altPressed = false;
+            if (d.altTabPressed) {
+                d.altTabPressed = false;
+                event.accepted = true;
+            }
         }
     }
 }

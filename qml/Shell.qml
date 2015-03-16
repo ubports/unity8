@@ -158,6 +158,7 @@ Item {
         onScreenshotTriggered: screenGrabber.capture();
 
         onAltTabNext: applicationsDisplayLoader.item.altTabNext()
+        onAltTabPrevious: applicationsDisplayLoader.item.altTabPrevious();
     }
 
     ScreenGrabber {

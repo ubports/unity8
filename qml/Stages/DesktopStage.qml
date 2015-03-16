@@ -48,6 +48,15 @@ Item {
         }
     }
 
+    function altTabPrevious() {
+        print("alttabprevious pressed")
+        if (root.altTabPressed) {
+            var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
+            appRepeater.highlightedIndex = newIndex;
+            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, appRepeater.highlightedIndex - 3))
+        }
+    }
+
     CrossFadeImage {
         id: wallpaper
         anchors.fill: parent
