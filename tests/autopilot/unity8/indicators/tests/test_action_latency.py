@@ -233,4 +233,3 @@ class TestClientRevertsToServerValue(TestIndicatorBaseTestCase):
             slider.value,
             Equals(slider_menu.serverValue)
         )
-
