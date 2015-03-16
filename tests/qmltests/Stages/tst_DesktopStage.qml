@@ -92,13 +92,11 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            ApplicationCheckBox {
-                id: webbrowserCheckBox
-                appId: "webbrowser-app"
-            }
-            ApplicationCheckBox {
-                id: dialerCheckBox
-                appId: "dialer-app"
+            Repeater {
+                model: ApplicationManager.availableApplications
+                ApplicationCheckBox {
+                    appId: modelData
+                }
             }
         }
     }
@@ -125,12 +123,18 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(desktopStageLoader, "itemDestroyed", true);
 
-            // kill all (fake) running apps
-            webbrowserCheckBox.checked = false;
-            dialerCheckBox.checked = false;
+            killAllRunningApps();
 
             desktopStageLoader.active = true;
             tryCompare(desktopStageLoader, "status", Loader.Ready);
+        }
+
+        function killAllRunningApps() {
+            while (ApplicationManager.count > 1) {
+                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
+                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
+            }
+            compare(ApplicationManager.count, 1)
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -141,7 +145,7 @@ Rectangle {
             tryCompare(appWindowStates, "state", "surface");
         }
 
-        function rectsOverlap(aLocal, bLocal) {
+        function rectsIntersect(aLocal, bLocal) {
 
             var a = aLocal.mapToItem(null, 0, 0, aLocal.width, aLocal.height);
             var b = bLocal.mapToItem(null, 0, 0, bLocal.width, bLocal.height);
@@ -153,16 +157,16 @@ Rectangle {
         }
 
         function test_tappingOnWindowChangesFocusedApp() {
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+            ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp("webbrowser-app");
 
-            var webbrowserWindow = findChild(desktopStage, "appWindow_" + webbrowserCheckBox.appId);
+            var webbrowserWindow = findChild(desktopStage, "appWindow_webbrowser-app");
             verify(webbrowserWindow);
             var dashWindow = findChild(desktopStage, "appWindow_unity8-dash");
             verify(dashWindow);
 
             // some sanity check
-            compare(rectsOverlap(dashWindow, webbrowserWindow), false);
+            compare(rectsIntersect(dashWindow, webbrowserWindow), false);
 
             tap(dashWindow);
             compare(dashWindow.application.session.surface.activeFocus, true);
@@ -172,10 +176,10 @@ Rectangle {
         }
 
         function test_tappingOnWindowTitleChangesFocusedApp() {
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+            ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp("webbrowser-app");
 
-            var webbrowserWindow = findChild(desktopStage, "decoratedWindow_" + webbrowserCheckBox.appId);
+            var webbrowserWindow = findChild(desktopStage, "decoratedWindow_webbrowser-app");
             verify(webbrowserWindow);
             var webbrowserWindowTitle = findChild(webbrowserWindow, "windowDecorationTitle");
             verify(webbrowserWindowTitle);
@@ -185,7 +189,7 @@ Rectangle {
             verify(dashWindowTitle);
 
             // some sanity check
-            compare(rectsOverlap(dashWindow, webbrowserWindow), false);
+            compare(rectsIntersect(dashWindow, webbrowserWindow), false);
 
             tap(dashWindowTitle);
             compare(dashWindow.application.session.surface.activeFocus, true);
