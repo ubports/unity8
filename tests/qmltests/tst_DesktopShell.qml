@@ -113,6 +113,18 @@ Item {
                         }
                     }
                 }
+                Button {
+                    text: "Hide Greeter"
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return
+
+                        var greeter = testCase.findChild(shellLoader.item, "greeter")
+                        if (greeter.shown) {
+                            greeter.hide()
+                        }
+                    }
+                }
 
                 Repeater {
                     id: apps

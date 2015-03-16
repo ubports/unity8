@@ -41,12 +41,18 @@ Item {
     signal volumeUpTriggered;
     signal screenshotTriggered;
 
+    signal altTabNext();
+    readonly property bool altTabPressed: d.altTabPressed
+
     QtObject {
         id: d
 
         property bool volumeDownKeyPressed: false
         property bool volumeUpKeyPressed: false
         property bool ignoreVolumeEvents: false
+
+        property bool altPressed: false
+        property bool altTabPressed: false
     }
 
     Timer {
@@ -93,6 +99,16 @@ Item {
                 }
                 d.volumeUpKeyPressed = true;
             }
+        } else if (event.key == Qt.Key_Control) {
+            print("controll pressed");
+            d.altPressed = true;
+        } else if (event.key == Qt.Key_Tab) {
+            if (d.altPressed && !d.altTabPressed) {
+                d.altTabPressed = true;
+            } else if (d.altTabPressed) {
+                print("alttabnext")
+                root.altTabNext();
+            }
         }
     }
 
@@ -108,6 +124,9 @@ Item {
             if (!d.ignoreVolumeEvents) root.volumeUpTriggered();
             d.volumeUpKeyPressed = false;
             if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
+        } else if (event.key == Qt.Key_Control) {
+            d.altTabPressed = false;
+            d.altPressed = false;
         }
     }
 }

@@ -28,6 +28,26 @@ Item {
 
     property alias background: wallpaper.source
 
+    property bool altTabPressed: false
+
+    onAltTabPressedChanged: {
+        print("Alt+Tab pressed:", altTabPressed)
+        if (altTabPressed) {
+            appRepeater.highlightedIndex = 1;
+        } else {
+            print("focusing app", appRepeater.highlightedIndex)
+            ApplicationManager.focusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
+        }
+    }
+
+    function altTabNext() {
+        if (root.altTabPressed) {
+            print("should tab next")
+            appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count
+            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, appRepeater.highlightedIndex - 3))
+        }
+    }
+
     CrossFadeImage {
         id: wallpaper
         anchors.fill: parent
@@ -83,63 +103,139 @@ Item {
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
 
-    Repeater {
-        id: appRepeater
-        model: ApplicationManager
+    Item {
+        Repeater {
+            id: appRepeater
+            model: ApplicationManager
 
-        delegate: Item {
-            id: appDelegate
-            z: ApplicationManager.count - index
-            y: units.gu(3)
-            width: units.gu(60)
-            height: units.gu(50)
+            property int highlightedIndex: 1
 
-            readonly property int minWidth: units.gu(10)
-            readonly property int minHeight: units.gu(10)
+            delegate: Item {
+                id: appDelegate
+                z: ApplicationManager.count - index
+                y: units.gu(3)
+                width: units.gu(60)
+                height: units.gu(50)
 
-            function focusWindow() {
-                decoratedWindow.window.forceActiveFocus();
-            }
+                readonly property int minWidth: units.gu(10)
+                readonly property int minHeight: units.gu(10)
 
-            states: [
-                State {
-                    name: "normal"
-                },
-                State {
-                    name: "maximized"
-                    PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
-                },
-                State {
-                    name: "minimized"
-                    PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
+                function focusWindow() {
+                    decoratedWindow.window.forceActiveFocus();
                 }
-            ]
-            transitions: [
-                Transition {
-                    PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+
+                states: [
+                    State {
+                        name: "normal"
+                    },
+                    State {
+                        name: "maximized"
+                        PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
+                    },
+                    State {
+                        name: "minimized"
+                        PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
+                    },
+                    State {
+                        name: "altTab"; when: root.state == "altTab"
+                        PropertyChanges {
+                            target: appDelegate
+                            x: spreadMaths.desktopX(index, root.width, spreadFlickable.contentX)
+                            y: spreadMaths.desktopY(root.height, appDelegate.height)
+                            angle: spreadMaths.desktopAngle(index, spreadFlickable.contentX)
+                            color: "green"
+                            z: index
+                        }
+                        PropertyChanges {
+                            target: darkenOverlay
+                            opacity: index != appRepeater.highlightedIndex ? 0.4 : 0
+                        }
+                    }
+                ]
+                transitions: [
+                    Transition {
+                        from: "maximized,minimized,normal,"
+                        to: "maximized,minimized,normal,"
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                    }
+                ]
+                property real angle: 0
+                transform: [
+                    Rotation {
+                        origin { x: 0; y: appDelegate.height / 2 }
+                        axis { x: 0; y: 1; z: 0 }
+                        angle: appDelegate.angle
+                    }
+                ]
+
+                SpreadMaths {
+                    id: spreadMaths
                 }
-            ]
 
-            WindowMoveResizeArea {
-                target: appDelegate
-                minWidth: appDelegate.minWidth
-                minHeight: appDelegate.minHeight
-                resizeHandleWidth: units.gu(0.5)
-                windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
+                WindowMoveResizeArea {
+                    target: appDelegate
+                    minWidth: appDelegate.minWidth
+                    minHeight: appDelegate.minHeight
+                    resizeHandleWidth: units.gu(0.5)
+                    windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                onPressed: ApplicationManager.requestFocusApplication(model.appId)
-            }
+                    onPressed: ApplicationManager.requestFocusApplication(model.appId)
+                }
 
-            DecoratedWindow {
-                id: decoratedWindow
-                anchors.fill: parent
-                application: ApplicationManager.get(index)
-                active: ApplicationManager.focusedApplicationId === model.appId
+                DecoratedWindow {
+                    id: decoratedWindow
+                    anchors.fill: parent
+                    application: ApplicationManager.get(index)
+                    active: ApplicationManager.focusedApplicationId === model.appId
 
-                onClose: ApplicationManager.stopApplication(model.appId)
-                onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
-                onMinimize: appDelegate.state = "minimized"
+                    onClose: ApplicationManager.stopApplication(model.appId)
+                    onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
+                    onMinimize: appDelegate.state = "minimized"
+                }
+
+                Rectangle {
+                    id: darkenOverlay
+                    anchors.fill: parent
+                    color: "black"
+                    opacity: 0
+                }
             }
         }
     }
+
+    Flickable {
+        id: spreadFlickable
+        anchors.fill: parent
+        contentWidth: ApplicationManager.count * width / 5
+        visible: false
+        onContentXChanged: print("flickable flicked", contentX)
+
+        function snapTo(contentX) {
+            snapAnimation.to = contentX
+            snapAnimation.start();
+        }
+
+        UbuntuNumberAnimation {
+            id: snapAnimation
+            target: spreadFlickable
+            property: "contentX"
+        }
+    }
+
+    states: [
+        State {
+            name: "windowed"
+        },
+        State {
+            name: "altTab"; when: root.altTabPressed
+            PropertyChanges { target: spreadFlickable; visible: true }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "*"
+            to: "altTab"
+            PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
+        }
+    ]
 }

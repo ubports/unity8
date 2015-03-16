@@ -156,6 +156,8 @@ Item {
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
+
+        onAltTabNext: applicationsDisplayLoader.item.altTabNext()
     }
 
     ScreenGrabber {
@@ -279,6 +281,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "background"
                 value: shell.background
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "altTabPressed"
+                value: physicalKeysMapper.altTabPressed
             }
         }
     }
