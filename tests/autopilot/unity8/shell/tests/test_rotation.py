@@ -43,6 +43,8 @@ class RotationBase(tests.UnityTestCase):
         if model() == 'Desktop':
             self.skipTest('Test cannot be run on the desktop.')
         super(RotationBase, self).setUp()
+        self._qml_mock_enabled = False
+        self._data_dirs_mock_enabled = False
 
         # get unity8 with fake sensors running 
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
@@ -51,14 +53,17 @@ class RotationBase(tests.UnityTestCase):
         self.fake_sensors = unity_with_sensors.fake_sensors
         self.shell_proxy = unity_with_sensors.main_win.select_single(objectName="shell")
 
-    def launch_fake_app(self):
+    def _create_test_application(self):
         desktop_file_dict = ubuntuuitoolkit.fixture_setup.DEFAULT_DESKTOP_FILE_DICT
         desktop_file_dict.update({'X-Ubuntu-Single-Instance': 'true'})
         fake_application = ubuntuuitoolkit.fixture_setup.FakeApplication(
             desktop_file_dict=desktop_file_dict)
-        self.useFixture(fake_application)        
-        _ = fake_application.qml_file_path
-        desktop_file_path = fake_application.desktop_file_path
+        self.useFixture(fake_application)
+        return (
+            fake_application.qml_file_path, fake_application.desktop_file_path)
+
+    def _launch_fake_app(self):
+        _, desktop_file_path = self._create_test_application()
         desktop_file_name = os.path.basename(desktop_file_path)
         application_name, _ = os.path.splitext(desktop_file_name)
         self.launch_upstart_application(application_name)
@@ -76,7 +81,7 @@ class RotationBase(tests.UnityTestCase):
         """Do an orientation-change and verify that an app and the shell adapted correctly"""
 
         # launch an application
-        app_name = self.launch_fake_app()
+        app_name = self._launch_fake_app()
 
         # get default orientation and angle
         self.orientation = self.shell_proxy.orientation
