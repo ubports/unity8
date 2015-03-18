@@ -28,6 +28,7 @@ Item {
     property int minPinLength: -1
     property int maxPinLength: -1
     property bool showCancelButton: true
+    property color foregroundColor: "#000000"
 
     readonly property string passphrase: pinentryField.text
 
@@ -63,7 +64,7 @@ Item {
                 id: infoField
                 objectName: "infoTextLabel"
                 fontSize: "large"
-                color: "#f3f3e7"
+                color: root.foregroundColor
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: root.infoText
             }
@@ -86,7 +87,7 @@ Item {
                     Repeater {
                         model: pinentryField.text.length
                         delegate: Rectangle {
-                            color: "#f3f3e7"
+                            color: root.foregroundColor
                             width: Math.min(units.gu(2), (pinContainer.width - pinContainer.height*2 ) / (root.maxPinLength >= 0 ? root.maxPinLength : 16))
                             height: width
                             radius: width / 2
@@ -114,7 +115,7 @@ Item {
                     id: wrongNoticeLabel
                     objectName: "wrongNoticeLabel"
                     fontSize: "x-large"
-                    color: "#f3f3e7"
+                    color: root.foregroundColor
                     anchors.horizontalCenter: parent.horizontalCenter
                     horizontalAlignment: Text.AlignHCenter
                     text: root.errorText
@@ -131,7 +132,7 @@ Item {
                     Icon {
                         anchors.fill: parent
                         name: "erase"
-                        color: "#f3f3e7"
+                        color: root.foregroundColor
                     }
 
                     opacity: (pinentryField.text.length > 0 && !pinentryField.incorrectOverride) ? 1 : 0
@@ -147,7 +148,7 @@ Item {
             Label {
                 objectName: "retryLabel"
                 fontSize: "x-small"
-                color: "#f3f3e7"
+                color: root.foregroundColor
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: root.retryText || " "
             }
@@ -175,6 +176,7 @@ Item {
                     text: index + 1
                     height: numbersGrid.buttonHeight
                     width: numbersGrid.buttonWidth
+                    foregroundColor: root.foregroundColor
                     enabled: root.entryEnabled && (root.maxPinLength == -1 ||
                              pinentryField.text.length < root.maxPinLength ||
                              pinentryField.incorrectOverride)
@@ -192,6 +194,7 @@ Item {
                 text: "0"
                 height: numbersGrid.buttonHeight
                 width: numbersGrid.buttonWidth
+                foregroundColor: root.foregroundColor
                 enabled: root.entryEnabled && (root.maxPinLength == -1 ||
                          pinentryField.text.length < root.maxPinLength ||
                          pinentryField.incorrectOverride)
@@ -208,7 +211,7 @@ Item {
                 iconName: "close"
                 height: units.gu(5) // visual spec has this row a little closer in
                 width: numbersGrid.buttonWidth
-
+                foregroundColor: root.foregroundColor
                 onClicked: root.cancel()
                 visible: root.showCancelButton
             }
@@ -221,6 +224,7 @@ Item {
                 objectName: "confirmButton"
                 height: units.gu(5)
                 width: numbersGrid.buttonWidth
+                foregroundColor: root.foregroundColor
                 enabled: root.enabled && pinentryField.text.length >= root.minPinLength
                 visible: root.minPinLength == -1 || root.minPinLength !== root.maxPinLength
 
@@ -234,4 +238,3 @@ Item {
         }
     }
 }
-
