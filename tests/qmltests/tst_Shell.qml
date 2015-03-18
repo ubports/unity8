@@ -537,6 +537,7 @@ Rectangle {
                 tryCompare(userlist, "currentIndex", next)
                 tryCompare(userlist, "movingInternally", false)
             }
+            tryCompare(shell, "enabled", true); // wait for PAM to settle
         }
 
         function selectUser(name) {
