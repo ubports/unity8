@@ -17,7 +17,7 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
@@ -121,6 +121,14 @@ IndicatorTest {
                     }
                 }
             }
+
+            Rectangle {
+                Layout.preferredHeight: units.dp(1);
+                Layout.fillWidth: true;
+                color: "black"
+            }
+
+            MouseTouchEmulationCheckbox {}
         }
     }
 
@@ -129,7 +137,7 @@ IndicatorTest {
         phoneNumber: "+447812221111"
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         name: "Panel"
         when: windowShown
 

@@ -29,7 +29,7 @@ import Unity.Application 0.1
 import Unity.Connectivity 0.1
 import Unity.Indicators 0.1
 import Unity.Notifications 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
 
@@ -158,6 +158,7 @@ Rectangle {
                     shellLoader.state = model[selectedIndex];
                     shellLoader.active = true;
                 }
+                MouseTouchEmulationCheckbox { color: "white" }
             }
         }
     }
@@ -219,7 +220,7 @@ Rectangle {
         phoneNumber: "+447812221111"
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         id: testCase
         name: "Shell"
         when: windowShown
