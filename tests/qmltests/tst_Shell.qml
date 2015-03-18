@@ -317,8 +317,7 @@ Item {
 
             var greeter = findChild(shell, "greeter");
             if (data.greeterShown) {
-                LightDM.Greeter.showGreeter();
-                tryCompare(greeter, "fullyShown", true);
+                showGreeter();
             }
 
             if (data.revealLauncher) {
@@ -375,7 +374,15 @@ Item {
             tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
+
+            // greeter unloads its internal components when hidden
+            // and reloads them when shown. Thus we have to do this
+            // again before interacting with it otherwise any
+            // DirectionalDragAreas in there won't be easily fooled by
+            // fake swipes.
+            removeTimeConstraintsFromDirectionalDragAreas(greeter);
             swipeAwayGreeter();
+
             tryCompare(ApplicationManager, "suspended", false);
             compare(mainApp.state, ApplicationInfoInterface.Running);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
@@ -593,11 +600,25 @@ Item {
                 && itemRectInShell.y + itemRectInShell.height <= shell.height;
         }
 
+        function showGreeter() {
+            var greeter = findChild(shell, "greeter");
+            LightDM.Greeter.showGreeter();
+            waitForRendering(greeter);
+            tryCompare(greeter, "fullyShown", true);
+
+            // greeter unloads its internal components when hidden
+            // and reloads them when shown. Thus we have to do this
+            // again before interacting with it otherwise any
+            // DirectionalDragAreas in there won't be easily fooled by
+            // fake swipes.
+            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+        }
+
         function test_greeterDoesNotChangeIndicatorProfile() {
             var panel = findChild(shell, "panel");
             tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
 
-            LightDM.Greeter.showGreeter();
+            showGreeter();
             tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
 
             LightDM.Greeter.hideGreeter();
@@ -632,8 +653,7 @@ Item {
 
             waitUntilDashIsFocused();
 
-            LightDM.Greeter.showGreeter();
-            tryCompare(greeter, "fullyShown", true);
+            showGreeter();
 
             // The main point of this test
             ApplicationManager.requestFocusApplication("dialer-app");
@@ -664,15 +684,13 @@ Item {
             tryCompare(greeter, "shown", false)
         }
 
-        function test_login() {
-            var greeter = findChild(shell, "greeter")
-            waitForRendering(greeter)
-            LightDM.Greeter.showGreeter();
-            tryCompare(greeter, "fullyShown", true)
-
+        function test_greeterLoginsAutomaticallyWhenNoPasswordSet() {
             sessionSpy.clear();
-            swipeAwayGreeter()
-            tryCompare(sessionSpy, "count", 1)
+            verify(sessionSpy.valid);
+
+            showGreeter();
+
+            tryCompare(sessionSpy, "count", 1);
         }
 
         function test_fullscreen() {

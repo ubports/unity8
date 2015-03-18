@@ -198,21 +198,6 @@ void ApplicationManager::move(int from, int to) {
     }
 }
 
-int ApplicationManager::sideStageWidth() const
-{
-    return 0;
-}
-
-ApplicationManager::StageHint ApplicationManager::stageHint() const
-{
-    return MainStage;
-}
-
-ApplicationManager::FormFactorHint ApplicationManager::formFactorHint() const
-{
-    return PhoneFormFactor;
-}
-
 ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
                                               const QStringList &arguments)
 {

@@ -7,27 +7,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-13 11:45+0100\n"
-"PO-Revision-Date: 2014-11-19 15:05+0000\n"
-"Last-Translator: Walter Cheuk <wwycheuk@gmail.com>\n"
+"POT-Creation-Date: 2015-02-25 08:57-0500\n"
+"PO-Revision-Date: 2015-03-15 06:06+0000\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:30+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-16 06:02+0000\n"
+"X-Generator: Launchpad (build 17389)\n"
+"Language: zh_TW\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "密碼： "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "釘住捷徑"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "取消捷徑釘選"
 
@@ -49,100 +50,112 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "請等候 %1 分鐘再試…"
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:74
 msgid "Log out"
 msgstr "登出"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:75
 msgid "Are you sure you want to log out?"
 msgstr "確定要登出？"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "否"
+#: qml/Components/Dialogs.qml:90
+msgid "Lock"
+msgstr "鎖定"
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "是"
+#: qml/Components/Dialogs.qml:97
+msgid "Log Out"
+msgstr "登出"
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "取消"
+
+#: qml/Components/Dialogs.qml:98
 msgid "Shut down"
 msgstr "關機"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "確定要關機？"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:123
 msgid "Reboot"
 msgstr "重新開機"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:127
+msgid "Shutdown"
+msgstr "關機"
+
+#: qml/Components/Dialogs.qml:124
 msgid "Are you sure you want to reboot?"
 msgstr "確定要重新開機？"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:126
+msgid "No"
+msgstr "否"
+
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:133
+msgid "Yes"
+msgstr "是"
+
+#: qml/Components/Dialogs.qml:148
 msgid "Power"
 msgstr "關閉電源"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:149
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "確定要關閉電源？"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:151
 msgid "Power off"
 msgstr "關閉電源"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:161
 msgid "Restart"
 msgstr "重新啟動"
 
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "取消"
-
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
-msgstr ""
+msgstr "返回通話"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
 msgstr "緊急通話"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:255
 msgid "OK"
 msgstr "確定"
 
-#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "縮減查看"
 
-#: qml/Dash/GenericScopeView.qml:528
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "查看全部"
 
-#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:268
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "搜尋"
 
-#: qml/Dash/PageHeader.qml:269
+#: qml/Dash/PageHeader.qml:261
 msgid "Store"
 msgstr "商城"
 
-#: qml/Dash/PageHeader.qml:286
+#: qml/Dash/PageHeader.qml:278
 msgid "Settings"
 msgstr "設定"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Remove from Favorites"
 msgstr "自「最愛」移除"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Add to Favorites"
 msgstr "加入到「最愛」"
 
@@ -176,23 +189,85 @@ msgstr "放開以重新整理..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "啟用位置資料"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:63
 msgid "Manage"
-msgstr ""
+msgstr "管理"
 
-#: qml/Dash/ScopesList.qml:112
+#: qml/Dash/ScopesList.qml:107
 msgid "Home"
-msgstr ""
+msgstr "家屋"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:108
 msgid "Also installed"
-msgstr ""
+msgstr "也有安裝"
 
-#: qml/Greeter/Greeter.qml:141
+#: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "解鎖"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr "重試"
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr "點按以解鎖"
+
+#: qml/Shell.qml:444
+msgid "Sorry, incorrect passphrase."
+msgstr "抱歉，密語不對"
+
+#: qml/Shell.qml:445
+msgid "Sorry, incorrect passcode."
+msgstr "抱歉，通關碼不對。"
+
+#: qml/Shell.qml:446
+msgid "This will be your last attempt."
+msgstr "這將會是您最後一次嘗試的機會。"
+
+#: qml/Shell.qml:448
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
+
+#: qml/Shell.qml:449
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr "如輸入的通關碼不對，本電話會進行重設，所有個人資料都會刪除。"
+
+#: qml/Shell.qml:402
+#, qt-format
+msgid "Enter %1"
+msgstr "輸入 %1"
+
+#: qml/Shell.qml:394
+msgid "Enter passphrase"
+msgstr "輸入密語"
+
+#: qml/Shell.qml:398
+msgid "Enter passcode"
+msgstr "輸入通關碼"
+
+#: qml/Shell.qml:403
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "抱歉，%1不對"
+
+#: qml/Shell.qml:395
+msgid "Sorry, incorrect passphrase"
+msgstr "抱歉，密語不對"
+
+#: qml/Shell.qml:396
+msgid "Please re-enter"
+msgstr "請再輸入"
+
+#: qml/Shell.qml:399
+msgid "Sorry, incorrect passcode"
+msgstr "抱歉，通關碼不對"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -200,7 +275,7 @@ msgstr "顯示密碼"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "輕觸可返回通話…"
+msgstr "點按可返回通話…"
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -220,7 +295,7 @@ msgstr "下載中"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Paused, tap to resume"
-msgstr "已暫停，輕觸可繼續"
+msgstr "已暫停，點按可繼續"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Canceled"
@@ -232,302 +307,248 @@ msgstr "已完成"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:803
 msgid "Failed, tap to retry"
-msgstr "失敗，輕觸可重試"
+msgstr "失敗，點按可重試"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgid "Reply"
-msgstr ""
+msgstr "回覆"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "為 SIM 卡解鎖"
+msgstr "解鎖 SIM 卡"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
 msgstr "漫遊"
 
-#: qml/Shell.qml:402
-#, qt-format
-msgid "Enter %1"
-msgstr "輸入 %1"
-
-#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "輸入密語"
-
-#: qml/Shell.qml:404
-msgid "Enter passcode"
-msgstr "輸入 passcode"
-
-#: qml/Shell.qml:405
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "抱歉，%1不對"
-
-#: qml/Shell.qml:406
-msgid "Sorry, incorrect passphrase"
-msgstr "抱歉，密語不對"
-
-#: qml/Shell.qml:407
-msgid "Please re-enter"
-msgstr "請再輸入"
-
-#: qml/Shell.qml:408
-msgid "Sorry, incorrect passcode"
-msgstr "抱歉，passcode 不對"
-
-#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "抱歉，密語不對"
-
-#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "抱歉，passcode 不對。"
-
-#: qml/Shell.qml:504
-msgid "This will be your last attempt."
-msgstr "這將會是您最後一次嘗試的機會。"
-
-#: qml/Shell.qml:506
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
-
-#: qml/Shell.qml:507
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr "如輸入的 passcode 不對，本電話會進行重設，所有個人資料都會刪除。"
-
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "這個動作在不同的程式中有不同的效果"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "點按這裡完成。"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "開啟特殊選單"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "從底部邊緣向上滑動。"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "這些是喜愛程式的捷徑"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "點按這裡繼續。"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "開啟啟動欄"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "從左側邊緣小幅滑動。"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "您快學會了！"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "重試一次。"
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "檢視開啟的程式"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "從右側邊緣大幅滑動。"
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "檢視您所有執行中的作業項目。"
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "您好！"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "歡迎使用您的 Ubuntu 手機。"
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "讓我們開始吧。"
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "繼續"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "插入 SIM 卡並重新啟動您的裝置"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "沒有它，您便無法撥打電話，或是傳送文字簡訊。"
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr ""
+msgstr "略過"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "安全鎖"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "請選取您想要的手機解鎖方式。"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgid "Swipe"
-msgstr ""
+msgstr "滑開"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgid "No security"
-msgstr ""
+msgstr "不安全"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgid "Passcode"
-msgstr ""
+msgstr "通關碼"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "僅 4 位數"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
-msgstr ""
+msgstr "密語"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgid "Numbers and letters"
-msgstr ""
+msgstr "數字和字母"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "連接 Wi-Fi"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "可用的網路…"
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "無可用網路。"
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "位置"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "讓手機偵測您的所在位置："
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "僅使用 GPS (較不精確)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
+msgstr "使用 GPS、匿名化 Wi-Fi 與巢狀行動網路資訊 (建議)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
-msgstr ""
+msgstr "選取此項代表您同意 Nokia HERE 的<a href='#'>服務條款與細則</a>。"
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "一點也不"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "您稍後若改變心意，可以到<b>系統設定</b>中更改。"
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "改善您的使用體驗"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
-msgstr ""
+msgstr "您的手機已設置為會自動向 Canonical 及其合作夥伴 (作業系統的製作者) 回報錯誤問題。"
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
-msgstr ""
+msgstr "這可隨時在<b>系統設定</b>的<b>安全與隱私</b>中停用。"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "大功告成"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "做得漂亮！"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "您的手機現在已準備好使用。"
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "完成"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "使用條款與細則"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "確認密語"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "確認通關碼"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "請重試一次。"
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "決定您的通關碼"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "密語必須 4 個字元長"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "確認"

@@ -35,6 +35,17 @@ void DBusUnitySessionService::Logout()
   Q_EMIT logoutReady();
 }
 
+void DBusUnitySessionService::EndSession()
+{
+  QDBusConnection connection = QDBusConnection::sessionBus();
+  QDBusInterface iface1 ("com.ubuntu.Upstart",
+                         "/com/ubuntu/Upstart",
+                         "com.ubuntu.Upstart0_6",
+                         connection);
+
+  iface1.call("EndSession");
+}
+
 void DBusUnitySessionService::RequestLogout()
 {
   Q_EMIT logoutRequested(false);
@@ -70,4 +81,53 @@ void DBusUnitySessionService::Shutdown()
 void DBusUnitySessionService::RequestShutdown()
 {
   Q_EMIT shutdownRequested(false);
+}
+
+enum class Action : unsigned
+{
+  LOGOUT = 0,
+  SHUTDOWN,
+  REBOOT,
+  NONE
+};
+
+DBusGnomeSessionManagerWrapper::DBusGnomeSessionManagerWrapper()
+    : UnityDBusObject("/org/gnome/SessionManager/EndSessionDialog", "com.canonical.Unity")
+{
+}
+
+DBusGnomeSessionManagerWrapper::~DBusGnomeSessionManagerWrapper()
+{
+}
+
+void DBusGnomeSessionManagerWrapper::Open(const unsigned type, const unsigned arg_1, const unsigned max_wait, const QList<QDBusObjectPath> &inhibitors)
+{
+  Q_UNUSED(arg_1);
+  Q_UNUSED(max_wait);
+  Q_UNUSED(inhibitors);
+
+  QDBusConnection connection = QDBusConnection::sessionBus();
+  QDBusInterface iface1 ("com.canonical.Unity",
+                         "/com/canonical/Unity/Session",
+                         "com.canonical.Unity.Session",
+                         connection);
+
+  Action action = (Action)type;
+
+  switch (action)
+  {
+    case Action::LOGOUT:
+      iface1.call("RequestLogout");
+      break;
+
+    case Action::REBOOT:
+      iface1.call("RequestShutdown");
+      break;
+
+    case Action::SHUTDOWN:
+      break;
+
+    default:
+      break;
+  }
 }

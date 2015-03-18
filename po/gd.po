@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-13 11:45+0100\n"
-"PO-Revision-Date: 2015-02-11 15:01+0000\n"
+"POT-Creation-Date: 2015-02-25 08:57-0500\n"
+"PO-Revision-Date: 2015-03-12 17:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,20 +16,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-02-17 06:29+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-13 05:34+0000\n"
+"X-Generator: Launchpad (build 17389)\n"
 "Language: gd\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Facal-faire: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Prìnich ath-ghoirid"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Neo-phrìnich an ath-ghoirid"
 
@@ -58,45 +58,61 @@ msgstr[1] "Fuirich ort %1 dhiog 's feuch ris a-rithist an uairsin…"
 msgstr[2] "Fuirich ort %1 diogan 's feuch ris a-rithist an uairsin…"
 msgstr[3] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:74
 msgid "Log out"
 msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:75
 msgid "Are you sure you want to log out?"
 msgstr "A bheil thu cinnteach gu bheil thu airson clàradh a-mach?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "Chan eil"
+#: qml/Components/Dialogs.qml:90
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "Tha"
+#: qml/Components/Dialogs.qml:97
+msgid "Log Out"
+msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "Sguir dheth"
+
+#: qml/Components/Dialogs.qml:98
 msgid "Shut down"
 msgstr "Dùin sìos"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "A bheil thu cinnteach gu bheil thu airson a dhùnadh sìos?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:123
 msgid "Reboot"
 msgstr "Ath-thòisich an siostam"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:127
+msgid "Shutdown"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:124
 msgid "Are you sure you want to reboot?"
 msgstr "A bheil thu cinnteach gu bheil thu airson tòiseachadh às ùr?"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:126
+msgid "No"
+msgstr "Chan eil"
+
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:133
+msgid "Yes"
+msgstr "Tha"
+
+#: qml/Components/Dialogs.qml:148
 msgid "Power"
 msgstr "Cumhachd"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:149
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -104,56 +120,52 @@ msgstr ""
 "A bheil thu cinnteach gu bheil thu\n"
 "airson a' chumhachd a chur dheth?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:151
 msgid "Power off"
 msgstr "Cuir a' chumhachd dheth"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:161
 msgid "Restart"
 msgstr "Ath-thòisich"
 
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "Sguir dheth"
-
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
 msgstr "Till dhan ghairm"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
 msgstr "Gairm èiginn"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:255
 msgid "OK"
 msgstr "Ceart ma-thà"
 
-#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/GenericScopeView.qml:528
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:268
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Lorg"
 
-#: qml/Dash/PageHeader.qml:269
+#: qml/Dash/PageHeader.qml:261
 msgid "Store"
 msgstr "Am bùth"
 
-#: qml/Dash/PageHeader.qml:286
+#: qml/Dash/PageHeader.qml:278
 msgid "Settings"
 msgstr "Roghainnean"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Remove from Favorites"
 msgstr "Thoir air falbh o na h-annsachdan"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Add to Favorites"
 msgstr "Cuir ris na h-annsachdan"
 
@@ -187,23 +199,91 @@ msgstr "Leig às airson ath-nuadhachadh…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Cuir an comas dàta an ionaid"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:63
 msgid "Manage"
 msgstr "Stiùirich"
 
-#: qml/Dash/ScopesList.qml:112
+#: qml/Dash/ScopesList.qml:107
 msgid "Home"
 msgstr "Dhachaigh"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:108
 msgid "Also installed"
-msgstr ""
+msgstr "Air a stàladh cuideachd"
 
-#: qml/Greeter/Greeter.qml:141
+#: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Thoir a' ghlas dheth"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr "Feuch ris a-rithist"
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr "Gnog gus a' ghlas a thoirt fo bharr"
+
+#: qml/Shell.qml:444
+msgid "Sorry, incorrect passphrase."
+msgstr "Duilich ach tha an abairt-fhaire cearr."
+
+#: qml/Shell.qml:445
+msgid "Sorry, incorrect passcode."
+msgstr "Duilich ach tha an còd-faire cearr."
+
+#: qml/Shell.qml:446
+msgid "This will be your last attempt."
+msgstr "Seo an oidhirp mu dheireadh agad."
+
+#: qml/Shell.qml:448
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn agad a "
+"ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
+"pearsanta a sguabadh às."
+
+#: qml/Shell.qml:449
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
+"shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
+"a sguabadh às."
+
+#: qml/Shell.qml:402
+#, qt-format
+msgid "Enter %1"
+msgstr "Cuir a-steach %1"
+
+#: qml/Shell.qml:394
+msgid "Enter passphrase"
+msgstr "Cuir abairt-fhaire a-steach"
+
+#: qml/Shell.qml:398
+msgid "Enter passcode"
+msgstr "Cuir còd-faire a-steach"
+
+#: qml/Shell.qml:403
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Duilich ach tha a' %1 cearr"
+
+#: qml/Shell.qml:395
+msgid "Sorry, incorrect passphrase"
+msgstr "Duilich ach tha an abairt-fhaire cearr"
+
+#: qml/Shell.qml:396
+msgid "Please re-enter"
+msgstr "Cuir a-steach e a-rithist"
+
+#: qml/Shell.qml:399
+msgid "Sorry, incorrect passcode"
+msgstr "Duilich ach tha an còd-faire cearr"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -257,117 +337,57 @@ msgstr "Thoir a' ghlas far an SIM"
 msgid "Roaming"
 msgstr "Air fàrsan"
 
-#: qml/Shell.qml:402
-#, qt-format
-msgid "Enter %1"
-msgstr "Cuir a-steach %1"
-
-#: qml/Shell.qml:403 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Cuir abairt-fhaire a-steach"
-
-#: qml/Shell.qml:404
-msgid "Enter passcode"
-msgstr "Cuir còd-faire a-steach"
-
-#: qml/Shell.qml:405
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Duilich ach tha a' %1 cearr"
-
-#: qml/Shell.qml:406
-msgid "Sorry, incorrect passphrase"
-msgstr "Duilich ach tha an abairt-fhaire cearr"
-
-#: qml/Shell.qml:407
-msgid "Please re-enter"
-msgstr "Cuir a-steach e a-rithist"
-
-#: qml/Shell.qml:408
-msgid "Sorry, incorrect passcode"
-msgstr "Duilich ach tha an còd-faire cearr"
-
-#: qml/Shell.qml:502 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Duilich ach tha an abairt-fhaire cearr."
-
-#: qml/Shell.qml:503 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Duilich ach tha an còd-faire cearr."
-
-#: qml/Shell.qml:504
-msgid "This will be your last attempt."
-msgstr "Seo an oidhirp mu dheireadh agad."
-
-#: qml/Shell.qml:506
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn agad a "
-"ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
-"pearsanta a sguabadh às."
-
-#: qml/Shell.qml:507
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
-"shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
-"a sguabadh às."
-
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Nì seo diofar rudan do dhiofar aplacaidean"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Thoir gnogag an-seo gus a choileanadh."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Fosgail na clàran-taice sònraichte"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Dèan grad-shlaighdeadh a-nìos on oir."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Seo na h-ath-ghoiridean ris na h-aplacaidean as fhearr leat"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "Thoir gnogag an-seo gus leantainn air adhart."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "Fosgail an lòinsear"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Grad-shlaighdeadh goirid on oir chlì."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Cha mhòr!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "Feuch ris a-rithist."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Gus aplacaidean fosgailte fhaicinn"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Grad-shlaighdeadh on oir dheas."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Seall gach saothair a tha thu a' ruith."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
@@ -396,11 +416,11 @@ msgstr "Lean air adhart"
 msgid "Add a SIM card and restart your device"
 msgstr "Cuir cairt SIM ris 's tòisich an uidheam agad às ùr"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "Chan urrainn dhut gairm no teachdaireachd a chur às a h-aonais."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Leum thairis air"
 
@@ -426,7 +446,7 @@ msgstr "Còd-faire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgid "4 digits only"
-msgstr ""
+msgstr "4 àireamhan a-mhàin"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgid "Passphrase"
@@ -458,11 +478,13 @@ msgstr "Faodaidh am fòn aithneachadh far a bheil thu:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Na cleachd ach GPS (chan eil seo cho pongail)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"A' cleachdadh GPS, WiFi gun urra is fiosrachadh an lìonraidh mobile "
+"(mholamaid seo)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -470,6 +492,8 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Ma thaghas tu an roghainn seo, bidh thu ag aontachadh ri <a "
+"href='#'>teirmichean is cumhaichean</a> an Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
@@ -478,6 +502,8 @@ msgstr "Chan fhaod idir"
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"'S urrainn dhut a chaochladh a chur romhad às a dhèidh seo ann an "
+"<b>Roghainnean an t-siostaim</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
