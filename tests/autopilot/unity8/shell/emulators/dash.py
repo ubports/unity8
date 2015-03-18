@@ -24,7 +24,6 @@ from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
-from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
 logger = logging.getLogger(__name__)
@@ -37,7 +36,7 @@ class DashApp():
     def __init__(self, app_proxy):
         self.app_proxy = app_proxy
         self.main_view = self.app_proxy.select_single(
-            toolkit_emulators.MainView)
+            ubuntuuitoolkit.MainView)
         self.dash = self.main_view.select_single(Dash)
 
 
