@@ -19,7 +19,6 @@ import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.SystemImage 0.1
-import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import "../Components"
 
@@ -177,10 +176,6 @@ Showable {
             d.waiting = true;
             lockedApp = "";
         }
-    }
-
-    Component.onCompleted: {
-        Connectivity.unlockAllModems();
     }
 
     Timer {

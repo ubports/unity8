@@ -31,6 +31,7 @@ import Unity.Indicators 0.1
 import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Powerd 0.1
+import Wizard 0.1 as Wizard
 
 import "../../qml"
 
@@ -288,6 +289,7 @@ Rectangle {
             setLightDMMockMode("single"); // back to the default value
 
             AccountsService.demoEdges = false;
+            Wizard.System.wizardEnabled = false;
 
             // kill all (fake) running apps
             killApps(ApplicationManager);
@@ -938,6 +940,21 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             tryCompare(unlockAllModemsSpy, "count", 1)
+        }
+
+        function test_unlockAllModemsAfterWizard() {
+            Wizard.System.wizardEnabled = true;
+            loadShell("phone");
+
+            var wizard = findChild(shell, "wizard");
+            compare(wizard.active, true);
+            compare(Wizard.System.wizardEnabled, true);
+            compare(unlockAllModemsSpy.count, 0);
+
+            wizard.hide();
+            tryCompare(wizard, "active", false);
+            compare(Wizard.System.wizardEnabled, false);
+            compare(unlockAllModemsSpy.count, 1);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
