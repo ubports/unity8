@@ -1,3 +1,69 @@
+unity8 (8.02+15.04.20150318-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add some context to tr calls (LP: #1431497)
+  * Require binaries and .pc files we call from code
+  * Test: More stubborn flick to the end
+
+  [ Andrea Cimitan ]
+  * Refactor PreviewOverlay to fix weird zoom out/in animations when
+    previewing images from the Previews
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Charles Kerr ]
+  * Re-enable a rotation lock test now that the bug that broke that test
+    has been fixed. (LP: #1410915)
+
+  [ Daniel d'Andrada ]
+  * Darkened area behind indicators menu should eat input until it fully
+    disappears (LP: #1417967)
+  * DesktopStage - fix focus switch when user taps on window (LP:
+    #1431325)
+  * Fix warnings when launching tutorial
+  * Make MouseTouchAdaptor controllable from within QML
+  * Make tst_Shell absorb tst_TabletShell
+
+  [ Leo Arias ]
+  * Changed the autopilot dependencies so they do not require qt4. (LP:
+    #1429158)
+  * Drop the support for python2 in autopilot tests. (LP: #1429163)
+  * Stop using the deprecated toolkit emulators namespace in autopilot
+    tests. (LP: #1341681)
+
+  [ Michael Terry ]
+  * Don't close wizard & edge tutorial when the unity8-dash closes (LP:
+    #1425484)
+  * Don't let the wizard sit indefinitely, waiting for a wizard page to
+    finish preparing itself. (LP: #1425737)
+  * Fix two broken qmluitest files by waiting for everything to settle
+    before starting the tests.
+  * Only call unlockAllModems once the wizard is done. (LP: #1425161)
+    (LP: #1425161)
+  * When we are locking the user out from too many login failures,
+    notice when time passes even if the device is suspended. (LP:
+    #1396817) (LP: #1396817)
+
+  [ Michael Zanetti ]
+  * Add a mouse area to the indicators panel so we can open them by
+    clicking. (LP: #1417650)
+  * fix launcher not reacting to first click when revealed by mouse
+    hover, add tests
+  * performance improvements (LP: #1430233, #1425087)
+
+  [ Michał Sawicz ]
+  * Remove the activity indicator from tests
+  * Use targets instead of custom ld arguments for linking
+
+  [ Mirco Müller ]
+  * Updated the visuals of the SwipeToAct-widget for incoming-call snap-
+    decision notifications according to new design-spec.
+  * Updated the visuals of the SwipeToAct-widget for incoming-call snap-
+    decision notifications according to new design-spec.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 18 Mar 2015 10:19:06 +0000
+
 unity8 (8.02+15.04.20150302-0ubuntu2) vivid; urgency=medium
 
   * No-change rebuild against Qt 5.4.1.
