@@ -295,6 +295,7 @@ TestCase {
         event1.move(0, x1Start, y1Start);
         event1.press(1, x2Start, y2Start);
         event1.commit();
+
         // pinch
         for (var i = 0.0; i < 1.0; i += 0.02) {
             event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
