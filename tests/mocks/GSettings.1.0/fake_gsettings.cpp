@@ -136,6 +136,4 @@ void GSettingsQml::setUsageMode(const QString &str) {
 
 QString GSettingsQml::usageMode() const {
     return  GSettingsControllerQml::instance()->usageMode(m_schema->id());
-
 }
-
