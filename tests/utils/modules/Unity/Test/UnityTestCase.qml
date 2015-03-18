@@ -291,14 +291,14 @@ TestCase {
         // first finger
         event1.press(0, x1Start, y1Start);
         event1.commit();
+        // second finger
+        event1.move(0, x1Start, y1Start);
+        event1.press(1, x2Start, y2Start);
+        event1.commit();
         // pinch
         for (var i = 0.0; i < 1.0; i += 0.02) {
             event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
-            if (i == 0) {
-                event1.press(1, x2Start, y2Start);
-            } else {
-                event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
-            }
+            event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
             event1.commit();
         }
 
