@@ -49,4 +49,3 @@ QtObject {
         period: 1
     }
 }
-
