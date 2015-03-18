@@ -83,6 +83,7 @@ add_qml_test(Panel/Indicators IndicatorsLight ENVIRONMENT "LD_LIBRARY_PATH=${CMA
 add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel/Indicators MessageMenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Stages ApplicationWindow)
+add_qml_test(Stages DesktopStage)
 add_qml_test(Stages PhoneStage ENVIRONMENT)
 add_qml_test(Stages SpreadDelegate ENVIRONMENT)
 add_qml_test(Stages SurfaceContainer ENVIRONMENT)
