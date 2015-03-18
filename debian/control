@@ -78,6 +78,9 @@ Depends: unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
+# We do call pkg-config libunity-scopes from the code
+         pkg-config,
+         libunity-scopes-dev,
 Description: Development tool for Unity scopes
  This package contains the development tool for new generation Unity scopes, based
  on Unity8.
