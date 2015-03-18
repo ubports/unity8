@@ -173,6 +173,7 @@ Showable {
 
     DragHandle {
         id: __showDragHandle
+        objectName: "showDragHandle"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
