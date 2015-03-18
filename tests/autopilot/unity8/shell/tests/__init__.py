@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -148,7 +148,7 @@ class UnityTestCase(AutopilotTestCase):
             sys.exit(2)
 
     def setUp(self):
-        super(UnityTestCase, self).setUp()
+        super().setUp()
         if is_unity7_running():
             self.useFixture(toolkit_fixtures.HideUnity7Launcher())
 
@@ -399,7 +399,7 @@ class DashBaseTestCase(AutopilotTestCase):
     environment = {}
 
     def setUp(self):
-        super(DashBaseTestCase, self).setUp()
+        super().setUp()
 
         if is_unity7_running():
             self.useFixture(toolkit_fixtures.HideUnity7Launcher())

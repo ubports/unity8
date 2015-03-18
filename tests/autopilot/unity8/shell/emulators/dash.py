@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ from ubuntuuitoolkit import emulators as toolkit_emulators
 logger = logging.getLogger(__name__)
 
 
-class DashApp(object):
+class DashApp():
 
     """Autopilot helper for the Dash app."""
 
@@ -45,7 +45,7 @@ class Dash(emulators.UnityEmulatorBase):
     """An emulator that understands the Dash."""
 
     def __init__(self, *args):
-        super(Dash, self).__init__(*args)
+        super().__init__(*args)
         self.dash_content_list = self.wait_select_single(
             'QQuickListView', objectName='dashContentList')
 
