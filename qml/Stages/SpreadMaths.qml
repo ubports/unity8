@@ -5,6 +5,8 @@ QtObject {
     id: root
 
     function desktopX(index, totalWidth, flickableX) {
+        // Uncomment this to keep linear x movement
+        // return (totalWidth / 5) * index - flickableX;
         var distance = totalWidth / 5;
         var minX = 0;
         var startX = index * distance;
@@ -20,20 +22,20 @@ QtObject {
         return x;
     }
 
-    function desktopY(totalHeight, itemHeight) {
-        return (totalHeight - itemHeight) / 2;
+    function desktopY(sceneHeight, itemHeight) {
+        return sceneHeight - itemHeight - (sceneHeight * 0.1);
     }
 
     function desktopAngle(index, flickableX) {
-        var startProgress = 0;
-        var endProgress = 1;
-        var startValue = index * 5;
-        var endValue = 0;
-        var progress = 1.0 * flickableX / startValue;
-        print("progress for tile", index, ":", startProgress, endProgress, startValue, endValue, progress)
-        var angle = easingAnimation(startProgress, endProgress, startValue, endValue, progress);
-        print("resulting angle:", angle)
-        return angle;
+        return 20;
+    }
+
+    function desktopScale(sceneHeight, itemHeight) {
+        var maxHeight = sceneHeight / 2;
+        if (itemHeight > maxHeight) {
+            return maxHeight / itemHeight
+        }
+        return 1;
     }
 
     function easingAnimation(startProgress, endProgress, startValue, endValue, progress) {

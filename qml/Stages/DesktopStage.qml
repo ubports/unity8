@@ -152,6 +152,8 @@ Item {
                             x: spreadMaths.desktopX(index, root.width, spreadFlickable.contentX)
                             y: spreadMaths.desktopY(root.height, appDelegate.height)
                             angle: spreadMaths.desktopAngle(index, spreadFlickable.contentX)
+                            itemScale: spreadMaths.desktopScale(root.height, appDelegate.height)
+                            itemScaleOriginY: appDelegate.height;
                             color: "green"
                             z: index
                         }
@@ -169,9 +171,18 @@ Item {
                     }
                 ]
                 property real angle: 0
+                property real itemScale: 1
+                property int itemScaleOriginX: 0
+                property int itemScaleOriginY: 0
                 transform: [
+                    Scale {
+                        origin.x: itemScaleOriginX
+                        origin.y: itemScaleOriginY
+                        xScale: itemScale
+                        yScale: itemScale
+                    },
                     Rotation {
-                        origin { x: 0; y: appDelegate.height / 2 }
+                        origin { x: 0; y: (appDelegate.height / 2) / itemScale }
                         axis { x: 0; y: 1; z: 0 }
                         angle: appDelegate.angle
                     }
