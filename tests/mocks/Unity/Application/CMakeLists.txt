@@ -6,7 +6,6 @@ set(FakeUnityApplicationQml_SOURCES
     ApplicationManager.cpp
     ApplicationScreenshotProvider.cpp
     ApplicationTestInterface.cpp
-    GenericApp.cpp
     MirSurfaceItem.cpp
     MirSurfaceItemModel.h
     ObjectListModel.h

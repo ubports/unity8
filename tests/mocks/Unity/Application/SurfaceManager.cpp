@@ -16,7 +16,6 @@
 
 #include "SurfaceManager.h"
 
-#include "GenericApp.h"
 #include "VirtualKeyboard.h"
 
 #include <paths.h>
@@ -42,10 +41,7 @@ MirSurfaceItem *SurfaceManager::createSurface(const QString& name,
                                               MirSurfaceItem::State state,
                                               const QUrl& screenshot)
 {
-    MirSurfaceItem* surface = new GenericApp(name,
-                                       type,
-                                       state,
-                                       screenshot);
+    MirSurfaceItem* surface = new MirSurfaceItem(name, type, state, screenshot);
     Q_EMIT surfaceCreated(surface);
     return surface;
 }
