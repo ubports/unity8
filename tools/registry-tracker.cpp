@@ -75,6 +75,8 @@ void RegistryTracker::runRegistry()
         return;
     }
 
+    // FIXME At the moment we use pkg-config but ideally the library
+    // would just have a function that returns these values
     QString scopeInstallDir;
     QString scopeRegistryBin;
     QString scopeRunnerBin;

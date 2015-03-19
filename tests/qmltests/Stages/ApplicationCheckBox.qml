@@ -24,15 +24,23 @@ RowLayout {
     property string appId
     property alias checked: checkbox.checked
 
+    enabled: appId !== "unity8-dash"
+
     Layout.fillWidth: true
     CheckBox {
         id: checkbox
         checked: false
         activeFocusOnPress: false
+        property bool noop: false
         onCheckedChanged: {
+            if (noop) {
+                return;
+            }
             if (checked) {
-                ApplicationManager.startApplication(root.appId);
+                var application = ApplicationManager.startApplication(root.appId);
+                appConnections.target = application;
             } else {
+                appConnections.target = null;
                 ApplicationManager.stopApplication(root.appId);
             }
         }
@@ -41,5 +49,16 @@ RowLayout {
         text: root.appId
         color: "white"
         anchors.verticalCenter: parent.verticalCenter
+    }
+
+    Connections {
+        id: appConnections
+        onStateChanged: {
+            if (target.state == ApplicationInfoInterface.Stopped) {
+                checkbox.noop = true;
+                checkbox.checked = false;
+                checkbox.noop = false;
+            }
+        }
     }
 }

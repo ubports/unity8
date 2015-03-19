@@ -19,13 +19,11 @@ include_directories(
     )
 
 target_link_libraries(GreeterDBusTestExec
-    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
-    -llightdm-qt5-2
+    MockLightDM
     )
 
 target_link_libraries(GreeterUsersModelTestExec
-    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
-    -llightdm-qt5-2
+    MockLightDM
     )
 
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

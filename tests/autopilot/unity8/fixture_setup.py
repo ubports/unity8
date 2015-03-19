@@ -38,13 +38,13 @@ class LaunchDashApp(fixtures.Fixture):
         :type variables: A dictionary.
 
         """
-        super(LaunchDashApp, self).__init__()
+        super().__init__()
         self.binary_path = binary_path
         self.variables = variables
 
     def setUp(self):
         """Launch the dash app when the fixture is used."""
-        super(LaunchDashApp, self).setUp()
+        super().setUp()
         self.addCleanup(self.stop_application)
         self.application_proxy = self.launch_application()
 
@@ -69,11 +69,11 @@ class LaunchDashApp(fixtures.Fixture):
 class DisplayRotationLock(fixtures.Fixture):
 
     def __init__(self, enable):
-        super(DisplayRotationLock, self).__init__()
+        super().__init__()
         self.enable = enable
 
     def setUp(self):
-        super(DisplayRotationLock, self).setUp()
+        super().setUp()
         original_state = self._is_rotation_lock_enabled()
         if self.enable != original_state:
             self.addCleanup(self._set_rotation_lock, original_state)

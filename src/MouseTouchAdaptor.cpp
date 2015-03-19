@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +20,15 @@
 
 #include <qpa/qwindowsysteminterface.h>
 
-#include <QtGui/QMouseEvent>
-#include <QtTest/QTest>
+#include <QCoreApplication>
+#include <QMouseEvent>
+#include <QTest>
 
 using QTest::QTouchEventSequence;
 
 namespace {
+MouseTouchAdaptor *g_instance = nullptr;
+
 Qt::MouseButton translateMouseButton(xcb_button_t detail)
 {
     switch (detail) {
@@ -39,16 +42,36 @@ Qt::MouseButton translateMouseButton(xcb_button_t detail)
 } // end of anonymous namespace
 
 MouseTouchAdaptor::MouseTouchAdaptor()
-    : m_leftButtonIsPressed(false)
+    : QObject(nullptr), m_leftButtonIsPressed(false), m_enabled(true)
 {
+    QCoreApplication::instance()->installNativeEventFilter(this);
+
     m_touchDevice = new QTouchDevice;
     m_touchDevice->setType(QTouchDevice::TouchScreen);
     QWindowSystemInterface::registerTouchDevice(m_touchDevice);
 }
 
+MouseTouchAdaptor::~MouseTouchAdaptor()
+{
+    g_instance = nullptr;
+}
+
+MouseTouchAdaptor* MouseTouchAdaptor::instance()
+{
+    if (!g_instance) {
+        g_instance = new MouseTouchAdaptor;
+    }
+
+    return g_instance;
+}
+
 bool MouseTouchAdaptor::nativeEventFilter(const QByteArray & eventType,
                                           void * message, long * /*result*/)
 {
+    if (!m_enabled) {
+        return false;
+    }
+
     if (eventType != "xcb_generic_event_t") {
         // wrong backend.
         qWarning("MouseTouchAdaptor: XCB backend not in use. Adaptor inoperative!");
@@ -150,4 +173,17 @@ QWindow *MouseTouchAdaptor::findQWindowWithXWindowID(WId windowId)
 
     Q_ASSERT(foundWindow);
     return foundWindow;
+}
+
+bool MouseTouchAdaptor::enabled() const
+{
+    return m_enabled;
+}
+
+void MouseTouchAdaptor::setEnabled(bool value)
+{
+    if (value != m_enabled) {
+        m_enabled = value;
+        Q_EMIT enabledChanged(value);
+    }
 }

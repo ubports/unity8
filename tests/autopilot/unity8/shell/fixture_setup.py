@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import unity8
 class FakeScopes(fixtures.Fixture):
 
     def setUp(self):
-        super(FakeScopes, self).setUp()
+        super().setUp()
         self.useFixture(
             fixtures.EnvironmentVariable(
                 'QML2_IMPORT_PATH',

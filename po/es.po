@@ -8,106 +8,107 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-25 08:57-0500\n"
-"PO-Revision-Date: 2015-02-17 06:57+0000\n"
-"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
+"PO-Revision-Date: 2015-03-09 18:21+0000\n"
+"Last-Translator: Jose Luis Tirado <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-04 05:57+0000\n"
-"X-Generator: Launchpad (build 17361)\n"
+"X-Launchpad-Export-Date: 2015-03-10 05:47+0000\n"
+"X-Generator: Launchpad (build 17389)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "Contraseña: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "Anclar"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "Desanclar"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
 msgstr "Dispositivo bloqueado"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Se ha proporcionado una contraseña errónea demasiadas veces. Se ha bloqueado "
 "el dispositivo."
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Se ha bloqueado el dispositivo debido al gran número de intentos fallidos de "
 "desbloqueo."
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Espere %1 minuto e inténtelo de nuevo..."
 msgstr[1] "Espere %1 minutos e inténtelo de nuevo..."
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:74
 msgid "Log out"
 msgstr "Cerrar la sesión"
 
-#: qml/Components/Dialogs.qml:88
+#: qml/Components/Dialogs.qml:75
 msgid "Are you sure you want to log out?"
 msgstr "̉¿Está seguro de que quiere cerrar la sesión?"
 
 #: qml/Components/Dialogs.qml:90
 msgid "Lock"
-msgstr ""
+msgstr "Bloquear"
 
 #: qml/Components/Dialogs.qml:97
 msgid "Log Out"
-msgstr ""
+msgstr "Cerrar sesión"
 
-#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
-#: qml/Components/Dialogs.qml:191
+#: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:98
 msgid "Shut down"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "¿Está seguro de que quiere apagar?"
 
-#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:123
 msgid "Reboot"
 msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:127
 msgid "Shutdown"
-msgstr ""
+msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:124
 msgid "Are you sure you want to reboot?"
 msgstr "¿Esta seguro de que quiere reiniciar?"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:126
 msgid "No"
 msgstr "No"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:133
 msgid "Yes"
 msgstr "Sí"
 
-#: qml/Components/Dialogs.qml:170
+#: qml/Components/Dialogs.qml:148
 msgid "Power"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:149
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -115,52 +116,52 @@ msgstr ""
 "¿Está seguro de que quiere\n"
 "apagar?"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:151
 msgid "Power off"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:161
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
 msgstr "Volver a la llamada"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
 msgstr "Llamada de emergencia"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:255
 msgid "OK"
 msgstr "Aceptar"
 
-#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:528
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "Ver todo"
 
-#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
+#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:268
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Buscar"
 
-#: qml/Dash/PageHeader.qml:269
+#: qml/Dash/PageHeader.qml:261
 msgid "Store"
 msgstr "Tienda"
 
-#: qml/Dash/PageHeader.qml:286
+#: qml/Dash/PageHeader.qml:278
 msgid "Settings"
 msgstr "Configuración"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Remove from Favorites"
 msgstr "Quitar de favoritos"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Add to Favorites"
 msgstr "Añadir a favoritos"
 
@@ -196,43 +197,43 @@ msgstr "Suelte para actualizar…"
 msgid "Enable location data"
 msgstr "Activar datos de ubicación"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:63
 msgid "Manage"
 msgstr "Administrar"
 
-#: qml/Dash/ScopesList.qml:112
+#: qml/Dash/ScopesList.qml:107
 msgid "Home"
 msgstr "Inicio"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:108
 msgid "Also installed"
 msgstr "También instalados"
 
-#: qml/Greeter/CoverPage.qml:107
+#: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "Desbloquear"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Reintentar"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Toque para desbloquear"
 
-#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:444
 msgid "Sorry, incorrect passphrase."
 msgstr "La contraseña es incorrecta."
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:445
 msgid "Sorry, incorrect passcode."
 msgstr "Código de acceso incorrecto."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Shell.qml:446
 msgid "This will be your last attempt."
 msgstr "Este será su último intento."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Shell.qml:448
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -240,7 +241,7 @@ msgstr ""
 "Si se introduce la frase incorrectamente, el teléfono volverá a la "
 "configuración de fábrica y se perderán todos los datos personales."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Shell.qml:449
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -248,33 +249,33 @@ msgstr ""
 "Si se introduce el código incorrectamente, el teléfono volverá a la "
 "configuración de fábrica y se perderán todos los datos personales."
 
-#: qml/Greeter/NarrowView.qml:115
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "Introduzca %1"
 
-#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:394
 msgid "Enter passphrase"
 msgstr "Introduzca la contraseña"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Shell.qml:398
 msgid "Enter passcode"
 msgstr "Introduzca el código"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Shell.qml:403
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Incorrecto (%1)"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passphrase"
 msgstr "La contraseña es incorrecta"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Shell.qml:396
 msgid "Please re-enter"
 msgstr "Reintroduzca"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Shell.qml:399
 msgid "Sorry, incorrect passcode"
 msgstr "El código es incorrecto"
 
@@ -344,11 +345,11 @@ msgstr "Abrir menús especiales"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Deslizar hacia arriba desde el borde inferior."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Esto son atajos a las aplicaciones favoritas"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
@@ -360,11 +361,11 @@ msgstr "Abrir el lanzador"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Deslizamiento corto desde el borde izquierdo."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "¡Casi lo tiene!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
@@ -376,11 +377,11 @@ msgstr "Para ver las aplicaciones abiertas"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Deslizamiento largo desde el borde derecho."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Ver todas las tareas en ejecución."
 
 #: qml/Wizard/Page.qml:89
 msgid "Back"
