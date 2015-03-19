@@ -32,7 +32,7 @@ Showable {
         target: UriHandler
         onOpened: {
             backToDashContent()
-            dashContent.scope.performQuery(uris[0])
+            dashContent.currentScope.performQuery(uris[0])
         }
     }
 
