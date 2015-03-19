@@ -24,10 +24,10 @@ Rectangle {
     implicitHeight: units.gu(70)
 
     rotation: {
-        if (orientation == Qt.PortraitOrientation) return 0;
-        else if (orientation == Qt.LandscapeOrientation) return 90;
-        else if (orientation == Qt.InvertedPortraitOrientation) return 180;
-        else return 270;
+        if (orientation == Qt.PortraitOrientation) return 90;
+        else if (orientation == Qt.LandscapeOrientation) return 180;
+        else if (orientation == Qt.InvertedPortraitOrientation) return 270;
+        else return 0;
     }
     x: parent ? (parent.width - width) / 2 : 0
     y: parent ? (parent.height - height) / 2 : 0
