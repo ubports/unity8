@@ -116,7 +116,7 @@ Item {
         function addApps(count) {
             if (count == undefined) count = 1;
             for (var i = 0; i < count; i++) {
-                var app = ApplicationManager.startApplication(ApplicationManager.availableApplications()[ApplicationManager.count])
+                var app = ApplicationManager.startApplication(ApplicationManager.availableApplications[ApplicationManager.count])
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
                 var spreadView = findChild(phoneStage, "spreadView");
                 tryCompare(spreadView, "contentX", -spreadView.shift);

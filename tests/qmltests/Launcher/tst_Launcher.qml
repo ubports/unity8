@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import Ubuntu.Components 1.1
 import ".."
 import "../../../qml/Launcher"
@@ -78,7 +78,9 @@ Item {
     ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
         spacing: units.gu(1)
-        width: units.gu(20)
+        width: childrenRect.width
+
+        MouseTouchEmulationCheckbox {}
 
         Button {
             text: "emit hinting signal"
@@ -98,7 +100,7 @@ Item {
         target: LauncherModel
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         id: testCase
         name: "Launcher"
         when: windowShown
@@ -116,6 +118,9 @@ Item {
             launcherLoader.active = true;
         }
         function init() {
+            // Make sure we don't start the test with the mouse hovering the launcher
+            mouseMove(root, root.width, root.height / 2);
+
             var listView = findChild(launcher, "launcherListView");
             // wait for it to settle before doing the flick. Otherwise the flick
             // might fail.
@@ -146,6 +151,17 @@ Item {
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
             tryCompare(launcher, "state", "visible");
+        }
+
+        function revealByHover() {
+            mouseMove(root, 1, root.height / 2);
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel != undefined);
+
+            // wait until it gets fully extended
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visibleTemporary");
         }
 
         function waitUntilLauncherDisappears() {
@@ -189,8 +205,19 @@ Item {
            Launcher::launcherApplicationSelected signal should be emitted with the
            corresponding desktop file. E.g. clicking on phone icon should yield
            launcherApplicationSelected("[...]dialer-app.desktop") */
-        function test_clickingOnAppIconCausesSignalEmission() {
-            dragLauncherIntoView();
+        function test_clickingOnAppIconCausesSignalEmission_data() {
+            return [
+                {tag: "by mouse", mouse: true},
+                {tag: "by touch", mouse: false}
+            ]
+        }
+
+        function test_clickingOnAppIconCausesSignalEmission(data) {
+            if (data.mouse) {
+                revealByHover();
+            } else {
+                dragLauncherIntoView();
+            }
             launcher.lastSelectedApplication = "";
             launcher.inverted = false;
 
@@ -200,7 +227,11 @@ Item {
 
             verify(appIcon != undefined);
 
-            mouseClick(appIcon);
+            if (data.mouse) {
+                mouseClick(appIcon);
+            } else {
+                tap(appIcon);
+            }
 
             tryCompare(launcher, "lastSelectedApplication",
                        appIcon.appId);
@@ -558,6 +589,20 @@ Item {
             launcher.hide();
 
             tryCompare(quickList, "state", "");
+        }
+
+        function test_revealByHover() {
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel != undefined);
+
+            revealByHover();
+            tryCompare(launcher, "state", "visibleTemporary");
+
+            // Now move the mouse away and make sure it hides in less than a second
+            mouseMove(root, root.width, root.height / 2)
+
+            tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
+            waitUntilLauncherDisappears();
         }
     }
 }

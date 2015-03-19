@@ -38,12 +38,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# from __future__ import range
-# (python3's range, is same as python2's xrange)
-import sys
-if sys.version_info < (3,):
-    range = xrange
-
 
 class UpstartIntegrationTests(UnityTestCase):
 
@@ -95,7 +89,7 @@ class UpstartIntegrationTests(UnityTestCase):
         self.addCleanup(ensure_stopped)
 
     def _set_proxy(self):
-        super(UpstartIntegrationTests, self)._set_proxy(
+        super()._set_proxy(
             get_proxy_object_for_existing_process(
                 pid=self.process.pid,
                 emulator_base=UnityEmulatorBase,))

@@ -31,6 +31,7 @@ import Unity.Indicators 0.1
 import Unity.Notifications 1.0
 import Unity.Test 0.1
 import Powerd 0.1
+import Wizard 0.1 as Wizard
 
 import "../../qml"
 
@@ -289,6 +290,7 @@ Rectangle {
             setLightDMMockMode("single"); // back to the default value
 
             AccountsService.demoEdges = false;
+            Wizard.System.wizardEnabled = false;
 
             // kill all (fake) running apps
             killApps(ApplicationManager);
@@ -535,6 +537,7 @@ Rectangle {
                 tryCompare(userlist, "currentIndex", next)
                 tryCompare(userlist, "movingInternally", false)
             }
+            tryCompare(shell, "enabled", true); // wait for PAM to settle
         }
 
         function selectUser(name) {
@@ -939,6 +942,52 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             tryCompare(unlockAllModemsSpy, "count", 1)
+        }
+
+        function test_unlockAllModemsAfterWizard() {
+            Wizard.System.wizardEnabled = true;
+            loadShell("phone");
+
+            var wizard = findChild(shell, "wizard");
+            compare(wizard.active, true);
+            compare(Wizard.System.wizardEnabled, true);
+            compare(unlockAllModemsSpy.count, 0);
+
+            wizard.hide();
+            tryCompare(wizard, "active", false);
+            compare(Wizard.System.wizardEnabled, false);
+            compare(unlockAllModemsSpy.count, 1);
+        }
+
+        function test_wizardEarlyExit() {
+            Wizard.System.wizardEnabled = true;
+            AccountsService.demoEdges = true;
+            loadShell("phone");
+
+            var wizard = findChild(shell, "wizard");
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(wizard, "active", true);
+            tryCompare(tutorial, "running", true);
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            // Make sure we stay running when nothing focused (can happen for
+            // a moment when we restart the dash after switching language)
+            ApplicationManager.stopApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "");
+            compare(wizard.shown, true);
+            compare(tutorial.running, true);
+
+            // And make sure we stay running when dash focused again
+            ApplicationManager.startApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            compare(wizard.shown, true);
+            compare(tutorial.running, true);
+
+            // And make sure we stop when something else is focused
+            ApplicationManager.startApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+            compare(wizard.shown, false);
+            compare(tutorial.running, false);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {

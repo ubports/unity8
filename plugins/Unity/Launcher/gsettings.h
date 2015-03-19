@@ -41,6 +41,7 @@ private Q_SLOTS:
 
 private:
     QGSettings *m_gSettings;
+    QStringList m_cachedItems;
 };
 
 #endif

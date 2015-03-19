@@ -38,6 +38,8 @@ PreviewWidget {
         model: root.widgetData["sources"]
         clip: true
 
+        onCurrentIndexChanged: overlay.updateInitialItem()
+
         LazyImage {
             objectName: "placeholderScreenshot"
             anchors {
@@ -65,9 +67,8 @@ PreviewWidget {
                 id: mouseArea
                 anchors.fill: parent
                 onClicked: {
-                    overlay.delegateItem.currentIndex = index;
-                    overlay.initialX = rootItem.mapFromItem(parent, 0, 0).x;
-                    overlay.initialY = rootItem.mapFromItem(parent, 0, 0).y;
+                    previewImageListView.currentIndex = index;
+                    overlay.updateInitialItem();
                     overlay.show();
                 }
             }
@@ -78,9 +79,14 @@ PreviewWidget {
         id: overlay
         objectName: "overlay"
         parent: rootItem
-        width: parent.width
-        height: parent.height
-        initialScale: previewImageListView.height / rootItem.height
+        anchors.fill: parent
+
+        function updateInitialItem() {
+            initialX = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).x;
+            initialY = rootItem.mapFromItem(previewImageListView.currentItem, 0, 0).y;
+            initialWidth = previewImageListView.currentItem.width;
+            initialHeight = previewImageListView.currentItem.height;
+        }
 
         delegate: ListView {
             id: overlayListView
@@ -92,6 +98,19 @@ PreviewWidget {
             snapMode: ListView.SnapOneItem
             boundsBehavior: Flickable.DragAndOvershootBounds
             model: root.widgetData["sources"]
+            currentIndex: previewImageListView.currentIndex
+
+            onCurrentIndexChanged: {
+                // if the index changed while overlay is visible, it was from user interaction,
+                // let's update the index of the original listview
+                if (overlay.visible) {
+                    previewImageListView.highlightMoveDuration = 0;
+                    previewImageListView.highlightResizeDuration = 0;
+                    previewImageListView.currentIndex = currentIndex;
+                    previewImageListView.highlightMoveDuration = -1;
+                    previewImageListView.highlightResizeDuration = -1;
+                }
+            }
 
             delegate: Image {
                 id: screenshot

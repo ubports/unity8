@@ -22,7 +22,7 @@ import Unity.Test 0.1 as UT
 Rectangle {
     id: root
     width: units.gu(80)
-    height: units.gu(80)
+    height: units.gu(70)
     color: "lightgrey"
 
     property var sourcesModel0: {
