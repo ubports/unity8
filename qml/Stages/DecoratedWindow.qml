@@ -27,6 +27,8 @@ FocusScope {
     property alias application: applicationWindow.application
     property alias active: decoration.active
 
+    property bool decorationShown: true
+
     signal close();
     signal maximize();
     signal minimize();
@@ -50,13 +52,14 @@ FocusScope {
         onClose: root.close();
         onMaximize: root.maximize();
         onMinimize: root.minimize();
+        visible: decorationShown
     }
 
     ApplicationWindow {
         id: applicationWindow
         objectName: application ? "appWindow_" + application.appId : "appWindow_null"
         anchors.fill: parent
-        anchors.topMargin: units.gu(3)
+        anchors.topMargin: root.decorationShown ? decoration.height : 0
         interactive: true
         focus: true
     }

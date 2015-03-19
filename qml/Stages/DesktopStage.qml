@@ -162,6 +162,10 @@ FocusScope {
                             target: darkenOverlay
                             opacity: index != appRepeater.highlightedIndex ? 0.4 : 0
                         }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            decorationShown: false
+                        }
                     }
                 ]
                 transitions: [
