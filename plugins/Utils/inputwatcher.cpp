@@ -45,7 +45,11 @@ void InputWatcher::setTarget(QObject *value)
     setTouchPressed(false);
 
     m_target = value;
-    m_target->installEventFilter(this);
+    if (m_target) {
+        m_target->installEventFilter(this);
+    }
+
+    Q_EMIT targetChanged(value);
 }
 
 bool InputWatcher::targetPressed() const
