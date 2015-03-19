@@ -146,6 +146,8 @@ Item {
             tryCompare(greeter, "waiting", false);
             view = findChild(greeter, "testView");
             verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+            greeter.failedLoginsDelayAttempts = 7;
+            greeter.failedLoginsDelayMinutes = 5;
         }
 
         function cleanup() {
@@ -427,6 +429,19 @@ Item {
             compare(LightDM.Infographic.username, "");
             AccountsService.statsWelcomeScreen = true;
             compare(LightDM.Infographic.username, "has-password");
+        }
+
+        function test_forcedDelay() {
+            greeter.failedLoginsDelayAttempts = 1;
+            greeter.failedLoginsDelayMinutes = 0.001; // make delay very short
+
+            selectUser("has-password");
+            tryCompare(viewShowPromptSpy, "count", 1);
+
+            compare(view.delayMinutes, 0);
+            view.responded("wr0ng p4ssw0rd");
+            tryCompare(view, "delayMinutes", 1);
+            tryCompare(view, "delayMinutes", 0);
         }
 
         function test_dbusRequestAuthenticationUser() {

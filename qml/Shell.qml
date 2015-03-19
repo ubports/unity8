@@ -23,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
+import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
 import LightDM 0.1 as LightDM
@@ -156,7 +157,6 @@ Item {
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
-
         onAltTabNext: applicationsDisplayLoader.item.altTabNext()
         onAltTabPrevious: applicationsDisplayLoader.item.altTabPrevious();
     }
@@ -193,7 +193,7 @@ Item {
             onFocusedApplicationIdChanged: {
                 var appId = ApplicationManager.focusedApplicationId;
 
-                if (tutorial.running && appId != "unity8-dash") {
+                if (tutorial.running && appId != "" && appId != "unity8-dash") {
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call
                     // is more important than wizard so just bail out of those.
@@ -515,8 +515,18 @@ Item {
 
         Wizard {
             id: wizard
+            objectName: "wizard"
             anchors.fill: parent
             background: shell.background
+
+            function unlockWhenDoneWithWizard() {
+                if (!active) {
+                    Connectivity.unlockAllModems();
+                }
+            }
+
+            Component.onCompleted: unlockWhenDoneWithWizard()
+            onActiveChanged: unlockWhenDoneWithWizard()
         }
 
         Rectangle {

@@ -19,7 +19,6 @@ import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.SystemImage 0.1
-import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import "../Components"
 
@@ -51,7 +50,7 @@ Showable {
 
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
-    property int failedLoginsDelayMinutes: 5 // minutes of forced waiting
+    property real failedLoginsDelayMinutes: 5 // minutes of forced waiting
 
     signal tease()
     signal sessionStarted()
@@ -110,7 +109,6 @@ Showable {
 
         readonly property bool multiUser: LightDM.Users.count > 1
         property int currentIndex
-        property int delayMinutes
         property bool waiting
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
@@ -179,19 +177,31 @@ Showable {
         }
     }
 
-    Component.onCompleted: {
-        Connectivity.unlockAllModems();
-    }
-
     Timer {
         id: forcedDelayTimer
-        interval: 1000 * 60
+
+        // We use a short interval and check against the system wall clock
+        // because we have to consider the case that the system is suspended
+        // for a few minutes.  When we wake up, we want to quickly be correct.
+        interval: 500
+
+        property var delayTarget;
+        property int delayMinutes;
+
+        function forceDelay(delay /* in minutes */) {
+            delayTarget = new Date();
+            delayTarget.setTime(delayTarget.getTime() + delay * 60000);
+            delayMinutes = Math.ceil(delay);
+            start();
+        }
+
         onTriggered: {
-            if (d.delayMinutes > 0) {
-                d.delayMinutes -= 1;
-                if (d.delayMinutes > 0) {
-                    start(); // go again
-                }
+            var diff = delayTarget - new Date();
+            if (diff > 0) {
+                delayMinutes = Math.ceil(diff / 60000);
+                start(); // go again
+            } else {
+                delayMinutes = 0;
             }
         }
     }
@@ -262,7 +272,7 @@ Showable {
         Binding {
             target: loader.item
             property: "delayMinutes"
-            value: d.delayMinutes
+            value: forcedDelayTimer.delayMinutes
         }
 
         Binding {
@@ -363,9 +373,10 @@ Showable {
                 }
 
                 // Check if we should initiate a forced login delay
-                if (failedLoginsDelayAttempts > 0 && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
-                    d.delayMinutes = failedLoginsDelayMinutes;
-                    forcedDelayTimer.start();
+                if (failedLoginsDelayAttempts > 0
+                        && AccountsService.failedLogins > 0
+                        && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
+                    forcedDelayTimer.forceDelay(failedLoginsDelayMinutes);
                 }
 
                 loader.item.notifyAuthenticationFailed();

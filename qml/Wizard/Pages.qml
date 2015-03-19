@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,6 +110,8 @@ Item {
             // this page, and either skip it or continue.
             push(path, {"opacity": 0, "enabled": false})
 
+            timeout.restart();
+
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
             checkSkip()
@@ -124,7 +126,18 @@ Item {
                 } else {
                     currentPage.opacity = 1
                     currentPage.enabled = true
+                    timeout.stop();
                 }
+            }
+        }
+
+        Timer {
+            id: timeout
+            objectName: "timeout"
+            interval: 2000 // wizard pages shouldn't take long
+            onTriggered: {
+                pageStack.currentPage.skip = true;
+                pageStack.currentPage.skipValid = true;
             }
         }
 

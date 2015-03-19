@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,14 +20,15 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components/PanelState"
+import Utils 0.1
 
-Item {
+FocusScope {
     id: root
 
     anchors.fill: parent
 
     property alias background: wallpaper.source
-
+    property var windowStateStorage: WindowStateStorage
     property bool altTabPressed: false
 
     onAltTabPressedChanged: {
@@ -199,7 +200,7 @@ Item {
                     resizeHandleWidth: units.gu(0.5)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                    onPressed: ApplicationManager.requestFocusApplication(model.appId)
+                    onPressed: decoratedWindow.focus = true;
                 }
 
                 DecoratedWindow {
@@ -207,6 +208,12 @@ Item {
                     anchors.fill: parent
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
+
+                    onFocusChanged: {
+                        if (focus) {
+                            ApplicationManager.requestFocusApplication(model.appId);
+                        }
+                    }
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")

@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class MainWindowTestCase(tests.UnityTestCase):
     scenarios = tests._get_device_emulation_scenarios()
 
     def setUp(self):
-        super(MainWindowTestCase, self).setUp()
+        super().setUp()
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
 
@@ -110,7 +110,7 @@ class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
     def setUp(self):
         # Set up the fake scopes before launching unity.
         self.useFixture(fixture_setup.FakeScopes())
-        super(GenericScopeViewEmulatorTestCase, self).setUp()
+        super().setUp()
         self.generic_scope = self.dash.open_scope('MockScope1')
 
     def test_open_preview(self):
@@ -129,7 +129,7 @@ class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
     def setUp(self):
         # Set up the fake scopes before launching unity.
         self.useFixture(fixture_setup.FakeScopes())
-        super(DashAppsEmulatorTestCase, self).setUp()
+        super().setUp()
         self.applications_scope = self.dash.open_scope('clickscope')
 
     def test_get_applications_should_return_correct_applications(self):

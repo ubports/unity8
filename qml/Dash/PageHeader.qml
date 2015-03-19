@@ -266,14 +266,14 @@ Item {
                     actions: [
                         Action {
                             objectName: "store"
-                            text: i18n.tr("Store")
+                            text: i18n.ctr("Button: Open the Ubuntu Store", "Store")
                             iconName: "ubuntu-store-symbolic"
                             visible: root.storeEntryEnabled
                             onTriggered: root.storeClicked();
                         },
                         Action {
                             objectName: "search"
-                            text: i18n.tr("Search")
+                            text: i18n.ctr("Button: Start a search in the current dash scope", "Search")
                             iconName: "search"
                             visible: root.searchEntryEnabled
                             onTriggered: {
@@ -283,7 +283,7 @@ Item {
                         },
                         Action {
                             objectName: "settings"
-                            text: i18n.tr("Settings")
+                            text: i18n.ctr("Button: Show the current dash scope settings", "Settings")
                             iconName: "settings"
                             visible: root.settingsEnabled
                             onTriggered: root.settingsClicked()

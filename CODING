@@ -24,7 +24,7 @@ $ ./build.sh --setup
 
   this will:
   - install the required dependencies to build, as well as run on the desktop
-  - it should also install unity-scope-home and unity-lens-application which 
+  - it should also install unity-scope-home and unity-lens-application which
     are technically "recommends", not strict dependencies
 
 build Unity 8
@@ -104,8 +104,8 @@ Notes
   - it's unsafe - anyone can connect to your device
   - with TCP the Nexus 10 doesn't drop the adb connection when locking
     the screen
-- exporting ANDROID_SERIAL=$your_device_serial or 
-  ANDROID_SERIAL=$your_device_ip:5555 will make adb not complain about 
+- exporting ANDROID_SERIAL=$your_device_serial or
+  ANDROID_SERIAL=$your_device_ip:5555 will make adb not complain about
   multiple devices
 - you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device.sh
   to not use adb forwarding - useful if you use multiple devices
@@ -190,8 +190,8 @@ $ PYTHONPATH=../tests/autopilot autopilot list unity8
 
 And then run a single test with
 
-$ PYTHONPATH=../tests/autopilot autopilot run unity8.some.very.long.test.name
+$ PYTHONPATH=../tests/autopilot autopilot3 run unity8.some.very.long.test.name
 
 or run them all with
 
-$ PYTHONPATH=../tests/autopilot autopilot run unity8
+$ PYTHONPATH=../tests/autopilot autopilot3 run unity8

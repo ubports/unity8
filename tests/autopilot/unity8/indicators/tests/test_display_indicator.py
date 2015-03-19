@@ -26,9 +26,6 @@ from unity8.indicators import tests
 class DisplayIndicatorTestCase(tests.IndicatorTestCase):
 
     def test_indicator_icon_must_be_visible_after_rotation_locked(self):
-        # TODO remove the skip when the bug is fixed. --elopio - 2015-01-20
-        self.skipTest(
-            'This test fails because of bug http://pad.lv/1410915')
         rotation_unlocked = fixture_setup.DisplayRotationLock(False)
         self.useFixture(rotation_unlocked)
         display_indicator = indicators.DisplayIndicator(self.main_window)

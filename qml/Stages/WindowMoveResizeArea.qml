@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@ MouseArea {
     anchors.fill: target
     anchors.margins: -resizeHandleWidth
 
+    property var windowStateStorage: WindowStateStorage
+
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage move and resize events
     property Item target: null
@@ -48,7 +50,7 @@ MouseArea {
     }
 
     Component.onCompleted: {
-        var windowState = WindowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
+        var windowState = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
         if (windowState !== undefined) {
             target.x = windowState.x
             target.y = windowState.y
@@ -102,6 +104,6 @@ MouseArea {
     }
 
     Component.onDestruction: {
-        WindowStateStorage.saveGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
+        windowStateStorage.saveGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
     }
 }

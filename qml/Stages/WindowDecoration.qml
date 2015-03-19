@@ -55,6 +55,7 @@ Item {
 
         Label {
             id: titleLabel
+            objectName: "windowDecorationTitle"
             color: "#DFDBD2"
             height: parent.height
             verticalAlignment: Text.AlignVCenter
