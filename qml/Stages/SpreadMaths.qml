@@ -14,7 +14,7 @@ QtObject {
         print("progress for tile", index, ":", startProgress, endProgress, startValue, endValue, progress)
         var x = easingAnimation(startProgress, endProgress, startValue, endValue, progress);
         print("resulting x:", x)
-        return x;
+        return x + units.gu(5);
     }
 
     function desktopY(sceneHeight, itemHeight) {
