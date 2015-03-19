@@ -183,7 +183,7 @@ FocusScope {
                         yScale: itemScale
                     },
                     Rotation {
-                        origin { x: 0; y: (appDelegate.height / 2) / itemScale }
+                        origin { x: 0; y: (appDelegate.height - (appDelegate.height * itemScale / 2)) }
                         axis { x: 0; y: 1; z: 0 }
                         angle: appDelegate.angle
                     }

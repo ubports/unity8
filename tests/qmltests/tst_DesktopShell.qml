@@ -128,7 +128,7 @@ Item {
 
                 Repeater {
                     id: apps
-                    model: ApplicationManager.availableApplications()
+                    model: ApplicationManager.availableApplications
                     anchors {
                         left: parent.left
                         right: parent.right

@@ -5,12 +5,7 @@ QtObject {
     id: root
 
     function desktopX(index, totalWidth, flickableX) {
-        // Uncomment this to keep linear x movement
-        // return (totalWidth / 5) * index - flickableX;
         var distance = totalWidth / 5;
-        var minX = 0;
-        var startX = index * distance;
-
         var startProgress = 0;
         var endProgress = 1;
         var startValue = index * distance;
@@ -31,7 +26,7 @@ QtObject {
     }
 
     function desktopScale(sceneHeight, itemHeight) {
-        var maxHeight = sceneHeight / 2;
+        var maxHeight = sceneHeight * 0.35;
         if (itemHeight > maxHeight) {
             return maxHeight / itemHeight
         }
