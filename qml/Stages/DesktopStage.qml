@@ -17,6 +17,7 @@
  */
 
 import QtQuick 2.3
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components/PanelState"
@@ -166,6 +167,10 @@ FocusScope {
                             target: decoratedWindow
                             decorationShown: false
                         }
+                        PropertyChanges {
+                            target: tileInfo
+                            visible: true
+                        }
                     }
                 ]
                 transitions: [
@@ -179,19 +184,6 @@ FocusScope {
                 property real itemScale: 1
                 property int itemScaleOriginX: 0
                 property int itemScaleOriginY: 0
-                transform: [
-                    Scale {
-                        origin.x: itemScaleOriginX
-                        origin.y: itemScaleOriginY
-                        xScale: itemScale
-                        yScale: itemScale
-                    },
-                    Rotation {
-                        origin { x: 0; y: (appDelegate.height - (appDelegate.height * itemScale / 2)) }
-                        axis { x: 0; y: 1; z: 0 }
-                        angle: appDelegate.angle
-                    }
-                ]
 
                 SpreadMaths {
                     id: spreadMaths
@@ -222,13 +214,52 @@ FocusScope {
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
                     onMinimize: appDelegate.state = "minimized"
+
+                    transform: [
+                        Scale {
+                            origin.x: itemScaleOriginX
+                            origin.y: itemScaleOriginY
+                            xScale: itemScale
+                            yScale: itemScale
+                        },
+                        Rotation {
+                            origin { x: 0; y: (appDelegate.height - (appDelegate.height * itemScale / 2)) }
+                            axis { x: 0; y: 1; z: 0 }
+                            angle: appDelegate.angle
+                        }
+                    ]
+                    Rectangle {
+                        id: darkenOverlay
+                        anchors.fill: parent
+                        color: "black"
+                        opacity: 0
+                    }
                 }
 
-                Rectangle {
-                    id: darkenOverlay
-                    anchors.fill: parent
-                    color: "black"
-                    opacity: 0
+
+                RowLayout {
+                    id: tileInfo
+                    height: units.gu(6)
+                    width: units.gu(20)
+                    anchors { left: parent.left; top: parent.bottom; topMargin: units.gu(5) }
+                    visible: false
+                    spacing: units.gu(1)
+
+                    UbuntuShape {
+                        Layout.preferredHeight: parent.height
+                        Layout.preferredWidth: height
+                        image: Image {
+                            anchors.fill: parent
+                            source: model.icon
+                        }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: tileInfo.height * 0.8
+                        text: model.name
+                        wrapMode: Text.WordWrap
+                        maximumLineCount: 2
+                    }
                 }
             }
         }

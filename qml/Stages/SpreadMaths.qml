@@ -18,7 +18,7 @@ QtObject {
     }
 
     function desktopY(sceneHeight, itemHeight) {
-        return sceneHeight - itemHeight - (sceneHeight * 0.1);
+        return sceneHeight - itemHeight - (sceneHeight * 0.2);
     }
 
     function desktopAngle(index, flickableX) {
