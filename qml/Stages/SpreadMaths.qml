@@ -22,7 +22,7 @@ QtObject {
     }
 
     function desktopAngle(index, flickableX) {
-        return 20;
+        return 40;
     }
 
     function desktopScale(sceneHeight, itemHeight) {
