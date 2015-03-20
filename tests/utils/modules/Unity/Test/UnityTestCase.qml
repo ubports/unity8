@@ -23,12 +23,22 @@ TestCase {
     id: testCase
     TestUtil {id:util}
 
-    ActivityIndicator {
-        visible: testCase.running
-        anchors.centerIn: parent
-        Component.onCompleted: parent = testCase.parent
-        z: 100
-        running: visible
+    // This is needed for waitForRendering calls to return
+    // if the watched element already got rendered
+    Rectangle {
+        width: units.gu(1)
+        height: width
+        parent: testCase.parent
+        border { width: units.dp(1); color: "black" }
+        opacity: 0.6
+
+        RotationAnimation on rotation {
+            running: true
+            from: 0
+            to: 360
+            loops: Animation.Infinite
+            duration: 1000
+        }
     }
 
     // Fake implementation to be provided to items under test
@@ -219,6 +229,19 @@ TestCase {
                                    util.callerFile(), util.callerLine())) {
             throw new Error("QtQuickTest::fail")
         }
+    }
+
+    function flickToYEnd(item) {
+        var i = 0;
+        var x = item.width / 2;
+        var y = item.height - units.gu(1);
+        var toY = units.gu(1);
+        while (i < 5 && !item.atYEnd) {
+            touchFlick(item, x, y, x, toY);
+            tryCompare(item, "moving", false);
+            ++i;
+        }
+        tryCompare(item, "atYEnd", true);
     }
 
     function touchEvent(item) {

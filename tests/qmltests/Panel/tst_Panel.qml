@@ -17,7 +17,7 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
@@ -121,6 +121,14 @@ IndicatorTest {
                     }
                 }
             }
+
+            Rectangle {
+                Layout.preferredHeight: units.dp(1);
+                Layout.fillWidth: true;
+                color: "black"
+            }
+
+            MouseTouchEmulationCheckbox {}
         }
     }
 
@@ -129,7 +137,7 @@ IndicatorTest {
         phoneNumber: "+447812221111"
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         name: "Panel"
         when: windowShown
 
@@ -161,6 +169,16 @@ IndicatorTest {
             verify(indicatorItem !== null);
 
             return indicatorItem;
+        }
+
+        function pullDownIndicatorsMenu() {
+            var showDragHandle = findChild(panel, "showDragHandle");
+            touchFlick(showDragHandle,
+                       showDragHandle.width / 2,
+                       showDragHandle.height / 2,
+                       showDragHandle.width / 2,
+                       showDragHandle.height / 2 + (showDragHandle.autoCompleteDragThreshold * 1.1));
+            tryCompare(panel.indicators, "fullyOpened", true);
         }
 
         function test_drag_show_data() {
@@ -329,6 +347,48 @@ IndicatorTest {
             }
 
             compare(backgroundPressedSpy.count, 0);
+        }
+
+        function test_darkenedAreaEatsAllEvents() {
+
+            // The center of the area not covered by the indicators menu
+            // Ie, the visible darkened area behind the menu
+            var touchPosX = (panel.width - panel.indicators.width) / 2
+            var touchPosY = panel.indicators.minimizedPanelHeight +
+                    ((panel.height - panel.indicators.minimizedPanelHeight) / 2)
+
+            // input goes through while the indicators menu is closed
+            tryCompare(panel.indicators, "fullyClosed", true);
+            compare(backgroundPressedSpy.count, 0);
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+
+            pullDownIndicatorsMenu();
+
+            // Darkened area eats input when the indicators menu is fully opened
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+            backgroundPressedSpy.clear();
+
+            // And should continue to eat inpunt until the indicators menu is fully closed
+            wait(10);
+            while (!panel.indicators.fullyClosed) {
+                tap(panel, touchPosX, touchPosY);
+
+                // it could have got fully closed during the tap
+                // so we have to double check here
+                if (!panel.indicators.fullyClosed) {
+                    compare(backgroundPressedSpy.count, 0);
+                }
+
+                // let the animation go a bit further
+                wait(50);
+            }
+
+            // Now that's fully closed, input should go through again
+            backgroundPressedSpy.clear();
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
         }
     }
 }

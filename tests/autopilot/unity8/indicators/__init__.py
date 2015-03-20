@@ -34,7 +34,7 @@ class IndicatorPage(emulators.UnityEmulatorBase):
     def validate_dbus_object(cls, path, state):
         return False
 
-class Indicator(object):
+class Indicator():
 
     def __init__(self, main_window, name):
         self._main_window = main_window

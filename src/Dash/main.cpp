@@ -98,8 +98,7 @@ int main(int argc, const char *argv[])
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
     if (parser.isSet(mousetouchOption)) {
-        mouseTouchAdaptor = new MouseTouchAdaptor;
-        application->installNativeEventFilter(mouseTouchAdaptor);
+        mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
     QUrl source(::qmlDirectory()+"Dash/DashApplication.qml");
@@ -115,6 +114,7 @@ int main(int argc, const char *argv[])
     int result = application->exec();
 
     delete view;
+    delete mouseTouchAdaptor;
     delete application;
 
     return result;

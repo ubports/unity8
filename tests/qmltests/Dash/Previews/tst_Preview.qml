@@ -113,9 +113,7 @@ Rectangle {
 
             // Scroll down
             var previewListRow0 = findChild(preview, "previewListRow0");
-            touchFlick(preview, preview.width / 2, units.gu(20), preview.width / 2, units.gu(1));
-            tryCompare(previewListRow0, "atYEnd", true);
-            tryCompare(previewListRow0, "moving", false);
+            flickToYEnd(previewListRow0);
 
             // Click on the combo
             var widget = findChild(preview, "widget-21");

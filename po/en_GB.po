@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-25 08:57-0500\n"
+"POT-Creation-Date: 2015-03-13 11:06+0100\n"
 "PO-Revision-Date: 2015-01-22 12:14+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-04 05:57+0000\n"
-"X-Generator: Launchpad (build 17361)\n"
+"X-Launchpad-Export-Date: 2015-03-20 05:21+0000\n"
+"X-Generator: Launchpad (build 17405)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -50,60 +50,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Please wait %1 minute and then try again…"
 msgstr[1] "Please wait %1 minutes and then try again…"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Log out"
 
-#: qml/Components/Dialogs.qml:88
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "Are you sure you want to log out?"
 
-#: qml/Components/Dialogs.qml:90
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Lock"
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Log Out"
 
-#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
-#: qml/Components/Dialogs.qml:191
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr "Cancel"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Shut down"
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "Are you sure you want to shut down?"
 
-#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Reboot"
 
-#: qml/Components/Dialogs.qml:127
-msgid "Shutdown"
-msgstr ""
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr "Shut down"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr "Reboot"
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "Are you sure you want to reboot?"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:130
 msgid "No"
 msgstr "No"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:136
 msgid "Yes"
 msgstr "Yes"
 
-#: qml/Components/Dialogs.qml:170
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Power"
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -111,11 +123,13 @@ msgstr ""
 "Are you sure you would like\n"
 "to power off?"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Power off"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Restart"
 
@@ -131,22 +145,28 @@ msgstr "Emergency Call"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "See less"
 
-#: qml/Dash/GenericScopeView.qml:528
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "See all"
 
-#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Search"
 
 #: qml/Dash/PageHeader.qml:269
+msgctxt "Button: The Ubuntu Store"
 msgid "Store"
 msgstr "Store"
+
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Shown in Page Header Menu"
+msgid "Search"
+msgstr "Search"
 
 #: qml/Dash/PageHeader.qml:286
 msgid "Settings"
@@ -210,11 +230,11 @@ msgstr "Unlock"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Retry"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Tap to unlock"
 
 #: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
@@ -315,6 +335,7 @@ msgid "Failed, tap to retry"
 msgstr "Failed, tap to retry"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Reply"
 
@@ -379,6 +400,7 @@ msgid "View all your running tasks."
 msgstr "View all your running tasks."
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Back"
 
@@ -422,26 +444,32 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr "Please select how you’d like to unlock your phone."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr "Swipe"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr "No security"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr "Passcode"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr "4 digits only"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr "Passphrase"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "Numbers and letters"
 
@@ -576,6 +604,9 @@ msgstr "%1  〉"
 #~ msgid "Speaking..."
 #~ msgstr "Speaking..."
 
+#~ msgid "Search"
+#~ msgstr "Search"
+
 #~ msgid "Try swiping from the right edge to unlock the phone"
 #~ msgstr "Try swiping from the right edge to unlock the phone"
 
@@ -613,14 +644,35 @@ msgstr "%1  〉"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 
+#~ msgid "Store"
+#~ msgstr "Store"
+
 #~ msgid "All"
 #~ msgstr "All"
 
 #~ msgid "Favorites"
 #~ msgstr "Favourites"
 
+#~ msgid "Power off"
+#~ msgstr "Power off"
+
 #~ msgid "Done"
 #~ msgstr "Done"
+
+#~ msgid "Log out"
+#~ msgstr "Log out"
+
+#~ msgid "Reboot"
+#~ msgstr "Reboot"
+
+#~ msgid "Power"
+#~ msgstr "Power"
+
+#~ msgid "Shut down"
+#~ msgstr "Shut down"
+
+#~ msgid "Restart"
+#~ msgstr "Restart"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Manage Scopes"

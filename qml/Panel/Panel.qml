@@ -40,10 +40,10 @@ Item {
         }
         color: "black"
         opacity: indicators.unitProgress * darkenedOpacity
+        visible: !indicators.fullyClosed
 
         MouseArea {
             anchors.fill: parent
-            enabled: indicators.shown
             onClicked: if (indicators.fullyOpened) indicators.hide();
         }
     }
