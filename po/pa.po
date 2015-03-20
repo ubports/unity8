@@ -7,104 +7,115 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-25 08:57-0500\n"
-"PO-Revision-Date: 2015-03-15 04:38+0000\n"
+"POT-Creation-Date: 2015-03-13 11:06+0100\n"
+"PO-Revision-Date: 2015-03-20 05:14+0000\n"
 "Last-Translator: Gursharnjit_Singh <ubuntuser13@gmail.com>\n"
 "Language-Team: Punjabi <pa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-16 06:02+0000\n"
-"X-Generator: Launchpad (build 17389)\n"
+"X-Launchpad-Export-Date: 2015-03-20 05:21+0000\n"
+"X-Generator: Launchpad (build 17405)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "ਗੁਪਤ ਕੋਡ: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr "ਸ਼ਾਰਟਕੱਟ ਪਿੰਨ ਲਗਾਓ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "ਸ਼ਾਰਟਕੱਟ ਪਿੰਨ ਹਟਾਓ"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "ਯੰਤਰ ਲਾਕ ਹੈ"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "ਬਹੁਤ ਸਾਰੇ ਗਲਤ ਵਾਕਾਂ ਦੀ ਵਜ੍ਹਾ ਨਾਲ ਤੁਹਾਨੂੰ ਲਾਕ ਕੀਤਾ ਗਿਆ।"
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "ਬਹੁਤ ਸਾਰੇ ਗਲਤ ਪਾਸਕੋਡਾਂ ਦੀ ਵਜ੍ਹਾ ਨਾਲ ਤੁਹਾਨੂੰ ਲਾਕ ਕੀਤਾ ਗਿਆ।"
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1 ਮਿੰਟ ਲਈ ਉਡੀਕੋ ਤੇ ਫੇਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ..."
 msgstr[1] "%1 ਮਿੰਟਾਂ ਲਈ ਉਡੀਕੋ ਤੇ ਫੇਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ..."
 
-#: qml/Components/Dialogs.qml:74
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "ਲਾਗ-ਆਉਟ"
+msgstr "ਲਾਗ ਆਉਟ"
 
-#: qml/Components/Dialogs.qml:75
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "ਕੀ ਤੁਸੀਂ ਲਾਗ ਆਉਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:90
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr "ਲਾਕ ਕਰੋ"
+msgstr "ਲਾਕ"
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "ਲਾਗ ਆਉਟ"
 
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
 #: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr "ਰੱਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "ਕੀ ਤੁਸੀਂ ਬੰਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:123
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "ਮੁਡ਼-ਚਾਲੂ"
 
-#: qml/Components/Dialogs.qml:127
-msgid "Shutdown"
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:124
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr "ਮੁਡ਼-ਚਾਲੂ"
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "ਕੀ ਤੁਸੀਂ ਮੁੜ-ਚਾਲੂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:130
 msgid "No"
 msgstr "ਨਹੀਂ"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
-#: qml/Components/Dialogs.qml:133
+#: qml/Components/Dialogs.qml:136
 msgid "Yes"
 msgstr "ਹਾਂ"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "ਪਾਵਰ"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -112,52 +123,60 @@ msgstr ""
 "ਕੀ ਤੁਸੀਂ ਪਾਵਰ-ਆਫ਼ ਕਰਨਾ\n"
 "ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:161
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "ਮੁੜ ਚਾਲੂ ਕਰੋ"
+msgstr "ਮੁੜ ਚਾਲੂ"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr "ਕਾਲ ਤੇ ਵਾਪਸ"
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr "ਅਪਾਤਕਾਲੀਨ ਕਾਲ"
 
-#: qml/Components/Lockscreen.qml:255
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr "ਠੀਕ"
 
-#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "ਘੱਟ ਵੇਖੋ"
 
-#: qml/Dash/GenericScopeView.qml:434
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "ਸਾਰਾ ਵੇਖੋ"
 
-#: qml/Dash/GenericScopeView.qml:496 qml/Dash/PageHeader.qml:268
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "ਖੋਜ"
 
-#: qml/Dash/PageHeader.qml:261
+#: qml/Dash/PageHeader.qml:269
+msgctxt "Button: The Ubuntu Store"
 msgid "Store"
 msgstr "ਸਟੋਰ"
 
-#: qml/Dash/PageHeader.qml:278
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Shown in Page Header Menu"
+msgid "Search"
+msgstr "ਖੋਜ"
+
+#: qml/Dash/PageHeader.qml:286
 msgid "Settings"
 msgstr "ਸੈਟਿੰਗ"
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚੋਂ ਹਟਾਓ"
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚ ਜੋੜੋ"
 
@@ -193,19 +212,19 @@ msgstr "ਤਾਜ਼ਾ ਕਰਨ ਲਈ ਛੱਡੋ..."
 msgid "Enable location data"
 msgstr "ਸਥਿਤੀ ਡਾਟਾ ਚਾਲੂ ਕਰੋ"
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "ਸਾਂਭ-ਸੰਭਾਲ"
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
 msgstr "ਘਰ"
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
 msgstr "ਨਾਲ ਇੰਸਟਾਲ ਹੋਇਆ"
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "ਅਣ-ਲਾਕ"
 
@@ -217,19 +236,19 @@ msgstr "ਮੁੜ-ਕੋਸ਼ਿਸ਼"
 msgid "Tap to unlock"
 msgstr "ਅਣਲਾਕ ਲਈ ਛੂਹੋ"
 
-#: qml/Shell.qml:444
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "ਮੁਆਫ਼ੀ, ਗਲਤ ਵਾਕ।"
 
-#: qml/Shell.qml:445
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "ਮੁਆਫ਼ੀ, ਗਲਤ ਪਾਸਕੋਡ।"
 
-#: qml/Shell.qml:446
+#: qml/Greeter/NarrowView.qml:55
 msgid "This will be your last attempt."
 msgstr "ਇਹ ਤੁਹਾਡੀ ਆਖਰੀ ਕੋਸ਼ਿਸ਼ ਹੋਵੇਗੀ।"
 
-#: qml/Shell.qml:448
+#: qml/Greeter/NarrowView.qml:57
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -237,7 +256,7 @@ msgstr ""
 "ਜੇਕਰ ਗਲਤ ਵਾਕ ਦਰਜ ਹੋਇਆ, ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੱਕ ਫ਼ੋਨ ਇੱਕ ਫ਼ੈਕਟਰੀ ਰੀਸੈੱਟ ਚਾਲੂ ਕਰੇਗਾ ਅਤੇ "
 "ਸਾਰਾ ਨਿੱਜੀ ਡਾਟਾ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
 
-#: qml/Shell.qml:449
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -245,33 +264,33 @@ msgstr ""
 "ਜੇਕਰ ਗਲਤ ਪਾਸਕੋਡ ਦਰਜ ਹੋਇਆ, ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੱਕ ਫ਼ੋਨ ਇੱਕ ਫ਼ੈਕਟਰੀ ਰੀਸੈੱਟ ਚਾਲੂ ਕਰੇਗਾ "
 "ਅਤੇ ਸਾਰਾ ਨਿੱਜੀ ਡਾਟਾ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
 
-#: qml/Shell.qml:402
+#: qml/Greeter/NarrowView.qml:115
 #, qt-format
 msgid "Enter %1"
 msgstr "ਦਰਜ %1"
 
-#: qml/Shell.qml:394
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "ਵਾਕ ਦਿਓ"
 
-#: qml/Shell.qml:398
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passcode"
 msgstr "ਪਾਸਕੋਡ ਦਿਓ"
 
-#: qml/Shell.qml:403
+#: qml/Greeter/NarrowView.qml:118
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "ਮੁਆਫ਼ੀ, ਗਲਤ %1"
 
-#: qml/Shell.qml:395
+#: qml/Greeter/NarrowView.qml:119
 msgid "Sorry, incorrect passphrase"
 msgstr "ਮੁਆਫ਼ੀ, ਗਲਤ ਵਾਕ"
 
-#: qml/Shell.qml:396
+#: qml/Greeter/NarrowView.qml:120
 msgid "Please re-enter"
 msgstr "ਕਿਰਪਾ ਕਰਕੇ ਮੁੜ-ਦਰਜ ਕਰੋ"
 
-#: qml/Shell.qml:399
+#: qml/Greeter/NarrowView.qml:121
 msgid "Sorry, incorrect passcode"
 msgstr "ਮੁਆਫ਼ੀ, ਗਲਤ ਪਾਸਕੋਡ"
 
@@ -316,6 +335,7 @@ msgid "Failed, tap to retry"
 msgstr "ਫ਼ੇਲ੍ਹ ਹੋਇਆ, ਮੁੜ-ਕੋਸ਼ਿਸ ਲਈ ਛੂਹੋ"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "ਜਵਾਬ"
 
@@ -380,6 +400,7 @@ msgid "View all your running tasks."
 msgstr "ਆਪਣੇ ਸਾਰੇ ਚੱਲਦੇ ਕੰਮ ਵੇਖੋ।"
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "ਪਿੱਛੇ"
 
@@ -424,26 +445,32 @@ msgstr ""
 "ਕਿਰਪਾ ਕਰਕੇ ਚੁਣੋ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ ਨੂੰ ਕਿਸ ਤਰ੍ਹਾਂ ਅਣ-ਲਾਕ ਕਰਨਾ ਪਸੰਦ ਕਰੋਗੇ।"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr "ਖਿੱਚੋ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr "ਸੁਰੱਖਿਆ ਨਹੀਂ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr "ਪਾਸਕੋਡ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr "ਕੇਵਲ 4 ਅੰਕ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr "ਵਾਕ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "ਨੰਬਰਾਂ ਅਤੇ ਅੱਖਰਾਂ"
 
@@ -563,11 +590,35 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Log out"
+#~ msgstr "ਲਾਗ-ਆਉਟ"
+
+#~ msgid "Reboot"
+#~ msgstr "ਮੁਡ਼-ਚਾਲੂ"
+
+#~ msgid "Shut down"
+#~ msgstr "ਬੰਦ ਕਰੋ"
+
+#~ msgid "Power"
+#~ msgstr "ਪਾਵਰ"
+
 #~ msgid "Top edge"
 #~ msgstr "ਉੱਪਰੀ ਕੰਢਾ"
+
+#~ msgid "Restart"
+#~ msgstr "ਮੁੜ ਚਾਲੂ ਕਰੋ"
 
 #~ msgid "Right edge"
 #~ msgstr "ਸੱਜਾ ਕੋਨਾ"
 
 #~ msgid "Skip intro"
 #~ msgstr "ਜਾਣ-ਪਛਾਣ ਛੱਡੋ"
+
+#~ msgid "Power off"
+#~ msgstr "ਬੰਦ ਕਰੋ"
+
+#~ msgid "Store"
+#~ msgstr "ਸਟੋਰ"
+
+#~ msgid "Search"
+#~ msgstr "ਖੋਜ"

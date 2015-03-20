@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-25 08:57-0500\n"
+"POT-Creation-Date: 2015-03-13 11:06+0100\n"
 "PO-Revision-Date: 2015-01-22 21:40+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-04 05:56+0000\n"
-"X-Generator: Launchpad (build 17361)\n"
+"X-Launchpad-Export-Date: 2015-03-20 05:20+0000\n"
+"X-Generator: Launchpad (build 17405)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -53,72 +53,86 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Itxaron minutu %1ez eta saiatu berriro…"
 msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Amaitu saioa"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:88
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "Ziur saioa amaitu nahi duzula?"
 
-#: qml/Components/Dialogs.qml:90
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
-#: qml/Components/Dialogs.qml:191
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr "Utzi"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "Itzali"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "Ziur itzali nahi duzula?"
 
-#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr "Berrabiarazi"
-
-#: qml/Components/Dialogs.qml:127
-msgid "Shutdown"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "Ziur berrabiarazi nahi duzula?"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:130
 msgid "No"
 msgstr "Ez"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:136
 msgid "Yes"
 msgstr "Bai"
 
-#: qml/Components/Dialogs.qml:170
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Piztu/itzali"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Ziur itzali nahi duzula?"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "Itzali"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Berrabiarazi"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -132,22 +146,28 @@ msgstr "Larrialdi-deia"
 msgid "OK"
 msgstr "Ados"
 
-#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "Ikusi gutxiago"
 
-#: qml/Dash/GenericScopeView.qml:528
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "Ikusi guztiak"
 
-#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "Bilatu"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:269
+msgctxt "Button: The Ubuntu Store"
 msgid "Store"
-msgstr "Denda"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Shown in Page Header Menu"
+msgid "Search"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:286
 msgid "Settings"
@@ -316,6 +336,7 @@ msgid "Failed, tap to retry"
 msgstr "Huts egin du, sakatu berriro saiatzeko"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr ""
 
@@ -380,8 +401,9 @@ msgid "View all your running tasks."
 msgstr ""
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Atzera"
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -423,28 +445,34 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr "Aukeratu telefonoa nola desblokeatu nahi duzun."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr "Pasatu hatza"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr "Segurtasunik gabe"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr "Pasakodea"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr "4 digitu soilik"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Pasaesaldia"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr "Zenbakiak eta hizkiak"
+msgstr ""
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -594,6 +622,9 @@ msgstr "%1  〉"
 #~ msgid "Speaking..."
 #~ msgstr "Hitz egiten..."
 
+#~ msgid "Search"
+#~ msgstr "Bilatu"
+
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
@@ -611,6 +642,18 @@ msgstr "%1  〉"
 #~ msgstr ""
 #~ "Pasatu hatza eskuineko ertzetik ezkerrerantz telefonoa desblokeatzeko"
 
+#~ msgid "Log out"
+#~ msgstr "Amaitu saioa"
+
+#~ msgid "Reboot"
+#~ msgstr "Berrabiarazi"
+
+#~ msgid "Shut down"
+#~ msgstr "Itzali"
+
+#~ msgid "Power off"
+#~ msgstr "Itzali"
+
 #~ msgid "Done"
 #~ msgstr "Eginda"
 
@@ -619,6 +662,15 @@ msgstr "%1  〉"
 
 #~ msgid "Favorites"
 #~ msgstr "Gogokoak"
+
+#~ msgid "Store"
+#~ msgstr "Denda"
+
+#~ msgid "Restart"
+#~ msgstr "Berrabiarazi"
+
+#~ msgid "Power"
+#~ msgstr "Piztu/itzali"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
