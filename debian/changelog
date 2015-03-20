@@ -1,3 +1,20 @@
+unity8 (8.02+15.04.20150320-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix regression making pan not possible in Zoomable Image (LP:
+    #1433506)
+  * Make sure m_firstVisibleIndex is correctly set after processing
+    changeSet.removes (LP: #1433056)
+  * make pot_file
+
+  [ Daniel d'Andrada ]
+  * Don't show the rotating rect in "make tryFoo".
+
+  [ Michael Zanetti ]
+  * make pinlockscreen adjust better to larger displays
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 20 Mar 2015 11:56:41 +0000
+
 unity8 (8.02+15.04.20150318-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
