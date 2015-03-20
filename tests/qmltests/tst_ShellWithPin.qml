@@ -386,9 +386,6 @@ Item {
         }
 
         function test_emergencyDialerLockOut() {
-            // FIXME: fix that use case
-            skip();
-
             // This is a theoretical attack on the lockscreen: Enter emergency
             // dialer mode on a phone, then plug into a larger screen,
             // switching to a tablet interface.  This would in theory move the
@@ -413,7 +410,7 @@ Item {
             killApps()
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true)
-            tryCompare(shell, "sideStageEnabled", true)
+            compare(applicationsDisplayLoader.usageScenario, "tablet");
         }
 
         function test_emergencyDialerIncoming() {
