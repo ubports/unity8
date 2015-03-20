@@ -51,6 +51,7 @@ Item {
             if (!dialogLoader.active) {
                 dialogLoader.sourceComponent = powerDialogComponent;
                 dialogLoader.active = true;
+                dialogLoader.item.forceActiveFocus();
             }
         }
     }
