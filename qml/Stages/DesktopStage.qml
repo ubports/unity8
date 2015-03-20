@@ -46,7 +46,7 @@ FocusScope {
         if (root.altTabPressed) {
             print("should tab next")
             appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count
-            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, appRepeater.highlightedIndex - 3))
+            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 2)))
         }
     }
 
@@ -55,7 +55,7 @@ FocusScope {
         if (root.altTabPressed) {
             var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
             appRepeater.highlightedIndex = newIndex;
-            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, appRepeater.highlightedIndex - 3))
+            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 2)))
         }
     }
 

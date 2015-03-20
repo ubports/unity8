@@ -1,11 +1,25 @@
 import QtQuick 2.2
 import Utils 0.1
+import Unity.Application 0.1
 
 QtObject {
     id: root
 
     function desktopX(index, totalWidth, flickableX) {
-        var distance = totalWidth / 5;
+        var margins = units.gu(5);
+        var distance = (totalWidth - margins * 2) / 5;
+        var foldedDistance = units.gu(0.5)
+        var reverseIndex = ApplicationManager.count - index
+
+        var x = (index * distance) - flickableX + margins;
+        // limit at left
+        x = Math.max(margins + foldedDistance * index, x);
+        // limit at right
+        x = Math.min(totalWidth - margins - distance - foldedDistance * reverseIndex, x);
+
+        return x
+
+
         var startProgress = 0;
         var endProgress = 1;
         var startValue = index * distance;
