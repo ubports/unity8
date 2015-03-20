@@ -315,7 +315,7 @@ TestCase {
         event1.press(0, x1Start, y1Start);
         event1.commit();
         // second finger
-        event1.stationary(0);
+        event1.move(0, x1Start, y1Start);
         event1.press(1, x2Start, y2Start);
         event1.commit();
 
