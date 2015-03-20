@@ -115,9 +115,6 @@ Item {
             onMenuIndexChanged: {
                 loadAttributes();
             }
-            onUpdated: {
-                sliderMenuSync.activate()
-            }
 
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
@@ -127,21 +124,17 @@ Item {
                                                              'max-icon': 'icon'});
             }
 
-            ServerActivationSync {
-                id: sliderMenuSync
-
+            ServerPropertySynchroniser {
+                objectName: "sync"
                 syncTimeout: Utils.Constants.indicatorValueTimeout
                 bufferedSyncTimeout: true
 
+                serverTarget: sliderItem
+                serverProperty: "serverValue"
                 userTarget: sliderItem
                 userProperty: "value"
 
-                serverTarget: sliderItem
-                serverProperty: "serverValue"
-
-                onActivated: {
-                    menuModel.changeState(menuIndex, value);
-                }
+                onSyncTriggered: menuModel.changeState(menuIndex, value)
             }
         }
     }
@@ -304,23 +297,16 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            onTriggered: checkMenuSync.activate()
-
-            ServerActivationSync {
-                id: checkMenuSync
+            ServerPropertySynchroniser {
                 objectName: "sync"
-
                 syncTimeout: Utils.Constants.indicatorValueTimeout
-
-                userTarget: checkItem
-                userProperty: "checked"
 
                 serverTarget: checkItem
                 serverProperty: "serverChecked"
+                userTarget: checkItem
+                userProperty: "checked"
 
-                onActivated: {
-                    menuModel.activate(checkItem.menuIndex);
-                }
+                onSyncTriggered: menuModel.activate(checkItem.menuIndex)
             }
         }
     }
@@ -342,23 +328,16 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            onTriggered: switchMenuSync.activate()
-
-            ServerActivationSync {
-                id: switchMenuSync
+            ServerPropertySynchroniser {
                 objectName: "sync"
-
                 syncTimeout: Utils.Constants.indicatorValueTimeout
-
-                userTarget: switchItem
-                userProperty: "checked"
 
                 serverTarget: switchItem
                 serverProperty: "serverChecked"
+                userTarget: switchItem
+                userProperty: "checked"
 
-                onActivated: {
-                    menuModel.activate(switchItem.menuIndex);
-                }
+                onSyncTriggered: menuModel.activate(switchItem.menuIndex);
             }
         }
     }
@@ -502,9 +481,6 @@ Item {
             onMenuIndexChanged: {
                 loadAttributes();
             }
-            onTriggered: {
-                apMenuSync.activate();
-            }
 
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
@@ -513,20 +489,17 @@ Item {
                                                              'x-canonical-wifi-ap-strength-action': 'string'});
             }
 
-            ServerActivationSync {
-                id: apMenuSync
-
+            ServerPropertySynchroniser {
+                objectName: "sync"
                 syncTimeout: Utils.Constants.indicatorValueTimeout
-
-                userTarget: apItem
-                userProperty: "active"
 
                 serverTarget: apItem
                 serverProperty: "serverChecked"
+                userTarget: apItem
+                userProperty: "active"
+                userTrigger: "onTriggered"
 
-                onActivated: {
-                    menuModel.activate(apItem.menuIndex);
-                }
+                onSyncTriggered: menuModel.activate(apItem.menuIndex)
             }
         }
     }
