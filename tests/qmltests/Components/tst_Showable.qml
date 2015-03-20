@@ -101,17 +101,6 @@ Item {
         }
     }
 
-    SignalSpy {
-        id: showAnimationRunningSpy
-        target: show1.showAnimation
-        signalName: "runningChanged"
-    }
-    SignalSpy {
-        id: hideAnimationRunningSpy
-        target: show1.hideAnimation
-        signalName: "runningChanged"
-    }
-
     UT.UnityTestCase {
         name: "Showable"
         when: windowShown
@@ -125,12 +114,6 @@ Item {
             tryCompare(show1.hideAnimation, "running", false);
             tryCompare(show2.hideAnimation, "running", false);
             tryCompare(show3.hideAnimation, "running", false);
-
-            hideAnimationRunningSpy.clear();
-            verify(hideAnimationRunningSpy.valid);
-
-            showAnimationRunningSpy.clear();
-            verify(showAnimationRunningSpy.valid);
         }
 
         // Test that the showable is shown when the abailable flag is set
